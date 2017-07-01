@@ -1,77 +1,87 @@
-[
-  {
-    "cannon": true
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 0.1,
+  "aimMaxDist": 2000.0,
+  "maxDeltaAngle": 0.075,
+  "maxDeltaAngleVertical": 0.075,
+  "shotFreq": 0.15,
+  "traceFreq": 4,
+  "bEnablePause": false,
+  "bullets": -1,
+  "bulletsCluster": 1,
+  "fxType": "big_gun_flame",
+  "fxGroundDust": "ground_shock_wave_dust",
+  "shouldCollideWithRendinsts": true,
+  "sound_path": "ships/weapon_ships/cannons",
+  "sound": "85mm_zis_s_53",
+  "sound_inside": "85mm_zis_s_53_interior",
+  "sfxReloadBullet": "grd_cannon_reload",
+  "fxMultipleSpawn": true,
+  "isBulletBelt": false,
+  "notUseDefaultBulletInGui": true,
+  "bullet": {
+    "bulletCount": 40,
+    "mass": 9.54,
+    "explosiveType": "tnt",
+    "explosiveMass": 0.646,
+    "caliber": 0.085,
+    "speed": 780.0,
+    "maxDistance": 10000.0,
+    "bulletType": "he_frag_tank",
+    "bulletName": "85mm_o_365k",
+    "hitPowerMult": 10.0,
+    "nearHitPower": [1.0,50.0],
+    "midHitPower": [0.9,300.0],
+    "farHitPower": [0.1,700.0],
+    "endHitPower": [0.008,1500.0],
+    "relativeVelHitShift": [300.0,1000.0],
+    "nearArmorPower": [12.0,150.0],
+    "midArmorPower": [11.0,600.0],
+    "farArmorPower": [10.5,1000.0],
+    "relativeVelArmorShift": [200.0,1000.0],
+    "explodeTreshold": 0.3,
+    "explodeHitPower": 100.0,
+    "explodeArmorPower": 12.0,
+    "explodeRadius": [0.3,0.55],
+    "fuseDelayDist": 0.1,
+    "shutterDamage": true,
+    "shutterDamageRadius": 19.5,
+    "shutterAmount": 170,
+    "shutterArmorPower": 8.0,
+    "shutterHit": 15.0,
+    "groundCollisionEffect": "art_ground_splash",
+    "ricochetEffect": "cannon_ricochet",
+    "defFxScale": [1.6,1.7],
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "noColor"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.5,3.5]
+      },
+      "armor": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.5,3.5]
+      },
+      "wood": {
+        "fx": "old_ship_hit_ball"
+      },
+      "water": {
+        "fx": "big_water_splash",
+        "fxScale": [2.5,3.5]
+      }
+    }
   },
-  {
-    "weaponType": -1
-  },
-  {
-    "bUseHookAsRel": true
-  },
-  {
-    "emitColor": [1.0,1.0,0.0]
-  },
-  {
-    "emitI": 10.0
-  },
-  {
-    "emitR": 3.0
-  },
-  {
-    "emitTime": 0.03
-  },
-  {
-    "aimMinDist": 0.1
-  },
-  {
-    "aimMaxDist": 2000.0
-  },
-  {
-    "maxDeltaAngle": 0.075
-  },
-  {
-    "maxDeltaAngleVertical": 0.075
-  },
-  {
-    "shotFreq": 0.15
-  },
-  {
-    "traceFreq": 4
-  },
-  {
-    "bEnablePause": false
-  },
-  {
-    "bullets": -1
-  },
-  {
-    "bulletsCluster": 1
-  },
-  {
-    "fxType": "big_gun_flame"
-  },
-  {
-    "fxGroundDust": "ground_shock_wave_dust"
-  },
-  {
-    "shouldCollideWithRendinsts": true
-  },
-  {
-    "sound_path": "ships/weapon_ships/cannons"
-  },
-  {
-    "sound": "85mm_zis_s_53"
-  },
-  {
-    "sound_inside": "85mm_zis_s_53_interior"
-  },
-  {
-    "sfxReloadBullet": "grd_cannon_reload"
-  },
-  {
-    "fxMultipleSpawn": true
-  },
-  {
+  "85mm_ussr_navy_HE": {
     "bullet": {
       "bulletCount": 40,
       "mass": 9.54,
@@ -129,7 +139,7 @@
       }
     }
   },
-  {
+  "85mm_ussr_navy_AP": {
     "bullet": {
       "bulletCount": 30,
       "mass": 9.2,
@@ -204,7 +214,7 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "50mmRed",
+        "tracer": "76mmRed",
         "trail": "black"
       },
       "collisions": {
@@ -217,4 +227,4 @@
       }
     }
   }
-]
+}

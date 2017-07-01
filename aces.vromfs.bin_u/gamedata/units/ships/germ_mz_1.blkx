@@ -18,6 +18,9 @@
     "timeToSink": 25.0
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "moveType": "ship"
   },
   {
@@ -81,6 +84,22 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "flag_germany_01_c*",
+          "to": "flag_germany_alt_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_02_c*",
+          "to": "flag_germany_alt_c*"
+        }
+      }
+    ]
+  },
+  {
     "ikGunner": [
       {
         "model": "german_sailor_char"
@@ -111,6 +130,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "gunner_01_dm"
       },
       {
         "ikNode": {
@@ -183,6 +205,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "loader_01_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -251,6 +276,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "loader_02_dm"
       },
       {
         "ikNode": {
@@ -323,6 +351,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "gunner_02_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -391,6 +422,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "sailor_10_dm"
       },
       {
         "ikNode": {
@@ -463,6 +497,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "gunner_03_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -531,6 +568,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "gunner_04_dm"
       },
       {
         "ikNode": {
@@ -603,6 +643,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "loader_05_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -671,6 +714,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "gunner_05_dm"
       },
       {
         "ikNode": {
@@ -743,6 +789,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "loader_06_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -811,6 +860,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "gunner_07_dm"
       },
       {
         "ikNode": {
@@ -883,6 +935,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -951,6 +1006,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "commander_dm"
       },
       {
         "ikNode": {
@@ -1234,83 +1292,53 @@
         "turret_h_05_dm": [],
         "gun_mask_dm": []
       },
-      "gun": [
-        {
-          "armorClass": "tank_barrel"
+      "gun": {
+        "armorClass": "tank_barrel",
+        "gun_barrel_01_dm": {
+          "armorThickness": 30.0,
+          "hp": 300.0
         },
-        {
-          "gun_barrel_01_dm": {
-            "armorThickness": 30.0,
-            "hp": 300.0
-          }
+        "gun_barrel_11_dm": {
+          "armorThickness": 30.0,
+          "hp": 300.0
         },
-        {
-          "gun_barrel_11_dm": {
-            "armorThickness": 30.0,
-            "hp": 300.0
-          }
+        "gun_barrel_02_dm": {
+          "armorThickness": 15.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_02_dm": {
-            "armorThickness": 15.0,
-            "hp": 150.0
-          }
+        "gun_barrel_03_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_03_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
+        "gun_barrel_04_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_04_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
+        "gun_barrel_05_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_05_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
+        "gun_barrel_06_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_06_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
+        "gun_barrel_07_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_07_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
+        "gun_barrel_08_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_08_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
+        "gun_barrel_09_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         },
-        {
-          "gun_barrel_09_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
-        },
-        {
-          "gun_barrel_10_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
-        },
-        {
-          "gun_barrel_11_dm": {
-            "armorThickness": 10.0,
-            "hp": 150.0
-          }
+        "gun_barrel_10_dm": {
+          "armorThickness": 10.0,
+          "hp": 150.0
         }
-      ],
+      },
       "underwater_ordnance": {
         "armorClass": "ship_structural_steel",
         "tt_01_dm": {
@@ -1361,6 +1389,9 @@
         "era_02_dm": {
           "genericDamageMult": 4.0
         },
+        "era_03_dm": {
+          "genericDamageMult": 4.0
+        },
         "operator_dm": {
           "genericDamageMult": 4.0
         },
@@ -1380,6 +1411,12 @@
           "genericDamageMult": 4.0
         },
         "loader_05_dm": {
+          "genericDamageMult": 4.0
+        },
+        "loader_06_dm": {
+          "genericDamageMult": 4.0
+        },
+        "loader_07_dm": {
           "genericDamageMult": 4.0
         },
         "gunner_01_dm": {
@@ -2294,7 +2331,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.9,
               "damage": 350.0,
               "fHitCritical": true
@@ -2302,7 +2339,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.2,
               "damage": 200.0,
               "fHitCritical": true
@@ -2442,7 +2479,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
@@ -2451,7 +2488,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -2459,7 +2496,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.35,
               "damage": 70.0,
               "fHitCritical": true
@@ -2467,7 +2504,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03
             }
           },
@@ -2530,7 +2567,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.03,
               "damage": 13.0,
               "fHitCritical": true
@@ -2538,7 +2575,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 50.0,
               "fHitCritical": true
@@ -3799,8 +3836,8 @@
         "Empty": 360000.0,
         "Fuel": 15000.0,
         "TakeOff": 375000.0,
-        "momentOfInertia": [48.0,68.0,44.0],
-        "CenterOfGravity": [-1.0,-0.1,0.0],
+        "momentOfInertia": [95.0,202.0,190.0],
+        "CenterOfGravity": [-1.6,-0.2,0.0],
         "AdvancedMass": false
       },
       "engines": {
@@ -5097,7 +5134,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,7.0,-37.0],
+      "headPos": [0.0,7.0,-38.0],
       "headPosOnShooting": [3.5,11.0,0.0]
     }
   },

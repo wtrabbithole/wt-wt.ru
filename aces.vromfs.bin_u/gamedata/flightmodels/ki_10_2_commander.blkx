@@ -487,6 +487,12 @@
             }
           },
           {
+            "onHit": {
+              "damage": 50.0,
+              "expl": 1.0
+            }
+          },
+          {
             "onKill": {
               "cut": 1.0,
               "tailcontrol_dm": 0.005,
@@ -635,8 +641,14 @@
           },
           {
             "onHit": {
-              "damage": 50.0,
+              "damage": 40.0,
               "tail_dm": 1.0
+            }
+          },
+          {
+            "onHit": {
+              "damage": 45.0,
+              "expl": 1.0
             }
           },
           {
@@ -682,8 +694,14 @@
           },
           {
             "onKill": {
-              "damage": 50.0,
+              "damage": 40.0,
               "tail_dm": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 45.0,
+              "expl": 1.0
             }
           }
         ]
@@ -879,6 +897,10 @@
           "onKill": {
             "nothing": 7.0,
             "elevator_dm": 1.0
+          },
+          "onHit": {
+            "damage": 50.0,
+            "expl": 1.0
           }
         }
       },
@@ -902,7 +924,7 @@
           {
             "onHit": {
               "damage": 50.0,
-              "cut": 0.75
+              "cut": 1.0
             }
           },
           {
@@ -948,13 +970,6 @@
           {
             "onKill": {
               "damage": 50.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 70.0,
               "cut": 1.0
             }
           }
@@ -1748,6 +1763,15 @@
           "part": "wing2_l_dm"
         },
         {
+          "part": "spar1_l_dm"
+        },
+        {
+          "part": "spar2_l_dm"
+        },
+        {
+          "part": "spar_l_dm"
+        },
+        {
           "part": "fuse1_l_dm"
         },
         {
@@ -1755,6 +1779,15 @@
         },
         {
           "effects": {
+            "cutPart": "wing_l_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 40.0,
+            "kill": true,
             "cutPart": "wing_l_dm"
           }
         }
@@ -1773,6 +1806,15 @@
           "part": "wing2_r_dm"
         },
         {
+          "part": "spar1_r_dm"
+        },
+        {
+          "part": "spar2_r_dm"
+        },
+        {
+          "part": "spar_r_dm"
+        },
+        {
           "part": "fuse1_l_dm"
         },
         {
@@ -1780,6 +1822,15 @@
         },
         {
           "effects": {
+            "cutPart": "wing_r_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 40.0,
+            "kill": true,
             "cutPart": "wing_r_dm"
           }
         }
@@ -1803,6 +1854,71 @@
         {
           "effects": {
             "cutPart": "tail_dm"
+          }
+        }
+      ],
+      "cover_structure": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "cover1_dm"
+        },
+        {
+          "part": "cover2_dm"
+        },
+        {
+          "part": "cover3_dm"
+        },
+        {
+          "part": "cover4_dm"
+        },
+        {
+          "part": "cover5_dm"
+        },
+        {
+          "part": "cover6_dm"
+        },
+        {
+          "part": "cover7_dm"
+        },
+        {
+          "part": "cover8_dm"
+        },
+        {
+          "part": "cover9_dm"
+        },
+        {
+          "part": "rudder_dm"
+        },
+        {
+          "part": "stab_dm"
+        },
+        {
+          "part": "fuse_dm"
+        },
+        {
+          "part": "tail_dm"
+        },
+        {
+          "part": "fin_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "kill": true,
+            "killEffect": "expl"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 25.0,
+            "kill": true,
+            "killEffect": "expl"
           }
         }
       ]

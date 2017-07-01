@@ -15,6 +15,9 @@
     "useBotForAi": true
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "moveType": "ship"
   },
   {
@@ -76,6 +79,22 @@
   },
   {
     "explosionFx": "ship_explosion"
+  },
+  {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "flag_germany_01_c*",
+          "to": "flag_germany_alt_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_02_c*",
+          "to": "flag_germany_alt_c*"
+        }
+      }
+    ]
   },
   {
     "ikGunner": [
@@ -1026,6 +1045,9 @@
           "era_02_dm": {
             "genericDamageMult": 4.0
           },
+          "era_03_dm": {
+            "genericDamageMult": 4.0
+          },
           "operator_dm": {
             "genericDamageMult": 4.0
           },
@@ -1045,6 +1067,12 @@
             "genericDamageMult": 4.0
           },
           "loader_05_dm": {
+            "genericDamageMult": 4.0
+          },
+          "loader_06_dm": {
+            "genericDamageMult": 4.0
+          },
+          "loader_07_dm": {
             "genericDamageMult": 4.0
           },
           "gunner_01_dm": {
@@ -1968,7 +1996,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.9,
               "damage": 350.0,
               "fHitCritical": true
@@ -1976,7 +2004,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.2,
               "damage": 200.0,
               "fHitCritical": true
@@ -2116,7 +2144,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
@@ -2125,7 +2153,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -2133,7 +2161,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.35,
               "damage": 70.0,
               "fHitCritical": true
@@ -2141,7 +2169,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03
             }
           },
@@ -2204,7 +2232,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.03,
               "damage": 13.0,
               "fHitCritical": true
@@ -2212,7 +2240,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 50.0,
               "fHitCritical": true

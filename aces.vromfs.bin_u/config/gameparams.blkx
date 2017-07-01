@@ -124,11 +124,19 @@
   "use_uav_feedback": true,
   "cloudShadowIntensityTankMul": 0.95,
   "tracers": {
-    "numHeadMeshes": 3,
-    "hdrMultiplier": 3.0,
-    "headFadeTime": 0.1,
-    "headMinimumOpacity": 0.7,
-    "headMinimumOpacityProjection": 0.0,
+    "headFadeTime": 2.0,
+    "headSpeedScale": [400.0,900.0,0.1,1.0],
+    "headNoiseFreq": 0.7,
+    "headNoiseScale": 0.04,
+    "headNoiseViewScale": 50.0,
+    "headArrowLen": 0.05,
+    "headNoiseSmoothLen": 0.03,
+    "headFadeLen": 0.5,
+    "headHdrMultiplier": 27.0,
+    "headLenScale": 1.0,
+    "headRadiusScale": 1.0,
+    "headMinPixelRadius": 2.0,
+    "headBorderPixelRadius": 1.0,
     "numTailParticles": 1000,
     "numTailLods": 6,
     "tailFartherLodDist": 800.0,
@@ -136,7 +144,11 @@
     "tailParticleExtension": 1.5,
     "tailFadeInDistance": 10.0,
     "tailNoisePeriodMeters": 20.0,
-    "tailDirectionalScale": 0.4
+    "tailDirectionalScale": 0.4,
+    "numHeadMeshes": 3,
+    "hdrMultiplier": 3.0,
+    "headMinimumOpacity": 0.7,
+    "headMinimumOpacityProjection": 0.0
   },
   "tracerColors": {
     "m230": {
@@ -144,16 +156,16 @@
       "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
       "distScale": 6.0,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "fake_rpg": {
       "halfSize": 5.0,
       "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
       "distScale": 5.0,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "fake_ak_47": {
       "halfSize": 1.5,
@@ -164,52 +176,76 @@
       "color2": "#ff419ac8"
     },
     "7mmRed": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
-      "color1": "#ffab78b4",
-      "color2": "#ff2825b4"
+      "distScale": 4.0,
+      "radius": 0.02,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
     },
     "12mmRed": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
-      "color1": "#ffab78b4",
-      "color2": "#ff2825b4"
+      "radius": 0.035,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
     },
     "20mmRed": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
-      "color1": "#ffab78b4",
-      "color2": "#ff2825b4"
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
     },
     "30mmRed": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#ffab78b4",
-      "color2": "#ff2825b4"
-    },
-    "37mmRed": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
-      "color1": "#ffab78b4",
-      "color2": "#ff2825b4"
+      "radius": 0.05,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
+    },
+    "37mmRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 2.5,
+      "radius": 0.06,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
     },
     "50mmRed": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
-      "color1": "#ffab78b4",
-      "color2": "#ff2825b4"
+      "radius": 0.08,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
+    },
+    "76mmRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
+    },
+    "100mmRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
+      "color1": "#ff0f0fff",
+      "color2": "#e60000ff"
     },
     "rocketRed": {
       "halfSize": 20.0,
@@ -220,242 +256,362 @@
       "color2": "#ff2400b4"
     },
     "7mmDarkRed": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
-      "color1": "#f04c4ab4",
-      "color2": "#b51715b4"
+      "distScale": 4.0,
+      "radius": 0.02,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
     },
     "12mmDarkRed": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
-      "color1": "#f04c4ab4",
-      "color2": "#b51715b4"
+      "radius": 0.035,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
     },
     "20mmDarkRed": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
-      "color1": "#f04c4ab4",
-      "color2": "#b51715b4"
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
     },
     "30mmDarkRed": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#f04c4ab4",
-      "color2": "#b51715b4"
-    },
-    "37mmDarkRed": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
-      "color1": "#f04c4ab4",
-      "color2": "#b51715b4"
+      "radius": 0.05,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
+    },
+    "37mmDarkRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 2.5,
+      "radius": 0.06,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
     },
     "50mmDarkRed": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
-      "color1": "#f04c4ab4",
-      "color2": "#b51715b4"
+      "radius": 0.08,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
+    },
+    "76mmDarkRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
+    },
+    "100mmDarkRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
+      "color1": "#ea1919ff",
+      "color2": "#f50000f5"
     },
     "7mmBrightRed": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "12mmBrightRed": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "20mmBrightRed": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "30mmBrightRed": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
+      "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "37mmBrightRed": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.06,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "50mmBrightRed": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#ff4736b4",
+      "color2": "#ff2400b4"
+    },
+    "76mmBrightRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ff4736b4",
+      "color2": "#ff2400b4"
+    },
+    "100mmBrightRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "7mmWhite": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
-      "color1": "#ffffffc8",
-      "color2": "#d5edffc8"
+      "distScale": 4.0,
+      "radius": 0.02,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
     },
     "12mmWhite": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
-      "color1": "#ffffffc8",
-      "color2": "#d5edffc8"
+      "radius": 0.035,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
     },
     "20mmWhite": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
-      "color1": "#ffffffc8",
-      "color2": "#d5edffc8"
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
     },
     "30mmWhite": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#ffffffc8",
-      "color2": "#d5edffc8"
+      "distScale": 3.0,
+      "radius": 0.04,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
     },
-    "37mWhite": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+    "37mmWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
-      "color1": "#ffffffc8",
-      "color2": "#d5edffc8"
+      "radius": 0.06,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
     },
-    "50mWhite": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+    "50mmWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
-      "color1": "#ffffffc8",
-      "color2": "#d5edffc8"
+      "radius": 0.08,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
+    },
+    "76mmWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
+    },
+    "100mmWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
+      "color1": "#ffffff78",
+      "color2": "#d5edff32"
     },
     "7mmPaleWhite": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "12mmPaleWhite": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "20mmPaleWhite": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "30mmPaleWhite": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#ffffff28",
-      "color2": "#d5edff50"
-    },
-    "37mPaleWhite": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
-    "50mPaleWhite": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+    "37mmPaleWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 2.5,
+      "radius": 0.06,
+      "color1": "#ffffff28",
+      "color2": "#d5edff50"
+    },
+    "50mmPaleWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#ffffff28",
+      "color2": "#d5edff50"
+    },
+    "76mmPaleWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ffffff28",
+      "color2": "#d5edff50"
+    },
+    "100mmPaleWhite": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "7mmLightRed": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "12mmLightRed": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "20mmLightRed": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "30mmLightRed": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
+      "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "37mmLightRed": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.06,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "50mmLightRed": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#fff7d4c8",
+      "color2": "#ff9084c8"
+    },
+    "76mmLightRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#fff7d4c8",
+      "color2": "#ff9084c8"
+    },
+    "100mmLightRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
@@ -465,434 +621,650 @@
       "halfSize": 1.5
     },
     "7mmGreenBlue": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "12mmGreenBlue": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "20mmGreenBlue": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "30mmGreenBlue": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
+      "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "37mmGreenBlue": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.06,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "50mmGreenBlue": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#c3fffdc8",
+      "color2": "#34ffabc8"
+    },
+    "76mmGreenBlue": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#c3fffdc8",
+      "color2": "#34ffabc8"
+    },
+    "100mmGreenBlue": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "7mmYellow": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
-      "color1": "#fff83cc8",
-      "color2": "#fff832c8"
+      "distScale": 4.0,
+      "radius": 0.02,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
     },
     "12mmYellow": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
-      "color1": "#fff83cc8",
-      "color2": "#fff832c8"
+      "radius": 0.035,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
     },
     "20mmYellow": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
-      "color1": "#fff83cc8",
-      "color2": "#fff832c8"
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
     },
     "30mmYellow": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#fff83cc8",
-      "color2": "#fff832c8"
-    },
-    "37mmYellow": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
-      "color1": "#fff83cc8",
-      "color2": "#fff832c8"
+      "radius": 0.05,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
+    },
+    "37mmYellow": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 2.5,
+      "radius": 0.06,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
     },
     "50mmYellow": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
-      "color1": "#fff83cc8",
-      "color2": "#fff832c8"
+      "radius": 0.08,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
+    },
+    "76mmYellow": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
+    },
+    "100mmYellow": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
     },
     "7mmBlue": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "12mmBlue": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "20mmBlue": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "30mmBlue": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
+      "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "37mmBlue": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.06,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "50mmBlue": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.5,
+      "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#dbe7ffc8",
+      "color2": "#1562ffc8"
+    },
+    "76mmBlue": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#dbe7ffc8",
+      "color2": "#1562ffc8"
+    },
+    "100mmBlue": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "7mmDark_Blue": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "12mmDark_Blue": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "20mmDark_Blue": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "30mmDark_Blue": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
+      "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "37mmDark_Blue": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.06,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "50mmDark_Blue": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.5,
+      "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#9696ffdc",
+      "color2": "#0000ffdc"
+    },
+    "76mmDark_Blue": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#9696ffdc",
+      "color2": "#0000ffdc"
+    },
+    "100mmDark_Blue": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "7mmPink": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "12mmPink": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "20mmPink": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "30mmPink": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
+      "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "37mmPink": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.06,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "50mmPink": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#ffecf8c8",
+      "color2": "#ff419ac8"
+    },
+    "76mmPink": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ffecf8c8",
+      "color2": "#ff419ac8"
+    },
+    "100mmPink": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "7mmOrange": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "distScale": 4.0,
+      "radius": 0.02,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "12mmOrange": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "radius": 0.035,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "20mmOrange": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "30mmOrange": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "distScale": 2.5,
+      "radius": 0.05,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "37mmOrange": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "radius": 0.06,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "50mmOrange": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
-      "color1": "#ffe7d1c8",
-      "color2": "#ffaa30c8"
+      "radius": 0.08,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
+    },
+    "76mmOrange": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
+    },
+    "100mmOrange": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
+      "color1": "#ff2400fa",
+      "color2": "#cc1b00f0"
     },
     "7mmGreen": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
-      "color1": "#feffb6c8",
-      "color2": "#53ff2bc8"
+      "distScale": 4.0,
+      "radius": 0.02,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
     },
     "12mmGreen": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
-      "color1": "#feffb6c8",
-      "color2": "#53ff2bc8"
+      "radius": 0.035,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
     },
     "20mmGreen": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
-      "color1": "#feffb6c8",
-      "color2": "#53ff2bc8"
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
     },
     "30mmGreen": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#feffb6c8",
-      "color2": "#53ff2bc8"
+      "distScale": 2.5,
+      "radius": 0.05,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
     },
     "37mmGreen": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
-      "color1": "#feffb6c8",
-      "color2": "#53ff2bc8"
+      "radius": 0.06,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
     },
     "50mmGreen": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
-      "color1": "#feffb6c8",
-      "color2": "#53ff2bc8"
+      "radius": 0.08,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
+    },
+    "76mmGreen": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
+    },
+    "100mmGreen": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
+      "color1": "#66ff66dc",
+      "color2": "#00ff00dc"
     },
     "7mmWhiteGreen": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#d0ffbfc8",
-      "color2": "#53ff2bc8"
+      "color2": "#14ff14c8"
     },
     "12mmWhiteGreen": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#d0ffbfc8",
-      "color2": "#53ff2bc8"
+      "color2": "#14ff14c8"
     },
     "20mmWhiteGreen": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#d0ffbfc8",
-      "color2": "#53ff2bc8"
+      "color2": "#14ff14c8"
     },
     "30mmWhiteGreen": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 1.5,
-      "color1": "#d0ffbfc8",
-      "color2": "#53ff2bc8"
-    },
-    "37mmWhiteGreen": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#d0ffbfc8",
-      "color2": "#53ff2bc8"
+      "color2": "#14ff14c8"
+    },
+    "37mmWhiteGreen": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 2.5,
+      "radius": 0.06,
+      "color1": "#d0ffbfc8",
+      "color2": "#14ff14c8"
     },
     "50mmWhiteGreen": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
+      "radius": 0.08,
       "color1": "#d0ffbfc8",
-      "color2": "#53ff2bc8"
+      "color2": "#14ff14c8"
+    },
+    "76mmWhiteGreen": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#d0ffbfc8",
+      "color2": "#14ff14c8"
+    },
+    "100mmWhiteGreen": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
+      "color1": "#d0ffbfc8",
+      "color2": "#14ff14c8"
     },
     "7mmGold": {
-      "halfSize": 2.5,
-      "distScaleStart": 100.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 1500.0,
-      "distScale": 3.0,
+      "distScale": 4.0,
+      "radius": 0.02,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "12mmGold": {
-      "halfSize": 4.5,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
+      "halfSize": 3.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
       "distScale": 3.5,
+      "radius": 0.035,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "20mmGold": {
-      "halfSize": 5.0,
-      "distScaleStart": 150.0,
-      "distScaleEnd": 3000.0,
-      "distScale": 3.5,
+      "halfSize": 3.5,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 3.0,
+      "radius": 0.04,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "30mmGold": {
-      "halfSize": 6.0,
-      "distScaleStart": 200.0,
+      "halfSize": 3.5,
+      "distScaleStart": 100.0,
       "distScaleEnd": 2000.0,
-      "distScale": 1.5,
+      "distScale": 2.5,
+      "radius": 0.05,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "37mmGold": {
-      "halfSize": 7.0,
-      "distScaleStart": 150.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.5,
+      "radius": 0.06,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "50mmGold": {
-      "halfSize": 15.0,
-      "distScaleStart": 250.0,
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
       "distScaleEnd": 2000.0,
       "distScale": 2.0,
+      "radius": 0.08,
+      "color1": "#ffe084c8",
+      "color2": "#ff9c2bc8"
+    },
+    "76mmGold": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.0,
+      "radius": 0.09,
+      "color1": "#ffe084c8",
+      "color2": "#ff9c2bc8"
+    },
+    "100mmGold": {
+      "halfSize": 4.0,
+      "distScaleStart": 20.0,
+      "distScaleEnd": 4000.0,
+      "distScale": 2.0,
+      "radius": 0.12,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
@@ -901,16 +1273,16 @@
       "distScaleStart": 100.0,
       "distScaleEnd": 4000.0,
       "distScale": 5.0,
-      "color1": "#fff83cc8",
-      "color2": "#fff832c8"
+      "color1": "#fff83c78",
+      "color2": "#fff83246"
     }
   },
   "tracerTrails": {
     "thin": {
       "particleHalfSizeFrom": 0.1,
-      "particleHalfSizeTo": 1.5,
+      "particleHalfSizeTo": 0.5,
       "color": "#80808080",
-      "deviation": 15.0
+      "deviation": 12.0
     },
     "curved": {
       "particleHalfSizeFrom": 0.1,
@@ -2621,7 +2993,13 @@
     "distanceForMultiTrace": 500.0,
     "multiTraceCount": 2,
     "multiTraceCountWithoutMarkers": 8,
-    "predictionTime": 0.5
+    "predictionTime": 0.5,
+    "minPredictionOffset": 2.0,
+    "tankBoxInflate": 0.5,
+    "shipBoxInflate": 0.0,
+    "cameraPointOffset": 15.0,
+    "shotDirDetectDist": 300.0,
+    "shotDirDetectAngle": 4.0
   },
   "antialiasing": {
     "fxaaQuality": 29,

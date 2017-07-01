@@ -1,0 +1,1099 @@
+{
+  "minModeName": 3,
+  "maxModeName": 15,
+  "resetViralAcquisitionDaysCounter": 1,
+  "moderatorPresenceCheckMaxCode": 65536,
+  "moderatorPresenceCheckPeriodSec": 1200,
+  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;;DBttlA;DBttlB;PvE;I2M;Tdm;Capt;NTDM;NDom;NA;NAleft;NAright;4x4_norespawn;FFA;BDB;BDA;MBD;GSA;GSB;CnvA;CnvB;NADom",
+  "ordersPerSession": 3,
+  "randomBattle": {
+    "classiness": {
+      "minRank": 1000
+    }
+  },
+  "tournamentSimple": {
+    "defaultRating": 0.0,
+    "eloPowerDivisor": 1300.0,
+    "fastGrowthLimit": 1000.0,
+    "tier1Limit": 2100.0,
+    "tier2Limit": 2400.0,
+    "tier1EloK": 100.0,
+    "tier2EloK": 60.0,
+    "tier3EloK": 30.0
+  },
+  "tournamentClan": {
+    "defaultRating": 0.0,
+    "fastGrowthLimit": 1500.0,
+    "tier1Limit": 2100.0,
+    "tier2Limit": 2400.0,
+    "tier1EloK": 32.0,
+    "tier2EloK": 24.0,
+    "tier3EloK": 16.0
+  },
+  "race": {
+    "defaultRating": 0.0,
+    "eloPowerDivisor": 1300.0,
+    "fastGrowthLimit": 1000.0,
+    "tier1Limit": 1500.0,
+    "tier2Limit": 2400.0,
+    "tier1EloK": 100.0,
+    "tier2EloK": 60.0,
+    "tier3EloK": 30.0
+  },
+  "clanDuel": {
+    "useSingleEra": true,
+    "fastGrowthLimit": 1500.0,
+    "tier1Limit": 2100.0,
+    "tier2Limit": 2400.0,
+    "tier1EloK": 32.0,
+    "tier2EloK": 24.0,
+    "tier3EloK": 16.0,
+    "topPlayersCountForClanRating": 20,
+    "otherPlayersDivisorForClanRating": 20.0,
+    "periodicDiminish1Multiplier": 0.9,
+    "periodicDiminish1PeriodDays": 7,
+    "periodicDiminish2Multiplier": 0.8,
+    "periodicDiminish2PeriodDays": 7,
+    "periodicDiminish3Multiplier": 0.5,
+    "periodicDiminish3PeriodDays": 7,
+    "reward": {
+      "firstRewardDayUnixTime": 1402927200,
+      "rewardPeriodDays": 14,
+      "topPlayersRewarded": 20,
+      "place1Gold": 0,
+      "arcade": {
+        "place1Gold": 0,
+        "era5": {
+          "place1Gold": 10000,
+          "place2Gold": 5000,
+          "place3Gold": 2500
+        }
+      },
+      "historical": {
+        "place1Gold": 0,
+        "era5": {
+          "place1Gold": 10000,
+          "place2Gold": 5000,
+          "place3Gold": 2500
+        }
+      },
+      "simulation": {
+        "place1Gold": 0,
+        "era5": {
+          "place1Gold": 10000,
+          "place2Gold": 5000,
+          "place3Gold": 2500
+        }
+      }
+    }
+  },
+  "tribunal": {
+    "minComplaintCount": 10,
+    "maxComplaintCount": 10,
+    "maxDaysToCheckComplains": 7,
+    "maxComplaintsFromMe": 5
+  },
+  "chat": {
+    "threadsListAutoUpdatePeriodMsec": 60000,
+    "threadsListPlayerUpdateTimeoutMsec": 15000,
+    "threadTitleLenMin": 8,
+    "threadTitleLenMax": 160
+  },
+  "mapNameToMode": {
+    "_GS": 0,
+    "_GSn": 0,
+    "_Dom_no_respawn": 3,
+    "Conq_no_respawn": 3,
+    "Bttl_no_respawn": 3,
+    "_Dom_norespawn": 3,
+    "Conq_norespawn": 3,
+    "Bttl_norespawn": 3,
+    "from_diff": {
+      "AfD": 0,
+      "_BfDn": 0,
+      "_race": 0,
+      "race_straight": 0,
+      "race_inverted": 0,
+      "_BfD_norespawn": 0,
+      "_bfd_norespawn": 0,
+      "_day_norespawn": 0,
+      "4x4_norespawn": 0,
+      "_I2M": 0,
+      "_Dom": 3,
+      "Bttl": 3,
+      "Conq": 3,
+      "_Bto": 3,
+      "Conq1": 3,
+      "Conq2": 3,
+      "Conq3": 3,
+      "Conq4": 3,
+      "Conq5": 3,
+      "Conq6": 3,
+      "_NA": 3,
+      "_NAright": 3,
+      "_NAleft": 3,
+      "_FFA": 0,
+      "MDB": 0,
+      "BDA": 0,
+      "BDB": 0,
+      "GSA": 0,
+      "GSB": 0,
+      "DBttlA": 3,
+      "DBttlB": 3,
+      "CnvA": 3,
+      "CnvB": 3
+    }
+  },
+  "mapIntDiffToName": {
+    "0": "air_event_arcade",
+    "1": "air_event_historical",
+    "2": "air_event_simulator",
+    "3": "tank_event_arcade",
+    "4": "tank_event_historical",
+    "5": "tank_event_simulator"
+  },
+  "newPlayersBattles": [
+    {
+      "aircraft": {
+        "event": "aircraft_new_players_battle_single",
+        "kills": 3,
+        "games": 3
+      }
+    },
+    {
+      "aircraft": {
+        "event": "aircraft_new_players_battle_coop",
+        "kills": 10,
+        "games": 10
+      }
+    },
+    {
+      "tank": {
+        "event": "tank_new_players_battle_single",
+        "kills": 3,
+        "games": 3
+      }
+    },
+    {
+      "tank": {
+        "event": "tank_new_players_battle_coop",
+        "kills": 10,
+        "games": 10
+      }
+    }
+  ],
+  "newPlayersBattlesExp": {
+    "battle_mod": 2,
+    "battle_unit": 3,
+    "tutorial_end_battle": 4
+  },
+  "features": {
+    "SpendGold": {
+      "condition": ""
+    },
+    "CrewSkills": {
+      "condition": ""
+    },
+    "UserLog": {
+      "condition": ""
+    },
+    "Voice": {
+      "condition": ""
+    },
+    "Friends": {
+      "condition": ""
+    },
+    "Squad": {
+      "condition": ""
+    },
+    "Battalions": {
+      "condition": ""
+    },
+    "Radio": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "Twitch": {
+      "condition": "",
+      "platform_lock": "ps4;android"
+    },
+    "Facebook": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "FacebookWallPost": [],
+    "FacebookScreenshots": [],
+    "Events": {
+      "condition": ""
+    },
+    "Invites": {
+      "condition": "",
+      "platform_lock": "ps4"
+    },
+    "EmbeddedBrowser": {
+      "condition": ""
+    },
+    "EmbeddedBrowserOnlineShop": {
+      "condition": ""
+    },
+    "Chat": {
+      "condition": ""
+    },
+    "ChatThreadsView": {
+      "condition": ""
+    },
+    "ChatThreadLang": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_GM_(RO+BAN)"
+      },
+      {
+        "condition": "role_CHAT_GM_(IN-GAME)"
+      }
+    ],
+    "ChatThreadCategories": {
+      "condition": ""
+    },
+    "AerobaticTricolorSmoke": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "aerobatic_tricolor_smoke_en"
+      },
+      {
+        "condition": "wt_thunder_league_fan_token"
+      }
+    ],
+    "UserExterior": {
+      "condition": ""
+    },
+    "AnyTankEntitlements": [
+      {
+        "condition": "tank_advanced_pack_t-34_m4a2_ru"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34_m4a2_en"
+      },
+      {
+        "condition": "tank_starter_pack_t-34_ru"
+      },
+      {
+        "condition": "tank_starter_pack_m4a2_en"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34_ru"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34_en"
+      },
+      {
+        "condition": "tank_advanced_pack_m4a2_en"
+      },
+      {
+        "condition": "tank_advanced_pack_m4a2_ru"
+      },
+      {
+        "condition": "tank_starter_pack_t-34_3rdwave_ru"
+      },
+      {
+        "condition": "tank_starter_pack_m4a2_3rdwave_en"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34_3rdwave_ru"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34_3rdwave_en"
+      },
+      {
+        "condition": "tank_advanced_pack_m4a2_3rdwave_en"
+      },
+      {
+        "condition": "tank_advanced_pack_m4a2_3rdwave_ru"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34_m4a2_3rdwave_ru"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34_m4a2_3rdwave_en"
+      },
+      {
+        "condition": "tank_advanced_pack_t-26_sdkfz_140_1_ru"
+      },
+      {
+        "condition": "tank_advanced_pack_t-26_sdkfz_140_1_en"
+      },
+      {
+        "condition": "tank_pack_sdkfz_140_1_en"
+      },
+      {
+        "condition": "tank_advanced_pack_t-34e_28panfilovcev_ru"
+      }
+    ],
+    "Ships": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "ShipEventTicketAccess"
+      },
+      {
+        "condition": "ShipsVisibleInShop"
+      },
+      {
+        "condition": "ShipsFirstChoice"
+      },
+      {
+        "platform_lock": "android"
+      },
+      {
+        "reqPack": "pkg_ships"
+      }
+    ],
+    "ShipsVisibleInShop": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "ShipsFirstChoice": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "ShipBotsOption": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "Tanks": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "TanksPs4": {
+      "condition": ""
+    },
+    "TanksInCustomBattles": {
+      "condition": "Tanks"
+    },
+    "TanksInRandomBattles": {
+      "condition": "Tanks"
+    },
+    "SpendGoldForTanks": {
+      "condition": "Tanks"
+    },
+    "BritainTanksInFirstCountryChoice": {
+      "condition": ""
+    },
+    "JapanTanksInFirstCountryChoice": {
+      "condition": ""
+    },
+    "Tribunal": {
+      "condition": ""
+    },
+    "ModeSkirmish": {
+      "condition": ""
+    },
+    "ModeBuilder": {
+      "condition": ""
+    },
+    "ModeDynamic": {
+      "condition": ""
+    },
+    "QmbCoopPc": [],
+    "QmbCoopPs4": [],
+    "DynCampaignCoopPc": {
+      "condition": ""
+    },
+    "DynCampaignCoopPs4": {
+      "condition": ""
+    },
+    "SingleMissionsCoopPc": {
+      "condition": ""
+    },
+    "SingleMissionsCoopPs4": {
+      "condition": ""
+    },
+    "CustomBattlesPc": {
+      "condition": ""
+    },
+    "CustomBattlesPs4": {
+      "condition": ""
+    },
+    "WorldWar": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "worldWarMaster": {
+      "condition": "role_WW_MASTER"
+    },
+    "worldWarShowTestMaps": {
+      "condition": "role_DEVELOPER"
+    },
+    "GraphicsOptions": {
+      "condition": ""
+    },
+    "Spectator": {
+      "condition": ""
+    },
+    "TouchScreen": {
+      "condition": ""
+    },
+    "BuyAllModifications": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "Packages": {
+      "condition": ""
+    },
+    "DecalsUse": {
+      "condition": ""
+    },
+    "AttachablesUse": {
+      "condition": ""
+    },
+    "DecoratorPreview": {
+      "condition": ""
+    },
+    "UserSkins": {
+      "condition": "",
+      "platform_lock": "ps4"
+    },
+    "SkinsPreviewOnUnboughtUnits": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "UserMissions": {
+      "condition": "",
+      "platform_lock": "ps4;android"
+    },
+    "UserMissionsSkirmishByUrl": {
+      "condition": "",
+      "platform_lock": "ps4"
+    },
+    "UserMissionsSkirmishByUrlCreate": [
+      {
+        "platform_lock": "ps4"
+      },
+      {
+        "condition": "user_mission_access_en"
+      },
+      {
+        "condition": "user_mission_access"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      }
+    ],
+    "Replays": {
+      "condition": "",
+      "platform_lock": "ps4;android"
+    },
+    "ServerReplay": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "Benchmark": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "BenchmarkPS4": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "DamageModelViewer": {
+      "condition": ""
+    },
+    "DamageModelViewerAircraft": {
+      "condition": ""
+    },
+    "XrayCrewAircraft": {
+      "condition": ""
+    },
+    "XrayDmgIndicator": {
+      "condition": ""
+    },
+    "animatedRewardMessages": {
+      "condition": ""
+    },
+    "VideoPreview": {
+      "condition": ""
+    },
+    "Clans": {
+      "condition": ""
+    },
+    "ClanRegions": {
+      "condition": ""
+    },
+    "ClanAnnouncements": {
+      "condition": ""
+    },
+    "ClanActivity": {
+      "condition": ""
+    },
+    "ClansMembershipEditor": {
+      "condition": ""
+    },
+    "ClanUpgradeMembers": {
+      "condition": ""
+    },
+    "ClanLog": {
+      "condition": ""
+    },
+    "ClanBattleSeasonAvailable": {
+      "condition": ""
+    },
+    "ShowNextUnlockInfo": [],
+    "extendedReplayInfo": {
+      "condition": ""
+    },
+    "RankVersusInfo": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "showAllUnitsRanks": {
+      "condition": "role_DEVELOPER"
+    },
+    "EarlyExitCrewUnlock": {
+      "condition": "role_DEVELOPER"
+    },
+    "LiveBroadcast": {
+      "condition": "role_DEVELOPER"
+    },
+    "ActivityFeedPs4": {
+      "condition": ""
+    },
+    "UnlockAllCountries": {
+      "condition": ""
+    },
+    "AllModesInRandomBattles": {
+      "condition": ""
+    },
+    "SimulatorDifficulty": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "SimulatorDifficultyInRandomBattles": {
+      "condition": ""
+    },
+    "XrayDeath": {
+      "condition": ""
+    },
+    "XrayKill": {
+      "condition": ""
+    },
+    "NetworkDebug": {
+      "condition": "",
+      "platform_lock": "ps4"
+    },
+    "ShowDebugInterface": [
+      {
+        "platform_lock": "ps4"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "ControlRec": {
+      "condition": ""
+    },
+    "UnitTooltipImage": {
+      "condition": ""
+    },
+    "Items": {
+      "condition": ""
+    },
+    "enableApex": {
+      "platform_lock": "android;iOS"
+    },
+    "TelescopeCamera": {
+      "condition": ""
+    },
+    "AdvancedMouseAim": {
+      "condition": ""
+    },
+    "OptimizedMouseAim": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "AdvancedInstructor": {
+      "condition": ""
+    },
+    "AdvancedStickPusher": {
+      "condition": ""
+    },
+    "EnableGoldPurchase": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "EnablePremiumPurchase": {
+      "condition": ""
+    },
+    "OnlineShopPacks": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "ManuallyUpdateBalance": [],
+    "everyDayLoginAward": {
+      "condition": ""
+    },
+    "devItemShop": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "CanBuyDiscountItems": {
+      "condition": "role_DEVELOPER"
+    },
+    "everyDayLoginAwardDebugEnable": {
+      "condition": "dev_test_feature_access"
+    },
+    "ShowDebugEvents": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "Wagers": {
+      "condition": ""
+    },
+    "ItemsRoulette": {
+      "condition": ""
+    },
+    "TankModEffect": {
+      "condition": ""
+    },
+    "pc_only_events": {
+      "condition": "",
+      "platform_lock": "ps4"
+    },
+    "ps4_only_events": {
+      "condition": "",
+      "platform_lock": "pc;android"
+    },
+    "Orders": {
+      "condition": ""
+    },
+    "BattleTasks": {
+      "condition": ""
+    },
+    "PersonalUnlocks": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "BulletParamsForAirs": {
+      "condition": ""
+    },
+    "TournamentTesters": [
+      {
+        "condition": "wt_events_tester"
+      },
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_GM_(RO+BAN)"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "TournamentSuperTesters": [
+      {
+        "condition": "wt_events_supertester"
+      },
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_GRAND_CM"
+      },
+      {
+        "condition": "role_ALPHA_SUPERVISOR"
+      }
+    ],
+    "TankDetailedDamageIndicator": {
+      "condition": ""
+    },
+    "KillLogWithIcons": {
+      "condition": ""
+    },
+    "LiveStats": {
+      "condition": ""
+    },
+    "ShowAllPromoBlocks": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "SpectatorUnitDmgIndicator": {
+      "condition": ""
+    },
+    "SlotbarShowBattleRating": {
+      "condition": ""
+    },
+    "GlobalShowBattleRating": {
+      "condition": ""
+    },
+    "GamercardDrawerSwitchBR": {
+      "condition": ""
+    },
+    "DebriefingShowRewardsFromServer": {
+      "condition": ""
+    },
+    "DebriefingRowAdvancedTooltip": {
+      "condition": ""
+    },
+    "ShowAllBattleTasks": {
+      "condition": "role_DEVELOPER"
+    },
+    "AnimatedHangar": {
+      "condition": ""
+    },
+    "ExtendedCrewSkillsDescription": {
+      "condition": ""
+    },
+    "CrewInfoPanel": {
+      "condition": ""
+    },
+    "HiddenLeaderboardRows": {
+      "condition": "role_DEVELOPER"
+    },
+    "ExpertToAce": {
+      "condition": ""
+    },
+    "pacific_41_43": {
+      "condition": "pacific_41_43_unlock"
+    },
+    "usa_pacific_41_43": {
+      "condition": "pacific_41_43_unlock"
+    },
+    "jpn_pacific_41_43": {
+      "condition": "pacific_41_43_unlock"
+    },
+    "league_fan_token": {
+      "condition": "wt_thunder_league_fan_token"
+    },
+    "Warbonds": {
+      "condition": ""
+    },
+    "WarbondsShop": {
+      "condition": "Warbonds"
+    },
+    "ControllerLight": {
+      "condition": ""
+    },
+    "DisableSwitchPresetOnTutorialForHotas4": {
+      "condition": ""
+    },
+    "BritainTanksUnlocked": {
+      "condition": ""
+    },
+    "JapanTanksUnlocked": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      },
+      {
+        "condition": "wt_access_japan_tanks_unlocks"
+      }
+    ],
+    "CountryChina": {
+      "condition": "role_DEVELOPER"
+    },
+    "CountryJapan": {
+      "condition": ""
+    },
+    "MissionsChapterHidden": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "MissionsChapterTest": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "ChinaForbidden": {
+      "condition": ""
+    },
+    "ScriptMissionHints": {
+      "condition": ""
+    },
+    "ScriptImportExportControls": {
+      "condition": "",
+      "platform_lock": "ps4;android"
+    },
+    "SquadWidget": {
+      "condition": ""
+    },
+    "SquadTransferLeadership": {
+      "condition": ""
+    },
+    "ClanSeasonRewardsLog": {
+      "condition": ""
+    },
+    "ClanSeasons_3_0": {
+      "condition": ""
+    },
+    "ClanSeasonAttributes": {
+      "condition": ""
+    },
+    "ShipDetailedDamageIndicator": {
+      "condition": "Ships"
+    },
+    "XRayDescription": {
+      "condition": ""
+    },
+    "GamepadCursorControl": {
+      "condition": ""
+    },
+    "QaTestTiketLocker": {
+      "condition": "qa_tiket_locker1"
+    },
+    "ShipEventTicketAccess": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "ship_event_tiket_access"
+      },
+      {
+        "reqPack": "pkg_ships"
+      }
+    ]
+  },
+  "avgAirRankSpeed": {
+    "rank0": 300,
+    "rank1": 310,
+    "rank2": 320,
+    "rank3": 330,
+    "rank4": 340,
+    "rank5": 350,
+    "rank6": 360,
+    "rank7": 370,
+    "rank8": 380,
+    "rank9": 390,
+    "rank10": 400,
+    "rank11": 410,
+    "rank12": 420,
+    "rank13": 430,
+    "rank14": 440,
+    "rank15": 450,
+    "rank16": 460,
+    "rank17": 600,
+    "rank18": 610,
+    "rank19": 620,
+    "rank20": 630,
+    "rank21": 640,
+    "rank22": 650,
+    "rank23": 660,
+    "rank24": 670,
+    "rank25": 680
+  },
+  "avgTankRankSpeed": {
+    "rank0": 40,
+    "rank1": 40,
+    "rank2": 40,
+    "rank3": 40,
+    "rank4": 40,
+    "rank5": 40,
+    "rank6": 40,
+    "rank7": 40,
+    "rank8": 40,
+    "rank9": 40,
+    "rank10": 40,
+    "rank11": 40,
+    "rank12": 40,
+    "rank13": 40,
+    "rank14": 40,
+    "rank15": 40,
+    "rank16": 40,
+    "rank17": 40,
+    "rank18": 40,
+    "rank19": 40,
+    "rank20": 40,
+    "rank21": 40,
+    "rank22": 40,
+    "rank23": 40,
+    "rank24": 40,
+    "rank25": 40
+  },
+  "squadronStatisticsFilter": {
+    "fullreal": false
+  },
+  "promo_block": {
+    "events_mainmenu_button": {
+      "color": "#33556126",
+      "action": "events"
+    },
+    "tutorial_mainmenu_button": {
+      "color": "#331e5876",
+      "notifyNew": true,
+      "action": "tutorial"
+    },
+    "battle_tasks_mainmenu_button": {
+      "color": "#33fb4417",
+      "text": "#mainmenu/btnBattleTasks",
+      "action": "battle_tasks"
+    }
+  },
+  "time_to_kick": {
+    "show_timer_threshold": 30,
+    "show_alert_threshold": 15,
+    "in_battle_show_timer_threshold": 150,
+    "in_battle_show_alert_threshold": 50
+  },
+  "testFlight_override": {
+    "HChinese": {
+      "testFlight_sicily": "testFlight_alps",
+      "testFlight_norway": "testFlight_alps",
+      "testFlight_norway_hydrobase": "testFlight_crater_hydroplane",
+      "testFlight_ruhr": "testFlight_alps",
+      "testFlight_ruhr_me": "testFlight_alps_me",
+      "testFlight_peleliu": "testFlight_crater",
+      "testFlight_peleliu_hydrobase": "testFlight_crater_hydroplane"
+    }
+  }
+}

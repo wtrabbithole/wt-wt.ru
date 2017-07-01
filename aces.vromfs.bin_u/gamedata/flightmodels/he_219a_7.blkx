@@ -1555,21 +1555,46 @@
           },
           {
             "onHit": {
-              "damage": 50.0,
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
               "cut": 0.7
             }
           },
           {
             "onHit": {
-              "damage": 70.0,
+              "damage": 50.0,
               "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
               "cut": 1.0,
-              "nothing": 2.0
+              "nothing": 1.0
             }
           },
           {
@@ -1587,21 +1612,46 @@
           },
           {
             "onHit": {
-              "damage": 50.0,
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
               "cut": 0.7
             }
           },
           {
             "onHit": {
-              "damage": 70.0,
+              "damage": 50.0,
               "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
               "cut": 1.0,
-              "nothing": 2.0
+              "nothing": 1.0
             }
           },
           {
@@ -1694,13 +1744,7 @@
           },
           {
             "onHit": {
-              "damage": 70.0,
-              "cut": 0.75
-            }
-          },
-          {
-            "onHit": {
-              "damage": 100.0,
+              "damage": 65.0,
               "cut": 1.0
             }
           },
@@ -1740,14 +1784,7 @@
           },
           {
             "onKill": {
-              "damage": 70.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 100.0,
+              "damage": 65.0,
               "cut": 1.0
             }
           }
@@ -2551,6 +2588,15 @@
           "effects": {
             "cutPart": "wing_l_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "cutPart": "wing_l_dm"
+          }
         }
       ],
       "wing_r_structure": [
@@ -2576,11 +2622,20 @@
           "effects": {
             "cutPart": "wing_r_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "cutPart": "wing_r_dm"
+          }
         }
       ],
       "tail_structure": [
         {
-          "hp": 2000.0
+          "hp": 1650.0
         },
         {
           "part": "fuse_dm"
@@ -2597,6 +2652,71 @@
         {
           "effects": {
             "cutPart": "tail_dm"
+          }
+        }
+      ],
+      "cover_structure": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "cover1_dm"
+        },
+        {
+          "part": "cover2_dm"
+        },
+        {
+          "part": "cover3_dm"
+        },
+        {
+          "part": "cover4_dm"
+        },
+        {
+          "part": "cover5_dm"
+        },
+        {
+          "part": "cover6_dm"
+        },
+        {
+          "part": "cover7_dm"
+        },
+        {
+          "part": "cover8_dm"
+        },
+        {
+          "part": "cover9_dm"
+        },
+        {
+          "part": "rudder_dm"
+        },
+        {
+          "part": "stab_dm"
+        },
+        {
+          "part": "fuse_dm"
+        },
+        {
+          "part": "tail_dm"
+        },
+        {
+          "part": "fin_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "kill": true,
+            "killEffect": "expl"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 50.0,
+            "kill": true,
+            "killEffect": "expl"
           }
         }
       ]

@@ -894,37 +894,37 @@
         "hpForRepair": 0.7
       },
       "cannon_breech_dm": {
-        "speed": 2.0,
+        "speed": 1.2,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "cannon_breech_01_dm": {
-        "speed": 2.0,
+        "speed": 1.2,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "cannon_breech_02_dm": {
-        "speed": 2.0,
+        "speed": 1.2,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "cannon_breech_03_dm": {
-        "speed": 2.0,
+        "speed": 1.2,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "cannon_breech_04_dm": {
-        "speed": 2.0,
+        "speed": 1.2,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "cannon_breech_05_dm": {
-        "speed": 2.0,
+        "speed": 1.2,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
@@ -995,47 +995,47 @@
     "healingCrew": {
       "partRepairHp": 1.0,
       "gunner_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "gunner_01_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "gunner_02_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "driver_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "commander_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "loader_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "loader_01_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "loader_02_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "machine_gunner_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "machine_gunner_01_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       },
       "machine_gunner_02_dm": {
-        "speed": 1.5,
+        "speed": 2.0,
         "completely": true
       }
     }
@@ -1914,13 +1914,55 @@
           }
         }
       ],
-      "apds_fs": {
+      "apds": {
+        "t0": {
+          "caliberToArmor": 0.5,
+          "ricochetProbability0deg": [0.0,1.0],
+          "ricochetProbability18deg": [14.0,1.0],
+          "ricochetProbability22deg": [19.0,0.5],
+          "ricochetProbability24deg": [20.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        },
         "t1": {
           "caliberToArmor": 1.0,
+          "ricochetProbability0deg": [0.0,1.0],
+          "ricochetProbability18deg": [10.0,1.0],
+          "ricochetProbability22deg": [14.0,0.1],
+          "ricochetProbability24deg": [15.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        },
+        "t2": {
+          "caliberToArmor": 1.5,
+          "ricochetProbability0deg": [0.0,1.0],
+          "ricochetProbability18deg": [7.0,1.0],
+          "ricochetProbability22deg": [10.0,0.1],
+          "ricochetProbability24deg": [11.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        }
+      },
+      "apds_fs": {
+        "t0": {
+          "caliberToArmor": 0.5,
           "ricochetProbability0deg": [0.0,1.0],
           "ricochetProbability18deg": [13.0,1.0],
           "ricochetProbability22deg": [17.0,0.5],
           "ricochetProbability24deg": [20.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        },
+        "t1": {
+          "caliberToArmor": 1.0,
+          "ricochetProbability0deg": [0.0,1.0],
+          "ricochetProbability18deg": [12.0,1.0],
+          "ricochetProbability22deg": [13.0,0.1],
+          "ricochetProbability24deg": [14.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        },
+        "t2": {
+          "caliberToArmor": 1.5,
+          "ricochetProbability0deg": [0.0,1.0],
+          "ricochetProbability18deg": [7.0,1.0],
+          "ricochetProbability22deg": [8.0,0.5],
+          "ricochetProbability24deg": [11.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         }
       },
@@ -1936,32 +1978,15 @@
         }
       },
       "heat_fs": {
-        "t1": [
-          {
-            "caliberToArmor": 1.0
-          },
-          {
-            "ricochetProbability0deg": [0.0,1.0]
-          },
-          {
-            "ricochetProbability09deg": [15.0,1.0]
-          },
-          {
-            "ricochetProbability18deg": [18.0,0.9]
-          },
-          {
-            "ricochetProbability20deg": [20.0,0.4]
-          },
-          {
-            "ricochetProbability25deg": [24.0,0.3]
-          },
-          {
-            "ricochetProbability25deg": [25.0,0.0]
-          },
-          {
-            "ricochetProbability90deg": [90.0,0.0]
-          }
-        ]
+        "t1": {
+          "caliberToArmor": 1.0,
+          "ricochetProbability0deg": [0.0,1.0],
+          "ricochetProbability09deg": [15.0,1.0],
+          "ricochetProbability18deg": [18.0,0.5],
+          "ricochetProbability20deg": [20.0,0.25],
+          "ricochetProbability25deg": [25.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        }
       },
       "he": {
         "t1": {
@@ -2079,14 +2104,14 @@
         "t_2": {
           "caliberToArmor": 2.0,
           "slopeEffect0deg": [0.0,20.0],
-          "slopeEffect5deg": [5.0,10.0],
+          "slopeEffect5deg": [5.0,13.0],
           "slopeEffect10deg": [10.0,9.8],
           "slopeEffect15deg": [15.0,5.28],
           "slopeEffect20deg": [20.0,3.52],
           "slopeEffect25deg": [25.0,2.72],
-          "slopeEffect30deg": [30.0,1.84],
-          "slopeEffect35deg": [35.0,1.6],
-          "slopeEffect40deg": [40.0,1.44],
+          "slopeEffect30deg": [30.0,2.0],
+          "slopeEffect35deg": [35.0,1.72],
+          "slopeEffect40deg": [40.0,1.456],
           "slopeEffect45deg": [45.0,1.28],
           "slopeEffect50deg": [50.0,1.12],
           "slopeEffect55deg": [55.0,1.1],
@@ -2101,16 +2126,16 @@
         "t_2_5": {
           "caliberToArmor": 2.5,
           "slopeEffect0deg": [0.0,20.0],
-          "slopeEffect5deg": [5.0,10.0],
+          "slopeEffect5deg": [5.0,13.0],
           "slopeEffect10deg": [10.0,6.0],
           "slopeEffect15deg": [15.0,4.16],
-          "slopeEffect20deg": [20.0,2.8],
-          "slopeEffect25deg": [25.0,2.24],
-          "slopeEffect30deg": [30.0,1.52],
-          "slopeEffect35deg": [35.0,1.4],
-          "slopeEffect40deg": [40.0,1.28],
-          "slopeEffect45deg": [45.0,1.16],
-          "slopeEffect50deg": [50.0,1.04],
+          "slopeEffect20deg": [20.0,2.96],
+          "slopeEffect25deg": [25.0,2.4],
+          "slopeEffect30deg": [30.0,1.96],
+          "slopeEffect35deg": [35.0,1.68],
+          "slopeEffect40deg": [40.0,1.4],
+          "slopeEffect45deg": [45.0,1.224],
+          "slopeEffect50deg": [50.0,1.12],
           "slopeEffect55deg": [55.0,1.0],
           "slopeEffect60deg": [60.0,1.0],
           "slopeEffect65deg": [65.0,1.0],
@@ -2347,14 +2372,14 @@
         "t_2": {
           "caliberToArmor": 2.0,
           "slopeEffect0deg": [0.0,20.0],
-          "slopeEffect5deg": [5.0,13.0],
+          "slopeEffect5deg": [5.0,10.0],
           "slopeEffect10deg": [10.0,6.0],
           "slopeEffect15deg": [15.0,4.16],
           "slopeEffect20deg": [20.0,3.2],
           "slopeEffect25deg": [25.0,2.56],
-          "slopeEffect30deg": [30.0,2.0],
-          "slopeEffect35deg": [35.0,1.72],
-          "slopeEffect40deg": [40.0,1.456],
+          "slopeEffect30deg": [30.0,1.84],
+          "slopeEffect35deg": [35.0,1.6],
+          "slopeEffect40deg": [40.0,1.44],
           "slopeEffect45deg": [45.0,1.176],
           "slopeEffect50deg": [50.0,1.05],
           "slopeEffect55deg": [55.0,1.0],
@@ -2369,16 +2394,16 @@
         "t_2_5": {
           "caliberToArmor": 2.5,
           "slopeEffect0deg": [0.0,20.0],
-          "slopeEffect5deg": [5.0,13.0],
-          "slopeEffect10deg": [10.0,6.0],
+          "slopeEffect5deg": [5.0,10.0],
+          "slopeEffect10deg": [10.0,5.0],
           "slopeEffect15deg": [15.0,3.84],
-          "slopeEffect20deg": [20.0,2.96],
-          "slopeEffect25deg": [25.0,2.4],
-          "slopeEffect30deg": [30.0,1.96],
-          "slopeEffect35deg": [35.0,1.68],
-          "slopeEffect40deg": [40.0,1.4],
-          "slopeEffect45deg": [45.0,1.224],
-          "slopeEffect50deg": [50.0,1.12],
+          "slopeEffect20deg": [20.0,2.8],
+          "slopeEffect25deg": [25.0,2.24],
+          "slopeEffect30deg": [30.0,1.52],
+          "slopeEffect35deg": [35.0,1.4],
+          "slopeEffect40deg": [40.0,1.28],
+          "slopeEffect45deg": [45.0,1.16],
+          "slopeEffect50deg": [50.0,1.04],
           "slopeEffect55deg": [55.0,1.0],
           "slopeEffect60deg": [60.0,1.0],
           "slopeEffect65deg": [65.0,1.0],
@@ -3073,7 +3098,7 @@
         "stabilityReductionAfterRicochet": 0.15,
         "stabilityReductionAfterPenetration": 0.3,
         "normalizationPreset": "apcr",
-        "ricochetPreset": "apcr",
+        "ricochetPreset": "apds",
         "slopeEffectPreset": "apds",
         "modelName": "tank_bullet_apdc",
         "fresnel": [0.23,0.1,2.0],
@@ -3336,7 +3361,7 @@
   {
     "bulletDecals": {
       "ap": {
-        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_fs_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank, tp_tank, shrapnel_tank",
+        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_fs_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank, tp_tank, shrapnel_tank, he_ball, ap_i_ball, ap_t_ball, ap_ball",
         "pierce": "pr_gen",
         "stop": "st_gen",
         "ricochet": "st_gen",

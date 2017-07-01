@@ -501,7 +501,7 @@
     "ricochetDamage": 0.3
   },
   "dural2": {
-    "armorThickness": 1.0,
+    "armorThickness": 0.4,
     "armorThrough": 1.0,
     "restrainDamage": 0.3,
     "ricochetAngle": 85.0,
@@ -509,7 +509,7 @@
     "ricochetDamage": 0.3
   },
   "dural3": {
-    "armorThickness": 1.5,
+    "armorThickness": 1.0,
     "armorThrough": 1.0,
     "restrainDamage": 0.3,
     "ricochetAngle": 85.0,
@@ -517,6 +517,14 @@
     "ricochetDamage": 0.3
   },
   "dural5": {
+    "armorThickness": 1.5,
+    "armorThrough": 1.5,
+    "restrainDamage": 0.3,
+    "ricochetAngle": 85.0,
+    "ricochetCosinePower": 1.0,
+    "ricochetDamage": 0.3
+  },
+  "dural7": {
     "armorThickness": 2.5,
     "armorThrough": 2.5,
     "restrainDamage": 0.3,
@@ -524,64 +532,56 @@
     "ricochetCosinePower": 1.0,
     "ricochetDamage": 0.3
   },
-  "dural7": {
-    "armorThickness": 3.5,
-    "armorThrough": 3.5,
-    "restrainDamage": 0.3,
-    "ricochetAngle": 85.0,
-    "ricochetCosinePower": 1.0,
-    "ricochetDamage": 0.3
-  },
   "dural8_5": {
-    "armorThickness": 4.3,
-    "armorThrough": 4.3,
+    "armorThickness": 3.3,
+    "armorThrough": 3.3,
     "restrainDamage": 0.23,
     "ricochetAngle": 85.0,
     "ricochetCosinePower": 1.0,
     "ricochetDamage": 0.3
   },
   "dural10": {
-    "armorThickness": 5.0,
-    "armorThrough": 5.0,
+    "armorThickness": 4.0,
+    "armorThrough": 4.0,
     "restrainDamage": 0.15,
     "ricochetAngle": 85.0,
     "ricochetCosinePower": 1.0,
     "ricochetDamage": 0.3
   },
   "dural15": {
-    "armorThickness": 7.5,
-    "armorThrough": 7.5,
+    "armorThickness": 5.5,
+    "armorThrough": 5.5,
     "restrainDamage": 0.113,
     "ricochetAngle": 85.0,
     "ricochetCosinePower": 1.0,
     "ricochetDamage": 0.3
   },
   "dural20": {
-    "armorThickness": 10.0,
-    "armorThrough": 10.0,
+    "armorThickness": 8.0,
+    "armorThrough": 8.0,
     "restrainDamage": 0.075,
     "ricochetAngle": 85.0,
     "ricochetCosinePower": 1.0,
     "ricochetDamage": 0.3
   },
   "dural30": {
-    "armorThickness": 15.0,
-    "armorThrough": 15.0,
+    "armorThickness": 10.0,
+    "armorThrough": 10.0,
     "restrainDamage": 0.045,
     "ricochetAngle": 85.0,
     "ricochetCosinePower": 1.0,
     "ricochetDamage": 0.3
   },
   "dural40": {
-    "armorThickness": 20.0,
-    "armorThrough": 20.0,
+    "armorThickness": 13.0,
+    "armorThrough": 13.0,
     "restrainDamage": 0.045,
     "ricochetAngle": 85.0,
     "ricochetCosinePower": 1.0,
     "ricochetDamage": 0.3
   },
   "dural50": {
-    "armorThickness": 25.0,
+    "armorThickness": 18.0,
     "armorThrough": 25.0,
     "restrainDamage": 0.04,
     "ricochetAngle": 85.0,
@@ -589,7 +589,7 @@
     "ricochetDamage": 0.3
   },
   "dural60": {
-    "armorThickness": 30.0,
+    "armorThickness": 20.0,
     "armorThrough": 30.0,
     "restrainDamage": 0.03,
     "ricochetAngle": 85.0,
@@ -597,7 +597,7 @@
     "ricochetDamage": 0.3
   },
   "dural70": {
-    "armorThickness": 35.0,
+    "armorThickness": 30.0,
     "armorThrough": 35.0,
     "restrainDamage": 0.03,
     "ricochetAngle": 85.0,
@@ -605,7 +605,7 @@
     "ricochetDamage": 0.3
   },
   "dural80": {
-    "armorThickness": 40.0,
+    "armorThickness": 33.0,
     "armorThrough": 40.0,
     "restrainDamage": 0.02,
     "ricochetAngle": 85.0,
@@ -1589,7 +1589,8 @@
     "restrainDamage": 0.001,
     "ricochetAngle": 80.0,
     "ricochetCosinePower": 3.0,
-    "ricochetDamage": 0.001
+    "ricochetDamage": 0.001,
+    "armorQuality": 0.35
   },
   "ship_wood": {
     "armorThickness": 1.0,
@@ -1602,5 +1603,14 @@
     "armorQuality": 0.08,
     "createSecondaryShatters": false,
     "physMaterial": "wood"
+  },
+  "armored_glass": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0001,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 3.0,
+    "ricochetDamage": 0.1,
+    "armorQuality": 0.28
   }
 }

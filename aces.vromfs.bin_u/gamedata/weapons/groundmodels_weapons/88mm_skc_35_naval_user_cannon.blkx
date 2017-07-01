@@ -41,9 +41,9 @@
     "farHitPower": [0.1,700.0],
     "endHitPower": [0.008,1500.0],
     "relativeVelHitShift": [300.0,1000.0],
-    "nearArmorPower": [13.0,150.0],
-    "midArmorPower": [12.0,600.0],
-    "farArmorPower": [11.0,10000.0],
+    "nearArmorPower": [25.0,150.0],
+    "midArmorPower": [24.0,600.0],
+    "farArmorPower": [23.0,10000.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "explodeTreshold": 0.5,
     "explodeHitPower": 120.0,
@@ -55,14 +55,16 @@
     "shutterAmount": 170,
     "shutterArmorPower": 8.0,
     "shutterHit": 15.0,
-    "groundCollisionEffect": "art_ground_splash",
+    "groundCollisionEffect": "ground_splash",
+    "groundFxScale": [0.6,0.7],
     "ricochetEffect": "cannon_ricochet",
-    "groundFxScale": [1.5,1.6],
+    "waterCollisionEffect": "big_water_splash",
+    "waterFxScale": [2.5,3.0],
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "50mmBrightRed",
-      "trail": "black"
+      "tracer": "76mmBrightRed",
+      "trail": "curved"
     },
     "collisions": {
       "steel": {
@@ -71,6 +73,10 @@
       },
       "armor": {
         "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.0,3.0]
+      },
+      "wood": {
+        "fx": "cannon_hit_ship_cumulative",
         "fxScale": [2.0,3.0]
       }
     }
@@ -92,9 +98,9 @@
       "farHitPower": [0.1,700.0],
       "endHitPower": [0.008,1500.0],
       "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [13.0,150.0],
-      "midArmorPower": [12.0,600.0],
-      "farArmorPower": [11.0,10000.0],
+      "nearArmorPower": [25.0,150.0],
+      "midArmorPower": [24.0,600.0],
+      "farArmorPower": [23.0,10000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "explodeTreshold": 0.5,
       "explodeHitPower": 120.0,
@@ -106,14 +112,16 @@
       "shutterAmount": 170,
       "shutterArmorPower": 8.0,
       "shutterHit": 15.0,
-      "groundCollisionEffect": "art_ground_splash",
+      "groundCollisionEffect": "ground_splash",
+      "groundFxScale": [0.6,0.7],
       "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [1.5,1.6],
+      "waterCollisionEffect": "big_water_splash",
+      "waterFxScale": [2.5,3.0],
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "50mmBrightRed",
-        "trail": "black"
+        "tracer": "76mmBrightRed",
+        "trail": "curved"
       },
       "collisions": {
         "steel": {
@@ -122,6 +130,10 @@
         },
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.0,3.0]
+        },
+        "wood": {
+          "fx": "cannon_hit_ship_cumulative",
           "fxScale": [2.0,3.0]
         }
       }

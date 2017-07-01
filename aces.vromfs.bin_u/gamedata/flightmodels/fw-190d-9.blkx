@@ -788,6 +788,12 @@
           }
         },
         {
+          "onHit": {
+            "damage": 65.0,
+            "expl": 1.0
+          }
+        },
+        {
           "onKill": {
             "tailcontrol_dm": 1.0,
             "nothing": 9.0
@@ -1036,14 +1042,20 @@
         },
         {
           "onHit": {
-            "damage": 50.0,
+            "damage": 45.0,
             "tail_dm": 0.8
           }
         },
         {
           "onHit": {
-            "damage": 70.0,
+            "damage": 40.0,
             "tail_dm": 1.0
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "expl": 1.0
           }
         },
         {
@@ -1089,15 +1101,15 @@
         },
         {
           "onKill": {
-            "damage": 50.0,
+            "damage": 40.0,
             "tail_dm": 1.0,
             "nothing": 2.0
           }
         },
         {
           "onKill": {
-            "damage": 70.0,
-            "tail_dm": 1.0
+            "damage": 50.0,
+            "expl": 1.0
           }
         }
       ]
@@ -1340,6 +1352,12 @@
           }
         },
         {
+          "onHit": {
+            "damage": 60.0,
+            "expl": 1.0
+          }
+        },
+        {
           "onKill": {
             "tailcontrol_dm": 1.0,
             "nothing": 9.0
@@ -1380,13 +1398,7 @@
         },
         {
           "onHit": {
-            "damage": 70.0,
-            "cut": 0.75
-          }
-        },
-        {
-          "onHit": {
-            "damage": 100.0,
+            "damage": 65.0,
             "cut": 1.0
           }
         },
@@ -1426,14 +1438,7 @@
         },
         {
           "onKill": {
-            "damage": 70.0,
-            "cut": 1.0,
-            "nothing": 1.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 100.0,
+            "damage": 65.0,
             "cut": 1.0
           }
         }
@@ -2051,7 +2056,7 @@
   "MetaParts": {
     "wing_l_structure": [
       {
-        "hp": 75.0
+        "hp": 80.0
       },
       {
         "part": "wing_l_dm"
@@ -2081,11 +2086,20 @@
         "effects": {
           "cutPart": "wing_l_dm"
         }
+      },
+      {
+        "effect": {
+          "conditionDamageType": "generic",
+          "cut": 1.0,
+          "conditionDamage": 100.0,
+          "kill": true,
+          "cutPart": "wing_l_dm"
+        }
       }
     ],
     "wing_r_structure": [
       {
-        "hp": 75.0
+        "hp": 80.0
       },
       {
         "part": "wing_r_dm"
@@ -2115,6 +2129,15 @@
         "effects": {
           "cutPart": "wing_r_dm"
         }
+      },
+      {
+        "effect": {
+          "conditionDamageType": "generic",
+          "cut": 1.0,
+          "conditionDamage": 100.0,
+          "kill": true,
+          "cutPart": "wing_r_dm"
+        }
       }
     ],
     "tail_structure": [
@@ -2136,6 +2159,71 @@
       {
         "effects": {
           "cutPart": "tail_dm"
+        }
+      }
+    ],
+    "cover_structure": [
+      {
+        "hp": 2000.0
+      },
+      {
+        "part": "cover1_dm"
+      },
+      {
+        "part": "cover2_dm"
+      },
+      {
+        "part": "cover3_dm"
+      },
+      {
+        "part": "cover4_dm"
+      },
+      {
+        "part": "cover5_dm"
+      },
+      {
+        "part": "cover6_dm"
+      },
+      {
+        "part": "cover7_dm"
+      },
+      {
+        "part": "cover8_dm"
+      },
+      {
+        "part": "cover9_dm"
+      },
+      {
+        "part": "rudder_dm"
+      },
+      {
+        "part": "stab_dm"
+      },
+      {
+        "part": "fuse_dm"
+      },
+      {
+        "part": "tail_dm"
+      },
+      {
+        "part": "fin_dm"
+      },
+      {
+        "effect": {
+          "conditionDamageType": "generic",
+          "expl": 1.0,
+          "conditionDamage": 300.0,
+          "kill": true,
+          "killEffect": "expl"
+        }
+      },
+      {
+        "effect": {
+          "conditionDamageType": "explosion",
+          "expl": 1.0,
+          "conditionDamage": 40.0,
+          "kill": true,
+          "killEffect": "expl"
         }
       }
     ]

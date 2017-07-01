@@ -54,6 +54,9 @@
     "tailStartOffset": 10.0
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -76,6 +79,22 @@
   },
   {
     "explosionFx": "ship_explosion"
+  },
+  {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "flag_usa_01_c*",
+          "to": "flag_usa_alt_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_usa_02_c*",
+          "to": "flag_usa_alt_c*"
+        }
+      }
+    ]
   },
   {
     "ikGunner": [
@@ -108,6 +127,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "gunner_01_dm"
       },
       {
         "ikNode": {
@@ -180,6 +202,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -250,6 +275,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "gunner_02_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -318,6 +346,9 @@
       },
       {
         "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "dmName": "gunner_03_dm"
       },
       {
         "ikNode": {
@@ -671,6 +702,9 @@
         "era_02_dm": {
           "genericDamageMult": 4.0
         },
+        "era_03_dm": {
+          "genericDamageMult": 4.0
+        },
         "operator_dm": {
           "genericDamageMult": 4.0
         },
@@ -690,6 +724,12 @@
           "genericDamageMult": 4.0
         },
         "loader_05_dm": {
+          "genericDamageMult": 4.0
+        },
+        "loader_06_dm": {
+          "genericDamageMult": 4.0
+        },
+        "loader_07_dm": {
           "genericDamageMult": 4.0
         },
         "gunner_01_dm": {
@@ -1538,7 +1578,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.2,
               "damage": 300.0,
               "fHitCritical": true
@@ -1546,7 +1586,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 300.0,
               "fHitCritical": true
@@ -1554,7 +1594,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03,
               "expl": 0.01
             }
@@ -1613,7 +1653,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
@@ -1622,7 +1662,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -1630,7 +1670,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.35,
               "damage": 70.0,
               "fHitCritical": true
@@ -1638,7 +1678,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03
             }
           },
@@ -1701,7 +1741,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.03,
               "damage": 13.0,
               "fHitCritical": true
@@ -1709,7 +1749,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 50.0,
               "fHitCritical": true
@@ -2001,7 +2041,7 @@
         "Empty": 37000.0,
         "Fuel": 1000.0,
         "TakeOff": 38000.0,
-        "momentOfInertia": [8.22,32.0,15.0],
+        "momentOfInertia": [11.0,39.0,19.0],
         "CenterOfGravity": [-2.85,-0.5,0.0]
       },
       "engines": [
@@ -2887,7 +2927,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,5.0,-23.0],
+      "headPos": [0.0,6.0,-21.0],
       "headPosOnShooting": [0.2,5.5,0.5]
     }
   },

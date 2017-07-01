@@ -15,6 +15,9 @@
     "useBotForAi": true
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "moveType": "ship"
   },
   {
@@ -85,6 +88,14 @@
   },
   {
     "customTooltipImage": ""
+  },
+  {
+    "default_skin_tomoe": {
+      "replace_tex": {
+        "from": "flag_ussr_01_c*",
+        "to": "flag_ussr_alt_c*"
+      }
+    }
   },
   {
     "ikGunner": [
@@ -1301,6 +1312,9 @@
         "era_02_dm": {
           "genericDamageMult": 4.0
         },
+        "era_03_dm": {
+          "genericDamageMult": 4.0
+        },
         "operator_dm": {
           "genericDamageMult": 4.0
         },
@@ -1320,6 +1334,12 @@
           "genericDamageMult": 4.0
         },
         "loader_05_dm": {
+          "genericDamageMult": 4.0
+        },
+        "loader_06_dm": {
+          "genericDamageMult": 4.0
+        },
+        "loader_07_dm": {
           "genericDamageMult": 4.0
         },
         "gunner_01_dm": {
@@ -2188,7 +2208,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.9,
               "damage": 350.0,
               "fHitCritical": true
@@ -2196,7 +2216,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.2,
               "damage": 200.0,
               "fHitCritical": true
@@ -2336,7 +2356,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
@@ -2345,7 +2365,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -2353,7 +2373,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.35,
               "damage": 70.0,
               "fHitCritical": true
@@ -2361,7 +2381,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03
             }
           },
@@ -2424,7 +2444,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.03,
               "damage": 13.0,
               "fHitCritical": true
@@ -2432,7 +2452,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 50.0,
               "fHitCritical": true
@@ -2520,10 +2540,130 @@
             "substitute": "sailor_08"
           },
           {
-            "substitute": "gunner_02"
+            "substitute": "sailor_09"
           },
           {
-            "substitute": "gunner_03"
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
+          },
+          {
+            "substitute": "loader_01"
+          },
+          {
+            "substitute": "loader_02"
+          },
+          {
+            "substitute": "loader_03"
           }
         ]
       },
@@ -2558,6 +2698,132 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
+          },
+          {
+            "substitute": "loader_01"
+          },
+          {
+            "substitute": "loader_02"
+          },
+          {
+            "substitute": "loader_03"
           }
         ]
       },
@@ -2592,6 +2858,132 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
+          },
+          {
+            "substitute": "loader_01"
+          },
+          {
+            "substitute": "loader_02"
+          },
+          {
+            "substitute": "loader_03"
           }
         ]
       },
@@ -2626,6 +3018,132 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
+          },
+          {
+            "substitute": "loader_01"
+          },
+          {
+            "substitute": "loader_02"
+          },
+          {
+            "substitute": "loader_03"
           }
         ]
       },
@@ -2660,6 +3178,132 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
+          },
+          {
+            "substitute": "loader_01"
+          },
+          {
+            "substitute": "loader_02"
+          },
+          {
+            "substitute": "loader_03"
           }
         ]
       },
@@ -2694,6 +3338,132 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
+          },
+          {
+            "substitute": "loader_01"
+          },
+          {
+            "substitute": "loader_02"
+          },
+          {
+            "substitute": "loader_03"
           }
         ]
       },
@@ -2730,6 +3500,123 @@
             "substitute": "sailor_08"
           },
           {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
+          },
+          {
             "substitute": "gunner_01"
           },
           {
@@ -2737,6 +3624,27 @@
           },
           {
             "substitute": "loader_01"
+          },
+          {
+            "substitute": "loader_02"
+          },
+          {
+            "substitute": "loader_03"
+          },
+          {
+            "substitute": "gunner_02"
+          },
+          {
+            "substitute": "gunner_03"
+          },
+          {
+            "substitute": "gunner_04"
+          },
+          {
+            "substitute": "gunner_05"
+          },
+          {
+            "substitute": "gunner_06"
           }
         ]
       },
@@ -2771,6 +3679,123 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
           }
         ]
       },
@@ -2805,6 +3830,123 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
           }
         ]
       },
@@ -2839,6 +3981,123 @@
           },
           {
             "substitute": "sailor_08"
+          },
+          {
+            "substitute": "sailor_09"
+          },
+          {
+            "substitute": "sailor_10"
+          },
+          {
+            "substitute": "sailor_11"
+          },
+          {
+            "substitute": "sailor_12"
+          },
+          {
+            "substitute": "sailor_13"
+          },
+          {
+            "substitute": "sailor_14"
+          },
+          {
+            "substitute": "sailor_15"
+          },
+          {
+            "substitute": "sailor_16"
+          },
+          {
+            "substitute": "sailor_17"
+          },
+          {
+            "substitute": "sailor_18"
+          },
+          {
+            "substitute": "sailor_19"
+          },
+          {
+            "substitute": "sailor_20"
+          },
+          {
+            "substitute": "sailor_21"
+          },
+          {
+            "substitute": "sailor_22"
+          },
+          {
+            "substitute": "sailor_23"
+          },
+          {
+            "substitute": "sailor_24"
+          },
+          {
+            "substitute": "sailor_25"
+          },
+          {
+            "substitute": "sailor_26"
+          },
+          {
+            "substitute": "sailor_27"
+          },
+          {
+            "substitute": "sailor_28"
+          },
+          {
+            "substitute": "sailor_29"
+          },
+          {
+            "substitute": "sailor_30"
+          },
+          {
+            "substitute": "sailor_31"
+          },
+          {
+            "substitute": "sailor_32"
+          },
+          {
+            "substitute": "sailor_33"
+          },
+          {
+            "substitute": "sailor_34"
+          },
+          {
+            "substitute": "sailor_35"
+          },
+          {
+            "substitute": "sailor_36"
+          },
+          {
+            "substitute": "sailor_37"
+          },
+          {
+            "substitute": "sailor_38"
+          },
+          {
+            "substitute": "sailor_39"
+          },
+          {
+            "substitute": "sailor_40"
+          },
+          {
+            "substitute": "sailor_41"
+          },
+          {
+            "substitute": "sailor_42"
+          },
+          {
+            "substitute": "sailor_43"
+          },
+          {
+            "substitute": "sailor_44"
+          },
+          {
+            "substitute": "sailor_45"
+          },
+          {
+            "substitute": "sailor_46"
+          },
+          {
+            "substitute": "commander"
           }
         ]
       },
@@ -3093,6 +4352,42 @@
           "dmPart": "sailor_40_dm",
           "role": "sailor"
         }
+      },
+      {
+        "sailor_41": {
+          "dmPart": "sailor_41_dm",
+          "role": "sailor"
+        }
+      },
+      {
+        "sailor_42": {
+          "dmPart": "sailor_42_dm",
+          "role": "sailor"
+        }
+      },
+      {
+        "sailor_43": {
+          "dmPart": "sailor_43_dm",
+          "role": "sailor"
+        }
+      },
+      {
+        "sailor_44": {
+          "dmPart": "sailor_44_dm",
+          "role": "sailor"
+        }
+      },
+      {
+        "sailor_45": {
+          "dmPart": "sailor_45_dm",
+          "role": "sailor"
+        }
+      },
+      {
+        "sailor_46": {
+          "dmPart": "sailor_46_dm",
+          "role": "sailor"
+        }
       }
     ]
   },
@@ -3136,8 +4431,8 @@
         "Empty": 316000.0,
         "Fuel": 20000.0,
         "TakeOff": 336000.0,
-        "momentOfInertia": [39.0,76.0,42.0],
-        "CenterOfGravity": [0.0,-1.2,0.0],
+        "momentOfInertia": [90.0,195.0,180.0],
+        "CenterOfGravity": [0.0,-1.0,0.0],
         "cls_body_01": 0.9,
         "cls_body_02": 0.1,
         "cls_body_03": 0.1,
@@ -4385,7 +5680,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,15.0,-42.0],
+      "headPos": [0.0,11.0,-37.0],
       "headPosOnShooting": [6.0,11.0,0.0]
     }
   },
