@@ -1,0 +1,57 @@
+﻿Home
+klensy edited this page on Jul 5, 2015 · 4 revisions
+ Pages 1
+Home
+Clone this wiki locally
+
+	
+###List of interesting files:
+
+WarThunder/
+/ui/*
+/Replays/ - wrpl files and replays.wdb (blk type file)
+/aces.vromfs.bin
+/char.vromfs.bin
+/gui.vromfs.bin
+/lang.vromfs.bin
+/mis.vromfs.bin
+/webUi.vromfs.bin
+###Content of vromfs files:
+
+aces.vromfs.bin:
+
+DM of planes: aces.vromfs.bin\gamedata\flightmodels
+FM of planes: aces.vromfs.bin\gamedata\flightmodels\fm
+FM/DM of tanks: aces.vromfs.bin\gamedata\units\tankmodels
+other unit params: aces.vromfs.bin\gamedata\units (AAA, ships, structures, wheeled vehicles and other)
+weapon settings:
+planes:
+guns: aces.vromfs.bin\gamedata\weapons (only files inside this folder, not inner)
+bombs: aces.vromfs.bin\gamedata\weapons\bombguns
+rockets: aces.vromfs.bin\gamedata\weapons\rocketguns
+torpedoes: aces.vromfs.bin\gamedata\weapons\torpedoes
+weapon presets: aces.vromfs.bin\gamedata\flightmodels\weaponpresets (this presets should be included in plane's config files, or they don't work)
+gun settings of tanks: aces.vromfs.bin\gamedata\weapons\groundmodels_weapons
+char.vromfs.bin:
+
+all balance settings of planes and tanks: char.vromfs.bin\config\wpcost.blk
+unlock conditions for achievements, camos, etc: char.vromfs.bin\config\unlocks.blk
+Reward XP, WP and other coeffs char.vromfs.bin\config\warpoints.blk
+gui.vromfs.bin:
+
+gui scripts, written in Squirrel
+css/template markup files
+lang.vromfs.bin:
+
+i18n files
+mis.vromfs.bin:
+
+mission settings
+webUi.vromfs.bin:
+
+web map
+*/ui/vromfs.bin:
+
+fonts, in-game slides, icons and other pictures (not plane/tanks textures). Require ddsx unpacking. 
+
+Взято тут: https://github.com/klensy/wt-tools/wiki
