@@ -422,12 +422,23 @@
                           "pos": "0, ph-h",
                           "position": "relative",
                           "flow": "vertical",
-                          "textareaNoTab": {
-                            "id": "tmap_hint",
+                          "tdiv": {
                             "pos": "0.5*(pw-w), 0",
                             "position": "relative",
-                            "input-transparent": "yes",
-                            "text": ""
+                            "img": {
+                              "id": "tmap_icon",
+                              "size": "@buttonHeight,@buttonHeight",
+                              "pos": "0,50%ph-50%h",
+                              "position": "relative"
+                            },
+                            "textareaNoTab": {
+                              "id": "tmap_hint",
+                              "pos": "0,50%ph-50%h",
+                              "position": "relative",
+                              "input-transparent": "yes",
+                              "shadeStyle": "textOnIcon",
+                              "text": ""
+                            }
                           },
                           "activeText": {
                             "id": "time_to_kick_alert_text",

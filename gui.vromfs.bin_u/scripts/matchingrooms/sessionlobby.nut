@@ -717,14 +717,18 @@ function SessionLobby::getRoomSessionStartTime(room = null)
   return ::getTblValue("matchStartTime", getPublicData(room), 0)
 }
 
+function SessionLobby::getUnitTypesMask(room = null)
+{
+  return ::events.getEventUnitTypesMask(getMGameMode(room) || getPublicData(room))
+}
+
 function SessionLobby::calcEdiff(room = null)
 {
-  local pData = room? (("public" in room)? room.public : room) : settings
-  local diffValue = ::getTblValueByPath("mission.difficulty", pData)
+  local diffValue = ::getTblValue("difficulty", getMissionData(room))
   local difficulty = (diffValue == "custom") ?
     ::g_difficulty.getDifficultyByDiffCode(::get_cd_base_difficulty()) :
     ::g_difficulty.getDifficultyByName(diffValue)
-  return difficulty.getEdiffByUnitMask(::events.countAvailableUnitTypes(pData))
+  return difficulty.getEdiffByUnitMask(getUnitTypesMask(room))
 }
 
 function SessionLobby::getCurRoomEdiff()

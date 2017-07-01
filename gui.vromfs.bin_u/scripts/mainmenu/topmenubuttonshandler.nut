@@ -296,6 +296,16 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
       notAvailableYetMsgBox()
   }
 
+  function onWWBackToOperations(obj)
+  {
+    parentHandlerWeak.goBackToOperations()
+  }
+
+  function onWWBackToHangar(obj)
+  {
+    parentHandlerWeak.goBackToHangar()
+  }
+
   function onTournamentsAndEvents(obj)
   {
     if (::has_feature("Events"))

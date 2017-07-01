@@ -44,7 +44,6 @@
 @const battleColorActive: #ffe451;
 @const battleColorInactive: @white;
 @const battleColorFull: @white;
-@const battleColorFake: @white;
 @const battleColorOnServer: @red;
 @const battleColorFinished: #555555;
 
@@ -138,12 +137,17 @@ wwBattleIcon {
   background-repeat:expand;
 }
 
+wwBattleIcon[isTooltipIcon=yes] {
+  size:1@mIco, 1@mIco;
+  position:relative;
+}
+
 wwBattleIcon[status=Active] {
   background-color:@battleColorActive;
 }
 
 wwBattleIcon[status=Fake] {
-  background-color:@battleColorFake;
+  background-image:#ui/gameuiskin#battles_closed;
 }
 
 wwBattleIcon[status=OnServer] {

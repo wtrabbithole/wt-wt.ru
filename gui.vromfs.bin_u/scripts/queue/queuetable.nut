@@ -8,8 +8,6 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   queueMask = queueType.UNKNOWN
 
   updateTimer = 0
-  updateHintTimer = 0
-  updateHintDelay = 10.0
   build_IA_shop_filters = false
   isPrimaryFocus = false
   focusArray = ["ia_table_clusters_list"]
@@ -22,7 +20,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 
     scene.findObject("queue_table_timer").setUserData(this)
     scene.findObject("countries_header").setValue(::loc("available_countries") + ":")
-    setRandomHint()
+    updateTip()
   }
 
   curQueue = null
@@ -65,10 +63,6 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
       updateTimer += 1.0
       updateWaitTime()
     }
-
-    updateHintTimer += dt
-    if (updateHintTimer > updateHintDelay)
-      updateHint()
   }
 
   function getShowQueueTable() { return scene.isVisible() }
@@ -77,7 +71,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     if (scene.isVisible() == value)
       return
     if (value)
-      updateHint()
+      updateTip()
     // Not switching show/enable directly...
     /*scene.show(value)
     scene.enable(value)*/
@@ -90,20 +84,17 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     ::broadcastEvent("RequestToggleVisibility", params)
   }
 
-  function updateHint()
+  function updateTip()
   {
-    updateHintTimer = 0
-    setRandomHint()
-  }
+    local tipObj = getObj("queue_tip")
+    if (!tipObj)
+      return
 
-  function setRandomHint()
-  {
-    local hintTextArea = getObj("instant_action_hint_textarea")
-    local unitType = ::show_aircraft != null
-      ? ::get_es_unit_type(::show_aircraft)
-      : ::ES_UNIT_TYPE_INVALID
-    if (hintTextArea != null)
-      hintTextArea.setValue(get_rnd_tip(unitType))
+    local esUnitTypes = getCurEsUnitTypesList()
+    local mask = 0
+    foreach(esUnitType in esUnitTypes)
+      mask = mask | (1 << esUnitType)
+    tipObj.setValue(mask)
   }
 
   function fillQueueInfo()
@@ -471,14 +462,19 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function getCurEsUnitTypesList()
+  {
+    local gameModeId = ::game_mode_manager.getCurrentGameModeId()
+    local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
+    return ::game_mode_manager._getUnitTypesByGameMode(gameMode)
+  }
+
   function updateQueueWaitIconImage()
   {
     if (!::checkObj(scene))
       return
 
-    local gameModeId = ::game_mode_manager.getCurrentGameModeId()
-    local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
-    local modeEsUnitTypes = ::game_mode_manager._getUnitTypesByGameMode(gameMode)
+    local modeEsUnitTypes = getCurEsUnitTypesList()
 
     local circle = "invis"
     if (modeEsUnitTypes && modeEsUnitTypes.len() > 1)

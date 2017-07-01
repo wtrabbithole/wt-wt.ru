@@ -248,6 +248,7 @@ foreach (fn in [
   "scripts/pseudoThread.nut"
   "scripts/loginWT.nut"
 
+  "scripts/unit/unitType.nut"
   "scripts/loading/loadingTips.nut"
   "scripts/options/countryFlagsPreset.nut"
 
@@ -294,7 +295,6 @@ function load_scripts_after_login()
     "ranks.nut"
     "difficulty.nut"
     "teams.nut"
-    "unit/unitType.nut"
     "airInfo.nut"
     "options/optionsExt.nut"
     "options/initOptions.nut"
@@ -445,6 +445,7 @@ function load_scripts_after_login()
     "help/helpInfoHandlerModal.nut"
     "joystickInterface.nut"
 
+    "loading/loadingHangar.nut"
     "loading/loadingBrief.nut"
     "missions/mapPreview.nut"
     "missions/missionType.nut"
@@ -692,7 +693,8 @@ function load_scripts_after_login()
 //app does not exist on script load, so we cant to use ::app->shouldDisableMenu
 function should_disable_menu()
 {
-  return ::disable_network() && (::getFromSettingsBlk("debug/disableMenu") || ::getFromSettingsBlk("benchmarkMode"))
+  return (::disable_network() && ::getFromSettingsBlk("debug/disableMenu"))
+    || ::getFromSettingsBlk("benchmarkMode")
     || ::getFromSettingsBlk("viewReplay")
 }
 

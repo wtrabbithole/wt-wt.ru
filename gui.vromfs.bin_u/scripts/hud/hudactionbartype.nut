@@ -1,25 +1,7 @@
 ::g_hud_action_bar_type <- {
   types = []
-}
 
-function g_hud_action_bar_type::_getName(data = null)
-{
-  return _name
-}
-
-function g_hud_action_bar_type::_getIcon(data = null)
-{
-  return _icon
-}
-
-function g_hud_action_bar_type::_getTitle(data = null)
-{
-  return _title
-}
-
-function g_hud_action_bar_type::_getTooltipText(data = null)
-{
-  return ::loc("actionBarItem/" + getName(data))
+  cache = { byCode = {} }
 }
 
 ::g_hud_action_bar_type.template <- {
@@ -40,10 +22,31 @@ function g_hud_action_bar_type::_getTooltipText(data = null)
   _icon = ""
   _title = ""
 
-  getName = ::g_hud_action_bar_type._getName
-  getIcon = ::g_hud_action_bar_type._getIcon
-  getTitle = ::g_hud_action_bar_type._getTitle
-  getTooltipText = ::g_hud_action_bar_type._getTooltipText
+  getName        = @(killStreakTag = null) _name
+  getIcon        = @(killStreakTag = null) _icon
+  getTitle       = @(killStreakTag = null) _title
+  getTooltipText = @(killStreakTag = null) ::loc("actionBarItem/" + getName(killStreakTag))
+
+  getShortcut = function(actionItem, unit = null)
+  {
+    if (!unit)
+      unit = ::get_player_cur_unit()
+    if (::isShip(unit))
+      return "ID_SHIP_ACTION_BAR_ITEM_" + (actionItem.id + 1)
+    return "ID_ACTION_BAR_ITEM_" + (actionItem.id + 1)
+  }
+
+  getVisualShortcut = function(actionItem, unit = null)
+  {
+    if (!isForWheelMenu || !::is_xinput_device())
+      return getShortcut(actionItem, unit)
+
+    if (!unit)
+      unit = ::get_player_cur_unit()
+    if (::isShip(unit))
+      return "ID_SHIP_KILLSTREAK_WHEEL_MENU"
+    return "ID_KILLSTREAK_WHEEL_MENU"
+  }
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_hud_action_bar_type", {
@@ -85,7 +88,7 @@ function g_hud_action_bar_type::_getTooltipText(data = null)
     _icon = "#ui/gameuiskin#tank_medkit"
     _title = ::loc("hints/tank_medkit")
 
-    getIcon = function (data = null)
+    getIcon = function (killStreakTag = null)
     {
       local unit = ::get_player_cur_unit()
       local mod = ::getModificationByName(unit, "tank_medical_kit")
@@ -106,28 +109,28 @@ function g_hud_action_bar_type::_getTooltipText(data = null)
     _name = "special_unit"
     isForWheelMenu = true
 
-    getName = function (data = null)
+    getName = function (killStreakTag = null)
     {
-      if (::u.isString(data))
-        return _name + "_" + data
+      if (::u.isString(killStreakTag))
+        return _name + "_" + killStreakTag
       return ""
     }
 
-    getIcon = function (data = null)
+    getIcon = function (killStreakTag = null)
     {
-      // Data is expected to be "bomber", "attacker" or "fighter".
-      if (::u.isString(data))
-        return ::format("#ui/gameuiskin#%s_streak", data)
+      // killStreakTag is expected to be "bomber", "attacker" or "fighter".
+      if (::u.isString(killStreakTag))
+        return ::format("#ui/gameuiskin#%s_streak", killStreakTag)
       return ""
     }
 
-    getTitle = function (data = null)
+    getTitle = function (killStreakTag = null)
     {
-      if (data == "bomber")
+      if (killStreakTag == "bomber")
         return ::loc("hotkeys/ID_ACTION_BAR_ITEM_9")
-      if (data == "attacker")
+      if (killStreakTag == "attacker")
         return ::loc("hotkeys/ID_ACTION_BAR_ITEM_8")
-      if (data == "fighter")
+      if (killStreakTag == "fighter")
         return ::loc("hotkeys/ID_ACTION_BAR_ITEM_7")
       return ""
     }
@@ -163,13 +166,10 @@ function g_hud_action_bar_type::_getTooltipText(data = null)
 
 function g_hud_action_bar_type::getTypeByCode(code)
 {
-  return ::g_enum_utils.getCachedType(
-    "code", code,
-    ::g_hud_action_bar_type_cache.byCode,
-    ::g_hud_action_bar_type,
-    ::g_hud_action_bar_type.UNKNOWN)
+  return ::g_enum_utils.getCachedType("code", code, cache.byCode, this, UNKNOWN)
 }
 
-::g_hud_action_bar_type_cache <- {
-  byCode = {}
+function g_hud_action_bar_type::getByActionItem(actionItem)
+{
+  return getTypeByCode(actionItem.type)
 }

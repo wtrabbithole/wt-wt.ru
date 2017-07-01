@@ -169,7 +169,8 @@ enum chatRoomTabOrder {
     }
     getRoomId = function(roomName, lang = null) //room id is  #<<roomName>>_<<validated lang>>
     {
-      lang || lang = ::cur_chat_lang
+      if (!lang)
+        lang = ::cur_chat_lang
       foreach(r in ::global_chat_rooms)
       {
         if (r.name != roomName)

@@ -514,6 +514,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if ( ! ::is_unit_visible_in_shop(unit))
         continue
 
+      local decorator = ::g_decorator.getDecorator(skinName, ::g_decorator_type.SKINS)
+      if (!decorator.isVisible())
+        continue
+
       local unitType = ::get_es_unit_type(unit)
       local unitCountry = ::getUnitCountry(unit)
 
@@ -525,8 +529,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local infoObject = {
         id = skinName
         country = unitCountry
-        itemText = ::g_decorator_type.SKINS.getLocName(skinName, true)
-        itemIcon = ::player_have_skin(unit.name, skinName) ? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
+        itemText = decorator.getName()
+        itemIcon = decorator.isUnlocked() ? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
 
         //sort params
         unitId = unit.name

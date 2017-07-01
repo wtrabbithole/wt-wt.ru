@@ -135,8 +135,10 @@ class ::BaseInvite
   function accept() {}
   function getChatInviteText() { return "" }
   function getPopupText() { return "" }
+  function getRestrictionText() { return "" }
   function getInviteText() { return "" }
   function getIcon() { return "" }
+  function haveRestrictions() { return false }
 
   function showInvitePopup()
   {
@@ -146,15 +148,19 @@ class ::BaseInvite
     if (!msg.len())
       return
 
-    msg = ::colorize(inviteColor, msg)
-    local buttons = [
-      { id = "accept_invite",
+    msg = [::colorize(inviteColor, msg)]
+    msg.append(getRestrictionText())
+
+    local buttons = []
+    if (!haveRestrictions())
+    {
+      buttons.append({ id = "accept_invite",
         text = ::loc("contacts/accept_invitation"),
         func = accept
-      }
-    ]
+      })
+    }
 
-    ::g_popups.add(null, msg, ::gui_start_invites, buttons, this)
+    ::g_popups.add(null, ::implode(msg, "\n"), ::gui_start_invites, buttons, this)
   }
 
   function reject()

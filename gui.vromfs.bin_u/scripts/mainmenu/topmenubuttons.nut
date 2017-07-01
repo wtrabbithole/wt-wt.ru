@@ -253,4 +253,16 @@
   LINE_SEPARATOR = {
     isLineSeparator = true
   }
+  WW_OPERATIONS = {
+    id = "ww_operations"
+    text = "#worldWar/menu/selectOperation"
+    funcName = "onWWBackToOperations"
+    isVisualDisabled = function() { return !::is_worldwar_enabled() }
+  }
+  HANGAR = {
+    id = "hangar"
+    text = "#worldWar/menu/quitToHangar"
+    funcName = "onWWBackToHangar"
+    isVisualDisabled = function() { return !::is_worldwar_enabled() }
+  }
 }, null, "name")

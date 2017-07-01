@@ -79,6 +79,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   tmapBtnObj  = null
   tmapHintObj = null
+  tmapIconObj = null
 
   lastRequestData = null
   lastSpawnUnitName = ""
@@ -265,6 +266,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     includeMissionInfoBlocksToGamercard()
     initMisObjExpandButton()
     initTeamUnitsLeftView()
+
+    tmapBtnObj  = scene.findObject("tmap_btn")
+    tmapHintObj = scene.findObject("tmap_hint")
+    tmapIconObj = scene.findObject("tmap_icon")
   }
 
   function initTeamUnitsLeftView()
@@ -353,9 +358,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     updateNoRespawnText()
-
-    tmapBtnObj  = scene.findObject("tmap_btn")
-    tmapHintObj = scene.findObject("tmap_hint")
     return wasIsNoRespawns != isNoRespawns
   }
 
@@ -849,36 +851,43 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateTacticalMapHint()
   {
-    if (!isRespawn || !::checkObj(tmapHintObj))
-      return
-
     local hint = ""
-    local coords = ::get_mouse_relative_coords_on_obj(tmapBtnObj)
-    if (coords)
+    local hintIcon = ::show_console_buttons ? "#ui/controlskin#l_trigger" : "#ui/gameuiskin#mouse_left"
+    if (!isRespawn)
+      hint = ::colorize("activeTextColor", ::loc("voice_message_attention_to_point_2"))
+    else
     {
-      if (canChooseRespawnBase)
+      local coords = ::get_mouse_relative_coords_on_obj(tmapBtnObj)
+      if (!coords)
+        hintIcon = ""
+      else if (!canChooseRespawnBase)
       {
-        local valid = false
+        hint = ::colorize("commonTextColor", ::loc("guiHints/respawn_base/choice_disabled"))
+        hintIcon = ""
+      }
+      else
+      {
         local spawnId = coords ? ::get_respawn_base(coords[0], coords[1]) : -1
         if (spawnId != -1)
           foreach (spawn in respawnBasesInfo)
             if (spawn.id == spawnId && spawn.mapSelectable)
             {
-              valid = true
               hint = ::colorize("userlogColoredText", spawn.title)
               if (spawnId == ::last_ca_base)
                 hint += ::colorize("activeTextColor", ::loc("ui/parentheses/space", { text = ::loc("ui/selected") }))
               break
             }
 
-        if (!valid)
+        if (!hint.len())
+        {
           hint = ::colorize("activeTextColor", ::loc("guiHints/respawn_base/choice_enabled"))
+          hintIcon = ""
+        }
       }
-      else
-        hint = ::colorize("commonTextColor", ::loc("guiHints/respawn_base/choice_disabled"))
     }
 
     tmapHintObj.setValue(hint)
+    tmapIconObj["background-image"] = hintIcon
   }
 
   function onTacticalmapClick(obj)
@@ -1841,7 +1850,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function showLoadAnim(show)
   {
     if (::checkObj(scene))
-      scene.findObject("LOADANIM").show(show)
+      scene.findObject("loadanim").show(show)
 
     if (show)
       reset_mp_autostart_countdown();

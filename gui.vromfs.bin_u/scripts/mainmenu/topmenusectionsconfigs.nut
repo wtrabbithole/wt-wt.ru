@@ -125,3 +125,27 @@ Params - can be whole section ('help', 'pve') or single button.
     ]
   }
 ])
+
+
+::g_ww_top_menu_left_side_sections <- {
+  types = []
+  cache = {
+    byName = {}
+  }
+
+  template = ::g_top_menu_sections.template
+  getSectionByName = ::g_top_menu_sections.getSectionByName
+}
+
+::g_enum_utils.addTypesByGlobalName("g_ww_top_menu_left_side_sections", [
+  {
+    name = "ww_menu"
+    getText = function(totalSections = 0) { return "#worldWar/menu" }
+    buttons = [
+      [
+        ::g_top_menu_buttons.WW_OPERATIONS
+        ::g_top_menu_buttons.HANGAR
+      ]
+    ]
+  }
+])

@@ -215,7 +215,7 @@ function g_squad_manager::canLeaveSquad()
 
 function g_squad_manager::canManageSquad()
 {
-  return !::is_in_flight() && !::is_in_loading_screen() && !::is_multiplayer()
+  return ::has_feature("Squad") && !::is_in_flight() && !::is_in_loading_screen() && !::is_multiplayer()
 }
 
 function g_squad_manager::getSquadSize(includeInvites = false)

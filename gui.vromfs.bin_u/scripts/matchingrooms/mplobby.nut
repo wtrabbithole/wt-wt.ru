@@ -71,7 +71,7 @@ function session_fill_info(scene, sessionInfo)
                isEventRoom ? null : ::getTblValue("hasPassword", sessionInfo, false))
 
   local tlObj = scene.findObject("session_teamLimit")
-  local rangeData = ::events.getPlayersRangeTextData(::SessionLobby.getRoomEvent())
+  local rangeData = ::events.getPlayersRangeTextData(::SessionLobby.getMGameMode(sessionInfo))
   setTextToObj(tlObj, rangeData.label,
                isEventRoom && rangeData.isValid ? rangeData.value : null)
 

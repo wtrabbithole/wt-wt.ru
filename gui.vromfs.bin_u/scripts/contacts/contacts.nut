@@ -425,7 +425,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     showBtn("btn_blacklistRemove", isBlock, contact_buttons_holder)
     showBtn("btn_message", owner && !isBlock && ::ps4_is_chat_enabled(), contact_buttons_holder)
 
-    showBtn("btn_squadInvite", ::has_feature("Squad") && !isMe && !isBlock, contact_buttons_holder)
+    showBtn("btn_squadInvite", !isMe && !isBlock && ::g_squad_manager.canInviteMember(), contact_buttons_holder)
     showBtn("btn_usercard", true, contact_buttons_holder)
     showBtn("btn_facebookFriends", ::has_feature("Facebook") && !::is_platform_ps4, contact_buttons_holder)
     showBtn("btn_steamFriends", ::steam_is_running(), contact_buttons_holder)
@@ -920,7 +920,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local isMe = curPlayer.uid == ::my_user_id_str
-    local inSquad = ::g_squad_manager.isInSquad()
     local meLeader = ::g_squad_manager.isSquadLeader()
     local inMySquad = ::g_squad_manager.isInMySquad(curPlayer.name, false)
     local isFriend = ::isPlayerInFriendsGroup(curPlayer.uid)
@@ -950,12 +949,12 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       {
         text = ::loc("squad/invite_player")
-        show = !isMe && ::has_feature("Squad") && !isBlock && ((meLeader && !inMySquad) || !inSquad)
+        show = !isMe && !isBlock && ::g_squad_manager.canInviteMember()
         action = function() { onSquadInvite(null) }
       }
       {
         text = ::loc("squad/invite_player_ps4")
-        show = ::isInMenu() && ::gchat_is_connected() && !isMe && !isBlock && ((meLeader && !inMySquad) || !inSquad) && ::isPlayerPS4Friend(curPlayer.name)
+        show = ::gchat_is_connected() && !isMe && !isBlock && ::g_squad_manager.canInviteMember() && ::isPlayerPS4Friend(curPlayer.name)
         action = function() { onSquadInvitePsn(null) }
       }
       {
@@ -1030,13 +1029,14 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isFriend = curPlayer? ::isPlayerInContacts(curPlayer.uid, ::EPL_FRIENDLIST) : false
     local isBlock = curPlayer? ::isPlayerInContacts(curPlayer.uid, ::EPL_BLOCKLIST) : false
     local isMe = curPlayer? curPlayer.uid == ::my_user_id_str : false
+
     showSceneBtn("btn_friendAdd", curPlayer && !isMe && !isFriend && !isBlock)
     showSceneBtn("btn_friendRemove", curPlayer && isFriend)
     showSceneBtn("btn_blacklistAdd", curPlayer && !isMe && !isFriend && !isBlock)
     showSceneBtn("btn_blacklistRemove", curPlayer && isBlock)
     showSceneBtn("btn_message", owner && curPlayer && !isBlock && ::ps4_is_chat_enabled())
 
-    showSceneBtn("btn_squadInvite", ::has_feature("Squad") && curPlayer && !isMe && !isBlock)
+    showSceneBtn("btn_squadInvite", !isMe && !isBlock && ::g_squad_manager.canInviteMember())
     showSceneBtn("btn_usercard", curPlayer!=null)
     showSceneBtn("btn_facebookFriends", ::has_feature("Facebook") && !::is_platform_ps4)
     showSceneBtn("btn_steamFriends", !::is_platform_ps4 && ::steam_is_running())

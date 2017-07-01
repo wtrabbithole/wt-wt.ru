@@ -33,7 +33,10 @@ function g_squad_utils::canJoinFlightMsgBox(options = null,
                                             okFunc = null, cancelFunc = null)
 {
   if (!::isInMenu())
+  {
+    ::g_popups.add("", ::loc("squad/cant_join_in_flight"))
     return false
+  }
 
   if (!::g_squad_manager.isInSquad())
     return true

@@ -311,15 +311,14 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkRocketDisctanceFuseRow()
   {
-    if (typeof(::aircraft_for_weapons) != "string")
+    local option = findOptionInContainers(::USEROPT_ROCKET_FUSE_DIST)
+    if (!option)
       return
-    local air = ::getAircraftByName(::aircraft_for_weapons)
-    if (!air)
-      return
-
-    local option = get_option(::USEROPT_ROCKET_FUSE_DIST)
-    showOptionRow(option.id, ::is_unit_available_use_rocket_diffuse(air))
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option.id, !!unit && ::is_unit_available_use_rocket_diffuse(unit))
   }
+
+  function onEventUnitWeaponChanged(p) { checkRocketDisctanceFuseRow() }
 
   function onTripleAerobaticsSmokeSelected(obj)
   {
@@ -444,11 +443,26 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   function find_options_in_containers(optTypeList)
   {
     local res = []
+    if (!optionsContainers)
+      return res
     foreach (container in optionsContainers)
       for (local i = 0; i < container.data.len(); ++i)
         if (::isInArray(container.data[i].type, optTypeList))
           res.append(container.data[i])
     return res
+  }
+
+  function findOptionInContainers(optionType)
+  {
+    if (!optionsContainers)
+      return null
+    foreach (container in optionsContainers)
+    {
+      local option = ::u.search(container.data, @(o) o.type == optionType)
+      if (option)
+        return option
+    }
+    return null
   }
 
   function getSceneOptValue(optName)

@@ -3447,15 +3447,12 @@ function addHotkeyTxt(hotkeyTxt, baseTxt="")
 
 //works like get_shortcut_text, but returns only first binded shortcut for action
 //needed wor hud
-function get_first_shortcut_text(shortcuts, shortcutId)
+function get_first_shortcut_text(shortcutData)
 {
-  if (!(shortcutId in shortcuts))
-    return ""
-
   local text = ""
-  if (shortcuts[shortcutId].len() > 0)
+  if (shortcutData.len() > 0)
   {
-    local sc = shortcuts[shortcutId][0]
+    local sc = shortcutData[0]
 
     local curPreset = ::g_controls_manager.getCurPreset()
     for (local j = 0; j < sc.btn.len(); j++)
@@ -3466,14 +3463,10 @@ function get_first_shortcut_text(shortcuts, shortcutId)
   return text
 }
 
-function get_shortcut_gamepad_textures(shortcuts, shortcutId)
+function get_shortcut_gamepad_textures(shortcutData)
 {
   local res = []
-
-  if (!(shortcutId in shortcuts))
-    return res
-
-  foreach(sc in shortcuts[shortcutId])
+  foreach(sc in shortcutData)
   {
     if (sc.dev.len() <= 0 || sc.dev[0] != ::JOYSTICK_DEVICE_ID)
       continue
@@ -4520,43 +4513,17 @@ function compare_blk_axis(blk, axis)
 }
 
 /*
- * @shoertcutList - array of shortcut ids
+ * @shortcut - shortcut ids
  *
  * */
-function get_shortcut_texts_and_textures(shortcutList)
+function get_shortcut_text_and_texture(shortcut)
 {
-  local res = []
-
-  local shortcuts = ::get_shortcuts(shortcutList)
-  foreach (idx, sc in shortcuts)
-  {
-    local item = {
-      text     = ::get_first_shortcut_text(shortcuts, idx),
-      textures = ::get_shortcut_gamepad_textures(shortcuts, idx)
-    }
-
-    res.append(item)
+  //!!FIX ME: better to use ::Input here
+  local shortcutData = ::get_shortcuts([shortcut])[0]
+  return {
+    text     = ::get_first_shortcut_text(shortcutData),
+    textures = ::get_shortcut_gamepad_textures(shortcutData)
   }
-  return res
-}
-
-function get_action_bar_shortcut_texts_and_textures()
-{
-  local actionBarShortcatNames = []
-  local playerUnit = ::get_player_cur_unit()
-  local actionBarShortcutFormat = ::isShip(playerUnit) ?
-    "ID_SHIP_ACTION_BAR_ITEM_%d" : "ID_ACTION_BAR_ITEM_%d"
-  local killStreakShortcut = ::isShip(playerUnit) ?
-    "ID_SHIP_KILLSTREAK_WHEEL_MENU" : "ID_KILLSTREAK_WHEEL_MENU"
-
-  for (local i = 0; i < 12; i++)
-    actionBarShortcatNames.append(
-      (!::is_xinput_device() || i < ACTION_BAR_NUM_SHELL_TYPE_ACTIONS
-        || i == ACTION_BAR_FIRE_EXTINGUISHER_IDX)
-      ? ::format(actionBarShortcutFormat, i + 1)
-      : killStreakShortcut)
-
-  return ::get_shortcut_texts_and_textures(actionBarShortcatNames)
 }
 
 function toggle_shortcut(shortcutName)

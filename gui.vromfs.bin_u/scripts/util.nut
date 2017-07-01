@@ -8,9 +8,6 @@ const NOTIFY_EXPIRE_PREMIUM_ACCOUNT = 15
 ::current_campaign_id <- null
 ::current_campaign_mission <- null
 ::current_wait_screen <- null
-::current_loading_screen <- null
-::loading_timed_text_full <- ""
-::loading_screen_ready <- false
 ::encyclopedia_page <- null
 ::msg_box_selected_elem <- null
 ::slotbar_oninit <- false
@@ -347,91 +344,6 @@ function close_wait_screen()
   ::broadcastEvent("ModalWndDestroy")
 
   guiScene.performDelayed(getroottable(), ::update_msg_boxes)
-}
-
-function setValueSave(guiScene, name, value)
-{
-  if (guiScene[name])
-    guiScene[name].setValue(value)
-}
-
-class ::LoadingScreenHandler
-{
-  function onNext(obj)
-  {
-    close_loading_screen()  //!!FIX ME
-  }
-
-  function update(obj, dt)
-  {
-    local guiScene = ::get_gui_scene()
-    local btnObj = guiScene["loading_btn_select"]
-    if (btnObj)
-    {
-      btnObj.show(::loading_screen_ready)
-      btnObj.enable(::loading_screen_ready)
-    }
-
-    if (::current_loading_screen != null)
-      setValueSave(guiScene, "loading-text",  ::loading_timed_text_full) ////!!FIX ME need update text here
-  }
-}
-
-function show_loading_screen(hint, title="", txt="", image="", timedText=false)
-{
-  local guiScene = ::get_gui_scene()
-  if (guiScene == null)
-    return
-
-  if (::current_loading_screen == null)
-  {
-    if (!timedText)
-    {
-      ::current_loading_screen = guiScene.loadModal("", "gui/loading.blk", "loadingWnd", null)
-
-    } else {
-      local handler = ::LoadingScreenHandler()
-      ::current_loading_screen = guiScene.loadModal("", "gui/loadingMission.blk", "loadingWnd", handler)
-
-      guiScene["loading_wnd_update_timer"].setUserData(handler)
-    }
-  }
-
-  setValueSave(guiScene, "loading-hint",  hint)
-  setValueSave(guiScene, "loading-title", title)
-  if (!timedText)
-    setValueSave(guiScene, "loading-text",  txt)
-  else
-    ::loading_timed_text_full = txt
-  local imgObj = guiScene["loading-image"]
-  if (::checkObj(imgObj))
-    imgObj["background-image"] = image
-}
-
-function ready_loading_screen()
-{
-  ::loading_screen_ready = true
-}
-
-function close_loading_screen()
-{
-  if (::current_loading_screen != null)
-  {
-    local guiScene = ::get_gui_scene()
-    if (guiScene == null)
-    {
-      ::current_loading_screen = null
-      return
-    }
-
-    if (::current_loading_screen.isValid())
-      guiScene.destroyElement(::current_loading_screen)
-    ::current_loading_screen = null
-    ::loading_timed_text_full = ""
-    ::loading_screen_ready = false
-
-//    guiScene.performDelayed(getroottable(), ::update_msg_boxes)
-  }
 }
 
 function on_lost_controller()

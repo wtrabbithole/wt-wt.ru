@@ -45,12 +45,19 @@ expandable {
           text:t='<<getInviteText>>'
         }
       }
+
+      textareaNoTab {
+        width:t='pw'
+        padding-left:t='1@cIco + 0.01@scrn_tgt'
+        overlayTextColor:t='warning'
+        text:t='<<getRestrictionText>>'
+        hideEmptyText:t='yes'
+      }
     }
 
     tdiv {
       pos:t='0, ph - h + 2' //+2 - is shadow under the buttons
       position:t='relative'
-      //padding-right:t='8*@sf/@pf'
 
       Button_text {
         inviteUid:t='<<uid>>'
@@ -59,6 +66,11 @@ expandable {
         btnName:t='A'
         showOnSelect:t='yes'
         on_click:t = 'onAccept'
+
+        <<#haveRestrictions>>
+          inactiveColor:t='yes'
+        <</haveRestrictions>>
+
         ButtonImg {}
         img { background-image:t='#ui/gameuiskin#favorite' }
       }

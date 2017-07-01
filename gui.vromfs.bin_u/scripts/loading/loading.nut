@@ -1,15 +1,20 @@
-function gui_start_loading(blkpath = "gui/loading.blk")
+function gui_start_loading(isMissionLoading = false)
 {
-  local handler = null
+  if (::u.isString(isMissionLoading))
+    isMissionLoading = isMissionLoading != "gui/loading.blk" //compatibility with 1.67.2.X
+
   local briefing = ::DataBlock()
-  if (::g_login.isLoggedIn() && (blkpath != "gui/loading.blk")
+  if (::g_login.isLoggedIn() && isMissionLoading
       && ::loading_get_briefing(briefing) && (briefing.blockCount() > 0))
   {
-    dagor.debug("briefing loaded, place = "+briefing.getStr("place_loc", ""))
-    handler = ::handlersManager.loadHandler(::gui_handlers.LoadingBrief, { briefing = briefing })
+    ::dagor.debug("briefing loaded, place = "+briefing.getStr("place_loc", ""))
+    ::handlersManager.loadHandler(::gui_handlers.LoadingBrief, { briefing = briefing })
   }
+  else if (::g_login.isLoggedIn())
+    ::handlersManager.loadHandler(::gui_handlers.LoadingHangarHandler)
   else
-    handler = ::handlersManager.loadHandler(::gui_handlers.LoadingHandler)
+    ::handlersManager.loadHandler(::gui_handlers.LoadingHandler)
+
   ::show_title_logo(true)
   ::last_ca_base <- null //!!FIX ME: it not about loading - it about respawn screen
 }

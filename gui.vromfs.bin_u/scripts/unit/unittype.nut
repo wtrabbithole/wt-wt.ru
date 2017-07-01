@@ -16,6 +16,7 @@ enum UNIT_TYPE_ORDER
     byEsUnitType = {}
     byArmyId = {}
     byTag = {}
+    byBit = {}
   }
 }
 
@@ -134,6 +135,11 @@ function()
 function g_unit_type::getByEsUnitType(esUnitType)
 {
   return ::g_enum_utils.getCachedType("esUnitType", esUnitType, cache.byEsUnitType, this, INVALID)
+}
+
+function g_unit_type::getByBit(bit)
+{
+  return ::g_enum_utils.getCachedType("bit", bit, cache.byBit, this, INVALID)
 }
 
 function g_unit_type::getByName(typeName, caseSensitive = true)

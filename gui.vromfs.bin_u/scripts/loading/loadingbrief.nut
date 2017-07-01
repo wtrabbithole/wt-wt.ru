@@ -262,7 +262,10 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       if (applyReady && !showStart || finished)
         finishLoading()
       else
-        showBtn("btn_select", applyReady && showStart)
+      {
+        showSceneBtn("btn_select", applyReady && showStart)
+        showSceneBtn("loadanim", !applyReady)
+      }
     }
 
     if (finished && (!waitForMap))
@@ -279,7 +282,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 //        if (!::loading_is_finished())
         {
           tipShow = true
-          setSceneInfo(::get_rnd_tip())
+          setSceneInfo(::g_tips.getTip())
         }
       }
     }

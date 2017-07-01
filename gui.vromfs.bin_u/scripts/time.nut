@@ -83,7 +83,7 @@ function build_iso8601_date_time_str(timeTable,
     timeTable.year == -1 ? ""
       : ::format("%04d", timeTable.year)
         + (timeTable.month == -1 ? ""
-          : dateSeperator + ::format("%02d", timeTable.month)
+          : dateSeperator + ::format("%02d", timeTable.month + 1)
             + (timeTable.day == -1 ? ""
               : dateSeperator + ::format("%02d", timeTable.day)))
 

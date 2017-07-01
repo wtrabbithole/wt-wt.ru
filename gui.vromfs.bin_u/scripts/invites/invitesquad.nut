@@ -58,6 +58,18 @@ class ::g_invites_classes.Squad extends ::BaseInvite
                  })
   }
 
+  function getRestrictionText()
+  {
+    if (haveRestrictions())
+      return ::loc("squad/cant_join_in_flight")
+    return ""
+  }
+
+  function haveRestrictions()
+  {
+    return !::g_squad_manager.canManageSquad()
+  }
+
   function getIcon()
   {
     return "#ui/gameuiskin#lb_each_player_session"

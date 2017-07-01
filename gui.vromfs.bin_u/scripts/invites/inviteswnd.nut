@@ -60,6 +60,12 @@ class ::gui_handlers.InvitesWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     guiScene.performDelayed(this, (@(invite) function() {
+      if (invite.haveRestrictions())
+      {
+        ::showInfoMsgBox(invite.getRestrictionText())
+        return
+      }
+
       invite.accept()
       if (isAutoClose)
         goBack()

@@ -101,11 +101,13 @@ function handlersManager::generatePreLoadCssString()
     ::is_platform_ps4 ? (1.0 - ::ps4_get_safe_area()) :
     !::g_login.isAuthorized() ? 0.0 :
     ::get_option_hud_screen_safe_area()
+  local countriesCount = (::g_login.isLoggedIn() && ::shopCountriesList.len()) || 5
 
   local config = [
-    { name = "target_pc",      value = ::is_platform_ps4 ? "no" : "yes" }
-    { name = "_safearea_menu", value = ::format("%.2f", safeareaMenu) }
-    { name = "_safearea_hud",  value = ::format("%.2f", safeareaHud) }
+    { name = "target_pc",         value = ::is_platform_ps4 ? "no" : "yes" }
+    { name = "_safearea_menu",    value = ::format("%.2f", safeareaMenu) }
+    { name = "_safearea_hud",     value = ::format("%.2f", safeareaHud) }
+    { name = "slotbarCountries",  value = countriesCount.tostring() }
   ]
 
   return generateCssString(config)

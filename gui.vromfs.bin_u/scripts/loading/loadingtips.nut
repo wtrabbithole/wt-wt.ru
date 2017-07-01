@@ -1,84 +1,163 @@
-::tips_list <- {
-  lastIdx = -1
-  lastTypeNode = -1
-  lastTip = ""
+const GLOBAL_LOADING_TIP_BIT = 0x8000
+const MISSING_TIPS_IN_A_ROW_ALLOWED = 3
+
+::g_script_reloader.loadOnce("scripts/loading/bhvLoadingTip.nut")
+
+::g_tips <- {
+  TIP_LIFE_TIME_MSEC = 10000
+
+  tipsIndexes = { [GLOBAL_LOADING_TIP_BIT] = [] }
+  existTipsMask = GLOBAL_LOADING_TIP_BIT
+
+  curTip = ""
+  curTipIdx = -1
+  curTipUnitTypeMask = -1
+  nextTipTime = -1
+
+  isTipsValid = false
 }
 
-function init_all_tips()
+function g_tips::getTip(unitTypeMask = 0)
 {
-  if ("unitTypesList" in ::getroottable())
-    foreach (type in ::unitTypesList)
-      ::tips_list[getUnitTypeText(type)] <- getTipsListByType(getUnitTypeText(type))
-  ::tips_list.Globals <- getTipsListByType()
+  if (unitTypeMask != curTipUnitTypeMask || nextTipTime <= ::dagor.getCurTime())
+    genNewTip(unitTypeMask)
+  return curTip
 }
 
-function getTipsListByType(type="")
+function g_tips::resetTipTimer()
 {
-  local list = []
-  local idx = 0
-  local errNotExists = 0
-  local keyTip = ""
-  local capStr = (type != "") ? "loading/%s/tip%d" : "loading/%stip%d"
-  local tip = ""
-  do {
-    keyTip = ::format(capStr, type.tolower(), idx)
-    tip = ::loc(keyTip, "")
-    if (tip.len() > 0) {
-      list.append(idx)
-      errNotExists = 0
-    }
-    else
-      errNotExists++
-    idx++
-  } while (errNotExists < 3)
-  return list
+  nextTipTime = -1
 }
 
-function get_last_rnd_tip() //used from code
+function g_tips::validate()
 {
-  return ::tips_list.lastTip
-}
+  if (isTipsValid)
+    return
+  isTipsValid = true
+  tipsIndexes[GLOBAL_LOADING_TIP_BIT] = loadTipsIndexesByTypeName(null)
+  existTipsMask = GLOBAL_LOADING_TIP_BIT
 
-function get_rnd_tip(unitType=-1) //used from code
-{
-  local keyTip = ""
-  if (::tips_list.lastTypeNode != unitType)
+  if (!("g_unit_type" in ::getroottable()))
+    return
+
+  foreach(unitType in ::g_unit_type.types)
   {
-    ::tips_list.lastIdx = -1
-    ::tips_list.lastTypeNode = unitType
+    if (unitType == ::g_unit_type.INVALID)
+      continue
+    local indexes = loadTipsIndexesByTypeName(unitType.name)
+    if (!indexes.len())
+      continue
+    tipsIndexes[unitType.bit] <- indexes
+    existTipsMask = existTipsMask | unitType.bit
   }
-  local numTips = ::tips_list.Globals.len()
-  if ("unitTypesList" in ::getroottable())
-    foreach (type in ::unitTypesList)
-      if (type == unitType || unitType < 0)
-        numTips += ::getTblValue(getUnitTypeText(type), ::tips_list, []).len()
-  if (numTips == 0)
-    return ""
-  numTips = (::tips_list.lastIdx >= 0 && ::tips_list.lastIdx < numTips) ? numTips-1 : numTips
-  local idx = (::math.rnd() % numTips)
-  if (::tips_list.lastIdx >= 0 && numTips > 0 && idx == ::tips_list.lastIdx)
-    idx++
-  ::tips_list.lastIdx = idx
-  if (idx >= ::tips_list.Globals.len())
+}
+
+//for global tips typeName = null
+function g_tips::getKeyFormat(typeName)
+{
+  return typeName ? "loading/" + typeName.tolower() + "/tip%d" : "loading/tip%d"
+}
+
+function g_tips::loadTipsIndexesByTypeName(typeName)
+{
+  local res = []
+  local keyFormat = getKeyFormat(typeName)
+  local notExistInARow = 0
+  for(local idx = 0; notExistInARow <= MISSING_TIPS_IN_A_ROW_ALLOWED; idx++)
   {
-    idx -= ::tips_list.Globals.len()
-    foreach (type in ::unitTypesList)
+    local tip = ::loc(::format(keyFormat, idx), "")
+    if (!tip.len())
     {
-      local nameType = getUnitTypeText(type)
-      if (type == unitType || unitType < 0)
-        if (idx < ::tips_list[nameType].len())
-        {
-          keyTip = ::format("loading/%s/tip%d", nameType.tolower(), ::tips_list[nameType][idx])
-          break
-        }
-        else
-          idx -= ::tips_list[nameType].len()
+      notExistInARow++
+      continue
     }
+
+    res.append(idx)
+    notExistInARow = 0
   }
-  else
-    keyTip = ::format("loading/tip%d", ::tips_list.Globals[idx])
-  ::tips_list.lastTip = ::loc(keyTip, "")
-  return ::tips_list.lastTip
+  return res
 }
 
-::init_all_tips()
+function g_tips::getDefaultUnitTypeMask()
+{
+  if (!::g_login.isLoggedIn() || ::isInMenu())
+    return existTipsMask
+
+  local res = 0
+  local gm = ::get_game_mode()
+  if (gm == ::GM_DOMINATION || gm == ::GM_SKIRMISH)
+    res = ::SessionLobby.getUnitTypesMask()
+  else if (gm == ::GM_TEST_FLIGHT)
+  {
+    if (::show_aircraft)
+      res = ::show_aircraft.unitType.bit
+  }
+  else if (::isInArray(gm, [::GM_SINGLE_MISSION, ::GM_CAMPAIGN, ::GM_DYNAMIC, ::GM_BUILDER, ::GM_DOMINATION]))
+    res = ::g_unit_type.AIRCRAFT.bit
+
+  return (res & existTipsMask) || existTipsMask
+}
+
+function g_tips::genNewTip(unitTypeMask = 0)
+{
+  nextTipTime = ::dagor.getCurTime() + TIP_LIFE_TIME_MSEC
+  validate()
+
+  if (curTipUnitTypeMask != unitTypeMask)
+  {
+    curTipIdx = -1
+    curTipUnitTypeMask = unitTypeMask
+  }
+
+  if (!(unitTypeMask & existTipsMask))
+    unitTypeMask = getDefaultUnitTypeMask()
+
+  local totalTips = 0
+  foreach(unitTypeBit, indexes in tipsIndexes)
+    if (unitTypeBit & unitTypeMask)
+      totalTips += indexes.len()
+  if (totalTips == 0)
+  {
+    curTip = ""
+    curTipIdx = -1
+    return
+  }
+
+  //choose new tip
+  local newTipIdx = 0
+  if (totalTips > 1)
+  {
+    local tipsToChoose = totalTips
+    if (curTipIdx >= 0)
+      tipsToChoose--
+    newTipIdx = ::math.rnd() % tipsToChoose
+    if (curTipIdx >= 0 && curTipIdx <= newTipIdx)
+      newTipIdx++
+  }
+  curTipIdx = newTipIdx
+
+  //get lang for chosen tip
+  local tipIdx = curTipIdx
+  foreach(unitTypeBit, indexes in tipsIndexes)
+  {
+    if (!(unitTypeBit & unitTypeMask))
+      continue
+    if (tipIdx >= indexes.len())
+    {
+      tipIdx -= indexes.len()
+      continue
+    }
+
+    //found tip
+    local typeName = null
+    if (unitTypeBit != GLOBAL_LOADING_TIP_BIT)
+      typeName = ::g_unit_type.getByBit(unitTypeBit).name
+    curTip = ::loc(::format(getKeyFormat(typeName), indexes[tipIdx]))
+    break
+  }
+}
+
+function g_tips::onEventAuthorizeComplete(p) { isTipsValid = false }
+function g_tips::onEventGameLocalizationChanged(p) { isTipsValid = false }
+
+::subscribe_handler(::g_tips, ::g_listener_priority.DEFAULT_HANDLER)

@@ -72,15 +72,9 @@ class ActionBar
     actionItems = getActionBarItems()
 
     local view = {
-      items = (@(actionItems) function () {
-        local res = []
-        local shortcuts = ::get_action_bar_shortcut_texts_and_textures()
-
-        foreach (item in actionItems)
-          res.append(buildItemView(item, shortcuts))
-        return res
-      })(actionItems).bindenv(this)
+      items = ::u.map(actionItems, (@(a) buildItemView(a, true)).bindenv(this))
     }
+
     local partails = {
       items           = ::load_scene_template("gui/hud/actionBarItem")
       textShortcut    = canControl ? ::load_scene_template("gui/hud/actionBarItemTextShortcut")    : ""
@@ -92,16 +86,22 @@ class ActionBar
   }
 
   //creates view for handyman by one actionBar item
-  function buildItemView(item, shortcuts = null)
+  function buildItemView(item, needShortcuts = false)
   {
     local unit = getActionBarUnit()
+    local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
     local viewItem = {}
 
     local isReady = isActionReady(item)
-    local shortcutText = shortcuts ? shortcuts[item.id].text : ""
-    local shortcutTexture = shortcuts && shortcuts[item.id].textures.len() > 0
-                            ? shortcuts[item.id].textures[0]
-                            : ""
+
+    local shortcutText = ""
+    local shortcutTexture = ""
+    if (needShortcuts)
+    {
+      local scData = ::get_shortcut_text_and_texture(actionBarType.getVisualShortcut(item, unit))
+      shortcutText = scData.text
+      shortcutTexture = ::getTblValue(0, scData.textures, "")
+    }
 
     viewItem.id                 <- __action_id_prefix + item.id
     viewItem.selected           <- item.selected ? "yes" : "no"
@@ -130,16 +130,11 @@ class ActionBar
     }
     else if (item.type == ::EII_ARTILLERY_TARGET)
     {
-      local activatedShortcut = ::get_shortcut_texts_and_textures(["ID_SHOOT_ARTILLERY"])
-      local activatedshortcutTexture = ""
-      activatedshortcutTexture = activatedShortcut[0].textures.len() > 0
-                                 ? activatedShortcut[0].textures[0]
-                                 : ""
-      viewItem.activatedButtonImg <- activatedshortcutTexture
+      local activatedShortcut = ::get_shortcut_text_and_texture("ID_SHOOT_ARTILLERY")
+      viewItem.activatedButtonImg <- ::getTblValue(0, activatedShortcut.textures, "")
     }
     if (item.type != ::EII_BULLET)
     {
-      local actionBarType = ::g_hud_action_bar_type.getTypeByCode(item.type)
       local killStreakTag = ::getTblValue("killStreakTag", item)
       viewItem.icon <- actionBarType.getIcon(killStreakTag)
       viewItem.name <- actionBarType.getTitle(killStreakTag)
@@ -215,7 +210,7 @@ class ActionBar
           cancelButtonObj.show(item.active)
       }
 
-      local actionBarType = ::g_hud_action_bar_type.getTypeByCode(item.type)
+      local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
       local backgroundImage = actionBarType.backgroundImage
       local iconObj = itemObj.findObject("action_icon")
       if (::checkObj(iconObj) && backgroundImage.len() > 0)
@@ -288,7 +283,7 @@ class ActionBar
 
     for (local i = rawActionBarItem.len() - 1; i >= 0; i--)
     {
-      local actionBarType = ::g_hud_action_bar_type.getTypeByCode(rawActionBarItem[i].type)
+      local actionBarType = ::g_hud_action_bar_type.getByActionItem(rawActionBarItem[i])
       if (actionBarType.isForWheelMenu)
         killStreaksActions.insert(0, rawActionBarItem[i])
     }
@@ -300,7 +295,10 @@ class ActionBar
   {
     local action = getActionByObj(obj)
     if (action)
-      toggle_shortcut(getShortcutName(action))
+    {
+      local shortcut = ::g_hud_action_bar_type.getByActionItem(action).getShortcut(action, getActionBarUnit())
+      toggle_shortcut(shortcut)
+    }
   }
 
   //Only for streak wheel menu
@@ -314,15 +312,6 @@ class ActionBar
       callstack()
       ::dagor.assertf(false, "Error: killStreak id out of range.")
     }
-  }
-
-  function getShortcutName(actionItem)
-  {
-    local playerUnit = ::get_player_cur_unit()
-    if (::isShip(playerUnit))
-      return "ID_SHIP_ACTION_BAR_ITEM_" + (actionItem.id + 1)
-    else
-      return "ID_ACTION_BAR_ITEM_" + (actionItem.id + 1)
   }
 
   function getActionByObj(obj)
@@ -366,7 +355,7 @@ class ActionBar
   {
     local menu = []
     foreach(action in killStreaksActions)
-      menu.append(buildItemView(action, null))
+      menu.append(buildItemView(action))
 
     local params = {
       menu            = menu

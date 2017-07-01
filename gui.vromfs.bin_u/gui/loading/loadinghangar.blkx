@@ -5,318 +5,59 @@
   {
     "root": [
       {
-        "background-color": "@black"
-      },
-      {
-        "movingRoot": {
-          "id": "slide-place",
-          "size": "pw,ph",
-          "animShow": "hide",
-          "left": "pw",
-          "_pos-timer": "0",
-          "img": {
-            "id": "slide-img",
-            "size": "186%ph,80%ph",
-            "pos": "50%pw-50%w, 50%ph-50%h",
-            "position": "absolute"
-          }
+        "tdiv": {
+          "id": "animated_bg_picture",
+          "pos": "50%sw-50%w,50%sh-50%h",
+          "position": "root",
+          "width": "2.5h",
+          "height": "sh",
+          "behaviour": "multiLayerImage",
+          "blend-time": "500"
         }
       },
       {
-        "img": [
+        "tdiv": [
           {
-            "id": "map-background"
+            "width": "0.67sw"
           },
           {
-            "size": "180%sh,sh"
-          },
-          {
-            "pos": "0,50%sh-50%h"
+            "pos": "50%pw-50%w, 83%sh - 1@bh -50%h"
           },
           {
             "position": "absolute"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "background-color": "@shadeBackgroundColor4"
           },
           {
             "background-repeat": "expand"
           },
           {
-            "display": "hide"
+            "padding": "0.005sw, 0.01sh, 0.005sw, 0.02sh"
           },
           {
-            "img": {
-              "size": "180%sh,sh",
-              "pos": "0, 0",
-              "position": "absolute",
-              "style": "background-image:ui/images/flags/campaign_back.jpg?P1;background-color:@white;"
+            "textAreaCentered": {
+              "id": "help_text",
+              "text": "",
+              "style": "color:@helpF1Color;",
+              "pos": "50%pw-50%w, 0",
+              "position": "relative",
+              "width": "pw"
             }
           },
           {
-            "img": {
-              "size": "70%sh,65%sh",
-              "pos": "12%sw, 50%ph-50%h",
-              "position": "absolute",
-              "background-image": "ui/map_back",
-              "tacticalMap": {
-                "size": "95%pw,95%ph",
-                "max-height": "w",
-                "max-width": "h",
-                "pos": "50%pw-50%w, 50%ph-50%h",
-                "position": "absolute"
-              }
-            }
-          },
-          {
-            "img": {
-              "size": "30%sh,15%sh",
-              "pos": "15%sw+61%sh,18%sh",
-              "position": "absolute",
-              "background-image": "ui/decor2"
-            }
-          },
-          {
-            "img": {
-              "size": "25%sh,64%sh",
-              "pos": "sw-90%w,18%sh",
-              "position": "absolute",
-              "background-image": "ui/decor3"
-            }
-          },
-          {
-            "img": {
-              "id": "briefing-flag",
-              "size": "32%sh,64%sh",
-              "pos": "-2*sw/sh,18%sh",
-              "position": "absolute",
-              "background-image": ""
-            }
-          },
-          {
-            "textareaNoTab": {
-              "id": "mission-objectives",
-              "behavior": "textarea",
-              "style": "font:@small;color:@white;",
-              "_transp-timer": "0",
-              "width": "75%sw-62%sh",
-              "max-height": "ph-57%sh",
-              "pos": "18%sw+61%sh, 37%sh",
-              "position": "absolute",
-              "overflow-y": "auto",
-              "scrollbarShortcuts": "yes"
-            }
-          },
-          {
-            "movingScreen": {
-              "id": "tactical-map",
-              "background-color": "@white",
-              "background-repeat": "expand",
-              "background-image": "ui/slidescreen",
-              "background-position": "20,0,20,50",
-              "_pos-timer": "0"
-            }
-          },
-          {
-            "img": {
-              "id": "briefing_shadow_top",
-              "position": "absolute",
-              "size": "sw, 35%sh",
-              "pos": "0,10%sh",
-              "background-image": "#ui/gameuiskin#optionlist_background_top"
-            }
-          },
-          {
-            "img": {
-              "id": "briefing_shadow_down",
-              "position": "absolute",
-              "size": "sw, 35%sh",
-              "pos": "0,90%sh-h",
-              "rotation": "180",
-              "background-image": "#ui/gameuiskin#optionlist_background_top"
-            }
-          },
-          {
-            "img": {
-              "size": "40%sw,64%sh+1",
-              "pos": "-25%sh,50%sh-50%h+1",
-              "position": "absolute",
-              "rotation": "180",
-              "background-image": "ui/shadeside"
-            }
-          },
-          {
-            "img": {
-              "size": "40%sw,64%sh+1",
-              "pos": "sw+25%sh-w,50%sh-50%h+1",
-              "position": "absolute",
-              "background-repeat": "expand",
-              "background-image": "ui/shadeside"
-            }
-          },
-          {
-            "darkScreen": {
-              "id": "darkscreen",
-              "size": "sw, sh",
-              "position": "root",
-              "background-color": "@black"
+            "textAreaCentered": {
+              "class": "active",
+              "pos": "50%pw-50%w, 10",
+              "position": "relative",
+              "width": "pw",
+              "behaviour": "bhvLoadingTip"
             }
           }
         ]
-      },
-      {
-        "briefingglow": [
-          {
-            "id": "briefingglow"
-          },
-          {
-            "size": "sw,sh-36%sh+2"
-          },
-          {
-            "pos": "0, 50%ph-50%h"
-          },
-          {
-            "position": "root"
-          },
-          {
-            "_transp-timer": "0"
-          },
-          {
-            "img": {
-              "id": "briefing_shadow_top",
-              "position": "absolute",
-              "size": "sw, 20%sh",
-              "pos": "0,0",
-              "background-image": "#ui/gameuiskin#optionlist_background_top"
-            }
-          },
-          {
-            "img": {
-              "id": "briefing_shadow_down",
-              "position": "absolute",
-              "size": "sw, 20%sh",
-              "pos": "0,64%sh-h+3",
-              "background-image": "#ui/gameuiskin#optionlist_background_down"
-            }
-          },
-          {
-            "img": {
-              "size": "sw/sh*5%sw,64%sh",
-              "pos": "sw-w,50%sh-50%h",
-              "position": "root",
-              "background-image": "ui/shadeside"
-            }
-          },
-          {
-            "img": {
-              "size": "sw/sh*5%sw,64%sh",
-              "pos": "0,50%sh-50%h",
-              "position": "root",
-              "rotation": "180",
-              "background-image": "ui/shadeside"
-            }
-          }
-        ]
-      },
-      {
-        "briefingglow": {
-          "id": "briefingsmallglow",
-          "size": "sw,sh-36%sh+2",
-          "pos": "0, 50%ph-50%h",
-          "position": "root",
-          "_transp-timer": "0",
-          "style": "background-color:#88888888;"
-        }
-      },
-      {
-        "tdiv": {
-          "size": "sw+4, 18%sh+1",
-          "pos": "-2,-2",
-          "position": "root",
-          "background-color": "@black",
-          "border": "yes",
-          "border-color": "@commonMenuButtonColor"
-        }
-      },
-      {
-        "tdiv": {
-          "size": "sw+4, 18%sh+1",
-          "pos": "-2,sh-h+4",
-          "position": "root",
-          "background-color": "@black",
-          "border": "yes",
-          "border-color": "@commonMenuButtonColor"
-        }
-      },
-      {
-        "titletext": {
-          "id": "scene-title",
-          "_transp-timer": "0",
-          "pos": "@bw, @bh",
-          "position": "absolute"
-        }
-      },
-      {
-        "subtitles": {
-          "id": "scene-info",
-          "width": "@rw-30%sh",
-          "pos": "@bw, 83%sh",
-          "position": "absolute",
-          "_transp-timer": "0"
-        }
-      },
-      {
-        "subtitles": {
-          "id": "scene-subtitles",
-          "width": "sw-4@bw",
-          "pos": "50%pw-50%w, ph-20%sh-h",
-          "position": "absolute",
-          "text-align": "center",
-          "_transp-timer": "0"
-        }
-      },
-      {
-        "textarea": {
-          "id": "scene-help",
-          "text": "",
-          "style": "color:@helpF1Color;",
-          "pos": "sw-w-1@bw, 17%sh-h",
-          "position": "absolute",
-          "text-align": "right",
-          "width": "pw"
-        }
-      },
-      {
-        "Button_text": {
-          "id": "btn_help",
-          "pos": "-4, 18%sh-h",
-          "position": "absolute",
-          "btnScreenSideLeft": "yes",
-          "text": "#flightmenu/btnControlsHelp",
-          "btnName": "Y",
-          "on_click": "onHelp",
-          "display": "hide",
-          "style": "accessKey:J:Y | F1;",
-          "ButtonImg": []
-        }
-      },
-      {
-        "tdiv": {
-          "id": "loadanim",
-          "position": "absolute",
-          "pos": "pw - w - @bw, 83%sh",
-          "animated_wait_icon": {
-            "pos": "0, 50%h-50%h",
-            "position": "absolute",
-            "background-rotation": "0",
-            "wait_icon_cock": []
-          },
-          "loading": {
-            "pos": "48*@sf/@pf,(ph-h)/2",
-            "position": "relative",
-            "re-type": "text",
-            "style": "font:@big;color:@mainTitleTextColor;",
-            "text": "#loading",
-            "text-align": "left"
-          }
-        }
       },
       {
         "gamercard_div": [
@@ -1143,9 +884,6 @@
     ]
   },
   {
-    "navBar": []
-  },
-  {
     "dummy": {
       "id": "cutscene_update",
       "behavior": "Timer",
@@ -1154,7 +892,10 @@
   },
   {
     "dummy": {
-      "id": "in_loading_screen"
+      "id": "debug_timer_update",
+      "behavior": "Timer",
+      "timer_interval_msec": "500",
+      "timer_handler_func": "onDebugTimerUpdate"
     }
   }
 ]

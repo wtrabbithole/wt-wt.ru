@@ -1,6 +1,8 @@
 @const isWide    :(((10(sw + 1)) \ (16@scrn_tgt))) $min 1;   
 @const isTall    :(((720(sh + 1)) \ (1080@scrn_tgt))) $min 1;   
 
+@const debugRowHeight: 14; 
+
 @const cursorSizeMul: @dp;
 
 
@@ -437,9 +439,9 @@
 @const lines_pad: 1@shop_pad - 3*@sf/@pf;
 @const lines_shop_interval: 1@shop_interval - 2*@sf/@pf;
 
-@const slot_button_fullWidth: 145*@sf/@pf;
+@const slot_button_fullWidth: (140 + 5@isWide)*@sf/@pf;
 @const slot_width: 1@slot_button_fullWidth + 2@slot_interval;
-@const slot_interval: 0.003*@scrn_tgt\1+3*@sf/@pf;
+@const slot_interval: 3*@sf/@pf;
 @const slot_vert_pad: 0.005*@scrn_tgt\1;
 @const slot_height:   @shopAirHeight + 10*@sf/@pf;
 @const slot_hdr_width:@cIco+6*@sf/@pf;
@@ -455,12 +457,12 @@
 
 @const slotbarBorder: 16*@sf/@pf;
 @const slots_count1:   (((1@rw -1@slot_hdr_width -2@slot_interval -1*@scrn_tgt/100.0 -2@slotbarBorder)) \@slot_width) $min 10;
-@const slots_count5:   (((1@rw -5@slot_hdr_width -2@slot_interval -5*@scrn_tgt/100.0 -2@slotbarBorder)) \@slot_width) $min 10;
+@const slots_count5:   (((1@rw -@slotbarCountries*@slot_hdr_width -2@slot_interval -5*@scrn_tgt/100.0 -2@slotbarBorder)) \@slot_width) $min 10;
 @const slotsScrollDivWidth1:1@slot_width*1@slots_count1+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf;
 @const slotsScrollDivWidth5:1@slot_width*1@slots_count5+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf;
 
 @const slotbarWidth1:    1@slotsScrollDivWidth1 + 1@slot_hdr_width + 8*@sf/@pf;
-@const slotbarWidth5:    1@slotsScrollDivWidth5 + 5@slot_hdr_width + 16*@sf/@pf;
+@const slotbarWidth5:    1@slotsScrollDivWidth5 + 1@slot_hdr_width * 1@slotbarCountries + (6 + 2@slotbarCountries)*@sf/@pf;
 @const slotbarWidthFull: 1@slotbarWidth5 + 1@slotbarBorder;
 @const slotbarHeight:    1@slot_height + 1@slotbar_pad_top + 1@slotbar_pad_bottom;
 @const offsetFromEdge:  10*@sf/@pf;

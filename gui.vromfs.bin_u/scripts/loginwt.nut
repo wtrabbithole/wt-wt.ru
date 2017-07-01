@@ -112,9 +112,6 @@ function g_login::initConfigs(cb)
   initOptionsPseudoThread.extend(
   [
     function() {
-      ::init_all_tips() //reload tips because of possible lang update
-    }
-    function() {
       if (!::g_login.hasState(LOGIN_STATE.PROFILE_RECEIVED | LOGIN_STATE.CONFIGS_RECEIVED))
         return PT_STEP_STATUS.SUSPEND
 

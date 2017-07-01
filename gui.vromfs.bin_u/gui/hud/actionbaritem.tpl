@@ -1,7 +1,7 @@
 action_bar_item {
   id:t='<<id>>';
   size:t='0.06@shHud, 0.06@shHud';
-  margin:t='0.005@shHud';
+  margin:t='0.005@shHud, 0';
   padding:t='0.003@shHud';
   background-color:t='#77333333';
   selected:t='<<selected>>';

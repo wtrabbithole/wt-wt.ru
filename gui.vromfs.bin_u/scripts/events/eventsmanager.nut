@@ -360,7 +360,7 @@ class Events
     local sourceInfo = {}
     foreach(key, value in eventData.view_data)
     {
-      if (key == "teamA" || key = "teamB")
+      if (key == "teamA" || key == "teamB")
       {
         if (key in eventData)
         {
