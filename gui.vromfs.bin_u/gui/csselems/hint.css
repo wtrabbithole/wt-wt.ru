@@ -1,0 +1,48 @@
+@const hintRowCenterOffsetY:0.0185@shHud;
+
+hint {
+  flow: vertical;
+  position: relative;
+  pos: pw/2 - w/2, 0;
+}
+
+hintRow {
+  position: relative;
+  pos: pw/2 - w/2, 0;
+
+  max-width: p.p.w;
+  flow-align: center;
+}
+
+hintRow > textareaNoTab {
+  max-width: p.p.p.w;
+
+  text-align: center;
+}
+
+hintRow > keyboardButton {
+  position: relative;
+  top: 0.0185@scrn_tgt - 50%h;
+}
+
+hintRow > gamepadButton,
+hintRow > shortcutAxis,
+hintRow > keyboardButton,
+hintRow > combination,
+hintRow > timeBar {
+  position: relative;
+  top: @hintRowCenterOffsetY - 50%h;
+}
+
+hintRow textareaNoTab {
+  font: @hud_normal;
+  shadeStyle:'HudHeader3D';
+}
+
+hintRow > combination > textareaNoTab {
+  font: @hud_normal;
+}
+
+hintRow > timeBar textareaNoTab {
+  font: @hud_normal;
+}

@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "canReloadNonGuns": true
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -88,6 +91,9 @@
   },
   {
     "type": "typeTankDestroyer"
+  },
+  {
+    "rearmTimeOnField": 45.0
   },
   {
     "ikGunner": [
@@ -1321,7 +1327,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.07,-0.06,0.06],
+        "suspensionOffsets": [-0.08,-0.08,0.08],
         "defaultGearRadius": 0.4,
         "defaultDampeningForce": [17000.0,17000.0],
         "hasSuspensionOnDriveGear": true,
@@ -1345,6 +1351,16 @@
           "wheel_r_01": true,
           "wheel_l_02": true,
           "wheel_r_02": true
+        }
+      },
+      "movableSuspension": {
+        "speed": 0.05,
+        "maxSpeedForMove": 0.0,
+        "pitch": {
+          "wheel_l_01": [],
+          "wheel_r_01": [],
+          "wheel_l_02": [],
+          "wheel_r_02": []
         }
       }
     }

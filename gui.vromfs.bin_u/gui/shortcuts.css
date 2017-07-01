@@ -1,0 +1,264 @@
+start_button {
+  shortcutActivate:"J:A | J:Start | Enter | NumEnter | Space";
+}
+[swap_ab] start_button {
+  shortcutActivate:"J:B | J:Start | Enter | NumEnter | Space";
+}
+
+menu_button, menu_button_inactive, dialog_button {
+  shortcutActivate:"J:A | Enter | NumEnter | Space";
+  shortcutUp:"@shortcutUpGamepad | Up";
+  shortcutDown:"@shortcutDownGamepad | Down";
+  navUp:"#prev:wrap";
+  navDown:"#next:wrap";
+  navBack:"#parent";
+  navLeft:"#prev:wrap";
+  navRight:"#next:wrap";
+  navLobbyRight:"#next:wrap";
+}
+
+[swap_ab] menu_button, [swap_ab] menu_button_inactive, [swap_ab] dialog_button {
+  shortcutActivate:"J:B | Enter | NumEnter | Space";
+}
+
+[childsActivate=yes] > Button_text, [childsActivate=yes] > emptyButton,
+[childsActivate=yes] > CheckBox, [childsActivate=yes] > RadioButton_AD,
+[childsActivate=yes] > promoButton, [childsActivate=yes] > SwitchBox {
+  shortcutActivate:"J:A | Space";
+}
+
+[childsActivate=yes] > Button_text[btnName=X] {
+  accessKey:"J:X | Space";
+}
+
+[childsActivate=yes] > Button_text[btnName=LB] {
+  accessKey:"J:LB";
+}
+
+dialog_button {
+  navUp:"";
+  navDown:"";
+  shortcutUp:"";
+  shortcutDown:"";
+  shortcutLeft:"@shortcutLeftGamepad | Left";
+  shortcutRight:"@shortcutRightGamepad | Right";
+}
+
+MultiSelect[optionsShortcuts] {
+  shortcutLeft:'@shortcutLeftGamepad | Left';
+  shortcutRight:'@shortcutRightGamepad | Right';
+  shortcutActivate:"J:X | Space";
+}
+
+dropright {
+  shortcutActivate:"Right | @shortcutRightGamepad";
+}
+dropright > fadePlane > area > button#accept {
+  accesskey:'@shortcutLeftGamepad | Left | Right | @shortcutRightGamepad | J:A | Space | Enter | NumEnter';
+}
+dropright > fadePlane > area > button#cancel {
+  accesskey:'Esc | J:B | Backspace';
+}
+[swap_ab] dropright > fadePlane > area > button#accept {
+  accesskey:'@shortcutLeftGamepad | Left | Right | @shortcutRightGamepad | J:B | Space | Enter | NumEnter';
+}
+[swap_ab] dropright > fadePlane > area > button#cancel {
+  accesskey:'Esc | J:A  | Backspace';
+}
+
+table.optionsTable, verticalCellsOptions.optionsTable, PosOptionsNavigator.optionsTable, optionsList.optionsTable,
+table.crewTable, table.lbTable
+{
+  shortcutDown:'@shortcutDownGamepad | Down';
+  shortcutUp:'@shortcutUpGamepad | Up';
+}
+
+table.optionsTable[dontUseAxisShortcuts=yes] {
+  shortcutDown:'J:Dpad.Down | Down';
+  shortcutUp:'J:Dpad.Up | Up';
+}
+
+slider, sliderProgress, invisSlider {
+  shortcutLeft:"@shortcutLeftGamepad | Left";
+  shortcutRight:"@shortcutRightGamepad | Right";
+  shortcutCancel:"";
+}
+
+spinnerListBox {
+  shortcutLeft: "@shortcutLeftGamepad | Left";
+  shortcutRight: "@shortcutRightGamepad | Right";
+  navUp:"#prev:wrap";
+  navDown:"#next:wrap";
+}
+
+[dontUseAxisShortcuts=yes] slider, [dontUseAxisShortcuts=yes] sliderProgress,
+[dontUseAxisShortcuts=yes] spinnerListBox {
+  shortcutLeft:"J:Dpad.Left | Left";
+  shortcutRight:"J:Dpad.Right | Right";
+}
+
+.optionsTable SwitchBox {
+  shortcutUnset: "@shortcutLeftGamepad | Left";
+  shortcutSet: "@shortcutRightGamepad | Right";
+  shortcutActivate:"";
+  navUp:"#prev:wrap";
+  navDown:"#next:wrap";
+}
+
+.optionsTable[dontUseAxisShortcuts=yes] SwitchBox {
+  shortcutUnset: "J:Dpad.Left | Left";
+  shortcutSet: "J:Dpad.Right | Right";
+}
+
+PosOptionsNavigator > * > * > SwitchBox {
+  shortcutUnset:"";
+  shortcutSet:"";
+  shortcutActivate:"J:A | Space";
+}
+
+ScrollBar {
+  shortcutMoveUp:"PageUp | J:R.Thumb.Up";
+  shortcutMoveDown:"PageDown | J:R.Thumb.Down";
+}
+
+textarea, textAreaCentered, helpText, awardText, [scrollbarShortcuts=yes] {
+  scrollBox-resendShortcut:yes;
+  accesskeyMoveUp:"PageUp | J:R.Thumb.Up";
+  accesskeyMoveDown:"PageDown | J:R.Thumb.Down";
+}
+
+textareaNoTab[scrollbarShortcutsOnSelect] {
+  accesskeyMoveUp:"PageUp | J:R.Thumb.Up";
+  accesskeyMoveDown:"PageDown | J:R.Thumb.Down";
+}
+
+[selected=yes] textareaNoTab[scrollbarShortcutsOnSelect=yes],
+:focus > [selected=yes] textareaNoTab[scrollbarShortcutsOnSelect=focus] {
+  scrollBox-resendShortcut:yes;
+}
+
+[scrollbarShortcuts=left] {
+  scrollBox-resendShortcut:yes;
+  accesskeyMoveUp:"Up | @shortcutUpGamepad";
+  accesskeyMoveDown:"Down | @shortcutDownGamepad";
+}
+
+SlideListBox, SlideListBoxOptions
+{
+  shortcutLeft: "@shortcutLeftGamepad | Left";
+  shortcutRight: "@shortcutRightGamepad | Right";
+  shortcutUp:"@shortcutUpGamepad | Up";
+  shortcutDown:"@shortcutDownGamepad | Down";
+  navUp:"#prev:wrap";
+  navDown:"#next:wrap";
+}
+
+HangarSliderListBox, HorizontalListBox {
+  shortcutLeft: "@shortcutLeftGamepad | Left";
+  shortcutRight: "@shortcutRightGamepad | Right";
+}
+HorizontalListBox[useShortcuts=no] {
+  shortcutLeft:"";
+  shortcutRight:"";
+  shortcutActivate:"";
+}
+
+HorizontalListBox[activeAccesskeys=RLB] {
+  accesskeyPrev:"J:LB";
+  accesskeynext:"J:RB";
+}
+
+HorizontalListBox[activeAccesskeys=LeftRight] {
+  accesskeyPrev:"@shortcutLeftGamepad | Left";
+  accesskeyNext:"@shortcutRightGamepad | Right";
+}
+
+HorizontalListBox[activeAccesskeys=RS] {
+  accesskeyPrev:"J:R.Thumb.Left";
+  accesskeyNext:"J:R.Thumb.Right";
+}
+
+EditBox {
+  shortcutShowIME:"J:LT";
+}
+
+EditBox[multiShortcuts=no] {
+  shortcutActivate:"Enter | NumEnter | J:A";
+  shortcutCancel:"Esc | J:B";
+  shortcutUp:"@shortcutUpGamepad | Up";
+  shortcutDown:"@shortcutDownGamepad | Down";
+}
+EditBox[multiShortcuts=yes] {
+  shortcutBack:"Backspace";
+  shortcutDelete:"Del";
+  shortcutHome:"Home";
+  shortcutEnd:"End";
+  shortcutReturn:"Enter | NumEnter";
+}
+
+EditBox[withTab=yes] {
+  shortcutActivate:"Enter | NumEnter | Tab";
+}
+
+EditBox[switchFocus=yes] {
+    shortcutUp: "@shortcutUpGamepad | Up";
+  shortcutDown: "@shortcutDownGamepad | Down";
+  shortcutWrapUp: "@shortcutUpGamepad | Up";
+  shortcutWrapDown: "@shortcutDownGamepad | Down";
+  on_wrap_up:"onWrapUp";
+  on_wrap_down:"onWrapDown";
+}
+
+.optionsTable EditBox {
+  shortcutUp:"";
+  shortcutDown:"";
+  shortcutActivate:"";
+}
+
+[navigatorShortcuts] {
+  shortcutUp: '@shortcutUpGamepad | Up';
+  shortcutDown: '@shortcutDownGamepad | Down';
+  shortcutLeft: '@shortcutLeftGamepad | Left';
+  shortcutRight: '@shortcutRightGamepad | Right';
+  shortcutActivate:"";
+}
+
+EditBox[noActivate=yes] {
+  shortcutActivate:"";
+}
+
+CheckBox, options_nest > MultiSelect, gameModeChangeButton,
+CheckBox[btnName=SpaceA], button[btnName=SpaceA], [navigatorShortcuts=SpaceA] {
+  shortcutActivate:"Space | J:A";
+}
+
+[navigatorShortcuts=active], [navigatorShortcuts=full], [navigatorShortcuts=onlyActivate] {
+  shortcutActivate:'J:A | Enter | NumEnter | Space';
+}
+[swap_ab] [navigatorShortcuts=active], [swap_ab] [navigatorShortcuts=full], [swap_ab] [navigatorShortcuts=onlyActivate] {
+  shortcutActivate:'J:B | Enter | NumEnter | Space';
+}
+[navigatorShortcuts=onlyActivate] {
+  shortcutLeft:"";
+  shortcutRight:"";
+}
+
+[navigatorShortcuts=cancel], [navigatorShortcuts=full] {
+  shortcutCancel:"Esc | J:B";
+}
+
+HorizontalListBox[activateBy=Y] {
+  shortcutActivate:'J:Y | Del';
+}
+
+ComboBox {
+  shortcutOpen:"J:A | Space";
+  shortcutClose:'Esc | J:B | Backspace';
+}
+.optionsTable > tr > td > ComboBox {
+  shortcutOpen:"Right | @shortcutRightGamepad";
+}
+.optionsTable > tr > td > ComboBox > listBox {
+  shortcutLeft:"";
+  shortcutRight:"";
+  shortcutActivate:'@shortcutLeftGamepad | Left | J:A | Space | Enter | NumEnter'; }
