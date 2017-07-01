@@ -1,0 +1,91 @@
+
+@const scrn_tgt       : sh $min (0.75sw);
+@const scrn_tgt_font  : sh $min (0.75sw);
+
+@const pxFont_tgt     : 900 $min 1@scrn_tgt; 
+@const dp             : ((@sf/@pf + 0.5) \ 1) $max 1; 
+@const sf: @scrn_tgt_font; @const pf: @pxFont_tgt; 
+
+@const debugRowHeight: 0.015@scrn_tgt_font; 
+@const rw: (1-@_safearea_menu)*sw $min (sw -2*@debugRowHeight);
+@const rh: (1-@_safearea_menu)*sh $min (sh -2*@debugRowHeight);
+
+@const srw:@rw;
+@const sbw:0.5(sw-1@srw);
+@const srh:@rh;
+@const sbh:0.5*(sh-1@srh);
+
+@const shopAirHeight: 44*@sf/@pf; @const shopAirWidth: 120*@sf/@pf; @const armySmallIconWidth: 26*@scrn_tgt/@pxFont_tgt;
+@const cIco: 20*@sf/@pf;
+@const dIco: 24*@sf/@pf;
+@const sIco: 16*@sf/@pf;
+@const mIco: 32*@scrn_tgt/@pxFont_tgt;
+@const lIco: 64*@scrn_tgt/@pxFont_tgt;
+@const slotBtnIco: 23*@sf/@pf;
+@const profileMedalSize: 128*@scrn_tgt/@pxFont_tgt;
+@const profileUnlockIconSize: 100*@sf/@pf;
+@const debriefingUnlockIconSize: 50*@sf/@pf;
+@const unlockStageIconSize: 32*@sf/@pf;
+@const checkboxSize: 22@sf/@pf;
+
+@const decalIconHeight:(64 + 10)*@sf/@pf;
+@const debrBonusHeight:64*@sf/@pf;
+@const debrImageWidth:1170*@scrn_tgt_font/720;
+@const debrImageHeight:135*@scrn_tgt_font/720;
+
+@const mainMenuDivHeight: 0.4@scrn_tgt_font;
+@const mainMenuButtonWidth: 0.26@scrn_tgt_font;
+
+@const referenceProgressHeight:2*@sf/@pf;
+@const referenceProgressOffset:1*@sf/@pf;
+
+@const modIcoSize: 56*@sf/@pf;
+@const modArrowWidth: 15*@sf/@pf;
+@const modStatusHeight: 22*@sf/@pf;
+@const modArrowLen: 15*@sf/@pf;
+@const modPadSize: (0.20@modIcoSize-2*@sf/@pf) \ 1;
+
+@const unitChoiceImageWidth: (0.5@rw $min 0.7@scrn_tgt\1);
+@const countryChoiceImageWidth: (0.6@rw $min 1.3@scrn_tgt\1);
+
+@const battleModeSwitchHeight: 30*@sf/@pf;
+
+@const chestRewardHeight: 0.315@scrn_tgt;
+@const chestRewardWidth:  0.315@scrn_tgt;
+@const itemIconHeight:    120/720@scrn_tgt_font;
+@const awardIconHeight:   50/720@scrn_tgt_font;
+
+@const content2BlockHeight: 0.305@scrn_tgt_font;
+@const content3BlockHeight: 0.275@scrn_tgt_font;
+@const armyGroupTablePadding: 0.062@scrn_tgt;
+@const wwMapInterlinePadding: (sh - 720)*0.01;
+@const wwMapInterlineStrengthPadding: 0;
+@const wwOperationClanListMinHeight: 0.17@scrn_tgt_font;
+@const wwOperationDescSideStrenghtHeight:0.25@scrn_tgt_font;
+
+@const wwBattlesListScreenIncWidth: 0;
+@const wwBattleInfoScreenIncHeight: 0;
+
+
+@const bold:       small_text_hud;
+@const small:      small_text_hud;@const tiny:       tiny_text_hud;@const veryTiny:   very_tiny_text_hud;@const normal:     medium_text_hud;@const big:        big_text_hud; @const smallBold:  small_text_hud;@const normalBold: medium_text_hud;@const times_big:  title_text_hud;@const optionFont: medium_text_hud;
+@const symbolFont: small_text_hud;
+@const title_big: title_text_hud; 
+
+@const menubutton_font:            medium_text_hud;  @const menubutton_selected_font:   medium_text_hud;  @const dialogbutton_font:          medium_text_hud;  @const dialogbutton_selected_font: medium_text_hud;  @const option_font:                small_text_hud;
+@const option_selected_font:       small_text_hud;
+@const mis_chapter_font:           medium_text_hud;
+@const mis_chapter_selected_font:  medium_text_hud;
+@const mis_item_font:              small_text_hud;
+@const mis_item_selected_font:     small_text_hud;
+@const gamertag_font:              tiny_text_hud;
+@const nav_button_font:            small_text_hud;
+@const nav_button_pushed_font:     small_text_hud;
+@const shopItemFont:               tiny_text_hud;
+@const slotItemFont:               tiny_text_hud;
+
+@const kbdFont:                    kbd_text_hud;
+
+@const headerFont:                 header_text_hud;
+@const battleButtonFont:           battle_button_text_hud;
+@const battleButtonFontNavigation: battle_button_text_navigation_hud;

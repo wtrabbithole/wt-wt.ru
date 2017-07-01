@@ -113,6 +113,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "1"
       },
       {
@@ -184,6 +187,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "2"
@@ -259,6 +265,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "3"
       },
       {
@@ -332,6 +341,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "4"
       },
       {
@@ -403,6 +415,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "5"
@@ -698,10 +713,12 @@
       },
       "equipment": {
         "armorClass": "tank_structural_steel",
-        "hp": 100.0,
+        "hp": 150.0,
         "armorThickness": 12.0,
-        "armorThrough": 12.0,
+        "armorThrough": 1.0,
         "fireProtectionHp": 15.0,
+        "explosionArmorQuality": 0.35,
+        "shatterArmorQuality": 0.35,
         "drive_turret_v_dm": [],
         "drive_turret_h_dm": [],
         "drive_turret_v_01_dm": [],
@@ -867,7 +884,7 @@
           },
           {
             "onHit": {
-              "fCumulative": true,
+              "damageType": "cumulative",
               "expl": 0.1,
               "fire": 0.2,
               "damage": 100.0,
@@ -876,7 +893,7 @@
           },
           {
             "onHit": {
-              "fCumulative": true,
+              "damageType": "cumulative",
               "expl": 0.2,
               "fire": 0.3,
               "damage": 250.0,
@@ -885,7 +902,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.125,
               "fire": 0.225,
               "damage": 25.0,
@@ -894,7 +911,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.25,
               "fire": 0.35,
               "damage": 50.0,
@@ -903,7 +920,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -911,7 +928,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.25,
               "damage": 70.0,
               "fHitCritical": true
@@ -919,7 +936,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.4,
               "damage": 200.0,
               "fHitCritical": true
@@ -927,7 +944,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.8,
               "damage": 300.0,
               "fHitCritical": true
@@ -935,7 +952,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.2
             }
           },
@@ -955,7 +972,7 @@
           },
           {
             "onHit": {
-              "fCumulative": true,
+              "damageType": "cumulative",
               "fire": 0.2,
               "damage": 75.0,
               "fHitCritical": true
@@ -963,7 +980,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.3,
               "damage": 30.0,
               "fHitCritical": true
@@ -971,7 +988,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.2,
               "damage": 70.0,
               "fHitCritical": true
@@ -979,7 +996,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.55,
               "damage": 300.0,
               "fHitCritical": true
@@ -987,7 +1004,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.35,
               "damage": 200.0,
               "fHitCritical": true
@@ -995,7 +1012,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -1003,7 +1020,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.1
             }
           },
@@ -1023,7 +1040,7 @@
           },
           {
             "onHit": {
-              "fCumulative": true,
+              "damageType": "cumulative",
               "fire": 0.15,
               "damage": 75.0,
               "fHitCritical": true
@@ -1031,7 +1048,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 30.0,
               "fHitCritical": true
@@ -1039,7 +1056,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.05,
               "damage": 70.0,
               "fHitCritical": true
@@ -1047,7 +1064,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 200.0,
               "fHitCritical": true
@@ -1055,7 +1072,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.02
             }
           }
@@ -1179,7 +1196,7 @@
           },
           {
             "onHit": {
-              "fCumulative": true,
+              "damageType": "cumulative",
               "expl": 0.35,
               "damage": 75.0,
               "fHitCritical": true
@@ -1187,7 +1204,7 @@
           },
           {
             "onHit": {
-              "fCumulative": true,
+              "damageType": "cumulative",
               "expl": 0.5,
               "damage": 200.0,
               "fHitCritical": true
@@ -1195,7 +1212,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.4,
               "damage": 30.0,
               "fHitCritical": true
@@ -1203,7 +1220,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.3,
               "damage": 20.0,
               "fHitCritical": true
@@ -1211,7 +1228,7 @@
           },
           {
             "onHit": {
-              "fShatter": true,
+              "damageType": "shatter",
               "expl": 0.5,
               "damage": 170.0,
               "fHitCritical": true
@@ -1219,7 +1236,7 @@
           },
           {
             "onHit": {
-              "fShatter": true,
+              "damageType": "shatter",
               "expl": 0.2,
               "damage": 40.0,
               "fHitCritical": true
@@ -1227,7 +1244,7 @@
           },
           {
             "onHit": {
-              "fShatter": true,
+              "damageType": "shatter",
               "expl": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -1235,7 +1252,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "expl": 0.1,
               "fire": 0.2,
               "damage": 70.0,
@@ -1244,7 +1261,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "expl": 0.2,
               "fire": 0.35,
               "damage": 200.0,
@@ -1253,7 +1270,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "expl": 0.3,
               "fire": 0.5,
               "damage": 300.0,
@@ -1262,14 +1279,14 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.02,
               "expl": 0.05
             }
           },
           {
             "onKill": {
-              "fCumulative": true,
+              "damageType": "cumulative",
               "expl": 0.25,
               "fire": 0.25,
               "nothing": 0.5
@@ -1277,7 +1294,7 @@
           },
           {
             "onKill": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.25,
               "fire": 0.25,
               "nothing": 0.5
@@ -1285,7 +1302,7 @@
           },
           {
             "onKill": {
-              "fGeneric": true,
+              "damageType": "generic",
               "expl": 0.25,
               "fire": 0.25,
               "nothing": 0.5
@@ -1639,7 +1656,7 @@
           "ChainfireTime": 3.0,
           "DelayAfterShoot": 3.0,
           "accuracyAir": 1.5,
-          "accuracyGnd": 1.0,
+          "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1690,7 +1707,7 @@
           "ChainfireTime": 3.0,
           "DelayAfterShoot": 3.0,
           "accuracyAir": 1.5,
-          "accuracyGnd": 1.0,
+          "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1732,7 +1749,7 @@
           "ChainfireTime": 3.0,
           "DelayAfterShoot": 3.0,
           "accuracyAir": 1.5,
-          "accuracyGnd": 1.0,
+          "accuracyGnd": 0.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,

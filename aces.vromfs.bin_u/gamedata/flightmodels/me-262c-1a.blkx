@@ -2459,7 +2459,6 @@
           "conditionDamageType": "generic",
           "cut": 1.0,
           "conditionDamage": 100.0,
-          "kill": true,
           "cutPart": "wing_l_dm"
         }
       }
@@ -2487,10 +2486,10 @@
         "part": "spar_r_dm"
       },
       {
-        "part": "fuse1_l_dm"
+        "part": "fuse1_r_dm"
       },
       {
-        "part": "fuse2_l_dm"
+        "part": "fuse2_r_dm"
       },
       {
         "effects": {
@@ -2502,30 +2501,7 @@
           "conditionDamageType": "generic",
           "cut": 1.0,
           "conditionDamage": 100.0,
-          "kill": true,
           "cutPart": "wing_r_dm"
-        }
-      }
-    ],
-    "tail_structure": [
-      {
-        "hp": 2400.0
-      },
-      {
-        "part": "fuse_dm"
-      },
-      {
-        "part": "tail_dm"
-      },
-      {
-        "part": "stab_dm"
-      },
-      {
-        "part": "fin_dm"
-      },
-      {
-        "effects": {
-          "cutPart": "tail_dm"
         }
       }
     ],
@@ -2576,11 +2552,15 @@
         "part": "fin_dm"
       },
       {
+        "effects": {
+          "cutPart": "tail_dm"
+        }
+      },
+      {
         "effect": {
           "conditionDamageType": "generic",
           "expl": 1.0,
           "conditionDamage": 300.0,
-          "kill": true,
           "killEffect": "expl"
         }
       },
@@ -2589,7 +2569,6 @@
           "conditionDamageType": "explosion",
           "expl": 1.0,
           "conditionDamage": 60.0,
-          "kill": true,
           "killEffect": "expl"
         }
       }
@@ -2841,6 +2820,20 @@
     "explodeHitPower": 60.0,
     "explodeArmorPower": 60.0,
     "explodeRadius": [5.0,30.0]
+  },
+  "cut_parts": {
+    "wing2_l": {
+      "part": "slat1_l"
+    },
+    "wing_l": {
+      "part": "slat_l"
+    },
+    "wing2_r": {
+      "part": "slat1_r"
+    },
+    "wing_r": {
+      "part": "slat_r"
+    }
   },
   "fireParams": {
     "engineExtinguishFireSpeed": [193.0,277.0],

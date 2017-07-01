@@ -47,6 +47,9 @@
         "bullets": 2400
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -176,6 +179,9 @@
         "bullets": 2400
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -303,6 +309,9 @@
       },
       {
         "bullets": 2400
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -436,6 +445,9 @@
         "bullets": 2400
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -560,6 +572,9 @@
       },
       {
         "bullets": 2400
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -693,6 +708,9 @@
         "bullets": 2400
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -813,6 +831,9 @@
         "bullets": 2400
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -924,6 +945,9 @@
       },
       {
         "bullets": 2400
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -1039,6 +1063,9 @@
         "bullets": 2400
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -1150,6 +1177,9 @@
       },
       {
         "bullets": 2400
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -1288,6 +1318,9 @@
         "bullets": 140
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -1358,6 +1391,25 @@
           "yaw": [-140.0,140.0],
           "pitch": [-5.0,12.0]
         }
+      },
+      {
+        "gunStabilizer": {
+          "hasVerticalGunFreeMode": true,
+          "hasHorizontal": true,
+          "horizontalOmegaMult": 1.0,
+          "horizontalSpeedLimitKPH": 80.0,
+          "hasVertical": true,
+          "verticalOmegaMult": 1.0,
+          "verticalSpeedLimitKPH": 80.0,
+          "errorKPHToDegrees": [
+            {
+              "row": [5.0,0.01]
+            },
+            {
+              "row": [70.0,0.05]
+            }
+          ]
+        }
       }
     ]
   },
@@ -1372,7 +1424,7 @@
       "barrelDP": "tt_01_dm",
       "breechDP": "tt_01_dm",
       "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
+      "startFxOffset": [3.0,0.0,0.0],
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_torpedo_01",
@@ -1395,7 +1447,7 @@
       "barrelDP": "tt_02_dm",
       "breechDP": "tt_02_dm",
       "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
+      "startFxOffset": [3.0,0.0,0.0],
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_torpedo_02",

@@ -47,6 +47,9 @@
         "bullets": 2000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -173,6 +176,9 @@
         "bullets": 1000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -240,7 +246,7 @@
       {
         "limitsTable": [
           {
-            "lim1": [-180.0,-135.0,35.0,90.0]
+            "lim1": [-180.0,-135.0,30.0,90.0]
           },
           {
             "lim2": [-135.0,-40.0,-5.0,90.0]
@@ -252,7 +258,7 @@
             "lim2": [40.0,135.0,-5.0,90.0]
           },
           {
-            "lim3": [135.0,180.0,35.0,90.0]
+            "lim3": [135.0,180.0,30.0,90.0]
           }
         ]
       }
@@ -304,6 +310,9 @@
       },
       {
         "bullets": 2400
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -440,6 +449,9 @@
         "bullets": 2400
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -522,8 +534,228 @@
     ]
   },
   {
+    "Weapon": [
+      {
+        "trigger": "gunner3"
+      },
+      {
+        "triggerGroup": "machinegun"
+      },
+      {
+        "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk"
+      },
+      {
+        "emitter": "mg_01"
+      },
+      {
+        "flash": "emtr_gun_flame_03"
+      },
+      {
+        "useEmitter": true
+      },
+      {
+        "recoilOffset": 0.0
+      },
+      {
+        "defaultYaw": 0.0
+      },
+      {
+        "defaultPitch": 0.0
+      },
+      {
+        "speedYaw": 60.0
+      },
+      {
+        "speedPitch": 45.0
+      },
+      {
+        "fireConeAngle": 1.0
+      },
+      {
+        "bullets": 2000
+      },
+      {
+        "allowableDelta": 1.0
+      },
+      {
+        "speedYaw": 45.0
+      },
+      {
+        "speedPitch": 45.0
+      },
+      {
+        "fireConeAngle": 20.0
+      },
+      {
+        "ChainfireTime": 2.0
+      },
+      {
+        "DelayAfterShoot": 2.0
+      },
+      {
+        "aimMinDist": 20.0
+      },
+      {
+        "aimMaxDist": 4000.0
+      },
+      {
+        "randomAngle": 0.0
+      },
+      {
+        "accuracyAir": 0.5
+      },
+      {
+        "accuracyGnd": 0.5
+      },
+      {
+        "errMeasureVel": 0.0
+      },
+      {
+        "errTargettingOn100kmph": 0.0
+      },
+      {
+        "errMeasureVelFast": 100.0
+      },
+      {
+        "errMeasureVelFwdShift": 1.0
+      },
+      {
+        "errMeasureVelDir": 3.0
+      },
+      {
+        "errTargetting": 1.0
+      },
+      {
+        "errExplTime": 0.0
+      },
+      {
+        "turret": {
+          "head": "mg_mount_h_01",
+          "gun": "mg_01",
+          "gunnerDm": "gunner_02_dm"
+        }
+      },
+      {
+        "limits": {
+          "yaw": [-16.0,16.0],
+          "pitch": [-1.0,40.0]
+        }
+      }
+    ]
+  },
+  {
+    "Weapon": [
+      {
+        "trigger": "gunner4"
+      },
+      {
+        "triggerGroup": "machinegun"
+      },
+      {
+        "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk"
+      },
+      {
+        "emitter": "mg_02"
+      },
+      {
+        "flash": "emtr_gun_flame_04"
+      },
+      {
+        "useEmitter": true
+      },
+      {
+        "recoilOffset": 0.0
+      },
+      {
+        "defaultYaw": 0.0
+      },
+      {
+        "defaultPitch": 0.0
+      },
+      {
+        "speedYaw": 60.0
+      },
+      {
+        "speedPitch": 45.0
+      },
+      {
+        "fireConeAngle": 1.0
+      },
+      {
+        "bullets": 2000
+      },
+      {
+        "allowableDelta": 1.0
+      },
+      {
+        "speedYaw": 45.0
+      },
+      {
+        "speedPitch": 45.0
+      },
+      {
+        "fireConeAngle": 20.0
+      },
+      {
+        "ChainfireTime": 2.0
+      },
+      {
+        "DelayAfterShoot": 2.0
+      },
+      {
+        "aimMinDist": 20.0
+      },
+      {
+        "aimMaxDist": 4000.0
+      },
+      {
+        "randomAngle": 0.0
+      },
+      {
+        "accuracyAir": 0.5
+      },
+      {
+        "accuracyGnd": 0.5
+      },
+      {
+        "errMeasureVel": 0.0
+      },
+      {
+        "errTargettingOn100kmph": 0.0
+      },
+      {
+        "errMeasureVelFast": 100.0
+      },
+      {
+        "errMeasureVelFwdShift": 1.0
+      },
+      {
+        "errMeasureVelDir": 3.0
+      },
+      {
+        "errTargetting": 1.0
+      },
+      {
+        "errExplTime": 0.0
+      },
+      {
+        "turret": {
+          "head": "mg_mount_h_02",
+          "gun": "mg_02",
+          "gunnerDm": "gunner_03_dm"
+        }
+      },
+      {
+        "limits": {
+          "yaw": [-16.0,16.0],
+          "pitch": [-1.0,40.0]
+        }
+      }
+    ]
+  },
+  {
     "Weapon": {
-      "trigger": "gunner3",
+      "trigger": "gunner5",
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
@@ -533,7 +765,7 @@
       "animLaunchTime": 5.0,
       "launchTime": 1.7,
       "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
+      "startFxOffset": [4.5,0.0,0.0],
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_torpedo_02",
@@ -547,7 +779,7 @@
   },
   {
     "Weapon": {
-      "trigger": "gunner4",
+      "trigger": "gunner6",
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
@@ -557,7 +789,7 @@
       "animLaunchTime": 5.0,
       "launchTime": 1.9,
       "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
+      "startFxOffset": [4.5,0.0,0.0],
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_torpedo_01",

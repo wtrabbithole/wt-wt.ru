@@ -1,0 +1,2157 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 30.0
+    },
+    "player": [
+      {
+        "army": 1
+      },
+      {
+        "wing": "t1_player01"
+      },
+      {
+        "wing": "t1_player02"
+      },
+      {
+        "wing": "t1_player03"
+      },
+      {
+        "wing": "t1_player04"
+      },
+      {
+        "wing": "t1_player05"
+      },
+      {
+        "wing": "t1_player06"
+      },
+      {
+        "wing": "t1_player07"
+      },
+      {
+        "wing": "t1_player08"
+      },
+      {
+        "wing": "t1_player09"
+      },
+      {
+        "wing": "t1_player10"
+      },
+      {
+        "wing": "t1_player11"
+      },
+      {
+        "wing": "t1_player12"
+      },
+      {
+        "wing": "t1_player13"
+      },
+      {
+        "wing": "t1_player14"
+      },
+      {
+        "wing": "t1_player15"
+      },
+      {
+        "wing": "t1_player16"
+      }
+    ],
+    "player_teamB": [
+      {
+        "army": 2
+      },
+      {
+        "wing": "t2_player01"
+      },
+      {
+        "wing": "t2_player02"
+      },
+      {
+        "wing": "t2_player03"
+      },
+      {
+        "wing": "t2_player04"
+      },
+      {
+        "wing": "t2_player05"
+      },
+      {
+        "wing": "t2_player06"
+      },
+      {
+        "wing": "t2_player07"
+      },
+      {
+        "wing": "t2_player08"
+      },
+      {
+        "wing": "t2_player09"
+      },
+      {
+        "wing": "t2_player10"
+      },
+      {
+        "wing": "t2_player11"
+      },
+      {
+        "wing": "t2_player12"
+      },
+      {
+        "wing": "t2_player13"
+      },
+      {
+        "wing": "t2_player14"
+      },
+      {
+        "wing": "t2_player15"
+      },
+      {
+        "wing": "t2_player16"
+      },
+      {
+        "wing": "t2_player17"
+      }
+    ],
+    "mission": {
+      "name": "guadalcanal_Bttl",
+      "level": "levels/avg_guadalcanal.bin",
+      "type": "domination",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "chapter": "air_ground_battles",
+      "scoreLimit": 6400,
+      "timeLimit": 25,
+      "deathPenaltyMul": 1.0,
+      "randomSpawnTeams": true,
+      "remapAiTankModels": true,
+      "country_axis": "germany",
+      "country_allies": "ussr",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_race_straight": false,
+        "_race_inverted": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      }
+    },
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    },
+    "spectator_points": [],
+    "briefing": {
+      "place_loc": "",
+      "date_loc": "",
+      "objective_loc": "",
+      "music": "action_01",
+      "part": {
+        "event": "",
+        "minTime": 0,
+        "slide": [
+          {
+            "map": true
+          },
+          {
+            "minTime": 4
+          },
+          {
+            "picture": ""
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "t2_tank_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "t2_tank_spawn_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t1_tank_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t1_tank_spawn_02"
+            }
+          },
+          {
+            "captureZone": {
+              "area": "capture_area_01",
+              "side": "ally",
+              "type": "ground"
+            }
+          },
+          {
+            "captureZone": {
+              "area": "capture_area_02",
+              "side": "enemy",
+              "type": "ground"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "imports": {
+    "import_record": {
+      "file": "gameData/missions/templates/tank_templates/dbttl_template.blk",
+      "importAreas": true,
+      "importUnits": true,
+      "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
+      "showAreas": true,
+      "showUnits": true,
+      "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
+      "excludes": []
+    }
+  },
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "objectGroups": {
+        "name": "dbttl_t2_circle",
+        "tm": [
+          [-1.58242,0.0,0.236448],
+          [0.0,1.0,0.0],
+          [-0.236448,0.0,-1.58242],
+          [2002.44,69.9425,2072.44]
+        ],
+        "unit_class": "capture_zone_circle",
+        "objLayer": 2,
+        "props": {
+          "army": 0,
+          "active": false
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "dbttl_t1_spawn_01",
+        "tm": [
+          [0.358338,0.0,0.933592],
+          [0.0,1.0,0.0],
+          [-0.933592,0.0,0.358338],
+          [2057.98,62.19,3021.51]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t1_spawn_01_01"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_02"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_03"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_04"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_05"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_06"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_07"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_08"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_09"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_10"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_11"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_12"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_13"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_14"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_15"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_16"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "dbttl_t1_spawn_02",
+        "tm": [
+          [-0.0559324,0.0,0.998434],
+          [0.0,1.0,0.0],
+          [-0.998434,0.0,-0.0559324],
+          [1384.1,-183.305,2668.92]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t1_spawn_02_01"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_02"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_03"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_04"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_05"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_06"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_07"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_08"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_09"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_10"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_11"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_12"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_13"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_14"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_15"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_16"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "dbttl_t2_spawn_01",
+        "tm": [
+          [-0.438342,0.0,-0.898808],
+          [0.0,1.0,0.0],
+          [0.898808,0.0,-0.438342],
+          [2547.54,56.7885,1607.17]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t2_spawn_01_01"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_02"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_03"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_04"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_05"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_06"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_07"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_08"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_09"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_10"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_11"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_12"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_13"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_14"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_15"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_16"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "dbttl_t2_spawn_02",
+        "tm": [
+          [0.830615,0.0,0.556848],
+          [0.0,1.0,0.0],
+          [-0.556848,0.0,0.830615],
+          [1512.73,50.0036,1602.96]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t2_spawn_02_01"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_02"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_03"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_04"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_05"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_06"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_07"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_08"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_09"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_10"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_11"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_12"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_13"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_14"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_15"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_16"
+          }
+        ]
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "dbttl_t1_circle",
+        "tm": [
+          [-1.58242,0.0,0.236448],
+          [0.0,1.0,0.0],
+          [-0.236448,0.0,-1.58242],
+          [1802.39,70.7457,2412.27]
+        ],
+        "unit_class": "capture_zone_circle",
+        "objLayer": 2,
+        "props": {
+          "army": 0,
+          "active": false
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_01",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [1973.35,70.3409,2072.2]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_02",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [1977.77,70.3409,2090.18]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_03",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [2000.72,70.3409,2103.21]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_04",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [1980.56,70.3409,2043.17]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_05",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [1994.08,70.3409,2063.1]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_06",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [2030.15,70.3409,2094.55]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_07",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [2010.7,70.3409,2083.85]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_08",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [1997.93,70.3409,2041.96]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_09",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [2013.44,70.3409,2059.51]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_10",
+        "tm": [
+          [0.68113,0.0,-0.732163],
+          [0.0,1.0,0.0],
+          [0.732163,0.0,0.68113],
+          [2032.58,70.3409,2076.69]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_zoneDef_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2036.89,70.3047,2042.95]
+        ],
+        "props": [
+          {
+            "squad_members": "tankModels_10"
+          },
+          {
+            "squad_members": "tankModels_01"
+          },
+          {
+            "squad_members": "tankModels_02"
+          },
+          {
+            "squad_members": "tankModels_03"
+          },
+          {
+            "squad_members": "tankModels_04"
+          },
+          {
+            "squad_members": "tankModels_05"
+          },
+          {
+            "squad_members": "tankModels_06"
+          },
+          {
+            "squad_members": "tankModels_07"
+          },
+          {
+            "squad_members": "tankModels_08"
+          },
+          {
+            "squad_members": "tankModels_09"
+          }
+        ]
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_21",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1831.62,70.3409,2404.8]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_22",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1827.91,70.3409,2422.94]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_23",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1805.28,70.3409,2422.29]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_24",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1792.75,70.3409,2439.74]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_25",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1808.96,70.3409,2446.08]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_26",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1786.26,70.3409,2417.23]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_27",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1776.32,70.3409,2393.51]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_28",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1786.17,70.3409,2378.42]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_29",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1799.15,70.3409,2396.42]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_20",
+        "tm": [
+          [-0.929099,0.0,0.36983],
+          [0.0,1.0,0.0],
+          [-0.36983,0.0,-0.929099],
+          [1816.46,70.3409,2383.2]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_zoneDef_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1803.02,70.3777,2410.63]
+        ],
+        "props": [
+          {
+            "squad_members": "tankModels_21"
+          },
+          {
+            "squad_members": "tankModels_22"
+          },
+          {
+            "squad_members": "tankModels_23"
+          },
+          {
+            "squad_members": "tankModels_24"
+          },
+          {
+            "squad_members": "tankModels_25"
+          },
+          {
+            "squad_members": "tankModels_26"
+          },
+          {
+            "squad_members": "tankModels_27"
+          },
+          {
+            "squad_members": "tankModels_28"
+          },
+          {
+            "squad_members": "tankModels_29"
+          },
+          {
+            "squad_members": "tankModels_20"
+          }
+        ]
+      }
+    }
+  ],
+  "areas": {
+    "dbttl_t2_capture_area": {
+      "type": "Cylinder",
+      "tm": [
+        [-40.76,0.0,6.09025],
+        [0.0,75.0,0.0],
+        [-6.09025,0.0,-40.76],
+        [2002.44,69.9425,2072.44]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_effect": {
+      "type": "Point",
+      "tm": [
+        [-40.76,0.0,6.09025],
+        [0.0,26.8686,0.0],
+        [-6.09025,0.0,-40.76],
+        [2002.8,69.9164,2070.21]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_01": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2094.03,57.5663,3083.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_02": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2088.08,59.1113,3065.09]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_03": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2080.1,60.2798,3045.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_04": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2058.33,61.8159,3030.11]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_05": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2039.05,62.3007,3035.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_06": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2066.08,60.283,3060.31]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_07": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2033.05,61.4601,3074.52]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_08": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2071.11,59.3427,3081.78]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_09": {
+      "type": "Sphere",
+      "tm": [
+        [5.11285,0.0,-17.2586],
+        [0.0,18.0,0.0],
+        [17.2586,0.0,5.11285],
+        [2051.78,60.3201,3084.28]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_10": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [1994.19,63.6799,3055.82]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_11": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2080.41,57.7012,3100.37]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_12": {
+      "type": "Sphere",
+      "tm": [
+        [5.11285,0.0,-17.2586],
+        [0.0,18.0,0.0],
+        [17.2586,0.0,5.11285],
+        [2005.81,62.8402,3070.58]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_13": {
+      "type": "Sphere",
+      "tm": [
+        [5.11285,0.0,-17.2586],
+        [0.0,18.0,0.0],
+        [17.2586,0.0,5.11285],
+        [2035.68,60.9791,3099.34]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_14": {
+      "type": "Sphere",
+      "tm": [
+        [5.11285,0.0,-17.2586],
+        [0.0,18.0,0.0],
+        [17.2586,0.0,5.11285],
+        [2045.84,61.2395,3058.87]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_15": {
+      "type": "Sphere",
+      "tm": [
+        [5.11285,0.0,-17.2586],
+        [0.0,18.0,0.0],
+        [17.2586,0.0,5.11285],
+        [2018.03,62.0207,3087.76]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_16": {
+      "type": "Sphere",
+      "tm": [
+        [7.32177,0.0,-16.4435],
+        [0.0,18.0,0.0],
+        [16.4435,0.0,7.32177],
+        [2057.72,59.7348,3101.09]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_01": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1345.26,64.5449,2898.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_02": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1313.97,63.2474,2873.57]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_03": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1333.88,63.5656,2867.29]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_04": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1353.63,63.7573,2874.28]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_05": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1362.9,64.1798,2895.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_06": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1392.08,64.6266,2898.33]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_07": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1371.8,64.5559,2913.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_08": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1404.55,65.0816,2931.37]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_09": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1385.53,64.8975,2937.43]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_10": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1362.67,65.3482,2932.43]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_11": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1408.64,65.2554,2951.33]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_12": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1391.92,64.7833,2917.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_13": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1323.96,63.7597,2894.88]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_14": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1427.1,65.6611,2943.68]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_15": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1420.88,65.5697,2966.18]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_16": {
+      "type": "Sphere",
+      "tm": [
+        [17.3279,0.0,4.87269],
+        [0.0,18.0,0.0],
+        [-4.87269,0.0,17.3279],
+        [1387.97,65.0097,2956.08]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_01": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2546.08,55.7233,1583.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_02": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2555.54,55.6943,1600.37]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_03": {
+      "type": "Sphere",
+      "tm": [
+        [7.64924,0.0,16.2939],
+        [0.0,18.0,0.0],
+        [-16.2939,0.0,7.64924],
+        [1469.1,49.7365,1626.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_04": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2559.61,56.0995,1644.17]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_05": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2519.23,57.2547,1647.91]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_06": {
+      "type": "Sphere",
+      "tm": [
+        [7.64924,0.0,16.2939],
+        [0.0,18.0,0.0],
+        [-16.2939,0.0,7.64924],
+        [1489.56,49.8403,1608.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_07": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2545.89,56.094,1618.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_08": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2565.28,55.5806,1615.94]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_09": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2536.29,56.1994,1603.64]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_10": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2502.54,57.53,1638.68]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_11": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2501.41,56.8941,1586.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_12": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2539.8,56.6928,1648.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_13": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2523.27,56.2812,1582.01]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_14": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2522.36,56.6986,1619.04]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_15": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2497.45,57.1694,1605.71]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_16": {
+      "type": "Sphere",
+      "tm": [
+        [-9.40552,0.0,15.3473],
+        [0.0,18.0,0.0],
+        [-15.3473,0.0,-9.40552],
+        [2516.46,56.6655,1600.48]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_01": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1482.17,49.9804,1656.92]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_02": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1570.74,50.4632,1585.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_03": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1482.5,50.1289,1679.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_04": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1560.57,50.457,1602.79]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_05": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1542.39,50.27,1603.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_06": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1482.24,49.8876,1638.26]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_07": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1549.75,50.4795,1623.39]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_08": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1504.03,50.0157,1624.21]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_09": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1526.74,50.2038,1619.23]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_10": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1521.4,50.0788,1603.84]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_11": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1548.99,50.2402,1584.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_12": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1542.43,50.5479,1643.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_13": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1503.29,50.3624,1679.17]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_14": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1520.13,50.2538,1638.26]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_15": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1512.76,50.3118,1658.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_16": {
+      "type": "Sphere",
+      "tm": [
+        [9.9772,0.0,14.9819],
+        [0.0,18.0,0.0],
+        [-14.9819,0.0,9.9772],
+        [1499.39,50.0892,1646.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_capture_area": {
+      "type": "Cylinder",
+      "tm": [
+        [-40.76,0.0,6.09025],
+        [0.0,75.0,0.0],
+        [-6.09025,0.0,-40.76],
+        [1802.44,70.7451,2412.29]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_effect": {
+      "type": "Point",
+      "tm": [
+        [-40.76,0.0,6.09025],
+        [0.0,26.8686,0.0],
+        [-6.09025,0.0,-40.76],
+        [1802.81,70.735,2410.04]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_battle_area": {
+      "type": "Box",
+      "tm": [
+        [1600.0,0.0,-6.10352e-05],
+        [0.0,500.0,0.0],
+        [6.10352e-05,0.0,1600.0],
+        [1884.35,-13.6479,2344.68]
+      ],
+      "objLayer": 4,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

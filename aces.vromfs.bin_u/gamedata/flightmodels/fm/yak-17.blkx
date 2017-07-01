@@ -39,7 +39,7 @@
     "AileronSens": 0.2
   },
   {
-    "GearActuatorSpeed": 0.2
+    "GearActuatorSpeed": 0.3
   },
   {
     "WingActuatorSpeed": 0.1
@@ -54,13 +54,16 @@
     "CockpitDoorBlockSpeed": 450.0
   },
   {
+    "CockpitOpenedDoorBreakSpeed": 470.0
+  },
+  {
     "AirBrakeSpeed": 0.5
   },
   {
-    "dvFlapsIn": [150.0,280.0,0.1,0.19]
+    "dvFlapsIn": [190.0,380.0,0.18,0.6]
   },
   {
-    "dvFlapsOut": [150.0,280.0,0.3,0.2]
+    "dvFlapsOut": [190.0,380.0,0.99,0.7]
   },
   {
     "Wingspan": 9.2
@@ -72,7 +75,7 @@
     "StabWidth": 3.42
   },
   {
-    "FinHeight": 1.6
+    "FinHeight": 1.5
   },
   {
     "Crew": 1
@@ -106,6 +109,9 @@
   },
   {
     "RudderInterceptor": false
+  },
+  {
+    "FlapsRadiator": 0.0
   },
   {
     "Elevon": false
@@ -234,6 +240,12 @@
       },
       {
         "hasIndependentAirbrakesAndFlaps": true
+      },
+      {
+        "canTakeoffWithoutFlaps": true
+      },
+      {
+        "bHasBoosterSwitcher": false
       }
     ]
   },
@@ -256,8 +268,8 @@
       "SmallHole": 0.0006,
       "MediumHole": 0.0016,
       "BigHole": 0.0055,
-      "WingLeftCut": 0.45,
-      "WingRightCut": 0.3
+      "WingLeftCut": 0.15,
+      "WingRightCut": 0.05
     }
   },
   {
@@ -274,10 +286,10 @@
       "Stabilizer": 4.6,
       "Keel": 4.7,
       "Rudder": 3.5,
-      "Fuselage": [0.8,-0.1,0.0],
+      "Fuselage": [1.0,0.0,0.0],
       "LeftStab": [-4.6,0.6,0.55],
       "RightStab": [-4.6,0.6,-0.55],
-      "VertStab": [-4.7,0.9,0.0],
+      "VertStab": [-4.7,0.5,0.0],
       "WingVWingFocusMultiplier": 0.0,
       "SineAOSMultiplier": 0.3
     }
@@ -338,22 +350,22 @@
       "NoFlaps": {
         "CdMin": 0.009,
         "Cl0": 0.12,
-        "ClCritHigh": 1.41,
+        "ClCritHigh": 1.32,
         "ClCritLow": -0.7,
-        "alphaCritHigh": 15.0,
+        "alphaCritHigh": 16.0,
         "alphaCritLow": -13.0
       },
       "FullFlaps": {
         "CdMin": 0.08,
         "Cl0": 0.79,
-        "ClCritHigh": 2.08,
-        "ClCritLow": -0.44,
-        "alphaCritHigh": 15.5,
+        "ClCritHigh": 1.52,
+        "ClCritLow": -0.35,
+        "alphaCritHigh": 14.0,
         "alphaCritLow": -14.5
       },
       "Fuselage": {
         "OswaldsEfficiencyNumber": 0.1,
-        "lineClCoeff": 0.01,
+        "lineClCoeff": 0.013,
         "AfterCritParabAngle": 2.0,
         "AfterCritDeclineCoeff": 0.007,
         "AfterCritMaxDistanceAngle": 30.0,
@@ -443,22 +455,22 @@
       },
       "Fin": {
         "OswaldsEfficiencyNumber": 0.4,
-        "lineClCoeff": 0.08,
+        "lineClCoeff": 0.045,
         "AfterCritParabAngle": 5.0,
         "AfterCritDeclineCoeff": 0.007,
         "AfterCritMaxDistanceAngle": 30.0,
-        "ClAfterCrit": 1.0,
+        "ClAfterCrit": 0.9,
         "MachFactor": 3,
         "MachCrit1": 0.75,
         "MachMax1": 0.95,
         "MultMachMax1": 7.0,
         "MultLineCoeff1": -5.2,
         "MultLimit1": 1.0,
-        "MachCrit2": 0.75,
-        "MachMax2": 0.95,
-        "MultMachMax2": 7.0,
-        "MultLineCoeff2": -5.2,
-        "MultLimit2": 1.0,
+        "MachCrit2": 0.4,
+        "MachMax2": 1.0,
+        "MultMachMax2": 0.75,
+        "MultLineCoeff2": -0.2,
+        "MultLimit2": 0.25,
         "MachCrit3": 0.4,
         "MachMax3": 0.8,
         "MultMachMax3": 0.8,
@@ -479,11 +491,12 @@
         "MultMachMax6": 0.0,
         "MultLineCoeff6": 0.0,
         "MultLimit6": 0.0,
+        "CombinedCl": false,
         "Cl0": 0.0,
-        "alphaCritHigh": 18.0,
-        "alphaCritLow": -18.0,
-        "ClCritHigh": 1.1,
-        "ClCritLow": -1.1,
+        "alphaCritHigh": 22.0,
+        "alphaCritLow": -22.0,
+        "ClCritHigh": 0.9,
+        "ClCritLow": -0.9,
         "CdMin": 0.01
       }
     }
@@ -692,6 +705,8 @@
       "Temperature": {
         "RadiatorType": 2,
         "OilRadiatorType": 2,
+        "RadiatorAuto": false,
+        "OilRadiatorAuto": false,
         "TempChangeSpeed": 0.01,
         "WaterMaxRPMTemp": 680.0,
         "OilOutMaxRPMTemp": 80.0,
@@ -909,6 +924,9 @@
       "WaterFriction": 1.0,
       "RetractableTailStrut": true,
       "UseCenterOfGravity": true,
+      "RetractableCentralGear": false,
+      "RetractableWingtipFloats": false,
+      "SteerableWheel": false,
       "FrontalSpringsHeight": 0.3,
       "TailSpringsHeight": 0.1,
       "FrontalSpringsCoeff": 229848.0,

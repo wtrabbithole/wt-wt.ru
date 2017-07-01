@@ -1,0 +1,3120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"/>
+  <style type="text/css">
+    .number-box
+    {
+       width : 60px;
+    }
+    
+    .chart-content-polar {
+      width: 430px;
+      height: 430px;
+      margin: 0 auto;
+      bottom: 50px;
+      padding: 0px;
+    }
+
+    .chart-container-polar {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;  
+      width: 430px;
+      height: 430px;
+      padding: 0px 0px 0px 0px;
+      margin: 15px auto 30px auto;
+      border: 1px solid #ddd;
+      background: #fff;
+      background: linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .chart-content-polar-2 {
+      width: 400px;
+      height: 140px;
+      margin: 0 auto;
+      bottom: 50px;
+      padding: 0px;
+    }
+
+    .chart-container-polar-2 {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;  
+      width: 400px;
+      height: 140px;
+      padding: 0px 0px 0px 0px;
+      margin: 15px auto 30px auto;
+      border: 1px solid #ddd;
+      background: #fff;
+      background: linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .chart-content-zhukovsky {
+      width: 1820px;
+      height: 400px;
+      margin: 0 auto;
+      bottom: 0px;
+      padding: 0px;
+    }
+
+    .chart-container-zhukovsky {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;  
+      width: 1820px;
+      height: 400px;
+      padding: 0px 0px 0px 0px;
+      margin: 15px auto 30px auto;
+      border: 1px solid #ddd;
+      background: #fff;
+      background: linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .chart-content-propeller-efficiency {
+      width: 685px;
+      height: 270px;
+      margin: 0 auto;
+      bottom: 50px;
+      padding: 0px;
+    }
+
+    .chart-container-propeller-efficiency {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;  
+      width: 685px;
+      height: 270px;
+      padding: 0px 0px 0px 0px;
+      margin: 15px auto 30px auto;
+      border: 1px solid #ddd;
+      background: #fff;
+      background: linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+      background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .legend table, .legend > div {
+        height: 20px !important;
+        opacity: 1 !important;
+        right: 10px;
+        bottom: 50px;
+    }
+     
+    .legend table {
+        border: 1px solid #555;
+        padding: 5px;
+    }
+
+    .chart-placeholder {
+      width: 100%;
+      height: 100%;
+      font-size: 14px;
+      line-height: 1.2em;
+    }
+    
+    .chart-placeholder-propeller-efficiency {
+      width: 100%;
+      height: 100%;
+      font-size: 14px;
+      line-height: 1.2em;
+    }
+        
+  </style>
+  <script src="../cookies.js"></script>
+  <script src="../jquery-1.10.1.min.js"></script>
+  <script src="../jquery.flot.js"></script>
+  <script src="../jquery.flot.navigate.min.js"></script>
+  <script src="../jquery.flot.axislabels.js"></script>
+  <script src="../parameter.js"></script>
+  <title>"War Thunder" Flight Model Editor</title>
+</head>
+  
+<body>
+  <style>
+    body {
+      color: #333;
+      background-color: #fff;
+    }
+
+    table {
+      border-spacing: 0;
+      border: 1px solid #cbcbcb;
+    }
+
+    thead {
+      background: #e0e0e0;
+      color: #000;
+    }
+
+    td, th {
+      padding: 0px 5px;
+      border-left: 1px solid #cbcbcb;
+      border-bottom: 1px solid #cbcbcb;
+      text-align: center;
+    }
+
+    th {
+      font-family: sans-serif;
+    }
+
+    tr[isDelayed=yes] {
+      background-color: #eee;
+    }
+
+    tr[isHero=yes] {
+      background-color: lightgreen;
+    }
+
+    button {
+      -webkit-border-radius: 2px 2px;
+      border: solid 1px rgb(153, 153, 153);
+      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(255, 255, 255)), to(rgb(221, 221, 221)));
+      color: #333;
+      cursor: pointer;
+    }
+    button:disabled {
+      border: solid 1px rgb(203, 203, 203);
+      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(255, 255, 255)), to(rgb(231, 231, 231)));
+      color: #999;
+      cursor: default;
+    }
+  </style>
+  <script>
+  
+  function onEngineParamChange(param)
+  {
+    const engine = fmProperties.items.engine.items
+    const engineType = parseInt(engine.type.value)
+    const enginePresent = (engineType < 4 || engineType == 5)
+    const takeoffMode = engineType < 3
+    //alert('takeoffMode = ' + takeoffMode)
+    const boostMode = engineType < 3
+    //alert('boostMode = ' + boostMode)
+  
+    const compressor = engine.compressor.items
+    const compressorType = parseInt(compressor.type.value)
+    var stageCount = 0
+    if (engineType < 2)
+    {
+      if (compressorType == 0)
+        stageCount = 0
+      else if (compressorType == 3)
+        stageCount = 1
+      else
+        stageCount = parseInt(compressor.stageCount.value)
+    }
+    else
+      stageCount = 0
+    //alert('stageCount = ' + stageCount)
+    //alert('engineType = ' + engineType)
+    var paramsState = [
+      {
+        param: compressor.type,
+        state: enginePresent && engineType < 2
+      },
+      {
+        param: compressor.stageCount,
+        state: enginePresent && (compressorType == 1 || compressorType == 2)
+      },
+      {
+        param: compressor.airFlowMultiplier,
+        state: enginePresent && engineType < 2
+      },
+      {
+        param: engine.feedingType,
+        state: enginePresent && engineType < 2
+      },
+      {
+        param: engine.mixerType,
+        state: enginePresent && engineType < 2
+      },
+      {
+        param: engine.boosterType,
+        state: enginePresent && engineType < 2
+      },      
+      {
+        param: engine.idleOmega,
+        state: enginePresent
+      },
+      {
+        param: engine.maxOmega,
+        state: enginePresent
+      },
+      {
+        param: engine.autonomousLaunch,
+        state: enginePresent
+      },
+      {
+        param: engine.mass,
+        state: enginePresent
+      },
+      {
+        param: engine.cylinderCount,
+        state: enginePresent && engineType < 2
+      },
+      {
+        param: engine.omegaForNom,
+        state: enginePresent
+      },
+      {
+        param: engine.manifoldPressureNom,
+        state: enginePresent
+      },
+      {
+        param: engine.powerNom0,
+        state: enginePresent && engineType < 2
+      },
+      {
+        param: engine.thrustNom0,
+        state: enginePresent && engineType > 1
+      },      
+      {
+        param: engine.omegaForTakeoff,
+        state: enginePresent && takeoffMode
+      },
+      {
+        param: engine.powerTakeoff0,
+        state: enginePresent && takeoffMode && engineType < 2
+      },
+      {
+        param: engine.thrustTakeoff0,
+        state: enginePresent && takeoffMode && engineType > 1
+      },  
+      {
+        param: engine.omegaForBoost,
+        state: enginePresent && boostMode
+      },
+      {
+        param: engine.manifoldPressureBoost,
+        state: enginePresent && boostMode
+      },
+      {
+        param: engine.powerBoost0,
+        state: enginePresent && boostMode && engineType < 2
+      },
+      {
+        param: engine.thrustBoost0,
+        state: enginePresent && boostMode && engineType > 1
+      }
+    ]
+    var thresholds = engine.thresholds.items
+    for (var i = 0; i < 3; ++i)
+    {
+      var threshold = thresholds[i].items
+      paramsState[paramsState.length] = {
+        param: threshold.altitude,
+        state: enginePresent && stageCount > i
+      }
+      paramsState[paramsState.length] = {
+        param: threshold.powerNom,
+        state: enginePresent && stageCount > i
+      }
+      paramsState[paramsState.length] = {
+        param: threshold.powerTakeoff,
+        state: enginePresent && stageCount > i && takeoffMode
+      }
+      paramsState[paramsState.length] = {
+        param: threshold.altitudeBoost,
+        state: enginePresent && stageCount > i && boostMode
+      }
+      paramsState[paramsState.length] = {
+        param: threshold.powerBoost,
+        state: enginePresent && stageCount > i && boostMode
+      }
+    }
+    for (var i = 0; i < paramsState.length; ++i)
+    {
+      var paramState = paramsState[i]
+      //if (paramState.param == undefined)
+      //  alert('Missed param ' + i)
+      paramState.param.inactive = !paramState.state
+      saveParameter(paramState.param, settings.unitSystemName)
+    }
+  }
+  
+  var polarType = 'wing'
+  var settings = {
+    unitSystemName: 0
+  }
+  var state = {
+    connected: true,
+    fm: {
+      typeName: '',
+      fileName: '',
+      fileTime: undefined,
+      editable: false
+    }
+  }
+  
+  const SpeedType =
+  {
+    IAS: 0,
+    TAS: 1,
+    Mach: 2
+  }
+  const ThrottleMode =
+  {
+    MANUAL: 0,
+    FULL: 1,
+    WEP: 2
+  }
+  var zhukovskyChartsParameters = {
+    type: 'table',
+    items: {
+      altitude:     { type: 'number', unit: 'altitude', controlId: 'EditAltitude',      value: 0.0 },
+      throttleMode: { type: 'enum',                     controlId: 'ComboThrottleMode', value: ThrottleMode.FULL,
+                      handler:  function(param)
+                                {
+                                  var throttle = zhukovskyChartsParameters.items.throttle
+                                  throttle.disabled = param.value != ThrottleMode.MANUAL
+                                  saveParameter(throttle, settings.unitSystemName)
+                                } },
+      throttle:     { type: 'number', unit: 'ratio',    controlId: 'EditThrottle',      value: 1.0 },
+      speedType:    { type: 'enum',                     controlId: 'ComboSpeedType',    value: SpeedType.TAS },
+      series: {
+        type: 'array',
+        items: [
+          { type: 'bool', controlId: 'CheckBoxClimbRateBySpeed',    value: true },
+          { type: 'bool', controlId: 'CheckBoxTurnTimeBySpeed',     value: true },
+          { type: 'bool', controlId: 'CheckBoxMaxAvailableThrust',  value: true },
+          { type: 'bool', controlId: 'CheckBoxMaxSpeedReqThrust',   value: true },
+          { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust1', value: true },
+          { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust2', value: false },
+          { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust3', value: false },
+          { type: 'bool', controlId: 'CheckBoxClimbRateReqThrust4', value: false }
+        ]
+      },
+      climbRate: {
+        type: 'array',
+        items: [
+          { type: 'number', unit: 'verticalVelocity', precision: 1, controlId: 'EditClimbRate1', value: 15.0 },
+          { type: 'number', unit: 'verticalVelocity', precision: 1, controlId: 'EditClimbRate2', value: 10.0 },
+          { type: 'number', unit: 'verticalVelocity', precision: 1, controlId: 'EditClimbRate3', value: 5.0 },
+          { type: 'number', unit: 'verticalVelocity', precision: 1, controlId: 'EditClimbRate4', value: 3.0 }
+        ]
+      }
+    }
+  }
+  var zhukovskyChartAppliedParameters = {}
+  
+  var fmProperties = {
+    type: 'table',
+    items: {
+      polar: {
+        type: 'table',
+        items: {
+          wing: {
+            condition: function() { return polarType == 'wing'; alert('wing polar') },
+            type: 'table',
+            items: {
+              oswaldCoeff:  { type: 'number',                 precision: 4, controlId: 'EditOswaldCoeff' },
+              dCydAoA:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditdCydAoA' },
+              afterCrit: {
+                type: 'table',
+                items: {
+                  parabAngle:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditParabAngle' },
+                  declineCoeff:     { type: 'number',                 precision: 4, controlId: 'EditDeclineCoeff' },
+                  maxDistanceAngle: { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditMaxDistAngle' },
+                  Cy:               { type: 'number',                 precision: 4, controlId: 'EditCyAft' }
+                }
+              },
+              noFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0' },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0' },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHigh' },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMax' },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLow' },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMin' }
+                }
+              },
+              fullFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0Flaps' },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0Flaps' },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHighFlaps' },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMaxFlaps' },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLowFlaps' },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMinFlaps' }
+                }
+              },
+              machFactor:           { type: 'enum',                                 controlId: 'ComboMachFactor' },
+              combinedCl:           { type: 'bool',                                 controlId: 'CheckBoxCombinedCl' },
+              machCrit1:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit1' },
+              machMax1:             { type: 'number',                 precision: 4, controlId: 'EditMachMax1' },
+              multMachMax1:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax1' },
+              multLineCoeff1:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff1' },
+              multLimit1:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit1' },
+              machCrit2:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit2' },
+              machMax2:             { type: 'number',                 precision: 4, controlId: 'EditMachMax2' },
+              multMachMax2:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax2' },
+              multLineCoeff2:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff2' },
+              multLimit2:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit2' },
+              machCrit3:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit3' },
+              machMax3:             { type: 'number',                 precision: 4, controlId: 'EditMachMax3' },
+              multMachMax3:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax3' },
+              multLineCoeff3:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff3' },
+              multLimit3:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit3' },
+              machCrit4:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit4' },
+              machMax4:             { type: 'number',                 precision: 4, controlId: 'EditMachMax4' },
+              multMachMax4:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax4' },
+              multLineCoeff4:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff4' },
+              multLimit4:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit4' },
+              machCrit5:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit5' },
+              machMax5:             { type: 'number',                 precision: 4, controlId: 'EditMachMax5' },
+              multMachMax5:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax5' },
+              multLineCoeff5:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff5' },
+              multLimit5:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit5' },
+              machCrit6:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit6' },
+              machMax6:             { type: 'number',                 precision: 4, controlId: 'EditMachMax6' },
+              multMachMax6:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax6' },
+              multLineCoeff6:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff6' },
+              multLimit6:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit6' }
+            }
+          },
+          stabilizer: {
+            condition: function() { return polarType == 'stabilizer' },
+            type: 'table',
+            items: {
+              oswaldCoeff:  { type: 'number',                 precision: 4, controlId: 'EditOswaldCoeff' },
+              dCydAoA:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditdCydAoA' },
+              afterCrit: {
+                type: 'table',
+                items: {
+                  parabAngle:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditParabAngle' },
+                  declineCoeff:     { type: 'number',                 precision: 4, controlId: 'EditDeclineCoeff' },
+                  maxDistanceAngle: { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditMaxDistAngle' },
+                  Cy:               { type: 'number',                 precision: 4, controlId: 'EditCyAft' }
+                }
+              },
+              noFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0' },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0' },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHigh' },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMax' },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLow' },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMin' }
+                }
+              },
+              fullFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0Flaps',          disabled: true },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0Flaps',          disabled: true },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHighFlaps',  disabled: true },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMaxFlaps',        disabled: true },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLowFlaps',   disabled: true },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMinFlaps',        disabled: true }
+                }
+              },
+              machFactor:           { type: 'enum',                                 controlId: 'ComboMachFactor' },
+              combinedCl:           { type: 'bool',                                 controlId: 'CheckBoxCombinedCl' },
+              machCrit1:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit1' },
+              machMax1:             { type: 'number',                 precision: 4, controlId: 'EditMachMax1' },
+              multMachMax1:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax1' },
+              multLineCoeff1:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff1' },
+              multLimit1:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit1' },
+              machCrit2:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit2' },
+              machMax2:             { type: 'number',                 precision: 4, controlId: 'EditMachMax2' },
+              multMachMax2:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax2' },
+              multLineCoeff2:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff2' },
+              multLimit2:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit2' },
+              machCrit3:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit3' },
+              machMax3:             { type: 'number',                 precision: 4, controlId: 'EditMachMax3' },
+              multMachMax3:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax3' },
+              multLineCoeff3:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff3' },
+              multLimit3:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit3' },
+              machCrit4:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit4' },
+              machMax4:             { type: 'number',                 precision: 4, controlId: 'EditMachMax4' },
+              multMachMax4:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax4' },
+              multLineCoeff4:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff4' },
+              multLimit4:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit4' },
+              machCrit5:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit5' },
+              machMax5:             { type: 'number',                 precision: 4, controlId: 'EditMachMax5' },
+              multMachMax5:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax5' },
+              multLineCoeff5:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff5' },
+              multLimit5:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit5' },
+              machCrit6:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit6' },
+              machMax6:             { type: 'number',                 precision: 4, controlId: 'EditMachMax6' },
+              multMachMax6:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax6' },
+              multLineCoeff6:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff6' },
+              multLimit6:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit6' }
+            }
+          },
+          fin: {
+            condition: function() { return polarType == 'fin' },
+            type: 'table',
+            items: {
+              oswaldCoeff:  { type: 'number',                 precision: 4, controlId: 'EditOswaldCoeff' },
+              dCydAoA:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditdCydAoA' },
+              afterCrit: {
+                type: 'table',
+                items: {
+                  parabAngle:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditParabAngle' },
+                  declineCoeff:     { type: 'number',                 precision: 4, controlId: 'EditDeclineCoeff' },
+                  maxDistanceAngle: { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditMaxDistAngle' },
+                  Cy:               { type: 'number',                 precision: 4, controlId: 'EditCyAft' }
+                }
+              },
+              noFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0' },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0' },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHigh' },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMax' },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLow' },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMin' }
+                }
+              },
+              fullFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0Flaps',          disabled: true },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0Flaps',          disabled: true },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHighFlaps',  disabled: true },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMaxFlaps',        disabled: true },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLowFlaps',   disabled: true },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMinFlaps',        disabled: true }
+                }
+              },
+              machFactor:           { type: 'enum',                                 controlId: 'ComboMachFactor' },
+              combinedCl:           { type: 'bool',                                 controlId: 'CheckBoxCombinedCl' },
+              machCrit1:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit1' },
+              machMax1:             { type: 'number',                 precision: 4, controlId: 'EditMachMax1' },
+              multMachMax1:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax1' },
+              multLineCoeff1:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff1' },
+              multLimit1:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit1' },
+              machCrit2:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit2' },
+              machMax2:             { type: 'number',                 precision: 4, controlId: 'EditMachMax2' },
+              multMachMax2:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax2' },
+              multLineCoeff2:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff2' },
+              multLimit2:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit2' },
+              machCrit3:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit3' },
+              machMax3:             { type: 'number',                 precision: 4, controlId: 'EditMachMax3' },
+              multMachMax3:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax3' },
+              multLineCoeff3:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff3' },
+              multLimit3:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit3' },
+              machCrit4:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit4' },
+              machMax4:             { type: 'number',                 precision: 4, controlId: 'EditMachMax4' },
+              multMachMax4:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax4' },
+              multLineCoeff4:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff4' },
+              multLimit4:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit4' },
+              machCrit5:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit5' },
+              machMax5:             { type: 'number',                 precision: 4, controlId: 'EditMachMax5' },
+              multMachMax5:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax5' },
+              multLineCoeff5:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff5' },
+              multLimit5:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit5' },
+              machCrit6:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit6' },
+              machMax6:             { type: 'number',                 precision: 4, controlId: 'EditMachMax6' },
+              multMachMax6:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax6' },
+              multLineCoeff6:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff6' },
+              multLimit6:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit6' },
+            }
+          },
+          fuselage: {
+            condition: function() { return polarType == 'fuselage' },
+            type: 'table',
+            items: {
+              oswaldCoeff:  { type: 'number',                 precision: 4, controlId: 'EditOswaldCoeff' },
+              dCydAoA:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditdCydAoA' },
+              afterCrit: {
+                type: 'table',
+                items: {
+                  parabAngle:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditParabAngle' },
+                  declineCoeff:     { type: 'number',                 precision: 4, controlId: 'EditDeclineCoeff'},
+                  maxDistanceAngle: { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditMaxDistAngle'},
+                  Cy:               { type: 'number',                 precision: 4, controlId: 'EditCyAft'}
+                }
+              },
+              noFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0' },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0' },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHigh' },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMax' },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLow' },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMin' }
+                }
+              },
+              fullFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0Flaps',          disabled: true },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0Flaps',          disabled: true },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHighFlaps',  disabled: true },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMaxFlaps',        disabled: true },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLowFlaps',   disabled: true },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMinFlaps',        disabled: true }
+                }
+              },
+              machFactor:           { type: 'enum',                                 controlId: 'ComboMachFactor' },
+              combinedCl:           { type: 'bool',                                 controlId: 'CheckBoxCombinedCl' },
+              machCrit1:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit1' },
+              machMax1:             { type: 'number',                 precision: 4, controlId: 'EditMachMax1' },
+              multMachMax1:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax1' },
+              multLineCoeff1:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff1' },
+              multLimit1:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit1' },
+              machCrit2:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit2' },
+              machMax2:             { type: 'number',                 precision: 4, controlId: 'EditMachMax2' },
+              multMachMax2:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax2' },
+              multLineCoeff2:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff2' },
+              multLimit2:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit2' },
+              machCrit3:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit3' },
+              machMax3:             { type: 'number',                 precision: 4, controlId: 'EditMachMax3' },
+              multMachMax3:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax3' },
+              multLineCoeff3:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff3' },
+              multLimit3:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit3' },
+              machCrit4:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit4' },
+              machMax4:             { type: 'number',                 precision: 4, controlId: 'EditMachMax4' },
+              multMachMax4:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax4' },
+              multLineCoeff4:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff4' },
+              multLimit4:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit4' },
+              machCrit5:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit5' },
+              machMax5:             { type: 'number',                 precision: 4, controlId: 'EditMachMax5' },
+              multMachMax5:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax5' },
+              multLineCoeff5:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff5' },
+              multLimit5:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit5' },
+              machCrit6:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit6' },
+              machMax6:             { type: 'number',                 precision: 4, controlId: 'EditMachMax6' },
+              multMachMax6:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax6' },
+              multLineCoeff6:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff6' },
+              multLimit6:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit6' }
+            }
+          },
+          propellerBlade: {
+            condition: function() { return polarType == 'propellerBlade' },
+            type: 'table',
+            items: {
+              oswaldCoeff:  { type: 'number',                 precision: 4, controlId: 'EditOswaldCoeff', disabled: true },
+              dCydAoA:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditdCydAoA' },
+              afterCrit: {
+                type: 'table',
+                items: {
+                  parabAngle:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditParabAngle' },
+                  declineCoeff:     { type: 'number',                 precision: 4, controlId: 'EditDeclineCoeff' },
+                  maxDistanceAngle: { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditMaxDistAngle' },
+                  Cy:               { type: 'number',                 precision: 4, controlId: 'EditCyAft' }
+                }
+              },
+              noFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0' },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0' },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHigh' },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMax' },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLow' },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMin' }
+                }
+              },
+              fullFlaps: {
+                type: 'table',
+                items: {
+                  Cx0:              { type: 'number',                 precision: 4, controlId: 'EditCx0Flaps',          disabled: true },
+                  Cy0:              { type: 'number',                 precision: 4, controlId: 'EditCy0Flaps',          disabled: true },
+                  AoACritHigh:      { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritHighFlaps',  disabled: true },
+                  CyMax:            { type: 'number',                 precision: 4, controlId: 'EditCyMaxFlaps',        disabled: true },
+                  AoACritLow:       { type: 'number', unit: 'angle',  precision: 4, controlId: 'EditAoACritLowFlaps',   disabled: true },
+                  CyMin:            { type: 'number',                 precision: 4, controlId: 'EditCyMinFlaps',        disabled: true }
+                }
+              },
+              machFactor:           { type: 'enum',                                 controlId: 'ComboMachFactor' },
+              combinedCl:           { type: 'bool',                                 controlId: 'CheckBoxCombinedCl' },
+              machCrit1:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit1' },
+              machMax1:             { type: 'number',                 precision: 4, controlId: 'EditMachMax1' },
+              multMachMax1:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax1' },
+              multLineCoeff1:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff1' },
+              multLimit1:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit1' },
+              machCrit2:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit2' },
+              machMax2:             { type: 'number',                 precision: 4, controlId: 'EditMachMax2' },
+              multMachMax2:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax2' },
+              multLineCoeff2:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff2' },
+              multLimit2:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit2' },
+              machCrit3:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit3' },
+              machMax3:             { type: 'number',                 precision: 4, controlId: 'EditMachMax3' },
+              multMachMax3:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax3' },
+              multLineCoeff3:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff3' },
+              multLimit3:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit3' },
+              machCrit4:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit4' },
+              machMax4:             { type: 'number',                 precision: 4, controlId: 'EditMachMax4' },
+              multMachMax4:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax4' },
+              multLineCoeff4:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff4' },
+              multLimit4:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit4' },
+              machCrit5:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit5' },
+              machMax5:             { type: 'number',                 precision: 4, controlId: 'EditMachMax5' },
+              multMachMax5:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax5' },
+              multLineCoeff5:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff5' },
+              multLimit5:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit5' },
+              machCrit6:            { type: 'number',                 precision: 4, controlId: 'EditMachCrit6' },
+              machMax6:             { type: 'number',                 precision: 4, controlId: 'EditMachMax6' },
+              multMachMax6:         { type: 'number',                 precision: 4, controlId: 'EditMultMachMax6' },
+              multLineCoeff6:       { type: 'number',                 precision: 4, controlId: 'EditMultLineCoeff6' },
+              multLimit6:           { type: 'number',                 precision: 4, controlId: 'EditMultLimit6' }
+            }
+          }
+        }
+      },
+      propeller: {
+        type: 'table',
+        items: {
+          autoMode:                 { type: 'bool',                               controlId: 'CheckBoxPropellerAutoMode' },
+          reductorCoefficient:      { type: 'number',               precision: 3, controlId: 'EditPropellerReductorCoeff' },
+          mass:                     { type: 'number', unit: 'mass', precision: 3, controlId: 'EditPropellerMass' },
+          inertiaMomentCoeff:       { type: 'number',               precision: 3, controlId: 'EditPropellerInertiaMomentCoeff' },
+          direction:                { type: 'enum',                               controlId: 'ComboPropellerDirection' },          
+          shape: {
+            type: 'table',
+            items: {          
+              bladeNumber:            { type: 'number',                   precision: 0, controlId: 'EditPropellerBladeNumber' },
+              radius:                 { type: 'number', unit: 'altitude', precision: 2, controlId: 'EditPropellerRadius' },
+              speed:                  { type: 'number', unit: 'velocity', precision: 0, controlId: 'EditPropellerSpeed' },
+              omega:                  { type: 'number', unit: 'rotationVelocity', precision: 0, controlId: 'EditPropellerOmega' },
+              segment: {
+                type: 'array',
+                items: [
+                  {
+                    type: 'table',
+                    items: {
+                      angle:            { type: 'number', unit: 'angle',         precision: 2, controlId: 'EditPropellerAngle0' },
+                      chord:            { type: 'number', unit: 'altitude',      precision: 2, controlId: 'EditPropellerChord0' },
+                    }
+                  },
+                  {
+                    type: 'table',
+                    items: {
+                      angle:            { type: 'number', unit: 'angle',         precision: 2, controlId: 'EditPropellerAngle1' },
+                      chord:            { type: 'number', unit: 'altitude',      precision: 2, controlId: 'EditPropellerChord1' },
+                    }
+                  },
+                  {
+                    type: 'table',
+                    items: {
+                      angle:            { type: 'number', unit: 'angle',         precision: 2, controlId: 'EditPropellerAngle2' },
+                      chord:            { type: 'number', unit: 'altitude',      precision: 2, controlId: 'EditPropellerChord2' },
+                    }
+                  },
+                  {
+                    type: 'table',
+                    items: {
+                      angle:            { type: 'number', unit: 'angle',         precision: 2, controlId: 'EditPropellerAngle3' },
+                      chord:            { type: 'number', unit: 'altitude',      precision: 2, controlId: 'EditPropellerChord3' },
+                    }
+                  }
+                ]
+              }
+            }
+          },          
+          controller: {
+            type: 'table',
+            items: {
+              type:                   { type: 'enum',                                           controlId: 'ComboPropellerControllerType' },
+              governorSpeed:          { type: 'number', precision: 2, unit: 'angularVelocity',  controlId: 'EditPropellerGovernorSpeed' },
+              minOmega:               { type: 'number', precision: 0, unit: 'rotationVelocity', controlId: 'EditPropellerMinOmega' },
+              maxOmega:               { type: 'number', precision: 0, unit: 'rotationVelocity', controlId: 'EditPropellerMaxOmega' },
+              wepOmega:               { type: 'number', precision: 0, unit: 'rotationVelocity', controlId: 'EditPropellerWepOmega' },
+              minAngle:               { type: 'number', precision: 2, unit: 'angle',            controlId: 'EditPropellerMinAngle' },
+              maxAngle:               { type: 'number', precision: 2, unit: 'angle',            controlId: 'EditPropellerMaxAngle' },
+              optimalAngle:           { type: 'number', precision: 2, unit: 'angle',            controlId: 'EditPropellerOptimalAngle' },
+              featheringControl:      { type: 'bool',                                           controlId: 'CheckBoxPropellerFeathering' },
+              featheringAngle:        { type: 'number', precision: 2, unit: 'angle',            controlId: 'EditPropellerFeatheringAngle' }
+            }
+          }
+        }
+      },
+      /*
+      engine: {
+        type: 'table',
+        items: {
+          type:                     { type: 'enum', controlId: 'ComboEngineType', handler: onEngineParamChange },
+          compressor: {
+            type: 'table',
+            items: {
+              type:                   { type: 'enum',   controlId: 'ComboCompressorType',       handler: onEngineParamChange },
+              stageCount:             { type: 'enum',   controlId: 'ComboCompressorStageCount', handler: onEngineParamChange },
+              airFlowMultiplier:      { type: 'number', controlId: 'EditAirFlowMultiplier' },
+            }
+          },
+          feedingType:              { type: 'enum',   controlId: 'ComboEngineFeedingType' },
+          mixerType:                { type: 'enum',   controlId: 'ComboEngineMixerType' },
+          boosterType:              { type: 'enum',   controlId: 'ComboEngineBoosterType' },
+          idleOmega:                { type: 'number', controlId: 'EditEngineIdleOmega',                     unit: 'rotationVelocity' },
+          maxOmega:                 { type: 'number', controlId: 'EditEngineMaxOmega',                      unit: 'rotationVelocity' },
+          mass:                     { type: 'number', controlId: 'EditEngineMass',                          unit: 'mass' },
+          cylinderCount:            { type: 'number', controlId: 'EditEngineCylinderCount' },
+          autonomousLaunch:         { type: 'bool',   controlId: 'ComboEngineLaunchType'},
+                  
+          omegaForNom:              { type: 'number', controlId: 'EditEngineOmegaForNom',                   unit: 'rotationVelocity' },
+          omegaForTakeoff:          { type: 'number', controlId: 'EditEngineOmegaForTakeoff',               unit: 'rotationVelocity' },
+          omegaForBoost:            { type: 'number', controlId: 'EditEngineOmegaForBoost',                 unit: 'rotationVelocity' },
+          
+          manifoldPressureNom:      { type: 'number', controlId: 'EditEngineManifoldPressureNom',   unit: 'pressure' },
+          manifoldPressureBoost:    { type: 'number', controlId: 'EditEngineManifoldPressureBoost', unit: 'pressure' },
+          
+          powerNom0:                { type: 'number', unit: 'power', controlId: 'EditEnginePower0Nom',        unit: 'power' },
+          powerTakeoff0:            { type: 'number', unit: 'power', controlId: 'EditEnginePower0Takeoff',    unit: 'power' },
+          powerBoost0:              { type: 'number', unit: 'power', controlId: 'EditEnginePower0Boost',      unit: 'power' },
+                  
+          thrustNom0:               { type: 'number', controlId: 'EditEngineThrust0Nom',                     unit: 'thrust' },
+          thrustTakeoff0:           { type: 'number', controlId: 'EditEngineThrust0Takeoff',                 unit: 'thrust' },
+          thrustBoost0:             { type: 'number', controlId: 'EditEngineThrust0Boost',                   unit: 'thrust' },
+          
+          thresholds: {
+            type: 'array',
+            items: [
+              {
+                type: 'table',
+                items: {
+                  altitude:           { type: 'number',   controlId: 'EditEngineAltitude1',           unit: 'altitude' },
+                  powerNom:           { type: 'number',   controlId: 'EditEnginePower1ForNom',        unit: 'power' },
+                  powerTakeoff:       { type: 'number',   controlId: 'LabelEnginePower1ForTakeoff',   unit: 'power',      readOnly: true },
+                  altitudeBoost:      { type: 'number',   controlId: 'EditEngineAltitudeForBoost1',   unit: 'altitude' },
+                  powerBoost:         { type: 'number',   controlId: 'LabelEnginePower1ForBoost',     unit: 'power',      readOnly: true }
+                }
+              },
+              {
+                type: 'table',
+                items: {
+                  altitude:           { type: 'number',   controlId: 'EditEngineAltitude2',           unit: 'altitude' },
+                  powerNom:           { type: 'number',   controlId: 'EditEnginePower2ForNom',        unit: 'power' },
+                  powerTakeoff:       { type: 'number',   controlId: 'LabelEnginePower2ForTakeoff',   unit: 'power',      readOnly: true },
+                  altitudeBoost:      { type: 'number',   controlId: 'LabelEngineAltitude2ForBoost',  unit: 'altitude',   readOnly: true },
+                  powerBoost:         { type: 'number',   controlId: 'LabelEnginePower2ForBoost',     unit: 'power',      readOnly: true }
+                }
+              },
+              {
+                type: 'table',
+                items: {
+                  altitude:           { type: 'number',   controlId: 'EditEngineAltitude3',           unit: 'altitude' },
+                  powerNom:           { type: 'number',   controlId: 'EditEnginePower3ForNom',        unit: 'power' },
+                  powerTakeoff:       { type: 'number',   controlId: 'LabelEnginePower3ForTakeoff',   unit: 'power',       readOnly: true },
+                  altitudeBoost:      { type: 'number',   controlId: 'LabelEngineAltitude3ForBoost',  unit: 'altitude',    readOnly: true },
+                  powerBoost:         { type: 'number',   controlId: 'LabelEnginePower3ForBoost',     unit: 'power',       readOnly: true }
+                }
+              }
+            ]
+          }
+        }
+      }
+      */
+    }
+  }
+  
+  var fmTables = {}
+
+  //Polar Charts
+  function getChartCyAoA(polarType)
+  {
+    var data = []    
+    const polarPlot = fmTables && fmTables.polar ? fmTables.polar[polarType].polarByAoA : undefined
+    if (polarPlot != undefined)
+    {
+      const noFlaps = polarPlot['noFlaps']
+      for (var i = 0; i < noFlaps.length; ++i)
+      {
+        var noFlapsPoints = { label: 'M=' + noFlaps[i].mach.toString(), data: []}
+        for (var j = 0; j < noFlaps[i].points.length; ++j)
+          noFlapsPoints.data.push( [ noFlaps[i].points[j][0] * radToDeg, noFlaps[i].points[j][1] ] )
+        data.push(noFlapsPoints)
+      }
+      const fullFlaps = polarPlot['fullFlaps']
+      if (fullFlaps != undefined)
+      {
+        var fullFlapsPoints = { label: 'Flaps, M=0.0', data: [], lines: { lineWidth: 5 } }
+        for (var i = 0; i < fullFlaps.length; ++i)
+          fullFlapsPoints.data.push( [ fullFlaps[i][0] * radToDeg, fullFlaps[i][1] ] )
+        data.push(fullFlapsPoints)
+      }
+    }
+    return data
+  }
+  
+  function getChartCxAoA(polarType)
+  {
+    var data = []
+    const polarPlot = fmTables && fmTables.polar ? fmTables.polar[polarType].polarByAoA : undefined
+    if (polarPlot != undefined)
+    {
+      const noFlaps = polarPlot['noFlaps']
+      for (var i = 0; i < noFlaps.length; ++i)
+      {
+        var noFlapsPoints = { label: 'M=' + noFlaps[i].mach.toString(), data: [] }
+        for (var j = 0; j < noFlaps[i].points.length; ++j)
+          noFlapsPoints.data.push( [ noFlaps[i].points[j][0] * radToDeg, noFlaps[i].points[j][2] ] )
+        data.push(noFlapsPoints)
+      }
+      const fullFlaps = polarPlot['fullFlaps']
+      if (fullFlaps != undefined)
+      {
+        var fullFlapsPoints = { label: 'Flaps, M=0.0', data: [], lines: { lineWidth: 5 } }
+        for (var i = 0; i < fullFlaps.length; ++i)
+          fullFlapsPoints.data.push( [ fullFlaps[i][0] * radToDeg, fullFlaps[i][2] ] )
+        data.push(fullFlapsPoints)
+      }
+    }
+    return data
+  }
+  
+  function getChartCyCxRatioAoA(polarType)
+  {
+    var data = []
+    const polarPlot = fmTables && fmTables.polar ? fmTables.polar[polarType].polarByAoA : undefined
+    if (polarPlot != undefined)
+    {
+      const noFlaps = polarPlot['noFlaps']
+      for (var i = 0; i < noFlaps.length; ++i)
+      {
+        var noFlapsPoints = { label: 'M=' + noFlaps[i].mach.toString(), data: [] }
+        for (var j = 0; j < noFlaps[i].points.length; ++j)
+          noFlapsPoints.data.push( [ noFlaps[i].points[j][0] * radToDeg, Math.abs(noFlaps[i].points[j][1] / noFlaps[i].points[j][2]) ] )
+        data.push(noFlapsPoints)
+      }      
+      const fullFlaps = polarPlot['fullFlaps']
+      if (fullFlaps != undefined)
+      {
+        var fullFlapsPoints = { label: 'Flaps, M=0.0', data: [], lines: { lineWidth: 5 } }
+        for (var i = 0; i < fullFlaps.length; ++i)
+          fullFlapsPoints.data.push( [ fullFlaps[i][0] * radToDeg, Math.abs(fullFlaps[i][1] / fullFlaps[i][2]) ] )
+        data.push(fullFlapsPoints)
+      }
+    }
+    return data
+  }
+  
+  function getChartCyByCx(polarType)
+  {
+    var data = []
+    const polarPlot = fmTables && fmTables.polar ? fmTables.polar[polarType].polarByAoA : undefined
+    if (polarPlot != undefined)
+    {    
+      var aoaCritHigh = fmProperties.items.polar.items[polarType].items.noFlaps.items.AoACritHigh.value    
+      const noFlaps = polarPlot['noFlaps']
+      for (var i = 0; i < noFlaps.length; ++i)
+      {
+        var noFlapsPoints = { label: 'M=' + noFlaps[i].mach.toString(), data: [] }
+        for (var j = 0; j < noFlaps[i].points.length; ++j)
+          if (noFlaps[i].points[j][0] < aoaCritHigh &&
+              noFlaps[i].points[j][1] > 0.0)
+            noFlapsPoints.data.push( [ noFlaps[i].points[j][2], noFlaps[i].points[j][1] ] )
+        data.push(noFlapsPoints)
+      }      
+      const fullFlaps = polarPlot['fullFlaps']
+      if (fullFlaps != undefined)
+      {
+        var fullFlapsPoints = { label: 'Flaps, M=0.0', data: [], lines: { lineWidth: 5 } }
+        for (var i = 0; i < fullFlaps.length; ++i)
+          if (fullFlaps[i][0] < aoaCritHigh &&
+              fullFlaps[i][1] > 0.0)
+            fullFlapsPoints.data.push( [ fullFlaps[i][2], fullFlaps[i][1] ] )
+        data.push(fullFlapsPoints)
+      }
+    }
+    return data
+  }
+  
+  function getChartCoeffByMach(param)
+  {
+    var data = [ { label: '', data: [] } ]
+    const polarPlot = fmTables && fmTables.polar ? fmTables.polar[param.polarType].polarByMach : undefined
+    if (polarPlot != undefined)
+    { 
+      for (var i = 0; i < polarPlot.length; ++i)
+        data[0].data.push( [ polarPlot[i][0], polarPlot[i][param.coeffIndex + 1] ] )
+    }
+    return data
+  }
+  
+  function getChartPropellerEfficiencyTanAngle()
+  {
+    const minAngle = fmProperties.items.propeller.items.controller.items.minAngle.value
+    const maxAngle = fmProperties.items.propeller.items.controller.items.maxAngle.value
+    var data = []
+    const plot = fmTables ? fmTables.propellerEfficiency : undefined
+    if (plot != undefined)
+    { 
+      for (var propAngle in plot)
+      {
+        var angle = (minAngle + (maxAngle - minAngle) * plot[propAngle].angle) * 180.0 / Math.PI     
+        var points = plot[propAngle].points
+        var pointsData = []
+        for (var i = 0; i < points.length; ++i)
+          pointsData.push( [ points[i][0],  points[i][1] * 100.0 ] )
+        data[data.length] = { label: angle.toFixed() + '̊', data: pointsData }
+      }
+    }
+    return data
+  }
+  
+  function getZhukovskyCharts()
+  {
+    var climbRate = zhukovskyChartsParameters.items.climbRate.items
+    const zhukovskyChartsData = [
+      { name: 'RoC(V)',                                   unit: 'verticalVelocity', color: 0, width: 1, yaxis: 3 },
+      { name: 'ToT(V)',                                   unit: undefined,          color: 1, width: 1, yaxis: 2 },
+      { name: 'Tavl(V)',                                  unit: 'thrust',           color: 2, width: 6, yaxis: 1 },
+      { name: 'Treq(RoC = 0,   V)',                        unit: 'thrust',           color: 3, width: 3, yaxis: 1 },
+      { name: 'Treq(RoC = ' + climbRate[0].value + ', V)', unit: 'thrust',           color: 4, width: 3, yaxis: 1 },
+      { name: 'Treq(RoC = ' + climbRate[1].value + ', V)', unit: 'thrust',           color: 5, width: 3, yaxis: 1 },
+      { name: 'Treq(RoC = ' + climbRate[2].value + ', V)', unit: 'thrust',           color: 6, width: 3, yaxis: 1 },
+      { name: 'Treq(RoC = ' + climbRate[3].value + ', V)', unit: 'thrust',           color: 7, width: 3, yaxis: 1 }
+    ]
+    var data = []
+    const plot = fmTables ? fmTables.zhukovskyCharts : undefined
+    if (plot != undefined)
+    {
+      const xUnits = zhukovskyChartsParameters.items.speedType.value == SpeedType.Mach ? undefined : 'velocity'
+      const points = plot
+      var series = zhukovskyChartsParameters.items.series.items
+      var paramIndex = 1
+      for (var u = 0; u < series.length; ++u)
+      {
+        var zhukovskyChartData = zhukovskyChartsData[u]
+        if (series[u].value)
+        {
+          var pointsData = []
+          pointsData.length = points.length
+          for (var i = 0; i < points.length; ++i)
+            pointsData[i] = [ convertToUnit(points[i][0], xUnits, settings.unitSystemName),
+                              zhukovskyChartData.unit != undefined ? convertToUnit(points[i][paramIndex], zhukovskyChartData.unit, settings.unitSystemName) : points[i][paramIndex] ]
+          data[data.length] = {
+            label: zhukovskyChartData.name,
+            data: pointsData,
+            yaxis: zhukovskyChartData.yaxis,
+            color: zhukovskyChartData.color,
+            lines: { lineWidth: zhukovskyChartData.width }
+          }
+          ++paramIndex
+        }
+      }
+    }
+    return data
+  }
+  
+  var chartsData = 
+  {
+    polar: {
+      wing: {
+        enabled: false,
+          charts: [
+          {
+            name: 'Cl(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyAoA,
+            data: 'wing',
+            chart: 'placeholder_polar_0'
+          },
+          {
+            name: 'Cd(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCxAoA,
+            data: 'wing',
+            chart: 'placeholder_polar_1'
+          },
+          {
+            name: 'Cl(AoA)/Cd(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cl / Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCyCxRatioAoA,
+            data: 'wing',
+            chart: 'placeholder_polar_2'
+          },
+          {
+            name: 'Cl(Cd)',
+            xAxis: {
+              name: 'Cd'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyByCx,
+            data: 'wing',
+            chart: 'placeholder_polar_3'
+          },
+          {
+            name: 'δCl/δAoA(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δCl/δAoA'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'wing', coeffIndex: 1},
+            chart: 'placeholder_polar_4'
+          },
+          {
+            name: 'Cd0(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Cd0'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'wing', coeffIndex: 0},
+            chart: 'placeholder_polar_5'
+          },
+          {
+            name: 'Clcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Clcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'wing', coeffIndex: 4},
+            chart: 'placeholder_polar_6'
+          },
+          {
+            name: 'AoAcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'AoAcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'wing', coeffIndex: 3},
+            chart: 'placeholder_polar_7'
+          },
+          {
+            name: 'A(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'A'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'wing', coeffIndex: 2},
+            chart: 'placeholder_polar_8'
+          },
+          {
+            name: 'δMza/δFy(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δMza/δFy'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'wing', coeffIndex: 5},
+            chart: 'placeholder_polar_9'
+          }
+        ]
+      },
+      stabilizer: {
+        enabled: false,
+        charts: [
+          {
+            name: 'Cl(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyAoA,
+            data: 'stabilizer',
+            chart: 'placeholder_polar_0'
+          },
+          {
+            name: 'Cd(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCxAoA,
+            data: 'stabilizer',
+            chart: 'placeholder_polar_1'
+          },
+          {
+            name: 'Cl(AoA)/Cd(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cl / Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCyCxRatioAoA,
+            data: 'stabilizer',
+            chart: 'placeholder_polar_2'
+          },
+          {
+            name: 'Cl(Cd)',
+            xAxis: {
+              name: 'Cd'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyByCx,
+            data: 'stabilizer',
+            chart: 'placeholder_polar_3'
+          },
+          {
+            name: 'δCl/δAoA(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δCl/δAoA'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'stabilizer', coeffIndex: 1},
+            chart: 'placeholder_polar_4'
+          },
+          {
+            name: 'Cd0(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Cd0'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'stabilizer', coeffIndex: 0},
+            chart: 'placeholder_polar_5'
+          },
+          {
+            name: 'Clcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Clcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'stabilizer', coeffIndex: 4},
+            chart: 'placeholder_polar_6'
+          },
+          {
+            name: 'AoAcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'AoAcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'stabilizer', coeffIndex: 3},
+            chart: 'placeholder_polar_7'
+          },
+          {
+            name: 'A(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'A'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'stabilizer', coeffIndex: 2},
+            chart: 'placeholder_polar_8'
+          },
+          {
+            name: 'δMza/δFy(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δMza/δFy'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'stabilizer', coeffIndex: 5},
+            chart: 'placeholder_polar_9'
+          }
+        ]
+      },
+      fin: {
+        enabled: false,
+        charts: [
+          {
+            name: 'Cl(AoS)',
+            xAxis: {
+              name: 'AoS'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyAoA,
+            data: 'fin',
+            chart: 'placeholder_polar_0'
+          },
+          {
+            name: 'Cd(AoS)',
+            xAxis: {
+              name: 'AoS'
+            },
+            yAxis: {
+              name: 'Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCxAoA,
+            data: 'fin',
+            chart: 'placeholder_polar_1'
+          },
+          {
+            name: 'Cl(AoS)/Cd(AoS)',
+            xAxis: {
+              name: 'AoS'
+            },
+            yAxis: {
+              name: 'Cl / Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCyCxRatioAoA,
+            data: 'fin',
+            chart: 'placeholder_polar_2'
+          },
+          {
+            name: 'Cl(Cd)',
+            xAxis: {
+              name: 'Cd'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyByCx,
+            data: 'fin',
+            chart: 'placeholder_polar_3'
+          },
+          {
+            name: 'δCl/δAoA(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δCl/δAoA'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fin', coeffIndex: 1},
+            chart: 'placeholder_polar_4'
+          },
+          {
+            name: 'Cd0(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Cd0'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fin', coeffIndex: 0},
+            chart: 'placeholder_polar_5'
+          },
+          {
+            name: 'Clcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Clcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fin', coeffIndex: 4},
+            chart: 'placeholder_polar_6'
+          },
+          {
+            name: 'AoAcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'AoAcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fin', coeffIndex: 3},
+            chart: 'placeholder_polar_7'
+          },
+          {
+            name: 'A(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'A'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fin', coeffIndex: 2},
+            chart: 'placeholder_polar_8'
+          },
+          {
+            name: 'δMza/δFy(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δMza/δFy'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fin', coeffIndex: 5},
+            chart: 'placeholder_polar_9'
+          }
+        ]
+      },
+      fuselage: {
+        enabled: false,
+        charts: [
+          {
+            name: 'Cl(AoS)',
+            xAxis: {
+              name: 'AoS',
+              unit: 'deg'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyAoA,
+            data: 'fuselage',
+            chart: 'placeholder_polar_0'
+          },
+          {
+            name: 'Cd(AoS)',
+            xAxis: {
+              name: 'AoS',
+              unit: 'deg'
+            },
+            yAxis: {
+              name: 'Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCxAoA,
+            data: 'fuselage',
+            chart: 'placeholder_polar_1'
+          },
+          {
+            name: 'Cl(AoS)/Cd(AoS)',
+            xAxis: {
+              name: 'AoS',
+              unit: 'deg'
+            },
+            yAxis: {
+              name: 'Cl / Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCyCxRatioAoA,
+            data: 'fuselage',
+            chart: 'placeholder_polar_2'
+          },
+          {
+            name: 'Cl(Cd)',
+            xAxis: {
+              name: 'Cd'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyByCx,
+            data: 'fuselage',
+            chart: 'placeholder_polar_3'
+          },
+          {
+            name: 'δCl/δAoA(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δCl/δAoA'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fuselage', coeffIndex: 1},
+            chart: 'placeholder_polar_4'
+          },
+          {
+            name: 'Cd0(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Cd0'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fuselage', coeffIndex: 0},
+            chart: 'placeholder_polar_5'
+          },
+          {
+            name: 'Clcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Clcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fuselage', coeffIndex: 4},
+            chart: 'placeholder_polar_6'
+          },
+          {
+            name: 'AoAcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'AoAcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fuselage', coeffIndex: 3},
+            chart: 'placeholder_polar_7'
+          },
+          {
+            name: 'A(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'A'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fuselage', coeffIndex: 2},
+            chart: 'placeholder_polar_8'
+          },
+          {
+            name: 'δMza/δFy(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δMza/δFy'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'fuselage', coeffIndex: 5},
+            chart: 'placeholder_polar_9'
+          }
+        ]
+      },
+      propellerBlade: {
+        enabled: false,
+        charts: [
+          {
+            name: 'Cl(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyAoA,
+            data: 'propellerBlade',
+            chart: 'placeholder_polar_0'
+          },
+          {
+            name: 'Cd(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCxAoA,
+            data: 'propellerBlade',
+            chart: 'placeholder_polar_1'
+          },
+          {
+            name: 'Cl(AoA)/Cd(AoA)',
+            xAxis: {
+              name: 'AoA'
+            },
+            yAxis: {
+              name: 'Cl / Cd'
+            },
+            legendPosition: 'se',
+            func: getChartCyCxRatioAoA,
+            data: 'propellerBlade',
+            chart: 'placeholder_polar_2'
+          },
+          {
+            name: 'Cl(Cd)',
+            xAxis: {
+              name: 'Cd'
+            },
+            yAxis: {
+              name: 'Cl'
+            },
+            legendPosition: 'se',
+            func: getChartCyByCx,
+            data: 'propellerBlade',
+            chart: 'placeholder_polar_3'
+          },
+          {
+            name: 'δCl/δAoA(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δCl/δAoA'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'propellerBlade', coeffIndex: 1},
+            chart: 'placeholder_polar_4'
+          },
+          {
+            name: 'Cd0(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Cd0'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'propellerBlade', coeffIndex: 0},
+            chart: 'placeholder_polar_5'
+          },
+          {
+            name: 'Clcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'Clcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'propellerBlade', coeffIndex: 4},
+            chart: 'placeholder_polar_6'
+          },
+          {
+            name: 'AoAcrit(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'AoAcrit'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'propellerBlade', coeffIndex: 3},
+            chart: 'placeholder_polar_7'
+          },
+          {
+            name: 'A(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'A'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'propellerBlade', coeffIndex: 2},
+            chart: 'placeholder_polar_8'
+          },
+          {
+            name: 'δMza/δFy(M)',
+            xAxis: {
+              name: 'M'
+            },
+            yAxis: {
+              name: 'δMza/δFy'
+            },
+            legendPosition: 'se',
+            func: getChartCoeffByMach,
+            data: { polarType: 'propellerBlade', coeffIndex: 5},
+            chart: 'placeholder_polar_9'
+          }
+        ]
+      },
+      propellerEfficiecny: {
+        enabled: true,
+        charts: [
+          {
+            name: 'ŋ(J)',
+            xAxis: {
+              name: 'J=V/ND'
+            },
+            yAxis: {
+              name: 'ŋ, %'
+            },
+            legendPosition: 'se',
+            func: getChartPropellerEfficiencyTanAngle,
+            data: undefined,
+            chart: 'placeholder_propeller_efficiency'
+          }
+        ]
+      }
+    },
+    zhukovskyCharts: {
+      zhukovskyCharts: {
+        enabled: true,
+        charts: [
+          {
+            name: 'RoC(V), ToT(V)',
+            xAxis: {
+              name: 'V'
+            },
+            yAxes: [
+              {
+                name: 'F',
+              },
+              {
+                name: 'Tt',
+              },
+              {
+                name: 'Vy'
+              }
+            ],
+            interactive: true,
+            legendPosition: 'ne',
+            func: getZhukovskyCharts,
+            data: undefined,
+            chart: 'placeholder_zhukovsky_charts'
+          }
+        ]
+      }
+    }
+  }
+  
+  var chartVariants =
+  {
+    polar: {
+      wing:           chartsData.polar.wing,
+      stabilizer:     chartsData.polar.stabilizer,
+      fin:            chartsData.polar.fin,
+      fuselage:       chartsData.polar.fuselage,
+      propellerBlade: chartsData.polar.propellerBlade,
+    }
+  }
+  
+  function selectChartVariant(group, variant)
+  {
+    var variantsGroup = chartVariants[group]
+    for (currVariant in variantsGroup)
+      variantsGroup[currVariant].enabled = false    
+    variantsGroup[variant].enabled = true
+  }
+  
+  var charts = {}
+    
+  function updateChartGroup(chartsData, group)
+  {
+    var chartGroupData = chartsData[group]
+    if (chartGroupData != undefined &&
+        chartGroupData.enabled)
+    {
+      var chartGroup = charts[group]  
+      for(var i = 0; i < chartGroup.length; i++ )
+      {
+        var chartData = chartGroupData.charts[i]
+        chartGroup[i].setData(chartData.func(chartData.data))
+        chartGroup[i].draw();
+      }
+    }
+  }
+    
+  function updateCharts(chartsData)
+  {
+    for (group in chartsData)
+      updateChartGroup(chartsData, group)
+  }
+  
+  function buildYAxes(chartData)
+  {
+    var yaxes = [] 
+    if (chartData.yAxes)
+    {
+      yaxes.length = chartData.yAxes.length
+      for (var i = 0; i < chartData.yAxes.length; ++i)
+        yaxes[i] = {
+          axisLabel: chartData.yAxes[i].name,
+          alignTicksWithAxis: chartData.yAxes[i].alignTicksWithAxis,
+          position: chartData.yAxes[i].position
+        }
+    }
+    else
+    {
+      yaxes.length = 1
+      yaxes[0] = {
+        axisLabel: chartData.yAxis.name
+      }
+    }
+    for (var i = 0; i < yaxes.length; ++i)
+    {
+      var yaxis = yaxes[i]
+      yaxis.axisLabelUseCanvas = true
+      yaxis.axisLabelFontSizePixels = 16
+      yaxis.axisLabelFontFamily = 'Arial'
+    }
+    return yaxes
+  }
+  
+  function setupCharts(chartsData)
+  {
+    $(function() {
+      for (group in chartsData)
+      {
+        var chartGroupData = chartsData[group]
+        if (chartGroupData.enabled)
+        {
+          charts[group] = []
+          for (var i = 0; i < chartGroupData.charts.length; ++i)
+          {
+            var chartData = chartGroupData.charts[i]          
+            var chartGroup = charts[group]
+            var chartObj = $('#' + chartData.chart)
+            chartGroup[i] = $.plot(chartObj, chartData.func(chartData.data), {
+              series: {
+                lines: {
+                  show: true
+                },
+                shadowSize: 0
+              },
+              xaxes: [ {
+                axisLabel: chartData.xAxis.name,
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 16,
+                axisLabelFontFamily: 'Arial',
+              } ],
+              yaxes: buildYAxes(chartData),
+              zoom: {
+                interactive: chartData.interactive != undefined && chartData.interactive,
+                mode: 'y'
+              },
+              pan: {
+                interactive: chartData.interactive != undefined && chartData.interactive
+              },
+              legend: {
+                labelBoxBorderColor: "Black",
+                position: chartData.legendPosition
+              }
+            });
+          }
+        }
+      }
+      updateCharts(chartsData)
+    });
+  }
+  
+   
+  //Fill values
+  
+  var labelsWithUnitNames = [
+    /*
+    {
+      id: 'LabelEngineMass',
+      name: 'Mass',
+      unit: 'mass'
+    },
+    {
+      id: 'LabelEnginePowerSeaLevel',
+      name: 'Power, Sea Level',
+      unit: 'power'
+    },
+    {
+      id: 'LabelEngineThrustSeaLevel',
+      name: 'Thrust, Sea Level',
+      unit: 'thrust'
+    },
+    {
+      id: 'LabelEngineAltitude1',
+      name: 'Treshold 1, altitude',
+      unit: 'altitude'
+    },
+    {
+      id: 'LabelEnginePowerAtAltitude1',
+      name: 'Power at Altitude',
+      unit: 'power'
+    },
+    {
+      id: 'LabelEngineAltitude2',
+      name: 'Treshold 2, altitude',
+      unit: 'altitude'
+    },
+    {
+      id: 'LabelEnginePowerAtAltitude2',
+      name: 'Power at Altitude',
+      unit: 'power'
+    },
+    {
+      id: 'LabelEngineAltitude3',
+      name: 'Treshold 3, altitude',
+      unit: 'altitude'
+    },
+    {
+      id: 'LabelEnginePowerAtAltitude3',
+      name: 'Power at Altitude',
+      unit: 'power'
+    }
+    */
+  ]
+  
+  function fillLabelsWithUnitNames()
+  {
+    for (var i = 0; i < labelsWithUnitNames.length; ++i)
+    {
+      var label = labelsWithUnitNames[i]
+      var control = document.getElementById(label.id)
+      control.innerHTML = label.name + ', ' + getUnitName(label.unit, settings.unitSystemName)
+    }
+  }
+  
+  function onConnectionStateChange(connected)
+  {
+    if (connected != state.connected)
+    {
+      state.connected = connected
+      document.title = 'War Thunder Flight Model Test Page - ' + (connected ? 'connected' : 'disconnected')      
+      var headerConnectionState = document.getElementById('HeaderConnectionState')
+      headerConnectionState.innerHTML = connected ? 'Connected' : 'Disconnected'
+      headerConnectionState.style.color = connected ? 'Black' : 'Red'
+      onConnectionOrEditableStateChange()
+    }
+  }
+  
+  function onConnectionOrEditableStateChange()
+  {
+    document.getElementById('ButtonSetPolar').disabled = !state.connected || !state.fm.editable
+    document.getElementById('ButtonSetPropeller').disabled = !state.connected || !state.fm.editable    
+  }
+  
+  function fillZhukovskyCharts(data, update)
+  {
+    fmTables.zhukovskyCharts = data
+    //if (update)
+    //  updateCharts(chartsData.zhukovskyCharts)
+    //else
+      setupCharts(chartsData.zhukovskyCharts)
+    zhukovskyChartAppliedParameters = serializeParameterToJSON(zhukovskyChartsParameters)
+    document.getElementById('LabelZhukovskyChartParametersActuality').innerHTML = ''
+  }
+  
+  function readPolarConstantsFromBlk(blk)
+  {
+    if (blk == undefined)
+      return undefined
+    else
+      return {  
+        Cx0:                  blk['CdMin:r'],
+        Cy0:                  blk['Cl0:r'],
+        AoACritHigh:          blk['alphaCritHigh:r'] * degToRad,
+        CyMax:                blk['ClCritHigh:r'],
+        AoACritLow:           blk['alphaCritLow:r'] * degToRad,
+        CyMin:                blk['ClCritLow:r']
+      }
+  }
+  
+  function readPolarFromBlk(blk)
+  {
+    var tbl = {
+      oswaldCoeff:          blk['OswaldsEfficiencyNumber:r'],
+      dCydAoA:              blk['lineClCoeff:r'] * degToRad,
+      afterCrit: {
+        parabAngle:         blk['AfterCritParabAngle:r'] * degToRad,
+        declineCoeff:       blk['AfterCritDeclineCoeff:r'],
+        maxDistanceAngle:   blk['AfterCritMaxDistanceAngle:r'] * degToRad,
+        Cy:                 blk['ClAfterCrit:r']
+      },      
+      noFlaps:              readPolarConstantsFromBlk(blk.NoFlaps) || readPolarConstantsFromBlk(blk),
+      fullFlaps:            readPolarConstantsFromBlk(blk.FullFlaps),    
+      machFactor:           blk['MachFactor:i'],
+      combinedCl:           blk['CombinedCl:b'],
+      machCrit1:            blk['MachCrit1:r'],
+      machMax1:             blk['MachMax1:r'],
+      multMachMax1:         blk['MultMachMax1:r'],
+      multLineCoeff1:       blk['MultLineCoeff1:r'],      
+      multLimit1:           blk['MultLimit1:r'],
+      machCrit2:            blk['MachCrit2:r'],
+      machMax2:             blk['MachMax2:r'],
+      multMachMax2:         blk['MultMachMax2:r'],
+      multLineCoeff2:       blk['MultLineCoeff2:r'],
+      multLimit2:           blk['MultLimit2:r'],
+      machCrit3:            blk['MachCrit3:r'],
+      machMax3:             blk['MachMax3:r'],
+      multMachMax3:         blk['MultMachMax3:r'],
+      multLineCoeff3:       blk['MultLineCoeff3:r'],
+      multLimit3:           blk['MultLimit3:r'],
+      machCrit4:            blk['MachCrit4:r'],
+      machMax4:             blk['MachMax4:r'],
+      multMachMax4:         blk['MultMachMax4:r'],
+      multLineCoeff4:       blk['MultLineCoeff4:r'],    
+      multLimit4:           blk['MultLimit4:r'],
+      machCrit5:            blk['MachCrit5:r'],
+      machMax5:             blk['MachMax5:r'],
+      multMachMax5:         blk['MultMachMax5:r'],
+      multLineCoeff5:       blk['MultLineCoeff5:r'],    
+      multLimit5:           blk['MultLimit5:r'],
+      machCrit6:            blk['MachCrit6:r'],
+      machMax6:             blk['MachMax6:r'],
+      multMachMax6:         blk['MultMachMax6:r'],
+      multLineCoeff6:       blk['MultLineCoeff6:r'],    
+      multLimit6:           blk['MultLimit6:r'],
+
+    }
+    return tbl
+  }
+  
+  function readFmBlk(fmBlk)
+  {
+    var aerodynamics = fmBlk.Aerodynamics
+    var wing = aerodynamics
+    var stab = aerodynamics.Stab
+    var fin = aerodynamics.Fin
+    var fuselage = aerodynamics.Fuselage
+    const engine = fmBlk.Engine0
+    var propeller = engine.Propellor
+    var propellerBladePolar = propeller.Polar
+    var tbl = {
+      polar: {
+        wing:           readPolarFromBlk(wing),
+        stabilizer:     readPolarFromBlk(stab),
+        fin:            readPolarFromBlk(fin),
+        fuselage:       readPolarFromBlk(fuselage),
+        propellerBlade: readPolarFromBlk(propellerBladePolar)
+      },
+      propeller: {
+        autoMode:             propeller['AllowAutoProp:b'],
+        reductorCoefficient:  propeller['Reductor:r'],
+        mass:                 propeller['Mass:r'],
+        inertiaMomentCoeff:   propeller['InertiaMomentCoeff:r'],
+        direction:            propeller['Direction:i'],
+        shape: {
+          bladeNumber:          propeller['NumBlades:i'],
+          radius:               propeller['AdvancedPropRadius:r'],
+          segment: [
+            {
+              angle:              propeller['PropPhi0:r'] * degToRad,
+              chord:              propeller['PropWidth0:r'],
+            },
+            {
+              angle:              propeller['PropPhi1:r'] * degToRad,
+              chord:              propeller['PropWidth1:r'],
+            },
+            {
+              angle:              propeller['PropPhi2:r'] * degToRad,
+              chord:              propeller['PropWidth2:r'],
+            },
+            {
+              angle:              propeller['PropPhi3:r'] * degToRad,
+              chord:              propeller['PropWidth3:r'],
+            }
+          ]
+        },
+        controller: {
+          type:                 propeller['GovernorType:i'],
+          governorSpeed:        propeller['GovernorSpeed:r'] * degToRad,
+          minOmega:             propeller['GovernorMinParam:r'] * rpmToOmega,
+          maxOmega:             propeller['GovernorMaxParam:r'] * rpmToOmega,
+          wepOmega:             propeller['GovernorAfterburnerParam:r'] * rpmToOmega,
+          minAngle:             propeller['PhiMin:r'] * degToRad,
+          maxAngle:             propeller['PhiMax:r'] * degToRad,
+          optimalAngle:         propeller['PhiAlpha0:r'] * degToRad,
+          featheringControl:    propeller['HasFeatheringControl:b'],
+          featheringAngle:      propeller['PhiFeather:r'] * degToRad
+        }
+      }
+    }    
+    return tbl
+  }
+    
+  function prepareFmProperties()
+  {
+    fmProperties.items.propeller.items.shape.items.speed.value = 400.0 / 3.6
+    fmProperties.items.propeller.items.shape.items.omega.value = fmProperties.items.propeller.items.controller.items.maxOmega.value
+  }
+  
+  function fillFmProperties(data)
+  {
+    if (!data.valid)
+      return
+    state.fm = data.id
+    onConnectionOrEditableStateChange()
+    
+    document.getElementById('HeaderAircraftType').innerHTML = 'Aircraft: ' + state.fm.typeName + ' from \"' + state.fm.fileName + '\", ' + (state.fm.editable ? 'editable' : 'NOT editable')
+    
+    var fmPropertiesTable = readFmBlk(data.params)
+    deserializeParameterFromJSON(fmProperties, fmPropertiesTable)
+    prepareFmProperties()
+    for (var tableName in data.tables)
+      fmTables[tableName] = data.tables[tableName]
+    prepareParameter(fmProperties)
+    saveParameter(fmProperties, settings.unitSystemName)
+
+    selectChartVariant('polar', polarType)
+    setupCharts(chartsData.polar)
+    
+    updateZhukovskyCharts(false)
+  }
+  
+  //Callbacks
+  
+  function onPolarTypeChange(polarTypeIn)
+  {
+    polarType = polarTypeIn
+    saveParameter(fmProperties.items.polar.items[polarTypeIn], settings.unitSystemName)
+    selectChartVariant('polar', polarTypeIn)
+    setupCharts(chartsData.polar)
+  }
+  
+  function onZhukovskyChartsParamChange(path)
+  {
+    var param = getParameterByPath(zhukovskyChartsParameters, path)
+    if (param != undefined)
+    {
+      loadParameter(param, settings.unitSystemName)
+      serializeParameterToCookie(param, 'zhukovskyChartsParameters' + parameterPathToString(path))
+      document.getElementById('LabelZhukovskyChartParametersActuality').innerHTML = 
+        compareWithJSON(zhukovskyChartsParameters, zhukovskyChartAppliedParameters) ? '' : 'NOT ACTUAL!'
+    }
+    else
+      alert('Parameter path "zhukovskyChartsParameters' + parameterPathToString(path) + '" not found!')
+  }
+  
+  function onParamChange(path)
+  {
+    var param = getParameterByPath(fmProperties, path)
+    if (param != undefined)
+      loadParameter(param, settings.unitSystemName)
+    else
+      alert('Parameter path "fmProperties' + parameterPathToString(path) + '" not found!')
+  }
+ 
+  function onPolarParamChange(path)
+  {
+    var fullPath = ['polar', polarType]
+    for (var i = 0; i < path.length; ++i)
+      fullPath[fullPath.length] = path[i]
+    onParamChange(fullPath)
+  }
+    
+  function setCommand(data, successFunc, errorFunc) {
+    $.ajax({
+      url: '/editor/fm_editor',
+      data: data,
+      success: successFunc,
+      error: errorFunc
+    })
+  }
+  
+  function savePolarToBlk(polar)
+  {
+    var noFlapsBlk = {
+      'CdMin:r':                     polar.noFlaps.items.Cx0.value,
+      'Cl0:r':                       polar.noFlaps.items.Cy0.value,
+      'alphaCritHigh:r':             polar.noFlaps.items.AoACritHigh.value * radToDeg,
+      'ClCritHigh:r':                polar.noFlaps.items.CyMax.value,
+      'alphaCritLow:r':              polar.noFlaps.items.AoACritLow.value * radToDeg,
+      'ClCritLow:r':                 polar.noFlaps.items.CyMin.value
+    }
+    var fullFlapsBlk = {
+      'CdMin:r':                     polar.fullFlaps.items.Cx0.value,
+      'Cl0:r':                       polar.fullFlaps.items.Cy0.value,
+      'alphaCritHigh:r':             polar.fullFlaps.items.AoACritHigh.value * radToDeg,
+      'ClCritHigh:r':                polar.fullFlaps.items.CyMax.value,
+      'alphaCritLow:r':              polar.fullFlaps.items.AoACritLow.value * radToDeg,
+      'ClCritLow:r':                 polar.fullFlaps.items.CyMin.value
+    }  
+    var blk = {
+      'OswaldsEfficiencyNumber:r':   polar.oswaldCoeff.value,
+      'lineClCoeff:r':               polar.dCydAoA.value * radToDeg,
+      'AfterCritParabAngle:r':       polar.afterCrit.items.parabAngle.value * radToDeg,
+      'AfterCritDeclineCoeff:r':     polar.afterCrit.items.declineCoeff.value,
+      'AfterCritMaxDistanceAngle:r': polar.afterCrit.items.maxDistanceAngle.value * radToDeg,
+      'ClAfterCrit:r':               polar.afterCrit.items.Cy.value,
+      'MachFactor:i':                polar.machFactor.value,
+      'CombinedCl:b':                polar.combinedCl.value,
+      'MachCrit1:r':                 polar.machCrit1.value,
+      'MachMax1:r' :                 polar.machMax1.value,
+      'MultMachMax1:r':              polar.multMachMax1.value,
+      'MultLineCoeff1:r':            polar.multLineCoeff1.value,
+      'MultLimit1:r':                polar.multLimit1.value,
+      'MachCrit2:r':                 polar.machCrit2.value,
+      'MachMax2:r':                  polar.machMax2.value,
+      'MultMachMax2:r':              polar.multMachMax2.value,
+      'MultLineCoeff2:r':            polar.multLineCoeff2.value,
+      'MultLimit2:r':                polar.multLimit2.value,
+      'MachCrit3:r':                 polar.machCrit3.value,
+      'MachMax3:r' :                 polar.machMax3.value,
+      'MultMachMax3:r':              polar.multMachMax3.value,
+      'MultLineCoeff3:r':            polar.multLineCoeff3.value,
+      'MultLimit3:r':                polar.multLimit3.value,
+      'MachCrit4:r':                 polar.machCrit4.value,
+      'MachMax4:r':                  polar.machMax4.value,
+      'MultMachMax4:r':              polar.multMachMax4.value,
+      'MultLineCoeff4:r':            polar.multLineCoeff4.value,
+      'MultLimit4:r':                polar.multLimit4.value,
+      'MachCrit5:r':                 polar.machCrit5.value,
+      'MachMax5:r':                  polar.machMax5.value,
+      'MultMachMax5:r':              polar.multMachMax5.value,
+      'MultLineCoeff5:r':            polar.multLineCoeff5.value,
+      'MultLimit5:r':                polar.multLimit5.value,
+      'MachCrit6:r':                 polar.machCrit6.value,
+      'MachMax6:r':                  polar.machMax6.value,
+      'MultMachMax6:r':              polar.multMachMax6.value,
+      'MultLineCoeff6:r':            polar.multLineCoeff6.value,
+      'MultLimit6:r':                polar.multLimit6.value,
+    }
+    if (fullFlapsBlk != undefined)
+    {
+      blk['NoFlaps'] = noFlapsBlk
+      blk['FullFlaps'] = fullFlapsBlk
+    }
+    else
+      jQuery.extend(blk, noFlapsBlk)
+    return blk
+  }
+    
+  function setPolar()
+  {
+    var polar = undefined
+    if (polarType == 'wing')
+      polar = fmProperties.items.polar.items.wing.items
+    else if (polarType == 'stabilizer')
+      polar = fmProperties.items.polar.items.stabilizer.items
+    else if (polarType == 'fin')
+      polar = fmProperties.items.polar.items.fin.items
+    else if (polarType == 'fuselage')
+      polar = fmProperties.items.polar.items.fuselage.items
+    else if (polarType == 'propellerBlade')
+      polar = fmProperties.items.polar.items.propellerBlade.items      
+    var tbl = polar && savePolarToBlk(polar)    
+    var data = {
+      cmd: 'setPolar',
+      polarType: polarType,
+      polar: JSON.stringify(tbl)
+    }
+    setCommand( data,
+                function(data)
+                {
+                  if (!data.valid)
+                    return
+                  state.fm = data.id
+                  fmTables.polar[polarType] = data.polar
+                  if (data.propellerEfficiency != undefined)
+                    fmTables.propellerEfficiency = data.propellerEfficiency
+                  updateCharts(chartsData.polar)
+                } )
+  }
+  
+  function setPropeller()
+  {
+    var propeller = fmProperties.items.propeller.items
+    var shape = propeller.shape.items
+    var controller = propeller.controller.items      
+    var tbl = {
+      'AllowAutoProp:b':            propeller.autoMode.value,
+      'IsControllable:b':           controller.type.value > 0,
+      'HasFeatheringControl:b':     controller.featheringControl.value,
+      'UseAutoPropInertia:b':       false,
+      'Reductor:r':                 propeller.reductorCoefficient.value,      
+      'UseAdvancedProp:b':          true,
+      'NumBlades:i':                shape.bladeNumber.value,
+      'AdvancedPropRadius:r':       shape.radius.value,
+      'PropPhi0:r':                 shape.segment.items[0].items.angle.value * radToDeg,
+      'PropWidth0:r':               shape.segment.items[0].items.chord.value,
+      'PropPhi1:r':                 shape.segment.items[1].items.angle.value * radToDeg,
+      'PropWidth1:r':               shape.segment.items[1].items.chord.value,
+      'PropPhi2:r':                 shape.segment.items[2].items.angle.value * radToDeg,
+      'PropWidth2:r':               shape.segment.items[2].items.chord.value,
+      'PropPhi3:r':                 shape.segment.items[3].items.angle.value * radToDeg,
+      'PropWidth3:r':               shape.segment.items[3].items.chord.value,
+      'InertiaMomentCoeff:r':       propeller.inertiaMomentCoeff.value,
+      'Diameter:r':                 2 * shape.radius.value,
+      'Mass:r':                     propeller.mass.value,
+      'GovernorType:i':             controller.type.value,
+      'GovernorSpeed:r':            controller.governorSpeed.value * radToDeg,
+      'GovernorMinParam:r':         controller.minOmega.value * omegaToRpm,
+      'GovernorMaxParam:r':         controller.maxOmega.value * omegaToRpm,
+      'GovernorAfterburnerParam:r': controller.wepOmega.value * omegaToRpm,
+      'PhiMin:r':                   controller.minAngle.value * radToDeg,
+      'PhiMax:r':                   controller.maxAngle.value * radToDeg,
+      'PhiAlpha0:r':                controller.optimalAngle.value * radToDeg,      
+      'PhiFeather:r':               controller.featheringAngle.value * radToDeg,
+      'Direction:i':                propeller.direction.value
+    }
+    var data = {
+      cmd: 'setPropeller',
+      propeller: JSON.stringify(tbl)
+    }
+    setCommand( data,
+                function(data)
+                {
+                  if (!data.valid)
+                    return
+                  state.fm = data.id
+                  fmTables.propellerEfficiency = data.propellerEfficiency
+                  updateCharts(chartsData.polar)
+                })
+  }
+  
+  function calcPropellerShape()
+  {
+    var propeller = fmProperties.items.propeller.items
+    var shape = propeller.shape.items
+    var controller = propeller.controller.items
+    var radius = shape.radius.value
+    var velocity = shape.speed.value
+    var omega = shape.omega.value
+    var chord = [ 0.3445, 0.3935, 0.356, 0.161 ]
+    for (var i = 0; i < 4; ++i)
+    {
+      var n = 2 * Math.PI * radius * (0.35 + 0.2 * i) * omega * 9.55 * propeller.reductorCoefficient.value / 60.0
+      shape.segment.items[i].items.angle.value = Math.atan2(velocity, n) + ((i == 0 || i == 3) ? 6.0 : 8.0) * Math.PI / 180.0
+      shape.segment.items[i].items.chord.value = chord[i] / (2 * radius)
+    }
+    const angle2 = shape.segment.items[2].items.angle.value
+    for (var i = 0; i < 4; ++i)
+      shape.segment.items[i].items.angle.value -= angle2
+    saveParameter(shape.segment, settings.unitSystemName)
+  }
+  
+  function setEngine()
+  {
+    //TO DO
+  }
+  
+  function updateZhukovskyCharts(update)
+  {
+    var params = {
+      cmd: 'getZhukovskyCharts',
+      alt: zhukovskyChartsParameters.items.altitude.value,
+      throttleMode: zhukovskyChartsParameters.items.throttleMode.value,
+      throttle: zhukovskyChartsParameters.items.throttle.value,
+      speedType: zhukovskyChartsParameters.items.speedType.value
+    }
+    var series = zhukovskyChartsParameters.items.series.items
+    for (var f = 0; f < series.length; ++f)
+      params['series' + f] = series[f].value ? 'true' : 'false'
+    var climbRate = zhukovskyChartsParameters.items.climbRate.items
+    for (var c = 0; c < climbRate.length; ++c)
+       params['climbRate' + c] = climbRate[c].value
+  
+    setCommand( params,
+                function(data)
+                {
+                  onConnectionStateChange(true)
+                  fillZhukovskyCharts(data, update)
+                },
+                function(data)
+                {
+                  onConnectionStateChange(false)
+                }
+              )
+  }
+
+  function updateFmProperties()
+  {
+    setCommand( {
+                  cmd: 'getFmProperties',
+                  'fileName' : state.fm.fileName,
+                  'fileTime' : state.fm.fileTime
+                },
+                function(data)
+                {
+                  onConnectionStateChange(true)
+                  fillFmProperties(data)
+                  setTimeout(updateFmProperties, 2500)
+                },
+                function(data)
+                {
+                  onConnectionStateChange(false)
+                  setTimeout(updateFmProperties, 2500)
+                }
+              )
+  }
+  
+  function updateFmPropertiesNow()
+  {
+    setCommand({cmd: 'getFmProperties'}, fillFmProperties)
+  }
+  
+  function init()
+  {
+    onConnectionStateChange(false)
+    fillLabelsWithUnitNames()
+    
+    prepareParameter(zhukovskyChartsParameters)
+    deserializeParameterFromCookie(zhukovskyChartsParameters, 'zhukovskyChartsParameters')
+    saveParameter(zhukovskyChartsParameters, settings.unitSystemName)
+    updateFmProperties()
+  }
+
+  window.onload = init;
+  
+  </script>
+  
+  <h1>"War Thunder" Flight Model Editor</h1>  
+  <h2 id="HeaderConnectionState">Disconnected</h2>  
+  <h2 id="HeaderAircraftType">Unknown</h2>
+  <input type="button" value="Update" onClick="updateFmPropertiesNow()">
+  
+  
+  <h2>Zhukovsky chart</h2>
+  <table>
+    <tr>
+      <td valign="top" >
+        <table>
+          <tr>
+            <td colspan="3"><b>Parameters</b></td>  
+          </tr>
+          <tr>
+            <td class="editLabel" id="LabelAltitude">Altitude</td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditAltitude" size = "5" value="0" onchange="onZhukovskyChartsParamChange(['altitude'])"></td>  
+          </tr>
+          <tr>
+            <td>Throttle Mode</td>  
+            <td colspan="2">
+              <select class="number-box" id="ComboThrottleMode" onchange="onZhukovskyChartsParamChange(['throttleMode'])" style="width:100%">
+                <option selected value="0">Manual</option>
+                <option value="1">Full</option>
+                <option value="2">WEP</option>
+              </select>
+            </td>  
+          </tr>
+          <tr>
+            <td>Throttle</td>  
+            <td colspan="2"><input class="number-box" type="number" id="EditThrottle" size = "5" value="0" onchange="onZhukovskyChartsParamChange(['throttle'])"></td>  
+          </tr>
+          <tr>
+            <td>Speed Type</td>  
+            <td colspan="2">
+              <select class="number-box" id="ComboSpeedType" onchange="onZhukovskyChartsParamChange(['speedType'])" style="width:100%">
+                <option selected value="0">TAS</option>
+                <option value="1">IAS</option>
+                <option value="2">Mach</option>
+              </select>
+            </td>  
+          </tr>
+          <tr>
+            <td colspan="3"><b>Series: climb rate and turn time</b></td>  
+          </tr>
+          <tr>
+            <td colspan="3"><input type="checkbox" id="CheckBoxClimbRateBySpeed" onchange="onZhukovskyChartsParamChange(['series', 0])">RoC(V)</td>  
+          </tr>
+          <tr>
+            <td colspan="3"><input type="checkbox" id="CheckBoxTurnTimeBySpeed" onchange="onZhukovskyChartsParamChange(['series', 1])">ToT(V)</td>  
+          </tr>
+          <tr>
+            <td colspan="3"><b>Series: available and required thrust</b></td>  
+          </tr>
+          <tr>
+            <td colspan="3"><input type="checkbox" id="CheckBoxMaxAvailableThrust" onchange="onZhukovskyChartsParamChange(['series', 2])">Tavl(V)</td>  
+          </tr>
+          <tr>
+            <td colspan="3"><input type="checkbox" id="CheckBoxMaxSpeedReqThrust" onchange="onZhukovskyChartsParamChange(['series', 3])">Treq(RoC = 0, V)</td>  
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust1" size="5" onchange="onZhukovskyChartsParamChange(['series', 4])">Treq(RoC = </td>  
+            <td><input class="number-box" type="number" id="EditClimbRate1" value="15" onchange="onZhukovskyChartsParamChange(['climbRate', 0])"></td>  
+            <td>, V)</td>  
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust2" size="5" onchange="onZhukovskyChartsParamChange(['series', 5])">Treq(RoC = </td>  
+            <td><input class="number-box" type="number" id="EditClimbRate2" value="10" onchange="onZhukovskyChartsParamChange(['climbRate', 1])"></td>  
+            <td>, V)</td>  
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust3" size="5" onchange="onZhukovskyChartsParamChange(['series', 6])">Treq(RoC = </td>  
+            <td><input class="number-box" type="number" id="EditClimbRate3" value="5" onchange="onZhukovskyChartsParamChange(['climbRate', 2])"></td>  
+            <td>, V)</td>  
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxClimbRateReqThrust4" size="5" onchange="onZhukovskyChartsParamChange(['series', 7])">Treq(RoC = </td>  
+            <td><input class="number-box" type="number" id="EditClimbRate4" value="3" onchange="onZhukovskyChartsParamChange(['climbRate', 3])"></td>  
+            <td>, V)</td>  
+          </tr>
+          <tr>
+            <td colspan="3"><input type="button" value="Update" style="width:100%" onClick="updateZhukovskyCharts(true)"></td>  
+          </tr>
+          <tr>
+            <td colspan="3" class="editLabel" id="LabelZhukovskyChartParametersActuality"></td>  
+          </tr>
+        </table>
+      </td>  
+      <td>
+        <table>
+          <tr>
+            <td>
+              <div class="chart-content-zhukovsky">
+                <div class="chart-container-zhukovsky">
+                  <div class="tableheader"><b>RoC(V), ToT(V), Tavl(V), Treq(Vy=0, V), Treq(Vy=Vy1, V), ..., Treq(Vy=Vyn, V)</b></div>
+                  <div id="placeholder_zhukovsky_charts" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+        </table>
+      </td>  
+    </tr>
+  </table>
+  
+  
+
+  
+  <table>
+    <tr>
+      <td><h2>Polar of</h2></td>  
+      <td>
+        <select id="ComboPolarType" style="font-size:20px;font-weight:bold;" onchange="onPolarTypeChange(this.value)" style="width:100%">
+          <option selected value="wing">Wing</option>
+          <option value="stabilizer">Stabilizer</option>
+          <option value="fin">Fin</option>
+          <option value="fuselage">Fuselage</option>
+          <option value="propellerBlade">Propeller blade</option>
+        </select>
+      </td>  
+    </tr>
+  </table>
+  
+  <table>
+    <tr>
+      <td valign="top" rowspan="2">
+        <table>
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <th colspan="6">Polar</th>
+                </tr>
+                <tr>
+                  <th colspan="2">Before Crit</th>
+                  <th colspan="2">Crit</th>
+                  <th colspan="2">After Crit</th>
+                </tr>
+                <tr>
+                  <th colspan="4">Common</th>
+                  <td>Parabola Angle, deg</td>  
+                  <td><input type="number" id="EditParabAngle" size = "5" value="0" onchange="onPolarParamChange(['afterCrit', 'parabAngle'])"></td>  
+                </tr>
+                <tr>
+                  <td>Oswald</td>  
+                  <td><input type="number" id="EditOswaldCoeff" size = "5" value="0" onchange="onPolarParamChange(['oswaldCoeff'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                  <td>Decline Coeff</td>  
+                  <td><input type="number" id="EditDeclineCoeff" size = "5" value="0" onchange="onPolarParamChange(['afterCrit', 'declineCoeff'])"></td>  
+                </tr>    
+                <tr>
+                  <td>δCl/δAoA</td>  
+                  <td><input type="number" id="EditdCydAoA" size = "5" value="0" onchange="onPolarParamChange(['dCydAoA'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                  <td>Max Dist Angle, deg</td>  
+                  <td><input type="number" id="EditMaxDistAngle" size = "5" value="0" onchange="onPolarParamChange(['afterCrit', 'maxDistanceAngle'])"></td>  
+                </tr>        
+                <tr>
+                  <th colspan="4">No Flaps</th>
+                  <td>Cy After Parabola</td>  
+                  <td><input type="number" id="EditCyAft" size = "5" value="0" onchange="onPolarParamChange(['afterCrit', 'Cy'])"></td>  
+                </tr>
+                <tr>            
+                  <td>Cd0</td>  
+                  <td><input type="number" id="EditCx0" size = "5" value="0" onchange="onPolarParamChange(['noFlaps', 'Cx0'])"></td>  
+                  <td>AoA crit high, deg</td>  
+                  <td><input type="number" id="EditAoACritHigh" size = "5" value="0" onchange="onPolarParamChange(['noFlaps', 'AoACritHigh'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>    
+                <tr>
+                  <td>Cl0</td>  
+                  <td><input type="number" id="EditCy0" size = "5" value="0" onchange="onPolarParamChange(['noFlaps', 'Cy0'])"></td>  
+                  <td>Cl max</td>  
+                  <td><input type="number" id="EditCyMax" size = "5" value="0" onchange="onPolarParamChange(['noFlaps', 'CyMax'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>        
+                <tr>
+                  <td></td>  
+                  <td></td>  
+                  <td>AoA crit low, deg</td>  
+                  <td><input type="number" id="EditAoACritLow" size = "5" value="0" onchange="onPolarParamChange(['noFlaps', 'AoACritLow'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>
+                <tr>
+                  <td></td>  
+                  <td></td>  
+                  <td>Cl min</td>  
+                  <td><input type="number" id="EditCyMin" size = "5" value="0" onchange="onPolarParamChange(['noFlaps', 'CyMin'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>          
+                <tr>
+                  <th colspan="4">Full Flaps</th>
+                  <td></td>  
+                  <td></td>  
+                </tr>           
+                <tr>
+                  <td>Cd0</td>  
+                  <td><input type="number" id="EditCx0Flaps" size = "5" value="0" onchange="onPolarParamChange(['fullFlaps', 'Cx0'])"></td>  
+                  <td>AoA crit high, deg</td>  
+                  <td><input type="number" id="EditAoACritHighFlaps" size = "5" value="0" onchange="onPolarParamChange(['fullFlaps', 'AoACritHigh'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>    
+                <tr>
+                  <td>Cl0</td>  
+                  <td><input type="number" id="EditCy0Flaps" size = "5" value="0" onchange="onPolarParamChange(['fullFlaps', 'Cy0'])"></td>  
+                  <td>Cl max</td>  
+                  <td><input type="number" id="EditCyMaxFlaps" size = "5" value="0" onchange="onPolarParamChange(['fullFlaps', 'CyMax'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>        
+                <tr>
+                  <td></td>  
+                  <td></td>  
+                  <td>AoA crit low, deg</td>  
+                  <td><input type="number" id="EditAoACritLowFlaps" size = "5" value="0" onchange="onPolarParamChange(['fullFlaps', 'AoACritLow'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>
+                <tr>
+                  <td></td>  
+                  <td></td>  
+                  <td>Cl min</td>  
+                  <td><input type="number" id="EditCyMinFlaps" size = "5" value="0" onchange="onPolarParamChange(['fullFlaps', 'CyMin'])"></td>  
+                  <td></td>  
+                  <td></td>  
+                </tr>
+              </table>
+            </td>  
+          </tr>
+          <tr>
+            <td>
+              <table width="100%">
+                <tr>
+                  <th colspan="3">Mach Factor</th>
+                </tr>
+                <tr>
+                  <td>Mach Factor</td>  
+                  <td colspan="2">
+                    <select id="ComboMachFactor" onchange="onPolarParamChange(['machFactor'])" style="width:100%">
+                      <option selected value="0">Disabled</option>
+                      <option value="1">Simple</option>
+                      <option value="2">Simple Propeller</option>
+                      <option value="3">Advanced</option>
+                    </select>
+                  </td>  
+                </tr>
+                
+                <tr>
+                  <td>Combined CL</td>  
+                  <td colspan="2"><input type="checkbox" id="CheckBoxCombinedCl" onchange="onPolarParamChange(['combinedCl'])"></td>  
+                </tr>
+                
+                <tr>
+                  <th>Parameter</th>
+                  <th>Cd0(M)</th>
+                  <th>Cd0(M)-(δCl/δAoA)(M)+1</th>
+                </tr>
+                <tr>
+                  <td>Critical Mach Number</td>  
+                  <td><input type="number" id="EditMachCrit1" size = "5" value="0" onchange="onPolarParamChange(['machCrit1'])"></td>  
+                  <td><input type="number" id="EditMachCrit2" size = "5" value="0" onchange="onPolarParamChange(['machCrit2'])"></td>  
+                </tr>
+                <tr>
+                  <td>Mach Number of Coefficient Maximum</td>  
+                  <td><input type="number" id="EditMachMax1" size = "5" value="0" onchange="onPolarParamChange(['machMax1'])"></td>  
+                  <td><input type="number" id="EditMachMax2" size = "5" value="0" onchange="onPolarParamChange(['machMax2'])"></td>  
+                </tr>
+                <tr>
+                  <td>Coefficient Maximal Value</td>  
+                  <td><input type="number" id="EditMultMachMax1" size = "5" value="0" onchange="onPolarParamChange(['multMachMax1'])"></td>  
+                  <td><input type="number" id="EditMultMachMax2" size = "5" value="0" onchange="onPolarParamChange(['multMachMax2'])"></td>  
+                </tr>
+                <tr>
+                  <td>Linear Coefficient After Maximum</td>  
+                  <td><input type="number" id="EditMultLineCoeff1" size = "5" value="0" onchange="onPolarParamChange(['multLineCoeff1'])"></td>  
+                  <td><input type="number" id="EditMultLineCoeff2" size = "5" value="0" onchange="onPolarParamChange(['multLineCoeff2'])"></td>  
+                </tr>
+                <tr>
+                  <td>Coefficient Upper or Lower Limit</td>  
+                  <td><input type="number" id="EditMultLimit1" size = "5" value="0" onchange="onPolarParamChange(['multLimit1'])"></td>  
+                  <td><input type="number" id="EditMultLimit2" size = "5" value="0" onchange="onPolarParamChange(['multLimit2'])"></td>  
+                </tr>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Clmax(M)</th>
+                  <th>AoAcrit(M)</th>
+                </tr>
+                <tr>
+                  <td>Critical Mach Number</td>  
+                  <td><input type="number" id="EditMachCrit3" size = "5" value="0" onchange="onPolarParamChange(['machCrit3'])"></td>  
+                  <td><input type="number" id="EditMachCrit4" size = "5" value="0" onchange="onPolarParamChange(['machCrit4'])"></td>  
+                </tr>
+                <tr>
+                  <td>Mach Number of Coefficient Maximum</td>  
+                  <td><input type="number" id="EditMachMax3" size = "5" value="0" onchange="onPolarParamChange(['machMax3'])"></td>  
+                  <td><input type="number" id="EditMachMax4" size = "5" value="0" onchange="onPolarParamChange(['machMax4'])"></td>  
+                </tr>
+                <tr>
+                  <td>Coefficient Maximal Value</td>  
+                  <td><input type="number" id="EditMultMachMax3" size = "5" value="0" onchange="onPolarParamChange(['multMachMax3'])"></td>  
+                  <td><input type="number" id="EditMultMachMax4" size = "5" value="0" onchange="onPolarParamChange(['multMachMax4'])"></td>  
+                </tr>
+                <tr>
+                  <td>Linear Coefficient After Maximum</td>  
+                  <td><input type="number" id="EditMultLineCoeff3" size = "5" value="0" onchange="onPolarParamChange(['multLineCoeff3'])"></td>  
+                  <td><input type="number" id="EditMultLineCoeff4" size = "5" value="0" onchange="onPolarParamChange(['multLineCoeff4'])"></td>  
+                </tr>
+                <tr>
+                  <td>Coefficient Upper or Lower Limit</td>  
+                  <td><input type="number" id="EditMultLimit3" size = "5" value="0" onchange="onPolarParamChange(['multLimit3'])"></td>  
+                  <td><input type="number" id="EditMultLimit4" size = "5" value="0" onchange="onPolarParamChange(['multLimit4'])"></td>  
+                </tr>
+                <tr>
+                  <th>Parameter</th>
+                  <th>A(M)</th>
+                  <th>δCl/δAoA(M)</th>
+                </tr>
+                <tr>
+                  <td>Critical Mach Number</td>  
+                  <td><input type="number" id="EditMachCrit5" size = "5" value="0" onchange="onPolarParamChange(['machCrit5'])"></td>  
+                  <td><input type="number" id="EditMachCrit6" size = "5" value="0" onchange="onPolarParamChange(['machCrit6'])"></td>  
+                  <td></td>  
+                </tr>
+                <tr>
+                  <td>Mach Number of Coefficient Maximum</td>  
+                  <td><input type="number" id="EditMachMax5" size = "5" value="0" onchange="onPolarParamChange(['machMax5'])"></td>  
+                  <td><input type="number" id="EditMachMax6" size = "5" value="0" onchange="onPolarParamChange(['machMax6'])"></td>  
+                  <td></td>  
+                </tr>
+                <tr>
+                  <td>Coefficient Maximal Value</td>  
+                  <td><input type="number" id="EditMultMachMax5" size = "5" value="0" onchange="onPolarParamChange(['multMachMax5'])"></td>  
+                  <td><input type="number" id="EditMultMachMax6" size = "5" value="0" onchange="onPolarParamChange(['multMachMax6'])"></td>  
+                  <td></td>  
+                </tr>
+                <tr>
+                  <td>Linear Coefficient After Maximum</td>  
+                  <td><input type="number" id="EditMultLineCoeff5" size = "5" value="0" onchange="onPolarParamChange(['multLineCoeff5'])"></td>  
+                  <td><input type="number" id="EditMultLineCoeff6" size = "5" value="0" onchange="onPolarParamChange(['multLineCoeff6'])"></td>  
+                  <td></td>  
+                </tr>
+                <tr>
+                  <td>Coefficient Upper or Lower Limit</td>  
+                  <td><input type="number" id="EditMultLimit5" size = "5" value="0" onchange="onPolarParamChange(['multLimit5'])"></td>  
+                  <td><input type="number" id="EditMultLimit6" size = "5" value="0" onchange="onPolarParamChange(['multLimit6'])"></td>  
+                  <td></td>  
+                </tr>                
+              </table>
+            </td>  
+          </tr>
+          <tr>
+            <td colspan="6"><input type="button" id="ButtonSetPolar" value="Set Polar" onClick="setPolar()" style="width:100%"></td>  
+          </tr>
+        </table>
+      </td>  
+      <td>
+        <table>
+          <tr>
+            <td>
+              <div class="chart-content-polar">
+                <div class="chart-container-polar">
+                  <div class="tableheader"><b>Cl(angle)</b></div>
+                  <div id="placeholder_polar_0" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+            <td>
+              <div class="chart-content-polar">
+                <div class="chart-container-polar">
+                  <div class="tableheader"><b>Cd(angle)</b></div>
+                  <div id="placeholder_polar_1" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <tr>
+            <td>
+              <div class="chart-content-polar">
+                <div class="chart-container-polar">
+                  <div class="tableheader"><b>Cl(angle) / Cd(angle)</b></div>
+                  <div id="placeholder_polar_2" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+            <td>
+              <div class="chart-content-polar">
+                <div class="chart-container-polar">
+                  <div class="tableheader"><b>Cl(Cd)</b></div>
+                  <div id="placeholder_polar_3" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <tr>
+          </tr>
+        </table>
+      </td>  
+      <td>
+        <table>
+          <tr>
+            <td>
+              <div class="chart-content-polar-2">
+                <div class="chart-container-polar-2">
+                  <div class="tableheader"><b>δCl/δAoA(M)</b></div>
+                  <div id="placeholder_polar_4" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <tr>
+            <td>
+              <div class="chart-content-polar-2">
+                <div class="chart-container-polar-2">
+                  <div class="tableheader"><b>Cd0(M)</b></div>
+                  <div id="placeholder_polar_5" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <tr>
+            <td>
+              <div class="chart-content-polar-2">
+                <div class="chart-container-polar-2">
+                  <div class="tableheader"><b>Clcrit(M)</b></div>
+                  <div id="placeholder_polar_6" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <tr>
+            <td>
+              <div class="chart-content-polar-2">
+                <div class="chart-container-polar-2">
+                  <div class="tableheader"><b>AoAcrit(M)</b></div>
+                  <div id="placeholder_polar_7" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <tr>
+            <td>
+              <div class="chart-content-polar-2">
+                <div class="chart-container-polar-2">
+                  <div class="tableheader"><b>A(M)</b></div>
+                  <div id="placeholder_polar_8" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <tr>
+            <td>
+              <div class="chart-content-polar-2">
+                <div class="chart-container-polar-2">
+                  <div class="tableheader"><b>δMza/δFy(M)</b></div>
+                  <div id="placeholder_polar_9" class="chart-placeholder"></div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+        </table>
+      </td>        
+    </tr>
+  </table>
+  
+  <h2>Propeller</h2>
+  <table>
+    <tr>
+      <td>
+        <table>
+          <tr>
+            <th colspan="2">Main</th>
+            <th colspan="2">Shape</th>
+            <th colspan="2">Controller</th>
+          </tr>
+          <tr>
+            <td>Reductor</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerReductorCoeff" value="0.5" onchange="onParamChange(['propeller', 'reductorCoefficient'])"></td>  
+            <td>Radius</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerRadius" value="0.5" onchange="onParamChange(['propeller', 'shape', 'radius'])"></td>  
+            <td>Type</td>  
+            <td>
+              <select id="ComboPropellerControllerType" onchange="onParamChange(['propeller', 'controller', 'type'])" style="width:100%">
+                <option selected value="0">No</option>
+                <option value="1">Constant RPM 1</option>
+                <option value="2">Constant RPM 2</option>
+                <option value="3">Constant AOA 1</option>
+                <option value="4">Constant AOA 2</option>
+                <option value="5">Friction</option>
+                <option value="6">Manual</option>
+                <option value="7">WM Komandogerat</option>
+                <option value="8">FW Komandogerat</option>
+              </select>
+            </td>  
+          </tr>
+          <tr>
+            <td>Mass</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerMass" value="150" onchange="onParamChange(['propeller', 'mass'])"></td>  
+            <td>Number of blades</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerBladeNumber" value="3" onchange="onParamChange(['propeller', 'shape', 'bladeNumber'])"></td>  
+            <td>Governor Speed</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerGovernorSpeed" value="1.2" onchange="onParamChange(['propeller', 'controller', 'governorSpeed'])"></td>  
+          </tr>
+          <tr>
+            <td>Inertia Moment Coeff</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerInertiaMomentCoeff" value="1.0" onchange="onParamChange(['propeller', 'inertiaMomentCoeff'])"></td>  
+            <td>Angle, 0.35R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerAngle0" value="0.3" onchange="onParamChange(['propeller', 'shape', 'segment', 0, 'angle'])"></td>        
+            <td>Min RPM</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerMinOmega" value="600" onchange="onParamChange(['propeller', 'controller', 'minOmega'])"></td>  
+          </tr>
+          <tr>
+            <td>Direction</td>  
+            <td>
+              <select id="ComboPropellerDirection" onchange="onParamChange(['propeller', 'direction'])" style="width:100%">
+                <option selected value="0">Counter-clockwise</option>
+                <option value="1">Clockwise</option>
+              </select>
+            </td>  
+            <td>Chord, 0.35R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerChord0" value="0.2" onchange="onParamChange(['propeller', 'shape', 'segment', 0, 'chord'])"></td>  
+            <td>Max RPM</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerMaxOmega" value="2700" onchange="onParamChange(['propeller', 'controller', 'maxOmega'])"></td>  
+          </tr>
+          <tr>
+            <td>Automatic Mode</td>  
+            <td><input type="checkbox" id="CheckBoxPropellerAutoMode" onchange="onParamChange(['propeller', 'autoMode'])"></td>  
+            <td>Angle, 0.55R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerAngle1" value="0.15" onchange="onParamChange(['propeller', 'shape', 'segment', 1, 'angle'])"></td>  
+            <td>WEP RPM</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerWepOmega" value="2850" onchange="onParamChange(['propeller', 'controller', 'wepOmega'])"></td>  
+          </tr>
+          <tr>
+            <th colspan="2">Shape Calculator</th>
+            <td>Chord, 0.55R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerChord1" value="0.3" onchange="onParamChange(['propeller', 'shape', 'segment', 1, 'chord'])"></td>  
+            <td>Min Angle</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerMinAngle" value="0.2" onchange="onParamChange(['propeller', 'controller', 'minAngle'])"></td>  
+          </tr>
+          <tr>
+            <td>Speed</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerSpeed" value="0.5" onchange="onParamChange(['propeller', 'shape', 'speed'])"></td>  
+            <td>Angle, 0.75R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerAngle2" value="0.0" onchange="onParamChange(['propeller', 'shape', 'segment', 2, 'angle'])"></td>  
+            <td>Max Angle</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerMaxAngle" value="1.57" onchange="onParamChange(['propeller', 'controller', 'maxAngle'])"></td>  
+          </tr>
+          <tr>
+            <td>RPM</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerOmega" value="0.5" onchange="onParamChange(['propeller', 'shape', 'omega'])"></td>  
+            <td>Chord, 0.75R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerChord2" value="0.4" onchange="onParamChange(['propeller', 'shape', 'segment', 2, 'chord'])"></td>  
+            <td>Optimal Angle</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerOptimalAngle" value="0.45" onchange="onParamChange(['propeller', 'controller', 'optimalAngle'])"></td>  
+          </tr>
+          <tr>
+            <td colspan="2"><input type="button" value="Calc Shape" onClick="calcPropellerShape()" style="width:100%"></td>  
+            <td>Angle, 1.00R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerAngle3" value="-0.2" onchange="onParamChange(['propeller', 'shape', 'segment', 3, 'angle'])"></td>  
+            <td>Feathering</td>  
+            <td><input type="checkbox" id="CheckBoxPropellerFeathering" onchange="onParamChange(['propeller', 'controller', 'featheringControl'])"></td>  
+          </tr>
+          <tr>
+            <td></td>  
+            <td></td>  
+            <td>Chord, 1.00R</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerChord3" value="0.15" onchange="onParamChange(['propeller', 'shape', 'segment', 3, 'chord'])"></td>  
+            <td>Feathering Angle</td>  
+            <td><input type="number" size = "5" step="1" id="EditPropellerFeatheringAngle" value="0.45" onchange="onParamChange(['propeller', 'controller', 'featheringAngle'])"></td>  
+          </tr>
+          <tr>
+            <td colspan="8"><input type="button" id="ButtonSetPropeller" value="Set Propeller" onClick="setPropeller()" style="width:100%"></td>  
+          </tr>
+        </table>
+      </td>  
+      <td>
+        <div class="chart-content-propeller-efficiency">
+          <div class="chart-container-propeller-efficiency">
+            <div class="tableheader"><b>Propeller efficiency</b></div>
+            <div id="placeholder_propeller_efficiency" class="chart-placeholder-propeller-efficiency"></div>
+          </div>
+        </div>
+      </td>  
+    </tr>
+  </table>  
+</html>

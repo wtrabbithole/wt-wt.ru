@@ -1,0 +1,161 @@
+{
+  "css": "gui/css.css",
+  "img": {
+    "position": "absolute",
+    "size": "3sw, sh/3+1",
+    "pos": "-sw,sh-sh/3-sh/12+2",
+    "background-image": "#ui/gameuiskin#optionlist_background_down"
+  },
+  "blackdiv": {
+    "position": "absolute",
+    "size": "3sw+2, sh/12+1",
+    "pos": "50%pw-50%w,sh-sh/12",
+    "background-color": "@black"
+  },
+  "root": [
+    {
+      "tdiv": {
+        "id": "animated_bg_picture",
+        "pos": "50%sw-50%w,50%sh-50%h",
+        "position": "root",
+        "width": "2.5h",
+        "height": "sh",
+        "behaviour": "multiLayerImage",
+        "blend-time": "500"
+      }
+    },
+    {
+      "TopMenuPanel": {
+        "pattern": {
+          "type": "bright_texture"
+        },
+        "Button_close": {
+          "id": "button_exit",
+          "style": "pos:@rw+@bw-w, @bh; position:absolute; margin-right:0;",
+          "display": "hide",
+          "enable": "no",
+          "img": []
+        }
+      }
+    },
+    {
+      "BottomMenuPanel": {
+        "pattern": {
+          "type": "bright_texture"
+        },
+        "copyright": {
+          "pos": "pw-w-1@bw, 0.5(ph-1@bh) - 50%h",
+          "position": "absolute"
+        }
+      }
+    },
+    {
+      "CompanyLogo": {
+        "pos": "1@rw-w, 1@rh - h - 1@bottomBarHeight",
+        "position": "absolute"
+      }
+    },
+    {
+      "tdiv": [
+        {
+          "position": "absolute"
+        },
+        {
+          "pos": "50%pw-50%w, -4"
+        },
+        {
+          "width": "256@loginLogoScale"
+        },
+        {
+          "height": "128@loginLogoScale + 1@bh"
+        },
+        {
+          "img": {
+            "pos": "50%pw-50%w,0",
+            "position": "absolute",
+            "size": "pw+6, ph+5",
+            "background-image": "#ui/gameuiskin#window_body_shadow",
+            "background-color": "@white",
+            "background-position": "6,6",
+            "background-repeat": "expand"
+          }
+        },
+        {
+          "img": {
+            "pos": "0,0",
+            "position": "absolute",
+            "size": "pw, ph",
+            "background-image": "#ui/gameuiskin#red_plate",
+            "background-color": "@white",
+            "background-position": "6,6",
+            "background-repeat": "expand"
+          }
+        },
+        {
+          "img": {
+            "pos": "50%pw-50%w, 50%ph - 50%h",
+            "position": "absolute",
+            "size": "pw-7, ph-7",
+            "background-image": "#ui/gameuiskin#pattern_dark_diag_lines",
+            "background-repeat": "repeat"
+          }
+        },
+        {
+          "img": {
+            "id": "titleLogo",
+            "pos": "50%pw-50%w,ph-h",
+            "position": "relative",
+            "size": "256@loginLogoScale,128@loginLogoScale",
+            "background-image": "#ui/title128"
+          }
+        },
+        {
+          "tdiv": {
+            "height": "0.02@scrn_tgt_font",
+            "position": "absolute",
+            "pos": "-w, 1@topBarHeight+4@dp",
+            "versionText": []
+          }
+        }
+      ]
+    },
+    {
+      "tdiv": {
+        "id": "authorization_block",
+        "pos": "50%sw-50%w, 70%sh",
+        "position": "absolute",
+        "flow": "vertical",
+        "Button_text": {
+          "id": "change_login",
+          "visualStyle": "secondary",
+          "_on_click": "onChangeLoginScreen",
+          "btnName": "X",
+          "text": "#mainmenu/alreadyHaveAccount",
+          "display": "hide",
+          "enable": "no",
+          "pos": "50%pw-50%w, 0.01@scrn_tgt",
+          "position": "relative",
+          "buttonWink": [],
+          "ButtonImg": []
+        },
+        "text": [
+          {
+            "id": "text_req_connection"
+          },
+          {
+            "text": "#ps4/reqInstantConnection"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "pos": "50%pw-50%w, 0.01@scrn_tgt"
+          },
+          {
+            "position": "relative"
+          }
+        ]
+      }
+    }
+  ]
+}

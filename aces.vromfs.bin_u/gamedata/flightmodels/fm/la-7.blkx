@@ -17,7 +17,6 @@
   "CockpitDoorSpeedOpen": [150.0,300.0,0.5,0.02],
   "CockpitDoorSpeedClose": [150.0,300.0,0.5,1.0],
   "CockpitDoorBlockSpeed": 450.0,
-  "CockpitOpenedDoorBreakSpeed": -1.0,
   "AirBrakeSpeed": 0.5,
   "BayDoorSpeed": 1.0,
   "dvFlapsIn": [150.0,280.0,0.15,0.18],
@@ -35,6 +34,7 @@
   "AileronAngles": [24.0,25.0],
   "ElevatorAngles": [38.0,24.0],
   "InvertElevator": false,
+  "FlapsRadiator": 0.0,
   "RudderAngles": [28.0,28.0],
   "InterceptorType": 0,
   "Elevon": false,
@@ -44,13 +44,13 @@
   "MaxSpeedNearGround": 565.999,
   "MaxSpeedAtAltitude": 572.0,
   "CriticalSpeed": 50.0,
-  "VneCockpitDoor": 700.0,
   "ArcadeLimitWepMultiplier": 1.6,
   "ArcadeHelpersSensitivity": 1.0,
   "AllowModsToChangeLongidutialBalance": true,
   "ArcadeRollCorrectionMultiplier": 1.0,
   "ArcadeMaxRollCoeff": 1.0,
   "ArcadeYawMutilpliers": [1.0,1.0,1.0],
+  "CockpitOpenedDoorBreakSpeed": -1.0,
   "MomentOfInertia": [6259.0,16818.0,11526.0],
   "AvailableControls": {
     "hasAileronControl": true,
@@ -117,6 +117,7 @@
     "SineAOSMultiplier": 0.2
   },
   "Aerodynamics": {
+    "AileronCd": [0.015,0.0027],
     "GearCd": 0.045,
     "RadiatorCd": 0.005,
     "OilRadiatorCd": 0.0,
@@ -124,9 +125,9 @@
     "AirbrakeCd": 0.0,
     "CockpitDoorCd": 0.007,
     "ClToCmCoeff": 0.055,
-    "UseSpinLoss": true,
-    "SpinClLoss": 0.06,
-    "SpinCdLoss": 0.03,
+    "UseSpinLoss": false,
+    "SpinClLoss": -1.0,
+    "SpinCdLoss": -1.0,
     "OswaldsEfficiencyNumber": 0.8,
     "lineClCoeff": 0.078,
     "AfterCritParabAngle": 4.0,
@@ -154,11 +155,11 @@
     "MultMachMax4": 0.7,
     "MultLineCoeff4": -0.2,
     "MultLimit4": 0.25,
-    "MachCrit5": 0.685,
+    "MachCrit5": 0.4,
     "MachMax5": 1.5,
-    "MultMachMax5": 2.0,
-    "MultLineCoeff5": 1.1,
-    "MultLimit5": 5.0,
+    "MultMachMax5": 8.5,
+    "MultLineCoeff5": 1.0,
+    "MultLimit5": 8.5,
     "MachCrit6": 0.685,
     "MachMax6": 1.0,
     "MultMachMax6": 4.0,
@@ -175,7 +176,7 @@
       "alphaCritLow": -16.0,
       "ClCritHigh": 1.35,
       "ClCritLow": -0.9,
-      "CdMin": 0.01
+      "CdMin": 0.009
     },
     "FullFlaps": {
       "Cl0": 0.4,
@@ -229,7 +230,7 @@
       "alphaCritLow": -17.0,
       "ClCritHigh": 0.12,
       "ClCritLow": -0.12,
-      "CdMin": 0.0082
+      "CdMin": 0.008
     },
     "Stab": {
       "OswaldsEfficiencyNumber": 0.6,
@@ -452,25 +453,9 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
-      "RadiatorType": 3,
-      "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.012,
-      "WaterMaxRPMTemp": 215.0,
-      "OilOutMaxRPMTemp": 80.0,
-      "OverheatTime": 240.0,
-      "UnderheatTime": 999.0,
-      "WaterMaxTemp": 215.0,
-      "EmptyWaterPipeMaxRPMTemp": 537.5,
-      "WaterMinTemp": 60.0,
-      "OilMaxTemp": 115.0,
-      "EmptyOilPipeOutMaxRPMTemp": 149.5,
-      "OilMinTemp": 100.0,
-      "EffectiveRadSpeed": 230.0,
-      "IneffectiveRadMult": 0.93,
-      "AdvancedThermodynamics": true,
+      "RadiatorAuto": false,
+      "OilRadiatorAuto": false,
       "NoIgnitionWaterHeatProducingFactor": 0.15,
-      "WaterTemperatureInertia": 0.65,
-      "WaterAirDensityPower": 0.0,
       "WaterRadiatorEffectPower": 5.0,
       "WaterMinRadiatorThermalConductionCoeff": 0.8,
       "WaterMinThermostatThermalConductionCoeff": 0.3,
@@ -481,22 +466,24 @@
       "WaterThermostatSetPoint": 140.0,
       "NoFlowMode": 2,
       "NoIgnitionOilHeatProducingFactor": 0.15,
-      "OilTemperatureInertia": 1.3,
       "OilRadiatorEffectPower": 5.0,
       "OilMinRadiatorThermalConductionCoeff": 0.92,
       "OilMinThermostatThermalConductionCoeff": 0.3,
       "OilMinLevelThermalConductionCoeff": 0.2,
       "OilThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
-      "OilAirDensityPower": 0.0,
       "OilBoilingTemperature": 360.0,
       "OilThermostatInertia": 20.0,
       "OilThermostatSetPoint": 35.0,
       "DegradationTime_10_5": [180.0,171.0],
       "HalfHealthWaterTemperatureToleranceDecrease": 21.0,
       "HalfHealthOilTemperatureToleranceDecrease": 11.5,
+      "WaterAirDensityPower": 0.0,
+      "OilAirDensityPower": 0.0,
       "CoolingEffectiveAirSpeed": 340.907,
       "WaterTemperatureNoFlow": 300.0,
       "OilTemperatureNoFlow": 160.0,
+      "WaterTemperatureInertia": 0.65,
+      "OilTemperatureInertia": 1.3,
       "Mode0": {
         "Altitude": 1000.0,
         "RPM": 370.0,
@@ -679,13 +666,14 @@
     "CenterOfGravity": [-0.25,0.0,0.0],
     "WingCritOverload": [-209247.0,209247.0],
     "GearDestructionIndSpeed": 320.0,
+    "AirbrakeDestructionIndSpeed": -1.0,
     "FlapsDestructionIndSpeedP1": [0.1,530.0],
     "FlapsDestructionIndSpeedP2": [1.0,300.0],
     "Parts": {
       "tank1_capacity": 124.0,
       "tank1_system": 0,
       "tank0_external": false,
-      "tank0_priority": 2,
+      "tank0_priority": 1,
       "tank2_capacity": 103.0,
       "tank2_system": 0,
       "tank1_external": false,
@@ -693,7 +681,7 @@
       "tank3_capacity": 103.0,
       "tank3_system": 0,
       "tank2_external": false,
-      "tank2_priority": 1,
+      "tank2_priority": 0,
       "fin_dm": 25.1349,
       "elevator_dm": 62.5955,
       "flap_r_dm": 10.9193,
@@ -841,6 +829,63 @@
       },
       {
         "maxSpeedWep": [8000.0,566.28]
+      },
+      {
+        "optClimbSpeedNom": [0.0,278.409]
+      },
+      {
+        "optClimbSpeedNom": [304.878,278.409]
+      },
+      {
+        "optClimbSpeedNom": [609.756,278.409]
+      },
+      {
+        "optClimbSpeedNom": [914.634,276.799]
+      },
+      {
+        "optClimbSpeedNom": [1524.39,273.581]
+      },
+      {
+        "optClimbSpeedNom": [1981.71,270.362]
+      },
+      {
+        "optClimbSpeedNom": [3048.78,262.316]
+      },
+      {
+        "optClimbSpeedNom": [3658.54,259.097]
+      },
+      {
+        "optClimbSpeedNom": [4268.29,254.269]
+      },
+      {
+        "optClimbSpeedNom": [4573.17,252.66]
+      },
+      {
+        "optClimbSpeedNom": [5030.49,249.441]
+      },
+      {
+        "optClimbSpeedNom": [5487.81,246.223]
+      },
+      {
+        "optClimbSpeedNom": [6097.56,243.004]
+      },
+      {
+        "optClimbSpeedNom": [7012.2,233.348]
+      },
+      {
+        "optClimbSpeedNom": [7926.83,223.692]
+      },
+      {
+        "optClimbSpeedNom": [8536.59,217.255]
+      },
+      {
+        "optClimbSpeedNom": [9146.34,210.818]
+      },
+      {
+        "optClimbSpeedNom": [10061.0,202.772]
+      },
+      {
+        "optClimbSpeedNom": [10670.7,199.553]
       },
       {
         "minClimbTimeNom": [0.0,0.0]

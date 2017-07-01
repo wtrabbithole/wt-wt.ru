@@ -1,6 +1,6 @@
 {
-  "maxChannels": 64,
-  "maxSoftwareChannels": 64,
+  "maxChannels": 128,
+  "maxSoftwareChannels": 128,
   "memoryPC": 175,
   "memoryPCLowMode": 140,
   "cockpitVolumeMultMinValue": 0.1,
@@ -18,7 +18,7 @@
   "hangar_sound": "hangar_outside",
   "hangar_sound_tanks": "hangar_tanks",
   "hangar_sound_ships": "hangar_ships",
-  "hangar_sound_globe": "hangar_outside",
+  "hangar_sound_globe": "hangar_worldwar",
   "moveListenerPosInCutscenesByFovK": 15.0,
   "dialogsProjectName0": "dialogs_",
   "budget": {
@@ -1806,6 +1806,67 @@
       "leftPos": [-1.0,1.0,0.0]
     }
   },
+  "engine_kv220": {
+    "effects": {
+      "path": "tanks/engines_tanks/kv220",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "tanks/engines_tanks/kv220"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "tanks/engines_tanks/kv220",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
   "engine_pt76": {
     "effects": {
       "path": "tanks/engines_tanks/pt76",
@@ -2343,6 +2404,159 @@
       "leftPos": [-1.0,1.0,0.0]
     }
   },
+  "engine_t90a": {
+    "effects": {
+      "path": "tanks/engines_tanks/t90a",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/t90a",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/t90a",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_leo2a5": {
+    "effects": {
+      "path": "tanks/engines_tanks/leo2a5",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/leo2a5",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/leo2a5",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_apache": {
+    "effects": {
+      "path": "tanks/engines_helicopters/apache",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_helicopters/apache",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_helicopters/apache",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_mi35": {
+    "effects": {
+      "path": "tanks/engines_helicopters/mi35",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_helicopters/mi35",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_helicopters/mi35",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_heli_ai": {
+    "effects": {
+      "path": "tanks/engines_helicopters/ai",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_helicopters/ai",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
   "rattle05": {
     "effects": {
       "path": "tanks/effects_tanks/rattle05",
@@ -2753,6 +2967,14 @@
         "path": "ships/effects_ships"
       }
     },
+    "grd_cannon_reload_auto": {
+      "path": "tanks/effects_tanks",
+      "event": "reload_cannon_auto",
+      "time": 7.0,
+      "ship": {
+        "path": "ships/effects_ships"
+      }
+    },
     "grd_howitzer_reload": {
       "path": "tanks/effects_tanks",
       "event": "reload_howitzer",
@@ -3036,7 +3258,7 @@
   },
   "speechSound": {
     "heavyVehicle": {
-      "projectPrefix": "dialogs_wt_tanks_",
+      "projectPrefix": "crew_tanks_",
       "path": "voice_messages",
       "minSpeechInterval": 2.0,
       "eventsChancePlay": 1.0,
@@ -3391,22 +3613,25 @@
         "aphebc_tank": "loadBulletAP",
         "apcbc_tank": "loadBulletAP",
         "ap_tank": "loadBulletAP",
+        "ap_large_caliber_tank": "loadBulletAP",
         "tp_tank": "loadBulletAP",
         "shrapnel_tank": "loadBulletSplinter",
         "he_frag_tank": "loadBulletHighExpl",
+        "he_frag_fs_tank": "loadBulletHighExpl",
         "hesh_tank": "loadBulletHighExpl",
         "heat_tank": "loadBulletCumulative",
         "heat_fs_tank": "loadBulletCumulative",
         "apcr_tank": "loadBulletSubCaliber",
         "apds_tank": "loadBulletSubCaliber",
         "apds_fs_tank": "loadBulletSubCaliber",
+        "apds_fs_long_tank": "loadBulletSubCaliber",
         "tphv_tank": "loadBulletSubCaliber",
         "atgm_tank": "loadBulletCumulative",
         "rocket_tank": "loadBulletHighExpl"
       }
     },
     "warShip": {
-      "projectPrefix": "dialogs_wt_ships_",
+      "projectPrefix": "crew_ships_",
       "path": "voice_messages",
       "minSpeechInterval": 2.0,
       "eventsChancePlay": 1.0,

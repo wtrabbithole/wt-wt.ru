@@ -1,0 +1,163 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "kursk_tm",
+      "level": "levels/avg_kursk.bin",
+      "type": "domination",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "chapter": "air_ground_battles",
+      "timeLimit": 30,
+      "deathPenaltyMul": 1.0,
+      "ctaCaptureZoneEqualPenaltyMul": 0.5,
+      "remapAiTankModels": true,
+      "country_axis": "germany",
+      "country_allies": "ussr",
+      "tags": [],
+      "missionType": {
+        "_Dom": true,
+        "_Conq": false,
+        "_Bttl": true,
+        "_Bto": false,
+        "_race_straight": false,
+        "_race_inverted": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Flc": false,
+        "_Conq1": true,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    },
+    "briefing": {
+      "place_loc": "",
+      "date_loc": "",
+      "objective_loc": "",
+      "music": "action_01",
+      "part": {
+        "event": "",
+        "minTime": 0,
+        "slide": {
+          "map": true,
+          "minTime": 4,
+          "picture": ""
+        }
+      }
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": {
+    "objectGroups": {
+      "name": "circle_Rb_Conq01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2771.1,-4694.4,3694.35]
+      ],
+      "unit_class": "capture_zone_circle",
+      "objLayer": 2,
+      "props": {
+        "army": 2,
+        "active": true
+      }
+    }
+  },
+  "areas": {
+    "captureZone_Rb_Conq01": {
+      "type": "Cylinder",
+      "tm": [
+        [600.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,600.0],
+        [1140.25,50.5785,1376.75]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "smoke_Rb_Conq01": {
+      "type": "Point",
+      "tm": [
+        [0.675591,0.0,0.737278],
+        [0.0,1.0,0.0],
+        [-0.737278,0.0,0.675591],
+        [1138.5,50.6436,1373.8]
+      ],
+      "objLayer": 4,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

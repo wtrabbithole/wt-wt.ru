@@ -2,12 +2,6 @@
   {
     "hideNodes": [
       {
-        "node": "pylon_bomb1"
-      },
-      {
-        "node": "pylon_bomb2"
-      },
-      {
         "node": "wb151_r"
       },
       {
@@ -20,10 +14,10 @@
         "node": "wb81b_l"
       },
       {
-        "node": "etc50_pylon_l"
+        "node": "etc50_pylon_central_l"
       },
       {
-        "node": "etc50_pylon_r"
+        "node": "etc50_pylon_central_r"
       },
       {
         "node": "flare6"
@@ -72,6 +66,12 @@
       },
       {
         "node": "flare21"
+      },
+      {
+        "node": "bomb_launcher3"
+      },
+      {
+        "node": "bomb_launcher4"
       }
     ]
   },
@@ -118,11 +118,12 @@
   {
     "Weapon": {
       "trigger": "bombs",
-      "blk": "gameData/Weapons/BombGuns/de_sc250.blk",
+      "blk": "gameData/Weapons/BombGuns/de_sc250_87.blk",
       "emitter": "bomb1",
       "dm": "bomb1_dm",
       "bullets": 1,
-      "external": true
+      "external": true,
+      "launcher": true
     }
   },
   {

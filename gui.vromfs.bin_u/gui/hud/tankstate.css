@@ -1,0 +1,83 @@
+@const crewTransferColor:#dd1111;
+
+icon[hudTankDebuff=yes],
+icon[hudCrewStatus=yes] {
+  css-hier-invalidate: yes;
+}
+
+icon[hudTankDebuff=yes] > repair_indicator {
+  display:hide;
+}
+
+icon[hudTankDebuff=yes][state=ok] {
+  background-color:#252e35;
+  color-factor:80;
+}
+
+icon[hudTankDebuff=yes][state=damaged] {
+  background-color:#fab025;
+  color-factor:255;
+}
+
+icon[hudTankDebuff=yes][state=bad] {
+  background-color:#dd1111;
+  color-factor:255;
+}
+
+icon[hudTankDebuff=yes][state=dead] {
+  background-color:@black;
+  color-factor:255;
+}
+
+icon[hudTankDebuff=yes][state=repair] {
+  background-color:#dd1111;
+  wink:fast;
+}
+
+icon[hudTankDebuff=yes][state=repair] > repair_indicator {
+  display:show;
+}
+
+icon[hudCrewStatus=yes][state=ok] {
+  background-color:#252e35;
+  color-factor:80;
+}
+
+icon[hudCrewStatus=yes][state=ok] > timeBar,
+icon[hudCrewStatus=yes][state=dead] > timeBar,
+icon[hudCrewStatus=yes][state=none]  > timeBar{
+  display:hide;
+}
+
+icon[hudCrewStatus=yes][state=transfere] {
+  background-color:@crewTransferColor;
+  wink:fast;
+}
+
+icon[hudCrewStatus=yes][state=dead] {
+  background-color:#586269;
+}
+
+icon[hudCrewStatus=yes][state=none] {
+  display:hide;
+}
+
+icon[hudCrewStatus=yes] timeBar {
+  position: absolute;
+  pos: 0, 0;
+  size: pw, ph;
+  background-color: @white;
+  background-image: #ui/gameuiskin#timebar;
+}
+
+crew[unit_type=ship] icon[hudCrewStatus=yes][icon_type=crew_count] {
+  background-image:#ui/gameuiskin#ship_crew;
+}
+
+crew[unit_type=ship] icon[hudCrewStatus=yes][icon_type=crew_driver] {
+  background-image:#ui/gameuiskin#ship_crew_driver;
+}
+
+crew[unit_type=ship] icon[hudCrewStatus=yes][icon_type=crew_gunner] {
+  background-image:#ui/gameuiskin#ship_crew_gunner;
+}

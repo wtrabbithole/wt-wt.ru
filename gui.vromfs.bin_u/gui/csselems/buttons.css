@@ -1,0 +1,308 @@
+button {
+  behaviour:button;
+  re-type:9rect;
+  selected-border:none;
+  input-sensitive:yes;
+
+  font:@small;
+
+  text-align:center;
+
+  color:@commonMenuButtonColor;
+  snd_click:click;
+  css-hier-invalidate:yes;
+}
+
+emptyButton {
+  behaviour:button;
+  input-sensitive:yes;
+}
+
+start_button
+{
+  behaviour:button;
+  re-type:9rect;
+  tabStop:yes;
+  selected-border:none;
+  transition:pblend;
+  border:none;
+  color:@commonMenuButtonColor;
+  snd_click:click;
+  font:@times_big;
+  font-tex:'ui/title_font_gradient';
+  text-align:left;
+  input-sensitive:yes;
+}
+
+menu_button, menu_button_inactive, dialog_button, area > button
+{
+  behaviour:button;
+  re-type:9rect;
+  background-color:@transparent;
+
+  selected-border:none;
+  border:none;
+  font:@menubutton_font;
+  color:@commonMenuButtonColor;
+  snd_click:click;
+  snd_set_focus:focus;
+  text-align:left;
+
+  position:relative;
+  padding:3%sw, 4*@sf/@pf, 1*@scrn_tgt/100.0+35, 0;
+
+  transition:none;
+
+  css-hier-invalidate:current;
+}
+
+menu_button, menu_button_inactive {
+  text-align:center;
+  left:50%pw-50%w;
+  position:relative;
+  height:@mainMenuButtonHeight;
+  min-width:pw;
+  padding-top:2*@sf/@pf;
+  padding-bottom:2*@sf/@pf;
+  mouse-focusable:yes;
+}
+
+menu_button, menu_button_inactive, dialog_button {
+  behaviour:navigator;
+  tabStop:yes;
+}
+
+menu_button_inactive
+{
+  color:@inactiveButtonTextColor;
+}
+
+dialog_button
+{
+  font:@dialogbutton_font;
+  margin-left:2*@scrn_tgt/100.0;
+  margin-bottom:1*@scrn_tgt/100.0;
+  padding:0.5*@scrn_tgt/100.0, 0;
+  text-align:center;
+  min-width:20*@scrn_tgt/100.0;
+  height:1@buttonHeight;
+  background-image:#ui/gameuiskin#button_;
+  background-color:@white;
+  background-position:5;
+  background-repeat:expand;
+  input-sensitive:yes;
+}
+dialog_button[smallFont=yes]
+{
+  font:@small;
+}
+
+dialog_button:focus {
+  background-image:#ui/gameuiskin#button_glow;
+}
+
+dialog_button:hover {
+  background-image:#ui/gameuiskin#button_hover;
+}
+
+dialog_button:pushed {
+  background-image:#ui/gameuiskin#button_active;
+  padding-top:1*@sf/@pf;
+  padding-bottom:-1*@sf/@pf;
+  margin-bottom:1*@scrn_tgt/100.0-2*@sf/@pf;
+  margin-top:2*@sf/@pf;
+}
+
+menu_button:current, menu_button:active, menu_button:focus
+{
+  color:@hoverMenuButtonColor;
+  font:@menubutton_selected_font;
+}
+
+dialog_button:current, dialog_button:active, dialog_button:focus
+{
+  color:@hoverMenuButtonColor;
+  font:@dialogbutton_selected_font;
+}
+
+area > button:focus {
+  font:@smallBold;
+}
+
+menu_button:hover, dialog_button:hover, button:hover
+{
+  color:@hoverMenuButtonColor;
+}
+
+menu_button:pushed
+{
+  color:@hoverMenuButtonColor;
+}
+
+dialog_button:pushed, button:pushed
+{
+  color:@pushedMenuButtonColor;
+}
+
+dialog_button:disabled
+{
+  color:@inactiveButtonTextColor;
+  background-color:@controlDisabledColor;
+}
+
+menu_button_inactive:current, menu_button_inactive:focus
+{
+  color:@inactiveButtonFocusTextColor;
+  font:@menubutton_selected_font;
+}
+
+menu_button_inactive:hover, menu_button_inactive:hover
+{
+  color:@inactiveButtonHoverTextColor;
+}
+
+menu_button_inactive:pushed
+{
+  color:@inactiveButtonFocusTextColor;
+}
+
+menu_button:hover, menu_button_inactive:hover
+{
+  background-image:#ui/gameuiskin#bottom_bar_straight;
+  background-color:#1E1E1E1E;
+}
+
+menu_button:current, menu_button:active, menu_button:focus,
+menu_button_inactive:current, menu_button_inactive:active, menu_button_inactive:focus
+{
+  background-image:#ui/gameuiskin#bottom_bar_straight;
+  background-color:#48484848;
+}
+
+[toggled=yes] airInfoButton {
+  background-color:@transparent;
+}
+[toggled=no] airInfoButton, airInfoButton:hover {
+  background-color:#99999999;
+}
+airInfoButton > airInfoButtonIcon {
+    background-color:@gray;
+}
+airInfoButton:hover > airInfoButtonIcon {
+    background-color:@white;
+}
+airInfoButton[active=yes] > airInfoButtonIcon {
+  background-color:@userlogColoredText;
+}
+
+buttonPlayer {
+  behavior:button;
+  cursor:onButton;
+  css-hier-invalidate:current;
+  padding:0.008@scrn_tgt_font;
+}
+buttonPlayer > img {
+  position:absolute;
+  pos:pw-w, 50%ph-50%h;
+  size:1@sIco, 1@sIco;
+  margin-right:0.008@scrn_tgt_font;
+}
+
+buttonPlayer > btnText {
+  tinyFont:yes;
+  font:@small;
+  color:#2e7ac5;
+  margin-right:1@sIco+5*@sf/@pf;
+  pos:pw-w, 50%ph-50%h;
+  position:relative;
+  text-align:right;
+  max-width:pw;
+  pare-text:yes;
+}
+
+buttonPlayer[selected=yes] {
+  background-color:@contactSelColor;
+}
+
+buttonPlayer:hover > btnText,
+buttonPlayer[selected=yes] > btnText {
+  color:#FF5ba9f9;
+}
+
+buttonPlayer:active {
+  margin:1*@sf/@pf;
+}
+buttonPlayer:active > btnText {
+  color:#99c9f9;
+}
+
+underline {
+  width:pw;
+  height:(@sf/@pf*0.75) $max 1;
+  pos:50%pw-50%w, ph-h;
+  position:absolute;
+  background-color:@commonMenuButtonColor;
+}
+:hover > underline
+{
+  background-color:@hoverMenuButtonColor;
+}
+:pushed > underline
+{
+  background-color:@pushedMenuButtonColor;
+}
+
+[show_console_buttons=yes] button.link[btnName] > underline {
+  margin-left:ph;
+  width:pw-ph;
+}
+
+hoverBgButton {
+  behaviour:button;
+  re-type:fgPict;
+  background-position:6;
+  background-repeat:expand;
+  foreground-color:@white;
+  foreground-repeat:aspect-ratio;
+}
+
+hoverBgButton[foreground-image=""] {
+  foreground-color:@transparent;
+}
+
+hoverBgButton:hover {
+  background-image:#ui/gameuiskin#header_button_;
+  background-color:@white;
+}
+
+hoverBgButton:pushed {
+  background-image:#ui/gameuiskin#header_button_active;
+  background-color:@white;
+}
+
+hoverBgButton:disabled {
+  background-image:#ui/gameuiskin#header_button_active;
+  background-color:@transparent;
+  foreground-color:@navButtonDisabledImgColor;
+}
+
+imageButton {
+  behaviour:button;
+  re-type:fgPict;
+  background-position:0;
+  background-repeat:expand;
+  background-color:@commonMenuButtonColor;
+  css-hier-invalidate:yes;
+}
+
+imageButton:hover {
+  background-color:@hoverMenuButtonColor;
+}
+
+imageButton:pushed {
+  background-color:@pushedMenuButtonColor;
+}
+
+imageButton:disabled {
+  background-color:@inactiveButtonBgColor;
+}

@@ -42,8 +42,10 @@
   "minViscosityApexObjectsCollidedWithHero": 0.95,
   "maxViscosityApexObjectsCollidedWithHero": 1.0,
   "multipointVisibilityAgainstTreesWithoutMarkers": true,
-  "multipointVisibilityTreeTransparencyThreshold": 0.1,
-  "multipointVisibilityForMarkersDistK": 3.5,
+  "multipointVisibilityTreeTrunkOpacity": 1.0,
+  "multipointVisibilityTreeCanopyOpacity": 0.5,
+  "multipointVisibilityTreeTransparencyThreshold": 1.5,
+  "multipointVisibilityForMarkersDistK": 2.0,
   "multipointVisibilityOnePointBackDistK": 2.0,
   "teleScale": 0.03,
   "minSkyAmbientLighting": [0.00954,0.012756,0.026677],
@@ -112,7 +114,7 @@
   "autostartTime": 60.0,
   "autostartShowTime": 30.0,
   "autostartShowInColorTime": 10.0,
-  "rendinstExtraMaxCnt": 65536,
+  "rendinstExtraMaxCnt": 131072,
   "rendinstExtraSubstFaceThres": 65536,
   "maxTankInactiveTime": 10.0,
   "cockpit_target_brightness_mul": 0.9,
@@ -1280,9 +1282,9 @@
   "tracerTrails": {
     "thin": {
       "particleHalfSizeFrom": 0.1,
-      "particleHalfSizeTo": 0.5,
+      "particleHalfSizeTo": 1.5,
       "color": "#80808080",
-      "deviation": 12.0
+      "deviation": 15.0
     },
     "curved": {
       "particleHalfSizeFrom": 0.1,
@@ -1368,7 +1370,8 @@
       "boostersFuel": 0,
       "ctaCaptureMul": 0,
       "damageModel": 0,
-      "hudTankRangefinder": 0
+      "hudTankRangefinder": 0,
+      "noviceDM": false
     },
     "realistic": {
       "baseDifficulty": 1,
@@ -1417,7 +1420,8 @@
       "hudTankRangefinder": 1,
       "hudSendSquareTimeInterval": 45,
       "hudSendSquareNumPlayers": 3,
-      "hudSendSquareTimeFromStart": 900
+      "hudSendSquareTimeFromStart": 900,
+      "noviceDM": false
     },
     "hardcore": {
       "baseDifficulty": 2,
@@ -1463,7 +1467,8 @@
       "boostersFuel": 2,
       "ctaCaptureMul": 2,
       "damageModel": 2,
-      "hudTankRangefinder": 2
+      "hudTankRangefinder": 2,
+      "noviceDM": false
     }
   },
   "difficulty_check": {
@@ -1870,7 +1875,6 @@
         "aiArcadeDamageKoeff": 1.0,
         "partHealingTime": 120.0,
         "shouldHealParts": false,
-        "enableNoviceHelpers": true,
         "tankToAirSphereDistK": 0.0,
         "tankToAirSphereDistForAutocannonK": 0.0
       },
@@ -1885,8 +1889,7 @@
         "aiArcadeDamageKoeff": 0.0,
         "partHealingTime": 90.0,
         "shouldHealParts": false,
-        "tankToAirSphereDistK": 0.0,
-        "enableNoviceHelpers": false
+        "tankToAirSphereDistK": 0.0
       }
     },
     "realGunnery": {
@@ -2413,6 +2416,12 @@
       "on": {
         "bombAssaultFuseTimeOverride": 2.0
       }
+    },
+    "noviceDM": {
+      "off": [],
+      "on": {
+        "enableNoviceHelpers": true
+      }
     }
   },
   "GrassSettingsPlanes": {
@@ -2440,8 +2449,10 @@
     "radius": 10.0,
     "bias": 0.1,
     "tessellation": 10,
-    "maxPatches": 200,
-    "landVerticalBias": 0.1
+    "landVerticalBias": 0.1,
+    "maxPatchesLand": 100,
+    "maxPatchesUnit": 400,
+    "maxPatches": 200
   },
   "glassScratches": {
     "texcoord_mul": 10.0,
@@ -2520,7 +2531,13 @@
     "foamTexHeight": 1024,
     "waterSplitDist0": 1200.0,
     "waterSplitDist1": 12000.0,
-    "waveDisplacementDistance": [80.0,120.0]
+    "waveDisplacementDistance": [80.0,120.0],
+    "waterReflectionHdrMultiplier": 2.0,
+    "waterReflectionTracerHdr": 2.0,
+    "waterReflectionTracerMinPixelR": 3.0,
+    "waterReflectionTracerEyeDist": [1000.0,2000.0],
+    "waterReflectionTracerBrightness": 0.4,
+    "calmWindThreshold": [1.0,2.0]
   },
   "shadows": {
     "hangarShadowDist": 160.0,
@@ -2533,6 +2550,7 @@
     "depthSlopeBias": 0.7,
     "depthConstBias": 0.0,
     "staticCascadeForcedRiExtraLod": -1,
+    "bigShipForShadowsFrom": 50.0,
     "ultralow": {
       "staticCascadeTexWidth": 512,
       "staticCascadeSlices": 10,
@@ -2550,7 +2568,10 @@
       "cockpitPowWeight": 0.95,
       "tanksShadowDist": 20.0,
       "tanksPowWeight": 0.4,
-      "anchorToWorldFrom": 30.0,
+      "shipsShadowDist": 20.0,
+      "shipsPowWeight": 0.4,
+      "bigShipsShadowDist": 20.0,
+      "bigShipsPowWeight": 0.4,
       "fadeOut": 30.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 512,
@@ -2569,7 +2590,10 @@
       "cockpitPowWeight": 0.992,
       "tanksShadowDist": 125.0,
       "tanksPowWeight": 0.8,
-      "anchorToWorldFrom": 40.0,
+      "shipsShadowDist": 125.0,
+      "shipsPowWeight": 0.8,
+      "bigShipsShadowDist": 125.0,
+      "bigShipsPowWeight": 0.8,
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 1024,
@@ -2588,13 +2612,17 @@
       "cockpitPowWeight": 0.992,
       "tanksShadowDist": 100.0,
       "tanksPowWeight": 0.7,
-      "anchorToWorldFrom": 40.0,
+      "shipsShadowDist": 100.0,
+      "shipsPowWeight": 0.7,
+      "bigShipsShadowDist": 100.0,
+      "bigShipsPowWeight": 0.7,
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 1024,
       "staticCascadeSlices": 16,
       "staticCascadeRegWidth": 750.0,
-      "staticCascadeStarting": 3
+      "staticCascadeStarting": 3,
+      "renderHeightmap": true
     },
     "high": {
       "cascadeWidth": 1024,
@@ -2607,13 +2635,17 @@
       "cockpitPowWeight": 0.997,
       "tanksShadowDist": 200.0,
       "tanksPowWeight": 0.96,
-      "anchorToWorldFrom": 32.0,
+      "shipsShadowDist": 200.0,
+      "shipsPowWeight": 0.96,
+      "bigShipsShadowDist": 200.0,
+      "bigShipsPowWeight": 0.96,
       "fadeOut": 100.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 2048,
       "staticCascadeSlices": 20,
       "staticCascadeRegWidth": 1000.0,
-      "staticCascadeStarting": 3
+      "staticCascadeStarting": 3,
+      "renderHeightmap": true
     },
     "ultrahigh": {
       "cascadeWidth": 1200,
@@ -2626,14 +2658,18 @@
       "cockpitPowWeight": 0.9991,
       "tanksShadowDist": 500.0,
       "tanksPowWeight": 0.97,
-      "anchorToWorldFrom": 35.0,
+      "shipsShadowDist": 500.0,
+      "shipsPowWeight": 0.97,
+      "bigShipsShadowDist": 500.0,
+      "bigShipsPowWeight": 0.97,
       "fadeOut": 250.0,
       "rotationMargin": 0.1,
       "vsmSize": 2048,
       "staticCascadeTexWidth": 4096,
       "staticCascadeSlices": 20,
       "staticCascadeRegWidth": 1250.0,
-      "staticCascadeStarting": 4
+      "staticCascadeStarting": 4,
+      "renderHeightmap": true
     }
   },
   "ambShadows": {
@@ -2775,7 +2811,7 @@
     "burnRadiusMultHV": 1.7
   },
   "gameLimits": {
-    "maxAircrafts": 255,
+    "maxAircrafts": 1024,
     "maxGroundModels": 1024,
     "maxInfantryTroops": 255,
     "maxMissionAIModels": 40
@@ -2979,10 +3015,10 @@
     "maxDetectionAngle": 80.0,
     "angleMult": 15.0,
     "posUpOffsetForTanks": 4.0,
-    "distanceMultForMovingTanks": 1.1,
+    "distanceMultForMovingTanks": 1.5,
     "distanceMultForUnmaskingItself": 2.5,
-    "distanceMultForTargetingView": 2.0,
-    "distanceMultForBinocularView": 1.4,
+    "distanceMultForTargetingView": 2.5,
+    "distanceMultForBinocularView": 2.5,
     "angleForTargetingView": 10.0,
     "angleForBinocularView": 10.0,
     "enableMultipointVisibilityForShips": true,
@@ -5565,53 +5601,6 @@
       {
         "p": "ammo_rack_body_xray"
       }
-    ],
-    "body_hull": [
-      {
-        "p": "bow"
-      },
-      {
-        "p": "bow_l"
-      },
-      {
-        "p": "bow_r"
-      },
-      {
-        "p": "mid"
-      },
-      {
-        "p": "mid_l"
-      },
-      {
-        "p": "mid_r"
-      },
-      {
-        "p": "mid_bottom"
-      },
-      {
-        "p": "mid_top"
-      },
-      {
-        "p": "stern"
-      },
-      {
-        "p": "stern_l"
-      },
-      {
-        "p": "stern_r"
-      },
-      {
-        "p": "stern_back"
-      },
-      {
-        "p": "bow_top"
-      },
-      {
-        "p": "stern_top"
-      },
-      {
-        "p": "stern_bottom"
-      }
     ]
   },
   "armorPartNamesAir": {
@@ -5899,6 +5888,19 @@
         }
       }
     ]
+  },
+  "xrayDecorators": {
+    "ammoRack": [
+      {
+        "p": "ammo_rack_turret_xray"
+      },
+      {
+        "p": "ammo_rack_body_xray"
+      }
+    ]
+  },
+  "waterCoverParts": {
+    "p": "water_cull"
   },
   "rendinstExtra": [
     {
@@ -6584,6 +6586,9 @@
       },
       {
         "excRE": "factory_small_building_i"
+      },
+      {
+        "excRE": "syrian_gas_station"
       }
     ],
     "hideForMode1": [
@@ -7382,6 +7387,57 @@
       },
       {
         "ri": "karelia_stone_small_e"
+      },
+      {
+        "ri": "tabletop_mountain_siderock_ri_1a"
+      },
+      {
+        "ri": "tabletop_mountain_siderock_ri_1b"
+      },
+      {
+        "ri": "tabletop_mountain_siderock_ri_1c"
+      },
+      {
+        "ri": "tabletop_mountain_stone_big_01a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_big_02a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_medium_01a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_medium_02a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_medium_1a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_medium_2a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_01a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_02a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_03a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_04a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_05a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_06a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_07a"
+      },
+      {
+        "ri": "tabletop_mountain_stone_small_1a"
       }
     ]
   },
@@ -7535,6 +7591,18 @@
     "tile_tank": 7.0,
     "amplitude_tank": 0.15
   },
+  "rendinstLandBlend": {
+    "noiseTex": "perlin_noise",
+    "perlinTexScale": 0.25,
+    "blendSharpness": 8.0,
+    "appearanceMinAngle": 12.0,
+    "appearanceMaxAngle": 25.0
+  },
+  "camoFires": {
+    "octaveUVscale": 0.5,
+    "octavesAmplitude": [0.2,0.05],
+    "fadeSharpness": 3.0
+  },
   "airplane": {
     "glowMul": 0.0,
     "starGlowMul": 1.0
@@ -7590,7 +7658,7 @@
     "markerClickFx": "world_map_click",
     "markerHoverFx": "world_map_hover",
     "markerFxScale": 200.0,
-    "markerFxColor": [1.0,0.5,0.0,1.0],
-    "markerHoverFxColor": [1.0,0.0,0.0,1.0]
+    "markerFxColor": [1.0,1.0,1.0,1.0],
+    "markerHoverFxColor": [0.9,0.6,0.1,1.0]
   }
 }

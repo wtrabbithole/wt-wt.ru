@@ -2220,7 +2220,6 @@
             "conditionDamageType": "generic",
             "cut": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
             "cutPart": "wing_l_dm"
           }
         }
@@ -2248,10 +2247,10 @@
           "part": "spar_r_dm"
         },
         {
-          "part": "fuse1_l_dm"
+          "part": "fuse1_r_dm"
         },
         {
-          "part": "fuse2_l_dm"
+          "part": "fuse2_r_dm"
         },
         {
           "effects": {
@@ -2263,30 +2262,7 @@
             "conditionDamageType": "generic",
             "cut": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
             "cutPart": "wing_r_dm"
-          }
-        }
-      ],
-      "tail_structure": [
-        {
-          "hp": 2400.0
-        },
-        {
-          "part": "fuse_dm"
-        },
-        {
-          "part": "tail_dm"
-        },
-        {
-          "part": "stab_dm"
-        },
-        {
-          "part": "fin_dm"
-        },
-        {
-          "effects": {
-            "cutPart": "tail_dm"
           }
         }
       ],
@@ -2337,11 +2313,15 @@
           "part": "fin_dm"
         },
         {
+          "effects": {
+            "cutPart": "tail_dm"
+          }
+        },
+        {
           "effect": {
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 300.0,
-            "kill": true,
             "killEffect": "expl"
           }
         },
@@ -2350,7 +2330,6 @@
             "conditionDamageType": "explosion",
             "expl": 1.0,
             "conditionDamage": 60.0,
-            "kill": true,
             "killEffect": "expl"
           }
         }

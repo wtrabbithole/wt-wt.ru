@@ -1,0 +1,205 @@
+gameModeChangeButton {
+  behavior:button;
+  snd_click:click;
+  css-hier-invalidate: yes;
+  height:0.028@scrn_tgt_font;
+}
+
+gameModeChangeButton > activeText {
+  color:@commonMenuButtonColor;
+  input-transparent: yes;
+}
+
+gameModeChangeButton:hover > activeText {
+  color:@hoverMenuButtonColor;
+}
+
+gameModeChangeButton:pushed > activeText {
+  color:@pushedMenuButtonColor;
+}
+
+dropMenuArrow {
+  size:11@dp, 8@dp;
+  background-color: @white;
+  background-image:#ui/gameuiskin#drop_menu_icon;
+  background-repeat: expand;
+}
+
+[direction=up] dropMenuArrow {
+  rotation:180;
+}
+
+dropMenuSeparator {
+  size:5@dp, ph;
+  background-color: @white;
+  background-image:#ui/gameuiskin#drop_menu_separator;
+  background-repeat: expand;
+}
+
+gameModeChangeButton > dropMenuArrow,
+gameModeChangeButton > dropMenuSeparator {
+  pos:0, ph/2 - h/2;
+  position:relative;
+}
+
+
+game_mode_select separator {
+  width: pw-0.5*0.0014@scrn_tgt;
+  height: 0.01@scrn_tgt;
+  margin: 0.0014@scrn_tgt, 0.0112@scrn_tgt;
+  re-type: 9rect;
+  background-color: @white;
+  background-image: #ui/gameuiskin#separator_bottom;
+  background-repeat: expand;
+  background-position:1, 1, 1, 1;
+}
+
+general_game_modes {
+  position: relative;
+  width:pw;
+  flow: h-flow;
+  total-input-transparent: yes;
+  css-hier-invalidate:yes;
+  padding: 0.005@scrn_tgt;
+}
+
+game_mode_block {
+  width: 0.5pw-0.0017@scrn_tgt;
+  height: 0.094@scrn_tgt;
+  margin: 0.0014@scrn_tgt;
+  padding: 0.0014@scrn_tgt;
+  font:@small;
+  color:@commonMenuButtonColor;
+  css-hier-invalidate:yes;
+}
+
+game_mode_block[wide=yes] {
+  width: pw-0.0007@scrn_tgt;
+}
+
+glow {
+  position: absolute;
+  pos: 0, 0;
+  size: pw, ph;
+  input-transparent: yes;
+  background-repeat: expand;
+  background-image: #ui/gameuiskin#item_glow;
+  background-position: 4, 4, 4, 9;
+}
+
+game_mode_block[current_mode=yes] > glow {
+  background-color: #e99777;
+}
+
+game_mode_block:hover > glow {
+  background-color: #daad9c;
+}
+
+game_mode_block > movie {
+  position: absolute;
+  pos: 2, 3;
+  size: pw - 4, ph - 7;
+  display: hide;
+}
+[show_console_buttons=no] game_mode_block:hover > movie {
+  display: show;
+}
+
+[show_console_buttons=yes] game_mode_block[selected=yes] > movie {
+  display: show;
+}
+
+game_mode_block > img {
+  position: absolute;
+  pos: 2, 3;
+  size: pw - 4, ph - 7;
+  color-factor: 100;
+}
+
+game_mode_block:hover > img,
+game_mode_block[current_mode=yes] > img {
+  color-factor: 255;
+}
+
+game_mode_block[inactiveColor=yes] {
+  background-color: #505050;
+}
+
+game_mode_block[current_mode=yes][inactiveColor=yes] {
+  background-color: @inactiveButtonBgColor;
+}
+
+game_mode_block[inactiveColor=yes]:hover > img,
+game_mode_block[current_mode=yes][inactiveColor=yes] > img {
+  color-factor:100;
+}
+
+game_mode_block > title {
+  background-color: #80111111;
+  width: pw;
+  position: absolute;
+  pos: 0, ph - h;
+  padding: 0.0125@scrn_tgt, 0.003@scrn_tgt;
+}
+
+game_mode_block[featured=yes] > title {
+  background-color: #00000000;
+}
+
+game_mode_block > title > tdiv > textarea {
+  width: pw;
+  color: @white;
+  paragraph-indent:0;
+  wrap-indent:0;
+  pare-text:yes;
+}
+
+game_mode_block[inactiveColor=yes] > title > tdiv > textarea {
+  color:@disabledActiveTextColor;
+}
+
+game_mode_block > CheckBoxImg {
+  pos: pw - w, ph - h;
+  display: hide;
+}
+
+game_mode_block > CheckBoxImg {
+  size: 0.029@scrn_tgt, 0.029@scrn_tgt;
+}
+
+game_mode_block[current_mode=yes] > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_checked_;
+  display: show;
+}
+
+game_mode_block:hover > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_unchecked_;
+  display: show;
+}
+
+game_mode_block[current_mode=yes]:hover > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_checked_hover;
+}
+
+link_icon {
+  size: 0.022@scrn_tgt, 0.028@scrn_tgt;
+  position: absolute;
+  top: ph/2 - h/2;
+  right: ph/2 - h/2; 
+  background-image: #ui/gameuiskin#icon_shortcut;
+  background-color: #99ffffff;
+}
+
+dark_corner {
+  position: absolute;
+  pos: pw - w, 0;
+  size: 0.033@scrn_tgt, 0.033@scrn_tgt;
+
+  background-image: #ui/gameuiskin#block_angle_bg;
+  background-color: #99ffffff;
+}
+
+textarea[game_mode_textarea=yes] {
+  width:"";
+  padding-right:11;
+}

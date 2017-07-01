@@ -1081,6 +1081,84 @@
       }
     }
   },
+  "booster_wp_100_1mp": {
+    "expiredTimeH": 72.0,
+    "expiredTimeHAfterActivation": 24.0,
+    "type": "rateBooster",
+    "rateBoosterParams": {
+      "wpRate": 100,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
+  "booster_rp_100_1mp": {
+    "expiredTimeH": 72.0,
+    "expiredTimeHAfterActivation": 24.0,
+    "type": "rateBooster",
+    "rateBoosterParams": {
+      "xpRate": 100,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
+  "booster_wp_75_1mp": {
+    "expiredTimeH": 72.0,
+    "expiredTimeHAfterActivation": 24.0,
+    "type": "rateBooster",
+    "rateBoosterParams": {
+      "wpRate": 75,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
+  "booster_rp_75_1mp": {
+    "expiredTimeH": 72.0,
+    "expiredTimeHAfterActivation": 24.0,
+    "type": "rateBooster",
+    "rateBoosterParams": {
+      "xpRate": 75,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
+  "booster_wp_50_1mp": {
+    "expiredTimeH": 72.0,
+    "expiredTimeHAfterActivation": 24.0,
+    "type": "rateBooster",
+    "rateBoosterParams": {
+      "wpRate": 50,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
+  "booster_rp_50_1mp": {
+    "expiredTimeH": 72.0,
+    "expiredTimeHAfterActivation": 24.0,
+    "type": "rateBooster",
+    "rateBoosterParams": {
+      "xpRate": 50,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
   "booster_wp_75_2mp": {
     "expiredTimeH": 72.0,
     "expiredTimeHAfterActivation": 24.0,
@@ -8319,6 +8397,21 @@
       }
     }
   },
+  "discount_30_spitfire_ix_ussr": {
+    "expiredTimeH": 48.0,
+    "expiredTimeHAfterActivation": 48.0,
+    "type": "personalDiscounts",
+    "personalDiscountsParams": {
+      "purchasesMaxCount": 1,
+      "discountsDesc": {
+        "buy": {
+          "aircrafts": {
+            "spitfire_ix_ussr": 30
+          }
+        }
+      }
+    }
+  },
   "discount_10_ki_44_2_otsu": {
     "expiredTimeH": 48.0,
     "expiredTimeHAfterActivation": 48.0,
@@ -8952,12 +9045,19 @@
   "ticket_tss_test_tournament": {
     "isTSSTournament": true,
     "type": "tournamentTicket",
-    "costGold": 99,
+    "costGold": 100,
     "iconStyle": "silver_blue",
     "purchase_feature": "devItemShop",
-    "locId": "tickets/ticket_tss_test_tournament",
     "limitGlobal": 8,
     "limitPersonalTotal": 1,
-    "tournamentTicketParams": []
+    "tournamentTicketParams": {
+      "maxDefeatCount": 1
+    },
+    "customLayers": {
+      "unitType": "tank",
+      "diffCode": "0",
+      "mode": "pvp",
+      "type": "deathmatch"
+    }
   }
 }

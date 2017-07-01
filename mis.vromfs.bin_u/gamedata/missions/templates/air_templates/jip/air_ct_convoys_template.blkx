@@ -1,0 +1,6681 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "ct_armada"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_race_straight": false,
+        "_race_inverted": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "ct_generate_convoy_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_generate_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_cur_active_convoys",
+            "value": 1,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          },
+          "varCompareBool": {
+            "var_value": "ct_is_spawn_in_progress",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили, что количество активных конвоев меньше максимального размера"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверили, что генерация конвоя еще не идет"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что процедура генерации конвоя началась"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "ct_is_spawn_in_progress"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем генерацию имен конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_change_army"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "если генерация конвоя идет, то этот триггер еще вызовется"
+            }
+          },
+          {
+            "comment": {
+              "value": "если количество активных конвоев достигло максимума - этот триггер не вызовется"
+            }
+          },
+          {
+            "comment": {
+              "value": "так как нам надо генерировать конвои постоянно - надо проверить не достигли ли мы максимума"
+            }
+          },
+          {
+            "comment": {
+              "value": "и если достигли - вызвать данный триггер снова"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_is_max_convoy_num"
+            }
+          }
+        ]
+      },
+      "ct_generate_is_max_convoy_num": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_cur_active_convoys",
+            "value": 1,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "генерация конвоев прервалась потому что их количество - максимально"
+            }
+          },
+          {
+            "comment": {
+              "value": "ждем 30 секунд"
+            }
+          },
+          {
+            "wait": {
+              "time": 30.0
+            }
+          },
+          {
+            "comment": {
+              "value": "и запускаем попытку генерации конвоя снова"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_rotator"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": ""
+          }
+        }
+      },
+      "ct_generate_change_army": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_spawn_cur_army",
+            "value": 1,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "последние действия были с армией 1. сейчас будут с армией 2"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 2,
+              "var": "ct_spawn_cur_army"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем генератор имени конвоя для спавна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_road_name"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "последний действия были с армией 2, сейас будут с 1"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 1,
+              "var": "ct_spawn_cur_army"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем генератор имени конвоя для спавна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_road_name"
+            }
+          }
+        ]
+      },
+      "ct_generate_road_name": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "задаем случайное значение индекса конвоя в диапазонах от 1 до ct_max_roads"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_road_idx",
+              "random from": 1,
+              "random to": 10,
+              "var_random_to": "ct_max_roads"
+            }
+          },
+          {
+            "comment": {
+              "value": "генерим строковое имя дороги"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_t",
+              "var": "ct_spawn_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_spawn_cur_army",
+              "digits": 1,
+              "var": "ct_spawn_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_road_",
+              "digits": 0,
+              "var": "ct_spawn_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_spawn_road_idx",
+              "digits": 2,
+              "var": "ct_spawn_road_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имя спавна для конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_spawn_unit_spawn_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_spawn_road_name",
+              "digits": 0,
+              "var": "ct_spawn_unit_spawn_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_spawn",
+              "digits": 0,
+              "var": "ct_spawn_unit_spawn_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем триггер генерации конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_convoy_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_generate_convoy_name": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_spawn_cur_army",
+            "value": 1,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitGetRandomNameFromSquad": {
+            "string_var": "ct_spawn_convoy_name",
+            "check_objects": "any",
+            "squad": "ct_t1_all_convoys_squad",
+            "getSquadName": true
+          },
+          "comment": {
+            "value": "запускаем проверку не активен ли конвой с получившимся именем"
+          },
+          "triggerEnable": {
+            "target": "ct_generate_check_convoy_name"
+          }
+        },
+        "else_actions": {
+          "unitGetRandomNameFromSquad": {
+            "string_var": "ct_spawn_convoy_name",
+            "check_objects": "any",
+            "squad": "ct_t2_all_convoys_squad",
+            "getSquadName": true
+          },
+          "comment": {
+            "value": "запускаем проверку не активен ли конвой с получившимся именем"
+          },
+          "triggerEnable": {
+            "target": "ct_generate_check_convoy_name"
+          }
+        }
+      },
+      "ct_generate_check_convoy_name": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_spawn_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили, что конвой с таким именем уже существует"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что конвой не обрабатывается"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": false,
+              "var": "ct_is_spawn_in_progress"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем генерацию конвоя заново"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_rotator"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "проверили, что конвоя с таким именем не существует"
+            }
+          },
+          {
+            "comment": {
+              "value": "определяем тип конвоя. 0 - не боевой, 1 - боевой"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_type",
+              "random from": 0,
+              "random to": 2
+            }
+          },
+          {
+            "unitSetRoute": {
+              "route": "@ct_spawn_road_name",
+              "object": "@ct_spawn_convoy_name",
+              "pos": "@ct_spawn_unit_spawn_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "маркируем конвой как не достигший конечной точки"
+            }
+          },
+          {
+            "unitMark": {
+              "target_marking": 0,
+              "target": "@ct_spawn_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "выставляем дефолтные значения индикации и обнаружения"
+            }
+          },
+          {
+            "unitSetIndication": {
+              "set": false,
+              "target": "@ct_spawn_convoy_name"
+            }
+          },
+          {
+            "unitSetStealth": {
+              "set": true,
+              "radius": 3500.0,
+              "target": "@ct_spawn_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем включен ли режим обнаружения конвоев"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_check_is_detect_on"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем подготовку спавна конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_spawn_prepare"
+            }
+          }
+        ]
+      },
+      "ct_generate_check_is_detect_on": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "ct_is_detect_on",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "режим обнаружения конвоев выключен. увеличиваем дальность обнаружения"
+          },
+          "unitSetStealth": {
+            "set": true,
+            "radius": 60000.0,
+            "target": "@ct_spawn_convoy_name",
+            "team": "Both"
+          }
+        },
+        "else_actions": [
+          {
+            "comment": {
+              "value": "режим обнаружения конвоев включен"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем процедуру обнаружения"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_is_template_active"
+            }
+          }
+        ]
+      }
+    },
+    "ct_spawn_convoy_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_spawn_prepare": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_spawn_type",
+            "value": 0,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "конвой не боевого типа"
+            }
+          },
+          {
+            "comment": {
+              "value": "состоит из 6-9 грузовиков и 2-4 зениток"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_trucks_num",
+              "random from": 6,
+              "random to": 10
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_aaa_num",
+              "random from": 2,
+              "random to": 5
+            }
+          },
+          {
+            "comment": {
+              "value": "количество танков и броневиков указываем равными нулю"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_spawn_acar_num"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_spawn_tank_num"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем триггер активатора спавна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_spawn_activator"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "конвой боевого типа"
+            }
+          },
+          {
+            "comment": {
+              "value": "состоит из 4-6 танков, 0-4 бронетранспортеров и 4-6 зениток"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_tank_num",
+              "random from": 4,
+              "random to": 7
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_acar_num",
+              "random from": 0,
+              "random to": 5
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_aaa_num",
+              "random from": 4,
+              "random to": 7
+            }
+          },
+          {
+            "comment": {
+              "value": "количество грузовиков выставляем в 0"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_spawn_trucks_num"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем триггер активатора спавна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_spawn_activator"
+            }
+          }
+        ]
+      },
+      "ct_spawn_activator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_trucks_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_acar_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_aaa_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_tank_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "какая-то из переменных еще больше нуля, значит еще есть юниты для спавна"
+            }
+          },
+          {
+            "comment": {
+              "value": "выбираем случайный порядок появления юнитов в коллоне"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_spawn_order_randomizer",
+              "random from": 1,
+              "random to": 5
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем спавнеры юнитов"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_spawn_trucks",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_spawn_acar",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_spawn_aaa",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_spawn_tank",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "unitSetRoute": {
+              "route": "@ct_spawn_road_name",
+              "object": "@ct_spawn_convoy_name",
+              "pos": "@ct_spawn_unit_spawn_name"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "все юниты конвоя отспавнились"
+            }
+          },
+          {
+            "comment": {
+              "value": "включаем им движение"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object": "@ct_spawn_convoy_name",
+              "speed": 30.0,
+              "minDistBetween": 30.0
+            }
+          },
+          {
+            "comment": {
+              "value": "выстраиваем юниты в колонну. потом этим заниматься будет шаблон движения юнитов"
+            }
+          },
+          {
+            "unitSetFormation": {
+              "formation_type": "rows",
+              "formation_div": 20,
+              "formation_step": [1.0,3.0],
+              "formation_noise": [0.1,0.1],
+              "object": "@ct_spawn_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "включаем триггер окончания спавна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_spawn_end_spawn"
+            }
+          }
+        ]
+      },
+      "ct_spawn_trucks": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_trucks_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_order_randomizer",
+              "value": 1,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "еще остались грузовики для спавна"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имя юнита длся спавна"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_spawn_convoy_name",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_truck",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "респавним юнита с собранным именем"
+            }
+          },
+          {
+            "unitRespawn": {
+              "delay": 0.0,
+              "offset": [0.0,0.0,0.0],
+              "object": "@ct_spawn_sub_unit_name",
+              "object_type": "isInactive",
+              "target": "@ct_spawn_unit_spawn_name",
+              "randomObjectsCount": 1
+            }
+          },
+          {
+            "comment": {
+              "value": "делаем юнита невидимым"
+            }
+          },
+          {
+            "__unitSetStealth": {
+              "set": true,
+              "radius": 0.0,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "__unitSetIndication": {
+              "set": false,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "уменьшаем переменную количества оставшихся юнитов для спавна"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "ct_spawn_trucks_num"
+            }
+          },
+          {
+            "__unitSetRoute": {
+              "route": "@ct_spawn_road_name",
+              "object": "@ct_spawn_unit_name",
+              "pos": "@ct_spawn_unit_spawn_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_spawn_acar": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_acar_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_order_randomizer",
+              "value": 2,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "еще остались броневики для спавна"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имя юнита длся спавна"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_spawn_convoy_name",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_acar",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "респавним юнита с собранным именем"
+            }
+          },
+          {
+            "unitRespawn": {
+              "delay": 0.0,
+              "offset": [0.0,0.0,0.0],
+              "object": "@ct_spawn_sub_unit_name",
+              "object_type": "isInactive",
+              "target": "@ct_spawn_unit_spawn_name",
+              "randomObjectsCount": 1
+            }
+          },
+          {
+            "comment": {
+              "value": "делаем юнита невидимым"
+            }
+          },
+          {
+            "__unitSetStealth": {
+              "set": true,
+              "radius": 0.0,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "__unitSetIndication": {
+              "set": false,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "уменьшаем переменную количества оставшихся юнитов для спавна"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "ct_spawn_acar_num"
+            }
+          },
+          {
+            "__unitSetRoute": {
+              "route": "@ct_spawn_road_name",
+              "object": "@ct_spawn_unit_name",
+              "pos": "@ct_spawn_unit_spawn_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_spawn_aaa": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_aaa_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_order_randomizer",
+              "value": 3,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "еще остались зенитки для спавна"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имя юнита длся спавна"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_spawn_convoy_name",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_aaa",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "респавним юнита с собранным именем"
+            }
+          },
+          {
+            "unitRespawn": {
+              "delay": 0.0,
+              "offset": [0.0,0.0,0.0],
+              "object": "@ct_spawn_sub_unit_name",
+              "object_type": "isInactive",
+              "target": "@ct_spawn_unit_spawn_name",
+              "randomObjectsCount": 1
+            }
+          },
+          {
+            "comment": {
+              "value": "делаем юнита невидимым"
+            }
+          },
+          {
+            "__unitSetStealth": {
+              "set": true,
+              "radius": 0.0,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "__unitSetIndication": {
+              "set": false,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "уменьшаем переменную количества оставшихся юнитов для спавна"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "ct_spawn_aaa_num"
+            }
+          },
+          {
+            "__unitSetRoute": {
+              "route": "@ct_spawn_road_name",
+              "object": "@ct_spawn_unit_name",
+              "pos": "@ct_spawn_unit_spawn_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_spawn_tank": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_tank_num",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "ct_spawn_order_randomizer",
+              "value": 4,
+              "comparasion_func": "equal"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "еще остались танки для спавна"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имя юнита длся спавна"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_spawn_convoy_name",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_tank",
+              "digits": 0,
+              "var": "ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "респавним юнита с собранным именем"
+            }
+          },
+          {
+            "unitRespawn": {
+              "delay": 0.0,
+              "offset": [0.0,0.0,0.0],
+              "object": "@ct_spawn_sub_unit_name",
+              "object_type": "isInactive",
+              "target": "@ct_spawn_unit_spawn_name",
+              "randomObjectsCount": 1
+            }
+          },
+          {
+            "comment": {
+              "value": "делаем юнита невидимым"
+            }
+          },
+          {
+            "__unitSetStealth": {
+              "set": true,
+              "radius": 0.0,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "__unitSetIndication": {
+              "set": false,
+              "target": "@ct_spawn_sub_unit_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "уменьшаем переменную количества оставшихся юнитов для спавна"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "ct_spawn_tank_num"
+            }
+          },
+          {
+            "__unitSetRoute": {
+              "route": "@ct_spawn_road_name",
+              "object": "@ct_spawn_unit_name",
+              "pos": "@ct_spawn_unit_spawn_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_spawn_end_spawn": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "спавн закончился. выключаем спавнер"
+            }
+          },
+          {
+            "triggerDisable": {
+              "target": "ct_spawn_activator"
+            }
+          },
+          {
+            "comment": {
+              "value": "увеличиваем количество активных конвоев"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_cur_active_convoys"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем поиск первого свободного конвоя для запоминания имени"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_save_names_prepare"
+            }
+          }
+        ],
+        "else_actions": []
+      }
+    },
+    "ct_save_names_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_save_names_prepare": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "подготовка к началу запоминания имени сгенерированного конвоя"
+            }
+          },
+          {
+            "comment": {
+              "value": "выставляем проверочный индекс конвоя в 1"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_active_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем циклическую проверку доступного имени"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_save_names_rotator"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_save_names_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_active_convoy_idx",
+            "value": 0,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили что индекс конвоя дял проверки в допустимых пределах"
+            }
+          },
+          {
+            "comment": {
+              "value": "увеличили индекс проверочного конвоя на 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_active_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "составляем имя переменной для хранения имени конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_save_convoy_convoy_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_active_convoy_idx",
+              "digits": 2,
+              "var": "ct_save_convoy_convoy_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "ct_save_convoy_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "составляем имя переменной для хранения дороги по которой пошел конвой"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_save_convoy_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_active_convoy_idx",
+              "digits": 2,
+              "var": "ct_save_convoy_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_road",
+              "digits": 0,
+              "var": "ct_save_convoy_road_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "составляем имя переменной для хранения  определения обнаружен конвой или нет"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_save_convoy_detect_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_active_convoy_idx",
+              "digits": 2,
+              "var": "ct_save_convoy_detect_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_is_detected",
+              "digits": 0,
+              "var": "ct_save_convoy_detect_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку свободен ли такой конвой"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_save_names_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "индекс вышел за пределы допустимого - что-то пошло не так"
+          }
+        }
+      },
+      "ct_save_names_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareString": {
+            "var_value": "@ct_save_convoy_convoy_name",
+            "value": "",
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "переменная не содержит в себе имени конвоя"
+            }
+          },
+          {
+            "comment": {
+              "value": "заполняем имя переменной именем конвоя"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ct_spawn_convoy_name",
+              "var": "@ct_save_convoy_convoy_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ct_spawn_road_name",
+              "var": "@ct_save_convoy_road_name"
+            }
+          },
+          {
+            "__varGetStringValue": {
+              "from_var_name": "ct_spawn_convoy_name",
+              "var": "ct_active_convoy_name"
+            }
+          },
+          {
+            "__varGetStringValue": {
+              "from_var_name": "ct_spawn_road_name",
+              "var": "ct_active_convoy_road"
+            }
+          },
+          {
+            "comment": {
+              "value": "обнуляем флаг известности конвоя"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": false,
+              "var": "@ct_save_convoy_detect_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "снимаем флаг того, что идет спавн"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": false,
+              "var": "ct_is_spawn_in_progress"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем  головной триггер спавна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_generate_rotator"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "переменная содержит в себе имя конвоя"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку следующего конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_save_names_rotator"
+            }
+          }
+        ]
+      }
+    },
+    "ct_end_point_check_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_end_point_check_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "ct_is_end_check_active",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили что есть активные конвои"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверили что сейчас не идет обработка конвоев и можно работать"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что конвой обрабатывается"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "ct_is_end_check_active"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем вычисление армии для генерации имени"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_point_check_cur_idx"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_end_point_check_cur_idx": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_end_check_convoy_idx",
+            "value": 1,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "текущий индекс конвоя для проверки в допустимом диапазоне"
+            }
+          },
+          {
+            "comment": {
+              "value": "увеличили индекс на 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_end_check_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "составляем имя переменной для хранения имени конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_end_check_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_end_check_convoy_idx",
+              "digits": 2,
+              "var": "ct_end_check_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "ct_end_check_var_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_end_check_var_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_end_check_convoy_idx",
+              "digits": 2,
+              "var": "ct_end_check_var_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_road",
+              "digits": 0,
+              "var": "ct_end_check_var_road_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_end_check_var_is_quest_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_end_check_convoy_idx",
+              "digits": 2,
+              "var": "ct_end_check_var_is_quest_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_is_quest",
+              "digits": 0,
+              "var": "ct_end_check_var_is_quest_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получили имя переменной проверим содержит ли она что-нибудь"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_point_names"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "индекс вышел за пределы значения вставляем его правильно"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_end_check_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "и запускаем рестарт скрипта"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_restart"
+            }
+          }
+        ]
+      },
+      "ct_end_point_names": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareString": {
+            "var_value": "@ct_end_check_var_name",
+            "value": "",
+            "comparasion_func": "notEqual"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили, что в переменой содержится имя конвоя"
+            }
+          },
+          {
+            "comment": {
+              "value": "записали в переменную с именем конвоя имя конвоя"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ct_end_check_var_name",
+              "var": "ct_end_check_convoy_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ct_end_check_var_road_name",
+              "var": "ct_end_check_road_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку того что конвой жив и активен на всякий пожарный"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_point_is_active"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "переменная с таким индексом пуста. дальше нет смысла проверять"
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_restart"
+            }
+          }
+        ]
+      },
+      "ct_end_point_is_active": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_end_check_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверка того, что конвой активен прошла"
+            }
+          },
+          {
+            "comment": {
+              "value": "генерим имя конечно точки конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_end_check_convoy_end_point"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_end_check_road_name",
+              "digits": 0,
+              "var": "ct_end_check_convoy_end_point"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_end_point",
+              "digits": 0,
+              "var": "ct_end_check_convoy_end_point"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем триггер проверки расстояния"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_point_distance_checker"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "конвой с таким именем не активен"
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_restart"
+            }
+          }
+        ]
+      },
+      "ct_end_point_distance_checker": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 250.0,
+            "math": "2D",
+            "object_type": "isMarked",
+            "object_marking": 0,
+            "target_type": "any",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "@ct_end_check_convoy_name",
+            "target": "@ct_end_check_convoy_end_point",
+            "compareCenters": false
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверка достижения конвоем конечной точки"
+            }
+          },
+          {
+            "comment": {
+              "value": "маркируем конвой для дальнейшего усыпления"
+            }
+          },
+          {
+            "unitMark": {
+              "target_marking": 1,
+              "target": "@ct_end_check_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем есть ли квест связанный с конвоем"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_check_quest"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "конвой слишком далеко от конечной точки"
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_restart"
+            }
+          }
+        ]
+      },
+      "ct_end_check_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "@ct_end_check_var_is_quest_name",
+            "value": true,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "конвой квестовый. проверяем его армию"
+          },
+          "triggerEnable": {
+            "target": "ct_end_check_army"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "конвой не квестовый. обнуляем его"
+          },
+          "triggerEnable": {
+            "target": "ct_end_pre_empty"
+          }
+        }
+      },
+      "ct_end_check_army": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isTeamA",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_end_check_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "конвой принадлежит армии А. говорим, что квест выполнен"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_obj_t1_complete_protect_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем есть ли квест на атаку у противника"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_main_t2_check_end_attack_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "обнуляем конвой"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "ct_end_pre_empty"
+              },
+              {
+                "target": "ct_main_end_template"
+              }
+            ]
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "конвой принадлежит армии Б. говорим, что квест выполнен"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_obj_t2_complete_protect_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем есть ли квест на атаку у противника"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_main_t1_check_end_attack_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "обнуляем конвой"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "ct_end_pre_empty"
+              },
+              {
+                "target": "ct_main_end_template"
+              }
+            ]
+          }
+        ]
+      },
+      "ct_end_pre_empty": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "собираем имя для того, чтобы обнулить конвой"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ct_end_check_var_name",
+              "var": "ct_empty_convoy_var_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ct_end_check_var_is_quest_name",
+              "var": "ct_empty_quest_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_end_restart"
+            }
+          },
+          {
+            "comment": {
+              "value": "обнуляем конвой"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_empty_convoy"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_end_point_despawn": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 500.0,
+            "math": "notNear2D",
+            "object_type": "isMarked",
+            "object_marking": 1,
+            "target_type": "isAlive",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "all",
+            "object": "ct_all_convoys_squad",
+            "target": "all_players_squad",
+            "compareCenters": false,
+            "check_all_units": true
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "появились юниты с состоянием 1, рядом с которыми нет игроков"
+            }
+          },
+          {
+            "comment": {
+              "value": "они помечены как достигшие конечной точки"
+            }
+          },
+          {
+            "comment": {
+              "value": "и готовы к деспауну"
+            }
+          },
+          {
+            "unitPutToSleep": {
+              "target": "ct_all_convoys_squad",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitMark": {
+              "target_marking": 0,
+              "target": "ct_all_convoys_squad",
+              "useForTriggerFiltered": true
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_end_restart": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varSetBool": {
+            "value": false,
+            "var": "ct_is_end_check_active"
+          },
+          "triggerEnable": {
+            "target": "ct_end_point_check_rotator"
+          }
+        },
+        "else_actions": []
+      }
+    },
+    "ct_found_convoy_as_target_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_found_convoy_start": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "ct_is_found_in_progress",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "скрипт не запустится если уже идет поиск конвоя"
+            }
+          },
+          {
+            "comment": {
+              "value": "----------------------------------------------------------------"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что посик конвоя активен"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверку активности надо делать в головном скрипте"
+            }
+          },
+          {
+            "comment": {
+              "value": "чтобы не потерялись данные"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "ct_is_found_in_progress"
+            }
+          },
+          {
+            "comment": {
+              "value": "выставляем начальный индекс конвоя в 0"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_found_convoy_idx"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_found_result_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "обнуляем результаты предыдущих поисков"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "ct_found_results_num"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_found_01_result_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_found_02_result_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_found_03_result_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем функцию заполнения конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_fill_names"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_found_fill_names": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_found_convoy_idx",
+            "value": 11,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили, что индекс конвоя в нужном диапазоне"
+            }
+          },
+          {
+            "comment": {
+              "value": "-----------------------------------------------------------------------"
+            }
+          },
+          {
+            "comment": {
+              "value": "увеличиваем индекс конвоя на 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_found_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "заполняем переменную, которая предположительно"
+            }
+          },
+          {
+            "comment": {
+              "value": " хранит имя конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_found_convoy_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_found_convoy_idx",
+              "digits": 2,
+              "var": "ct_found_convoy_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "ct_found_convoy_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "ищем имя дороги по которой едет юнит"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_found_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_found_convoy_idx",
+              "digits": 2,
+              "var": "ct_found_road_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_road",
+              "digits": 0,
+              "var": "ct_found_road_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "заполняем имя переменной конечной точки пути"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_found_end_point_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_found_road_name",
+              "digits": 0,
+              "var": "ct_found_end_point_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_end_point",
+              "digits": 0,
+              "var": "ct_found_end_point_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку того что в сгенерированном имени"
+            }
+          },
+          {
+            "comment": {
+              "value": "хранится имя активного конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_check_names"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "прошли по всему массиву"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем триггер завершения поиска"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_end"
+            }
+          }
+        ]
+      },
+      "ct_found_check_names": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareString": {
+            "var_value": "@ct_found_convoy_var_name",
+            "value": "",
+            "comparasion_func": "notEqual"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили, что имя не пустое"
+            }
+          },
+          {
+            "comment": {
+              "value": "получили имя конвоя, хранящегося в массиве по заданному индексу"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ct_found_convoy_var_name",
+              "var": "ct_found_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку та ли армия у найденного юнита"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_army_check"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_found_army_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isTeamA",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_found_convoy_name"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "ищутся юниты армии А"
+          },
+          "triggerEnable": {
+            "target": "ct_found_army_A_check"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "ищутся юниты армии Б"
+          },
+          "triggerEnable": {
+            "target": "ct_found_army_B_check"
+          }
+        }
+      },
+      "ct_found_army_A_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_found_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "нашли нужный конвой и он активен"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверим дистанцию до конечной точки"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_distance_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "triggerEnable": {
+            "target": "ct_found_fill_names"
+          }
+        }
+      },
+      "ct_found_army_B_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_found_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "нашли нужный конвой и он активен"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверим дистанцию до конечной точки"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_distance_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "triggerEnable": {
+            "target": "ct_found_fill_names"
+          }
+        }
+      },
+      "ct_found_distance_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 5000.0,
+            "math": "notNear2D",
+            "object_type": "isActive",
+            "object_marking": 0,
+            "target_type": "isAlive",
+            "target_marking": 0,
+            "check_objects": "all",
+            "check_targets": "any",
+            "object": "@ct_found_convoy_name",
+            "target": "@ct_found_end_point_name",
+            "compareCenters": false
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "нашли конвой который далеко от конечной точки"
+            }
+          },
+          {
+            "comment": {
+              "value": "прибавили к индексу поиска 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_found_result_idx"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_save_result"
+            }
+          }
+        ],
+        "else_actions": {
+          "triggerEnable": {
+            "target": "ct_found_fill_names"
+          }
+        }
+      },
+      "ct_found_save_result": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_found_result_idx",
+            "value": 4,
+            "comparasion_func": "less"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили, что найдено меньше 3 конвоев"
+            }
+          },
+          {
+            "comment": {
+              "value": "создали имя переменной для хранения результата конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_found_",
+              "var": "ct_found_result_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_found_result_idx",
+              "digits": 2,
+              "var": "ct_found_result_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_result_name",
+              "digits": 2,
+              "var": "ct_found_result_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "сохраняем найденное имя конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "@ct_found_result_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_found_convoy_name",
+              "digits": 0,
+              "var": "@ct_found_result_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем поиск очередного конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_fill_names"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "найдено больше 3 конвоев. дальше искать смысла нет"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем триггер случайной выборки результата"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_random_result"
+            }
+          }
+        ]
+      },
+      "ct_found_random_result": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "ищем случайный результат из найденного"
+            }
+          },
+          {
+            "varSetRandomInt": {
+              "var": "ct_found_random_idx",
+              "random from": 1,
+              "random to": 4,
+              "var_random_to": "ct_found_result_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имя переменной хранящей имя ячейки массива с именем конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_found_",
+              "var": "ct_found_result_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_found_random_idx",
+              "digits": 2,
+              "var": "ct_found_result_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_result_name",
+              "digits": 0,
+              "var": "ct_found_result_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "сохраняем имя полученного конвоя"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_found_convoy_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ct_found_result_var_name",
+              "var": "ct_found_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем конец поиска"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_found_end"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_found_end": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varSetBool": {
+            "value": false,
+            "var": "ct_is_found_in_progress"
+          }
+        },
+        "else_actions": []
+      }
+    },
+    "ct_detect_convoy_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_detect_is_template_active": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "ct_is_template_active",
+            "value": true,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "запущен квест на конвои. необходимо обрабатывать конвои."
+          },
+          "triggerEnable": {
+            "target": "ct_detect_rotator"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "квест на сопровождение / уничтожения конвоя не запущен. ничего не делаем за ненадобностью"
+          }
+        }
+      },
+      "ct_detect_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_detect_convoy_idx",
+            "value": 1,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверили что индекс конвоя в нужном диапазоне"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_detect_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "создаем имя массива"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_detect_array_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_detect_convoy_idx",
+              "digits": 2,
+              "var": "ct_detect_array_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "ct_detect_array_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_detect_is_quest_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_detect_convoy_idx",
+              "digits": 2,
+              "var": "ct_detect_is_quest_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_is_quest",
+              "digits": 0,
+              "var": "ct_detect_is_quest_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_detect_is_detected_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_detect_convoy_idx",
+              "digits": 2,
+              "var": "ct_detect_is_detected_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_is_detected",
+              "digits": 0,
+              "var": "ct_detect_is_detected_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку валидности имен"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_array_name"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "обнулили значение индекса"
+          },
+          "varSetInt": {
+            "value": 0,
+            "var": "ct_detect_convoy_idx"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_is_template_active"
+          }
+        }
+      },
+      "ct_detect_check_array_name": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareString": {
+            "var_value": "ct_detect_array_name",
+            "value": "",
+            "comparasion_func": "notEqual"
+          },
+          "varCompareBool": {
+            "var_value": "@ct_detect_is_quest_name",
+            "value": true,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "в переменной содержится имя конвоя и конвой квестовый"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ct_detect_array_name",
+              "var": "ct_detect_convoy_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получиля имя конвоя, проверяем что конвой с таким именем есть"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_convoy_name"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "переменная пустая. запускаем головной скрипт проверки"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_is_template_active"
+          }
+        }
+      },
+      "ct_detect_check_convoy_name": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareString": {
+            "var_value": "ct_detect_convoy_name",
+            "value": "",
+            "comparasion_func": "notEqual"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "имя конвоя не пустое, можно делать проверки"
+            }
+          },
+          {
+            "comment": {
+              "value": "выставляем дефолтное значение дистанции обнаружения"
+            }
+          },
+          {
+            "varSetReal": {
+              "value": 0.0,
+              "var": "ct_detect_detection_calculated_range"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 0.0,
+              "var": "ct_detect_detection_calculated_range",
+              "use_variable": true,
+              "var_value": "ct_detect_detection_base_range"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем армию обрабатываемого конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_detected"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "нет объекта с таким именем. запускаем головнйо скрипт"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_is_template_active"
+          }
+        }
+      },
+      "ct_detect_check_detected": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "@ct_detect_is_detected_name",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "конвой еще не обнаружен. имеет смысл его проверять"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_check_army"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "конвой уже был обнаружен. идем дальше по циклу"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_is_template_active"
+          }
+        }
+      },
+      "ct_detect_check_army": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenStatus": {
+            "object_type": "isTeamA",
+            "check_objects": "any",
+            "object_marking": 0,
+            "target_type": "isAlive",
+            "check_period": 1.0,
+            "object": "@ct_detect_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "конвой принадлежит к армии 1. запоминаем армию"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 1,
+              "var": "ct_detect_army"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку модификациии расстояния обнаружения"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_t1_distance_bonus"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "конвой принадлежит к армии 2. запоминаем армию"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 2,
+              "var": "ct_detect_army"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку модификациии расстояния обнаружения"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_t2_distance_bonus"
+            }
+          }
+        ]
+      },
+      "ct_detect_check_t1_distance_bonus": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "objectExists": {
+            "target": "lpt_t1_detection_bonus",
+            "type": "var"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверяем существует ли переменная добавляющая бонусную ситуацию обнаружения"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 0.0,
+              "var": "ct_detect_detection_calculated_range",
+              "use_variable": true,
+              "var_value": "lpt_t1_detection_bonus"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку дистанции"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_distance"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "переменной бонусной дистанции обнаружения нет - просто  проверяем дистанцию"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_check_distance"
+          }
+        }
+      },
+      "ct_detect_check_t2_distance_bonus": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "objectExists": {
+            "target": "lpt_t2_detection_bonus",
+            "type": "var"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "проверяем существует ли переменная добавляющая бонусную ситуацию обнаружения"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 0.0,
+              "var": "ct_detect_detection_calculated_range",
+              "use_variable": true,
+              "var_value": "lpt_t2_detection_bonus"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку дистанции"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_distance"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "переменной бонусной дистанции обнаружения нет - просто  проверяем дистанцию"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_check_distance"
+          }
+        }
+      },
+      "ct_detect_check_distance": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenEnemyNear": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "enemy_type": "isActive",
+            "distance": 500.0,
+            "check_objects": "any",
+            "object": "@ct_detect_convoy_name",
+            "use_variable": true,
+            "distance_var": "ct_detect_detection_calculated_range"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "враг оказался рядом"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object": "@ct_detect_convoy_name",
+              "stealthRadius": 60000.0
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим что конвой обнаружен"
+            }
+          },
+          {
+            "unitSetIndication": {
+              "set": true,
+              "target": "@ct_detect_convoy_name"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "@ct_detect_is_detected_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем есть ли задание. если нет - выдаем"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_destroy_quest"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "врагов рядом нет. запускаем следующую проверку"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_is_template_active"
+          }
+        }
+      },
+      "ct_detect_check_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_detect_army",
+            "value": 1,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "обрабатывается конвой первой армии. проверяем квест для второй"
+          },
+          "varGetStringValue": {
+            "from_var_name": "ct_detect_convoy_name",
+            "var": "ct_obj_convoy_name"
+          },
+          "triggerActivate": {
+            "target": "ct_obj_t2_add_destroy_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "обрабатывается конвой второй армии. проверяем квест для первой"
+          },
+          "varGetStringValue": {
+            "from_var_name": "ct_detect_convoy_name",
+            "var": "ct_obj_convoy_name"
+          },
+          "triggerActivate": {
+            "target": "ct_obj_t1_add_destroy_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        }
+      }
+    },
+    "ct_mission_objectives_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_obj_t1_add_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_destroy",
+            "status": "notInProgress"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "еще не выдавали квест на ничтожение конвоя"
+          },
+          "moAddMissionObjective": {
+            "target": "ct_t1_destroy",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "isActive"
+          },
+          "unitSetIndication": {
+            "set": true,
+            "target": "@ct_obj_convoy_name",
+            "team": "Both"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t2_add_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_destroy",
+            "status": "notInProgress"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "еще не выдавали квест на ничтожение конвоя"
+          },
+          "moAddMissionObjective": {
+            "target": "ct_t2_destroy",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "isActive"
+          },
+          "unitSetIndication": {
+            "set": true,
+            "target": "@ct_obj_convoy_name",
+            "team": "Both"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t1_add_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "moAddMissionObjective": {
+            "target": "ct_t1_protect",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "isActive"
+          },
+          "unitSetIndication": {
+            "set": true,
+            "target": "@ct_obj_convoy_name",
+            "team": "A"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t2_add_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "moAddMissionObjective": {
+            "target": "ct_t2_protect",
+            "unit_or_area": "@ct_obj_convoy_name",
+            "unit_type": "isActive"
+          },
+          "unitSetIndication": {
+            "set": true,
+            "target": "@ct_obj_convoy_name",
+            "team": "B"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t1_complete_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_destroy",
+            "status": "inProgress"
+          }
+        },
+        "actions": [
+          {
+            "moSetObjectiveStatus": {
+              "target": "ct_t1_destroy",
+              "status": 2,
+              "team": "A"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что выполнилось задание"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t1_task_completed"
+            }
+          },
+          {
+            "comment": {
+              "value": "прячем квест"
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_obj_t1_hide_destroy_quest"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_obj_t2_complete_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_destroy",
+            "status": "inProgress"
+          }
+        },
+        "actions": [
+          {
+            "moSetObjectiveStatus": {
+              "target": "ct_t2_destroy",
+              "status": 2,
+              "team": "B"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что выполнилось задание"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t2_task_completed"
+            }
+          },
+          {
+            "comment": {
+              "value": "прячем квест"
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_obj_t2_hide_destroy_quest"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_obj_t1_complete_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_protect",
+            "status": "inProgress"
+          }
+        },
+        "actions": [
+          {
+            "moSetObjectiveStatus": {
+              "target": "ct_t1_protect",
+              "status": 2,
+              "team": "A"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что выполнилось задание"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t1_task_completed"
+            }
+          },
+          {
+            "comment": {
+              "value": "прячем квест"
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_obj_t1_hide_protect_quest"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_obj_t2_complete_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_protect",
+            "status": "inProgress"
+          }
+        },
+        "actions": [
+          {
+            "moSetObjectiveStatus": {
+              "target": "ct_t2_protect",
+              "status": 2,
+              "team": "B"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что выполнилось задание"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t2_task_completed"
+            }
+          },
+          {
+            "comment": {
+              "value": "прячем квест"
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_obj_t2_hide_protect_quest"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_obj_t1_fail_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_destroy",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t1_destroy",
+            "status": 3,
+            "team": "A"
+          },
+          "comment": {
+            "value": "прячем квест"
+          },
+          "wait": {
+            "time": 20.0
+          },
+          "triggerEnable": {
+            "target": "ct_obj_t1_hide_destroy_quest"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t2_fail_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_destroy",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t2_destroy",
+            "status": 3,
+            "team": "B"
+          },
+          "comment": {
+            "value": "прячем квест"
+          },
+          "wait": {
+            "time": 20.0
+          },
+          "triggerEnable": {
+            "target": "ct_obj_t2_hide_destroy_quest"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t1_fail_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_protect",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t1_protect",
+            "status": 3,
+            "team": "A"
+          },
+          "comment": {
+            "value": "прячем квест"
+          },
+          "wait": {
+            "time": 20.0
+          },
+          "triggerEnable": {
+            "target": "ct_obj_t1_hide_protect_quest"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t2_fail_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_protect",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t2_protect",
+            "status": 3,
+            "team": "B"
+          },
+          "comment": {
+            "value": "прячем квест"
+          },
+          "wait": {
+            "time": 20.0
+          },
+          "triggerEnable": {
+            "target": "ct_obj_t2_hide_protect_quest"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t1_hide_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_protect",
+            "status": "notInProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t1_protect",
+            "status": 0,
+            "team": "A"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t2_hide_protect_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_protect",
+            "status": "notInProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t2_protect",
+            "status": 0,
+            "team": "B"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t1_hide_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_destroy",
+            "status": "notInProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t1_destroy",
+            "status": 0,
+            "team": "A"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_obj_t2_hide_destroy_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_destroy",
+            "status": "notInProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t2_destroy",
+            "status": 0,
+            "team": "B"
+          }
+        },
+        "else_actions": []
+      }
+    },
+    "ct_dead_convoy_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_dead_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "ct_dead_in_progress",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "говорим, что проверка смерти конвоя началась"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "ct_dead_in_progress"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем индекс"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_dead_max_idx_check"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "ct_dead_max_idx_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_dead_check_convoy_idx",
+            "value": 1,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "говорим, что проверка смерти конвоя началась"
+            }
+          },
+          {
+            "comment": {
+              "value": "начинаем проверять конвои на смерть"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_dead_check_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имена переменных"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_dead_convoy_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_dead_check_convoy_idx",
+              "digits": 2,
+              "var": "ct_dead_convoy_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 2,
+              "var": "ct_dead_convoy_var_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ct_dead_convoy_var_name",
+              "var": "ct_dead_cur_convoy_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_dead_convoy_is_quest_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_dead_check_convoy_idx",
+              "digits": 2,
+              "var": "ct_dead_convoy_is_quest_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_is_quest",
+              "digits": 2,
+              "var": "ct_dead_convoy_is_quest_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем мертвый ли конвой"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_dead_name_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "индекс не правильный"
+          },
+          "varSetInt": {
+            "value": 0,
+            "var": "ct_dead_check_convoy_idx"
+          },
+          "varSetBool": {
+            "value": false,
+            "var": "ct_dead_in_progress"
+          },
+          "triggerEnable": {
+            "target": "ct_dead_rotator"
+          }
+        }
+      },
+      "ct_dead_name_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareString": {
+            "var_value": "ct_dead_cur_convoy_name",
+            "value": "",
+            "comparasion_func": "notEqual"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "имя конвоя не пустое. продожаем проверку"
+          },
+          "triggerEnable": {
+            "target": "ct_dead_status_check"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "конвой пустой. проверяем следующий"
+          },
+          "varSetBool": {
+            "value": false,
+            "var": "ct_dead_in_progress"
+          },
+          "triggerEnable": {
+            "target": "ct_dead_rotator"
+          }
+        }
+      },
+      "ct_dead_status_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
+            "object": "@ct_dead_cur_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "нет ни одного активного юнита в конвое. конвой мертв"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем квестовый ли"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_dead_quest_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "конвой живой. проверяем следующий"
+          },
+          "varSetBool": {
+            "value": false,
+            "var": "ct_dead_in_progress"
+          },
+          "triggerEnable": {
+            "target": "ct_dead_rotator"
+          }
+        }
+      },
+      "ct_dead_quest_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "@ct_dead_convoy_is_quest_var_name",
+            "value": true,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "конвой квестовый. проверяем его армию"
+          },
+          "triggerEnable": {
+            "target": "ct_dead_check_army"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "квест не квестовый. обнуляем его"
+          },
+          "triggerEnable": {
+            "target": "ct_dead_pre_empty"
+          }
+        }
+      },
+      "ct_dead_check_army": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isTeamA",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_dead_cur_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "конвой армии А"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем провал квеста на защиту для команды А"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_obj_t1_fail_protect_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем успех квеста на уничтожение для команды Б"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_obj_t2_complete_destroy_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "обнуляем конвой"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "ct_dead_pre_empty"
+              },
+              {
+                "target": "ct_main_end_template"
+              }
+            ]
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "конвой армии Б"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем провал квеста на защиту для команды B"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_obj_t2_fail_protect_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "вызываем успех квеста на уничтожение для команды Б"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_obj_t2_complete_destroy_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "обнуляем конвой"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "ct_dead_pre_empty"
+              },
+              {
+                "target": "ct_main_end_template"
+              }
+            ]
+          }
+        ]
+      },
+      "ct_dead_pre_empty": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "собираем имя для того, чтобы обнулить конвой"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ct_dead_convoy_var_name",
+              "var": "ct_empty_convoy_var_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "ct_dead_convoy_is_quest_var_name",
+              "var": "ct_empty_quest_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим, что скрипт проверки смерти конвоя не активен"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": false,
+              "var": "ct_dead_in_progress"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем скрипт заново"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_dead_rotator"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем обновление конвоя"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_empty_convoy"
+            }
+          }
+        ],
+        "else_actions": []
+      }
+    },
+    "ct_empty_convoy_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_empty_convoy": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_empty_convoy_var_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "ct_empty_quest_var_name"
+            }
+          }
+        ],
+        "else_actions": []
+      }
+    },
+    "ct_update_objectives_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "ct_update_objective_pos_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "ct_update_pos_is_active",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "скрипат апдейта не запущен. запускаем проверку индекса"
+          },
+          "triggerEnable": {
+            "target": "ct_update_objective_pos_idx_check"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_update_objective_pos_idx_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ct_update_pos_convoy_idx",
+            "value": 0,
+            "comparasion_func": "less",
+            "var_value_other": "ct_max_active_convoys"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "номер проверяемого конвоя в диапазоне"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ct_update_pos_convoy_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "создаем имена переменных"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_update_pos_convoy_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_update_pos_convoy_idx",
+              "digits": 2,
+              "var": "ct_update_pos_convoy_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "ct_update_pos_convoy_var_name"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@ct_update_pos_convoy_var_name",
+              "var": "ct_update_pos_convoy_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_update_pos_is_quest_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_update_pos_convoy_idx",
+              "digits": 2,
+              "var": "ct_update_pos_is_quest_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_is_quest",
+              "digits": 0,
+              "var": "ct_update_pos_is_quest_var_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "ct_active_convoy_",
+              "var": "ct_update_pos_is_detected_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@ct_update_pos_convoy_idx",
+              "digits": 2,
+              "var": "ct_update_pos_is_detected_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_is_quest",
+              "digits": 0,
+              "var": "ct_update_pos_is_detected_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем проверку кветовый ли конвой"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_update_objective_quest_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "номер проверяемого конвоя вышел за диапазон. рестартим скрипт"
+          },
+          "triggerEnable": {
+            "target": "ct_update_objective_pos_restart"
+          }
+        }
+      },
+      "ct_update_objective_pos_restart": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "comment": {
+            "value": "обнулфем текущий индекс проверяемого конвоя. рестартим скрипт"
+          },
+          "varSetInt": {
+            "value": 0,
+            "var": "ct_update_pos_convoy_idx"
+          },
+          "varSetBool": {
+            "value": false,
+            "var": "ct_update_pos_is_active"
+          },
+          "triggerEnable": {
+            "target": "ct_update_objective_pos_rotator"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_update_objective_quest_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "@ct_update_pos_is_quest_var_name",
+            "value": true,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "конвой квестовый надо обновить позицию"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем армию"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_update_objective_check_army"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "конвой не квестовый, идем дальше по циклу"
+          },
+          "triggerEnable": {
+            "target": "ct_update_objective_pos_idx_check"
+          }
+        }
+      },
+      "ct_update_objective_check_army": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isTeamA",
+            "object_marking": 0,
+            "func": "more",
+            "value": 0,
+            "object": "@ct_update_pos_convoy_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "конвой первой армии"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_update_objective_t1_protect",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем есть ли у другой стороны квест на этот конвой"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_update_objective_t2_check_attack_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "wait": {
+              "time": 3.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_update_objective_pos_idx_check"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "конвой второй армии"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_update_objective_t2_protect",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем есть ли у другой стороны квест на этот конвой"
+            }
+          },
+          {
+            "triggerActivate": {
+              "target": "ct_update_objective_t1_check_attack_quest",
+              "activate_type": "checkConidtions",
+              "check_trigger_status": false,
+              "after_activation": "disable"
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "wait": {
+              "time": 3.0
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_update_objective_pos_idx_check"
+            }
+          }
+        ]
+      },
+      "ct_update_objective_t1_protect": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_protect",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t1_protect",
+            "status": 1,
+            "team": "A",
+            "unit_or_area": "@ct_update_pos_convoy_name",
+            "unit_type": "isActive"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_update_objective_t2_protect": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_protect",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "moSetObjectiveStatus": {
+            "target": "ct_t2_protect",
+            "status": 1,
+            "team": "B",
+            "unit_or_area": "@ct_update_pos_convoy_name",
+            "unit_type": "isActive"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_update_objective_t1_check_attack_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t1_destroy",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "квест на уничтожение есть. апдейтим обжектив"
+          },
+          "moSetObjectiveStatus": {
+            "target": "ct_t1_destroy",
+            "status": 1,
+            "team": "A",
+            "unit_or_area": "@ct_update_pos_convoy_name",
+            "unit_type": "isActive"
+          }
+        },
+        "else_actions": []
+      },
+      "ct_update_objective_t2_check_attack_quest": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "misObjStatus": {
+            "target": "ct_t2_destroy",
+            "status": "inProgress"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "квест на уничтожение есть. апдейтим обжектив"
+          },
+          "moSetObjectiveStatus": {
+            "target": "ct_t2_destroy",
+            "status": 1,
+            "team": "B",
+            "unit_or_area": "@ct_update_pos_convoy_name",
+            "unit_type": "isActive"
+          }
+        },
+        "else_actions": []
+      }
+    },
+    "ct_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "comment": {
+            "value": "шаблон базовой логики появления и движения "
+          }
+        },
+        {
+          "comment": {
+            "value": "сухопутных колонн. могут быть целью других"
+          }
+        },
+        {
+          "comment": {
+            "value": "шаблонов. поэтому логика обнаружения и квестов"
+          }
+        },
+        {
+          "comment": {
+            "value": "должна находиться в целевых шаблонах"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "comment": {
+            "value": "шаблон активен все время и все время генерит новые конвои"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "comment": {
+            "value": "имена по юнитам и переменным даны только для команды А для  удобства"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "comment": {
+            "value": "------ имена юнитов и сквадов ------"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_all_convoys_squad - сквады содержащие остальные сквады конвоев"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_t1_convoy_N - где N - номер - имена сквадов конвоев"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_t1_convoy_N_truck - имя юнита с грузовиками в скваде ct_t1_convoy_N"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_t1_convoy_N_acar - имя юнита с броневиками в скваде ct_t1_convoy_N"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_t1_convoy_N_aaa - имя юнита с зенитками в скваде ct_t1_convoy_N"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_t1_convoy_N_tank - имя юнита с танками в скваде ct_t1_convoy_N"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "comment": {
+            "value": "------ имена переменных для настройки шаблона ------"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_delay_timer - время задержки перед запуском шаблона"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_is_detect_on - нужно ли обнаружить конвой для квеста"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_max_convoys - максимальное количество конвоев"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_max_active_convoys - количество одновременно активных конвоев. не может быть больше 10"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_cur_active_convoys - количество уже активных конвоев"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "comment": {
+            "value": "------ имена технических переменных ------"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_is_spawn_in_progress - происходит ли в данный момент спавн конвоя"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_convoy_idx - хранилище случайного числа при генерации конвоя"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_convoy_name - собранное имя для спавнящегося конвоя"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_unit_name - собранное имя для спавнящегося юнита в конвое"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_unit_spawn_name - имя точки респауна конвоя"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_type - типспавнящегося конвоя. 0 - саппорт, 1 - военный"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_trucks_num - количество грузовиков в колонне. для создания смешанных колонн"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_acar_num - количество броневиков в колонне. для создания смешанных колонн"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_aaa_num - количество зениток в колонне. для создания смешанных колонн"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_tank_num - количество танков в колонне. для создания смешанных колонн"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_order_randomizer - рандомайзер порядка спавна юнитов конвоя"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_spawn_cur_army - текущая армия для спавна"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_is_end_check_active - один из конвоев достиг конечной точки и идет его обработка. остальные конвои ждут своей очереди для проверки"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_end_check_convoy_idx - индекс конвоя для проверки достижения конечной точки"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_end_check_convoy_name - имя конвоя для проверки достижения конечной точки"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_end_check_var_name - имя переменой, содержащей имя конвоя для проверки достижения финальнйо точки"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_end_check_convoy_end_point - имя конечной точки конвоя для проверки ее достижения"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_active_convoy_01_name - ct_active_convoy_10_name - хранилище имен для активных конвоев"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_active_convoy_name - переменная для составления имени переменной для хранения активного конвоя"
+          }
+        },
+        {
+          "comment": {
+            "value": "ct_active_convoy_idx - текущий индекс конвоя при запоминании имени"
+          }
+        },
+        {
+          "unitMark": {
+            "target_marking": 0,
+            "target": "ct_all_convoys_squad"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем генерацию конвоя для обеих армий"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_generate_rotator",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем проверку юнитов рядом с мостами"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_check_bridges"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем проверку достижения конвоями конечной точки"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_end_point_check_rotator"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем процедуру деспавна конвоев достигших финала"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_end_point_despawn"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем проверку на смерть конвоев"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_dead_rotator"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "ct_start": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitSetProperties": {
+          "object": "ct_all_convoys_squad",
+          "accuracy": 0.3,
+          "effShootingRate": 0.0,
+          "airEffShootingRate": 0.3
+        },
+        "varSetBool": {
+          "value": true,
+          "var": "ct_is_template_active"
+        },
+        "triggerEnable": {
+          "target": "ct_delayed_start"
+        }
+      },
+      "else_actions": []
+    },
+    "ct_delayed_start": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0,
+          "var": "ct_delay_timer"
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "comment": {
+            "value": "ищем конвой "
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_found_convoy_start"
+          }
+        },
+        {
+          "comment": {
+            "value": "ждем 3 секунды "
+          }
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем что цель нашлась"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_main_found_end"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "ct_main_found_end": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "ct_is_found_in_progress",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "проверили что поиск закончился"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем проверку не пустое ли имя наденного конвоя"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_main_found_check_name"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "ct_main_found_check_name": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareString": {
+          "var_value": "ct_found_convoy_name",
+          "value": "",
+          "comparasion_func": "notEqual"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "проверили что имя конвоя не пустое"
+          }
+        },
+        {
+          "comment": {
+            "value": "заполняем необходимые переменные"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ct_found_convoy_name",
+            "var": "ct_main_convoy_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_main_check_names_prepare"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "имя конвое пустое - запуск шаблона не удался"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "ct_is_template_active"
+        }
+      }
+    },
+    "ct_main_check_names_prepare": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "comment": {
+            "value": "выставляем проверочный индекс конвоя в 1"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "ct_active_convoy_is_quest_idx"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем циклическую проверку доступного имени"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_main_check_names_rotator"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "ct_main_check_names_rotator": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "ct_active_convoy_is_quest_idx",
+          "value": 0,
+          "comparasion_func": "less",
+          "var_value_other": "ct_max_active_convoys"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "проверили что индекс конвоя дял проверки в допустимых пределах"
+          }
+        },
+        {
+          "comment": {
+            "value": "увеличили индекс проверочного конвоя на 1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "ct_active_convoy_is_quest_idx"
+          }
+        },
+        {
+          "comment": {
+            "value": "составляем имя переменной для хранения имени конвоя"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "ct_active_convoy_",
+            "var": "ct_is_quest_active_convoy_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ct_active_convoy_is_quest_idx",
+            "digits": 2,
+            "var": "ct_is_quest_active_convoy_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_name",
+            "digits": 0,
+            "var": "ct_is_quest_active_convoy_var_name"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "@ct_is_quest_active_convoy_var_name",
+            "var": "ct_is_quest_active_convoy_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "составляем имя переменной для хранения проверки квестовости конвоя"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "ct_active_convoy_",
+            "var": "ct_is_quest_active_convoy_quest_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@ct_active_convoy_is_quest_idx",
+            "digits": 2,
+            "var": "ct_is_quest_active_convoy_quest_var_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_is_quest",
+            "digits": 0,
+            "var": "ct_is_quest_active_convoy_quest_var_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем проверку свободен ли такой конвой"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_main_check_convoy_names_check"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "индекс вышел за пределы допустимого - - запуск шаблона не удался"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "ct_is_template_active"
+        }
+      }
+    },
+    "ct_main_check_convoy_names_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareString": {
+          "var_value": "ct_is_quest_active_convoy_name",
+          "value": "",
+          "comparasion_func": "equal",
+          "var_value_other": "ct_main_convoy_name"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "переменная содержит в себе имя искомого конвоя"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем чьей армии принадлежит конвой"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_main_check_quest"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "запускаем проверку следующего конвоя"
+        },
+        "triggerEnable": {
+          "target": "ct_main_check_names_rotator"
+        }
+      }
+    },
+    "ct_main_check_quest": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "@ct_end_check_var_is_quest_name",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "конвой не квестовый. проверяем армию. делаем квестовым"
+        },
+        "varSetBool": {
+          "value": true,
+          "var": "@ct_is_quest_active_convoy_quest_var_name"
+        },
+        "triggerEnable": {
+          "target": "ct_main_check_army"
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "конвой уже квестовый что-то пошло не так. запуск шаблона не удался"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "ct_is_template_active"
+        }
+      }
+    },
+    "ct_main_check_army": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isTeamA",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object": "@ct_main_convoy_name"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "конвой принадлежит армии А"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ct_main_convoy_name",
+            "var": "ct_obj_convoy_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_obj_t1_add_protect_quest"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем есть ли квест на атаку у противника"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_main_t2_check_attack_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем обновление позиции для мишин обжектива"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_update_objective_pos_rotator",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "конвой принадлежит армии Б"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ct_main_convoy_name",
+            "var": "ct_obj_convoy_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ct_obj_t2_add_protect_quest"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем есть ли квест на атаку у противника"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_main_t1_check_attack_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем обновление позиции для мишин обжектива"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_update_objective_pos_rotator",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        }
+      ]
+    },
+    "ct_main_t1_check_attack_quest": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "ct_is_detect_on",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "квест дается без детекта"
+        },
+        "triggerEnable": {
+          "target": "ct_obj_t1_add_destroy_quest"
+        },
+        "unitSetIndication": {
+          "set": true,
+          "target": "@ct_main_convoy_name"
+        }
+      },
+      "else_actions": []
+    },
+    "ct_main_t2_check_attack_quest": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "ct_is_detect_on",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "квест дается без детекта"
+        },
+        "triggerEnable": {
+          "target": "ct_obj_t2_add_destroy_quest"
+        },
+        "unitSetIndication": {
+          "set": true,
+          "target": "@ct_main_convoy_name"
+        }
+      },
+      "else_actions": []
+    },
+    "ct_main_check_end_quest": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "@ct_end_check_var_is_quest_name",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "конвой квестовый и достиг конечной точки маршрута. проверяем армию. "
+        },
+        "triggerEnable": {
+          "target": "ct_main_check_end_army"
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "конвой не квестовый. не делаем ничего"
+        }
+      }
+    },
+    "ct_main_check_end_army": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isTeamA",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object": "@ct_main_end_convoy_name"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "конвой принадлежит армии А"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_obj_t1_complete_protect_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target": "@ct_main_end_convoy_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем есть ли квест на атаку у противника"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_main_t2_check_end_attack_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "конвой принадлежит армии Б"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_obj_t2_complete_protect_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target": "@ct_main_end_convoy_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем есть ли квест на атаку у противника"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "ct_main_t1_check_end_attack_quest",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        }
+      ]
+    },
+    "ct_main_t1_check_end_attack_quest": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "ct_t1_destroy",
+          "status": "inProgress"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "квест есть - закрываем его провалом"
+        },
+        "triggerActivate": {
+          "target": "ct_obj_t1_fail_destroy_quest",
+          "activate_type": "checkConidtions",
+          "check_trigger_status": false,
+          "after_activation": "disable"
+        }
+      },
+      "else_actions": []
+    },
+    "ct_main_t2_check_end_attack_quest": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "ct_t2_destroy",
+          "status": "inProgress"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "квест есть - закрываем его провалом"
+        },
+        "triggerActivate": {
+          "target": "ct_obj_t2_fail_destroy_quest",
+          "activate_type": "checkConidtions",
+          "check_trigger_status": false,
+          "after_activation": "disable"
+        }
+      },
+      "else_actions": []
+    },
+    "ct_check_bridges": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 50.0,
+          "math": "2D",
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "target_type": "isKilled",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "ct_all_convoys_squad",
+          "target": "bridges_squad",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "проверка находится ли юнит рядом с убитым мостом"
+          }
+        },
+        {
+          "comment": {
+            "value": "останавливаем юниты, рядом с уничтоженными мостами"
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object": "ct_all_convoys_squad",
+            "speed": 0.0,
+            "lockSpeed": true,
+            "useForTriggerFiltered": true
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "ct_main_end_template": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varSetBool": {
+          "value": false,
+          "var": "ct_is_template_active"
+        }
+      },
+      "else_actions": []
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true,
+    "ct_t1_protect": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "ct_t2_protect": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "ct_t1_destroy": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "ct_t2_destroy": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    }
+  },
+  "variables": {
+    "ct_is_template_active": false,
+    "ct_delay_timer": 30,
+    "ct_is_detect_on": false,
+    "ct_max_convoys": 3,
+    "ct_max_active_convoys": 4,
+    "ct_cur_active_convoys": 0,
+    "ct_is_spawn_in_progress": false,
+    "ct_spawn_convoy_idx": 0,
+    "ct_spawn_convoy_name": "",
+    "ct_spawn_unit_name": "",
+    "ct_spawn_unit_spawn_name": "",
+    "ct_spawn_type": 0,
+    "ct_spawn_trucks_num": 0,
+    "ct_spawn_acar_num": 0,
+    "ct_spawn_aaa_num": 0,
+    "ct_spawn_tank_num": 0,
+    "ct_spawn_order_randomizer": 0,
+    "ct_spawn_cur_army": 0,
+    "ct_is_end_check_active": false,
+    "ct_end_check_convoy_idx": 0,
+    "ct_end_check_convoy_name": "",
+    "ct_end_check_var_name": "",
+    "ct_end_check_convoy_end_point": "",
+    "ct_active_convoy_01_name": "",
+    "ct_active_convoy_02_name": "",
+    "ct_active_convoy_03_name": "",
+    "ct_active_convoy_04_name": "",
+    "ct_active_convoy_05_name": "",
+    "ct_active_convoy_06_name": "",
+    "ct_active_convoy_07_name": "",
+    "ct_active_convoy_08_name": "",
+    "ct_active_convoy_09_name": "",
+    "ct_active_convoy_10_name": "",
+    "ct_active_convoy_name": "",
+    "ct_active_convoy_idx": 0,
+    "ct_active_convoy_01_road": "",
+    "ct_active_convoy_02_road": "",
+    "ct_active_convoy_03_road": "",
+    "ct_active_convoy_04_road": "",
+    "ct_active_convoy_05_road": "",
+    "ct_active_convoy_06_road": "",
+    "ct_active_convoy_07_road": "",
+    "ct_active_convoy_08_road": "",
+    "ct_active_convoy_09_road": "",
+    "ct_active_convoy_10_road": "",
+    "ct_max_roads": 12,
+    "ct_spawn_road_idx": 0,
+    "ct_spawn_road_name": "",
+    "ct_active_convoy_road": "",
+    "ct_end_check_road_name": "",
+    "ct_active_convoy_detect_name": "",
+    "ct_end_check_var_road_name": "",
+    "ct_spawn_sub_unit_name": "",
+    "ct_found_convoy_name": "",
+    "ct_found_convoy_idx": 0,
+    "ct_is_found_in_progress": false,
+    "ct_found_convoy_var_name": "",
+    "ct_found_01_result_name": "",
+    "ct_found_02_result_name": "",
+    "ct_found_03_result_name": "",
+    "ct_found_results_num": 0,
+    "ct_found_army_for_search": 0,
+    "ct_found_road_name": "",
+    "ct_found_end_point_name": "",
+    "ct_found_result_var_name": "",
+    "ct_found_result_idx": 0,
+    "ct_found_random_idx": 0,
+    "ct_detect_convoy_idx": 0,
+    "ct_detect_array_name": "",
+    "ct_detect_convoy_name": "",
+    "ct_detect_army": 0,
+    "ct_detect_is_quest_name": "",
+    "ct_detect_is_detected_name": "",
+    "ct_detect_detection_base_range": 2500.0,
+    "ct_detect_detection_calculated_range": 0.0,
+    "ct_active_convoy_01_is_detected": false,
+    "ct_active_convoy_02_is_detected": false,
+    "ct_active_convoy_03_is_detected": false,
+    "ct_active_convoy_04_is_detected": false,
+    "ct_active_convoy_05_is_detected": false,
+    "ct_active_convoy_06_is_detected": false,
+    "ct_active_convoy_07_is_detected": false,
+    "ct_active_convoy_08_is_detected": false,
+    "ct_active_convoy_09_is_detected": false,
+    "ct_active_convoy_10_is_detected": false,
+    "ct_active_convoy_01_is_quest": false,
+    "ct_active_convoy_02_is_quest": false,
+    "ct_active_convoy_03_is_quest": false,
+    "ct_active_convoy_04_is_quest": false,
+    "ct_active_convoy_05_is_quest": false,
+    "ct_active_convoy_06_is_quest": false,
+    "ct_active_convoy_07_is_quest": false,
+    "ct_active_convoy_08_is_quest": false,
+    "ct_active_convoy_09_is_quest": false,
+    "ct_active_convoy_10_is_quest": false,
+    "ct_active_convoy_is_quest_idx": 0,
+    "ct_is_quest_active_convoy_name": "",
+    "ct_is_quest_active_convoy_var_name": "",
+    "ct_is_quest_active_convoy_quest_var_name": "",
+    "ct_main_convoy_name": "",
+    "ct_main_end_convoy_name": "",
+    "ct_end_check_var_is_quest_name": "",
+    "ct_dead_check_convoy_idx": 0,
+    "ct_dead_cur_convoy_name": "",
+    "ct_dead_convoy_var_name": "",
+    "ct_dead_convoy_is_quest_var_name": "",
+    "ct_save_convoy_convoy_name": "",
+    "ct_save_convoy_road_name": "",
+    "ct_save_convoy_detect_name": "",
+    "ct_update_pos_convoy_var_name": "",
+    "ct_update_pos_convoy_name": "",
+    "ct_update_pos_is_quest_var_name": "",
+    "ct_update_pos_is_detected_var_name": "",
+    "ct_update_pos_convoy_idx": 0,
+    "ct_empty_convoy_var_name": "",
+    "ct_empty_quest_var_name": "",
+    "ct_dead_in_progress": false,
+    "ct_obj_convoy_name": "",
+    "ct_update_pos_is_active": false
+  },
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [],
+  "areas": [],
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

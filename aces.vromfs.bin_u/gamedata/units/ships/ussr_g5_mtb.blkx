@@ -112,6 +112,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "1"
       },
       {
@@ -185,6 +188,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "2"
       },
       {
@@ -256,6 +262,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "3"
@@ -1392,6 +1401,14 @@
             "kill": true,
             "killEffect": "drown"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 5000.0,
+            "kill": true,
+            "killEffect": "destruction"
+          }
         }
       ],
       "cover_right_side": [
@@ -1409,6 +1426,14 @@
             "conditionPartsDead": 3,
             "kill": true,
             "killEffect": "drown"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 5000.0,
+            "kill": true,
+            "killEffect": "destruction"
           }
         }
       ]
@@ -1625,6 +1650,9 @@
             "recoilOffset": 0.0
           },
           {
+            "barrelDP": "mg_01_dm"
+          },
+          {
             "defaultYaw": 170.0
           },
           {
@@ -1641,6 +1669,9 @@
           },
           {
             "bullets": 1000
+          },
+          {
+            "allowableDelta": 1.0
           },
           {
             "speedYaw": 45.0
@@ -1702,8 +1733,15 @@
           },
           {
             "limits": {
-              "yaw": [-170.0,170.0],
+              "yaw": [-180.0,180.0],
               "pitch": [-10.0,70.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-170.0,50.0,70.0],
+              "lim2": [-170.0,170.0,-10.0,70.0],
+              "lim3": [170.0,180.0,50.0,70.0]
             }
           }
         ]
@@ -1720,8 +1758,6 @@
           "launchAnimVar": "anim_launch_torpedo_01",
           "animLaunchTime": 3.0,
           "launchTime": 1.5,
-          "startFx": "start_torpedo",
-          "startFxOffset": [5.0,0.0,0.0],
           "allowableDelta": 180.0,
           "breechDP": "torpedo_01_dm",
           "turret": {
@@ -1746,8 +1782,6 @@
           "launchAnimVar": "anim_launch_torpedo_02",
           "animLaunchTime": 3.0,
           "launchTime": 1.5,
-          "startFx": "start_torpedo",
-          "startFxOffset": [5.0,0.0,0.0],
           "allowableDelta": 180.0,
           "breechDP": "torpedo_02_dm",
           "turret": {
@@ -1788,10 +1822,10 @@
   },
   {
     "breaches": {
-      "repairSpeed": 1.0,
-      "waterMassVel": -400.0,
-      "waterMassMult": 20.0,
-      "sizeToRepair": [0.01,2.0,15.0,1500.0],
+      "repairSpeed": 0.75,
+      "waterMassVel": -200.0,
+      "waterMassMult": 25.0,
+      "sizeToRepair": [0.01,2.0,20.0,1500.0],
       "additionalWaterDeathThreshold": 90000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0

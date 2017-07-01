@@ -1,0 +1,36 @@
+{
+  "model": "unit_oil_derrick_a",
+  "subclass": "fortification",
+  "dynCollisionGeom": true,
+  "hasExpl": false,
+  "hasDmg2": false,
+  "hasDmg2Aces": false,
+  "hasDmg": false,
+  "damageableByGun": false,
+  "expClass": "exp_zero",
+  "renderInWaterReflection": true,
+  "toGround": true,
+  "forceFastPhysForAI": true,
+  "timeToFire": 4.0,
+  "DamageParts": {
+    "steel": {
+      "armorClass": "tank_structural_steel",
+      "hp": 1000.0,
+      "body_dm": {
+        "armorThickness": 3000.0
+      }
+    }
+  },
+  "DamageEffects": {
+    "part": {
+      "name": "body_dm",
+      "onHit": {
+        "smoke": 0.5,
+        "fire": 0.5
+      },
+      "onKill": {
+        "expl": 1.0
+      }
+    }
+  }
+}

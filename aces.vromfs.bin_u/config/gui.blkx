@@ -10,98 +10,112 @@
         "lang": {
           "id": "English",
           "icon": "#ui/gameuiskin#lang_usa",
-          "chatId": "en"
+          "chatId": "en",
+          "hasUnitSpeech": true
         }
       },
       {
         "lang": {
           "id": "Russian",
           "icon": "#ui/gameuiskin#lang_russia",
-          "chatId": "ru"
+          "chatId": "ru",
+          "hasUnitSpeech": true
         }
       },
       {
         "lang": {
           "id": "French",
           "icon": "#ui/gameuiskin#lang_france",
-          "chatId": "fr"
+          "chatId": "fr",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "Italian",
           "icon": "#ui/gameuiskin#lang_italy",
-          "chatId": "it"
+          "chatId": "it",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "German",
           "icon": "#ui/gameuiskin#lang_germany",
-          "chatId": "de"
+          "chatId": "de",
+          "hasUnitSpeech": true
         }
       },
       {
         "lang": {
           "id": "Spanish",
           "icon": "#ui/gameuiskin#lang_spain",
-          "chatId": "es"
+          "chatId": "es",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "Portuguese",
           "icon": "#ui/gameuiskin#lang_portugal",
-          "chatId": "pt"
+          "chatId": "pt",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "Polish",
           "icon": "#ui/gameuiskin#lang_poland",
-          "chatId": "pl"
+          "chatId": "pl",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "Czech",
           "icon": "#ui/gameuiskin#lang_czech",
-          "chatId": "cs"
+          "chatId": "cs",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "Turkish",
           "icon": "#ui/gameuiskin#lang_turkey",
-          "chatId": "tr"
+          "chatId": "tr",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "Chinese",
           "icon": "#ui/gameuiskin#lang_china",
-          "chatId": "zh"
+          "chatId": "zh",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "TChinese",
           "icon": "#ui/gameuiskin#lang_taiwan",
-          "chatId": "zh"
+          "chatId": "zh",
+          "hasUnitSpeech": true
         }
       },
       {
         "lang": {
           "id": "Korean",
           "icon": "#ui/gameuiskin#lang_korea",
-          "chatId": "ko"
+          "chatId": "ko",
+          "hasUnitSpeech": false
         }
       },
       {
         "lang": {
           "id": "Japanese",
           "icon": "#ui/gameuiskin#lang_japan",
-          "chatId": "jp"
+          "chatId": "jp",
+          "hasUnitSpeech": true
         }
       }
     ],
@@ -109,14 +123,16 @@
       "lang": {
         "id": "HChinese",
         "icon": "#ui/gameuiskin#lang_china",
-        "chatId": "zh"
+        "chatId": "zh",
+        "hasUnitSpeech": false
       }
     },
     "vietnam": {
       "lang": {
         "id": "Vietnamese",
         "icon": "#ui/gameuiskin#lang_vietnam",
-        "chatId": "vn"
+        "chatId": "vn",
+        "hasUnitSpeech": false
       }
     }
   },
@@ -208,8 +224,28 @@
       "login_bkg_1_63_noLayers_us": 3.75
     },
     {
+      "login_bkg_1_67_noLayers_jp": 7.0
+    },
+    {
+      "login_bkg_1_67_noLayers_ru": 7.0
+    },
+    {
+      "login_bkg_1_67_noLayers_main": 7.0
+    },
+    {
+      "login_bkg_1_67_noLayers_us": 7.0
+    },
+    {
+      "login_bkg_1_67_noLayers_ger": 7.0
+    },
+    {
       "beforeLogin": {
         "default_chance": 0.0,
+        "login_bkg_1_67_noLayers_jp": 2.0,
+        "login_bkg_1_67_noLayers_ru": 2.0,
+        "login_bkg_1_67_noLayers_main": 2.0,
+        "login_bkg_1_67_noLayers_us": 2.0,
+        "login_bkg_1_67_noLayers_ger": 2.0,
         "login_layer_r1": 1.0,
         "login_layer_t1": 1.0
       }
@@ -223,8 +259,13 @@
           "default_chance": 0.0,
           "login_layer_m1": 1.0,
           "login_layer_s1": 2.0,
-          "login_layer_t1": 4.0,
-          "login_layer_u1": 1.0
+          "login_layer_t1": 2.0,
+          "login_layer_u1": 1.0,
+          "login_bkg_1_67_noLayers_jp": 4.0,
+          "login_bkg_1_67_noLayers_ru": 6.0,
+          "login_bkg_1_67_noLayers_main": 5.0,
+          "login_bkg_1_67_noLayers_us": 4.0,
+          "login_bkg_1_67_noLayers_ger": 4.0
         }
       }
     },
@@ -235,6 +276,7 @@
         },
         "beforeLogin": {
           "default_chance": 0.0,
+          "login_bkg_1_67_noLayers_ger": 3.0,
           "login_layer_m1": 1.0,
           "login_layer_e1": 1.0
         }
@@ -259,7 +301,9 @@
         "login_layer_e1": 3.25,
         "login_layer_m1": 3.25,
         "login_layer_n1": 3.25,
-        "login_layer_r1": 3.25
+        "login_layer_r1": 3.25,
+        "login_bkg_1_67_noLayers_jp": 0.0,
+        "login_bkg_1_67_noLayers_ger": 0.0
       }
     }
   ],
@@ -314,18 +358,21 @@
     "apcr_tank": "apcr_tank",
     "apds_tank": "apds_tank",
     "apds_fs_tank": "apdsfs_tank",
+    "apds_fs_long_tank": "apdsfs_tank",
     "apbc_tank": "apbc_tank",
     "apc_tank": "apc_tank",
     "aphe_tank": "aphe_tank",
     "aphebc_tank": "aphebc_tank",
     "apcbc_tank": "apcbc_tank",
     "ap_tank": "ap_tank",
+    "ap_large_caliber_tank": "ap_tank",
     "tp_tank": "tp_tank",
     "tphv_tank": "tpc_tank",
     "heat_tank": "heat_tank",
     "heat_fs_tank": "heat_fs_tank",
     "hesh_tank": "hesh_tank",
     "he_frag_tank": "he_frag_tank",
+    "he_frag_fs_tank": "he_frag_tank",
     "shrapnel_tank": "shrapnel_tank",
     "atgm_tank": "atgm",
     "rocket_tank": "rocket_tank"
@@ -1739,7 +1786,7 @@
         "type": "text",
         "color": "@activeTextColor",
         "x": "0.5pw-0.5w",
-        "y": "0.9ph-0.5h"
+        "y": "0.85ph-0.5h"
       },
       "item_multiaward0": {
         "w": "1@awardIconHeight",
@@ -3266,7 +3313,17 @@
       "countries_country_germany_fleet": "#ui/countries/country_germany_fleet",
       "countries_country_ussr_fleet": "#ui/countries/country_ussr_fleet",
       "countries_country_britain_fleet": "#ui/countries/country_britain_fleet",
-      "countries_country_japan_fleet": "#ui/countries/country_japan_fleet"
+      "countries_country_japan_fleet": "#ui/countries/country_japan_fleet",
+      "tutorial_fighter": "#ui/images/tutorial_fighter.jpg?P1",
+      "tutorial_fighter_win": "#ui/images/tutorial_fighter_win.jpg?P1",
+      "tutorial_bomber": "#ui/images/tutorial_bomber.jpg?P1",
+      "tutorial_bomber_win": "#ui/images/tutorial_bomber_win.jpg?P1",
+      "tutorial_assaulter": "#ui/images/tutorial_assaulter.jpg?P1",
+      "tutorial_assaulter_win": "#ui/images/tutorial_assaulter_win.jpg?P1",
+      "tutorial_lightTank": "#ui/images/tutorial_lightTank.jpg?P1",
+      "tutorial_lightTank_win": "#ui/images/tutorial_lightTank_win.jpg?P1",
+      "tutorial_lightTank_part2": "#ui/images/tutorial_lightTank.jpg?P1",
+      "tutorial_lightTank_part2_win": "#ui/images/tutorial_lightTank_win.jpg?P1"
     },
     "tencent": {
       "country_usa": "#ui/gameuiskin#country_usa_alt",
@@ -3348,7 +3405,8 @@
       "countries_country_germany_fleet": "#ui/countries/country_germany_fleet_alt",
       "countries_country_ussr_fleet": "#ui/countries/country_ussr_fleet_alt",
       "countries_country_britain_fleet": "#ui/countries/country_britain_fleet_alt",
-      "countries_country_japan_fleet": "#ui/countries/country_japan_fleet_alt"
+      "countries_country_japan_fleet": "#ui/countries/country_japan_fleet_alt",
+      "tutorial_fighter_win": "#ui/images/tutorial_fighter_win_alt.jpg?P1"
     },
     "vietnam": {
       "country_germany": "#ui/gameuiskin#country_germany_modern",
@@ -3653,7 +3711,7 @@
         }
       ],
       "Ship": {
-        "name": "Germany/tanks/img_germany_tank_01"
+        "name": "Germany/ships/img_germany_ship_01"
       }
     },
     "country_usa": {
@@ -3728,7 +3786,7 @@
         }
       ],
       "Ship": {
-        "name": "USA/tanks/img_usa_tank_02"
+        "name": "USA/ships/img_usa_ship_01"
       }
     },
     "country_ussr": {
@@ -3812,7 +3870,7 @@
         }
       ],
       "Ship": {
-        "name": "USSR/tanks/img_ussr_tank_01"
+        "name": "USSR/ships/img_ussr_ship_01"
       }
     },
     "country_britain": {
@@ -3860,7 +3918,7 @@
         }
       ],
       "Ship": {
-        "name": "UK/tanks/img_uk_tank_01"
+        "name": "UK/ships/img_uk_ship_01"
       }
     },
     "country_japan": {
@@ -3885,13 +3943,21 @@
         },
         {
           "name": "Japan/air/img_japan_air_07"
+        },
+        {
+          "name": "Japan/air/img_japan_air_08"
         }
       ],
-      "Tank": {
-        "name": "Japan/air/img_japan_air_01"
-      },
+      "Tank": [
+        {
+          "name": "Japan/tanks/img_japan_tank_01"
+        },
+        {
+          "name": "Japan/tanks/img_japan_tank_02"
+        }
+      ],
       "Ship": {
-        "name": "Japan/air/img_japan_air_04"
+        "name": "Japan/ships/img_japan_ship_01"
       }
     },
     "other": {
@@ -3927,6 +3993,31 @@
       "2": "#ui/images/login_award_2.jpg?P1",
       "3": "#ui/images/login_award_3.jpg?P1",
       "4": "#ui/images/login_award_4.jpg?P1"
+    },
+    "periodic_award": {
+      "default": {
+        "progress": "ui/every_day_login_award/100_days_reward_mark.png"
+      },
+      "100": {
+        "trophy": "ui/every_day_login_award/100_days_reward_icon.png",
+        "progress": "ui/every_day_login_award/100_days_reward_mark.png"
+      },
+      "365": {
+        "trophy": "ui/every_day_login_award/365_days_reward_icon.png",
+        "progress": "ui/every_day_login_award/365_days_reward_mark.png"
+      },
+      "730": {
+        "trophy": "ui/every_day_login_award/730_days_reward_icon.png",
+        "progress": "ui/every_day_login_award/730_days_reward_mark.png"
+      },
+      "1095": {
+        "trophy": "ui/every_day_login_award/1095_days_reward_icon.png",
+        "progress": "ui/every_day_login_award/1095_days_reward_mark.png"
+      },
+      "1825": {
+        "trophy": "ui/every_day_login_award/1825_days_reward_icon.png",
+        "progress": "ui/every_day_login_award/1825_days_reward_mark.png"
+      }
     }
   },
   "static_promo_block": {
@@ -3953,11 +4044,43 @@
       "reqFeature": "!SquadWidget"
     }
   },
-  "events_br_to_tier_conformity": {
-    "1": "1.0;2.0",
-    "2": "1.7;3.3",
-    "3": "3.1;4.7",
-    "4": "4.0;6.3",
-    "5": "5.7;-1"
+  "events_br_to_tier_conformity": [
+    {
+      "brToTier": [2.0,1.0]
+    },
+    {
+      "brToTier": [3.3,2.0]
+    },
+    {
+      "brToTier": [4.7,3.0]
+    },
+    {
+      "brToTier": [6.3,4.0]
+    },
+    {
+      "brToTier": [-1.0,5.0]
+    }
+  ],
+  "eventRoomsList": {
+    "timeToAskShowRoomsListSec": 30,
+    "askBeforeOpenCount": 10
+  },
+  "defriefing_backgrounds": {
+    "blurredImgEnd": "_blur",
+    "win": {
+      "i": {
+        "img": "win/default"
+      }
+    },
+    "lose": {
+      "i": {
+        "img": "lose/default"
+      }
+    },
+    "progress": {
+      "i": {
+        "img": "progress/default"
+      }
+    }
   }
 }

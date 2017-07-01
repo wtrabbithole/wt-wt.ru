@@ -38,6 +38,26 @@
       "limits": {
         "yaw": [-180.0,180.0],
         "pitch": [-15.0,20.0]
+      },
+      "gunStabilizer": {
+        "hasVerticalGunFreeMode": true,
+        "hasHorizontal": false,
+        "horizontalOmegaMult": 1.0,
+        "horizontalSpeedLimitKPH": 40.0,
+        "hasVertical": true,
+        "verticalOmegaMult": 0.7,
+        "verticalSpeedLimitKPH": 10.0,
+        "errorKPHToDegrees": [
+          {
+            "row": [5.0,0.02]
+          },
+          {
+            "row": [8.0,0.2]
+          },
+          {
+            "row": [10.0,0.4]
+          }
+        ]
       }
     }
   },
@@ -76,7 +96,7 @@
         "gunnerDm": "gunner_dm"
       },
       "limits": {
-        "yaw": [-25.0,25.0],
+        "yaw": [-22.0,22.0],
         "pitch": [-22.0,22.0]
       }
     }

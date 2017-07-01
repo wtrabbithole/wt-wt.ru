@@ -4,7 +4,7 @@
   "resetViralAcquisitionDaysCounter": 1,
   "moderatorPresenceCheckMaxCode": 65536,
   "moderatorPresenceCheckPeriodSec": 1200,
-  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;;DBttlA;DBttlB;PvE;I2M;Tdm;Capt;NTDM;NDom;NA;NAleft;NAright;4x4_norespawn;FFA;BDB;BDA;MBD;GSA;GSB;CnvA;CnvB;NADom",
+  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;I2M;Tdm;Capt;NTDM;NDom;NA;NAleft;NAright;4x4_norespawn;FFA;BDB;BDA;MBD;GSA;GSB;CnvA;CnvB;NADom",
   "ordersPerSession": 3,
   "randomBattle": {
     "classiness": {
@@ -373,6 +373,17 @@
       }
     ],
     "ShipsFirstChoice": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "ShipsHeroInUserMissions": [
       {
         "condition": "role_GAIJIN"
       },
@@ -880,9 +891,14 @@
     "usa_pacific_41_43": {
       "condition": "pacific_41_43_unlock"
     },
-    "jpn_pacific_41_43": {
-      "condition": "pacific_41_43_unlock"
-    },
+    "jpn_pacific_41_43": [
+      {
+        "condition": "pacific_41_43_unlock"
+      },
+      {
+        "condition": "pacific_41_43_unlock_japan"
+      }
+    ],
     "league_fan_token": {
       "condition": "wt_thunder_league_fan_token"
     },
@@ -921,9 +937,6 @@
     "CountryChina": {
       "condition": "role_DEVELOPER"
     },
-    "CountryJapan": {
-      "condition": ""
-    },
     "MissionsChapterHidden": [
       {
         "condition": "role_GAIJIN"
@@ -949,9 +962,11 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
-    "ChinaForbidden": {
+    "ChinaForbidden": [],
+    "UnlocksUnavailableForChina": {
       "condition": ""
     },
+    "JapanTanksForbidden": [],
     "ScriptMissionHints": {
       "condition": ""
     },
@@ -1002,7 +1017,10 @@
       {
         "reqPack": "pkg_ships"
       }
-    ]
+    ],
+    "SeparateTopMenuButtons": {
+      "condition": ""
+    }
   },
   "avgAirRankSpeed": {
     "rank0": 300,
@@ -1087,13 +1105,10 @@
   },
   "testFlight_override": {
     "HChinese": {
-      "testFlight_sicily": "testFlight_alps",
-      "testFlight_norway": "testFlight_alps",
-      "testFlight_norway_hydrobase": "testFlight_crater_hydroplane",
-      "testFlight_ruhr": "testFlight_alps",
-      "testFlight_ruhr_me": "testFlight_alps_me",
-      "testFlight_peleliu": "testFlight_crater",
-      "testFlight_peleliu_hydrobase": "testFlight_crater_hydroplane"
+      "testFlight_midway_japanese": "testFlight_ruhr",
+      "testFlight_peleliu_hydrobase": "testFlight_honolulu_hydrobase",
+      "testFlight_peleliu": "testFlight_ruhr",
+      "testFlight_norway_hydrobase": "testFlight_britain_hydroplane"
     }
   }
 }

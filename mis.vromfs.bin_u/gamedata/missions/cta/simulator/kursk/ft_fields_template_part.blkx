@@ -1,0 +1,5548 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "ft_armada"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": {
+    "import_record": {
+      "file": "gameData/missions/templates/air_templates/jip/air_ft_fields_template.blk",
+      "importAreas": true,
+      "importUnits": true,
+      "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
+      "showAreas": true,
+      "showUnits": true,
+      "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
+      "excludes": []
+    }
+  },
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_01_01",
+        "tm": [
+          [0.866025,0.0,-0.5],
+          [0.0,1.0,0.0],
+          [0.5,0.0,0.866025],
+          [20329.4,187.831,-23190.3]
+        ],
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_01_02",
+        "tm": [
+          [0.999048,0.0,-0.0436189],
+          [0.0,1.0,0.0],
+          [0.0436189,0.0,0.999048],
+          [25832.3,162.683,-2933.5]
+        ],
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_01_03",
+        "tm": [
+          [0.996194,0.0,-0.0871561],
+          [0.0,1.0,0.0],
+          [0.0871561,0.0,0.996194],
+          [27657.7,102.42,16706.5]
+        ],
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_02_01",
+        "tm": [
+          [0.737277,0.0,-0.67559],
+          [0.0,1.0,0.0],
+          [0.67559,0.0,0.737277],
+          [18976.3,149.0,-9900.75]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_02_02",
+        "tm": [
+          [0.866025,0.0,-0.5],
+          [0.0,1.0,0.0],
+          [0.5,0.0,0.866025],
+          [11669.8,157.381,-19897.1]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_03_01",
+        "tm": [
+          [0.999048,0.0,0.04362],
+          [0.0,1.0,0.0],
+          [-0.04362,0.0,0.999048],
+          [13506.2,153.907,5851.65]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_03_02",
+        "tm": [
+          [0.95882,0.0,0.284016],
+          [0.0,1.0,0.0],
+          [-0.284016,0.0,0.95882],
+          [22004.3,155.439,12877.9]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_01_01",
+        "tm": [
+          [-0.999048,0.0,-0.043619],
+          [0.0,1.0,0.0],
+          [0.043619,0.0,-0.999048],
+          [-22299.3,83.8931,21948.0]
+        ],
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_01_02",
+        "tm": [
+          [-0.999048,0.0,-0.0436188],
+          [0.0,1.0,0.0],
+          [0.0436188,0.0,-0.999048],
+          [-25370.2,123.3,-21051.3]
+        ],
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_01_03",
+        "tm": [
+          [-0.999049,0.0,0.0436196],
+          [0.0,1.0,0.0],
+          [-0.0436196,0.0,-0.999049],
+          [-23552.6,171.329,5841.45]
+        ],
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_02_01",
+        "tm": [
+          [-0.976296,0.0,-0.216439],
+          [0.0,1.0,0.0],
+          [0.216439,0.0,-0.976296],
+          [-17963.8,114.886,-25507.1]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_02_02",
+        "tm": [
+          [-1.0,0.0,1.72853e-06],
+          [0.0,1.0,0.0],
+          [-1.72853e-06,0.0,-1.0],
+          [-16761.5,186.411,10264.3]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_03_01",
+        "tm": [
+          [-0.5,0.0,0.866026],
+          [0.0,1.0,0.0],
+          [-0.866026,0.0,-0.5],
+          [-14983.8,127.796,20240.3]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_03_02",
+        "tm": [
+          [-0.984807,0.0,-0.173648],
+          [0.0,1.0,0.0],
+          [0.173648,0.0,-0.984807],
+          [-15075.7,116.1,-5707.6]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t1_airfields_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [990.7,3.85,-11893.8]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_airfield_01_01"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_02"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_03"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_01"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_02"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_03"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_01"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_02"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_03"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t2_airfields_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-10684.6,140.35,-14783.7]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t2_airfield_01_01"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_02"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_03"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_01"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_02"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_03"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_01"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_02"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_03"
+          }
+        ]
+      }
+    },
+    {
+      "armada": {
+        "name": "ft_armada",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1939.0,2993.1,-5134.7]
+        ],
+        "unit_class": "b-17g",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "B17G_4x2000lbs",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_03_01_bomb_target",
+        "tm": [
+          [0.999048,0.0,0.04362],
+          [0.0,1.0,0.0],
+          [-0.04362,0.0,0.999048],
+          [13506.2,153.907,5851.65]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_01_01_bomb_target",
+        "tm": [
+          [0.866025,0.0,-0.5],
+          [0.0,1.0,0.0],
+          [0.5,0.0,0.866025],
+          [20329.4,187.831,-23190.3]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_02_01_bomb_target",
+        "tm": [
+          [0.737277,0.0,-0.67559],
+          [0.0,1.0,0.0],
+          [0.67559,0.0,0.737277],
+          [18976.3,149.0,-9900.75]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_03_02_bomb_target",
+        "tm": [
+          [0.95882,0.0,0.284016],
+          [0.0,1.0,0.0],
+          [-0.284016,0.0,0.95882],
+          [22004.3,155.439,12877.9]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_01_03_bomb_target",
+        "tm": [
+          [0.996194,0.0,-0.0871561],
+          [0.0,1.0,0.0],
+          [0.0871561,0.0,0.996194],
+          [27657.7,102.42,16706.5]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_02_02_bomb_target",
+        "tm": [
+          [0.866025,0.0,-0.5],
+          [0.0,1.0,0.0],
+          [0.5,0.0,0.866025],
+          [11669.8,157.381,-19897.1]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_01_02_bomb_target",
+        "tm": [
+          [0.999048,0.0,-0.0436189],
+          [0.0,1.0,0.0],
+          [0.0436189,0.0,0.999048],
+          [25832.4,162.685,-2933.43]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_01_01_bomb_target",
+        "tm": [
+          [-0.999048,0.0,-0.043619],
+          [0.0,1.0,0.0],
+          [0.043619,0.0,-0.999048],
+          [-22299.3,83.8931,21948.0]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_02_01_bomb_target",
+        "tm": [
+          [-0.999048,0.0,-0.0436188],
+          [0.0,1.0,0.0],
+          [0.0436188,0.0,-0.999048],
+          [-17963.8,114.886,-25507.1]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_03_01_bomb_target",
+        "tm": [
+          [-0.5,0.0,0.866026],
+          [0.0,1.0,0.0],
+          [-0.866026,0.0,-0.5],
+          [-14983.8,127.796,20240.3]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_02_02_bomb_target",
+        "tm": [
+          [-1.0,0.0,1.72853e-06],
+          [0.0,1.0,0.0],
+          [-1.72853e-06,0.0,-1.0],
+          [-16749.4,186.055,10262.2]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_01_02_bomb_target",
+        "tm": [
+          [-0.999048,0.0,-0.0436188],
+          [0.0,1.0,0.0],
+          [0.0436188,0.0,-0.999048],
+          [-25370.2,123.3,-21051.3]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_03_02_bomb_target",
+        "tm": [
+          [-0.984807,0.0,-0.173648],
+          [0.0,1.0,0.0],
+          [0.173648,0.0,-0.984807],
+          [-15075.7,116.1,-5707.6]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_01_03_bomb_target",
+        "tm": [
+          [-0.999049,0.0,0.0436196],
+          [0.0,1.0,0.0],
+          [-0.0436196,0.0,-0.999049],
+          [-23552.6,171.329,5841.45]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "all_bomb_targets_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-15105.4,90.4886,-18061.7]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_airfield_03_01_bomb_target"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_01_bomb_target"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_01_bomb_target"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_02_bomb_target"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_03_bomb_target"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_02_bomb_target"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_02_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_01_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_01_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_01_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_02_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_02_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_02_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_03_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_03_bomb_target"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_03_bomb_target"
+          }
+        ]
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_01_big_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2033.4,-2.8,37087.3]
+        ],
+        "unit_class": "ussr_85mm_52k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_01_medium_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2407.45,-2.8,37081.6]
+        ],
+        "unit_class": "ussr_37mm_61k_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_01_small_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2613.35,-2.8,37064.4]
+        ],
+        "unit_class": "ussr_25mm_72k_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_02_big_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2035.85,-2.8,36725.7]
+        ],
+        "unit_class": "ussr_85mm_52k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_02_medium_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2391.75,-2.8,36712.5]
+        ],
+        "unit_class": "ussr_37mm_61k_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_02_small_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2687.25,-2.8,36695.7]
+        ],
+        "unit_class": "ussr_25mm_72k_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_03_big_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2047.7,-2.8,36433.5]
+        ],
+        "unit_class": "ussr_85mm_52k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_03_medium_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2387.3,-2.8,36432.4]
+        ],
+        "unit_class": "ussr_37mm_61k_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t1_airfield_03_small_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2711.35,-2.8,36353.9]
+        ],
+        "unit_class": "ussr_25mm_72k_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t1_airfield_01_aaa_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3370.0,0.95,36954.7]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_airfield_01_big_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t1_airfield_02_aaa_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3348.6,0.95,36646.5]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_airfield_02_big_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t1_airfield_03_aaa_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3313.2,0.95,36384.0]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_airfield_03_big_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t1_small_aaa_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [4351.4,0.8,38103.2]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_airfield_01_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_01_small_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_small_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t1_big_aaa_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [4910.7,2.05,37687.8]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_airfield_01_big_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_02_big_aaa"
+          },
+          {
+            "squad_members": "ft_t1_airfield_03_big_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_01_big_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-848.4,-2.8,39328.3]
+        ],
+        "unit_class": "germ_88mm_flak36",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_01_medium_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1270.9,-2.8,39389.2]
+        ],
+        "unit_class": "germ_37mm_flak43_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_01_small_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1767.35,-2.8,39491.7]
+        ],
+        "unit_class": "germ_20mm_flak38_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t2_airfield_01_aaa_squad",
+        "tm": [
+          [-3.71462e-22,2.868458e-42,-3.71462e-22],
+          [2.868458e-42,1.401298e-45,0.0],
+          [1.7387e-39,0.0,-3.81256e-22],
+          [-1020.1,-2.8,40333.2]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t2_airfield_01_big_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_02_big_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-993.75,-2.8,38780.6]
+        ],
+        "unit_class": "germ_88mm_flak36",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_02_medium_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1313.6,-2.8,38887.8]
+        ],
+        "unit_class": "germ_37mm_flak43_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_02_small_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1823.9,-2.8,38913.7]
+        ],
+        "unit_class": "germ_20mm_flak38_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t2_airfield_02_aaa_squad",
+        "tm": [
+          [-1.0253e+24,2.868458e-42,-1.0253e+24],
+          [2.868458e-42,1.401298e-45,0.0],
+          [1.7387e-39,0.0,-3.02261e+20],
+          [-584.0,-2.8,38727.3]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t2_airfield_02_big_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_03_big_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1028.2,-2.8,38333.4]
+        ],
+        "unit_class": "germ_88mm_flak36",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_03_medium_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1316.7,-2.8,38369.1]
+        ],
+        "unit_class": "germ_37mm_flak43_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "ft_t2_airfield_03_small_aaa",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1844.55,-2.8,38382.3]
+        ],
+        "unit_class": "germ_20mm_flak38_airfield",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 6,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t2_airfield_03_aaa_squad",
+        "tm": [
+          [-4.41954e-05,2.868458e-42,-4.41955e-05],
+          [2.868458e-42,1.401298e-45,0.0],
+          [1.7387e-39,0.0,-4.04666e+20],
+          [-313.25,-2.8,38229.2]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t2_airfield_03_big_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t2_small_aaa_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1895.55,0.8,37283.1]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t2_airfield_01_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_01_small_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_small_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_medium_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_small_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t2_big_aaa_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1458.25,2.05,37190.4]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t2_airfield_01_big_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_02_big_aaa"
+          },
+          {
+            "squad_members": "ft_t2_airfield_03_big_aaa"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t1_aaa_squad",
+        "tm": [
+          [-2.54208e+16,2.868458e-42,-2.54208e+16],
+          [2.868458e-42,1.401298e-45,0.0],
+          [1.7387e-39,0.0,-4.87457e-23],
+          [4902.15,1.45,38207.3]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t1_small_aaa_squad"
+          },
+          {
+            "squad_members": "ft_t1_big_aaa_squad"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "ft_t2_aaa_squad",
+        "tm": [
+          [-28689600.0,2.868458e-42,-28689600.0],
+          [2.868458e-42,1.401298e-45,0.0],
+          [1.7387e-39,0.0,-4154960000000000.0],
+          [-1676.9,1.45,36975.7]
+        ],
+        "props": [
+          {
+            "squad_members": "ft_t2_small_aaa_squad"
+          },
+          {
+            "squad_members": "ft_t2_big_aaa_squad"
+          }
+        ]
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_03_03",
+        "tm": [
+          [0.777146,0.0,0.629321],
+          [0.0,1.0,0.0],
+          [-0.629321,0.0,0.777146],
+          [16224.4,166.689,19666.0]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_03_03_bomb_target",
+        "tm": [
+          [0.95882,0.0,0.284016],
+          [0.0,1.0,0.0],
+          [-0.284016,0.0,0.95882],
+          [16224.4,166.689,19666.0]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t1_airfield_02_03",
+        "tm": [
+          [0.991445,0.0,-0.130526],
+          [0.0,1.0,0.0],
+          [0.130526,0.0,0.991445],
+          [20425.9,174.2,2396.85]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": false
+        }
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t1_airfield_02_03_bomb_target",
+        "tm": [
+          [0.965926,0.0,-0.258819],
+          [0.0,1.0,0.0],
+          [0.258819,0.0,0.965926],
+          [20425.9,174.013,2391.65]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_03_03",
+        "tm": [
+          [-0.793353,0.0,-0.608761],
+          [0.0,1.0,0.0],
+          [0.608761,0.0,-0.793353],
+          [-13013.3,133.484,-20905.4]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_03_03_bomb_target",
+        "tm": [
+          [-0.984807,0.0,-0.173648],
+          [0.0,1.0,0.0],
+          [0.173648,0.0,-0.984807],
+          [-13013.3,133.484,-20905.4]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "ft_t2_airfield_02_03",
+        "tm": [
+          [-0.999048,0.0,0.0436209],
+          [0.0,1.0,0.0],
+          [-0.0436209,0.0,-0.999048],
+          [-18161.3,151.5,-10492.0]
+        ],
+        "unit_class": "dynAF_stalingrad_dirt1_ally",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": false
+        }
+      }
+    },
+    {
+      "structures": {
+        "name": "ft_t2_airfield_02_03_bomb_target",
+        "tm": [
+          [-0.991445,0.0,0.130528],
+          [0.0,1.0,0.0],
+          [-0.130528,0.0,-0.991445],
+          [-18161.3,151.503,-10492.1]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 2,
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true,
+          "targetableByAi": false
+        },
+        "way": []
+      }
+    }
+  ],
+  "areas": {
+    "ft_t2_airfield_01_01_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [2000.0,0.0,0.00213623],
+        [0.0,1000.0,0.0],
+        [-0.000549316,0.0,1000.0],
+        [-22338.2,79.0606,22061.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1998.1,0.0,87.236],
+        [0.0,1000.0,0.0],
+        [-43.6188,0.0,999.048],
+        [-25358.6,95.0181,-20957.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [2000.0,0.0,-0.000244141],
+        [0.0,1000.0,0.0],
+        [0.000579834,0.0,1000.0],
+        [-23516.6,171.375,5777.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1931.85,0.0,517.643],
+        [0.0,1000.0,0.0],
+        [-258.819,0.0,965.926],
+        [-18033.8,106.875,-25507.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1998.09,0.0,87.2403],
+        [0.0,1000.0,0.0],
+        [-43.6201,0.0,999.048],
+        [-16739.2,0.0,10247.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1074.6,0.0,-1686.78],
+        [0.0,1000.0,0.0],
+        [843.391,0.0,537.3],
+        [-14936.0,-10.021,20173.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1952.59,0.0,432.881],
+        [0.0,1000.0,0.0],
+        [-216.44,0.0,976.296],
+        [-15161.6,113.2,-5662.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1732.05,0.0,-999.999],
+        [0.0,1000.0,0.0],
+        [500.0,0.0,866.025],
+        [20269.0,186.033,-23280.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [2000.01,0.0,0.00360107],
+        [0.0,1000.0,0.0],
+        [-0.000610352,0.0,1000.0],
+        [27691.8,102.7,16586.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1998.1,0.0,-87.236],
+        [0.0,1000.0,0.0],
+        [43.6188,0.0,999.048],
+        [25908.2,165.077,-3017.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1474.55,0.0,-1351.18],
+        [0.0,1000.0,0.0],
+        [675.59,0.0,737.277],
+        [19094.9,139.5,-9903.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1774.02,0.0,-923.498],
+        [0.0,1000.0,0.0],
+        [461.749,0.0,887.011],
+        [11722.5,135.3,-19896.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1998.09,0.0,87.2384],
+        [0.0,1000.0,0.0],
+        [-43.62,0.0,999.048],
+        [13459.7,152.905,5875.54]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1917.64,0.0,568.032],
+        [0.0,1000.0,0.0],
+        [-284.016,0.0,958.819],
+        [22008.6,150.7,12890.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20916.8,119.506,-23969.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [19008.0,186.093,-23148.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20465.0,217.735,-22092.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [19296.7,220.291,-22098.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [19463.8,190.158,-23605.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [19567.5,232.124,-22238.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [19867.1,170.039,-23809.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20528.3,148.89,-24299.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20428.3,198.196,-22700.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20525.5,187.788,-23027.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20034.8,186.178,-23397.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20515.0,170.997,-23565.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20592.0,181.826,-23254.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20023.4,189.244,-22986.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [26022.5,176.2,-1275.86]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [24149.4,160.727,-1984.06]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [25271.3,155.43,-4167.48]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [27120.3,158.446,-3180.55]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [26843.7,169.76,-2622.61]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [25849.4,173.154,-2304.99]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [24394.1,162.737,-2246.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [25538.3,156.911,-3175.77]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [26539.1,177.261,-3311.24]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [25167.1,149.361,-2848.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [25286.0,155.551,-3129.91]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [26258.1,175.056,-3171.98]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [26054.6,167.331,-2653.64]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [26510.9,179.82,-2885.76]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [25564.9,60.1297,17032.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [25754.0,161.643,15684.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27001.6,163.906,15626.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [26753.2,123.704,17482.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27493.4,103.658,17220.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [25877.9,113.951,16664.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [28793.5,144.138,17224.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [28338.5,141.684,15721.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27502.3,101.701,16229.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27990.6,104.088,16978.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [26898.5,127.752,16844.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27088.3,101.878,16524.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27674.3,105.427,16466.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [28210.9,124.531,16687.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [18221.9,143.381,-8358.18]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [17304.8,141.867,-8838.93]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [20224.4,61.4001,-10891.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [19874.3,115.349,-9701.56]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [20098.3,83.4454,-10138.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [18903.5,173.009,-10341.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [18290.9,165.294,-9763.66]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [18968.9,162.411,-9288.22]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [20569.4,34.202,-9878.89]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [19948.0,107.062,-10749.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [19476.9,155.384,-10206.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [19088.6,167.948,-9749.84]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [19145.2,172.876,-10240.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [18584.5,166.587,-9791.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [10281.0,151.18,-19680.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [10733.5,157.246,-18990.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [12065.6,158.249,-19031.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11673.9,165.388,-20883.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [12094.1,161.656,-20415.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [12022.6,136.007,-19623.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11481.0,145.405,-19386.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11664.4,161.865,-20070.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11644.2,148.225,-19594.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [12456.0,134.524,-20086.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11956.3,147.479,-19930.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11143.1,159.329,-19743.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11243.5,152.669,-19527.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11873.5,162.206,-20214.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.996195,0.0,-0.0871557],
+        [0.0,1.0,0.0],
+        [0.0871557,0.0,0.996195],
+        [12644.7,1.40665,885.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [12528.0,162.406,5151.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [14327.6,179.055,4467.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [12636.9,155.466,6707.73]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [14092.4,153.272,6450.83]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [14246.0,158.671,5399.26]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [13561.4,166.712,5229.13]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [12862.5,156.795,5353.21]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [13198.6,149.382,6292.46]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [13517.5,152.679,6178.56]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [12943.0,143.594,5726.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [13183.2,147.065,5989.34]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [13892.5,157.856,5760.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [14102.9,156.002,5974.01]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [20584.3,117.066,12248.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [20566.8,124.584,13107.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [23423.9,164.612,13509.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [23473.5,175.416,13140.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [22925.3,174.069,12870.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [21799.0,140.458,12481.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [21585.8,161.992,13024.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [21985.8,165.439,13156.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [22414.9,152.842,12572.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [22195.1,162.277,13121.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [22535.0,170.835,13167.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [22401.3,154.41,12851.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [21527.3,150.795,12574.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [21427.8,153.72,12834.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22440.6,13.8539,22819.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-20581.2,67.0869,21633.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-20845.9,70.0766,22627.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-21982.9,102.315,21088.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22467.5,95.2098,21333.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-23604.3,99.7612,21410.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22690.0,50.4299,22588.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-23041.2,102.176,21195.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-21479.2,100.214,21313.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-21533.8,97.7088,21904.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-21492.9,79.6382,22284.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22458.7,98.8186,21668.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22897.9,97.7726,21904.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22938.8,81.3439,22216.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-24442.7,71.9221,-21659.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-24068.9,105.051,-20650.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-24636.2,145.975,-20008.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25961.6,174.445,-19544.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25189.5,112.82,-21446.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25520.8,130.427,-21634.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25770.3,135.279,-21425.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-24451.5,88.214,-21264.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25231.9,121.894,-20654.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-26067.0,130.802,-20830.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25902.0,120.095,-21113.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25482.3,102.121,-21112.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-24828.5,120.939,-20790.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-24605.5,88.6544,-21061.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-22222.9,177.92,5379.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-22169.1,155.283,5830.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-23527.9,133.177,7184.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-22761.6,171.205,4929.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-22564.8,174.923,5438.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-24016.8,162.761,5469.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-22951.9,150.163,6300.42]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-24181.4,163.376,6372.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-22565.4,161.164,5693.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-23676.7,166.9,5498.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-23948.9,160.889,5734.37]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-23448.3,174.985,6034.79]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-22837.8,157.473,5764.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-23003.3,155.575,6027.54]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17048.4,133.45,-25996.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-16318.7,120.049,-25502.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17624.7,73.5648,-26390.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-19932.6,140.352,-25846.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17607.2,88.3774,-26120.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17381.2,116.272,-25920.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17033.8,147.509,-25673.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-18518.8,92.6693,-25492.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-18020.2,104.145,-25335.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17971.5,120.288,-25759.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17464.0,127.685,-25285.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-18528.2,93.6038,-25725.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-18235.2,110.838,-25711.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-18134.3,93.9465,-25451.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-17645.7,33.6177,11220.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-15750.7,67.0618,11898.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-14826.6,176.191,9685.32]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16928.7,183.443,8457.36]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16135.1,166.874,9919.46]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16910.4,191.7,9961.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-17335.6,176.236,10390.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16531.9,181.745,9890.55]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-17124.5,177.442,10424.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16430.4,176.434,10161.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16296.7,173.79,10435.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16871.8,191.231,10121.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-17356.3,187.575,10188.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16727.0,184.586,10420.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-13483.4,40.6033,19417.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14794.7,0.0,18563.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14109.4,64.9409,20841.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15270.0,111.716,21680.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15517.5,138.159,19931.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15097.2,119.72,20745.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14610.9,134.491,19986.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15355.8,145.017,19395.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15152.6,123.748,20245.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15456.0,109.76,20780.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15086.3,120.401,20588.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14991.8,135.413,19985.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14852.3,129.523,20283.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14556.0,137.509,19700.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-13617.3,25.9317,-4999.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14146.8,144.705,-5808.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14436.4,161.784,-6043.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15167.3,174.468,-5221.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-16134.5,150.683,-5935.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15176.1,151.235,-6421.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14666.1,147.9,-6168.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14607.0,152.968,-4993.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14978.5,172.518,-5850.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15160.9,173.722,-5512.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15635.7,163.128,-5923.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15466.3,165.972,-5659.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14589.8,177.465,-5757.55]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14620.8,170.644,-5435.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [25841.7,164.227,-3222.43]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_02_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [25915.0,164.599,-2871.29]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11777.4,147.622,-19725.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_02_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [11553.9,161.368,-20010.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27729.8,94.6584,16792.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_03_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.608761,0.0,0.793353],
+        [0.0,1.0,0.0],
+        [-0.793353,0.0,0.608761],
+        [27310.2,108.834,16551.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [18708.9,165.071,-9589.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [18881.1,166.475,-9672.34]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [19766.4,193.183,-23131.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_01_01_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.5,0.0,-0.866025],
+        [0.0,1.0,0.0],
+        [0.866025,0.0,0.5],
+        [20228.3,183.032,-23342.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [13636.1,157.057,5706.09]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_01_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.984808,0.0,0.173648],
+        [0.0,1.0,0.0],
+        [-0.173648,0.0,0.984808],
+        [13314.1,149.708,5963.08]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [22007.9,144.452,12748.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_02_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.961262,0.0,-0.275637],
+        [0.0,1.0,0.0],
+        [0.275637,0.0,0.961262],
+        [21925.4,162.013,12982.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22356.2,66.8017,22194.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_01_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.843391,0.0,-0.5373],
+        [0.0,1.0,0.0],
+        [0.5373,0.0,0.843391],
+        [-22400.1,89.1156,21882.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25301.7,105.387,-20849.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_02_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,0.67559],
+        [0.0,1.0,0.0],
+        [-0.67559,0.0,0.737277],
+        [-25796.0,109.164,-20876.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-23599.3,173.735,6124.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_01_03_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.92388,0.0,-0.382683],
+        [0.0,1.0,0.0],
+        [0.382683,0.0,0.92388],
+        [-23547.4,170.673,5778.47]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17700.4,131.747,-25377.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_01_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-17756.5,127.707,-25544.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16958.5,183.957,10380.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_02_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.887011,0.0,-0.461749],
+        [0.0,1.0,0.0],
+        [0.461749,0.0,0.887011],
+        [-16716.4,185.415,10154.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15218.5,118.737,20408.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_01_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-14560.0,135.384,19845.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15044.9,177.761,-5537.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_02_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.999048,0.0,0.0436194],
+        [0.0,1.0,0.0],
+        [-0.0436194,0.0,0.999048],
+        [-15211.5,170.834,-5837.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_center_area": {
+      "type": "Box",
+      "tm": [
+        [20000.0,0.0,-0.000976563],
+        [0.0,805.1,0.0],
+        [0.03125,0.0,83200.0],
+        [0.0,162.748,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1554.29,0.0,1258.64],
+        [0.0,1000.0,0.0],
+        [-629.321,0.0,777.145],
+        [16363.9,159.734,19787.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [17322.0,151.268,20258.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16289.5,104.722,20703.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [15320.8,163.279,19237.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [15955.0,171.546,18262.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [15837.5,154.559,19758.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16908.4,166.42,19790.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16171.2,179.232,19257.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [15500.7,164.832,19382.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [17094.9,152.204,20037.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16175.4,159.411,19763.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16705.2,156.402,19871.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16284.3,168.905,19538.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16630.2,129.231,20131.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [15844.4,184.973,19178.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [16046.7,177.323,19345.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_03_03_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [15794.0,167.787,19495.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_01_bomb_zone01": {
+      "type": "Box",
+      "tm": [
+        [1982.89,0.0,-261.052],
+        [0.0,1000.0,0.0],
+        [117.474,0.0,892.301],
+        [20400.0,114.823,2361.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [21463.0,156.249,2106.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [22018.5,171.253,2230.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [18877.4,181.117,2306.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [19056.8,192.267,2770.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20937.2,104.527,2913.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [19659.2,182.87,2907.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20619.6,81.3323,1885.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [19980.1,115.902,2132.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [19612.8,182.496,2640.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20439.4,117.478,2594.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20929.4,100.145,2180.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [21049.4,109.219,2434.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20141.5,126.235,2314.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20037.3,149.271,2580.95]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20635.4,91.4431,2206.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t1_airfield_02_03_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [20707.0,100.061,2489.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1586.7,0.0,1217.52],
+        [0.0,1000.0,0.0],
+        [-608.762,0.0,793.353],
+        [-12936.5,117.3,-20832.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12499.1,165.309,-20000.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12041.9,142.685,-20614.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13380.0,151.735,-21702.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13931.2,133.032,-21028.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12769.5,154.18,-20408.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12447.4,147.213,-20726.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12878.2,128.988,-21120.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13262.7,133.747,-20755.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13555.2,134.351,-21095.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13341.2,138.051,-21451.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13623.7,148.359,-21531.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12302.6,160.28,-20181.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13646.2,131.396,-20957.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12674.5,133.696,-21091.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13135.2,140.007,-20635.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_03_03_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13199.5,130.726,-21304.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_bomb_zone": {
+      "type": "Box",
+      "tm": [
+        [1998.09,0.0,-87.2366],
+        [0.0,1000.0,0.0],
+        [34.8945,0.0,799.239],
+        [-18282.1,113.785,-10490.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-17048.2,131.712,-10125.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-16857.5,137.736,-10647.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-18942.4,134.618,-10181.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_04": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-19374.2,138.048,-10661.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_05": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-18602.7,113.629,-10318.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_06": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-18556.6,130.829,-10594.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_07": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-17905.8,103.039,-10364.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_08": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-17535.5,128.92,-10381.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_09": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-17525.6,135.299,-10621.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_10": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-17969.5,128.399,-10638.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_11": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-18310.6,131.281,-10643.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_12": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-18902.1,135.517,-10563.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_13": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-17320.3,133.487,-10408.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_14": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-18801.0,121.688,-10330.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_15": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-18280.2,97.8516,-10347.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "ft_t2_airfield_02_03_spawn_16": {
+      "type": "Point",
+      "tm": [
+        [0.67559,0.0,0.737277],
+        [0.0,1.0,0.0],
+        [-0.737277,0.0,0.67559],
+        [-17880.0,135.486,-10703.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

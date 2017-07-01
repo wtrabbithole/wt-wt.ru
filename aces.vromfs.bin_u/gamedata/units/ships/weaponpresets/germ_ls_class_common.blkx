@@ -41,6 +41,9 @@
         "bullets": 2000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -94,7 +97,8 @@
       {
         "turret": {
           "head": "turret_h_01",
-          "gun": "mg_01"
+          "gun": "mg_01",
+          "gunnerDm": "gunner_01_dm"
         }
       },
       {
@@ -124,8 +128,10 @@
       "animatedEmitter": "bone_torpedo_01",
       "bullets": 1,
       "launchAnimVar": "anim_launch_torpedo_01",
-      "animLaunchTime": 3.0,
-      "launchTime": 1.4,
+      "animLaunchTime": 2.6,
+      "launchTime": 1.3,
+      "startSpeed": 2.0,
+      "useStartSpeed": true,
       "allowableDelta": 180.0,
       "barrelDP": "tt_01_dm",
       "breechDP": "torpedo_01_dm",
@@ -149,8 +155,10 @@
       "animatedEmitter": "bone_torpedo_02",
       "bullets": 1,
       "launchAnimVar": "anim_launch_torpedo_02",
-      "animLaunchTime": 3.0,
-      "launchTime": 1.4,
+      "animLaunchTime": 2.6,
+      "launchTime": 1.3,
+      "startSpeed": 2.0,
+      "useStartSpeed": true,
       "allowableDelta": 180.0,
       "barrelDP": "tt_02_dm",
       "breechDP": "torpedo_02_dm",

@@ -57,6 +57,12 @@
     "tailStartOffset": 10.0
   },
   {
+    "ikPilotMaxUpdateDistance": 60.0
+  },
+  {
+    "ikPilotMaxRenderDistance": 60.0
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -119,6 +125,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "1"
@@ -191,6 +200,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "2"
       },
       {
@@ -259,6 +271,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "3"
@@ -331,6 +346,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "4"
       },
       {
@@ -399,6 +417,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "5"
@@ -471,6 +492,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "6"
       },
       {
@@ -539,6 +563,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "7"
@@ -611,6 +638,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "8"
       },
       {
@@ -679,6 +709,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "9"
@@ -751,6 +784,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "10"
       },
       {
@@ -821,6 +857,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "11"
       },
       {
@@ -889,6 +928,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "12"
@@ -2480,6 +2522,14 @@
             "kill": true,
             "killEffect": "drown"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 5000.0,
+            "kill": true,
+            "killEffect": "destruction"
+          }
         }
       ],
       "cover_right_side": [
@@ -2497,6 +2547,14 @@
             "conditionPartsDead": 3,
             "kill": true,
             "killEffect": "drown"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 5000.0,
+            "kill": true,
+            "killEffect": "destruction"
           }
         }
       ]
@@ -4589,6 +4647,32 @@
               "yaw": [-160.0,160.0],
               "pitch": [-5.0,77.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-160.0,-55.0,-5.0,77.0],
+              "lim2": [-55.0,55.0,-3.0,77.0],
+              "lim3": [55.0,160.0,-5.0,77.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -4690,8 +4774,15 @@
           },
           {
             "limits": {
-              "yaw": [-75.0,75.0],
+              "yaw": [-140.0,140.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-140.0,-50.0,0.0,77.0],
+              "lim2": [-50.0,50.0,25.0,77.0],
+              "lim3": [50.0,140.0,0.0,77.0]
             }
           }
         ]
@@ -4794,8 +4885,15 @@
           },
           {
             "limits": {
-              "yaw": [-75.0,75.0],
+              "yaw": [-140.0,140.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-140.0,-50.0,0.0,77.0],
+              "lim2": [-50.0,50.0,25.0,77.0],
+              "lim3": [50.0,140.0,0.0,77.0]
             }
           }
         ]
@@ -4898,8 +4996,14 @@
           },
           {
             "limits": {
-              "yaw": [-160.0,160.0],
+              "yaw": [-120.0,170.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-120.0,20.0,25.0,77.0],
+              "lim2": [20.0,170.0,0.0,77.0]
             }
           }
         ]
@@ -5002,8 +5106,14 @@
           },
           {
             "limits": {
-              "yaw": [-160.0,160.0],
+              "yaw": [-120.0,170.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-120.0,20.0,25.0,77.0],
+              "lim2": [20.0,170.0,0.0,77.0]
             }
           }
         ]
@@ -5106,8 +5216,14 @@
           },
           {
             "limits": {
-              "yaw": [-160.0,160.0],
+              "yaw": [-170.0,120.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-170.0,-20.0,0.0,77.0],
+              "lim2": [-20.0,120.0,25.0,77.0]
             }
           }
         ]
@@ -5210,8 +5326,14 @@
           },
           {
             "limits": {
-              "yaw": [-160.0,160.0],
+              "yaw": [-170.0,120.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-170.0,-20.0,0.0,77.0],
+              "lim2": [-20.0,120.0,25.0,77.0]
             }
           }
         ]
@@ -5311,8 +5433,18 @@
           },
           {
             "limits": {
-              "yaw": [-160.0,160.0],
+              "yaw": [-167.0,167.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-167.0,-150.0,10.0,77.0],
+              "lim2": [-150.0,-13.0,0.0,77.0],
+              "lim3": [-13.0,13.0,15.0,77.0],
+              "lim4": [13.0,50.0,0.0,77.0],
+              "lim5": [50.0,76.0,50.0,77.0],
+              "lim6": [76.0,167.0,0.0,77.0]
             }
           }
         ]
@@ -5412,8 +5544,15 @@
           },
           {
             "limits": {
-              "yaw": [-160.0,160.0],
+              "yaw": [-164.0,164.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-164.0,-34.0,0.0,77.0],
+              "lim2": [-34.0,34.0,7.0,77.0],
+              "lim3": [34.0,164.0,0.0,77.0]
             }
           }
         ]
@@ -5696,10 +5835,10 @@
   },
   {
     "breaches": {
-      "repairSpeed": 1.0,
-      "waterMassVel": -400.0,
-      "waterMassMult": 20.0,
-      "sizeToRepair": [0.01,2.0,15.0,1500.0],
+      "repairSpeed": 0.75,
+      "waterMassVel": -200.0,
+      "waterMassMult": 25.0,
+      "sizeToRepair": [0.01,2.0,20.0,1500.0],
       "additionalWaterDeathThreshold": 800000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0

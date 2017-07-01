@@ -20,7 +20,7 @@
       "ChainfireTime": 3.0,
       "DelayAfterShoot": 3.0,
       "accuracyAir": 1.5,
-      "accuracyGnd": 1.0,
+      "accuracyGnd": 0.0,
       "errMeasureVel": 0.0,
       "errMeasureVelFast": 0.0,
       "errMeasureVelFwdShift": 0.0,
@@ -68,6 +68,32 @@
       "limits": {
         "yaw": [-180.0,180.0],
         "pitch": [-5.0,85.0]
+      },
+      "gunStabilizer": {
+        "hasVerticalGunFreeMode": false,
+        "hasHorizontal": true,
+        "horizontalOmegaMult": 1.0,
+        "horizontalSpeedLimitKPH": 75.0,
+        "hasVertical": true,
+        "verticalOmegaMult": 1.0,
+        "verticalSpeedLimitKPH": 75.0,
+        "errorKPHToDegrees": [
+          {
+            "row": [5.0,0.01]
+          },
+          {
+            "row": [25.0,0.03]
+          },
+          {
+            "row": [35.0,0.05]
+          },
+          {
+            "row": [45.0,0.1]
+          },
+          {
+            "row": [50.0,0.3]
+          }
+        ]
       }
     }
   },
@@ -92,7 +118,7 @@
       "ChainfireTime": 3.0,
       "DelayAfterShoot": 3.0,
       "accuracyAir": 1.5,
-      "accuracyGnd": 1.0,
+      "accuracyGnd": 0.0,
       "errMeasureVel": 0.0,
       "errMeasureVelFast": 0.0,
       "errMeasureVelFwdShift": 0.0,
@@ -119,6 +145,32 @@
       "limits": {
         "yaw": [-180.0,180.0],
         "pitch": [-5.0,85.0]
+      },
+      "gunStabilizer": {
+        "hasVerticalGunFreeMode": false,
+        "hasHorizontal": true,
+        "horizontalOmegaMult": 1.0,
+        "horizontalSpeedLimitKPH": 75.0,
+        "hasVertical": true,
+        "verticalOmegaMult": 1.0,
+        "verticalSpeedLimitKPH": 75.0,
+        "errorKPHToDegrees": [
+          {
+            "row": [5.0,0.01]
+          },
+          {
+            "row": [25.0,0.03]
+          },
+          {
+            "row": [35.0,0.05]
+          },
+          {
+            "row": [45.0,0.1]
+          },
+          {
+            "row": [50.0,0.3]
+          }
+        ]
       }
     }
   }

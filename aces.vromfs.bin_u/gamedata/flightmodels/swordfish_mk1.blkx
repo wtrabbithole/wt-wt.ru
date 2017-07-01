@@ -3,7 +3,7 @@
     "model": "swordfish_mk1"
   },
   {
-    "fmFile": "fm/swordfish_mk1"
+    "fmFile": "fm/swordfish_mk1.blk"
   },
   {
     "type": "typeBomber"
@@ -307,6 +307,12 @@
         }
       },
       "wood": {
+        "aileron1_l_dm": {
+          "hp": 54.1
+        },
+        "aileron1_r_dm": {
+          "hp": 54.1
+        },
         "cover3_dm": {
           "hp": 2.4
         },
@@ -317,6 +323,9 @@
           "hp": 2.9
         },
         "gunner2_dm": {
+          "hp": 20.8
+        },
+        "gunner3_dm": {
           "hp": 20.8
         }
       },
@@ -344,6 +353,120 @@
   },
   {
     "DamageEffects": [
+      {
+        "part": [
+          {
+            "name": "aileron1_l_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "aileron1_r_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
       {
         "part": [
           {
@@ -921,6 +1044,11 @@
       {
         "part": {
           "name": "gunner2_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "gunner3_dm"
         }
       },
       {
@@ -1742,7 +1870,6 @@
             "conditionDamageType": "generic",
             "cut": 1.0,
             "conditionDamage": 40.0,
-            "kill": true,
             "cutPart": "wing_l_dm"
           }
         }
@@ -1785,7 +1912,6 @@
             "conditionDamageType": "generic",
             "cut": 1.0,
             "conditionDamage": 40.0,
-            "kill": true,
             "cutPart": "wing_r_dm"
           }
         }
@@ -1863,7 +1989,6 @@
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 300.0,
-            "kill": true,
             "killEffect": "expl"
           }
         },
@@ -1872,7 +1997,6 @@
             "conditionDamageType": "explosion",
             "expl": 1.0,
             "conditionDamage": 25.0,
-            "kill": true,
             "killEffect": "expl"
           }
         }
@@ -1901,70 +2025,6 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis01"
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "throttle_lhand_1",
-          "flexionDir": [0.0,-1.0,0.2]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "stick_rhand_1",
-          "flexionDir": [0.0,-1.0,-0.5]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_1",
-          "flexionDir": [0.0,1.0,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_1",
-          "flexionDir": [0.0,1.0,-0.3]
-        }
-      }
-    ]
-  },
-  {
-    "ikPilot": [
-      {
-        "model": "pilot_raf_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis01"
-      },
-      {
-        "suffix": "3"
       },
       {
         "ikNode": {
@@ -2069,10 +2129,74 @@
     ]
   },
   {
+    "ikGunner": [
+      {
+        "model": "pilot_raf_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "suffix": "3"
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "throttle_lhand_",
+          "flexionDir": [0.0,-1.0,0.1]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "stick_rhand_",
+          "flexionDir": [0.0,-1.0,-0.1]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [0.0,1.0,-0.2]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [0.0,1.0,0.2]
+        }
+      }
+    ]
+  },
+  {
     "attach": {
       "pilot1": "pilot_raf_500",
-      "pilot2": "pilot_raf_500",
-      "gunner2": "gunner_sit_raf_500"
+      "gunner2": "gunner_sit_raf_500",
+      "gunner3": "gunner_sit_raf_500"
     }
   },
   {
@@ -2148,7 +2272,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunVikkersK.blk",
+          "blk": "gameData/Weapons/gunVikkersE.blk",
           "emitter": "flare1",
           "flash": "flare1",
           "dm": "mgun1_dm",
@@ -2182,10 +2306,7 @@
       {
         "preset": {
           "name": "swordfish_mk1_4x250lb",
-          "blk": "gameData/FlightModels/weaponPresets/swordfish_mk1_4x250lb.blk",
-          "tags": {
-            "free": true
-          }
+          "blk": "gameData/FlightModels/weaponPresets/swordfish_mk1_4x250lb.blk"
         }
       },
       {
@@ -2193,15 +2314,6 @@
           "name": "swordfish_mk1_torpedo",
           "blk": "gameData/FlightModels/weaponPresets/swordfish_mk1_torpedo.blk",
           "reqModification": "fairey_tc"
-        }
-      },
-      {
-        "preset": {
-          "name": "swordfish_mk1_default",
-          "blk": "gameData/FlightModels/weaponPresets/swordfish_mk1_default.blk",
-          "tags": {
-            "aux": true
-          }
         }
       }
     ]
@@ -2338,9 +2450,6 @@
       "structure_str": [],
       "303_turret_ap": [],
       "303_turret_api": [],
-      "303_universal": [],
-      "303_all_tracers": [],
-      "303_stealth": [],
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
@@ -2351,9 +2460,12 @@
         "reqModification": "bmg303_turret_belt_pack",
         "tier": 4
       },
-      "bmg303_belt_pack": [],
-      "vikkersK_new_gun": {
-        "reqModification": "bmg303_belt_pack"
+      "7_7mm_universal": [],
+      "7_7_all_tracers": [],
+      "7_7_stealth": [],
+      "type89_belt_pack": [],
+      "type97_new_gun": {
+        "reqModification": "type89_belt_pack"
       },
       "fairey_tc": {
         "modClass": "weapon",

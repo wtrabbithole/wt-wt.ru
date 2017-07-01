@@ -9,8 +9,8 @@
       "defaultPitch": 0.0,
       "barrelDP": "gun_barrel_dm",
       "breechDP": "cannon_breech_dm",
-      "speedYaw": 17.0,
-      "speedPitch": 35.0,
+      "speedYaw": 20.0,
+      "speedPitch": 6.0,
       "fireConeAngle": 1.0,
       "bullets": 40,
       "salvoAmount": 100.0,
@@ -41,14 +41,33 @@
       },
       "limits": {
         "yaw": [-180.0,180.0],
-        "pitch": [-4.5,31.0]
+        "pitch": [-4.0,30.0]
       },
-      "limitsTable": {
-        "lim1": [-180.0,-160.0,-3.5,31.0],
-        "lim2": [-160.0,-130.0,10.0,31.0],
-        "lim3": [-130.0,140.0,-4.5,31.0],
-        "lim4": [140.0,170.0,10.0,31.0],
-        "lim5": [170.0,180.0,-3.5,31.0]
+      "gunStabilizer": {
+        "hasVerticalGunFreeMode": false,
+        "hasHorizontal": true,
+        "horizontalOmegaMult": 1.0,
+        "horizontalSpeedLimitKPH": 75.0,
+        "hasVertical": true,
+        "verticalOmegaMult": 1.0,
+        "verticalSpeedLimitKPH": 75.0,
+        "errorKPHToDegrees": [
+          {
+            "row": [5.0,0.01]
+          },
+          {
+            "row": [25.0,0.03]
+          },
+          {
+            "row": [35.0,0.05]
+          },
+          {
+            "row": [45.0,0.1]
+          },
+          {
+            "row": [50.0,0.3]
+          }
+        ]
       }
     }
   },
@@ -92,5 +111,15 @@
         "pitch": [-0.0,0.0]
       }
     }
+  },
+  {
+    "hideNodes": [
+      {
+        "node": "ex_decor_l_06"
+      },
+      {
+        "node": "ex_decor_r_05"
+      }
+    ]
   }
 ]

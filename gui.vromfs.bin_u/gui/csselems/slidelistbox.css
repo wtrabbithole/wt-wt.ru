@@ -1,0 +1,342 @@
+SlideListBox,SlideListBoxOptions
+{
+  behaviour:listbox+slide;
+    re-type:SlideListBox;
+  font:normal;
+  border:no;
+  border-color:@transparent;
+  
+  tabStop:yes;
+  slide-time:100;
+  flow:horizontal;
+  font:@small;
+}
+
+SlideListBoxOptions {
+  width:0.3sw;
+  height:50*@sf/@pf;
+}
+
+SlideListBoxButton {
+  re-type:9rect;
+  behaviour:button;
+  tabStop:yes;
+  background-color:@controlColor;
+  background-position:0;
+  background-repeat:expand;
+  size:3.5*@scrn_tgt/100.0,3.5*@scrn_tgt/100.0;
+  snd_click:click;
+  pc_style:yes;
+}
+[show_console_buttons=yes] SlideListBoxButton {
+  pc_style:no;
+}
+
+SlideListBoxButton SlideListBoxButton#left {
+  background-image:#ui/gameuiskin#SpinnerListBox_arrow_left;
+}
+
+SlideListBoxButton SlideListBoxButton#right {
+  background-image:#ui/gameuiskin#SpinnerListBox_arrow_right;
+}
+
+SlideListBoxButton#up {
+  background-image:#ui/gameuiskin#SpinnerListBox_arrow_up;
+  margin-top:0.5*@scrn_tgt/100.0;
+}
+
+SlideListBoxButton#down {
+  background-image:#ui/gameuiskin#SpinnerListBox_arrow_down;
+  margin-bottom:0.5*@scrn_tgt/100.0;
+}
+
+HangarSliderListBox {
+  behaviour:listbox+slide;
+  re-type:SlideListBox;
+  disable_wheel:yes;
+  border:no;
+  font:@normal;
+  re-type:9rect;
+  background-position:0,6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#option_select;
+  background-color:@white;
+  slide-time:400;
+  snd_select:choose;
+}
+
+HangarSliderListBox SlideListBoxButton#left {
+  background-image:#ui/gameuiskin#SpinnerListBox_arrow_left;
+  margin-left:2.5*@scrn_tgt/100.0;
+}
+
+HangarSliderListBox SlideListBoxButton#right {
+  background-image:#ui/gameuiskin#SpinnerListBox_arrow_right;
+  margin-right:2.5*@scrn_tgt/100.0;
+}
+
+[activeAccesskeys=RLB] SlideListBoxButton[pc_style=no] {
+  size:5*@scrn_tgt/100.0, 5*@scrn_tgt/100.0;
+  background-color:@white;
+  background-image:#ui/controlskin#l_shoulder;
+}
+
+[activeAccesskeys=RLB] SlideListBoxButton#right[pc_style=no] {
+  background-image:#ui/controlskin#r_shoulder;
+}
+[activeAccesskeys=RLB] SlideListBoxButton#right:pushed[pc_style=no] {
+  background-image:#ui/controlskin#r_shoulder_pressed;
+}
+[activeAccesskeys=RLB] SlideListBoxButton#left:pushed[pc_style=no] {
+  background-image:#ui/controlskin#l_shoulder_pressed;
+}
+
+SlideListBoxButton:disabled {
+  background-color:@transparent;
+}
+
+
+HangarSliderListBox option {
+  re-type:9rect;
+  font:@normal;
+  min-width: (p.p.w)/5;
+  padding:3*@scrn_tgt/100.0,0;
+  color:@commonTextColor;
+  css-hier-invalidate:yes;
+}
+
+HangarSliderListBox option[narrow] {
+  min-width: (p.p.w)/5;
+}
+
+HangarSliderListBox option:hover {
+  color:@hoverTextColor;
+}
+
+HangarSliderListBox option:current {
+  color:@activeTextColor;
+  re-type:9rect;
+  font:@big;
+  background-repeat:expand;
+}
+
+HangarDecalImg {
+  size:80%pw,75%ph;
+  background-color:@white;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:relative;
+  input-transparent:yes;
+}
+
+:hover > HangarDecalImg {
+  size:95%pw,90%ph;
+}
+
+:current HangarDecalImg {
+  size:pw,95%ph;
+}
+
+
+HorizontalListBox, VerticalListBox{
+  behaviour:select;
+  re-type:select;
+  re-type:9rect;
+  background-position:6,6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#selectbox_bg;
+  background-color:@white;
+  snd_select:choose;
+  snd_set_focus:focus;
+  snd_dbl_click:click;
+  need_flow:yes;
+}
+
+HorizontalListBox[flow] {
+  need_flow:no;
+}
+
+HorizontalListBox[need_flow=yes] {
+  flow:horizontal;
+}
+
+VerticalListBox {
+  flow:vertical;
+  background-color:@transparent;
+}
+
+VerticalListBox.options {
+  height:0.05@scrn_tgt;
+  width:pw;
+}
+
+HorizontalListBox.tabs {
+  background-position:5,6;
+  background-image:#ui/gameuiskin#tab_line;
+}
+
+HorizontalListBox.tabs[invertImages=yes],
+HorizontalListBox.header {
+  background-color:@transparent;
+}
+
+HorizontalListBox.options {
+  height:0.7ph-6*@sf/@pf;
+}
+
+HorizontalListBox.choice3 {
+  background-color:@transparent;
+}
+
+HorizontalListBox.hflow {
+  flow:h-flow;
+  min-height:4*@scrn_tgt/100.0;
+}
+
+groupBox, groupList {
+  behaviour:select;
+  re-type:select;
+  re-type:9rect;
+  flow:vertical;
+  snd_select:choose;
+  snd_set_focus:focus;
+  snd_dbl_click:click;
+  navigatorShortcuts:full;
+  mouse-focusable:yes;
+}
+groupBox {
+  background-position:6,6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#selectbox_bg;
+  background-color:@white;
+  padding:0,2*@sf/@pf;
+}
+
+groupBox > group {
+  width:pw-2*@sf/@pf;
+  height:@groupHeight;
+  pos:50%pw-50%w;
+  position:relative;
+  flow:vertical;
+  css-hier-invalidate:yes;
+}
+
+groupBox > group:current {
+  height:fh;
+}
+
+group > activeText {
+  size:pw, @groupHeight;
+  re-type:9rect;
+  background-image:#ui/gameuiskin#button_;
+  background-color:@white;
+  background-position:5;
+  background-repeat:expand;
+  padding:4*@sf/@pf,2*@sf/@pf;
+  pare-text:yes;
+  text-align:left;
+  input-transparent:yes;
+}
+group:hover > activeText {
+  background-image:#ui/gameuiskin#button_hover;
+}
+group:current > activeText {
+  background-image:#ui/gameuiskin#button_active;
+}
+
+groupList {
+  size:pw, fh;
+  overflow-y:auto;
+  flow:vertical;
+  tinyFont:yes;
+  padding:2*@sf/@pf;
+}
+group > groupList {
+  display:hide;
+}
+group:current > groupList {
+  display:show;
+}
+
+groupList > text {
+  height:@sIco + 2*@sf/@pf;
+  width:pw;
+  pare-text:yes;
+  text-align:left;
+  padding:@sIco+3*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+  css-hier-invalidate:yes;
+}
+groupList[imgType=none] > text {
+  padding:1*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+}
+groupList[imgType=1ico] > text, groupList > text[imgType=1ico] {
+  padding:1h+2*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+}
+groupList[imgType=2ico] > text, groupList > text[imgType=2ico] {
+  padding:2h+4*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+}
+groupList[imgType=3ico] > text, groupList > text[imgType=3ico] {
+  padding:3h+5*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+}
+
+groupList > text:current {
+  color:@activeTextColor;
+  background-color:@contactSelColor;
+}
+[show_console_buttons=yes] :focus > group:current > activeText,
+[show_console_buttons=yes] groupList:focus > text:current {
+  re-type:9rect;
+  foreground-color: @gamepadFocusFrameColor;
+  foreground-image: #ui/gameuiskin#item_selection;
+  foreground-position: 6;
+  foreground-repeat: expand;
+}
+
+groupList > text > img,
+groupList > text > img2,
+groupList > text > voiceIcon {
+  size:@sIco, @sIco;
+  pos:50%ph-50%h, 50%ph-50%h;
+  position:absolute;
+}
+
+groupList > text > img2 {
+  pos:w+1*@sf/@pf, 0;
+}
+
+groupList > text[imgType=3ico] > voiceIcon {
+  pos: 2w+2*@sf/@pf, 0;
+}
+
+groupList > textAreaCentered {
+  width:pw;
+}
+groupIns {
+  width:pw;
+  input-transparent:yes;
+  padding:2*@sf/@pf;
+  css-hier-invalidate:yes;
+}
+group > groupIns {
+  display:hide;
+}
+group:current > groupIns {
+  display:show;
+}
+groupIns > EditBox {
+  width:fw;
+  class:showAlways;
+  mouse-focusable:yes;
+}
+group > groupIns > EditBox {
+  enable:no;
+}
+group:current > groupIns > EditBox {
+  enable:yes;
+}
+groupList[contacts_group_list=yes] > text {
+  height:30*@sf/@pf;
+}
+
+groupList[contacts_group_list=yes] > text > img {
+  pos:3*@sf/@pf, 50%ph-50%h;
+}
