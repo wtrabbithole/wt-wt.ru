@@ -1,0 +1,206 @@
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 0.1,
+  "aimMaxDist": 2000.0,
+  "maxDeltaAngle": 0.06,
+  "maxDeltaAngleVertical": 0.07,
+  "shotFreq": 0.067,
+  "traceFreq": 4,
+  "bEnablePause": false,
+  "bullets": -1,
+  "bulletsCluster": 1,
+  "fxType": "big_gun_mb_flame",
+  "fxGroundDust": "ground_shock_wave_dust",
+  "shouldCollideWithRendinsts": true,
+  "sound_path": "tanks/weapon_tanks/cannons",
+  "sound": "120mm_m58",
+  "sound_inside": "120mm_m58_interior",
+  "sfxReloadBullet": "grd_cannon_reload",
+  "fxMultipleSpawn": true,
+  "isBulletBelt": false,
+  "bullet": {
+    "bulletCount": 25,
+    "mass": 23.1,
+    "caliber": 0.12,
+    "speed": 1067.0,
+    "maxDistance": 10000.0,
+    "bulletType": "ap_tank",
+    "bulletName": "120mm_m358",
+    "hitPowerMult": 400.0,
+    "onHitChanceMultExplFuel": 0.1,
+    "relativeVelHitShift": [300.0,1000.0],
+    "armorFragmentsDamage": true,
+    "armorFragmentsDamageRadius": 5.5,
+    "armorFragmentsDamageAngle": 30.0,
+    "armorFragmentsAmount": 170,
+    "armorFragmentsArmorPower": 11.0,
+    "armorFragmentsHit": 12.0,
+    "groundCollisionEffect": "big_ground_splash",
+    "groundFxScale": [1.1,1.2],
+    "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "big_water_splash",
+    "hitpower": {
+      "HitPower0m": [0.85,500.0],
+      "HitPower10000m": [0.8,10000.0]
+    },
+    "armorpower": {
+      "ArmorPower0m": [281.0,10.0],
+      "ArmorPower100m": [280.0,100.0],
+      "ArmorPower250m": [275.0,250.0],
+      "ArmorPower500m": [265.0,500.0],
+      "ArmorPower750m": [257.0,750.0],
+      "ArmorPower1000m": [248.0,1000.0],
+      "ArmorPower1250m": [241.0,1250.0],
+      "ArmorPower1500m": [233.0,1500.0],
+      "ArmorPower1750m": [226.0,1750.0],
+      "ArmorPower2000m": [218.0,2000.0],
+      "ArmorPower2500m": [204.0,2500.0],
+      "ArmorPower3000m": [191.0,3000.0],
+      "ArmorPower4000m": [115.0,4000.0],
+      "ArmorPower10000m": [22.0,10000.0]
+    },
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "30mmWhite",
+      "trail": "black"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_light"
+      },
+      "armor": {
+        "fx": "cannon_hit_armor"
+      }
+    }
+  },
+  "120mm_usa_M356_HE": {
+    "bullet": {
+      "bulletCount": 25,
+      "mass": 22.84,
+      "explosiveType": "comp_b",
+      "explosiveMass": 3.55,
+      "caliber": 0.12,
+      "speed": 762.0,
+      "maxDistance": 10000.0,
+      "bulletType": "he_frag_tank",
+      "bulletName": "120mm_m356",
+      "hitPowerMult": 40.0,
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [45.0,150.0],
+      "midArmorPower": [44.0,600.0],
+      "farArmorPower": [43.0,2000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "fuseDelayDist": 0.1,
+      "explodeTreshold": 0.1,
+      "explodeHitPower": 500.0,
+      "explodeArmorPower": 42.0,
+      "explodeRadius": [0.3,1.1],
+      "explosionPatchRadius": 2.1,
+      "shutterDamage": true,
+      "shutterDamageRadius": 42.0,
+      "shutterAmount": 1000,
+      "shutterArmorPower": 10.0,
+      "shutterHit": 10.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "defFxScale": [1.9,2.0],
+      "hitpower": {
+        "HitPower0m": [1.0,500.0],
+        "HitPower1000m": [0.9,1000.0],
+        "HitPower1500m": [0.65,1500.0],
+        "HitPower2500m": [0.5,2500.0],
+        "HitPower10000m": [0.0,10000.0]
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "30mmWhite",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [3.0,4.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [3.0,4.0]
+        }
+      }
+    }
+  },
+  "120mm_usa_M469_HEAT": {
+    "bullet": {
+      "bulletCount": 25,
+      "mass": 23.81,
+      "explosiveType": "comp_b",
+      "explosiveMass": 2.04,
+      "caliber": 0.12,
+      "speed": 1143.0,
+      "maxDistance": 7000.0,
+      "bulletType": "heat_fs_tank",
+      "bulletName": "120mm_m469",
+      "hitPowerMult": 20.0,
+      "relativeVelHitShift": [300.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.1,
+      "explodeHitPower": 200.0,
+      "explodeArmorPower": 18.0,
+      "explodeRadius": [0.4,1.0],
+      "explosionPatchRadius": 1.1,
+      "shutterDamage": true,
+      "shutterDamageRadius": 16.4,
+      "shutterAmount": 200,
+      "shutterArmorPower": 5.0,
+      "shutterHit": 8.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "groundFxScale": [1.4,1.5],
+      "hitpower": {
+        "HitPower0m": [1.0,500.0],
+        "HitPower1000m": [0.9,1000.0],
+        "HitPower1500m": [0.65,1500.0],
+        "HitPower2500m": [0.5,2500.0],
+        "HitPower7000m": [0.0,7000.0]
+      },
+      "armorpower": {
+        "ArmorPower0m": [2.0,10.0],
+        "ArmorPower7000m": [1.0,7000.0]
+      },
+      "cumulativeDamage": {
+        "armorPower": 380.0,
+        "distance": 4.5,
+        "damage": 400.0,
+        "onHitChanceMultFire": 30.0,
+        "cumulativeFragmentsDamageRadius": 3.5,
+        "cumulativeFragmentsDamageAngle": 15.0,
+        "cumulativeFragmentsAmount": 45,
+        "cumulativeFragmentsArmorPower": 6.0,
+        "cumulativeFragmentsHit": 9.0
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "30mmWhite",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,3.5]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,3.5]
+        }
+      }
+    }
+  }
+}

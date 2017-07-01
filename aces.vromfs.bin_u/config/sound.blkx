@@ -1,0 +1,3545 @@
+{
+  "maxChannels": 64,
+  "maxSoftwareChannels": 64,
+  "memoryPC": 175,
+  "memoryPCLowMode": 140,
+  "cockpitVolumeMultMinValue": 0.1,
+  "FmEngineAi": "engine_ai",
+  "FmBomberEngineAi": "engine_bomber_ai",
+  "FmJetEngineAi": "engine_jet_ai",
+  "timeToRandomChatMin": 4.0,
+  "timeToRandomChatMax": 8.0,
+  "volumeGunDownLimit": 0.7,
+  "volumeGunDownTransitionSpeed": 0.2,
+  "volumeGunUpTransitionSpeed": 0.2,
+  "dialogsVolumeDownLimit": 0.4,
+  "dialogsVolumeDownSpeed": 0.4,
+  "dialogsVolumeUpSpeed": 0.1,
+  "hangar_sound": "hangar_outside",
+  "hangar_sound_tanks": "hangar_tanks",
+  "hangar_sound_ships": "hangar_ships",
+  "hangar_sound_globe": "hangar_outside",
+  "moveListenerPosInCutscenesByFovK": 15.0,
+  "dialogsProjectName0": "dialogs_",
+  "budget": {
+    "dsp": 5,
+    "sound": 100
+  },
+  "misc_effects": {
+    "path": "sounds/effects",
+    "pathAI": "sounds/effects/ai",
+    "pathTanks": "tanks/effects_tanks",
+    "pathAITanks": "tanks/effects_tanks/ai",
+    "pathShips": "ships/effects_ships",
+    "pathAIShips": "ships/effects_ships/ai",
+    "eventBulletHitGround": "bullethit_ground",
+    "eventBulletHitWater": "bullethit_water",
+    "eventBulletPassBy": "bullet_passby",
+    "eventPropDead": "prop_dead",
+    "eventPropDeadWater": "prop_dead_water",
+    "eventGunOverheat": "gun_overheat_final",
+    "eventGunOverheatLow": "gun_overheat_low",
+    "eventGunOverheatHigh": "gun_overheat_high",
+    "eventBulletHitOutside": "bullethit_camera",
+    "eventBulletHitCockpit": "bullethit_cockpit",
+    "eventBulletHitCockpitMetal": "bullethit_cockpit_metal",
+    "eventBulletHitCockpitGlass": "bullethit_cockpit_glass",
+    "eventBulletHitUnit": "bullethit_unit",
+    "eventBulletHitTankMgun": "hit_mgun",
+    "eventBulletHitTankMgunCockpit": "hit_mgun_interior",
+    "eventBulletHitTankMgunUnpierce": "hit_mgun",
+    "eventBulletHitTankMgunCockpitUnpierce": "hit_mgun_interior",
+    "eventBulletHitTankSmall": "hit_small",
+    "eventBulletHitTankSmallCockpit": "hit_small_interior",
+    "eventBulletHitTankSmallUnpierce": "hit_small_unpierce",
+    "eventBulletHitTankSmallCockpitUnpierce": "hit_small_interior_unpierce",
+    "eventBulletHitTankMid": "hit_mid",
+    "eventBulletHitTankMidCockpit": "hit_mid_interior",
+    "eventBulletHitTankMidUnpierce": "hit_mid_unpierce",
+    "eventBulletHitTankMidCockpitUnpierce": "hit_mid_interior_unpierce",
+    "eventBulletHitTankBig": "hit_big",
+    "eventBulletHitTankBigCockpit": "hit_big_interior",
+    "eventBulletHitTankBigUnpierce": "hit_big_unpierce",
+    "eventBulletHitTankBigCockpitUnpierce": "hit_big_interior_unpierce",
+    "eventBulletHitHETankSmall": "hit_he_small",
+    "eventBulletHitHETankSmallCockpit": "hit_he_small_interior",
+    "eventBulletHitHETankSmallUnpierce": "hit_he_small_unpierce",
+    "eventBulletHitHETankSmallCockpitUnpierce": "hit_he_small_interior_unpierce",
+    "eventBulletHitHETankMid": "hit_he_mid",
+    "eventBulletHitHETankMidCockpit": "hit_he_mid_interior",
+    "eventBulletHitHETankMidUnpierce": "hit_he_mid_unpierce",
+    "eventBulletHitHETankMidCockpitUnpierce": "hit_he_mid_interior_unpierce",
+    "eventBulletHitHETankBig": "hit_he_big",
+    "eventBulletHitHETankBigCockpit": "hit_he_big_interior",
+    "eventBulletHitHETankBigUnpierce": "hit_he_big_unpierce",
+    "eventBulletHitHETankBigCockpitUnpierce": "hit_he_big_interior_unpierce",
+    "eventBulletHitAPHETankSmall": "hit_aphe_small",
+    "eventBulletHitAPHETankSmallCockpit": "hit_aphe_small_interior",
+    "eventBulletHitAPHETankSmallUnpierce": "hit_aphe_small_unpierce",
+    "eventBulletHitAPHETankSmallCockpitUnpierce": "hit_aphe_small_interior_unpierce",
+    "eventBulletHitAPHETankMid": "hit_aphe_mid",
+    "eventBulletHitAPHETankMidCockpit": "hit_aphe_mid_interior",
+    "eventBulletHitAPHETankMidUnpierce": "hit_aphe_mid_unpierce",
+    "eventBulletHitAPHETankMidCockpitUnpierce": "hit_aphe_mid_interior_unpierce",
+    "eventBulletHitAPHETankBig": "hit_aphe_big",
+    "eventBulletHitAPHETankBigCockpit": "hit_aphe_big_interior",
+    "eventBulletHitAPHETankBigUnpierce": "hit_aphe_big_unpierce",
+    "eventBulletHitAPHETankBigCockpitUnpierce": "hit_aphe_big_interior_unpierce",
+    "eventBulletHitHEATTankSmall": "hit_heat_small",
+    "eventBulletHitHEATTankSmallCockpit": "hit_heat_small_interior",
+    "eventBulletHitHEATTankSmallUnpierce": "hit_heat_small_unpierce",
+    "eventBulletHitHEATTankSmallCockpitUnpierce": "hit_heat_small_interior_unpierce",
+    "eventBulletHitHEATTankMid": "hit_heat_mid",
+    "eventBulletHitHEATTankMidCockpit": "hit_heat_mid_interior",
+    "eventBulletHitHEATTankMidUnpierce": "hit_heat_mid_unpierce",
+    "eventBulletHitHEATTankMidCockpitUnpierce": "hit_heat_mid_interior_unpierce",
+    "eventBulletHitHEATTankBig": "hit_heat_big",
+    "eventBulletHitHEATTankBigCockpit": "hit_heat_big_interior",
+    "eventBulletHitHEATTankBigUnpierce": "hit_heat_big_unpierce",
+    "eventBulletHitHEATTankBigCockpitUnpierce": "hit_heat_big_interior_unpierce",
+    "eventBulletHitTankTracks": "hit_treads",
+    "eventBulletHitTankTracksCockpit": "hit_treads_interior",
+    "eventBulletHitTankRicochet": "rico",
+    "eventBulletHitTankRicochetCockpit": "rico_interior",
+    "eventTankRepairTracks": "track_repair",
+    "eventTankRepairTracksCockpit": "track_repair",
+    "eventTankGearShift": "transmission",
+    "eventTankArtilleryFire": "art_fire",
+    "eventTankExtinguisher": "extinguisher",
+    "eventTankCollisionUnit": "collision_tank",
+    "eventTankCollisionTree": "collision_tree",
+    "eventTankCollisionRocks": "collision_rocks",
+    "eventTankCollisionBuilding": "collision_building",
+    "eventTankCollisionWood": "collision_wood",
+    "eventTankCollisionBushes": "collision_bushes",
+    "eventTankKillSceneBulletFlyStart": "killscene/shell_flight",
+    "eventTankKillSceneBulletFlyEnd": "",
+    "eventTankKillScenePierce": "killscene/pierce",
+    "eventTankKillSceneDissolve": "killscene/xray_on",
+    "eventTankKillSceneBulletHit": "killscene/rico",
+    "eventTankKillSceneBulletDamage": "killscene/rico_damage",
+    "eventTankKillSceneExplosion": "killscene/blast",
+    "eventTankKillSceneBulletExplosion": "killscene/shell_explosion",
+    "eventTankKillSceneFireStart": "killscene/module_fire",
+    "eventTankWinchActivate": "select_tross",
+    "eventTankWinchAttach": "tross_on",
+    "eventTankWinchDetach": "tross_off",
+    "eventTankMisfire": "track_repair",
+    "eventTreeCollision": "tree_collision",
+    "eventWaterCollision": "water_collision",
+    "eventGroundCollisionJump": "ground_collision",
+    "eventWind": "plane_passby",
+    "eventWindJet": "jet_plane_passby",
+    "eventWreck": "wreck_explosion",
+    "eventPlayerWind": "wind",
+    "eventStuntPerformed": "bonus",
+    "eventToogleSwitch": "light_switch",
+    "eventTorpedoLaunch": "torpedo_launch",
+    "eventTorpedoSplash": "torpedo_splash",
+    "eventJumpOutParachute": "jump_out_parachute",
+    "lowGroundEffect": "low_ground",
+    "eventMetalImpact": "rattle05/metalimpact",
+    "eventCutDecor": "part_bounced",
+    "bulletPassByRadius": 80.0,
+    "aircraftPassByTreshold": 90.0,
+    "eventBulletHitShipMgun": "hit_mgun",
+    "eventBulletHitShipSmall": "hit_small",
+    "eventBulletHitShipMid": "hit_mid",
+    "eventBulletHitShipBig": "hit_big",
+    "eventShipCollisionUnit": "collision_ship",
+    "eventShipWaterSplashes": "collision_water",
+    "eventShipDropBomb": "bomb_drop",
+    "windAcelerateSpeed": 0.1,
+    "windTransitionSpeed": 0.1,
+    "windBackSpeed": 0.3,
+    "windSpeedTreshold": 100.0,
+    "tinnitusDuration": 1.0,
+    "tinnitusDSPDuration": 5.0
+  },
+  "explosions": {
+    "path": "sounds/explosions",
+    "explosion_ground": "explosion_ground",
+    "explosion_water": "explosion_water",
+    "explosion_air": "explosion_air",
+    "explosion_building": "explosion_building",
+    "explosion_unit": "explosion_unit",
+    "explosion_ship": "explosion_unit",
+    "heavy_explosion_ground": "heavy_explosion_ground",
+    "heavy_explosion_water": "heavy_explosion_water",
+    "heavy_explosion_air": "heavy_explosion_air",
+    "heavy_explosion_building": "heavy_explosion_building",
+    "heavy_explosion_unit": "heavy_explosion_unit",
+    "heavy_explosion_ship": "heavy_explosion_unit",
+    "bomb_explosion_ground": "bomb_explosion_ground",
+    "bomb_explosion_water": "bomb_explosion_water",
+    "bomb_explosion_air": "heavy_explosion_air",
+    "bomb_explosion_building": "heavy_explosion_building",
+    "bomb_explosion_unit": "heavy_explosion_unit",
+    "bomb_explosion_ship": "heavy_explosion_unit",
+    "torpedo_explosion_ground": "torpedo_explosion_unit",
+    "torpedo_explosion_water": "torpedo_explosion_unit",
+    "torpedo_explosion_air": "torpedo_explosion_unit",
+    "torpedo_explosion_building": "torpedo_explosion_unit",
+    "torpedo_explosion_unit": "torpedo_explosion_unit",
+    "torpedo_explosion_ship": "torpedo_explosion_unit",
+    "plane_explosion_air": "parts_explosion",
+    "plane_explosion_water": "plane_explosion_water",
+    "explosion_big_ship": "explosion_naval"
+  },
+  "hud": {
+    "path": "sounds/gui",
+    "alarm_incoming": "alarm_incoming",
+    "alarm_alt": "alarm_alt",
+    "ammo_reloading": "ammo_reloading",
+    "ammo_ready": "ammo_ready",
+    "no_bullets": "no_bullets",
+    "no_rockets": "no_rockets",
+    "gun_broken": "gun_broken",
+    "switch_weapon": "switch_weapon",
+    "change_cam": "change_cam",
+    "sound_zoom_in": "change_fov_on",
+    "sound_zoom_out": "change_fov_off",
+    "hit_indicator": "click",
+    "text_type": "text",
+    "enemy_damaged": "obj_complete"
+  },
+  "rocket_effects": {
+    "hellfire": {
+      "path": "sounds/guns",
+      "ai": "apache_hellfire_launch_ai",
+      "outside": "apache_hellfire_launch_outside",
+      "inside": "apache_hellfire_launch_inside"
+    },
+    "hydra": {
+      "path": "sounds/guns",
+      "ai": "apache_hydra_launch_ai",
+      "outside": "apache_hydra_launch_outside",
+      "inside": "apache_hydra_launch_inside"
+    },
+    "stinger": {
+      "path": "sounds/guns",
+      "ai": "apache_stinger_launch_ai",
+      "outside": "apache_stinger_launch_outside",
+      "inside": "apache_stinger_launch_inside"
+    },
+    "flare": {
+      "path": "sounds/guns",
+      "ai": "apache_flares_ai",
+      "outside": "apache_flares_outside",
+      "inside": "apache_flares_inside"
+    }
+  },
+  "vibration": {
+    "path": "sounds/common",
+    "eventOutside": "vibration_camera",
+    "eventCockpitOpen": "vibration_cockpit_open",
+    "eventOutsideLand": "vibration_land_camera",
+    "eventCockpitLand": "vibration_land_cockpit"
+  },
+  "cockpit_occlusion": {
+    "directOcclusion": 1.0,
+    "reverbOcclusion": 1.0,
+    "size": [10.0,10.0,10.0]
+  },
+  "dsp_default": {
+    "cutoff": 22000.0,
+    "resonance": 1.0
+  },
+  "dsp_outside": {
+    "cutoff": 22000.0,
+    "resonance": 1.0
+  },
+  "dsp_cockpit": {
+    "cutoff": 6500.0,
+    "resonance": 1.0,
+    "volume": 0.7,
+    "pitch": 0.0
+  },
+  "dsp_overload": {
+    "cutoff": 3000.0,
+    "resonance": 1.0
+  },
+  "dsp_tinnitus": {
+    "cutoff": 3000.0,
+    "resonance": 1.0,
+    "speed": 0.75
+  },
+  "reverb": {
+    "field": "field",
+    "cockpit": "cockpit"
+  },
+  "engines": {
+    "lods": {
+      "lod_0": {
+        "radius": 200.0,
+        "maxSounds": 1
+      },
+      "lod_1": {
+        "radius": 1000.0,
+        "maxSounds": 3
+      }
+    }
+  },
+  "tank_engines": {
+    "lods": {
+      "lod_0": {
+        "radius": 50.0,
+        "maxSounds": 1
+      },
+      "lod_1": {
+        "radius": 100.0,
+        "maxSounds": 3
+      }
+    }
+  },
+  "tracks": {
+    "lods": {
+      "lod_0": {
+        "radius": 20.0,
+        "maxSounds": 1
+      },
+      "lod_1": {
+        "radius": 50.0,
+        "maxSounds": 2
+      }
+    }
+  },
+  "guns": {
+    "lods": {
+      "lod_0": {
+        "radius": 400.0,
+        "maxSounds": 5
+      },
+      "lod_1": {
+        "radius": 2500.0,
+        "maxSounds": 8
+      }
+    }
+  },
+  "engine_ai": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_ai_start",
+      "eventStop": "engine_ai_stop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine_ai",
+      "eventSurround": "",
+      "eventLod1": "engine_ai",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.014,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine01_cockpit_l",
+      "event_cockpit_r": "engine01_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 0.9,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine_bomber_ai": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_ai_start",
+      "eventStop": "engine_ai_stop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine_bomber_ai",
+      "eventSurround": "",
+      "eventLod1": "engine_bomber_ai",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.014,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine01_cockpit_l",
+      "event_cockpit_r": "engine01_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 0.9,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine_jet_ai": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_jet_ai_start",
+      "eventStop": "engine_jet_ai_stop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine_jet_ai",
+      "eventSurround": "",
+      "eventLod1": "engine_jet_ai",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.005,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine01_cockpit_l",
+      "event_cockpit_r": "engine01_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 0.9,
+      "rpmSmooth": 0.005,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine_tvd_ai": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_tvd_ai_start",
+      "eventStop": "engine_tvd_ai_stop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine_tvd_ai",
+      "eventSurround": "",
+      "eventLod1": "engine_tvd_ai",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.005,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine01_cockpit_l",
+      "event_cockpit_r": "engine01_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 0.9,
+      "rpmSmooth": 0.005,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine_tank_ai_light": {
+    "effects": {
+      "path": "tanks/engines_tanks/ai_light",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/ai_light",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_tank_ai_middle": {
+    "effects": {
+      "path": "tanks/engines_tanks/ai_middle",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/ai_middle",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_tank_ai_pt76": {
+    "effects": {
+      "path": "tanks/engines_tanks/ai_pt76",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/ai_pt76",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_tank_ai_heavy": {
+    "effects": {
+      "path": "tanks/engines_tanks/ai_heavy",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/ai_heavy",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_ctr_ai": {
+    "effects": {
+      "path": "ships/engines_ships/ai_ctr",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ships/engines_ships/ai_ctr",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_shiplight_ai": {
+    "effects": {
+      "path": "ships/engines_ships/ai_light",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ships/engines_ships/ai_light",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "metal_rattle04": {
+    "effects": {
+      "path": "tanks/effects_tanks/metal_rattle04",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/effects_tanks/metal_rattle04",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_tank_ai_maus": {
+    "effects": {
+      "path": "tanks/engines_tanks/ai_maus",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/ai_maus",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_truck_ai": {
+    "effects": {
+      "path": "tanks/engines_tanks/ai_truck",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/ai_truck",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine01": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine01_start",
+      "eventStop": "engine01_stop",
+      "eventProp": "engine01_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine01",
+      "eventSurround": "",
+      "eventLod1": "engine01",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.014,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine01_cockpit_l",
+      "event_cockpit_r": "engine01_cockpit_r",
+      "event_start_cockpit_l": "engine01_start_cockpit_l",
+      "event_start_cockpit_r": "engine01_start_cockpit_r",
+      "event_stop_cockpit_l": "engine01_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine01_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine01_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine01_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 0.9,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine02": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine02_start",
+      "eventStop": "engine02_stop",
+      "eventProp": "engine02_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine02",
+      "eventSurround": "",
+      "eventLod1": "engine02",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.008,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine02_cockpit_l",
+      "event_cockpit_r": "engine02_cockpit_r",
+      "event_start_cockpit_l": "engine02_start_cockpit_l",
+      "event_start_cockpit_r": "engine02_start_cockpit_r",
+      "event_stop_cockpit_l": "engine02_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine02_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine02_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine02_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 0.9,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine03": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 1.0,
+      "eventStart": "engine03_start",
+      "eventStop": "engine03_stop",
+      "eventProp": "engine03_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine03",
+      "eventSurround": "",
+      "eventLod1": "engine03",
+      "rpmScale": 1.1,
+      "rpmSmooth": 0.01,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine03_cockpit_l",
+      "event_cockpit_r": "engine03_cockpit_r",
+      "event_start_cockpit_l": "engine03_start_cockpit_l",
+      "event_start_cockpit_r": "engine03_start_cockpit_r",
+      "event_stop_cockpit_l": "engine03_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine03_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine03_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine03_prop_cockpit_r",
+      "leftPos": [4.0,1.0,5.0],
+      "rightPos": [4.0,1.0,-5.0],
+      "rpmScale": 1.1,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine04": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine04_start",
+      "eventStop": "engine04_stop",
+      "eventProp": "engine04_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine04",
+      "eventSurround": "",
+      "eventLod1": "engine04",
+      "offsetPos": [1.0,0.0,0.0],
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.01,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine03_cockpit_l",
+      "event_cockpit_r": "engine03_cockpit_r",
+      "event_start_cockpit_l": "engine04_start_cockpit_l",
+      "event_start_cockpit_r": "engine04_start_cockpit_r",
+      "event_stop_cockpit_l": "engine04_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine04_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine04_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine04_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 0.9,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine05": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine05_start",
+      "eventStop": "engine05_stop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine05",
+      "eventSurround": "",
+      "eventLod1": "engine05",
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.001,
+      "loadScale": 1.0,
+      "loadSmooth": 0.005,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine05_cockpit_l",
+      "event_cockpit_r": "engine05_cockpit_r",
+      "event_start_cockpit_l": "engine05_start_cockpit_l",
+      "event_start_cockpit_r": "engine05_start_cockpit_r",
+      "event_stop_cockpit_l": "engine05_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine05_stop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.001,
+      "loadScale": 1.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine06": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine06_start",
+      "eventStop": "engine06_stop",
+      "eventProp": "engine06_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine06",
+      "eventSurround": "",
+      "eventLod1": "engine06",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.015,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine03_cockpit_l",
+      "event_cockpit_r": "engine03_cockpit_r",
+      "event_start_cockpit_l": "engine06_start_cockpit_l",
+      "event_start_cockpit_r": "engine06_start_cockpit_r",
+      "event_stop_cockpit_l": "engine06_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine06_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine06_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine06_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine07": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine07_start",
+      "eventStop": "engine07_stop",
+      "eventProp": "engine07_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine07",
+      "eventSurround": "",
+      "eventLod1": "engine07",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine07_cockpit_l",
+      "event_cockpit_r": "engine07_cockpit_r",
+      "event_start_cockpit_l": "engine07_start_cockpit_l",
+      "event_start_cockpit_r": "engine07_start_cockpit_r",
+      "event_stop_cockpit_l": "engine07_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine07_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine07_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine07_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine08": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine08_start",
+      "eventStop": "engine08_stop",
+      "eventProp": "engine08_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine08",
+      "eventSurround": "",
+      "eventLod1": "engine08",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.005,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine08_cockpit_l",
+      "event_cockpit_r": "engine08_cockpit_r",
+      "event_start_cockpit_l": "engine08_start_cockpit_l",
+      "event_start_cockpit_r": "engine08_start_cockpit_r",
+      "event_stop_cockpit_l": "engine08_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine08_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine08_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine08_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine09": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine09_start",
+      "eventStop": "engine09_stop",
+      "eventProp": "engine09_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine09",
+      "eventSurround": "",
+      "eventLod1": "engine09",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.005,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine09_cockpit_l",
+      "event_cockpit_r": "engine09_cockpit_r",
+      "event_start_cockpit_l": "engine09_start_cockpit_l",
+      "event_start_cockpit_r": "engine09_start_cockpit_r",
+      "event_stop_cockpit_l": "engine09_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine09_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine09_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine09_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine10": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine10_start",
+      "eventStop": "engine10_stop",
+      "eventProp": "engine10_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine10",
+      "eventSurround": "",
+      "eventLod1": "engine10",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine10_cockpit_l",
+      "event_cockpit_r": "engine10_cockpit_r",
+      "event_start_cockpit_l": "engine10_start_cockpit_l",
+      "event_start_cockpit_r": "engine10_start_cockpit_r",
+      "event_stop_cockpit_l": "engine10_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine10_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine10_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine10_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine11": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine11_start",
+      "eventStop": "engine11_stop",
+      "eventProp": "engine11_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine11",
+      "eventSurround": "",
+      "eventLod1": "engine11",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.012,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine11_cockpit_l",
+      "event_cockpit_r": "engine11_cockpit_r",
+      "event_start_cockpit_l": "engine11_start_cockpit_l",
+      "event_start_cockpit_r": "engine11_start_cockpit_r",
+      "event_stop_cockpit_l": "engine11_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine11_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine11_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine11_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine12": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine12_start",
+      "eventStop": "engine12_stop",
+      "eventProp": "engine12_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine12",
+      "eventSurround": "",
+      "eventLod1": "engine12",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine12_cockpit_l",
+      "event_cockpit_r": "engine12_cockpit_r",
+      "event_start_cockpit_l": "engine12_start_cockpit_l",
+      "event_start_cockpit_r": "engine12_start_cockpit_r",
+      "event_stop_cockpit_l": "engine12_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine12_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine12_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine12_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine13": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine13_start",
+      "eventStop": "engine13_stop",
+      "eventProp": "engine13_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine13",
+      "eventSurround": "",
+      "eventLod1": "engine13",
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.012,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine13_cockpit_l",
+      "event_cockpit_r": "engine13_cockpit_r",
+      "event_start_cockpit_l": "engine13_start_cockpit_l",
+      "event_start_cockpit_r": "engine13_start_cockpit_r",
+      "event_stop_cockpit_l": "engine13_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine13_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine13_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine13_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine14": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine14_start",
+      "eventStop": "engine14_stop",
+      "eventProp": "engine14_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine14",
+      "eventSurround": "",
+      "eventLod1": "engine14",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine14_cockpit_l",
+      "event_cockpit_r": "engine14_cockpit_r",
+      "event_start_cockpit_l": "engine14_start_cockpit_l",
+      "event_start_cockpit_r": "engine14_start_cockpit_r",
+      "event_stop_cockpit_l": "engine14_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine14_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine14_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine14_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine15": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine15_start",
+      "eventStop": "engine15_stop",
+      "eventProp": "engine15_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine15",
+      "eventSurround": "",
+      "eventLod1": "engine15",
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine15_cockpit_l",
+      "event_cockpit_r": "engine15_cockpit_r",
+      "event_start_cockpit_l": "engine15_start_cockpit_l",
+      "event_start_cockpit_r": "engine15_start_cockpit_r",
+      "event_stop_cockpit_l": "engine15_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine15_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine15_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine15_prop_cockpit_r",
+      "leftPos": [-0.5,1.0,5.0],
+      "rightPos": [-0.5,1.0,-5.0],
+      "rpmScale": 0.95,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine16": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine16_start",
+      "eventStop": "engine16_stop",
+      "eventProp": "engine16_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine16",
+      "eventSurround": "",
+      "eventLod1": "engine16",
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.012,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine16_cockpit_l",
+      "event_cockpit_r": "engine16_cockpit_r",
+      "event_start_cockpit_l": "engine16_start_cockpit_l",
+      "event_start_cockpit_r": "engine16_start_cockpit_r",
+      "event_stop_cockpit_l": "engine16_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine16_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine16_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine16_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine17": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine17_start",
+      "eventStop": "engine17_stop",
+      "eventProp": "engine17_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine17",
+      "eventSurround": "",
+      "eventLod1": "engine17",
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.012,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine17_cockpit_l",
+      "event_cockpit_r": "engine17_cockpit_r",
+      "event_start_cockpit_l": "engine17_start_cockpit_l",
+      "event_start_cockpit_r": "engine17_start_cockpit_r",
+      "event_stop_cockpit_l": "engine17_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine17_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine17_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine17_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine18": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine18_start",
+      "eventStop": "engine18_stop",
+      "eventProp": "engine18_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine18",
+      "eventSurround": "",
+      "eventLod1": "engine18",
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.012,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine18_cockpit_l",
+      "event_cockpit_r": "engine18_cockpit_r",
+      "event_start_cockpit_l": "engine18_start_cockpit_l",
+      "event_start_cockpit_r": "engine18_start_cockpit_r",
+      "event_stop_cockpit_l": "engine18_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine18_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine18_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine18_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine19": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine19_start",
+      "eventStop": "engine19_stop",
+      "eventProp": "engine19_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine19",
+      "eventSurround": "",
+      "eventLod1": "engine19",
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.012,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine19_cockpit_l",
+      "event_cockpit_r": "engine19_cockpit_r",
+      "event_start_cockpit_l": "engine19_start_cockpit_l",
+      "event_start_cockpit_r": "engine19_start_cockpit_r",
+      "event_stop_cockpit_l": "engine19_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine19_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine19_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine19_prop_cockpit_r",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0],
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine20": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine20_start",
+      "eventStop": "engine20_stop",
+      "eventProp": "engine20_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine20",
+      "eventSurround": "",
+      "eventLod1": "engine20",
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.012,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine20_cockpit_l",
+      "event_cockpit_r": "engine20_cockpit_r",
+      "event_start_cockpit_l": "engine20_start_cockpit_l",
+      "event_start_cockpit_r": "engine20_start_cockpit_r",
+      "event_stop_cockpit_l": "engine20_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine20_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine20_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine20_prop_cockpit_r",
+      "leftPos": [0.5,1.0,1.0],
+      "rightPos": [0.5,1.0,-1.0],
+      "rpmScale": 1.0,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine_j7w1": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 1.0,
+      "eventStart": "engine_j7w1_start",
+      "eventStop": "engine_j7w1_stop",
+      "eventProp": "engine_j7w1_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine_j7w1",
+      "eventSurround": "",
+      "eventLod1": "engine_j7w1",
+      "rpmScale": 1.1,
+      "rpmSmooth": 0.01,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine_j7w1_cockpit_l",
+      "event_cockpit_r": "engine_j7w1_cockpit_r",
+      "event_start_cockpit_l": "engine_j7w1_start_cockpit_l",
+      "event_start_cockpit_r": "engine_j7w1_start_cockpit_r",
+      "event_stop_cockpit_l": "engine_j7w1_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine_j7w1_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine_j7w1_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine_j7w1_prop_cockpit_r",
+      "leftPos": [-3.0,1.0,3.0],
+      "rightPos": [-3.0,1.0,-3.0],
+      "rpmScale": 1.1,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine_xp55": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 1.0,
+      "eventStart": "engine03_start",
+      "eventStop": "engine03_stop",
+      "eventProp": "engine03_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine03",
+      "eventSurround": "",
+      "eventLod1": "engine03",
+      "rpmScale": 1.1,
+      "rpmSmooth": 0.01,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine03_cockpit_l",
+      "event_cockpit_r": "engine03_cockpit_r",
+      "event_start_cockpit_l": "engine03_start_cockpit_l",
+      "event_start_cockpit_r": "engine03_start_cockpit_r",
+      "event_stop_cockpit_l": "engine03_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine03_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine03_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine03_prop_cockpit_r",
+      "leftPos": [-1.0,1.0,2.0],
+      "rightPos": [-1.0,1.0,-2.0],
+      "rpmScale": 1.1,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "enginetank01": {
+    "effects": {
+      "path": "tanks/engines_tanks/tank01",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/tank01",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/tank01",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_panzer3": {
+    "effects": {
+      "path": "tanks/engines_tanks/panzer3",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/panzer3",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/panzer3",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "metal_rattle03": {
+    "effects": {
+      "path": "tanks/effects_tanks/metal_rattle03",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/effects_tanks/metal_rattle03",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/effects_tanks/metal_rattle03",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [1.0,1.0,0.0]
+    }
+  },
+  "engine_hetzer": {
+    "effects": {
+      "path": "tanks/engines_tanks/hetzer",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/hetzer",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/hetzer",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_su100": {
+    "effects": {
+      "path": "tanks/engines_tanks/su100",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "tanks/engines_tanks/su100"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "tanks/engines_tanks/su100",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_pt76": {
+    "effects": {
+      "path": "tanks/engines_tanks/pt76",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "tanks/engines_tanks/pt76"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "tanks/engines_tanks/pt76",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_panzer4": {
+    "effects": {
+      "path": "tanks/engines_tanks/panzer4",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/panzer4",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/panzer4",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_panzer6": {
+    "effects": {
+      "path": "tanks/engines_tanks/panzer6",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/panzer6",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/panzer6",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_tigerdiesel": {
+    "effects": {
+      "path": "tanks/engines_tanks/tigerdiesel",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/tigerdiesel",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/tigerdiesel",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_maus": {
+    "effects": {
+      "path": "tanks/engines_tanks/maus",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/maus",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-3.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/maus",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-3.0,1.0,0.0]
+    }
+  },
+  "engine_panther": {
+    "effects": {
+      "path": "tanks/engines_tanks/panther",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/panther",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/panther",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_stug40": {
+    "effects": {
+      "path": "tanks/engines_tanks/stug40",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/stug40",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/stug40",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_sherman_m4a1": {
+    "effects": {
+      "path": "tanks/engines_tanks/sherman_m4a1",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/sherman_m4a1",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/sherman_m4a1",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_stuart_m5a": {
+    "effects": {
+      "path": "tanks/engines_tanks/stuart_m5a",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/stuart_m5a",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/stuart_m5a",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_m8": {
+    "effects": {
+      "path": "tanks/engines_tanks/m8",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/m8",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/m8",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_m16": {
+    "effects": {
+      "path": "tanks/engines_tanks/m16",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/m16",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/m16",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_m1": {
+    "effects": {
+      "path": "tanks/engines_tanks/m1",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/m1",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/m1",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [1.0,1.0,0.0]
+    }
+  },
+  "engine_chaffee_m24": {
+    "effects": {
+      "path": "tanks/engines_tanks/chaffee_m24",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/chaffee_m24",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/chaffee_m24",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_hellcat_m18": {
+    "effects": {
+      "path": "tanks/engines_tanks/hellcat_m18",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/hellcat_m18",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/hellcat_m18",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_sherman_m4a3": {
+    "effects": {
+      "path": "tanks/engines_tanks/sherman_m4a3",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/sherman_m4a3",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/sherman_m4a3",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "rattle05": {
+    "effects": {
+      "path": "tanks/effects_tanks/rattle05",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/effects_tanks/rattle05",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/effects_tanks/rattle05",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [1.0,1.0,0.0]
+    }
+  },
+  "rattle06": {
+    "effects": {
+      "path": "tanks/effects_tanks/rattle06",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/effects_tanks/rattle06",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/effects_tanks/rattle06",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [1.0,1.0,0.0]
+    }
+  },
+  "engine_ctr01": {
+    "effects": {
+      "path": "ships/engines_ships/ctr01",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "ships/engines_ships/ctr01"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "ships/engines_ships/ctr01",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_pt15": {
+    "effects": {
+      "path": "ships/engines_ships/pt15",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "ships/engines_ships/pt15"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "ships/engines_ships/pt15",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_shiplight01": {
+    "effects": {
+      "path": "ships/engines_ships/shiplight01",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "ships/engines_ships/shiplight01"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "ships/engines_ships/shiplight01",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_shipmid01": {
+    "effects": {
+      "path": "ships/engines_ships/shipmid01",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "ships/engines_ships/shipmid01"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "ships/engines_ships/shipmid01",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_shipbig01": {
+    "effects": {
+      "path": "ships/engines_ships/shipbig01",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "ships/engines_ships/shipbig01"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "ships/engines_ships/shipbig01",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "reloads": {
+    "fmw_gun_reload": {
+      "path": "sounds/gui",
+      "event": "gunner_reload",
+      "time": 1.5
+    },
+    "fmw_guns_reload": {
+      "path": "sounds/gui",
+      "event": "gunner_reload_multiple",
+      "time": 1.5
+    },
+    "fmw_bombs_reload": {
+      "path": "sounds/gui",
+      "event": "bombs_reload",
+      "time": 1.5
+    },
+    "grd_gun_reload": {
+      "path": "tanks/effects_tanks",
+      "event": "reload_gun",
+      "time": 1.5,
+      "ship": {
+        "path": "ships/effects_ships"
+      }
+    },
+    "grd_cannon_belt_reload": {
+      "path": "tanks/effects_tanks",
+      "event": "reload_cannon_20mm",
+      "time": 2.5
+    },
+    "grd_cannon_reload": {
+      "path": "tanks/effects_tanks",
+      "event": "reload_cannon",
+      "time": 2.5,
+      "ship": {
+        "path": "ships/effects_ships"
+      }
+    },
+    "grd_howitzer_reload": {
+      "path": "tanks/effects_tanks",
+      "event": "reload_howitzer",
+      "time": 3.0
+    },
+    "old_ship_reload": {
+      "path": "sounds/effects",
+      "event": "old_ship_reload",
+      "time": 3.0
+    }
+  },
+  "gun_default": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "yak3_guns_left",
+      "eventRight": "yak3_guns_right",
+      "eventLod1": "yak3_guns_right",
+      "cannonLeft": "yak3_h_guns_left",
+      "cannonRight": "yak3_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "yak3_guns_c_left",
+      "eventRight": "yak3_guns_c_right",
+      "cannonLeft": "yak3_h_guns_c_left",
+      "cannonRight": "yak3_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_hurricane": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "hurricane_guns_left",
+      "eventRight": "hurricane_guns_right",
+      "eventLod1": "hurricane_guns_right",
+      "cannonLeft": "hurricane_h_guns_left",
+      "cannonRight": "hurricane_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "hurricane_guns_c_left",
+      "eventRight": "hurricane_guns_c_right",
+      "cannonLeft": "hurricane_h_guns_c_left",
+      "cannonRight": "hurricane_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_spitfire": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "spitfire_guns_left",
+      "eventRight": "spitfire_guns_right",
+      "eventLod1": "spitfire_guns_right",
+      "cannonLeft": "spitfire_h_guns_left",
+      "cannonRight": "spitfire_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "spitfire_guns_c_left",
+      "eventRight": "spitfire_guns_c_right",
+      "cannonLeft": "spitfire_h_guns_c_left",
+      "cannonRight": "spitfire_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_blenheim": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "blenheim_guns_left",
+      "eventRight": "blenheim_guns_right",
+      "eventLod1": "blenheim_guns_right",
+      "cannonLeft": "blenheim_h_guns_left",
+      "cannonRight": "blenheim_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "blenheim_guns_c_left",
+      "eventRight": "blenheim_guns_c_right",
+      "cannonLeft": "blenheim_h_guns_c_left",
+      "cannonRight": "blenheim_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_bf": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "bf_guns_left",
+      "eventRight": "bf_guns_right",
+      "eventLod1": "bf_guns_left",
+      "cannonLeft": "bf_h_guns_left",
+      "cannonRight": "bf_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "bf_guns_c_left",
+      "eventRight": "bf_guns_c_right",
+      "cannonLeft": "bf_h_guns_c_left",
+      "cannonRight": "bf_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_yak3": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "yak3_guns_left",
+      "eventRight": "yak3_guns_right",
+      "eventLod1": "yak3_guns_left",
+      "cannonLeft": "yak3_h_guns_left",
+      "cannonRight": "yak3_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "yak3_guns_c_left",
+      "eventRight": "yak3_guns_c_right",
+      "cannonLeft": "yak3_h_guns_c_left",
+      "cannonRight": "yak3_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_a20": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "a20_guns_left",
+      "eventRight": "a20_guns_right",
+      "eventLod1": "a20_guns_left",
+      "cannonLeft": "a20_h_guns_left",
+      "cannonRight": "a20_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "a20_guns_c_left",
+      "eventRight": "a20_guns_c_right",
+      "cannonLeft": "a20_h_guns_c_left",
+      "cannonRight": "a20_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_fw": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "fw_guns_left",
+      "eventRight": "fw_guns_right",
+      "eventLod1": "fw_guns_left",
+      "cannonLeft": "fw_h_guns_left",
+      "cannonRight": "fw_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "fw_guns_c_left",
+      "eventRight": "fw_guns_c_right",
+      "cannonLeft": "fw_h_guns_c_left",
+      "cannonRight": "fw_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_il2": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "il2_guns_left",
+      "eventRight": "il2_guns_right",
+      "eventLod1": "il2_guns_left",
+      "cannonLeft": "il2_h_guns_left",
+      "cannonRight": "il2_h_guns_right",
+      "leftPos": [0.5,1.0,15.0],
+      "rightPos": [0.5,1.0,-15.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "il2_guns_c_left",
+      "eventRight": "il2_guns_c_right",
+      "cannonLeft": "il2_h_guns_c_left",
+      "cannonRight": "il2_h_guns_c_right",
+      "leftPos": [0.5,1.0,5.0],
+      "rightPos": [0.5,1.0,-5.0]
+    }
+  },
+  "gun_ah_64": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "apache_30mm_outside",
+      "leftPos": [0.5,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "apache_30mm_inside",
+      "leftPos": [0.0,0.0,0.0]
+    },
+    "ai": {
+      "path": "sounds/guns",
+      "eventLeft": "apache_30mm_ai",
+      "leftPos": [0.0,0.0,0.0]
+    },
+    "flir": {
+      "path": "sounds/guns",
+      "eventLeft": "apache_30mm_cam",
+      "leftPos": [0.0,0.0,0.0]
+    }
+  },
+  "gun_mi_35": {
+    "outside": {
+      "path": "sounds/guns",
+      "eventLeft": "mi35_outside",
+      "leftPos": [0.5,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "sounds/guns",
+      "eventLeft": "mi35_inside",
+      "leftPos": [0.0,0.0,0.0]
+    },
+    "ai": {
+      "path": "sounds/guns",
+      "eventLeft": "mi35_ai",
+      "leftPos": [0.0,0.0,0.0]
+    },
+    "flir": {
+      "path": "sounds/guns",
+      "eventLeft": "mi35_cam",
+      "leftPos": [0.0,0.0,0.0]
+    }
+  },
+  "music": {
+    "transitionSpeed": 0.2,
+    "path": "sounds/music",
+    "initPath": "sounds/music/init",
+    "battleRadius": 3000.0,
+    "battleRadiusGround": 500.0,
+    "battleEnemyTreshold": 3,
+    "battleEnemyBigTreshold": 6,
+    "cooldown_calm": 300.0,
+    "cooldown_battle": 180.0,
+    "menu": {
+      "path": "sounds/music",
+      "initPath": "sounds/music/init",
+      "event": "menu"
+    }
+  },
+  "internetRadio": {
+    "fadeInTimeAtStart": 3.0,
+    "fadeInTime": 1.0,
+    "stations": {
+      "station": {
+        "name": "Ulitka",
+        "pathRussian": "http://air.radioulitka.ru:8000/ulitka_96"
+      }
+    }
+  },
+  "volume": {
+    "music": 0.5,
+    "radio": 0.4,
+    "radioOnSequence": 0.02,
+    "sfx": 0.4,
+    "sfxOnSequence": 0.005
+  },
+  "speech": {
+    "file": "lang/speech.csv",
+    "col": 4
+  },
+  "speechSound": {
+    "heavyVehicle": {
+      "projectPrefix": "dialogs_wt_tanks_",
+      "path": "voice_messages",
+      "minSpeechInterval": 2.0,
+      "eventsChancePlay": 1.0,
+      "events": {
+        "shortStop": {
+          "event": "voice_message_short_stop",
+          "playerRole": "commander",
+          "player": 1
+        },
+        "driveSlowly": {
+          "event": "voice_message_drive_slowly",
+          "playerRole": "commander",
+          "player": 1
+        },
+        "loadBullet": {
+          "event": "voice_message_load",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 0.1,
+          "delayTime": 1.0
+        },
+        "loadBulletAP": {
+          "event": "voice_message_load_AP",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletSplinter": {
+          "event": "voice_message_load_Frag",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletHighExpl": {
+          "event": "voice_message_load_HE",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletCumulative": {
+          "event": "voice_message_load_HEAT",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "loadBulletSubCaliber": {
+          "event": "voice_message_load_APCR",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
+        "reloading": {
+          "event": "voice_message_reloading",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 0.2
+        },
+        "charged": {
+          "event": "voice_message_charged",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 0.2
+        },
+        "targetHit": {
+          "event": "voice_message_direct_hit",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 0.8,
+          "minSpeechInterval": 1.0,
+          "eventsChancePlay": 1.0
+        },
+        "armorNotPierced": {
+          "event": "voice_message_armor_not_pierce",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 0.8
+        },
+        "targetDestroyed": {
+          "event": "voice_message_target_destroyed",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 0.5,
+          "minSpeechInterval": 1.0,
+          "eventsChancePlay": 1.0
+        },
+        "targetDestroyedAircraft": {
+          "event": "voice_message_target_destroyed_aircraft",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 0.5,
+          "minSpeechInterval": 1.0,
+          "eventsChancePlay": 1.0
+        },
+        "targetLock": {
+          "event": "voice_message_target_lock",
+          "playerRole": "tank_gunner",
+          "player": 3
+        },
+        "targetUnlock": {
+          "event": "voice_message_target_unlock",
+          "playerRole": "tank_gunner",
+          "player": 3
+        },
+        "artCommand": {
+          "event": "voice_message_art_command",
+          "player": 0,
+          "minSpeechInterval": 0.0,
+          "eventsChancePlay": 1.0
+        },
+        "artCommandBySelf": {
+          "event": "voice_message_art_command_oneself",
+          "player": 0,
+          "minSpeechInterval": 0.0,
+          "eventsChancePlay": 1.0
+        },
+        "artShoot": {
+          "event": "voice_message_art_shoot",
+          "player": 0,
+          "minSpeechInterval": 0.0,
+          "eventsChancePlay": 1.0,
+          "delayTime": 1.5
+        },
+        "artReloading": {
+          "event": "voice_message_art_reloading",
+          "player": 0,
+          "minSpeechInterval": 0.0,
+          "eventsChancePlay": 1.0,
+          "delayTime": 1.5
+        },
+        "artReady": {
+          "event": "voice_message_art_charged",
+          "player": 0,
+          "minSpeechInterval": 0.0,
+          "eventsChancePlay": 0.5
+        },
+        "artShootingWarning": {
+          "event": "voice_message_art_shooting_warning",
+          "player": 0,
+          "minSpeechInterval": 0.0,
+          "eventsChancePlay": 1.0,
+          "delayTime": 1.0
+        },
+        "hit": {
+          "event": "voice_message_player_tank_hit",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "driver",
+          "player2": 2,
+          "delayTime": 0.7
+        },
+        "hitFromLeft": {
+          "event": "voice_message_shot_left",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 0.5,
+          "delayTime": 0.7
+        },
+        "hitFromRight": {
+          "event": "voice_message_shot_right",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 0.5,
+          "delayTime": 0.7
+        },
+        "hitFromBack": {
+          "event": "voice_message_shot_back",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 0.5,
+          "delayTime": 0.7
+        },
+        "hitFromFront": {
+          "event": "voice_message_shot_front",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 0.5,
+          "delayTime": 0.7
+        },
+        "fire": {
+          "event": "voice_message_fire_in_tank",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7
+        },
+        "fireExtinguished": {
+          "event": "voice_message_fire_extinguished",
+          "playerRole": "commander",
+          "player": 1
+        },
+        "leaveVehicle": {
+          "event": "voice_message_leave_vehicle",
+          "playerRole": "commander",
+          "player": 1
+        },
+        "leftTrackDestroyed": {
+          "event": "voice_message_left_track_knocked_down",
+          "playerRole": "driver",
+          "player": 2,
+          "delayTime": 1.0
+        },
+        "rightTrackDestroyed": {
+          "event": "voice_message_right_track_knocked_down",
+          "playerRole": "driver",
+          "player": 2,
+          "delayTime": 1.0
+        },
+        "engineDestroyed": {
+          "event": "voice_message_engine_destroyed",
+          "playerRole": "driver",
+          "player": 2,
+          "delayTime": 1.0
+        },
+        "engineDamaged": {
+          "event": "voice_message_engine_damaged",
+          "playerRole": "driver",
+          "player": 2,
+          "delayTime": 1.0
+        },
+        "fuelTankDamaged": {
+          "event": "voice_message_fuel_tank_damaged",
+          "playerRole": "driver",
+          "player": 2,
+          "delayTime": 1.0
+        },
+        "radiatorDamaged": {
+          "event": "voice_message_radiator_damaged",
+          "playerRole": "driver",
+          "player": 2,
+          "delayTime": 1.0
+        },
+        "verticalAimingDamaged": {
+          "event": "voice_message_vertical_aiming_drive_damaged",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 1.0
+        },
+        "horizontalAimingDamaged": {
+          "event": "voice_message_horizontal_aiming_drive_damaged",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 1.0
+        },
+        "weaponDamaged": {
+          "event": "voice_message_weapon_damaged",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 1.0
+        },
+        "weaponDestroyed": {
+          "event": "voice_message_weapon_destroyed",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 1.0
+        },
+        "gunlayerWounded": {
+          "event": "voice_message_gunlayer_wounded",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "driver",
+          "player2": 2,
+          "delayTime": 1.0
+        },
+        "commanderWounded": {
+          "event": "voice_message_commander_wounded",
+          "playerRole": "driver",
+          "player": 2,
+          "player2Role": "tank_gunner",
+          "player2": 3,
+          "delayTime": 1.0
+        },
+        "chargerWounded": {
+          "event": "voice_message_charger_wounded",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "driver",
+          "player2": 2,
+          "delayTime": 1.0
+        },
+        "driverWounded": {
+          "event": "voice_message_driver_wounded",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "tank_gunner",
+          "player2": 3,
+          "delayTime": 1.0
+        },
+        "tMachineGunnerWounded": {
+          "event": "voice_message_machine_gunner_wounded",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "driver",
+          "player2": 2,
+          "delayTime": 1.0
+        },
+        "gunlayerContused": {
+          "event": "voice_message_gunlayer_contused",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "driver",
+          "player2": 2,
+          "delayTime": 1.0
+        },
+        "commanderContused": {
+          "event": "voice_message_commander_contused",
+          "playerRole": "driver",
+          "player": 2,
+          "player2Role": "tank_gunner",
+          "player2": 3,
+          "delayTime": 1.0
+        },
+        "chargerContused": {
+          "event": "voice_message_charger_contused",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "driver",
+          "player2": 2,
+          "delayTime": 1.0
+        },
+        "driverContused": {
+          "event": "voice_message_driver_contused",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "tank_gunner",
+          "player2": 3,
+          "delayTime": 1.0
+        },
+        "machineGunnerContused": {
+          "event": "voice_message_machine_gunner_contused",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "driver",
+          "player2": 2,
+          "delayTime": 1.0
+        },
+        "gunlayerHealed": {
+          "event": "voice_message_gunlayer_healed",
+          "playerRole": "driver",
+          "player": 2,
+          "delayTime": 1.0
+        },
+        "driverHealed": {
+          "event": "voice_message_driver_healed",
+          "playerRole": "tank_gunner",
+          "player": 3,
+          "delayTime": 1.0
+        }
+      },
+      "bulletTypeToEvent": {
+        "apbc_tank": "loadBulletAP",
+        "apc_tank": "loadBulletAP",
+        "aphe_tank": "loadBulletAP",
+        "aphebc_tank": "loadBulletAP",
+        "apcbc_tank": "loadBulletAP",
+        "ap_tank": "loadBulletAP",
+        "tp_tank": "loadBulletAP",
+        "shrapnel_tank": "loadBulletSplinter",
+        "he_frag_tank": "loadBulletHighExpl",
+        "hesh_tank": "loadBulletHighExpl",
+        "heat_tank": "loadBulletCumulative",
+        "heat_fs_tank": "loadBulletCumulative",
+        "apcr_tank": "loadBulletSubCaliber",
+        "apds_tank": "loadBulletSubCaliber",
+        "apds_fs_tank": "loadBulletSubCaliber",
+        "tphv_tank": "loadBulletSubCaliber",
+        "atgm_tank": "loadBulletCumulative",
+        "rocket_tank": "loadBulletHighExpl"
+      }
+    },
+    "warShip": {
+      "projectPrefix": "dialogs_wt_ships_",
+      "path": "voice_messages",
+      "minSpeechInterval": 2.0,
+      "eventsChancePlay": 1.0,
+      "events": {
+        "fire": {
+          "event": "voice_message_fire_on_board",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.5,
+          "minSpeechInterval": 10.0
+        },
+        "fireStop": {
+          "event": "voice_message_fire_doused",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 10.0
+        },
+        "fireEnemy": {
+          "event": "voice_message_enemy_on_fire",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 10.0
+        },
+        "repair": {
+          "event": "voice_message_repairing",
+          "playerRole": "commander",
+          "eventsChancePlay": 0.5,
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 5.0
+        },
+        "breach": {
+          "event": "voice_message_hull_breach",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 15.0
+        },
+        "weaponDestroyed": {
+          "event": "voice_message_weapon_destroyed",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 1.0
+        },
+        "engineDestroyed": {
+          "event": "voice_message_engine_destroyed",
+          "playerRole": "driver",
+          "player": 1,
+          "delayTime": 1.0
+        },
+        "allEnginesDestroyed": {
+          "event": "voice_message_lost_propulsion",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 1.0
+        },
+        "targetDestroyed": {
+          "event": "voice_message_enemy_destroyed",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.5,
+          "minSpeechInterval": 1.0,
+          "eventsChancePlay": 1.0
+        },
+        "targetDestroyedAircraft": {
+          "event": "voice_message_aircraft_destroyed",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.5,
+          "minSpeechInterval": 1.0,
+          "eventsChancePlay": 1.0
+        },
+        "driverContused": {
+          "event": "voice_message_helmsman_contused",
+          "playerRole": "commander",
+          "player": 1,
+          "player2Role": "tank_gunner",
+          "player2": 3,
+          "delayTime": 1.0
+        },
+        "torpedoInView": {
+          "event": "voice_message_torpedo",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 5.0
+        },
+        "torpedoInViewLeft": {
+          "event": "voice_message_torpedo_left",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 5.0
+        },
+        "torpedoInViewRight": {
+          "event": "voice_message_torpedo_right",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 5.0
+        },
+        "torpedoInViewRear": {
+          "event": "voice_message_torpedo_rear",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 5.0
+        },
+        "aircraftInView": {
+          "event": "voice_message_air_alert_v1",
+          "playerRole": "commander",
+          "player": 1,
+          "delayTime": 0.7,
+          "minSpeechInterval": 10.0
+        }
+      }
+    }
+  },
+  "airDefenceSiren": {
+    "path": "sounds/ambient",
+    "sound": "city_01",
+    "maxDist": 1500.0
+  },
+  "compressorDSP": {
+    "use": true,
+    "threshold": -3.0,
+    "attack": 10.0,
+    "release": 10.0,
+    "gainmakeup": 0.0
+  },
+  "cachedMusic": {
+    "enabled": true
+  }
+}
