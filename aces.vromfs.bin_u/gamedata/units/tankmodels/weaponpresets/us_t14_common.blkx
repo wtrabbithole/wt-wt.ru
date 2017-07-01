@@ -11,9 +11,9 @@
       "barrelDP": "gun_barrel_dm",
       "breechDP": "cannon_breech_dm",
       "speedYaw": 24.0,
-      "speedPitch": 15.0,
+      "speedPitch": 4.0,
       "fireConeAngle": 1.0,
-      "bullets": 104,
+      "bullets": 72,
       "salvoAmount": 100.0,
       "ChainfireTime": 0.0,
       "DelayAfterShoot": 5.0,
@@ -37,12 +37,32 @@
       },
       "limits": {
         "yaw": [-180.0,180.0],
-        "pitch": [-10.0,25.0]
+        "pitch": [-10.0,24.0]
       },
       "limitsTable": {
-        "lim1": [-180.0,-150.0,-5.0,25.0],
-        "lim2": [-150.0,150.0,-10.0,25.0],
-        "lim3": [150.0,180.0,-5.0,25.0]
+        "lim1": [-180.0,-150.0,-5.0,24.0],
+        "lim2": [-150.0,150.0,-10.0,24.0],
+        "lim3": [150.0,180.0,-5.0,24.0]
+      },
+      "gunStabilizer": {
+        "hasVerticalGunFreeMode": false,
+        "hasHorizontal": false,
+        "horizontalOmegaMult": 1.0,
+        "horizontalSpeedLimitKPH": 50.0,
+        "hasVertical": true,
+        "verticalOmegaMult": 0.7,
+        "verticalSpeedLimitKPH": 16.0,
+        "errorKPHToDegrees": [
+          {
+            "row": [5.0,0.02]
+          },
+          {
+            "row": [10.0,0.05]
+          },
+          {
+            "row": [12.0,0.4]
+          }
+        ]
       }
     }
   },
@@ -118,7 +138,7 @@
       },
       "limits": {
         "yaw": [-60.0,60.0],
-        "pitch": [-10.0,30.0]
+        "pitch": [-10.0,15.0]
       }
     }
   }

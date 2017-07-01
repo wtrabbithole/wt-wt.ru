@@ -9,9 +9,6 @@
     "hasExpl": true
   },
   {
-    "damageableByGun": true
-  },
-  {
     "exhaustFx": "boat_exhaust"
   },
   {
@@ -70,12 +67,39 @@
   },
   {
     "DamageParts": {
-      "steel": {
-        "engine_dm": {
-          "hp": 15.0
-        },
+      "formatVersion": 2,
+      "armorClass": "RHA_tank",
+      "hp": 1000.0,
+      "cover": {
+        "armorClass": "RHA_tank",
+        "hp": 240.0,
+        "armorThickness": 4.0,
         "body_dm": {
-          "hp": 30.0
+          "explosionDamageMult": 3.0
+        },
+        "gun1_dm": {
+          "armorThickness": 5.0,
+          "hp": 10.0,
+          "explosionDamageMult": 3.0
+        },
+        "gun0_dm": {
+          "armorThickness": 5.0,
+          "hp": 10.0,
+          "explosionDamageMult": 3.0
+        }
+      }
+    }
+  },
+  {
+    "DamageEffects": {
+      "part": {
+        "name": "body_dm",
+        "onHit": {
+          "expl": 1.0,
+          "damage": 100.0
+        },
+        "onKill": {
+          "expl": 1.0
         }
       }
     }
@@ -86,34 +110,6 @@
       "mediterran": true,
       "westernfront": true
     }
-  },
-  {
-    "DamageEffects": [
-      {
-        "part": {
-          "name": "body_dm",
-          "onHit": {
-            "smoke": 0.01,
-            "fire": 0.01
-          },
-          "onKill": {
-            "expl": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "engine_dm",
-          "onHit": {
-            "smoke": 0.1,
-            "fire": 0.01
-          },
-          "onKill": {
-            "body_dm": 1.0
-          }
-        }
-      }
-    ]
   },
   {
     "sound": {

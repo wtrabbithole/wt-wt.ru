@@ -1284,6 +1284,26 @@
             "lim1": [-180.0,-175.0,-4.0,15.0],
             "lim2": [-175.0,175.0,-10.0,15.0],
             "lim3": [175.0,180.0,-4.0,15.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": false,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 50.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 16.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.02]
+              },
+              {
+                "row": [10.0,0.05]
+              },
+              {
+                "row": [12.0,0.4]
+              }
+            ]
           }
         }
       },

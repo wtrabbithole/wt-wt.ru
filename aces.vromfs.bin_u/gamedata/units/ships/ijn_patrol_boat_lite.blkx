@@ -22,27 +22,31 @@
   "customUpdateDiv": 5,
   "SoundMove": "models.Ship",
   "tailStartOffset": 10.0,
-  "DamageParts": {
-    "armor7": {
-      "engine_dm": {
-        "hp": 30.0
-      },
-      "body_dm": {
-        "hp": 60.0
+  "DamageParts": [
+    {
+      "steel": {
+        "engine_dm": {
+          "hp": 30.0
+        },
+        "body_dm": {
+          "hp": 240.0
+        }
       }
     },
-    "steel": {
-      "gun1_dm": {
-        "hp": 10.0
-      },
-      "gun2_dm": {
-        "hp": 10.0
-      },
-      "gun0_dm": {
-        "hp": 10.0
+    {
+      "steel": {
+        "gun1_dm": {
+          "hp": 10.0
+        },
+        "gun2_dm": {
+          "hp": 10.0
+        },
+        "gun0_dm": {
+          "hp": 10.0
+        }
       }
     }
-  },
+  ],
   "class_tags": {
     "pacific": true,
     "mediterran": true,

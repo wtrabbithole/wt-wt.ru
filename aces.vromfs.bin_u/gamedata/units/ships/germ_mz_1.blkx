@@ -4021,16 +4021,22 @@
           },
           {
             "gunStabilizer": {
-              "hasVerticalGunFreeMode": true,
+              "hasVerticalGunFreeMode": false,
               "hasHorizontal": true,
               "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 80.0,
+              "horizontalSpeedLimitKPH": 75.0,
               "hasVertical": true,
               "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 80.0,
+              "verticalSpeedLimitKPH": 75.0,
               "errorKPHToDegrees": [
                 {
                   "row": [5.0,0.01]
+                },
+                {
+                  "row": [25.0,0.02]
+                },
+                {
+                  "row": [45.0,0.03]
                 },
                 {
                   "row": [70.0,0.05]
@@ -5156,25 +5162,6 @@
             "limits": {
               "yaw": [-155.0,155.0],
               "pitch": [-1.0,30.0]
-            }
-          },
-          {
-            "gunStabilizer": {
-              "hasVerticalGunFreeMode": true,
-              "hasHorizontal": true,
-              "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 80.0,
-              "hasVertical": true,
-              "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 80.0,
-              "errorKPHToDegrees": [
-                {
-                  "row": [5.0,0.01]
-                },
-                {
-                  "row": [70.0,0.05]
-                }
-              ]
             }
           }
         ]
