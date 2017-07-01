@@ -3642,6 +3642,15 @@
               "yaw": [-180.0,180.0],
               "pitch": [-6.5,85.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-43.0,-5.0,70.0],
+              "lim2": [-43.0,-30.0,20.0,70.0],
+              "lim3": [-30.0,30.0,-1.0,70.0],
+              "lim4": [30.0,43.0,20.0,70.0],
+              "lim5": [43.0,180.0,-5.0,70.0]
+            }
           }
         ]
       },
@@ -3681,6 +3690,15 @@
             "limits": {
               "yaw": [-180.0,180.0],
               "pitch": [-6.5,85.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-43.0,-5.0,70.0],
+              "lim2": [-43.0,-30.0,20.0,70.0],
+              "lim3": [-30.0,30.0,-1.0,70.0],
+              "lim4": [30.0,43.0,20.0,70.0],
+              "lim5": [43.0,180.0,-5.0,70.0]
             }
           }
         ]
@@ -3771,12 +3789,6 @@
   },
   {
     "weapon_presets": [
-      {
-        "preset": {
-          "name": "pv_2d_default",
-          "blk": "gameData/FlightModels/weaponPresets/pv_2d_default.blk"
-        }
-      },
       {
         "preset": {
           "name": "pv_2d_bombs",
@@ -4044,26 +4056,26 @@
   {
     "user_skin": [
       {
-        "name": "ventura_pv_2"
+        "name": "pv_2d"
       },
       {
         "replace_tex": {
-          "from": "ventura_pv_2_raf_a*"
+          "from": "ventura_pv_2d_usn1_c*"
         }
       },
       {
         "replace_tex": {
-          "from": "ventura_pv_2_raf_a_dmg*"
+          "from": "ventura_pv_2d_usn1_c_dmg*"
         }
       },
       {
         "replace_tex": {
-          "from": "ventura_pv_2_raf_n*"
+          "from": "ventura_pv_2d_usn1_n*"
         }
       },
       {
         "replace_tex": {
-          "from": "ventura_pv_2_raf_n_dmg*"
+          "from": "ventura_pv_2d_usn1_n_dmg*"
         }
       }
     ]

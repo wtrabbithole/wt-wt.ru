@@ -1,0 +1,375 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "armada_01"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/air_lpt_lookup_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/lookups_planesets/lpt_t1_uk.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/lookups_planesets/lpt_t2_jpn.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    }
+  ],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "lpt_part_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": {
+        "comment": {
+          "value": "количество точек +1"
+        },
+        "varSetInt": {
+          "value": 4,
+          "var": "lpt_num_points"
+        }
+      },
+      "else_actions": []
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "squad": {
+        "name": "lpt_t1_lookup_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1645.0,-8.0,-1697.15]
+        ],
+        "props": [
+          {
+            "squad_members": "lpt_t1_lookup_rank_01"
+          },
+          {
+            "squad_members": "lpt_t1_lookup_rank_02"
+          },
+          {
+            "squad_members": "lpt_t1_lookup_rank_03"
+          },
+          {
+            "squad_members": "lpt_t1_lookup_rank_04"
+          },
+          {
+            "squad_members": "lpt_t1_lookup_rank_05"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "lpt_t2_lookup_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [210.65,29.4,80.05]
+        ],
+        "props": [
+          {
+            "squad_members": "lpt_t2_lookup_rank_01"
+          },
+          {
+            "squad_members": "lpt_t2_lookup_rank_02"
+          },
+          {
+            "squad_members": "lpt_t2_lookup_rank_03"
+          },
+          {
+            "squad_members": "lpt_t2_lookup_rank_04"
+          },
+          {
+            "squad_members": "lpt_t2_lookup_rank_05"
+          }
+        ]
+      }
+    }
+  ],
+  "areas": {
+    "t1_lookup_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.766044,0.0,-0.642788],
+        [0.0,1.0,0.0],
+        [0.642788,0.0,0.766044],
+        [-29000.0,4500.0,16000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_lookup_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [-0.887011,0.0,0.461749],
+        [0.0,1.0,0.0],
+        [-0.461749,0.0,-0.887011],
+        [29000.0,4500.0,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_lookup_retreat_point": {
+      "type": "Sphere",
+      "tm": [
+        [6894.4,0.0,-5785.09],
+        [0.0,9000.0,0.0],
+        [5785.09,0.0,6894.4],
+        [-34000.0,4500.0,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_lookup_retreat_point": {
+      "type": "Sphere",
+      "tm": [
+        [-7983.1,0.0,4155.74],
+        [0.0,9000.0,0.0],
+        [-4155.74,0.0,-7983.1],
+        [34000.0,4500.0,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_lookup_point_01": {
+      "type": "Point",
+      "tm": [
+        [-0.999048,0.0,-0.0436192],
+        [0.0,1.0,0.0],
+        [0.0436192,0.0,-0.999048],
+        [11714.1,3500.0,3308.15]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_lookup_point_02": {
+      "type": "Point",
+      "tm": [
+        [-0.999048,0.0,-0.0436192],
+        [0.0,1.0,0.0],
+        [0.0436192,0.0,-0.999048],
+        [5996.31,3500.0,-7215.08]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_lookup_point_03": {
+      "type": "Point",
+      "tm": [
+        [-0.999048,0.0,-0.0436192],
+        [0.0,1.0,0.0],
+        [0.0436192,0.0,-0.999048],
+        [-2711.81,3500.0,-17459.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_lookup_point_01": {
+      "type": "Point",
+      "tm": [
+        [-0.999048,0.0,-0.0436192],
+        [0.0,1.0,0.0],
+        [0.0436192,0.0,-0.999048],
+        [-2023.11,3500.0,12954.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_lookup_point_02": {
+      "type": "Point",
+      "tm": [
+        [-0.999048,0.0,-0.0436192],
+        [0.0,1.0,0.0],
+        [0.0436192,0.0,-0.999048],
+        [-10961.8,3500.0,3031.41]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_lookup_point_03": {
+      "type": "Point",
+      "tm": [
+        [-0.999048,0.0,-0.0436192],
+        [0.0,1.0,0.0],
+        [0.0436192,0.0,-0.999048],
+        [-17847.2,3500.0,-7648.91]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_lookup_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.766044,0.0,-0.642788],
+        [0.0,1.0,0.0],
+        [0.642788,0.0,0.766044],
+        [-29000.0,4500.0,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_lookup_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.766044,0.0,-0.642788],
+        [0.0,1.0,0.0],
+        [0.642788,0.0,0.766044],
+        [-29000.0,4500.0,-16000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_lookup_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [-0.887011,0.0,0.461749],
+        [0.0,1.0,0.0],
+        [-0.461749,0.0,-0.887011],
+        [29000.0,4500.0,16000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_lookup_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [-0.887011,0.0,0.461749],
+        [0.0,1.0,0.0],
+        [-0.461749,0.0,-0.887011],
+        [29000.0,4500.0,-16000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}
