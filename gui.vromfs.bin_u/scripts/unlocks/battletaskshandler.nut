@@ -257,6 +257,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
+    ::g_sound.stop()
     local curTabData = getSelectedTabData(obj)
     currentTabType = curTabData.tabType
     changeFrameVisibility()
@@ -321,11 +322,14 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onSelectTask(obj)
   {
     local val = obj.getValue()
-
     finishedTaskIdx = val
+
+    ::g_sound.stop()
+
     local config = getConfigByValue(val)
+    ::g_sound.preparePlayback(config.playback, config.id)
+
     updateButtons(config)
-    updatePlaybackVolumeButton(getObj(getConfigPlaybackButtonId(config)), true)
     hideTaskWidget(config)
   }
 
@@ -371,7 +375,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
     showSceneBtn("btn_requirements_list", ::show_console_buttons && ::getTblValue("names", config, []).len() != 0)
 
-    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config)] = !::u.isEmpty(::getTblValue("playback", config))}, true)
+    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config.id)] = ::g_sound.canPlay(config.id)}, true)
   }
 
   function updateTabButtons()
@@ -453,10 +457,16 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function getConfigByValue(value)
   {
-    if (!(value in buildedBattleTasksArray))
+    local checkArray = []
+    if (currentTabType == BattleTasksWndTab.BATTLE_TASKS)
+      checkArray = buildedBattleTasksArray
+    if (currentTabType == BattleTasksWndTab.PERSONAL_UNLOCKS)
+      checkArray = buildedPersonalUnlocksArray
+
+    if (!(value in checkArray))
       return null
 
-    return buildedBattleTasksArray[value]
+    return checkArray[value]
   }
 
   function onGetRewardForTask(obj)
@@ -534,9 +544,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
      ["cancel", function() {}]], "cancel")
   }
 
-  function getConfigPlaybackButtonId(config)
+  function getConfigPlaybackButtonId(btnId)
   {
-    return ::getTblValue("id", config, "") + "_sound"
+    return btnId + "_sound"
   }
 
   function getConfigsListObj()
@@ -565,6 +575,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     ::g_battle_tasks.markAllTasksSeen()
     ::g_battle_tasks.saveSeenTasksData()
+    ::g_sound.stop()
     base.goBack()
   }
 
@@ -595,6 +606,31 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     updateWarbonds()
   }
 
+  function onEventPlaybackDownloaded(p)
+  {
+    if (!::check_obj(scene))
+      return
+
+    local pbObj = scene.findObject(getConfigPlaybackButtonId(p.id))
+    if (!::check_obj(pbObj))
+      return
+
+    pbObj.enable(p.success)
+    pbObj.downloading = p.success? "no" : "yes"
+  }
+
+  function onEventFinishedPlayback(p)
+  {
+    local config = getConfigByValue(finishedTaskIdx)
+    if (!config)
+      return
+
+    local pbObjId = getConfigPlaybackButtonId(config.id)
+    local pbObj = scene.findObject(pbObjId)
+    if (::check_obj(pbObj))
+      pbObj.setValue(false)
+  }
+
   function onWarbondsShop()
   {
     ::g_warbonds.openShop()
@@ -620,26 +656,20 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     }])
   }
 
-  function switchPlaybackVolume(obj)
+  function switchPlaybackMode(obj)
   {
-    updatePlaybackVolumeButton(obj, false)
-  }
-
-  function updatePlaybackVolumeButton(obj, turnOff)
-  {
-    if (!::checkObj(obj))
+    local config = getConfigByValue(finishedTaskIdx)
+    if (!config)
       return
 
-    obj["foreground-image"] = "#ui/gameuiskin#" + (turnOff? "sound_off" : "sound_on")
+    if (!obj.getValue())
+      ::g_sound.stop()
+    else
+      ::g_sound.play(config.id)
+  }
 
-    local step = "ui/empty"
-    if (!::u.isEmpty(obj.playback))
-    {
-      if (turnOff)
-        step = "mainmenu/turnOn"
-      else
-        step = "mainmenu/turnOff"
-    }
-    obj.tooltip = ::loc("sound") + ::loc("ui/parentheses/space", {text = ::loc(step)})
+  function onDestroy()
+  {
+    ::g_sound.stop()
   }
 }

@@ -5,7 +5,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
   sceneBlkName = "gui/queue/queueTable.blk"
 
-  queueMask = queueType.UNKNOWN
+  queueMask = QUEUE_TYPE_BIT.UNKNOWN
 
   updateTimer = 0
   build_IA_shop_filters = false

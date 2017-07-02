@@ -265,10 +265,6 @@ function get_unit_exp_conversion_mul(unitName, resUnitName)
   return expMul
 }
 
-local tm = ::get_local_time()
-srand(tm.sec + tm.min + tm.hour)//*(clock()*1000000).tointeger())
-::math.init_rnd(tm.sec + tm.min + tm.hour)
-
 function calc_public_boost(bostersArray)
 {
   local res = 0.0

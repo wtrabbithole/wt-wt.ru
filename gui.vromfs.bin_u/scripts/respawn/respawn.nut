@@ -81,6 +81,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   tmapBtnObj  = null
   tmapHintObj = null
+  tmapRespawnBaseTimerObj = null
   tmapIconObj = null
 
   lastRequestData = null
@@ -95,6 +96,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   autostartShowTime = 0
   autostartShowInColorTime = 0
 
+  isFriendlyUnitsExists = true
   spectator_switch_timer_max = 0.5
   spectator_switch_timer = 0
   spectator_switch_direction = ESwitchSpectatorTarget.E_DO_NOTHING
@@ -161,6 +163,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     gameMode = ::get_game_mode()
     gameType = ::get_game_type()
 
+    isFriendlyUnitsExists = ::is_mode_with_friendly_units(gameType)
+
     updateCooldown = -1
     wasTimeLeft = -1000
     mplayerTable = ::get_local_mplayer() || {}
@@ -197,7 +201,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       canChangeAircraft = canChangeAircraft && curSpawnScore >= missionRules.getMinimalRequiredSpawnScore()
     canChangeAircraft = canChangeAircraft && leftRespawns != 0
 
-    setSpectatorMode(isRespawn && stayOnRespScreen, true)
+    setSpectatorMode(isRespawn && stayOnRespScreen && isFriendlyUnitsExists, true)
     createRespawnOptions()
 
     loadChat()
@@ -272,6 +276,21 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     tmapBtnObj  = scene.findObject("tmap_btn")
     tmapHintObj = scene.findObject("tmap_hint")
     tmapIconObj = scene.findObject("tmap_icon")
+    tmapRespawnBaseTimerObj = scene.findObject("tmap_respawn_base_timer")
+    ::secondsUpdater(tmapRespawnBaseTimerObj, (@(obj, params) updateRespawnBaseTimerText()).bindenv(this))
+  }
+
+  function updateRespawnBaseTimerText()
+  {
+    local text = ""
+    if (isRespawn && respawnBasesInfo.len())
+    {
+      local spawnId = (::last_ca_base != null) ? ::last_ca_base : -1
+      local time = ::get_respawn_base_time_left_by_id(spawnId)
+      if (time > 0)
+        text = ::loc("multiplayer/respawnBaseAvailableTime", { time = ::secondsToString(time) })
+    }
+    tmapRespawnBaseTimerObj.setValue(text)
   }
 
   function initTeamUnitsLeftView()
@@ -849,6 +868,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local spawn = (idx in respawnBasesInfo) ? respawnBasesInfo[idx] : null
     ::select_respawnbase((spawn && spawn.mapSelectable) ? spawn.id : -1)
     ::last_ca_base = (spawn && spawn.id != -1) ? spawn.id : null
+    updateRespawnBaseTimerText()
     checkReady()
   }
 
@@ -856,6 +876,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     local hint = ""
     local hintIcon = ::show_console_buttons ? "#ui/controlskin#l_trigger" : "#ui/gameuiskin#mouse_left"
+    local respBaseTimerText = ""
     if (!isRespawn)
       hint = ::colorize("activeTextColor", ::loc("voice_message_attention_to_point_2"))
     else
@@ -1208,13 +1229,15 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateTacticalMapUnitType(isMapForSelectedUnit = null)
   {
-    if (isMapForSelectedUnit == null)
-      isMapForSelectedUnit = !isSpectate
-
     local hudType = ::HUD_TYPE_UNKNOWN
-    local unit = isMapForSelectedUnit ? getSlotAircraft(curSlotCountryId, curSlotIdInCountry) : null
-    if (unit)
-      hudType = unit.unitType.hudTypeCode
+    if (isRespawn)
+    {
+      if (isMapForSelectedUnit == null)
+        isMapForSelectedUnit = !isSpectate
+      local unit = isMapForSelectedUnit ? getSlotAircraft(curSlotCountryId, curSlotIdInCountry) : null
+      if (unit)
+        hudType = unit.unitType.hudTypeCode
+    }
     ::set_tactical_map_hud_type(hudType)
   }
 
@@ -1903,7 +1926,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     local buttons = {
       btn_select =      showButtons && isRespawn && !isNoRespawns && !stayOnRespScreen && !doRespawnCalled
-      btn_spectator =   showButtons && isRespawn && (!isSpectate || ::is_has_multiplayer())
+      btn_spectator =   showButtons && isRespawn && isFriendlyUnitsExists && (!isSpectate || ::is_has_multiplayer())
       btn_mpStat =      showButtons && isRespawn && ::is_has_multiplayer()
       btn_QuitMission = showButtons && isRespawn && isNoRespawns && ::g_mis_loading_state.isReadyToShowRespawn()
       btn_back =        showButtons && ::use_touchscreen && !isRespawn

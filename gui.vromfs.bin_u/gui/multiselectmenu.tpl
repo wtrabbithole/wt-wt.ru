@@ -51,5 +51,5 @@ popup_menu {
     }
     <</list>>
   }
-  popoup_menu_arrow{}
+  popup_menu_arrow{}
 }

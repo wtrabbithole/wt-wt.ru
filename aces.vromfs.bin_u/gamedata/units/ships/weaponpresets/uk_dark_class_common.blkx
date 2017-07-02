@@ -11,7 +11,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/114mm_8cwt_QF_user_cannon.blk"
       },
       {
-        "emitter": "gun_barrel_01"
+        "emitter": "emtr_gun_flame_01"
       },
       {
         "flash": "emtr_gun_flame_01"
@@ -23,10 +23,10 @@
         "recoilOffset": 0.3
       },
       {
-        "barrelDP": "gun_barrel_01_dm"
+        "barrelDP": "main_caliber_gun_01_dm"
       },
       {
-        "breechDP": "cannon_breech_01_dm"
+        "breechDP": "main_caliber_gun_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -102,12 +102,10 @@
       },
       {
         "turret": {
-          "head": "turret_h_01",
-          "gun": "turret_v_01",
+          "head": "main_caliber_turret_01",
+          "gun": "main_caliber_gun_01",
           "barrel": "gun_barrel_01",
-          "gunnerDm": "gunner_01_dm",
-          "verDriveDm": "drive_turret_v_01_dm",
-          "horDriveDm": "drive_turret_h_01_dm",
+          "gunnerDm": "main_caliber_turret_01_dm",
           "linkedAnimPart": {
             "verNode": "sight_01",
             "verLimits": [-1.0,65.0],
@@ -154,7 +152,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/40mm_L60_Bofors_Mk_vii_mount.blk"
       },
       {
-        "emitter": "gun_barrel_02"
+        "emitter": "emtr_gun_flame_02"
       },
       {
         "flash": "emtr_gun_flame_02"
@@ -166,10 +164,10 @@
         "recoilOffset": 0.2
       },
       {
-        "barrelDP": "gun_barrel_02_dm"
+        "barrelDP": "auxiliary_caliber_gun_01_dm"
       },
       {
-        "breechDP": "cannon_breech_02_dm"
+        "breechDP": "auxiliary_caliber_gun_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -245,12 +243,10 @@
       },
       {
         "turret": {
-          "head": "turret_h_04",
-          "gun": "gun_02",
+          "head": "auxiliary_caliber_turret_01",
+          "gun": "auxiliary_caliber_gun_01",
           "barrel": "gun_barrel_02",
-          "gunnerDm": "gunner_04_dm",
-          "verDriveDm": "drive_turret_v_02_dm",
-          "horDriveDm": "drive_turret_h_02_dm"
+          "gunnerDm": "auxiliary_caliber_turret_01_dm"
         }
       },
       {

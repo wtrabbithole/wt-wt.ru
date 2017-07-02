@@ -132,7 +132,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   timeToChooseCountry = 1.0
   switcheHidden = false
   lastBattleMode = null
-  queueMask = queueType.DOMINATION | queueType.NEWBIE
+  queueMask = QUEUE_TYPE_BIT.DOMINATION | QUEUE_TYPE_BIT.NEWBIE
 
   curQueue = null
   function getCurQueue() { return curQueue }

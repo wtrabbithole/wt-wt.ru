@@ -175,7 +175,7 @@ function build_aircraft_item(id, air, params = {})
     // Air research progress view
     //
 
-    local showProgress = !isOwn && canResearch
+    local showProgress = !isOwn && canResearch && !::is_in_flight()
     local airResearchProgressView = {
       airResearchProgress = []
     }
@@ -208,7 +208,7 @@ function build_aircraft_item(id, air, params = {})
     //
 
     local priceText = ::get_unit_item_price_text(air, params)
-    local progressText = ::get_unit_item_research_progress_text(air, params, priceText)
+    local progressText = showProgress ? ::get_unit_item_research_progress_text(air, params, priceText) : ""
     local checkNotification = ::getTblValueByPath("entitlementUnits." + air.name, ::visibleDiscountNotifications)
 
     local showBR = ::getTblValue("showBR", params, ::has_feature("GlobalShowBattleRating"))
@@ -603,8 +603,14 @@ function get_slot_unit_name_text(unit, params)
   if (missionRules && missionRules.needLeftRespawnOnSlots)
   {
     local leftRespawns = missionRules.getUnitLeftRespawns(unit)
-    if (leftRespawns != ::RESPAWNS_UNLIMITED)
-      res += ::loc("ui/parentheses/space", { text = leftRespawns })
+    local leftWeaponPresetsText = missionRules.getUnitLeftWeaponShortText(unit)
+    local text = leftRespawns != ::RESPAWNS_UNLIMITED ? leftRespawns.tostring() : ""
+
+    if (leftWeaponPresetsText.len())
+      text += (text.len() ? "/" : "") + leftWeaponPresetsText
+
+    if (text.len())
+      res += ::loc("ui/parentheses/space", { text = text })
   }
   return res
 }

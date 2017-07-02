@@ -410,6 +410,7 @@ Button_close > img, closeBtn > img {
 }
 
 Button_text[btnName=start], button[btnName=start] { accessKey:'J:Start'; }
+Button_text[btnName=ww_menu]           { accessKey:'J:Start | Esc'; }
 Button_text[btnName=back]              { accessKey:'J:Back'; }
 Button_text[btnName=X], CheckBox[btnName=X], DummyButton[btnName=X],
 dropright[btnName=X], ComboBox[btnName=X]
@@ -424,7 +425,7 @@ Button_text.switch[btnName=Y]          { accessKey:'J:Y | Space'; }
 Button_text[btnName=RB], CheckBox[btnName=RB],
 DummyButton[btnName=RB], emptyButton[btnName=RB]
                                        { accessKey:'J:RB'; }
-Button_text[btnName=LB], CheckBox[btnName=LB],
+Button_text[btnName=LB], CheckBox[btnName=LB], playbackCheckbox[btnName=LB],
 DummyButton[btnName=LB], emptyButton[btnName=LB]
                                        { accessKey:'J:LB'; }
 Button_text[btnName=RT]                { accessKey:'J:RT'; }
@@ -488,8 +489,10 @@ Button_text[btnName=B][menuShortcuts]  { accessKey:'J:B | J:Back | Esc | Backspa
 [btnName=Y] > ButtonImg { background-image:#ui/controlskin#button_y; }
 [btnName=Y]:pushed > ButtonImg { background-image:#ui/controlskin#button_y_pressed; }
 
-[btnName=start]        > ButtonImg { background-image:#ui/controlskin#button_start; }
-[btnName=start]:pushed > ButtonImg { background-image:#ui/controlskin#button_start_pressed; }
+[btnName=start] > ButtonImg, [btnName=ww_menu] > ButtonImg
+  { background-image:#ui/controlskin#button_start; }
+[btnName=start]:pushed > ButtonImg, [btnName=ww_menu]:pushed > ButtonImg
+  { background-image:#ui/controlskin#button_start_pressed; }
 [btnName=back]         > ButtonImg { background-image:#ui/controlskin#button_back; }
 [btnName=back]:pushed  > ButtonImg { background-image:#ui/controlskin#button_back_pressed; }
 [btnName=RB]           > ButtonImg, ButtonImg[btnName=RB]{ background-image:#ui/controlskin#r_shoulder; }

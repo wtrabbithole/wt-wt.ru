@@ -375,7 +375,7 @@ function g_world_war::leaveWWBattleQueues(battle = null)
     ::queues.leaveQueue(queue)
   }
   else
-    ::queues.leaveQueueByType(queueType.WW_BATTLE)
+    ::queues.leaveQueueByType(QUEUE_TYPE_BIT.WW_BATTLE)
 }
 
 function g_world_war::startLatentQueueRefresh()

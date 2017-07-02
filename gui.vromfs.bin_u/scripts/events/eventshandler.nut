@@ -212,7 +212,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurEventQueue()
   {
-    local q = ::queues.findQueue({}, queueType.EVENT)
+    local q = ::queues.findQueue({}, QUEUE_TYPE_BIT.EVENT)
     return (q && ::queues.isQueueActive(q)) ? q : null
   }
 
@@ -282,7 +282,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (skipCheckQueue)
       return func()
 
-    checkedModifyQueue(queueType.EVENT, func, cancelFunc)
+    checkedModifyQueue(QUEUE_TYPE_BIT.EVENT, func, cancelFunc)
   }
 
   function restoreQueueParams()

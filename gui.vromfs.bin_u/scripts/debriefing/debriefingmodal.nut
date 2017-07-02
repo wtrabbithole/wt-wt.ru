@@ -125,7 +125,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     EASAB_DEAD = "dead"
   }
 
-  ffa = false
+  isTeamplay = false
   isSpectator = false
   gameType = null
 
@@ -136,7 +136,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function initScreen()
   {
     gameType = ::get_game_type()
-    ffa = !(gameType & ::GT_RACE) && !!(gameType & ::GT_FREE_FOR_ALL)
+    isTeamplay = ::is_mode_with_teams(gameType)
 
     if (::disable_network()) //for correct work in disable_menu mode
       ::update_gamercards()
@@ -181,20 +181,27 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       if (isSpectator
            && (gameType & ::GT_VERSUS)
-           && !ffa
            && (mpResult == ::STATS_RESULT_SUCCESS
                 || mpResult == ::STATS_RESULT_FAIL))
       {
-        local myTeam = Team.A
-        foreach(player in ::debriefing_result.mplayers_list)
-          if (::getTblValue("isLocal", player, false))
-          {
-            myTeam = player.team
-            break
-          }
-        local winner = ((myTeam == Team.A) == ::debriefing_result.isSucceed) ? "A" : "B"
-        resTitle = ::loc("multiplayer/team_won") + ::loc("ui/colon") + ::loc("multiplayer/team" + winner)
-        headerImgTag = "win"
+        if (isTeamplay)
+        {
+          local myTeam = Team.A
+          foreach(player in ::debriefing_result.mplayers_list)
+            if (::getTblValue("isLocal", player, false))
+            {
+              myTeam = player.team
+              break
+            }
+          local winner = ((myTeam == Team.A) == ::debriefing_result.isSucceed) ? "A" : "B"
+          resTitle = ::loc("multiplayer/team_won") + ::loc("ui/colon") + ::loc("multiplayer/team" + winner)
+          headerImgTag = "win"
+        }
+        else
+        {
+          resTitle = ::loc("MISSION_FINISHED")
+          headerImgTag = "win"
+        }
       }
       else if (mpResult == ::STATS_RESULT_SUCCESS)
       {
@@ -450,6 +457,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     bgImage.set_prop_latent("color-factor", isVisible ? 153 : 255)
     bgImage.updateRendElem()
 
+    showSceneBtn("pve_reward_block", isVisible)
     if (! isVisible)
       return
 
@@ -463,11 +471,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function fillPveRewardProgressBar()
   {
-    local pveTrophyPlaceObj = scene.findObject("pve_trophy_progress")
-    if (!::check_obj(pveTrophyPlaceObj))
+    local pveTrophyPlaceObj = showSceneBtn("pve_trophy_progress", true)
+    if (!pveTrophyPlaceObj)
       return
-
-    pveTrophyPlaceObj.show(true)
 
     local receivedTrophyName = pveRewardInfo.receivedTrophyName
     local rewardTrophyStages = pveRewardInfo.stagesTime
@@ -509,25 +515,20 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function fillPveRewardTrophyChest(trophyItem)
   {
-    local trophyPlaceObj = scene.findObject("pve_trophy_chest")
-    if (!trophyItem || !::check_obj(trophyPlaceObj))
+    local isVisible = !!trophyItem
+    local trophyPlaceObj = showSceneBtn("pve_trophy_chest", isVisible)
+    if (!isVisible || !trophyPlaceObj)
       return
 
-    trophyPlaceObj.show(true)
     local imageData = trophyItem.getOpenedBigIcon()
     guiScene.replaceContentFromText(trophyPlaceObj, imageData, imageData.len(), this)
   }
 
   function fillPveRewardTrophyContent(trophyItem, isRewardReceivedEarlier)
   {
-    local obj = scene.findObject("pve_award_already_received")
-    if(::check_obj(obj))
-      obj.show(isRewardReceivedEarlier)
-    if (!trophyItem)
-      return
-
-    local trophyContentPlaceObj = scene.findObject("pve_trophy_content")
-    if (!::check_obj(trophyContentPlaceObj))
+    showSceneBtn("pve_award_already_received", isRewardReceivedEarlier)
+    local trophyContentPlaceObj = showSceneBtn("pve_trophy_content", !!trophyItem)
+    if (!trophyItem || !trophyContentPlaceObj)
       return
 
     local layersData = ""
@@ -678,7 +679,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
       if (!skipAnim)
         ::play_gui_sound("deb_players_on")
-      buildPlayersTable()
+      initPlayersTable()
       loadBattleLog()
       loadChatHistory()
       loadCasualtiesHistory()
@@ -1258,16 +1259,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     skipAnim = true
   }
 
-  function onNext()
-  {
-    if (state != debrState.done && !skipAnim)
-    {
-      skipAnim = true
-      return
-    }
-    goBack()
-  }
-
   function checkShowTooltip(obj)
   {
     local showTooltip = skipAnim || state==debrState.done
@@ -1607,57 +1598,46 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }])
   }
 
-  function appendPlayersTbl(playersTbl, mplayersList)
+  function buildPlayersTable()
   {
-    if (mplayersList.len() > 0)
-      sortTable(mplayersList)
-
-    foreach(pData in mplayersList)
+    playersTbl = []
+    curPlayersTbl = [[], []]
+    if (isTeamplay)
     {
-      pData.state = ::PLAYER_IN_FLIGHT //dont need to show laast player state in debriefing.
-      pData.isDead = false
+      for(local t = 0; t < 2; t++)
+      {
+        local tbl = getMplayersListByTeam(t+1)
+        sortTable(tbl)
+        playersTbl.append(tbl)
+      }
     }
-    playersTbl.append(mplayersList)
+    else
+    {
+      sortTable(::debriefing_result.mplayers_list)
+      playersTbl.append([])
+      playersTbl.append([])
+      foreach(i, player in ::debriefing_result.mplayers_list)
+      {
+        local tblIdx = i >= PLAYERS_IN_FIRST_TABLE_IN_FFA ? 1 : 0
+        playersTbl[tblIdx].append(player)
+      }
+    }
+
+    foreach(tbl in playersTbl)
+      foreach(player in tbl)
+      {
+        player.state = ::PLAYER_IN_FLIGHT //dont need to show laast player state in debriefing.
+        player.isDead = false
+      }
   }
 
-  function buildPlayersTable()
+  function initPlayersTable()
   {
     initStats()
 
     if (needPlayersTbl)
-    {
-      foreach (tbl in [ tblSave1, tblSave2 ])
-        if (tbl)
-           sortTable(tbl)
-      selectLocalPlayer()
+      buildPlayersTable()
 
-      if (gameType & ::GT_VERSUS)
-      {
-        playersTbl = []
-        curPlayersTbl = [[], []]
-        if (ffa || (gameType & ::GT_RACE))
-        {
-          local copy_plTable = clone ::debriefing_result.mplayers_list
-          local globalHalfOfTable = ::global_max_players_versus / 2
-          local mplayersTable = []
-          for(local i = 0; i < copy_plTable.len(); ++i)
-            if (i in copy_plTable)
-            {
-              local arrayElement = i >= globalHalfOfTable? 1 : 0
-              if(!(arrayElement in mplayersTable))
-                mplayersTable.append([])
-
-              mplayersTable[arrayElement].append(clone copy_plTable[i])
-            }
-
-          for(local t = 0; t < 2; ++t)
-            appendPlayersTbl(playersTbl, (t in mplayersTable? mplayersTable[t] : []))
-        }
-        else
-          for(local t = 0; t < 2; t++)
-            appendPlayersTbl(playersTbl, getMplayersListByTeam(t+1))
-      }
-    }
     updatePlayersTable(0.0)
     showMyPlaceInTable()
   }
@@ -1697,6 +1677,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
       updateStats(curPlayersTbl, ::debriefing_result.mpTblTeams)
       statsTimer += playersRowTime
+      if (playersTblDone)
+        selectLocalPlayer()
     }
     return true
   }
@@ -1705,8 +1687,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     if (!playersTbl
         || isSpectator
-        || pveRewardInfo && pveRewardInfo.isVisible
-        || ffa)
+        || pveRewardInfo && pveRewardInfo.isVisible)
       return
 
     local place = 0
@@ -1715,13 +1696,19 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         if (("isLocal" in player) && player.isLocal)
         {
           place = i + 1
+          if (!isTeamplay && t)
+            place += playersTbl[0].len()
           break
         }
     if (place==0)
       return
 
+    local label = isTeamplay ? ::loc("debriefing/placeInMyTeam")
+      : (::loc("mainmenu/btnMyPlace") + ::loc("ui/colon"))
+
     local objTarget = scene.findObject("my_place_move_box")
     objTarget.show(true)
+    scene.findObject("my_place_label").setValue(label)
     scene.findObject("my_place_in_mptable").setValue(place.tostring())
 
     if (!skipAnim)
@@ -2100,6 +2087,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function goBack()
   {
+    if (state != debrState.done && !skipAnim)
+    {
+      onSkip()
+      return
+    }
+
     if (isInProgress)
       return
 

@@ -150,12 +150,12 @@ Button_text {
 }
 
 Button_text {
-  id:t='btn_squadDisband'
+  id:t='btn_squadLeave'
   size:t='ph, ph'
   tooltip:t=''
-  on_click:t='onSquadDisband'
+  on_click:t='onSquadLeave'
   class:t='image24'
-  type:t='squadDisband'
+  type:t='squadLeave'
 
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'

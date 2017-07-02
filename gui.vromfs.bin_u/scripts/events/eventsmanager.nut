@@ -582,7 +582,8 @@ class Events
       return
 
     local sides = []
-    local isSymmetric = ::getTblValue("isSymmetric", event)
+    local isFreeForAll = ::getTblValue("ffa", event)
+    local isSymmetric = isFreeForAll || ::getTblValue("isSymmetric", event, false)
 
     foreach(team in fullTeamsList)
       if (isTeamDataPlayable(getTeamData(event, team)))
@@ -596,6 +597,7 @@ class Events
 
     event.sidesList <- sides
     event.isSymmetric <- isSymmetric
+    event.isFreeForAll <- isFreeForAll
   }
 
   function getSidesList(event = null)
@@ -610,6 +612,12 @@ class Events
   {
     initSidesOnce(event)
     return event.isSymmetric
+  }
+
+  function isEventFreeForAll(event)
+  {
+    initSidesOnce(event)
+    return event.isFreeForAll
   }
 
   function getTeamName(teamCode)
@@ -1223,21 +1231,65 @@ class Events
     if (!::g_squad_manager.isSquadLeader())
       return null
 
-    local teamsData = []
-    local cantFlyData = []
+    local bestTeamsData = null
+    if (room)
+      bestTeamsData = getMembersFlyoutEventDataImpl(event, room, teams)
+    else
+    {
+      local myCountry = ::get_profile_info().country
+      foreach(countrySet in getAllCountriesSets(event))
+      {
+        local mgmTeams = []
+        foreach(idx, countries in countrySet.countries)
+          if (::isInArray(myCountry, countries))
+            mgmTeams.append(idx + 1) //idx to Team enum
+        if (!mgmTeams.len())
+          continue
+
+        foreach(gameModeId in countrySet.gameModeIds)
+        {
+          local mgm = ::g_matching_game_modes.getModeById(gameModeId)
+          if (!mgm)
+            continue
+          local teamsData = getMembersFlyoutEventDataImpl(mgm, null, mgmTeams)
+          if (!bestTeamsData || bestTeamsData.cantFlyData.len() > teamsData.cantFlyData.len())
+          {
+            bestTeamsData = teamsData
+            if (bestTeamsData.canFlyout)
+              break
+          }
+        }
+        if (bestTeamsData && bestTeamsData.canFlyout)
+          break
+      }
+    }
+
+    if (bestTeamsData && !bestTeamsData.canFlyout)
+      showCantFlyMembersMsgBox(bestTeamsData.cantFlyData)
+    return bestTeamsData && bestTeamsData.teamsData
+  }
+
+  function getMembersFlyoutEventDataImpl(roomMgm, room, teams)
+  {
+    local res = {
+      teamsData = []
+      cantFlyData = []
+      canFlyout = false
+    }
     foreach(team in teams)
     {
-      local data = getMembersFlyoutEventData(event, room, team)
+      local data = getMembersFlyoutEventData(roomMgm, room, team)
       data.team <- team
 
       if (data.canFlyout)
-        teamsData.append(data)
+      {
+        res.teamsData.append(data)
+        res.canFlyout = true
+      }
       else
-        cantFlyData.append(data)
+        res.cantFlyData.append(data)
     }
-    if (!teamsData.len())
-      showCantFlyMembersMsgBox(cantFlyData)
-    return teamsData
+    return res
   }
 
   function getMembersFlyoutEventData(event, room, team)

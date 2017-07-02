@@ -932,7 +932,12 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         text = ::loc("multiplayer/invite_to_session")
         show = ::SessionLobby.canInvitePlayer(curPlayer.uid)
-        action = (@(curPlayer) function () {::SessionLobby.invitePlayer(curPlayer.uid)})(curPlayer)
+        action = function () {
+          if (::isPlayerPS4Friend(curPlayer.name))
+            ::g_psn_session_invitations.sendSkirmishInvitation(curPlayer.name)
+          else
+            ::SessionLobby.invitePlayer(curPlayer.uid)
+        }
       }
       {
         text = ::loc("contacts/message")
@@ -952,11 +957,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("squad/invite_player")
         show = !isMe && !isBlock && ::g_squad_manager.canInviteMember()
         action = function() { onSquadInvite(null) }
-      }
-      {
-        text = ::loc("squad/invite_player_ps4")
-        show = ::gchat_is_connected() && !isMe && !isBlock && ::g_squad_manager.canInviteMember() && ::isPlayerPS4Friend(curPlayer.name)
-        action = function() { onSquadInvitePsn(null) }
       }
       {
         text = ::loc("squad/remove_player")
@@ -1136,34 +1136,17 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSquadInvite(obj)
   {
-    updateCurPlayer(obj)
-    if (!curPlayer || !owner)
+    if (!::g_squad_manager.canInviteMember())
       return
-    if (::has_feature("Squad"))
-      ::g_squad_manager.inviteToSquad(curPlayer.uid)
-    else
-      msgBox("not_available", ::loc("msgbox/notAvailbleYet"), [["ok", function() {} ]], "ok")
-  }
 
-  function onSquadInvitePsn(obj)
-  {
     updateCurPlayer(obj)
-    if (!curPlayer || !owner)
-      return
-    if (::has_feature("Squad"))
-    {
-      local config = {
-                       target = curPlayer.name.slice(1),
-                       inviteType = "squad",
-                       expireMinutes = 10
-                     }
-      if (::sendInvitationPsn(config) == 0) //-1 - error, 1 - user cancelled
-        ::g_squad_manager.inviteToSquad(curPlayer.uid)
-      else
-        dagor.debug("sendInvitationPsn failed")
-    }
+
+    if (curPlayer == null)
+      ::g_popups.add("", ::loc("msgbox/noChosenPlayer"))
+    else if (::isPlayerPS4Friend(curPlayer.name))
+      ::g_psn_session_invitations.sendSquadInvitation(curPlayer.name)
     else
-      msgBox("not_available", ::loc("msgbox/notAvailbleYet"), [["ok", function() {} ]], "ok")
+      ::g_squad_manager.inviteToSquad(curPlayer.uid)
   }
 
   function onSquadRemove(obj)
@@ -1390,8 +1373,12 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 function gui_start_search_squadPlayer()
 {
   if (!::g_squad_manager.canInviteMember())
-    return ::showInfoMsgBox(::loc("squad/not_a_leader"), "squad_not_available")
+  {
+    ::showInfoMsgBox(::loc("squad/not_a_leader"), "squad_not_available")
+    return
+  }
 
+  ::update_ps4_friends()
   ::handlersManager.loadHandler(::gui_handlers.SearchForSquadHandler)
 }
 
@@ -1431,6 +1418,8 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
       if (!(clanGroup in ::contacts))
         ::contacts[clanGroup] <- []
     }
+    if (::is_platform_ps4)
+      sg_groups.insert(2, ::EPLX_PS4_FRIENDS)
 
     fillContactsList(sg_groups)
     guiScene.setUpdatesEnabled(true, true)
@@ -1477,17 +1466,6 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     local squadBtn = scene.findObject("btn_squadInvite_bottom")
     if (::checkObj(squadBtn))
       squadBtn.inactiveColor = show? "no" : "yes"
-  }
-
-  function onSquadInvite(obj)
-  {
-    updateCurPlayer(obj)
-    if (curPlayer == null)
-      msgBox("need_text", ::loc("msgbox/noChosenPlayer"), [["ok", function() {} ]], "ok")
-    else if (curGroup == ::EPL_FRIENDLIST && curPlayer.presence == ::g_contact_presence.OFFLINE)
-      msgBox("need_text", ::loc("msgbox/offlinePlayer"), [["ok", function() {} ]], "ok")
-    else
-      ::g_squad_manager.inviteToSquad(curPlayer.uid)
   }
 
   function onGroupSelect(obj)

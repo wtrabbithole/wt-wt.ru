@@ -175,7 +175,7 @@ enum voiceChatStats
   talking
 }
 
-::INVALID_USER_ID <- make_invalid_user_id()
+::INVALID_USER_ID <- (-1)
 
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
 
@@ -186,7 +186,6 @@ const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
 function randomize()
 {
   local tm = ::get_local_time()
-  srand(tm.sec + tm.min + tm.hour)
   ::math.init_rnd(tm.sec + tm.min + tm.hour)
 }
 randomize()
@@ -234,8 +233,10 @@ foreach (fn in [
 
   "scripts/baseGuiHandlerManagerWT.nut"
 
+  "scripts/langUtils/localization.nut"
+  "scripts/langUtils/language.nut"
+
   "scripts/user/features.nut"
-  "scripts/language.nut"
   "scripts/clientState/keyboardState.nut"
   "scripts/clientState/contentPacks.nut"
   "scripts/utils/errorMsgBox.nut"
@@ -272,6 +273,7 @@ foreach (fn in [
   "scripts/debugTools/dbgUtils.nut"
 
   //probably used before login on ps4
+  "scripts/controls/controlsConsts.nut"
   "scripts/controls/controlsManager.nut"
 ])
 {
@@ -347,10 +349,7 @@ function load_scripts_after_login()
     "leaderboardCategoryType.nut"
     "leaderboard.nut"
 
-    "queue/queueUtils.nut"
     "queue/queueManager.nut"
-    "queue/queueType.nut"
-    "queue/queueTable.nut"
 
     "events/eventDisplayType.nut"
     "events/eventsChapter.nut"
@@ -418,8 +417,10 @@ function load_scripts_after_login()
     "invites/inviteBase.nut"
     "invites/inviteChatRoom.nut"
     "invites/inviteSessionRoom.nut"
+    "invites/invitePsnSessionRoom.nut"
     "invites/inviteTournamentBattle.nut"
     "invites/inviteSquad.nut"
+    "invites/invitePsnSquad.nut"
     "invites/inviteFriend.nut"
     "invites/invitesWnd.nut"
 
@@ -584,6 +585,8 @@ function load_scripts_after_login()
     "social/activityFeed.nut"
     "social/facebook.nut"
     "social/psnPlayTogether.nut"
+    "social/psnSessionInvitations.nut"
+    "social/psnMapper.nut"
 
     "gamercardDrawer.nut"
 
@@ -684,6 +687,7 @@ function load_scripts_after_login()
 
     "utils/popupMessages.nut"
     "utils/fileDialog.nut"
+    "utils/soundManager.nut"
 
     "webpoll.nut"
   ])
@@ -705,7 +709,11 @@ function should_disable_menu()
 
 if (::g_login.isLoggedIn() //scripts reload
     || ::should_disable_menu())
+{
   ::load_scripts_after_login()
+  if (!::g_script_reloader.isInReloading)
+    ::run_reactive_gui()
+}
 
 //------- ^^^ files after login ^^^ ----------
 ::use_touchscreen <- ::init_use_touchscreen()

@@ -15,40 +15,97 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
     roomId = ::getTblValue("roomId", params, roomId)
     password = ::getTblValue("password", params, password)
 
-    isAccepted = false
-
     if (::g_squad_manager.isMySquadLeader(inviterUid))
-      implAccept(true) //auto accpet squad leader room invite
+    {
+      implAccept(true) //auto accept squad leader room invite
+      isAccepted = true //if fail to join, it will try again on ready
+      return
+    }
+
+    if (initial)
+    {
+      ::add_event_listener("LobbyIsInRoomChanged",
+        function (p) {
+          if (::SessionLobby.isInRoom() && ::SessionLobby.roomId == roomId)
+          {
+            isAccepted = true
+            remove()
+          }
+        },
+        this)
+      ::add_event_listener("MRoomInfoUpdated",
+        function (p) {
+          if (p.roomId != roomId)
+            return
+          setDelayed(false)
+          if (!isValid())
+            remove()
+          else
+            ::g_invites.broadcastInviteUpdated(this)
+        },
+        this)
+    }
+
+    //do not set delayed when scipt reload to not receive invite popup on each script reload
+    setDelayed(!::g_script_reloader.isInReloading && !::g_mroom_info.get(roomId).getFullRoomData())
   }
 
   function isValid()
   {
-    return !isAccepted
+    return !isAccepted && !::g_mroom_info.get(roomId).isRoomDestroyed
   }
 
-  function getChatInviteText()
+  function remove()
   {
-    local nameF = "<Link=%s><Color="+inviteActiveColor+">%s</Color></Link>"
+    isAccepted = true
+    base.remove()
+  }
 
-    local inviterText = ::format(nameF, getChatInviterLink(), inviterName)
-    return ::format(::loc("multiplayer/invite_to_session_message"), inviterText)
-           + ::format(nameF, getChatLink(), ::loc("multiplayer/invite_to_session_link_text"))
+  function getText(locIdFormat, activeColor = null)
+  {
+    if (!activeColor)
+      activeColor = inviteActiveColor
+
+    local room = ::g_mroom_info.get(roomId).getFullRoomData()
+    local event = room ? ::SessionLobby.getRoomEvent(room) : null
+    local modeId = "skirmish"
+    local params = { player = ::colorize(activeColor, inviterName) }
+    if (event)
+    {
+      modeId = "event"
+      params.eventName <- ::colorize(activeColor, ::events.getEventNameText(event))
+    }
+    else
+      params.missionName <- room ? ::colorize(activeColor, ::SessionLobby.getMissionNameLoc(room)) : ""
+
+    return ::loc(::format(locIdFormat, modeId), params)
   }
 
   function getInviteText()
   {
-    return ::loc("multiplayer/invite_to_session_message/no_nick")
+    return getText("invite/%s/message_no_nick", "userlogColoredText")
   }
 
   function getPopupText()
   {
-    return ::format(::loc("multiplayer/invite_to_session_message"),
-                    ::colorize(inviteActiveColor, inviterName))
+    return getText("invite/%s/message")
   }
 
   function getIcon()
   {
     return "#ui/gameuiskin#lb_each_player_session"
+  }
+
+  function haveRestrictions()
+  {
+    return !::isInMenu()
+  }
+
+  function getRestrictionText()
+  {
+    if (haveRestrictions())
+      return ::loc("invite/session/cant_apply_in_flight")
+    return ""
   }
 
   function accept()
@@ -73,8 +130,11 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
     if (isOutdated())
       return ::g_invites.showExpiredInvitePopup()
 
-    ::SessionLobby.joinRoom(roomId, inviterUid, password)
-    isAccepted = true
-    remove()
+    local room = ::g_mroom_info.get(roomId).getFullRoomData()
+    local event = room ? ::SessionLobby.getRoomEvent(room) : null
+    if (event)
+      ::gui_handlers.EventRoomsHandler.open(event, false, roomId)
+    else
+      ::SessionLobby.joinRoom(roomId, inviterUid, password)
   }
 }

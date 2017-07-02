@@ -29,6 +29,7 @@ class ::gui_handlers.QiHandlerByCountries extends ::gui_handlers.QiHandlerBase
     local countrySets = ::events.getAllCountriesSets(event)
     if (!::u.isEqual(visibleCountrySets, countrySets))
       fillCountrySets(countrySets)
+    updateCustomModeCheckbox()
   }
 
   function fillCountrySets(countrySets)
@@ -71,6 +72,35 @@ class ::gui_handlers.QiHandlerByCountries extends ::gui_handlers.QiHandlerBase
     local nestObj = scene.findObject("countries_sets")
     guiScene.replaceContentFromText(nestObj, markup, markup.len(), this)
     showSceneBtn("countries_sets_header", true)
+  }
+
+  function updateCustomModeCheckbox()
+  {
+    local isVisible = queue && queue.hasCustomMode()
+    showSceneBtn("custom_mode_header", isVisible)
+    local obj = showSceneBtn("custom_mode_checkbox", isVisible)
+    if (!isVisible)
+      return
+
+    obj.enable(queue.isAllowedToSwitchCustomMode())
+    local value = getCustomModeCheckboxValue()
+    if (value != obj.getValue())
+      obj.setValue(value)
+  }
+
+  function getCustomModeCheckboxValue()
+  {
+    if (!queue)
+      return false
+    if (queue.isAllowedToSwitchCustomMode())
+      return queue.isCustomModeSwitchedOn()
+    return queue.isCustomModeQUeued()
+  }
+
+  function onCustomModeCheckbox(obj)
+  {
+    if (queue)
+      queue.switchCustomMode(obj.getValue())
   }
 
   function createClustersList()

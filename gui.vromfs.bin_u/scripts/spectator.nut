@@ -17,6 +17,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   ignoreUiInput = false
 
   mode = SPECTATOR_MODE.SKIRMISH
+  gameType            = 0
   gotRefereeRights    = false
   isMultiplayer       = false
   canControlTimeline  = false
@@ -44,6 +45,9 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   lastHudUnitType = ::ES_UNIT_TYPE_AIRCRAFT
   lastFriendlyTeam = 0
   statSelPlayerId = [ null, null ]
+
+  funcSortPlayersSpectator = null
+  funcSortPlayersDefault   = null
 
   scanPlayerParams = [
     "canBeSwitchedTo",
@@ -89,7 +93,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    local gameType = ::get_game_type()
+    gameType = ::get_game_type()
     local mplayerTable = ::get_local_mplayer() || {}
     local isReplay = ::is_replay_playing()
     local replayProps = ("get_replay_props" in getroottable()) ? ::get_replay_props() : {}
@@ -195,6 +199,9 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local replaySessionId = ::getTblValue("sessionId", replayProps, "")
       scene.findObject("txt_replay_session_id").setValue(replaySessionId)
     }
+
+    funcSortPlayersSpectator = mpstatSortSpectator.bindenv(this)
+    funcSortPlayersDefault   = ::mpstat_get_sort_func(gameType)
 
     ::g_hud_live_stats.init(scene, "spectator_live_stats_nest", false)
     actionBar = ActionBar(scene.findObject("spectator_hud_action_bar"))
@@ -737,6 +744,9 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
       player.team = teamId
       player.ingame <- player.state == ::PLAYER_IN_FLIGHT || player.state == ::PLAYER_IN_RESPAWN
+      player.isActing <- player.ingame
+        && (!(gameType & ::GT_RACE) || player.raceFinishTime < 0)
+        && (!(gameType & ::GT_LAST_MAN_STANDING) || player.deaths == 0)
       if (mode == SPECTATOR_MODE.REPLAY && !player.isBot)
         player.isBot = player.userId == "0" || ::getTblValue("invitedName", player) != null
       local unitId = (!player.isDead && player.state == ::PLAYER_IN_FLIGHT) ? player.aircraftName : null
@@ -744,19 +754,26 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       player.aircraftName = unitId || ""
       player.canBeSwitchedTo = unitId ? player.canBeSwitchedTo : false
     }
-    tbl.sort(::mpstat_sort_alive)
+    tbl.sort(funcSortPlayersSpectator)
     return tbl
+  }
+
+  function mpstatSortSpectator(a, b)
+  {
+    return b.isActing <=> a.isActing
+      || !a.isActing && funcSortPlayersDefault(a, b)
+      || a.isBot <=> b.isBot
+      || a.id <=> b.id
   }
 
   function getPlayersData()
   {
     local _teams = array(2, null)
-    local gameType = ::get_game_type()
     local isMpMode = !!(gameType & ::GT_VERSUS) || !!(gameType & ::GT_COOPERATIVE)
     local isPvP = !!(gameType & ::GT_VERSUS)
-    local isFFA = isPvP && !!(gameType & ::GT_FREE_FOR_ALL)
+    local isTeamplay = isPvP && ::is_mode_with_teams(gameType)
 
-    if (isPvP && !isFFA || !canSeeOppositeTeam)
+    if (isTeamplay || !canSeeOppositeTeam)
     {
       local localTeam = ::get_mp_local_team() != 2 ? 1 : 2
       local myTeamFriendly = localTeam == ::get_player_army_for_hud()
@@ -777,8 +794,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (isMpMode)
     {
-      local teamId = !isFFA ? ::get_mp_local_team() : ::GET_MPLAYERS_LIST
-      local color = !isFFA ? "blue" : "red"
+      local teamId = isTeamplay ? ::get_mp_local_team() : ::GET_MPLAYERS_LIST
+      local color  = isTeamplay ? "blue" : "red"
 
       _teams[0] = {
         active = true

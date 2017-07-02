@@ -67,7 +67,7 @@ class WwBattleJoinProcess
     if (wwBattle.isTanksCompatible() && !::check_tanks_available())
       return remove()
 
-    if (::queues.isAnyQueuesActive(queueType.WW_BATTLE))
+    if (::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE))
       return remove()
 
     local availableUnitTypes = wwBattle.getAvailableUnitTypes()

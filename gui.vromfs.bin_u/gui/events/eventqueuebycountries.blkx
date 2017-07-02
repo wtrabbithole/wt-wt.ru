@@ -70,6 +70,32 @@
       }
     },
     {
+      "text": {
+        "id": "custom_mode_header",
+        "pos": "50%pw - 50%w, 1@blockInterval",
+        "position": "relative",
+        "text": "#events/playersRooms",
+        "tooltip": "#events/playersRooms/tooltip",
+        "text-align": "center",
+        "display": "hide"
+      }
+    },
+    {
+      "SwitchBox": {
+        "id": "custom_mode_checkbox",
+        "halign": "center",
+        "textChecked": "#options/enabled",
+        "textUnchecked": "#options/disabled",
+        "tooltip": "#events/playersRooms/tooltip",
+        "display": "hide",
+        "enable": "no",
+        "on_change_value": "onCustomModeCheckbox",
+        "SwitchSliderBg": {
+          "SwitchSlider": []
+        }
+      }
+    },
+    {
       "tdiv": {
         "id": "wait_time_block",
         "padding": "10*@sf/@pf, 5*@sf/@pf",

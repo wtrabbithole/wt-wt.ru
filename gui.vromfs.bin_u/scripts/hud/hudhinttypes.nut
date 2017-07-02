@@ -6,7 +6,7 @@
   nestId = ""
   hintStyle = ""
 
-  isReplaceable = function (newHint, newEventData, oldHint, oldEventData) { return false }
+  isReplaceable = function (newHint, newEventData, oldHint, oldEventData) { return true }
   isSameReplaceGroup = function (hint1, hint2) { return hint1 == hint2 }
 }
 

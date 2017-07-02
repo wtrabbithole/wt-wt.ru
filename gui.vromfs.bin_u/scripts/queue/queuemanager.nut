@@ -7,7 +7,7 @@ enum queueStates
   IN_QUEUE
 }
 
-enum queueType //bit values for easy multi-type search
+enum QUEUE_TYPE_BIT //bit values for easy multi-type search
 {
   EVENT      = 1,
   DOMINATION = 2,
@@ -17,7 +17,13 @@ enum queueType //bit values for easy multi-type search
   UNKNOWN    = 0
 }
 
+::queue_classes <- {}
+
 foreach (fn in [
+                 "queueType.nut"
+                 "queue/queueBase.nut"
+                 "queue/queueEvent.nut"
+                 "queue/queueWwBattle.nut" //FIX ME: must be in WW folder also with ww queue type
                  "statsSummator.nut"
                  "queueStatsBase.nut"
                  "queueStatsVer1.nut"
@@ -26,6 +32,7 @@ foreach (fn in [
                  "queueInfo/qiHandlerByTeams.nut"
                  "queueInfo/qiHandlerByCountries.nut"
                  "queueInfo/qiViewUtils.nut"
+                 "queueTable.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/queue/" + fn) // no need to includeOnce to correct reload this scripts pack runtime
 
@@ -65,7 +72,8 @@ class QueueManager {
     local queue = findQueue(params)
     if (queue && queueType.useClusters)
     {
-      ::g_queue_type.addClusterToQueueByParams(queue, params, true)
+      if (queue.addClusterByParams(params))
+        ::broadcastEvent("QueueClustersChanged", queue)
       return queue
     }
 
@@ -114,10 +122,10 @@ class QueueManager {
     return true
   }
 
-  function findQueue(params, type = -1, checkActive = true)
+  function findQueue(params, typeMask = -1, checkActive = true)
   {
     foreach(q in queuesList)
-      if ((type < 0 || (type & q.type)) && (!checkActive || isQueueActive(q)))
+      if ((typeMask < 0 || (typeMask & q.typeBit)) && (!checkActive || isQueueActive(q)))
           if (isEqual(params, q.params))
             return q
     return null
@@ -130,11 +138,11 @@ class QueueManager {
     return q1.id == q2.id
   }
 
-  function findAllQueues(params, type = -1)
+  function findAllQueues(params, typeMask = -1)
   {
     local res = []
     foreach(q in queuesList)
-      if (type < 0 || (type & q.type))
+      if (typeMask < 0 || (typeMask & q.typeBit))
         if (isEqual(params, q.params))
           res.append(q)
     return res
@@ -156,20 +164,20 @@ class QueueManager {
     return null
   }
 
-  function getActiveQueueEnumTypes()
+  function getActiveQueueTypes()
   {
     local res = []
     foreach(queue in queuesList)
       if (isQueueActive(queue))
-         ::append_once(queue.enumType, res)
+         ::append_once(queue.queueType, res)
 
     return res
   }
 
-  function hasActiveQueueWithType(type)
+  function hasActiveQueueWithType(typeBit)
   {
     foreach(queue in queuesList)
-      if (type == queue.type && isQueueActive(queue))
+      if (typeBit == queue.typeBit && isQueueActive(queue))
         return true
 
     return false
@@ -180,10 +188,10 @@ class QueueManager {
     return queue != null && (queue.state == queueStates.IN_QUEUE || queue.state == queueStates.JOINING_QUEUE)
   }
 
-  function isAnyQueuesActive(type = -1)
+  function isAnyQueuesActive(typeMask = -1)
   {
     foreach(q in queuesList)
-      if (type < 0 || type == q.type)
+      if (typeMask < 0 || typeMask == q.typeBit)
         if (isQueueActive(q))
           return true
     return false
@@ -197,14 +205,14 @@ class QueueManager {
     return false
   }
 
-  function leaveQueueByType(type = -1)
+  function leaveQueueByType(typeBit = -1)
   {
-    if (type < 0)
+    if (typeBit < 0)
       return leaveAllQueues()
 
     local res = []
     foreach(queue in queuesList)
-      if (type == queue.type && isQueueActive(queue))
+      if (typeBit == queue.typeBit && isQueueActive(queue))
         leaveQueue(queue)
   }
 
@@ -240,7 +248,7 @@ class QueueManager {
 
   function getQueueType(queue)
   {
-    return queue.type
+    return queue.typeBit
   }
 
   function cantSquadQueueMsgBox(params = null, reasonText = "")
@@ -293,17 +301,15 @@ class QueueManager {
     ::queues.showProgressBox(true)
     local queue = createQueue(params, true)
 
-    queue.enumType.join(
-      queue,
-      params,
-      (@(queue) function(response) {
+    queue.join(
+      function(response) {
         ::queues.showProgressBox(false)
         ::queues.afterJoinQueue(queue)
-      })(queue),
-      (@(queue) function(response) {
+      },
+      function(response) {
         ::queues.showProgressBox(false)
         ::queues.removeQueue(queue)
-      })(queue)
+      }
     )
 
     changeState(queue, queueStates.JOINING_QUEUE)
@@ -331,8 +337,8 @@ class QueueManager {
     showProgressBox(true)
 
     local callback = _getOnLeaveQueueErrorCallback(postAction, postCancelAction, silent)
-    foreach(queueType in getActiveQueueEnumTypes())
-      queueType.leave(null, callback, callback, false)
+    foreach(queueType in getActiveQueueTypes())
+      queueType.leaveAllQueues(callback, callback, false)
 
     foreach(q in queuesList)
       if (q.state != queueStates.NOT_IN_QUEUE)
@@ -385,8 +391,7 @@ class QueueManager {
 
     ::queues.showProgressBox(true)
 
-    queue.enumType.leave(
-      queue,
+    queue.leave(
       getOnLeaveQueueErrorCallback(queue, msg, cancelAction),
       getOnLeaveQueueSuccessCallback(queue, msg)
     )
@@ -448,9 +453,9 @@ class QueueManager {
     leaveAllQueues(null, action, cancelAction)
   }
 
-  function isCanModifyQueueParams(type)
+  function isCanModifyQueueParams(typeMask)
   {
-    return findQueue({}, type) == null
+    return findQueue({}, typeMask) == null
   }
 
   function isCanNewflight(...)
@@ -566,21 +571,21 @@ class QueueManager {
 
   function isEventQueue(queue)
   {
-    if (!("type" in queue))
+    if (!queue)
       return false
-    return queue.type == queueType.EVENT
+    return queue.typeBit == QUEUE_TYPE_BIT.EVENT
   }
 
   function isDominationQueue(queue)
   {
-    if (!("type" in queue))
+    if (!queue)
       return false
-    return queue.type == queueType.DOMINATION
+    return queue.typeBit == QUEUE_TYPE_BIT.DOMINATION
   }
 
   function checkQueueType(queue, typeMask)
   {
-    return (::getTblValue("type", queue, 0) & typeMask) != 0
+    return (::getTblValue("typeBit", queue, 0) & typeMask) != 0
   }
 
   function getQueueDominationMode(queue)
@@ -596,7 +601,7 @@ class QueueManager {
 
   function getQueueBattleType(queue, defValue = BATTLE_TYPES.UNKNOWN)
   {
-    if (getQueueType(queue) != queueType.DOMINATION)
+    if (getQueueType(queue) != QUEUE_TYPE_BIT.DOMINATION)
       return defValue
 
     local name = getQueueMode(queue)
@@ -673,9 +678,9 @@ class QueueManager {
      })
   }
 
-  function updateQueueInfoByType(type, successCallback, errorCallback = null, showError = false)
+  function updateQueueInfoByType(queueType, successCallback, errorCallback = null, showError = false)
   {
-    type.updateInfo(
+    queueType.updateInfo(
       successCallback,
       errorCallback,
       showError
@@ -737,5 +742,5 @@ function checkIsInQueue()
 function open_search_squad_player()
 {
   ::queues.checkAndStart(::gui_start_search_squadPlayer, null,
-    "isCanModifyQueueParams", queueType.DOMINATION | queueType.NEWBIE)
+    "isCanModifyQueueParams", QUEUE_TYPE_BIT.DOMINATION | QUEUE_TYPE_BIT.NEWBIE)
 }

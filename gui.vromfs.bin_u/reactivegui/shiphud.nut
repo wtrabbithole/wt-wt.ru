@@ -1,6 +1,9 @@
 local shipState = require("shipState.nut")
 local crewState = require("crewState.nut")
 
+const STATE_ICON_MARGIN = 0.7
+const STATE_ICON_SIZE = 5
+
 const max_dost = 5
 
 local machineDirectionLoc = [
@@ -42,12 +45,19 @@ local images = {
   shipCrew = Picture("!ui/gameuiskin#ship_crew")
   gunner = Picture("!ui/gameuiskin#ship_crew_gunner")
   driver = Picture("!ui/gameuiskin#ship_crew_driver")
+
+  gunnerState = [ //according to AI_GUNNERS_ enum
+    Picture("!ui/gameuiskin#ship_gunner_state_hold_fire")
+    Picture("!ui/gameuiskin#ship_gunner_state_fire_at_will")
+    Picture("!ui/gameuiskin#ship_gunner_state_air_targets")
+    Picture("!ui/gameuiskin#ship_gunner_state_naval_targets")
+  ]
 }
 
 
 local fontFxColor = Color(80, 80, 80)
 local fontFx = FFT_GLOW
-local font = Fonts.medium_text_hud
+local font = Fonts.small_text_hud
 
 local speed = function () {
   local speedValue = @() {
@@ -56,24 +66,31 @@ local speed = function () {
     font = font
     fontFx = fontFx
     fontFxColor = fontFxColor
-    margin = [0, sh(2)]
+    margin = [0,0,0,sh(2)]
   }
 
   local machine = function (port, sideboard) {
     local averegeSpeed = clamp((port + sideboard) / 2, 0, machineSpeedLoc.len())
     return {
-      rendObj = ROBJ_TEXT
-      font = font
-      color = Color(200, 200, 200)
-      fontFx = fontFx
-      fontFxColor = fontFxColor
-      text = machineSpeedLoc[averegeSpeed] + " " + machineDirectionLoc[averegeSpeed]
+      size = SIZE_TO_CONTENT
+      children = {
+        rendObj = ROBJ_TEXT
+        font = font
+        color = Color(200, 200, 200)
+        fontFx = fontFx
+        fontFxColor = fontFxColor
+        text = machineSpeedLoc[averegeSpeed] + " " + machineDirectionLoc[averegeSpeed]
+      }
     }
   }
 
   return {
-    size = SIZE_TO_CONTENT
+    size = [flex(), SIZE_TO_CONTENT]
     flow = FLOW_HORIZONTAL
+    hplace = HALIGN_CENTER
+    halign = HALIGN_RIGHT
+//    padding = [0, sh(3)]
+
     watch = [
       shipState.speed
       shipState.portSideMachine
@@ -81,8 +98,9 @@ local speed = function () {
     ]
 
     children = [
-      machine(shipState.portSideMachine.value, shipState.sideboardSideMachine.value)
-      speedValue
+      
+      {size = [flex(3),SIZE_TO_CONTENT] children = machine(shipState.portSideMachine.value, shipState.sideboardSideMachine.value) halign=HALIGN_RIGHT}
+      {size = [flex(2),SIZE_TO_CONTENT] children = speedValue}
     ]
   }
 }
@@ -109,7 +127,7 @@ local dmModule = function (icon, count_total_state, count_broken_state) {
       rendObj = ROBJ_IMAGE
       color =  color
       image = icon
-      size = [sh(5), sh(5)]
+      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
     }
 
     local dotAlive = @(totalDotsCount) {
@@ -163,7 +181,7 @@ local dmModule = function (icon, count_total_state, count_broken_state) {
     return {
       size = SIZE_TO_CONTENT
       flow = FLOW_VERTICAL
-      margin = [sh(0.7), 0]
+      margin = [sh(STATE_ICON_MARGIN), 0]
       halign = HALIGN_CENTER
       watch = [
         count_total_state
@@ -193,7 +211,7 @@ local damageModules = {
   ]
 }
 
-local buoyancyIndicator = {
+local buoyancyIndicator = @() {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   halign = HALIGN_CENTER
@@ -204,11 +222,12 @@ local buoyancyIndicator = {
       font = Fonts.small_text_hud
       fontFx = fontFx
       fontFxColor = fontFxColor
+      watch = shipState.buoyancy
     }
     {
       rendObj = ROBJ_IMAGE
       image = images.buoyancy
-      size = [sh(5), sh(1)]
+      size = [sh(STATE_ICON_SIZE), sh(1)]
     }
   ]
 }
@@ -222,39 +241,49 @@ local stateBlock = {
       color =  shipState.fire.value ? Color(221, 17, 17) : Color(37, 46, 53, 80)
       watch = shipState.fire
       image = images.fire
-      size = [sh(5), sh(5)]
+      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
     }
     buoyancyIndicator
   ]
 }
 
+local aiGunners = @() {
+  vplace = VALIGN_BOTTOM
+  size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
+  marigin = [sh(STATE_ICON_MARGIN), 0]
+
+  rendObj = ROBJ_IMAGE
+  image = ::get_value(shipState.aiGunnersState.value, images.gunnerState, images.gunnerState[0])
+  color = Color(255, 255, 255)
+  watch = shipState.aiGunnersState
+}
 
 local crewBlock = {
   vplace = VALIGN_BOTTOM
   flow = FLOW_VERTICAL
-  size = [sh(5), SIZE_TO_CONTENT]
+  size = [sh(STATE_ICON_SIZE), SIZE_TO_CONTENT]
   vplace = VALIGN_BOTTOM
 
   children = [
     @() {
-      size = [sh(5), sh(5)]
-      marigin = [sh(0.7), 0]
+      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
+      marigin = [sh(STATE_ICON_MARGIN), 0]
       rendObj = ROBJ_IMAGE
       image = images.gunner
       color = crewState.gunnerAlive.value ? Color(37, 46, 53, 80) : Color(221, 17, 17)
       watch = crewState.gunnerAlive
     }
     @() {
-      size = [sh(5), sh(5)]
-      marigin = [sh(0.7), 0]
+      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
+      marigin = [sh(STATE_ICON_MARGIN), 0]
       rendObj = ROBJ_IMAGE
       image = images.driver
       color = crewState.driverAlive.value ? Color(37, 46, 53, 80) : Color(221, 17, 17)
       watch = crewState.driverAlive
     }
     {
-      size = [sh(5), sh(5)]
-      marigin = [sh(0.7), 0]
+      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
+      marigin = [sh(STATE_ICON_MARGIN), 0]
       rendObj = ROBJ_IMAGE
       image = images.shipCrew
       children = @() {
@@ -262,7 +291,7 @@ local crewBlock = {
         hplace = HALIGN_RIGHT
         rendObj = ROBJ_TEXT
         text = crewState.aliveCrewMembersCount.value.tostring()
-        font = Fonts.small_text_hud
+//        font = Fonts.small_text_hud //better show bigger and brighter (red probably)
         fontFx = fontFx
         fontFxColor = fontFxColor
         watch = crewState.aliveCrewMembersCount
@@ -276,28 +305,29 @@ local steering = function () {
   local mark = @(p) {
     rendObj = ROBJ_IMAGE
     image = images.steeringMark
-    color = Color(255, 255, 0)
+    color = Color(235, 235, 60, 200)
     size = [sh(1.4), sh(1)]
     pos = @() [p * pw(100) - w(100)/2 + 1, -h(100)/2]
   }
 
   local line = {
-    size = [sh(0.1), sh(1.2)]
+    size = [sh(0.1), sh(0.5)]
     rendObj = ROBJ_SOLID
-    color = Color(135, 163, 160)
+    color = Color(135, 163, 160, 100)
   }
   local space = {
     size = flex()
   }
   return {
     watch = shipState.steering
-    size = [flex(), sh(1)]
+    size = [pw(50), sh(0.3)]
+    hplace = HALIGN_CENTER
 
     children = [
       {
         size = flex()
         rendObj = ROBJ_SOLID
-        color = Color(0, 0, 0, 180)
+        color = Color(0, 0, 0, 50)
         flow = FLOW_HORIZONTAL
         valign = VALIGN_BOTTOM
         children = [
@@ -326,37 +356,53 @@ local fov = function (pivot) {
       shipState.fov
     ]
     pos = @() [pivot[0] - w(50), pivot[1] - h(50)]
-    rendObj = ROBJ_IMAGE
-    image = images.sightCone
-    color = Color(255, 200, 0)
     size = [sh(30), sh(30)]
     transform = {
       pivot = [0.5, 0.5]
       rotate = shipState.sightAngle.value - shipState.fwdAngle.value
       scale = [::math.sin(shipState.fov.value), 1.0]
     }
+    children = [
+      {    
+        size = [flex(),flex()]
+        rendObj = ROBJ_IMAGE
+        image = images.sightCone
+        color = Color(155, 255, 0, 120)
+      }
+      {
+        size = [flex(),flex()]
+        rendObj = ROBJ_IMAGE
+        image = images.sightCone
+        color = Color(155, 255, 0)
+      }
+    ]
+
   }
 }
 
 
 local doll = {
   color = Color(0, 255, 0)
-  size = [sh(15), sh(40)]
+  size = [sh(12), sh(30)]
   rendObj = ROBJ_XRAYDOLL
   rotateWithCamera = false
 
-  children = fov([sh(15)/2, sh(40)/2])
+  children = fov([sh(12)/2, sh(30+4)/2])
 }
 
 
 local leftBlock = damageModules
 
-local rightBlock = {
+local rightBlock = @() {
   size = [SIZE_TO_CONTENT, flex()]
+  flow = FLOW_VERTICAL
   children = [
     stateBlock
+    { size = [SIZE_TO_CONTENT, flex()] }
+    shipState.hasAiGunners.value ? aiGunners : null
     crewBlock
   ]
+  watch = shipState.hasAiGunners
 }
 
 
@@ -373,6 +419,7 @@ local shipStateDisplay = {
         rightBlock
       ]
     }
+    {size=[flex(),sh(0.7)]}
     steering
   ]
 }
@@ -381,9 +428,10 @@ return {
   vplace = VALIGN_BOTTOM
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
-  margin = [sh(1), sh(5)]
+  margin = [sh(5), sh(1)] //keep gap for counters
   children = [
     speed
+    {size=[flex(),sh(0.5)]}
     shipStateDisplay
   ]
 }

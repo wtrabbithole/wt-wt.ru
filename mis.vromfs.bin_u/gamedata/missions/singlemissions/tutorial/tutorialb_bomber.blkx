@@ -118,6 +118,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "bomber",
               "side": "player",
@@ -285,18 +288,18 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "crowd_enemy_squad",
-            "attack_type": "hold_fire",
             "targetableByAi": false,
-            "speed": 0.0,
-            "lockSpeed": true,
-            "aiEnabled": false,
+            "attack_type": "hold_fire",
             "ignoresEnemy": true,
+            "aiEnabled": false,
             "stayOnGround": true
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "isImmortal": true
           }
@@ -340,6 +343,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "enemy_planes",
             "effShootingRate": 0.1,
             "plane": {
@@ -407,6 +411,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "dummy_airfield",
             "stealthRadius": 0.0
           }
@@ -504,6 +509,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -520,6 +526,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -551,7 +558,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -575,7 +582,8 @@
             "action": "hideCur",
             "shouldFadeOut": true,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false
           }
         },
         {
@@ -599,6 +607,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -615,6 +624,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -641,7 +651,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -669,6 +679,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -693,6 +704,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -709,6 +721,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -735,7 +748,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -757,6 +770,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -781,6 +795,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -797,6 +812,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -831,7 +847,7 @@
           "isThrustmasterHotas4": false
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -856,6 +872,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -881,6 +898,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TOGGLE_VIEW",
             "shouldBlink": false
           }
@@ -916,7 +934,7 @@
           "isThrustmasterHotas4": true
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -941,6 +959,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -966,6 +985,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TOGGLE_VIEW=2",
             "shouldBlink": false
           }
@@ -1026,6 +1046,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TOGGLE_VIEW",
             "shouldBlink": false
           }
@@ -1048,6 +1069,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TOGGLE_VIEW",
             "shouldBlink": false
           }
@@ -1198,6 +1220,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TOGGLE_VIEW",
             "shouldBlink": false
           }
@@ -1227,6 +1250,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_CAMERA_BOMBVIEW",
             "shouldBlink": false
           }
@@ -1296,6 +1320,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_CAMERA_BOMBVIEW",
             "shouldBlink": false
           }
@@ -1331,6 +1356,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_BOMBS",
             "shouldBlink": false
           }
@@ -1396,6 +1422,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_BOMBS",
             "shouldBlink": false
           }
@@ -1445,6 +1472,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1473,6 +1501,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         }
@@ -1494,7 +1523,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1506,6 +1535,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1542,6 +1572,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_BOMBS",
             "shouldBlink": false
           }
@@ -1594,6 +1625,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "shouldBlink": false
         },
         "missionSetTimeSpeed": {
@@ -1656,6 +1688,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "crowd_enemy_vehicles06",
             "speed": 30.0
           }
@@ -2048,6 +2081,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "crowd_enemy_squad",
             "stealthRadius": 0.0
           }
@@ -2204,6 +2238,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "dummy_airfield",
             "stealthRadius": 0.0
           }
@@ -2401,6 +2436,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2418,6 +2454,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2434,6 +2471,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2639,6 +2677,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "isImmortal": true
           }
@@ -2651,6 +2690,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2841,6 +2881,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_CAMERA_GUNNER",
             "shouldBlink": false
           }
@@ -3047,6 +3088,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "isImmortal": true
           }
@@ -3059,6 +3101,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3274,6 +3317,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "ID_TOGGLE_VIEW",
           "shouldBlink": false
         },
@@ -3355,6 +3399,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "ID_TOGGLE_VIEW=2",
           "shouldBlink": false
         },
@@ -3412,6 +3457,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_CAMERA_GUNNER",
             "shouldBlink": false
           }
@@ -3515,6 +3561,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "enemy_planes"
           }
         },
@@ -3526,6 +3573,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "pseudo_fire",
             "shouldBlink": false
           }
@@ -3554,6 +3602,9 @@
             },
             {
               "priority": 0
+            },
+            {
+              "isOverFade": false
             },
             {
               "item": "ID_FIRE"
@@ -3755,6 +3806,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3772,6 +3824,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3788,6 +3841,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -4160,6 +4214,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "enemy_planes",
             "attack_type": "hold_fire"
           }
@@ -4183,6 +4238,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -4710,7 +4766,8 @@
           "action": "hideCur",
           "shouldFadeOut": true,
           "time": -1.0,
-          "priority": 0
+          "priority": 0,
+          "isOverFade": false
         },
         "missionPlayDialogue": {
           "dialog": "tutorialB_bomber_turrets_p04",

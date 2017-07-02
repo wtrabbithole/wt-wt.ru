@@ -47,6 +47,19 @@ function handlersManager::beforeLoadHandler(hType)
     clearScene(lastGuiScene)
 }
 
+function handlersManager::onBaseHandlerLoadFailed(handler)
+{
+  if (!::g_login.isLoggedIn()
+      || handler.getclass() == ::gui_handlers.MainMenu
+      || handler.getclass() == ::gui_handlers.FlightMenu
+     )
+    ::gui_start_logout()
+  else if (::is_in_flight())
+    ::gui_start_flight_menu()
+  else
+    ::gui_start_mainmenu()
+}
+
 function handlersManager::onSwitchBaseHandler()
 {
   if (!::is_hud_visible())

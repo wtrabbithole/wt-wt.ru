@@ -657,7 +657,8 @@ middleline > tdiv {
 }
 
 shopItemText, shopItemPrice {
-  re-type:text;
+  re-type:textarea;
+  behaviour:textArea;
   font:@shopItemFont;
   color:@commonTextColor;
   padding-right:-3*@sf/@pf;
@@ -670,8 +671,6 @@ shopItemText[text-align=center]
 
 bottomline shopItemText,
 bottomline > shopItemPrice {
-  behaviour:textArea;
-  re-type:textarea;
   margin-left: 0.003@scrn_tgt_font;
 }
 
@@ -708,11 +707,6 @@ bottomline > classIconPlace {
   position:relative;
   size:0.015*@scrn_tgt_font, 0.015*@scrn_tgt_font;
   margin-left: 0.006@scrn_tgt_font;
-}
-
-shopItemPrice {
-  re-type:textarea;
-  behaviour:textArea;
 }
 
 shopInServiceImg {
@@ -771,8 +765,6 @@ shopItemPrice[header=yes] {
 
 middleline > shopItemText,
 middleline shopItemPrice {
-  re-type:textarea;
-  behaviour:textArea;
   font:@bold;
   width:pw;
   left:50%pw-50%w;

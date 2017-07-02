@@ -102,6 +102,7 @@ function g_login::initConfigs(cb)
 {
   ::broadcastEvent("AuthorizeComplete")
   ::load_scripts_after_login()
+  ::run_reactive_gui()
   ::my_user_id_str = ::get_player_user_id_str()
   ::my_user_id_int64 = ::my_user_id_str.tointeger()
 
@@ -192,6 +193,9 @@ function g_login::initConfigs(cb)
       ::unlocked_countries = [] //reinit countries
       ::checkUnlockedCountries()
       ::checkUnlockedCountriesByAirs()
+
+      if (::is_need_first_country_choice())
+        ::broadcastEvent("AccountReset")
     }
     function()
     {
@@ -234,10 +238,7 @@ function g_login::firstMainMenuLoad()
   ::update_start_mission_instead_of_queue()
 
   if (::is_need_first_country_choice())
-  {
-    ::my_stats.afterAccountReset()
     handler.doWhenActive(::gui_start_countryChoice)
-  }
 
   handler.doWhenActive(checkAwardsOnStartFrom)
 

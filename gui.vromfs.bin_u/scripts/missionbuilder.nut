@@ -35,7 +35,7 @@ class ::gui_handlers.MissionBuilder extends ::gui_handlers.GenericOptionsModal
     if (needSlotbar)
     {
       scene.findObject("wnd_frame").size = "1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar"
-      scene.findObject("wnd_frame").pos = "50%pw-50%w, 1@battleBtnBottomOffset-h+2"
+      scene.findObject("wnd_frame").pos = "50%pw-50%w, 1@battleBtnBottomOffset-h"
     }
 
     showSceneBtn("unit_weapons_selector", true)
@@ -581,8 +581,6 @@ class ::gui_handlers.MissionBuilderOptions extends ::gui_handlers.GenericOptions
     local container = create_options_container("builder_options", options, true, true, true, true, true)
     local optListObj = scene.findObject("optionslist")
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
-    scene.findObject("wnd_frame").size = "1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar"
-    scene.findObject("wnd_frame").pos = "50%pw-50%w, 1@battleBtnBottomOffset-h+2"
     optionsContainers.push(container.descr)
     ::set_menu_title(::loc("mainmenu/btnDynamicTraining"), scene, "menu-title")
 
@@ -811,7 +809,7 @@ class ::gui_handlers.MissionBuilderOptions extends ::gui_handlers.GenericOptions
   {
     local desc = ::get_option(optName)
     local obj = scene.findObject(desc.id)
-    if (obj) obj.setValue(rand() % desc.values.len())
+    if (obj) obj.setValue(::math.rnd() % desc.values.len())
   }
 
   function randomize_builder_options()
@@ -981,8 +979,6 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
     local list = createOptions()
     local listObj = scene.findObject("optionslist")
     guiScene.replaceContentFromText(listObj, list, list.len(), this)
-    scene.findObject("wnd_frame").size = "1@slotbarWidthFull, sh - 1@shopBottomOffset - 1@titleLogoPlateHeight"
-    scene.findObject("wnd_frame").pos = "50%pw-50%w, 1@battleBtnBottomOffset-h+2"
 
     for (local i = 1; i < listW.len(); i++)
       listObj.findObject(i.tostring() + "_w").setValue(0)

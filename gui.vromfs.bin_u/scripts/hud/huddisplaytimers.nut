@@ -43,6 +43,24 @@
       id = "healing_status"
       color = "@white"
       icon = "#ui/gameuiskin#medic_status_indicator"
+    },
+    {
+      id = "repair_breaches_status"
+      color = "#787878"
+      icon = "#ui/gameuiskin#icon_repair_in_progress"
+      needTimeText = true
+    },
+    {
+      id = "unwatering_status"
+      color = "#787878"
+      icon = "#ui/gameuiskin#unwatering_in_progress"
+      needTimeText = true
+    },
+    {
+      id = "extinguish_status"
+      color = "#DD1111"
+      icon = "#ui/gameuiskin#fire_indicator"
+      needTimeText = true
     }
   ]
 
@@ -50,6 +68,8 @@
   guiScene = null
 
   repairUpdater = null
+  repairBreachesUpdater = null
+  extinguishUpdater = null
   unitType = ::ES_UNIT_TYPE_INVALID
 
   function init(_nest, _unitType)
@@ -66,6 +86,8 @@
     ::g_hud_event_manager.subscribe("TankDebuffs:Rearm", onRearm, this)
     ::g_hud_event_manager.subscribe("TankDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Repair", onRepair, this)
+    ::g_hud_event_manager.subscribe("ShipDebuffs:RepairBreaches", onRepairBreaches, this)
+    ::g_hud_event_manager.subscribe("ShipDebuffs:Extinguish", onExtinguish, this)
 
     ::g_hud_event_manager.subscribe("CrewState:CrewState", onCrewState, this)
     ::g_hud_event_manager.subscribe("CrewState:DriverState", onDriverState, this)
@@ -124,6 +146,8 @@
     }
 
     destoyRepairUpdater()
+    destoyRepairBreachesUpdater()
+    destoyExtinguishUpdater()
   }
 
 
@@ -244,6 +268,104 @@
     ::g_time_bar.setCurrentTime(timebarObj, 0)
   }
 
+  function hideAnimTimer(objId)
+  {
+    local placeObj = scene.findObject(objId)
+    if (!::checkObj(placeObj))
+      return
+    placeObj.animation = "hide"
+    placeObj.findObject("icon").wink = "no"
+  }
+
+  function onRepairBreaches(debuffs_data)
+  {
+    if (debuffs_data.state == "notInRepair")
+    {
+      destoyRepairBreachesUpdater()
+      hideAnimTimer("unwatering_status")
+      hideAnimTimer("repair_breaches_status")
+      return
+    }
+
+    local objId = debuffs_data.state == "unwatering" ? "unwatering_status" : "repair_breaches_status"
+    local placeObj = scene.findObject(objId)
+    if (!::checkObj(placeObj))
+      return
+
+
+    placeObj.animation = "show"
+
+    destoyRepairBreachesUpdater()
+    local iconObj = placeObj.findObject("icon")
+    local timebarObj = placeObj.findObject("timer")
+    local timeTextObj = placeObj.findObject("time_text")
+    timeTextObj.setValue("")
+
+    placeObj.show(true)
+
+    if (debuffs_data.state == "repairing" || debuffs_data.state == "unwatering")
+    {
+      iconObj.wink = "no"
+      ::g_time_bar.setDirectionForward(timebarObj)
+      local createTime = ::dagor.getCurTime()
+      repairBreachesUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
+        local curTime = ::dagor.getCurTime()
+        local timeToShowSeconds = debuffs_data.time - ::milliseconds_to_seconds(curTime - createTime)
+        if (timeToShowSeconds < 0)
+          return true
+
+        obj.setValue(timeToShowSeconds.tointeger().tostring())
+        return false
+      })(debuffs_data, createTime))
+    }
+
+    ::g_time_bar.setPeriod(timebarObj, debuffs_data.time)
+    ::g_time_bar.setCurrentTime(timebarObj, 0)
+  }
+
+  function onExtinguish(debuffs_data)
+  {
+    local placeObj = scene.findObject("extinguish_status")
+    if (!::checkObj(placeObj))
+      return
+
+    local showTimer = debuffs_data.state != "notInExtinguish"
+    placeObj.animation = showTimer ? "show" : "hide"
+
+    destoyExtinguishUpdater()
+    local iconObj = placeObj.findObject("icon")
+
+    if (!showTimer)
+    {
+      iconObj.wink = "no"
+      return
+    }
+
+    local timebarObj = placeObj.findObject("timer")
+    local timeTextObj = placeObj.findObject("time_text")
+    timeTextObj.setValue("")
+
+    placeObj.show(true)
+
+    if (debuffs_data.state == "extinguish")
+    {
+      iconObj.wink = "no"
+      ::g_time_bar.setDirectionForward(timebarObj)
+      local createTime = ::dagor.getCurTime()
+      extinguishUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
+        local curTime = ::dagor.getCurTime()
+        local timeToShowSeconds = debuffs_data.time - ::milliseconds_to_seconds(curTime - createTime)
+        if (timeToShowSeconds < 0)
+          return true
+
+        obj.setValue(timeToShowSeconds.tointeger().tostring())
+        return false
+      })(debuffs_data, createTime))
+    }
+
+    ::g_time_bar.setPeriod(timebarObj, debuffs_data.time)
+    ::g_time_bar.setCurrentTime(timebarObj, 0)
+  }
 
   function destoyRepairUpdater()
   {
@@ -254,6 +376,23 @@
     repairUpdater = null
   }
 
+  function destoyRepairBreachesUpdater()
+  {
+    if (repairBreachesUpdater == null)
+      return
+
+    repairBreachesUpdater.remove()
+    repairBreachesUpdater = null
+  }
+
+  function destoyExtinguishUpdater()
+  {
+    if (extinguishUpdater == null)
+      return
+
+    extinguishUpdater.remove()
+    extinguishUpdater = null
+  }
 
   function isValid()
   {

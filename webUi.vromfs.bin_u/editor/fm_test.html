@@ -11,6 +11,9 @@
   .number-box {
      width : 60px;
   }
+  .small-button-box {
+     width : 40px;
+  }
   .damage_part_name-box {
      width : 100px;
   }
@@ -187,6 +190,14 @@
       return undefined
     }
     
+    //Settings
+    var settings = {
+      unitSystem: 0,
+      useReference: false,
+      flightTest: true,
+      repair: true
+    }
+    
     const FmType = {
       PLAYER: 0,
       AI: 1
@@ -203,8 +214,8 @@
     //State
     var state = {
       connected: true,
-      blockFmChangeablePropsUpdateCounter: 0,
-      blockFmChangeablePropsUpdateMinTime: 0,
+      blockChangeablePropsUpdateCounter: 0,
+      blockChangeablePropsUpdateMinTime: 0,
       fm: {
         typeName: '',
         fileName: '',
@@ -216,13 +227,6 @@
       damagePartOfInterestId: -1,
       animPartOfInterestId: -1,
       playerFmLocked: false
-    }
-  
-    var settings = {
-      unitSystem: 0,
-      useReference: false,
-      flightTest: true,
-      repair: true
     }
     
     const FlapsControl = {
@@ -291,6 +295,11 @@
       pressure: {
         value: 101300.0,
         type: 'pressure',
+        min: 0.0
+      },
+      timeSpeed: {
+        value: 1.0,
+        type: 'ratio',
         min: 0.0
       },
     }
@@ -518,6 +527,66 @@
         active: false,
         result: RealTimeTestResult.STANDBY,
         value: 0.0
+      }
+    }
+    
+    var windTubeTest = {
+      blockChangeablePropsUpdateCounter: 0,
+      blockChangeablePropsUpdateMinTime: 0,
+      params: {
+        enabled: false,
+        airspeed: {
+          value: 500.0 / 3.6,
+          type: 'velocity',
+          min: 0.0 / 3.6,
+          max: 3000.0 / 3.6,
+          precision: 1
+        },      
+        yawLocked: false,
+        pitchLocked: false,
+        rollLocked: false,
+        aoa: {
+          value: 0.0,
+          type: 'angle',
+          min: -90.0,
+          max: 90.0,
+          precision: 2
+        },
+        aos: {
+          value: 0.0,
+          type: 'angle',
+          min: -90.0,
+          max: 90.0,
+          precision: 2
+        },
+        roll: {
+          value: 0.0,
+          type: 'angle',
+          min: -90.0,
+          max: 90.0,
+          precision: 2
+        },
+        yawFakeRate: {
+          value: 0.0,
+          type: 'angularVelocity',
+          min: -90.0,
+          max: 90.0,
+          precision: 2
+        },
+        pitchFakeRate: {
+          value: 0.0,
+          type: 'angularVelocity',
+          min: -90.0,
+          max: 90.0,
+          precision: 2
+        },
+        rollFakeRate: {
+          value: 0.0,
+          type: 'angularVelocity',
+          min: -90.0,
+          max: 90.0,
+          precision: 2
+        }
       }
     }
     
@@ -1105,9 +1174,14 @@
         document.getElementById('ButtonSetOilTemp').disabled =
         document.getElementById('ButtonSetTemperature').disabled =
         document.getElementById('ButtonSetPressure').disabled =
+        document.getElementById('ButtonSetTimeSpeed').disabled =
         //Commands
         document.getElementById('ButtonStabilize').disabled =
+        document.getElementById('ButtonTakeoff').disabled =
+        document.getElementById('ButtonLand').disabled =
+        document.getElementById('ButtonSetupOnGround').disabled =
         document.getElementById('ButtonSetSATM').disabled =
+        document.getElementById('ButtonResetTimeSpeed').disabled =
         document.getElementById('ButtonRepair').disabled =
         document.getElementById('ButtonSetZeroFuel').disabled =
         document.getElementById('ButtonRearm').disabled =
@@ -1134,8 +1208,8 @@
         document.getElementById('ComboBoxFmType').disabled = !state.connected || state.playerFmLocked
         if (!state.connected)
         {
-          state.blockFmChangeablePropsUpdateCounter = 0
-          state.blockFmChangeablePropsUpdateMinTime = 0.0
+          resetChangeablePropsBlock(state)
+          resetChangeablePropsBlock(windTubeTest)
         }
       }
     }
@@ -1475,6 +1549,41 @@
       enableRealTimeTestParameters()
     }
     
+    function fillWindTubeTestParameters()
+    {
+      fillWindTubeTestParametersIfChanged([true, true, true, true, true, true, true])
+    }
+    
+    function fillWindTubeTestParametersIfChanged(changeFlags)
+    {
+      var speedUnitName = unitSystems[settings.unitSystem].velocity.name
+    
+      document.getElementById('CheckBoxWindTubeTestEnabled').checked = windTubeTest.params.enabled
+      document.getElementById('CheckBoxWindTubeTestYawLocked').checked = windTubeTest.params.yawLocked
+      document.getElementById('CheckBoxWindTubeTestPitchLocked').checked = windTubeTest.params.pitchLocked
+      document.getElementById('CheckBoxWindTubeTestRollLocked').checked = windTubeTest.params.rollLocked
+      
+      document.getElementById('LabelWindTubeTestAirspeed').innerHTML = 'Airspeed, ' + speedUnitName
+      if (changeFlags[0])
+        document.getElementById('CheckBoxWindTubeTestAirspeed').value = saveValue(windTubeTest.params.airspeed)
+        
+      if (changeFlags[1])
+        document.getElementById('EditWindTubeTestAoS').value = saveValue(windTubeTest.params.aos)
+      if (changeFlags[2])
+        document.getElementById('EditWindTubeTestAoA').value = saveValue(windTubeTest.params.aoa)
+      if (changeFlags[3])
+        document.getElementById('EditWindTubeTestRoll').value = saveValue(windTubeTest.params.roll)
+      
+      if (changeFlags[4])
+        document.getElementById('EditWindTubeTestYawFakeRate').value = saveValue(windTubeTest.params.yawFakeRate)
+      if (changeFlags[5])
+        document.getElementById('EditWindTubeTestPitchFakeRate').value = saveValue(windTubeTest.params.pitchFakeRate)
+      if (changeFlags[6])
+        document.getElementById('EditWindTubeTestRollFakeRate').value = saveValue(windTubeTest.params.rollFakeRate)
+
+      enableWindTubeTestParameters()
+    }
+    
     function fillParameters()
     {
       var altUnitName = unitSystems[settings.unitSystem]['altitude']['name']
@@ -1486,9 +1595,9 @@
       //Flight Parameters
       document.getElementById('LabelAltitude').innerHTML = alt
       document.getElementById('LabelVelocity').innerHTML = 'TAS, ' + speedUnitName
-      document.getElementById('LabelFuelMassRatio').innerHTML = 'Fuel Mass %, ' + unitSystems[settings.unitSystem]['ratio']['name']
+      document.getElementById('LabelFuelMassRatio').innerHTML = 'Fuel, ' + unitSystems[settings.unitSystem]['ratio']['name']
       document.getElementById('LabelMass').innerHTML = 'Mass, ' + massUnitName
-      document.getElementById('LabelCoolantOrHeadTemp').innerHTML = 'Eng. Temp, ' + temperatureUnitName
+      document.getElementById('LabelCoolantOrHeadTemp').innerHTML = 'Eng.Temp, ' + temperatureUnitName
       document.getElementById('LabelOilTemp').innerHTML = 'Oil Temp, ' + temperatureUnitName
       document.getElementById('EditAltitude').value = saveValue(flightParams['alt'])
       document.getElementById('EditVelocity').value = saveValue(flightParams['vel'])
@@ -1498,9 +1607,14 @@
       document.getElementById('EditOilTemp').value = saveValue(flightParams['oilTemperature'])
       document.getElementById('EditTemperature').value = saveValue(flightParams['temperature'])
       document.getElementById('EditPressure').value = saveValue(flightParams['pressure'])
+      document.getElementById('EditTimeSpeed').value = saveValue(flightParams['timeSpeed'])
+      document.getElementById('LabelTimeSpeed').innerHTML = 'Time Speed, ' + unitSystems[settings.unitSystem]['ratio']['name']
       
       //Real-Time Flight Test
       fillRealTimeTestParameters()
+      
+      //Wind Tube Test
+      fillWindTubeTestParameters()
       
       //Flight State
       var flightStateTable = document.getElementById('FlightState')
@@ -1623,46 +1737,46 @@
       if (!data.valid)
         return;
         
-      if (state.blockFmChangeablePropsUpdateCounter == 0 &&
-          data.time > state.blockFmChangeablePropsUpdateMinTime)
+      if (state.blockChangeablePropsUpdateCounter > 0 ||
+          data.time < state.blockChangeablePropsUpdateMinTime)
+        return;
+      
+      //Controlable properties
+      
+      state.fmType = data.fmType
+      var comboBoxFmType = document.getElementById("ComboBoxFmType")
+      if (state.fmType != comboBoxFmType.value)
+        comboBoxFmType.value = state.fmType
+        
+      state.mouseAimImpl = data.mouseAimImpl
+      var comboBoxMouseAimImpl = document.getElementById("ComboBoxMouseAimImpl")
+      if (state.mouseAimImpl.toString() != comboBoxMouseAimImpl.value)
+        comboBoxMouseAimImpl.value = state.mouseAimImpl
+
+      if (state.playerFmLocked != data.playerFmLocked)
       {
-        //Controlable properties
-        
-        state.fmType = data.fmType
-        var comboBoxFmType = document.getElementById("ComboBoxFmType")
-        if (state.fmType != comboBoxFmType.value)
-          comboBoxFmType.value = state.fmType
-          
-        state.mouseAimImpl = data.mouseAimImpl
-        var comboBoxMouseAimImpl = document.getElementById("ComboBoxMouseAimImpl")
-        if (state.mouseAimImpl.toString() != comboBoxMouseAimImpl.value)
-          comboBoxMouseAimImpl.value = state.mouseAimImpl
-
-        if (state.playerFmLocked != data.playerFmLocked)
-        {
-          state.playerFmLocked = data.playerFmLocked
-          document.getElementById('ComboBoxFmType').disabled = state.playerFmLocked
-        }
-
-        state.indicationFlags = data.indicationFlags
-        for (var i = 0; i < INDICATION_FLAGS_NUM; ++i)
-        {
-          var checkBoxIndication = document.getElementById('CheckBoxIndication' + i)
-          var value = i < state.indicationFlags.length && state.indicationFlags[i]
-          if (checkBoxIndication.checked != value)
-            checkBoxIndication.checked = value
-        }
-
-        state.damagePartOfInterestId = data.damagePartOfInterestId
-        var comboBoxDamagePartOfInterestId = document.getElementById('ComboBoxDamagePartOfInterestId')
-        if (comboBoxDamagePartOfInterestId.value != state.damagePartOfInterestId)
-          comboBoxDamagePartOfInterestId.value = state.damagePartOfInterestId
-        
-        state.animPartOfInterestId = data.animPartOfInterestId
-        var comboBoxAnimPartOfInterestId = document.getElementById('ComboBoxAnimPartOfInterestId')
-        if (comboBoxAnimPartOfInterestId.value != state.animPartOfInterestId)
-          comboBoxAnimPartOfInterestId.value = state.animPartOfInterestId
+        state.playerFmLocked = data.playerFmLocked
+        document.getElementById('ComboBoxFmType').disabled = state.playerFmLocked
       }
+
+      state.indicationFlags = data.indicationFlags
+      for (var i = 0; i < INDICATION_FLAGS_NUM; ++i)
+      {
+        var checkBoxIndication = document.getElementById('CheckBoxIndication' + i)
+        var value = i < state.indicationFlags.length && state.indicationFlags[i]
+        if (checkBoxIndication.checked != value)
+          checkBoxIndication.checked = value
+      }
+
+      state.damagePartOfInterestId = data.damagePartOfInterestId
+      var comboBoxDamagePartOfInterestId = document.getElementById('ComboBoxDamagePartOfInterestId')
+      if (comboBoxDamagePartOfInterestId.value != state.damagePartOfInterestId)
+        comboBoxDamagePartOfInterestId.value = state.damagePartOfInterestId
+      
+      state.animPartOfInterestId = data.animPartOfInterestId
+      var comboBoxAnimPartOfInterestId = document.getElementById('ComboBoxAnimPartOfInterestId')
+      if (comboBoxAnimPartOfInterestId.value != state.animPartOfInterestId)
+        comboBoxAnimPartOfInterestId.value = state.animPartOfInterestId
       
       //State
       var flightStateTable = document.getElementById('FlightState')
@@ -1683,17 +1797,23 @@
       }
     }
     
-    function blockFmChangeablePropsUpdate()
+    function resetChangeablePropsBlock(props)
     {
-      ++state.blockFmChangeablePropsUpdateCounter;
-      setTimeout(unblockFmChangeablePropsUpdate, 2000.0)
+      props.blockChangeablePropsUpdateCounter = 0
+      props.blockChangeablePropsUpdateMinTime = 0.0
     }
     
-    function unblockFmChangeablePropsUpdate(data)
+    function blockChangeablePropsUpdate(props)
     {
-      state.blockFmChangeablePropsUpdateCounter = Math.max(state.blockFmChangeablePropsUpdateCounter - 1, 0)
+      ++props.blockChangeablePropsUpdateCounter;
+      setTimeout(function() { unblockChangeablePropsUpdate(props, undefined) }, 2000.0)
+    }
+    
+    function unblockChangeablePropsUpdate(props, data)
+    {
+      props.blockChangeablePropsUpdateCounter = Math.max(props.blockChangeablePropsUpdateCounter - 1, 0)
       if (data != undefined)
-        state.blockFmChangeablePropsUpdateMinTime = Math.max(state.blockFmChangeablePropsUpdateMinTime, data.time)
+        props.blockChangeablePropsUpdateMinTime = Math.max(props.blockChangeablePropsUpdateMinTime, data.time)
     }
     
     function fillSettingsAndParameters()
@@ -1730,6 +1850,13 @@
       document.getElementById('EditRealTimeFlightTestCooler').disabled = !aircraftProperties['engine']['coolerControl'] || !params['cooler'] || realTimeTest['params']['engineAutoMode']
     }
     
+    function enableWindTubeTestParameters()
+    {
+      document.getElementById('EditWindTubeTestAoS').disabled = document.getElementById('EditWindTubeTestYawFakeRate').disabled = !windTubeTest.params['yawLocked']
+      document.getElementById('EditWindTubeTestAoA').disabled = document.getElementById('EditWindTubeTestPitchFakeRate').disabled = !windTubeTest.params['pitchLocked']
+      document.getElementById('EditWindTubeTestRoll').disabled = document.getElementById('EditWindTubeTestRollFakeRate').disabled = !windTubeTest.params['rollLocked']
+    }
+    
     function fillRealTimeTestState(data)
     {
       realTimeTest['state'] = data      
@@ -1749,6 +1876,37 @@
         document.getElementById('LabelRealTimeFlightTestValueType').innerHTML = '-'
         document.getElementById("LabelRealTimeFlightTestValue").innerHTML = '-'
       }
+    }
+    
+    function fillWindTubeTestState(data)
+    {
+      if (windTubeTest.blockChangeablePropsUpdateCounter > 0 ||
+          data.time < windTubeTest.blockChangeablePropsUpdateMinTime)
+        return
+      const changeFlags = [
+        windTubeTest.params.airspeed.value != data.airspeed,
+        data.enabled && windTubeTest.params.aos.value != data.aos,
+        data.enabled && windTubeTest.params.aoa.value != data.aoa,
+        data.enabled && windTubeTest.params.roll.value != data.roll,
+        data.enabled && windTubeTest.params.yawFakeRate.value != data.yawFakeRate,
+        data.enabled && windTubeTest.params.pitchFakeRate.value != data.pitchFakeRate,
+        data.enabled && windTubeTest.params.rollFakeRate.value != data.rollFakeRate
+      ]
+      windTubeTest.params.enabled = data.enabled
+      if (data.enabled)
+      {
+        windTubeTest.params.airspeed.value = data.airspeed
+        windTubeTest.params.yawLocked = data.yawLocked
+        windTubeTest.params.pitchLocked = data.pitchLocked
+        windTubeTest.params.rollLocked = data.rollLocked
+        windTubeTest.params.aoa.value = data.aoa
+        windTubeTest.params.aos.value = data.aos
+        windTubeTest.params.roll.value = data.roll
+        windTubeTest.params.yawFakeRate.value = data.yawFakeRate
+        windTubeTest.params.pitchFakeRate.value = data.pitchFakeRate
+        windTubeTest.params.rollFakeRate.value = data.rollFakeRate
+      }
+      fillWindTubeTestParametersIfChanged(changeFlags)
     }
     
     //GUI Callbacks
@@ -1957,6 +2115,23 @@
       else if (realTimeTest['params']['pitchMode']['value'] == PitchMode.PITCH_CONTROL)
         onRealTimeFlightTestParamChange('pitchControl', edit)
     }
+    
+    function onWindTubeTestParamChange(edit, paramName) {
+      var value = onParamChange(windTubeTest.params[paramName], edit)
+      Cookies.set('windTubeTest_' + paramName, value.toString(), {expires:cookieLifeTime})
+      setWindTubeTestParams()
+    }
+    
+    function onWindTubeTestBoolParamChange(checkBox, paramName) {
+      windTubeTest.params[paramName] = checkBox.checked
+      Cookies.set('windTubeTest_' + paramName, windTubeTest.params[paramName] ? 'true' : 'false', {expires:cookieLifeTime})
+      setWindTubeTestParams()
+    }
+    
+    function onWindTubeTestAxisLockChange(edit, axisName) {
+      onWindTubeTestBoolParamChange(edit, axisName)
+      enableWindTubeTestParameters()
+    }
         
     function onTestParamChange(testName, paramName, edit) {
       var test = testData[testName]
@@ -2147,14 +2322,14 @@
     
    function setFmType(fmType) {
       state.fmType = fmType
-      blockFmChangeablePropsUpdate()
-      setCommand( {cmd: 'setFmType', value: fmType }, unblockFmChangeablePropsUpdate )
+      blockChangeablePropsUpdate(state)
+      setCommand( {cmd: 'setFmType', value: fmType }, function(data) { unblockChangeablePropsUpdate(state, data) } )
     }
         
     function setMouseAimImpl(mouseAimImpl) {
       state.mouseAimImpl = mouseAimImpl
-      blockFmChangeablePropsUpdate()
-      setCommand( {cmd: 'setMouseAimImpl', value: mouseAimImpl}, unblockFmChangeablePropsUpdate )
+      blockChangeablePropsUpdate(state)
+      setCommand( {cmd: 'setMouseAimImpl', value: mouseAimImpl}, function(data) { unblockChangeablePropsUpdate(state, data) } )
     }
     
     function setCoolantOrHeadTemperature() {
@@ -2177,12 +2352,33 @@
       setCommand( {cmd: 'setPressure', value: pressure.toString() } )
     }
     
+    function setTimeSpeed() {
+      var timeSpeed = flightParams['timeSpeed']['value']
+      setCommand( {cmd: 'setTimeSpeed', value: timeSpeed.toString() } )
+    }
+    
     function stabilize() {
       setCommand( {cmd: 'stabilize'} )
     }
 
+    function takeoff() {
+      setCommand( {cmd: 'takeoff'} )
+    }
+    
+    function land() {
+      setCommand( {cmd: 'land'} )
+    }
+    
+    function setupOnGround() {
+      setCommand( {cmd: 'setupOnGround'} )
+    }
+
     function setSATM() {
       setCommand( {cmd: 'setSATM'} )
+    }
+    
+    function resetTimeSpeed(){
+      setCommand( {cmd: 'setTimeSpeed', value: 1.0 } )
     }
     
     function repair() {
@@ -2213,20 +2409,23 @@
     
     function setIndicationVisible(flagNum, checkBox) {
       state.indicationFlags[flagNum] = checkBox.checked
-      blockFmChangeablePropsUpdate()
-      setCommand( {cmd: "setIndicationVisible", flagNum: flagNum, value: checkBox.checked ? 'true' : 'false'}, unblockFmChangeablePropsUpdate )
+      blockChangeablePropsUpdate(state)
+      setCommand( {cmd: "setIndicationVisible", flagNum: flagNum, value: checkBox.checked ? 'true' : 'false'},
+        function(data) { unblockChangeablePropsUpdate(state, data) } )
     }
     
     function setDamagePartOfInterestId(comboBox) {
       state.damagePartOfInterestId = comboBox.value
-      blockFmChangeablePropsUpdate()
-      setCommand( {cmd: "setDamagePartOfInterestId", id: comboBox.value}, unblockFmChangeablePropsUpdate )
+      blockChangeablePropsUpdate(state)
+      setCommand( {cmd: "setDamagePartOfInterestId", id: comboBox.value},
+        function(data) { unblockChangeablePropsUpdate(state, data) } )
     }
     
     function setAnimPartOfInterestId(comboBox) {
       state.animPartOfInterestId = comboBox.value
-      blockFmChangeablePropsUpdate()
-      setCommand( {cmd: "setAnimPartOfInterestId", id : comboBox.value}, unblockFmChangeablePropsUpdate )
+      blockChangeablePropsUpdate(state)
+      setCommand( {cmd: "setAnimPartOfInterestId", id : comboBox.value},
+        function(data) { unblockChangeablePropsUpdate(state, data) } )
     }
     
     //Real-Time Flight Tests
@@ -2297,6 +2496,43 @@
                     onConnectionStateChange(false)
                     setTimeout(updateRealTimeTestState, 1000)                    
                   } )
+    }
+    
+    function updateWindTimeTestState() {
+      const data = {
+        cmd: 'getWindTubeTestState'
+      }
+      setCommand( data,
+                  function(data) {
+                    onConnectionStateChange(true)
+                    fillWindTubeTestState(data)
+                    setTimeout(updateWindTimeTestState, 1000)
+                  },
+                  function(data) {
+                    onConnectionStateChange(false)
+                    setTimeout(updateWindTimeTestState, 1000)                    
+                  } )
+    }
+    
+    //Wind Tube Test
+    
+    function setWindTubeTestParams() {
+      blockChangeablePropsUpdate(windTubeTest)
+      const data = {
+        cmd: 'setWindTubeTestParams',
+        enabled: windTubeTest.params.enabled,
+        airspeed: windTubeTest.params.airspeed.value,
+        yawLocked: windTubeTest.params.yawLocked,
+        pitchLocked: windTubeTest.params.pitchLocked,
+        rollLocked: windTubeTest.params.rollLocked,
+        aoa: windTubeTest.params.aoa.value,
+        pitchFakeRate: windTubeTest.params.pitchFakeRate.value,
+        aos: windTubeTest.params.aos.value,
+        yawFakeRate: windTubeTest.params.yawFakeRate.value,
+        roll: windTubeTest.params.roll.value,
+        rollFakeRate: windTubeTest.params.rollFakeRate.value
+      }
+      setCommand(data, function(data) { unblockChangeablePropsUpdate(windTubeTest, data) })
     }
     
     //Flight State
@@ -2601,6 +2837,17 @@
       loadParamFromCookie(realTimeTest['params']['pitchMode'],       'realTimeFlightTest_pitchMode')
       loadParamFromCookie(realTimeTest['params']['pitchControl'],    'realTimeFlightTest_pitchControl')
       loadParamFromCookie(realTimeTest['params']['compressorStage'], 'realTimeFlightTest_compressorStage')
+      //Wind-Tube Test parameters
+      windTubeTest.params['yawLocked']               = ((Cookies.get('windTubeTest_yawLocked') || 'true')     == 'true')
+      windTubeTest.params['pitchLocked']             = ((Cookies.get('windTubeTest_pitchLocked') || 'true')   == 'true')
+      windTubeTest.params['rollLocked']              = ((Cookies.get('windTubeTest_rollLocked') || 'true')    == 'true')
+      loadParamFromCookie(windTubeTest.params['airspeed'], 'windTubeTest_airspeed')
+      loadParamFromCookie(windTubeTest.params['aoa'],      'windTubeTest_aoa')
+      loadParamFromCookie(windTubeTest.params['aos'],      'windTubeTest_aos')
+      loadParamFromCookie(windTubeTest.params['roll'],     'windTubeTest_roll')
+      loadParamFromCookie(windTubeTest.params['yawFakeRate'],  'windTubeTest_yawFakeRate')
+      loadParamFromCookie(windTubeTest.params['pitchFakeRate'],'windTubeTest_pitchFakeRate')
+      loadParamFromCookie(windTubeTest.params['rollFakeRate'], 'windTubeTest_rollFakeRate')
      
       //Tests parameters      
       for (var testName in testData)
@@ -2656,6 +2903,7 @@
       loadCookies()
       fillSettingsAndParameters()
       updateRealTimeTestState()
+      updateWindTimeTestState()
     }
 
     window.onload = init;
@@ -2737,45 +2985,46 @@
           <tr>
             <td class="editLabel" id="LabelAltitude">Altitude:</td>  
             <td><input class="number-box" type="number" step="1" id="EditAltitude" value="2000" onchange="onFlightParamChange('alt', this)"></td>  
-            <td><input  class="number-box" type="button" id="ButtonSetAltitude" value="Set" onClick="setAltitude()"></td>  
+            <td><input  class="small-button-box" type="button" id="ButtonSetAltitude" value="Set" onClick="setAltitude()"></td>  
             <td class="editLabel" id="LabelCoolantOrHeadTemp">Eng.Temp:</td>  
             <td><input class="number-box" type="number" step="1" id="EditCoolantOrHeadTemp" value="100" onchange="onFlightParamChange('coolantOrHeadTemperature', this)"></td>  
-            <td><input class="number-box" type="button" id="ButtonSetCoolantOrHeadTemp" value="Set" onClick="setCoolantOrHeadTemperature()"></td>
+            <td><input class="small-button-box" type="button" id="ButtonSetCoolantOrHeadTemp" value="Set" onClick="setCoolantOrHeadTemperature()"></td>
           </tr>
           <tr>
             <td class="editLabel" id="LabelVelocity">Speed:</td>  
             <td><input class="number-box" type="number" step="1" id="EditVelocity" value="300" onchange="onFlightParamChange('vel', this)"></td>  
-            <td><input  class="number-box" type="button" id="ButtonSetSpeed" value="Set" onClick="setSpeed()"></td>
+            <td><input  class="small-button-box" type="button" id="ButtonSetSpeed" value="Set" onClick="setSpeed()"></td>
             <td class="editLabel" id="LabelOilTemp">Oil Temp:</td>  
             <td><input class="number-box" type="number" step="1" id="EditOilTemp" value="100" onchange="onFlightParamChange('oilTemperature', this)"></td>  
-            <td><input class="number-box" type="button" id="ButtonSetOilTemp" value="Set" onClick="setOilTemperature()"></td>
+            <td><input class="small-button-box" type="button" id="ButtonSetOilTemp" value="Set" onClick="setOilTemperature()"></td>
           </tr>
           <tr>
             <td class="editLabel" id="LabelFuelMassRatio">Fuel Mass %:</td>  
             <td><input class="number-box" type="number" step="1" id="EditFuelMassRatio" value="50" onchange="onFlightParamChange('fuelMassRatio', this)"></td>  
-            <td><input  class="number-box" type="button" id="ButtonSetFuelMassRatio" value="Set" onClick="setFuelMassRatio()"></td>  
+            <td><input  class="small-button-box" type="button" id="ButtonSetFuelMassRatio" value="Set" onClick="setFuelMassRatio()"></td>  
             <td class="editLabel" id="LabelTemperature">Atm.Temp.S.L:</td>  
             <td><input class="number-box" type="number" step="1" id="EditTemperature" value="15" onchange="onFlightParamChange('temperature', this)"></td>  
-            <td><input  class="number-box" type="button" id="ButtonSetTemperature" value="Set" onClick="setTemperature()"></td>  
+            <td><input  class="small-button-box" type="button" id="ButtonSetTemperature" value="Set" onClick="setTemperature()"></td>  
           </tr>
           <tr>
             <td class="editLabel" id="LabelMass">Mass:</td>  
             <td><input class="number-box" type="number" step="1" id="EditMass" value="1000" onchange="onFlightParamChange('mass', this)"></td>  
-            <td><input class="number-box" type="button" id="ButtonSetMass" value="Set" onClick="setMass()"></td>
+            <td><input class="small-button-box" type="button" id="ButtonSetMass" value="Set" onClick="setMass()"></td>
             <td class="editLabel" id="LabelPressure">Atm.Press.S.L.:</td>  
             <td><input class="number-box" type="number" step="1" id="EditPressure" value="760" onchange="onFlightParamChange('pressure', this)"></td>  
-            <td><input  class="number-box" type="button" id="ButtonSetPressure" value="Set" onClick="setPressure()"></td>  
+            <td><input  class="small-button-box" type="button" id="ButtonSetPressure" value="Set" onClick="setPressure()"></td>  
           </tr>          
           <tr>
-            <td class="editLabel">Flight Model</td>  
+            <td class="editLabel">FM</td>  
             <td colspan="2">
               <select id="ComboBoxFmType" onchange="onFmTypeChange(this)" style="width:100%">
                 <option selected value="0">Player</option>
                 <option value="1">AI</option>
               </select>      
             </td>  
-            <td colspan="3">
-            </td>
+            <td class="editLabel" id="LabelTimeSpeed">Time Speed</td>  
+            <td><input class="number-box" type="number" step="1" id="EditTimeSpeed" value="1.0" onchange="onFlightParamChange('timeSpeed', this)"></td>  
+            <td><input class="small-button-box" type="button" id="ButtonSetTimeSpeed" value="Set" onClick="setTimeSpeed()"></td>  
           </tr>
           <tr>
             <td class="editLabel">Mouse Aim</td>
@@ -2806,28 +3055,33 @@
           </tr> 
           <tr>  
             <td><input type="button" id="ButtonRearm"         value="Rearm" onClick="rearm()" style="width:100%"></td>  
-            <td>World</td>   
+            <td><input type="button" id="ButtonTakeoff"       value="Takeoff" onClick="takeoff()" style="width:100%"></td>
             <td><input type="button" id="ButtonUnloadFM"      value="Unload FM" onClick="unloadFM()" style="width:100%"></td>
           </tr>
           <tr>
             <td><input type="button" id="ButtonSetZeroFuel"   value="Set Zero Fuel" onClick="setZeroFuel()" style="width:100%"></td>  
-            <td><input type="button" id="ButtonSetSATM"       value="Set SATM" onClick="setSATM()" style="width:100%"></td>
+            <td><input type="button" id="ButtonLand"          value="Land" onClick="land()" style="width:100%"></td>
             <td><input type="button" id="ButtonMergeFM"       value="Merge FM" onClick="mergeFM()" style="width:100%"></td>  
           </tr>
           <tr>
             <td><input type="button" id="ButtonSetFullFuel"   value="Set Full Fuel" onClick="setFullFuel()" style="width:100%"></td>  
-            <td></td>  
+            <td><input type="button" id="ButtonSetupOnGround" value="On Ground" onClick="setupOnGround()" style="width:100%"></td>
             <td><input type="button" id="ButtonBuildPassport" value="Build Passport" onClick="buildPassport()" style="width:100%"></td>  
           </tr>
           <tr>
-            <td><input type="button" id="ButtonSetSustTemp"   value="Set Sust. Temp." onClick="setSustanedTemperature()" style="width:100%"></td>
-            <td></td>  
-            <td></td>  
+            <td><input type="button" id="ButtonSetSustTemp"   value="Set Sust.Temp." onClick="setSustanedTemperature()" style="width:100%"></td>
+            <td>World</td>
+            <td></td>
           </tr>
           <tr>
             <td><input type="button" id="ButtonOverheatNow"   value="Overheat Now" onClick="overheatNow()" style="width:100%"></td>
-            <td></td>  
-            <td></td>  
+            <td><input type="button" id="ButtonSetSATM"       value="Set SATM" onClick="setSATM()" style="width:100%"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input type="button" id="ButtonResetTimeSpeed"value="Time 1:1" onClick="resetTimeSpeed()" style="width:100%"></td>
+            <td></td>
           </tr>
         </table>
       </td>  
@@ -2969,7 +3223,47 @@
             </td>  
           </tr>
         </table>
-      </td>  
+      </td>
+     <td valign="top" rowspan="2">
+        <div class="tableheader"><b>Wind Tube</b><div>
+        <table>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxWindTubeTestEnabled" onclick="onWindTubeTestBoolParamChange(this, 'enabled')">Enable</td>
+            <td class="editLabel" id="LabelWindTubeTestAirspeed">Airspeed</td>
+            <td><input class="number-box" type="number" step="0.1" id="CheckBoxWindTubeTestAirspeed" value="0" onchange="onWindTubeTestParamChange(this, 'airspeed')"></td>
+          </tr>
+          <tr>
+            <td>Yaw</td>
+            <td>Pitch</td>
+            <td>Roll</td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxWindTubeTestYawLocked" onclick="onWindTubeTestAxisLockChange(this, 'yawLocked')">Locked</td>
+            <td><input type="checkbox" id="CheckBoxWindTubeTestPitchLocked" onclick="onWindTubeTestAxisLockChange(this, 'pitchLocked')">Locked</td>
+            <td><input type="checkbox" id="CheckBoxWindTubeTestRollLocked" onclick="onWindTubeTestAxisLockChange(this, 'rollLocked')">Locked</td>
+          </tr>
+          <tr>
+            <td>AoS, deg</td>
+            <td>AoA, deg</td>
+            <td>roll, deg</td>
+          </tr>
+          <tr>
+            <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestAoS" value="0" onchange="onWindTubeTestParamChange(this, 'aos')"></td>
+            <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestAoA" value="0" onchange="onWindTubeTestParamChange(this, 'aoa')"></td>
+            <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestRoll" value="0" onchange="onWindTubeTestParamChange(this, 'roll')"></td>
+          </tr>
+          <tr>
+            <td>Wy, deg/s</td>
+            <td>Wz, deg/s</td>
+            <td>Wx, deg/s</td>
+          </tr>
+          <tr>
+            <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestYawFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'yawFakeRate')"></td>
+            <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestPitchFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'pitchFakeRate')"></td>
+            <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestRollFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'rollFakeRate')"></td>            
+          </tr>
+        </table>
+      </td>
     </tr>
     <tr>
       <td valign="top">

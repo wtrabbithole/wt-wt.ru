@@ -20,6 +20,7 @@ enum LIVE_STATS_MODE {
   missionObjectives = MISSION_OBJECTIVE.NONE
   isMissionTeamplay = false
   isMissionRace = false
+  isMissionLastManStanding = false
   isAwaitingSpawn = false
   spawnStartState = null
   isMissionFinished = false
@@ -38,11 +39,11 @@ enum LIVE_STATS_MODE {
 
   columnsOrder = {
     [::GT_VERSUS] = {
-      [LIVE_STATS_MODE.SPAWN] = [ "captureZone", "damageZone", "kills", "groundKills", "navalKills",
+      [LIVE_STATS_MODE.SPAWN] = [ "captureZone", "damageZone", "missionAliveTime", "kills", "groundKills", "navalKills",
                                   "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "score" ],
-      [LIVE_STATS_MODE.FINAL] = [ "captureZone", "damageZone", "kills", "groundKills", "navalKills",
+      [LIVE_STATS_MODE.FINAL] = [ "captureZone", "damageZone", "missionAliveTime", "kills", "groundKills", "navalKills",
                                   "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "deaths", "score" ],
-      [LIVE_STATS_MODE.WATCH] = [ "name", "score", "captureZone", "damageZone", "kills", "groundKills", "navalKills",
+      [LIVE_STATS_MODE.WATCH] = [ "name", "score", "captureZone", "damageZone", "missionAliveTime", "kills", "groundKills", "navalKills",
                                   "aiKills", "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "deaths" ],
     },
     [::GT_RACE] = {
@@ -66,10 +67,11 @@ function g_hud_live_stats::init(_parentObj, _nestObjId, _isSelfTogglable)
   isSelfTogglable = _isSelfTogglable
   gameType = ::get_game_type()
   missionMode = (gameType & ::GT_RACE) ? ::GT_RACE : ::GT_VERSUS
-  isMissionTeamplay = !(gameType & (::GT_RACE | ::GT_FREE_FOR_ALL))
+  isMissionTeamplay = ::is_mode_with_teams(gameType)
   isMissionRace = !!(gameType & ::GT_RACE)
   isMissionFinished = false
   missionObjectives = ::g_mission_type.getCurrentObjectives()
+  isMissionLastManStanding = !!(gameType & ::GT_LAST_MAN_STANDING)
 
   isActive = false
 
@@ -169,9 +171,11 @@ function g_hud_live_stats::show(activate, viewMode = null, playerId = null)
   curViewPlayerId = playerId
   curViewMode = (viewMode != null && viewMode >= 0 && viewMode < LIVE_STATS_MODE.TOTAL) ?
     viewMode : LIVE_STATS_MODE.WATCH
-  local misObjs = missionObjectives
   curColumnsOrder = ::getTblValue(curViewMode, ::getTblValue(missionMode, columnsOrder, {}), [])
-  curColumnsOrder = ::u.filter(curColumnsOrder, @(id) ::g_mplayer_param_type.getTypeById(id).isVisible(misObjs))
+
+  local misObjs = missionObjectives
+  local gt = gameType
+  curColumnsOrder = ::u.filter(curColumnsOrder, @(id) ::g_mplayer_param_type.getTypeById(id).isVisible(misObjs, gt))
 
   fill()
 
@@ -196,13 +200,13 @@ function g_hud_live_stats::fill()
   local title = ""
   if (curViewMode == LIVE_STATS_MODE.WATCH)
     title = ""
-  else if (curViewMode == LIVE_STATS_MODE.SPAWN)
+  else if (curViewMode == LIVE_STATS_MODE.SPAWN && !isMissionLastManStanding)
   {
     local txtUnitName = ::getUnitName(::getTblValue("aircraftName", state.player, ""))
     local txtLifetime = ::secondsToString(state.lifetime, true)
     title = ::loc("multiplayer/lifetime") + ::loc("ui/parentheses/space", { text = txtUnitName }) + ::loc("ui/colon") + txtLifetime
   }
-  else if (curViewMode == LIVE_STATS_MODE.FINAL)
+  else if (curViewMode == LIVE_STATS_MODE.FINAL || isMissionLastManStanding)
   {
     title = isMissionTeamplay ? ::loc("debriefing/placeInMyTeam") :
       (::loc("mainmenu/btnMyPlace") + ::loc("ui/colon"))
@@ -215,7 +219,7 @@ function g_hud_live_stats::fill()
     title = title
     isHeader = isHeader
     player = []
-    lifetime = isCompareStates
+    lifetime = isCompareStates && !isMissionLastManStanding
   }
 
   foreach (id in curColumnsOrder)
@@ -280,7 +284,7 @@ function g_hud_live_stats::update(obj = null, dt = 0.0)
       txtObj.setValue(text)
   }
 
-  if (isCompareStates && (!visState || visState.lifetime != state.lifetime))
+  if (isCompareStates && (!visState || visState.lifetime != state.lifetime) && !isMissionLastManStanding)
   {
     local text = ::secondsToString(state.lifetime, true)
     local obj = scene.findObject("txt_lifetime")

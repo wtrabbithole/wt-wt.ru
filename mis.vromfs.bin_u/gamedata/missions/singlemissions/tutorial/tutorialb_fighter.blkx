@@ -121,6 +121,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "fighter",
               "side": "player",
@@ -455,6 +458,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "speed": 250.0
           }
@@ -519,6 +523,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -556,6 +561,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         }
@@ -731,7 +737,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -753,6 +759,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -767,6 +774,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -788,6 +796,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -814,7 +823,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -836,6 +845,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -850,6 +860,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -871,6 +882,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -900,7 +912,7 @@
           "isThrustmasterHotas4": false
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -925,6 +937,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -946,6 +959,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "elevator",
             "shouldBlink": false
           }
@@ -963,6 +977,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "elevator",
             "shouldBlink": false
           }
@@ -990,7 +1005,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1015,6 +1030,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1036,6 +1052,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_stick_to_up_n_down",
             "shouldBlink": false
           }
@@ -1053,6 +1070,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_stick_to_up_n_down",
             "shouldBlink": false
           }
@@ -1080,7 +1098,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1102,6 +1120,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "elevator",
             "shouldBlink": false
           }
@@ -1134,6 +1153,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ailerons",
             "shouldBlink": false
           }
@@ -1151,6 +1171,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ailerons",
             "shouldBlink": false
           }
@@ -1178,7 +1199,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1200,6 +1221,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "elevator",
             "shouldBlink": false
           }
@@ -1232,6 +1254,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_stick_to_left_n_right",
             "shouldBlink": false
           }
@@ -1249,6 +1272,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_stick_to_left_n_right",
             "shouldBlink": false
           }
@@ -1276,7 +1300,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1298,6 +1322,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ailerons",
             "shouldBlink": false
           }
@@ -1323,6 +1348,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "rudder",
             "shouldBlink": false
           }
@@ -1340,6 +1366,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "rudder",
             "shouldBlink": false
           }
@@ -1367,7 +1394,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1389,6 +1416,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ailerons",
             "shouldBlink": false
           }
@@ -1414,6 +1442,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_stick_rotate",
             "shouldBlink": false
           }
@@ -1431,6 +1460,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_stick_rotate",
             "shouldBlink": false
           }
@@ -1458,7 +1488,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1480,6 +1510,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1494,6 +1525,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1515,6 +1547,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1541,7 +1574,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1563,6 +1596,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1625,6 +1659,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1681,6 +1716,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1727,6 +1763,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1743,6 +1780,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1832,7 +1870,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1857,6 +1895,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "rudder",
             "shouldBlink": false
           }
@@ -1869,6 +1908,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1895,6 +1935,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1911,6 +1952,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -1937,7 +1979,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1959,6 +2001,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2114,6 +2157,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "throttle=max",
           "shouldBlink": false
         },
@@ -2207,6 +2251,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "#ui/controlskin#tm_throttle_up",
           "shouldBlink": false
         },
@@ -2255,6 +2300,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max",
             "shouldBlink": false
           }
@@ -2291,6 +2337,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max",
             "shouldBlink": false
           }
@@ -2348,6 +2395,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max",
             "shouldBlink": false
           }
@@ -2384,6 +2432,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_throttle_up",
             "shouldBlink": false
           }
@@ -2435,6 +2484,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "throttle=max",
           "shouldBlink": false
         }
@@ -2498,6 +2548,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max",
             "shouldBlink": false
           }
@@ -2539,6 +2590,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=min",
             "shouldBlink": false
           }
@@ -2613,6 +2665,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max",
             "shouldBlink": false
           }
@@ -2654,6 +2707,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_throttle_down",
             "shouldBlink": false
           }
@@ -2705,6 +2759,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=min",
             "shouldBlink": false
           }
@@ -2741,6 +2796,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=min",
             "shouldBlink": false
           }
@@ -2795,6 +2851,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=min",
             "shouldBlink": false
           }
@@ -2831,6 +2888,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_throttle_down",
             "shouldBlink": false
           }
@@ -2917,6 +2975,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2939,6 +2998,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2960,6 +3020,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -2986,7 +3047,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3008,6 +3069,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3037,6 +3099,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3058,6 +3121,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3084,7 +3148,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3114,6 +3178,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3135,6 +3200,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3151,6 +3217,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3185,7 +3252,7 @@
           "isThrustmasterHotas4": false
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3213,6 +3280,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3243,6 +3311,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max_hold",
             "shouldBlink": false
           }
@@ -3273,7 +3342,7 @@
           "isThrustmasterHotas4": true
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3301,6 +3370,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3331,6 +3401,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_throttle_up",
             "shouldBlink": false
           }
@@ -3386,6 +3457,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max_hold",
             "shouldBlink": false
           }
@@ -3417,6 +3489,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "throttle=max_hold",
             "shouldBlink": false
           }
@@ -3476,6 +3549,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3506,6 +3580,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_throttle_up",
             "shouldBlink": false
           }
@@ -3557,6 +3632,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "throttle=max_hold",
           "shouldBlink": false
         }
@@ -3680,6 +3756,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3719,6 +3796,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3778,6 +3856,7 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3840,6 +3919,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TACTICAL_MAP",
             "shouldBlink": false
           }
@@ -3890,6 +3970,7 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -3952,6 +4033,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TACTICAL_MAP=2",
             "shouldBlink": false
           }
@@ -3996,6 +4078,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "ID_TACTICAL_MAP",
           "shouldBlink": false
         },
@@ -4182,6 +4265,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "shouldBlink": false
         },
         "playerControls": {
@@ -4617,6 +4701,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -4628,6 +4713,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -4644,6 +4730,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -5041,6 +5128,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "pseudo_fire",
           "shouldBlink": false
         },
@@ -5096,6 +5184,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "ID_FIRE_CANNONS=2",
           "shouldBlink": false
         },
@@ -5182,6 +5271,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "pseudo_fire",
           "shouldBlink": false
         },
@@ -5732,6 +5822,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -5743,6 +5834,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -5759,6 +5851,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6203,6 +6296,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6229,6 +6323,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6250,6 +6345,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6276,7 +6372,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6288,6 +6384,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6309,6 +6406,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6337,6 +6435,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6363,7 +6462,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6375,6 +6474,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6403,6 +6503,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6424,6 +6525,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6461,7 +6563,7 @@
           "isThrustmasterHotas4": false
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6511,6 +6613,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -6541,7 +6644,7 @@
           "isThrustmasterHotas4": true
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6586,6 +6689,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_LOCK_TARGET=2",
             "shouldBlink": false
           }
@@ -6653,6 +6757,9 @@
               "priority": 0
             },
             {
+              "isOverFade": false
+            },
+            {
               "item": "ID_LOCK_TARGET"
             },
             {
@@ -6689,6 +6796,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6705,6 +6813,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6739,7 +6848,7 @@
           "isThrustmasterHotas4": false
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6764,6 +6873,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6845,6 +6955,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "pseudo_fire",
             "shouldBlink": false
           }
@@ -6875,7 +6986,7 @@
           "isThrustmasterHotas4": true
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6900,6 +7011,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -6981,6 +7093,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_FIRE_CANNONS=2",
             "shouldBlink": false
           }
@@ -7046,6 +7159,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "shouldBlink": false
         },
         "missionStopSpeech": [],
@@ -7715,6 +7829,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -7726,6 +7841,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -7742,6 +7858,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8204,6 +8321,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8242,6 +8360,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8263,6 +8382,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8289,7 +8409,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -8306,6 +8426,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8341,6 +8462,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8362,6 +8484,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8402,7 +8525,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -8414,6 +8537,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8442,6 +8566,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8463,6 +8588,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8503,7 +8629,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -8515,6 +8641,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8543,6 +8670,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8564,6 +8692,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8620,7 +8749,7 @@
         },
         {
           "playerShortcutPressed": {
-            "control": "ANY"
+            "control": "ID_CONTINUE"
           }
         }
       ],
@@ -8661,6 +8790,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8695,6 +8825,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8765,7 +8896,7 @@
           "isGamepadPseudoMouseAim": true
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -8796,6 +8927,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -8861,6 +8993,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9212,6 +9345,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9229,6 +9363,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -9296,6 +9431,9 @@
               "priority": 0
             },
             {
+              "isOverFade": false
+            },
+            {
               "item": "ID_LOCK_TARGET"
             },
             {
@@ -9332,6 +9470,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9353,6 +9492,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         }
@@ -9374,7 +9514,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -9399,6 +9539,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9451,6 +9592,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9510,6 +9652,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9534,6 +9677,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9550,6 +9694,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9576,7 +9721,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": {
@@ -9590,6 +9735,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "shouldBlink": false
         },
         "missionSetTimeSpeed": {
@@ -9666,6 +9812,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -9706,6 +9853,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "pseudo_fire",
             "shouldBlink": false
           }
@@ -9771,6 +9919,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "pseudo_fire",
           "shouldBlink": false
         },
@@ -10417,6 +10566,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -10428,6 +10578,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -10444,6 +10595,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -11020,6 +11172,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_plane02",
             "attack_type": "hold_fire",
             "ignoresEnemy": true
@@ -11157,6 +11310,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -11188,6 +11342,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TARGET_CAMERA",
             "shouldBlink": false
           }
@@ -11240,6 +11395,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -11271,6 +11427,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_TARGET_CAMERA=2",
             "shouldBlink": false
           }
@@ -11312,6 +11469,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "shouldBlink": false
         },
         "missionSetTimeSpeed": {
@@ -11962,6 +12120,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -11973,6 +12132,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -11989,6 +12149,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -12400,6 +12561,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_vehicle_01",
             "attack_type": "hold_fire",
             "ignoresEnemy": true
@@ -12442,6 +12604,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "target_vehicle_01"
           }
         },
@@ -12458,6 +12621,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -12491,6 +12655,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -12872,6 +13037,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_vehicle_01",
             "attack_type": "hold_fire",
             "ignoresEnemy": true
@@ -12909,6 +13075,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "target_vehicle_01"
           }
         },
@@ -12976,6 +13143,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "pseudo_fire",
             "shouldBlink": false
           }
@@ -13014,7 +13182,7 @@
           "isThrustmasterHotas4": false
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -13045,6 +13213,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -13114,6 +13283,9 @@
             },
             {
               "priority": 0
+            },
+            {
+              "isOverFade": false
             },
             {
               "item": "@ID_ZOOM"
@@ -13158,7 +13330,7 @@
           "isThrustmasterHotas4": true
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -13189,6 +13361,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -13258,6 +13431,9 @@
             },
             {
               "priority": 0
+            },
+            {
+              "isOverFade": false
             },
             {
               "item": "@ID_ZOOM"
@@ -13323,6 +13499,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -13353,6 +13530,9 @@
             },
             {
               "priority": 0
+            },
+            {
+              "isOverFade": false
             },
             {
               "item": "@ID_ZOOM"
@@ -13423,6 +13603,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -13453,6 +13634,9 @@
             },
             {
               "priority": 0
+            },
+            {
+              "isOverFade": false
             },
             {
               "item": "@ID_ZOOM"
@@ -13518,6 +13702,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -13588,6 +13773,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "pseudo_fire",
             "shouldBlink": false
           }
@@ -13634,6 +13820,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -13704,6 +13891,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "ID_FIRE_CANNONS=2",
             "shouldBlink": false
           }
@@ -13769,6 +13957,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "item": "pseudo_fire",
           "shouldBlink": false
         },
@@ -13944,6 +14133,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -14047,6 +14237,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "elevator=max",
             "shouldBlink": false
           }
@@ -14101,6 +14292,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "item": "#ui/controlskin#tm_stick_down",
             "shouldBlink": false
           }
@@ -14186,6 +14378,7 @@
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
+          "isOverFade": false,
           "shouldBlink": false
         },
         "missionStopSpeech": [],
@@ -14402,6 +14595,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         }
@@ -14431,6 +14625,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -14447,6 +14642,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -14914,6 +15110,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -14925,6 +15122,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },
@@ -14946,6 +15144,7 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
             "shouldBlink": false
           }
         },

@@ -45,5 +45,5 @@ popup_menu {
       <<@weaponryList>>
     }
   }
-  popoup_menu_arrow{}
+  popup_menu_arrow{}
 }

@@ -106,7 +106,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
   isReplayPressed = false
   curPage = 0
 
-  statsColumnsOrderPvp  = [ "team", "name", "score", "kills", "groundKills", "navalKills", "aiKills", "aiGroundKills",
+  statsColumnsOrderPvp  = [ "team", "name", "missionAliveTime", "score", "kills", "groundKills", "navalKills", "aiKills", "aiGroundKills",
                             "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths" ]
   statsColumnsOrderRace = [ "team", "rowNo", "name", "raceFinishTime", "raceLap", "raceLastCheckpoint", "raceBestLapTime", "deaths" ]
 
@@ -475,7 +475,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     foreach(id in columnsOrder)
     {
       local paramType = ::g_mplayer_param_type.getTypeById(id)
-      if (!paramType.isVisible(missionObjectivesMask))
+      if (!paramType.isVisible(missionObjectivesMask, gameType))
         continue
 
       headerArray.append(id)

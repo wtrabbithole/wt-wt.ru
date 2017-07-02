@@ -19,7 +19,7 @@ function g_invites::addInvite(inviteClass, params)
   {
     invite.updateParams(params)
     updateNewInvitesAmount()
-    ::broadcastEvent("InviteUpdated", { invite = invite })
+    broadcastInviteUpdated(invite)
     return invite
   }
 
@@ -39,6 +39,12 @@ function g_invites::broadcastInviteReceived(invite)
     ::broadcastEvent("InviteReceived", { invite = invite })
 }
 
+function g_invites::broadcastInviteUpdated(invite)
+{
+  if (invite.isVisible())
+    ::broadcastEvent("InviteUpdated", { invite = invite })
+}
+
 function g_invites::addChatRoomInvite(roomId, inviterName)
 {
   return addInvite(::g_invites_classes.ChatRoom, { roomId = roomId, inviterName = inviterName })
@@ -53,6 +59,16 @@ function g_invites::addSessionRoomInvite(roomId, inviterUid, inviterName, passwo
                      inviterName = inviterName
                      password    = password
                    })
+}
+
+function g_invites::addPsnSessionRoomInvite(params)
+{
+  return addInvite(::g_invites_classes.PsnSessionRoom, params)
+}
+
+function g_invites::addPsnSquadInvite(params)
+{
+  return addInvite(::g_invites_classes.PsnSquad, params)
 }
 
 function g_invites::addTournamentBattleInvite(battleId, inviteTime, startTime, endTime)
@@ -267,6 +283,22 @@ function g_invites::onEventProfileUpdated(p)
 function g_invites::onEventLoginComplete(p)
 {
   fetchNewInvitesFromUserlogs()
+}
+
+function g_invites::onEventScriptsReloaded(p)
+{
+  list = ::u.map(list, function(invite)
+  {
+    local params = invite.reloadParams
+    foreach(inviteClass in ::g_invites_classes)
+      if (inviteClass.getUidByParams(params) == invite.uid)
+      {
+        local newInvite = inviteClass(params)
+        newInvite.afterScriptsReload(invite)
+        return newInvite
+      }
+    return invite
+  })
 }
 
 

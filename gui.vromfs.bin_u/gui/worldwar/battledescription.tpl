@@ -9,7 +9,7 @@ tdiv {
   textareaNoTab {
     width:t='pw'
     padding:t='1@framePadding, 0, 1@framePadding, 1@framePadding'
-    text:t='<<getOrdinalNumberText>> <<name>>'
+    text:t='<<#getOrdinalNumberText>><<getOrdinalNumberText>> <</getOrdinalNumberText>><<name>>'
     text-align:t='center'
     fontNormal:t='yes'
   }

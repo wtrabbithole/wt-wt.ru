@@ -180,7 +180,7 @@ enum RB_GM_TYPE
  */
 class GameModeManager
 {
-  queueMask = queueType.DOMINATION | queueType.NEWBIE
+  queueMask = QUEUE_TYPE_BIT.DOMINATION | QUEUE_TYPE_BIT.NEWBIE
   SEEN_MODES_SAVE_PATH = "seen/gameModes"
 
   defaultSeenGameModeIDs = ["air_arcade",

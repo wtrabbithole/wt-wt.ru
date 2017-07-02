@@ -516,7 +516,12 @@ function g_chat::getPlayerRClickMenu(playerName, roomId = null, contact = null, 
     {
       text = ::loc("multiplayer/invite_to_session")
       show = uid && ::SessionLobby.canInvitePlayer(uid)
-      action = (@(uid) function () {::SessionLobby.invitePlayer(uid)})(uid)
+      action = function () {
+        if (::isPlayerPS4Friend(latestName))
+          ::g_psn_session_invitations.sendSkirmishInvitation(latestName)
+        else
+          ::SessionLobby.invitePlayer(uid)
+      }
     }
     {
       text = ::loc("contacts/message")

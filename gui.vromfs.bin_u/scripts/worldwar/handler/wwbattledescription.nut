@@ -210,6 +210,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local playerTeam = battle.getTeamBySide(::ww_get_player_side())
+    ::switch_profile_country(playerTeam.country)
     local availableUnits = battle.getTeamRemainUnits(playerTeam)
     ::init_slotbar(
       this,
@@ -261,6 +262,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!battle.isValid())
       return
 
+    local noBattlesTextObj = scene.findObject("no_active_battles_full_text")
+    if (::check_obj(noBattlesTextObj))
+      noBattlesTextObj.show(false)
+
     local mySide = ::ww_get_player_side()
 
     foreach(idx, side in ::g_world_war.getSidesOrder())
@@ -282,6 +287,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     loadMap()
     updateBattleStatus(battleView)
+    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
   }
 
   function loadMap()
@@ -391,7 +397,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateButtons()
   {
-    local queueIsActive = ::queues.hasActiveQueueWithType(queueType.WW_BATTLE)
+    local queueIsActive = ::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
 
     showSceneBtn("btn_leave_battle", queueIsActive)
     local joinBattleButtonObj = showSceneBtn("btn_join_battle", !queueIsActive)
@@ -446,8 +452,13 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenClusterSelect(obj)
   {
-    checkedModifyQueue(queueType.WW_BATTLE,
+    checkedModifyQueue(QUEUE_TYPE_BIT.WW_BATTLE,
       @() ::gui_handlers.ClusterSelect.open(obj, "bottom"))
+  }
+
+  function onEventClusterChange(params)
+  {
+    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
   }
 
   function onJoinBattle()

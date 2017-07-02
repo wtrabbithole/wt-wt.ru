@@ -41,6 +41,7 @@
                                                      //dosn't called twice when single handler load subhandlers on init.
   animatedSwitchScene                = function(startFunc) { startFunc () } //no anim by default
   beforeLoadHandler                  = function(hType) {}
+  onBaseHandlerLoadFailed            = function(handler) {}
 
   _loadHandlerRecursionLevel         = 0
 }
@@ -132,10 +133,8 @@ function handlersManager::initHandler(handler)
         ::get_cur_gui_scene().replaceContentFromText(handler.scene, "", 0, null)
       handler.scene = null
     }
-    else if (handler.getclass() == ::gui_handlers.MainMenu)
-      ::gui_start_logout()
     else
-      ::gui_start_mainmenu()
+      onBaseHandlerLoadFailed(handler)
     result = false
   }
   return result

@@ -1,8 +1,9 @@
 function apply_compatibilities(comp_table)
 {
   local rootTable = getroottable()
+  local constTable = getconsttable()
   foreach(key, value in comp_table)
-    if (!(key in rootTable))
+    if (!(key in rootTable) && !(key in constTable))
       rootTable[key] <- value
 }
 
@@ -55,8 +56,6 @@ function get_version_int_from_string(versionText)
 
   script_net_assert = function(error) { dagor.debug("Exception:" + error) }
   is_gui_webcache_enabled = function() { return false }
-
-  make_invalid_user_id = function() { return -1 }
 
   is_option_free_camera_inertia_exist = ("OPTION_FREE_CAMERA_INERTIA" in getroottable())
   is_option_replay_camera_wiggle_exist = ("OPTION_REPLAY_CAMERA_WIGGLE" in getroottable())
@@ -302,6 +301,8 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   get_option_depthcharge_activation_time = @() get_option_dive_bomb_activation_time()
   set_option_depthcharge_activation_time = @(value) set_option_dive_bomb_activation_time(value)
+
+  str_to_hex = function(str) { return "" }
 })
 
 //----------------------------wop_1_67_3_X---------------------------------//
@@ -339,6 +340,9 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
       return text
     return ::replaceParamsInLocalizedText(text, locParams)
   }
+
+  GT_FFA_DEATHMATCH = 524288
+
 })
 
 
@@ -347,4 +351,11 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   HUD_TYPE_UNKNOWN = -1
 
   set_tactical_map_hud_type = @(hudType) set_tactical_map_type_without_unit(hudType)
+  get_respawn_base_time_left_by_id = @(id) ::get_mp_zone_countdown()
+
+  GT_FFA = 16777216
+  GT_LAST_MAN_STANDING = 33554432
+  EII_REPAIR_BREACHES = 14
+
+  run_reactive_gui = function () {}
 })

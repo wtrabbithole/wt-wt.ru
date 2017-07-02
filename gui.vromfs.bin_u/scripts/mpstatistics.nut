@@ -1,3 +1,5 @@
+const PLAYERS_IN_FIRST_TABLE_IN_FFA = 16
+
 ::team_aircraft_list <- null
 
 
@@ -48,22 +50,6 @@ function get_in_battle_time_to_kick_show_alert()
       ::get_game_settings_blk(), 50)
   }
   return ::in_battle_time_to_kick_show_alert
-}
-
-function mpstat_sort_alive(a, b)
-{
-  if (("ingame" in a) && ("ingame" in b) && a.ingame != b.ingame)
-    return a.ingame ? -1 : 1
-  if (a.isBot != b.isBot)
-    return b.isBot ? -1 : 1
-  //if (a.isDead != b.isDead)
-  //  return b.isDead ? -1 : 1
-  return ::mpstat_sort_rowNo(a, b)
-}
-
-function mpstat_sort_rowNo(a, b)
-{
-  return (a.rowNo > b.rowNo)? 1 : (a.rowNo < b.rowNo ? -1 : 0)
 }
 
 function get_local_team_for_mpstats()
@@ -305,7 +291,7 @@ function build_mp_table(table, markup, hdr, max_rows)
         local width = "width:t='" + ::getTblValue("width", markup[hdr[j]], "1") + "'; "
         tdData += ::format("%s activeText { text:t = '%s'; halign:t='center';} ", width, item)
       }
-      else if (::isInArray(hdr[j], [ "aiTotalKills", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime" ]))
+      else if (::isInArray(hdr[j], [ "aiTotalKills", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime", "missionAliveTime" ]))
       {
         local txt = isEmpty ? "" : ::g_mplayer_param_type.getTypeById(hdr[j]).printFunc(item, table[i])
         tdData += ::format("activeText { text:t='%s' halign:t='center' } ", txt)
@@ -675,7 +661,7 @@ function set_mp_table(obj_tbl, table, params)
       {
         objTd.getChild(0).setValue(item)
       }
-      else if (::isInArray(hdr, [ "aiTotalKills", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime" ]))
+      else if (::isInArray(hdr, [ "aiTotalKills", "damageZone", "raceFinishTime", "raceLastCheckpoint", "raceLastCheckpointTime", "raceBestLapTime", "missionAliveTime" ]))
       {
         local txt = isEmpty ? "" : ::g_mplayer_param_type.getTypeById(hdr).printFunc(item, table[i])
         local objText = objTd.getChild(0)
@@ -932,6 +918,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   gameMode = 0
   gameType = 0
   isOnline = false
+  isTeamplay    = false
 
   missionObjectives = MISSION_OBJECTIVE.NONE
 
@@ -944,11 +931,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   checkRaceDataOnStart = true
   numberOfWinningPlaces = -1
 
-  defaultRowHeaders         = ["squad", "name", "aircraft", "score", "kills", "groundKills", "navalKills", "aiKills",
+  defaultRowHeaders         = ["squad", "name", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "navalKills", "aiKills",
                                "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
   raceRowHeaders            = ["rowNo", "name", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
-
   statTrSize = "pw, 1@baseTrHeight"
 
   function onActivateOrder()
@@ -1112,6 +1098,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     gameMode = ::get_game_mode()
     gameType = ::get_game_type()
     isOnline = ::g_login.isLoggedIn()
+    isTeamplay = ::is_mode_with_teams(gameType)
 
     missionObjectives = ::g_mission_type.getCurrentObjectives()
 
@@ -1121,7 +1108,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local teamObj2 = scene.findObject("team2_info")
     local countries
 
-    if (gameType & (::GT_RACE | ::GT_FREE_FOR_ALL))
+    if (!isTeamplay)
     {
       foreach(obj in [teamObj1, teamObj2])
         if (::checkObj(obj))
@@ -1164,7 +1151,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local sourceHeaders = gameType & ::GT_RACE ? raceRowHeaders : defaultRowHeaders
     local tblData = []
     foreach (id in sourceHeaders)
-      if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives))
+      if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType))
         tblData.append(id)
 
     if (!showAircrafts)
@@ -1217,7 +1204,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
     if (tbl)
     {
-      if (gameType & (::GT_RACE | ::GT_FREE_FOR_ALL))
+      if (!isTeamplay)
         sortTable(tbl)
 
       local data = ::build_mp_table(tbl, markupData, tblData, num_rows)
@@ -1254,18 +1241,19 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local minRow = 0
     if (!tbl)
     {
-      if (gameType & (::GT_RACE | ::GT_FREE_FOR_ALL))
+      if (!isTeamplay)
       {
         local commonTbl = ::get_mplayers_list(::GET_MPLAYERS_LIST, true)
         sortTable(commonTbl)
         if (commonTbl.len() > 0)
         {
+          local lastRow = PLAYERS_IN_FIRST_TABLE_IN_FFA - 1
           if (objTbl.id == "table_kills_team2")
-            minRow = commonTbl.len() <= (::global_max_players_versus / 2)? 0 : ::global_max_players_versus / 2
-          else
-            minRow = 0
+          {
+            minRow = commonTbl.len() <= PLAYERS_IN_FIRST_TABLE_IN_FFA ? 0 : PLAYERS_IN_FIRST_TABLE_IN_FFA
+            lastRow = commonTbl.len()
+          }
 
-          local lastRow = minRow + ::global_max_players_versus / 2 - 1
           tbl = []
           for(local i = lastRow; i >= minRow; --i)
           {
@@ -1279,19 +1267,19 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
           tbl.reverse()
         }
         if (objTbl.id == "table_kills_team2")
-          showSecondTable = commonTbl.len() >= ::global_max_players_versus / 2
+          showSecondTable = commonTbl.len() >= PLAYERS_IN_FIRST_TABLE_IN_FFA
       }
       else
         tbl = ::get_mplayers_list(team, true)
     }
-    else if ((gameType & (::GT_RACE | ::GT_FREE_FOR_ALL)) && customTbl && objTbl.id == "table_kills_team2")
-      minRow = ::global_max_players_versus / 2
+    else if (!isTeamplay && customTbl && objTbl.id == "table_kills_team2")
+      minRow = PLAYERS_IN_FIRST_TABLE_IN_FFA
 
     local secondTblObj = scene.findObject("team2-root")
     if (::checkObj(secondTblObj))
       secondTblObj.show(showSecondTable)
 
-    if ((gameType & (::GT_RACE | ::GT_FREE_FOR_ALL)) && minRow >= 0)
+    if (!isTeamplay && minRow >= 0)
     {
       if (minRow == 0)
         tblSave1 = tbl
@@ -1308,7 +1296,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
     if (tbl != null)
     {
-      if (!customTbl && !(gameType & (::GT_RACE | ::GT_FREE_FOR_ALL)))
+      if (!customTbl && isTeamplay)
         sortTable(tbl)
 
       local numRows = numRows1
@@ -1325,8 +1313,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       ::update_team_css_label(objTbl)
       objTbl.num_rows = tbl.len()
 
-      if (!(gameType & (::GT_RACE | ::GT_FREE_FOR_ALL)) && friendlyTeam > 0 && team > 0)
-        objTbl["team"] = (friendlyTeam==team)? "blue" : "red"
+      if (friendlyTeam > 0 && team > 0)
+        objTbl["team"] = (isTeamplay && friendlyTeam == team)? "blue" : "red"
     }
     updateCountryFlags()
     guiScene.setUpdatesEnabled(true, true)
@@ -1346,19 +1334,19 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local tblObj2 = scene.findObject("table_kills_team2")
     local team1Root = scene.findObject("team1-root")
 
-    if (gameType & (::GT_RACE | ::GT_FREE_FOR_ALL))
+    if (!isTeamplay)
     {
       local tbl1 = ::get_mplayers_list(::GET_MPLAYERS_LIST, true)
-      tbl1.sort(::mpstat_sort_rowNo)
+      sortTable(tbl1)
 
       local tbl2 = []
       numRows1 = tbl1.len()
       numRows2 = 0
-      if (tbl1.len() >= ::global_max_players_versus / 2)
+      if (tbl1.len() >= PLAYERS_IN_FIRST_TABLE_IN_FFA)
       {
-        numRows1 = numRows2 = ::global_max_players_versus / 2
+        numRows1 = numRows2 = PLAYERS_IN_FIRST_TABLE_IN_FFA
 
-        for(local i = tbl1.len()-1; i >= ::global_max_players_versus / 2; --i)
+        for(local i = tbl1.len()-1; i >= PLAYERS_IN_FIRST_TABLE_IN_FFA; --i)
         {
           if (!(i in tbl1))
             continue
@@ -1518,9 +1506,9 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
     if (needPlayersTbl)
     {
-      if (gameType & (::GT_VERSUS | ::GT_RACE | ::GT_FREE_FOR_ALL))
+      if (!isTeamplay || (gameType & ::GT_VERSUS))
       {
-        if (gameType & (::GT_RACE | ::GT_FREE_FOR_ALL))
+        if (!isTeamplay)
           playerTeam = Team.A
 
         setKillsTbl(tblObj1, playerTeam, playerTeam, friendlyTeam, showAircrafts, customTbl)
@@ -2000,7 +1988,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local gameEndsObj = getEndTimeObj()
     local scoreLimitTextObj = getScoreLimitObj()
 
-    if (!(::get_game_type() & ::GT_VERSUS))
+    if (!(gameType & ::GT_VERSUS))
     {
       foreach(obj in [gameEndsObj, scoreLimitTextObj])
         if (::checkObj(obj))
@@ -2015,7 +2003,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         timeLeft = rl
     }
 
-    if (timeLeft < 0 || (::get_game_type() & ::GT_RACE))
+    if (timeLeft < 0 || (gameType & ::GT_RACE))
     {
       if (!::checkObj(gameEndsObj))
         return
@@ -2032,7 +2020,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                                                  "activeTextColor"))
 
       local mp_ffa_score_limit = ::get_mp_ffa_score_limit()
-      if ((::get_game_type() & ::GT_FREE_FOR_ALL) && mp_ffa_score_limit && ::checkObj(scoreLimitTextObj))
+      if (!isTeamplay && mp_ffa_score_limit && ::checkObj(scoreLimitTextObj))
         scoreLimitTextObj.setValue(::getCompoundedText(::loc("options/scoreLimit") + ::loc("ui/colon"),
                                    mp_ffa_score_limit,
                                    "activeTextColor"))

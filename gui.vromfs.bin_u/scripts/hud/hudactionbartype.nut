@@ -207,6 +207,13 @@
     _icon = "#ui/gameuiskin#winch_request_deploy"
     _title = ::loc("hints/winch_use")
   }
+
+  REPAIR_BREACHES = {
+    code = ::EII_REPAIR_BREACHES
+    _name = "repair_breaches"
+    _icon = "#ui/gameuiskin#unwatering"
+    getShortcut = @(actionItem, unit = null) "ID_REPAIR_BREACHES"
+  }
 })
 
 function g_hud_action_bar_type::getTypeByCode(code)

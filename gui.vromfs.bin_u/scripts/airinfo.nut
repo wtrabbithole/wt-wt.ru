@@ -1114,6 +1114,8 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
         historical = effect.historical
         fullreal = effect.fullreal
       }
+      if (!("modificatorsBase" in air)) // TODO: Needs tank params _without_ user progress here.
+        air.modificatorsBase <- air.modificators
 
       ::_afterUpdateAirModificators(air, callBack)
     })(air, callBack))
@@ -1473,17 +1475,19 @@ function get_chance_to_met_text(battleRating1, battleRating2)
   return brData? format("<color=%s>%s</color>", brData.color, ::loc(brData.text)) : ""
 }
 
-function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, modeName)
+function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, modeName, showLocalState = true)
 {
+  local modificators = showLocalState ? "modificators" : "modificatorsBase"
+
   local showReferenceText = false
   if (!(characteristicName[0] in air.shop))
     air.shop[characteristicName[0]] <- 0;
 
-  local value = air.shop[characteristicName[0]] + (("modificators" in air) ? air.modificators[modeName][characteristicName[1]] : 0)
+  local value = air.shop[characteristicName[0]] + ((modificators in air) ? air[modificators][modeName][characteristicName[1]] : 0)
   local min = "minChars" in air ? air.shop[characteristicName[0]] + air.minChars[modeName][characteristicName[1]] : value
   local max = "maxChars" in air ? air.shop[characteristicName[0]] + air.maxChars[modeName][characteristicName[1]] : value
   local text = prepareTextFunc(value)
-  if("modificators" in air && air.modificators[modeName][characteristicName[1]] == 0)
+  if(modificators in air && air[modificators][modeName][characteristicName[1]] == 0)
   {
     text = "<color=@goodTextColor>" + text + "</color>*"
     showReferenceText = true
@@ -1628,7 +1632,7 @@ function update_unit_rent_info(unit, handlerScene)
   })(unit, messageTemplate))
 }
 
-function showAirInfo(air, show, holderObj = null, handler = null, params = null, canChangeAir = true)
+function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 {
   handler = handler || ::handlersManager.getActiveBaseHandler()
 
@@ -1651,12 +1655,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
   if (!show || !air)
     return
 
-  if (canChangeAir)
-    holderObj.aircraft = air.name
-  else if (holderObj.aircraft != air.name)
-    return
-
   local isInFlight = ::is_in_flight()
+
+  local showLocalState   = ::getTblValue("showLocalState", params, true)
 
   local getEdiffFunc = ::getTblValue("getCurrentEdiff", handler)
   local ediff = getEdiffFunc ? getEdiffFunc.call(handler) : ::get_current_ediff()
@@ -1672,7 +1673,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
   local costGold = ::wp_get_cost_gold(air.name)
   local aircraftPrice = special ? costGold : cost
   local gift = ::isUnitGift(air)
-  local showPrice = !isOwn && aircraftPrice > 0 && !gift
+  local showPrice = showLocalState && !isOwn && aircraftPrice > 0 && !gift
   local isResearched = ::isUnitResearched(air)
   local canResearch = ::canResearchUnit(air)
   local rBlk = ::get_ranks_blk()
@@ -1682,7 +1683,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
 
   local isRented = air.isRented()
   local rentTimeHours = ::getTblValue("rentTimeHours", params, -1)
-  local showAsRent = isRented || rentTimeHours > 0
+  local showAsRent = showLocalState && isRented || rentTimeHours > 0
 
   if (holderObj.toggled != null)
   {
@@ -1710,8 +1711,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
   obj = holderObj.findObject("player_country_exp")
   if (::checkObj(obj))
   {
-    obj.show(canResearch)
-    if (canResearch)
+    obj.show(showLocalState && canResearch)
+    if (showLocalState && canResearch)
     {
       local expCur = ::getUnitExp(air)
       local expInvest = ::getTblValue("researchExpInvest", params, 0)
@@ -1779,7 +1780,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
     meetObj.show(erCompare != null)
   }
 
-  if (canResearch || (!isOwn && !special && !gift))
+  if (showLocalState && (canResearch || (!isOwn && !special && !gift)))
   {
     local prevUnitObj = holderObj.findObject("aircraft-prevUnit_bonus_tr")
     local prevUnit = ::getPrevUnit(air)
@@ -1808,7 +1809,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
   local rpObj = holderObj.findObject("aircraft-require_rp_tr")
   if (::checkObj(rpObj))
   {
-    local showRpReq = !isOwn && !special && !gift && !isResearched && !canResearch
+    local showRpReq = showLocalState && !isOwn && !special && !gift && !isResearched && !canResearch
     rpObj.show(showRpReq)
     if (showRpReq)
       rpObj.findObject("aircraft-require_rp").setValue(::getRpPriceText(air.reqExp, true))
@@ -1847,8 +1848,12 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
   local showReferenceText = false
   foreach(item in ::getTblValue(unitType, modCharacteristics, {}))
   {
-    local characteristicArr = getCharacteristicActualValue(air, [item.id, item.id2], item.prepareTextFunc, difficulty.crewSkillName)
+    local characteristicArr = ::getCharacteristicActualValue(air, [item.id, item.id2], item.prepareTextFunc, difficulty.crewSkillName, showLocalState)
     holderObj.findObject("aircraft-" + item.id).setValue(characteristicArr[0])
+
+    if (!showLocalState)
+      continue
+
     local wmodObj = holderObj.findObject("aircraft-weaponmod-" + item.id)
     if (wmodObj)
       wmodObj.setValue(characteristicArr[1])
@@ -1903,10 +1908,11 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
       obj.show(::isInArray(unitType, showForTypes))
   }
 
-  if (isTank(air) && ("modificators" in air))
+  local modificators = showLocalState ? "modificators" : "modificatorsBase"
+  if (isTank(air) && (modificators in air))
   {
     local mode = ::domination_modes[diffCode]
-    local currentParams = air.modificators[mode.id];
+    local currentParams = air[modificators][mode.id]
     local horsePowers = currentParams.horsePowers;
     local horsePowersRPM = currentParams.maxHorsePowersRPM;
     holderObj.findObject("aircraft-horsePowers").setValue(
@@ -2103,7 +2109,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
 
   if (holderObj.findObject("aircraft-spare-tr"))
   {
-    local spareCount = ::get_spare_aircrafts_count(air.name)
+    local spareCount = showLocalState ? ::get_spare_aircrafts_count(air.name) : 0
     holderObj.findObject("aircraft-spare-tr").show(spareCount > 0)
     if (spareCount > 0)
       holderObj.findObject("aircraft-spare").setValue(spareCount.tostring() + ::loc("icon/spare"))
@@ -2121,7 +2127,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
     {
       local avgRepairMul = wBlk.avgRepairMul? wBlk.avgRepairMul : 1.0
       local egdCode = difficulty.egdCode
-      local avgCost = (avgRepairMul * ::wp_get_repair_cost_by_mode(air.name, egdCode, true)).tointeger()
+      local avgCost = (avgRepairMul * ::wp_get_repair_cost_by_mode(air.name, egdCode, showLocalState)).tointeger()
       local modeName = ::get_name_by_gamemode(egdCode, false)
       discountsList[modeName] <- modeName + "-discount"
       repairCostData += format("tdiv { " +
@@ -2138,13 +2144,20 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
 
     if (!freeRepairsUnlimited)
     {
-      local repairTimeText = ::getTextByModes((@(air) function(mode) {
-          return hoursToString(::shop_get_full_repair_time_by_mode(air.name, mode.modeId), false)
-        })(air))
+      local repairTimeText = ::getTextByModes((@(air, showLocalState) function(mode) {
+          local hours = showLocalState ? ::shop_get_full_repair_time_by_mode(air.name, mode.modeId)
+              : ::getTblValue("repairTimeHrs" + ::get_name_by_gamemode(mode.modeId, true), air, 0)
+          return hoursToString(hours, false)
+        })(air, showLocalState))
+      local label = ::loc(showLocalState && crew ? "shop/full_repair_time_crew" : "shop/full_repair_time")
       holderObj.findObject("aircraft-full_repair_time_crew-tr").show(true)
+      holderObj.findObject("aircraft-full_repair_time_crew-tr").tooltip = label
+      holderObj.findObject("aircraft-full_repair_time_label").setValue(label)
       holderObj.findObject("aircraft-full_repair_time_crew").setValue(repairTimeText)
 
-      local freeRepairs = showAsRent ? 0 : air.freeRepairs - shop_get_free_repairs_used(air.name)
+      local freeRepairs = showAsRent ? 0
+        : showLocalState ? air.freeRepairs - shop_get_free_repairs_used(air.name)
+        : air.freeRepairs
       local showFreeRepairs = freeRepairs > 0
       holderObj.findObject("aircraft-free_repairs-tr").show(showFreeRepairs)
       if (showFreeRepairs)
@@ -2193,7 +2206,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
       addInfoTextsList.append(::colorize("userlogColoredText", ::format(::loc("shop/giftAir/"+air.gift+"/info"), ("giftParam" in air)? ::loc(air.giftParam) : "")))
     if (::isUnitDefault(air))
       addInfoTextsList.append(::loc("shop/reserve/info"))
-    if (!::isUnitBought(air) && ::isUnitResearched(air) && !::canBuyUnitOnline(air) && ::canBuyUnit(air))
+    if (showLocalState && !::isUnitBought(air) && ::isUnitResearched(air) && !::canBuyUnitOnline(air) && ::canBuyUnit(air))
     {
       local priceText = ::colorize("activeTextColor", ::getUnitCost(air).getTextAccordingToBalance())
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("mainmenu/canBuyThisVehicle", { price = priceText })))
@@ -2309,11 +2322,11 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
     }
   }
 
-  local weaponsInfoText = ::getWeaponInfoText(air)
+  local weaponsInfoText = ::getWeaponInfoText(air, null, showLocalState ? -1 : 0)
   obj = holderObj.findObject("weaponsInfo")
   if (obj) obj.setValue(weaponsInfoText)
 
-  local lastPrimaryWeaponName = ::get_last_primary_weapon(air)
+  local lastPrimaryWeaponName = showLocalState ? ::get_last_primary_weapon(air) : ""
   local lastPrimaryWeapon = ::getModificationByName(air, lastPrimaryWeaponName)
   local massPerSecValue = ::getTblValue("mass_per_sec_diff", lastPrimaryWeapon, 0)
 
@@ -2321,7 +2334,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
   local wPresets = 0
   if (air.weapons.len() > 0)
   {
-    local lastWeapon = ::get_last_weapon(air.name)
+    local lastWeapon = showLocalState ? ::get_last_weapon(air.name) : ""
     weaponIndex = 0
     foreach(idx, weapon in air.weapons)
     {
@@ -2371,15 +2384,24 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null,
     local fonticon = !::CAN_USE_EDIFF ? "" :
       ::loc(battleType == BATTLE_TYPES.AIR ? "icon/unittype/aircraft" : "icon/unittype/tank")
     local diffName = ::implode([ fonticon, difficulty.getLocName() ], ::nbsp)
-    obj.setValue(::loc("shop/all_info_relevant_to_current_game_mode") + ::loc("ui/colon") + diffName)
+
+    local unitStateId = !showLocalState ? "reference"
+      : crew ? "current_crew"
+      : "current"
+    local unitState = ::loc("shop/showing_unit_state/" + unitStateId)
+
+    obj.setValue(::loc("shop/all_info_relevant_to_current_game_mode") + ::loc("ui/colon") + diffName + "\n" + unitState)
   }
 
   obj = holderObj.findObject("unit_rent_time")
   if (::checkObj(obj))
     obj.show(false)
 
-  ::setCrewUnlockTime(holderObj.findObject("aircraft-lockedCrew"), air)
-  ::fillAirInfoTimers(holderObj, air, needShopInfo)
+  if (showLocalState)
+  {
+    ::setCrewUnlockTime(holderObj.findObject("aircraft-lockedCrew"), air)
+    ::fillAirInfoTimers(holderObj, air, needShopInfo)
+  }
 }
 
 function get_max_era_available_by_country(country, unitType = ::ES_UNIT_TYPE_INVALID)

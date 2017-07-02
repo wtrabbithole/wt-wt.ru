@@ -3,7 +3,7 @@ class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
   sceneBlkName   = "gui/events/eventQueue.blk"
 
-  queueTypeMask = queueType.EVENT
+  queueTypeMask = QUEUE_TYPE_BIT.EVENT
   hasTimerText = true
   timerUpdateObjId = null
   timerTextObjId = null

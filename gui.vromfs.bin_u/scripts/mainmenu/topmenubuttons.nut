@@ -191,7 +191,7 @@
     text = "#items/shop"
     funcName = "onItemsShop"
     image = "#ui/gameuiskin#store_icon"
-    isHidden = function(handler = null) { return !::isInMenu() }
+    isHidden = function(handler = null) { return !::ItemsManager.isEnabled() || !::isInMenu() }
     newIconWidget = function() { return ::NewIconWidget.createLayout() }
   }
   ONLINE_SHOP = {

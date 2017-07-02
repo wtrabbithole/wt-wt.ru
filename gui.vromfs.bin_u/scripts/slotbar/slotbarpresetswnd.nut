@@ -84,7 +84,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
           battleRatingMax = !battleRatingMax ? br : ::max(battleRatingMax, br)
         }
         local battleRatingRange = ::format("%.1f %s %.1f", battleRatingMin, ::loc("ui/mdash"), battleRatingMax)
-        presetBattleRatingText = ::loc("shop/battle_rating") + ::loc("ui/colon") + battleRatingRange + "~n"
+        presetBattleRatingText = ::loc("shop/battle_rating") + ::loc("ui/colon") + battleRatingRange + "\n"
       }
 
       local data = ::format("textarea{ text:t='%s' padding:t='-1@textPaddingBugWorkaround, 8*@sf/@pf' } ",

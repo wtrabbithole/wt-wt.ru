@@ -24,6 +24,9 @@ enum Team //better to replace it everywhere by g_teams
   cssLabel = ""
   teamCountriesOption = -1 //USEROPT_*
 
+  getName = function() {
+    return ::loc("events/" + name)
+  }
   getNameInPVE = function() {
     return ::loc("multiplayer/" + name)
   }

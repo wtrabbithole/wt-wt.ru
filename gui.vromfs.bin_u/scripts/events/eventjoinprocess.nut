@@ -88,7 +88,7 @@ class EventJoinProcess
     local mGameMode = ::events.getMGameMode(event, room)
     if (::events.isEventTanksCompatible(event.name) && !::check_tanks_available())
       return remove()
-    if (::queues.isAnyQueuesActive(queueType.EVENT) ||
+    if (::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.EVENT) ||
         !::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = true, showOfflineSquadMembersPopup = true }))
       return remove()
     if (::events.checkEventDisableSquads(this, event.name))

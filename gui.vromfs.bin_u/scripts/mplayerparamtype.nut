@@ -49,10 +49,12 @@ function g_mplayer_param_type::_newer(old, new) {
     return res
   }
 
-  isVisible = function(objectivesMask)
+  isVisible = function(objectivesMask, gameType)
   {
-    return (missionObjective == MISSION_OBJECTIVE.ANY) || (missionObjective & objectivesMask) != 0
+    return ((missionObjective == MISSION_OBJECTIVE.ANY) || (missionObjective & objectivesMask) != 0)
+      && isVisibleByGameType(gameType)
   }
+  isVisibleByGameType = @(gt) true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_mplayer_param_type", {
@@ -165,6 +167,7 @@ function g_mplayer_param_type::_newer(old, new) {
     id = "assists"
     fontIcon = "#icon/mpstats/assists"
     tooltip = "#multiplayer/assists"
+    isVisibleByGameType = @(gt) ::is_mode_with_teams(gt)
   }
 
   DEATHS = {
@@ -275,6 +278,16 @@ function g_mplayer_param_type::_newer(old, new) {
       markupTbl.image <- "#ui/gameuiskin#table_squad_background"
       markupTbl.hideImage <- true
     }
+  }
+
+  ALIVE_TIME = {
+    id = "missionAliveTime"
+    tooltip = "#multiplayer/lifetime"
+    fontIcon = "#icon/timer"
+    relWidth = 15
+    missionObjective = MISSION_OBJECTIVE.ALIVE_TIME
+    printFunc = @(val, player) ::secondsToString(val, false)
+    isVisibleByGameType = @(gt) !!(gt & ::GT_LAST_MAN_STANDING)
   }
 })
 
