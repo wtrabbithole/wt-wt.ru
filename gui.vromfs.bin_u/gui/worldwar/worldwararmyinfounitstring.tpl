@@ -9,14 +9,17 @@ tdiv {
     padding-left:t='3@dp'
 
     <<#isShow>>
-      <<#count>>
       textareaNoTab {
         width:t='0.05@scrn_tgt_font'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
-        text:t='<<count>>'
+        <<#isShowTotalCount>>
+          text:t='<<#count>><<count>><</count>>'
+        <</isShowTotalCount>>
+        <<^isShowTotalCount>>
+          text:t='<<#activeCount>><<activeCount>><</activeCount>>'
+        <</isShowTotalCount>>
       }
-      <</count>>
 
       <<#icon>>
       img {
@@ -94,15 +97,18 @@ tdiv {
       }
       <</icon>>
 
-      <<#count>>
       textareaNoTab {
         width:t='0.05@scrn_tgt_font'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
         text-align:t='right'
-        text:t='<<count>>'
+        <<#isShowTotalCount>>
+          text:t='<<#count>><<count>><</count>>'
+        <</isShowTotalCount>>
+        <<^isShowTotalCount>>
+          text:t='<<#activeCount>><<activeCount>><</activeCount>>'
+        <</isShowTotalCount>>
       }
-      <</count>>
     <</isShow>>
   <</reflect>>
 

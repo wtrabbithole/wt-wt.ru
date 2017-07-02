@@ -207,7 +207,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     actionBar = ActionBar(scene.findObject("spectator_hud_action_bar"))
     actionBar.reinit()
     if (!::has_feature("SpectatorUnitDmgIndicator"))
-      scene.findObject("xray_render_dmg_indicator").show(false)
+      scene.findObject("xray_render_dmg_indicator_spectator").show(false)
     //TODO: Xray damage indicator // init()
     recalculateLayout()
 
@@ -481,10 +481,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     if (targetSwitched)
     {
-      local indObj = scene.findObject("damage_indicator_sizer")
-      if (indObj)
-        indObj.damageIndicatorType = lastHudUnitType == ::ES_UNIT_TYPE_TANK ? "tank" : "air"
-
       ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
       actionBar.reinit()
       //TODO: Xray damage indicator // reinit()

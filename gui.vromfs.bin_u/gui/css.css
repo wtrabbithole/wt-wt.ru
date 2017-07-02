@@ -794,7 +794,7 @@ activeText[tdalign=left], [tdalign=left] > activeText {
 }
 
 td {
-  padding:0.5*@scrn_tgt/100.0,0;
+  padding:@tablePad,0;
 }
 
 tdIcon34x30, tdIcon45x25, sideLogIcon {
@@ -1039,9 +1039,6 @@ verticalCellsOptions > tr {
 tr[inactive=yes]:hover {
   background-color:@transparent;
 }
-tr[selected=yes] {
-  background-color:@white;
-}
 
 tr[even=yes] {
   background-color:@evenTrColor;
@@ -1054,7 +1051,7 @@ tr[selected=yes], [higlightRowOnHover=yes] > tr:hover {
   needHighLight:yes;
 }
 
-[higlightRowOnHover=yes] > tr[inactive=yes] {
+[higlightRowOnHover=yes] > tr[inactive=yes], [invisibleSelection=yes] > * > tr {
   needHighLight:no;
 }
 
@@ -3047,6 +3044,7 @@ focus_border,
 [show_console_buttons=yes] [childsActivate=yes] > emptyButton[selected=yes],
 [show_console_buttons=yes] [showSelect=yes] > Button_text[selected=yes],
 [show_console_buttons=yes] [showSelect=yes] > button[selected=yes],
+[show_console_buttons=yes] [showSelect=yes] > CheckBox[selected=yes],
 [showSelect=always] > Button_text[selected=yes],
 [show_console_buttons=yes] [selfFocusBorder=yes]:focus > tr[selected=yes],
 [show_console_buttons=yes] CheckBox:focus,

@@ -207,7 +207,7 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOptions(obj)
   {
-    ::gui_start_ingameoptions(this)
+    ::gui_start_options(this)
   }
 
   function onControls(obj)

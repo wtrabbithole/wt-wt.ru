@@ -59,7 +59,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   isXinput   = false
   currentHud = null
 
-  lastHeroHighQuality = true
+  isLowQualityWarningVisible = false
 
   curTacticalMapObj = null
 
@@ -101,6 +101,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     isXinput = ::is_xinput_device()
     spectatorMode = ::isPlayerDedicatedSpectator() || ::is_replay_playing()
     unmappedControlsCheck()
+    warnLowQualityModelCheck()
     switchHud(getHudType())
     loadGameChat()
 
@@ -151,6 +152,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     ::g_hud_tutorial_elements.reinit()
 
     unmappedControlsCheck()
+    warnLowQualityModelCheck()
     updateHudVisMode()
     onHudUpdate(null, 0.0)
   }
@@ -165,6 +167,9 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       {
         reinitScreen()
       }, this)
+    ::g_hud_event_manager.subscribe("LiveStatsVisibilityToggled",
+        @(ed) warnLowQualityModelCheck(),
+        this)
   }
 
   function onShowHud(show = true)
@@ -277,15 +282,6 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     ::g_streaks.onUpdate(dt)
     unmappedControlsUpdate(dt)
 
-    local hq = ::is_hero_highquality()
-    if (hq != lastHeroHighQuality)
-    {
-      lastHeroHighQuality = hq
-      local lqObj = ::checkObj(scene) && scene.findObject("low-quality-model-warning")
-      if (::checkObj(lqObj))
-        lqObj.show(!hq)
-    }
-
     delayOnCheckAfkTimeToKick -= dt
     if (delayOnCheckAfkTimeToKick <= 0.0)
     {
@@ -296,7 +292,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 
   function unmappedControlsCheck()
   {
-    if (!::is_hud_visible() || ::is_replay_playing() || spectatorMode)
+    if (spectatorMode || !::is_hud_visible())
       return
 
     local unmapped = ::getUnmappedControlsForCurrentMission()
@@ -354,6 +350,19 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
         ucWarningActive = false
       }
     }
+  }
+
+  function warnLowQualityModelCheck()
+  {
+    if (spectatorMode || !::is_hud_visible())
+      return
+
+    local isShow = !::is_hero_highquality() && !::g_hud_live_stats.isVisible()
+    if (isShow == isLowQualityWarningVisible)
+      return
+
+    isLowQualityWarningVisible = isShow
+    showSceneBtn("low-quality-model-warning", isShow)
   }
 
   function onEventHudIndicatorChangedSize(params)

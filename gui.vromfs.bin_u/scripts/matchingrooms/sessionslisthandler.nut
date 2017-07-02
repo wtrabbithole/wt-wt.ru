@@ -191,7 +191,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
 
     if (!options) return
 
-    local container = create_options_container("mp_coop_options", options, false, false, true, true, false)
+    local container = create_options_container("mp_coop_options", options, false, false, 0.5, true, false)
     guiScene.replaceContentFromText("session-options", container.tbl, container.tbl.len(), this)
     optionsContainers.push(container.descr)
     onHintUpdate()

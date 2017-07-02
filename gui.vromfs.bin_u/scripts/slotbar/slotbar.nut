@@ -45,6 +45,7 @@ function build_aircraft_item(id, air, params = {})
 
   if (air && !::isUnitGroup(air))
   {
+    local isLocalState        = getVal("isLocalState", true)
     local forceNotInResearch  = getVal("forceNotInResearch", false)
     local inactive            = getVal("inactive", false)
     local shopResearchMode    = getVal("shopResearchMode", false)
@@ -65,11 +66,11 @@ function build_aircraft_item(id, air, params = {})
     local isBroken            = ::isUnitBroken(air)
     local unitRarity          = ::getUnitRarity(air)
 
-    local bitStatus = 0
     local status = getVal("status", defaultStatus)
     if (status == defaultStatus)
     {
-      if (::is_in_flight())
+      local bitStatus = 0
+      if (!isLocalState || ::is_in_flight())
         bitStatus = bit_unit_status.owned
       else if (isMounted)
         bitStatus = bit_unit_status.mounted
@@ -129,12 +130,12 @@ function build_aircraft_item(id, air, params = {})
     // Item buttons view
     //
 
-    local weaponsStatus = checkUnitWeapons(air.name)
+    local weaponsStatus = isLocalState ? checkUnitWeapons(air.name) : ::UNIT_WEAPONS_READY
     local crewId = getVal("crewId", -1)
     local showWarningIcon = getVal("showWarningIcon", false)
     local specType = getVal("specType", null)
     local rentInfo = ::get_unit_item_rent_info(air, params)
-    local spareCount = ::get_spare_aircrafts_count(air.name)
+    local spareCount = isLocalState ? ::get_spare_aircrafts_count(air.name) : 0
 
     local hasCrewInfo = crewId >= 0
     local crew = hasCrewInfo ? ::get_crew_by_id(crewId) : null
@@ -155,7 +156,7 @@ function build_aircraft_item(id, air, params = {})
         spareCount              = spareCount ? spareCount + ::loc("icon/spare") : ""
         specIconBlock           = showWarningIcon || specType != null
         showWarningIcon         = showWarningIcon
-        hasRepairIcon           = ::wp_get_repair_cost(air.name) > 0
+        hasRepairIcon           = isLocalState && isBroken
         hasWeaponsStatus        = weaponsStatus != ::UNIT_WEAPONS_READY
         isWeaponsStatusZero     = weaponsStatus == ::UNIT_WEAPONS_ZERO
         hasRentIcon             = rentInfo.hasIcon
@@ -175,7 +176,7 @@ function build_aircraft_item(id, air, params = {})
     // Air research progress view
     //
 
-    local showProgress = !isOwn && canResearch && !::is_in_flight()
+    local showProgress = isLocalState && !isOwn && canResearch && !::is_in_flight()
     local airResearchProgressView = {
       airResearchProgress = []
     }
@@ -225,10 +226,10 @@ function build_aircraft_item(id, air, params = {})
       unitClassIcon       = ::get_unit_role_icon(air)
       shopStatus          = status
       unitRarity          = unitRarity
-      isBroken            = isBroken
+      isBroken            = isLocalState && isBroken
       shopAirImg          = ::image_for_air(air)
       discountId          = id + "-discount"
-      showDiscount        = !isOwn && (!::isUnitGift(air) || checkNotification)
+      showDiscount        = isLocalState && !isOwn && (!::isUnitGift(air) || checkNotification)
       shopItemTextId      = id + "_txt"
       shopItemText        = ::get_slot_unit_name_text(air, params)
       progressText        = progressText
@@ -236,10 +237,10 @@ function build_aircraft_item(id, air, params = {})
       showInService       = getVal("showInService", false) && isUsable
       isMounted           = isMounted
       priceText           = priceText
-      isElite             = ::isUnitElite(air)
+      isElite             = isLocalState && ::isUnitElite(air) || special
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
-      isItemLocked        = !isUsable && !special && !::isUnitsEraUnlocked(air)
-      hasTalismanIcon     = special || ::shop_is_modification_enabled(air.name, "premExpMul")
+      isItemLocked        = isLocalState && !isUsable && !special && !::isUnitsEraUnlocked(air)
+      hasTalismanIcon     = isLocalState && (special || ::shop_is_modification_enabled(air.name, "premExpMul"))
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
       tooltipId           = ::g_tooltip.getIdUnit(air.name, getVal("tooltipParams", null))
       bottomButton        = ::handyman.renderCached("gui/slotbar/slotbarItemBottomButton", bottomButtonView)
@@ -617,9 +618,7 @@ function get_slot_unit_name_text(unit, params)
 
 function get_unit_item_price_text(unit, params)
 {
-  if (::getTblValue("isPriceForcedHidden", params, false))
-    return ""
-
+  local isLocalState        = ::getTblValue("isLocalState", params, true)
   local haveRespawnCost     = ::getTblValue("haveRespawnCost", params, false)
   local haveSpawnDelay      = ::getTblValue("haveSpawnDelay", params, false)
   local curSlotIdInCountry  = ::getTblValue("curSlotIdInCountry", params, -1)
@@ -680,7 +679,7 @@ function get_unit_item_price_text(unit, params)
     priceText += ::format("(%s/%s)", leftSpawns.tostring(), maxSpawns.tostring())
   }
 
-  if (priceText == "" && !::is_in_flight())
+  if (isLocalState && priceText == "" && !::is_in_flight())
   {
     local gift                = ::isUnitGift(unit)
     local canBuy              = ::canBuyUnit(unit)

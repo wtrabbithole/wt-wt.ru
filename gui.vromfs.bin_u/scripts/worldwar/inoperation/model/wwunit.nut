@@ -28,7 +28,7 @@ class ::WwUnit
     stengthGroupExpClass = ::getTblValue(expClass, ::strength_unit_expclass_group, expClass)
 
     inactiveCount = ::getTblValue("inactiveCount", blk, 0)
-    count = ::getTblValue("count", blk, -1) - inactiveCount
+    count = ::getTblValue("count", blk, -1)
     weaponPreset = ::getTblValue("weaponPreset", blk, "")
     weaponCount = ::getTblValue("weaponCount", blk, 0)
   }
@@ -42,6 +42,16 @@ class ::WwUnit
   function getId()
   {
     return name
+  }
+
+  function getCount()
+  {
+    return count
+  }
+
+  function getActiveCount()
+  {
+    return count - inactiveCount
   }
 
   function getName()
@@ -63,7 +73,7 @@ class ::WwUnit
     return ::build_aircraft_item(name, unit {
       status = canUse ? "owned" : "locked"
       inactive = true
-      isPriceForcedHidden = true
+      isLocalState = false
       tooltipParams = { showLocalState = false }
     })
   }
@@ -79,12 +89,15 @@ class ::WwUnit
     local presetText = !addPreset || weaponPreset == "" ? "" :
       ::getWeaponInfoText(unit, false, weaponPreset, " ", INFO_DETAIL.SHORT, true)
 
+    local activeCount = getActiveCount()
+    local totalCount = getCount()
     local res = {
       isShow = count > 0 || !hideZeroCount
       unitType = getUnitTypeText()
       wwUnitType = wwUnitType
       name = getName()
-      count = addCount ? count.tostring() : null
+      activeCount = activeCount ? activeCount.tostring() : null
+      count = totalCount ? totalCount.tostring() : null
       weapon = presetText.len() > 0 ? ::colorize("@activeTextColor", presetText) : ""
       hasBomb = presetData.bomb.len() > 0
       hasRocket = presetData.rocket.len() > 0
@@ -117,6 +130,22 @@ class ::WwUnit
       ::g_world_war.updateArtilleryUnits()
 
     return name in ::g_world_war.artilleryUnits
+  }
+
+  function isAir()
+  {
+    return ::g_ww_unit_type.isAir(wwUnitType.code)
+  }
+
+  function getUnitClass()
+  {
+    if (!isAir())
+      return WW_UNIT_CLASS.UNKNOWN
+
+    if (expClass == "fighter")
+      return WW_UNIT_CLASS.FIGHTER
+
+    return WW_UNIT_CLASS.BOMBER
   }
 
   function getUnitTypeText()

@@ -19,7 +19,12 @@ tdiv {
 
     hoverSize {
       id:t='<<tmId>>_list_hover'
-      width:t='<<columnsCount>> * 0.28@scrn_tgt_font'
+      <<#forceHoverWidth>>
+        width:t='<<forceHoverWidth>>'
+      <</forceHoverWidth>>
+      <<^forceHoverWidth>>
+        width:t='<<columnsCount>> * 0.28@scrn_tgt_font'
+      <</forceHoverWidth>>
       height:t='0'
       pos:t='<<tmHoverMenuPos>> - 1@topMenuHoverMenuIndent, ph-1'; position:t='absolute'
       overflow:t='hidden'
@@ -54,9 +59,12 @@ tdiv {
                 topMenuLine {}
               }
             <</isLineSeparator>>
-            <<^isLineSeparator>>
+            <<#isButton>>
               include "gui/commonParts/button"
-            <</isLineSeparator>>
+            <</isButton>>
+            <<#checkbox>>
+              include "gui/commonParts/checkbox"
+            <</checkbox>>
           <</buttons>>
           <<#addNewLine>>
             chapterSeparator {

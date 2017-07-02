@@ -38,7 +38,7 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
     if ( !clanData )
       return;
 
-    local container = ::create_options_container("optionslist", optionItems, true, true, true, true, false)
+    local container = ::create_options_container("optionslist", optionItems, true, true, 0.5, true, false)
     guiScene.replaceContentFromText("contentBody", container.tbl, container.tbl.len(), this)
 
     local option = ::get_option(::USEROPT_CLAN_REQUIREMENTS_ALL_MIN_RANKS)

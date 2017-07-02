@@ -957,6 +957,14 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
 
+    { id="ID_SHIP_LOCK_SHOOT_DISTANCE",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+
+    { id="ship_sight_distance", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, checkAssign = false }
+    { id="ship_shoot_direction", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, checkAssign = false }
+
     //{ // Disable, because not supported in code now
     //  id = "ID_SHIP_SMOKE",
     //  checkGroup = ctrlGroups.SHIP,
@@ -2759,8 +2767,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     foreach (index, event in shortcuts)
       if ((shortcutItems[index].checkGroup & shortcutItems[shortcutId].checkGroup) &&
         ::getTblValue(shortcutNames[index], visibilityMap) &&
-        ::get_shortcut_autobind(shortcutItems[index]).find(shortcutNames[shortcutId]) == -1 &&
-        ::get_shortcut_autobind(shortcutItems[shortcutId]).find(shortcutNames[index]) == -1)
+        ::get_shortcut_autobind(shortcutItems[index]).find(shortcutNames[shortcutId]) < 0 &&
+        ::get_shortcut_autobind(shortcutItems[shortcutId]).find(shortcutNames[index]) < 0)
         foreach (button_index, button in event)
         {
           if (!button || button.dev.len() != devs.len())
@@ -4170,7 +4178,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
           }
         if (!isMapped)
           foreach (shortcut in group.shortcuts)
-            if (controls.find(shortcut) == -1)
+            if (controls.find(shortcut) < 0)
               controls.append(shortcut)
       }
 

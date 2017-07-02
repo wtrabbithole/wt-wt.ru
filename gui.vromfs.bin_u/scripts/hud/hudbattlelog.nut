@@ -10,18 +10,10 @@ enum BATTLE_LOG_FILTER
   ALL       = 0x001F
 }
 
-enum UNIT_TYPE
-{
-  AIRCRAFT
-  TANK
-  SHIP
-}
-
 ::HudBattleLog <- {
-  [PERSISTENT_DATA_PARAMS] = ["battleLog", "unitTypesCache"]
+  [PERSISTENT_DATA_PARAMS] = ["battleLog"]
 
   battleLog = []
-  unitTypesCache = {}
 
   logMaxLen = 2000
   skipDuplicatesSec = 10
@@ -32,66 +24,54 @@ enum UNIT_TYPE
   ]
 
   unitTypeSuffix = {
-    [UNIT_TYPE.AIRCRAFT] = "_a",
-    [UNIT_TYPE.TANK]     = "_t",
-    [UNIT_TYPE.SHIP]     = "_s",
+    [::ES_UNIT_TYPE_AIRCRAFT] = "_a",
+    [::ES_UNIT_TYPE_TANK]     = "_t",
+    [::ES_UNIT_TYPE_SHIP]     = "_s",
   }
 
   actionVerbs = {
     kill = {
-      [UNIT_TYPE.AIRCRAFT] = "NET_UNIT_KILLED_FM",
-      [UNIT_TYPE.TANK]     = "NET_UNIT_KILLED_GM",
-      [UNIT_TYPE.SHIP]     = "NET_UNIT_KILLED_GM",
+      [::ES_UNIT_TYPE_AIRCRAFT] = "NET_UNIT_KILLED_FM",
+      [::ES_UNIT_TYPE_TANK]     = "NET_UNIT_KILLED_GM",
+      [::ES_UNIT_TYPE_SHIP]     = "NET_UNIT_KILLED_GM",
     }
     crash = {
-      [UNIT_TYPE.AIRCRAFT] = "NET_PLAYER_HAS_CRASHED",
-      [UNIT_TYPE.TANK]     = "NET_PLAYER_GM_HAS_DESTROYED",
-      [UNIT_TYPE.SHIP]     = "NET_PLAYER_GM_HAS_DESTROYED",
+      [::ES_UNIT_TYPE_AIRCRAFT] = "NET_PLAYER_HAS_CRASHED",
+      [::ES_UNIT_TYPE_TANK]     = "NET_PLAYER_GM_HAS_DESTROYED",
+      [::ES_UNIT_TYPE_SHIP]     = "NET_PLAYER_GM_HAS_DESTROYED",
     }
     crit = {
-      [UNIT_TYPE.AIRCRAFT] = "NET_UNIT_CRITICAL_HIT",
-      [UNIT_TYPE.TANK]     = "NET_UNIT_CRITICAL_HIT",
-      [UNIT_TYPE.SHIP]     = "NET_UNIT_CRITICAL_HIT",
+      [::ES_UNIT_TYPE_AIRCRAFT] = "NET_UNIT_CRITICAL_HIT",
+      [::ES_UNIT_TYPE_TANK]     = "NET_UNIT_CRITICAL_HIT",
+      [::ES_UNIT_TYPE_SHIP]     = "NET_UNIT_CRITICAL_HIT",
     }
     burn = {
-      [UNIT_TYPE.AIRCRAFT] = "NET_UNIT_CRITICAL_HIT_BURN",
-      [UNIT_TYPE.TANK]     = "NET_UNIT_CRITICAL_HIT_BURN",
-      [UNIT_TYPE.SHIP]     = "NET_UNIT_CRITICAL_HIT_BURN",
+      [::ES_UNIT_TYPE_AIRCRAFT] = "NET_UNIT_CRITICAL_HIT_BURN",
+      [::ES_UNIT_TYPE_TANK]     = "NET_UNIT_CRITICAL_HIT_BURN",
+      [::ES_UNIT_TYPE_SHIP]     = "NET_UNIT_CRITICAL_HIT_BURN",
     }
     exit = {
-      [UNIT_TYPE.AIRCRAFT] = "NET_PLAYER_EXITED",
-      [UNIT_TYPE.TANK]     = "NET_PLAYER_EXITED",
-      [UNIT_TYPE.SHIP]     = "NET_PLAYER_EXITED",
+      [::ES_UNIT_TYPE_AIRCRAFT] = "NET_PLAYER_EXITED",
+      [::ES_UNIT_TYPE_TANK]     = "NET_PLAYER_EXITED",
+      [::ES_UNIT_TYPE_SHIP]     = "NET_PLAYER_EXITED",
     }
   }
 
-  playerUnitTypes = {
-    [::ES_UNIT_TYPE_AIRCRAFT] = UNIT_TYPE.AIRCRAFT,
-    [::ES_UNIT_TYPE_TANK]     = UNIT_TYPE.TANK,
+  utToEsUnitType = { //!!FIX ME: better to set different icons fot each unitType
+    [::UT_Airplane]      = ::ES_UNIT_TYPE_AIRCRAFT,
+    [::UT_Balloon]       = ::ES_UNIT_TYPE_AIRCRAFT,
+    [::UT_Artillery]     = ::ES_UNIT_TYPE_TANK,
+    [::UT_HeavyVehicle]  = ::ES_UNIT_TYPE_TANK,
+    [::UT_LightVehicle]  = ::ES_UNIT_TYPE_TANK,
+    [::UT_Ship]          = ::ES_UNIT_TYPE_SHIP,
+    [::UT_WarObj]        = ::ES_UNIT_TYPE_TANK,
+    [::UT_InfTroop]      = ::ES_UNIT_TYPE_TANK,
+    [::UT_Fortification] = ::ES_UNIT_TYPE_TANK,
+    [::UT_AirWing]       = ::ES_UNIT_TYPE_AIRCRAFT,
+    [::UT_AirSquadron]   = ::ES_UNIT_TYPE_AIRCRAFT,
+    [::UT_WalkerVehicle] = ::ES_UNIT_TYPE_TANK,
+    [::UT_Helicopter]    = ::ES_UNIT_TYPE_AIRCRAFT,
   }
-
-  aiUnitTypes = {
-    warShip         = UNIT_TYPE.SHIP
-    fortification   = UNIT_TYPE.TANK
-    heavyVehicle    = UNIT_TYPE.TANK
-    lightVehicle    = UNIT_TYPE.TANK
-    infantry        = UNIT_TYPE.TANK
-    radar           = UNIT_TYPE.TANK
-    walker          = UNIT_TYPE.TANK
-    barrageBalloon  = UNIT_TYPE.AIRCRAFT
-  }
-
-  aiUnitBlkPaths = [
-    "ships"
-    "air_defence"
-    "structures"
-    "tankModels"
-    "tracked_vehicles"
-    "wheeled_vehicles"
-    "infantry"
-    "radars"
-    "walkerVehicle"
-  ]
 
   rePatternNumeric = ::regexp2("^\\d+$")
 
@@ -136,7 +116,6 @@ enum UNIT_TYPE
     if (safe && battleLog.len() && battleLog[battleLog.len() - 1].time < ::get_usefull_total_time())
       return
     battleLog = []
-    unitTypesCache = {}
   }
 
   function onHudMessage(msg)
@@ -264,76 +243,42 @@ enum UNIT_TYPE
       ::colorize(::get_team_color(teamId), unitNameLoc) // AI
   }
 
-  function getAiUnitBlk(unitId)
+  function getUnitTypeEx(msg, isVictim = false)
   {
-    if (unitId == "")
-      return ::DataBlock()
+    local uType = ::getTblValue(isVictim ? "victimUnitType" : "unitType", msg)
+    if (uType == null) //compatibility with 1.69.2.X
+      return ::find_unit_type(msg[isVictim ? "victimUnitName" : "unitName"])
 
-    local fn = ::get_unit_file_name(unitId)
-    local blk = ::DataBlock(fn)
-    if (!::u.isEqual(blk, ::DataBlock()))
-      return blk
-
-    foreach (path in aiUnitBlkPaths)
+    local res = ::getTblValue(uType, utToEsUnitType, ::ES_UNIT_TYPE_INVALID)
+    if (res == ::ES_UNIT_TYPE_INVALID) //we do not receive unitType for player killer unit, but can easy get it by unitName
     {
-      blk = ::DataBlock(::format("gameData/units/%s/%s.blk", path, unitId))
-      if (!::u.isEqual(blk, ::DataBlock()))
-        return blk
+      local unit = ::getAircraftByName(msg[isVictim ? "victimUnitName" : "unitName"])
+      if (unit)
+        res = unit.esUnitType
     }
 
-    return ::DataBlock()
+    return res
   }
 
-  function getUnitTypeEx(unitId, isPlayer = true)
+  function getUnitTypeSuffix(unitType)
   {
-    if (unitId == "")
-      return UNIT_TYPE.TANK
-
-    local unit = isPlayer ? ::getAircraftByName(unitId) : null
-    if (unit)
-      return ::isTank(unit) ? UNIT_TYPE.TANK : ::isShip(unit) ? UNIT_TYPE.SHIP : UNIT_TYPE.AIRCRAFT
-
-    if (!(unitId in unitTypesCache))
-    {
-      local blk = getAiUnitBlk(unitId)
-      local unitType = blk.subclass ? ::getTblValue(blk.subclass, aiUnitTypes, null) : null
-
-      if (unitType == null)
-        foreach (utype in blk % "type")
-        {
-          local unitClass = ::getTblValue(utype, ::unlock_condition_unitclasses, ::ES_UNIT_TYPE_INVALID)
-          if (unitClass != ::ES_UNIT_TYPE_INVALID)
-          {
-            unitType = ::getTblValue(unitClass, playerUnitTypes)
-            break
-          }
-        }
-
-      if (unitType == null)
-      {
-        unitType = UNIT_TYPE.TANK
-        dagor.debug("ERROR: HudBattleLog.getUnitTypeEx() detection failed: " + unitType)
-      }
-      unitTypesCache[unitId] <- unitType
-    }
-
-    return unitTypesCache[unitId]
+    return getTblValue(unitType, unitTypeSuffix, unitTypeSuffix[::ES_UNIT_TYPE_TANK])
   }
 
   function getActionTextIconic(msg)
   {
     local iconId = msg.action
     if (msg.action == "kill")
-      iconId += unitTypeSuffix[getUnitTypeEx(msg.unitName, msg.playerId > 0)]
+      iconId += getUnitTypeSuffix(getUnitTypeEx(msg, false))
     if (msg.action == "kill" || msg.action == "crash")
-      iconId += unitTypeSuffix[getUnitTypeEx(msg.victimUnitName, msg.victimPlayerId > 0)]
+      iconId += getUnitTypeSuffix(getUnitTypeEx(msg, true))
     local actionColor = msg.isKill ? "userlogColoredText" : "silver"
     return ::colorize(actionColor, ::loc("icon/hud_msg_mp_dmg/" + iconId))
   }
 
   function getActionTextVerbal(msg)
   {
-    local victimUnitType = getUnitTypeEx(msg.victimUnitName, msg.victimPlayerId > 0)
+    local victimUnitType = getUnitTypeEx(msg, true)
     local verb = ::getTblValue(victimUnitType, ::getTblValue(msg.action, actionVerbs, {}), msg.action)
     local isLoss = msg.victimTeam == ::get_player_army_for_hud()
     local color = "hudColor" + (msg.isKill ? (isLoss ? "DeathAlly" : "DeathEnemy") : (isLoss ? "DarkRed" : "DarkBlue"))

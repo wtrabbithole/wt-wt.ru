@@ -1646,8 +1646,8 @@
         "Empty": 9100000.0,
         "Fuel": 50000.0,
         "TakeOff": 9150000.0,
-        "momentOfInertia": [80.0,9000.0,9000.0],
-        "CenterOfGravity": [2.0,-5.0,0.0],
+        "momentOfInertia": [250.0,8000.0,4000.0],
+        "CenterOfGravity": [2.0,-3.0,0.0],
         "AdvancedMass": false
       },
       "engines": {
@@ -1670,8 +1670,8 @@
         "bodyArea": 0.0,
         "rudder": {
           "pos": [-63.0,-1.8,0.0],
-          "area": 14.0,
-          "deflection": 30.0
+          "area": 16.0,
+          "deflection": 36.0
         }
       }
     }
@@ -1700,6 +1700,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_01_dm"
           },
           {
             "defaultYaw": 0.0
@@ -1735,7 +1741,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -1776,6 +1782,12 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,85.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,155.0,-5.0,85.0],
+              "lim2": [155.0,180.0,5.0,85.0]
+            }
           }
         ]
       },
@@ -1801,6 +1813,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_02_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_02_dm"
           },
           {
             "defaultYaw": 0.0
@@ -1836,7 +1854,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -1877,6 +1895,12 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,55.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-155.0,5.0,85.0],
+              "lim2": [-155.0,180.0,-5.0,85.0]
+            }
           }
         ]
       },
@@ -1902,6 +1926,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_03_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_03_dm"
           },
           {
             "defaultYaw": 0.0
@@ -1937,7 +1967,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -1978,6 +2008,12 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,55.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,80.0,-5.0,85.0],
+              "lim2": [80.0,180.0,8.0,85.0]
+            }
           }
         ]
       },
@@ -2003,6 +2039,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_04_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_04_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2038,7 +2080,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -2079,6 +2121,12 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,85.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-80.0,8.0,85.0],
+              "lim2": [-80.0,180.0,-5.0,85.0]
+            }
           }
         ]
       },
@@ -2104,6 +2152,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_05_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_05_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2139,7 +2193,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -2180,6 +2234,13 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,85.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,20.0,-5.0,85.0],
+              "lim2": [20.0,110.0,8.0,85.0],
+              "lim3": [110.0,180.0,-5.0,85.0]
+            }
           }
         ]
       },
@@ -2205,6 +2266,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_06_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_06_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2240,7 +2307,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -2281,6 +2348,13 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,85.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-110.0,-5.0,85.0],
+              "lim2": [-110.0,-20.0,8.0,85.0],
+              "lim3": [-20.0,180.0,-5.0,85.0]
+            }
           }
         ]
       },
@@ -2306,6 +2380,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_07_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_07_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2341,7 +2421,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -2382,6 +2462,13 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,85.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-10.0,-5.0,85.0],
+              "lim2": [-10.0,20.0,8.0,85.0],
+              "lim3": [20.0,180.0,-5.0,85.0]
+            }
           }
         ]
       },
@@ -2407,6 +2494,12 @@
           },
           {
             "recoilOffset": 0.2
+          },
+          {
+            "barrelDP": "main_caliber_gun_08_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_08_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2442,7 +2535,7 @@
             "accuracyAir": 1.5
           },
           {
-            "accuracyGnd": 0.4
+            "accuracyGnd": 0.3
           },
           {
             "errMeasureVel": 0.0
@@ -2483,6 +2576,13 @@
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,85.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-20.0,-5.0,85.0],
+              "lim2": [-20.0,10.0,8.0,85.0],
+              "lim3": [10.0,180.0,-5.0,85.0]
+            }
           }
         ]
       }
@@ -2498,7 +2598,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,50.0,-86.0],
+      "headPos": [0.0,40.0,-99.0],
       "headPosOnShooting": [-9.0,33.0,0.0]
     }
   },
@@ -2815,14 +2915,14 @@
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_02",
-              "scale": 0.6
+              "scale": 0.8
             }
           },
           {
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_03",
-              "scale": 0.6
+              "scale": 0.7
             }
           }
         ]
@@ -2866,7 +2966,7 @@
     "breaches": {
       "repairSpeed": 1.2,
       "waterMassVel": -400.0,
-      "waterMassMult": 25.0,
+      "waterMassMult": 400.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
       "additionalWaterDeathThreshold": 20000000.0,
       "additionalWaterShouldDiePercent": 0.3,

@@ -341,6 +341,21 @@
             },
             {
               "Button_text": {
+                "id": "btn_queue_options",
+                "size": "1@buttonHeight, 1@buttonHeight",
+                "on_click": "onQueueOptions",
+                "tooltip": "#queue/options",
+                "class": "image",
+                "showConsoleImage": "no",
+                "display": "hide",
+                "enable": "no",
+                "img": {
+                  "background-image": "#ui/gameuiskin#btn_modifications"
+                }
+              }
+            },
+            {
+              "Button_text": {
                 "id": "btn_join_event",
                 "class": "battle",
                 "navButtonFont": "yes",
@@ -604,21 +619,6 @@
                           },
                           {
                             "on_wrap_right": "onTopGCPanelRight"
-                          },
-                          {
-                            "Button_text": {
-                              "id": "ww_map_render_filters",
-                              "_on_click": "onShowMapRenderFilters",
-                              "class": "header",
-                              "style": "height:ph;",
-                              "display": "hide",
-                              "enable": "no",
-                              "text": {
-                                "position": "relative",
-                                "pos": "pw/2-w/2, ph/2-h/2",
-                                "text": "#worldwar/mapFilters"
-                              }
-                            }
                           },
                           {
                             "Button_text": {

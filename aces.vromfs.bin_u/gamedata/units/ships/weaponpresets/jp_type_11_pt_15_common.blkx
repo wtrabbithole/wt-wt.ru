@@ -44,7 +44,7 @@
         "fireConeAngle": 1.0
       },
       {
-        "bullets": 1559
+        "bullets": 2000
       },
       {
         "allowableDelta": 1.0
@@ -109,6 +109,25 @@
         }
       },
       {
+        "gunStabilizer": {
+          "hasVerticalGunFreeMode": true,
+          "hasHorizontal": true,
+          "horizontalOmegaMult": 1.0,
+          "horizontalSpeedLimitKPH": 80.0,
+          "hasVertical": true,
+          "verticalOmegaMult": 1.0,
+          "verticalSpeedLimitKPH": 80.0,
+          "errorKPHToDegrees": [
+            {
+              "row": [5.0,0.01]
+            },
+            {
+              "row": [70.0,0.05]
+            }
+          ]
+        }
+      },
+      {
         "limits": {
           "yaw": [-180.0,180.0],
           "pitch": [-5.0,90.0]
@@ -168,7 +187,7 @@
         "fireConeAngle": 1.0
       },
       {
-        "bullets": 1559
+        "bullets": 2000
       },
       {
         "allowableDelta": 1.0
@@ -230,6 +249,25 @@
           "gun": "main_caliber_gun_02",
           "barrel": "gun_barrel_02",
           "gunnerDm": "main_caliber_turret_02_dm"
+        }
+      },
+      {
+        "gunStabilizer": {
+          "hasVerticalGunFreeMode": true,
+          "hasHorizontal": true,
+          "horizontalOmegaMult": 1.0,
+          "horizontalSpeedLimitKPH": 80.0,
+          "hasVertical": true,
+          "verticalOmegaMult": 1.0,
+          "verticalSpeedLimitKPH": 80.0,
+          "errorKPHToDegrees": [
+            {
+              "row": [5.0,0.01]
+            },
+            {
+              "row": [70.0,0.05]
+            }
+          ]
         }
       },
       {

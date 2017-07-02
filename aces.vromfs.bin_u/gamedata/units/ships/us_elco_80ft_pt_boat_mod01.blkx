@@ -733,12 +733,9 @@
           "armorThickness": 40.0,
           "hp": 600.0,
           "fireParamsPreset": "ship_cover",
-          "bow_top_dm": [],
           "bow_bottom_dm": [],
           "mid_bottom_dm": [],
-          "stern_bottom_dm": [],
-          "stern_top_dm": [],
-          "mid_top_dm": []
+          "stern_bottom_dm": []
         }
       },
       {
@@ -758,6 +755,18 @@
           },
           "superstructure_bottom_dm": {
             "genericDamageMult": 0.1
+          }
+        }
+      },
+      {
+        "masts": {
+          "armorClass": "ship_structural_steel",
+          "hp": 500.0,
+          "mast_01_dm": {
+            "armorThickness": 15.0
+          },
+          "radio_station_dm": {
+            "armorThickness": 2.0
           }
         }
       },
@@ -2078,11 +2087,26 @@
   },
   {
     "tank_crew": {
-      "minCrewMemberAliveCount": 8,
+      "minCrewMemberAliveCount": 2,
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "commander",
-        "crew": 7
+        "crew": 4
+      },
+      "sailor2": {
+        "dmPart": "compartment_01_dm",
+        "role": "sailor",
+        "crew": 1
+      },
+      "sailor3": {
+        "dmPart": "compartment_02_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor4": {
+        "dmPart": "compartment_03_dm",
+        "role": "sailor",
+        "crew": 4
       }
     }
   },
@@ -2104,9 +2128,9 @@
   {
     "ShipPhys": {
       "mass": {
-        "Empty": 57000.0,
-        "Fuel": 1000.0,
-        "TakeOff": 58000.0,
+        "Empty": 49000.0,
+        "Fuel": 2000.0,
+        "TakeOff": 51000.0,
         "momentOfInertia": [11.0,39.0,19.0],
         "CenterOfGravity": [-2.85,-0.5,0.0]
       },
@@ -2392,6 +2416,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -2527,6 +2554,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -2666,6 +2696,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 30.0
           },
           {
@@ -2803,6 +2836,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 30.0
           },
           {
@@ -2938,6 +2974,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 25.0
@@ -3275,7 +3314,8 @@
   {
     "cockpit": {
       "headPos": [0.0,8.5,-21.0],
-      "headPosOnShooting": [0.2,7.5,0.5]
+      "headPosOnShooting": [0.2,7.5,0.5],
+      "detectionHeight": 6.4
     }
   },
   {
@@ -3876,9 +3916,16 @@
     "modifications": {
       "37mm_AN_M4_naval_HE": [],
       "37mm_AN_M4_naval_AP": [],
-      "12mm_usa_M2HB_API_navy": [],
-      "20mm_oerlikon_universal": [],
-      "40mm_bofors_l60_navy_universal": []
+      "40mm_bofors_l60_navy_universal": [],
+      "manual_extinguisher": {
+        "effects": {
+          "extinguisherActivationCount": -1,
+          "extinguisherMinTime": 10.0,
+          "extinguisherMaxTime": 10.0,
+          "extinguisherCrewBusyTime": -1.0
+        }
+      },
+      "tank_tool_kit": []
     }
   }
 ]

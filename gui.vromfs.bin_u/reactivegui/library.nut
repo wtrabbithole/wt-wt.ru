@@ -18,3 +18,43 @@ enum Layers {
   Tooltip
   Inspector
 }
+
+
+::cross_call <- class {
+  path = null
+
+  constructor () {
+    path = []
+  }
+
+  function _get(idx) {
+    path.push(idx)
+    return this
+  }
+
+  function _call(self, ...) {
+    local args = [this]
+    args.push(path)
+    args.extend(vargv)
+    local result = ::perform_cross_call.acall(args)
+    path.clear()
+    return result
+  }
+}()
+
+
+//////////////////////////////compatibility////////////////////////////////////
+
+
+function apply_compatibilities(comp_table)
+{
+  local rootTable = getroottable()
+  local constTable = getconsttable()
+  foreach(key, value in comp_table)
+    if (!(key in rootTable) && !(key in constTable))
+      rootTable[key] <- value
+}
+
+::apply_compatibilities({
+  perform_cross_call = function (...) { return null }
+})

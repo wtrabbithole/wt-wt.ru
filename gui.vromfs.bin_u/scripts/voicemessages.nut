@@ -104,6 +104,12 @@ function show_voice_message_list(show, category, squad, targetName)
     return false
   }
 
+  if (!::is_mode_with_teams(::get_game_type()))
+  {
+    ::chat_system_message(::loc("chat/no_team"))
+    return false
+  }
+
   if (squad)
     if (::get_mp_mode() == ::GM_SKIRMISH)
     {

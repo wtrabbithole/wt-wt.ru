@@ -182,7 +182,7 @@ class ::gui_handlers.MissionBuilder extends ::gui_handlers.GenericOptionsModal
     ::aircraft_for_weapons = air.name
     ::set_gui_option(::USEROPT_AIRCRAFT, air.name)
 
-    local container = create_options_container("testflight_options", options, true, true, true)
+    local container = create_options_container("testflight_options", options, true, true, 0.5)
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
 
     optionsContainers = [container.descr]
@@ -578,7 +578,7 @@ class ::gui_handlers.MissionBuilderOptions extends ::gui_handlers.GenericOptions
   //    [::USEROPT_SESSION_PASSWORD, "editbox"],
     ]
 
-    local container = create_options_container("builder_options", options, true, true, true, true, true)
+    local container = create_options_container("builder_options", options, true, true, 0.5, true, true)
     local optListObj = scene.findObject("optionslist")
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
     optionsContainers.push(container.descr)

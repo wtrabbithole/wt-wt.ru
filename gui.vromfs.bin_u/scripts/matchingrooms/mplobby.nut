@@ -437,7 +437,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
     updateSessionInfo()
     ::init_slotbar(this, scene.findObject("nav-help"))
     setSceneTitle(::loc("multiplayer/lobby"))
-    updateButtons()
+    updateWindow()
     updateRoomInSession()
 
     initChat()

@@ -29,14 +29,6 @@ frame {
   }
 
   Button_close { img {} }
-  tdiv {
-    width:t="pw"
-    padding:t='1@framePadding'
-    textareaNoTab {
-      id:t="unit_blocks_place_text"
-      text:t=""
-    }
-  }
 
   tdiv {
     id:t='unit_blocks_place'
@@ -79,6 +71,23 @@ frame {
         }
       }
     <</unitString>>
+  }
+
+  tdiv {
+    width:t='pw'
+    padding:t='1@framePadding, 1@framePadding, 1@framePadding, 0'
+    flow:t='vertical'
+
+    textareaNoTab {
+      id:t='unit_fly_conditions_title'
+      tinyFont:t='yes'
+      text:t='#worldwar/airfield/unit_fly_conditions'
+    }
+    textareaNoTab {
+      id:t='unit_fly_conditions_text'
+      tinyFont:t='yes'
+      text:t=''
+    }
   }
 
   navBar{}

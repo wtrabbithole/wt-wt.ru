@@ -11,8 +11,8 @@
 ::TEXT_NDA <- 1
 
 ::target_platform <- ::get_platform()
-::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].find(::target_platform) != -1
-::is_platform_windows <- ["win32", "win64"].find(::target_platform) != -1
+::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].find(::target_platform) >= 0
+::is_platform_windows <- ["win32", "win64"].find(::target_platform) >= 0
 ::is_platform_ps4 <- ::target_platform == "ps4"
 ::is_platform_android <- ::target_platform == "android"
 ::is_platform_xboxone <- ::target_platform == "xboxOne"
@@ -30,6 +30,8 @@
 ::show_console_buttons <- false
 ::ps4_is_client_full_downloaded <- !::is_platform_ps4
 ::ps4_vsync_enabled <- true
+
+::cross_call_api <- {}
 
 if (::is_platform_ps4) ::exit_game <- function() {::gui_start_logout()}
 
@@ -341,6 +343,7 @@ function load_scripts_after_login()
     "options/optionsWnd.nut"
     "systemOptions.nut"
     "genericOptions.nut"
+    "options/framedOptionsWnd.nut"
     "options/optionsCustomDifficulty.nut"
 
     "leaderboardDataType.nut"

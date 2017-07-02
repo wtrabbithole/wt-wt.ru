@@ -672,9 +672,11 @@ function create_option()
     type = -1
     id = ""
     title = null
+    hint = null  //"guiHints/" + descr.id
     value = null
     controlType = optionControlType.LIST
 
+    context = null
     cb = null
     items = null
     values = null
@@ -726,6 +728,7 @@ function get_option(type, context = null)
 {
   local descr = create_option()
   descr.type = type
+  descr.context = context
   if ("onChangeCb" in context)
     descr.onChangeCb = context.onChangeCb
 
@@ -1783,6 +1786,17 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       defaultValue = true
+      break
+
+    case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
+      descr.id = "queue_event_custom_mode"
+      descr.title = ::loc("events/playersRooms")
+      descr.hint = ::loc("events/playersRooms/tooltip")
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.textChecked <- ::loc("options/enabled")
+      descr.textUnchecked <- ::loc("#options/disabled")
+      descr.value = ::queue_classes.Event.getShouldQueueCustomMode(::getTblValue("eventName", context, ""))
       break
 
     case ::USEROPT_AUTO_SHOW_CHAT:
@@ -3625,7 +3639,8 @@ function get_option(type, context = null)
       print("[ERROR] Unsupported type " + type)
   }
 
-  descr.hint <- "guiHints/" + descr.id
+  if (!descr.hint)
+    descr.hint = ::loc("guiHints/" + descr.id, "")
 
   local valueToSet = defaultValue
   if (prevValue == null)
@@ -4574,6 +4589,10 @@ function set_option(type, value, descr = null)
       ::g_gamepad_cursor_controls.setValue(value)
       break
 
+    case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
+      ::queue_classes.Event.setShouldQueueCustomMode(::getTblValue("eventName", descr.context, ""), value)
+      break
+
     default:
       print("[ERROR] Unsupported type " + type)
   }
@@ -4731,7 +4750,7 @@ function set_option_by_bit(type, idx, value)
   ::set_gui_option(type, option)
 }
 
-function create_options_container(name, options, is_focused, is_centered, equalColumns = false, fullTable = true, absolutePos=true, context = null)
+function create_options_container(name, options, is_focused, is_centered, columnsRatio = 0.5, fullTable = true, absolutePos=true, context = null)
 {
   local data = ""
   local selectedRow = 0
@@ -4740,8 +4759,9 @@ function create_options_container(name, options, is_focused, is_centered, equalC
   resDescr.name <- name
   resDescr.data <- []
 
-  local wLeft  = equalColumns ? "50%pw" : "40%pw"
-  local wRight = equalColumns ? "50%pw" : "60%pw"
+  columnsRatio = ::clamp(columnsRatio, 0.1, 0.9)
+  local wLeft  = ::format("%.2fpw", columnsRatio)
+  local wRight = ::format("%.2fpw", 1.0 - columnsRatio)
 
   foreach (opt in options)
   {
@@ -4760,8 +4780,8 @@ function create_options_container(name, options, is_focused, is_centered, equalC
     if ("enabled" in optionData)
       rowData += "enable:t='" + (optionData.enabled ? "yes" : "no") + "'; "
 
-    if ("hint" in optionData)
-      rowData += "tooltip:t='" + ::stripTags( ::loc(optionData.hint, "") ) + "'; ";
+    if (!::u.isEmpty(optionData.hint))
+      rowData += "tooltip:t='" + ::stripTags(optionData.hint) + "'; "
 
     local optionControl = ::getTblValue("controlName", optionData, ::getTblValue(1, opt)) || "spinner"
     if (optionControl == "listbox")

@@ -343,6 +343,7 @@ enum AIR_MOUSE_USAGE {
     "USEROPT_GAMEPAD_CURSOR_CONTROLLER",
 
     "USEROPT_RANK"
+    "USEROPT_QUEUE_EVENT_CUSTOM_MODE"
 ]
 
 ::options_mode_name_by_idx <- {}

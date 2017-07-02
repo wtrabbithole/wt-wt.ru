@@ -27,7 +27,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   cancelFunc = null
   forcedSave = false
 
-  equalColumns = true
+  columnsRatio = 0.5 //0..1
   titleText = null
 
   owner = null
@@ -51,7 +51,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(optListObj))
       return ::dagor.assertf(false, "Error: cant load options when no optionslist object.")
 
-    local container = ::create_options_container(optId, opt, true, true, equalColumns, true, true, optionsConfig)
+    local container = ::create_options_container(optId, opt, true, true, columnsRatio, true, true, optionsConfig)
     guiScene.setUpdatesEnabled(false, false);
 
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
@@ -1025,7 +1025,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     curGroup = group
     local config = optGroups[group]
 
-    local container = ::create_options_container("options_" + config.name, config.options, true, true, equalColumns,
+    local container = ::create_options_container("options_" + config.name, config.options, true, true, columnsRatio,
                         true, true, optionsConfig)
     optionsContainers = [container.descr]
 

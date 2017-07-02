@@ -94,7 +94,7 @@ class ::gui_handlers.navigationPanel extends ::gui_handlers.BaseGuiHandlerWT
   function setCurrentItem(item)
   {
     local itemIdx = itemList.find(item)
-    if (itemIdx != -1)
+    if (itemIdx >= 0)
       setCurrentItemIdx(itemIdx)
   }
 

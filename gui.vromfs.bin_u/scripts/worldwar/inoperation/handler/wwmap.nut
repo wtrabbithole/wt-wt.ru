@@ -33,14 +33,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]
 
-  renderCheckBoxesList = [
-    {id = "render_zones", renderCategory = ::ERC_ZONES, image = "#ui/gameuiskin#render_zones"}
-    {id = "render_arrows", renderCategory = ::ERC_ALL_ARROWS, hidden = true}
-    {id = "render_arrows_for_selected", renderCategory = ::ERC_ARROWS_FOR_SELECTED_ARMIES, image = "#ui/gameuiskin#render_arrows"}
-    {id = "render_battles", renderCategory = ::ERC_BATTLES, image = "#ui/gameuiskin#battles_open"}
-    {id = "render_map_picture", renderCategory = ::ERC_MAP_PICTURE, hidden = true}
-  ]
-
   function initScreen()
   {
     backSceneFunc = ::gui_start_mainmenu
@@ -54,7 +46,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       this, ::g_ww_top_menu_left_side_sections)
     registerSubHandler(leftSectionHandlerWeak)
 
-    showSceneBtn("ww_map_render_filters", true)
     initMapName()
     initOperationStatus(false)
     initGCBottomBar()
@@ -461,52 +452,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (isArmiesPathSwitchedOn != ::g_world_war_render.isCategoryEnabled(::ERC_ARROWS_FOR_SELECTED_ARMIES))
       ::g_world_war_render.setCategory(::ERC_ARROWS_FOR_SELECTED_ARMIES, true)
-  }
-
-  function onShowMapRenderFilters(obj)
-  {
-    onRemoveForceShowArmiesPath(null)
-    local optionsList = []
-    foreach(renderData in renderCheckBoxesList)
-    {
-      local id = renderData.id
-      local category = renderData.renderCategory
-      optionsList.append({
-        value = category
-        selected = ::g_world_war_render.isCategoryEnabled(category)
-        show = ::g_world_war_render.isCategoryVisible(category) && !::getTblValue("hidden", renderData, false)
-        text = ::loc("worldwar/renderMap/" + id, id)
-        icon = ::getTblValue("image", renderData, "#ui/gameuiskin#slot_weapons")
-      })
-    }
-
-    optionsList.append({
-      value = "d_mode"
-      selected = ::g_world_war.isDebugModeEnabled()
-      show = ::has_feature("worldWarMaster")
-      text = "Debug Mode"
-      icon = "#ui/gameuiskin#battles_closed"
-    })
-
-    ::gui_start_multi_select_menu({
-      list = optionsList
-      onChangeValueCb = function(values) {
-        foreach(renderData in renderCheckBoxesList)
-        {
-          local category = renderData.renderCategory
-          local enable = ::isInArray(category, values)
-          if (enable != ::g_world_war_render.isCategoryEnabled(category))
-            ::g_world_war_render.setCategory(category, enable)
-        }
-        local debugModeEnable = ::isInArray("d_mode", values)
-        if (debugModeEnable != ::g_world_war.isDebugModeEnabled())
-          ::g_world_war.setDebugMode(debugModeEnable)
-      }.bindenv(this)
-      align = "bottom"
-      alignObj = scene.findObject("ww_map_render_filters")
-      sndSwitchOn = "check"
-      sndSwitchOff = "uncheck"
-    })
   }
 
   function collectArmyStrengthData()

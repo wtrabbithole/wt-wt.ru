@@ -176,8 +176,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       {
         if(b.isWide != a.isWide)
           return b.isWide <=> a.isWide
-        local isAContainsType = a.gameMode.unitTypes.find(unitType.esUnitType) != -1
-        local isBContainsType = b.gameMode.unitTypes.find(unitType.esUnitType) != -1
+        local isAContainsType = a.gameMode.unitTypes.find(unitType.esUnitType) >= 0
+        local isBContainsType = b.gameMode.unitTypes.find(unitType.esUnitType) >= 0
         if( ! isAContainsType && ! isBContainsType)
           continue
         return isBContainsType <=> isAContainsType

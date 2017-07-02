@@ -117,6 +117,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
         tmWinkImage = sectionData.getWinkImage()
         tmHoverMenuPos = sectionData.hoverMenuPos
         tmOnClick = sectionData.onClick
+        forceHoverWidth = sectionData.forceHoverWidth
         minimalWidth = sectionData.minimalWidth
         columnsCount = columnsCount
         columns = columns
@@ -231,7 +232,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     })
   }
 
-  function onGameplay(obj)     { ::gui_start_gameplay(this) }
+  function onGameplay(obj)     { ::gui_start_options(this) }
   function onControls(obj)     { ::gui_start_controls() }
 
   function onBenchmark(obj)
@@ -304,6 +305,12 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
   function onWWBackToHangar(obj)
   {
     parentHandlerWeak.goBackToHangar()
+  }
+
+  function onChangeCheckboxValue(obj)
+  {
+    local btn = ::g_top_menu_buttons.getTypeById(obj.id)
+    btn.onChangeValueFunc(obj.getValue())
   }
 
   function onTournamentsAndEvents(obj)
@@ -393,9 +400,12 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     local selObj = obj.getChild(curVal)
     if (!::checkObj(selObj))
       return
-    local eventName = selObj._on_click || selObj.on_click
+    local eventName = selObj._on_click || selObj.on_click || selObj.on_change_value
     if (!eventName || !(eventName in this))
       return
+
+    if (selObj.on_change_value)
+      selObj.setValue(!selObj.getValue())
 
     this[eventName](selObj)
   }

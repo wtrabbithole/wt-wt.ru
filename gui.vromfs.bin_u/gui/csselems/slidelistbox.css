@@ -1,3 +1,5 @@
+@const shopFilterHFlowHeight: 0.04*@scrn_tgt_font;
+
 SlideListBox,SlideListBoxOptions
 {
   behaviour:listbox+slide;
@@ -198,7 +200,7 @@ HorizontalListBox.choice3 {
 
 HorizontalListBox.hflow {
   flow:h-flow;
-  min-height:4*@scrn_tgt/100.0;
+  min-height:@shopFilterHFlowHeight;
 }
 
 groupBox, groupList {

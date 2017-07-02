@@ -14,10 +14,10 @@ CheckBox {
     class:t='with_image'
   <</useImage>>
 
-  <<#hide>>
+  <<#isHidden>>
     display:t='hide'
     enable:t='no'
-  <</hide>>
+  <</isHidden>>
 
   <<#useImage>>
     infoImg { background-image:t='<<useImage>>' }

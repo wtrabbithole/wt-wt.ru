@@ -332,6 +332,24 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::events.checkEventFeaturePacks(::events.getEvent(curEventId))
   }
 
+  function onQueueOptions(obj)
+  {
+    local optionsData = ::queue_classes.Event.getOptions(curEventId)
+    if (!optionsData)
+      return
+
+    local params = {
+      options = optionsData.options
+      optionsConfig = optionsData.context
+      wndOptionsMode = ::OPTIONS_MODE_MP_DOMINATION
+      wndGameMode = ::GM_DOMINATION
+      align = ALIGN.TOP
+      alignObj = obj
+      columnsRatio = 0.6
+    }
+    ::handlersManager.loadHandler(::gui_handlers.FramedOptionsWnd, params)
+  }
+
   function onCreateRoom() {}
 
   //----END_CONTROLLER----//
@@ -437,6 +455,8 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
       packBtn.tooltip = ::get_pkg_loc_name(pack)
       packBtn.setValue(::loc("msgbox/btn_download") + " " + ::get_pkg_loc_name(pack, true))
     }
+
+    showSceneBtn("btn_queue_options", !!event && ::queue_classes.Event.hasOptions(event.name))
   }
 
   function fillEventsList()

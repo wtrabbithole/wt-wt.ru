@@ -9,9 +9,6 @@ class ::WwAirfield
   cooldownFormations = null
   clanFormation = null
   allyFormation = null
-  createArmyUnitCountMin = 0
-  createArmyUnitCountMax = 0
-  maxUniqueUnitsOnFlyout = 0
   createArmyMorale = 0
 
   constructor(airfieldIndex)
@@ -32,9 +29,6 @@ class ::WwAirfield
 
   function update()
   {
-    createArmyUnitCountMin = ::g_world_war.getWWConfigurableValue("airfieldCreateArmyUnitCountMin", 0)
-    createArmyUnitCountMax = ::g_world_war.getWWConfigurableValue("airfieldCreateArmyUnitCountMax", 0)
-    maxUniqueUnitsOnFlyout = ::g_world_war.getWWConfigurableValue("maxUniqueUnitsOnFlyout", 0)
     createArmyMorale = ::g_world_war.getWWConfigurableValue("airfieldCreateArmyMorale", 0)
 
     local blk = ::DataBlock()

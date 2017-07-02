@@ -185,7 +185,7 @@ class ::gui_handlers.facebookReminderModal extends ::gui_handlers.BaseGuiHandler
 
   function onOk()
   {
-    ::gui_start_gameplay(::top_menu_handler, "social");
+    ::gui_start_options(::top_menu_handler, "social");
     ::start_facebook_login()
   }
 

@@ -232,16 +232,17 @@ function get_userlog_view_data(log)
       local now = ::getTblValue("newStat", log.tournamentResult)
       local was = ::getTblValue("oldStat", log.tournamentResult)
       local lbDiff = ::leaderboarsdHelpers.getLbDiff(now, was)
-      local lbStatsBlk = ""
+      local items = []
       foreach (lbFieldsConfig in ::events.eventsTableConfig)
       {
         if (!(lbFieldsConfig.field in now))
           continue
 
-        lbStatsBlk += ::getLeaderboardItemWidget(lbFieldsConfig,
+        items.append(::getLeaderboardItemView(lbFieldsConfig,
                                                  now[lbFieldsConfig.field],
-                                                 ::getTblValue(lbFieldsConfig.field, lbDiff, null))
+                                                 ::getTblValue(lbFieldsConfig.field, lbDiff, null)))
       }
+      local lbStatsBlk = ::getLeaderboardItemWidgets({ items = items })
       if (!("descriptionBlk" in res))
         res.descriptionBlk <- ""
       res.descriptionBlk += ::format("tdiv { width:t='pw'; flow:t='h-flow'; %s }", lbStatsBlk)
@@ -1315,12 +1316,8 @@ function get_userlog_view_data(log)
     res.name = ::loc(textLocId, {
       opId = opId, mapName = ::loc("worldWar/map/" + mapName), reward = earnedText })
 
-    local poolWpText = ::getPriceText(::getTblValue("wpPool", log, 0), 0, true, true)
     local statsWpText = ::getPriceText(::getTblValue("wpStats", log, 0), 0, true, true)
-    local statsTotalWpText = ::getPriceText(::getTblValue("wpStatsTotal", log, 0), 0, true, true)
-    res.description <- ::loc("worldWar/userlog/endOperation/pool", { reward = poolWpText }) + "\n" +
-                       ::loc("worldWar/userlog/endOperation/stats", { reward = statsWpText }) + "\n" +
-                       ::loc("worldWar/userlog/endOperation/statsTotal", { reward = statsTotalWpText })
+    res.description <- ::loc("worldWar/userlog/endOperation/stats", { reward = statsWpText })
   }
 
 

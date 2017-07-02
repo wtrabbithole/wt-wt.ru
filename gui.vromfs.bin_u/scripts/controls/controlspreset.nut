@@ -204,7 +204,7 @@ class ControlsPreset {
     local axisWithZeroRangeMin = [
       "throttle"
     ]
-    if (axisWithZeroRangeMin.find(name) != -1)
+    if (axisWithZeroRangeMin.find(name) >= 0)
       axis.rangeMin = 0.0
     return axis
   }
@@ -332,7 +332,7 @@ class ControlsPreset {
     presetPath = compatibility.getActualPresetName(presetPath)
 
     // Check preset load recursion
-    if (presetChain.find(presetPath) != -1)
+    if (presetChain.find(presetPath) >= 0)
     {
       ::dagor.assertf(false, "Controls preset require itself. " +
         "Preset chain: " + ::toString(presetChain) + " > " + presetPath)
@@ -468,8 +468,8 @@ class ControlsPreset {
       }
 
     foreach (otherPair in appliedPreset.squarePairs)
-      if (usedAxesIds.find(otherPair[0]) !=- -1 ||
-        usedAxesIds.find(otherPair[1]) !=- -1)
+      if (usedAxesIds.find(otherPair[0]) >= 0 ||
+        usedAxesIds.find(otherPair[1]) >= 0)
         setSquarePair(squarePairs.len(), otherPair)
 
     foreach (paramName, otherParam in appliedPreset.params)
@@ -523,8 +523,8 @@ class ControlsPreset {
       }
 
     foreach (otherPair in basePreset.squarePairs)
-      if ((usedAxesIds.find(otherPair[0]) != -1 ||
-          usedAxesIds.find(otherPair[1]) != -1))
+      if ((usedAxesIds.find(otherPair[0]) >= 0 ||
+          usedAxesIds.find(otherPair[1]) >= 0))
         foreach (j, thisPair in squarePairs)
           if (::u.isEqual(thisPair, otherPair))
           {
@@ -639,7 +639,7 @@ class ControlsPreset {
           })
         }
 
-        if (usedHotkeys.find(hotkeyName) == -1)
+        if (usedHotkeys.find(hotkeyName) < 0)
         {
           usedHotkeys.append(hotkeyName)
           resetHotkey(hotkeyName)
@@ -1274,22 +1274,8 @@ class ControlsPreset {
   static dataArranging = {
     function comporator(lhs, rhs)
     {
-      local lhsIndex = this.sortList.find(lhs)
-      local rhsIndex = this.sortList.find(rhs)
-      if (lhs != -1)
-      {
-        if (rhs != -1)  // lhs != -1 , rhs != -1
-          return lhsIndex - rhsIndex
-        else            // lhs != -1 , rhs == -1
-          return 1        // rhs not found in sort list
-      }
-      else
-      {
-        if (rhs != -1)  // lhs == -1 , rhs != -1
-          return -1       // lhs not found in sort list
-        else            // lhs == -1 , rhs == -1
-          return lhs > rhs ? 1 : lhs < rhs ? -1 : 0
-      }
+      return this.sortList.find(lhs) <=> this.sortList.find(rhs)
+        || lhs <=> rhs
     }
 
     axisAttrOrder = [

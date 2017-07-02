@@ -451,13 +451,14 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     local hasMap = selMap != null
     local isInQueue = ::g_ww_global_status.isMyClanInQueue()
+    local isQueueJoiningEnabled = isModeClan && ::WwQueue.getCantJoinAnyQueuesReasonData().canJoin
 
     showSceneBtn("btn_clans_queue", isClanQueueAvaliable())
     local joinOpBtn = showSceneBtn("btn_join_operation", isModePlayer && hasMap)
     joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
 
     local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue)
-    local joinQueueBtn = showSceneBtn("btn_join_queue", isModeClan && hasRightsToQueueClan && !isInQueue)
+    local joinQueueBtn = showSceneBtn("btn_join_queue", isModeClan && isQueueJoiningEnabled && !isInQueue)
     showSceneBtn("btn_leave_queue", isModeClan && hasRightsToQueueClan && isInQueue)
 
     if ((queuesJoinTime > 0) != isInQueue)
@@ -507,20 +508,20 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     foreach (mapId, map in mapsTbl)
       ::showBtn("wait_icon_" + mapId, isModeClan && map.getQueue().isMyClanJoined(), mapsListObj)
 
-    local show = mode == WW_OM_WND_MODE.CLAN
-    local enable = show && hasRightsToQueueClan && !hasClanOperation && !::g_ww_global_status.isMyClanInQueue()
+    local show = isModeClan
+    local isQueueJoiningEnabled = isModeClan && ::WwQueue.getCantJoinAnyQueuesReasonData().canJoin
 
     foreach (mapId, map in mapsTbl)
     {
       local canJoin = map.getQueue().getCantJoinQueueReasonData().canJoin
       local obj = ::showBtn(objIdPrefixCountriesOfMap + mapId, show, mapsListObj)
       if (obj)
-        obj.enable(enable && canJoin)
+        obj.enable(isQueueJoiningEnabled && canJoin)
     }
 
     local obj = ::showBtn("select_all_countries", show, scene)
       if (obj)
-        obj.enable(enable)
+        obj.enable(isQueueJoiningEnabled)
   }
 
   function switchMode(newMode)
@@ -573,8 +574,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
       if (operation)
         return ""
-      if (!hasRightsToQueueClan)
-        return ::loc("worldWar/onlyLeaderCanQueue")
+
       local cantJoinReason = queue.getCantJoinQueueReasonData()
       return cantJoinReason.canJoin ? "" :
         ::colorize("badTextColor", cantJoinReason.reasonText)
@@ -592,20 +592,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function getCantJoinAllQueuesReasonData()
   {
-    local res = {
-      canJoin = false
-      reasonText = ""
-    }
-
-    if (hasClanOperation)
-      res.reasonText = ::loc("worldwar/squadronAlreadyInOperation")
-    else if (::g_ww_global_status.isMyClanInQueue())
-      res.reasonText = ::loc("worldwar/mapStatus/yourClanInQueue")
-    else if (!hasRightsToQueueClan)
-      res.reasonText = ::loc("worldWar/onlyLeaderCanQueue")
-
-    if (!::u.isEmpty(res.reasonText))
+    local res = ::WwQueue.getCantJoinAnyQueuesReasonData()
+    if (! res.canJoin)
       return res
+
+    res.canJoin = false
 
     foreach (data in countryData)
       if (data.selected > 0)

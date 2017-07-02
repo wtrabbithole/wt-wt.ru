@@ -707,7 +707,7 @@ class QueueManager {
     ::scene_msg_box("requeue_question", null, ::loc("msg/cancel_queue_question"),
       [["ok", leaveQueueAndConinue], ["no", onCancel]],
       "ok",
-      { cancel_fn = onCancel, checkDuplicateId = true })
+      { cancel_fn = onCancel || @()null, checkDuplicateId = true })
   }
 }
 

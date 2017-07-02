@@ -563,7 +563,7 @@
           "armorClass": "ship_wood",
           "genericDamageMult": 0.1,
           "armorThickness": 30.0,
-          "hp": 200.0,
+          "hp": 250.0,
           "fireParamsPreset": "ship_cover",
           "compartment_01_dm": {
             "genericDamageMult": 0.05
@@ -744,8 +744,8 @@
           "armorClass": "tank_barrel",
           "armorThickness": 10.0,
           "hp": 500.0,
-          "main_caliber_turret_01_dm": [],
-          "main_caliber_turret_02_dm": []
+          "turret_h_01_dm": [],
+          "turret_h_02_dm": []
         }
       },
       {
@@ -753,8 +753,6 @@
           "hp": 5000.0,
           "armorClass": "RHA_tank",
           "armorThickness": 5.0,
-          "turret_h_01_dm": [],
-          "turret_h_02_dm": [],
           "turret_01_dm": [],
           "turret_02_dm": []
         }
@@ -830,7 +828,10 @@
           "engine_room_02_dm": [],
           "transmission_01_dm": [],
           "transmission_02_dm": [],
-          "steering_gear_01_dm": []
+          "steering_gear_01_dm": {
+            "hp": 400.0,
+            "genericDamageMult": 1.0
+          }
         }
       },
       {
@@ -2389,23 +2390,12 @@
             "reusePitchTrigger": 10
           },
           {
-            "turret": [
-              {
-                "head": "turret_h_01"
-              },
-              {
-                "gun": "main_caliber_gun_01"
-              },
-              {
-                "barrel": "mg_barrel_01"
-              },
-              {
-                "gunnerDm": "main_caliber_turret_01_dm"
-              },
-              {
-                "barrel": "main_caliber_gun_01_dm"
-              }
-            ]
+            "turret": {
+              "head": "turret_h_01",
+              "gun": "main_caliber_gun_01",
+              "barrel": "mg_barrel_01",
+              "gunnerDm": "main_caliber_turret_01_dm"
+            }
           },
           {
             "limits": {
@@ -2556,23 +2546,12 @@
             "reusePitchTrigger": 10
           },
           {
-            "turret": [
-              {
-                "head": "turret_h_01"
-              },
-              {
-                "gun": "main_caliber_gun_02"
-              },
-              {
-                "barrel": "mg_barrel_02"
-              },
-              {
-                "gunnerDm": "main_caliber_turret_01_dm"
-              },
-              {
-                "barrel": "main_caliber_gun_02_dm"
-              }
-            ]
+            "turret": {
+              "head": "turret_h_01",
+              "gun": "main_caliber_gun_02",
+              "barrel": "mg_barrel_02",
+              "gunnerDm": "main_caliber_turret_01_dm"
+            }
           },
           {
             "limits": {
@@ -2723,23 +2702,12 @@
             "reusePitchTrigger": 11
           },
           {
-            "turret": [
-              {
-                "head": "turret_h_02"
-              },
-              {
-                "gun": "main_caliber_gun_03"
-              },
-              {
-                "barrel": "mg_barrel_03"
-              },
-              {
-                "gunnerDm": "main_caliber_turret_02_dm"
-              },
-              {
-                "barrel": "main_caliber_gun_03_dm"
-              }
-            ]
+            "turret": {
+              "head": "turret_h_02",
+              "gun": "main_caliber_gun_03",
+              "barrel": "mg_barrel_03",
+              "gunnerDm": "main_caliber_turret_02_dm"
+            }
           },
           {
             "limits": {
@@ -2891,7 +2859,7 @@
               "head": "turret_h_02",
               "gun": "main_caliber_gun_04",
               "barrel": "mg_barrel_04",
-              "gunnerDm": "main_caliber_turret_02_dm"
+              "gunnerDm": "turret_h_02_dm"
             }
           },
           {
@@ -3119,7 +3087,8 @@
   {
     "cockpit": {
       "headPos": [0.0,6.5,-24.0],
-      "headPosOnShooting": [-0.5,5.6,0.6]
+      "headPosOnShooting": [-0.5,5.6,0.6],
+      "detectionHeight": 5.0
     }
   },
   {
