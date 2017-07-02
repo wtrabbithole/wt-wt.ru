@@ -99,9 +99,9 @@
         },
         "varSetRandomInt": {
           "var": "to_randomizer",
-          "random from": 1,
-          "random to": 10,
-          "var_random_to": "to_templates_quantity"
+          "from": 1,
+          "to_not_including": 10,
+          "var_to_not_including": "to_templates_quantity"
         },
         "triggerEnable": {
           "target": "to_template_fill_army"
@@ -129,8 +129,8 @@
         },
         "varSetRandomInt": {
           "var": "to_army",
-          "random from": 0,
-          "random to": 3
+          "from": 0,
+          "to_not_including": 3
         },
         "triggerEnable": {
           "target": "to_template_check_army"
@@ -563,8 +563,8 @@
         {
           "varSetRandomInt": {
             "var": "bdt_delay_timer",
-            "random from": 20,
-            "random to": 30
+            "from": 20,
+            "to_not_including": 30
           }
         },
         {
@@ -739,8 +739,8 @@
         {
           "varSetRandomInt": {
             "var": "ct_delay_timer",
-            "random from": 20,
-            "random to": 30
+            "from": 20,
+            "to_not_including": 30
           }
         },
         {

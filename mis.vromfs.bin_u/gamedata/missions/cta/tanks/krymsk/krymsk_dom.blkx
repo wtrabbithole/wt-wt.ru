@@ -246,6 +246,12 @@
         "chapter": "air_ground_Dom"
       },
       {
+        "locName": "missions/_Dom;krymsk/name"
+      },
+      {
+        "locDesc": "krymsk/desc;missions/_Dom/desc"
+      },
+      {
         "scoreLimit": 14000
       },
       {
@@ -255,7 +261,16 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Dom"
+      },
+      {
         "ctaCaptureZoneEqualPenaltyMul": 0.5
+      },
+      {
+        "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -268,27 +283,6 @@
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "useAlternativeMapCoord": false
-      },
-      {
-        "locName": "missions/_Dom;krymsk/name"
-      },
-      {
-        "locDesc": "krymsk/desc;missions/_Dom/desc"
-      },
-      {
-        "postfix": "_Dom"
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -311,21 +305,36 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 18000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 20000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -471,7 +480,7 @@
   "units": [],
   "areas": {
     "briefing_dom_t1_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -482,7 +491,7 @@
       "props": []
     },
     "briefing_dom_t1_spawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -493,7 +502,7 @@
       "props": []
     },
     "briefing_dom_t2_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -504,7 +513,7 @@
       "props": []
     },
     "briefing_dom_t2_spawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -515,7 +524,7 @@
       "props": []
     },
     "briefing_captureZone01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [28.9843,0.0,0.0],
         [0.0,91.695,0.0],
@@ -526,7 +535,7 @@
       "props": []
     },
     "briefing_captureZone02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [29.2509,0.0,0.0],
         [0.0,90.0424,0.0],
@@ -537,12 +546,12 @@
       "props": []
     },
     "briefing_captureZone03": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [29.1475,0.0,0.0],
         [0.0,107.796,0.0],
         [0.0,0.0,29.1475],
-        [2445.33,197.455,1548.68]
+        [2632.63,197.455,1326.19]
       ],
       "objLayer": 0,
       "props": []

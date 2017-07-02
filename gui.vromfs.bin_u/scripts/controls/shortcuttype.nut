@@ -30,6 +30,24 @@ function g_shortcut_type::expandShortcuts(shortcutIdList)
   return result
 }
 
+function g_shortcut_type::getShortcutMarkup(shortcutId)
+{
+  local markup = ""
+  local shortcutType = getShortcutTypeByShortcutId(shortcutId)
+  if (!shortcutType.isAssigned(shortcutId))
+    return markup
+
+  local expanded = expandShortcuts([shortcutId])
+  foreach (expandedShortcut in expanded)
+  {
+    local shortcutType = getShortcutTypeByShortcutId(expandedShortcut)
+    local input = shortcutType.getFirstInput(expandedShortcut)
+    markup += input.getMarkup()
+  }
+
+  return markup
+}
+
 function g_shortcut_type::_isAxisBoundToMouse(shortcutId)
 {
   local joyParams = ::JoystickParams()

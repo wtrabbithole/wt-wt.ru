@@ -394,6 +394,7 @@
       "armorThickness": 2.0,
       "armorThrough": 10.0,
       "fireProtectionHp": 20.0,
+      "createSecondaryShatters": false,
       "ammo_turret_dm": [],
       "ammo_turret_01_dm": [],
       "ammo_turret_02_dm": [],
@@ -426,6 +427,7 @@
       "armorThickness": 2.0,
       "armorThrough": 10.0,
       "fireProtectionHp": 10.0,
+      "createSecondaryShatters": false,
       "fuel_tank_dm": [],
       "fuel_tank_01_dm": [],
       "fuel_tank_02_dm": [],
@@ -966,9 +968,6 @@
       },
       {
         "substitute": "loader2"
-      },
-      {
-        "substitute": "machine_gunner"
       }
     ],
     "driver": [
@@ -979,9 +978,6 @@
         "role": "driver"
       },
       {
-        "substitute": "machine_gunner"
-      },
-      {
         "substitute": "loader1"
       },
       {
@@ -990,17 +986,11 @@
     ],
     "loader2": {
       "dmPart": "loader_02_dm",
-      "role": "loader",
-      "substitute": "machine_gunner"
+      "role": "loader"
     },
     "loader1": {
       "dmPart": "loader_01_dm",
-      "role": "loader",
-      "substitute": "machine_gunner"
-    },
-    "machine_gunner": {
-      "dmPart": "machine_gunner_dm",
-      "role": "radio_gunner"
+      "role": "loader"
     }
   },
   "MetaParts": {

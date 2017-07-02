@@ -110,8 +110,8 @@
         {
           "varSetRandomInt": {
             "var": "ht_last_army",
-            "random from": 1,
-            "random to": 3
+            "from": 1,
+            "to_not_including": 3
           }
         },
         {
@@ -250,8 +250,8 @@
         {
           "varSetRandomInt": {
             "var": "ht_delay_randomizer",
-            "random from": 0,
-            "random to": 90
+            "from": 0,
+            "to_not_including": 90
           }
         },
         {
@@ -266,8 +266,8 @@
         {
           "varSetRandomInt": {
             "var": "ht_delay_randomizer",
-            "random from": 0,
-            "random to": 90
+            "from": 0,
+            "to_not_including": 90
           }
         },
         {
@@ -533,7 +533,7 @@
           "offset": [0.0,4000.0,-7000.0],
           "object": "@ht_t1_hunter_name",
           "target": "@ht_t2_player_name",
-          "keepFormation": true
+          "resetFormation": true
         },
         "unitAttackTarget": {
           "playerAttracted": false,
@@ -1228,7 +1228,7 @@
           "offset": [0.0,4000.0,-7000.0],
           "object": "@ht_t2_hunter_name",
           "target": "@ht_t1_player_name",
-          "keepFormation": true
+          "resetFormation": true
         },
         "unitAttackTarget": {
           "playerAttracted": false,

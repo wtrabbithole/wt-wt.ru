@@ -220,8 +220,8 @@
     local modeNameCur  = modes[ view_mode  ]
     local modeNameNext = modes[ ( view_mode + 1 ) % modes.len() ]
 
-    obj.tooltip = ::loc("#mainmenu/viewDamageModel/tooltip_" + modeNameNext)
-    obj.setValue(::loc("#mainmenu/btn_dm_viewer_" + modeNameNext))
+    obj.tooltip = ::loc("mainmenu/viewDamageModel/tooltip_" + modeNameNext)
+    obj.setValue(::loc("mainmenu/btn_dm_viewer_" + modeNameNext))
 
     local objIcon = obj.findObject("btn_dm_viewer_icon")
     if (::checkObj(objIcon))
@@ -457,7 +457,7 @@
             local currentParams = getTblValueByPath("modificators." + difficulty.crewSkillName, unit)
             if (isSecondaryModsValid && currentParams && currentParams.horsePowers && currentParams.maxHorsePowersRPM)
             {
-              desc.push(::format("%s %s (%s %d %s)", ::loc("#engine_power") + ::loc("ui/colon"),
+              desc.push(::format("%s %s (%s %d %s)", ::loc("engine_power") + ::loc("ui/colon"),
                 ::g_measure_type.HORSEPOWERS.getMeasureUnitsText(currentParams.horsePowers),
                 ::loc("shop/unitValidCondition"), currentParams.maxHorsePowersRPM.tointeger(), ::loc("measureUnits/rpm")))
             }
@@ -642,12 +642,17 @@
         {
           local maxSpeedInWater = getTblValueByPath("maxSpeedInWater", weaponBlk.torpedo)
           if(maxSpeedInWater)
-            desc.push(::loc("#bullet_properties/maxSpeedInWater") + ::loc("ui/colon") +
+            desc.push(::loc("bullet_properties/maxSpeedInWater") + ::loc("ui/colon") +
               ::g_measure_type.SPEED.getMeasureUnitsText(maxSpeedInWater))
+
+          local distanceToLive = ::getTblValue("distToLive", weaponBlk.torpedo)
+          if (distanceToLive)
+            desc.push(::loc("torpedo/distanceToLive") + ::loc("ui/colon") +
+              ::g_measure_type.DISTANCE.getMeasureUnitsText(distanceToLive))
 
           local diveDepth = getTblValueByPath("diveDepth", weaponBlk.torpedo)
           if(diveDepth)
-            desc.push(::loc("#bullet_properties/diveDepth") + ::loc("ui/colon") +
+            desc.push(::loc("bullet_properties/diveDepth") + ::loc("ui/colon") +
               ::g_measure_type.DEPTH.getMeasureUnitsText(diveDepth))
 
           local explosiveType = ::getTblValue("explosiveType", weaponBlk.torpedo)

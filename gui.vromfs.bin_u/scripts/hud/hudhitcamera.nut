@@ -1,4 +1,4 @@
-function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE) // called from client
+function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE, info = null) // called from client
 {
   ::g_hud_hitcamera.onHitCameraEvent(mode, result)
 

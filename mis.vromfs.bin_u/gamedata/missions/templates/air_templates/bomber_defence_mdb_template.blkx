@@ -287,7 +287,9 @@
           "_DBttlA": false,
           "_DBttlB": false,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
         }
       }
     ],
@@ -343,6 +345,116 @@
           "comment": {
             "value": "спавны у врага"
           }
+        },
+        {
+          "missionMarkAsRespawnPoint": [
+            {
+              "loc_name": "missions/spawn_random"
+            },
+            {
+              "spawnEffect": false
+            },
+            {
+              "isStrictSpawn": false
+            },
+            {
+              "isAirfield": false
+            },
+            {
+              "isUnit": true
+            },
+            {
+              "useExisting": false
+            },
+            {
+              "isIndividual": false
+            },
+            {
+              "removeAreas": false
+            },
+            {
+              "canSpawnOnNeutral": false
+            },
+            {
+              "showOnMap": false
+            },
+            {
+              "offset": [-1000.0,500.0,0.0]
+            },
+            {
+              "radius": 250.0
+            },
+            {
+              "target": "t1_ai_bombers"
+            },
+            {
+              "target": "t2_ai_bombers"
+            },
+            {
+              "team": "A"
+            },
+            {
+              "backupZone": "t1_random_air_spawn"
+            },
+            {
+              "offsetEnemyUnits": [7500.0,0.0,0.0]
+            }
+          ]
+        },
+        {
+          "missionMarkAsRespawnPoint": [
+            {
+              "loc_name": "missions/spawn_random"
+            },
+            {
+              "spawnEffect": false
+            },
+            {
+              "isStrictSpawn": false
+            },
+            {
+              "isAirfield": false
+            },
+            {
+              "isUnit": true
+            },
+            {
+              "useExisting": false
+            },
+            {
+              "isIndividual": false
+            },
+            {
+              "removeAreas": false
+            },
+            {
+              "canSpawnOnNeutral": false
+            },
+            {
+              "showOnMap": false
+            },
+            {
+              "offset": [-1000.0,500.0,0.0]
+            },
+            {
+              "radius": 250.0
+            },
+            {
+              "target": "t1_ai_bombers"
+            },
+            {
+              "target": "t2_ai_bombers"
+            },
+            {
+              "team": "B"
+            },
+            {
+              "backupZone": "t2_random_air_spawn"
+            },
+            {
+              "offsetEnemyUnits": [7500.0,0.0,0.0]
+            }
+          ]
         },
         {
           "missionMarkAsRespawnPoint": {
@@ -434,6 +546,16 @@
           "triggerEnable": {
             "target": "mdb_template_check_t1_min_count"
           }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "barabashka_init"
+          }
         }
       ],
       "else_actions": []
@@ -518,6 +640,20 @@
       "conditions": [],
       "actions": [
         {
+          "varSetInt": {
+            "value": 0,
+            "var": "bda_bombers_count",
+            "input_var": "bda_ai_max_count"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "bdb_bombers_count",
+            "input_var": "bdb_ai_max_count"
+          }
+        },
+        {
           "unitWakeUp": {
             "target": "t1_ai_bombers",
             "varNameNumToWakeUp": "bda_ai_max_count"
@@ -526,7 +662,8 @@
         {
           "unitWakeUp": {
             "target": "t2_ai_bombers",
-            "varNameNumToWakeUp": "bdb_ai_max_count"
+            "varNameNumToWakeUp": "bdb_ai_max_count",
+            "order": "fromStart"
           }
         },
         {
@@ -545,8 +682,10 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t1_ai_bombers",
-            "speed": 250.0
+            "speed": 300.0
           }
         },
         {
@@ -560,8 +699,10 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_ai_bombers",
-            "speed": 250.0
+            "speed": 300.0
           }
         },
         {
@@ -572,6 +713,52 @@
         {
           "wait": {
             "time": 5.0
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "bda_tickets_for_1_kill",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "bda_tickets_for_1_kill",
+            "use_variable": true,
+            "var_value": "bda_bombers_count"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "bda_tickets_for_1_kill"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "bdb_tickets_for_1_kill",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "bdb_tickets_for_1_kill",
+            "use_variable": true,
+            "var_value": "bdb_bombers_count"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "bdb_tickets_for_1_kill"
           }
         },
         {
@@ -655,11 +842,57 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "mdb_template_update_objectives"
-          }
+          "triggerEnable": [
+            {
+              "target": "mdb_template_update_objectives"
+            },
+            {
+              "target": "bda_template_bomber_dies"
+            },
+            {
+              "target": "bdb_template_bomber_dies"
+            }
+          ]
         }
       ],
+      "else_actions": []
+    },
+    "bda_template_bomber_dies": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "t1_ai_bombers",
+          "var": "bda_bombers_count"
+        }
+      },
+      "actions": {
+        "varModify": {
+          "operator": "subAB",
+          "value": 1.0,
+          "var": "bda_bombers_count"
+        },
+        "gameMPChangeScore": {
+          "value": 1,
+          "valueSystem": "amount",
+          "var": "bda_tickets_for_1_kill",
+          "team": "A"
+        }
+      },
       "else_actions": []
     },
     "mdb_template_t1_bombers_to_end_point": {
@@ -677,7 +910,7 @@
       },
       "conditions": {
         "unitDistanceBetween": {
-          "value": 4500.0,
+          "value": 9500.0,
           "math": "2D",
           "object_type": "isAlive",
           "object_marking": 0,
@@ -707,27 +940,13 @@
           }
         },
         {
-          "moSetObjectiveStatus": {
-            "target": "bt_t1_defend_bombers",
-            "status": 2,
-            "team": "A"
-          }
-        },
-        {
-          "moSetObjectiveStatus": {
-            "target": "bt_t2_attack_bombers",
-            "status": 3,
-            "team": "B"
-          }
-        },
-        {
           "comment": {
             "value": ""
           }
         },
         {
           "triggerEnable": {
-            "target": "t2_loose"
+            "target": "bombers_at_the_end_point"
           }
         }
       ],
@@ -905,6 +1124,44 @@
       ],
       "else_actions": []
     },
+    "bdb_template_bomber_dies": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "t2_ai_bombers",
+          "var": "bdb_bombers_count"
+        }
+      },
+      "actions": {
+        "varModify": {
+          "operator": "subAB",
+          "value": 1.0,
+          "var": "bdb_bombers_count"
+        },
+        "gameMPChangeScore": {
+          "value": 1,
+          "valueSystem": "amount",
+          "var": "bdb_tickets_for_1_kill",
+          "team": "B"
+        }
+      },
+      "else_actions": []
+    },
     "mdb_template_t2_bombers_to_end_point": {
       "is_enabled": true,
       "comments": "",
@@ -920,7 +1177,7 @@
       },
       "conditions": {
         "unitDistanceBetween": {
-          "value": 4500.0,
+          "value": 9500.0,
           "math": "2D",
           "object_type": "isAlive",
           "object_marking": 0,
@@ -950,27 +1207,13 @@
           }
         },
         {
-          "moSetObjectiveStatus": {
-            "target": "bt_t2_defend_bombers",
-            "status": 2,
-            "team": "B"
-          }
-        },
-        {
-          "moSetObjectiveStatus": {
-            "target": "bt_t1_attack_bombers",
-            "status": 3,
-            "team": "A"
-          }
-        },
-        {
           "comment": {
             "value": ""
           }
         },
         {
           "triggerEnable": {
-            "target": "t1_loose"
+            "target": "bombers_at_the_end_point"
           }
         }
       ],
@@ -1040,6 +1283,40 @@
         }
       ],
       "else_actions": []
+    },
+    "bombers_at_the_end_point": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "gameMPChangeScore": {
+          "value": -100,
+          "valueSystem": "amount",
+          "team": "Both"
+        },
+        "playHint": {
+          "hintType": "custom",
+          "name": "hints/MDB_bombers_near_end",
+          "action": "show",
+          "shouldFadeOut": false,
+          "isOverFade": false,
+          "time": -1.0,
+          "priority": 0,
+          "item": "",
+          "shouldBlink": true
+        }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -1092,11 +1369,43 @@
       },
       "onSuccess": [],
       "onFailed": []
+    },
+    "bda_template_bomber_dies": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true,
+        "isPrimary": true,
+        "timeLimit": 1800
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "bdb_template_bomber_dies": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true,
+        "isPrimary": true,
+        "timeLimit": 1800
+      },
+      "onSuccess": [],
+      "onFailed": []
     }
   },
   "variables": {
     "bda_ai_max_count": 6,
-    "bdb_ai_max_count": 6
+    "bdb_ai_max_count": 6,
+    "bda_bombers_count": 0,
+    "bda_tickets_for_1_kill": -100,
+    "bdb_bombers_count": 0,
+    "bdb_tickets_for_1_kill": -100
   },
   "dialogs": [],
   "airfields": [],

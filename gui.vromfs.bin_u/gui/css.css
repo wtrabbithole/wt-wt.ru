@@ -1327,6 +1327,17 @@ teamImg[iconSquad=autosquad] > activeText {
   margin-top:0.004@scrn_tgt_font;
 }
 
+playerStateIcon {
+  re-type:9rect;
+  background-repeat:expand;
+  size:1@tableIcoSize, 1@tableIcoSize;
+}
+
+playerStateIcon[background-image=""] {
+  background-color:@transparent;
+  display:hide;
+}
+
 
 [id=controls_tbl] > tr > td {
   border-color:@commonMenuButtonColor;
@@ -1537,7 +1548,7 @@ animated_wait_icon.missionBox {
   pos:12*@sf/@pf-50%w, 50%ph-50%h;
 }
 
-Button_text > animated_wait_icon {
+Button_text > animated_wait_icon, animated_wait_icon.byParent {
   size:ph - 4*@sf/@pf, ph - 4*@sf/@pf;
 }
 
@@ -1648,7 +1659,7 @@ expProgress, referenceProgress, crewSpecProgressBar {
 }
 
 expProgress {
-  height:5*@sf/@pf;
+  height:1@sliderHeight;
   min:0;
   needMax:yes;
 }
@@ -1659,7 +1670,7 @@ expProgress[needMax=yes] {
   max:1000;
 }
 expProgress[small=yes] {
-  height:2*@sf/@pf;
+  height:1@sliderHeightSmall;
 }
 expProgress[type=old], crewSpecProgressBar[type=old] {
   background-color:@transparent;

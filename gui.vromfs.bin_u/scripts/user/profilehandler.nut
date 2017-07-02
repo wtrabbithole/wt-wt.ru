@@ -529,7 +529,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local infoObject = {
         id = skinName
         country = unitCountry
-        itemText = decorator.getName()
+        itemText = ::getUnitName(unit.name) + ", " + decorator.getName()
         itemIcon = decorator.isUnlocked() ? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
 
         //sort params

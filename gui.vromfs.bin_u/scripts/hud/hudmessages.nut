@@ -2,49 +2,46 @@
   types = []
 }
 
-function g_hud_messages::_init(inScene, inGuiScene, inTimersNest)
-{
-  scene = inScene
-  guiScene = inGuiScene
-  timersNest = inTimersNest
-  nest = scene.findObject(nestId)
-}
-
-function g_hud_messages::_clearStack()
-{
-  stack = []
-}
-
-function g_hud_messages::_onMessge(eventData) {}
-
-function g_hud_messages::_removeMessage(inMessage)
-{
-  foreach (idx, message in stack)
-    if (inMessage == message)
-      return stack.remove(idx)
-}
-
 ::g_hud_messages.template <- {
   nestId = ""
   nest = null
   messagesMax = 0
   showSec = 0
-  stack = []
+  stack = null //[] in constructor
   messageEvent = ""
-  destroyEvent = null
+  hudEvents = null
 
   scene = null
   guiScene = null
   timersNest = null
 
-  init          = ::g_hud_messages._init
-  clearStack    = ::g_hud_messages._clearStack
-  onMessage     = ::g_hud_messages._onMessge
-  removeMessage = ::g_hud_messages._removeMessage
-  onDestroy     = function(eventData) {}
+  setScene = function(inScene, inGuiScene, inTimersNest)
+  {
+    scene = inScene
+    guiScene = inGuiScene
+    timersNest = inTimersNest
+    nest = scene.findObject(nestId)
+  }
+  reinit  = @(inScene, inGuiScene, inTimersNest) setScene(inScene, inGuiScene, inTimersNest)
+  clearStack    = @() stack.clear()
+  onMessage     = function() {}
+  removeMessage = function(inMessage)
+  {
+    foreach (idx, message in stack)
+      if (inMessage == message)
+        return stack.remove(idx)
+  }
 
   findMessageById = function(id) {
     return ::u.search(stack, (@(id) function(m) { return ::getTblValue("id", m.messageData, -1) == id })(id))
+  }
+
+  subscribeHudEvents = function()
+  {
+    ::g_hud_event_manager.subscribe(messageEvent, onMessage, this)
+    if (hudEvents)
+      foreach(name, func in hudEvents)
+        ::g_hud_event_manager.subscribe(name, func, this)
   }
 
   heightPID = ::dagui_propid.add_name_id("height")
@@ -250,13 +247,9 @@ function g_hud_messages::_removeMessage(inMessage)
     showSec = 11
     messageEvent = "HudMessage"
 
-    init = function (inScene, inGuiScene, inTimersNest)
+    reinit = function (inScene, inGuiScene, inTimersNest)
     {
-      scene = inScene
-      guiScene = inGuiScene
-      timersNest = inTimersNest
-      nest = scene.findObject(nestId)
-
+      setScene(inScene, inGuiScene, inTimersNest)
       if (!::checkObj(nest))
         return
       nest.deleteChildren()
@@ -478,6 +471,10 @@ function g_hud_messages::_removeMessage(inMessage)
     messagesMax = 5
     showSec = 2
     messageEvent = "InBattleReward"
+    hudEvents = {
+      LocalPlayerDead  = @(ed) clearRewardMessage()
+      ReinitHud        = @(ed) clearRewardMessage()
+    }
 
     rewardForSeries = ::Cost()
     rewardClearTimer = null
@@ -485,20 +482,10 @@ function g_hud_messages::_removeMessage(inMessage)
 
     _animTimerPid = ::dagui_propid.add_name_id("_transp-timer")
 
-    init = function (inScene, inGuiScene, inTimersNest)
+    reinit = function (inScene, inGuiScene, inTimersNest)
     {
-      scene = inScene
-      guiScene = inGuiScene
-      timersNest = inTimersNest
-      nest = scene.findObject(nestId)
+      setScene(inScene, inGuiScene, inTimersNest)
       rewardClearTimer = null
-      ::g_hud_event_manager.subscribe("LocalPlayerDead", onReinit, this)
-      ::g_hud_event_manager.subscribe("ReinitHud", onReinit, this)
-    }
-
-    onReinit = function (eventData)
-    {
-      clearRewardMessage()
     }
 
     onMessage = function (messageData)
@@ -568,7 +555,9 @@ function g_hud_messages::_removeMessage(inMessage)
   MISSION_RESULT = {
     nestId = "hud_message_center_mission_result"
     messageEvent = "MissionResult"
-    destroyEvent = "MissionContinue"
+    hudEvents = {
+      MissionContinue = @(ed) destroy()
+    }
 
     clearStack = function () { stack = {} }
 
@@ -610,9 +599,12 @@ function g_hud_messages::_removeMessage(inMessage)
       guiScene.replaceContentFromText(nest, blk, blk.len(), this)
 
       local objTarget = nest.findObject("mission_result_box")
-      if (stack.useMoveOut && ::check_obj(objTarget))
+      if (!::check_obj(objTarget))
+        return
+      objTarget.show(true)
+
+      if (stack.useMoveOut && nest.isVisible()) //no need animation when scene invisible
       {
-        objTarget.show(true)
         local objStart = scene.findObject("mission_result_box_start")
         ::create_ObjMoveToOBj(scene, objStart, objTarget, { time = 0.5, bhvFunc = "elasticSmall" })
       }
@@ -640,7 +632,7 @@ function g_hud_messages::_removeMessage(inMessage)
       }
     }
 
-    onDestroy = function(eventData)
+    destroy = function()
     {
       if (!::checkObj(nest))
         return
@@ -654,4 +646,8 @@ function g_hud_messages::_removeMessage(inMessage)
       msgObj["anim_transparency"] = "yes"
     }
   }
+},
+function()
+{
+  stack = []
 })

@@ -107,19 +107,19 @@
       "hp": 10000.0,
       "hull": {
         "superstructure_front_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 50.8
         },
         "body_side_dm": {
           "armorThickness": 63.5
         },
         "superstructure_side_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 50.8
         },
         "body_back_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 50.8
         },
         "superstructure_back_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 50.8
         },
         "superstructure_top_dm": {
           "armorThickness": 25.4
@@ -151,7 +151,7 @@
           "armorThickness": 10.0
         },
         "turret_03_back_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 76.2
         },
         "turret_04_back_dm": {
           "armorClass": "CHA_tank",
@@ -167,7 +167,7 @@
           "armorThickness": 50.0
         },
         "turret_04_front_dm": {
-          "armorThickness": 50.0,
+          "armorThickness": 76.2,
           "armorClass": "CHA_tank"
         },
         "turret_05_front_dm": {
@@ -175,14 +175,20 @@
           "armorClass": "CHA_tank"
         },
         "body_front_dm": {
-          "armorThickness": 50.0,
+          "armorThickness": 50.8,
           "armorClass": "CHA_tank"
         },
         "body_top_dm": {
           "armorThickness": 25.4
         },
         "turret_04_side_dm": {
-          "armorThickness": 12.7
+          "armorThickness": 25.4
+        },
+        "turret_05_side_dm": {
+          "armorThickness": 100.0
+        },
+        "turret_04_top_dm": {
+          "armorThickness": 25.4
         },
         "ex_armor_body_l_07_dm": {
           "armorThickness": 12.7
@@ -470,6 +476,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
+        "createSecondaryShatters": false,
         "ammo_turret_dm": [],
         "ammo_turret_01_dm": [],
         "ammo_turret_02_dm": [],
@@ -502,6 +509,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 10.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1423,9 +1431,10 @@
             "hasVertical": true,
             "verticalOmegaMult": 0.7,
             "verticalSpeedLimitKPH": 16.0,
+            "speedFromVehicleVerticalMult": -1.0,
             "errorKPHToDegrees": [
               {
-                "row": [5.0,0.02]
+                "row": [5.0,0.0]
               },
               {
                 "row": [10.0,0.05]
@@ -1438,43 +1447,90 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner1",
-          "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
-          "emitter": "bone_mg_gun_twin_01",
-          "flash": "emtr_mg_flame_01",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "speedYaw": 5.5,
-          "speedPitch": 4.0,
-          "fireConeAngle": 1.0,
-          "bullets": 3000,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_gun_twin_01",
-            "gun": "bone_mg_gun_twin_01",
-            "gunnerDm": "gunner_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner1"
           },
-          "limits": {
-            "yaw": [-0.0,0.0],
-            "pitch": [-0.0,0.0]
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_gun_twin_01"
+          },
+          {
+            "flash": "emtr_mg_flame_01"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "speedYaw": 5.5
+          },
+          {
+            "speedPitch": 4.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 3000
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_gun_twin_01",
+              "gun": "bone_mg_gun_twin_01",
+              "gunnerDm": "gunner_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-0.0,0.0],
+              "pitch": [-0.0,0.0]
+            }
           }
-        }
+        ]
       },
       {
         "Weapon": {

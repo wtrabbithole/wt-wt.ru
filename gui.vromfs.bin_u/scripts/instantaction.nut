@@ -1554,7 +1554,7 @@ function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCance
     local afterCheckFunc = function() {
       if (::check_balance_msgBox(totalRCost, null, true))
         ::repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCancelFunc, canRepairWholeCountry)
-      else
+      else if (onCancelFunc)
         onCancelFunc.call(handler)
     }
     if (!::check_balance_msgBox(totalRCost, afterCheckFunc))

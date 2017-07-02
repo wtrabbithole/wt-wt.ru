@@ -1,0 +1,306 @@
+{
+  "tdiv": [
+    {
+      "id": "item_desc"
+    },
+    {
+      "size": "pw, ph"
+    },
+    {
+      "flow": "vertical"
+    },
+    {
+      "scrollbarShortcuts": "yes"
+    },
+    {
+      "tdiv": {
+        "size": "pw, ph-0.03@scrn_tgt",
+        "pos": "50%pw-50%w, 0.03@scrn_tgt",
+        "position": "absolute",
+        "overflow": "hidden",
+        "img": [
+          {
+            "size": "pw, 50%w"
+          },
+          {
+            "max-height": "ph"
+          },
+          {
+            "background-image": "#ui/images/worldwar_window_bg_image.jpg?P1"
+          },
+          {
+            "wwBattleBackgroundShadow": {
+              "type": "left"
+            }
+          },
+          {
+            "wwBattleBackgroundShadow": {
+              "type": "right"
+            }
+          },
+          {
+            "wwBattleBackgroundShadow": {
+              "type": "top",
+              "top": "-0.02@scrn_tgt"
+            }
+          },
+          {
+            "wwBattleBackgroundShadow": {
+              "type": "bottom",
+              "top": "ph-h"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tdiv": [
+        {
+          "size": "pw, fh"
+        },
+        {
+          "margin": "1@blockInterval, 1@blockInterval, 0, 1@blockInterval"
+        },
+        {
+          "flow": "vertical"
+        },
+        {
+          "textareaNoTab": {
+            "id": "item_desc",
+            "max-width": "80%pw",
+            "pos": "50%(pw-w), 0",
+            "position": "relative",
+            "margin-bottom": "@blockInterval",
+            "text-align": "center",
+            "hideEmptyText": "yes",
+            "text": ""
+          }
+        },
+        {
+          "tdiv": [
+            {
+              "size": "pw, 0.4*fh"
+            },
+            {
+              "min-height": "@wwOperationClanListMinHeight"
+            },
+            {
+              "margin-bottom": "@blockInterval"
+            },
+            {
+              "tdiv": {
+                "size": "35%pw, ph",
+                "flow": "vertical",
+                "tdiv": {
+                  "id": "team_SIDE_1_countryes_info",
+                  "margin-bottom": "@blockInterval"
+                },
+                "wwWindowListBackground": {
+                  "id": "team_SIDE_1_army_group_info",
+                  "size": "pw, fh",
+                  "padding": "@wwWindowListBackgroundPadding",
+                  "type": "left"
+                }
+              }
+            },
+            {
+              "tdiv": {
+                "size": "35%pw, ph",
+                "pos": "pw-w, 0",
+                "position": "absolute",
+                "flow": "vertical",
+                "tdiv": {
+                  "id": "team_SIDE_2_countryes_info",
+                  "pos": "pw-w, 0",
+                  "position": "relative",
+                  "margin-bottom": "@blockInterval"
+                },
+                "wwWindowListBackground": {
+                  "id": "team_SIDE_2_army_group_info",
+                  "size": "pw, fh",
+                  "padding": "@wwWindowListBackgroundPadding",
+                  "type": "right"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "tdiv": [
+            {
+              "size": "pw, 0.6*fh"
+            },
+            {
+              "min-height": "1@wwOperationDescSideStrenghtHeight"
+            },
+            {
+              "margin-bottom": "1@sf/@pf"
+            },
+            {
+              "wwWindowListBackground": {
+                "id": "team_SIDE_1_unit_info",
+                "size": "35%pw, ph",
+                "padding": "@wwWindowListBackgroundPadding",
+                "type": "left"
+              }
+            },
+            {
+              "wwWindowListBackground": {
+                "id": "team_SIDE_2_unit_info",
+                "size": "35%pw, ph",
+                "pos": "pw-2w, 0",
+                "position": "relative",
+                "padding": "@wwWindowListBackgroundPadding",
+                "type": "right"
+              }
+            }
+          ]
+        },
+        {
+          "tdiv": [
+            {
+              "id": "map_nest_obj"
+            },
+            {
+              "pos": "50%pw-50%w, 50%ph-50%h"
+            },
+            {
+              "position": "absolute"
+            },
+            {
+              "flow": "vertical"
+            },
+            {
+              "ShadowPlate": {
+                "size": "pw, pw",
+                "min-height": "@wwOperationMapMinSize",
+                "min-width": "@wwOperationMapMinSize",
+                "pos": "50%pw-50%w, 0",
+                "position": "relative",
+                "padding": "0.01@scrn_tgt, 0, 0.01@scrn_tgt, 0.012@scrn_tgt",
+                "worldWarMap": {
+                  "id": "map_image",
+                  "behaviour": "worldWarMapRender",
+                  "size": "pw, pw",
+                  "border": "yes",
+                  "border-color": "@commonMenuButtonColor"
+                }
+              }
+            },
+            {
+              "textareaNoTab": {
+                "id": "operation_start_date",
+                "pos": "50%pw-50%w, 0",
+                "position": "relative",
+                "text": ""
+              }
+            },
+            {
+              "textareaNoTab": {
+                "id": "operation_active_battles_count",
+                "pos": "50%pw-50%w, 0",
+                "position": "relative",
+                "text": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tdiv": [
+        {
+          "width": "pw"
+        },
+        {
+          "margin": "1@blockInterval, 0, 1@blockInterval-1@blockInterval, 1@blockInterval-1@blockInterval"
+        },
+        {
+          "Button_text": {
+            "id": "btn_join_SIDE_1",
+            "class": "battle",
+            "navButtonFont": "yes",
+            "_on_click": "onJoinOperationSide1",
+            "css-hier-invalidate": "yes",
+            "isCancel": "no",
+            "btnName": "X",
+            "buttonWink": {
+              "_transp-timer": "0"
+            },
+            "ButtonImg": [],
+            "tdiv": {
+              "pos": "50%pw-50%w, 50%ph-50%h",
+              "position": "relative",
+              "cardImg": {
+                "id": "is_clan_participate_img",
+                "margin-right": "@blockInterval",
+                "background-image": "#ui/gameuiskin#lb_victories_battles"
+              },
+              "textareaNoTab": {
+                "id": "btn_join_text",
+                "text": "#events/join_event"
+              },
+              "tdiv": {
+                "id": "side_countries",
+                "margin-left": "@blockInterval",
+                "pos": "0, 50%ph-50%h",
+                "position": "relative"
+              }
+            },
+            "buttonGlance": []
+          }
+        },
+        {
+          "textareaNoTab": {
+            "id": "is_clan_participate_text",
+            "width": "fw",
+            "padding": "1@blockInterval, 0",
+            "pos": "0, 50%ph-50%h",
+            "position": "relative"
+          }
+        },
+        {
+          "Button_text": {
+            "id": "btn_join_SIDE_2",
+            "class": "battle",
+            "navButtonFont": "yes",
+            "_on_click": "onJoinOperationSide2",
+            "css-hier-invalidate": "yes",
+            "isCancel": "no",
+            "btnName": "A",
+            "buttonWink": {
+              "_transp-timer": "0"
+            },
+            "ButtonImg": [],
+            "tdiv": {
+              "pos": "50%pw-50%w, 50%ph-50%h",
+              "position": "relative",
+              "cardImg": {
+                "id": "is_clan_participate_img",
+                "margin-right": "@blockInterval",
+                "background-image": "#ui/gameuiskin#lb_victories_battles"
+              },
+              "textareaNoTab": {
+                "id": "btn_join_text",
+                "text": "#events/join_event"
+              },
+              "tdiv": {
+                "id": "side_countries",
+                "margin-left": "@blockInterval",
+                "pos": "0, 50%ph-50%h",
+                "position": "relative"
+              }
+            },
+            "buttonGlance": []
+          }
+        }
+      ]
+    }
+  ],
+  "dummy": {
+    "id": "dummy_collapse",
+    "on_click": "dummyCollapse",
+    "behaviour": "accesskey",
+    "accessKey": "@shortcutLeftGamepad | @shortcutRightGamepad"
+  }
+}

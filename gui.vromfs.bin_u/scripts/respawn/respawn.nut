@@ -23,6 +23,8 @@ enum ESwitchSpectatorTarget
   {id = "gundist",     hint = "options/gun_target_dist",        user_option = ::USEROPT_GUN_TARGET_DISTANCE},
   {id = "gunvertical", hint = "options/gun_vertical_targeting", user_option = ::USEROPT_GUN_VERTICAL_TARGETING},
   {id = "bombtime",    hint = "options/bomb_activation_time",   user_option = ::USEROPT_BOMB_ACTIVATION_TIME},
+  {id = "depthcharge_activation_time",  hint = "options/depthcharge_activation_time",
+     user_option = ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME},
   {id = "rocket_fuse_dist",  hint = "options/rocket_fuse_dist",       user_option = ::USEROPT_ROCKET_FUSE_DIST},
   {id = "fuel",        hint = "options/fuel_amount",            user_option = ::USEROPT_LOAD_FUEL_AMOUNT},
   {id = "respawn_base",hint = "options/respawn_base",        cb = "onRespawnbaseOptionUpdate", use_margin_top = true},
@@ -309,6 +311,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     setOrdersEnabled(show && isSpectate)
     updateSpectatorRotationForced(show)
+    updateTacticalMapUnitType(show ? null : false)
     base.onSceneActivate(show)
   }
 
@@ -1102,12 +1105,28 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       gunVerticalObj.enable(canChangeAircraft)
   }
 
+  function updateShipOptions(air)
+  {
+    local depthChargeDescr = ::get_option(::USEROPT_DEPTHCHARGE_ACTIVATION_TIME)
+    if (air.hasDepthCharge)
+    {
+      local data = ""
+      foreach (idx, item in depthChargeDescr.items)
+        data += build_option_blk(item, "", idx == depthChargeDescr.value)
+      local depthChargeTimeObj = scene.findObject(depthChargeDescr.id)
+      if (::checkObj(depthChargeTimeObj))
+        guiScene.replaceContentFromText(depthChargeTimeObj, data, data.len(), this)
+    }
+    showOptionRow(depthChargeDescr.id, air.hasDepthCharge)
+  }
+
   function updateOtherOptions()
   {
     local air = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
     if (!air)
       return
 
+    updateShipOptions(air)
     updateRespawnBases(air)
 
     local aircraft = air && isAircraft(air)
@@ -1176,14 +1195,32 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (unit)
     {
       ::cur_aircraft_name = unit.name //used in some options
-      ::set_tactical_map_type_without_unit(
-        (isTank(unit) || isShip(unit)) ? ::HUD_TYPE_TANK : ::HUD_TYPE_AIRPLANE)
+      ::aircraft_for_weapons = unit.name
     }
+    updateTacticalMapUnitType()
+
     updateWeaponsSelector()
     checkRocketDisctanceFuseRow()
     updateOtherOptions()
     updateSkin()
     updateUserSkins()
+  }
+
+  function updateTacticalMapUnitType(isMapForSelectedUnit = null)
+  {
+    if (isMapForSelectedUnit == null)
+      isMapForSelectedUnit = !isSpectate
+
+    local hudType = ::HUD_TYPE_UNKNOWN
+    local unit = isMapForSelectedUnit ? getSlotAircraft(curSlotCountryId, curSlotIdInCountry) : null
+    if (unit)
+      hudType = unit.unitType.hudTypeCode
+    ::set_tactical_map_hud_type(hudType)
+  }
+
+  function onDestroy()
+  {
+    updateTacticalMapUnitType(false)
   }
 
   function onAircraftUpdate(obj)
@@ -1958,6 +1995,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     showSpectatorInfo(is_spectator)
     setOrdersEnabled(isSpectate)
     updateSpectatorRotationForced()
+
+    updateTacticalMapUnitType()
+    if ("set_tactical_map_type_without_unit" in ::getroottable()) //compatibility with wop_1_69_1_X
+      if (isSpectate)
+        ::switch_spectator_target(true) //at second openng local player is selected
+      else
+        ::switch_spectator_target_by_id(::getTblValue("id", ::get_local_mplayer(), 0))
 
     if (is_spectator)
     {

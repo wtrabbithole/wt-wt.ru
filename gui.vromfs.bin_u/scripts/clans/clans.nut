@@ -526,7 +526,7 @@ function g_clans::getClanMembersCount(clanData)
     field = "totalActivity"
     showByFeature = "ClanActivity"
     byDifficulty = false
-    getCellTooltipText = function(data) { return loc("#clan/personal/" + id + "/cell/desc") }
+    getCellTooltipText = function(data) { return loc("clan/personal/" + id + "/cell/desc") }
   }
   {
     id = "role",

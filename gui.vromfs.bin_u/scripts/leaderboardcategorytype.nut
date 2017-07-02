@@ -86,7 +86,12 @@ function g_lb_category::_getAdditionalTooltipPart(row)
                     additionalCategory.hideInAdditionalTooltipIfZero)
 
     if (value != "")
-      tooltipPart = ::loc(additionalCategory.headerTooltip) + ::loc("ui/colon") + ::stripTags("" + value)
+    {
+      local tooltipKey = additionalCategory.headerTooltip
+      if (::g_string.startsWith(tooltipKey, "#"))
+        tooltipKey = tooltipKey.slice(1)
+      tooltipPart = ::loc(tooltipKey) + ::loc("ui/colon") + ::stripTags("" + value)
+    }
 
     if (tooltipPart != "")
     {

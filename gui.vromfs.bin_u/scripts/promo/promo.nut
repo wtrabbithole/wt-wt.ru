@@ -614,8 +614,6 @@ function g_promo::openLink(owner, params = [], source = "promo_open_link")
   if (processedLink == null)
     return
   ::open_url(processedLink, forceBrowser, false, source)
-  if(processedLink.find("disposable_token") != null)
-   ::g_webpoll.invalidateTokensCache()
 }
 
 function g_promo::onOpenTutorial(owner, params = [])

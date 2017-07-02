@@ -12,6 +12,10 @@
 @const killRewardTextGlowColor:        #aae02500;
 @const penaltyTextGlowColor:           #aa000000;
 
+@const hitCamRenderAspectRatio: 2.0;
+@const hitCameraWidth: 0.4*@shHud;
+@const hitCameraHeight: @hitCameraWidth / @hitCamRenderAspectRatio;
+
 hud_touch_shortcut {
   behavior:touchArea;
 }
@@ -20,7 +24,7 @@ hud_touch_shortcut {
 @const sizeDamageIndicatorFull:  0.3*@shHud;
 @const sizeDamageIndicator:      0.62@sizeDamageIndicatorFull;
 @const sizeTouchShortcut:        0.09*@shHud;
-@const multiplayerScoreHeight:   36px;
+@const multiplayerScoreHeight:   36@dp;
 
 @const tranTouchShortcutColor:   #80808080;
 @const pushedTouchShortcutColor: #efe7a4;
@@ -369,7 +373,7 @@ hitCamera {
   border:yes;
   border-color:#CC606060;
   flow:vertical;
-  width:0.4*@shHud;
+  width:@hitCameraWidth;
   css-hier-invalidate:yes;
 }
 
@@ -392,6 +396,13 @@ hitCameraTitle {
   text-shade-y:0;
   text-shade-color:#19000000;
   width:pw;
+  background-color:#80202020;
+}
+
+hitCameraInfo {
+  width:pw;
+  pos:0, ph-h;
+  position:absolute;
   background-color:#80202020;
 }
 
@@ -454,23 +465,27 @@ textareaNoTab[shadeStyle=LiveStats] {
 }
 
 
-hint[hintStyle=hudMinor] hintRow > timeBar textareaNoTab,
-hint[hintStyle=hudMinor] hintRow > textareaNoTab,
-hint[hintStyle=hudMinor] keyboardButtonText {
+[hintStyle=hudMinor] hintRow > timeBar textareaNoTab,
+[hintStyle=hudMinor] hintRow > textareaNoTab,
+[hintStyle=hudMinor] keyboardButtonText {
   font: small_text_hud;
 }
 
-hint[hintStyle=hudMinor] keyboardButton {
+[hintStyle=hudMinor] keyboardButton {
   min-width:0.03@shHud;
   height:0.03@shHud;
 }
 
-hint[hintStyle=hudMinor] gamepadButton {
+[hintStyle=hudMinor] gamepadButton {
   size: 0.03@shHud, 0.03@shHud;
 }
 
-hint[hintStyle=hudHintCommon] hintRow textareaNoTab,
-hint[hintStyle=hudMinor] hintRow textareaNoTab {
+[hintStyle=hudHintCommon] hintRow textareaNoTab,
+[hintStyle=hudMinor] hintRow textareaNoTab {
   color: @white;
 
+}
+
+[hintStyle=hudHintYellow] hintRow textareaNoTab {
+  color: @yellow;
 }

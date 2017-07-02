@@ -376,7 +376,7 @@ function g_hud_live_stats::onPlayerSpawn()
   if (!isSelfTogglable || isMissionFinished)
     return
   spawnStartState = getState()
-  hero.units.append(::getTblValue("aircraftName", spawnStartState.player))
+  ::append_once(::getTblValue("aircraftName", spawnStartState.player), hero.units)
   show(false)
 }
 

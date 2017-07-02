@@ -90,53 +90,15 @@
           "check_players": "any"
         }
       },
-      "actions": [
-        {
-          "missionSetFade": {
-            "mode": "fadeOut",
-            "color": [0.0,0.0,0.0],
-            "time": 0.5
-          }
+      "actions": {
+        "wait": {
+          "time": 3.0
         },
-        {
-          "wait": {
-            "time": 0.6
-          }
-        },
-        {
-          "unitRestore": {
-            "ressurectIfDead": true,
-            "fullRestore": true,
-            "target": "armada_01",
-            "ammoRestore": true
-          }
-        },
-        {
-          "wait": {
-            "time": 0.2
-          }
-        },
-        {
-          "unitMoveTo": {
-            "target": "armada_01",
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "armada_01",
-            "move_type": "teleport"
-          }
-        },
-        {
-          "missionSetFade": {
-            "mode": "fadeIn",
-            "color": [0.0,0.0,0.0],
-            "time": 1.0
-          }
+        "spawnOnAirfield": {
+          "runwayName": "airfield00",
+          "objects": "armada_01"
         }
-      ],
+      },
       "else_actions": []
     }
   },

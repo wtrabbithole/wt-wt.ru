@@ -20,14 +20,16 @@
     {
       id = "crew"
       parts = [
+        "tank_commander"
         "tank_driver"
         "tank_gunner"
         "tank_loader"
         "tank_machine_gunner"
+        "ship_era"
+        "ship_driver"
         "ship_operator"
         "ship_motorist"
         "ship_sailor"
-        "tank_commander"
       ]
     },
     {

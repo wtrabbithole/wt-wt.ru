@@ -32,12 +32,22 @@
     "inc_sit00": "german_middle_sit"
   },
   "DamageParts": {
-    "steel": {
+    "formatVersion": 2,
+    "armorClass": "RHA_tank",
+    "hp": 1000.0,
+    "cover": {
+      "armorClass": "RHA_tank",
+      "hp": 480.0,
+      "armorThickness": 2.0,
       "engine_dm": {
-        "hp": 10.0
+        "armorThickness": 1.0,
+        "hp": 30.0,
+        "explosionDamageMult": 3.0
       },
       "body_dm": {
-        "hp": 30.0
+        "armorThickness": 2.0,
+        "hp": 60.0,
+        "explosionDamageMult": 3.0
       }
     }
   },

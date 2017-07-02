@@ -110,7 +110,7 @@ Params - can be whole section ('help', 'pve') or single button.
     name = "help"
     hoverMenuPos = "pw-w-"
     minimalWidth = true
-    getImage = function(totalSections = 0) { return "#ui/gameuiskin#help_tooltip" }
+    getImage = function(totalSections = 0) { return "#ui/gameuiskin#btn_help" }
     buttons = [
       [
         ::g_top_menu_buttons.WINDOW_HELP

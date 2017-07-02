@@ -622,8 +622,9 @@
         }
       },
       "wepMode": {
-        "exhaustFx": "motor_wep",
+        "exhaustFx": "motor_100throttle",
         "effect": {
+          "fxName": "motor_100throttle",
           "colorAlpha": [0.95,0.4,0.15,0.05],
           "colorVariation": 0.01,
           "probability": 0.5,
@@ -1148,6 +1149,867 @@
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
     }
+  },
+  {
+    "damagePartsToFmPartsMap": [
+      {
+        "fm": [
+          {
+            "fm": "pilot"
+          },
+          {
+            "dm": "pilot_dm"
+          },
+          {
+            "dm": "pilot1_dm"
+          },
+          {
+            "type": "max"
+          },
+          {
+            "cutHealth": 0.0
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "fuselage"
+          },
+          {
+            "dm": "fuse_dm"
+          },
+          {
+            "dm": "fuse1_dm"
+          },
+          {
+            "dm": "fuse2_dm"
+          },
+          {
+            "dm": "fuse3_dm"
+          },
+          {
+            "dm": "fuse4_dm"
+          },
+          {
+            "dm": "tail_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "fm": {
+          "fm": "tail",
+          "dm": "tail_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "wing_root_l",
+          "dm": "wing_l_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "wing_middle_l",
+          "dm": "wing1_l_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "wing_end_l",
+          "dm": "wing2_l_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "wing_root_r",
+          "dm": "wing_r_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "wing_middle_r",
+          "dm": "wing1_r_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "wing_end_r",
+          "dm": "wing2_r_dm"
+        }
+      },
+      {
+        "fm": [
+          {
+            "fm": "hor_stab_l"
+          },
+          {
+            "dm": "stab_dm"
+          },
+          {
+            "dm": "stab1_dm"
+          },
+          {
+            "type": "mult"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "hor_stab_r"
+          },
+          {
+            "dm": "stab_dm"
+          },
+          {
+            "dm": "stab2_dm"
+          },
+          {
+            "type": "mult"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "ver_stab"
+          },
+          {
+            "type": "average"
+          },
+          {
+            "dependency": [
+              {
+                "dm": "fin_dm"
+              },
+              {
+                "dm": "fin1_dm"
+              },
+              {
+                "type": "mult"
+              }
+            ]
+          },
+          {
+            "dependency": [
+              {
+                "dm": "fin_dm"
+              },
+              {
+                "dm": "fin2_dm"
+              },
+              {
+                "type": "mult"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "aileron_l"
+          },
+          {
+            "dm": "aileron_l_dm"
+          },
+          {
+            "dm": "aileron1_l_dm"
+          },
+          {
+            "dm": "elevon_l"
+          },
+          {
+            "dm": "aileron_interceptor_l_dm"
+          },
+          {
+            "dm": "aileron_interceptor1_l_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "aileron_r"
+          },
+          {
+            "dm": "aileron_r_dm"
+          },
+          {
+            "dm": "aileron1_r_dm"
+          },
+          {
+            "dm": "elevon_r"
+          },
+          {
+            "dm": "aileron_interceptor_r_dm"
+          },
+          {
+            "dm": "aileron_interceptor1_r_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "elevator_l"
+          },
+          {
+            "type": "average"
+          },
+          {
+            "dependency": [
+              {
+                "dm": "elevator_dm"
+              },
+              {
+                "dm": "elevator0_dm"
+              },
+              {
+                "type": "mult"
+              }
+            ]
+          },
+          {
+            "dependency": {
+              "dm": "elevon_l"
+            }
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "elevator_r"
+          },
+          {
+            "type": "average"
+          },
+          {
+            "dependency": [
+              {
+                "dm": "elevator_dm"
+              },
+              {
+                "dm": "elevator1_dm"
+              }
+            ]
+          },
+          {
+            "dependency": {
+              "dm": "elevon_r"
+            }
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "rudder"
+          },
+          {
+            "type": "average"
+          },
+          {
+            "dependency": [
+              {
+                "type": "average"
+              },
+              {
+                "dependency": [
+                  {
+                    "dm": "rudder_dm"
+                  },
+                  {
+                    "dm": "rudder0_dm"
+                  },
+                  {
+                    "type": "mult"
+                  }
+                ]
+              },
+              {
+                "dependency": {
+                  "dm": "rudder_interceptor_l_dm"
+                }
+              }
+            ]
+          },
+          {
+            "dependency": [
+              {
+                "type": "average"
+              },
+              {
+                "dependency": [
+                  {
+                    "dm": "rudder_dm"
+                  },
+                  {
+                    "dm": "rudder1_dm"
+                  },
+                  {
+                    "type": "mult"
+                  }
+                ]
+              },
+              {
+                "dependency": {
+                  "dm": "rudder_interceptor_r_dm"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "flap_l"
+          },
+          {
+            "dm": "flap_l_dm"
+          },
+          {
+            "dm": "flap1_l_dm"
+          },
+          {
+            "dm": "flap2_l_dm"
+          },
+          {
+            "dm": "flap3_l_dm"
+          },
+          {
+            "dm": "flap_c_dm"
+          },
+          {
+            "dm": "flap_airbrake_l_dm"
+          },
+          {
+            "dm": "flap_airbrake1_l_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "flap_r"
+          },
+          {
+            "dm": "flap_r_dm"
+          },
+          {
+            "dm": "flap1_r_dm"
+          },
+          {
+            "dm": "flap2_r_dm"
+          },
+          {
+            "dm": "flap3_r_dm"
+          },
+          {
+            "dm": "flap_c_dm"
+          },
+          {
+            "dm": "flap_airbrake_r_dm"
+          },
+          {
+            "dm": "flap_airbrake1_r_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "airbrake_l"
+          },
+          {
+            "dm": "airbrake_l_dm"
+          },
+          {
+            "dm": "airbrake_c_dm"
+          },
+          {
+            "dm": "flap_airbrake_l_dm"
+          },
+          {
+            "dm": "flap_airbrake1_l_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "airbrake_r"
+          },
+          {
+            "dm": "airbrake_r_dm"
+          },
+          {
+            "dm": "airbrake_c_dm"
+          },
+          {
+            "dm": "flap_airbrake_r_dm"
+          },
+          {
+            "dm": "flap_airbrake1_r_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "aileron_control_l"
+          },
+          {
+            "dm": "wingcontrol_dm"
+          },
+          {
+            "dm": "wingcontrol_l_dm"
+          },
+          {
+            "type": "min"
+          },
+          {
+            "cutHealth": 0.0
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "aileron_control_r"
+          },
+          {
+            "dm": "wingcontrol_dm"
+          },
+          {
+            "dm": "wingcontrol_r_dm"
+          },
+          {
+            "type": "min"
+          },
+          {
+            "cutHealth": 0.0
+          }
+        ]
+      },
+      {
+        "fm": {
+          "fm": "elevator_control_l",
+          "dm": "tailcontrol_dm",
+          "cutHealth": 0.0
+        }
+      },
+      {
+        "fm": {
+          "fm": "elevator_control_r",
+          "dm": "tailcontrol_dm",
+          "cutHealth": 0.0
+        }
+      },
+      {
+        "fm": {
+          "fm": "rudder_control",
+          "dm": "tailcontrol_dm",
+          "cutHealth": 0.0
+        }
+      },
+      {
+        "fm": {
+          "fm": "gear_l",
+          "dm": "gear_l_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "gear_r",
+          "dm": "gear_r_dm"
+        }
+      },
+      {
+        "fm": {
+          "fm": "gear_c",
+          "dm": "gear_c_dm"
+        }
+      },
+      {
+        "enginesAutoConfiguration": [
+          {
+            "engine": "engine1_dm"
+          },
+          {
+            "engine": "engine2_dm"
+          },
+          {
+            "engine": "engine3_dm"
+          },
+          {
+            "engine": "engine4_dm"
+          },
+          {
+            "engine": "engine5_dm"
+          },
+          {
+            "engine": "engine6_dm"
+          }
+        ]
+      },
+      {
+        "fuelTanksAutoConfiguration": [
+          {
+            "fuelTank": "tank1_dm"
+          },
+          {
+            "fuelTank": "tank2_dm"
+          },
+          {
+            "fuelTank": "tank3_dm"
+          },
+          {
+            "fuelTank": "tank4_dm"
+          },
+          {
+            "fuelTank": "tank5_dm"
+          },
+          {
+            "fuelTank": "tank6_dm"
+          },
+          {
+            "fuelTank": "tank7_dm"
+          },
+          {
+            "fuelTank": "tank8_dm"
+          }
+        ]
+      },
+      {
+        "radiatorsAutoConfiguration": [
+          {
+            "engine": "engine1_dm"
+          },
+          {
+            "engine": "engine2_dm"
+          },
+          {
+            "engine": "engine3_dm"
+          },
+          {
+            "engine": "engine4_dm"
+          },
+          {
+            "engine": "engine5_dm"
+          },
+          {
+            "engine": "engine6_dm"
+          },
+          {
+            "oil": "oil1_dm"
+          },
+          {
+            "oil": "oil2_dm"
+          },
+          {
+            "oil": "oil3_dm"
+          },
+          {
+            "oil": "oil4_dm"
+          },
+          {
+            "oil": "oil5_dm"
+          },
+          {
+            "oil": "oil6_dm"
+          },
+          {
+            "oil": "oil7_dm"
+          },
+          {
+            "oil": "oil8_dm"
+          },
+          {
+            "oil": "oil9_dm"
+          },
+          {
+            "oil": "oil10_dm"
+          },
+          {
+            "oil": "oil11_dm"
+          },
+          {
+            "oil": "oil12_dm"
+          },
+          {
+            "water": "water1_dm"
+          },
+          {
+            "water": "water2_dm"
+          },
+          {
+            "water": "water3_dm"
+          },
+          {
+            "water": "water4_dm"
+          },
+          {
+            "water": "water5_dm"
+          },
+          {
+            "water": "water6_dm"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "damagePartsToHudPartsMap": [
+      {
+        "item": [
+          {
+            "item": "fuse"
+          },
+          {
+            "dm": "fuse_dm"
+          },
+          {
+            "dm": "fuse1_dm"
+          },
+          {
+            "dm": "fuse2_dm"
+          },
+          {
+            "dm": "fuse3_dm"
+          },
+          {
+            "dm": "fuse4_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "item": {
+          "item": "tail",
+          "dm": "tail_dm"
+        }
+      },
+      {
+        "item": [
+          {
+            "item": "wingl"
+          },
+          {
+            "dm": "wing_l_dm"
+          },
+          {
+            "dm": "wing1_l_dm"
+          },
+          {
+            "dm": "wing2_l_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "item": "wingr"
+          },
+          {
+            "dm": "wing_r_dm"
+          },
+          {
+            "dm": "wing1_r_dm"
+          },
+          {
+            "dm": "wing2_r_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "item": "aileron_l"
+          },
+          {
+            "dm": "aileron_l"
+          },
+          {
+            "dm": "aileron1_l"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "item": "aileron_r"
+          },
+          {
+            "dm": "aileron_r"
+          },
+          {
+            "dm": "aileron1_r"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "item": "elevator"
+          },
+          {
+            "type": "mult"
+          },
+          {
+            "dependency": {
+              "dm": "elevator_dm"
+            }
+          },
+          {
+            "dependency": [
+              {
+                "dm": "elevator0_dm"
+              },
+              {
+                "dm": "elevator1_dm"
+              },
+              {
+                "type": "average"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "item": [
+          {
+            "item": "rudder"
+          },
+          {
+            "type": "mult"
+          },
+          {
+            "dependency": {
+              "dm": "rudder_dm"
+            }
+          },
+          {
+            "dependency": [
+              {
+                "dm": "rudder0_dm"
+              },
+              {
+                "dm": "rudder1_dm"
+              },
+              {
+                "type": "average"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fm": [
+          {
+            "fm": "gear"
+          },
+          {
+            "dm": "gear_l_dm"
+          },
+          {
+            "dm": "gear_r_dm"
+          },
+          {
+            "dm": "gear_c_dm"
+          },
+          {
+            "type": "average"
+          }
+        ]
+      },
+      {
+        "item": {
+          "item": "gunner1",
+          "dm": "gunner1_dm"
+        }
+      },
+      {
+        "item": {
+          "item": "gunner2",
+          "dm": "gunner3_dm"
+        }
+      },
+      {
+        "item": {
+          "item": "gunner3",
+          "dm": "gunner3_dm"
+        }
+      },
+      {
+        "item": {
+          "item": "gunner4",
+          "dm": "gunner4_dm"
+        }
+      },
+      {
+        "item": {
+          "item": "gunner5",
+          "dm": "gunner5_dm"
+        }
+      },
+      {
+        "item": {
+          "item": "gunner6",
+          "dm": "gunner6_dm"
+        }
+      },
+      {
+        "item": {
+          "item": "gunner7",
+          "dm": "gunner7_dm"
+        }
+      },
+      {
+        "item": {
+          "item": "gunner8",
+          "dm": "gunner8_dm"
+        }
+      }
+    ]
   },
   {
     "explosion_dm": {

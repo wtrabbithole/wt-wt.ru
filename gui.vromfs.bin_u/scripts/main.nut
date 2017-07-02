@@ -23,7 +23,7 @@
 
 ::quick_match_flag <- false;
 ::test_flight <- false
-::unlock_all_missions <- false
+::is_debug_mode_enabled <- false
 ::first_generation <- true
 
 ::skip_steam_confirmations <- false
@@ -39,7 +39,7 @@ const LOST_DELAYED_ACTION_MSEC = 500
 ::g_script_reloader.registerPersistentData("MainGlobals", ::getroottable(),
   [
     "nda_version", "nda_version_tanks", "eula_version",
-    "test_flight", "unlock_all_missions", "first_generation",
+    "test_flight", "is_debug_mode_enabled", "first_generation",
     "skip_steam_confirmations", "show_console_buttons",
     "ps4_is_client_full_downloaded",
     "is_dev_version"
@@ -230,6 +230,7 @@ foreach (fn in [
   "scripts/options/consoleMode.nut"
   "scripts/options/gamepadCursorControls.nut"
   "scripts/options/optionsManager.nut"
+  "scripts/options/optionsBeforeLogin.nut"
 
   "scripts/baseGuiHandlerManagerWT.nut"
 
@@ -319,6 +320,7 @@ function load_scripts_after_login()
 
     "viewUtils/hintTags.nut"
     "viewUtils/hints.nut"
+    "viewUtils/bhvHint.nut"
     "timeBar.nut"
 
     "money.nut"
@@ -489,6 +491,7 @@ function load_scripts_after_login()
 
     "contacts/contactPresence.nut"
     "contacts/contacts.nut"
+    "contacts/playerStateTypes.nut"
     "userPresence.nut"
 
     "unlocks/unlocksConditions.nut"
@@ -623,6 +626,7 @@ function load_scripts_after_login()
     "crew/crewTakeUnitProcess.nut"
 
     "slotbar/slotbarPresets.nut"
+    "slotbar/slotbarPresetsWnd.nut"
     "vehicleRequireFeatureWindow.nut"
     "slotbar/slotbarPresetsTutorial.nut"
     "slotInfoPanel.nut"
@@ -631,6 +635,7 @@ function load_scripts_after_login()
     "unit/unitInfoType.nut"
     "unit/unitInfoExporter.nut"
 
+    "hud/hudEventManager.nut"
     "hud/hudVisMode.nut"
     "hud/baseUnitHud.nut"
     "hud/hud.nut"

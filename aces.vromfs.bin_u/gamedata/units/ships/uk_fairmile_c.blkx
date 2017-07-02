@@ -492,7 +492,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "crouchDelta": [0.0,0.0,0.0]
+        "crouchDelta": [0.6,0.2,-0.3]
       },
       {
         "suffix": "6"
@@ -568,7 +568,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "crouchDelta": [0.0,0.0,0.0]
+        "crouchDelta": [-0.5,-0.4,0.2]
       },
       {
         "suffix": "9"
@@ -644,7 +644,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "crouchDelta": [0.0,0.0,0.0]
+        "crouchDelta": [-0.5,-0.4,0.2]
       },
       {
         "suffix": "10"
@@ -787,12 +787,12 @@
   {
     "DamageParts": {
       "formatVersion": 2,
-      "armorClass": "tank_structural_steel",
+      "armorClass": "ship_structural_steel",
       "hp": 1000.0,
       "cover": {
         "armorClass": "ship_wood",
         "genericDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorThickness": 60.0,
         "fireParamsPreset": "ship_cover",
         "hp": 350.0,
         "bow_l_dm": {
@@ -817,7 +817,8 @@
         },
         "stern_back_dm": {
           "genericDamageMult": 0.05
-        }
+        },
+        "superstructure_side_dm": []
       },
       "bulkheads": {
         "armorClass": "ship_wood",
@@ -848,7 +849,7 @@
       "deck": {
         "armorClass": "ship_wood",
         "hp": 1000.0,
-        "armorThickness": 40.0,
+        "armorThickness": 60.0,
         "genericDamageMult": 0.1,
         "bow_top_dm": [],
         "mid_top_dm": [],
@@ -864,12 +865,6 @@
         "mast_01_dm": {
           "armorThickness": 15.0
         },
-        "antenna_dm": [],
-        "antenna_01_dm": [],
-        "antenna_02_dm": [],
-        "antenna_03_dm": [],
-        "antenna_04_dm": [],
-        "radar_01_dm": [],
         "radio_station_dm": []
       },
       "rudders": {
@@ -883,21 +878,19 @@
         }
       },
       "hull": {
-        "armorThickness": 10.0,
+        "armorThickness": 6.0,
         "hp": 200.0,
         "armorClass": "ship_structural_steel",
         "genericDamageMult": 0.1,
-        "stern_top_dm": [],
-        "deckhouse_dm": [],
         "superstructure_top_dm": [],
         "superstructure_front_dm": [],
-        "superstructure_side_dm": [],
         "superstructure_bottom_dm": [],
         "superstructure_back_dm": [],
         "ex_armor_l_02_dm": [],
-        "ex_armor_r_02_dm": []
+        "ex_armor_r_02_dm": [],
+        "deckhouse_dm": []
       },
-      "gun": {
+      "armament": {
         "armorClass": "tank_barrel",
         "gun_mask_01_dm": {
           "armorThickness": 10.0,
@@ -927,19 +920,19 @@
           "armorThickness": 10.0,
           "hp": 150.0
         },
-        "depth_charge_r_01_dm": {
+        "depth_charge_01_dm": {
           "armorThickness": 5.0,
           "hp": 150.0
         },
-        "depth_charge_r_02_dm": {
+        "depth_charge_02_dm": {
           "armorThickness": 5.0,
           "hp": 150.0
         },
-        "depth_charge_l_01_dm": {
+        "depth_charge_03_dm": {
           "armorThickness": 5.0,
           "hp": 150.0
         },
-        "depth_charge_l_02_dm": {
+        "depth_charge_04_dm": {
           "armorThickness": 5.0,
           "hp": 150.0
         }
@@ -2221,338 +2214,13 @@
   },
   {
     "tank_crew": {
-      "changeTimeMult": 1.0,
-      "gunner1": [
-        {
-          "dmPart": "gunner_01_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "substitute": "sailor_01"
-        },
-        {
-          "substitute": "sailor_02"
-        },
-        {
-          "substitute": "sailor_03"
-        },
-        {
-          "substitute": "sailor_04"
-        },
-        {
-          "substitute": "sailor_05"
-        },
-        {
-          "substitute": "sailor_06"
-        },
-        {
-          "substitute": "sailor_07"
-        },
-        {
-          "substitute": "sailor_08"
-        },
-        {
-          "substitute": "gunner2"
-        },
-        {
-          "substitute": "gunner3"
-        },
-        {
-          "substitute": "gunner4"
-        },
-        {
-          "substitute": "gunner5"
-        },
-        {
-          "substitute": "gunner6"
-        },
-        {
-          "substitute": "driver"
-        }
-      ],
-      "gunner2": [
-        {
-          "dmPart": "gunner_06_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "substitute": "sailor_01"
-        },
-        {
-          "substitute": "sailor_02"
-        },
-        {
-          "substitute": "sailor_03"
-        },
-        {
-          "substitute": "sailor_04"
-        },
-        {
-          "substitute": "sailor_05"
-        },
-        {
-          "substitute": "sailor_06"
-        },
-        {
-          "substitute": "sailor_07"
-        },
-        {
-          "substitute": "sailor_08"
-        },
-        {
-          "substitute": "gunner1"
-        },
-        {
-          "substitute": "gunner3"
-        },
-        {
-          "substitute": "gunner4"
-        },
-        {
-          "substitute": "gunner5"
-        },
-        {
-          "substitute": "gunner6"
-        }
-      ],
-      "gunner3": [
-        {
-          "dmPart": "gunner_04_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "substitute": "sailor_01"
-        },
-        {
-          "substitute": "sailor_02"
-        },
-        {
-          "substitute": "sailor_03"
-        },
-        {
-          "substitute": "sailor_04"
-        },
-        {
-          "substitute": "sailor_05"
-        },
-        {
-          "substitute": "sailor_06"
-        },
-        {
-          "substitute": "sailor_07"
-        },
-        {
-          "substitute": "sailor_08"
-        }
-      ],
-      "gunner4": [
-        {
-          "dmPart": "gunner_05_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "substitute": "sailor_01"
-        },
-        {
-          "substitute": "sailor_02"
-        },
-        {
-          "substitute": "sailor_03"
-        },
-        {
-          "substitute": "sailor_04"
-        },
-        {
-          "substitute": "sailor_05"
-        },
-        {
-          "substitute": "sailor_06"
-        },
-        {
-          "substitute": "sailor_07"
-        },
-        {
-          "substitute": "sailor_08"
-        }
-      ],
-      "gunner5": [
-        {
-          "dmPart": "gunner_02_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "substitute": "sailor_01"
-        },
-        {
-          "substitute": "sailor_02"
-        },
-        {
-          "substitute": "sailor_03"
-        },
-        {
-          "substitute": "sailor_04"
-        },
-        {
-          "substitute": "sailor_05"
-        },
-        {
-          "substitute": "sailor_06"
-        },
-        {
-          "substitute": "sailor_07"
-        },
-        {
-          "substitute": "sailor_08"
-        }
-      ],
-      "gunner6": [
-        {
-          "dmPart": "gunner_03_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "substitute": "sailor_01"
-        },
-        {
-          "substitute": "sailor_02"
-        },
-        {
-          "substitute": "sailor_03"
-        },
-        {
-          "substitute": "sailor_04"
-        },
-        {
-          "substitute": "sailor_05"
-        },
-        {
-          "substitute": "sailor_06"
-        },
-        {
-          "substitute": "sailor_07"
-        },
-        {
-          "substitute": "sailor_08"
-        }
-      ],
-      "driver": [
-        {
-          "dmPart": "driver_dm"
-        },
-        {
-          "role": "driver"
-        },
-        {
-          "substitute": "sailor_01"
-        },
-        {
-          "substitute": "sailor_02"
-        },
-        {
-          "substitute": "sailor_03"
-        },
-        {
-          "substitute": "sailor_04"
-        },
-        {
-          "substitute": "sailor_05"
-        },
-        {
-          "substitute": "sailor_06"
-        },
-        {
-          "substitute": "sailor_07"
-        },
-        {
-          "substitute": "sailor_08"
-        },
-        {
-          "substitute": "gunner1"
-        },
-        {
-          "substitute": "gunner2"
-        },
-        {
-          "substitute": "gunner3"
-        },
-        {
-          "substitute": "gunner4"
-        },
-        {
-          "substitute": "gunner5"
-        },
-        {
-          "substitute": "gunner6"
-        }
-      ],
-      "commander": {
-        "dmPart": "commander_dm",
-        "role": "commander"
-      },
-      "sailor_01": {
-        "dmPart": "sailor_01_dm",
-        "role": "sailor"
-      },
-      "sailor_02": {
-        "dmPart": "sailor_02_dm",
-        "role": "sailor"
-      },
-      "sailor_03": {
-        "dmPart": "sailor_03_dm",
-        "role": "sailor"
-      },
-      "sailor_04": {
-        "dmPart": "sailor_08_dm",
-        "role": "sailor"
-      },
-      "sailor_05": {
-        "dmPart": "gunner_11_dm",
-        "role": "sailor"
-      },
-      "sailor_06": {
-        "dmPart": "gunner_12_dm",
-        "role": "sailor"
-      },
-      "sailor_07": {
-        "dmPart": "operator_dm",
-        "role": "sailor"
-      },
-      "sailor_08": {
-        "dmPart": "era_dm",
-        "role": "sailor"
+      "minCrewMemberAliveCount": 5,
+      "default": {
+        "dmPart": "bow_l_dm",
+        "role": "sailor",
+        "crew": 30
       }
     }
-  },
-  {
-    "propellers": [
-      {
-        "engine": {
-          "propeller_l": "propeller_01"
-        }
-      },
-      {
-        "engine": {
-          "propeller_l": "propeller_02"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_03"
-        }
-      }
-    ]
   },
   {
     "class_tags": {
@@ -2586,7 +2254,8 @@
             "maxThrust": 20800.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_01_dm",
-            "transmissionDmPart": "transmission_01_dm"
+            "transmissionDmPart": "transmission_01_dm",
+            "propeller": "propeller_01"
           }
         },
         {
@@ -2595,7 +2264,8 @@
             "maxThrust": 20800.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_02_dm",
-            "transmissionDmPart": "transmission_02_dm"
+            "transmissionDmPart": "transmission_02_dm",
+            "propeller": "propeller_02"
           }
         },
         {
@@ -2604,7 +2274,8 @@
             "maxThrust": 20800.0,
             "outputParam": "propeller_rotate_03:CRS",
             "engineDmPart": "engine_03_dm",
-            "transmissionDmPart": "transmission_03_dm"
+            "transmissionDmPart": "transmission_03_dm",
+            "propeller": "propeller_03"
           }
         }
       ],
@@ -3406,7 +3077,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_05_Vickers_mk_V_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Vikkers_GO_No5_navy_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -3500,8 +3171,8 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_02",
-              "gun": "mg_mount_v_02",
+              "head": "mg_mount_h_03",
+              "gun": "mg_03",
               "gunnerDm": "gunner_03_dm"
             }
           },
@@ -3522,7 +3193,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_05_Vickers_mk_V_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Vikkers_GO_No5_navy_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_03"
@@ -3616,8 +3287,8 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_02",
-              "gun": "mg_mount_v_02",
+              "head": "mg_mount_h_03",
+              "gun": "mg_03",
               "gunnerDm": "gunner_03_dm"
             }
           },
@@ -3638,7 +3309,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_05_Vickers_mk_V_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Vikkers_GO_No5_navy_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_04"
@@ -3732,8 +3403,8 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_03",
-              "gun": "mg_mount_v_03",
+              "head": "mg_mount_h_02",
+              "gun": "mg_02",
               "gunnerDm": "gunner_02_dm"
             }
           },
@@ -3754,7 +3425,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_05_Vickers_mk_V_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Vikkers_GO_No5_navy_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_05"
@@ -3848,8 +3519,8 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_03",
-              "gun": "mg_mount_v_03",
+              "head": "mg_mount_h_02",
+              "gun": "mg_02",
               "gunnerDm": "gunner_02_dm"
             }
           },
@@ -3860,6 +3531,50 @@
             }
           }
         ]
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
+          "emitter": "bone_bomb_01",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 3.0
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
+          "emitter": "bone_bomb_02",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 3.0
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
+          "emitter": "bone_bomb_03",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 3.0
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
+          "emitter": "bone_bomb_04",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 3.0
+        }
       }
     ]
   },
@@ -3873,7 +3588,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,7.0,-28.0],
+      "headPos": [0.0,7.0,-26.0],
       "headPosOnShooting": [5.4,6.9,0.0]
     }
   },
@@ -3965,19 +3680,22 @@
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_fire_ammo"
+              "emitter": "emtr_fire_ammo",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_fire_ammo_01"
+              "emitter": "emtr_fire_ammo_01",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_fire_ammo_02"
+              "emitter": "emtr_fire_ammo_02",
+              "scale": 2.0
             }
           }
         ]
@@ -3995,98 +3713,120 @@
           },
           {
             "fx": {
-              "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_01"
+              "name": "tank_smoke_big",
+              "emitter": "emtr_smoke_dmg_01"
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_02"
+              "emitter": "emtr_smoke_small_dmg_01",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_03"
+              "emitter": "emtr_smoke_small_dmg_02",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_04"
+              "emitter": "emtr_smoke_small_dmg_03",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_05"
+              "emitter": "emtr_smoke_small_dmg_04",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_06"
+              "emitter": "emtr_smoke_small_dmg_05",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_07"
+              "emitter": "emtr_smoke_small_dmg_06",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_08"
+              "emitter": "emtr_smoke_small_dmg_07",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_09"
+              "emitter": "emtr_smoke_small_dmg_08",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_10"
+              "emitter": "emtr_smoke_small_dmg_09",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_11"
+              "emitter": "emtr_smoke_small_dmg_10",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_12"
+              "emitter": "emtr_smoke_small_dmg_11",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_13"
+              "emitter": "emtr_smoke_small_dmg_12",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_14"
+              "emitter": "emtr_smoke_small_dmg_13",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_15"
+              "emitter": "emtr_smoke_small_dmg_14",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_16"
+              "emitter": "emtr_smoke_small_dmg_15",
+              "scale": 2.0
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_smoke_small",
+              "emitter": "emtr_smoke_small_dmg_16",
+              "scale": 2.0
             }
           }
         ]
@@ -4104,98 +3844,120 @@
           },
           {
             "fx": {
-              "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_01"
+              "name": "tank_smoke_big",
+              "emitter": "emtr_smoke_dmg_01"
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_02"
+              "emitter": "emtr_smoke_small_dmg_01",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_03"
+              "emitter": "emtr_smoke_small_dmg_02",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_04"
+              "emitter": "emtr_smoke_small_dmg_03",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_05"
+              "emitter": "emtr_smoke_small_dmg_04",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_06"
+              "emitter": "emtr_smoke_small_dmg_05",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_07"
+              "emitter": "emtr_smoke_small_dmg_06",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_08"
+              "emitter": "emtr_smoke_small_dmg_07",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_09"
+              "emitter": "emtr_smoke_small_dmg_08",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_10"
+              "emitter": "emtr_smoke_small_dmg_09",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_11"
+              "emitter": "emtr_smoke_small_dmg_10",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_12"
+              "emitter": "emtr_smoke_small_dmg_11",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_13"
+              "emitter": "emtr_smoke_small_dmg_12",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_14"
+              "emitter": "emtr_smoke_small_dmg_13",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_15"
+              "emitter": "emtr_smoke_small_dmg_14",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_smoke_small_dmg_16"
+              "emitter": "emtr_smoke_small_dmg_15",
+              "scale": 2.0
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_smoke_small",
+              "emitter": "emtr_smoke_small_dmg_16",
+              "scale": 2.0
             }
           },
           {
@@ -4206,110 +3968,142 @@
           },
           {
             "fx": {
-              "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_01"
+              "name": "tank_fire_big",
+              "emitter": "emtr_fire_dmg_01"
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_02"
+              "emitter": "emtr_fire_small_dmg_01",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_03"
+              "emitter": "emtr_fire_small_dmg_02",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_04"
+              "emitter": "emtr_fire_small_dmg_03",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_05"
+              "emitter": "emtr_fire_small_dmg_04",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_06"
+              "emitter": "emtr_fire_small_dmg_05",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_07"
+              "emitter": "emtr_fire_small_dmg_06",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_08"
+              "emitter": "emtr_fire_small_dmg_07",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_09"
+              "emitter": "emtr_fire_small_dmg_08",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_10"
+              "emitter": "emtr_fire_small_dmg_09",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_11"
+              "emitter": "emtr_fire_small_dmg_10",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_12"
+              "emitter": "emtr_fire_small_dmg_11",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_13"
+              "emitter": "emtr_fire_small_dmg_12",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_14"
+              "emitter": "emtr_fire_small_dmg_13",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_15"
+              "emitter": "emtr_fire_small_dmg_14",
+              "scale": 2.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
-              "emitter": "emtr_fire_small_dmg_16"
+              "emitter": "emtr_fire_small_dmg_15",
+              "scale": 2.0
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emitter": "emtr_fire_small_dmg_16",
+              "scale": 2.0
             }
           }
         ]
       },
       {
-        "event": {
-          "name": "big_bang",
-          "fx": {
-            "name": "ship_explosion",
-            "emitter": "emtr_explosion_center"
+        "event": [
+          {
+            "name": "big_bang"
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_explosion_center"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_explosion_center_01"
+            }
           }
-        }
+        ]
       },
       {
         "event": {
@@ -4329,6 +4123,13 @@
         }
       }
     ]
+  },
+  {
+    "modifications": {
+      "7_7mm_vickers_navy_universal": [],
+      "40mm_qf_mkxv_he": [],
+      "12mm_vickers_mk5_API": []
+    }
   },
   {
     "optics": {
@@ -4395,13 +4196,8 @@
   {
     "cover": {
       "part": "stern_back_dm",
-      "weight": 1.0
-    }
-  },
-  {
-    "modifications": {
-      "40mm_qf_mkxv_he": [],
-      "12mm_vickers_mk5_API": []
+      "weight": 1.0,
+      "maxWaterAlive": 0.3
     }
   }
 ]

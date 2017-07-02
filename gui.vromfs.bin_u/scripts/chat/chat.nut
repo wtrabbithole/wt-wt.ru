@@ -338,9 +338,6 @@ function g_chat::checkThreadTitleLen(title)
 
 function g_chat::openRoomCreationWnd()
 {
-  if (!::ps4_is_ugc_enabled())
-    return ::ps4_show_ugc_restriction()
-
   local devoiceMsg = ::get_chat_devoice_msg("activeTextColor")
   if (devoiceMsg)
     return ::showInfoMsgBox(devoiceMsg)

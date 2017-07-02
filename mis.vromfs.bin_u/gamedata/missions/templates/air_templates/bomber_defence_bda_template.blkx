@@ -287,7 +287,9 @@
           "_DBttlA": false,
           "_DBttlB": false,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
         }
       }
     ],
@@ -334,7 +336,7 @@
         },
         {
           "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/air_spawn",
+            "loc_name": "missions/friendly_bombers_spawn",
             "spawnEffect": false,
             "isStrictSpawn": false,
             "isAirfield": false,
@@ -386,9 +388,14 @@
           }
         },
         {
-          "triggerDisable": {
-            "target": "t2_all_land_destroyed"
-          }
+          "triggerDisable": [
+            {
+              "target": "t2_all_land_destroyed"
+            },
+            {
+              "target": "barabashka_init"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -440,9 +447,17 @@
       "conditions": [],
       "actions": [
         {
+          "varSetInt": {
+            "value": 0,
+            "var": "bda_bombers_count",
+            "input_var": "bda_ai_max_count"
+          }
+        },
+        {
           "unitWakeUp": {
             "target": "t1_ai_bombers",
-            "varNameNumToWakeUp": "bda_ai_max_count"
+            "varNameNumToWakeUp": "bda_ai_max_count",
+            "order": "fromStart"
           }
         },
         {
@@ -461,8 +476,10 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t1_ai_bombers",
-            "speed": 250.0
+            "speed": 300.0
           }
         },
         {
@@ -473,6 +490,29 @@
         {
           "wait": {
             "time": 5.0
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "bda_tickets_for_1_kill",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "bda_tickets_for_1_kill",
+            "use_variable": true,
+            "var_value": "bda_bombers_count"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "bda_tickets_for_1_kill"
           }
         },
         {
@@ -501,9 +541,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "bda_template_update_objectives"
-          }
+          "triggerEnable": [
+            {
+              "target": "bda_template_update_objectives"
+            },
+            {
+              "target": "bda_template_bomber_dies"
+            }
+          ]
         },
         {
           "missionShowMapIcon": {
@@ -731,6 +776,44 @@
         }
       },
       "else_actions": []
+    },
+    "bda_template_bomber_dies": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "t1_ai_bombers",
+          "var": "bda_bombers_count"
+        }
+      },
+      "actions": {
+        "varModify": {
+          "operator": "subAB",
+          "value": 1.0,
+          "var": "bda_bombers_count"
+        },
+        "gameMPChangeScore": {
+          "value": 1,
+          "valueSystem": "amount",
+          "var": "bda_tickets_for_1_kill",
+          "team": "A"
+        }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -762,7 +845,9 @@
     }
   },
   "variables": {
-    "bda_ai_max_count": 6
+    "bda_ai_max_count": 6,
+    "bda_bombers_count": 0,
+    "bda_tickets_for_1_kill": -100
   },
   "dialogs": [],
   "airfields": [],

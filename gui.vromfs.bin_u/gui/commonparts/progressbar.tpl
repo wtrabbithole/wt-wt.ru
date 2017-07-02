@@ -21,7 +21,9 @@ invisSlider {
   value:t='0'
   min:t='0'
   max:t='<<maxValue>>'
-  on_change_value:t='<<onChangeSliderValue>>'
+  <<#onChangeSliderValue>>
+    on_change_value:t='<<onChangeSliderValue>>'
+  <</onChangeSliderValue>>
   <<#disable>>
     enable:t='no'
   <</disable>>

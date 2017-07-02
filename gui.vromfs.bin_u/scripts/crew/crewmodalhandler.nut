@@ -289,7 +289,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("crew_cur_points").setValue(isMaxLevel ? "" : curPointsText)
 
     local levelIncText = ""
-    local levelIncTooltip = ::loc("#crew/usedSkills/tooltip")
+    local levelIncTooltip = ::loc("crew/usedSkills/tooltip")
     if (isMaxLevel)
     {
       levelIncText = ::loc("ui/parentheses/space", { text = ::loc("options/quality_max") })

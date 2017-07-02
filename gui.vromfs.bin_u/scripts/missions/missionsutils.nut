@@ -31,7 +31,7 @@ function is_mission_unlocked(info)
   local name = info.getStr("name","")
   local chapterName = info.getStr("chapter",::get_cur_game_mode_name())
   local progress = ::get_mission_progress(chapterName + "/" + name)
-  return progress < 4 || ::unlock_all_missions
+  return progress < 4 || ::is_debug_mode_enabled
 }
 
 function is_user_mission(missionBlk)

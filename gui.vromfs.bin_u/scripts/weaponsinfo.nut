@@ -11,6 +11,14 @@ enum AMMO {
   WEAPON = 1
 }
 
+enum WEAPON_TYPE {
+  GUN             = 0
+  ROCKET          = 1
+  SMOKE_SCREEN    = 2
+  TORPEDO         = 3
+  DEPTH_CHARGE    = 4
+}
+
 if (!("_set_last_weapon" in ::getroottable()))
   ::_set_last_weapon <- ::set_last_weapon
 function set_last_weapon(unitName, weaponName)
@@ -169,6 +177,7 @@ function addWeaponsFromBlk(weapons, block, unitType)
         if (item.dropHeightRange.x == 0 && item.dropHeightRange.y == 0)
           item.dropHeightRange = null
         item.maxSpeedInWater <- itemBlk.maxSpeedInWater || 0
+        item.distToLive <- itemBlk.distToLive || 0
       }
     }
 
@@ -246,7 +255,7 @@ function is_weapon_params_equal(item1, item2)
 {
   if (typeof(item1) != "table" || typeof(item2) != "table" || !item1.len() || !item2.len())
     return false
-  local skipParams = [ "num", "ammo" ]
+  local skipParams = [ "num", "ammo", "turret" ]
   foreach (idx, val in item1)
     if (!::isInArray(idx, skipParams) && val != item2[idx])
       return false
@@ -402,9 +411,9 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
           {
             if (isShortDesc)
             {
-              if (weapon.ammo > 1)
-                tText += ::format(::loc("weapons/counter/left/short"), weapon.ammo)
               tText += ::loc("weapons" + weaponName + "/short")
+              if (weapon.ammo > 1)
+                tText += " " + ::format(::loc("weapons/counter/right/short"), weapon.ammo)
             }
             else
             {
@@ -417,7 +426,7 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
                 if (weapon.dropHeightRange)
                   tText += "\n"+::format(::loc("weapons/drop_height_range"), ::countMeasure(1, [weapon.dropHeightRange.x, weapon.dropHeightRange.y]))
               }
-              if (detail >= INFO_DETAIL.EXTENDED)
+              if (detail >= INFO_DETAIL.EXTENDED && unitType != ::ES_UNIT_TYPE_TANK)
                 tText += _get_weapon_extended_info(weapon, weaponType, newLine + ::nbsp + ::nbsp + ::nbsp + ::nbsp)
             }
           }
@@ -502,6 +511,11 @@ function _get_weapon_extended_info(weapon, weaponType, newLine)
     if (maxSpeedInWater)
       res += newLine + ::loc("torpedo/maxSpeedInWater") + ::loc("ui/colon")
              + ::g_measure_type.SPEED.getMeasureUnitsText(maxSpeedInWater)
+
+    local distanceToLive = ::getTblValue("distToLive", weapon)
+    if (distanceToLive)
+      res += newLine + ::loc("torpedo/distanceToLive") + ::loc("ui/colon")
+             + ::g_measure_type.DISTANCE.getMeasureUnitsText(distanceToLive)
   }
 
   if (!weapon.explosiveType)
@@ -813,11 +827,13 @@ function getBulletsSetData(air, modifName, noModList = null)
     local bulletsModBlk = wBlk[getModificationBulletsEffect(modifName)]
     local bulletsBlk = bulletsModBlk ? bulletsModBlk : wBlk
     local bulletsList = bulletsBlk % "bullet"
-    local isRocketLauncher = false
+    local weaponType = WEAPON_TYPE.GUN
     if (!bulletsList.len())
     {
       bulletsList = bulletsBlk % "rocket"
-      isRocketLauncher = true
+      weaponType = WEAPON_TYPE.ROCKET
+      if (bulletsList.len() && bulletsList[0].smokeShell)
+        weaponType = WEAPON_TYPE.SMOKE_SCREEN
     }
     foreach (b in bulletsList)
     {
@@ -825,10 +841,11 @@ function getBulletsSetData(air, modifName, noModList = null)
       local paramsBlk = ::u.isDataBlock(b.rocket) ? b.rocket : b
       if (!res)
         if (paramsBlk.caliber)
-          res = { caliber = 1000.0 * paramsBlk.caliber, bullets = [],
+          res = { caliber = 1000.0 * paramsBlk.caliber,
+                  bullets = [],
                   isBulletBelt = (wBlk.isBulletBelt != false || wBlk.bulletsCartridge > 1),
                   catridge = wBlk.bulletsCartridge || 0
-                  isRocketLauncher = isRocketLauncher //usual bullet can be rocket too, but it will be used by usual tank gun
+                  weaponType = weaponType
                   useDefaultBullet = !wBlk.notUseDefaultBulletInGui,
                   weaponBlkName = wBlkName
                   maxToRespawn = ::getTblValue("maxToRespawn", mod, 0)
@@ -844,6 +861,10 @@ function getBulletsSetData(air, modifName, noModList = null)
       }
 
       foreach(param in ["explosiveType", "explosiveMass"])
+        if (param in paramsBlk)
+          res[param] <- paramsBlk[param]
+
+      foreach(param in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
         if (param in paramsBlk)
           res[param] <- paramsBlk[param]
 
@@ -914,7 +935,7 @@ function getBulletsSearchName(unit, modifName) //need for default bullets, which
   return ""
 }
 
-function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk)
+function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask)
 {
   local res = 0
   local wpList = []
@@ -928,15 +949,21 @@ function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk)
     local modsList = ::getBulletsModListByGroups(air)
     foreach (wBlkName in wpList)
     {
+      if (wBlkName in weaponToFakeBulletMask)
+      {
+        res = res | weaponToFakeBulletMask[wBlkName]
+        continue
+      }
+
       local wBlk = ::DataBlock(wBlkName)
-      if (wBlk)
-        foreach(idx, modName in modsList)
+      if (!wBlk)
+        continue
+
+      foreach(idx, modName in modsList)
+        if (wBlk[getModificationBulletsEffect(modName)])
         {
-          if (wBlk[getModificationBulletsEffect(modName)])
-          {
-            res = (res & ~(1 << idx)) | (1 << idx)
-            break
-          }
+          res = ::change_bit(res, idx, 1)
+          break
         }
     }
   }
@@ -945,41 +972,60 @@ function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk)
 
 function getActiveBulletsGroupInt(air, checkPurchased = true)
 {
-  if (::can_bullets_be_duplicate(air))
-    return getActiveBulletsGroupIntForDuplicates(air, checkPurchased)
   local primaryWeapon = ::get_last_primary_weapon(air)
-  if (!(primaryWeapon in air.primaryBullets))
+  local secondaryWeapon = ::get_last_weapon(air.name)
+  if (!(primaryWeapon in air.primaryBullets) || !(secondaryWeapon in air.secondaryBullets))
   {
-    local primary = 0
-    local primaryList = ::getPrimaryWeaponsList(air)
-    if (primaryList.len() > 0)
+    local weaponToFakeBulletMask = {}
+    local lastFakeIdx = ::get_last_fake_bullets_index(air)
+    local total = ::getBulletsGroupCount(air, true) - ::getBulletsGroupCount(air, false)
+    local fakeBulletsOffset = lastFakeIdx - total
+    for(local i = 0; i < total; i++)
     {
-      local airBlk = ::DataBlock(::get_unit_file_name(air.name))
-      if (airBlk)
-      {
-        local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryWeapon)
-        primary = ::getActiveBulletsIntByWeaponsBlk(air, primaryBlk)
-      }
+      local bulSet = ::getBulletsSetData(air, ::get_fake_bullet_name(i))
+      if (bulSet)
+        weaponToFakeBulletMask[bulSet.weaponBlkName] <- 1 << (fakeBulletsOffset + i)
     }
-    air.primaryBullets[primaryWeapon] <- primary
+
+    if (!(primaryWeapon in air.primaryBullets))
+    {
+      local primary = 0
+      local primaryList = ::getPrimaryWeaponsList(air)
+      if (primaryList.len() > 0)
+      {
+        local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+        if (airBlk)
+        {
+          local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryWeapon)
+          primary = ::getActiveBulletsIntByWeaponsBlk(air, primaryBlk, weaponToFakeBulletMask)
+        }
+      }
+      air.primaryBullets[primaryWeapon] <- primary
+    }
+
+    if (!(secondaryWeapon in air.secondaryBullets))
+    {
+      local secondary = 0
+      local airBlk = ::DataBlock(::get_unit_file_name(air.name))
+      if (airBlk && airBlk.weapon_presets)
+        foreach (wp in (airBlk.weapon_presets % "preset"))
+          if (wp.name == secondaryWeapon)
+          {
+            local wpBlk = ::DataBlock(wp.blk)
+            if (wpBlk)
+              secondary = ::getActiveBulletsIntByWeaponsBlk(air, wpBlk, weaponToFakeBulletMask)
+          }
+      air.secondaryBullets[secondaryWeapon] <- secondary
+    }
   }
 
-  local secondaryWeapon = ::get_last_weapon(air.name)
-  if (!(secondaryWeapon in air.secondaryBullets))
+  local res = air.primaryBullets[primaryWeapon] | air.secondaryBullets[secondaryWeapon]
+  if (::can_bullets_be_duplicate(air))
   {
-    local secondary = 0
-    local airBlk = ::DataBlock(::get_unit_file_name(air.name))
-    if (airBlk && airBlk.weapon_presets)
-      foreach (wp in (airBlk.weapon_presets % "preset"))
-        if (wp.name == secondaryWeapon)
-        {
-          local wpBlk = ::DataBlock(wp.blk)
-          if (wpBlk)
-            secondary = ::getActiveBulletsIntByWeaponsBlk(air, wpBlk)
-        }
-    air.secondaryBullets[secondaryWeapon] <- secondary
+    res = res & ~((1 << ::BULLETS_SETS_QUANTITY) - 1) //use only fake bullets mask
+    res = res | getActiveBulletsGroupIntForDuplicates(air, checkPurchased)
   }
-  return air.primaryBullets[primaryWeapon] | air.secondaryBullets[secondaryWeapon]
+  return res
 }
 
 function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true)
@@ -1090,6 +1136,14 @@ function isBulletGroupActive(air, group)
 {
   local groupsActive = ::getActiveBulletsGroupInt(air)
   return (groupsActive & (1 << group)) != 0
+}
+
+function is_bullets_group_active_by_mod(air, mod)
+{
+  local groupIdx = ::getTblValue("isDefaultForGroup", mod, -1)
+  if (groupIdx < 0)
+    groupIdx = ::get_bullet_group_index(air.name, mod.name)
+  return ::isBulletGroupActive(air, groupIdx)
 }
 
 function createEffValStr(value, positiveColor, negativeColor, measureType, rounding)
@@ -1803,14 +1857,40 @@ function init_bullet_icons(blk = null)
       item.values = bf % item.id
 }
 
-function getModificationByName(air, modifName)
+function is_fake_bullet(modName)
 {
-  if (!("modifications" in air))
+  return ::g_string.startsWith(modName, ::fakeBullets_prefix)
+}
+
+function getModificationByName(unit, modName, isFakeBulletsAllowed = false)
+{
+  if (!("modifications" in unit))
     return null
 
-  foreach(i, modif in air.modifications)
-    if (modif.name == modifName)
+  foreach(i, modif in unit.modifications)
+    if (modif.name == modName)
       return modif
+
+  if (!isFakeBulletsAllowed)
+    return null
+
+  if (::is_fake_bullet(modName))
+  {
+    local groupIdxStr = ::g_string.slice(modName, ::fakeBullets_prefix.len(), ::fakeBullets_prefix.len() + 1)
+    local groupIdx = ::to_integer_safe(groupIdxStr, -1)
+    if (groupIdx < 0)
+      return null
+    return {
+      name = modName
+      isDefaultForGroup = groupIdx
+    }
+  }
+
+  // Attempt to get modification from group index (e.g. default modification).
+  local groupIndex = ::get_bullet_group_index(unit.name, modName)
+  if (groupIndex >= 0)
+    return { name = modName, isDefaultForGroup = groupIndex }
+
   return null
 }
 
@@ -1876,12 +1956,17 @@ function get_last_fake_bullets_index(unit)
   return ::BULLETS_SETS_QUANTITY - ::getBulletsGroupCount(unit, false) + ::getBulletsGroupCount(unit, true)
 }
 
+function get_fake_bullet_name(bulletIdx)
+{
+  return ::fakeBullets_prefix + bulletIdx + "_default"
+}
+
 function get_bullets_list(airName, group_index, only_bought=false, check_aircraft_purchased=true, only_available=true, genTexts=false)
 {
   local descr = {
     values = []
     isTurretBelt = false
-    isRocketLauncher = false
+    weaponType = WEAPON_TYPE.GUN
     caliber = 0
     duplicate = false //tank gun bullets can be duplicate to change bullets during the battle
 
@@ -1902,12 +1987,12 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
   if (firstFakeIdx <= group_index)
   {
     local fakeIdx = group_index - firstFakeIdx
-    local modifName = ::fakeBullets_prefix + fakeIdx + "_default"
+    local modifName = ::get_fake_bullet_name(fakeIdx)
     local bData = getBulletsSetData(air, modifName)
     if (bData)
     {
       descr.caliber = bData.caliber
-      descr.isRocketLauncher = bData.isRocketLauncher
+      descr.weaponType = bData.weaponType
     }
 
     ::append_one_bullets_item(descr, modifName, air, "", genTexts) //fake default bullet item
@@ -1947,7 +2032,7 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
       if (bData)
       {
         descr.caliber = bData.caliber
-        descr.isRocketLauncher = bData.isRocketLauncher
+        descr.weaponType = bData.weaponType
       }
     }
 
@@ -1966,8 +2051,10 @@ function get_bullets_list(airName, group_index, only_bought=false, check_aircraf
 function get_bullets_list_header(unit, bulletsList)
 {
   local locId = ""
-  if (bulletsList.isRocketLauncher)
+  if (bulletsList.weaponType == WEAPON_TYPE.ROCKET)
     locId = "modification/_rocket_pack"
+  else if (bulletsList.weaponType == WEAPON_TYPE.SMOKE_SCREEN)
+    locId = "modification/_smoke_screen"
   else if (unit.unitType.canUseSeveralBulletsForGun)
     locId = ::isCaliberCannon(bulletsList.caliber)? "modification/_tank_gun_pack" : "modification/_tank_minigun_pack"
   else

@@ -47,6 +47,7 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
   {
     // Embedded browser
     ::open_browser_modal(url)
+    ::broadcastEvent("BrowserOpened", { url = url, external = false })
     return
   }
 
@@ -60,6 +61,7 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
       ::showInfoMsgBox(errorText, "errorMessageBox")
       dagor.debug("shell_launch() have returned " + response + " for URL:" + url)
     }
+    ::broadcastEvent("BrowserOpened", { url = url, external = true })
   })(url))
 }
 

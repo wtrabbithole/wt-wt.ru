@@ -3,7 +3,7 @@ tdiv {
 
   tdiv {
     img {
-      size:t='100, 100'
+      size:t='1@profileUnlockIconSize, 1@profileUnlockIconSize'
       background-image:t='#ui/images/avatars/<<icon>>'
     }
     tdiv {
@@ -11,32 +11,30 @@ tdiv {
       margin-left:t='0.01@scrn_tgt'
       textareaNoTab {
         text:t='<<name>>'
-        max-width:t='70*@scrn_tgt/100.0'
+        max-width:t='0.7@scrn_tgt'
       }
       tdiv {
-        max-width:t='@sIco + 100*@scrn_tgt/100.0'
-        img {
+        max-width:t='1@sIco + 1@scrn_tgt'
+        contactStatusImg {
           id:t='statusImg'
           background-image:t='<<presenceIcon>>'
+          background-color:t='<<presenceIconColor>>'
           pos:t='0, ph/2 - h/2'; position:t='relative'
-          size:t='@sIco, @sIco'
         }
         textareaNoTab {
-          margin-left:t='0.01@scrn_tgt'
           id:t='contact-presenceText'
           text:t='<<presenceText>>'
-          max-width:t='70*@scrn_tgt/100.0'
+          max-width:t='0.7@scrn_tgt'
+          pos:t='0.01@scrn_tgt, ph/2 - h/2'; position:t='relative'
         }
       }
       textareaNoTab {
         text:t='<<?stats/missions_wins>><<?ui/colon>><<wins>>'
-        max-width:t='70*@scrn_tgt/100.0'
+        max-width:t='0.7@scrn_tgt'
       }
-      tdiv {
-        textareaNoTab {
-          text:t='<<?mainmenu/rank>><<?ui/colon>><<rank>>'
-          max-width:t='70*@scrn_tgt/100.0'
-        }
+      textareaNoTab {
+        text:t='<<?mainmenu/rank>><<?ui/colon>><<rank>>'
+        max-width:t='0.7@scrn_tgt'
       }
     }
   }

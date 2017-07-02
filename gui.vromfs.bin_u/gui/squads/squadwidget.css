@@ -30,6 +30,10 @@ squadMemberVoipStatus  {
   background-repeat:aspect-ratio;
 }
 
+Button_text.squadWidgetMember[status=offline] squadMemberStatus, squadMemberVoipStatus[isVoipActive=no] {
+  background-color:#a0a0a0;
+}
+
 Button_text.squadWidgetMember[status=ready] squadMemberStatus, squadMemberVoipStatus[isVoipActive=yes] {
   background-color:#86d808;
 }
@@ -38,18 +42,14 @@ Button_text.squadWidgetMember[status=notReady] squadMemberStatus {
   background-color:#ff7e00;
 }
 
-squadMemberStatus[isLeader=yes] {
+Button_text.squadWidgetMember[status=leader] squadMemberStatus {
   pos:-2@sf/@pf, -2@sf/@pf; position:relative;
   size:10*@sf/@pf, 10*@sf/@pf;
   background-image:#ui/gameuiskin#squad_leader_star;
   background-color:#fdcf17;
 }
 
-Button_text.squadWidgetMember[status=offline] squadMemberStatus, squadMemberVoipStatus[isVoipActive=no] {
-  background-color:#a0a0a0;
-}
-
-squadMemberVoipStatus[isLeader=yes] {
+Button_text.squadWidgetMember[status=leader] squadMemberVoipStatus {
   pos:4*@sf/@pf, 0; position:absolute;
 }
 

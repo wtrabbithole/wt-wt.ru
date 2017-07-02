@@ -4,19 +4,19 @@
   "ElevatorsEffectiveSpeed": 380.0,
   "AileronPowerLoss": 2.5,
   "RudderPowerLoss": 3.0,
-  "ElevatorPowerLoss": 2.5,
+  "ElevatorPowerLoss": 3.0,
   "AlphaAileronMin": 0.1,
   "AlphaRudderMin": 0.2,
   "AlphaElevatorMin": 0.2,
   "AllowStrongControlsRestrictions": true,
   "RudderSens": 0.5,
   "ElevatorSens": 0.4,
-  "AileronSens": 0.23,
+  "AileronSens": 0.13,
   "GearActuatorSpeed": 0.15,
   "WingActuatorSpeed": 0.1,
-  "CockpitDoorSpeedOpen": [150.0,300.0,0.5,0.02],
-  "CockpitDoorSpeedClose": [150.0,300.0,0.5,1.0],
-  "CockpitDoorBlockSpeed": 450.0,
+  "CockpitDoorSpeedOpen": [150.0,300.0,2.0,18.0],
+  "CockpitDoorSpeedClose": [150.0,300.0,3.0,0.06],
+  "CockpitDoorBlockSpeed": 100.0,
   "AirBrakeSpeed": 0.5,
   "BayDoorSpeed": 1.0,
   "BombLauncherSpeed": 1.0,
@@ -32,7 +32,7 @@
   "WingAngle": 0.0,
   "StabAngle": 0.0,
   "KeelAngle": 0.0,
-  "AileronAngles": [14.0,14.0],
+  "AileronAngles": [23.0,25.0],
   "ElevatorAngles": [25.0,25.0],
   "InvertElevator": false,
   "FlapsRadiator": 0.0,
@@ -50,8 +50,8 @@
   "AllowModsToChangeLongidutialBalance": true,
   "ArcadeRollCorrectionMultiplier": 1.0,
   "ArcadeMaxRollCoeff": 1.0,
-  "ArcadeYawMutilpliers": [1.0,1.0,1.0],
-  "CockpitOpenedDoorBreakSpeed": -1.0,
+  "ArcadeYawMutilpliers": [2.0,4.0,1.0],
+  "CockpitOpenedDoorBreakSpeed": 120.0,
   "MomentOfInertia": [5775.0,10781.0,5005.0],
   "AvailableControls": {
     "hasAileronControl": true,
@@ -100,7 +100,7 @@
     "FocusOffset": -0.13,
     "WingVertPos": 0.2,
     "AlphaShift": 0.0,
-    "FlapsShift": 0.07,
+    "FlapsShift": 0.02,
     "AirbrakesShift": 0.0,
     "GearShift": 0.0,
     "WingInFocus": 0.4,
@@ -109,7 +109,7 @@
     "WingV": 6.0,
     "Stabilizer": 5.1,
     "Keel": 5.1,
-    "Rudder": 1.01,
+    "Rudder": 5.01,
     "Fuselage": [0.16,0.0,0.0],
     "LeftStab": [-4.6,0.3,0.7],
     "RightStab": [-4.6,0.3,-0.7],
@@ -172,8 +172,8 @@
     "CombinedCl": false,
     "DownwashType": 2,
     "DownwashCoeff": 1.0,
-    "StabFlowInertia": 0.05,
-    "VertStabFlowInertia": 0.05,
+    "StabFlowInertia": 0.1,
+    "VertStabFlowInertia": 0.1,
     "NoFlaps": {
       "Cl0": 0.085,
       "alphaCritHigh": 17.5,
@@ -186,7 +186,7 @@
       "Cl0": 0.6,
       "alphaCritHigh": 16.0,
       "alphaCritLow": -18.0,
-      "ClCritHigh": 1.6,
+      "ClCritHigh": 1.65,
       "ClCritLow": -0.35,
       "CdMin": 0.1
     },
@@ -234,7 +234,7 @@
       "alphaCritLow": -20.0,
       "ClCritHigh": 0.04,
       "ClCritLow": -0.04,
-      "CdMin": 0.0162
+      "CdMin": 0.015
     },
     "Stab": {
       "OswaldsEfficiencyNumber": 0.9,
@@ -477,7 +477,7 @@
       "OilThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
       "OilBoilingTemperature": 360.0,
       "OilThermostatInertia": 20.0,
-      "OilThermostatSetPoint": 60.0,
+      "OilThermostatSetPoint": 70.0,
       "DegradationTime_10_5": [180.0,171.0],
       "HalfHealthWaterTemperatureToleranceDecrease": 12.0,
       "HalfHealthOilTemperatureToleranceDecrease": 10.5,
@@ -493,35 +493,35 @@
         "RPM": 600.0,
         "ManifoldPressure": 0.695,
         "WaterTemperature": 82.0,
-        "OilTemperature": 65.0
+        "OilTemperature": 72.0
       },
       "Mode1": {
         "Altitude": 1000.0,
         "RPM": 2200.0,
         "ManifoldPressure": 1.23,
-        "WaterTemperature": 83.0,
+        "WaterTemperature": 87.0,
         "OilTemperature": 75.0
       },
       "Mode2": {
         "Altitude": 1000.0,
         "RPM": 2300.0,
         "ManifoldPressure": 1.27,
-        "WaterTemperature": 85.0,
-        "OilTemperature": 75.0
+        "WaterTemperature": 90.0,
+        "OilTemperature": 85.0
       },
       "Mode3": {
         "Altitude": 1000.0,
         "RPM": 2400.0,
         "ManifoldPressure": 1.3,
-        "WaterTemperature": 93.0,
-        "OilTemperature": 90.0
+        "WaterTemperature": 96.0,
+        "OilTemperature": 92.0
       },
       "Mode4": {
         "Altitude": 1000.0,
         "RPM": 2500.0,
         "ManifoldPressure": 1.48,
-        "WaterTemperature": 101.0,
-        "OilTemperature": 98.0
+        "WaterTemperature": 103.0,
+        "OilTemperature": 102.0
       },
       "Load0": {
         "WaterTemperature": 95.0,
@@ -569,7 +569,7 @@
       "RadiatorMode3": {
         "Throttle": 1.1,
         "WaterTemperature": 101.0,
-        "OilTemperature": 105.0
+        "OilTemperature": 103.0
       }
     },
     "Compressor": {
@@ -605,9 +605,9 @@
       "TurboChargerTimeConst": 1.0
     },
     "Mixer": {
-      "IsControllable": true,
-      "Type": 2,
-      "AltitudePressureToP0": 0.78
+      "IsControllable": false,
+      "Type": 0,
+      "AltitudePressureToP0": 0.1635
     },
     "Controls": {
       "hasThrottleControl": true,
@@ -618,7 +618,7 @@
     }
   },
   "Mass": {
-    "EmptyMass": 2617.0,
+    "EmptyMass": 2568.0,
     "MaxFuelMass0": 312.0,
     "FuelAccumulatorCapacity0": 0.3,
     "MinimalLoadFactor": 0.1,
@@ -628,7 +628,7 @@
     "OilMass": 28.0,
     "AdvancedMass": true,
     "SeparateFuelTanks": true,
-    "Takeoff": 3085.0,
+    "Takeoff": 3335.0,
     "CenterOfGravity": [0.115,0.0,0.04],
     "WingCritOverload": [-87000.0,227000.0],
     "GearDestructionIndSpeed": 300.0,

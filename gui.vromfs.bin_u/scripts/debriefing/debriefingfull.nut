@@ -381,7 +381,7 @@ function gather_debriefing_result()
   ::debriefing_result.mulsList <- []
 
   ::debriefing_result.roomUserlogs <- []
-  for (local i = 0; i < ::get_user_logs_count(); i++)
+  for (local i = ::get_user_logs_count() - 1; i >= 0; i--)
     if (::is_user_log_for_current_room(i))
     {
       local blk = ::DataBlock()
@@ -425,7 +425,12 @@ function gather_debriefing_result()
 
     airData.timBattleTime <- airData.battleTime
   }
-  ::debriefing_result.exp.pctActivity <- ::player_activity_coef(score, ((sessionTime+0.5).tointeger()).tofloat())
+  local sessionActivity = ::player_activity_coef(score, ((sessionTime+0.5).tointeger()).tofloat())
+  ::debriefing_result.exp.pctActivity <- sessionActivity
+
+  local pveRewardInfo = ::get_pve_reward_trophy_info(sessionTime, sessionActivity, ::debriefing_result.isSucceed)
+  if (pveRewardInfo)
+    ::debriefing_result.pveRewardInfo <- pveRewardInfo
 
   local trournamentBaseReward = ::debriefing_result_get_base_tournament_reward()
   ::debriefing_result.exp.wpTournamentBaseReward <- trournamentBaseReward.wp
@@ -926,4 +931,50 @@ function getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy)
                             rewardText = getWpPriceText(wpBattleTrophy, true),
                           }
                         )
+}
+
+function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)
+{
+  local pveTrophyName = ::getTblValue("pveTrophyName", ::get_current_mission_info_cached())
+  if (::u.isEmpty(pveTrophyName))
+    return null
+
+  local warpoints = ::get_warpoints_blk()
+
+  local isEnoughActivity = sessionActivity >= ::getTblValue("pveTrophyMinActivity", warpoints, 1)
+  local reachedTrophyName = isEnoughActivity ? ::get_pve_trophy_name(sessionTime, isSuccess) : null
+  local receivedTrophyName = null
+
+  if (reachedTrophyName)
+  {
+    local logs = ::getUserLogsList({
+      show = [
+        ::EULT_SESSION_RESULT
+      ]
+      currentRoomOnly = true
+    })
+    local trophyRewardsList = ::get_tbl_value_by_path_array([ 0, "container", "trophies" ], logs, {})
+    receivedTrophyName = (reachedTrophyName in trophyRewardsList) ? reachedTrophyName : null
+  }
+
+  local victoryStageTime = ::getTblValue("pveTimeAwardWinVisual", warpoints, 1)
+  local stagesTime = []
+  for (local i = 0; i <= ::getTblValue("pveTrophyMaxStage", warpoints, -1); i++)
+  {
+    local time = ::getTblValue("pveTimeAwardStage" + i, warpoints, -1)
+    if (time > 0 && time < victoryStageTime)
+      stagesTime.append(time)
+  }
+  stagesTime.append(victoryStageTime)
+
+  return {
+    isVisible = isEnoughActivity && reachedTrophyName != null
+    warnLowActivity = ! isEnoughActivity
+    reachedTrophyName  = reachedTrophyName
+    receivedTrophyName = receivedTrophyName
+    isRewardReceivedEarlier = reachedTrophyName != null && ! receivedTrophyName
+    sessionTime = isSuccess ? victoryStageTime : sessionTime.tointeger()
+    victoryStageTime = victoryStageTime
+    stagesTime = stagesTime
+  }
 }

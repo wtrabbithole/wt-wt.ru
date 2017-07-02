@@ -37,10 +37,19 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
   function initScreen()
   {
     unitTypesList = []
+    local visibleCountries = {}
     foreach(unitType in ::g_unit_type.types)
-      if (unitType.isAvailableForFirstChoice()
-          && ::get_countries_by_unit_type(unitType.esUnitType).len())
+    {
+      local isAvailable = false
+      foreach(country in ::get_countries_by_unit_type(unitType.esUnitType))
+        if (unitType.isAvailableForFirstChoice(country))
+        {
+          isAvailable = true
+          visibleCountries[country] <- true
+        }
+      if (isAvailable)
         unitTypesList.append(unitType)
+    }
     if (!unitTypesList.len())
       return goBack()
 
@@ -51,7 +60,10 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
     }
 
     countriesUnits = ::get_unit_types_in_countries()
-    countries = ::get_slotbar_countries(true)
+    countries = []
+    foreach(country in ::get_slotbar_countries(true))
+      if (country in visibleCountries)
+        countries.append(country)
 
     updateState()
   }
@@ -169,6 +181,19 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
       listBoxObj.setValue(focusItemNum)
   }
 
+  function getNotAvailableCountryMsg(country)
+  {
+    local availUnitTypes = []
+    foreach(unitType in ::g_unit_type.types)
+      if (unitType.isAvailableForFirstChoice(country)
+        && ::isInArray(country, ::get_countries_by_unit_type(unitType.esUnitType)))
+        availUnitTypes.append(unitType)
+
+    if (availUnitTypes.len() == 1)
+      return ::loc("mainmenu/onlyArmyAvailableForCountry",  { army = availUnitTypes[0].getArmyLocName() })
+    return ::loc("msg/countryNotAvailableForUnitType")
+  }
+
   function createPrefferedUnitTypeCountries()
   {
     setFrameWidth("1@countryChoiceImageWidth+2@framePadding")
@@ -179,11 +204,9 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
     local data = ""
     local view = {
-      countries = (@(availCountries) function () {
+      countries = function () {
         local res = []
         local curArmyName = selectedUnitType ? selectedUnitType.armyId  : ::g_unit_type.AIRCRAFT.armyId
-        local notAvailableMsg = ::loc("mainmenu/onlyArmyAvailableForCountry",
-                                      { army = ::loc("mainmenu/" + ::g_unit_type.AIRCRAFT.armyId) })
         foreach(country in countries)
         {
           local available = ::isInArray(country, availCountries)
@@ -209,13 +232,13 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
           if (!available)
           {
             cData.disabled <- true
-            cData.text <- notAvailableMsg
+            cData.text <- getNotAvailableCountryMsg(country)
           }
 
           res.append(cData)
         }
         return res
-      })(availCountries).bindenv(this)
+      }.bindenv(this)
     }
 
     data = ::handyman.renderCached("gui/countryFirstChoiceItem", view)

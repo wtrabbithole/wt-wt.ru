@@ -196,6 +196,6 @@ function g_unlock_view::fillUnlockFavCheckbox(obj)
   local isUnlockInFavorites = obj.unlockId in ::g_unlocks.getFavoriteUnlocks()
   obj.setValue(isUnlockInFavorites)
   obj.tooltip = ::loc( isUnlockInFavorites ?
-    "#mainmenu/UnlockAchievementsRemoveFromFavorite/hint" :
-    "#mainmenu/UnlockAchievementsToFavorite/hint")
+    "mainmenu/UnlockAchievementsRemoveFromFavorite/hint" :
+    "mainmenu/UnlockAchievementsToFavorite/hint")
 }

@@ -109,8 +109,8 @@
         {
           "varSetRandomInt": {
             "var": "tcp_last_side",
-            "random from": 1,
-            "random to": 3
+            "from": 1,
+            "to_not_including": 3
           }
         },
         {
@@ -334,8 +334,8 @@
         },
         "varSetRandomInt": {
           "var": "tcp_point_randomizer",
-          "random from": 1,
-          "random to": 7
+          "from": 1,
+          "to_not_including": 7
         },
         "varSetString": {
           "var": "tcp_cur_point",
@@ -391,8 +391,8 @@
       "actions": {
         "varSetRandomInt": {
           "var": "tcp_point_randomizer",
-          "random from": 1,
-          "random to": 6
+          "from": 1,
+          "to_not_including": 6
         },
         "varSetString": {
           "var": "tcp_cur_point",

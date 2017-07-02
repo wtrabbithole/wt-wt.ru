@@ -166,7 +166,7 @@ function on_mainmenu_return(handler, isAfterLogin)
   if (isAllowPopups)
   {
     handler.doWhenActiveOnce("checkNoviceTutor")
-    handler.doWhenActiveOnce("checkUpgradeCrewTutor")
+    //handler.doWhenActiveOnce("checkUpgradeCrewTutor") // TODO: Fix the bug 58031
     handler.doWhenActiveOnce("initPromoBlock")
 
     local hasModalObjectVal = guiScene.hasModalObject()

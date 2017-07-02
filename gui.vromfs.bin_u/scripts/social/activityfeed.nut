@@ -156,9 +156,8 @@ function ps4PostActivityFeed(config, customFeedParams)
 
   local getFilledFeedTextByLang = (@(activityFeed_config, localizedKeyWords) function(locId) {
     local sample = "\"%s\":\"%s\""
-    local captions = ""
+    local captions = []
     local localizedTable = ::get_localized_text_with_abbreviation(locId)
-    local i = 0
 
     foreach(lang, string in localizedTable)
     {
@@ -166,21 +165,16 @@ function ps4PostActivityFeed(config, customFeedParams)
       foreach(name, value in activityFeed_config)
         localizationTable[name] <- ::get_tbl_value_by_path_array([name, lang], localizedKeyWords, value)
 
-      captions += ::format(sample, lang, ::replaceParamsInLocalizedText(string, localizationTable))
-      captions += (i == (localizedTable.len() - 1) ? "" : ",")
-      i++
+      captions.append(::format(sample, lang, ::replaceParamsInLocalizedText(string, localizationTable)))
     }
 
     return captions
   })(activityFeed_config, localizedKeyWords)
 
   local blk = ::DataBlock()
-
   blk.apiGroup = "activityFeed"
   blk.method = ::HTTP_METHOD_POST
-  blk.path = ::format("/v1/users/%s/feed", ::ps4_get_online_id())
-
-  local titleId = (::ps4_get_region() == ::SCE_REGION_SCEA) ? "CUSA00224_00" : "CUSA00182_00"
+  blk.path = "/v1/users/me/feed"
 
   local captions = getFilledFeedTextByLang("activityFeed/" + locId)
   local condensedCaptions = getFilledFeedTextByLang("activityFeed/" + locId + "/condensed")
@@ -191,24 +185,32 @@ function ps4PostActivityFeed(config, customFeedParams)
   local largeImage = smallImage + ::getTblValue("bigLogoEnd", imageUrlsConfig, "")
   local fileExtension = ::getTblValue("fileExtension", imageUrlsConfig, "")
 
-  local txt = "{"
-  txt += "\"captions\":{" + captions + "},"
-  txt += "\"condensedCaptions\":{" + condensedCaptions + "},"
-  txt += "\"source\": {\"meta\":\"" + ::ps4_get_online_id() + "\",\"type\":\"ONLINE_ID\"},"
-  txt += "\"storyType\":\"IN_GAME_POST\","
-  txt += "\"subType\": " + subType + ","
-  txt += "\"targets\": ["
-  txt += "{\"meta\":\"" + titleId + "\",\"type\":\"TITLE_ID\"}"
+  local requestBody = ""
+  requestBody += "\"captions\": {" + ::implode(captions, ",") + "},"
+  requestBody += "\"condensedCaptions\": {" + ::implode(condensedCaptions, ",") + "},"
 
-  if (smallImage != "")
-    txt += ",{\"meta\":\"" + smallImage + fileExtension + "\",\"type\":\"SMALL_IMAGE_URL\",\"aspectRatio\":\"2.08:1\"}"
+  requestBody += "\"storyType\": \"IN_GAME_POST\","
+  requestBody += "\"subType\": " + subType + ","
+
+  local onlineIdTarget = ""
+  local accountId = ::ps4_get_account_id()
+  if (accountId != "")
+    onlineIdTarget = "{\"type\": \"ONLINE_ID\",\"accountId\": \"" + accountId + "\"}"
+  else
+    requestBody += "\"source\": {\"meta\":\"" + ::ps4_get_online_id() + "\",\"type\":\"ONLINE_ID\"},"
+
+  local largeImageTarget = ""
   if (largeImage != "")
-    txt += ",{\"meta\":\"" + largeImage + fileExtension + "\",\"type\":\"LARGE_IMAGE_URL\"}"
+    largeImageTarget = "{\"meta\":\"" + largeImage + fileExtension + "\",\"type\":\"LARGE_IMAGE_URL\"}"
 
-  txt += "]"
-  txt += "}"
+  local smallImageTarget = ""
+  if (smallImage != "")
+    smallImageTarget = "{\"meta\":\"" + smallImage + fileExtension + "\",\"type\":\"SMALL_IMAGE_URL\",\"aspectRatio\":\"2.08:1\"}"
 
-  blk.request = txt
+  local targets = [largeImageTarget, onlineIdTarget, smallImageTarget]
+  requestBody += "\"targets\": [" + ::implode(targets, ",") + "]"
+
+  blk.request = "{" + ::stringReplace(requestBody, "\t", "") + "}"
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {

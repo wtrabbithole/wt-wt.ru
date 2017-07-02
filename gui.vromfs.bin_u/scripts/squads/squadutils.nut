@@ -85,12 +85,7 @@ function g_squad_utils::showLeaveSquadMsgBox(msgId, okFunc = null, cancelFunc = 
     ::loc(msgId),
     [
       [ isSquadLeader ? "disbandSquad" : "leaveSquad",
-        function()
-        {
-          ::g_squad_manager.leaveSquad()
-          if (okFunc)
-            okFunc()
-        }
+        function() { ::g_squad_manager.leaveSquad(okFunc) }
       ],
       ["cancel", cancelFunc]
     ],
@@ -146,7 +141,7 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
   local squadMembers = ::g_squad_manager.getMembers()
   foreach(uid, memberData in squadMembers)
   {
-    if (!memberData.online || ::g_squad_manager.getPlayerStatusInMySquad(uid) == SquadState.SQUAD_LEADER)
+    if (!memberData.online || ::g_squad_manager.getPlayerStatusInMySquad(uid) == squadMemberState.SQUAD_LEADER)
       continue
 
     if (memberData.country == "")

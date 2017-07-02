@@ -20,7 +20,7 @@
 @const wwLogTimeColumnWidth: 44*@sf/@pf;
 @const wwLogZoneColumnWidth: 36*@sf/@pf;
 
-@const wwBattleInfoMapMaxSize: 240*@sf/@pf+0.2@wwBattleInfoScreenIncHeight;
+@const wwBattleInfoMapMaxSize: 0.4@scrn_tgt+0.2@wwBattleInfoScreenIncHeight;
 @const wwBattleMapShadowPadding: 6*@sf/@pf;
 @const wwBlockTabMinWidth: 22*@sf/@pf;
 
@@ -440,7 +440,6 @@ wwWindowListBackground[type=right] {
 operationResultText {
   behaviour:textArea;
   re-type:textarea;
-  width: pw;
   text-align:center;
   font: @title_big;
   color: @white;
@@ -479,7 +478,7 @@ wwBattleBackgroundShadow[type=right] {
 wwBattleBackgroundShadow[type=top] {
   background-image:#ui/images/worldwar_window_shadow_bg_image_vert;
   background-rotation:180;
-  size:pw, 1@wwBattleBackgroundShadowLedge;
+  size:pw, 3@wwBattleBackgroundShadowLedge;
 }
 wwBattleBackgroundShadow[type=bottom] {
   background-image:#ui/images/worldwar_window_shadow_bg_image_vert;

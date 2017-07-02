@@ -1,7 +1,7 @@
 {
   "Weapon": {
     "trigger": "bombs",
-    "blk": "gameData/Weapons/BombGuns/jp_type99mod80.blk",
+    "blk": "gameData/Weapons/BombGuns/jp_navy_type99mod80_800kg.blk",
     "emitter": "bomb16",
     "bullets": 1
   },
@@ -23,6 +23,7 @@
     }
   ],
   "Bombing": {
+    "maxDelay": 0.0,
     "canBeDropped": {
       "altitude": [-100.0,20000.0],
       "tangage": [-95.0,60.0],
@@ -52,6 +53,16 @@
       "altitude": [20.0,15000.0],
       "tangage": [-120.0,60.0],
       "roll": 180.0
+    },
+    "maxDelayAt": {
+      "altitude": [-20000.0,20000.0],
+      "tangage": [-180.0,180.0],
+      "roll": 180.0
+    },
+    "noDelayAt": {
+      "altitude": [-19999.0,19999.0],
+      "tangage": [-179.0,179.0],
+      "roll": 179.0
     }
   }
 }

@@ -1802,14 +1802,14 @@
         {
           "varModify": {
             "operator": "add",
-            "value": -30.0,
+            "value": -60.0,
             "var": "arcade_destroy_timer"
           }
         },
         {
           "varModify": {
             "operator": "add",
-            "value": -60.0,
+            "value": -90.0,
             "var": "long_time_is"
           }
         },
@@ -2329,6 +2329,44 @@
           "enableAfterComplete": false
         },
         "events": {
+          "initMission": []
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "делаем через переменные, чтобы не ругалось в миссиях, где аэродромов нет"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "t1_airfield",
+              "var": "t1_enemy_airfield_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "t2_airfield",
+              "var": "t2_enemy_airfield_name"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "enemy_on_airfield_start"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "enemy_on_airfield_start": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
           "periodicEvent": {
             "time": 1.0
           }
@@ -2336,13 +2374,13 @@
         "conditions": [
           {
             "objectExists": {
-              "target": "t1_airfield",
+              "target": "@t1_enemy_airfield_name",
               "type": "objectGroup"
             }
           },
           {
             "objectExists": {
-              "target": "t2_airfield",
+              "target": "@t2_enemy_airfield_name",
               "type": "objectGroup"
             }
           }
@@ -2379,7 +2417,7 @@
             "check_objects": "any",
             "afterRepaired": false,
             "object": "t1_players_squad",
-            "target": "t2_airfield"
+            "target": "@t2_enemy_airfield_name"
           }
         },
         "actions": [
@@ -2405,6 +2443,7 @@
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
+              "isOverFade": false,
               "team": "A"
             }
           },
@@ -2421,6 +2460,7 @@
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
+              "isOverFade": false,
               "team": "A"
             }
           }
@@ -2447,7 +2487,7 @@
             "check_objects": "any",
             "afterRepaired": false,
             "object": "t2_players_squad",
-            "target": "t1_airfield"
+            "target": "@t1_enemy_airfield_name"
           }
         },
         "actions": [
@@ -2473,6 +2513,7 @@
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
+              "isOverFade": false,
               "team": "B"
             }
           },
@@ -2489,6 +2530,7 @@
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
+              "isOverFade": false,
               "team": "B"
             }
           }
@@ -2557,7 +2599,8 @@
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
-              "priority": 0
+              "priority": 0,
+              "isOverFade": false
             }
           },
           {
@@ -2572,7 +2615,8 @@
               "action": "hide",
               "shouldFadeOut": false,
               "time": -1.0,
-              "priority": 0
+              "priority": 0,
+              "isOverFade": false
             }
           },
           {
@@ -2844,7 +2888,9 @@
     "t2_exitZoneName": "",
     "enableExitZones": false,
     "barabashka_init_timer": 120,
-    "barabashka_is_waiting": false
+    "barabashka_is_waiting": false,
+    "t1_enemy_airfield_name": "",
+    "t2_enemy_airfield_name": ""
   },
   "dialogs": [],
   "airfields": [],

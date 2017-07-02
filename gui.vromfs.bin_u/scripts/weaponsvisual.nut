@@ -152,7 +152,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   local statusRadioObj = itemObj.findObject("status_radio")
   if(statusRadioObj)
     statusRadioObj.show(showStatus && statusTbl.unlocked &&
-      isSwitcher && ! isFakeBullet(visualItem))
+      isSwitcher && !::is_fake_bullet(visualItem.name))
 
   local blockObj = itemObj.findObject("modItem_statusBlock")
   if (blockObj)
@@ -290,11 +290,6 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   local textObj = altBtn.findObject("item_buy_text")
   if (::checkObj(textObj))
     textObj.setValue(altBtnText)
-}
-
-function weaponVisual::isFakeBullet(visualItem)
-{
-  return ::g_string.startsWith(visualItem.name, ::fakeBullets_prefix)
 }
 
 function weaponVisual::getItemStatusTbl(air, item)
@@ -555,10 +550,9 @@ function weaponVisual::getItemImage(air, item)
 
 function weaponVisual::getBulletsIconData(bulletsSet)
 {
-  if (!bulletsSet || !("bullets" in bulletsSet))
+  if (!bulletsSet)
     return ""
   local blk = ::handyman.renderCached(("gui/weaponry/bullets"), getBulletsIconView(bulletsSet))
-
   return blk
 }
 
@@ -1157,6 +1151,8 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
     if(reqMods != "")
       reqText += (reqText==""? "" : "\n") + reqMods
   }
+  if (isBullets(item) && !::is_bullets_group_active_by_mod(air, item))
+    reqText += ((reqText=="")?"":"\n") + ::loc("msg/weaponSelectRequired")
   reqText = reqText!=""? ("<color=@badTextColor>" + reqText + "</color>") : ""
   res.reqText <- reqText
 
@@ -1208,6 +1204,31 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
   local dist = [10, 100, 500, 1000, 1500, 2000];
   local param = { armorPiercing = array(dist.len(), null) }
   local needAddParams = bullet_parameters.len() == 1
+
+  local isSmokeShell   = bulletsSet.bullets.len() == 1 && bulletsSet.bullets[0] == "smoke_tank"
+  local isSmokeGrenade = bulletsSet.weaponType == WEAPON_TYPE.SMOKE_SCREEN
+  if (isSmokeGrenade || isSmokeShell)
+  {
+    local whitelistParams = isSmokeGrenade ? [ "bulletType", "armorPiercing", "armorPiercingDist" ]
+      : [ "mass", "speed", "bulletType", "armorPiercing", "armorPiercingDist" ]
+    local filteredBulletParameters = []
+    foreach (_params in bullet_parameters)
+    {
+      local params = _params ? {} : null
+      if (_params)
+      {
+        foreach (key in whitelistParams)
+          if (key in _params)
+            params[key] <- _params[key]
+
+        params.armorPiercing = []
+        params.armorPiercingDist = []
+      }
+      filteredBulletParameters.append(params)
+    }
+    bullet_parameters = filteredBulletParameters
+  }
+
   foreach (bullet_params in bullet_parameters)
   {
     if (!bullet_params)
@@ -1260,6 +1281,10 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
       if (p in bulletsSet)
         param[p] <- bulletsSet[p]
 
+    foreach(p in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
+      if (p in bulletsSet)
+        param[p] <- bulletsSet[p]
+
     param.bulletType <- ::getTblValue("bulletType", bullet_params, "")
   }
 
@@ -1274,8 +1299,9 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
   }
   if ("mass" in param)
   {
-    addProp(p, ::loc("bullet_properties/mass"),
-               ::roundToDigits(param.mass, 2) + " " + ::loc("measureUnits/kg"))
+    if (param.mass > 0)
+      addProp(p, ::loc("bullet_properties/mass"),
+                ::roundToDigits(param.mass, 2) + " " + ::loc("measureUnits/kg"))
     if (param.speed > 0)
       addProp(p, ::loc("bullet_properties/speed"),
                  ::format("%.0f %s", param.speed, ::loc("measureUnits/metersPerSecond_climbSpeed")))
@@ -1318,7 +1344,8 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
       addProp(p, ::loc("bullet_properties/explodeTreshold"),
                  explodeTreshold + " " + ::loc("measureUnits/mm"))
 
-    local ricochetData = ::g_dmg_model.getRicochetData(param.bulletType)
+    local needRicochetData = !isSmokeGrenade && !isSmokeShell
+    local ricochetData = needRicochetData && ::g_dmg_model.getRicochetData(param.bulletType)
     if (ricochetData)
       for (local i = ricochetData.angleProbabilityMap.len() - 1; i >= 0; --i)
       {
@@ -1327,6 +1354,18 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
                          { probability = ::roundToDigits(100.0 * item.probability, 2) }),
                    ::roundToDigits(item.angle, 2) + ::loc("measureUnits/deg"))
       }
+
+    if ("smokeShellRad" in param)
+      addProp(p, ::loc("bullet_properties/smokeShellRad"),
+                 ::roundToDigits(param.smokeShellRad, 2) + " " + ::loc("measureUnits/meters_alt"))
+
+    if ("smokeActivateTime" in param)
+      addProp(p, ::loc("bullet_properties/smokeActivateTime"),
+                 ::roundToDigits(param.smokeActivateTime, 2) + " " + ::loc("measureUnits/seconds"))
+
+    if ("smokeTime" in param)
+      addProp(p, ::loc("bullet_properties/smokeTime"),
+                 ::roundToDigits(param.smokeTime, 2) + " " + ::loc("measureUnits/seconds"))
 
     local bTypeDesc = ::loc(param.bulletType, "")
     if (bTypeDesc != "")

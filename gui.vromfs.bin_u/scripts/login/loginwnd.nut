@@ -87,7 +87,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
       currentFocusItem = 1
     initFocusArray()
 
-    initial_autologin = ::get_gui_option(::USEROPT_AUTOLOGIN) || false
+    initial_autologin = ::is_autologin_enabled()
 
     local autoLoginEnable = lp.autoSave & 1 && lp.autoSave & 2
     local autoLogin = initial_autologin && autoLoginEnable
@@ -429,7 +429,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
       return
 
     local autoLogin = (autoSaveLogin && autoSavePassword) ? scene.findObject("loginbox_autologin").getValue() : false
-    ::set_gui_option(::USEROPT_AUTOLOGIN, autoLogin)
+    ::set_autologin_enabled(autoLogin)
     if (initial_autologin != autoLogin)
       ::save_profile(false)
 

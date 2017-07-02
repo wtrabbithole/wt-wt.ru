@@ -13,24 +13,36 @@ enum squadStatusUpdateState {
   BATTLE
 }
 
-enum SquadState
+enum squadMemberState
 {
   NOT_IN_SQUAD
-  SQUAD_LEADER
+  SQUAD_LEADER //leader cant be offline or not ready.
   SQUAD_MEMBER
-  SQUAD_MEMBER_READY //for presences
+  SQUAD_MEMBER_READY
+  SQUAD_MEMBER_OFFLINE
+}
+
+enum squadState
+{
+  NOT_IN_SQUAD
+  JOINING
+  IN_SQUAD
+  LEAVING
 }
 
 const DEFAULT_SQUADS_VERSION = 1
 const SQUADS_VERSION = 2
+const SQUAD_REQEST_TIMEOUT = 45000
 
 g_squad_manager <- {
-  [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "lastUpdateStatus"]
+  [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "lastUpdateStatus", "state"]
 
   maxSquadSize = 4
   maxInvitesCount = 9
 
   cyberCafeSquadMembersNum = -1
+  state = squadState.NOT_IN_SQUAD
+  lastStateChangeTime = - SQUAD_REQEST_TIMEOUT
   squadData = {
     id = ""
     members = {}
@@ -47,6 +59,33 @@ g_squad_manager <- {
 
   meReady = false
   lastUpdateStatus = squadStatusUpdateState.NONE
+  roomCreateInProgress = false
+}
+
+function g_squad_manager::setState(newState)
+{
+  if (state == newState)
+    return false
+  state = newState
+  lastStateChangeTime = ::dagor.getCurTime()
+  ::broadcastEvent(squadEvent.STATUS_CHANGED)
+  return true
+}
+
+function g_squad_manager::isStateInTransition()
+{
+  return (state == squadState.JOINING || state == squadState.LEAVING)
+    && lastStateChangeTime + SQUAD_REQEST_TIMEOUT > ::dagor.getCurTime()
+}
+
+function g_squad_manager::canStartStateChanging()
+{
+  return !isStateInTransition()
+}
+
+function g_squad_manager::canJoinSquad()
+{
+  return !isInSquad() && canStartStateChanging()
 }
 
 function g_squad_manager::updateMyMemberData(data = null)
@@ -94,7 +133,7 @@ function g_squad_manager::isInSquad(forChat = false)
   if (forChat && !::SessionLobby.isMpSquadChatAllowed())
     return false
 
-  return !::u.isEmpty(squadData.id)
+  return state == squadState.IN_SQUAD
 }
 
 function g_squad_manager::isMeReady()
@@ -200,7 +239,9 @@ function g_squad_manager::isInMySquad(name, checkAutosquad = true)
 
 function g_squad_manager::canInviteMember()
 {
-  return canManageSquad() && (!isInSquad() || isSquadLeader()) && !isInvitedMaxPlayers()
+  return canManageSquad()
+    && (canJoinSquad() || isSquadLeader())
+    && !isInvitedMaxPlayers()
 }
 
 function g_squad_manager::canSwitchReadyness()
@@ -215,7 +256,7 @@ function g_squad_manager::canLeaveSquad()
 
 function g_squad_manager::canManageSquad()
 {
-  return ::has_feature("Squad") && !::is_in_flight() && !::is_in_loading_screen() && !::is_multiplayer()
+  return ::has_feature("Squad") && ::isInMenu()
 }
 
 function g_squad_manager::getSquadSize(includeInvites = false)
@@ -243,19 +284,20 @@ function g_squad_manager::isInvitedMaxPlayers()
 function g_squad_manager::getPlayerStatusInMySquad(uid)
 {
   if (!isInSquad())
-    return SquadState.NOT_IN_SQUAD
+    return squadMemberState.NOT_IN_SQUAD
 
   if (getLeaderUid() == uid)
-    return SquadState.SQUAD_LEADER
+    return squadMemberState.SQUAD_LEADER
 
   local memberData = getMemberData(uid)
   if (memberData == null)
-    return SquadState.NOT_IN_SQUAD
+    return squadMemberState.NOT_IN_SQUAD
 
+  if (!memberData.online)
+    return squadMemberState.SQUAD_MEMBER_OFFLINE
   if (memberData.isReady)
-    return SquadState.SQUAD_MEMBER_READY
-  else
-    return SquadState.SQUAD_MEMBER
+    return squadMemberState.SQUAD_MEMBER_READY
+  return squadMemberState.SQUAD_MEMBER
 }
 
 function g_squad_manager::readyCheck(considerInvitedPlayers = false)
@@ -327,36 +369,25 @@ function g_squad_manager::createSquad(callback)
   if (!::has_feature("Squad"))
     return
 
-  if (isInSquad())
+  if (!canJoinSquad() || !canManageSquad() || ::queues.isAnyQueuesActive())
     return
 
-  if (!canManageSquad() || ::queues.isAnyQueuesActive())
-    return
-
-  local fullCallback = (@(callback) function() {
-                         ::g_squad_manager.updateMyMemberData(::g_user_utils.getMyStateData())
-
-                         if (callback != null)
-                           callback()
-
-                         ::broadcastEvent(squadEvent.STATUS_CHANGED)
-                       })(callback)
-
-  ::msquad.create((@(fullCallback) function(response) {
-                    ::g_squad_manager.requestSquadData(fullCallback)
-                  })(fullCallback)
-                 )
+  setState(squadState.JOINING)
+  ::msquad.create(function(response) { ::g_squad_manager.requestSquadData(callback) })
 }
 
 function g_squad_manager::joinSquadChatRoom()
 {
-  if (!isInSquad())
+  if (!isNotAloneOnline())
     return
 
   if (!::gchat_is_connected())
     return
 
   if (::g_chat.isSquadRoomJoined())
+    return
+
+  if (roomCreateInProgress)
     return
 
   local name = getSquadRoomName()
@@ -370,8 +401,10 @@ function g_squad_manager::joinSquadChatRoom()
   {
     password = squadData.chatInfo.password = ::gen_rnd_password(15)
 
+    roomCreateInProgress = true
     callback = function() {
                  ::g_squad_manager.updateSquadData()
+                 ::g_squad_manager.roomCreateInProgress = false
                }
   }
 
@@ -476,16 +509,18 @@ function g_squad_manager::requestSquadData(callback = null)
   ::msquad.requestInfo(fullCallback)
 }
 
-function g_squad_manager::leaveSquad()
+function g_squad_manager::leaveSquad(cb = null)
 {
   if (!isInSquad())
     return
 
-  local callback = function(response) {
-                     ::g_squad_manager.reset()
-                   }
-
-  ::msquad.leave(callback)
+  setState(squadState.LEAVING)
+  ::msquad.leave(function(response)
+  {
+    ::g_squad_manager.reset()
+    if (cb)
+      cb()
+  })
 }
 
 function g_squad_manager::inviteToSquad(uid)
@@ -611,18 +646,11 @@ function g_squad_manager::onLeadershipTransfered()
 
 function g_squad_manager::acceptSquadInvite(sid)
 {
-  if (isInSquad())
+  if (!canJoinSquad())
     return
 
-  local callback = function(response) {
-                     local getDataCallback = function() {
-                                               ::g_squad_manager.updateMyMemberData(::g_user_utils.getMyStateData())
-                                               ::broadcastEvent(squadEvent.STATUS_CHANGED)
-                                             }
-                     ::g_squad_manager.requestSquadData(getDataCallback)
-                   }
-
-  ::msquad.acceptInvite(sid, callback)
+  setState(squadState.JOINING)
+  ::msquad.acceptInvite(sid, function(response) { ::g_squad_manager.requestSquadData() })
 }
 
 function g_squad_manager::rejectSquadInvite(sid)
@@ -665,6 +693,8 @@ function g_squad_manager::requestMemberData(uid)
                         if (::SessionLobby.canInviteIntoSession() && memberData.canJoinSessionRoom())
                           ::SessionLobby.invitePlayer(memberData.uid)
                       }
+
+                      ::g_squad_manager.joinSquadChatRoom()
 
                       ::broadcastEvent(squadEvent.DATA_UPDATED)
 
@@ -764,7 +794,7 @@ function g_squad_manager::reset()
 
   ::update_contacts_by_list(contactsUpdatedList)
 
-  ::broadcastEvent(squadEvent.STATUS_CHANGED)
+  setState(squadState.NOT_IN_SQUAD)
   ::broadcastEvent(squadEvent.DATA_UPDATED)
   ::broadcastEvent(squadEvent.INVITES_CHANGED)
 }
@@ -833,6 +863,7 @@ function g_squad_manager::onSquadDataChanged(data = null)
   {
     ::script_net_assert_once("no squad id", "Error: received squad data without squad id")
     ::msquad.leave() //leave broken squad
+    setState(squadState.NOT_IN_SQUAD)
     return
   }
 
@@ -868,6 +899,10 @@ function g_squad_manager::onSquadDataChanged(data = null)
     if (!::u.isEmpty(chatName))
       squadData.chatInfo.name = chatName
   }
+
+  if (setState(squadState.IN_SQUAD))
+    updateMyMemberData(::g_user_utils.getMyStateData())
+
   joinSquadChatRoom()
   joinWwOperation()
 
@@ -942,6 +977,11 @@ function g_squad_manager::checkUpdateStatus(newStatus)
   ::g_squad_utils.updateMyCountryData()
 }
 
+function g_squad_manager::getSquadRoomId()
+{
+  return ::getTblValue("sessionRoomId", getSquadLeaderData(), "")
+}
+
 function g_squad_manager::onEventUpdateEsFromHost(p)
 {
   checkUpdateStatus(squadStatusUpdateState.BATTLE)
@@ -949,13 +989,13 @@ function g_squad_manager::onEventUpdateEsFromHost(p)
 
 function g_squad_manager::onEventNewSceneLoaded(p)
 {
-  if (::isInMenu() && !::is_multiplayer())
+  if (::isInMenu())
     checkUpdateStatus(squadStatusUpdateState.MENU)
 }
 
 function g_squad_manager::onEventBattleEnded(p)
 {
-  if (::isInMenu() && !::is_multiplayer())
+  if (::isInMenu())
     checkUpdateStatus(squadStatusUpdateState.MENU)
 }
 

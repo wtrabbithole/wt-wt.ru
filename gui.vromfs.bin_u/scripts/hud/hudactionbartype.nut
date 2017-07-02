@@ -25,15 +25,23 @@
   getName        = @(killStreakTag = null) _name
   getIcon        = @(killStreakTag = null) _icon
   getTitle       = @(killStreakTag = null) _title
-  getTooltipText = @(killStreakTag = null) ::loc("actionBarItem/" + getName(killStreakTag))
+  getTooltipText = function(actionItem = null)
+  {
+    local res = ::loc("actionBarItem/" + getName(::getTblValue("killStreakTag", actionItem)))
+    local cooldownTime = ::getTblValue("cooldownTime", actionItem)
+    if (cooldownTime)
+      res += "\n" + ::loc("shop/reloadTime") + ::secondsToString(cooldownTime, true, true)
+    return res
+  }
 
   getShortcut = function(actionItem, unit = null)
   {
     if (!unit)
       unit = ::get_player_cur_unit()
+    local shortcutIdx = ::getTblValue("shortcutIdx", actionItem, actionItem.id) //compatibility with 1.67.2.X
     if (::isShip(unit))
-      return "ID_SHIP_ACTION_BAR_ITEM_" + (actionItem.id + 1)
-    return "ID_ACTION_BAR_ITEM_" + (actionItem.id + 1)
+      return "ID_SHIP_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
+    return "ID_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
   }
 
   getVisualShortcut = function(actionItem, unit = null)
@@ -57,6 +65,43 @@
   BULLET = {
     code = ::EII_BULLET
     _name = "bullet"
+  }
+
+  TORPEDO = {
+    code = ::EII_TORPEDO
+    _name = "torpedo"
+    _icon = "#ui/gameuiskin#torpedo"
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_TORPEDOES"
+  }
+
+  DEPTH_CHARGE = {
+    code = ::EII_DEPTH_CHARGE
+    _name = "deapth_charge"
+    _icon = "#ui/gameuiskin#depth_charge"
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_DEPTH_CHARGE"
+  }
+
+  ROCKET = {
+    code = ::EII_ROCKET
+    _name = "rocket"
+    _icon = "#ui/gameuiskin#rocket"
+    getShortcut = function(actionItem, unit = null)
+    {
+      if (::is_helicopter(unit))
+        return "ID_ROCKETS_HELICOPTER"
+      if (::isShip(unit))
+        return "ID_SHIP_WEAPON_ROCKETS"
+      if (::isTank(unit))
+        return "ID_FIRE_GM_SPECIAL_GUN"
+      return "ID_ROCKETS"
+    }
+  }
+
+  SMOKE_SCREEN = {
+    code = ::EII_SMOKE_SCREEN
+    _name = "smoke_screen"
+    _icon = "#ui/gameuiskin#smoke_screen"
+    getShortcut = @(actionItem, unit = null) "ID_SMOKE_SCREEN"
   }
 
   ARTILLERY_TARGET = {

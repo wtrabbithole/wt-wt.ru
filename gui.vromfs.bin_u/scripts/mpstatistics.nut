@@ -191,8 +191,9 @@ function build_mp_table(table, markup, hdr, max_rows)
         local nameWidth = ((hdr[j] in markup)&&("width" in markup[hdr[j]]))?markup[hdr[j]].width:"0.5pw-0.035sh"
         local nameAlign = row_invert? "text-align:t='right' " : ""
         local isReady = !isEmpty && (("state" in table[i]) && table[i].state == ::PLAYER_IN_LOBBY_READY)
-        local playerImage = "";
-        local playerStateDesc = ""
+
+        local playerInfo = null
+
         local needReadyIcon = (!("readyIcon" in markup.name)) || markup.name.readyIcon
         textPadding = "style:t='padding:" + (row_invert? "1.5@tableIcoSize,0,1@tablePad,0" : "1@tablePad,0,1.5@tableIcoSize,0") + ";'"
 
@@ -202,15 +203,22 @@ function build_mp_table(table, markup, hdr, max_rows)
             trData += (table[i].state != ::PLAYER_IN_FLIGHT && table[i].state != ::PLAYER_IN_RESPAWN) ? "inGame:t='yes'; " : "inGame:t='no'; "
           else
           {
-            playerImage = ::getPlayerStateIco(table[i])
-            playerStateDesc = ::getPlayerStateDesc(table[i])
+            playerInfo = table[i]
           }
         }
 
-        local playerStateTooltip = (playerStateDesc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + playerStateDesc) : ""
-        local playerIcoDiv = (!needReadyIcon) ? "" :
-                                 format("img { id:t='ready-ico'; size:t='@tableIcoSize,@tableIcoSize'; background-image:t='%s'; tooltip:t='%s' } "
-                                       playerImage, playerStateTooltip)
+        local playerIcoDiv = ""
+        if (needReadyIcon)
+        {
+          local playerState = ::g_player_state.getStateByPlayerInfo(playerInfo)
+          local playerImage = playerState.getIcon(playerInfo)
+          local playerImageColor = playerState.getIconColor()
+
+          local playerStateDesc = playerState.getText(playerInfo)
+          local playerStateTooltip = (playerStateDesc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + playerStateDesc) : ""
+          playerIcoDiv = ::format("playerStateIcon { id:t='ready-ico'; background-image:t='%s'; background-color:t='%s'; tooltip:t='%s' } "
+                                       playerImage, playerImageColor, playerStateTooltip)
+        }
 
         //update air weapons and dead icons
         local isAircraft = (!isEmpty) && ("aircraftName" in table[i])
@@ -504,8 +512,10 @@ function set_mp_table(obj_tbl, table, params)
           local unitIcoColorType = ""
           if (::checkObj(objReady) && ("state" in table[i]))
           {
-            objReady["background-image"] = ::getPlayerStateIco(table[i])
-            local desc = ::getPlayerStateDesc(table[i])
+            local playerState = ::g_player_state.getStateByPlayerInfo(table[i])
+            objReady["background-image"] = playerState.getIcon(table[i])
+            objReady["background-color"] = playerState.getIconColor()
+            local desc = playerState.getText(table[i])
             objReady.tooltip = (desc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + desc) : ""
           }
           else
@@ -514,7 +524,7 @@ function set_mp_table(obj_tbl, table, params)
               !objAircraft
             objTr["inGame"] = inGame? "yes" : "no"
             if (!inGame)
-              unitIco = "#ui/gameuiskin#player_not_ready"
+              unitIco = ::g_player_state.HAS_LEAVED_GAME.getIcon(table[i])
           }
 
           if (objDlcImg)
@@ -785,24 +795,6 @@ function getPlayerStateTextId(playerInfo)
   if (::getTblValue("clipSize", playerInfo, 0) > 0)
     return "movie_unlocked"
   return ""
-}
-
-function getPlayerStateIco(playerInfo)
-{
-  local stateTextId = ::getPlayerStateTextId(playerInfo)
-  local isSpectator = ::getTblValue("spectator", playerInfo, false)
-  if (isSpectator)
-    stateTextId = (stateTextId == "player_ready" || stateTextId == "player_in_game") ? "player_spectator" : "player_spectator_not_ready"
-  return stateTextId.len() ? ("#ui/gameuiskin#" + stateTextId) : ""
-}
-
-function getPlayerStateDesc(playerInfo)
-{
-  local stateTextId = ::getPlayerStateTextId(playerInfo)
-  local isSpectator = ::getTblValue("spectator", playerInfo, false)
-  local stateLoc = stateTextId.len() ? ::loc("multiplayer/state/" + stateTextId) : ""
-  local roleLoc = isSpectator ? ::loc("multiplayer/state/player_referee") : ""
-  return ::implode([ roleLoc, stateLoc ], ::loc("ui/semicolon"))
 }
 
 function getUnitClassIco(unit)

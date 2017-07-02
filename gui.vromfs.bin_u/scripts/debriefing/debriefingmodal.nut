@@ -129,6 +129,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   isSpectator = false
   gameType = null
 
+  pveRewardInfo = null
+
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
 
   function initScreen()
@@ -155,7 +157,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     playerStatsObj = scene.findObject("stat_table")
     numberOfWinningPlaces = ::getTblValue("numberOfWinningPlaces", ::debriefing_result, -1)
-
+    pveRewardInfo = ::getTblValue("pveRewardInfo", ::debriefing_result)
     foreach(idx, row in ::debriefing_rows)
       if (row.show)
       {
@@ -164,6 +166,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
 
     handleActiveWager()
+    handlePveReward()
 
     //update title
     scene.findObject("mission_name").setValue(::loc_current_mission_name())
@@ -256,7 +259,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     ::g_squad_utils.updateMyCountryData() //to update broken airs for squad.
 
-    handleHaveTeamkills()
+    handleNoAwardsCaption()
   }
 
   function gatherAwardsLists()
@@ -306,11 +309,15 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return res
   }
 
-  function handleHaveTeamkills()
+  function handleNoAwardsCaption()
   {
     local noAwardsCaptionObj = scene.findObject("no_awards_caption")
-    if (::checkObj(noAwardsCaptionObj))
-      noAwardsCaptionObj.show(::getTblValue("haveTeamkills", ::debriefing_result, false))
+    if ( ! ::checkObj(noAwardsCaptionObj))
+      return
+    if(::getTblValue("haveTeamkills", ::debriefing_result, false))
+      noAwardsCaptionObj.setValue(::loc("debriefing/noAwardsCaption"))
+    else if (pveRewardInfo && pveRewardInfo.warnLowActivity)
+      noAwardsCaptionObj.setValue(::loc("debriefing/noAwardsCaption/noMinActivity"))
   }
 
   function reinitTotal()
@@ -433,6 +440,142 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local iconObj = scene.findObject(iconId)
     if (::checkObj(iconObj))
       iconObj.show(true)
+  }
+
+  function handlePveReward()
+  {
+    local isVisible = !!pveRewardInfo && pveRewardInfo.isVisible
+
+    local bgImage = scene.findObject("header-image");
+    bgImage.set_prop_latent("color-factor", isVisible ? 153 : 255)
+    bgImage.updateRendElem()
+
+    if (! isVisible)
+      return
+
+    local trophyItemReached =  ::ItemsManager.findItemById(pveRewardInfo.reachedTrophyName)
+    local trophyItemReceived = ::ItemsManager.findItemById(pveRewardInfo.receivedTrophyName)
+
+    fillPveRewardProgressBar()
+    fillPveRewardTrophyChest(trophyItemReached)
+    fillPveRewardTrophyContent(trophyItemReceived, pveRewardInfo.isRewardReceivedEarlier)
+  }
+
+  function fillPveRewardProgressBar()
+  {
+    local pveTrophyPlaceObj = scene.findObject("pve_trophy_progress")
+    if (!::check_obj(pveTrophyPlaceObj))
+      return
+
+    pveTrophyPlaceObj.show(true)
+
+    local receivedTrophyName = pveRewardInfo.receivedTrophyName
+    local rewardTrophyStages = pveRewardInfo.stagesTime
+    local showTrophiesOnBar  = ! pveRewardInfo.isRewardReceivedEarlier
+    local maxValue = pveRewardInfo.victoryStageTime
+    local stage = rewardTrophyStages.len()? [] : null
+    foreach (stageIndex, val in rewardTrophyStages)
+    {
+      if (val < 0 || val > maxValue)
+        continue
+
+      local isVictoryStage = val == maxValue
+
+      local text = isVictoryStage ? ::loc("debriefing/victory")
+       : ::secondsToString(val, true, true)
+
+      local trophyName = ::get_pve_trophy_name(val, isVictoryStage)
+      local isReceivedInLastBattle = trophyName && trophyName == receivedTrophyName
+      local trophy = showTrophiesOnBar && trophyName ?
+        ::ItemsManager.findItemById(trophyName, itemType.TROPHY) : null
+
+      stage.append({
+        posX = val.tofloat() / maxValue
+        text = text
+        trophy = trophy ? trophy.getNameMarkup(0, false) : null
+        isReceived = isReceivedInLastBattle
+      })
+    }
+
+    local view = {
+      maxValue = maxValue
+      value = 0
+      stage = stage
+    }
+
+    local data = ::handyman.renderCached("gui/statistics/debriefingPvEReward", view)
+    guiScene.replaceContentFromText(pveTrophyPlaceObj, data, data.len(), this)
+  }
+
+  function fillPveRewardTrophyChest(trophyItem)
+  {
+    local trophyPlaceObj = scene.findObject("pve_trophy_chest")
+    if (!trophyItem || !::check_obj(trophyPlaceObj))
+      return
+
+    trophyPlaceObj.show(true)
+    local imageData = trophyItem.getOpenedBigIcon()
+    guiScene.replaceContentFromText(trophyPlaceObj, imageData, imageData.len(), this)
+  }
+
+  function fillPveRewardTrophyContent(trophyItem, isRewardReceivedEarlier)
+  {
+    local obj = scene.findObject("pve_award_already_received")
+    if(::check_obj(obj))
+      obj.show(isRewardReceivedEarlier)
+    if (!trophyItem)
+      return
+
+    local trophyContentPlaceObj = scene.findObject("pve_trophy_content")
+    if (!::check_obj(trophyContentPlaceObj))
+      return
+
+    local layersData = ""
+    local filteredLogs = ::getUserLogsList({
+      show = [::EULT_OPEN_TROPHY]
+      currentRoomOnly = true
+      checkFunc = function(userlog) { return trophyItem.id == userlog.body.id }
+    })
+
+    foreach(log in filteredLogs)
+    {
+      local layer = ::trophyReward.getImageByConfig(log, false)
+      if (layer != "")
+      {
+        layersData += layer
+        break
+      }
+    }
+
+    local layerId = "item_place_container"
+    local layerCfg = ::LayersIcon.findLayerCfg(trophyItem.iconStyle + "_" + layerId)
+    if (!layerCfg)
+      layerCfg = ::LayersIcon.findLayerCfg(layerId)
+
+    local data = ::LayersIcon.genDataFromLayer(layerCfg, layersData)
+    guiScene.replaceContentFromText(trophyContentPlaceObj, data, data.len(), this)
+  }
+
+  function updatePvEReward(dt)
+  {
+    if (!pveRewardInfo)
+      return
+    local pveTrophyPlaceObj = scene.findObject("pve_trophy_progress")
+    if (!::check_obj(pveTrophyPlaceObj))
+      return
+
+    local newSliderObj = pveTrophyPlaceObj.findObject("new_progress_box")
+    if (!::check_obj(newSliderObj))
+      return
+
+    local targetValue = pveRewardInfo.sessionTime
+    local newValue = 0
+    if (skipAnim)
+      newValue = targetValue
+    else
+      newValue = ::blendProp(newSliderObj.getValue(), targetValue, statsTime, dt).tointeger()
+
+    newSliderObj.setValue(newValue)
   }
 
   function showTab(tabName)
@@ -1349,7 +1492,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function updateAwards(dt)
   {
     statsTimer -= dt
+
+    updatePvEReward(dt)
+
     if (statsTimer < 0 || skipAnim)
+    {
       if (awardsList && curAwardIdx < awardsList.len())
       {
         if (currentAwardsListIdx >= currentAwardsList.len())
@@ -1363,14 +1510,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         statsTimer += awardDelay
         curAwardIdx++
         currentAwardsListIdx++
-      } else
-        if (curAwardIdx == awardsList.len())
-        {
-          //finish awards update
-          statsTimer += nextWndDelay
-          curAwardIdx++
-        } else
-          return false
+      }
+      else if (curAwardIdx == awardsList.len())
+      {
+        //finish awards update
+        statsTimer += nextWndDelay
+        curAwardIdx++
+      }
+      else
+        return false
+    }
     return true
   }
 
@@ -1556,6 +1705,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     if (!playersTbl
         || isSpectator
+        || pveRewardInfo && pveRewardInfo.isVisible
         || ffa)
       return
 
@@ -1815,7 +1965,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     {
       ::go_debriefing_next_func = function() {
         ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mainmenu) //do not need to back to debriefing
-        ::g_world_war.openWarMap()
+        ::g_world_war.openMainWnd()
       }
       return
     }

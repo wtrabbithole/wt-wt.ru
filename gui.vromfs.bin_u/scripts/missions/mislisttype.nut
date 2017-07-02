@@ -145,7 +145,7 @@ function g_mislist_type::_getMissionsList(isShowCampaigns, customChapterId = nul
 
       local isChapterSpecial = ::isInArray(chapterName, [ "hidden", "test" ])
       local canShowChapter = true
-      if (!::unlock_all_missions && isChapterSpecial)
+      if (!::is_debug_mode_enabled && isChapterSpecial)
       {
         local featureName = "MissionsChapter" + ::g_string.toUpper(chapterName, 1)
         canShowChapter = ::is_dev_version || ::has_feature(featureName)
@@ -161,7 +161,7 @@ function g_mislist_type::_getMissionsList(isShowCampaigns, customChapterId = nul
       {
         local isChapterUnlocked = true
         if (lastMission && gm == ::GM_CAMPAIGN)
-          isChapterUnlocked = isChapterSpecial || ::unlock_all_missions || ::is_mission_complete(lastMission.chapter, lastMission.id)
+          isChapterUnlocked = isChapterSpecial || ::is_debug_mode_enabled || ::is_mission_complete(lastMission.chapter, lastMission.id)
         local chapterHeader = getMissionConfig(chapterName, true, false, isChapterUnlocked)
         campMissions.append(chapterHeader)
       }
@@ -184,7 +184,7 @@ function g_mislist_type::_getMissionsList(isShowCampaigns, customChapterId = nul
     if (lastMission && gm == ::GM_CAMPAIGN
         && (campName == "usa_pacific_41_43" || campName == "jpn_pacific_41_43"))
     {
-      local isVideoUnlocked = ::unlock_all_missions || ::is_mission_complete(lastMission.chapter, lastMission.id)
+      local isVideoUnlocked = ::is_debug_mode_enabled || ::is_mission_complete(lastMission.chapter, lastMission.id)
       res.append(getMissionConfig("victory", true, false, isVideoUnlocked))
     }
   }

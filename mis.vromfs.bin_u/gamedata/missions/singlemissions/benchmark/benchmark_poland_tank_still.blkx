@@ -8,7 +8,7 @@
     },
     "player": {
       "army": 1,
-      "wing": ""
+      "wing": "player"
     },
     "player_teamB": {
       "army": 2
@@ -43,7 +43,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       },
       "customWeather": {
         "scatteringEffect": 0.0,
@@ -52,7 +58,7 @@
         "wind_scale": 1.0,
         "max_wind_strength": 6.0,
         "sky": {
-          "mie_height": [1.0,1.0],
+          "mie_height": 0.5,
           "mieG": 0.5,
           "betaMScale": 1.0,
           "clouds_overcast": 0.5
@@ -168,16 +174,7 @@
           }
         },
         {
-          "missionSetTimeSpeed": {
-            "speed": 1.0,
-            "realtimeTriggers": true
-          }
-        },
-        {
-          "missionCompleted": {
-            "timer": false,
-            "debriefingTimer": 1
-          }
+          "missionDebriefing": []
         }
       ],
       "else_actions": []
@@ -201,9 +198,11 @@
           [0.0,0.0,1.0],
           [2315.93,3.82021,2014.47]
         ],
-        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "unit_class": "aaa_dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -238,6 +237,8 @@
         "unit_class": "ussr_is_4m",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -269,7 +270,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "tankModels_01_wp_02": {
@@ -283,7 +286,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "tankModels_01_wp_03": {
@@ -297,7 +302,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "tankModels_01_wp_04": {
@@ -311,7 +318,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "tankModels_01_wp_05": {
@@ -325,7 +334,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "tankModels_01_wp_06": {
@@ -339,7 +350,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "tankModels_01_wp_07": {
@@ -353,7 +366,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }

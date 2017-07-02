@@ -94,7 +94,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitTag = null
       pageBlkName = "gui/help/controlsAircraft.blk"
       imagePattern = "#ui/images/country_%s_controls_help.jpg?P1"
-      hasImageByCountries = [ "ussr", "usa", "britain", "germany", "japan" ]
+      hasImageByCountries = [ "ussr", "usa", "britain", "germany", "japan", "italy" ]
       linkLines = {
         obstacles = ["ID_LOCK_TARGET_not_default_0"]
         links = [
@@ -734,19 +734,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(obj))
         continue
 
-      local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(shortcutId)
-      if (!shortcutType.isAssigned(shortcutId))
-        continue
-
-      local expanded = ::g_shortcut_type.expandShortcuts([shortcutId])
-      local markUp = ""
-      foreach (expandedShortcut in expanded)
-      {
-        local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(expandedShortcut)
-        local input = shortcutType.getFirstInput(expandedShortcut)
-        markUp += input.getMarkup()
-      }
-
+      local markUp = ::g_shortcut_type.getShortcutMarkup(shortcutId)
       guiScene.replaceContentFromText(obj, markUp, markUp.len(), this)
     }
 
@@ -1159,21 +1147,9 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rowData = {
         text = ::loc("controls/help/"+shortcutId+"_0")
-        shortcutMarkup = ""
+        shortcutMarkup = ::g_shortcut_type.getShortcutMarkup(shortcutId)
       }
       view.rows.append(rowData)
-
-      local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(shortcutId)
-      if (!shortcutType.isAssigned(shortcutId))
-        continue
-
-      local expanded = ::g_shortcut_type.expandShortcuts([shortcutId])
-      foreach (expandedShortcut in expanded)
-      {
-        local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(expandedShortcut)
-        local input = shortcutType.getFirstInput(expandedShortcut)
-        rowData.shortcutMarkup += input.getMarkup()
-      }
     }
 
     local markup = ::handyman.renderCached("gui/help/helpShortcutsList", view)

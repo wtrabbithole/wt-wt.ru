@@ -44,7 +44,9 @@
         "_Conq5": false,
         "_Conq6": false,
         "_CnvA": false,
-        "_CnvB": false
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "spectator_points": [],
@@ -96,7 +98,7 @@
         {
           "varSetInt": {
             "value": 0,
-            "var": "kill_penalty",
+            "var": "convoy_kill_penalty",
             "input_var": "waypoint_reached_penalty"
           }
         },
@@ -117,11 +119,6 @@
           }
         },
         {
-          "unitPutToSleep": {
-            "target": "convoy_sq"
-          }
-        },
-        {
           "varAddString": {
             "value": "",
             "digits": 2,
@@ -134,6 +131,39 @@
             "areaName": "@current_waypoint_str",
             "show": true,
             "iconName": "ui/gameuiskin#radar_object_waypoint"
+          }
+        },
+        {
+          "unitSetFormation": {
+            "formation_type": "cols",
+            "formation_div": 3,
+            "formation_step": [2.0,4.0],
+            "formation_noise": [0.1,0.1],
+            "object": "convoy_sq",
+            "allUnitsInOneFormation": true
+          }
+        },
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "convoy_starting_point",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": true,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": false,
+            "object": "convoy_sq",
+            "move_type": "teleport",
+            "lookat": "convoy_lookat_point"
+          }
+        },
+        {
+          "unitPutToSleep": {
+            "target": "convoy_sq"
           }
         },
         {
@@ -262,7 +292,9 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "convoy_sq",
+            "accuracy": 0.5,
             "speed": 25.0,
             "lockSpeed": true
           }
@@ -270,6 +302,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "convoy_sq"
           }
         },
@@ -277,7 +310,7 @@
           "varModify": {
             "operator": "divAB",
             "value": 1.0,
-            "var": "kill_penalty",
+            "var": "convoy_kill_penalty",
             "use_variable": true,
             "var_value": "have_to_kill_count"
           }
@@ -286,21 +319,7 @@
           "varModify": {
             "operator": "mul",
             "value": -1.0,
-            "var": "kill_penalty"
-          }
-        },
-        {
-          "unitMoveTo": {
-            "target": "@current_waypoint_str",
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "all_players_squad"
+            "var": "convoy_kill_penalty"
           }
         },
         {
@@ -316,6 +335,9 @@
             },
             {
               "target": "convoy_all_unit_dead_check"
+            },
+            {
+              "target": "player_bots_move"
             }
           ]
         }
@@ -597,20 +619,6 @@
             "show": false,
             "iconName": "ui/gameuiskin#radar_object_waypoint"
           }
-        },
-        {
-          "unitMoveTo": {
-            "target": "@current_waypoint_str",
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "all_players_squad"
-          }
         }
       ],
       "else_actions": []
@@ -733,13 +741,13 @@
         },
         {
           "triggerEnable": {
-            "target": "convoy_unit_kill_penalty"
+            "target": "convoy_unit_convoy_kill_penalty"
           }
         }
       ],
       "else_actions": []
     },
-    "convoy_unit_kill_penalty": {
+    "convoy_unit_convoy_kill_penalty": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -762,7 +770,7 @@
         "gameMPChangeScore": {
           "value": -250,
           "valueSystem": "amount",
-          "var": "kill_penalty",
+          "var": "convoy_kill_penalty",
           "team": "A"
         }
       },
@@ -770,7 +778,7 @@
         "gameMPChangeScore": {
           "value": -250,
           "valueSystem": "amount",
-          "var": "kill_penalty",
+          "var": "convoy_kill_penalty",
           "team": "B"
         }
       }
@@ -837,16 +845,173 @@
           "team": "B"
         }
       }
+    },
+    "player_bots_move": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 5.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitMoveTo": {
+          "target": "@current_waypoint_str",
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "object": "all_players_squad",
+          "speed": 50.0,
+          "distributionRadius": 300.0
+        }
+      },
+      "else_actions": []
+    },
+    "delay_death_bots": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isKilled",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object": "convoy_sq"
+        }
+      },
+      "actions": {
+        "unitPutToSleep": {
+          "target": "convoy_sq",
+          "useForTriggerFiltered": true,
+          "delayForObjects": [10.0,10.0]
+        }
+      },
+      "else_actions": []
+    },
+    "Cnv_objectives_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 5.0
+        }
+      },
+      "conditions": {
+        "missionNamePostfix": {
+          "postfix": "_CnvA",
+          "equal": true
+        }
+      },
+      "actions": [
+        {
+          "moAddMissionObjective": {
+            "target": "t1_convoy_defend"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "t2_convoy_attack"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "moAddMissionObjective": {
+            "target": "t2_convoy_defend"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "t1_convoy_attack"
+          }
+        }
+      ]
     }
   },
   "mission_objectives": {
     "isCategory": true,
-    "is_enabled": true
+    "is_enabled": true,
+    "t1_convoy_defend": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_convoy_defend": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t1_convoy_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_convoy_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    }
   },
   "variables": {
     "waypoint_reached_penalty": 0,
     "have_to_kill_count": 5,
-    "kill_penalty": 0,
+    "convoy_kill_penalty": 0,
     "kill_count": 0,
     "current_waypoint_str": "convoy_waypoint01",
     "prev_waypoint_str": "convoy_waypoint00",

@@ -187,7 +187,8 @@ class UnitBulletsManager
 
   function getActiveBulGroupsAmount()
   {
-    return ::number_of_set_bits(groupsActiveMask)
+    //do not count fake bullets
+    return ::number_of_set_bits(groupsActiveMask & ((1 << ::BULLETS_SETS_QUANTITY) - 1))
   }
 
   function openChooseBulletsWnd(groupIdx, itemParams = null, alignObj = null, align = "bottom")

@@ -14,8 +14,9 @@ tdiv {
   textarea{
     pos:t='pw/2 - w/2';
     position:t='relative';
-    padding-left:t='-@textPaddingBugWorkaround';
-    hudFont:t='tiny';
+    text-align:t='center'
+    <<^isLongScText>>hudFont:t='tiny';<</isLongScText>>
+    <<#isLongScText>>hudFont:t='veryTiny';<</isLongScText>>
     shortcut:t='yes';
     text:t='<<shortcutText>>';
   }

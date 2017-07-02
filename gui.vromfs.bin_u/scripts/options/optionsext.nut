@@ -702,7 +702,10 @@ function create_option()
 
         case optionControlType.LIST:
           local result = ::getTblValue(values.find(val), items)
-          return ::loc((::u.isString(result)) ? result : ::getTblValue("text", result, ""))
+          local locKey = (::u.isString(result)) ? result : ::getTblValue("text", result, "")
+          if (::g_string.startsWith(locKey, "#"))
+            locKey = locKey.slice(1)
+          return ::loc(locKey)
 
         case optionControlType.SLIDER:
         case optionControlType.EDITBOX:
@@ -860,11 +863,26 @@ function get_option(type, context = null)
         ::set_option_bomb_activation_time(curValue)
       break
 
+   case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
+      descr.id = "depthcharge_activation_time"
+      descr.items = []
+      descr.values = []
+      for(local i = 3; i <= 10; i++)
+      {
+        descr.items.append(secondsToString(i, true, true))
+        descr.values.append(i)
+      }
+      descr.value = ::find_in_array(descr.values, ::get_option_depthcharge_activation_time())
+      break
+
     case ::USEROPT_ROCKET_FUSE_DIST:
       descr.id = "rocket_fuse_dist"
       descr.items = ["#options/rocketFuseImpact", "200", "300", "400", "500", "600", "700", "800", "900", "1000"]
       descr.values = [0, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-      descr.value = find_in_array(descr.values, ::get_option_rocket_fuse_dist())
+      if(::aircraft_for_weapons)
+        descr.value = ::find_in_array(descr.values, ::get_unit_option(::aircraft_for_weapons, ::USEROPT_ROCKET_FUSE_DIST), null)
+      if (!::is_numeric(descr.value))
+        descr.value = ::find_in_array(descr.values, ::get_option_rocket_fuse_dist(), null)
       defaultValue = 0
       break
 
@@ -1627,7 +1645,7 @@ function get_option(type, context = null)
         return -1
       }
 
-      descr.getValueLocText = (@(descr) function(val) {
+      descr.getValueLocText = function(val) {
         if(val == null)
           return ""
 
@@ -1638,8 +1656,11 @@ function get_option(type, context = null)
           val[key] = ::to_integer_safe(value)
 
         local valueIndex = descr.getValueIdxByValue(val)
-        return ::loc(::getTblValue(valueIndex, items, ""))
-      })(descr)
+        local locKey = ::getTblValue(valueIndex, items, "")
+        if (::g_string.startsWith(locKey, "#"))
+          locKey = locKey.slice(1)
+        return ::loc(locKey)
+      }
 
       if (::SessionLobby.isInRoom())
       {
@@ -1826,7 +1847,7 @@ function get_option(type, context = null)
       descr.id = "auto_login"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      defaultValue = false
+      descr.value = ::is_autologin_enabled()
       break
 
     case ::USEROPT_ONLY_FRIENDLIST_CONTACT:
@@ -2255,7 +2276,7 @@ function get_option(type, context = null)
 
     case ::USEROPT_DIFFICULTY:
       descr.id = "difficulty"
-      descr.title = ::loc("#multiplayer/difficultyShort")
+      descr.title = ::loc("multiplayer/difficultyShort")
       descr.items = []
       descr.values = []
       descr.diffCode <- []
@@ -3585,7 +3606,7 @@ function get_option(type, context = null)
       break
     case ::USEROPT_CLAN_REQUIREMENTS_AUTO_ACCEPT_MEMBERSHIP:
       descr.id = "clan_req_auto_accept_membership"
-      descr.title = ::loc("#clan/autoAcceptMembershipOn")
+      descr.title = ::loc("clan/autoAcceptMembershipOn")
       break
     case ::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT:
       descr.id = "tank_gunner_camera_from_sight"
@@ -3710,8 +3731,18 @@ function set_option(type, value, descr = null)
       ::set_option_bomb_activation_type(isBombActivationAssault ? 1 : 0)
       ::set_option_bomb_activation_time(bombActivationDelay)
       break
+    case ::USEROPT_LOAD_FUEL_AMOUNT:
+      ::set_gui_option(type, descr.values[value])
+      if (::aircraft_for_weapons)
+       ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
+      break
+    case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
+      ::set_option_depthcharge_activation_time(descr.values[value])
+      break
     case ::USEROPT_ROCKET_FUSE_DIST:
       ::set_option_rocket_fuse_dist(descr.values[value])
+      if (::aircraft_for_weapons)
+        ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
       break
     case ::USEROPT_AEROBATICS_SMOKE_TYPE:
       ::set_option_aerobatics_smoke_type(descr.values[value])
@@ -4382,7 +4413,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_NUM_ENEMIES:
     case ::USEROPT_NUM_ATTEMPTS:
     case ::USEROPT_OPTIONAL_TAKEOFF:
-    case ::USEROPT_LOAD_FUEL_AMOUNT:
     case ::USEROPT_TIME_BETWEEN_RESPAWNS:
     case ::USEROPT_LB_TYPE:
     case ::USEROPT_LB_MODE:
@@ -4400,7 +4430,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_BAN_PENALTY:
     case ::USEROPT_BAN_TIME:
     case ::USEROPT_DOMINATION_MODE:
-    case ::USEROPT_AUTOLOGIN:
     case ::USEROPT_ONLY_FRIENDLIST_CONTACT:
     case ::USEROPT_RACE_LAPS:
     case ::USEROPT_RACE_WINNERS:
@@ -4421,17 +4450,16 @@ function set_option(type, value, descr = null)
           break
 
         ::set_gui_option(type, descr.values[value])
-
-        if (type == USEROPT_LOAD_FUEL_AMOUNT)
-          dagor.debug("set USEROPT_LOAD_FUEL_AMOUNT to "+descr.values[value]);
-        if (type == USEROPT_LOAD_FUEL_AMOUNT && ::aircraft_for_weapons)
-          ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
       }
       else if (descr.controlType == optionControlType.CHECKBOX)
       {
         if (::u.isBool(value))
           ::set_gui_option(type, value)
       }
+      break
+
+    case ::USEROPT_AUTOLOGIN:
+      ::set_autologin_enabled(value)
       break
 
     case ::USEROPT_DAMAGE_INDICATOR_SIZE:

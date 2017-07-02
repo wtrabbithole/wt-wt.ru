@@ -25,7 +25,7 @@
   {
     id="battle"
     show = [::EULT_EARLY_SESSION_LEAVE, ::EULT_SESSION_RESULT,
-            ::EULT_AWARD_FOR_PVE_MODE, ::EULT_WW_START_OPERATION]
+            ::EULT_AWARD_FOR_PVE_MODE]
   }
   {
     id="economic"
@@ -88,6 +88,10 @@
   {
     id="onlineShop"
     show = [::EULT_BUYENTITLEMENT, ::EULT_BUYING_UNLOCK]
+  }
+  {
+    id="worldWar"
+    show = [::EULT_WW_START_OPERATION, ::EULT_WW_CREATE_OPERATION, ::EULT_WW_END_OPERATION]
   }
 ]
 

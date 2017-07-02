@@ -325,7 +325,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     else
       favUnlocksHandlerWeak.onSceneActivate(true)
 
-    updateHeader(::loc("#mainmenu/btnFavoritesUnlockAchievement"))
+    updateHeader(::loc("mainmenu/btnFavoritesUnlockAchievement"))
   }
 
   function onAchievementsButtonClicked(obj)

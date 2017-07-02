@@ -460,7 +460,8 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
     if (!room)
       return msgBox("no_room_selected", ::loc("ui/nothing_selected"), [["ok"]], "ok")
 
-    if (!::g_squad_utils.canJoinFlightMsgBox(
+    if (::g_squad_manager.getSquadRoomId() != room.roomId
+      && !::g_squad_utils.canJoinFlightMsgBox(
           {
             isLeaderCanJoin = ::can_play_gamemode_by_squad(::SessionLobby.getGameMode(room)),
             showOfflineSquadMembersPopup = true

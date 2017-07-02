@@ -105,9 +105,7 @@
               {
                 "debriefingTitle": {
                   "id": "result-title",
-                  "width": "0.45pw",
-                  "style": "pos:0,0; position:relative;",
-                  "titleFont": "yes"
+                  "width": "0.45pw"
                 }
               },
               {
@@ -177,8 +175,7 @@
                         "width": "pw",
                         "position": "absolute",
                         "overlayTextColor": "userlog",
-                        "text": "#debriefing/noAwardsCaption",
-                        "display": "hide"
+                        "hideEmptyText": "yes"
                       }
                     }
                   },
@@ -268,6 +265,49 @@
                 }
               },
               {
+                "tdiv": [
+                  {
+                    "width": "pw"
+                  },
+                  {
+                    "position": "absolute"
+                  },
+                  {
+                    "margin-top": "1@debrBonusHeight + 0.3@dIco"
+                  },
+                  {
+                    "tdiv": {
+                      "id": "pve_trophy_progress",
+                      "width": "75%pw"
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "pve_trophy_chest",
+                      "size": "1@itemHeight, 1@itemHeight",
+                      "pos": "pw-w, 50%ph-50%h",
+                      "position": "absolute"
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "pve_trophy_content",
+                      "pos": "pw-w-0.25@itemHeight, 50%ph-50%h",
+                      "position": "absolute"
+                    }
+                  },
+                  {
+                    "activeText": {
+                      "id": "pve_award_already_received",
+                      "pos": "pw-w, 50%ph",
+                      "position": "absolute",
+                      "text": "#debriefing/awardHasAlreadyBeenReceived",
+                      "display": "hide"
+                    }
+                  }
+                ]
+              },
+              {
                 "div": {
                   "id": "wnd_total",
                   "pos": "pw-w-5@sf/@pf, 0",
@@ -311,7 +351,6 @@
                 "width": "pw",
                 "position": "absolute",
                 "text-align": "center",
-                "titleFont": "yes",
                 "text": ""
               },
               "tdiv": {

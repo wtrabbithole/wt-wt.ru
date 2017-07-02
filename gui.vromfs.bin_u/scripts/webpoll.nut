@@ -6,6 +6,7 @@ const VOTED_POLLS_SAVE_ID = "voted_polls"
   tokenInvalidationTime = -1
   votedPolls = null
   pollBaseUrlById = {}
+  pollIdByFullUrl = {}
 }
 
 function g_webpoll::loadVotedPolls()
@@ -63,22 +64,33 @@ function g_webpoll::invalidateTokensCache()
     function(){ ::broadcastEvent("WebPollTokenInvalidated") })
 }
 
+function g_webpoll::getPollIdByFullUrl(url)
+{
+  return ::getTblValue(url, pollIdByFullUrl)
+}
+
 function g_webpoll::getPollToken(pollId)
 {
   checkTokensCacheTimeout()
-  local baseUrl = getPollBaseUrl(pollId)
-  if(cachedToken.len() == 0 && baseUrl != null)
-    ::webpoll_authorize_with_url(baseUrl, pollId.tointeger())
   return cachedToken
 }
 
-function g_webpoll::generatePollUrl(pollId, token)
+function g_webpoll::generatePollUrl(pollId, needAuthorization = true)
 {
   local pollBaseUrl = getPollBaseUrl(pollId)
   if(pollBaseUrl == null)
     return ""
-  return ::loc("url/webpoll_url",
-    { base_url = pollBaseUrl, survey_id = pollId, disposable_token = token })
+  if(cachedToken.len() == 0)
+  {
+    if(needAuthorization)
+      ::webpoll_authorize_with_url(pollBaseUrl, pollId.tointeger())
+    return ""
+  }
+  local url = ::loc("url/webpoll_url",
+    { base_url = pollBaseUrl, survey_id = pollId, disposable_token = cachedToken })
+  if( ! (url in pollIdByFullUrl))
+    pollIdByFullUrl[url] <- pollId
+  return url
 }
 
 function g_webpoll::isPollVoted(pollId)
@@ -102,6 +114,13 @@ function g_webpoll::onEventSignOut(p)
 {
   votedPolls = null
   invalidateTokensCache()
+  pollIdByFullUrl.clear()
+}
+
+function  g_webpoll::onEventBrowserOpened(p)
+{
+  if(getPollIdByFullUrl(p.url))
+    invalidateTokensCache()
 }
 
 function webpoll_event(id, token, voted)
@@ -111,7 +130,8 @@ function webpoll_event(id, token, voted)
 
 function g_webpoll::setPollBaseUrl(pollId, pollUrl)
 {
-  pollBaseUrlById[pollId] <- pollUrl
+  if( ! (pollId in pollBaseUrlById))
+    pollBaseUrlById[pollId] <- pollUrl
 }
 
 function g_webpoll::getPollBaseUrl(pollId)

@@ -2,7 +2,7 @@ class ::g_invites_classes.ChatRoom extends ::BaseInvite
 {
   //custom class params, not exist in base invite
   roomId = ""
-  roomType = null
+  roomType = ::g_chat_room_type.DEFAULT_ROOM
 
   static function getUidByParams(params)
   {
@@ -36,7 +36,7 @@ class ::g_invites_classes.ChatRoom extends ::BaseInvite
 
   function isValid()
   {
-    return roomId != ""
+    return roomId != "" && roomType.isAllowed()
   }
 
   function getChatInviteText()

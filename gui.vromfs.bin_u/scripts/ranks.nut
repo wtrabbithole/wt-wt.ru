@@ -496,7 +496,7 @@ function checkAllowed(tbl)
 
   if ("unlock" in tbl)
   {
-    if (!::is_unlocked_scripted(::UNLOCKABLE_SINGLEMISSION, tbl.unlock) && !::unlock_all_missions)
+    if (!::is_unlocked_scripted(::UNLOCKABLE_SINGLEMISSION, tbl.unlock) && !::is_debug_mode_enabled)
     {
       if (!silent)
       {

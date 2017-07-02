@@ -6,115 +6,12 @@
       "pressure": 760.0,
       "temperature": 30.0
     },
-    "player": [
-      {
-        "army": 1
-      },
-      {
-        "wing": "t1_player01"
-      },
-      {
-        "wing": "t1_player02"
-      },
-      {
-        "wing": "t1_player03"
-      },
-      {
-        "wing": "t1_player04"
-      },
-      {
-        "wing": "t1_player05"
-      },
-      {
-        "wing": "t1_player06"
-      },
-      {
-        "wing": "t1_player07"
-      },
-      {
-        "wing": "t1_player08"
-      },
-      {
-        "wing": "t1_player09"
-      },
-      {
-        "wing": "t1_player10"
-      },
-      {
-        "wing": "t1_player11"
-      },
-      {
-        "wing": "t1_player12"
-      },
-      {
-        "wing": "t1_player13"
-      },
-      {
-        "wing": "t1_player14"
-      },
-      {
-        "wing": "t1_player15"
-      },
-      {
-        "wing": "t1_player16"
-      }
-    ],
-    "player_teamB": [
-      {
-        "army": 2
-      },
-      {
-        "wing": "t2_player01"
-      },
-      {
-        "wing": "t2_player02"
-      },
-      {
-        "wing": "t2_player03"
-      },
-      {
-        "wing": "t2_player04"
-      },
-      {
-        "wing": "t2_player05"
-      },
-      {
-        "wing": "t2_player06"
-      },
-      {
-        "wing": "t2_player07"
-      },
-      {
-        "wing": "t2_player08"
-      },
-      {
-        "wing": "t2_player09"
-      },
-      {
-        "wing": "t2_player10"
-      },
-      {
-        "wing": "t2_player11"
-      },
-      {
-        "wing": "t2_player12"
-      },
-      {
-        "wing": "t2_player13"
-      },
-      {
-        "wing": "t2_player14"
-      },
-      {
-        "wing": "t2_player15"
-      },
-      {
-        "wing": "t2_player16"
-      },
-      {
-        "wing": "t2_player17"
-      }
-    ],
+    "player": {
+      "army": 1
+    },
+    "player_teamB": {
+      "army": 2
+    },
     "mission": {
       "name": "",
       "level": "levels/water.bin",
@@ -234,14 +131,9 @@
           }
         },
         {
-          "triggerEnable": [
-            {
-              "target": "dbttl_a_start"
-            },
-            {
-              "target": "dbttl_a_ai_def_init"
-            }
-          ]
+          "triggerEnable": {
+            "target": "dbttl_a_start"
+          }
         },
         {
           "wait": {
@@ -281,9 +173,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "set_dbttl_timer"
-          }
+          "triggerEnable": [
+            {
+              "target": "set_dbttl_timer"
+            },
+            {
+              "target": "dbttl_a_set_ticket_var"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -354,14 +251,9 @@
           }
         },
         {
-          "triggerEnable": [
-            {
-              "target": "dbttl_b_start"
-            },
-            {
-              "target": "dbttl_b_ai_def_init"
-            }
-          ]
+          "triggerEnable": {
+            "target": "dbttl_b_start"
+          }
         },
         {
           "wait": {
@@ -401,9 +293,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "set_dbttl_timer"
-          }
+          "triggerEnable": [
+            {
+              "target": "set_dbttl_timer"
+            },
+            {
+              "target": "dbttl_b_set_ticket_var"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -466,7 +363,7 @@
         {
           "missionMarkAsCaptureZone": {
             "army": 1,
-            "timeMultiplier": 10.0,
+            "timeMultiplier": 3.0,
             "disableZone": false,
             "name_for_respawn_base": "",
             "target": "@zone_name",
@@ -566,7 +463,7 @@
         {
           "missionMarkAsCaptureZone": {
             "army": 2,
-            "timeMultiplier": 10.0,
+            "timeMultiplier": 3.0,
             "disableZone": false,
             "name_for_respawn_base": "",
             "target": "@zone_name",
@@ -1011,16 +908,36 @@
         }
       },
       "conditions": [],
-      "actions": {
-        "varModify": {
-          "operator": "add",
-          "value": -1.0,
-          "var": "dbttl_cur_timer"
+      "actions": [
+        {
+          "varModify": {
+            "operator": "add",
+            "value": -1.0,
+            "var": "dbttl_cur_timer"
+          }
         },
-        "missionSetTimeIndicator": {
-          "var": "dbttl_cur_timer"
+        {
+          "missionSetTimeIndicator": {
+            "var": "dbttl_cur_timer"
+          }
+        },
+        {
+          "gameMPChangeScore": {
+            "value": 1,
+            "valueSystem": "amount",
+            "var": "t1_tickets_for_1_sec",
+            "team": "A"
+          }
+        },
+        {
+          "gameMPChangeScore": {
+            "value": 1,
+            "valueSystem": "amount",
+            "var": "t2_tickets_for_1_sec",
+            "team": "B"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "dbttl_timer_end": {
@@ -1111,7 +1028,7 @@
       },
       "else_actions": []
     },
-    "dbttl_a_ai_def_init": {
+    "dbttl_a_set_ticket_var": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -1120,22 +1037,45 @@
         "enableAfterComplete": false
       },
       "events": {
-        "initMission": []
+        "periodicEvent": {
+          "time": 1.0
+        }
       },
       "conditions": {
-        "objectExists": {
-          "target": "t2_zoneDef_sq",
-          "type": "squad"
+        "varCompareInt": {
+          "var_value": "dbttl_timer_from_desc",
+          "value": 0,
+          "comparasion_func": "more"
         }
       },
-      "actions": {
-        "unitPutToSleep": {
-          "target": "t2_zoneDef_sq"
+      "actions": [
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "t2_tickets_for_1_sec",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "t2_tickets_for_1_sec",
+            "use_variable": true,
+            "var_value": "dbttl_timer_from_desc"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "t2_tickets_for_1_sec"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
-    "dbttl_b_ai_def_init": {
+    "dbttl_b_set_ticket_var": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -1144,19 +1084,42 @@
         "enableAfterComplete": false
       },
       "events": {
-        "initMission": []
+        "periodicEvent": {
+          "time": 1.0
+        }
       },
       "conditions": {
-        "objectExists": {
-          "target": "t1_zoneDef_sq",
-          "type": "squad"
+        "varCompareInt": {
+          "var_value": "dbttl_timer_from_desc",
+          "value": 0,
+          "comparasion_func": "more"
         }
       },
-      "actions": {
-        "unitPutToSleep": {
-          "target": "t1_zoneDef_sq"
+      "actions": [
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "t1_tickets_for_1_sec",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "t1_tickets_for_1_sec",
+            "use_variable": true,
+            "var_value": "dbttl_timer_from_desc"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "t1_tickets_for_1_sec"
+          }
         }
-      },
+      ],
       "else_actions": []
     }
   },
@@ -1223,7 +1186,9 @@
     "t1_spawn_02_name": "",
     "t2_spawn_02_name": "",
     "t2_spawn_01_name": "",
-    "battle_area_name": ""
+    "battle_area_name": "",
+    "t1_tickets_for_1_sec": 0,
+    "t2_tickets_for_1_sec": 0
   },
   "dialogs": [],
   "airfields": [],

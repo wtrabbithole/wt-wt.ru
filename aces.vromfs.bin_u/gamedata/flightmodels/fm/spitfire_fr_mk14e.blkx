@@ -36,7 +36,9 @@
   "ElevatorAngles": [31.0,25.0],
   "InvertElevator": false,
   "RudderAngles": [30.0,28.0],
+  "InterceptorType": 0,
   "RudderInterceptor": false,
+  "FlapsRadiator": 0.0,
   "Elevon": false,
   "VSlats": [137.0,165.0],
   "Vne": 794.0,
@@ -62,6 +64,7 @@
     "hasRudderTrimControl": true,
     "hasRudderTrimGroundControl": false,
     "hasFlapsControl": true,
+    "canTakeoffWithoutFlaps": true,
     "hasTakeoffFlapsPosition": false,
     "hasCombatFlapsPosition": false,
     "hasAirbrake": false,
@@ -76,9 +79,9 @@
     "hasIndependentAirbrakesAndFlaps": true
   },
   "Areas": {
-    "WingLeftIn": 3.5,
+    "WingLeftIn": 4.5,
     "WingLeftMid": 3.7,
-    "WingLeftOut": 3.5,
+    "WingLeftOut": 2.5,
     "WingRightIn": 4.5,
     "WingRightMid": 3.7,
     "WingRightOut": 2.5,
@@ -464,6 +467,10 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "RadiatorAuto": true,
+      "OilRadiatorAuto": true,
+      "WaterThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
+      "OilThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
       "RadiatorType": 1,
       "OilRadiatorType": 1,
       "NoIgnitionWaterHeatProducingFactor": 0.15,
@@ -743,23 +750,74 @@
     "tank7_dm": false,
     "tank8_dm": false
   },
-  "Gear": {
-    "SinkFactor": 1000.0,
-    "WaterFriction": 1.0,
-    "RetractableTailStrut": false,
-    "UseCenterOfGravity": true,
-    "FrontalSpringsHeight": 0.3,
-    "TailSpringsHeight": 0.1,
-    "FrontalSpringsCoeff": 297753.0,
-    "TailSpringsCoeff": 297753.0,
-    "HasWheels": true,
-    "LeftWheelRadius": 0.3048,
-    "RightWheelRadius": 0.3048,
-    "CenterWheelRadius": 0.1238,
-    "Height": 1.6145,
-    "Pitch": 11.842,
-    "Floats": false
-  },
+  "Gear": [
+    {
+      "SinkFactor": 1000.0
+    },
+    {
+      "SinkFactor": 1000.0
+    },
+    {
+      "SinkRateMult": 1.0
+    },
+    {
+      "WaterFriction": 1.0
+    },
+    {
+      "WaterFrictionDefault": 2.5
+    },
+    {
+      "UseCenterOfGravity": true
+    },
+    {
+      "RetractableCentralGear": false
+    },
+    {
+      "SteerableWheel": false
+    },
+    {
+      "FullBrakeSlidingFrictionMult": 0.4
+    },
+    {
+      "FrontalSpringsHeight": 0.3
+    },
+    {
+      "TailSpringsHeight": 0.1
+    },
+    {
+      "FrontalSpringsCoeff": 297753.0
+    },
+    {
+      "TailSpringsCoeff": 297753.0
+    },
+    {
+      "HasWheels": true
+    },
+    {
+      "LeftWheelRadius": 0.3048
+    },
+    {
+      "RightWheelRadius": 0.3048
+    },
+    {
+      "CenterWheelRadius": 0.1238
+    },
+    {
+      "Height": 1.6145
+    },
+    {
+      "Pitch": 11.842
+    },
+    {
+      "WaterWaveHeightForCheck": [0.0,100.0]
+    },
+    {
+      "WaterSpeedPropCheckVal": [0.1,0.1]
+    },
+    {
+      "Floats": false
+    }
+  ],
   "Passport": {
     "Alt": [],
     "IAS": []

@@ -1678,13 +1678,7 @@ function SessionLobby::afterRoomJoining(params)
   returnStatusToRoom()
   syncAllInfo()
 
-  if ((isRoomOwner || (haveLobby() && !isRoomByQueue)) && ::g_squad_manager.isSquadLeader())
-  {
-    local sMembers = ::g_squad_manager.getMembers()
-    foreach(uid, member in sMembers)
-      if (member.online && !member.isMe())
-        invitePlayer(uid)
-  }
+  checkSquadAutoInvite()
 
   local pub = params.public
   local event = ::SessionLobby.getRoomEvent()
@@ -2098,6 +2092,24 @@ function SessionLobby::canInvitePlayer(uid)
 {
   return isInRoom() && ::my_user_id_str != uid && ::isInArray(getGameMode(), ::GM_INVITATION_AVAIL)
 }
+
+function SessionLobby::needAutoInviteSquad()
+{
+  return isRoomOwner || (haveLobby() && !isRoomByQueue)
+}
+
+function SessionLobby::checkSquadAutoInvite()
+{
+  if (!::g_squad_manager.isSquadLeader() || !needAutoInviteSquad())
+    return
+
+  local sMembers = ::g_squad_manager.getMembers()
+  foreach(uid, member in sMembers)
+    if (member.online && member.isReady && !member.isMe() && !::u.search(members, @(m) m.userId == uid))
+      invitePlayer(uid)
+}
+
+::SessionLobby.onEventSquadStatusChanged <- @(p) checkSquadAutoInvite()
 
 function SessionLobby::getValueSettings(value)
 {

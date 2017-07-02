@@ -2,12 +2,11 @@
 contactItem {
   id:t='<<blockID>>';
 
-  img {
+  contactStatusImg {
     id:t='statusImg';
-    background-image:t='';
-    position:t='absolute'
-    pos:t='pw - w, ph/2 - h/2'
-    size:t='@sIco, @sIco'
+    background-image:t=''
+    background-color:t='@transparent'
+    pos:t='pw - w, ph/2 - h/2'; position:t='absolute'
   }
 
   img {

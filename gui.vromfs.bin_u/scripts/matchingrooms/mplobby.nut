@@ -204,7 +204,7 @@ function updateCurrentPlayerInfo(handler, scene, playerInfo, unitParams = null)
   local spectatorObj = mainObj.findObject("player_spectator")
   if (::checkObj(spectatorObj))
   {
-    local desc = ::getPlayerStateDesc(playerInfo)
+    local desc = ::g_player_state.getStateByPlayerInfo(playerInfo).getText(playerInfo)
     spectatorObj.setValue((desc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + desc) : "")
   }
 
@@ -679,8 +679,8 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
     if (needSessionStatus)
       sessionStatusObj.setValue(::SessionLobby.getMembersReadyStatus().statusText)
 
-    local event = ::SessionLobby.getRoomEvent()
-    local needTeamStatus = isInfoByTeams && !::SessionLobby.roomInSession && !!event
+    local mGameMode = ::SessionLobby.getMGameMode()
+    local needTeamStatus = isInfoByTeams && !::SessionLobby.roomInSession && !!mGameMode
     local countTbl = null
     if (needTeamStatus)
       countTbl = ::SessionLobby.getMembersCountByTeams()
@@ -691,7 +691,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local status = ""
-      local minSize = ::events.getMinTeamSize(event)
+      local minSize = ::events.getMinTeamSize(mGameMode)
       local teamSize = countTbl[team.code]
       if (teamSize < minSize)
         status = ::loc("multiplayer/playersTeamLessThanMin", { minSize = minSize })

@@ -11,15 +11,20 @@ animSizeObj { //place div
   _size-timer:t='0'; //hidden by default
 
   massTransp {
-    id:t='icon';
     size:t='0.06@shHud, 0.06@shHud';
     pos:t='50%pw-50%w, 50%ph-50%h';
     position:t='absolute';
-
-    background-color:t='<<color>>';
-    background-image:t='<<icon>>';
-    background-repeat:t='aspect-ratio';
     _transp-timer:t='0'; //hidden by default
+
+    tdiv {
+      id:t='icon';
+      size:t='0.85pw, 0.85ph';
+      position:t='absolute';
+      pos:t='pw/2 - w/2, ph/2 - h/2';
+      background-color:t='<<color>>';
+      background-image:t='<<icon>>';
+      background-repeat:t='aspect-ratio';
+    }
 
     timeBar {
       id:t='timer';

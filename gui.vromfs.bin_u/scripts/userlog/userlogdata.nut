@@ -108,6 +108,8 @@ function getLogNameByType(type)
       return "invite_to_tournament"
     case ::EULT_WW_START_OPERATION:
       return "ww_start_operation"
+    case ::EULT_WW_CREATE_OPERATION:
+      return "ww_create_operation"
   }
   return "unknown"
 }

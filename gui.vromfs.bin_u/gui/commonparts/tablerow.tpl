@@ -35,6 +35,7 @@ tr {
       <<#image>>
         <<@imageType>> {
           id:t='img_<<id>>'
+          top:t='50%ph-50%h'; position:t='relative'
           background-image:t='<<image>>'
           <<@imageRawParams>>
         }

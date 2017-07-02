@@ -680,11 +680,11 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       }
   }
 
-  function prevCountry(obj) { switchCountry(curSlotCountryId, -1) }
+  function prevCountry(obj) { switchCountry(-1) }
 
-  function nextCountry(obj) { switchCountry(curSlotCountryId, 1) }
+  function nextCountry(obj) { switchCountry(1) }
 
-  function switchCountry(curValue, way)
+  function switchCountry(way)
   {
     if (slotbarCountry || !::checkObj(slotbarScene))
       return
@@ -693,11 +693,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (hObj.childrenCount() <= 1)
       return
 
+    local curValue = hObj.getValue()
     local value = ::getNearestSelectableChildIndex(hObj, curValue, way)
-    if(value < 0 || value >= hObj.childrenCount() || value == hObj.getValue())
-      return
-
-    hObj.setValue(value)
+    if(value != curValue)
+      hObj.setValue(value)
   }
 
   function showMsgBoxRepair(unit, fnOkey)

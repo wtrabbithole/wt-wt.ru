@@ -223,23 +223,19 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_ground_DBttlB",
+      "locName": "missions/_DBttlB;kursk/name",
+      "locDesc": "kursk/desc;missions/_DBttl/desc",
+      "scoreLimit": 6000,
       "timeLimit": 30,
       "deathPenaltyMul": 0.0,
+      "postfix": "_DBttlB",
       "ctaCaptureZoneEqualPenaltyMul": 0.5,
+      "useAlternativeMapCoord": false,
+      "allowedKillStreaks": true,
+      "randomSpawnTeams": false,
       "remapAiTankModels": true,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedKillStreaks": true,
-      "useAlternativeMapCoord": false,
-      "scoreLimit": 6000,
-      "randomSpawnTeams": false,
-      "locName": "missions/_DBttlB;kursk/name",
-      "locDesc": "kursk/desc;missions/_DBttl/desc",
-      "postfix": "_DBttlB",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -258,7 +254,16 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false
       }
     },
     "spectator_points": [],
@@ -304,6 +309,22 @@
               "icontype": "tank",
               "side": "enemy",
               "target": "briefing_dbttl_t2_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "ally",
+              "target": "t1_briefing_airspawn",
+              "lookAt": "t2_briefing_airspawn"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "enemy",
+              "target": "t2_briefing_airspawn",
+              "lookAt": "t1_briefing_airspawn"
             }
           }
         ]
@@ -384,14 +405,16 @@
     "isCategory": true,
     "is_enabled": true
   },
-  "variables": [],
+  "variables": {
+    "defenseMissionTeam": "teamB"
+  },
   "dialogs": [],
   "airfields": [],
   "effects": [],
   "units": [],
   "areas": {
     "briefing_t1_tankSpawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -402,7 +425,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -413,7 +436,7 @@
       "props": []
     },
     "briefing_t1_tankSpawn_Rb_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -424,7 +447,7 @@
       "props": []
     },
     "briefing_t1_tankSpawn_Rb_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -435,7 +458,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_Rb_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -446,7 +469,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_Rb_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -457,18 +480,18 @@
       "props": []
     },
     "briefing_dbttl_t2_capture_area": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-40.76,0.0,6.09025],
         [0.0,75.0,0.0],
         [-6.09025,0.0,-40.76],
-        [2002.44,69.9425,2072.44]
+        [1860.65,69.9425,1928.96]
       ],
       "objLayer": 0,
       "props": []
     },
     "briefing_dbttl_t1_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.358338,0.0,0.933592],
         [0.0,1.0,0.0],
@@ -479,12 +502,34 @@
       "props": []
     },
     "briefing_dbttl_t2_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-0.438342,0.0,-0.898808],
         [0.0,1.0,0.0],
         [0.898808,0.0,-0.438342],
         [2547.54,56.7885,1607.17]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [-0.198457,0.0,0.98011],
+        [0.0,1.0,0.0],
+        [-0.98011,0.0,-0.198457],
+        [3071.34,0.0449219,328.267]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [-0.186653,0.0,-0.982426],
+        [0.0,1.0,0.0],
+        [0.982426,0.0,-0.186653],
+        [2604.55,0.0449219,3671.28]
       ],
       "objLayer": 0,
       "props": []

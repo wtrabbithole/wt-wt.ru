@@ -132,9 +132,6 @@
       "deathPenaltyMul": 0.0,
       "country_axis": "japan",
       "country_allies": "usa",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -152,7 +149,18 @@
         "_Conq4": false,
         "_Conq5": false,
         "_Conq6": false,
-        "_DBttl": false
+        "_DBttl": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false
       }
     },
     "cover_points": [],
@@ -178,6 +186,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -553,12 +564,6 @@
               "tank": false
             }
           }
-        },
-        {
-          "varSetInt": {
-            "value": 0,
-            "var": ""
-          }
         }
       ],
       "else_actions": []
@@ -588,13 +593,17 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t1_airfield_dummy_squad",
-            "stealthRadius": 0.0,
-            "isImmortal": true
+            "isImmortal": true,
+            "stealthRadius": 0.0
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t2_ships_squad"
             },
@@ -630,6 +639,10 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "t1_ai_bombers_squad"
           }
         },
@@ -642,18 +655,24 @@
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "t2_ai_bombers_squad"
           }
         },
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_arty_squad"
           }
         },
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_lcvp_squad"
           }
         },
@@ -848,6 +867,10 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "t2_ai_bombers_squad",
           "useForTriggerFiltered": true
         },
@@ -1034,6 +1057,10 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "t1_ai_bombers_squad",
           "useForTriggerFiltered": true
         },
@@ -1202,20 +1229,21 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t1_airfield_dummy11",
             "isImmortal": false
           }
         },
         {
           "unitDamage": {
-            "part": 0,
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
             "delay": [1.0,1.0],
             "offset": [0.0,0.0,0.0],
             "radiusOffset": [10.0,15.0],
-            "target": "t1_airfield_dummy11"
+            "target": "structures_01",
+            "partName": "body_dm"
           }
         },
         {
@@ -1354,7 +1382,7 @@
           [2419.65,-91.0,1554.2]
         ],
         "props": {
-          "squad_members": "t1_airfield_dummy11"
+          "squad_members": "structures_01"
         }
       }
     },
@@ -1384,6 +1412,8 @@
         "unit_class": "ijn_cv_soryu",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1407,71 +1437,81 @@
           "t1_carrier_05_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-17445.5,0.0,8902.25]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_05_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15199.9,0.0,12366.7]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_05_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-11971.5,0.0,10798.2]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_05_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15364.1,0.0,5313.02]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_05_wp_05": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-18349.2,0.0,7388.14]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1489,6 +1529,8 @@
         "unit_class": "ijn_cv_soryu",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1512,71 +1554,81 @@
           "t1_carrier_06_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-16826.9,0.0,9270.11]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_06_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15091.4,0.0,12066.1]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_06_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-12279.5,0.0,10600.3]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_06_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15434.5,0.0,5627.02]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_06_wp_05": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-17998.3,0.0,7400.63]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1594,6 +1646,8 @@
         "unit_class": "ijn_cv_soryu",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1617,15 +1671,17 @@
           "t1_carrier_07_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15188.9,0.0,9375.15]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1643,6 +1699,8 @@
         "unit_class": "ijn_cv_soryu",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1666,71 +1724,81 @@
           "t1_carrier_08_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15679.0,0.0,10577.6]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_08_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15035.9,0.0,11695.5]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_08_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-12758.2,0.0,10486.5]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_08_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-15545.6,0.0,6015.8]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_08_wp_05": {
             "type": "normal",
             "tm": [
-              [-0.999048,0.0,-0.0436195],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.0436195,0.0,-0.999048],
+              [0.0,0.0,1.0],
               [-17679.4,0.0,7393.39]
             ],
             "props": {
               "speed": 50.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1772,6 +1840,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1795,57 +1865,65 @@
           "t1_carrier_cover_ship09_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-17886.4,0.0,13377.1]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship09_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-14320.1,0.0,15212.9]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship09_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-11141.8,0.0,10012.3]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship09_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-15060.4,0.0,7936.58]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1862,6 +1940,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1885,57 +1965,65 @@
           "t1_carrier_cover_ship10_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-17435.9,0.0,13167.6]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship10_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-13869.7,0.0,15003.4]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship10_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-10691.4,0.0,9802.82]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship10_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-14610.0,0.0,7727.1]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1952,6 +2040,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1975,57 +2065,65 @@
           "t1_carrier_cover_ship11_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-17004.6,0.0,12884.4]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship11_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-13438.4,0.0,14720.1]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship11_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-10260.1,0.0,9519.61]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship11_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-14178.7,0.0,7443.87]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2042,6 +2140,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2065,57 +2165,65 @@
           "t1_carrier_cover_ship12_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-16573.3,0.0,12601.2]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship12_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-13007.1,0.0,14436.9]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship12_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-9828.77,0.0,9236.41]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship12_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.382683,0.0,-0.92388],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.92388,0.0,-0.382683],
+              [0.0,0.0,1.0],
               [-13747.4,0.0,7160.68]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2132,6 +2240,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2155,57 +2265,65 @@
           "t1_carrier_cover_ship13_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-13230.3,0.0,9675.66]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship13_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-11454.0,0.0,5741.56]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship13_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-18129.3,0.0,3290.26]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship13_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-19120.1,0.0,7612.55]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2222,6 +2340,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2245,57 +2365,65 @@
           "t1_carrier_cover_ship14_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-13744.4,0.0,9421.79]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship14_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-11968.0,0.0,5487.7]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship14_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-18643.3,0.0,3036.41]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship14_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-19634.1,0.0,7358.69]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2312,6 +2440,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2335,57 +2465,65 @@
           "t1_carrier_cover_ship15_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-14258.5,0.0,9167.95]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship15_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-12482.1,0.0,5233.85]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship15_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-19157.4,0.0,2782.55]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship15_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-20148.2,0.0,7104.84]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2402,6 +2540,8 @@
         ],
         "unit_class": "uss_dd_sims",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2425,57 +2565,65 @@
           "t1_carrier_cover_ship16_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-14772.6,0.0,8914.08]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship16_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-12996.2,0.0,4979.99]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship16_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-19671.5,0.0,2528.69]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_carrier_cover_ship16_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.793353,0.0,0.608761],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.608761,0.0,-0.793353],
+              [0.0,0.0,1.0],
               [-20662.3,0.0,6850.99]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2525,11 +2673,13 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [1543.05,-4.95,1426.25]
+          [17439.5,-4.9502,-488.781]
         ],
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2567,6 +2717,8 @@
         "unit_class": "b_24d",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "b_24d_8x1000lbs",
         "bullets0": "",
         "bullets1": "",
@@ -2630,6 +2782,8 @@
         "unit_class": "g4m1",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "g4m1_type98mod25",
         "bullets0": "",
         "bullets1": "",
@@ -2694,6 +2848,8 @@
         "unit_class": "pby-5",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "pby_5_2xmk13",
         "bullets0": "",
         "bullets1": "",
@@ -2739,6 +2895,8 @@
         "unit_class": "ijn_patrol_boat",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2770,35 +2928,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp01_wp_02": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1346.25,2.25,-1208.55]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp01_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1399.05,2.45,-1237.6]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2816,6 +2980,8 @@
         "unit_class": "ijn_lcvp",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2847,35 +3013,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp02_wp_02": {
             "type": "normal",
             "tm": [
-              [0.906308,0.0,0.422618],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.422618,0.0,0.906308],
+              [0.0,0.0,1.0],
               [1437.9,2.6,-1212.85]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp02_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1494.1,2.45,-1224.9]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2893,6 +3065,8 @@
         "unit_class": "ijn_lcvp",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2924,35 +3098,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp03_wp_02": {
             "type": "normal",
             "tm": [
-              [0.906308,0.0,0.422618],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.422618,0.0,0.906308],
+              [0.0,0.0,1.0],
               [1461.61,2.6,-1188.44]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp03_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1515.65,2.45,-1202.0]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2970,6 +3150,8 @@
         "unit_class": "ijn_lcvp",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3001,35 +3183,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp04_wp_02": {
             "type": "normal",
             "tm": [
-              [0.906308,0.0,0.422618],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.422618,0.0,0.906308],
+              [0.0,0.0,1.0],
               [1485.31,2.6,-1164.04]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp04_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1543.35,2.45,-1175.0]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3047,6 +3235,8 @@
         "unit_class": "ijn_patrol_boat",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3078,35 +3268,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp05_wp_02": {
             "type": "normal",
             "tm": [
-              [0.906308,0.0,0.422618],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.422618,0.0,0.906308],
+              [0.0,0.0,1.0],
               [1391.45,2.6,-1070.65]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp05_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1466.15,2.45,-1105.25]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3124,6 +3320,8 @@
         "unit_class": "ijn_lcvp",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3155,35 +3353,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp06_wp_02": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1410.14,2.25,-1281.84]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp06_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1465.05,3.15,-1269.2]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3201,6 +3405,8 @@
         "unit_class": "ijn_lcvp",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3232,35 +3438,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp07_wp_02": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1416.03,2.25,-1312.07]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp07_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1462.3,3.15,-1295.65]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3278,6 +3490,8 @@
         "unit_class": "ijn_lcvp",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3309,35 +3523,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp08_wp_02": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1421.92,2.25,-1342.31]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp08_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1465.75,3.15,-1323.25]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3355,6 +3575,8 @@
         "unit_class": "ijn_lcvp",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3386,35 +3608,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp09_wp_02": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1427.81,2.25,-1372.55]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp09_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1475.75,3.15,-1353.55]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3432,6 +3660,8 @@
         "unit_class": "ijn_patrol_boat",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3463,35 +3693,41 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp10_wp_02": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1358.2,2.25,-1401.15]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_lcvp10_wp_03": {
             "type": "normal",
             "tm": [
-              [0.984808,0.0,0.173648],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.173648,0.0,0.984808],
+              [0.0,0.0,1.0],
               [1402.6,3.15,-1407.95]
             ],
             "props": {
               "speed": 10.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3509,6 +3745,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3545,6 +3783,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3581,6 +3821,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3617,6 +3859,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3653,6 +3897,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3689,6 +3935,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3725,6 +3973,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3761,6 +4011,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3797,6 +4049,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3833,6 +4087,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3869,6 +4125,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3951,6 +4209,8 @@
         "unit_class": "g4m1",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "g4m1_type98mod25",
         "bullets0": "",
         "bullets1": "",
@@ -3996,6 +4256,8 @@
         "unit_class": "pby-5",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "pby_5_2xmk13",
         "bullets0": "",
         "bullets1": "",
@@ -4060,6 +4322,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4094,6 +4358,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4128,6 +4394,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4162,6 +4430,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4196,6 +4466,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4230,6 +4502,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4264,6 +4538,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4298,6 +4574,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4332,6 +4610,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4366,6 +4646,8 @@
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4400,6 +4682,8 @@
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4434,6 +4718,8 @@
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4468,6 +4754,8 @@
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4502,6 +4790,8 @@
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4536,6 +4826,8 @@
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4628,6 +4920,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4662,6 +4956,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4696,6 +4992,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4730,6 +5028,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4764,6 +5064,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4798,6 +5100,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4832,6 +5136,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4866,6 +5172,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4900,6 +5208,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4934,6 +5244,8 @@
         "unit_class": "us_105mm_m2a1_noground",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

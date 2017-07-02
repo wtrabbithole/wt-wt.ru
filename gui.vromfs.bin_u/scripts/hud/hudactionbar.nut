@@ -1,3 +1,5 @@
+const LONG_ACTIONBAR_SHORCUT_LEN = 6;
+
 class ActionBar
 {
   actionItems             = null
@@ -109,6 +111,7 @@ class ActionBar
     viewItem.enabled            <- isReady ? "yes" : "no"
     viewItem.wheelmenuEnabled   <- isReady
     viewItem.shortcutText       <- shortcutText
+    viewItem.isLongScText       <- ::utf8_strlen(shortcutText) >= LONG_ACTIONBAR_SHORCUT_LEN
     viewItem.gamepadButtonImg   <- shortcutTexture
     viewItem.cancelButton       <- shortcutTexture
     viewItem.isXinput           <- ::is_xinput_device()
@@ -138,7 +141,7 @@ class ActionBar
       local killStreakTag = ::getTblValue("killStreakTag", item)
       viewItem.icon <- actionBarType.getIcon(killStreakTag)
       viewItem.name <- actionBarType.getTitle(killStreakTag)
-      viewItem.tooltipText <- actionBarType.getTooltipText(killStreakTag)
+      viewItem.tooltipText <- actionBarType.getTooltipText(item)
     }
     if (item.count >= 0)
       viewItem.amount <- item.count.tostring() + (item.countEx >= 0 ? "/" + item.countEx : "")
@@ -304,8 +307,12 @@ class ActionBar
   //Only for streak wheel menu
   function activateStreak(streakId)
   {
-    if ( streakId in killStreaksActions )
-      ::activate_action_bar_action(killStreaksActions[streakId].id)
+    local action = ::getTblValue(streakId, killStreaksActions)
+    if (action)
+    {
+      local shortcutIdx = ::getTblValue("shortcutIdx", action, action.id) //compatibility with 1.67.2.X
+      ::activate_action_bar_action(shortcutIdx)
+    }
     else if (streakId >= 0) //something goes wrong; -1 is valid situation = player does not choose smthng
     {
       debugTableData(killStreaksActions)

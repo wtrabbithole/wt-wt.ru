@@ -26,13 +26,6 @@
       "missionBriefing": "",
       "forceSkiesInitialRandomSeed": true,
       "skiesInitialRandomSeed": 9978,
-      "stars": {
-        "latitude": 52.0,
-        "longitude": 6.0,
-        "year": 1944,
-        "month": 8,
-        "day": 1
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -49,7 +42,20 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      },
+      "stars": {
+        "latitude": 52.0,
+        "longitude": 6.0,
+        "year": 1944,
+        "month": 8,
+        "day": 1
       },
       "customWeather": {
         "windDir": [0.6,0.8],
@@ -117,11 +123,11 @@
           "unitSetProperties": {
             "object": "small_cutscene_squad",
             "attack_type": "dont_aim",
-            "ignoreCollisions": false,
-            "aiEnabled": false,
             "effShootingRate": 0.0,
+            "airEffShootingRate": 0.0,
             "effShootingRateByPlayer": 0.0,
-            "airEffShootingRate": 0.0
+            "ignoreCollisions": false,
+            "aiEnabled": false
           }
         },
         {
@@ -378,18 +384,7 @@
           ]
         },
         {
-          "missionSetTimeSpeed": {
-            "speed": 1.0,
-            "realtimeTriggers": true
-          }
-        },
-        {
-          "missionCompleted": {
-            "timer": false,
-            "debriefingTimer": 1,
-            "showCompleteMessage": false,
-            "playCompleteMusic": false
-          }
+          "missionDebriefing": []
         }
       ],
       "else_actions": []
@@ -467,6 +462,8 @@
         "unit_class": "ussr_su_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_su_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -501,6 +498,8 @@
         "unit_class": "ussr_su_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_su_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -535,6 +534,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -569,6 +570,8 @@
         "unit_class": "germ_panther_II",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "germ_panther_II_default",
         "bullets0": "",
         "bullets1": "",
@@ -655,6 +658,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -689,6 +694,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -723,6 +730,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -757,6 +766,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -791,6 +802,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -825,6 +838,8 @@
         "unit_class": "b-29",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "B29_12x1000lbs",
         "bullets0": "",
         "bullets1": "",
@@ -870,6 +885,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -904,6 +921,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -938,6 +957,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -972,6 +993,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -1006,6 +1029,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",

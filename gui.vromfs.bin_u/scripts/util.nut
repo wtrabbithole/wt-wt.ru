@@ -107,37 +107,6 @@ function isInArray(v, arr)
   return false
 }
 
-/**
- * Localizes text with specified key. Both 'param1' and 'param2' are optional
- * and can be either default value string or localization parameters table.
- */
-function loc(key, param1 = null, param2 = null)
-{
-  if (key.len() > 1 && key.slice(0, 1) == "#")
-    key = key.slice(1)
-
-  local defaultValue
-  if (typeof(param1) == "string")
-    defaultValue = param1
-  if (typeof(param2) == "string")
-    defaultValue = param2
-
-  local locParams
-  if (typeof(param1) == "table" || typeof(param1) == "instance")
-    locParams = param1
-  if (typeof(param2) == "table" || typeof(param2) == "instance")
-    locParams = param2
-
-  local text
-  if (defaultValue == null)
-    text = ::dagor.getLocTextEx(key)
-  else
-    text = ::dagor.getLocTextEx(key, defaultValue)
-
-  if (locParams == null)
-    return text
-  return ::replaceParamsInLocalizedText(text, locParams)
-}
 
 function replaceParamsInLocalizedText(localizedString, param)
 {
@@ -160,9 +129,7 @@ function replaceParamsInLocalizedText(localizedString, param)
       local pluralForms = localizedString.slice(start + startToken.len(), end)
       local plurals = ::split(pluralForms, "/")
       local idx = ::g_language.getPluralNounFormIdx(value)
-      local form = (idx in plurals) ? plurals[idx] :
-        plurals.len() ? plurals[plurals.len() - 1] :
-        ""
+      local form = plurals.len() ? plurals[clamp(idx, 0, plurals.len() - 1)] : ""
       localizedString = localizedString.slice(0, start) + form + localizedString.slice(end + 1)
       start += form.len() + 1
     }

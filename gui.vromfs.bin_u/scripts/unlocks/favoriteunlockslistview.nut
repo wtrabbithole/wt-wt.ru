@@ -59,9 +59,9 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
 
     local chapterAndGroupText = []
     if(unlockBlk.chapter)
-      chapterAndGroupText.push(::loc("#unlocks/chapter/" + unlockBlk.chapter))
+      chapterAndGroupText.push(::loc("unlocks/chapter/" + unlockBlk.chapter))
     if( ! ::u.isEmpty(unlockBlk.group))
-      chapterAndGroupText.push(::loc("#unlocks/group/" + unlockBlk.group))
+      chapterAndGroupText.push(::loc("unlocks/group/" + unlockBlk.group))
     if (chapterAndGroupText.len())
       chapterAndGroupText = "(" + ::implode(chapterAndGroupText, ", ") + ")"
     else

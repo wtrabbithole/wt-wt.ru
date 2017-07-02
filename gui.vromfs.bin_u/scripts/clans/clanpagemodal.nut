@@ -209,8 +209,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local rawRanksCond = clanData.membershipRequirements.getBlockByName("ranks") || ::DataBlock();
 
     local ranksConditionTypeText =  (rawRanksCond.type == "or") ?
-                                      ::loc("#clan/rankReqInfoCondType_or") :
-                                      ::loc("#clan/rankReqInfoCondType_and");
+                                      ::loc("clan/rankReqInfoCondType_or") :
+                                      ::loc("clan/rankReqInfoCondType_and");
 
     local ranksReqText = "";
     local haveRankReq = false;
@@ -237,7 +237,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     scene.findObject("clan-membershipReqRank").setValue( ranksReqText );
 
-    local battlesConditionTypeText = ::loc("#clan/battlesReqInfoCondType_and");
+    local battlesConditionTypeText = ::loc("clan/battlesReqInfoCondType_and");
     local battlesReqText = "";
     local haveBattlesReq = false;
     foreach(diff in ::g_difficulty.types)
@@ -682,6 +682,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     {
       res.id       <- "icon_" + member.nick
       res.needText <- false
+      res.imageType <- "contactStatusImg"
       res.image    <- ""
       if (!("tooltip" in res))
         res.tooltip <- ""
@@ -795,6 +796,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     imgObj["background-image"] = presence.getIcon()
+    imgObj["background-color"] = presence.getIconColor()
     imgObj["tooltip"] = ::loc(presence.presenceTooltip)
   }
 

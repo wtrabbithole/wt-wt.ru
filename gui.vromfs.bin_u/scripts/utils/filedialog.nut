@@ -899,7 +899,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       return true
     }
     else
-      ::showInfoMsgBox(::loc("#filesystem/folderDeleted", {path = path}))
+      ::showInfoMsgBox(::loc("filesystem/folderDeleted", {path = path}))
   }
 
 
@@ -917,11 +917,11 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         local folderPath = ::g_path.parentPath(path)
         if (shouldAskOnRewrite && isExists(file))
           ::scene_msg_box("filesystem_rewrite_msg_box", null,
-            ::loc("#filesystem/askRewriteFile", {path = path}),
+            ::loc("filesystem/askRewriteFile", {path = path}),
             [["ok", ::Callback(executeSelectCallback, this) ],
             ["cancel", function() {} ]], "cancel", {})
         else if (!isDirectory(readFileInfo(folderPath)))
-          ::showInfoMsgBox(::loc("#filesystem/folderDeleted", {path = folderPath}))
+          ::showInfoMsgBox(::loc("filesystem/folderDeleted", {path = folderPath}))
         else
         {
           if (!isExists(file) && extension
@@ -935,7 +935,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         if (isExists(file))
           executeSelectCallback()
         else
-          ::showInfoMsgBox(::loc("#filesystem/fileNotExists", {path = path}))
+          ::showInfoMsgBox(::loc("filesystem/fileNotExists", {path = path}))
       }
     }
   }

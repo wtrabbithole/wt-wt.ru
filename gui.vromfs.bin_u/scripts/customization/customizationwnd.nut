@@ -371,7 +371,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(tscTrObj))
     {
       tscTrObj.inactiveColor = have_premium? "no" : "yes"
-      tscTrObj.tooltip = have_premium ? "" : ::loc("#mainmenu/onlyWithPremium")
+      tscTrObj.tooltip = have_premium ? "" : ::loc("mainmenu/onlyWithPremium")
       local sliderObj = scene.findObject(tscId)
       local value = have_premium ? option.value : 0
       sliderObj.setValue(value)

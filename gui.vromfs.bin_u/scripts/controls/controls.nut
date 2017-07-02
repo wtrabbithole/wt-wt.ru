@@ -901,6 +901,16 @@ function get_favorite_voice_message_option(index)
       autobind_sc = [SHORTCUT.KEY_LCTRL]
       checkAssign = false
     }
+    {
+      id = "ID_SHIP_TORPEDO_SIGHT",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+    {
+      id="ID_SHIP_TOGGLE_GUNNERS"
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP, autobind = ["ID_TOGGLE_VIEW_GM"] }
@@ -3193,7 +3203,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         onSelectCallback = function(path) {
           local isSaved = ::export_current_layout_by_path(path)
           if (!isSaved)
-            ::showInfoMsgBox(::loc("#msgbox/errorSavingPreset"))
+            ::showInfoMsgBox(::loc("msgbox/errorSavingPreset"))
           return isSaved
         }
         extension = "blk"
@@ -3217,7 +3227,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
           if (isOpened)
             ::preset_changed = true
           else
-            ::showInfoMsgBox(::loc("#msgbox/errorLoadingPreset"))
+            ::showInfoMsgBox(::loc("msgbox/errorLoadingPreset"))
           return isOpened && ::is_last_load_controls_succeeded
         }
         extension = "blk"

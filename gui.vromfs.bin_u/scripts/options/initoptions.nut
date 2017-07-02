@@ -39,7 +39,7 @@ function update_all_units()
     ::all_units[air.name] <- air
     local ws_air = ws_cost[air.name]
     //set train cost
-    foreach(p in ["train2Cost", "train3Cost_gold", "train3Cost_exp", "gunnersCount", "rank", "reqExp"])
+    foreach(p in ["train2Cost", "train3Cost_gold", "train3Cost_exp", "gunnersCount", "rank", "reqExp", "hasDepthCharge"])
       air[p] <- (ws_air!=null && ws_air[p]!=null)? ws_air[p] : 0
 
     local expClass = ws_air != null ? ws_air.unitClass : null

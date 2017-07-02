@@ -631,6 +631,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         item.country <- air? air.shopCountry : ""
         item.rank <- air? air.rank : 0
       }
+      if ( ! ("locName" in item))
+        item.locName <- air ? ::getUnitName(air, true) : ""
       if (::isInArray(item.country, statsCountries))
         airStatsList.append(item)
     }
@@ -678,8 +680,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       { width=posWidth }
       { id="rank", width=rcWidth, text="#sm_rank", tdAlign="split", cellType="splitRight", callback = "onStatsCategory", active = statsSortBy=="rank" }
       { id="rank", width=rcWidth, cellType="splitLeft", callback = "onStatsCategory" }
-      { id="name", width=rcWidth, cellType="splitRight", callback = "onStatsCategory", active = statsSortBy=="name" }
-      { id="name", width=nameWidth, text="#options/unit", tdAlign="left", cellType="splitLeft", callback = "onStatsCategory" }
+      { id="locName", width=rcWidth, cellType="splitRight", callback = "onStatsCategory" }
+      { id="locName", width=nameWidth, text="#options/unit", tdAlign="left", cellType="splitLeft", callback = "onStatsCategory", active = statsSortBy=="locName" }
     ]
     foreach(item in ::air_stats_list)
     {

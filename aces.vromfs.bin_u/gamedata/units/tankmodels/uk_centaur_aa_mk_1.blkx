@@ -756,6 +756,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
+        "createSecondaryShatters": false,
         "ammo_turret_dm": [],
         "ammo_turret_01_dm": [],
         "ammo_turret_02_dm": [],
@@ -788,6 +789,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 10.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1321,7 +1323,7 @@
       "changeTimeMult": 1.0,
       "gunner": [
         {
-          "dmPart": "gunner_dm"
+          "dmPart": "commander_dm"
         },
         {
           "role": "tank_gunner"
@@ -1330,33 +1332,16 @@
           "role": "commander"
         },
         {
-          "substitute": "machine_gunner"
-        },
-        {
           "substitute": "loader"
         }
       ],
-      "driver": [
-        {
-          "dmPart": "driver_dm"
-        },
-        {
-          "role": "driver"
-        },
-        {
-          "substitute": "machine_gunner"
-        },
-        {
-          "substitute": "loader"
-        }
-      ],
+      "driver": {
+        "dmPart": "driver_dm",
+        "role": "driver",
+        "substitute": "loader"
+      },
       "loader": {
         "dmPart": "loader_dm",
-        "role": "loader",
-        "substitute": "machine_gunner"
-      },
-      "machine_gunner": {
-        "dmPart": "machine_gunner_dm",
         "role": "radio_gunner"
       }
     }

@@ -377,6 +377,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
+        "createSecondaryShatters": false,
         "ammo_turret_dm": [],
         "ammo_turret_01_dm": [],
         "ammo_turret_02_dm": [],
@@ -411,6 +412,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 10.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1344,6 +1346,27 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-10.0,30.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": false,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 50.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 16.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [10.0,0.05]
+              },
+              {
+                "row": [12.0,0.4]
+              }
+            ]
           }
         }
       },
@@ -1389,6 +1412,27 @@
           "limits": {
             "yaw": [-0.0,0.0],
             "pitch": [-0.0,0.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": false,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 50.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 16.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [10.0,0.05]
+              },
+              {
+                "row": [12.0,0.4]
+              }
+            ]
           }
         }
       },
@@ -1430,50 +1474,99 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner4",
-          "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Type_97_user_machinegun.blk",
-          "emitter": "bone_mg_v_01",
-          "flash": "emtr_mg_flame_01",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "speedYaw": 5.0,
-          "speedPitch": 4.0,
-          "fireConeAngle": 1.0,
-          "bullets": 3000,
-          "isBulletBelt": true,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_h_01",
-            "gun": "bone_mg_v_01",
-            "gunnerDm": "gunner_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner4"
           },
-          "limits": {
-            "yaw": [-25.0,25.0],
-            "pitch": [-35.0,35.0]
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_v_01"
+          },
+          {
+            "flash": "emtr_mg_flame_01"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "speedYaw": 5.0
+          },
+          {
+            "speedPitch": 4.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 3000
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_h_01",
+              "gun": "bone_mg_v_01",
+              "gunnerDm": "gunner_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-15.0,15.0],
+              "pitch": [-10.0,35.0]
+            }
           }
-        }
+        ]
       },
       {
         "Weapon": {
           "trigger": "gunner4",
           "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Type_97_user_machinegun.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk",
           "emitter": "bone_mg_v_01",
           "flash": "emtr_mg_flame_02",
           "defaultYaw": 0.0,
@@ -1504,8 +1597,8 @@
             "gunnerDm": "gunner_dm"
           },
           "limits": {
-            "yaw": [-25.0,25.0],
-            "pitch": [-35.0,35.0]
+            "yaw": [-15.0,15.0],
+            "pitch": [-10.0,35.0]
           }
         }
       }
@@ -1620,13 +1713,13 @@
     "ammoLoadDistribution": {
       "primaryShells": {
         "ammo_body_l_01_dm": {
-          "count": 25
+          "count": 32
         },
-        "ammo_body_r_02_dm": {
-          "count": 30
+        "ammo_body_r_01_dm": {
+          "count": 32
         },
-        "ammo_body_dm": {
-          "count": 20
+        "ammo_turret_dm": {
+          "count": 11
         }
       },
       "secondaryShells": {

@@ -310,6 +310,14 @@
 @const chatTextXpostColor:     #F85a50;
 @const chatTextMpostColor:     #3887E8;
 
+@const playerReadyColor:    #54ce03;
+@const playerNotReadyColor: #d93e3e;
+@const playerStatsColor:    #e83f29;
+
+@const contactOfflineColor: #d93e3e;
+@const contactOnlineColor:  #6dc54B;
+@const contactUnknownColor: #979797;
+
 @const hudColorDarkRed    @teamRedInactiveColor;
 @const hudColorDarkBlue   @teamBlueInactiveColor;
 @const hudColorRed        @teamRedColor;
@@ -373,6 +381,8 @@
 @const sliderThumbHeight: 27@sf/@pf;
 @const sliderValueButtonHeight: 1@cIco+4;
 @const sliderButtonSquareHeight: 0.025@scrn_tgt;
+@const sliderHeight: 5*@sf/@pf;
+@const sliderHeightSmall: 2*@sf/@pf;
 
 @const optPad:2.5*@scrn_tgt/100.0;  
 @const tblPad:2.5*@scrn_tgt/100.0;  
@@ -413,7 +423,7 @@
 
 @const queueTableWidth: 6*(0.06*@scrn_tgt_font + 0.01*@scrn_tgt + 2);
 
-@const bigOptionsHeight: ((0.63@scrn_tgt) \ (1@baseTrHeight)) * 1@baseTrHeight + 1;
+@const bigOptionsHeight: ((0.63@scrn_tgt_font) \ (1@baseTrHeight)) * 1@baseTrHeight + 1;
 
 @const bigOptionsScrollStep:3@baseTrHeight;
 

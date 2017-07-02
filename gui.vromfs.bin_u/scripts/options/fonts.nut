@@ -26,7 +26,7 @@ function get_default_fonts_css()
   if (::is_platform_ps4 || ::is_steam_big_picture())
     return SCALE_FONTS_CSS
 
-  if (::screen_height() <= 1200)
+  if (::screen_height() * ::display_scale() <= 1200)
     return PX_FONTS_CSS
   return SCALE_FONTS_CSS
 }

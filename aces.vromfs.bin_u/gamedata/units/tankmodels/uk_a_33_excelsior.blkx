@@ -1558,15 +1558,6 @@
     ]
   },
   {
-    "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
-      "headPos": [0.0,4.2,-8.0],
-      "headPosOnShooting": [-0.3,3.5,0.5],
-      "detectionHeight": 2.44
-    }
-  },
-  {
     "user_skin": {
       "name": "uk_cromvell_5",
       "replace_tex": {
@@ -1916,6 +1907,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
+        "createSecondaryShatters": false,
         "ammo_turret_dm": [],
         "ammo_turret_01_dm": [],
         "ammo_turret_02_dm": [],
@@ -1998,6 +1990,11 @@
         "ammo_body_38_dm": [],
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
+        "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2045,6 +2042,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 10.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -2079,7 +2077,7 @@
           "speedYaw": 24.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
-          "bullets": 35,
+          "bullets": 64,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -2148,7 +2146,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2500
+            "bullets": 2550
           },
           {
             "fireConeAngle": 15.0
@@ -2213,7 +2211,7 @@
           "speedYaw": 10.0,
           "speedPitch": 10.0,
           "fireConeAngle": 1.0,
-          "bullets": 2500,
+          "bullets": 2550,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -2251,16 +2249,25 @@
     }
   },
   {
+    "cockpit": {
+      "zoomOutFov": 40.0,
+      "zoomInFov": 21.0,
+      "headPos": [0.0,4.2,-8.0],
+      "headPosOnShooting": [0.2,3.3,0.5],
+      "detectionHeight": 2.44
+    }
+  },
+  {
     "ammoLoadDistribution": {
       "primaryShells": {
         "ammo_turret_dm": {
-          "count": 19
+          "count": 32
         },
         "ammo_body_01_dm": {
-          "count": 8
+          "count": 16
         },
         "ammo_body_02_dm": {
-          "count": 8
+          "count": 16
         }
       }
     }

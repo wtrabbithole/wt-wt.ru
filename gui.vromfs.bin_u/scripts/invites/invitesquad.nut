@@ -78,10 +78,10 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   function accept()
   {
     local acceptCallback = ::Callback(_implAccept, this)
-    local callback = (@(acceptCallback) function () { ::queues.checkAndStart(acceptCallback, null, "isCanNewflight")})(acceptCallback)
+    local callback = function () { ::queues.checkAndStart(acceptCallback, null, "isCanNewflight")}
 
     local canJoin = ::g_squad_utils.canJoinFlightMsgBox(
-      { allowWhenAlone = false },
+      { allowWhenAlone = false, msgId = "squad/leave_squad_for_invite" },
       callback
     )
 
@@ -102,6 +102,8 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   {
     if (isOutdated())
       return ::g_invites.showExpiredInvitePopup()
+    if (!::g_squad_manager.canJoinSquad())
+      return
 
     ::g_squad_manager.acceptSquadInvite(squadId)
     isAccepted = true

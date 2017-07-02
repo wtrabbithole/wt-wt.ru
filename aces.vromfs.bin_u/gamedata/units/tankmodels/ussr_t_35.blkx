@@ -664,6 +664,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
+        "createSecondaryShatters": false,
         "ammo_turret_dm": [],
         "ammo_turret_01_dm": [],
         "ammo_turret_02_dm": [],
@@ -698,6 +699,7 @@
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 10.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1743,44 +1745,95 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner1",
-          "triggerGroup": "coaxial",
-          "parentTrigger": "gunner0",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk",
-          "emitter": "bone_mg_twin_v_01",
-          "flash": "emtr_mg_twin_flame_01",
-          "useAnimFlashNode": false,
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "speedYaw": 25.0,
-          "speedPitch": 15.0,
-          "fireConeAngle": 1.0,
-          "bullets": 1260,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_twin_h_01",
-            "gun": "bone_mg_twin_v_01"
+        "Weapon": [
+          {
+            "trigger": "gunner1"
           },
-          "limits": {
-            "yaw": [-15.0,15.0],
-            "pitch": [-15.0,15.0]
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "parentTrigger": "gunner0"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_twin_v_01"
+          },
+          {
+            "flash": "emtr_mg_twin_flame_01"
+          },
+          {
+            "useAnimFlashNode": false
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 15.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 1260
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_twin_h_01",
+              "gun": "bone_mg_twin_v_01"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-15.0,15.0],
+              "pitch": [-15.0,15.0]
+            }
           }
-        }
+        ]
       },
       {
         "Weapon": {
@@ -1827,44 +1880,93 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner3",
-          "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk",
-          "emitter": "bone_mg_twin_v_02",
-          "flash": "emtr_mg_twin_flame_02",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "useAnimFlashNode": false,
-          "speedYaw": 25.0,
-          "speedPitch": 15.0,
-          "fireConeAngle": 1.0,
-          "bullets": 1260,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_twin_h_02",
-            "gun": "bone_mg_twin_v_02",
-            "gunnerDm": "gunner_01_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner3"
           },
-          "limits": {
-            "yaw": [-0.0,0.0],
-            "pitch": [-0.0,0.0]
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_twin_v_02"
+          },
+          {
+            "flash": "emtr_mg_twin_flame_02"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "useAnimFlashNode": false
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 15.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 1260
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_twin_h_02",
+              "gun": "bone_mg_twin_v_02",
+              "gunnerDm": "gunner_01_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-0.0,0.0],
+              "pitch": [-0.0,0.0]
+            }
           }
-        }
+        ]
       },
       {
         "Weapon": {
@@ -1915,110 +2017,297 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner5",
-          "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk",
-          "emitter": "bone_mg_twin_v_03",
-          "flash": "emtr_mg_twin_flame_03",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "useAnimFlashNode": false,
-          "speedYaw": 0.0,
-          "speedPitch": 0.0,
-          "fireConeAngle": 1.0,
-          "bullets": 1260,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_twin_h_03",
-            "gun": "bone_mg_twin_v_03",
-            "gunnerDm": "gunner_02_dm",
-            "verDriveDm": "drive_turret_v_05_dm",
-            "horDriveDm": "drive_turret_h_05_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner5"
           },
-          "limits": {
-            "yaw": [-0.0,0.0],
-            "pitch": [-0.0,0.0]
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_twin_v_03"
+          },
+          {
+            "flash": "emtr_mg_twin_flame_03"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "useAnimFlashNode": false
+          },
+          {
+            "speedYaw": 0.0
+          },
+          {
+            "speedPitch": 0.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 1260
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_twin_h_03",
+              "gun": "bone_mg_twin_v_03",
+              "gunnerDm": "gunner_02_dm",
+              "verDriveDm": "drive_turret_v_05_dm",
+              "horDriveDm": "drive_turret_h_05_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-0.0,0.0],
+              "pitch": [-0.0,0.0]
+            }
           }
-        }
+        ]
       },
       {
-        "Weapon": {
-          "trigger": "gunner6",
-          "triggerGroup": "machinegun",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk",
-          "emitter": "bone_mg_v_01",
-          "flash": "emtr_mg_flame_01",
-          "recoilOffset": 0.0,
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "parkInDeadzone": false,
-          "useAnimFlashNode": false,
-          "speedYaw": 25.0,
-          "speedPitch": 15.0,
-          "fireConeAngle": 1.0,
-          "bullets": 1260,
-          "turret": {
-            "head": "bone_turret_03",
-            "gun": "bone_mg_h_01",
-            "barrel": "bone_mg_v_01",
-            "gunnerDm": "machine_gunner_01_dm",
-            "verDriveDm": "drive_turret_v_03_dm",
-            "horDriveDm": "drive_turret_h_03_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner6"
           },
-          "limits": {
-            "yaw": [-130.0,10.0],
-            "pitch": [-15.0,15.0]
+          {
+            "triggerGroup": "machinegun"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_v_01"
+          },
+          {
+            "flash": "emtr_mg_flame_01"
+          },
+          {
+            "recoilOffset": 0.0
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "parkInDeadzone": false
+          },
+          {
+            "useAnimFlashNode": false
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 15.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 1260
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_turret_03",
+              "gun": "bone_mg_h_01",
+              "barrel": "bone_mg_v_01",
+              "gunnerDm": "machine_gunner_01_dm",
+              "verDriveDm": "drive_turret_v_03_dm",
+              "horDriveDm": "drive_turret_h_03_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-130.0,10.0],
+              "pitch": [-15.0,15.0]
+            }
           }
-        }
+        ]
       },
       {
-        "Weapon": {
-          "trigger": "gunner7",
-          "triggerGroup": "machinegun",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk",
-          "emitter": "bone_mg_v_02",
-          "flash": "emtr_mg_flame_02",
-          "recoilOffset": 0.0,
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "parkInDeadzone": false,
-          "useAnimFlashNode": false,
-          "speedYaw": 25.0,
-          "speedPitch": 15.0,
-          "fireConeAngle": 1.0,
-          "bullets": 1260,
-          "turret": {
-            "head": "bone_turret_04",
-            "gun": "bone_mg_h_02",
-            "barrel": "bone_mg_v_02",
-            "gunnerDm": "machine_gunner_02_dm",
-            "verDriveDm": "drive_turret_v_04_dm",
-            "horDriveDm": "drive_turret_h_04_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner7"
           },
-          "limits": {
-            "yaw": [-140.0,20.0],
-            "pitch": [-15.0,15.0]
+          {
+            "triggerGroup": "machinegun"
           },
-          "limitsTable": {
-            "lim1": [-140.0,-65.0,-8.0,32.0],
-            "lim2": [-65.0,20.0,-5.0,32.0]
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_v_02"
+          },
+          {
+            "flash": "emtr_mg_flame_02"
+          },
+          {
+            "recoilOffset": 0.0
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "parkInDeadzone": false
+          },
+          {
+            "useAnimFlashNode": false
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 15.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 1260
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_turret_04",
+              "gun": "bone_mg_h_02",
+              "barrel": "bone_mg_v_02",
+              "gunnerDm": "machine_gunner_02_dm",
+              "verDriveDm": "drive_turret_v_04_dm",
+              "horDriveDm": "drive_turret_h_04_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-140.0,20.0],
+              "pitch": [-15.0,15.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-140.0,-65.0,-8.0,32.0],
+              "lim2": [-65.0,20.0,-5.0,32.0]
+            }
           }
-        }
+        ]
       }
     ]
   },

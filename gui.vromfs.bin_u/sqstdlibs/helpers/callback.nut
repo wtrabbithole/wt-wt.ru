@@ -29,6 +29,8 @@ class Callback
   callbackFn = null
   valid = true
 
+  isToStringForDebug = true
+
   constructor(callback_function, context = null)
   {
     callbackFn = callback_function
@@ -67,6 +69,25 @@ class Callback
     valid = false
   }
 
+  function getContextDbgName()
+  {
+    if (!hasContext)
+      return "null"
+
+    if (!::u.isTable(refToContext))
+      return ::toString(refToContext, 0)
+
+    foreach(key, value in ::getroottable())
+      if (value == refToContext)
+        return key
+    return "unknown table"
+  }
+
+  function tostring()
+  {
+    return ::format("Callback( context = %s)", getContextDbgName())
+  }
+
   function sendNetAssert(error)
   {
     local eventText = ""
@@ -76,26 +97,9 @@ class Callback
     if (hudEventName)
       eventText += ::format("hudEvent = %s, ", hudEventName)
 
-    local envText = ""
-    if (hasContext)
-    {
-      if (::u.isTable(refToContext))
-      {
-        foreach(key, value in ::getroottable())
-          if (value == refToContext)
-          {
-            envText = key
-            break
-          }
-        if (!envText.len())
-          envText = "unknown table"
-      }
-      else
-        envText = ::toString(refToContext, 0)
-    }
     ::script_net_assert_once("cb error " + eventText,
                               format("::Callback error ( %scontext = %s):\n%s",
-                                eventText, envText, error
+                                eventText, getContextDbgName(), error
                               )
                             )
   }

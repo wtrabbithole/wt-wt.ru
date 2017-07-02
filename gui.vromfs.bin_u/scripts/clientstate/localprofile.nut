@@ -1,13 +1,18 @@
-::last_save_profile_time <- ::dagor.getCurTime()
-function save_profile_offline_limited(forceSave = false)
-{
-  if (!::g_login.isLoggedIn())
-    return
+const PS4_SAVE_PROFILE_DELAY_MSEC = 60000
 
-  if (forceSave || !::is_platform_ps4 || ::dagor.getCurTime() - ::last_save_profile_time > 60000)
+{
+  local lastSaveTime = -PS4_SAVE_PROFILE_DELAY_MSEC
+  save_profile_offline_limited <- function(isForced = false)
   {
-    ::last_save_profile_time = ::dagor.getCurTime()
-    ::save_profile(false)
+    if (!isForced && ::is_platform_ps4
+      && ::dagor.getCurTime() - lastSaveTime < PS4_SAVE_PROFILE_DELAY_MSEC)
+      return
+
+    lastSaveTime = ::dagor.getCurTime()
+    if (::g_login.isProfileReceived())
+      ::save_profile(false)
+    else
+      ::save_common_local_settings()
   }
 }
 
@@ -33,11 +38,11 @@ function load_local_account_settings(path, defValue = null)
 }
 
 //save/load setting to local profile, not depend on account, so can be usable before login.
-function save_local_shared_settings(path, value)
+function save_local_shared_settings(path, value, isForced = false)
 {
   local blk = ::get_common_local_settings_blk()
   if (::set_blk_value_by_path(blk, path, value))
-    ::save_common_local_settings()
+    ::save_profile_offline_limited(isForced)
 }
 
 function load_local_shared_settings(path, defValue = null)
@@ -101,10 +106,10 @@ function loadLocalByAccount(path, defValue=null)
 }
 
 // Deprecated, for storing new data use save_local_account_settings() instead.
-function saveLocalByAccount(path, value, forceSave = false)
+function saveLocalByAccount(path, value, forceSave = false, shouldSaveProfile = true)
 {
   local cdb = ::get_local_custom_settings_blk()
   local id = ::my_user_id_str + "." + (::isProductionCircuit() ? "production" : ::get_cur_circuit_name())
-  if (::set_blk_value_by_path(cdb, "accounts/" + id + "/" + path, value))
+  if (::set_blk_value_by_path(cdb, "accounts/" + id + "/" + path, value) && shouldSaveProfile)
     ::save_profile_offline_limited(forceSave)
 }

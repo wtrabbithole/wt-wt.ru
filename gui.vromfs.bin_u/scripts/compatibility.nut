@@ -177,6 +177,8 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   DM_HIT_RESULT_CREW     = 10
   DM_HIT_RESULT_TORPEDO  = 11
   EULT_WW_START_OPERATION = 52
+  EULT_WW_END_OPERATION = 53
+  EULT_WW_CREATE_OPERATION = 54
   is_nvidia_ansel_allowed = function() { return false }
 
   // PS4UpdaterModal
@@ -281,11 +283,68 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   can_receive_pve_trophy = function(userId, trophyName) {return false}
   set_pve_event_was_played = function(userId, trophyName) {}
   webpoll_authorize_with_url = function(baseUrl, pollId) { webpoll_authorize(pollId) }
+})
 
+//----------------------------wop_1_67_2_X---------------------------------//
+::apply_compatibilities({
   is_player_unit_alive = @() true
 
   save_common_local_settings = function() {}
   get_common_local_settings_blk = function() { return ::DataBlock() }
 
   correct_color_lightness = function(colorStr, lightness) { return colorStr }
+
+  ps4_get_account_id = @() ""
+
+  EII_TORPEDO = 10
+  EII_DEPTH_CHARGE = 11
+  EII_ROCKET = 12
+
+  get_option_depthcharge_activation_time = @() get_option_dive_bomb_activation_time()
+  set_option_depthcharge_activation_time = @(value) set_option_dive_bomb_activation_time(value)
+})
+
+//----------------------------wop_1_67_3_X---------------------------------//
+::apply_compatibilities({
+  display_scale = @() 1.0
+
+  EII_SMOKE_SCREEN = 13
+
+  //Old version of loc. New implemented in c++ and supports
+  //all features which this one does.
+  loc = function(key, param1 = null, param2 = null)
+  {
+    if (key.len() > 1 && key.slice(0, 1) == "#")
+      key = key.slice(1)
+
+    local defaultValue
+    if (typeof(param1) == "string")
+      defaultValue = param1
+    if (typeof(param2) == "string")
+      defaultValue = param2
+
+    local locParams
+    if (typeof(param1) == "table" || typeof(param1) == "instance")
+      locParams = param1
+    if (typeof(param2) == "table" || typeof(param2) == "instance")
+      locParams = param2
+
+    local text
+    if (defaultValue == null)
+      text = ::dagor.getLocTextEx(key)
+    else
+      text = ::dagor.getLocTextEx(key, defaultValue)
+
+    if (locParams == null)
+      return text
+    return ::replaceParamsInLocalizedText(text, locParams)
+  }
+})
+
+
+//----------------------------wop_1_69_1_X---------------------------------//
+::apply_compatibilities({
+  HUD_TYPE_UNKNOWN = -1
+
+  set_tactical_map_hud_type = @(hudType) set_tactical_map_type_without_unit(hudType)
 })

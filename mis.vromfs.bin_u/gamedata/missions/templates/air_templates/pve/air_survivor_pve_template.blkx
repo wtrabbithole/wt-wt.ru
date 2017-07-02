@@ -211,7 +211,6 @@
           "unitSetProperties": {
             "object": "t2_big_artillery",
             "accuracy": 0.0,
-            "checkVisibilityTarget": false,
             "effShootingRate": 0.0
           }
         },
@@ -3252,8 +3251,8 @@
         {
           "varSetRandomInt": {
             "var": "wave_next_spawn_idx",
-            "random from": 1,
-            "random to": 6
+            "from": 1,
+            "to_not_including": 6
           }
         },
         {
@@ -3444,8 +3443,8 @@
         {
           "varSetRandomInt": {
             "var": "wave_game_mode",
-            "random from": 1,
-            "random to": 3
+            "from": 1,
+            "to_not_including": 3
           }
         },
         {
@@ -3897,8 +3896,8 @@
         {
           "varSetRandomInt": {
             "var": "land_units_mode",
-            "random from": 0,
-            "random to": 100
+            "from": 0,
+            "to_not_including": 100
           }
         },
         {
@@ -4261,8 +4260,8 @@
         {
           "varSetRandomInt": {
             "var": "land_units_mode",
-            "random from": 0,
-            "random to": 100
+            "from": 0,
+            "to_not_including": 100
           }
         },
         {

@@ -57,7 +57,7 @@ function g_contacts::onEventUserInfoManagerDataUpdated(params)
 
 function sortContacts(a, b)
 {
-  return b.presence.presenceCode <=> a.presence.presenceCode
+  return b.presence.sortOrder <=> a.presence.sortOrder
     || ::english_russian_to_lower_case(a.name) <=> ::english_russian_to_lower_case(b.name)
 }
 
@@ -339,7 +339,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!gId || gId == "")
       return {}
 
-    local shortName = ::loc("#mainmenu/" + gId + "Short", "")
+    local shortName = ::loc("mainmenu/" + gId + "Short", "")
     return {
       name = shortName == "" ? "#mainmenu/" + gId : shortName
       tooltip = "#mainmenu/" + gId
@@ -375,6 +375,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local imgObj = obj.findObject("statusImg")
       imgObj["background-image"] = f.presence.getIcon()
+      imgObj["background-color"] = f.presence.getIconColor()
 
       local pilotImgObj = obj.findObject("pilotIconImg")
       pilotImgObj["background-image"] = "#ui/opaque#" + f.pilotIcon + "_ico"
@@ -976,7 +977,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       {
         text = ::loc("contacts/friendlist/remove")
-        show = isFriend
+        show = isFriend && !::isPlayerPS4Friend(curPlayer.name)
         action = function() { onFriendRemove(null) }
       }
       {
@@ -1232,7 +1233,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     value = ::clearBorderSymbols(value)
 
     local searchGroupActiveTextObject = scene.findObject("search_group_active_text")
-    searchGroupActiveTextObject.text = ::loc("#contacts/" + searchGroup) + ": " + value
+    searchGroupActiveTextObject.text = ::loc("contacts/" + searchGroup) + ": " + value
 
     taskId = find_nicks_by_prefix(value, maxSearchPlayers, true)
     if (taskId >= 0)
@@ -1961,22 +1962,24 @@ function updateContact(config)
     presence = ::g_contact_presence.OFFLINE
 
   local squadStatus = ::g_squad_manager.getPlayerStatusInMySquad(uid)
-  if (squadStatus != SquadState.NOT_IN_SQUAD)
+  if (squadStatus == squadMemberState.NOT_IN_SQUAD)
   {
-    if (squadStatus == SquadState.SQUAD_LEADER)
-      presence = ::g_contact_presence.SQUAD_LEADER
-    else if (squadStatus == SquadState.SQUAD_MEMBER_READY)
-      presence = ::g_contact_presence.SQUAD_READY
-    else
-      presence = ::g_contact_presence.SQUAD_NOT_READY
+    if (contact.online && contact.gameStatus)
+      presence = contact.gameStatus == "in_queue"
+        ? ::g_contact_presence.IN_QUEUE : ::g_contact_presence.IN_GAME
   }
-  else if (contact.online && contact.gameStatus)
-    presence = contact.gameStatus == "in_queue"
-               ? ::g_contact_presence.IN_QUEUE : ::g_contact_presence.IN_GAME
+  else if (squadStatus == squadMemberState.SQUAD_LEADER)
+    presence = ::g_contact_presence.SQUAD_LEADER
+  else if (squadStatus == squadMemberState.SQUAD_MEMBER_READY)
+    presence = ::g_contact_presence.SQUAD_READY
+  else if (squadStatus == squadMemberState.SQUAD_MEMBER_OFFLINE)
+    presence = ::g_contact_presence.SQUAD_OFFLINE
+  else
+    presence = ::g_contact_presence.SQUAD_NOT_READY
 
   contact.presence = presence
 
-  if (squadStatus != SquadState.NOT_IN_SQUAD || is_in_my_clan(null, uid))
+  if (squadStatus != squadMemberState.NOT_IN_SQUAD || is_in_my_clan(null, uid))
     chatUpdatePresence(contact)
 
   return contact
@@ -2046,13 +2049,14 @@ function fillContactTooltip(obj, contact, handler)
     name = contact.name
     presenceText = contact.getPresenceText()
     presenceIcon = contact.presence.getIcon()
+    presenceIconColor = contact.presence.getIconColor()
     icon = contact.pilotIcon
     wins = contact.getWinsText()
     rank = contact.getRankText()
   }
 
   local squadStatus = ::g_squad_manager.getPlayerStatusInMySquad(contact.uid)
-  if (squadStatus != SquadState.NOT_IN_SQUAD)
+  if (squadStatus != squadMemberState.NOT_IN_SQUAD && squadStatus != squadMemberState.SQUAD_MEMBER_OFFLINE)
   {
     local memberData = ::g_squad_manager.getMemberData(contact.uid)
     if (memberData)
@@ -2062,7 +2066,7 @@ function fillContactTooltip(obj, contact, handler)
       if (("country" in memberData) && ::checkCountry(memberData.country, "memberData of contact = " + contact.uid)
           && ("crewAirs" in memberData) && (memberData.country in memberData.crewAirs))
       {
-        view.unitList.append({ header = ::loc("#mainmenu/arcadeInstantAction") })
+        view.unitList.append({ header = ::loc("mainmenu/arcadeInstantAction") })
         foreach(unitName in memberData.crewAirs[memberData.country])
         {
           local unit = ::getAircraftByName(unitName)
@@ -2076,7 +2080,7 @@ function fillContactTooltip(obj, contact, handler)
 
       if ("selAirs" in memberData)
       {
-        view.unitList.append({ header = ::loc("#mainmenu/instantAction") })
+        view.unitList.append({ header = ::loc("mainmenu/instantAction") })
         foreach(country in ::shopCountriesList)
         {
           local countryIcon = ::get_country_icon(country)

@@ -38,6 +38,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName = "gui/browser.blk"
   sceneNavBlkName = null
   url = ""
+  externalUrl = ""
 
   function initScreen()
   {
@@ -76,7 +77,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function browserForceExternal()
   {
-    local url = ::browser_get_current_url();
+    local url = externalUrl && externalUrl.len() ? externalUrl : ::browser_get_current_url()
 
     if (!url || url == "")
     {
@@ -129,6 +130,20 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           + params.eventType);
         break;
     }
+  }
+
+  function onEventWebPollAuthResult(pollId)
+  {
+    // WebPollAuthResult event may come before browser opens the page
+    local currentUrl = ::u.isEmpty(::browser_get_current_url()) ? url : ::browser_get_current_url()
+    if(::u.isEmpty(currentUrl))
+      return
+    // we have to update externalUrl for any pollId
+    // so we don't care about pollId param
+    pollId = ::g_webpoll.getPollIdByFullUrl(currentUrl)
+    if( ! pollId)
+      return
+    externalUrl = ::g_webpoll.generatePollUrl(pollId, false)
   }
 
   function toggleWaitAnimation(show)

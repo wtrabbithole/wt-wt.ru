@@ -79,14 +79,17 @@
         "hitCameraRender": {
           "hitCameraTitle": {
             "id": "title"
+          },
+          "hitCameraInfo": {
+            "id": "info"
           }
         }
       },
       "hudEnemyDamage": {
         "id": "hud_enemy_damage",
         "position": "absolute",
-        "pos": "pw - w, 0.20*@shHud + 0.02*@shHud",
-        "posHitcamOn": "pw - w, 0.20*@shHud + 0.02*@shHud",
+        "pos": "pw - w, 1@hitCameraHeight + 0.02*@shHud",
+        "posHitcamOn": "pw - w, 1@hitCameraHeight + 0.02*@shHud",
         "posHitcamOff": "pw - w, 0",
         "flow": "vertical"
       }

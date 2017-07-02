@@ -32,7 +32,7 @@
     "gameModeInfoString", "modes", "events", "tournamentMode",
     "location", "weaponType", "difficulty",
     "playerUnit", "playerType", "playerExpClass" "playerUnitRank", "playerTag",
-    "targetUnit", "targetType", "targetExpClass", "targetTag",
+    "targetUnit", "targetType", "targetExpClass", "targetUnitClass", "targetTag",
     "crewsUnit", "crewsUnitRank", "crewsTag", "activity",
     "minStat", "statPlace", "statScore", "statPlaceInSession", "statScoreInSession",
     "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country"
@@ -45,13 +45,15 @@
   additionalTypes = ["critical", "lesserTeam", "teamLeader", "inTurret"]
 
   locGroupByType = {
-    playerType       = "playerUnit"
-    playerTag        = "playerUnit"
-    playerUnitRank   = "playerUnit"
-    targetType       = "targetUnit"
-    targetTag        = "targetUnit"
-    crewsUnitRank    = "crewsUnit"
-    crewsTag         = "crewsUnit"
+    playerType             = "playerUnit"
+    playerTag              = "playerUnit"
+    playerUnitRank         = "playerUnit"
+    targetType             = "targetUnit"
+    targetTag              = "targetUnit"
+    crewsUnitRank          = "crewsUnit"
+    crewsTag               = "crewsUnit"
+    offenderIsSupportGun   = "weaponType"
+    targetUnitClass        = "targetExpClass"
   }
 
   mapConditionUnitType = {
@@ -353,6 +355,8 @@ function UnlockConditions::loadCondition(blk)
   }
   else if (t == "playerExpClass" || t == "targetExpClass")
     res.values = (blk % "class")
+  else if (t == "targetUnitClass")
+    res.values = (blk % "unitClass")
   else if (t == "playerTag" || t == "targetTag")
     res.values = (blk % "tag")
   else if (t == "playerUnitRank")
@@ -435,6 +439,8 @@ function UnlockConditions::loadCondition(blk)
   }
   else if (t == "char_personal_unlock")
     res.values = blk % "personalUnlocksType"
+  else if (t == "offenderIsSupportGun")
+    res.values = ["actionBarItem/artillery_target"]
   else if (::isInArray(t, additionalTypes))
   {
     res.type = "additional"
@@ -720,7 +726,7 @@ function UnlockConditions::_addUsualConditionsText(groupsList, condition)
       text = ::getUnitName(v)
     else if (cType == "playerType" || cType == "targetType")
       text = ::loc("unlockTag/" + ::getTblValue(v, mapConditionUnitType, v))
-    else if (cType == "playerExpClass" || cType == "targetExpClass" || cType == "unitClass")
+    else if (cType == "playerExpClass" || cType == "targetExpClass" || cType == "unitClass" || cType == "targetUnitClass")
       text = ::get_role_text(::cut_prefix(v, "exp_", v))
     else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country")
       text = ::loc("unlockTag/" + v)
@@ -740,6 +746,8 @@ function UnlockConditions::_addUsualConditionsText(groupsList, condition)
       text = ::events.getNameByEconomicName(v)
     else if (cType == "missionPostfix")
       text = ::loc("options/" + v)
+    else if (cType == "offenderIsSupportGun")
+      text = ::loc(v)
     else
       text = ::loc(cType+"/" + v)
 

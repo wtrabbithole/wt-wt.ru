@@ -2404,6 +2404,159 @@
       "leftPos": [-1.0,1.0,0.0]
     }
   },
+  "engine_t90a": {
+    "effects": {
+      "path": "tanks/engines_tanks/t90a",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/t90a",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/t90a",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_leo2a5": {
+    "effects": {
+      "path": "tanks/engines_tanks/leo2a5",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_tanks/leo2a5",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_tanks/leo2a5",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_apache": {
+    "effects": {
+      "path": "tanks/engines_helicopters/apache",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_helicopters/apache",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_helicopters/apache",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_mi35": {
+    "effects": {
+      "path": "tanks/engines_helicopters/mi35",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_helicopters/mi35",
+      "eventFront": "",
+      "eventBack": "engine",
+      "eventSurround": "",
+      "eventLod1": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0,
+      "offsetPos": [-1.0,1.0,0.0]
+    },
+    "cockpit": {
+      "path": "tanks/engines_helicopters/mi35",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_heli_ai": {
+    "effects": {
+      "path": "tanks/engines_helicopters/ai",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "tanks/engines_helicopters/ai",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
   "rattle05": {
     "effects": {
       "path": "tanks/effects_tanks/rattle05",
@@ -3459,6 +3612,8 @@
         "aphe_tank": "loadBulletAP",
         "aphebc_tank": "loadBulletAP",
         "apcbc_tank": "loadBulletAP",
+        "apcbc_solid_medium_caliber_tank": "loadBulletAP",
+        "apc_solid_medium_caliber_tank": "loadBulletAP",
         "ap_tank": "loadBulletAP",
         "ap_large_caliber_tank": "loadBulletAP",
         "tp_tank": "loadBulletAP",
@@ -3466,6 +3621,7 @@
         "he_frag_tank": "loadBulletHighExpl",
         "he_frag_fs_tank": "loadBulletHighExpl",
         "hesh_tank": "loadBulletHighExpl",
+        "smoke_tank": "loadBulletHighExpl",
         "heat_tank": "loadBulletCumulative",
         "heat_fs_tank": "loadBulletCumulative",
         "apcr_tank": "loadBulletSubCaliber",

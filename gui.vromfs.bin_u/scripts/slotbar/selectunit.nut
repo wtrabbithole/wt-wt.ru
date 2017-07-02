@@ -379,7 +379,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
               countVisibleOptions++
             local name = text
             if (::g_string.startsWith(name, "#"))
-              name = ::loc(name, locParams)
+              name = name.slice(1)
+            name = ::loc(name, locParams)
             row.nums.append({
               option_name = name,
               visible = optionVisible && (!singleOption || idxItem == 0)

@@ -23,77 +23,8 @@
       },
       {
         "tdiv": {
-          "id": "chatPlace"
-        }
-      },
-      {
-        "tdiv": {
-          "id": "hud_ship_damage_indicator",
-          "size": "@sizeDamageIndicatorFull, @sizeDamageIndicatorFull",
-          "pos": "0, 0.03@shHud",
-          "position": "relative",
-          "background": {
-            "id": "ship_background",
-            "size": "ph, ph",
-            "position": "absolute",
-            "pos": "0, 0",
-            "topLeft": {
-              "position": "absolute",
-              "pos": "0, 0",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_2",
-              "color-factor": "150"
-            },
-            "topRight": {
-              "position": "absolute",
-              "pos": "pw/2, 0",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_2",
-              "background-position": "w, 0",
-              "color-factor": "150"
-            },
-            "botRight": {
-              "position": "absolute",
-              "pos": "pw/2, ph/2",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_3",
-              "color-factor": "150"
-            },
-            "botLeft": {
-              "position": "absolute",
-              "pos": "0, ph/2",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_1",
-              "color-factor": "150"
-            }
-          },
-          "dmgIndicator": {
-            "id": "xray_render_dmg_indicator",
-            "size": "@sizeDamageIndicator, @sizeDamageIndicator",
-            "pos": "pw/2 - w/2, ph/2 - h/2",
-            "position": "absolute"
-          },
-          "debuffs": {
-            "id": "ship_debuffs",
-            "width": "ph",
-            "height": "w",
-            "position": "absolute",
-            "pos": "pw/2 - w/2, ph/2 - h/2",
-            "flow": "v-flow"
-          },
-          "crew": {
-            "id": "crew_state",
-            "unit_type": "ship",
-            "width": "ph",
-            "height": "w",
-            "position": "absolute",
-            "pos": "pw/2 - w/2, ph/2 - h/2",
-            "flow": "v-flow"
-          }
+          "id": "chatPlace",
+          "margin-bottom": "@sizeDamageIndicatorFull"
         }
       }
     ]
@@ -149,14 +80,17 @@
         "hitCameraRender": {
           "hitCameraTitle": {
             "id": "title"
+          },
+          "hitCameraInfo": {
+            "id": "info"
           }
         }
       },
       "hudEnemyDamage": {
         "id": "hud_enemy_damage",
         "position": "absolute",
-        "pos": "pw - w, 0.20*@shHud + 0.02*@shHud",
-        "posHitcamOn": "pw - w, 0.20*@shHud + 0.02*@shHud",
+        "pos": "pw - w, 1@hitCameraHeight + 0.02*@shHud",
+        "posHitcamOn": "pw - w, 1@hitCameraHeight + 0.02*@shHud",
         "posHitcamOff": "pw - w, 0",
         "flow": "vertical"
       }
@@ -172,6 +106,14 @@
   {
     "tdiv": {
       "id": "hud_message_timers"
+    }
+  },
+  {
+    "tdiv": {
+      "behaviour": "darg",
+      "position": "root",
+      "pos": "0, 0",
+      "size": "pw, ph"
     }
   },
   {
