@@ -1,0 +1,3513 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 0.0
+    },
+    "player": [
+      {
+        "army": 1
+      },
+      {
+        "wing": "t1_player01"
+      },
+      {
+        "wing": "t1_player02"
+      },
+      {
+        "wing": "t1_player03"
+      },
+      {
+        "wing": "t1_player04"
+      },
+      {
+        "wing": "t1_player05"
+      },
+      {
+        "wing": "t1_player06"
+      },
+      {
+        "wing": "t1_player07"
+      },
+      {
+        "wing": "t1_player08"
+      },
+      {
+        "wing": "t1_player09"
+      },
+      {
+        "wing": "t1_player10"
+      },
+      {
+        "wing": "t1_player11"
+      },
+      {
+        "wing": "t1_player12"
+      },
+      {
+        "wing": "t1_player13"
+      },
+      {
+        "wing": "t1_player14"
+      },
+      {
+        "wing": "t1_player15"
+      },
+      {
+        "wing": "t1_player16"
+      },
+      {
+        "wing": "t1_player17"
+      }
+    ],
+    "player_teamB": [
+      {
+        "army": 2
+      },
+      {
+        "wing": "t2_player01"
+      },
+      {
+        "wing": "t2_player02"
+      },
+      {
+        "wing": "t2_player03"
+      },
+      {
+        "wing": "t2_player04"
+      },
+      {
+        "wing": "t2_player05"
+      },
+      {
+        "wing": "t2_player06"
+      },
+      {
+        "wing": "t2_player07"
+      },
+      {
+        "wing": "t2_player08"
+      },
+      {
+        "wing": "t2_player09"
+      },
+      {
+        "wing": "t2_player10"
+      },
+      {
+        "wing": "t2_player11"
+      },
+      {
+        "wing": "t2_player12"
+      },
+      {
+        "wing": "t2_player13"
+      },
+      {
+        "wing": "t2_player14"
+      },
+      {
+        "wing": "t2_player15"
+      },
+      {
+        "wing": "t2_player16"
+      }
+    ],
+    "mission": {
+      "name": "finland_tank_race",
+      "level": "levels/avg_finland.bin",
+      "type": "domination",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "killLimit": 10,
+      "chapter": "test",
+      "gt_race": true,
+      "openDiffLevels": true,
+      "timeLimit": 30,
+      "country_axis": "germany",
+      "country_allies": "ussr",
+      "raceLaps": 1,
+      "raceWinners": 1,
+      "raceForceCannotShoot": true,
+      "difficulty": "",
+      "editSlotbar": {
+        "keepOwnUnits": false,
+        "country_usa": {
+          "us_m22_locust_race": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          }
+        },
+        "country_germany": {
+          "germ_pzkpfw_III_ausf_E_race": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          }
+        },
+        "country_ussr": {
+          "ussr_bt_7_1937_race": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          }
+        },
+        "country_britain": {
+          "uk_t17e2_race": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true,
+            "delModification": "art_support"
+          }
+        }
+      },
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_v1_race_straight": true,
+        "_v1_race_inverted": true,
+        "_Flc": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      }
+    },
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    },
+    "spectator_points": []
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": {
+        "missionMarkAsRespawnPoint": [
+          {
+            "loc_name": "missions/spawn_random"
+          },
+          {
+            "spawnEffect": false
+          },
+          {
+            "isAirfield": false
+          },
+          {
+            "isUnit": false
+          },
+          {
+            "offset": [0.0,0.0,0.0]
+          },
+          {
+            "isStrictSpawn": true
+          },
+          {
+            "radius": -1.0
+          },
+          {
+            "useExisting": false
+          },
+          {
+            "isIndividual": false
+          },
+          {
+            "removeAreas": false
+          },
+          {
+            "canSpawnOnNeutral": false
+          },
+          {
+            "showOnMap": true
+          },
+          {
+            "target": "spawn01"
+          },
+          {
+            "target": "spawn02"
+          },
+          {
+            "target": "spawn03"
+          },
+          {
+            "target": "spawn04"
+          },
+          {
+            "target": "spawn05"
+          },
+          {
+            "target": "spawn06"
+          },
+          {
+            "target": "spawn07"
+          },
+          {
+            "target": "spawn08"
+          },
+          {
+            "target": "spawn10"
+          },
+          {
+            "target": "spawn11"
+          },
+          {
+            "target": "spawn09"
+          },
+          {
+            "target": "spawn12"
+          },
+          {
+            "target": "spawn13"
+          },
+          {
+            "target": "spawn14"
+          },
+          {
+            "target": "spawn15"
+          },
+          {
+            "target": "spawn16"
+          },
+          {
+            "target": "spawn17"
+          },
+          {
+            "target": "spawn18"
+          },
+          {
+            "target": "spawn19"
+          },
+          {
+            "target": "spawn20"
+          },
+          {
+            "target": "spawn21"
+          },
+          {
+            "target": "spawn22"
+          },
+          {
+            "target": "spawn23"
+          },
+          {
+            "target": "spawn24"
+          },
+          {
+            "target": "spawn25"
+          },
+          {
+            "target": "spawn26"
+          },
+          {
+            "target": "spawn27"
+          },
+          {
+            "target": "spawn28"
+          },
+          {
+            "target": "spawn29"
+          },
+          {
+            "target": "spawn30"
+          },
+          {
+            "target": "spawn31"
+          },
+          {
+            "target": "spawn32"
+          },
+          {
+            "team": "Both"
+          },
+          {
+            "tags": {
+              "tank": true
+            }
+          }
+        ]
+      },
+      "else_actions": []
+    },
+    "start_mission_straight": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.0
+        }
+      },
+      "conditions": {
+        "missionNamePostfix": {
+          "postfix": "_v1_race_straight"
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "start_mission_inverted"
+        },
+        "missionSetTimeSpeed": {
+          "speed": 0.01,
+          "realtimeTriggers": true
+        },
+        "beginRaceMode": {
+          "checkAreaPrefix": "race_wp2_",
+          "waypointsPrefix": "race_wp2_",
+          "winners": 1,
+          "doubleWaypoints": true,
+          "waypointScale": 0.1,
+          "laps": 1,
+          "respawnVerticalOffset": 0.0,
+          "respawnForwardOffset": 0.0,
+          "statisticsScreenAfterFinish": true,
+          "reverse": false,
+          "tankRace": true,
+          "isPathClosed": false,
+          "defaultTimeToDisableWeapon": 60.0
+        },
+        "triggerEnable": {
+          "target": "a_player_is_active_requirement"
+        },
+        "unitSetProperties": {
+          "object": "players_squad",
+          "targetableByAi": false,
+          "cannotShoot": true
+        }
+      },
+      "else_actions": []
+    },
+    "start_mission_inverted": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.0
+        }
+      },
+      "conditions": {
+        "missionNamePostfix": {
+          "postfix": "_v1_race_inverted"
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "start_mission_straight"
+        },
+        "missionSetTimeSpeed": {
+          "speed": 0.01,
+          "realtimeTriggers": true
+        },
+        "beginRaceMode": {
+          "checkAreaPrefix": "race_wp_",
+          "waypointsPrefix": "race_wp_",
+          "winners": 1,
+          "doubleWaypoints": true,
+          "waypointScale": 0.1,
+          "laps": 1,
+          "respawnVerticalOffset": 0.0,
+          "respawnForwardOffset": 0.0,
+          "statisticsScreenAfterFinish": true,
+          "reverse": true,
+          "tankRace": true,
+          "isPathClosed": false,
+          "defaultTimeToDisableWeapon": 60.0
+        },
+        "triggerEnable": {
+          "target": "a_player_is_active_requirement"
+        },
+        "unitSetProperties": {
+          "object": "players_squad",
+          "targetableByAi": false,
+          "cannotShoot": true
+        }
+      },
+      "else_actions": []
+    },
+    "a_player_is_active_requirement": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.1
+        }
+      },
+      "conditions": {
+        "unitWhenStatus": {
+          "object_type": "isActive",
+          "check_objects": "any",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "check_period": 1.0,
+          "object": "players_squad"
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "race_start_timer"
+        }
+      },
+      "else_actions": []
+    },
+    "race_start_timer": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "start_timer_int",
+          "value": 0,
+          "comparasion_func": "notLess"
+        }
+      },
+      "actions": {
+        "varAddString": {
+          "value": "@start_timer_int",
+          "digits": 2,
+          "var": "start_hint_id_str"
+        },
+        "playHint": {
+          "hintType": "custom",
+          "name": "@start_hint_id_str",
+          "action": "show",
+          "shouldFadeOut": false,
+          "time": -1.0,
+          "priority": 0,
+          "shouldBlink": false
+        },
+        "varModify": {
+          "operator": "subAB",
+          "value": 1.0,
+          "var": "start_timer_int"
+        },
+        "varSetString": {
+          "value": "hints/ffa_race_starts_in_",
+          "var": "start_hint_id_str"
+        }
+      },
+      "else_actions": [
+        {
+          "missionSetTimeSpeed": {
+            "speed": 1.0,
+            "realtimeTriggers": true
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object": "players_squad",
+            "ignoreCollisions": true
+          }
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "t1_player01"
+            },
+            {
+              "object": "t1_player08"
+            },
+            {
+              "object": "t1_player15"
+            },
+            {
+              "object": "t2_player05"
+            },
+            {
+              "object": "t2_player12"
+            },
+            {
+              "aerobaticsSmoke": 1
+            },
+            {
+              "persistentAerobaticsSmoke": true
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "t1_player02"
+            },
+            {
+              "object": "t1_player09"
+            },
+            {
+              "object": "t1_player16"
+            },
+            {
+              "object": "t2_player06"
+            },
+            {
+              "object": "t2_player13"
+            },
+            {
+              "aerobaticsSmoke": 2
+            },
+            {
+              "persistentAerobaticsSmoke": true
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "t1_player03"
+            },
+            {
+              "object": "t1_player10"
+            },
+            {
+              "object": "t1_player17"
+            },
+            {
+              "object": "t2_player07"
+            },
+            {
+              "object": "t2_player14"
+            },
+            {
+              "aerobaticsSmoke": 3
+            },
+            {
+              "persistentAerobaticsSmoke": true
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "t1_player04"
+            },
+            {
+              "object": "t1_player11"
+            },
+            {
+              "object": "t2_player01"
+            },
+            {
+              "object": "t2_player08"
+            },
+            {
+              "aerobaticsSmoke": 4
+            },
+            {
+              "persistentAerobaticsSmoke": true
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "t1_player05"
+            },
+            {
+              "object": "t1_player12"
+            },
+            {
+              "object": "t2_player02"
+            },
+            {
+              "object": "t2_player09"
+            },
+            {
+              "aerobaticsSmoke": 5
+            },
+            {
+              "persistentAerobaticsSmoke": true
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "t1_player06"
+            },
+            {
+              "object": "t1_player13"
+            },
+            {
+              "object": "t2_player03"
+            },
+            {
+              "object": "t2_player10"
+            },
+            {
+              "aerobaticsSmoke": 6
+            },
+            {
+              "persistentAerobaticsSmoke": true
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "t1_player07"
+            },
+            {
+              "object": "t1_player14"
+            },
+            {
+              "object": "t2_player04"
+            },
+            {
+              "object": "t2_player11"
+            },
+            {
+              "aerobaticsSmoke": 7
+            },
+            {
+              "persistentAerobaticsSmoke": true
+            }
+          ]
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "custom",
+            "name": "",
+            "action": "hideCur",
+            "shouldFadeOut": false,
+            "time": -1.0,
+            "priority": 0,
+            "shouldBlink": false
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "race_start_timer"
+          }
+        }
+      ]
+    },
+    "race_shooting_enabled": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "timeExpires": {
+          "time": 10.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitSetProperties": {
+          "object": "players_squad",
+          "cannotShoot": false
+        }
+      },
+      "else_actions": []
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true,
+    "phiphi_race_mission_objective": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 50,
+        "scoreConst": 100,
+        "scoreTime": 400,
+        "team": "Both"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    }
+  },
+  "variables": {
+    "start_timer_int": 20,
+    "start_hint_id_str": "hints/ffa_race_starts_in_"
+  },
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "tankModels": {
+        "name": "t1_player01",
+        "tm": [
+          [-0.160525,0.0,-0.987033],
+          [0.0,1.0,0.0],
+          [0.987033,0.0,-0.160525],
+          [1782.2,6.5,1629.85]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player02",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5724.86,8811.1,5155.61]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 1,
+          "uniqueName": "",
+          "player": true,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "players_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-9342.0,2080.5,9153.15]
+        ],
+        "props": [
+          {
+            "object_marking": 0
+          },
+          {
+            "squad_members": "t1_player01"
+          },
+          {
+            "squad_members": "t1_player02"
+          },
+          {
+            "squad_members": "t1_player03"
+          },
+          {
+            "squad_members": "t1_player04"
+          },
+          {
+            "squad_members": "t1_player05"
+          },
+          {
+            "squad_members": "t1_player06"
+          },
+          {
+            "squad_members": "t1_player07"
+          },
+          {
+            "squad_members": "t1_player08"
+          },
+          {
+            "squad_members": "t1_player09"
+          },
+          {
+            "squad_members": "t1_player10"
+          },
+          {
+            "squad_members": "t1_player11"
+          },
+          {
+            "squad_members": "t1_player12"
+          },
+          {
+            "squad_members": "t1_player13"
+          },
+          {
+            "squad_members": "t1_player14"
+          },
+          {
+            "squad_members": "t1_player15"
+          },
+          {
+            "squad_members": "t1_player16"
+          },
+          {
+            "squad_members": "t1_player17"
+          },
+          {
+            "squad_members": "t2_player01"
+          },
+          {
+            "squad_members": "t2_player02"
+          },
+          {
+            "squad_members": "t2_player03"
+          },
+          {
+            "squad_members": "t2_player04"
+          },
+          {
+            "squad_members": "t2_player05"
+          },
+          {
+            "squad_members": "t2_player06"
+          },
+          {
+            "squad_members": "t2_player07"
+          },
+          {
+            "squad_members": "t2_player08"
+          },
+          {
+            "squad_members": "t2_player09"
+          },
+          {
+            "squad_members": "t2_player10"
+          },
+          {
+            "squad_members": "t2_player11"
+          },
+          {
+            "squad_members": "t2_player12"
+          },
+          {
+            "squad_members": "t2_player13"
+          },
+          {
+            "squad_members": "t2_player14"
+          },
+          {
+            "squad_members": "t2_player15"
+          },
+          {
+            "squad_members": "t2_player16"
+          }
+        ]
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player03",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5725.1,8811.1,5144.65]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 1,
+          "uniqueName": "",
+          "player": true,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player04",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5725.34,8811.1,5133.69]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 1,
+          "uniqueName": "",
+          "player": true,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player05",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5725.57,8811.1,5122.73]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player06",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5725.81,8811.09,5111.77]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player07",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5726.05,8811.09,5100.81]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player08",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5726.29,8811.09,5089.85]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player09",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5726.52,8811.09,5078.89]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player10",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5726.76,8811.09,5067.93]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player11",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5727.0,8811.08,5056.97]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player12",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5727.24,8811.08,5046.01]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player13",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5727.47,8811.08,5035.06]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player14",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5727.71,8811.08,5024.1]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player15",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5727.95,8811.08,5013.14]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player16",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5728.19,8811.08,5002.18]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t1_player17",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5728.42,8811.07,4991.22]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player01",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5739.3,8811.1,5158.4]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 1,
+          "uniqueName": "",
+          "player": true,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player02",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5741.5,8811.1,5150.6]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 1,
+          "uniqueName": "",
+          "player": true,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player03",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5743.7,8811.1,5142.8]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 1,
+          "uniqueName": "",
+          "player": true,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player04",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5745.9,8811.1,5135.0]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player05",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5748.1,8811.1,5127.2]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player06",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5750.3,8811.1,5119.4]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player07",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5752.5,8811.1,5111.6]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player08",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5754.7,8811.1,5103.8]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player09",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5756.9,8811.1,5096.0]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player10",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5759.1,8811.1,5088.2]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player11",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5761.3,8811.1,5080.4]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player12",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5763.5,8811.1,5072.6]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player13",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5765.7,8811.1,5064.8]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player14",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5767.9,8811.1,5057.0]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player15",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5770.1,8811.1,5049.2]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "t2_player16",
+        "tm": [
+          [-0.843391,0.0,0.5373],
+          [0.0,1.0,0.0],
+          [-0.5373,0.0,-0.843391],
+          [-5772.3,8811.1,5041.4]
+        ],
+        "unit_class": "dummy_plane",
+        "closed_waypoints": false,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    }
+  ],
+  "areas": {
+    "spawn01": {
+      "type": "Sphere",
+      "tm": [
+        [-9.76296,0.0,-2.1644],
+        [0.0,10.0,0.0],
+        [2.1644,0.0,-9.76296],
+        [1606.65,25.55,640.0]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn03": {
+      "type": "Sphere",
+      "tm": [
+        [-9.39692,0.0,-3.42021],
+        [0.0,10.0,0.0],
+        [3.42021,0.0,-9.39692],
+        [1602.95,25.15,651.8]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_024": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1662.3,1.85,1324.5]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_026": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1637.2,1.25,1232.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_028": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1603.35,4.25,1105.25]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_029": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1618.05,4.25,1060.55]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_030": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1596.05,4.25,1009.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_031": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1570.35,4.25,979.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_033": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1611.3,1.5,896.9]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_035": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1567.4,1.95,775.6]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_036": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1539.3,3.65,735.2]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_001": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1552.45,13.9,632.2]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_002": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1472.3,14.25,598.9]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_003": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1402.4,14.2,571.1]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_004": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1283.75,14.45,594.1]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_005": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1234.25,10.36,625.35]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_006": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1227.75,3.25,736.3]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_007": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1240.05,5.29,781.55]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_008": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1232.85,3.4,865.8]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_009": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1236.8,2.5,1004.0]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_010": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1224.65,6.81631,1133.55]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_011": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1234.2,7.2,1181.3]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_012": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1280.85,4.59074,1272.8]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_013": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1288.6,3.49532,1325.35]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_014": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1306.6,3.36215,1358.7]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_015": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1372.7,5.54512,1404.7]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_016": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1399.8,2.56127,1426.6]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_017": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1452.65,12.9735,1470.45]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_019": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1516.9,12.4,1492.9]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_020": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1572.1,12.3531,1499.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_021": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1618.35,13.05,1481.55]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_022": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1676.4,1.78596,1434.35]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn05": {
+      "type": "Sphere",
+      "tm": [
+        [-9.99048,0.0,0.436187],
+        [0.0,10.0,0.0],
+        [-0.436187,0.0,-9.99048],
+        [1606.35,25.15,627.5]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn06": {
+      "type": "Sphere",
+      "tm": [
+        [-9.84808,0.0,1.73648],
+        [0.0,10.0,0.0],
+        [-1.73648,0.0,-9.84808],
+        [1609.5,25.15,614.65]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn07": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,2.58818],
+        [0.0,10.0,0.0],
+        [-2.58818,0.0,-9.65926],
+        [1606.2,25.15,604.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn08": {
+      "type": "Sphere",
+      "tm": [
+        [-8.19152,0.0,-5.73577],
+        [0.0,10.0,0.0],
+        [5.73577,0.0,-8.19152],
+        [1583.6,25.15,682.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn02": {
+      "type": "Sphere",
+      "tm": [
+        [-8.43391,0.0,-5.373],
+        [0.0,10.0,0.0],
+        [5.373,0.0,-8.43391],
+        [1597.25,25.55,663.2]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn15": {
+      "type": "Sphere",
+      "tm": [
+        [-9.39693,0.0,-3.4202],
+        [0.0,10.0,0.0],
+        [3.4202,0.0,-9.39693],
+        [1640.35,25.55,622.7]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn09": {
+      "type": "Sphere",
+      "tm": [
+        [-9.53717,0.0,3.00705],
+        [0.0,10.0,0.0],
+        [-3.00705,0.0,-9.53717],
+        [1621.1,25.15,612.15]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn16": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1629.55,25.15,662.398]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn10": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1609.3,25.15,662.05]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn11": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1623.63,25.15,684.749]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn12": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1620.67,25.15,695.928]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn13": {
+      "type": "Sphere",
+      "tm": [
+        [-9.39693,0.0,-3.4202],
+        [0.0,10.0,0.0],
+        [3.4202,0.0,-9.39693],
+        [1638.02,25.55,632.068]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn04": {
+      "type": "Sphere",
+      "tm": [
+        [-8.19152,0.0,-5.73577],
+        [0.0,10.0,0.0],
+        [5.73577,0.0,-8.19152],
+        [1590.8,25.15,673.9]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn14": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1632.71,25.15,652.207]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn17": {
+      "type": "Sphere",
+      "tm": [
+        [-9.39693,0.0,-3.4202],
+        [0.0,10.0,0.0],
+        [3.4202,0.0,-9.39693],
+        [1649.28,25.55,631.747]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn32": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1644.16,25.15,651.165]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn18": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1638.06,25.15,671.505]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn19": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1635.1,25.15,682.682]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn20": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1632.14,25.15,693.856]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn21": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1629.18,25.15,705.034]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn22": {
+      "type": "Sphere",
+      "tm": [
+        [-9.39693,0.0,-3.4202],
+        [0.0,10.0,0.0],
+        [3.4202,0.0,-9.39693],
+        [1646.95,25.55,641.115]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn23": {
+      "type": "Sphere",
+      "tm": [
+        [-9.39693,0.0,-3.4202],
+        [0.0,10.0,0.0],
+        [3.4202,0.0,-9.39693],
+        [1658.84,25.55,635.257]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn24": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1653.72,25.15,654.675]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn25": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1648.04,25.15,674.955]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn26": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1645.09,25.15,686.133]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn27": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1642.12,25.15,697.306]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn28": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1639.17,25.15,708.485]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn29": {
+      "type": "Sphere",
+      "tm": [
+        [-9.39693,0.0,-3.4202],
+        [0.0,10.0,0.0],
+        [3.4202,0.0,-9.39693],
+        [1656.51,25.55,644.625]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn30": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1641.44,25.15,661.429]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "spawn31": {
+      "type": "Sphere",
+      "tm": [
+        [-9.65926,0.0,-2.5882],
+        [0.0,10.0,0.0],
+        [2.5882,0.0,-9.65926],
+        [1651.2,25.15,664.764]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_01": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1552.35,13.8947,631.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_02": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1472.3,14.25,598.9]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_03": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1402.4,14.2,571.1]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_04": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1283.75,14.45,594.1]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_05": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1234.25,10.36,625.35]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_06": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1227.75,3.25,736.3]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_07": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1240.05,5.29,781.55]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "race_wp2_08": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1232.85,3.4,865.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "race_wp2_09": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1236.8,2.5,1004.0]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_10": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1224.65,6.81631,1133.55]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "race_wp2_11": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1234.2,7.2,1181.3]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_12": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1280.85,4.59074,1272.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "race_wp2_13": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1288.6,3.49532,1325.35]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_14": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1306.6,3.36215,1358.7]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_15": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1372.7,5.54512,1404.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "race_wp2_16": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1399.8,2.56127,1426.6]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_17": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1452.65,12.9735,1470.45]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_19": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1516.9,12.4,1492.9]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_20": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1572.1,12.3531,1499.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_21": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1618.35,13.05,1481.55]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_22": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1676.4,1.78596,1434.35]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_24": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1662.3,1.85,1324.5]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_26": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1637.2,1.25,1232.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_28": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1603.35,4.25,1105.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "race_wp2_29": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1618.05,4.25,1060.55]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_30": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1596.05,4.25,1009.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_31": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1570.35,4.25,979.75]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp2_33": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1611.3,1.5,896.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "race_wp2_35": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1567.4,1.95,775.6]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_037": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1469.55,14.6,680.15]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    },
+    "race_wp_38": {
+      "type": "Sphere",
+      "tm": [
+        [30.0,0.0,0.0],
+        [0.0,30.0,0.0],
+        [0.0,0.0,30.0],
+        [1551.7,14.6,632.05]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
+    }
+  },
+  "objLayers": [],
+  "wayPoints": []
+}

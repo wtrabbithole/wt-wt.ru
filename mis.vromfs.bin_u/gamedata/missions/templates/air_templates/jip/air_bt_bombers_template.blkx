@@ -1,0 +1,3795 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "bt_armada"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "bt_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "unitSetProperties": [
+            {
+              "object": "bt_t1_bombers_squad"
+            },
+            {
+              "object": "bt_t2_bombers_squad"
+            },
+            {
+              "accuracy": 0.6
+            },
+            {
+              "plane": {
+                "targetDeviation": {
+                  "trigger": "bombs",
+                  "defaultVal": 1.0,
+                  "limits": [1.0,1.2]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "bt_t1_bombers_squad"
+            },
+            {
+              "object": "bt_t1_fighters_squad"
+            },
+            {
+              "object": "bt_t2_bombers_squad"
+            },
+            {
+              "object": "bt_t2_fighters_squad"
+            },
+            {
+              "stealthRadius": 3500.0
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "шаблон бомбардировщиков"
+          }
+        },
+        {
+          "comment": {
+            "value": "не может выдаваться двум сторонам одновременно"
+          }
+        },
+        {
+          "comment": {
+            "value": "не может выдаваться если активны штурмовики"
+          }
+        },
+        {
+          "unitPutToSleep": [
+            {
+              "target": "bt_t1_bombers_squad"
+            },
+            {
+              "target": "bt_t2_bombers_squad"
+            },
+            {
+              "target": "bt_t1_fighters_squad"
+            },
+            {
+              "target": "bt_t2_fighters_squad"
+            }
+          ]
+        },
+        {
+          "missionGetBalanceLevel": {
+            "input_var": "bt_matching_rank"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "bt_matching_0_3",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "bt_matching_4_7",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "bt_matching_8_11",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "bt_matching_12_16",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        },
+        {
+          "triggerActivate": {
+            "target": "bt_matching_17_20",
+            "activate_type": "checkConidtions",
+            "check_trigger_status": false,
+            "after_activation": "disable"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_start": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "comment": {
+          "value": "запускаем скрипт с задержкой"
+        },
+        "triggerEnable": {
+          "target": "bt_delayed_start"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_delayed_start": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0,
+          "var": "bt_delay_timer"
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "comment": {
+          "value": "выбираем армию"
+        },
+        "triggerEnable": {
+          "target": "bt_choose_army"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_choose_army": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "bt_is_army_swapping",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "не чередуем армию. пойдет случайная"
+          }
+        },
+        {
+          "varSetRandomInt": {
+            "var": "bt_army_both_zero",
+            "from": 1,
+            "to_not_including": 3
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем создание бомберов"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_choose_bomber"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "включен режим чередования армиии"
+        },
+        "triggerEnable": {
+          "target": "bt_swap_army"
+        }
+      }
+    },
+    "bt_swap_army": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "bt_army_both_zero",
+          "value": 1,
+          "comparasion_func": "more"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "была вторая армия. ставим первую"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 1,
+            "var": "bt_army_both_zero"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем создание бомберов"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_choose_bomber"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "была первая армия. ставим вторую"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 2,
+            "var": "bt_army_both_zero"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем создание бомберов"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_choose_bomber"
+          }
+        }
+      ]
+    },
+    "bt_template_end": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "varCompareBool": {
+            "var_value": "bt_t1_is_active",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        {
+          "varCompareBool": {
+            "var_value": "bt_t2_is_active",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        }
+      ],
+      "actions": {
+        "varSetBool": {
+          "value": false,
+          "var": "bt_is_template_active"
+        },
+        "triggerDisable": [
+          {
+            "target": "bt_t1_fighters_disable"
+          },
+          {
+            "target": "bt_t1_bombers_disable"
+          },
+          {
+            "target": "bt_t2_fighters_disable"
+          },
+          {
+            "target": "bt_t2_bombers_disable"
+          }
+        ],
+        "unitPutToSleep": [
+          {
+            "target": "bt_t1_bombers_squad"
+          },
+          {
+            "target": "bt_t1_fighters_squad"
+          },
+          {
+            "target": "bt_t2_bombers_squad"
+          },
+          {
+            "target": "bt_t2_fighters_squad"
+          }
+        ]
+      },
+      "else_actions": []
+    },
+    "bt_choose_bomber": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "bt_army_both_zero",
+          "value": 1,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "армия равна 1. запускаем ветку скриптов первой армии"
+          }
+        },
+        {
+          "comment": {
+            "value": "обнуляем имя цели"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "bt_t1_target_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "bt_t1_target_area_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем обнаружение цели"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "ft_t1_bombers_start"
+          }
+        },
+        {
+          "comment": {
+            "value": "дальнейшее возвращение в скрипт будет из того шаблона"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "армия равна 2. запускаем ветку скриптов второй армии"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "bt_t2_target_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "",
+            "var": "bt_t2_target_area_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t2_check_airfield_target"
+          }
+        }
+      ]
+    },
+    "bt_t1_check_airfield_target": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "ft_t1_bombers_field_target",
+          "type": "var"
+        },
+        "varCompareString": {
+          "var_value": "ft_t1_bombers_field_target",
+          "value": "",
+          "comparasion_func": "notEqual"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "имя  цели не пустое. можно делать его целью"
+          }
+        },
+        {
+          "comment": {
+            "value": "целью является специальный юнит на аэродроме"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ft_t1_bombers_field_target",
+            "var": "bt_t1_target_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "получаем имя точки полета к зоне"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ft_t1_bombers_field_target",
+            "var": "bt_t1_target_point_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "спавним бобров"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t1_spawn_bombers"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "цель не найдена. пробуем сделать целью базу"
+        },
+        "triggerEnable": {
+          "target": "bt_t1_03_check_base_target"
+        }
+      }
+    },
+    "bt_t1_03_check_base_target": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "bdt_t2_base_as_target_for_t1_name",
+          "type": "var"
+        },
+        "varCompareString": {
+          "var_value": "bdt_t2_base_as_target_for_t1_name",
+          "value": "",
+          "comparasion_func": "notEqual"
+        }
+      },
+      "actions": [
+        {
+          "varGetStringValue": {
+            "from_var_name": "bdt_t2_base_as_target_for_t1_name",
+            "var": "bt_t1_target_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_bomb_target",
+            "digits": 0,
+            "var": "bt_t1_target_name"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "bdt_t2_base_as_target_for_t1_name",
+            "var": "bt_t1_target_area_name"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "bdt_t2_base_as_target_for_t1_name",
+            "var": "bt_t1_target_point_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_bomb_target",
+            "digits": 0,
+            "var": "bt_t1_target_point_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t1_spawn_bombers"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "цель не найдена. закрываем шаблон"
+        },
+        "triggerEnable": {
+          "target": "bt_template_end"
+        }
+      }
+    },
+    "bt_t1_spawn_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "@bt_t1_target_point_name",
+          "type": "unit"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t1_fighters_attack"
+            },
+            {
+              "target": "bt_t1_fighters_retreat"
+            },
+            {
+              "target": "bt_t1_fighters_disable"
+            }
+          ]
+        },
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t1_bombers_attack"
+            },
+            {
+              "target": "bt_t1_bombers_target_destroyed"
+            },
+            {
+              "target": "bt_t1_bombers_damaged"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "говорим что шаблон за первую армию активен"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "bt_t1_is_active"
+          }
+        },
+        {
+          "comment": {
+            "value": "спавним бомберов и файтеров "
+          }
+        },
+        {
+          "varSetRandomInt": {
+            "var": "bt_t1_spawn_idx",
+            "from": 1,
+            "to_not_including": 5
+          }
+        },
+        {
+          "varSetString": {
+            "value": "bt_t1_bombers_spawn_",
+            "var": "bt_t1_bomber_spawn_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@bt_t1_spawn_idx",
+            "digits": 2,
+            "var": "bt_t1_bomber_spawn_name"
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 1.0,
+            "offset": [0.0,0.0,0.0],
+            "object": "@bt_t1_bomber_name",
+            "target": "@bt_t1_bomber_spawn_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "bt_t1_fighters_spawn_",
+            "var": "bt_t1_fighter_spawn_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@bt_t1_spawn_idx",
+            "digits": 2,
+            "var": "bt_t1_fighter_spawn_name"
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 1.0,
+            "offset": [0.0,0.0,0.0],
+            "object": "@bt_t1_fighter_name",
+            "target": "@bt_t1_fighter_spawn_name"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": true,
+            "target": "@bt_t1_bomber_name",
+            "team": "A"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target": "@bt_t1_bomber_name",
+            "team": "B"
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object": "@bt_t1_bomber_name",
+            "stealthRadius": 3000.0
+          }
+        },
+        {
+          "wait": {
+            "time": 5.0
+          }
+        },
+        {
+          "unitMoveTo": {
+            "target": "@bt_t1_target_point_name",
+            "follow_target": true,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": true,
+            "teleportHeightValue": 3500.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "@bt_t1_bomber_name",
+            "speed": 350.0,
+            "follow_offset": [0.0,3500.0,0.0]
+          }
+        },
+        {
+          "unitMoveTo": {
+            "target": "@bt_t1_bomber_name",
+            "follow_target": true,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": true,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "@bt_t1_fighter_name",
+            "speed": 350.0,
+            "follow_offset": [100.0,500.0,0.0]
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем аи истребителей"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t1_fighters_attack"
+            },
+            {
+              "target": "bt_t1_fighters_retreat"
+            },
+            {
+              "target": "bt_t1_fighters_disable"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "включаем аи бомберов"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t1_bombers_attack"
+            },
+            {
+              "target": "bt_t1_bombers_target_destroyed"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "включаем доп скрипты"
+          }
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t1_activity_end"
+            },
+            {
+              "target": "bt_t1_is_detect_alowed"
+            },
+            {
+              "target": "bt_t1_bombers_saved"
+            },
+            {
+              "target": "bt_t1_bombers_not_saved"
+            }
+          ]
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "точки полета не существует. шаблон не работает"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "bt_t1_is_active"
+        },
+        "triggerEnable": {
+          "target": "bt_template_end"
+        }
+      }
+    },
+    "bt_t1_fighters_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 2500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isTeamB",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t1_bomber_name",
+          "target": "all_players_squad",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "@bt_t1_fighter_name",
+          "target": "all_players_squad",
+          "useForTriggerFiltered": true,
+          "filterWhom": "target",
+          "fireRandom": true
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "bt_t1_fighter_return_to_bombers"
+        }
+      }
+    },
+    "bt_t1_fighters_retreat": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 15.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "@bt_t1_bomber_name"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "все бомберы умерли или улетели"
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "bt_t1_fighters_attack"
+          }
+        },
+        {
+          "unitMoveTo": {
+            "target": "bt_t1_retreat_point",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "@bt_t1_fighter_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "прячем файтеров достигших точки спасения"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t1_fighters_disable"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t1_fighters_disable": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object": "@bt_t1_fighter_name"
+        },
+        "unitDistanceBetween": {
+          "value": 2500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t1_fighter_name",
+          "target": "bt_t1_retreat_point",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "еще есть активные файтеры. прячем того, кто спасся"
+        },
+        "unitPutToSleep": {
+          "target": "@bt_t1_fighter_name",
+          "useForTriggerFiltered": true
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "активных больше не осталось"
+        },
+        "__triggerDisable": {
+          "target": "bt_t1_fighters_disable"
+        }
+      }
+    },
+    "bt_t1_fighter_return_to_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 1500.0,
+          "math": "2D",
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "target_type": "isTeamB",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t1_fighter_name",
+          "target": "all_players_squad",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "рядом есть враг. атакуем его"
+        },
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "@bt_t1_fighter_name",
+          "target": "all_players_squad",
+          "useForTriggerFiltered": true,
+          "filterWhom": "target"
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "врагов нет. возвращаемся к бомберам"
+        },
+        "unitMoveTo": {
+          "target": "@bt_t1_bomber_name",
+          "follow_target": true,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t1_fighter_name",
+          "follow_offset": [-150.0,500.0,20.0]
+        }
+      }
+    },
+    "bt_t1_bombers_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 6500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t1_bomber_name",
+          "target": "@bt_t1_target_point_name",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "бомберы рядом с целью"
+        },
+        "unitMoveTo": {
+          "target": "bt_t1_retreat_point",
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t1_bomber_name"
+        },
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "@bt_t1_bomber_name",
+          "target": "@bt_t1_target_name"
+        },
+        "triggerEnable": [
+          {
+            "target": "bt_t1_bombers_target_destroyed"
+          },
+          {
+            "target": "bt_t1_bombers_retreat_check"
+          },
+          {
+            "target": "bt_t1_bombers_disable"
+          }
+        ]
+      },
+      "else_actions": []
+    },
+    "bt_t1_bombers_retreat_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 60.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "triggerDisable": [
+          {
+            "target": "bt_t1_bombers_target_destroyed"
+          },
+          {
+            "target": "bt_t1_bombers_attack"
+          }
+        ],
+        "unitMoveTo": {
+          "target": "bt_t1_retreat_point",
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t1_bomber_name"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t1_bombers_target_destroyed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "missionIsBombingAreaDestroyed": {
+          "target": "@bt_t1_target_area_name"
+        }
+      },
+      "actions": {
+        "triggerDisable": [
+          {
+            "target": "bt_t1_bombers_attack"
+          },
+          {
+            "target": "bt_t1_bombers_retreat_check"
+          }
+        ],
+        "wait": {
+          "time": 10.0
+        },
+        "comment": {
+          "value": "цель уничтожена. скидываем бомбы и летим домой"
+        },
+        "unitDropAmmo": {
+          "object": "@bt_t1_bomber_name"
+        },
+        "unitMoveTo": {
+          "target": "bt_t1_retreat_point",
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t1_bomber_name"
+        },
+        "triggerEnable": {
+          "target": "bt_t1_bombers_disable"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t1_bombers_damaged": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "unitWhenPartHp": {
+          "func": "less",
+          "check_objects": "any",
+          "check_parts": "any",
+          "value": 0.2,
+          "object": "@bt_t1_bomber_name",
+          "partNo": 0,
+          "planePart": "",
+          "tankPart": ""
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "самолет сильно поврежден и хочет лететь домой"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t1_bombers_disable": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object": "@bt_t1_bomber_name"
+        },
+        "unitDistanceBetween": {
+          "value": 3500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t1_bomber_name",
+          "target": "bt_t1_retreat_point",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "bt_t1_bombers_target_destroyed"
+        },
+        "comment": {
+          "value": "еще есть активные бомберы прячем того, кто спасся"
+        },
+        "unitPutToSleep": {
+          "target": "@bt_t1_bomber_name",
+          "useForTriggerFiltered": true
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "активных больше не осталось"
+        },
+        "__triggerDisable": {
+          "target": "bt_t1_bombers_disable"
+        }
+      }
+    },
+    "bt_t1_activity_end": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": [
+          {
+            "object_type": "isActive"
+          },
+          {
+            "object_marking": 0
+          },
+          {
+            "func": "less"
+          },
+          {
+            "value": 1
+          },
+          {
+            "object": "@bt_t1_bomber_name"
+          },
+          {
+            "object": "@bt_t1_fighter_name"
+          }
+        ]
+      },
+      "actions": {
+        "comment": {
+          "value": "нет активных самолетов. можно дизейблить"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "bt_t1_is_active"
+        },
+        "triggerEnable": {
+          "target": "bt_template_end"
+        },
+        "__triggerDisable": {
+          "target": "bt_t1_bombers_disable"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t1_is_detect_alowed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "bt_is_detect_on",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "говорим что бомберы не обнаружены"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "bt_t1_is_detected"
+          }
+        },
+        {
+          "comment": {
+            "value": "сначала надо найти бомберов. прячем их"
+          }
+        },
+        {
+          "unitSetStealth": [
+            {
+              "set": true
+            },
+            {
+              "radius": 3500.0
+            },
+            {
+              "target": "@bt_t1_bomber_name"
+            },
+            {
+              "target": "@bt_t1_fighter_name"
+            },
+            {
+              "team": "B"
+            }
+          ]
+        },
+        {
+          "unitSetIndication": {
+            "set": true,
+            "target": "@bt_t1_bomber_name",
+            "team": "A"
+          }
+        },
+        {
+          "comment": {
+            "value": "выдаем квест на защиту"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "bt_t1_defend_bombers",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем отслеживание позиции бомберов"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t1_mis_obj_update"
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем скрипт обнаружения"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t1_bombers_detected"
+            },
+            {
+              "target": "bt_detecttion_range_checks"
+            }
+          ]
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "бомберы известны сразу"
+          }
+        },
+        {
+          "unitSetStealth": {
+            "set": true,
+            "radius": 64000.0,
+            "target": "@bt_t1_bomber_name"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "bt_t1_is_detected"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": true,
+            "target": "@bt_t1_bomber_name",
+            "team": "Both"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "bt_t1_defend_bombers",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "bt_t2_attack_bombers",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t1_mis_obj_update"
+          }
+        }
+      ]
+    },
+    "bt_t1_mis_obj_update": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 20.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "bt_t1_is_detected",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "бомберы обнаружены обновляем оба квеста"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_defend_bombers",
+            "status": 1,
+            "team": "A",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_attack_bombers",
+            "status": 1,
+            "team": "B",
+            "unit_or_area": "@bt_t1_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "__missionSetTimeSpeed": {
+            "speed": 0.0,
+            "realtimeTriggers": false
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "бомберы не обнаружены обновляем только квест на защиту"
+        },
+        "moSetObjectiveStatus": {
+          "target": "bt_t1_defend_bombers",
+          "status": 1,
+          "team": "A",
+          "unit_or_area": "@bt_t1_bomber_name",
+          "unit_type": "isActive"
+        }
+      }
+    },
+    "bt_t1_bombers_detected": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenEnemyNear": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "enemy_type": "isTeamB",
+          "distance": 3500.0,
+          "check_objects": "any",
+          "object": "@bt_t1_bomber_name",
+          "use_variable": true,
+          "distance_var": "bt_t2_detection_range"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "враг обнаружил бомберов"
+        },
+        "unitSetStealth": {
+          "set": true,
+          "radius": 64000.0,
+          "target": "@bt_t1_bomber_name",
+          "team": "B"
+        },
+        "varSetBool": {
+          "value": true,
+          "var": "bt_t1_is_detected"
+        },
+        "unitSetIndication": {
+          "set": true,
+          "target": "@bt_t1_bomber_name"
+        },
+        "moAddMissionObjective": {
+          "target": "bt_t2_attack_bombers",
+          "unit_or_area": "@bt_t1_bomber_name",
+          "unit_type": "isActive"
+        },
+        "__missionSetTimeSpeed": {
+          "speed": 0.0,
+          "realtimeTriggers": false
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t1_bombers_saved": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isAlive",
+            "object_marking": 0,
+            "func": "more",
+            "value": 3,
+            "object": "@bt_t1_bomber_name"
+          }
+        },
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
+            "object": "@bt_t1_bomber_name"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t1_bombers_not_saved"
+            },
+            {
+              "target": "bt_t1_mis_obj_update"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "Все бомберы ушли с локации и в живых осталось больше 3"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_defend_bombers",
+            "status": 2,
+            "team": "A"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем был ли квест у команды Б"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t1_check_t2_quest_fail"
+            },
+            {
+              "target": "t1_task_completed"
+            }
+          ]
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_defend_bombers",
+            "status": 0,
+            "team": "A"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t1_bombers_not_saved": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 4,
+          "object": "@bt_t1_bomber_name"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t1_bombers_saved"
+            },
+            {
+              "target": "bt_t1_mis_obj_update"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "живых бомберов осталось меньше 4"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target": "@bt_t1_bomber_name"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_defend_bombers",
+            "status": 3,
+            "team": "A"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем был ли квест у команды Б"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t1_check_t2_quest_success"
+          }
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_defend_bombers",
+            "status": 0,
+            "team": "A"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t1_check_t2_quest_fail": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "bt_t2_attack_bombers",
+          "status": "inProgress"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "bt_t1_check_t2_quest_success"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_attack_bombers",
+            "status": 3,
+            "team": "B"
+          }
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_attack_bombers",
+            "status": 0,
+            "team": "B"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t1_check_t2_quest_success": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "bt_t2_attack_bombers",
+          "status": "inProgress"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "bt_t1_check_t2_quest_fail"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "t2_task_completed"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_attack_bombers",
+            "status": 2,
+            "team": "B"
+          }
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_attack_bombers",
+            "status": 0,
+            "team": "B"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t2_check_airfield_target": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "ft_t2_bombers_field_target",
+          "type": "var"
+        },
+        "varCompareString": {
+          "var_value": "ft_t2_bombers_field_target",
+          "value": "",
+          "comparasion_func": "notEqual"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "имя  цели не пустое. можно делать его целью"
+          }
+        },
+        {
+          "comment": {
+            "value": "целью является специальный юнит на аэродроме"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ft_t2_bombers_field_target",
+            "var": "bt_t2_target_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "получаем имя точки полета к зоне"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "ft_t2_bombers_field_target",
+            "var": "bt_t2_target_point_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "спавним бобров"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t2_spawn_bombers"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "цель не найдена. пробуем сделать целью базу"
+        },
+        "triggerEnable": {
+          "target": "bt_t1_03_check_base_target"
+        }
+      }
+    },
+    "bt_t2_03_check_base_target": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "bdt_t1_base_as_target_for_t2_name",
+          "type": "var"
+        },
+        "varCompareString": {
+          "var_value": "bdt_t1_base_as_target_for_t2_name",
+          "value": "",
+          "comparasion_func": "notEqual"
+        }
+      },
+      "actions": [
+        {
+          "varGetStringValue": {
+            "from_var_name": "bdt_t1_base_as_target_for_t2_name",
+            "var": "bt_t2_target_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_bomb_target",
+            "digits": 0,
+            "var": "bt_t2_target_name"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "bdt_t1_base_as_target_for_t2_name",
+            "var": "bt_t2_target_area_name"
+          }
+        },
+        {
+          "varGetStringValue": {
+            "from_var_name": "bdt_t1_base_as_target_for_t2_name",
+            "var": "bt_t2_target_point_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "_bomb_target",
+            "digits": 0,
+            "var": "bt_t2_target_point_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t2_spawn_bombers"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "цель не найдена. закрываем шаблон"
+        },
+        "triggerEnable": {
+          "target": "bt_template_end"
+        }
+      }
+    },
+    "bt_t2_spawn_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "@bt_t2_target_point_name",
+          "type": "unit"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t2_fighters_attack"
+            },
+            {
+              "target": "bt_t2_fighters_retreat"
+            },
+            {
+              "target": "bt_t2_fighters_disable"
+            }
+          ]
+        },
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t2_bombers_attack"
+            },
+            {
+              "target": "bt_t2_bombers_target_destroyed"
+            },
+            {
+              "target": "bt_t2_bombers_damaged"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "говорим что шаблон за первую армию активен"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "bt_t2_is_active"
+          }
+        },
+        {
+          "comment": {
+            "value": "спавним бомберов и файтеров "
+          }
+        },
+        {
+          "varSetRandomInt": {
+            "var": "bt_t2_spawn_idx",
+            "from": 1,
+            "to_not_including": 5
+          }
+        },
+        {
+          "varSetString": {
+            "value": "bt_t2_bombers_spawn_",
+            "var": "bt_t2_bomber_spawn_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@bt_t2_spawn_idx",
+            "digits": 2,
+            "var": "bt_t2_bomber_spawn_name"
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 1.0,
+            "offset": [0.0,0.0,0.0],
+            "object": "@bt_t2_bomber_name",
+            "target": "@bt_t2_bomber_spawn_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "bt_t2_fighters_spawn_",
+            "var": "bt_t2_fighter_spawn_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@bt_t2_spawn_idx",
+            "digits": 2,
+            "var": "bt_t2_fighter_spawn_name"
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 1.0,
+            "offset": [0.0,0.0,0.0],
+            "object": "@bt_t2_fighter_name",
+            "target": "@bt_t2_fighter_spawn_name"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": true,
+            "target": "@bt_t2_bomber_name",
+            "team": "B"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target": "@bt_t2_bomber_name",
+            "team": "A"
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object": "@bt_t2_bomber_name",
+            "stealthRadius": 3000.0
+          }
+        },
+        {
+          "wait": {
+            "time": 5.0
+          }
+        },
+        {
+          "unitMoveTo": {
+            "target": "@bt_t2_target_point_name",
+            "follow_target": true,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": true,
+            "teleportHeightValue": 3500.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "@bt_t2_bomber_name",
+            "speed": 350.0,
+            "follow_offset": [0.0,3500.0,0.0]
+          }
+        },
+        {
+          "unitMoveTo": {
+            "target": "@bt_t2_bomber_name",
+            "follow_target": true,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": true,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "@bt_t2_fighter_name",
+            "speed": 350.0,
+            "follow_offset": [100.0,500.0,0.0]
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем аи истребителей"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t2_fighters_attack"
+            },
+            {
+              "target": "bt_t2_fighters_retreat"
+            },
+            {
+              "target": "bt_t2_fighters_disable"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "включаем аи бомберов"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t2_bombers_attack"
+            },
+            {
+              "target": "bt_t2_bombers_target_destroyed"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "включаем доп скрипты"
+          }
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t2_activity_end"
+            },
+            {
+              "target": "bt_t2_is_detect_alowed"
+            },
+            {
+              "target": "bt_t2_bombers_saved"
+            },
+            {
+              "target": "bt_t2_bombers_not_saved"
+            }
+          ]
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "точки полета не существует. шаблон не работает"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "bt_t2_is_active"
+        },
+        "triggerEnable": {
+          "target": "bt_template_end"
+        }
+      }
+    },
+    "bt_t2_fighters_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 2500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isTeamB",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t2_bomber_name",
+          "target": "all_players_squad",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "@bt_t2_fighter_name",
+          "target": "all_players_squad",
+          "useForTriggerFiltered": true,
+          "filterWhom": "target",
+          "fireRandom": true
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "bt_t2_fighter_return_to_bombers"
+        }
+      }
+    },
+    "bt_t2_fighters_retreat": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 15.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "@bt_t2_bomber_name"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "все бомберы умерли или улетели"
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "bt_t2_fighters_attack"
+          }
+        },
+        {
+          "unitMoveTo": {
+            "target": "bt_t2_retreat_point",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "@bt_t2_fighter_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "прячем файтеров достигших точки спасения"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t2_fighters_disable"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t2_fighters_disable": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object": "@bt_t2_fighter_name"
+        },
+        "unitDistanceBetween": {
+          "value": 2500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t2_fighter_name",
+          "target": "bt_t2_retreat_point",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "еще есть активные файтеры. прячем того, кто спасся"
+        },
+        "unitPutToSleep": {
+          "target": "@bt_t2_fighter_name",
+          "useForTriggerFiltered": true
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "активных больше не осталось"
+        },
+        "__triggerDisable": {
+          "target": "bt_t2_fighters_disable"
+        }
+      }
+    },
+    "bt_t2_fighter_return_to_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 1500.0,
+          "math": "2D",
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "target_type": "isTeamB",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t2_fighter_name",
+          "target": "all_players_squad",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "рядом есть враг. атакуем его"
+        },
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "@bt_t2_fighter_name",
+          "target": "all_players_squad",
+          "useForTriggerFiltered": true,
+          "filterWhom": "target"
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "врагов нет. возвращаемся к бомберам"
+        },
+        "unitMoveTo": {
+          "target": "@bt_t2_bomber_name",
+          "follow_target": true,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t2_fighter_name",
+          "follow_offset": [-150.0,500.0,20.0]
+        }
+      }
+    },
+    "bt_t2_bombers_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 6500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t2_bomber_name",
+          "target": "@bt_t2_target_point_name",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "бомберы рядом с целью"
+        },
+        "unitMoveTo": {
+          "target": "bt_t2_retreat_point",
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t2_bomber_name"
+        },
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "@bt_t2_bomber_name",
+          "target": "@bt_t2_target_name"
+        },
+        "triggerEnable": [
+          {
+            "target": "bt_t2_bombers_target_destroyed"
+          },
+          {
+            "target": "bt_t2_bombers_retreat_check"
+          },
+          {
+            "target": "bt_t2_bombers_disable"
+          }
+        ]
+      },
+      "else_actions": []
+    },
+    "bt_t2_bombers_retreat_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 60.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "triggerDisable": [
+          {
+            "target": "bt_t2_bombers_target_destroyed"
+          },
+          {
+            "target": "bt_t2_bombers_attack"
+          }
+        ],
+        "unitMoveTo": {
+          "target": "bt_t1_retreat_point",
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t1_bomber_name"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t2_bombers_target_destroyed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "missionIsBombingAreaDestroyed": {
+          "target": "@bt_t2_target_area_name"
+        }
+      },
+      "actions": {
+        "triggerDisable": [
+          {
+            "target": "bt_t2_bombers_attack"
+          },
+          {
+            "target": "bt_t2_bombers_retreat_check"
+          }
+        ],
+        "wait": {
+          "time": 10.0
+        },
+        "comment": {
+          "value": "цель уничтожена. скидываем бомбы и летим домой"
+        },
+        "unitDropAmmo": {
+          "object": "@bt_t2_bomber_name"
+        },
+        "unitMoveTo": {
+          "target": "bt_t2_retreat_point",
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "@bt_t2_bomber_name"
+        },
+        "triggerEnable": {
+          "target": "bt_t2_bombers_disable"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t2_bombers_damaged": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 10.0
+        }
+      },
+      "conditions": {
+        "unitWhenPartHp": {
+          "func": "less",
+          "check_objects": "any",
+          "check_parts": "any",
+          "value": 0.2,
+          "object": "@bt_t2_bomber_name",
+          "partNo": 0,
+          "planePart": "",
+          "tankPart": ""
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "самолет сильно поврежден и хочет лететь домой"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t2_bombers_disable": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "more",
+          "value": 0,
+          "object": "@bt_t2_bomber_name"
+        },
+        "unitDistanceBetween": {
+          "value": 3500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t2_bomber_name",
+          "target": "bt_t2_retreat_point",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "bt_t2_bombers_target_destroyed"
+        },
+        "comment": {
+          "value": "еще есть активные бомберы прячем того, кто спасся"
+        },
+        "unitPutToSleep": {
+          "target": "@bt_t2_bomber_name",
+          "useForTriggerFiltered": true
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "активных больше не осталось"
+        },
+        "__triggerDisable": {
+          "target": "bt_t2_bombers_disable"
+        }
+      }
+    },
+    "bt_t2_activity_end": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": [
+          {
+            "object_type": "isActive"
+          },
+          {
+            "object_marking": 0
+          },
+          {
+            "func": "less"
+          },
+          {
+            "value": 1
+          },
+          {
+            "object": "@bt_t2_bomber_name"
+          },
+          {
+            "object": "@bt_t2_fighter_name"
+          }
+        ]
+      },
+      "actions": {
+        "comment": {
+          "value": "нет активных самолетов. можно дизейблить"
+        },
+        "varSetBool": {
+          "value": false,
+          "var": "bt_t2_is_active"
+        },
+        "triggerEnable": {
+          "target": "bt_template_end"
+        },
+        "__triggerDisable": {
+          "target": "bt_t2_bombers_disable"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t2_is_detect_alowed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "bt_is_detect_on",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "говорим что бомберы не обнаружены"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "bt_t2_is_detected"
+          }
+        },
+        {
+          "comment": {
+            "value": "сначала надо найти бомберов. прячем их"
+          }
+        },
+        {
+          "unitSetStealth": [
+            {
+              "set": true
+            },
+            {
+              "radius": 3500.0
+            },
+            {
+              "target": "@bt_t2_bomber_name"
+            },
+            {
+              "target": "@bt_t2_fighter_name"
+            },
+            {
+              "team": "A"
+            }
+          ]
+        },
+        {
+          "unitSetIndication": {
+            "set": true,
+            "target": "@bt_t2_bomber_name",
+            "team": "B"
+          }
+        },
+        {
+          "comment": {
+            "value": "выдаем квест на защиту"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "bt_t2_defend_bombers",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем отслеживание позиции бомберов"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t2_mis_obj_update"
+          }
+        },
+        {
+          "comment": {
+            "value": "включаем скрипт обнаружения"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t2_bombers_detected"
+            },
+            {
+              "target": "bt_detecttion_range_checks"
+            }
+          ]
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "бомберы известны сразу"
+          }
+        },
+        {
+          "unitSetStealth": {
+            "set": true,
+            "radius": 64000.0,
+            "target": "@bt_t2_bomber_name"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "bt_t2_is_detected"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": true,
+            "target": "@bt_t2_bomber_name",
+            "team": "Both"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "bt_t2_defend_bombers",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "bt_t1_attack_bombers",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t2_mis_obj_update"
+          }
+        }
+      ]
+    },
+    "bt_t2_mis_obj_update": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 20.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "bt_t2_is_detected",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "бомберы обнаружены обновляем оба квеста"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_defend_bombers",
+            "status": 1,
+            "team": "B",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_attack_bombers",
+            "status": 1,
+            "team": "A",
+            "unit_or_area": "@bt_t2_bomber_name",
+            "unit_type": "isActive"
+          }
+        },
+        {
+          "__missionSetTimeSpeed": {
+            "speed": 0.0,
+            "realtimeTriggers": false
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "бомберы не обнаружены обновляем только квест на защиту"
+        },
+        "moSetObjectiveStatus": {
+          "target": "bt_t2_defend_bombers",
+          "status": 1,
+          "team": "B",
+          "unit_or_area": "@bt_t2_bomber_name",
+          "unit_type": "isActive"
+        }
+      }
+    },
+    "bt_t2_bombers_detected": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenEnemyNear": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "enemy_type": "isTeamB",
+          "distance": 2500.0,
+          "check_objects": "any",
+          "object": "@bt_t2_bomber_name",
+          "use_variable": true,
+          "distance_var": "bt_t1_detection_range"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "враг обнаружил бомберов"
+        },
+        "unitSetStealth": {
+          "set": true,
+          "radius": 64000.0,
+          "target": "@bt_t2_bomber_name",
+          "team": "A"
+        },
+        "varSetBool": {
+          "value": true,
+          "var": "bt_t2_is_detected"
+        },
+        "unitSetIndication": {
+          "set": true,
+          "target": "@bt_t2_bomber_name"
+        },
+        "moAddMissionObjective": {
+          "target": "bt_t1_attack_bombers",
+          "unit_or_area": "@bt_t2_bomber_name",
+          "unit_type": "isActive"
+        },
+        "__missionSetTimeSpeed": {
+          "speed": 0.0,
+          "realtimeTriggers": false
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t2_bombers_saved": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isAlive",
+            "object_marking": 0,
+            "func": "more",
+            "value": 3,
+            "object": "@bt_t2_bomber_name"
+          }
+        },
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
+            "object": "@bt_t2_bomber_name"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t2_bombers_not_saved"
+            },
+            {
+              "target": "bt_t2_mis_obj_update"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "Все бомберы ушли с локации и в живых осталось больше 3"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_defend_bombers",
+            "status": 2,
+            "team": "B"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем был ли квест у команды Б"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bt_t2_check_t1_quest_fail"
+            },
+            {
+              "target": "t2_task_completed"
+            }
+          ]
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_defend_bombers",
+            "status": 0,
+            "team": "B"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t2_bombers_not_saved": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 4,
+          "object": "@bt_t2_bomber_name"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": [
+            {
+              "target": "bt_t2_bombers_saved"
+            },
+            {
+              "target": "bt_t2_mis_obj_update"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "живых бомберов осталось меньше 4"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target": "@bt_t2_bomber_name"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_defend_bombers",
+            "status": 3,
+            "team": "B"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем был ли квест у команды Б"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bt_t2_check_t1_quest_success"
+          }
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t2_defend_bombers",
+            "status": 0,
+            "team": "B"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t2_check_t1_quest_fail": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "bt_t1_attack_bombers",
+          "status": "inProgress"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "bt_t2_check_t1_quest_success"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_attack_bombers",
+            "status": 3,
+            "team": "A"
+          }
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_attack_bombers",
+            "status": 0,
+            "team": "A"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_t2_check_t1_quest_success": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "bt_t1_attack_bombers",
+          "status": "inProgress"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "bt_t2_check_t1_quest_fail"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "t1_task_completed"
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_attack_bombers",
+            "status": 2,
+            "team": "A"
+          }
+        },
+        {
+          "wait": {
+            "time": 20.0
+          }
+        },
+        {
+          "moSetObjectiveStatus": {
+            "target": "bt_t1_attack_bombers",
+            "status": 0,
+            "team": "A"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_detecttion_range_checks": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "lpt_t1_detection_bonus",
+            "type": "var"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "lpt_t2_detection_bonus",
+            "type": "var"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "varSetReal": {
+            "value": 0.0,
+            "var": "bt_t1_detection_range"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 3500.0,
+            "var": "bt_t1_detection_range",
+            "use_variable": true,
+            "var_value": "bt_base_detection_range"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 0.0,
+            "var": "bt_t1_detection_range",
+            "use_variable": true,
+            "var_value": "lpt_t1_detection_bonus"
+          }
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "varSetReal": {
+            "value": 0.0,
+            "var": "bt_t2_detection_range"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 3500.0,
+            "var": "bt_t2_detection_range",
+            "use_variable": true,
+            "var_value": "bt_base_detection_range"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 0.0,
+            "var": "bt_t2_detection_range",
+            "use_variable": true,
+            "var_value": "lpt_t2_detection_bonus"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bt_matching": {
+      "isCategory": true,
+      "is_enabled": true,
+      "bt_matching_0_3": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_rank",
+            "value": 4,
+            "comparasion_func": "less"
+          }
+        },
+        "actions": [
+          {
+            "varSetString": {
+              "value": "bt_t1_bomber_rank_01",
+              "var": "bt_t1_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_bomber_rank_01",
+              "var": "bt_t2_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t1_fighter_rank_01",
+              "var": "bt_t1_fighter_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_fighter_rank_01",
+              "var": "bt_t2_fighter_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "bt_matching_4_7": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "bt_matching_rank",
+              "value": 8,
+              "comparasion_func": "less"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "bt_matching_rank",
+              "value": 3,
+              "comparasion_func": "more"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "varSetString": {
+              "value": "bt_t1_bomber_rank_02",
+              "var": "bt_t1_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_bomber_rank_02",
+              "var": "bt_t2_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t1_fighter_rank_02",
+              "var": "bt_t1_fighter_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_fighter_rank_02",
+              "var": "bt_t2_fighter_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "bt_matching_8_11": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "bt_matching_rank",
+              "value": 12,
+              "comparasion_func": "less"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "bt_matching_rank",
+              "value": 7,
+              "comparasion_func": "more"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "varSetString": {
+              "value": "bt_t1_bomber_rank_03",
+              "var": "bt_t1_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_bomber_rank_03",
+              "var": "bt_t2_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t1_fighter_rank_03",
+              "var": "bt_t1_fighter_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_fighter_rank_03",
+              "var": "bt_t2_fighter_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "bt_matching_12_16": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "bt_matching_rank",
+              "value": 17,
+              "comparasion_func": "less"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "bt_matching_rank",
+              "value": 11,
+              "comparasion_func": "more"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "varSetString": {
+              "value": "bt_t1_bomber_rank_04",
+              "var": "bt_t1_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_bomber_rank_04",
+              "var": "bt_t2_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t1_fighter_rank_04",
+              "var": "bt_t1_fighter_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_fighter_rank_04",
+              "var": "bt_t2_fighter_name"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "bt_matching_17_20": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_rank",
+            "value": 16,
+            "comparasion_func": "more"
+          }
+        },
+        "actions": [
+          {
+            "varSetString": {
+              "value": "bt_t1_bomber_rank_05",
+              "var": "bt_t1_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_bomber_rank_05",
+              "var": "bt_t2_bomber_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t1_fighter_rank_05",
+              "var": "bt_t1_fighter_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bt_t2_fighter_rank_05",
+              "var": "bt_t2_fighter_name"
+            }
+          }
+        ],
+        "else_actions": []
+      }
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true,
+    "bt_t1_defend_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "bt_t2_defend_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "bt_t1_attack_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "bt_t2_attack_bombers": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 7200,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    }
+  },
+  "variables": {
+    "bt_army_both_zero": 1,
+    "bt_delay_timer": 30,
+    "bt_is_army_swapping": false,
+    "bt_is_template_active": false,
+    "bt_t1_target_name": "",
+    "bt_t1_target_area_name": "",
+    "bt_t1_target_point_name": "",
+    "bt_t1_is_active": false,
+    "bt_is_detect_on": false,
+    "bt_t1_is_detected": false,
+    "bt_t2_target_name": "",
+    "bt_t2_target_area_name": "",
+    "bt_t2_target_point_name": "",
+    "bt_t2_is_active": false,
+    "bt_t2_is_detected": false,
+    "bt_t1_detection_range": 3500.0,
+    "bt_t2_detection_range": 3500.0,
+    "bt_base_detection_range": 3500.0,
+    "bt_t1_bomber_name": "",
+    "bt_t2_bomber_name": "",
+    "bt_t1_fighter_name": "",
+    "bt_t2_fighter_name": "",
+    "bt_matching_rank": 0,
+    "bt_t1_bomber_spawn_name": "",
+    "bt_t1_fighter_spawn_name": "",
+    "bt_t2_bomber_spawn_name": "",
+    "bt_t2_fighter_spawn_name": "",
+    "bt_t1_spawn_idx": 0,
+    "bt_t2_spawn_idx": 0
+  },
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [],
+  "areas": [],
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

@@ -1,0 +1,7128 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 30.0
+    },
+    "player": [
+      {
+        "army": 1
+      },
+      {
+        "wing": "t1_player01"
+      },
+      {
+        "wing": "t1_player02"
+      },
+      {
+        "wing": "t1_player03"
+      },
+      {
+        "wing": "t1_player04"
+      },
+      {
+        "wing": "t1_player05"
+      },
+      {
+        "wing": "t1_player06"
+      },
+      {
+        "wing": "t1_player07"
+      },
+      {
+        "wing": "t1_player08"
+      },
+      {
+        "wing": "t1_player09"
+      },
+      {
+        "wing": "t1_player10"
+      },
+      {
+        "wing": "t1_player11"
+      },
+      {
+        "wing": "t1_player12"
+      },
+      {
+        "wing": "t1_player13"
+      },
+      {
+        "wing": "t1_player14"
+      },
+      {
+        "wing": "t1_player15"
+      },
+      {
+        "wing": "t1_player16"
+      }
+    ],
+    "player_teamB": [
+      {
+        "army": 2
+      },
+      {
+        "wing": "t2_player01"
+      },
+      {
+        "wing": "t2_player02"
+      },
+      {
+        "wing": "t2_player03"
+      },
+      {
+        "wing": "t2_player04"
+      },
+      {
+        "wing": "t2_player05"
+      },
+      {
+        "wing": "t2_player06"
+      },
+      {
+        "wing": "t2_player07"
+      },
+      {
+        "wing": "t2_player08"
+      },
+      {
+        "wing": "t2_player09"
+      },
+      {
+        "wing": "t2_player10"
+      },
+      {
+        "wing": "t2_player11"
+      },
+      {
+        "wing": "t2_player12"
+      },
+      {
+        "wing": "t2_player13"
+      },
+      {
+        "wing": "t2_player14"
+      },
+      {
+        "wing": "t2_player15"
+      },
+      {
+        "wing": "t2_player16"
+      },
+      {
+        "wing": "t2_player17"
+      }
+    ],
+    "mission": {
+      "name": "guadalcanal_Bttl",
+      "level": "levels/avg_guadalcanal.bin",
+      "type": "domination",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "chapter": "air_ground_battles",
+      "scoreLimit": 6400,
+      "timeLimit": 25,
+      "deathPenaltyMul": 1.0,
+      "randomSpawnTeams": true,
+      "remapAiTankModels": true,
+      "country_axis": "germany",
+      "country_allies": "ussr",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_race_straight": false,
+        "_race_inverted": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      }
+    },
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    },
+    "spectator_points": [],
+    "briefing": {
+      "place_loc": "",
+      "date_loc": "",
+      "objective_loc": "",
+      "music": "action_01",
+      "part": {
+        "event": "",
+        "minTime": 0,
+        "slide": [
+          {
+            "map": true
+          },
+          {
+            "minTime": 4
+          },
+          {
+            "picture": ""
+          },
+          {
+            "showAirMap": false
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "t2_tank_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "t2_tank_spawn_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t1_tank_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t1_tank_spawn_02"
+            }
+          },
+          {
+            "captureZone": {
+              "area": "capture_area_01",
+              "side": "ally",
+              "type": "ground"
+            }
+          },
+          {
+            "captureZone": {
+              "area": "capture_area_02",
+              "side": "enemy",
+              "type": "ground"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "imports": {
+    "import_record": {
+      "file": "gameData/missions/templates/tank_templates/dbttl_template.blk",
+      "importAreas": true,
+      "importUnits": true,
+      "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
+      "showAreas": true,
+      "showUnits": true,
+      "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
+      "excludes": []
+    }
+  },
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "area_squad": {
+        "name": "dbttl_t1_spawn_01",
+        "tm": [
+          [0.807367,0.0,0.59005],
+          [0.0,1.0,0.0],
+          [-0.59005,0.0,0.807367],
+          [2057.98,62.19,3021.51]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t1_spawn_01_01"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_02"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_03"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_04"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_05"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_06"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_07"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_08"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_09"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_10"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_11"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_12"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_13"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_14"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_15"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_01_16"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "dbttl_t1_spawn_02",
+        "tm": [
+          [0.110958,0.0,0.993824],
+          [0.0,1.0,0.0],
+          [-0.993824,0.0,0.110958],
+          [1363.71,-183.33,2717.79]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t1_spawn_02_01"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_02"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_03"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_04"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_05"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_06"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_07"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_08"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_09"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_10"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_11"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_12"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_13"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_14"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_15"
+          },
+          {
+            "squad_members": "dbttl_t1_spawn_02_16"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "dbttl_t2_spawn_01",
+        "tm": [
+          [-0.374737,0.0,-0.927131],
+          [0.0,1.0,0.0],
+          [0.927131,0.0,-0.374737],
+          [2234.4,64.5393,1743.7]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t2_spawn_01_01"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_02"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_03"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_04"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_05"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_06"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_07"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_08"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_09"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_10"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_11"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_12"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_13"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_14"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_15"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_01_16"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "dbttl_t2_spawn_02",
+        "tm": [
+          [0.789854,0.0,0.613295],
+          [0.0,1.0,0.0],
+          [-0.613295,0.0,0.789854],
+          [1533.44,50.3462,1630.78]
+        ],
+        "props": [
+          {
+            "squad_members": "dbttl_t2_spawn_02_01"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_02"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_03"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_04"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_05"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_06"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_07"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_08"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_09"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_10"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_11"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_12"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_13"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_14"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_15"
+          },
+          {
+            "squad_members": "dbttl_t2_spawn_02_16"
+          }
+        ]
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "dbttl_t1_circle",
+        "tm": [
+          [-1.58242,0.0,0.236448],
+          [0.0,1.0,0.0],
+          [-0.236448,0.0,-1.58242],
+          [1764.12,70.7115,2831.56]
+        ],
+        "unit_class": "capture_zone_circle",
+        "objLayer": 2,
+        "props": {
+          "army": 0,
+          "active": false
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "dbttl_t2_circle",
+        "tm": [
+          [-1.59504,0.0,0.125764],
+          [0.0,1.0,0.0],
+          [-0.125764,0.0,-1.59504],
+          [1859.8,64.25,1931.15]
+        ],
+        "unit_class": "capture_zone_circle",
+        "objLayer": 2,
+        "props": {
+          "army": 0,
+          "active": false
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun09",
+        "tm": [
+          [-0.976222,0.0,-0.216771],
+          [0.0,1.0,0.0],
+          [0.216771,0.0,-0.976222],
+          [1850.87,65.7285,1963.94]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun12",
+        "tm": [
+          [-0.823999,0.0,-0.566591],
+          [0.0,1.0,0.0],
+          [0.566591,0.0,-0.823999],
+          [1797.93,62.7592,1951.61]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun11",
+        "tm": [
+          [0.999528,0.0,0.0307028],
+          [0.0,1.0,0.0],
+          [-0.0307028,0.0,0.999528],
+          [1807.2,63.4397,1957.63]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun01",
+        "tm": [
+          [0.694886,0.0,-0.719119],
+          [0.0,1.0,0.0],
+          [0.719119,0.0,0.694886],
+          [1999.35,66.2429,1910.55]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun14",
+        "tm": [
+          [-0.80809,0.0,-0.589058],
+          [0.0,1.0,0.0],
+          [0.589058,0.0,-0.80809],
+          [1749.07,61.2033,1948.88]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun05",
+        "tm": [
+          [-0.999983,0.0,0.00585067],
+          [0.0,1.0,0.0],
+          [-0.00585067,0.0,-0.999983],
+          [1924.6,65.9828,1925.07]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun06",
+        "tm": [
+          [0.15243,0.0,-0.988313],
+          [0.0,1.0,0.0],
+          [0.988313,0.0,0.15243],
+          [1911.53,65.8185,1937.13]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun07",
+        "tm": [
+          [-0.691043,0.0,0.722813],
+          [0.0,1.0,0.0],
+          [-0.722813,0.0,-0.691043],
+          [1885.38,66.3166,1958.47]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun08",
+        "tm": [
+          [-0.918506,0.0,-0.395406],
+          [0.0,1.0,0.0],
+          [0.395406,0.0,-0.918506],
+          [1870.11,66.4015,1969.44]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun10",
+        "tm": [
+          [-0.993682,0.0,0.112228],
+          [0.0,1.0,0.0],
+          [-0.112228,0.0,-0.993682],
+          [1825.71,64.9736,1962.34]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench13",
+        "tm": [
+          [-0.995879,0.0,0.0906967],
+          [0.0,1.0,0.0],
+          [-0.0906967,0.0,-0.995879],
+          [1827.5,64.6495,1970.14]
+        ],
+        "unit_class": "det_trench_system_e_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench12",
+        "tm": [
+          [-0.755252,0.0,0.655435],
+          [0.0,1.0,0.0],
+          [-0.655435,0.0,-0.755252],
+          [1890.39,67.0827,1964.18]
+        ],
+        "unit_class": "det_trench_system_a_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench14",
+        "tm": [
+          [-0.98841,0.0,-0.151805],
+          [0.0,1.0,0.0],
+          [0.151805,0.0,-0.98841],
+          [1802.79,63.4026,1964.02]
+        ],
+        "unit_class": "det_trench_system_d_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench11",
+        "tm": [
+          [-0.819142,0.0,0.573591],
+          [0.0,1.0,0.0],
+          [-0.573591,0.0,-0.819142],
+          [1929.85,66.4901,1931.42]
+        ],
+        "unit_class": "det_trench_half_a_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench16",
+        "tm": [
+          [-0.99398,0.0,-0.109562],
+          [0.0,1.0,0.0],
+          [0.109562,0.0,-0.99398],
+          [1712.75,59.9413,1947.39]
+        ],
+        "unit_class": "det_trench_half_a_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench15",
+        "tm": [
+          [-0.956865,0.0,-0.290532],
+          [0.0,1.0,0.0],
+          [0.290532,0.0,-0.956865],
+          [1746.74,61.0247,1952.35]
+        ],
+        "unit_class": "det_trench_half_a_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench09",
+        "tm": [
+          [-0.999109,0.0,0.0422069],
+          [0.0,1.0,0.0],
+          [-0.042207,0.0,-0.999109],
+          [1999.81,66.8845,1916.43]
+        ],
+        "unit_class": "det_trench_half_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun13",
+        "tm": [
+          [0.868903,0.0,-0.494981],
+          [0.0,1.0,0.0],
+          [0.494981,0.0,0.868903],
+          [1767.07,61.7148,1948.44]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun16",
+        "tm": [
+          [-0.448754,0.0,-0.893654],
+          [0.0,1.0,0.0],
+          [0.893654,0.0,-0.448754],
+          [1710.41,59.7935,1940.3]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun15",
+        "tm": [
+          [0.464639,0.0,-0.885499],
+          [0.0,1.0,0.0],
+          [0.885499,0.0,0.464639],
+          [1718.11,60.0935,1941.25]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun02",
+        "tm": [
+          [0.999463,0.0,-0.0327408],
+          [0.0,1.0,0.0],
+          [0.0327408,0.0,0.999463],
+          [1965.86,66.3252,1907.14]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench10",
+        "tm": [
+          [-0.974613,0.0,0.223896],
+          [0.0,1.0,0.0],
+          [-0.223897,0.0,-0.974613],
+          [1953.93,66.2992,1915.74]
+        ],
+        "unit_class": "det_trench_system_e_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun04",
+        "tm": [
+          [-0.887612,0.0,0.46059],
+          [0.0,1.0,0.0],
+          [-0.46059,0.0,-0.887612],
+          [1947.93,65.6599,1908.58]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun03",
+        "tm": [
+          [0.906942,0.0,-0.421254],
+          [0.0,1.0,0.0],
+          [0.421254,0.0,0.906942],
+          [1978.7,65.8815,1907.55]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_01",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1713.12,56.5419,1785.61]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_02",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1772.35,57.0992,1772.8]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_03",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1850.92,58.8331,1807.79]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_04",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1936.03,61.4149,1836.18]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_05",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [2012.29,63.0437,1842.7]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_06",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [2081.4,62.3829,1811.99]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_07",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [2073.41,59.2716,1730.33]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_08",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [2029.94,57.3089,1647.04]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_09",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [2005.35,58.3608,1710.53]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_10",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1987.51,60.3296,1771.18]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_11",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1958.02,57.5044,1651.65]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_12",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1918.11,57.5454,1721.74]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_13",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1865.91,56.5108,1644.85]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_14",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1844.28,57.179,1727.29]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_15",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1809.41,56.2973,1645.46]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_16",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1768.35,56.4027,1711.28]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_17",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1689.41,54.7461,1726.07]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_18",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1710.39,55.3418,1656.88]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_19",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1768.54,55.1293,1586.98]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_36",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1851.08,56.6007,1595.07]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_37",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1941.56,56.2996,1607.95]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_38",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [2024.08,56.7536,1598.68]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_39",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [2092.49,57.3822,1635.43]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_40",
+        "tm": [
+          [-0.0206592,0.0,0.999787],
+          [0.0,1.0,0.0],
+          [-0.999787,0.0,-0.0206592],
+          [1678.76,52.6501,1593.92]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_ai_tank_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1899.04,54.7564,1511.0]
+        ],
+        "props": [
+          {
+            "squad_members": "tankModels_04"
+          },
+          {
+            "squad_members": "tankModels_05"
+          },
+          {
+            "squad_members": "tankModels_06"
+          },
+          {
+            "squad_members": "tankModels_07"
+          },
+          {
+            "squad_members": "tankModels_09"
+          },
+          {
+            "squad_members": "tankModels_10"
+          },
+          {
+            "squad_members": "tankModels_11"
+          },
+          {
+            "squad_members": "tankModels_12"
+          },
+          {
+            "squad_members": "tankModels_13"
+          },
+          {
+            "squad_members": "tankModels_36"
+          },
+          {
+            "squad_members": "tankModels_37"
+          },
+          {
+            "squad_members": "tankModels_01"
+          },
+          {
+            "squad_members": "tankModels_02"
+          },
+          {
+            "squad_members": "tankModels_03"
+          },
+          {
+            "squad_members": "tankModels_08"
+          },
+          {
+            "squad_members": "tankModels_14"
+          },
+          {
+            "squad_members": "tankModels_15"
+          },
+          {
+            "squad_members": "tankModels_16"
+          },
+          {
+            "squad_members": "tankModels_17"
+          },
+          {
+            "squad_members": "tankModels_18"
+          },
+          {
+            "squad_members": "tankModels_19"
+          },
+          {
+            "squad_members": "tankModels_40"
+          },
+          {
+            "squad_members": "tankModels_38"
+          },
+          {
+            "squad_members": "tankModels_39"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_artillery_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1941.41,58.1656,1507.67]
+        ],
+        "props": [
+          {
+            "squad_members": "artillery01"
+          },
+          {
+            "squad_members": "artillery02"
+          },
+          {
+            "squad_members": "artillery03"
+          },
+          {
+            "squad_members": "artillery04"
+          },
+          {
+            "squad_members": "artillery05"
+          },
+          {
+            "squad_members": "artillery06"
+          },
+          {
+            "squad_members": "artillery07"
+          },
+          {
+            "squad_members": "artillery08"
+          },
+          {
+            "squad_members": "artillery09"
+          },
+          {
+            "squad_members": "artillery10"
+          },
+          {
+            "squad_members": "artillery11"
+          },
+          {
+            "squad_members": "artillery12"
+          },
+          {
+            "squad_members": "artillery13"
+          },
+          {
+            "squad_members": "artillery14"
+          },
+          {
+            "squad_members": "artillery15"
+          },
+          {
+            "squad_members": "artillery16"
+          },
+          {
+            "squad_members": "artillery17"
+          },
+          {
+            "squad_members": "artillery18"
+          },
+          {
+            "squad_members": "artillery19"
+          },
+          {
+            "squad_members": "artillery20"
+          },
+          {
+            "squad_members": "artillery21"
+          },
+          {
+            "squad_members": "artillery22"
+          },
+          {
+            "squad_members": "artillery23"
+          },
+          {
+            "squad_members": "artillery24"
+          }
+        ]
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_25",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1908.85,64.45,2919.2]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_24",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1848.97,66.8492,2928.46]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_23",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1772.62,70.4927,2888.85]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_22",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1689.51,71.1842,2880.04]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_21",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1613.79,71.3167,2868.97]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_20",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1542.8,67.0634,2870.9]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_31",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1545.9,64.8312,2952.9]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_34",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1584.33,62.9659,3038.63]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_32",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1612.66,66.7962,2976.72]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_30",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1634.09,70.5968,2917.24]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_41",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1656.4,65.8709,3038.31]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_29",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1700.42,70.79,2970.73]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_43",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1747.94,68.8746,3050.6]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_28",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1774.45,67.9503,2969.59]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_45",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1804.38,66.2014,3053.36]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_27",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1849.29,64.9999,2990.11]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_26",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1928.97,61.9922,2980.05]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_46",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1903.9,61.4225,3047.87]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_47",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1841.68,64.0155,3114.17]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_44",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1759.77,66.7801,3101.17]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_42",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1670.22,64.2996,3082.92]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_35",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1587.3,60.8192,3087.25]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_33",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1521.2,60.6881,3046.49]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_48",
+        "tm": [
+          [0.0802634,0.0,-0.996774],
+          [0.0,1.0,0.0],
+          [0.996774,0.0,0.0802634],
+          [1931.72,59.7677,3112.61]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_zoneDef_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1805.38,69.1537,2869.36]
+        ],
+        "props": [
+          {
+            "squad_members": "antiTankGun17"
+          },
+          {
+            "squad_members": "antiTankGun18"
+          },
+          {
+            "squad_members": "antiTankGun19"
+          },
+          {
+            "squad_members": "antiTankGun20"
+          },
+          {
+            "squad_members": "antiTankGun21"
+          },
+          {
+            "squad_members": "antiTankGun22"
+          },
+          {
+            "squad_members": "antiTankGun23"
+          },
+          {
+            "squad_members": "antiTankGun24"
+          },
+          {
+            "squad_members": "antiTankGun25"
+          },
+          {
+            "squad_members": "antiTankGun26"
+          },
+          {
+            "squad_members": "antiTankGun27"
+          },
+          {
+            "squad_members": "antiTankGun28"
+          },
+          {
+            "squad_members": "antiTankGun29"
+          },
+          {
+            "squad_members": "antiTankGun30"
+          },
+          {
+            "squad_members": "antiTankGun31"
+          },
+          {
+            "squad_members": "antiTankGun32"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_artillery_sq",
+        "tm": [
+          [0.986063,0.0,-0.166372],
+          [0.0,1.0,0.0],
+          [0.166372,0.0,0.986063],
+          [1753.51,65.3253,3154.3]
+        ],
+        "props": [
+          {
+            "squad_members": "artillery25"
+          },
+          {
+            "squad_members": "artillery26"
+          },
+          {
+            "squad_members": "artillery27"
+          },
+          {
+            "squad_members": "artillery28"
+          },
+          {
+            "squad_members": "artillery29"
+          },
+          {
+            "squad_members": "artillery30"
+          },
+          {
+            "squad_members": "artillery31"
+          },
+          {
+            "squad_members": "artillery32"
+          },
+          {
+            "squad_members": "artillery33"
+          },
+          {
+            "squad_members": "artillery34"
+          },
+          {
+            "squad_members": "artillery35"
+          },
+          {
+            "squad_members": "artillery36"
+          },
+          {
+            "squad_members": "artillery37"
+          },
+          {
+            "squad_members": "artillery38"
+          },
+          {
+            "squad_members": "artillery39"
+          },
+          {
+            "squad_members": "artillery40"
+          },
+          {
+            "squad_members": "artillery41"
+          },
+          {
+            "squad_members": "artillery42"
+          },
+          {
+            "squad_members": "artillery43"
+          },
+          {
+            "squad_members": "artillery44"
+          },
+          {
+            "squad_members": "artillery45"
+          },
+          {
+            "squad_members": "artillery46"
+          },
+          {
+            "squad_members": "artillery47"
+          },
+          {
+            "squad_members": "artillery48"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_ai_tank_sq",
+        "tm": [
+          [0.986063,0.0,-0.166372],
+          [0.0,1.0,0.0],
+          [0.166372,0.0,0.986063],
+          [1711.06,65.8754,3148.83]
+        ],
+        "props": [
+          {
+            "squad_members": "tankModels_20"
+          },
+          {
+            "squad_members": "tankModels_21"
+          },
+          {
+            "squad_members": "tankModels_22"
+          },
+          {
+            "squad_members": "tankModels_23"
+          },
+          {
+            "squad_members": "tankModels_24"
+          },
+          {
+            "squad_members": "tankModels_25"
+          },
+          {
+            "squad_members": "tankModels_26"
+          },
+          {
+            "squad_members": "tankModels_27"
+          },
+          {
+            "squad_members": "tankModels_28"
+          },
+          {
+            "squad_members": "tankModels_29"
+          },
+          {
+            "squad_members": "tankModels_30"
+          },
+          {
+            "squad_members": "tankModels_31"
+          },
+          {
+            "squad_members": "tankModels_32"
+          },
+          {
+            "squad_members": "tankModels_33"
+          },
+          {
+            "squad_members": "tankModels_34"
+          },
+          {
+            "squad_members": "tankModels_35"
+          },
+          {
+            "squad_members": "tankModels_41"
+          },
+          {
+            "squad_members": "tankModels_42"
+          },
+          {
+            "squad_members": "tankModels_43"
+          },
+          {
+            "squad_members": "tankModels_44"
+          },
+          {
+            "squad_members": "tankModels_45"
+          },
+          {
+            "squad_members": "tankModels_46"
+          },
+          {
+            "squad_members": "tankModels_47"
+          },
+          {
+            "squad_members": "tankModels_48"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_zoneDef_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1793.65,64.25,1909.9]
+        ],
+        "props": [
+          {
+            "squad_members": "antiTankGun01"
+          },
+          {
+            "squad_members": "antiTankGun02"
+          },
+          {
+            "squad_members": "antiTankGun03"
+          },
+          {
+            "squad_members": "antiTankGun04"
+          },
+          {
+            "squad_members": "antiTankGun05"
+          },
+          {
+            "squad_members": "antiTankGun06"
+          },
+          {
+            "squad_members": "antiTankGun07"
+          },
+          {
+            "squad_members": "antiTankGun08"
+          },
+          {
+            "squad_members": "antiTankGun09"
+          },
+          {
+            "squad_members": "antiTankGun10"
+          },
+          {
+            "squad_members": "antiTankGun11"
+          },
+          {
+            "squad_members": "antiTankGun12"
+          },
+          {
+            "squad_members": "antiTankGun13"
+          },
+          {
+            "squad_members": "antiTankGun14"
+          },
+          {
+            "squad_members": "antiTankGun15"
+          },
+          {
+            "squad_members": "antiTankGun16"
+          }
+        ]
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery05",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [2102.9,65.0343,1849.23]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery06",
+        "tm": [
+          [0.0432426,0.0,0.999065],
+          [0.0,1.0,0.0],
+          [-0.999065,0.0,0.0432426],
+          [2171.27,65.0343,1847.02]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery23",
+        "tm": [
+          [-0.0836732,0.0,0.996493],
+          [0.0,1.0,0.0],
+          [-0.996493,0.0,-0.0836732],
+          [2112.68,65.0343,1763.98]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery24",
+        "tm": [
+          [-0.0810744,0.0,0.996708],
+          [0.0,1.0,0.0],
+          [-0.996708,0.0,-0.0810744],
+          [2157.51,65.0343,1792.62]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery07",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [2036.69,65.0343,1757.67]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery08",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1913.46,65.0343,1774.11]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery09",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1795.01,65.0343,1841.69]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery10",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1701.99,65.0343,1842.88]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery11",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1664.47,65.0343,1770.56]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery12",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1819.58,65.0343,1682.53]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery13",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [2068.99,65.0343,1683.28]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery14",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [2135.73,65.0343,1709.08]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery15",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [2123.57,65.0343,1605.94]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery16",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1990.51,65.0343,1570.54]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery17",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1902.01,65.0343,1605.24]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery18",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1810.3,65.0343,1555.61]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery19",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1736.35,65.0343,1615.85]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery20",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1665.35,65.0343,1661.0]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery21",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1914.48,65.0343,1675.08]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery22",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1878.82,65.0343,1845.38]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery25",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1478.79,65.1438,2834.13]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery01",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1724.96,65.0343,1555.58]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery02",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1794.65,65.0343,1767.13]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery03",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1964.24,65.0343,1694.72]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery04",
+        "tm": [
+          [0.0919886,0.0,0.99576],
+          [0.0,1.0,0.0],
+          [-0.99576,0.0,0.0919886],
+          [1994.62,65.0343,1636.27]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery26",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1485.84,65.1438,2938.73]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery27",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1492.29,65.1438,3058.72]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery28",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1578.42,65.1438,2889.77]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery29",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1548.95,65.1438,2982.97]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery30",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1606.76,65.1438,3059.14]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery31",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1645.08,65.1438,2963.86]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery32",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1650.13,71.3192,2873.39]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery33",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1736.72,65.1438,2915.26]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery34",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1708.68,65.1438,3008.81]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery35",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1724.78,65.1438,3078.54]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery36",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1802.63,65.1438,3087.11]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery37",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1801.27,65.1438,2992.47]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery38",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1815.97,65.1438,2867.88]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery39",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1861.19,64.89,2878.38]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery40",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1961.41,65.1438,2952.24]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery41",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1885.6,65.1438,2958.54]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery42",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1860.72,65.1438,3041.53]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery43",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1883.24,65.1438,3107.22]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery44",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1954.96,65.1438,3044.83]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery45",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1955.63,65.1438,3115.81]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery46",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1926.75,65.1438,2879.65]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery47",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [2004.51,65.1439,2969.53]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "artillery48",
+        "tm": [
+          [0.170671,0.0,-0.985328],
+          [0.0,1.0,0.0],
+          [0.985328,0.0,0.170671],
+          [1802.42,72.976,2932.13]
+        ],
+        "unit_class": "germ_flakpanzer_38t_Gepard",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "artillery"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_allActive_ai_zoneDef_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1905.45,52.9621,1455.28]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_zoneDef_sq"
+          },
+          {
+            "squad_members": "t2_artillery_sq"
+          },
+          {
+            "squad_members": "t2_ai_tank_sq"
+          },
+          {
+            "object_type": "isActive"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_allActive_ai_zoneDef_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1769.96,52.9623,3341.97]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_zoneDef_sq"
+          },
+          {
+            "squad_members": "t1_artillery_sq"
+          },
+          {
+            "squad_members": "t1_ai_tank_sq"
+          },
+          {
+            "object_type": "isActive"
+          }
+        ]
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench17",
+        "tm": [
+          [-0.953476,0.0,0.301469],
+          [0.0,1.0,0.0],
+          [-0.301469,0.0,-0.953476],
+          [1768.3,61.7244,1952.62]
+        ],
+        "unit_class": "det_trench_half_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench18",
+        "tm": [
+          [-0.944047,0.0,-0.329812],
+          [0.0,1.0,0.0],
+          [0.329812,0.0,-0.944047],
+          [1849.91,65.7226,1972.49]
+        ],
+        "unit_class": "det_trench_system_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench19",
+        "tm": [
+          [-0.993612,0.0,0.112851],
+          [0.0,1.0,0.0],
+          [-0.112851,0.0,-0.993612],
+          [1871.25,66.9061,1977.47]
+        ],
+        "unit_class": "det_trench_half_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench20",
+        "tm": [
+          [-0.701758,0.0,0.712415],
+          [0.0,1.0,0.0],
+          [-0.712415,0.0,-0.701758],
+          [1917.44,66.7762,1944.03]
+        ],
+        "unit_class": "det_trench_half_b_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench21",
+        "tm": [
+          [-0.974613,0.0,0.223896],
+          [0.0,1.0,0.0],
+          [-0.223897,0.0,-0.974613],
+          [1978.53,66.2992,1914.92]
+        ],
+        "unit_class": "det_trench_system_d_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_trench_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1794.57,64.8618,1930.27]
+        ],
+        "props": [
+          {
+            "squad_members": "trench16"
+          },
+          {
+            "squad_members": "trench15"
+          },
+          {
+            "squad_members": "trench17"
+          },
+          {
+            "squad_members": "trench14"
+          },
+          {
+            "squad_members": "trench13"
+          },
+          {
+            "squad_members": "trench18"
+          },
+          {
+            "squad_members": "trench19"
+          },
+          {
+            "squad_members": "trench12"
+          },
+          {
+            "squad_members": "trench20"
+          },
+          {
+            "squad_members": "trench11"
+          },
+          {
+            "squad_members": "trench10"
+          },
+          {
+            "squad_members": "trench21"
+          },
+          {
+            "squad_members": "trench09"
+          }
+        ]
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun32",
+        "tm": [
+          [-0.794357,0.0,0.60745],
+          [0.0,1.0,0.0],
+          [-0.60745,0.0,-0.794357],
+          [1622.11,71.3459,2829.21]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun27",
+        "tm": [
+          [-0.814402,0.0,0.580299],
+          [0.0,1.0,0.0],
+          [-0.580299,0.0,-0.814402],
+          [1710.29,70.9652,2810.37]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench08",
+        "tm": [
+          [0.844551,0.0,-0.535476],
+          [0.0,1.0,0.0],
+          [0.535476,0.0,0.844551],
+          [1737.85,91.4492,2792.43]
+        ],
+        "unit_class": "det_trench_system_a_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench26",
+        "tm": [
+          [0.994231,0.0,0.10726],
+          [0.0,1.0,0.0],
+          [-0.10726,0.0,0.994231],
+          [1622.53,92.9024,2823.33]
+        ],
+        "unit_class": "det_trench_half_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun30",
+        "tm": [
+          [-0.993169,0.0,-0.116673],
+          [0.0,1.0,0.0],
+          [0.116673,0.0,-0.993169],
+          [1654.71,71.3403,2837.58]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench24",
+        "tm": [
+          [0.997104,0.0,-0.0760508],
+          [0.0,1.0,0.0],
+          [0.076051,0.0,0.997104],
+          [1667.79,92.8954,2830.85]
+        ],
+        "unit_class": "det_trench_system_e_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun29",
+        "tm": [
+          [0.946374,0.0,-0.323072],
+          [0.0,1.0,0.0],
+          [0.323072,0.0,0.946374],
+          [1672.65,71.3362,2838.83]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun31",
+        "tm": [
+          [-0.959621,0.0,0.281293],
+          [0.0,1.0,0.0],
+          [-0.281293,0.0,-0.959621],
+          [1642.07,71.3734,2835.25]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench22",
+        "tm": [
+          [0.800152,0.0,-0.599797],
+          [0.0,1.0,0.0],
+          [0.599797,0.0,0.800152],
+          [1708.54,92.5559,2807.81]
+        ],
+        "unit_class": "det_trench_half_b_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench25",
+        "tm": [
+          [0.997104,0.0,-0.0760508],
+          [0.0,1.0,0.0],
+          [0.076051,0.0,0.997104],
+          [1643.35,92.9012,2828.0]
+        ],
+        "unit_class": "det_trench_system_d_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun24",
+        "tm": [
+          [0.932979,0.0,0.35993],
+          [0.0,1.0,0.0],
+          [-0.35993,0.0,0.932979],
+          [1777.39,69.6054,2797.84]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun26",
+        "tm": [
+          [0.791107,0.0,-0.611676],
+          [0.0,1.0,0.0],
+          [0.611676,0.0,0.791107],
+          [1741.94,70.2435,2798.82]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun25",
+        "tm": [
+          [0.993909,0.0,0.110199],
+          [0.0,1.0,0.0],
+          [-0.110199,0.0,0.993909],
+          [1758.63,69.4968,2782.98]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun23",
+        "tm": [
+          [0.999307,0.0,0.0372132],
+          [0.0,1.0,0.0],
+          [-0.0372132,0.0,0.999307],
+          [1801.53,69.5036,2803.9]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench05",
+        "tm": [
+          [0.998268,0.0,0.0588308],
+          [0.0,1.0,0.0],
+          [-0.0588308,0.0,0.998268],
+          [1800.92,90.7892,2795.92]
+        ],
+        "unit_class": "det_trench_system_e_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench06",
+        "tm": [
+          [0.884306,0.0,0.466908],
+          [0.0,1.0,0.0],
+          [-0.466908,0.0,0.884306],
+          [1779.11,90.715,2790.25]
+        ],
+        "unit_class": "det_trench_system_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench07",
+        "tm": [
+          [0.999331,0.0,0.0365867],
+          [0.0,1.0,0.0],
+          [-0.0365867,0.0,0.999331],
+          [1758.76,90.8166,2782.15]
+        ],
+        "unit_class": "det_trench_half_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun21",
+        "tm": [
+          [0.73029,0.0,0.683136],
+          [0.0,1.0,0.0],
+          [-0.683136,0.0,0.73029],
+          [1827.4,69.8097,2818.65]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun22",
+        "tm": [
+          [-0.983773,0.0,-0.179417],
+          [0.0,1.0,0.0],
+          [0.179417,0.0,-0.983773],
+          [1819.13,69.7181,2811.32]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun19",
+        "tm": [
+          [0.711209,0.0,0.70298],
+          [0.0,1.0,0.0],
+          [-0.70298,0.0,0.711209],
+          [1875.3,68.9243,2828.63]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench04",
+        "tm": [
+          [0.95472,0.0,0.297507],
+          [0.0,1.0,0.0],
+          [-0.297507,0.0,0.95472],
+          [1824.44,91.0663,2805.65]
+        ],
+        "unit_class": "det_trench_system_d_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench01",
+        "tm": [
+          [0.966527,0.0,0.256567],
+          [0.0,1.0,0.0],
+          [-0.256567,0.0,0.966527],
+          [1910.99,88.5444,2835.52]
+        ],
+        "unit_class": "det_trench_half_a_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench02",
+        "tm": [
+          [0.902839,0.0,0.429979],
+          [0.0,1.0,0.0],
+          [-0.429979,0.0,0.902839],
+          [1878.12,90.3139,2825.55]
+        ],
+        "unit_class": "det_trench_half_a_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun20",
+        "tm": [
+          [-0.933002,0.0,0.359868],
+          [0.0,1.0,0.0],
+          [-0.359868,0.0,-0.933002],
+          [1857.44,69.3543,2826.38]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun17",
+        "tm": [
+          [0.310467,0.0,0.950583],
+          [0.0,1.0,0.0],
+          [-0.950583,0.0,0.310467],
+          [1912.25,66.8881,2842.88]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun18",
+        "tm": [
+          [-0.591496,0.0,0.806307],
+          [0.0,1.0,0.0],
+          [-0.806307,0.0,-0.591496],
+          [1904.78,67.3061,2840.8]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench03",
+        "tm": [
+          [0.987771,0.0,-0.155909],
+          [0.0,1.0,0.0],
+          [0.155909,0.0,0.987771],
+          [1856.85,90.8702,2822.07]
+        ],
+        "unit_class": "det_trench_half_c_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_trench_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1819.53,91.4233,2841.16]
+        ],
+        "props": [
+          {
+            "squad_members": "trench01"
+          },
+          {
+            "squad_members": "trench02"
+          },
+          {
+            "squad_members": "trench03"
+          },
+          {
+            "squad_members": "trench04"
+          },
+          {
+            "squad_members": "trench05"
+          },
+          {
+            "squad_members": "trench06"
+          },
+          {
+            "squad_members": "trench07"
+          },
+          {
+            "squad_members": "trench08"
+          },
+          {
+            "squad_members": "trench22"
+          },
+          {
+            "squad_members": "trench23"
+          },
+          {
+            "squad_members": "trench24"
+          },
+          {
+            "squad_members": "trench25"
+          },
+          {
+            "squad_members": "trench26"
+          }
+        ]
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench23",
+        "tm": [
+          [0.887715,0.0,-0.460394],
+          [0.0,1.0,0.0],
+          [0.460394,0.0,0.887715],
+          [1692.04,71.1858,2817.21]
+        ],
+        "unit_class": "det_trench_half_b_onground",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun28",
+        "tm": [
+          [-0.882524,0.0,0.470264],
+          [0.0,1.0,0.0],
+          [-0.470264,0.0,-0.882524],
+          [1693.95,70.9652,2821.39]
+        ],
+        "unit_class": "germ_sdkfz_9_flak37",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    }
+  ],
+  "areas": {
+    "dbttl_t2_capture_area": {
+      "type": "Cylinder",
+      "tm": [
+        [-41.085,0.0,3.23926],
+        [0.0,75.0,0.0],
+        [-3.23926,0.0,-41.085],
+        [1859.7,64.0609,1931.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_effect": {
+      "type": "Point",
+      "tm": [
+        [-41.085,0.0,3.23926],
+        [0.0,26.8686,0.0],
+        [-3.23926,0.0,-41.085],
+        [1860.21,63.9747,1928.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_01": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2122.02,57.5663,3054.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_02": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2106.9,59.1113,3041.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_03": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2089.71,60.2798,3029.88]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_04": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2062.94,61.8159,3028.55]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_05": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2049.85,62.3007,3043.82]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_06": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2085.83,60.283,3049.72]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_07": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2065.78,61.4601,3079.57]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_08": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2101.7,59.3427,3065.03]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_09": {
+      "type": "Sphere",
+      "tm": [
+        [-5.06388,0.0,-17.273],
+        [0.0,18.0,0.0],
+        [17.273,0.0,-5.06388],
+        [2086.81,60.3201,3077.61]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_10": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2022.99,63.6799,3084.93]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_11": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2119.59,57.7012,3075.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_12": {
+      "type": "Sphere",
+      "tm": [
+        [-5.06388,0.0,-17.273],
+        [0.0,18.0,0.0],
+        [17.273,0.0,-5.06388],
+        [2040.76,62.8402,3091.03]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_13": {
+      "type": "Sphere",
+      "tm": [
+        [-5.06388,0.0,-17.273],
+        [0.0,18.0,0.0],
+        [17.273,0.0,-5.06388],
+        [2081.45,60.9791,3098.99]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_14": {
+      "type": "Sphere",
+      "tm": [
+        [-5.06388,0.0,-17.273],
+        [0.0,18.0,0.0],
+        [17.273,0.0,-5.06388],
+        [2068.04,61.2395,3059.48]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_15": {
+      "type": "Sphere",
+      "tm": [
+        [-5.06388,0.0,-17.273],
+        [0.0,18.0,0.0],
+        [17.273,0.0,-5.06388],
+        [2060.34,62.0207,3098.84]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_01_16": {
+      "type": "Sphere",
+      "tm": [
+        [-2.76596,0.0,-17.7861],
+        [0.0,18.0,0.0],
+        [17.7861,0.0,-2.76596],
+        [2100.92,59.7348,3088.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_01": {
+      "type": "Sphere",
+      "tm": [
+        [11.236,0.0,-14.0624],
+        [0.0,18.0,0.0],
+        [14.0624,0.0,11.236],
+        [1345.26,64.5449,2898.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_02": {
+      "type": "Sphere",
+      "tm": [
+        [11.236,0.0,-14.0624],
+        [0.0,18.0,0.0],
+        [14.0624,0.0,11.236],
+        [1309.84,63.2474,2917.79]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_03": {
+      "type": "Sphere",
+      "tm": [
+        [11.236,0.0,-14.0624],
+        [0.0,18.0,0.0],
+        [14.0624,0.0,11.236],
+        [1311.81,63.5656,2897.01]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_04": {
+      "type": "Sphere",
+      "tm": [
+        [11.236,0.0,-14.0624],
+        [0.0,18.0,0.0],
+        [14.0624,0.0,11.236],
+        [1325.94,63.7573,2881.54]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_05": {
+      "type": "Sphere",
+      "tm": [
+        [11.236,0.0,-14.0624],
+        [0.0,18.0,0.0],
+        [14.0624,0.0,11.236],
+        [1348.95,64.1798,2881.21]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_06": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1392.08,64.6266,2898.33]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_07": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1398.61,64.5559,2922.81]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_08": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1427.39,65.0816,2899.07]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_09": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1425.92,64.8975,2918.98]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_10": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1412.76,65.3482,2938.33]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_11": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1447.43,65.2554,2902.72]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_12": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1409.58,64.7833,2905.53]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_13": {
+      "type": "Sphere",
+      "tm": [
+        [11.236,0.0,-14.0624],
+        [0.0,18.0,0.0],
+        [14.0624,0.0,11.236],
+        [1333.35,63.7597,2916.89]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_14": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1447.21,65.6611,2882.74]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_15": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1465.78,65.5697,2896.89]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_spawn_02_16": {
+      "type": "Sphere",
+      "tm": [
+        [10.9799,0.0,-14.2632],
+        [0.0,18.0,0.0],
+        [14.2632,0.0,10.9799],
+        [1444.14,65.0097,2923.67]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_01": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2234.59,63.2164,1720.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_02": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2242.85,64.463,1737.47]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_03": {
+      "type": "Sphere",
+      "tm": [
+        [-16.9189,0.0,6.14421],
+        [0.0,18.0,0.0],
+        [-6.14421,0.0,-16.9189],
+        [2227.84,66.58,1800.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_04": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2243.87,66.7298,1781.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_05": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2203.32,64.7633,1782.37]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_06": {
+      "type": "Sphere",
+      "tm": [
+        [-16.9189,0.0,6.14421],
+        [0.0,18.0,0.0],
+        [-6.14421,0.0,-16.9189],
+        [2243.62,68.4434,1822.82]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_07": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2231.97,65.0189,1754.89]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_08": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2251.49,65.6333,1753.68]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_09": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2223.42,63.8957,1739.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_10": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2187.32,63.8285,1772.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_11": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2189.85,61.6777,1719.47]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_12": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2223.83,65.7003,1783.94]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_13": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2211.94,62.2478,1716.91]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_14": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2208.45,63.9162,1753.79]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_15": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2184.53,62.3844,1738.76]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_01_16": {
+      "type": "Sphere",
+      "tm": [
+        [-10.4506,0.0,14.6556],
+        [0.0,18.0,0.0],
+        [-14.6556,0.0,-10.4506],
+        [2203.86,62.8912,1734.86]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_01": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1499.2,50.3422,1682.48]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_02": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1592.53,51.0301,1617.39]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_03": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1497.94,50.5371,1705.38]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_04": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1581.18,51.0163,1633.93]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_05": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1562.98,50.7363,1633.58]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_06": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1500.57,50.2133,1663.87]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_07": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1568.95,51.0303,1653.73]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_08": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1523.29,50.3816,1651.37]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_09": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1546.29,50.6411,1647.98]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_10": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1542.03,50.4563,1632.26]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_11": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1570.89,50.6787,1615.03]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_12": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1560.28,51.1051,1672.83]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_13": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1518.72,50.8399,1706.14]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_14": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1538.37,50.704,1666.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_15": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1529.62,50.7756,1685.98]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t2_spawn_02_16": {
+      "type": "Sphere",
+      "tm": [
+        [8.91052,0.0,15.6398],
+        [0.0,18.0,0.0],
+        [-15.6398,0.0,8.91052],
+        [1517.13,50.483,1672.98]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_capture_area": {
+      "type": "Cylinder",
+      "tm": [
+        [-40.76,0.0,6.09025],
+        [0.0,75.0,0.0],
+        [-6.09025,0.0,-40.76],
+        [1764.17,65.3069,2831.58]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_t1_effect": {
+      "type": "Point",
+      "tm": [
+        [-40.76,0.0,6.09025],
+        [0.0,26.8686,0.0],
+        [-6.09025,0.0,-40.76],
+        [1764.54,65.2968,2829.33]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "dbttl_battle_area": {
+      "type": "Box",
+      "tm": [
+        [1600.0,0.0,-6.10352e-05],
+        [0.0,500.0,0.0],
+        [6.10352e-05,0.0,1600.0],
+        [1884.35,-13.6479,2344.68]
+      ],
+      "objLayer": 4,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": false
+      }
+    }
+  ],
+  "wayPoints": []
+}
