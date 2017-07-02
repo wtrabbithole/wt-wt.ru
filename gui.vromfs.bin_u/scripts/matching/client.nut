@@ -68,7 +68,7 @@ function request_matching(functionName, onSuccess = null, onError = null, params
 
 function checkMatchingError(params, showError = true)
 {
-  if (params.error == ::OPERATION_COMPLETE)
+  if (params.error == OPERATION_COMPLETE)
     return true
 
   if (!showError || ::disable_network())

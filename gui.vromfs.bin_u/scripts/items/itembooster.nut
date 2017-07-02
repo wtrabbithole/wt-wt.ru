@@ -134,9 +134,9 @@ class ::items_classes.Booster extends ::BaseItem
       return false
 
     local res = false
-    local total = ::get_current_booster_count(::INVALID_USER_ID)
+    local total = ::get_current_booster_count(INVALID_USER_ID)
     for (local i = 0; i < total; i++)
-      if (::isInArray(::get_current_booster_uid(::INVALID_USER_ID, i), uids))
+      if (::isInArray(::get_current_booster_uid(INVALID_USER_ID, i), uids))
       {
         res = true
         break

@@ -56,7 +56,7 @@ class MRoomInfo
   {
     lastAnswerTime = ::dagor.getCurTime()
 
-    if (params.error == ::SERVER_ERROR_ROOM_NOT_FOUND)
+    if (params.error == SERVER_ERROR_ROOM_NOT_FOUND)
     {
       lastUpdateTime = lastAnswerTime
       isRoomDestroyed = true

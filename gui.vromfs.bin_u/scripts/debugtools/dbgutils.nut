@@ -309,8 +309,7 @@ function dbg_ww_destroy_cur_operation()
                               function() {
                                 ::dlog("success")
                                 ::g_world_war.stopWar()
-                                ::gui_start_mainmenu()
-                                ::g_ww_global_status.refreshData(WWGS_REFRESH_DELAY.FORCED)
+                                ::g_ww_global_status.refreshData(0)
                               },
                               function() { ::dlog("Do you have admin rights? ") }
                              )

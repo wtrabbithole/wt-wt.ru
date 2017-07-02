@@ -1289,22 +1289,21 @@ function get_userlog_view_data(log)
       res.name = awardType.getUserlogBuyText(awardBlk, priceText)
     }
   }
-  else if (log.type == ::EULT_WW_START_OPERATION)
+  else if (log.type == ::EULT_WW_START_OPERATION || log.type == ::EULT_WW_CREATE_OPERATION)
   {
-    local mapName = ::getTblValue("mapName", log)
-    local name = ::getTblValue("name", log)
-    local opId = ::getTblValue("operationId", log)
-    res.name = ::loc("worldWar/userlog/startOperation",
-                    { clan = name, opId = opId, mapName = ::loc("worldWar/map/" + mapName)})
-
-  }
-  else if (log.type == ::EULT_WW_CREATE_OPERATION)
-  {
-    local mapName = ::getTblValue("mapName", log)
-    local name = ::getTblValue("name", log)
-    local opId = ::getTblValue("operationId", log)
-    res.name = ::loc("worldWar/userlog/createOperation",
-                    { clan = name, opId = opId, mapName = ::loc("worldWar/map/" + mapName)})
+    local locId = log.type == ::EULT_WW_CREATE_OPERATION ? "worldWar/userlog/createOperation"
+                                                         : "worldWar/userlog/startOperation"
+    local operation = ""
+    if (::is_worldwar_enabled())
+      operation = ::WwOperation.getNameTextByIdAndMapName(
+        ::getTblValue("operationId", log),
+        ::WwMap.getNameTextByMapName(::getTblValue("mapName", log))
+      )
+    res.name = ::loc(locId,
+      {
+        clan = ::getTblValue("name", log)
+        operation = operation
+      })
   }
   else if (log.type == ::EULT_WW_END_OPERATION)
   {

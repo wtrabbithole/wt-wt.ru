@@ -1017,7 +1017,7 @@ function setCrewUnlockTime(obj, air)
 
   ::secondsUpdater(obj, (@(air) function(obj, params) {
     ::crews_list = ::get_crew_info()
-    local crew = ::getCrewByAir(air)
+    local crew = air && ::getCrewByAir(air)
     local lockTime = ::getTblValue("lockedTillSec", crew, 0)
     local show = lockTime > 0 && ::isInMenu()
     if(show)

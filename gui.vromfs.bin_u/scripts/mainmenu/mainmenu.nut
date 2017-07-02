@@ -191,6 +191,8 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
   unitInfoPanel = null
   promoHandler = null
 
+  visibleUnitInfoName = ""
+
   //custom functions
   function initScreen()
   {
@@ -293,5 +295,49 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
     promoHandler = ::create_promo_blocks(this)
     registerSubHandler(promoHandler)
+  }
+
+  function onEventHangarModelLoading(p)
+  {
+    doWhenActiveOnce("updateSelUnitInfo")
+  }
+
+  function onEventHangarModelLoaded(p)
+  {
+    doWhenActiveOnce("updateSelUnitInfo")
+  }
+
+  function updateSelUnitInfo()
+  {
+    local unitName = ::hangar_get_current_unit_name()
+    if (unitName == visibleUnitInfoName)
+      return
+    visibleUnitInfoName = unitName
+
+    local unit = ::getAircraftByName(unitName)
+    local lockObj = scene.findObject("crew-notready-topmenu")
+    lockObj.tooltip = ::format(::loc("msgbox/no_available_aircrafts"), ::secondsToString(::lockTimeMaxLimitSec))
+    ::setCrewUnlockTime(lockObj, unit)
+
+    updateUnitRentInfo(unit)
+  }
+
+  function updateUnitRentInfo(unit)
+  {
+    local rentInfoObj = scene.findObject("rented_unit_info_text")
+    local messageTemplate = ::loc("mainmenu/unitRentTimeleft") + ::loc("ui/colon") + "%s"
+    ::secondsUpdater(rentInfoObj, function(obj, params) {
+      local isVisible = !!unit && unit.isRented()
+      obj.show(isVisible)
+      if (isVisible)
+      {
+        local sec = unit.getRentTimeleft()
+        local time = (sec < TIME_HOUR_IN_SECONDS) ?
+          ::secondsToString(sec) :
+          ::hoursToString(sec / TIME_HOUR_IN_SECONDS_F, false, true, true)
+        obj.setValue(::format(messageTemplate, time))
+      }
+      return !isVisible
+    })
   }
 }

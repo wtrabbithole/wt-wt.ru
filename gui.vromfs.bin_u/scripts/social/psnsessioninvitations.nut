@@ -35,12 +35,15 @@ function g_psn_session_invitations::getSessionId(key)
 
 function g_psn_session_invitations::saveSessionData(key, data = {})
 {
+  if (::u.isEmpty(data))
+    return
+
   curSessionParams[key] <- clone data
 }
 
 function g_psn_session_invitations::getSavedSessionData(key)
 {
-  return ::getTblValue(key, curSessionParams, {})
+  return ::getTblValue(key, curSessionParams)
 }
 
 function g_psn_session_invitations::isSessionParamsEqual(key, checkData)
@@ -358,6 +361,11 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
   saveSessionData(key, sessionInfo)
 
   local data = getSavedSessionData(key)
+  if (::u.isEmpty(data))
+  {
+    ::dagor.debug("Session Invitation: No data for key " + key)
+    return {}
+  }
 
   local sessionName = ::u.map(data.locIdsArray, @(locId) ::loc(locId, ""))
   local feedTextsArray = ::g_localization.getFilledFeedTextByLang(data.locIdsArray)

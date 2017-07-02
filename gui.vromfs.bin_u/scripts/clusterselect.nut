@@ -28,8 +28,6 @@ class ::gui_handlers.ClusterSelect extends ::gui_handlers.BaseGuiHandlerWT
   function fill()
   {
     local view = {
-      align = align
-      position = ::getPositionToDraw(parentObj, align)
       clusters = getViewClusters()
     }
 
@@ -39,6 +37,7 @@ class ::gui_handlers.ClusterSelect extends ::gui_handlers.BaseGuiHandlerWT
     local clusterMultiSelectObject = scene.findObject("cluster_multi_select")
     if (::checkObj(clusterMultiSelectObject))
     {
+      align = ::g_dagui_utils.setPopupMenuPosAndAlign(parentObj, align, scene.findObject("cluster_select"))
       local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
       clusterMultiSelectObject.setValue(clusterOpt.value)
       clusterMultiSelectObject.select()

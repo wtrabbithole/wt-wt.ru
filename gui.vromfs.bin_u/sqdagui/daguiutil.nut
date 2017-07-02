@@ -1,3 +1,11 @@
+enum ALIGN
+{
+  LEFT   = "left"
+  TOP    = "top"
+  RIGHT  = "right"
+  BOTTOM = "bottom"
+}
+
 ::g_dagui_utils <- {
   textAreaTagsRegexp = [
     regexp2("</?color[^>]*>")
@@ -126,64 +134,160 @@ function g_dagui_utils::setObjPosition(obj, _reqPos, _border)
   }
 }
 
-function getPositionToDraw(parentObj, align, params = null)
+/**
+ * Checks if menu fits in safearea with selected 'align'. If not, selects a better 'align'.
+ * Sets menuObj object 'pos' and 'menu_align' properties, the way it fits into safearea,
+ * and its 'popup_menu_arrow' points to parentObjOrPos.
+ * @param {daguiObj|array(2)|null}  parentObjOrPos - Menu source - dagui object, or position.
+ *                                  Position must be array(2) of numbers or strings.
+ *                                  Use null for mouse pointer position.
+ * @param {string} _align - recommended align (see ALIGN enum)
+ * @param {daguiObj} menuObj - dagui object to be aligned.
+ * @param {table} [params] - optional extra paramenters.
+ * @return {string} - align which was applied to menuObj (see ALIGN enum).
+ */
+function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj, params = null)
 {
-  local parentPos, parentSize
-  if (::checkObj(parentObj))
+  if (!::check_obj(menuObj))
+    return _align
+
+  local guiScene = menuObj.getScene()
+  local menuSize = menuObj.getSize()
+
+  local parentPos  = [0, 0]
+  local parentSize = [0, 0]
+  if (::u.isInstance(parentObjOrPos) && ::check_obj(parentObjOrPos))
   {
-    parentPos = parentObj.getPosRC()
-    parentSize = parentObj.getSize()
-  } else
+    parentPos  = parentObjOrPos.getPosRC()
+    parentSize = parentObjOrPos.getSize()
+  }
+  else if (::u.isArray(parentObjOrPos) && parentObjOrPos.len() == 2)
   {
-    parentPos = ::get_dagui_mouse_cursor_pos_RC()
-    parentSize = [0, 0]
+    parentPos[0] = toPixels(guiScene, parentObjOrPos[0])
+    parentPos[1] = toPixels(guiScene, parentObjOrPos[1])
+  }
+  else if (parentObjOrPos == null)
+  {
+    parentPos  = ::get_dagui_mouse_cursor_pos_RC()
   }
 
-  local isVertical = true
-  local isPositive = true
-  switch (align)
+  local screenBorders = ::getTblValue("screenBorders", params, ["@bw", "@bh"])
+  local bw = toPixels(guiScene, screenBorders[0])
+  local bh = toPixels(guiScene, screenBorders[1])
+  local screenStart = [ bw, bh ]
+  local screenEnd   = [ ::screen_width().tointeger() - bw, ::screen_height().tointeger() - bh ]
+
+  local checkAligns = []
+  switch (_align)
   {
-    case "top":
-      isPositive = false
-      break
-
-    case "right":
-      isVertical = false
-      break
-
-    case "left":
-      isVertical = false
-      isPositive = false
-      break
-  } //default "bottom"
-
-  local axis = isVertical ? 1 : 0
-  local offsetText = ["-w/2", "-h/2"]
-  local parentTargetPoint = [0.5, 0.5] //part of parent to target point
-
-  if (isPositive)
-  {
-    offsetText[axis] = ""
-    parentTargetPoint[axis] = 1.0
-  } else
-  {
-    offsetText[axis] = isVertical ? "-h" : "-w"
-    parentTargetPoint[axis] = 0.0
+    case ALIGN.BOTTOM: checkAligns = [ ALIGN.BOTTOM, ALIGN.TOP, ALIGN.RIGHT, ALIGN.LEFT, ALIGN.BOTTOM ]; break
+    case ALIGN.TOP:    checkAligns = [ ALIGN.TOP, ALIGN.BOTTOM, ALIGN.RIGHT, ALIGN.LEFT, ALIGN.TOP ]; break
+    case ALIGN.RIGHT:  checkAligns = [ ALIGN.RIGHT, ALIGN.LEFT, ALIGN.BOTTOM, ALIGN.TOP, ALIGN.RIGHT ]; break
+    case ALIGN.LEFT:   checkAligns = [ ALIGN.LEFT, ALIGN.RIGHT, ALIGN.BOTTOM, ALIGN.TOP, ALIGN.LEFT ]; break
+    default:           checkAligns = [ ALIGN.BOTTOM, ALIGN.RIGHT, ALIGN.TOP, ALIGN.LEFT,ALIGN.BOTTOM ]; break
   }
 
-  local targetPoint = [parentPos[0] + ::getTblValue("customPosX", params, parentTargetPoint[0]) * parentSize[0],
-                       parentPos[1] + ::getTblValue("customPosY", params, parentTargetPoint[1]) * parentSize[1]]
-
-  //check content size by centered axis to fill into screen
-  local sizeToCheck = isVertical ? ::getTblValue("width", params, 0) : ::getTblValue("height", params, 0)
-  sizeToCheck = ::g_dagui_utils.toPixels(::get_cur_gui_scene(), sizeToCheck)
-  if (sizeToCheck > 0)
+  foreach (checkIdx, align in checkAligns)
   {
-    local screenSizeToCheck = isVertical ? ::screen_width() : ::screen_height()
-    targetPoint[1-axis] = ::clamp(targetPoint[1-axis], 0.5 * sizeToCheck, screenSizeToCheck - 0.5 * sizeToCheck)
+    local isAlignForced = checkIdx == checkAligns.len() - 1
+
+    local isVertical = true
+    local isPositive = true
+    switch (align)
+    {
+      case ALIGN.TOP:
+        isPositive = false
+        break
+      case ALIGN.RIGHT:
+        isVertical = false
+        break
+      case ALIGN.LEFT:
+        isVertical = false
+        isPositive = false
+        break
+    }
+
+    local axis = isVertical ? 1 : 0
+    local parentTargetPoint = [0.5, 0.5] //part of parent to target point
+    local frameOffset = [ 0 - menuSize[0] / 2, 0 - menuSize[1] / 2 ]
+    local frameOffsetText = [ "-w/2", "-h/2" ] //need this for animation
+
+    if (isPositive)
+    {
+      parentTargetPoint[axis] = 1.0
+      frameOffset[axis] = 0
+      frameOffsetText[axis] = ""
+    } else
+    {
+      parentTargetPoint[axis] = 0.0
+      frameOffset[axis] = 0 - menuSize[isVertical ? 1 : 0]
+      frameOffsetText[axis] = isVertical ? "-h" : "-w"
+    }
+
+    local targetPoint = [
+      parentPos[0] + (parentSize[0] * ::getTblValue("customPosX", params, parentTargetPoint[0])).tointeger()
+      parentPos[1] + (parentSize[1] * ::getTblValue("customPosY", params, parentTargetPoint[1])).tointeger()
+    ]
+
+    local isFits = [ true, true ]
+    local sideSpace = [ 0, 0 ]
+    foreach (i, v in sideSpace)
+    {
+      if (i == axis)
+        sideSpace[i] = isPositive ? screenEnd[i] - targetPoint[i] : targetPoint[i] - screenStart[i]
+      else
+        sideSpace[i] = screenEnd[i] - screenStart[i]
+
+      isFits[i] = sideSpace[i] >= menuSize[i]
+    }
+
+    if ((!isFits[0] || !isFits[1]) && !isAlignForced)
+      continue
+
+    local arrowOffset = [ 0, 0 ]
+    local menuPos = [ targetPoint[0] + frameOffset[0], targetPoint[1] + frameOffset[1] ]
+
+    foreach (i, v in menuPos)
+    {
+      if (i == axis && !isFits[i])
+        continue
+
+      if (menuPos[i] < screenStart[i] || !isFits[i])
+      {
+        arrowOffset[i] = menuPos[i] - screenStart[i]
+        menuPos[i] = screenStart[i]
+      }
+      else if (menuPos[i] + menuSize[i] > screenEnd[i])
+      {
+        arrowOffset[i] = menuPos[i] + menuSize[i] - screenEnd[i]
+        menuPos[i] = screenEnd[i] - menuSize[i]
+      }
+    }
+
+    local menuPosText = [ "", "" ]
+    foreach (i, v in menuPos)
+      menuPosText[i] = (menuPos[i] - frameOffset[i]) + frameOffsetText[i]
+
+    menuObj["menu_align"] = align
+    menuObj["pos"] = ::implode(menuPosText, ", ")
+
+    if (arrowOffset[0] || arrowOffset[1])
+    {
+      local arrowObj = menuObj.findObject("popup_menu_arrow")
+      if (::check_obj(arrowObj))
+      {
+        guiScene.setUpdatesEnabled(true, true)
+        local arrowPos = arrowObj.getPosRC()
+        foreach (i, v in arrowPos)
+          arrowPos[i] += arrowOffset[i]
+        arrowObj["style"] = "position:root; pos:" + ::implode(arrowPos, ", ") + ";"
+      }
+    }
+
+    return align
   }
 
-  return targetPoint[0] + offsetText[0] + ", " + targetPoint[1] + offsetText[1]
+  return _align
 }
 
 function check_obj(obj)

@@ -29,14 +29,13 @@ class ::gui_handlers.WagerStakeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(guiScene["wager_select"])) //duplicate protection
       return goBack()
     local view = {
-      align = align
-      position = ::getPositionToDraw(parentObj, align, {
-        customPosY = 0.9
-      })
       hasPopupMenuArrow = hasPopupMenuArrow
     }
     local blk = ::handyman.renderCached(("gui/items/wagerStakeSelect"), view)
     guiScene.replaceContentFromText(scene, blk, blk.len(), this)
+    align = ::g_dagui_utils.setPopupMenuPosAndAlign(parentObj, align, scene.findObject("stake_select"), {
+      customPosY = 0.9
+    })
     setMaxValue(getMaxValueByItem(wagerItem))
     setCurrentValue(getValueByStake(getMaxStake(wagerItem)))
     updateButtons()

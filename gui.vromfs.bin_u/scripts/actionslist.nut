@@ -6,7 +6,7 @@
         ActionList will be aligned on border of parent in specified side
 
       params = {
-        orientation = AL_ORIENT.VERTICAL
+        orientation = ALIGN.TOP
 
         handler = null - handler, which implemets functions, specified in func
           field of actions.
@@ -26,16 +26,6 @@
       }
 
 */
-
-enum AL_ORIENT
-{
-  VERTICAL   = "vertical",
-  HORISONTAL = "horisontal",
-  TOP        = "top",
-  BOTTOM     = "bottom",
-  LEFT       = "left",
-  RIGHT      = "right"
-}
 
 class ::gui_handlers.ActionsList
 {
@@ -133,23 +123,23 @@ class ::gui_handlers.ActionsList
     guiScene.setUpdatesEnabled(true, true)
     selfObj.al_align = "orientation" in params
                      ? params.orientation
-                     : AL_ORIENT.TOP
+                     : ALIGN.TOP
     local selfSize = selfObj.getSize()
     local prntSize = parentObj.getSize()
     local prntPos  = parentObj.getPosRC()
     local rootSize = guiScene.getRoot().getSize()
 
     if (!("orientation" in params))
-      params.orientation <- AL_ORIENT.TOP
+      params.orientation <- ALIGN.TOP
 
 
-    if (params.orientation == AL_ORIENT.TOP
+    if (params.orientation == ALIGN.TOP
         && prntPos[1] - selfSize[1] < 0)
-      params.orientation = AL_ORIENT.BOTTOM
+      params.orientation = ALIGN.BOTTOM
 
-    if (params.orientation == AL_ORIENT.BOTTOM
+    if (params.orientation == ALIGN.BOTTOM
         && prntPos[1] + prntSize[1] + selfSize[1] > rootSize[1])
-      params.orientation = AL_ORIENT.TOP
+      params.orientation = ALIGN.TOP
 
     selfObj.al_align = params.orientation
   }

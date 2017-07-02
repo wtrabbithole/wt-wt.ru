@@ -175,8 +175,6 @@ enum voiceChatStats
   talking
 }
 
-::INVALID_USER_ID <- (-1)
-
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
 
 const PS4_CHUNK_HISTORICAL_CAMPAIGN = 11

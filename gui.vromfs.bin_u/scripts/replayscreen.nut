@@ -154,7 +154,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
   function getReplays()
   {
     replays = ::get_replays_list()
-    replays.reverse()
+    replays.sort(@(a,b) b.startTime <=> a.startTime)
   }
 
   function refreshList(selItem = 0)
@@ -264,8 +264,9 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
     {
-      local corrupted = (("corrupted" in replayInfo) && replayInfo.corrupted) ||
-        ("isVersionMismatch" in replayInfo) && replayInfo.isVersionMismatch;
+      local corrupted = ::getTblValue("corrupted", replayInfo, false) // Any error reading headers (including version mismatch).
+      local isVersionMismatch = ::getTblValue("isVersionMismatch", replayInfo, false) // Replay was recorded for in older game version.
+      local isHeaderUnreadable = corrupted && !isVersionMismatch // Failed to read header (file not found or incomplete).
 
       local canWatch  = ::is_replay_turned_on() && (!corrupted || ::is_dev_version) && !::is_in_leaderboard_menu
       local canUpload = ::is_replay_turned_on() && !corrupted && ::is_in_leaderboard_menu && ::can_upload_replay()
@@ -277,11 +278,11 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       local text = ""
       if (corrupted)
       {
-        text = ::loc(::getTblValue("isVersionMismatch", replayInfo, false) ? "replays/versionMismatch" : "replays/corrupted")
+        text = ::loc(isVersionMismatch ? "replays/versionMismatch" : "replays/corrupted")
         if (::is_dev_version && ("error" in replays[index]))
           text += ::colorize("warningTextColor", "\nDEBUG: " + replays[index].error) + "\n\n"
 
-        if (!::is_dev_version)
+        if (!::is_dev_version || isHeaderUnreadable)
         {
           objDesc.findObject("item_name").setValue(replays[index].name)
           objDesc.findObject("item_desc_text").setValue(text)

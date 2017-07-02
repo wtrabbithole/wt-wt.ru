@@ -1593,45 +1593,6 @@ function get_show_aircraft()
   return ::show_aircraft? ::show_aircraft : ::getAircraftByName(::hangar_get_current_unit_name())
 }
 
-function updateAirInfoInHandlerScene(air, handlerScene)
-{
-  local lockObj = handlerScene.findObject("crew-notready-topmenu")
-  if(::checkObj(lockObj))
-  {
-    lockObj.tooltip = ::format(::loc("msgbox/no_available_aircrafts"), ::secondsToString(::lockTimeMaxLimitSec))
-    ::setCrewUnlockTime(lockObj, air)
-  }
-  ::update_unit_rent_info(air, handlerScene)
-}
-
-function update_unit_rent_info(unit, handlerScene)
-{
-  local rentInfoObj = handlerScene.findObject("rented_unit_info_text")
-  if (!::checkObj(rentInfoObj))
-    return
-
-  local unitIsRented = unit.isRented()
-  rentInfoObj.show(unitIsRented)
-  if (!unitIsRented)
-    return
-
-  local messageTemplate = ::loc("mainmenu/unitRentTimeleft") + ::loc("ui/colon") + "%s"
-  ::secondsUpdater(rentInfoObj, (@(unit, messageTemplate) function(obj, params) {
-    local isRented = unit.isRented()
-    if (isRented)
-    {
-      local sec = unit.getRentTimeleft()
-      local time = (sec < TIME_HOUR_IN_SECONDS) ?
-        ::secondsToString(sec) :
-        ::hoursToString(sec / TIME_HOUR_IN_SECONDS_F, false, true, true)
-      obj.setValue(::format(messageTemplate, time))
-    }
-    else
-      obj.show(false)
-    return !isRented
-  })(unit, messageTemplate))
-}
-
 function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 {
   handler = handler || ::handlersManager.getActiveBaseHandler()
@@ -1642,11 +1603,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       return
 
     if (handler)
-    {
       holderObj = handler.scene.findObject("slot_info")
-      if (air)
-        updateAirInfoInHandlerScene(air, handler.scene)
-    }
     if (!::checkObj(holderObj))
       return
   }

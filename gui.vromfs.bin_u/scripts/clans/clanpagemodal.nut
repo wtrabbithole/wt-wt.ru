@@ -157,10 +157,10 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     else
       clanTitleObj.setValue(::colorize(clanData.type.color, clanName))
 
-    local clanDate = clanData.getCreationData()
+    local clanDate = clanData.getCreationDateText()
     scene.findObject("clan-creationDate").setValue(::loc("clan/creationDate")+" "+clanDate);
 
-    local membersCountText = ::g_clans.getClanMembersCount(clanData)
+    local membersCountText = ::g_clans.getClanMembersCountText(clanData)
     local text = ::loc("clan/memberListTitle") + ::loc("ui/parentheses/space", {text = membersCountText})
     scene.findObject("clan-memberCount").setValue(text)
 
@@ -199,7 +199,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       else
         text += clanData.changedByNick
 
-      text += ::loc("ui/comma") + clanData.getInfoChangeDate()
+      text += ::loc("ui/comma") + clanData.getInfoChangeDateText()
     }
     obj.setValue(text)
   }

@@ -12,6 +12,7 @@ div {
 }
 
 popup_menu {
+  id:t='main_frame'
   pos:t='<<position>>'
   menu_align:t='<<align>>'
   position:t='root'

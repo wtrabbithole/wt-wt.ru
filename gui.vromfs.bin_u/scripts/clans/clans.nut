@@ -481,19 +481,19 @@ function g_clans::showClanRewardLog(clanData)
   }])
 }
 
-function g_clans::getClanCreationDate(clanData)
+function g_clans::getClanCreationDateText(clanData)
 {
   local t = ::get_time_from_t(clanData.cdate)
   return t.day + "/" + (t.month + 1) + "/" + t.year
 }
 
-function g_clans::getClanInfoChangeDate(clanData)
+function g_clans::getClanInfoChangeDateText(clanData)
 {
   local t = ::get_time_from_t(clanData.changedTime)
   return ::build_date_time_str(t, false, false)
 }
 
-function g_clans::getClanMembersCount(clanData)
+function g_clans::getClanMembersCountText(clanData)
 {
   if (clanData.mlimit)
     return ::format("%d/%d", clanData.members.len(), clanData.mlimit)
@@ -765,19 +765,19 @@ function clan_membership_request(clanId, handler)
     return type.getTypeName()
   }
 
-  function getCreationData()
+  function getCreationDateText()
   {
-    return ::g_clans.getClanCreationDate(this)
+    return ::g_clans.getClanCreationDateText(this)
   }
 
-  function getInfoChangeDate()
+  function getInfoChangeDateText()
   {
-    return ::g_clans.getClanInfoChangeDate(this)
+    return ::g_clans.getClanInfoChangeDateText(this)
   }
 
-  function getMembersCount()
+  function getMembersCountText()
   {
-    return ::g_clans.getClanMembersCount(this)
+    return ::g_clans.getClanMembersCountText(this)
   }
 
   function canShowActivity()

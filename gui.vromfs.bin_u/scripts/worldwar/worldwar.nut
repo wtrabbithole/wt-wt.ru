@@ -179,6 +179,7 @@ foreach (fn in [
                  "operations/handler/wwOperationsListModal.nut"
                  "operations/handler/wwOperationsMapsHandler.nut"
                  "operations/wwQueue.nut"
+                 "operations/inviteWwOperation.nut"
                  "handler/wwMapTooltip.nut"
                  "handler/wwBattleDescription.nut"
                  "handler/wwAirfieldFlyOut.nut"
@@ -241,16 +242,19 @@ function g_world_war::openMainWnd()
 
 function g_world_war::openWarMap()
 {
-  ::ww_service.unsubscribeOperation(::ww_get_operation_id())
+  local operationId = ::ww_get_operation_id()
+  ::ww_service.unsubscribeOperation(operationId) //!!FIX ME: why we are doing this???
   ::ww_service.subscribeOperation(
-    ::ww_get_operation_id(),
+    operationId,
+    null,
     function(responce) {
-      ::handlersManager.loadHandler(::gui_handlers.WwMap)
-    },
-    function(responce) {
+      if (::ww_get_operation_id() != operationId)
+        return
+      ::g_world_war.stopWar()
       ::showInfoMsgBox(::loc("worldwar/cantUpdateOperation"))
     }
   )
+  ::handlersManager.loadHandler(::gui_handlers.WwMap)
 }
 
 function g_world_war::openOperationsOrQueues()
@@ -268,6 +272,8 @@ function g_world_war::joinOperationById(operationId, country = null, isSilence =
       ::showInfoMsgBox(::loc("worldwar/operationNotFound"))
     return
   }
+
+  stopWar()
 
   if (::u.isEmpty(country))
     country = ::get_profile_info().country
@@ -1192,6 +1198,13 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
   }
 
   return collectedUnits
+}
+
+function g_world_war::addOperationInvite(operationId, clanName, isStarted)
+{
+  ::g_invites.addInvite(::g_invites_classes.WwOperation,
+    { operationId = operationId, clanName = clanName, isStarted = isStarted }
+  )
 }
 
 function g_world_war::getSaveOperationLogId()

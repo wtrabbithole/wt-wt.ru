@@ -359,3 +359,8 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   run_reactive_gui = function () {}
 })
+
+//----------------------------wop_1_69_2_X---------------------------------//
+::apply_compatibilities({
+  INVALID_USER_ID = -1
+})

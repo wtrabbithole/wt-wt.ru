@@ -488,11 +488,13 @@
 
     isLoading = true // Blocking slotbar content and game mode id from overwritting during 'batch_train_crew' call.
 
+    ::g_crews_list.suspendSlotbarUpdates()
     ::batch_train_crew(tasksData, { showProgressBox = true },
       (@(idx, countryIdx, countryId, selCrewIdx, selUnitId, skipGameModeSelect, preset) function () {
         onTrainCrewTasksSuccess(idx, countryIdx, countryId, selCrewIdx, selUnitId, skipGameModeSelect, preset)
       })(idx, countryIdx, countryId, selCrewIdx, selUnitId, skipGameModeSelect, preset),
       function (taskResult = -1) {
+        ::g_crews_list.flushSlotbarUpdate()
         onTrainCrewTasksFail()
       },
       ::slotbarPresets)
@@ -505,10 +507,9 @@
     isLoading = false
     selected[countryId] = idx
 
-    local handler = ::handlersManager.getActiveBaseHandler()
-    if (handler && ("showAircraft" in handler))
-      handler.showAircraft(selUnitId) //!!FIX ME: unit must to update self by event
+    ::crews_list = ::get_crew_info() //slotbar updates suspended, so no one to refresh this list.
     ::select_crew(countryIdx, selCrewIdx, true)
+    ::g_crews_list.flushSlotbarUpdate()
 
     // Game mode select is performed only
     // after successful slotbar vehicles change.

@@ -340,19 +340,11 @@ class ::WwBattle
     return res
   }
 
-  function isBattleStatusActive()
-  {
-    if (status == ::EBS_ACTIVE_STARTING || status == ::EBS_ACTIVE_MATCHING)
-      return true
-
-    return false
-  }
-
   function isPlayerTeamFull()
   {
     local team = getTeamBySide(::ww_get_player_side())
     if (team)
-      return team.players >= team.maxPlayers && team.maxPlayers > 0
+      return team.players >= team.maxPlayers
     return false
   }
 
