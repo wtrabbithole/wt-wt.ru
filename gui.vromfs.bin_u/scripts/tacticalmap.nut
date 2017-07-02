@@ -16,8 +16,7 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_TACTICAL_MAP |
                          CtrlsInGui.CTRL_ALLOW_MP_STATISTICS |
                          CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD |
-                         CtrlsInGui.CTRL_ALLOW_VEHICLE_JOY |
-                         CtrlsInGui.CTRL_ALLOW_VEHICLE_XINPUT
+                         CtrlsInGui.CTRL_ALLOW_VEHICLE_JOY
 
   forceTacticalControl = false
 

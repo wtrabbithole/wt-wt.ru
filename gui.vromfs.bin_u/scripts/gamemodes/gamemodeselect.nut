@@ -161,11 +161,30 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
         view.push(createGameModeView(gameMode))
       }
     }
+    sortByUnitType(view)
     // Putting a dummy block to show featured links in one line.
     if ((numNonWideGameModes & 1) == 1)
       view.push(createGameModeView(null))
     view.extend(createFeaturedLinksView())
     return view
+  }
+
+  function sortByUnitType(gameModeViews)
+  {
+    gameModeViews.sort(function(a, b) {
+      foreach(unitType in ::g_unit_type.types)
+      {
+        if(b.isWide != a.isWide)
+          return b.isWide <=> a.isWide
+        local isAContainsType = a.gameMode.unitTypes.find(unitType.esUnitType) != -1
+        local isBContainsType = b.gameMode.unitTypes.find(unitType.esUnitType) != -1
+        if( ! isAContainsType && ! isBContainsType)
+          continue
+        return isBContainsType <=> isAContainsType
+        || b.gameMode.unitTypes.len() <=> a.gameMode.unitTypes.len()
+      }
+      return 0
+    })
   }
 
   function createDebugGameModesView()

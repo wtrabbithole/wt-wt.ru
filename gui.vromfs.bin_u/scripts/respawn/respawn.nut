@@ -2051,8 +2051,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       !isRespawn ? (
         CtrlsInGui.CTRL_ALLOW_TACTICAL_MAP |
         CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD |
-        CtrlsInGui.CTRL_ALLOW_VEHICLE_JOY |
-        CtrlsInGui.CTRL_ALLOW_VEHICLE_XINPUT)
+        CtrlsInGui.CTRL_ALLOW_VEHICLE_JOY)
       : isSpectate ? CtrlsInGui.CTRL_ALLOW_SPECTATOR
       : CtrlsInGui.CTRL_ALLOW_NONE)
   }

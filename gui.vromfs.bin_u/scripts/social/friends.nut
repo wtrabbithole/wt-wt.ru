@@ -142,7 +142,7 @@ function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
       ::ps4_console_friends[playerName] <- ps4playerBlock
 
       local friendBlock = ::contacts[::EPL_FRIENDLIST][i]
-      if ((playerName) == friendBlock.name)
+      if (playerName == friendBlock.name)
       {
         ::contacts[::EPLX_PS4_FRIENDS].append(friendBlock)
         ::contacts[::EPL_FRIENDLIST].remove(i)

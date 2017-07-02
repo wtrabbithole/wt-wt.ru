@@ -3158,66 +3158,6 @@ function to_float_safe(value, defValue = 0, needAssert = true)
   return value.tofloat()
 }
 
-function getPositionToDraw(parentObj, align, params = null)
-{
-  local parentPos, parentSize
-  if (::checkObj(parentObj))
-  {
-    parentPos = parentObj.getPosRC()
-    parentSize = parentObj.getSize()
-  } else
-  {
-    parentPos = ::get_dagui_mouse_cursor_pos_RC()
-    parentSize = [0, 0]
-  }
-
-  local isVertical = true
-  local isPositive = true
-  switch (align)
-  {
-    case "top":
-      isPositive = false
-      break
-
-    case "right":
-      isVertical = false
-      break
-
-    case "left":
-      isVertical = false
-      isPositive = false
-      break
-  } //default "bottom"
-
-  local axis = isVertical ? 1 : 0
-  local offsetText = ["-w/2", "-h/2"]
-  local parentTargetPoint = [0.5, 0.5] //part of parent to target point
-
-  if (isPositive)
-  {
-    offsetText[axis] = ""
-    parentTargetPoint[axis] = 1.0
-  } else
-  {
-    offsetText[axis] = isVertical ? "-h" : "-w"
-    parentTargetPoint[axis] = 0.0
-  }
-
-  local targetPoint = [parentPos[0] + ::getTblValue("customPosX", params, parentTargetPoint[0]) * parentSize[0],
-                       parentPos[1] + ::getTblValue("customPosY", params, parentTargetPoint[1]) * parentSize[1]]
-
-  //check content size by centered axis to fill into screen
-  local sizeToCheck = isVertical ? ::getTblValue("width", params, 0) : ::getTblValue("height", params, 0)
-  sizeToCheck = ::g_dagui_utils.toPixels(::get_cur_gui_scene(), sizeToCheck)
-  if (sizeToCheck > 0)
-  {
-    local screenSizeToCheck = isVertical ? ::screen_width() : ::screen_height()
-    targetPoint[1-axis] = ::clamp(targetPoint[1-axis], 0.5 * sizeToCheck, screenSizeToCheck - 0.5 * sizeToCheck)
-  }
-
-  return targetPoint[0] + offsetText[0] + ", " + targetPoint[1] + offsetText[1]
-}
-
 /**
  * Uses gui scene if specified scene is not valid.
  * Returns null if object was found but is not valid.
