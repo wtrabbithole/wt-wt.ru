@@ -376,18 +376,21 @@
       {
         "engine": {
           "armorClass": "armor_tank_engine",
-          "hp": 3000.0,
+          "hp": 1500.0,
           "armorThrough": 30.0,
           "fireProtectionHp": 5.0,
           "armorThickness": 15.0,
-          "genericDamageMult": 2.0,
+          "genericDamageMult": 15.0,
           "fireParamsPreset": "ship_engine",
           "pump_dm": [],
           "engine_01_dm": [],
           "engine_02_dm": [],
           "engine_03_dm": [],
           "transmission_01_dm": [],
-          "steering_gear_01_dm": []
+          "steering_gear_01_dm": {
+            "hp": 400.0,
+            "genericDamageMult": 1.0
+          }
         }
       },
       {
@@ -2126,11 +2129,11 @@
   },
   {
     "breaches": {
-      "repairSpeed": 0.75,
-      "waterMassVel": -200.0,
+      "repairSpeed": 30.0,
+      "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 150000.0,
+      "additionalWaterDeathThreshold": 300000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0
     }
