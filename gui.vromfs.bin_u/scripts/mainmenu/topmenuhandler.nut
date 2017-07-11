@@ -92,11 +92,27 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     if (!hasResearch)
       closeShop()
 
+    if (!::getTblValue("hasGameModeSelect", handler, true))
+      closeGameModeSelect()
+
     if (isWaitForContentToActivateScene)
     {
       isWaitForContentToActivateScene = false
       onSceneActivate(true)
     }
+  }
+
+  function closeGameModeSelect()
+  {
+    if (!::handlersManager.isHandlerValid(::instant_domination_handler))
+      return
+
+    local gmHandler = ::instant_domination_handler.getGameModeSelectHandler()
+    if (!gmHandler)
+      return
+
+    if (gmHandler.getShowGameModeSelect())
+      gmHandler.setShowGameModeSelect(false)
   }
 
   function onEventOpenShop(params)

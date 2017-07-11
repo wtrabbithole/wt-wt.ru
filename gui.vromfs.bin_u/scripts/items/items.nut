@@ -91,7 +91,7 @@ class ::BaseItem
     blkType = blk.type
     isInventoryItem = invBlk != null
     purchaseFeature = ::getTblValue("purchase_feature", blk, "")
-    isDevItem = purchaseFeature == "devItemShop"
+    isDevItem = !isInventoryItem && purchaseFeature == "devItemShop"
     canBuy = canBuy && !isInventoryItem && getCost() > ::zero_money && checkPurchaseFeature()
     iconStyle = blk.iconStyle || id
     link = blk.link || ""

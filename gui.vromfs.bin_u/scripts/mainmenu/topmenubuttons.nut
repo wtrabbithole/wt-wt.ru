@@ -19,9 +19,8 @@ enum TOP_MENU_ELEMENT_TYPE {
     isFeatured = false
     needDiscountIcon = false
     newIconWidget = null
-    funcName = null
+    onClickFunc = @(obj, handler = null) null
     onChangeValueFunc = @(value) null
-    onChangeValue = "onChangeCheckboxValue"
     useImage = null
     isHidden = @(handler = null) false
     isVisualDisabled = @() false
@@ -31,6 +30,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     checkbox = @() elementType == TOP_MENU_ELEMENT_TYPE.CHECKBOX //param name only because of checkbox.tpl
     isLineSeparator = @() elementType == TOP_MENU_ELEMENT_TYPE.LINE_SEPARATOR
     isEmptyButton = @() elementType == TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
+    funcName = @() isButton()? "onClick" : checkbox()? "onChangeCheckboxValue" : null
   }
 }
 
@@ -38,151 +38,193 @@ enum TOP_MENU_ELEMENT_TYPE {
   UNKNOWN = {}
   SKIRMISH = {
     text = "#mainmenu/btnSkirmish"
-    funcName = "onSkirmish"
+    onClickFunc = function(obj, handler)
+    {
+      if (!::is_custom_battles_enabled())
+        return ::show_not_available_msg_box()
+      if (!::check_gamemode_pkg(::GM_SKIRMISH))
+        return
+      ::queues.checkAndStart(
+        ::Callback(@() goForwardIfOnline(::gui_start_skirmish, false), handler),
+        null,
+        "isCanNewflight"
+      )
+    }
+
     isHidden = @(...) !::is_custom_battles_enabled()
     isVisualDisabled = function() { return !::is_custom_battles_enabled() }
     isInactiveInQueue = true
   }
   WORLDWAR = {
     text = "#mainmenu/btnWorldwar"
-    funcName = "onWorldwar"
+    onClickFunc = @(obj, handler) ::is_worldwar_enabled()
+      ? handler.goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false)
+      : ::show_not_available_msg_box()
     isVisualDisabled = function() { return !::is_worldwar_enabled() }
   }
   TUTORIAL = {
     text = "#mainmenu/btnTutorial"
-    funcName = "onTutorial"
+    onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_tutorial)
     isInactiveInQueue = true
   }
   SINGLE_MISSION = {
     text = "#mainmenu/btnSingleMission"
-    funcName = "onSingleMission"
+    onClickFunc = @(obj, handler) ::checkAndCreateGamemodeWnd(handler, ::GM_SINGLE_MISSION)
     isVisualDisabled = function() {return !::has_feature("ModeSingleMissions") }
     isInactiveInQueue = true
   }
   DYNAMIC = {
     text = "#mainmenu/btnDynamic"
-    funcName = "onDynamic"
+    onClickFunc = @(obj, handler) ::checkAndCreateGamemodeWnd(handler, ::GM_DYNAMIC)
     isVisualDisabled = function() {return !::has_feature("ModeDynamic") }
     isInactiveInQueue = true
   }
   CAMPAIGN = {
     text = "#mainmenu/btnCampaign"
-    funcName = "onCampaign"
+    onClickFunc = function(obj, handler) {
+      if (!::ps4_is_chunk_available(PS4_CHUNK_HISTORICAL_CAMPAIGN))
+        return ::showInfoMsgBox(::loc("mainmenu/campaignDownloading"), "question_wait_download")
+
+      if (::is_any_campaign_available())
+        return handler.checkedNewFlight(@() ::gui_start_campaign())
+
+      if (!::has_feature("OnlineShopPacks"))
+        return ::show_not_available_msg_box()
+
+      ::scene_msg_box("question_buy_campaign", obj.getScene(), ::loc("mainmenu/questionBuyHistorical"),
+        [
+          ["yes", function() {
+            if (::is_platform_ps4)
+              ::gui_modal_onlineShop(this)
+            else
+              ::OnlineShopModel.doBrowserPurchase("wop_starter_pack_3_gift")
+          }],
+          ["no", function() {}]
+        ], "yes", { cancel_fn = function() {}})
+    }
     isHidden = @(...) !::has_feature("HistoricalCampaign")
     isVisualDisabled = function() { return !::ps4_is_chunk_available(PS4_CHUNK_HISTORICAL_CAMPAIGN) }
     isInactiveInQueue = true
   }
   BENCHMARK = {
     text = "#mainmenu/btnBenchmark"
-    funcName = "onBenchmark"
+    onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_benchmark)
     isHidden = @(...) (::is_platform_ps4 ? !::has_feature("BenchmarkPS4") : !::has_feature("Benchmark")) && !::is_dev_version
     isInactiveInQueue = true
   }
   USER_MISSION = {
     text = "#mainmenu/btnUserMission"
-    funcName = "onUserMission"
+    onClickFunc = @(obj, handler) ::checkAndCreateGamemodeWnd(handler, ::GM_USER_MISSION)
     isHidden = @(...) !::has_feature("UserMissions")
     isInactiveInQueue = true
   }
   OPTIONS = {
     text = "#mainmenu/btnGameplay"
-    funcName = "onGameplay"
+    onClickFunc = @(obj, handler) ::gui_start_options(handler)
   }
   CONTROLS = {
     text = "#mainmenu/btnControls"
-    funcName = "onControls"
+    onClickFunc = @(...) ::gui_start_controls()
   }
   LEADERBOARDS = {
     text = "#mainmenu/btnLeaderboards"
-    funcName = "onLeaderboards"
+    onClickFunc = @(obj, handler) handler.goForwardIfOnline(::gui_modal_leaderboards, false, true)
   }
   CLANS = {
     text = "#mainmenu/btnClans"
-    funcName = "onClans"
+    onClickFunc = @(...) ::has_feature("Clans")? ::gui_modal_clans() : ::show_not_available_msg_box()
     isHidden = @(...) !::has_feature("Clans")
   }
   REPLAY = {
     text = "#mainmenu/btnReplays"
-    funcName = "onReplays"
+    onClickFunc = @(obj, handler) ::is_platform_ps4? ::show_not_available_msg_box() : handler.checkedNewFlight(::gui_start_replays)
     isHidden = @(...) !::has_feature("Replays")
   }
   VIRAL_AQUISITION = {
     text = "#mainmenu/btnGetLink"
-    funcName = "onGetLink"
+    onClickFunc = @(...) ::show_viral_acquisition_wnd()
     isHidden = @(...) !::has_feature("Invites")
   }
   EXIT = {
     text = "#mainmenu/btnExit"
-    funcName = "onExit"
-    isHidden = @(...) ::is_platform_ps4
+    onClickFunc = function(...) {
+      ::add_msg_box("question_quit_game", ::loc("mainmenu/questionQuitGame"),
+        [
+          ["yes", ::exit_game],
+          ["no", @() null ]
+        ], "no", { cancel_fn = @() null })
+    }
+    isHidden = @(...) !::is_platform_pc
   }
   DEBUG_UNLOCK = {
     text = "#mainmenu/btnDebugUnlock"
-    funcName = "onDebugUnlock"
+    onClickFunc = @(obj, handler) ::add_msg_box("debug unlock", "Debug unlock enabled", [["ok", ::gui_do_debug_unlock]], "ok")
     isHidden = @(...) !::is_dev_version
   }
   ENCYCLOPEDIA = {
     text = "#mainmenu/btnEncyclopedia"
-    funcName = "onEncyclopedia"
+    onClickFunc = @(...) ::gui_start_encyclopedia()
     isHidden = @(...) !::has_feature("Encyclopedia")
   }
   CREDITS = {
     text = "#mainmenu/btnCredits"
-    funcName = "onCredits"
+    onClickFunc = @(obj, handler) handler.checkedForward(::gui_start_credits)
     isHidden = @(handler = null) !::has_feature("Credits") || !(handler && handler instanceof ::gui_handlers.TopMenu)
   }
   TSS = {
     text = "#topmenu/tss"
-    funcName = "onLink"
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     link = "#url/tss"
     isLink = true
     isHidden = @(...) ::is_vendor_tencent()
   }
   STREAMS_AND_REPLAYS = {
     text = "#topmenu/streamsAndReplays"
-    funcName = "onLink"
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     link = "#url/streamsAndReplays"
     isLink = true
     isHidden = @(...) ::is_vendor_tencent()
   }
   EAGLES = {
     text = "#shop/recharge"
-    funcName = "onOnlineShopEagles"
+    onClickFunc = @(obj, handler) ::has_feature("EnableGoldPurchase")
+      ? handler.startOnlineShop("eagles")
+      : ::showInfoMsgBox(::loc("msgbox/notAvailbleGoldPurchase"))
     image = "#ui/gameuiskin#shop_warpoints_premium"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
   }
   PREMIUM = {
     text = "#charServer/chapter/premium"
-    funcName = "onOnlineShopPremium"
+    onClickFunc = @(obj, handler) handler.startOnlineShop("premium")
     image = "#ui/gameuiskin#sub_premiumaccount"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("EnablePremiumPurchase") || !::isInMenu()
   }
   WARPOINTS = {
     text = "#charServer/chapter/warpoints"
-    funcName = "onOnlineShopLions"
+    onClickFunc = @(obj, handler) handler.startOnlineShop("warpoints")
     image = "#ui/gameuiskin#shop_warpoints"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
   }
   INVENTORY = {
     text = "#items/inventory"
-    funcName = "onInventory"
+    onClickFunc = @(...) ::gui_start_inventory()
     image = "#ui/gameuiskin#inventory_icon"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu()
     newIconWidget = @() ::NewIconWidget.createLayout()
   }
   ITEMS_SHOP = {
     text = "#items/shop"
-    funcName = "onItemsShop"
+    onClickFunc = @(...) ::gui_start_itemsShop()
     image = "#ui/gameuiskin#store_icon"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu()
     newIconWidget = @() ::NewIconWidget.createLayout()
   }
   ONLINE_SHOP = {
     text = "#msgbox/btn_onlineShop"
-    funcName = "onOnlineShop"
+    onClickFunc = @(obj, handler) handler.startOnlineShop()
     link = ""
     isLink = true
     isFeatured = true
@@ -192,12 +234,17 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
   WINDOW_HELP = {
     text = "#flightmenu/btnControlsHelp"
-    funcName = "onWndHelp"
+    onClickFunc = function(obj, handler) {
+      if (!("getWndHelpConfig" in handler))
+        return
+
+      ::gui_handlers.HelpInfoHandlerModal.open(handler.getWndHelpConfig(), handler.scene)
+    }
     isHidden = @(handler = null) !("getWndHelpConfig" in handler)
   }
   FAQ = {
     text = "#mainmenu/faq"
-    funcName = "onLink"
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     link = "#url/faq"
     isLink = true
     isFeatured = true
@@ -205,7 +252,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
   FORUM = {
     text = "#mainmenu/forum"
-    funcName = "onLink"
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     link = "#url/forum"
     isLink = true
     isFeatured = true
@@ -213,7 +260,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
   SUPPORT = {
     text = "#mainmenu/support"
-    funcName = "onLink"
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     link = "#url/support"
     isLink = true
     isFeatured = true
@@ -221,7 +268,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
   WIKI = {
     text = "#mainmenu/wiki"
-    funcName = "onLink"
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     link = "#url/wiki"
     isLink = true
     isFeatured = true
@@ -232,16 +279,6 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
   LINE_SEPARATOR = {
     elementType = TOP_MENU_ELEMENT_TYPE.LINE_SEPARATOR
-  }
-  WW_OPERATIONS = {
-    text = "#worldWar/menu/selectOperation"
-    funcName = "onWWBackToOperations"
-    isVisualDisabled = function() { return !::is_worldwar_enabled() }
-  }
-  HANGAR = {
-    text = "#worldWar/menu/quitToHangar"
-    funcName = "onWWBackToHangar"
-    isVisualDisabled = function() { return !::is_worldwar_enabled() }
   }
 }, null, "id")
 

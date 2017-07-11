@@ -7,6 +7,7 @@
     name = ""
     showInEventsWindow = false
     showInGamercardDrawer = false
+    canBeSelectedInGcDrawer = @() showInGamercardDrawer && !showInEventsWindow
   }
 }
 

@@ -13,6 +13,7 @@ class ::WwUnit
   role = ""
   expClass = ""
   stengthGroupExpClass = ""
+  isForceControlledByAI = false
 
   constructor(blk)
   {
@@ -47,6 +48,16 @@ class ::WwUnit
   function getCount()
   {
     return count
+  }
+
+  function setCount(val)
+  {
+    count = val
+  }
+
+  function setForceControlledByAI(val)
+  {
+    isForceControlledByAI = val
   }
 
   function getActiveCount()
@@ -98,6 +109,7 @@ class ::WwUnit
       name = getName()
       activeCount = activeCount ? activeCount.tostring() : null
       count = totalCount ? totalCount.tostring() : null
+      isControlledByAI = isControlledByAI()
       weapon = presetText.len() > 0 ? ::colorize("@activeTextColor", presetText) : ""
       hasBomb = presetData.bomb.len() > 0
       hasRocket = presetData.rocket.len() > 0
@@ -137,6 +149,11 @@ class ::WwUnit
     return ::g_ww_unit_type.isAir(wwUnitType.code)
   }
 
+  function isControlledByAI()
+  {
+    return isForceControlledByAI || !wwUnitType.canBeControlledByPlayer
+  }
+
   function getUnitClass()
   {
     if (!isAir())
@@ -146,6 +163,17 @@ class ::WwUnit
       return WW_UNIT_CLASS.FIGHTER
 
     return WW_UNIT_CLASS.BOMBER
+  }
+
+  static function getUnitClassText(unitClass)
+  {
+    if (unitClass == WW_UNIT_CLASS.FIGHTER)
+      return "fighter"
+
+    if (unitClass == WW_UNIT_CLASS.BOMBER)
+      return "bomber"
+
+    return "unknown"
   }
 
   function getUnitTypeText()
@@ -197,7 +225,7 @@ class ::WwUnit
     return (maxFlyTime * 60 / ::ww_get_speedup_factor()).tointeger()
   }
 
-  static function loadUnitsFromBlk(blk)
+  static function loadUnitsFromBlk(blk, aiUnitsBlk = null)
   {
     if (!blk)
       return []
@@ -210,6 +238,18 @@ class ::WwUnit
 
       if (unit.isValid())
         units.push(unit)
+
+      if (aiUnitsBlk)
+      {
+        local aiUnitData = ::getTblValue(unitBlk.getBlockName(), aiUnitsBlk)
+        if (aiUnitData)
+        {
+          local aiUnit = ::WwUnit(unitBlk)
+          aiUnit.setCount(getTblValue("count", aiUnitData, -1))
+          aiUnit.setForceControlledByAI(true)
+          units.push(aiUnit)
+        }
+      }
     }
     return units
   }

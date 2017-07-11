@@ -610,7 +610,7 @@ class GameModeManager
             _createCustomGameMode(dm)
     }
 
-    foreach (eventId in ::events.getRandomBattlesEvents())
+    foreach (eventId in ::events.getEventsForGcDrawer())
     {
       local event = ::events.getEvent(eventId)
       local skip = false

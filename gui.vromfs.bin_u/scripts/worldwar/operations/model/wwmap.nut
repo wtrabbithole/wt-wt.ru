@@ -108,6 +108,35 @@ class WwMap
     return ::implode(coords, ::loc("ui/comma"))
   }
 
+  function isActive()
+  {
+    return ::getTblValue("active", data, false)
+  }
+
+  function getChangeStateTimeText()
+  {
+    local time = ::getTblValue("changeStateTime", data, -1)
+    local text = ""
+    if (time >= 0)
+    {
+      local secToChangeState = time - ::get_charserver_time_sec()
+      if (secToChangeState > 0)
+      {
+        local changeStateLocId = "worldwar/operation/" +
+          (isActive() ? "beUnavailableIn" : "beAvailableIn")
+        local changeStateTime = ::hoursToString(
+          ::seconds_to_hours(secToChangeState), false, true)
+        text = ::loc(changeStateLocId, {time = changeStateTime})
+      }
+      else if (secToChangeState < 0)
+        ::g_ww_global_status.refreshData()
+    }
+    else if (!isActive())
+      text = ::loc("worldwar/operation/unavailable")
+
+    return text
+  }
+
   function getCountryToSideTbl()
   {
     return ::get_tbl_value_by_path_array(["info", "countries"], data, {})
@@ -196,5 +225,14 @@ class WwMap
     }
 
     return res
+  }
+
+  function getClansConditionText()
+  {
+    local minNumb = ::getTblValue("minClanCount", data, 0)
+    local maxNumb = ::getTblValue("maxClanCount", data, 0)
+    return minNumb == maxNumb ?
+      ::loc("worldwar/operation/clans_number", {numb = maxNumb}) :
+      ::loc("worldwar/operation/clans_limits", {min = minNumb, max = maxNumb})
   }
 }

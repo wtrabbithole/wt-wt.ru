@@ -4,6 +4,7 @@ class ::WwArmyView
   formation = null
   customId = null
   name = ""
+  hasVersusText = false
 
   static unitsInArmyRowsMax = 5
 
@@ -415,5 +416,15 @@ class ::WwArmyView
   function getMapObjectName()
   {
     return formation.getMapObjectName()
+  }
+
+  function getHasVersusText()
+  {
+    return hasVersusText
+  }
+
+  function setHasVersusText(val)
+  {
+    hasVersusText = val
   }
 }

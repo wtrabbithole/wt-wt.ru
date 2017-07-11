@@ -1,6 +1,7 @@
 class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
+  isLoggingIn = false
 
   function initScreen()
   {
@@ -31,12 +32,16 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
 
   function onOk()
   {
+    if (isLoggingIn)
+      return
+
     //TODO: real login
     //for now, revert to PC login scene
     if ((::ps4_initial_check_network() >= 0) && (::ps4_init_trophies() >= 0))
     {
       ::statsd_counter("gameStart.request_login.ps4")
       ::dagor.debug("PS4 Login: ps4_login")
+      isLoggingIn = true
       local ret = ::ps4_login();
       if (ret >= 0)
       {
@@ -48,11 +53,14 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
           })
       }
       else if (ret == -1)
+      {
+        isLoggingIn = false
         msgBox("no_internet_connection", ::loc("ps4/noInternetConnection"), [["ok", function() {} ]], "ok")
+      }
     }
   }
 
-  function onEventPS4AvailableNewInvite(params = {})
+  function onEventPS4AvailableNewInvite(p)
   {
     onOk()
   }

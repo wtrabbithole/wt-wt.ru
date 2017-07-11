@@ -1413,7 +1413,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getPlayerLink()
   {
-    ::show_viral_acquisition_wnd(this)
+    ::show_viral_acquisition_wnd()
   }
 
   function onIconChoosen(option)
@@ -1508,11 +1508,13 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   function onBindPS4Email()
   {
     ::g_user_utils.launchPS4EmailRegistration()
+    doWhenActiveOnce("updateButtons")
   }
 
   function onBindSteamEmail()
   {
     ::g_user_utils.launchSteamEmailRegistration()
+    doWhenActiveOnce("updateButtons")
   }
 
   function getMainFocusObj()

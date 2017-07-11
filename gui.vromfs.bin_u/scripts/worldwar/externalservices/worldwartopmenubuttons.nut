@@ -8,6 +8,16 @@ local wwTopMenuButtons = {
   }
 
   list = {
+    WW_OPERATIONS = {
+      text = "#worldWar/menu/selectOperation"
+      onClickFunc = @(obj, handler) "goBackToOperations" in handler? handler.goBackToOperations() : null
+      elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
+    }
+    WW_HANGAR = {
+      text = "#worldWar/menu/quitToHangar"
+      onClickFunc = @(obj, handler) "goBackToHangar" in handler? handler.goBackToHangar() : null
+      elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
+    }
     WW_FILTER_RENDER_ZONES = {
       category = ::ERC_ZONES
       text = ::loc("worldwar/renderMap/render_zones")

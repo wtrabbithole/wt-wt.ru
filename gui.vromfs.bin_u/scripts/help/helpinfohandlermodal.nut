@@ -22,6 +22,9 @@ class ::gui_handlers.HelpInfoHandlerModal extends ::gui_handlers.BaseGuiHandlerW
 
   static function open(wndInfoConfig, wndScene)
   {
+    if (!wndInfoConfig)
+      return
+
     local params = {
       config = wndInfoConfig
       ownerScene = wndScene

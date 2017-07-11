@@ -173,7 +173,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       view.itemText <- battleData.getLocName()
     else
     {
-      local teamsData = battleView.getTeamBlockByIconSize(WW_ARMY_GROUP_ICON_SIZE.BASE)
+      local teamsData = battleView.getTeamBlockByIconSize(
+        WW_ARMY_GROUP_ICON_SIZE.SMALL, false, {hasArmyInfo = false, hasVersusText = true})
       local teamsMarkUp = ""
       foreach(idx, army in teamsData)
         teamsMarkUp += army.armies.armyViews

@@ -1079,12 +1079,13 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
               foundCurAir = true
             }
 
-          if ((selectable && firstAvailableIdsData.idInCountry < 0)
-                || (::selected_crews[c]==i && (selectable || !country)))
+          if ((unlocked && firstAvailableIdsData.idInCountry < 0)
+            || selectable && !firstAvailableIdsData.selectable
+            || (::selected_crews[c]==i && (selectable || !country)))
           {
             firstAvailableIdsData.idInCountry = i
             firstAvailableIdsData.cellId = filledSlots
-            firstAvailableIdsData.selectable = true
+            firstAvailableIdsData.selectable = selectable
           }
         }
       }
@@ -1105,7 +1106,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         }
       }
       if ((country || airShopCountry == ::crews_list[c].country || curPlayerCountry == ::crews_list[c].country)
-          && (!foundCurAir || (firstAvailableIdsData.selectable && !selectedIdsData.selectable)))
+          && (!foundCurAir
+              || (::getTblValue("shouldSelectAvailableUnit", params, ::is_in_flight())
+                  && firstAvailableIdsData.selectable && !selectedIdsData.selectable)))
       {
         selectedIdsData.countryId = c
         selectedIdsData.countryVisibleIdx = countryVisibleIdx

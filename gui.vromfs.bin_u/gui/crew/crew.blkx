@@ -213,22 +213,43 @@
               "on_select": "onChangeUnitType"
             }
           },
-          "navRight": {
-            "text": {
-              "id": "crew-info-text",
-              "height": "p.p.h",
-              "padding-right": "@sIco"
+          "navRight": [
+            {
+              "text": {
+                "id": "crew-info-text",
+                "height": "p.p.h",
+                "padding-right": "@sIco"
+              }
             },
-            "Button_text": {
-              "id": "btn_apply",
-              "text": "#mainmenu/btnApply",
-              "btnName": "A",
-              "_on_click": "onSelect",
-              "visualStyle": "secondary",
-              "buttonWink": [],
-              "ButtonImg": []
+            {
+              "Button_text": {
+                "id": "btn_buy_all",
+                "text": "#mainmenu/btnBuyAll",
+                "btnName": "A",
+                "_on_click": "onBuyAll",
+                "visualStyle": "secondary",
+                "display": "hide",
+                "enable": "no",
+                "buttonWink": [],
+                "textarea": {
+                  "id": "btn_buy_all_text",
+                  "class": "buttonText"
+                },
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_apply",
+                "text": "#mainmenu/btnApply",
+                "btnName": "A",
+                "_on_click": "onSelect",
+                "visualStyle": "secondary",
+                "buttonWink": [],
+                "ButtonImg": []
+              }
             }
-          }
+          ]
         },
         "Button_close": {
           "id": "btn_back",

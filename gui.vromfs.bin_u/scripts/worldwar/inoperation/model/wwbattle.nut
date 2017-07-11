@@ -215,7 +215,8 @@ class ::WwBattle
       if (status != ::EBS_WAITING)
       {
         local unitsRemainBlk = teamBlk.getBlockByName("unitsRemain")
-        teamUnitsRemain.extend(::WwUnit.loadUnitsFromBlk(unitsRemainBlk))
+        local aiUnitsBlk = teamBlk.getBlockByName("aiUnits")
+        teamUnitsRemain.extend(::WwUnit.loadUnitsFromBlk(unitsRemainBlk, aiUnitsBlk))
         teamUnitsRemain.extend(::WwUnit.getFakeUnitsArray(teamBlk))
       }
 

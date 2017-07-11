@@ -1,4 +1,4 @@
-function show_viral_acquisition_wnd(ownerHandler)
+function show_viral_acquisition_wnd()
 {
   if (!::has_feature("Invites"))
     return

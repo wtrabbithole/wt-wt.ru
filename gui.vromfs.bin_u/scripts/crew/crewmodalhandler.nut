@@ -127,6 +127,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     scene.findObject("crew_cur_skills").setValue(::round_by_value(crewCurLevel, 0.01).tostring())
     updatePointsText()
+    updateBuyAllButton()
     updateAvailableSkillsIcons()
   }
 
@@ -140,6 +141,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     crewLevelInc += crewLevelChange
 
     updatePointsText()
+    updateBuyAllButton()
     updatePointsAdvice()
     updateAvailableSkillsIcons()
     ::broadcastEvent("CrewNewSkillsChanged", { crew = crew })
@@ -315,6 +317,22 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local statusType = ::g_skills_page_status.getPageStatus(crew, page, curUnitType, curPoints)
     scene.findObject("crew_points_advice").show(statusType.show)
     scene.findObject("crew_points_advice_text")["crewStatus"] = statusType.style
+  }
+
+  function updateBuyAllButton()
+  {
+    if (!::has_feature("CrewBuyAllSkills"))
+      return
+
+    local totalPointsToMax = ::g_crew.getSkillPointsToMaxAllSkills(crew, curUnitType)
+    local btnObj = showSceneBtn("btn_buy_all", totalPointsToMax > 0)
+    local text = ::loc("mainmenu/btnBuyAll") + ::loc("ui/parentheses/space", { text = ::get_crew_sp_text(totalPointsToMax) })
+    ::set_double_text_to_button(scene, "btn_buy_all", text)
+  }
+
+  function onBuyAll()
+  {
+    ::g_crew.buyAllSkills(crew, curUnitType)
   }
 
   function getCornerImgId(page)
@@ -738,12 +756,11 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_modal_tutor(steps, this)
   }
 
-  /** Triggered from CrewBuyPoinsHandler. */
   function onEventCrewSkillsChanged(params)
   {
     base.onEventCrewSkillsChanged(params)
     crew = getSlotItem(countryId, idInCountry)
-    initMainParams(false)
+    initMainParams(!::getTblValue("isOnlyPointsChanged", params, false))
   }
 
   /** Triggered from CrewUnitSpecHandler. */

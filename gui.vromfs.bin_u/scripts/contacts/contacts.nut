@@ -1332,7 +1332,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onInviteFriend()
   {
-    ::show_viral_acquisition_wnd(this)
+    ::show_viral_acquisition_wnd()
   }
 
   function onPsnFriends()

@@ -28,6 +28,10 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     scene.setUserData(this) //to not unload handler even when scene not loaded
     updateView()
+
+    local timerObj = scene.findObject("ww_map_description_timer")
+    if (timerObj)
+      timerObj.setUserData(this)
   }
 
   function setDescItem(newDescItem)
@@ -54,6 +58,8 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateDescription()
     updateWorldCoords()
     updateCountriesList()
+    updateAvailableText()
+    updateClansConditionText()
   }
 
   function isVisible()
@@ -125,5 +131,28 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
     local data = ::handyman.renderCached("gui/worldWar/wwOperationCountriesInfo", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
+  }
+
+  function updateClansConditionText()
+  {
+    local obj = scene.findObject("clans_condition_text")
+    if (!::check_obj(obj))
+      return
+
+    obj.setValue(descItem.getClansConditionText())
+  }
+
+  function updateAvailableText()
+  {
+    local obj = scene.findObject("available_text")
+    if (!::check_obj(obj))
+      return
+
+    obj.setValue(descItem.getChangeStateTimeText())
+  }
+
+  function onTimerDescriptionUpdate(obj, dt)
+  {
+    updateAvailableText()
   }
 }

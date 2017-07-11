@@ -127,4 +127,12 @@
     <</reqUnitTypeIcon>>
     <</showVehiclesAmountText>>
   }
+  <<#getHasVersusText>>
+  activeText {
+    top:t='50%ph-50%h'
+    position:t='relative'
+    margin:t='1@framePadding, 0'
+    text:t='#country/VS'
+  }
+  <</getHasVersusText>>
 <</army>>

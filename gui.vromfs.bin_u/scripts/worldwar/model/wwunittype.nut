@@ -18,6 +18,7 @@
   moveSound = ""
   deploySound = ""
   expClass = null
+  canBeControlledByPlayer = true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_ww_unit_type", {
@@ -60,6 +61,7 @@
     expClass = "infantry"
     moveSound = "ww_unit_move_infantry"
     deploySound = "ww_unit_move_infantry"
+    canBeControlledByPlayer = false
   }
   ARTILLERY = {
     code = ::UT_ARTILLERY
@@ -70,6 +72,7 @@
     expClass = "artillery"
     moveSound = "ww_unit_move_artillery"
     deploySound = "ww_unit_move_artillery"
+    canBeControlledByPlayer = false
   }
 })
 
