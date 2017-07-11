@@ -223,23 +223,19 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_ground_DBttlA",
+      "locName": "missions/_DBttlA;tunisia/name",
+      "locDesc": "tunisia/desc;missions/_DBttl/desc",
       "scoreLimit": 6000,
       "timeLimit": 25,
       "deathPenaltyMul": 0.0,
+      "postfix": "_DBttlA",
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
       "useAlternativeMapCoord": false,
+      "allowedKillStreaks": true,
+      "randomSpawnTeams": false,
       "remapAiTankModels": true,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedKillStreaks": true,
-      "randomSpawnTeams": false,
-      "locName": "missions/_DBttlA;tunisia/name",
-      "locDesc": "tunisia/desc;missions/_DBttl/desc",
-      "postfix": "_DBttlA",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -258,7 +254,16 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false
       }
     },
     "spectator_points": [],
@@ -284,6 +289,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -374,6 +382,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/ai_base_defense_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -384,14 +408,16 @@
     "isCategory": true,
     "is_enabled": true
   },
-  "variables": [],
+  "variables": {
+    "defenseMissionTeam": "teamA"
+  },
   "dialogs": [],
   "airfields": [],
   "effects": [],
   "units": [],
   "areas": {
     "briefing_t1_tankSpawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -402,7 +428,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.996195,0.0,0.0871557],
         [0.0,1.0,0.0],
@@ -413,7 +439,7 @@
       "props": []
     },
     "briefing_t1_tankSpawn_Rb_03": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.984808,0.0,0.173648],
         [0.0,1.0,0.0],
@@ -424,7 +450,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_Rb_03": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -435,7 +461,7 @@
       "props": []
     },
     "briefing_dbttl_t1_capture_area": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [29.7912,0.0,-28.4772],
         [0.0,75.0,0.0],
@@ -446,7 +472,7 @@
       "props": []
     },
     "briefing_dbttl_t1_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-0.831064,0.0,-0.556177],
         [0.0,1.0,0.0],
@@ -457,7 +483,7 @@
       "props": []
     },
     "briefing_dbttl_t2_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.876375,0.0,0.481629],
         [0.0,1.0,0.0],

@@ -244,17 +244,17 @@
           "missionMarkAsRespawnPoint": {
             "loc_name": "",
             "spawnEffect": false,
-            "isStrictSpawn": true,
+            "isStrictSpawn": false,
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
-            "target": "t1_respawn",
+            "target": "t1_tank_spawn",
             "team": "A",
             "tags": {
               "tank": true
@@ -265,17 +265,17 @@
           "missionMarkAsRespawnPoint": {
             "loc_name": "",
             "spawnEffect": false,
-            "isStrictSpawn": true,
+            "isStrictSpawn": false,
             "isAirfield": false,
             "isUnit": false,
             "useExisting": false,
-            "isIndividual": false,
+            "isIndividual": true,
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
-            "target": "t2_respawn",
+            "target": "t2_tank_spawn",
             "team": "B",
             "tags": {
               "tank": true
@@ -345,8 +345,40 @@
           }
         },
         {
+          "missionMarkAsCaptureZone": {
+            "army": 0,
+            "timeMultiplier": 0.1,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "@capture_zone_a_name",
+            "iconIndex": 0,
+            "canCaptureByGM": false,
+            "zoneType": "capture",
+            "captureNoPenalty": true,
+            "tags": {
+              "tank": true
+            }
+          }
+        },
+        {
+          "missionMarkAsCaptureZone": {
+            "army": 0,
+            "timeMultiplier": 0.1,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "@capture_zone_b_name",
+            "iconIndex": 1,
+            "canCaptureByGM": false,
+            "zoneType": "capture",
+            "captureNoPenalty": true,
+            "tags": {
+              "tank": true
+            }
+          }
+        },
+        {
           "triggerEnable": {
-            "target": "reset_zones"
+            "target": "to_reset_countdown"
           }
         }
       ],
@@ -376,8 +408,40 @@
           }
         },
         {
+          "missionMarkAsCaptureZone": {
+            "army": 0,
+            "timeMultiplier": 0.1,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "@capture_zone_a_name",
+            "iconIndex": 0,
+            "canCaptureByGM": false,
+            "zoneType": "capture",
+            "captureNoPenalty": true,
+            "tags": {
+              "tank": true
+            }
+          }
+        },
+        {
+          "missionMarkAsCaptureZone": {
+            "army": 0,
+            "timeMultiplier": 0.1,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "@capture_zone_b_name",
+            "iconIndex": 1,
+            "canCaptureByGM": false,
+            "zoneType": "capture",
+            "captureNoPenalty": true,
+            "tags": {
+              "tank": true
+            }
+          }
+        },
+        {
           "triggerEnable": {
-            "target": "reset_zones"
+            "target": "to_reset_countdown"
           }
         }
       ]
@@ -398,41 +462,37 @@
       "conditions": [],
       "actions": [
         {
-          "unitPlayEffect": [
-            {
-              "effect_type": "specify"
-            },
-            {
-              "effect": "pv_point_smoke_blue"
-            },
-            {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
-              "radiusOffset": [0.0,0.0]
-            },
-            {
-              "show": true
-            },
-            {
-              "attach": true
-            },
-            {
-              "scale": 1.0
-            },
-            {
-              "loopSpawn": true
-            },
-            {
-              "delay": [1.0,1.0]
-            },
-            {
-              "target": "@capture_zone_a_name"
-            },
-            {
-              "target": "@capture_zone_b_name"
-            }
-          ]
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "rounds_counter"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t1_capture_and_hold_all_zones_round_",
+            "var": "t1_objective_str"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@rounds_counter",
+            "digits": 1,
+            "var": "t1_objective_str"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t2_capture_and_hold_all_zones_round_",
+            "var": "t2_objective_str"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@rounds_counter",
+            "digits": 1,
+            "var": "t2_objective_str"
+          }
         },
         {
           "missionMarkAsCaptureZone": {
@@ -478,12 +538,12 @@
         },
         {
           "moAddMissionObjective": {
-            "target": "teamA_capture_and_hold_all_zones"
+            "target": "@t1_objective_str"
           }
         },
         {
           "moAddMissionObjective": {
-            "target": "teamB_capture_and_hold_all_zones"
+            "target": "@t2_objective_str"
           }
         }
       ],
@@ -611,43 +671,6 @@
       ],
       "else_actions": [
         {
-          "unitPlayEffect": [
-            {
-              "effect_type": "specify"
-            },
-            {
-              "effect": "pv_point_smoke_blue"
-            },
-            {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
-              "radiusOffset": [0.0,0.0]
-            },
-            {
-              "show": false
-            },
-            {
-              "attach": true
-            },
-            {
-              "scale": 1.0
-            },
-            {
-              "loopSpawn": true
-            },
-            {
-              "delay": [1.0,1.0]
-            },
-            {
-              "target": "@capture_zone_a_name"
-            },
-            {
-              "target": "@capture_zone_b_name"
-            }
-          ]
-        },
-        {
           "missionMarkAsCaptureZone": {
             "army": 0,
             "timeMultiplier": 0.1,
@@ -691,14 +714,14 @@
         },
         {
           "moSetObjectiveStatus": {
-            "target": "teamA_capture_and_hold_all_zones",
+            "target": "@t1_objective_str",
             "status": 2,
             "team": "A"
           }
         },
         {
           "moSetObjectiveStatus": {
-            "target": "teamB_capture_and_hold_all_zones",
+            "target": "@t2_objective_str",
             "status": 3,
             "team": "B"
           }
@@ -711,8 +734,22 @@
           }
         },
         {
+          "varSetInt": {
+            "value": 0,
+            "var": "t1_tickets",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "t2_tickets",
+            "source_var": "mpTi2"
+          }
+        },
+        {
           "triggerEnable": {
-            "target": "to_swap_countdown"
+            "target": "is_mission_end"
           }
         },
         {
@@ -920,43 +957,6 @@
       ],
       "else_actions": [
         {
-          "unitPlayEffect": [
-            {
-              "effect_type": "specify"
-            },
-            {
-              "effect": "pv_point_smoke_blue"
-            },
-            {
-              "offset": [0.0,0.0,0.0]
-            },
-            {
-              "radiusOffset": [0.0,0.0]
-            },
-            {
-              "show": false
-            },
-            {
-              "attach": true
-            },
-            {
-              "scale": 1.0
-            },
-            {
-              "loopSpawn": true
-            },
-            {
-              "delay": [1.0,1.0]
-            },
-            {
-              "target": "@capture_zone_a_name"
-            },
-            {
-              "target": "@capture_zone_b_name"
-            }
-          ]
-        },
-        {
           "missionMarkAsCaptureZone": {
             "army": 0,
             "timeMultiplier": 0.1,
@@ -1000,14 +1000,14 @@
         },
         {
           "moSetObjectiveStatus": {
-            "target": "teamA_capture_and_hold_all_zones",
+            "target": "@t1_objective_str",
             "status": 3,
             "team": "A"
           }
         },
         {
           "moSetObjectiveStatus": {
-            "target": "teamB_capture_and_hold_all_zones",
+            "target": "@t2_objective_str",
             "status": 2,
             "team": "B"
           }
@@ -1020,8 +1020,22 @@
           }
         },
         {
+          "varSetInt": {
+            "value": 0,
+            "var": "t1_tickets",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "t2_tickets",
+            "source_var": "mpTi2"
+          }
+        },
+        {
           "triggerEnable": {
-            "target": "to_swap_countdown"
+            "target": "is_mission_end"
           }
         },
         {
@@ -1107,7 +1121,7 @@
       },
       "else_actions": []
     },
-    "to_swap_countdown": {
+    "to_reset_countdown": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -1169,18 +1183,54 @@
           "var": "next_round_timer_int"
         },
         "triggerEnable": {
-          "target": "swap_points"
+          "target": "reset_zones"
         },
         "triggerDisable": {
-          "target": "to_swap_countdown"
+          "target": "to_reset_countdown"
         }
       }
+    },
+    "is_mission_end": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.1
+        }
+      },
+      "conditions": [
+        {
+          "varCompareInt": {
+            "var_value": "t1_tickets",
+            "value": 0,
+            "comparasion_func": "more"
+          }
+        },
+        {
+          "varCompareInt": {
+            "var_value": "t2_tickets",
+            "value": 0,
+            "comparasion_func": "more"
+          }
+        }
+      ],
+      "actions": {
+        "triggerEnable": {
+          "target": "swap_points"
+        }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
     "isCategory": true,
     "is_enabled": true,
-    "teamA_capture_and_hold_all_zones": {
+    "t1_capture_and_hold_all_zones_round_1": {
       "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
@@ -1192,7 +1242,103 @@
       "onSuccess": [],
       "onFailed": []
     },
-    "teamB_capture_and_hold_all_zones": {
+    "t2_capture_and_hold_all_zones_round_1": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t1_capture_and_hold_all_zones_round_2": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_capture_and_hold_all_zones_round_2": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t1_capture_and_hold_all_zones_round_3": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_capture_and_hold_all_zones_round_3": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t1_capture_and_hold_all_zones_round_4": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_capture_and_hold_all_zones_round_4": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t1_capture_and_hold_all_zones_round_5": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_capture_and_hold_all_zones_round_5": {
       "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
@@ -1214,7 +1360,12 @@
     "next_round_timer_int": 20,
     "next_round_hint_str": "hints/next_round_in_",
     "circle_capture_zone_a": "capture_zone_01a_circle",
-    "circle_capture_zone_b": "capture_zone_01b_circle"
+    "circle_capture_zone_b": "capture_zone_01b_circle",
+    "t1_tickets": 0,
+    "t2_tickets": 0,
+    "rounds_counter": 0,
+    "t1_objective_str": "t1_capture_and_hold_all_zones_round_1",
+    "t2_objective_str": "t2_capture_and_hold_all_zones_round_1"
   },
   "dialogs": [],
   "airfields": [],

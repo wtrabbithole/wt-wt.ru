@@ -989,6 +989,7 @@ function SessionLobby::onMemberInfoUpdate(params)
   {
     isRoomOwner = isMemberOperator(member)
     isInLobbySession = isMemberInSession(member)
+    initMyParamsByMemberInfo(member)
     local ready = ::getTblValue("ready", ::getTblValue("public", member, {}), null)
     if (!hasSessionInLobby() && ready != null && ready != isReady)
       updateReadyAndSyncMyInfo(ready)
@@ -999,9 +1000,10 @@ function SessionLobby::onMemberInfoUpdate(params)
   broadcastEvent("LobbyMemberInfoChanged")
 }
 
-function SessionLobby::initMyParamsByMemberInfo()
+function SessionLobby::initMyParamsByMemberInfo(me = null)
 {
-  local me = ::u.search(members, function(m) { return m.userId == ::my_user_id_str })
+  if (!me)
+    me = ::u.search(members, function(m) { return m.userId == ::my_user_id_str })
   if (!me)
     return
 

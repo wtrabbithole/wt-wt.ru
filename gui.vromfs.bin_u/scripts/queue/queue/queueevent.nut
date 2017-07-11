@@ -61,7 +61,7 @@ class ::queue_classes.Event extends ::queue_classes.Base
     ::enqueue_in_session(
       queryParams,
       function(response) {
-        if (::checkMatchingError(response))
+        if (::checkMatchingError(response, needShowError))
         {
           if (this && shouldQueueCustomMode)
             switchCustomMode(shouldQueueCustomMode, true)
