@@ -67,7 +67,7 @@ class EventChapter
     if (event1 == null && event2 == null)
       return 0
     return (!!event1 <=> !!event2)
-        || (::events.getEventUiSortPriority(event1) <=> ::events.getEventUiSortPriority(event2))
+        || (::events.getEventUiSortPriority(event2) <=> ::events.getEventUiSortPriority(event1))
         || (::events.getEventDiffCode(event1) <=> ::events.getEventDiffCode(event2))
         || (::english_russian_to_lower_case(::events.getEventNameText(event1))
           <=> ::english_russian_to_lower_case(::events.getEventNameText(event2)))

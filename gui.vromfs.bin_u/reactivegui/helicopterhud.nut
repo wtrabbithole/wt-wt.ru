@@ -258,7 +258,7 @@ local HelicopterVertSpeed = function(elemStyle) {
         size = [-scaleWidth-sh(0.5),height]
         children = class extends style.helicopterHudText {
           valign = VALIGN_MIDDLE
-          rendObj = ROBJ_TEXT
+          rendObj = ROBJ_DTEXT
           behavior = Behaviors.RtPropUpdate
           update = @() {
             isHidden = ::interop.state.distanceToGround > 350.0
@@ -282,27 +282,26 @@ local HelicopterVertSpeed = function(elemStyle) {
 }
 
 
+local helicopterHUDs = function (color) {
+  return [
+    HelicopterRocketAim(color)
+    HelicopterFlightDirection(color)
+    //HelicopterFlightVector(color)   //Item deleted due to confussion for begginers
+    HelicopterVertSpeed(color)
+  ]
+
+}
+
+
 local Root = function() {
+  local children = helicopterHUDs(style.lineBackground)
+  children.extend(helicopterHUDs(style.lineForeground))
+  
   return {
     halign = HALIGN_LEFT
     valign = VALIGN_TOP
     size = [sw(100) , sh(100)]
-
-    children = [
-
-      HelicopterRocketAim(style.lineBackground)
-      HelicopterFlightDirection(style.lineBackground)
-      HelicopterGunDirection(style.lineBackground)
-//      HelicopterFlightVector(style.lineBackground)   //Item deleted due to confussion for begginers
-      HelicopterVertSpeed(style.lineBackground)
-      
-      HelicopterRocketAim(style.lineForeground)
-      HelicopterFlightDirection(style.lineForeground)
-      HelicopterGunDirection(style.lineForeground)
-//      HelicopterFlightVector(style.lineForeground)   //Item deleted due to confussion for begginers
-      HelicopterVertSpeed(style.lineForeground)
-
-    ]
+    children = children 
   }
 }
 

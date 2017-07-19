@@ -1,3 +1,10 @@
+// For smooth migration
+if ("ROBJ_DTEXT" in ::getconsttable()) {
+  ::ROBJ_TEXT <- ROBJ_DTEXT
+} else {
+  ::ROBJ_DTEXT <- ROBJ_TEXT
+}
+
 function max(a,b) {
   return a>b ? a : b
 }
