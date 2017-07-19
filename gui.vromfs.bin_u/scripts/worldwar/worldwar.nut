@@ -375,6 +375,7 @@ function g_world_war::onEventLoginComplete(p)
 {
   loadLastPlayed()
   ::g_ww_global_status.refreshData()
+  updateUserlogsAccess()
 }
 
 function g_world_war::onEventScriptsReloaded(p)
@@ -1222,6 +1223,19 @@ function g_world_war::addOperationInvite(operationId, clanName, isStarted)
 function g_world_war::getSaveOperationLogId()
 {
   return WW_LAST_OPERATION_LOG_SAVE_ID + ::ww_get_operation_id()
+}
+
+function g_world_war::updateUserlogsAccess()
+{
+  if (!::is_worldwar_enabled())
+    return
+
+  local wwUserLogTypes = [::EULT_WW_START_OPERATION,
+                          ::EULT_WW_CREATE_OPERATION,
+                          ::EULT_WW_END_OPERATION]
+  for (local i = ::hidden_userlogs.len() - 1; i >= 0; i--)
+    if (::isInArray(::hidden_userlogs[i], wwUserLogTypes))
+      ::hidden_userlogs.remove(i)
 }
 
 function ww_event(name, params = {})

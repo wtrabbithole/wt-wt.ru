@@ -19,6 +19,12 @@
     <</delimetrRightPadding>>
     armyName:t='<<name>>'
     clanId:t='<<clanId>>'
+    <<#isArmyAlwaysUnhovered>>
+      canBeHovered:t='no'
+    <</isArmyAlwaysUnhovered>>
+    <<^isArmyAlwaysUnhovered>>
+      canBeHovered:t='yes'
+    <</isArmyAlwaysUnhovered>>
     <<#addArmySelectCb>>
       on_change_value:t = '<<#customCbName>><<customCbName>><</customCbName>><<^customCbName>>onChangeArmyValue<</customCbName>>'
     <</addArmySelectCb>>
@@ -116,16 +122,16 @@
       }
     <</hideArrivalTime>>
 
-    <<#showVehiclesAmountText>>
+    <<#needShortInfoText>>
     <<#reqUnitTypeIcon>>
     activeText {
       top:t='50%ph-50%h'
       position:t='relative'
       padding-left:t='1@framePadding'
-      text:t='<<getVehiclesAmountText>>'
+      text:t='<<getShortInfoText>>'
     }
     <</reqUnitTypeIcon>>
-    <</showVehiclesAmountText>>
+    <</needShortInfoText>>
   }
   <<#getHasVersusText>>
   activeText {

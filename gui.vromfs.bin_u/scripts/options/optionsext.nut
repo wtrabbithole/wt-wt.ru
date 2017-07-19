@@ -729,6 +729,14 @@ function get_option(type, context = null)
   local descr = create_option()
   descr.type = type
   descr.context = context
+
+  if(::u.isString(type))
+  {
+    descr.controlType = optionControlType.HEADER
+    descr.getTitle = function() { return descr.type }
+    return descr
+  }
+
   if ("onChangeCb" in context)
     descr.onChangeCb = context.onChangeCb
 
@@ -4842,7 +4850,11 @@ function create_options_container(name, options, is_focused, is_centered, column
         break
     }
 
-    if (elemTxt != null && elemTxt.len() > 0)
+    local optionTitleStyle = "optiontext";
+    if(optionData.controlType == optionControlType.HEADER)
+      optionTitleStyle = "optionBlockHeader"
+
+    if (elemTxt != null)
     {
       if (isVlist)
       {
@@ -4854,7 +4866,7 @@ function create_options_container(name, options, is_focused, is_centered, column
         local tdText = ""
         if (haveOptText)
           tdText = optionData.getTitle()
-        rowData += "td { cellType:t='left'; width:t='" + wLeft + "'; overflow:t='hidden'; optiontext { id:t = 'lbl_" + optionData.id + "'; text:t ='" + tdText + "'; } }"
+        rowData += "td { overflow:t='hidden'; cellType:t='left'; width:t='" + wLeft + "'; " + optionTitleStyle + " { id:t = 'lbl_" + optionData.id + "'; text:t ='" + tdText + "'; } }"
         rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemTxt + " }"
       }
 

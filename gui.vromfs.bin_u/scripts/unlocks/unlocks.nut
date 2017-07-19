@@ -1748,6 +1748,26 @@ function g_unlocks::checkUnlockString(string)
   return true
 }
 
+function g_unlocks::buyUnlock(unlockData, onSuccessCb = null, onAfterCheckCb = null)
+{
+  local unlock = unlockData
+  if (::u.isString(unlockData))
+    unlock = ::g_unlocks.getUnlockById(unlockData)
+
+  if (!::check_balance_msgBox(::get_unlock_cost(unlock.id), onAfterCheckCb))
+    return
+
+  local taskId = ::shop_buy_unlock(unlock.id)
+  ::g_tasker.addTask(taskId, {
+      showProgressBox = true,
+      showErrorMessageBox = false
+      progressBoxText = ::loc("charServer/purchase")
+    },
+    onSuccessCb,
+    @(result) ::g_popups.add(::getErrorText(result), "")
+  )
+}
+
 // Favorite Unlocks
 
 function g_unlocks::getFavoriteUnlocks()

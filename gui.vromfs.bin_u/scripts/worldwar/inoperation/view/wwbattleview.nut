@@ -137,8 +137,8 @@ class ::WwBattleView
         showArmyGroupText = false
         hasTextAfterIcon = true
         battleDescriptionIconSize = iconSize
-        showVehiclesAmountText = true
-        showVehiclesAmountText = hasArmyInfo
+        isArmyAlwaysUnhovered = true
+        needShortInfoText = hasArmyInfo
         hasTextAfterIcon = hasArmyInfo
       }
 
@@ -157,9 +157,7 @@ class ::WwBattleView
         invert = invert
         teamName = team.name
         armies = armies
-        hasTeamSize = team.minPlayers && team.maxPlayers
-        maxPlayers = team.maxPlayers
-        minPlayers = team.minPlayers
+        teamSizeText = getTeamSizeText(team)
         haveUnitsList = avaliableUnits.len()
         unitsList = unitsList(avaliableUnits, invert && isInBattlePanel, isInBattlePanel)
         haveAIUnitsList = aiUnits.len()
@@ -171,6 +169,19 @@ class ::WwBattleView
       team.armies.maxSideArmiesNumber = maxSideArmiesNumber
 
     return teams
+  }
+
+  function getTeamSizeText(team)
+  {
+    local minPlayers = ::getTblValue("minPlayers", team)
+    local maxPlayers = ::getTblValue("maxPlayers", team)
+    if (!minPlayers || !maxPlayers)
+      return ::loc("worldWar/unavailable_for_team")
+
+    local curPlayers = ::getTblValue("players", team)
+    return battle.isConfirmed() ?
+      ::loc("worldwar/battle/playersCurMax", { cur = curPlayers, max = maxPlayers }) :
+      ::loc("worldwar/battle/playersMinMax", { min = minPlayers, max = maxPlayers })
   }
 
   function unitsList(wwUnits, isReflected, hasLineSpacing)

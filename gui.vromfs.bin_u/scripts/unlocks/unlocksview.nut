@@ -199,3 +199,21 @@ function g_unlock_view::fillUnlockFavCheckbox(obj)
     "mainmenu/UnlockAchievementsRemoveFromFavorite/hint" :
     "mainmenu/UnlockAchievementsToFavorite/hint")
 }
+
+function g_unlock_view::fillUnlockPurchaseButton(unlockData, unlockObj)
+{
+  local purchButtonObj = unlockObj.findObject("purchase_button")
+  if (!::check_obj(purchButtonObj))
+    return
+
+  purchButtonObj.unlockId = unlockData.id
+  local isUnlocked = ::is_unlocked_scripted(-1, unlockData.id)
+  local haveStages = ::getTblValue("stages", unlockData, []).len() > 1
+  local cost = ::get_unlock_cost(unlockData.id)
+  local canSpendGold = cost.gold == 0 || ::has_feature("SpendGold")
+
+  local show = canSpendGold && !haveStages && !isUnlocked && !cost.isZero()
+  purchButtonObj.show(show)
+  if (show)
+    ::placePriceTextToButton(unlockObj, "purchase_button", ::loc("mainmenu/btnBuy"), cost)
+}

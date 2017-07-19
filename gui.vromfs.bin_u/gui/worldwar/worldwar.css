@@ -206,7 +206,7 @@ armyBlock[surrounded=yes] > armyIcon > background {
   foreground-color:@teamRedColor;
 }
 
-armyBlock:hover > armyIcon > background,
+armyBlock[canBeHovered=yes]:hover > armyIcon > background,
 armyBlock[isForceHovered=yes] > armyIcon > background {
   foreground-color:@armyForegroundImageHover;
 }

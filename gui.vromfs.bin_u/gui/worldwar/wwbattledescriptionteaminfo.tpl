@@ -13,45 +13,36 @@ tdiv {
       <<^invert>>
       img {
         size:t='50*@sf/@pf, 26*@sf/@pf'
-        margin-right:t='15*@sf/@pf'
-        pos:t='0, 50%(ph-h)'; position:t='relative'
+        margin:t='1@framePadding, 0'
         background-image:t='<<countryIconBig>>'
       }
-      tdiv {
-        pos:t='0, 50%(ph-h)'; position:t='relative'
-        flow:t='h-flow'
-        flow-align:t='left'
-        <<@armyViews>>
-      }
       <</invert>>
+      wwBattleTeamSize {
+        top:t='50%(ph-h)'
+        position:t='relative'
+        activeText { text:t='<<teamSizeText>>' }
+      }
       <<#invert>>
       pos:t='pw-w'; position:t='relative'
-      tdiv {
-        pos:t='0, 50%(ph-h)'; position:t='relative'
-        flow:t='h-flow'
-        flow-align:t='left'
-        <<@armyViews>>
-      }
       img {
         size:t='50*@sf/@pf, 26*@sf/@pf'
-        pos:t='0, 50%(ph-h)'; position:t='relative'
+        margin:t='1@framePadding, 0'
         background-image:t='<<countryIconBig>>'
       }
       <</invert>>
     }
-    <</armies>>
 
-    wwBattleTeamSize {
+    tdiv {
       <<#invert>>
       pos:t='pw-w'; position:t='relative'
       <</invert>>
-      <<#hasTeamSize>>
-      activeText { text:t='#events/players_short'; fontNormal:t='yes' }
-      activeText { text:t='<<minPlayers>> - <<maxPlayers>>'; fontNormal:t='yes' }
-      <</hasTeamSize>>
-      <<^hasTeamSize>>
-      activeText { text:t='#worldWar/unavailable_for_team'; fontNormal:t='yes' }
-      <</hasTeamSize>>
+      tdiv {
+        pos:t='0, 50%(ph-h)'; position:t='relative'
+        flow:t='h-flow'
+        flow-align:t='left'
+        <<@armyViews>>
+      }
     }
+    <</armies>>
   }
 }

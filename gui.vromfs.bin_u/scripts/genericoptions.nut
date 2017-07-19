@@ -105,10 +105,14 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
       foreach(idx, option in container.data)
       {
+        if(option.controlType == optionControlType.HEADER)
+          continue
+
         local obj = getObj(option.id)
         if (!::checkObj(obj))
         {
-          ::dagor.assertf(false, "Error: not found obj for option " + option.id + ", type = " + option.type)
+          ::script_net_assert_once("Bad option",
+            "Error: not found obj for option " + option.id + ", type = " + option.type)
           continue
         }
 

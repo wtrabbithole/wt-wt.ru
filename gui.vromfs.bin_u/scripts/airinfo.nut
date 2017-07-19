@@ -311,7 +311,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
 
       icon       = "#ui/gameuiskin#slot_repair"
       haveWarning = true
-      showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name)>0
+      showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name) > 0 && ::SessionLobby.canChangeCrewUnits()
       actionFunc = (@(unit, handler) function () {
         handler.showMsgBoxRepair.call(handler, unit, (@(unit) function () {::check_and_repair_unit(unit)})(unit))
       })(unit, handler)

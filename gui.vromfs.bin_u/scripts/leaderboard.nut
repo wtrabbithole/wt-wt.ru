@@ -861,7 +861,7 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
     local sortLeaderboard = ::getTblValue("sort_leaderboard", eventData, null)
     curLbCategory = (sortLeaderboard != null)
       ? ::g_lb_category.getTypeByField(sortLeaderboard)
-      : ::events.getTableConfigShortRowByEventType(request.tournament_mode)
+      : ::events.getTableConfigShortRowByEvent(eventData)
 
     initTopItems()
 

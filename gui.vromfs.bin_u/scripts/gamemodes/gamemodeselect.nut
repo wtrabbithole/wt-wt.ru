@@ -141,23 +141,28 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function createFeaturedModesView()
   {
     local view = []
-    local featuredGameModes = ::game_mode_manager.getPveBattlesGameModes()
-    featuredGameModes.extend(::game_mode_manager.getFeaturedGameModes())
-    local numNonWideGameModes = 0
+    view.extend(getViewArray(::game_mode_manager.getPveBattlesGameModes()))
+    view.extend(getViewArray(::game_mode_manager.getFeaturedGameModes()))
+    view.extend(createFeaturedLinksView())
+    return view
+  }
+
+  function getViewArray(gameModesArray)
+  {
+    local view = []
     // First go all wide featured game modes then - non-wide.
+    local numNonWideGameModes = 0
     foreach (isWide in [true, false])
     {
       while (true)
       {
-        local gameMode = getGameModeByCondition(featuredGameModes, (@(isWide) function (gameMode) {
-          return gameMode.displayWide == isWide
-        })(isWide))
+        local gameMode = getGameModeByCondition(gameModesArray, @(gameMode) gameMode.displayWide == isWide)
         if (gameMode == null)
           break
         if (!isWide)
           ++numNonWideGameModes
-        local index = ::find_in_array(featuredGameModes, gameMode)
-        featuredGameModes.remove(index)
+        local index = ::find_in_array(gameModesArray, gameMode)
+        gameModesArray.remove(index)
         view.push(createGameModeView(gameMode))
       }
     }
@@ -165,7 +170,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     // Putting a dummy block to show featured links in one line.
     if ((numNonWideGameModes & 1) == 1)
       view.push(createGameModeView(null))
-    view.extend(createFeaturedLinksView())
     return view
   }
 

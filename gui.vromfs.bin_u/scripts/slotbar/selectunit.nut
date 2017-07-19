@@ -18,6 +18,8 @@ function gui_start_select_unit(countryId, idInCountry, handler, config = null)
 {
   if (!::SessionLobby.canChangeCrewUnits())
     return
+  if (!::CrewTakeUnitProcess.safeInterrupt())
+    return
 
   local slotbarObj = ::get_slotbar_obj(handler, handler.slotbarScene)
   local slotObj = ::get_slot_obj(slotbarObj, countryId, idInCountry)
@@ -41,7 +43,7 @@ function gui_start_select_unit(countryId, idInCountry, handler, config = null)
     ownerWeak = handler,
     crew = crew
   }
-  ::gui_start_modal_wnd(::gui_handlers.SelectUnit, params)
+  ::handlersManager.destroyPrevHandlerAndLoadNew(::gui_handlers.SelectUnit, params)
 }
 
 class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT

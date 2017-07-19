@@ -388,9 +388,11 @@ class ::WwArmyView
       ::loc("weapon/torpedoIcon")
   }
 
-  function getVehiclesAmountText()
+  function getShortInfoText()
   {
     local text = getUnitsCountTextIcon()
+    if (!isArtillery())
+      text += " " + getMoralText()
     return ::u.isEmpty(text) ? "" : ::loc("ui/parentheses", { text = text })
   }
 

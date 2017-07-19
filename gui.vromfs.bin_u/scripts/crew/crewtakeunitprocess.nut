@@ -20,6 +20,10 @@ enum CTU_PROGRESS {
 
   static function getProcessCost(crew, unit, country = null)
     return cost of full CrewTakeUnitProcess
+
+  static function safeInterrupt()
+    interrupt process when it in the safe state for interruption
+    return false if process still exist.
 */
 
 class ::CrewTakeUnitProcess
@@ -228,6 +232,18 @@ class ::CrewTakeUnitProcess
     return activeProcesses.len() > 0 && !activeProcesses[0].isStuck()
   }
 
+  static function safeInterrupt()
+  {
+    if (!hasActiveProcess())
+      return true
+
+    if (!activeProcesses[0].canBeInterrupted())
+      return false
+
+    activeProcesses[0].remove()
+    return true
+  }
+
   function isValid()
   {
     return ::getTblValue(0, activeProcesses) == this
@@ -238,6 +254,11 @@ class ::CrewTakeUnitProcess
     return crew == process.crew
            && unit == process.unit
            && country == process.country
+  }
+
+  function canBeInterrupted()
+  {
+    return curProgress != CTU_PROGRESS.HIRE_CREW && curProgress != CTU_PROGRESS.TAKE_UNIT
   }
 
   function isReadyToStart()

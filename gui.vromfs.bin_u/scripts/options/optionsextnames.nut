@@ -4,6 +4,7 @@ enum optionControlType {
   SLIDER
   CHECKBOX
   EDITBOX
+  HEADER
 }
 
 enum AIR_MOUSE_USAGE {

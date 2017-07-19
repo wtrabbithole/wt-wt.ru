@@ -119,8 +119,9 @@ function g_lb_category::_getAdditionalTooltipPart(row)
   ownProfileOnly = false  //show row only if in checkVisibility params will be set flag "isOwnStats"
   additionalTooltipCategoryes = null
   hideInAdditionalTooltipIfZero = false
-  sortDefaultFilter = null // This field is sort default for following events.
-  showFieldFilter = null // This field will show up only for following events.
+  isSortDefaultFilter = false // This field is sort default for events where it is visible.
+  showFieldFilter = null // This field will show up only for following events (by tournament_mode).
+  showEventFilterFunc = null // This field will show up only for following events (by eventData).
 
   getAdditionalTooltipPart = ::g_lb_category._getAdditionalTooltipPart
 
@@ -146,6 +147,19 @@ function g_lb_category::_getAdditionalTooltipPart(row)
     return modesMask == LB_MODE.ALL ||
            (::getTblValue(modeName, ::lb_mode_name, 0) & modesMask) != 0
   }
+
+  isVisibleInEvent = function(event)
+  {
+    if (showFieldFilter && !::isInArray(::events.getEventTournamentMode(event), showFieldFilter))
+      return false
+
+    if (showEventFilterFunc && !showEventFilterFunc(event))
+      return false
+
+    return true
+  }
+
+  isDefaultSortRowInEvent = @(event) isSortDefaultFilter && isVisibleInEvent(event)
 }
 
 
@@ -378,12 +392,7 @@ function g_lb_category::_typeConstructor ()
       headerImage = "dr_era5"
       headerTooltip = "personal_elo"
 
-      sortDefaultFilter = [
-        GAME_EVENT_TYPE.TM_NONE_RACE,
-        GAME_EVENT_TYPE.TM_ELO_PERSONAL,
-        GAME_EVENT_TYPE.TM_ELO_GROUP,
-        GAME_EVENT_TYPE.TM_DOUBLE_ELIMINATION
-      ]
+      isSortDefaultFilter = true
 
       showFieldFilter = [
         GAME_EVENT_TYPE.TM_NONE_RACE,
@@ -424,7 +433,7 @@ function g_lb_category::_typeConstructor ()
     EVENTS_WP_TOTAL_GAINED = {
       field = "wpEarned"
       visualKey = "wp_total_gained"
-      sortDefaultFilter = [GAME_EVENT_TYPE.TM_NONE]
+      isSortDefaultFilter = true
       showFieldFilter = [GAME_EVENT_TYPE.TM_NONE]
     }
 
@@ -433,6 +442,19 @@ function g_lb_category::_typeConstructor ()
       visualKey = "air_ground_kills"
       hideInAdditionalTooltipIfZero = true
       additionalTooltipCategoryes = ["EVENTS_AIR_KILLS", "EVENTS_GROUND_KILLS"]
+    }
+
+    EVENTS_SUPERIORITY = {
+      field = "superiority"
+      visualKey = "average_relative_position"
+      headerTooltip = "averageRelativePosition"
+      type = ::g_lb_data_type.PERCENT
+      additionalTooltipCategoryes = ["AVERAGE_POSITION"]
+      isSortDefaultFilter = true
+      showFieldFilter = [GAME_EVENT_TYPE.TM_NONE]
+      showEventFilterFunc = function (event) {
+        return ::events.isEventLastManStanding(event)
+      }
     }
   },
 ::g_lb_category._typeConstructor, "id")

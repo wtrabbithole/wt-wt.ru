@@ -1,6 +1,9 @@
 ::hidden_userlogs <- [
   ::EULT_NEW_STREAK,
-  ::EULT_SESSION_START
+  ::EULT_SESSION_START,
+  ::EULT_WW_START_OPERATION,
+  ::EULT_WW_CREATE_OPERATION,
+  ::EULT_WW_END_OPERATION
 ]
 
 ::popup_userlogs <- [
@@ -91,6 +94,7 @@
   }
   {
     id="worldWar"
+    reqFeature = "WorldWar"
     show = [::EULT_WW_START_OPERATION, ::EULT_WW_CREATE_OPERATION, ::EULT_WW_END_OPERATION]
   }
 ]

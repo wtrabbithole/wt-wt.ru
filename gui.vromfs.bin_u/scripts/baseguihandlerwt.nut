@@ -328,8 +328,11 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return rootHandlerWeak.onShowHud(show)
 
     guiScene.showCursor(show);
-    if (::checkObj(scene))
-      scene.show(show)
+    if (!::check_obj(scene))
+      return
+
+    scene.show(show)
+    guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
   }
 
   function startOnlineShop(type=null, afterCloseShop = null)

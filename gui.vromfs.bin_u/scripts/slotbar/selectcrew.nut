@@ -1,6 +1,7 @@
 function gui_start_selecting_crew(config)
 {
-  ::gui_start_modal_wnd(::gui_handlers.SelectCrew, config)
+  if (::CrewTakeUnitProcess.safeInterrupt())
+    ::handlersManager.destroyPrevHandlerAndLoadNew(::gui_handlers.SelectCrew, config)
 }
 
 class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT

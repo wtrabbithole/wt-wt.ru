@@ -540,14 +540,6 @@ function preload_ingame_scenes()
   ::set_chat_handler(::get_game_chat_handler())
 }
 
-function on_show_hud(show = true)
-{
-  local handler = ::handlersManager.getActiveBaseHandler()
-  if (handler && ("onShowHud" in handler))
-    handler.onShowHud(show)
-  ::broadcastEvent("ShowHud", { show = show })
-}
-
 function getExpireText(expireMin)
 {
   if (expireMin < TIME_MINUTE_IN_SECONDS)

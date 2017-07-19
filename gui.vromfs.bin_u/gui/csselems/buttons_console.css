@@ -1323,6 +1323,14 @@ ButtonImg[showOn=selectedAndEnabled] {
   display:hide;
 }
 
+Button_text[enableOn=hoverOrSelect] {
+  enable:no;
+}
+
+[selected=yes] Button_text[enableOn=hoverOrSelect], :hover Button_text[enableOn=hoverOrSelect] {
+  enable:yes;
+}
+
 Button_text.profileImg {
   reduceMinimalWidth:yes;
   height:1@profileUnlockIconSize + 10;

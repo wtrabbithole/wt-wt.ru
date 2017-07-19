@@ -41,6 +41,7 @@ class Events
 
   eventsTableConfig = [
     ::g_lb_category.EVENTS_PERSONAL_ELO
+    ::g_lb_category.EVENTS_SUPERIORITY
     ::g_lb_category.EVENTS_EACH_PLAYER_FASTLAP
     ::g_lb_category.EVENTS_EACH_PLAYER_VICTORIES
     ::g_lb_category.EVENTS_EACH_PLAYER_SESSION
@@ -75,15 +76,11 @@ class Events
         brToTier[p2.x] <- p2.y.tointeger()
   }
 
-  function getTableConfigShortRowByEventType(eventType)
+  function getTableConfigShortRowByEvent(event)
   {
     foreach (row in eventsTableConfig)
-    {
-      if (row.sortDefaultFilter == null)
-        continue
-      if (::isInArray(eventType, row.sortDefaultFilter))
+      if (row.isDefaultSortRowInEvent(event))
         return row
-    }
     return null
   }
 
@@ -340,7 +337,7 @@ class Events
     if (::my_stats.isNewbieEventId(event_data.name))
       result = EVENT_TYPE.NEWBIE_BATTLES
     else if (::getTblValue("tournament", event_data, false)
-      && ::getTblValue("tournament_mode", event_data, GAME_EVENT_TYPE.TM_NONE) != GAME_EVENT_TYPE.TM_NONE_RACE)
+      && getEventTournamentMode(event_data) != GAME_EVENT_TYPE.TM_NONE_RACE)
         result = EVENT_TYPE.TOURNAMENT
     else
       result = EVENT_TYPE.SINGLE
@@ -348,6 +345,11 @@ class Events
     if (::getTblValue("clanBattle", event_data, false))
       result = result | EVENT_TYPE.CLAN
     return result
+  }
+
+  function getEventTournamentMode(event)
+  {
+    return ::getTblValue("tournament_mode", event, GAME_EVENT_TYPE.TM_NONE)
   }
 
   function _initEventViewData(eventData)
@@ -1741,6 +1743,11 @@ class Events
     return ::isInArray("races_template", event_data.templates)
   }
 
+  function isEventLastManStanding(event)
+  {
+    return ("mission_decl" in event) && ("br_area_change_time" in event.mission_decl)
+  }
+
   function isEventTanksCompatible(eventId)
   {
     local event = getEvent(eventId)
@@ -1795,11 +1802,8 @@ class Events
     if (!::leaderboardModel.checkLbRowVisibility(row, params))
       return false
 
-    if (!row.showFieldFilter)
-      return true
     local event = ::events.getEvent(::getTblValue("eventId", params))
-    local tournamentMode = ::getTblValue("tournament_mode", event, GAME_EVENT_TYPE.TM_NONE)
-    return ::isInArray(tournamentMode, row.showFieldFilter)
+    return row.isVisibleInEvent(event)
   }
 
   function fillAirsList(handler, teamObj, teamData, allowedUnitTypes, roomSpecialRules = null)
@@ -2538,7 +2542,7 @@ class Events
 
   function isEventForClanGlobalLb(event)
   {
-    local tournamentMode = ::getTblValue("tournament_mode", event, GAME_EVENT_TYPE.TM_NONE)
+    local tournamentMode = getEventTournamentMode(event)
     local forClans = _leaderboards.isClanLeaderboard(event)
 
     return tournamentMode == GAME_EVENT_TYPE.TM_NONE && forClans
