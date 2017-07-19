@@ -653,6 +653,7 @@ function load_scripts_after_login()
     "hud/hudShipDebuffs.nut"
     "hud/hudDisplayTimers.nut"
     "hud/hudCrewState.nut"
+    "hud/hudEnemyDebuffsType.nut"
     "hud/hudEnemyDamage.nut"
     "hud/hudRewardMessage.nut"
     "hud/hudMessages.nut"

@@ -703,12 +703,38 @@
             }
           },
           {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "t1_flag",
+              "movable": true
+            }
+          },
+          {
+            "unitMoveTo": {
+              "target": "players_squad",
+              "waypointReachedDist": 1.0,
+              "recalculatePathDist": -1.0,
+              "follow_target": false,
+              "teleportHeightType": "absolute",
+              "useUnitHeightForTele": true,
+              "shouldKeepFormation": false,
+              "teleportHeightValue": 1000.0,
+              "horizontalDirectionForTeleport": true,
+              "object_marking": 0,
+              "target_marking": 1,
+              "object": "t1_flag",
+              "object_type": "any",
+              "target_type": "isMarked",
+              "move_type": "teleport"
+            }
+          },
+          {
             "triggerEnable": {
               "target": "drawer_t1_flag_holder_erase"
             }
           },
           {
-            "unitMoveTo": {
+            "__unitMoveTo": {
               "target": "t1_flag_dummy",
               "waypointReachedDist": 1.0,
               "recalculatePathDist": -1.0,
@@ -780,7 +806,7 @@
         },
         "conditions": {
           "unitDistanceBetween": {
-            "value": 5.0,
+            "value": 8.0,
             "math": "2D",
             "object_type": "isAlive",
             "object_marking": 0,
@@ -1157,12 +1183,38 @@
             }
           },
           {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "t2_flag",
+              "movable": true
+            }
+          },
+          {
+            "unitMoveTo": {
+              "target": "players_squad",
+              "waypointReachedDist": 1.0,
+              "recalculatePathDist": -1.0,
+              "follow_target": false,
+              "teleportHeightType": "absolute",
+              "useUnitHeightForTele": true,
+              "shouldKeepFormation": false,
+              "teleportHeightValue": 1000.0,
+              "horizontalDirectionForTeleport": true,
+              "object_marking": 0,
+              "target_marking": 2,
+              "object": "t2_flag",
+              "object_type": "any",
+              "target_type": "isMarked",
+              "move_type": "teleport"
+            }
+          },
+          {
             "triggerEnable": {
               "target": "drawer_t2_flag_holder_erase"
             }
           },
           {
-            "unitMoveTo": {
+            "__unitMoveTo": {
               "target": "t2_flag_dummy",
               "waypointReachedDist": 1.0,
               "recalculatePathDist": -1.0,
@@ -1234,7 +1286,7 @@
         },
         "conditions": {
           "unitDistanceBetween": {
-            "value": 5.0,
+            "value": 8.0,
             "math": "2D",
             "object_type": "isAlive",
             "object_marking": 0,
@@ -1312,7 +1364,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1359,7 +1411,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1406,7 +1458,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1453,7 +1505,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1500,7 +1552,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1547,7 +1599,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1594,7 +1646,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1641,7 +1693,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1688,7 +1740,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1735,7 +1787,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1782,7 +1834,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1829,7 +1881,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1876,7 +1928,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1923,7 +1975,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -1970,7 +2022,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2017,7 +2069,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2064,7 +2116,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2111,7 +2163,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2158,7 +2210,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2205,7 +2257,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2252,7 +2304,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2299,7 +2351,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2346,7 +2398,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2393,7 +2445,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2440,7 +2492,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2487,7 +2539,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2534,7 +2586,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2581,7 +2633,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2628,7 +2680,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2675,7 +2727,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2722,7 +2774,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -2769,7 +2821,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4494,7 +4546,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4541,7 +4593,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4588,7 +4640,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4635,7 +4687,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4682,7 +4734,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4729,7 +4781,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4776,7 +4828,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4823,7 +4875,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4870,7 +4922,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4917,7 +4969,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -4964,7 +5016,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5011,7 +5063,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5058,7 +5110,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5105,7 +5157,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5152,7 +5204,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5199,7 +5251,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5246,7 +5298,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5293,7 +5345,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5340,7 +5392,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5387,7 +5439,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5434,7 +5486,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5481,7 +5533,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5528,7 +5580,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5575,7 +5627,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5622,7 +5674,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5669,7 +5721,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5716,7 +5768,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5763,7 +5815,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5810,7 +5862,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5857,7 +5909,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5904,7 +5956,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
@@ -5951,7 +6003,7 @@
           },
           "conditions": {
             "unitDistanceBetween": {
-              "value": 3.0,
+              "value": 8.0,
               "math": "2D",
               "object_type": "isAlive",
               "object_marking": 0,
