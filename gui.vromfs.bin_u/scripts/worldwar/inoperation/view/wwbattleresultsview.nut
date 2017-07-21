@@ -56,7 +56,9 @@ class ::WwBattleResultsView
   function getBattleTitle()
   {
     local localizedName = getLocName()
-    return (localizedName != "") ? localizedName : ::loc("worldwar/autoModeBattle")
+    local missionTitle = (localizedName != "") ? localizedName : ::loc("worldwar/autoModeBattle")
+    local battleName = ::loc("worldWar/battleName", { number = battleRes.ordinalNumber })
+    return battleName + " " + missionTitle
   }
 
   function getBattleDescText()
@@ -75,6 +77,11 @@ class ::WwBattleResultsView
     local color = isWinner ? "wwTeamAllyColor" : "wwTeamEnemyColor"
     local result = ::loc("worldwar/log/battle_finished" + (isWinner ? "_win" : "_lose"))
     return ::colorize(color, result)
+  }
+
+  function isBattleResultsIgnored()
+  {
+    return battleRes.isBattleResultsIgnored
   }
 
   function getArmyStateText(wwArmy, armyState)
@@ -109,6 +116,9 @@ class ::WwBattleResultsView
     // unitsRemain snapshot is taken some moments AFTER the battle finish time, and its counts can be lower
     //   than it should, because army loses extra units while retreating. Thats why unitsRemain is unreliable.
 
+    // Vehicle units have unitsInitial, unitsCasualties, and unitsRemain which is unreliable (must be calculated as initial-casualties).
+    // But anyway, vehicle units must extract remainInactive from that unreliable unitsRemain (it can be non-zero for Aircrafts).
+
     teamInfo.unitsInitial.sort(::g_world_war.sortUnitsByTypeAndCount)
     foreach (wwUnit in teamInfo.unitsInitial)
     {
@@ -119,29 +129,23 @@ class ::WwBattleResultsView
       local initialActive = wwUnit.count
       local initialInactive = wwUnit.inactiveCount
 
-      local remainActive = 0
       local remainInactive = 0
       foreach (u in teamInfo.unitsRemain)
         if (u.name == unitName)
         {
-          remainActive = u.count
           remainInactive = u.inactiveCount
           break
         }
 
-      // Fake units (like Infantry) have  unitsInitial and unitsRemain, but no unitsCasualties (must be calculated as initial-remain).
-      // Vehicle units have unitsInitial, unitsCasualties, and unitsRemain which is unreliable (must be calculated as initial-casualties).
-      // But anyway, vehicle units must extract remainInactive from that unreliable unitsRemain (it can be non-zero for Aircrafts).
-
-      local casualties = (initialActive + initialInactive) - (remainActive + remainInactive)
+      local casualties = 0
       foreach (u in teamInfo.unitsCasualties)
         if (u.name == unitName)
         {
           casualties = u.count + u.inactiveCount
-          remainActive = (initialActive + initialInactive) - casualties - remainInactive // Fixes vehicle units remain counts
           break
         }
 
+      local remainActive = (initialActive + initialInactive) - casualties - remainInactive // Fixes vehicle units remain counts
       local inactiveAdded = remainInactive - initialInactive
 
       if (wwUnitTypeCode in unitTypeStats)

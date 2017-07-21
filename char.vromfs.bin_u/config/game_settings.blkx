@@ -189,12 +189,104 @@
     "battle_unit": 3,
     "tutorial_end_battle": 4
   },
+  "avgAirRankSpeed": {
+    "rank0": 300,
+    "rank1": 310,
+    "rank2": 320,
+    "rank3": 330,
+    "rank4": 340,
+    "rank5": 350,
+    "rank6": 360,
+    "rank7": 370,
+    "rank8": 380,
+    "rank9": 390,
+    "rank10": 400,
+    "rank11": 410,
+    "rank12": 420,
+    "rank13": 430,
+    "rank14": 440,
+    "rank15": 450,
+    "rank16": 460,
+    "rank17": 600,
+    "rank18": 610,
+    "rank19": 620,
+    "rank20": 630,
+    "rank21": 640,
+    "rank22": 650,
+    "rank23": 660,
+    "rank24": 670,
+    "rank25": 680
+  },
+  "avgTankRankSpeed": {
+    "rank0": 40,
+    "rank1": 40,
+    "rank2": 40,
+    "rank3": 40,
+    "rank4": 40,
+    "rank5": 40,
+    "rank6": 40,
+    "rank7": 40,
+    "rank8": 40,
+    "rank9": 40,
+    "rank10": 40,
+    "rank11": 40,
+    "rank12": 40,
+    "rank13": 40,
+    "rank14": 40,
+    "rank15": 40,
+    "rank16": 40,
+    "rank17": 40,
+    "rank18": 40,
+    "rank19": 40,
+    "rank20": 40,
+    "rank21": 40,
+    "rank22": 40,
+    "rank23": 40,
+    "rank24": 40,
+    "rank25": 40
+  },
+  "squadronStatisticsFilter": {
+    "fullreal": false
+  },
+  "promo_block": {
+    "events_mainmenu_button": {
+      "color": "#33556126",
+      "action": "events"
+    },
+    "tutorial_mainmenu_button": {
+      "color": "#331e5876",
+      "notifyNew": true,
+      "action": "tutorial"
+    },
+    "battle_tasks_mainmenu_button": {
+      "color": "#33fb4417",
+      "text": "#mainmenu/btnBattleTasks",
+      "action": "battle_tasks"
+    }
+  },
+  "time_to_kick": {
+    "show_timer_threshold": 30,
+    "show_alert_threshold": 15,
+    "in_battle_show_timer_threshold": 150,
+    "in_battle_show_alert_threshold": 50
+  },
+  "testFlight_override": {
+    "HChinese": {
+      "testFlight_midway_japanese": "testFlight_ruhr",
+      "testFlight_peleliu_hydrobase": "testFlight_honolulu_hydrobase",
+      "testFlight_peleliu": "testFlight_ruhr",
+      "testFlight_norway_hydrobase": "testFlight_britain_hydroplane"
+    }
+  },
   "features": {
     "SpendGold": {
       "condition": ""
     },
     "CrewSkills": {
       "condition": ""
+    },
+    "CrewBuyAllSkills": {
+      "condition": "role_DEVELOPER"
     },
     "UserLog": {
       "condition": ""
@@ -435,17 +527,9 @@
     "JapanTanksInFirstCountryChoice": {
       "condition": ""
     },
-    "ItalyAircraftsInFirstCountryChoice": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "ItalyAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
     "Helicopters": [
       {
         "condition": "role_GAIJIN"
@@ -980,37 +1064,12 @@
     "BritainTanksUnlocked": {
       "condition": ""
     },
-    "JapanTanksUnlocked": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "wt_access_japan_tanks_unlocks"
-      }
-    ],
-    "ItalianAircraftUnlocked": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "wt_access_italian_aircrafts_unlocks"
-      }
-    ],
+    "JapanTanksUnlocked": {
+      "condition": ""
+    },
+    "ItalianAircraftUnlocked": {
+      "condition": ""
+    },
     "CountryChina": {
       "condition": "role_DEVELOPER"
     },
@@ -1103,95 +1162,9 @@
     },
     "SCEJAccount": {
       "condition": "scej_account"
-    }
-  },
-  "avgAirRankSpeed": {
-    "rank0": 300,
-    "rank1": 310,
-    "rank2": 320,
-    "rank3": 330,
-    "rank4": 340,
-    "rank5": 350,
-    "rank6": 360,
-    "rank7": 370,
-    "rank8": 380,
-    "rank9": 390,
-    "rank10": 400,
-    "rank11": 410,
-    "rank12": 420,
-    "rank13": 430,
-    "rank14": 440,
-    "rank15": 450,
-    "rank16": 460,
-    "rank17": 600,
-    "rank18": 610,
-    "rank19": 620,
-    "rank20": 630,
-    "rank21": 640,
-    "rank22": 650,
-    "rank23": 660,
-    "rank24": 670,
-    "rank25": 680
-  },
-  "avgTankRankSpeed": {
-    "rank0": 40,
-    "rank1": 40,
-    "rank2": 40,
-    "rank3": 40,
-    "rank4": 40,
-    "rank5": 40,
-    "rank6": 40,
-    "rank7": 40,
-    "rank8": 40,
-    "rank9": 40,
-    "rank10": 40,
-    "rank11": 40,
-    "rank12": 40,
-    "rank13": 40,
-    "rank14": 40,
-    "rank15": 40,
-    "rank16": 40,
-    "rank17": 40,
-    "rank18": 40,
-    "rank19": 40,
-    "rank20": 40,
-    "rank21": 40,
-    "rank22": 40,
-    "rank23": 40,
-    "rank24": 40,
-    "rank25": 40
-  },
-  "squadronStatisticsFilter": {
-    "fullreal": false
-  },
-  "promo_block": {
-    "events_mainmenu_button": {
-      "color": "#33556126",
-      "action": "events"
     },
-    "tutorial_mainmenu_button": {
-      "color": "#331e5876",
-      "notifyNew": true,
-      "action": "tutorial"
-    },
-    "battle_tasks_mainmenu_button": {
-      "color": "#33fb4417",
-      "text": "#mainmenu/btnBattleTasks",
-      "action": "battle_tasks"
-    }
-  },
-  "time_to_kick": {
-    "show_timer_threshold": 30,
-    "show_alert_threshold": 15,
-    "in_battle_show_timer_threshold": 150,
-    "in_battle_show_alert_threshold": 50
-  },
-  "testFlight_override": {
-    "HChinese": {
-      "testFlight_midway_japanese": "testFlight_ruhr",
-      "testFlight_peleliu_hydrobase": "testFlight_honolulu_hydrobase",
-      "testFlight_peleliu": "testFlight_ruhr",
-      "testFlight_norway_hydrobase": "testFlight_britain_hydroplane"
+    "newFontsSizes": {
+      "condition": "role_DEVELOPER"
     }
   }
 }

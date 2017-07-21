@@ -341,11 +341,17 @@
 
   function getLbDataFromBlk(blk, requestData)
   {
-    local res = {}
     local lbRows = lbBlkToArray(blk)
     if (isClanLbRequest(requestData))
       foreach(lbRow in lbRows)
         postProcessClanLbRow(lbRow)
+
+    local superiorityBattlesThreshold = blk.getInt("superiorityBattlesThreshold", 0)
+    if (superiorityBattlesThreshold > 0)
+      foreach(lbRow in lbRows)
+        lbRow["superiorityBattlesThreshold"] <- superiorityBattlesThreshold
+
+    local res = {}
     res["rows"] <- lbRows
     res["updateTime"] <- blk.getStr("lastUpdateTime", "0").tointeger()
     return res

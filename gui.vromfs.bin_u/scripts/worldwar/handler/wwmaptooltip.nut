@@ -1,8 +1,9 @@
 enum WW_MAP_TOOLTIP_TYPE
 {
-  NONE,
+  BATTLE,
   ARMY,
-  BATTLE
+  NONE,
+  TOTAL
 }
 
 const SHOW_TOOLTIP_DELAY_TIME = 0.35
@@ -12,29 +13,26 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
   controllerScene = null
 
-  params = null
+  specifyTypeOrder = {
+    [WW_MAP_TOOLTIP_TYPE.BATTLE] = { paramsKey = "battleName" },
+    [WW_MAP_TOOLTIP_TYPE.ARMY]   = { paramsKey = "armyName" },
+    [WW_MAP_TOOLTIP_TYPE.NONE]   = {}
+  }
 
-  specifyTypeOrder = [
-    {battleName = WW_MAP_TOOLTIP_TYPE.BATTLE},
-    {armyName = WW_MAP_TOOLTIP_TYPE.ARMY}
-  ]
-
-  currentType = null
-  currentId = ""
+  specs = null
   showTooltipTimer = null
   descriptionTimer = null
 
   function initScreen()
   {
     scene.setUserData(this) //to not unload handler even when scene not loaded
-    updateScreen()
+    updateScreen(getUpdatedSpecs())
   }
 
-  function updateScreen()
+  function updateScreen(newSpecs)
   {
-    updateSpecs()
-
-    if (currentType == WW_MAP_TOOLTIP_TYPE.NONE)
+    specs = newSpecs
+    if (specs.currentType == WW_MAP_TOOLTIP_TYPE.NONE)
       return hideTooltip()
 
     startShowTooltipTimer()
@@ -42,40 +40,42 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventWWMapUpdateCursorByTimer(p)
   {
-    if (::u.isEqual(params, p))
+    local newSpecs = getUpdatedSpecs(p)
+    if (::u.isEqual(specs, newSpecs))
       return
 
-    params = ::u.copy(p)
-    updateScreen()
+    updateScreen(newSpecs)
   }
 
   function onEventWWLoadOperation(params = {})
   {
     scene.lastCurrentId = ""
-    if (currentType != WW_MAP_TOOLTIP_TYPE.NONE)
+    if (specs.currentType != WW_MAP_TOOLTIP_TYPE.NONE)
       show()
   }
 
-  function updateSpecs()
+  function getUpdatedSpecs(p = null)
   {
-    foreach(idx, table in specifyTypeOrder)
-      foreach (key, enumType in table)
+    local specs = {
+      currentType = WW_MAP_TOOLTIP_TYPE.NONE
+      currentId = ""
+    }
+    for (local i = 0; i < WW_MAP_TOOLTIP_TYPE.TOTAL; i++)
+    {
+      local key = ::getTblValue("paramsKey", specifyTypeOrder[i])
+      if (key in p)
       {
-        if (key in params)
-        {
-          currentType = enumType
-          currentId = params[key]
-          return
-        }
+        specs.currentType = i
+        specs.currentId = p[key]
+        break
       }
-
-    currentType = WW_MAP_TOOLTIP_TYPE.NONE
-    currentId = ""
+    }
+    return specs
   }
 
   function hideTooltip()
   {
-    params = null
+    specs = getUpdatedSpecs()
     onTooltipObjClose(scene)
   }
 
@@ -105,23 +105,23 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene))
       return
 
-    local isShow = currentType != WW_MAP_TOOLTIP_TYPE.NONE && isSceneActiveNoModals()
+    local isShow = specs.currentType != WW_MAP_TOOLTIP_TYPE.NONE && isSceneActiveNoModals()
 
     scene.show(isShow)
     if (!isShow)
       return
 
-    if (scene.lastCurrentId == currentId)
+    if (scene.lastCurrentId == specs.currentId)
       return
 
-    scene.lastCurrentId = currentId
+    scene.lastCurrentId = specs.currentId
     scene.tooltipId = getWWMapIdHoveredObjectId()
     onGenericTooltipOpen(scene)
     updatePos()
 
-    if (currentType == WW_MAP_TOOLTIP_TYPE.ARMY)
+    if (specs.currentType == WW_MAP_TOOLTIP_TYPE.ARMY)
     {
-      local hoveredArmy = ::g_world_war.getArmyByName(currentId)
+      local hoveredArmy = ::g_world_war.getArmyByName(specs.currentId)
       destroyDescriptionTimer()
 
       descriptionTimer = ::Timer(
@@ -129,7 +129,7 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
       )
     }
 
-    if (currentType == WW_MAP_TOOLTIP_TYPE.BATTLE)
+    if (specs.currentType == WW_MAP_TOOLTIP_TYPE.BATTLE)
     {
       local battleDescObj = scene.findObject("battle_desc")
       if (::checkObj(battleDescObj))
@@ -144,7 +144,7 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
 
         battleDescObj.width = (2*maxTeamContentWidth) + "+4@framePadding"
 
-        local hoveredBattle = ::g_world_war.getBattleById(currentId)
+        local hoveredBattle = ::g_world_war.getBattleById(specs.currentId)
         destroyDescriptionTimer()
 
         descriptionTimer = ::Timer(
@@ -197,11 +197,11 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
 
   function getWWMapIdHoveredObjectId()
   {
-    if (currentType == WW_MAP_TOOLTIP_TYPE.BATTLE)
-      return ::g_tooltip_type.WW_MAP_TOOLTIP_TYPE_BATTLE.getTooltipId(currentId, params)
+    if (specs.currentType == WW_MAP_TOOLTIP_TYPE.BATTLE)
+      return ::g_tooltip_type.WW_MAP_TOOLTIP_TYPE_BATTLE.getTooltipId(specs.currentId, specs)
 
-    if (currentType == WW_MAP_TOOLTIP_TYPE.ARMY)
-      return ::g_tooltip_type.WW_MAP_TOOLTIP_TYPE_ARMY.getTooltipId(currentId, params)
+    if (specs.currentType == WW_MAP_TOOLTIP_TYPE.ARMY)
+      return ::g_tooltip_type.WW_MAP_TOOLTIP_TYPE_ARMY.getTooltipId(specs.currentId, specs)
 
     return ""
   }

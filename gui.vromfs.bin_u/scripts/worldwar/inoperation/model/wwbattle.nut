@@ -97,6 +97,12 @@ class ::WwBattle
     return id.len() > 0
   }
 
+  function isWaiting()
+  {
+    return status == ::EBS_WAITING ||
+           status == ::EBS_STALE
+  }
+
   function isActive()
   {
     return status == ::EBS_ACTIVE_STARTING ||
@@ -162,7 +168,7 @@ class ::WwBattle
     local teamsBlk = blk.getBlockByName("teams")
     local descBlk = blk.getBlockByName("desc")
     local waitingTeamsBlk = descBlk ? descBlk.getBlockByName("teamsInfo") : null
-    if (!teamsBlk || status == ::EBS_WAITING && !waitingTeamsBlk)
+    if (!teamsBlk || isWaiting() && !waitingTeamsBlk)
       return
 
     for (local i = 0; i < teamsBlk.blockCount(); ++i)
@@ -212,7 +218,7 @@ class ::WwBattle
       }
 
       local teamUnitsRemain = []
-      if (status != ::EBS_WAITING)
+      if (!isWaiting())
       {
         local unitsRemainBlk = teamBlk.getBlockByName("unitsRemain")
         local aiUnitsBlk = teamBlk.getBlockByName("aiUnits")

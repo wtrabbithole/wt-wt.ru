@@ -20,8 +20,6 @@
   needFullReload = false
   needCheckPostLoadCss = false
   isFullReloadInProgress = false
-  loaded_postLoadCss = ""
-  isPxFontsInScene = false
   isInLoading = true
   restoreDataByTriggerHandler = {}
   lastBaseHandlerStartFunc = null //function to start backScene or to reload current base handler

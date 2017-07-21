@@ -3,7 +3,10 @@ const FLT_EPSILON = 0.0000001192092896
  * u is a set of utility functions
  */
 
-::u <- {}
+::u <- {
+  customIsEqual = {}
+  customIsEmpty = {}
+}
 
 /**
  * Add type checking functions such as isArray()
@@ -19,10 +22,78 @@ foreach (typeName in ["integer", "int64", "float", "string", "null",
   })(typeName)
 }
 
-foreach (instType in ["DataBlock", "Money", "Callback", "Point2", "Point3", "Color4", "TMatrix"])
-  ::u["is" + instType] <- (@(instType) function(arg) {
-    return (typeof arg == "instance") && (arg instanceof getroottable()[instType])
-  })(instType)
+/*******************************************************************************
+ **************************** Custom Classes register **************************
+ ******************************************************************************/
+
+/*
+  register instance class to work with u.is<className>, u.isEqual,  u.isEmpty
+*/
+function u::registerClass(className, classRef, isEqualFunc = null, isEmptyFunc = null)
+{
+  local funcName = "is" + className.slice(0, 1).toupper() + className.slice(1)
+  ::u[funcName] <- @(value) value instanceof classRef
+
+  if (isEqualFunc)
+    customIsEqual[classRef] <- isEqualFunc
+  if (isEmptyFunc)
+    customIsEmpty[classRef] <- isEmptyFunc
+}
+
+/*
+  try to register standard dagor classes
+*/
+foreach (className, config in
+{
+  DataBlock = {
+    isEmpty = @(val) !val.paramCount() && !val.blockCount()
+    isEqual = function(val1, val2)
+    {
+      if (val1.paramCount() != val2.paramCount() || val1.blockCount() != val2.blockCount())
+        return false
+
+      for (local i = 0; i < val1.paramCount(); i++)
+        if (val1.getParamName(i) != val2.getParamName(i) || val1.getParamValue(i) != val2.getParamValue(i))
+          return false
+      for (local i = 0; i < val1.blockCount(); i++)
+      {
+        local b1 = val1.getBlock(i)
+        local b2 = val2.getBlock(i)
+        if (b1.getBlockName() != b2.getBlockName() || !::u.isEqual(b1, b2))
+          return false
+      }
+      return true
+    }
+  }
+  Point2 = {
+    isEqual = @(val1, val2) val1.x == val2.x && val1.y == val2.y
+    isEmpty = @(val) !val.x && !val.y
+  }
+  Point3 = {
+    isEqual = @(val1, val2) val1.x == val2.x && val1.y == val2.y && val1.z == val2.z
+    isEmpty = @(val) !val.x && !val.y && !val.z
+  }
+  Color4 = {
+    isEqual = @(val1, val2) val1.r == val2.r && val1.g == val2.g && val1.b == val2.b && val1.a == val2.a
+  }
+  TMatrix = {
+    isEqual = function(val1, val2)
+    {
+      for (local i = 0; i < 4; i++)
+        if (!::u.isEqual(val1[i], val2[i]))
+          return false
+      return true
+    }
+  }
+})
+{
+  if (!(className in ::getroottable()))
+    continue
+  ::u.registerClass(className, ::getroottable()[className],
+    ("isEqual" in config) && config.isEqual,
+    ("isEmpty" in config) && config.isEmpty
+  )
+}
 
 /*******************************************************************************
  ******************** Collections handling (array of tables) *******************
@@ -226,19 +297,21 @@ function u::pick(table, ... /*keys*/)
 /**
  * Return true if specified obj (@table, @array, @string, @datablock) is empty
  */
-function u::isEmpty(obj)
+function u::isEmpty(val)
 {
-  if (!obj)
+  if (!val)
     return true
 
-  if (::u.isArray(obj) || ::u.isString(obj) || ::u.isTable(obj))
-    return obj.len() == 0
-  if (::u.isDataBlock(obj))
-    return !obj.paramCount() && !obj.blockCount()
-  if (::u.isMoney(obj))
-    return obj.isZero()
-  if (::u.isInstance(obj))
+  if (isArray(val) || isString(val) || isTable(val))
+    return val.len() == 0
+
+  if (isInstance(val))
+  {
+    foreach(classRef, func in customIsEmpty)
+      if (val instanceof classRef)
+        return func(val)
     return false
+  }
 
   return true
 }
@@ -250,7 +323,7 @@ function u::isEqual(val1, val2)
 {
   if (typeof(val1) != typeof(val2))
     return false
-  if (::u.isArray(val1) || ::u.isTable(val1))
+  if (isArray(val1) || isTable(val1))
   {
     if (val1.len() != val2.len())
       return false
@@ -258,47 +331,20 @@ function u::isEqual(val1, val2)
     {
       if (!(key in val2))
         return false
-      if (!::u.isEqual(val, val2[key]))
+      if (!isEqual(val, val2[key]))
         return false
     }
     return true
   }
-  if (!::u.isInstance(val1))
-    return val1 == val2
-  if ("isEqual" in val1)
-    return val1.isEqual(val2)
-  if (val1 instanceof ::DataBlock && val2 instanceof ::DataBlock)
-  {
-    if (val1.paramCount() != val2.paramCount() || val1.blockCount() != val2.blockCount())
-      return false
 
-    for (local i = 0; i < val1.paramCount(); i++)
-      if (val1.getParamName(i) != val2.getParamName(i) || val1.getParamValue(i) != val2.getParamValue(i))
-        return false
-    for (local i = 0; i < val1.blockCount(); i++)
-    {
-      local b1 = val1.getBlock(i)
-      local b2 = val2.getBlock(i)
-      if (b1.getBlockName() != b2.getBlockName() || !::u.isEqual(b1, b2))
-        return false
-    }
-    return true
-  }
-  if (val1 instanceof ::Point2 && val2 instanceof ::Point2)
-    return val1.x == val2.x && val1.y == val2.y
-  if (val1 instanceof ::Point3 && val2 instanceof ::Point3)
-    return val1.x == val2.x && val1.y == val2.y && val1.z == val2.z
-  if (val1 instanceof ::Color4 && val2 instanceof ::Color4)
-    return val1.r == val2.r && val1.g == val2.g && val1.b == val2.b && val1.a == val2.a
-  if (val1 instanceof ::TMatrix && val2 instanceof ::TMatrix)
+  if (isInstance(val1) && isInstance(val2))
   {
-    for (local i = 0; i < 4; i++)
-      if (!::u.isEqual(val1[i], val2[i]))
-        return false
-    return true
+    foreach(classRef, func in customIsEqual)
+      if (val1 instanceof classRef && val2 instanceof classRef)
+        return func(val1, val2)
+    return false
   }
-  if (val1 instanceof ::Money && val2 instanceof ::Money)
-    return val1 <= val2 && val1 >= val2
+
   return val1 == val2
 }
 

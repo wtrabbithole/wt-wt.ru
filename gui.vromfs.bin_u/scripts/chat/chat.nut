@@ -57,6 +57,18 @@ g_chat <- {
   }
 }
 
+
+//to test filters - use console "chat_filter_for_myself=true"
+::chat_filter_for_myself <- ::is_vendor_tencent()
+function g_chat::filterMessageText(text, isMyMessage)
+{
+  if (::get_option(::USEROPT_CHAT_FILTER).value &&
+    (!isMyMessage || ::chat_filter_for_myself))
+    return ::dirty_words_filter.checkPhrase(text)
+  return text
+}
+
+
 function g_chat::onCharConfigsLoaded()
 {
   isThreadsView = ::has_feature("ChatThreadsView")

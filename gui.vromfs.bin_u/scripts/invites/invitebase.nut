@@ -168,7 +168,7 @@ class ::BaseInvite
       })
     }
 
-    ::g_popups.add(null, ::implode(msg, "\n"), ::gui_start_invites, buttons, this)
+    ::g_popups.add(null, ::implode(msg, "\n"), ::gui_start_invites, buttons, this, "invite_" + uid)
   }
 
   function reject()

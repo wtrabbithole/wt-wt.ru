@@ -1,3 +1,4 @@
+@import "const\colors.css"
 @import "const\_const.css"
 
 @import "cssElems\buttons.css"
@@ -1638,23 +1639,6 @@ sliderProgress:disabled, sliderProgress[inactiveColor=yes] {
 
 [enable=no] sliderProgress {
   foreground-color:@controlDisabledColor; }
-
-conQualityProgress {
-  behaviour:progress;
-  re-type:progress;
-  background-color:@transparent;
-  foreground-image:#ui/gameuiskin#latencyBg;
-  foreground-color:@conQuality1;
-  pos:50%pw-50%w,50%ph-50%h;
-  position:relative;
-  min:0;
-  max:5;
-}
-
-conQualityProgress[value=2] { foreground-color:@conQuality2; }
-conQualityProgress[value=3] { foreground-color:@conQuality3; }
-conQualityProgress[value=4] { foreground-color:@conQuality4; }
-conQualityProgress[value=5] { foreground-color:@conQuality5; }
 
 expProgress, referenceProgress, crewSpecProgressBar {
   behaviour:progress;

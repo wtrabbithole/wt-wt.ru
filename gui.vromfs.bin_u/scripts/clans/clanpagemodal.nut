@@ -119,7 +119,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     if (!::u.isEmpty(feature) && !::has_feature(feature))
       text = ""
-    text = ::getFilteredChatMessage(text, false)
+    text = ::g_chat.filterMessageText(text, false)
 
     obj.setValue(text)
   }

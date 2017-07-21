@@ -208,7 +208,7 @@ class WwQueue
   {
     local requestBlk = ::DataBlock()
     requestBlk.mapName = map.name
-    ::g_ww_global_status.actionRequest("cln_ww_unregister_army_group", requestBlk, { showProgressBox = true })
+    ::g_ww_global_status.actionRequest("cln_clan_unregister_ww_army_group", requestBlk, { showProgressBox = true })
   }
 
   function getChangeStateTimeText()

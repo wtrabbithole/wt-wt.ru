@@ -594,7 +594,7 @@ class ::ChatHandler
         clanTag = ::clanUserTable[sender] + " "
       local fullName = clanTag + sender
 
-      msg = ::getFilteredChatMessage(msg, myself)
+      msg = ::g_chat.filterMessageText(msg, myself)
       local msgColor = msgChatMode.textColor
       if(automatic)
       {

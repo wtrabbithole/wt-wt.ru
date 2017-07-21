@@ -247,16 +247,19 @@ Button_text.battle > buttonWink {
   wink: yes;
 }
 
-Button_text.battle > buttonGlance {
+buttonGlance {
   re-type:9rect;
-  size:pw, ph;
+  size:pw, 70%ph;
   pos:0, 0;
   position:absolute;
   background-repeat:expand;
   background-image:#ui/gameuiskin#button_glance;
-  background-color:#001f1a10;
-  background-position:6, 7, 6, 7;
+  background-position:6, 7, 6, 12;
   input-transparent:yes;
+}
+
+Button_text.battle > buttonGlance {
+  background-color:#000f0d08;
 }
 
 Button_text.research {
@@ -325,15 +328,8 @@ Button_text[visualStyle=purchase] > buttonWink
 }
 
 Button_text[visualStyle=purchase] > buttonGlance {
-  re-type:9rect;
-  size:pw, ph;
-  pos:0, 0;
-  position:absolute;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#button_glance;
+  size:pw, 80%ph;
   background-color:#002a2217;
-  background-position:6, 0, 6, 4;
-  input-transparent:yes;
 }
 
 closeBtn {

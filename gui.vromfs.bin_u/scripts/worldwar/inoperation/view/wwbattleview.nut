@@ -33,17 +33,22 @@ class ::WwBattleView
     return battle.id
   }
 
-  function getShortOrdinalNumberText()
+  function getMissionName()
   {
-    return ::loc("worldWar/shortBattleNumb", {numb = battle.getOrdinalNumber()})
+    return name
   }
 
-  function getOrdinalNumberText()
+  function getShortBattleName()
+  {
+    return ::loc("worldWar/shortBattleName", {number = battle.getOrdinalNumber()})
+  }
+
+  function getBattleName()
   {
     if (!battle.isValid())
       return null
 
-    return ::loc("worldWar/battleNumb", {numb = battle.getOrdinalNumber()})
+    return ::loc("worldWar/battleName", {number = battle.getOrdinalNumber()})
   }
 
   function defineTeamBlock()
@@ -223,7 +228,7 @@ class ::WwBattleView
     if (!battle.isStillInOperation())
       return "worldwar/battle_finished"
 
-    if (battle.status == ::EBS_WAITING ||
+    if (battle.isWaiting() ||
         battle.status == ::EBS_ACTIVE_STARTING)
       return "worldwar/battleNotActive"
 
@@ -297,7 +302,7 @@ class ::WwBattleView
       return "Finished"
     if (battle.status == ::EBS_ACTIVE_STARTING || battle.status == ::EBS_ACTIVE_MATCHING)
       return "Active"
-    if (battle.status == ::EBS_ACTIVE_FAKE)
+    if (battle.status == ::EBS_ACTIVE_AUTO || battle.status == ::EBS_ACTIVE_FAKE)
       return "Fake"
     if (battle.status == ::EBS_ACTIVE_CONFIRMED)
       return battle.isPlayerTeamFull() ? "Full" : "OnServer"

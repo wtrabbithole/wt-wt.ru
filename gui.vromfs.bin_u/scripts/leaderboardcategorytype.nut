@@ -81,6 +81,10 @@ function g_lb_category::_getAdditionalTooltipPart(row)
       continue
     }
 
+    // check reqFeature
+    if (!additionalCategory.isVisibleByFeature())
+      continue
+
     local value = additionalCategory.type.getAdditionalTooltipPartValueText(
                     row[additionalCategory.field],
                     additionalCategory.hideInAdditionalTooltipIfZero)
@@ -444,12 +448,18 @@ function g_lb_category::_typeConstructor ()
       additionalTooltipCategoryes = ["EVENTS_AIR_KILLS", "EVENTS_GROUND_KILLS"]
     }
 
+    EVENTS_SUPERIORITY_BATTLES_THRESHOLD = {
+      field = "superiorityBattlesThreshold"
+      visualKey = "lb_event_superiority_battles_threshold"
+      reqFeature = [ "HiddenLeaderboardRows" ]
+    }
+
     EVENTS_SUPERIORITY = {
       field = "superiority"
       visualKey = "average_relative_position"
       headerTooltip = "averageRelativePosition"
       type = ::g_lb_data_type.PERCENT
-      additionalTooltipCategoryes = ["AVERAGE_POSITION"]
+      additionalTooltipCategoryes = ["EVENTS_SUPERIORITY_BATTLES_THRESHOLD"]
       isSortDefaultFilter = true
       showFieldFilter = [GAME_EVENT_TYPE.TM_NONE]
       showEventFilterFunc = function (event) {

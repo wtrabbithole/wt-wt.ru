@@ -3,7 +3,7 @@ function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE, info = {}) // 
   ::g_hud_hitcamera.onHitCameraEvent(mode, result, info)
 
   if (::g_hud_hitcamera.isKillingHitResult(result))
-    ::broadcastEvent("CurrentTargetKilled", info)
+    ::g_hud_event_manager.onHudEvent("HitcamTargetKilled", info)
 }
 
 function get_hit_camera_aabb() // called from client

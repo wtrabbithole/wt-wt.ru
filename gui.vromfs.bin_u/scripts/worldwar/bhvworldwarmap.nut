@@ -481,10 +481,7 @@ class ::ww_gui_bhv.worldWarMapControls
     else
       ::g_popups.add(::loc("worldwar/artillery/cant_fire"),
                      ::loc("worldwar/artillery/notReadyToFire"),
-                     null, null, null, "not_ready_to_fire")
-
-    ::ww_artillery_turn_fire(false)
-    ::ww_event("ArmyStatusChanged")
+                     null, null, null, "cant_fire")
   }
 }
 

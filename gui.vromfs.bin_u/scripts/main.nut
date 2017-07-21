@@ -291,6 +291,13 @@ if (::g_script_reloader.isInReloading)
 foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   ::add_script_gui_behaviour(bhvName, bhvClass)
 
+::u.registerClass(
+  "DaGuiObject",
+  ::DaGuiObject,
+  @(obj1, obj2) obj1.isValid() && obj2.isValid() && obj1.isEqual(obj2),
+  @(obj) !obj.isValid()
+)
+
 //------- ^^^ files before login ^^^ ----------
 
 

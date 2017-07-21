@@ -159,11 +159,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function _createBattleListItemView(battleData)
   {
     local battleView = battleData.getView()
-    local battleNumbText = ::colorize("newTextColor", battleView.getShortOrdinalNumberText())
+    local battleName = ::colorize("newTextColor", battleView.getShortBattleName())
     local view = {
       id = battleData.id.tostring()
       itemTag = "mission_item_unlocked"
-      itemPrefixText = battleNumbText + " " + battleData.getSectorName()
+      itemPrefixText = battleName + " " + battleData.getSectorName()
       itemIcon = battleView.getIconImage()
       iconColor = battleView.getIconColor()
       isSelected = battle != null && battle.isValid() && battleData.id == battle.id

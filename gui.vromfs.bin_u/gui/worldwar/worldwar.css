@@ -24,6 +24,17 @@
 @const wwBattleMapShadowPadding: 6*@sf/@pf;
 @const wwBlockTabMinWidth: 22*@sf/@pf;
 
+@const wwMapBlockStretcher: (sh - 1@sf) * 0.15;
+@const content2BlockHeight: 0.305@scrn_tgt_font + 1@wwMapBlockStretcher;
+@const content3BlockHeight: 0.275@scrn_tgt_font + 1@wwMapBlockStretcher;
+
+@const wwMapInterlinePadding: (sh - 1@sf) * 0.03;
+@const wwMapInterlineStrengthPadding: (sh - 1@sf) * 0.01;
+@const wwOperationClanListMinHeight:0.17@sf + 1@wwMapBlockStretcher;
+@const wwOperationDescSideStrenghtHeight:0.25@sf + 1@wwMapBlockStretcher;
+
+@const wwBattleInfoScreenIncHeight: sh - 1@sf;
+
 
 
 @const objectiveLightTdBackground: #10101010;
@@ -82,8 +93,16 @@ objectiveBlock wwObjective name,
 objectiveBlock wwObjective desc {
   behaviour:textArea;
   re-type:textarea;
+}
+
+objectiveBlock wwObjective name {
   font:@small;
   color:@commonTextColor;
+}
+
+objectiveBlock wwObjective desc {
+  font:@tiny;
+  color:@minorTextColor;
 }
 
 objectiveBlock wwObjective taskIcon {

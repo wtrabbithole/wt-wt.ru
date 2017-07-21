@@ -31,9 +31,23 @@
                                     : attackerString }
 
   getNameId = function(dataBlk, side) { return getParamId(dataBlk, "title") }
-  getName = function(dataBlk, statusBlk, side) { return getLocText(dataBlk, side, prefixNameLocId, "/name", getTitleLocId(dataBlk, statusBlk), getTitleLocParams(dataBlk, statusBlk, side)) }
-  getDesc = function(blk, side) { return getLocText(blk, side, prefixNameLocId, "/desc") }
-  getParamName = function(blk, side, paramName) { return getLocText(blk, side, prefixParamLocId, "/name", paramName) }
+
+  getName = function(dataBlk, statusBlk, side)
+  {
+    return getLocText(dataBlk, side, prefixNameLocId, "/name",
+      getTitleLocId(dataBlk, statusBlk), getTitleLocParams(dataBlk, statusBlk, side))
+  }
+
+  getDesc = function(dataBlk, statusBlk, side)
+  {
+    return getLocText(dataBlk, side, prefixNameLocId, "/desc",
+      getTitleLocId(dataBlk, statusBlk))
+  }
+
+  getParamName = function(blk, side, paramName)
+  {
+    return getLocText(blk, side, prefixParamLocId, "/name", paramName)
+  }
 
   getLocText = function(blk, side, prefix = "", postfix = "", name = "", params = null)
   {
@@ -47,7 +61,7 @@
     if (locText == "")
       locText = ::loc(prefix + blk.type + "/" + getActionString(blk, side) + "/" + name + postfix, "", params)
     if (locText == "")
-      locText = ::loc(prefix + blk.type + postfix, name, params)
+      locText = ::loc(prefix + blk.type + postfix, "", params)
     return locText
   }
   getTitleLocId = function(dataBlk, statusBlk) { return dataBlk.id }

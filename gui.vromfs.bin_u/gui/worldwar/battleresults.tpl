@@ -19,6 +19,17 @@ tdiv {
         text:t='<<getBattleResultText>>'
         fontNormal:t='yes'
       }
+
+      <<#isBattleResultsIgnored>>
+      textareaNoTab {
+        max-width:t='pw-120@sf/@pf'
+        pos:t='pw/2-w/2, ph'
+        position:t='absolute'
+        text-align:t='center'
+        text:t='#worldwar/operation_complete_battle_results_ignored'
+        overlayTextColor:t='userlog'
+      }
+      <</isBattleResultsIgnored>>
     }
 
     <<#teamBlock>>

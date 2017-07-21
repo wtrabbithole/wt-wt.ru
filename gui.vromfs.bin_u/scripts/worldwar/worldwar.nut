@@ -139,6 +139,8 @@ foreach (fn in [
                  "services/wwService.nut"
                  "externalServices/worldWarTopMenuButtons.nut"
                  "externalServices/worldWarTopMenuSectionsConfigs.nut"
+                 "externalServices/wwQueue.nut"
+                 "externalServices/inviteWwOperation.nut"
                  "bhvWorldWarMap.nut"
                  "model/wwUnitType.nut"
                  "inOperation/wwOperations.nut"
@@ -190,8 +192,6 @@ foreach (fn in [
                  "operations/handler/wwOperationDescriptionCustomHandler.nut"
                  "operations/handler/wwOperationsListModal.nut"
                  "operations/handler/wwOperationsMapsHandler.nut"
-                 "operations/wwQueue.nut"
-                 "operations/inviteWwOperation.nut"
                  "handler/wwMapTooltip.nut"
                  "handler/wwBattleDescription.nut"
                  "handler/wwAirfieldFlyOut.nut"
@@ -214,8 +214,6 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   configurableValues = ::DataBlock()
 
   isLastFlightWasWwBattle = false
-
-  refreshQueueTask = -1
 
   infantryUnits = null
   artilleryUnits = null
@@ -397,39 +395,8 @@ function g_world_war::leaveWWBattleQueues(battle = null)
     ::queues.leaveQueueByType(QUEUE_TYPE_BIT.WW_BATTLE)
 }
 
-function g_world_war::startLatentQueueRefresh()
-{
-  if (refreshQueueTask >= 0 || !::g_ww_global_status.isMyClanInQueue())
-    return
-
-  refreshQueueTask = ::periodic_task_register(
-                         this,
-                         function(dt)
-                         {
-                           if (::isInMenu())
-                             ::g_ww_global_status.refreshData(WWGS_REFRESH_DELAY.LATENT_QUEUE_REFRESH)
-                         },
-                         WWGS_REFRESH_DELAY.LATENT_QUEUE_REFRESH / 1000
-                       )
-}
-
-function g_world_war::checkRefreshQueueTask()
-{
-  if (refreshQueueTask < 0 || ::g_ww_global_status.isMyClanInQueue())
-    return
-
-  ::periodic_task_unregister(refreshQueueTask)
-  refreshQueueTask = -1
-
-  if (::g_ww_global_status.getMyClanOperation())
-    ::g_popups.add(::loc("mainmenu/btnWorldwar"), ::loc("worldwar/operationBegan"))
-}
-
 function g_world_war::onEventWWGlobalStatusChanged(p)
 {
-  if (p.changedListsMask & WW_GLOBAL_STATUS_TYPE.QUEUE)
-    checkRefreshQueueTask()
-
   if (p.changedListsMask & WW_GLOBAL_STATUS_TYPE.ACTIVE_OPERATIONS)
     ::g_squad_manager.updateMyMemberData()
 }
@@ -1041,7 +1008,17 @@ function g_world_war::startArtilleryFire(mapPos, army)
   blk.setStr("point", mapPos.x.tostring() + "," + mapPos.y.tostring())
   blk.setStr("radius", ww_artillery_get_attack_radius().tostring())
 
-  ::ww_send_operation_request("cln_ww_artillery_strike", blk)
+  local taskId = ::ww_send_operation_request("cln_ww_artillery_strike", blk)
+  ::g_tasker.addTask(taskId, null,
+    function () {
+      ::ww_artillery_turn_fire(false)
+      ::ww_event("ArmyStatusChanged")
+    },
+    function (errorCode) {
+      ::g_popups.add(::loc("worldwar/artillery/cant_fire"),
+                     ::loc("worldwar/artillery/invalidTarget"),
+                     null, null, null, "cant_fire")
+    })
 }
 
 function g_world_war::stopSelectedArmy()
@@ -1215,9 +1192,10 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
 
 function g_world_war::addOperationInvite(operationId, clanName, isStarted)
 {
-  ::g_invites.addInvite(::g_invites_classes.WwOperation,
-    { operationId = operationId, clanName = clanName, isStarted = isStarted }
-  )
+  if (operationId != ::ww_get_operation_id())
+    ::g_invites.addInvite(::g_invites_classes.WwOperation,
+      { operationId = operationId, clanName = clanName, isStarted = isStarted }
+    )
 }
 
 function g_world_war::getSaveOperationLogId()

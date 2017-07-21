@@ -412,7 +412,7 @@
       if (!::is_worldwar_enabled())
         return false
 
-      local army = ::g_world_war.getArmyByName(params.armyName)
+      local army = ::g_world_war.getArmyByName(params.currentId)
       if (army)
         return ::handyman.renderCached("gui/worldWar/worldWarMapArmyInfo", army.getView())
       return ""
@@ -430,7 +430,7 @@
       if (!::is_worldwar_enabled())
         return ""
 
-      local battle = ::g_world_war.getBattleById(params.battleName)
+      local battle = ::g_world_war.getBattleById(params.currentId)
       if (!battle.isValid())
         return ""
 

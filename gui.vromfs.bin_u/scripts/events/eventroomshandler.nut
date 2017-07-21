@@ -51,15 +51,21 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   static CHAPTER_REGEXP = regexp2(":.*$")
   static ROOM_REGEXP = regexp2(".*(:)")
 
-  function open(event, hasBackToEventsButton = false, roomIdToSelect = null)
+  static function open(event, hasBackToEventsButton = false, roomIdToSelect = null)
   {
-    if (event)
-      ::handlersManager.loadHandler(::gui_handlers.EventRoomsHandler,
-      {
-        event = event
-        hasBackToEventsButton = hasBackToEventsButton
-        roomIdToSelect = roomIdToSelect
-      })
+    if (!event)
+      return
+
+    if (::events.getEventDiffCode(event) == ::DIFFICULTY_HARDCORE &&
+        !::check_package_and_ask_download("pkg_main"))
+      return
+
+    ::handlersManager.loadHandler(::gui_handlers.EventRoomsHandler,
+    {
+      event = event
+      hasBackToEventsButton = hasBackToEventsButton
+      roomIdToSelect = roomIdToSelect
+    })
   }
 
   function initScreen()

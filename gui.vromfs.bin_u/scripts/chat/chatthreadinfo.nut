@@ -135,7 +135,7 @@ class ChatThreadInfo
 
   function getTitle()
   {
-    return ::getFilteredChatMessage(title, isMyThread())
+    return ::g_chat.filterMessageText(title, isMyThread())
   }
 
   function getOwnerText(isColored = true, defaultColor = "")

@@ -48,15 +48,6 @@ function get_current_fonts_css()
   if (::isInArray(fontsCss, [PX_FONTS_CSS, SCALE_FONTS_CSS]))
     return fontsCss
 
-  //compatibility with old fonts save data
-  fontsCss = ::get_gui_option_in_mode(::USEROPT_FONTS_CSS, ::OPTIONS_MODE_GAMEPLAY)
-  if (fontsCss)
-  {
-    ::set_gui_option_in_mode(::USEROPT_FONTS_CSS, false, ::OPTIONS_MODE_GAMEPLAY) //load compatibility only once
-    if (::set_current_fonts_css(fontsCss))
-      return fontsCss
-  }
-
   return ::get_default_fonts_css()
 }
 

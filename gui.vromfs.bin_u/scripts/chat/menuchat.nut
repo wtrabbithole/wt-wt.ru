@@ -44,16 +44,6 @@ function sortChatUsers(a, b)
   return 0;
 }
 
-::dirty_words_filter <- DirtyWords();
-::chat_filter_for_myself <- ::is_vendor_tencent(); //to test filters - use console "chat_filter_for_myself=true"
-
-function getFilteredChatMessage(source, myself)
-{
-  if (::get_option(::USEROPT_CHAT_FILTER).value &&
-    (!myself || ::chat_filter_for_myself))
-    return ::dirty_words_filter.checkPhrase(source)
-  return source
-}
 
 function makeBlockedMsg(msg)
 {
@@ -1279,7 +1269,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function filterSystemUserMsg(msg)
   {
-    msg = ::getFilteredChatMessage(msg, false)
+    msg = ::g_chat.filterMessageText(msg, false)
     local localized = false
     foreach(ending in ["is set READONLY", "is set BANNED"])
     {
@@ -1336,7 +1326,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local userColor = ::g_chat.getSenderColor(messageAuthor, true, privateMsg)
       if (!::g_chat.isRoomSquad(roomId))
-        msg = ::getFilteredChatMessage(msg, myself || myPrivate)
+        msg = ::g_chat.filterMessageText(msg, myself || myPrivate)
 
       local msgColor = privateMsg? privateColor : ""
       if (overlaySystemColor)

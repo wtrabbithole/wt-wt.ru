@@ -1,6 +1,8 @@
 handlersManager[PERSISTENT_DATA_PARAMS].append("curControlsAllowMask")
 
 ::handlersManager.lastInFlight <- false  //to reload scenes on change inFlight
+::handlersManager.currentFontsCss <- ""
+::handlersManager.isPxFontsInScene <- false
 
 ::handlersManager.curControlsAllowMask <- CtrlsInGui.CTRL_ALLOW_FULL
 ::handlersManager.controlsAllowMaskDefaults <- {
@@ -89,9 +91,9 @@ function handlersManager::updatePostLoadCss()
 
   local fontsCss = ::get_current_fonts_css()
   ::set_dagui_pre_include_css(fontsCss)
-  haveChanges = haveChanges || loaded_postLoadCss != fontsCss
+  haveChanges = haveChanges || currentFontsCss != fontsCss
 
-  loaded_postLoadCss = fontsCss
+  currentFontsCss = fontsCss
   isPxFontsInScene = fontsCss == PX_FONTS_CSS
 
   local cssStringPost = generatePostLoadCssString()

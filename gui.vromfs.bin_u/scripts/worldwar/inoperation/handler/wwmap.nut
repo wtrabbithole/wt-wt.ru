@@ -58,6 +58,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     initFocusArray()
     markMainObjectiveZones()
 
+    ::g_operations.forcedFullUpdate()
     ::g_ww_logs.lastReadLogMark = ::loadLocalByAccount(::g_world_war.getSaveOperationLogId(), "")
     ::g_ww_logs.requestNewLogs(WW_LOG_MAX_LOAD_AMOUNT, !::g_ww_logs.loaded.len())
 
@@ -177,6 +178,13 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       tabName += " " + ::loc(::getTblValue("tabText", tab, ""))
 
     tabObj.setValue(tabName + tab.getTabTextPostfix())
+
+    if (tab.hasTabAlert())
+    {
+      local tabAlertObj = blockObj.findObject(tabId + "_alert")
+      if (::check_obj(tabAlertObj))
+        tabAlertObj.show(tab.isTabAlertVisible())
+    }
   }
 
   function updateSecondaryBlock()
@@ -1103,5 +1111,14 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (checkJoinEnabledTimer && checkJoinEnabledTimer.isValid())
       checkJoinEnabledTimer.destroy()
+  }
+
+  function onEventActiveHandlersChanged(p)
+  {
+    if (scene.getModalCounter() != 0)
+    {
+      ::ww_clear_outlined_zones()
+      ::ww_update_popuped_armies_name([])
+    }
   }
 }

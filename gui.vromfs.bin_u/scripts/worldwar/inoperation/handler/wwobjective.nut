@@ -15,6 +15,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
   needShowOperationDesc = true
   reqFullMissionObjectsButton = true
   restrictShownObjectives = false
+  hasObjectiveDesc = false
 
   function getSceneTplView()
   {
@@ -52,6 +53,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       objectiveBlock = getObjectiveBlocksArray()
       reqFullMissionObjectsButton = reqFullMissionObjectsButton
       hiddenObjectives = ::max(objectivesList.primary.len() - getShowMaxObjectivesCount(), 0)
+      hasObjectiveDesc = hasObjectiveDesc
     }
     local data = ::handyman.renderCached(objectiveItemTpl, view)
     guiScene.replaceContentFromText(placeObj, data, data.len(), this)
@@ -333,7 +335,6 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
   function onOpenFullMissionObjects()
   {
-    ::ww_clear_outlined_zones()
     ::gui_handlers.WwObjectivesInfo.open()
   }
 

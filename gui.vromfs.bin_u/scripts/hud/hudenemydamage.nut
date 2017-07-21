@@ -96,10 +96,11 @@
 
     minAliveCrewCount = getMinAliveCrewCount()
 
-    ::subscribe_events_from_handler(this, [ "CurrentTargetKilled" ])
-
     ::g_hud_event_manager.subscribe("EnemyPartDamage", function (damageData) {
         onEnemyPartDamage(damageData)
+      }, this)
+    ::g_hud_event_manager.subscribe("HitcamTargetKilled", function (hitcamData) {
+        onHitcamTargetKilled(hitcamData)
       }, this)
 
     rebuildWidgets()
@@ -268,13 +269,20 @@
       hidePart("crew_count")
   }
 
-  function onEventCurrentTargetKilled(params)
+  function onHitcamTargetKilled(params)
   {
     if (::is_multiplayer() || lastTargetKilled)
       return
-    ::g_hud_event_manager.onHudEvent("EnemyPartDamage", {
+
+    local unitId      = ::getTblValue("unitId", params)
+    local unitVersion = ::getTblValue("unitVersion", params)
+    if (unitId == null || unitId != lastTargetId || unitVersion != lastTargetVersion)
+      return
+
+    onEnemyPartDamage({
       unitId      = lastTargetId
       unitVersion = lastTargetVersion
+      unitType    = lastTargetType
       unitKilled  = true
     })
   }
