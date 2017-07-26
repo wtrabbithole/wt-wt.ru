@@ -1,6 +1,6 @@
 HorizontalListBox {
   id:t='item_type_filter'
-  height:t='0.03@scrn_tgt_font'
+  height:t='0.03@sf'
   max-width:t='pw'
 
   navigatorShortcuts:t='yes'

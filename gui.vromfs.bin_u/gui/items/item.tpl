@@ -130,7 +130,7 @@ itemDiv {
         id:t='item_new_icon_widget'
         position:t='relative'
         //position:t='absolute'
-        pos:t='3*@sf/@pf,3*@sf/@pf'
+        pos:t='3*@sf/@pf_outdated,3*@sf/@pf_outdated'
         <<@newIconWidget>>
       }
       <</newIconWidget>>
@@ -138,7 +138,7 @@ itemDiv {
       <<#expireTime>>
       textareaNoTab {
         id:t='expire_time'
-        pos:t='1@itemPadding + 10/720@scrn_tgt_font, 1@itemPadding'
+        pos:t='1@itemPadding + 10/720@sf, 1@itemPadding'
         position:t='relative'
         //position:t='absolute'
         tinyFont:t='yes'
@@ -146,8 +146,8 @@ itemDiv {
         style:t='color:@grayOptionColor;'
 
         img {
-          size:t='10/720@scrn_tgt_font, 10/720@scrn_tgt_font'
-          pos:t='-w -3/720@scrn_tgt_font, ph/2-h/2 -2/720@scrn_tgt_font'
+          size:t='10/720@sf, 10/720@sf'
+          pos:t='-w -3/720@sf, ph/2-h/2 -2/720@sf'
           position:t='absolute'
           background-image:t='#ui/gameuiskin#hourglass'
           style:t='background-color:@grayOptionColor;'
@@ -158,7 +158,7 @@ itemDiv {
 
     <<#amount>>
     activeText {
-      pos:t='pw -w -1@itemPadding , 1@itemPadding -3*@sf/@pf'
+      pos:t='pw -w -1@itemPadding , 1@itemPadding -3*@sf/@pf_outdated'
       position:t='absolute'
       style:t='font:@small;'
       textShade:t='yes';
@@ -170,7 +170,7 @@ itemDiv {
     <<#price>>
     textareaNoTab {
       id:t='price'
-      pos:t='pw-w  -1@itemPadding +1*@sf/@pf, ph -0.5@dIco -1@dp +1@itemPadding -h/2'
+      pos:t='pw-w  -1@itemPadding +1*@sf/@pf_outdated, ph -0.5@dIco -1@dp +1@itemPadding -h/2'
       position:t='absolute'
       text:t='<<price>>'
     }
@@ -181,7 +181,7 @@ itemDiv {
     img{
       id:t='all_bougt_icon';
       size:t='@unlockIconSize, @unlockIconSize';
-      pos:t='pw-w  -1@itemPadding +1*@sf/@pf, ph -0.5@dIco -1@dp +1@itemPadding -0.6h'
+      pos:t='pw-w  -1@itemPadding +1*@sf/@pf_outdated, ph -0.5@dIco -1@dp +1@itemPadding -0.6h'
       position:t='absolute'
       background-image:t='#ui/gameuiskin#favorite';
       <<^isAllBought>>display:t='hide'<</isAllBought>>

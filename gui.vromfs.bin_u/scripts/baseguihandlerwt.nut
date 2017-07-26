@@ -1153,7 +1153,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local imgObj = obj.findObject("image")
     imgObj["background-image"] = img
     local picDiv = imgObj.getParent()
-    picDiv["size"] = "128*@sf/@pf, 128*@sf/@pf"
+    picDiv["size"] = "128*@sf/@pf_outdated, 128*@sf/@pf_outdated"
     picDiv.show(true)
   }
 

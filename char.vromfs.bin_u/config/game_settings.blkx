@@ -85,6 +85,12 @@
           "place3Gold": 2500
         }
       }
+    },
+    "battle_royale_small": {
+      "superiorityBattlesThreshold": 17
+    },
+    "battle_royale_small_rb": {
+      "superiorityBattlesThreshold": 20
     }
   },
   "tribunal": {
@@ -102,6 +108,7 @@
   "mapNameToMode": {
     "_GS": 0,
     "_GSn": 0,
+    "PvE": 0,
     "_Dom_no_respawn": 3,
     "Conq_no_respawn": 3,
     "Bttl_no_respawn": 3,
@@ -110,6 +117,9 @@
     "Bttl_norespawn": 3,
     "from_diff": {
       "AfD": 0,
+      "AfDn": 0,
+      "AfDto": 0,
+      "AD": 0,
       "_BfDn": 0,
       "_race": 0,
       "race_straight": 0,
@@ -117,8 +127,11 @@
       "_BfD_norespawn": 0,
       "_bfd_norespawn": 0,
       "_day_norespawn": 0,
+      "1x1_norespawn": 0,
       "4x4_norespawn": 0,
+      "duel": 0,
       "_I2M": 0,
+      "mission": 0,
       "_Dom": 3,
       "Bttl": 3,
       "Conq": 3,
@@ -129,6 +142,7 @@
       "Conq4": 3,
       "Conq5": 3,
       "Conq6": 3,
+      "NDom": 3,
       "_NA": 3,
       "_NAright": 3,
       "_NAleft": 3,
@@ -143,7 +157,12 @@
       "DBttlB": 3,
       "CnvA": 3,
       "CnvB": 3,
-      "BR": 3
+      "BR": 3,
+      "dblDom": 3,
+      "ctf": 3,
+      "Tdm": 3,
+      "tm": 3,
+      "Capt": 3
     }
   },
   "mapIntDiffToName": {
@@ -1064,12 +1083,37 @@
     "BritainTanksUnlocked": {
       "condition": ""
     },
-    "JapanTanksUnlocked": {
-      "condition": ""
-    },
-    "ItalianAircraftUnlocked": {
-      "condition": ""
-    },
+    "JapanTanksUnlocked": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      },
+      {
+        "condition": "wt_access_japan_tanks_unlocks"
+      }
+    ],
+    "ItalianAircraftUnlocked": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "wt_access_italian_aircrafts_unlocks"
+      }
+    ],
     "CountryChina": {
       "condition": "role_DEVELOPER"
     },

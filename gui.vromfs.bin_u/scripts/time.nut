@@ -310,12 +310,19 @@ function secondsToString(value, useAbbreviations = true, dontShowZeroParam = fal
   return sign + ::implode(timeArray, separator)
 }
 
-function preciseSecondsToString(value)
+function preciseSecondsToString(value, canShowZeroMinutes = true)
 {
   value = value != null ? value.tofloat() : 0.0
   local sign = value >= 0 ? "" : ::loc("ui/minus")
   local ms = (::fabs(value) * 1000.0 + 0.5).tointeger()
-  return ::format("%s%d:%02d.%03d", sign, ms / 60000, ms % 60000 / 1000, ms % 1000)
+  local mm = ms / 60000
+  local ss = ms % 60000 / 1000
+  ms = ms % 1000
+
+  if (!canShowZeroMinutes && mm == 0)
+    return ::format("%s%02d.%03d", sign, ss, ms)
+
+  return ::format("%s%d:%02d.%03d", sign, mm, ss, ms)
 }
 
 function getRaceTimeFromSeconds(value, zeroIsValid = false)

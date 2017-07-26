@@ -2452,47 +2452,47 @@
         "armorThickness": 20.0,
         "fireParamsPreset": "ship_cover",
         "compartment_01_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_02_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_03_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_04_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_05_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_06_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_07_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_08_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_09_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_10_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "bridge_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         }
       },
@@ -2532,6 +2532,22 @@
           "armorThickness": 10.0
         },
         "bow_bottom_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "body_top_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "stern_top_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "mid_top_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "bow_top_dm": {
           "genericDamageMult": 0.1,
           "armorThickness": 10.0
         }
@@ -6476,7 +6492,7 @@
   {
     "cockpit": {
       "headPos": [0.0,29.0,-88.0],
-      "headPosOnShooting": [21.1,18.5,0.0],
+      "headPosOnShooting": [18.1,20.5,0.0],
       "detectionHeight": 26.0
     }
   },
@@ -6497,10 +6513,10 @@
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shipmid01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
+      "TrackSoundName": "tracks_mid",
       "TrackSoundNameCockpit": "tracks_ctr_interior",
       "TrackSoundNameAi": "tracks_ai_ctr"
     }
@@ -6867,8 +6883,14 @@
       "waterMassMult": 50.0,
       "sizeToRepair": [0.01,2.0,15.0,1500.0],
       "additionalWaterDeathThreshold": 7500000.0,
-      "additionalWaterShouldDiePercent": 0.51,
-      "fatalBreachDrownTime": 25.0
+      "additionalWaterShouldDiePercent": 0.4,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 40.0,
+      "maxHeelingTime": 10.0,
+      "criticalHeelingAnglePercent": 0.5,
+      "maxCriticalHeelingTime": 2.0,
+      "heelingDeathHeightOffsetMult": 1.0,
+      "sideCenterOfMassOffsetPercent": 1.0
     }
   },
   {
@@ -6877,49 +6899,49 @@
         "cover": {
           "part": "compartment_01_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_04_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_05_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_06_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_07_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       }
     ]
@@ -6937,6 +6959,11 @@
           "count": 1800
         }
       }
+    }
+  },
+  {
+    "winch": {
+      "length": 100.0
     }
   }
 ]

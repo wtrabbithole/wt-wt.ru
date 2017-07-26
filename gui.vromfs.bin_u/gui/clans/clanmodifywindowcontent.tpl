@@ -35,12 +35,12 @@ frame{
 
       HorizontalListBox {
         id:t='newclan_type'
-        size:t='pw, 0.04@scrn_tgt_font'
+        size:t='pw, 0.04@sf'
         on_select:t = 'onClanTypeSelect'
         on_set_focus:t='onFocus'
         on_wrap_up:t='onWrapUp'
         on_wrap_down:t='onWrapDown'
-        margin-bottom:t='0.01@scrn_tgt_font'
+        margin-bottom:t='0.01@sf'
         shortcutsNavigator:t='yes'
         navigatorShortcuts:t='yes'
 
@@ -255,7 +255,7 @@ frame{
       EditBox
       {
         id:t='newclan_description';
-        size:t='pw, 12*@scrn_tgt_font/100';
+        size:t='pw, 12*@sf/100';
         multiline='yes';
         max-len:t='512';
         mouse-focusable:t='yes';
@@ -296,7 +296,7 @@ frame{
       EditBox
       {
         id:t='newclan_announcement';
-        size:t='pw, 12*@scrn_tgt_font/100';
+        size:t='pw, 12*@sf/100';
         multiline='yes';
         max-len:t='512';
         mouse-focusable:t='yes';

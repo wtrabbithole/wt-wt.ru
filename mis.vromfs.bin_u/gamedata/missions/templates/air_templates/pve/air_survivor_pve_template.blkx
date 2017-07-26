@@ -127,7 +127,8 @@
         "slide": {
           "map": true,
           "minTime": 4,
-          "picture": ""
+          "picture": "",
+          "showAirMap": false
         }
       }
     }
@@ -203,12 +204,14 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t1_dummies_squad",
             "isImmortal": true
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "t2_big_artillery",
             "accuracy": 0.0,
             "effShootingRate": 0.0
@@ -286,6 +289,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_big_artillery"
           }
         },
@@ -1148,7 +1152,7 @@
         {
           "triggerEnable": [
             {
-              "target": "update_common_indicators"
+              "target": "calc_base_int_1hp_in_tickets"
             },
             {
               "target": "start_bombing"
@@ -1307,6 +1311,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": ""
           }
@@ -1435,6 +1446,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": "повышаем шанс спавна наземки"
           }
@@ -1557,6 +1575,13 @@
         ]
       },
       "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
         {
           "comment": {
             "value": "повышаем шанс спавна наземки"
@@ -1681,6 +1706,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": "повышаем шанс спавна наземки"
           }
@@ -1803,6 +1835,13 @@
         ]
       },
       "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
         {
           "comment": {
             "value": "повышаем шанс спавна наземки"
@@ -1927,6 +1966,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": "повышаем шанс спавна наземки"
           }
@@ -2049,6 +2095,13 @@
         ]
       },
       "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
         {
           "comment": {
             "value": ""
@@ -2178,6 +2231,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": "повышаем шанс спавна наземки"
           }
@@ -2300,6 +2360,13 @@
         ]
       },
       "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
         {
           "comment": {
             "value": "повышаем шанс спавна наземки"
@@ -2424,6 +2491,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": "повышаем шанс спавна наземки"
           }
@@ -2546,6 +2620,13 @@
         ]
       },
       "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
         {
           "comment": {
             "value": "повышаем шанс спавна наземки"
@@ -2670,6 +2751,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": "повышаем шанс спавна наземки"
           }
@@ -2793,6 +2881,13 @@
       },
       "actions": [
         {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
           "comment": {
             "value": ""
           }
@@ -2903,6 +2998,13 @@
         ]
       },
       "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": -70,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
         {
           "comment": {
             "value": ""
@@ -3740,10 +3842,10 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,0.0,0.0],
+            "keepFormation": false,
             "object": "@bombers_wave_name",
             "object_type": "isInactive",
-            "target": "@wave_spawn_name",
-            "keepFormation": false
+            "target": "@wave_spawn_name"
           }
         },
         {
@@ -3782,10 +3884,10 @@
           "__unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,500.0,0.0],
+            "keepFormation": false,
             "object": "@fighters_wave_name",
             "object_type": "isInactive",
-            "target": "@wave_spawn_name",
-            "keepFormation": false
+            "target": "@wave_spawn_name"
           }
         },
         {
@@ -4098,10 +4200,10 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,-2000.0,0.0],
+            "keepFormation": false,
             "object": "@bombers_wave_name",
             "object_type": "isInactive",
-            "target": "@wave_spawn_name",
-            "keepFormation": false
+            "target": "@wave_spawn_name"
           }
         },
         {
@@ -4140,10 +4242,10 @@
           "__unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,500.0,0.0],
+            "keepFormation": false,
             "object": "@fighters_wave_name",
             "object_type": "isInactive",
-            "target": "@wave_spawn_name",
-            "keepFormation": false
+            "target": "@wave_spawn_name"
           }
         },
         {
@@ -4393,10 +4495,10 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,0.0,0.0],
+            "keepFormation": false,
             "object": "t2_big_artillery",
             "object_type": "isInactive",
             "target": "@wave_spawn_name",
-            "keepFormation": false,
             "randomObjectsCountVar": "wave_cur_bombers_count",
             "randomSpawn": true
           }
@@ -4756,6 +4858,13 @@
           }
         },
         {
+          "varSetInt": {
+            "value": 0,
+            "var": "base_int_hp_old",
+            "input_var": "base_int_hp"
+          }
+        },
+        {
           "missionGetBombingAreaHP": {
             "target": "bombing_area",
             "input_var": "base_hp"
@@ -4793,6 +4902,51 @@
             "set": true,
             "target": "t1_dummies_squad",
             "var": "base_int_hp"
+          }
+        },
+        {
+          "comment": {
+            "value": "вычитаем тикеты"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "diff_tickets",
+            "input_var": "base_int_hp_old"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "subAB",
+            "value": 0.0,
+            "var": "diff_tickets",
+            "use_variable": true,
+            "var_value": "base_int_hp"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": 1.0,
+            "var": "diff_tickets",
+            "use_variable": true,
+            "var_value": "base_int_1hp_in_tickets"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "diff_tickets"
+          }
+        },
+        {
+          "gameMPChangeScore": {
+            "value": 0,
+            "valueSystem": "amount",
+            "var": "diff_tickets",
+            "team": "A"
           }
         }
       ],
@@ -4832,6 +4986,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_ai_bombers_squad",
             "target_type": "canBomb"
           }
@@ -4839,6 +4994,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "t2_ai_bombers_squad",
             "target_type": "noBombs"
           }
@@ -5085,7 +5241,8 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false
           }
         },
         {
@@ -5100,7 +5257,8 @@
             "action": "hide",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false
           }
         }
       ],
@@ -5134,7 +5292,8 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false
           }
         },
         {
@@ -5149,7 +5308,69 @@
             "action": "hide",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "calc_base_int_1hp_in_tickets": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.1
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "base_int_hp"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "base_int_hp",
+            "use_variable": true,
+            "var_value": "base_hp"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1000.0,
+            "var": "base_int_hp"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "base_int_1hp_in_tickets",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "divAB",
+            "value": 1.0,
+            "var": "base_int_1hp_in_tickets",
+            "use_variable": true,
+            "var_value": "base_int_hp"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "update_common_indicators"
           }
         }
       ],
@@ -5237,7 +5458,10 @@
     "next_wave_mode": "",
     "wave_indicator": 0,
     "big_query_mission_name": "",
-    "land_units_mode_modifier": 0
+    "land_units_mode_modifier": 0,
+    "base_int_1hp_in_tickets": 0,
+    "base_int_hp_old": 0,
+    "diff_tickets": 0
   },
   "dialogs": [],
   "airfields": [],

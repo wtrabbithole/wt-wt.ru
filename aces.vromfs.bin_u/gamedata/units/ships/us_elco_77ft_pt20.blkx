@@ -587,12 +587,9 @@
           "armorThickness": 40.0,
           "hp": 600.0,
           "fireParamsPreset": "ship_cover",
-          "bow_top_dm": [],
           "bow_bottom_dm": [],
           "mid_bottom_dm": [],
-          "stern_bottom_dm": [],
-          "stern_top_dm": [],
-          "mid_top_dm": []
+          "stern_bottom_dm": []
         }
       },
       {
@@ -617,6 +614,12 @@
           },
           "bulkhead_06_dm": {
             "armorThickness": 15.0
+          },
+          "bulkhead_07_dm": {
+            "armorThickness": 15.0
+          },
+          "bulkhead_08_dm": {
+            "armorThickness": 15.0
           }
         }
       },
@@ -626,7 +629,6 @@
           "armorThickness": 40.0,
           "hp": 600.0,
           "superstructure_side_dm": [],
-          "superstructure_top_dm": [],
           "ex_armor_01_dm": [],
           "ex_decor_01_dm": [],
           "ex_decor_04_dm": [],
@@ -650,6 +652,9 @@
           "armorClass": "ship_structural_steel",
           "hp": 500.0,
           "mast_01_dm": {
+            "armorThickness": 15.0
+          },
+          "mast_02_dm": {
             "armorThickness": 15.0
           },
           "radio_station_dm": {
@@ -1883,32 +1888,33 @@
   },
   {
     "tank_crew": {
-      "minCrewMemberAliveCount": 8,
+      "minCrewMemberAliveCount": 3,
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "commander",
-        "crew": 7
+        "crew": 5
+      },
+      "sailor2": {
+        "dmPart": "compartment_01_dm",
+        "role": "sailor",
+        "crew": 1
+      },
+      "sailor3": {
+        "dmPart": "compartment_02_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor4": {
+        "dmPart": "compartment_03_dm",
+        "role": "sailor",
+        "crew": 4
+      },
+      "sailor5": {
+        "dmPart": "compartment_04_dm",
+        "role": "sailor",
+        "crew": 2
       }
     }
-  },
-  {
-    "propellers": [
-      {
-        "engine": {
-          "propeller_l": "propeller_01"
-        }
-      },
-      {
-        "engine": {
-          "propeller_l": "propeller_02"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_03"
-        }
-      }
-    ]
   },
   {
     "class_tags": {
@@ -1931,14 +1937,14 @@
         "Empty": 31500.0,
         "Fuel": 1500.0,
         "TakeOff": 33000.0,
-        "momentOfInertia": [9.1,28.0,15.0],
-        "CenterOfGravity": [-1.8,-0.4,0.0]
+        "momentOfInertia": [9.0,28.0,17.0],
+        "CenterOfGravity": [-1.8,-0.5,0.0]
       },
       "engines": [
         {
           "engine": {
             "pos": [-11.0,-1.0,1.0],
-            "maxThrust": 28000.0,
+            "maxThrust": 30000.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_01_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -1948,7 +1954,7 @@
         {
           "engine": {
             "pos": [-11.1,-1.0,0.0],
-            "maxThrust": 28000.0,
+            "maxThrust": 30000.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_02_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -1958,7 +1964,7 @@
         {
           "engine": {
             "pos": [-11.0,-1.0,-1.0],
-            "maxThrust": 28000.0,
+            "maxThrust": 30000.0,
             "outputParam": "propeller_rotate_03:CRS",
             "engineDmPart": "engine_03_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -2643,8 +2649,8 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,6.0,-20.0],
-      "headPosOnShooting": [1.5,5.4,0.0]
+      "headPos": [0.0,6.0,-21.0],
+      "headPosOnShooting": [1.5,5.7,-0.6]
     }
   },
   {
@@ -3186,54 +3192,83 @@
   },
   {
     "breaches": {
-      "repairSpeed": 1.0,
-      "waterMassVel": -200.0,
+      "repairSpeed": 30.0,
+      "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
-      "sizeToRepair": [0.1,200.0,400.0,2000.0],
-      "additionalWaterDeathThreshold": 132000.0,
-      "fatalBreachDrownTime": 60.0
+      "sizeToRepair": [0.01,2.0,20.0,1500.0],
+      "additionalWaterDeathThreshold": 300000.0,
+      "additionalWaterShouldDiePercent": 0.51,
+      "fatalBreachDrownTime": 25.0
     }
   },
   {
     "shipCover": [
       {
         "cover": {
-          "part": "bow_l_dm",
+          "part": "compartment_01_dm",
           "weight": 1.0,
           "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
-          "part": "bow_r_dm",
+          "part": "compartment_02_dm",
           "weight": 1.0,
           "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
-          "part": "mid_l_dm",
-          "weight": 3.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "mid_r_dm",
-          "weight": 3.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "stern_r_dm",
+          "part": "compartment_03_dm",
           "weight": 1.0,
           "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
-          "part": "stern_l_dm",
+          "part": "compartment_04_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_05_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_06_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_07_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_08_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_09_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_10_dm",
           "weight": 1.0,
           "maxWaterAlive": 0.3
         }
@@ -3242,7 +3277,21 @@
   },
   {
     "modifications": {
-      "12mm_usa_M2HB_API_navy": []
+      "12mm_usa_M2HB_API_navy": [],
+      "manual_extinguisher": {
+        "effects": {
+          "extinguisherActivationCount": -1,
+          "extinguisherMinTime": 10.0,
+          "extinguisherMaxTime": 10.0,
+          "extinguisherCrewBusyTime": -1.0
+        }
+      },
+      "tank_tool_kit": []
+    }
+  },
+  {
+    "winch": {
+      "length": 50.0
     }
   }
 ]

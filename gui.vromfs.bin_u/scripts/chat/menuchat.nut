@@ -45,32 +45,6 @@ function sortChatUsers(a, b)
 }
 
 
-function makeBlockedMsg(msg)
-{
-  msg = ::stringReplace(msg, " ", " ") //space work as close link. but non-breakable space - work as other symbols.
-  msg = "<Link=BL_"+ (::math.rnd() % 99) +"_" + msg + ">" + ::loc("chat/blocked_message") + "</Link>"
-  //rnd for duplicate blocked messages
-  return msg
-}
-
-function checkBlockedLink(link)
-{
-  return (link.len() > 6 && link.slice(0, 3) == "BL_")
-}
-
-function revertBlockedMsg(text, link)
-{
-  local start = text.find("<Link=" + link)
-  if (start==null) return
-  local end = text.find("</Link>", start)
-  if (end==null) return
-  end+=7
-
-  local msg = ::stringReplace(link.slice(6), " ", " ")
-  text = text.slice(0, start) + msg + text.slice(end)
-  return text
-}
-
 function getGlobalRoomsListByLang(lang, roomsList = null)
 {
   local res = []
@@ -1338,7 +1312,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (privateMsg) return
         userColor = blockedColor
         msgColor = blockedColor
-        msg = ::makeBlockedMsg(msg)
+        msg = ::g_chat.makeBlockedMsg(msg)
       } else
         msg = colorMyNameInText(msg)
 
@@ -2374,13 +2348,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       else
         ::g_chat.showPlayerRClickMenu(name, sceneData.room, contact)
     }
-    else if (::checkBlockedLink(link))
+    else if (::g_chat.checkBlockedLink(link))
     {
       local roomData = ::g_chat.getRoomById(sceneData.room)
       if (!roomData)
         return
 
-      roomData.chatText = ::revertBlockedMsg(roomData.chatText, link)
+      roomData.chatText = ::g_chat.revertBlockedMsg(roomData.chatText, link)
       updateChatText()
     }
     else

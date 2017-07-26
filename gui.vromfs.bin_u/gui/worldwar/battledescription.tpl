@@ -126,7 +126,7 @@ tdiv {
         <<#haveAIUnitsList>>
         tdiv {
           flow:t='vertical'
-          margin-top:t='0.01@scrn_tgt_font'
+          margin-top:t='0.01@sf'
 
           textareaNoTab {
             text:t='#worldwar/unit/controlledByAI'

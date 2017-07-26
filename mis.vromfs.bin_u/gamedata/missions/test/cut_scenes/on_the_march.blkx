@@ -1,0 +1,1338 @@
+{
+  "selected_tag": "ijn_tag",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "player": {
+      "army": 1,
+      "wing": "armada_01"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "chapter": "guadalcanal",
+      "level": "levels/guadalcanal.bin",
+      "type": "campaign",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": []
+    },
+    "cover_points": []
+  },
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "Trigger_01": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "spawnOnAirfield": {
+          "runwayName": "ships_01",
+          "objects": "armada_02"
+        },
+        "showSmartCutscene": {
+          "sceneType": "ground_units",
+          "duration": 60.0,
+          "delayPlayer": true,
+          "object": "ships_01"
+        },
+        "unitSetProperties": {
+          "object": "armada_02",
+          "aiEnabled": false
+        }
+      }
+    },
+    "Trigger_02": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitAttackTarget": {
+          "object": "armada_03",
+          "target": "armada_04",
+          "fireRandom": true
+        },
+        "unitMoveTo": {
+          "target": "area_03",
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": true,
+          "teleportHeightValue": 1000.0,
+          "object": "armada_04",
+          "speed": 250.0
+        },
+        "showSmartCutscene": {
+          "sceneType": "unit_attack_unit",
+          "duration": 240.0,
+          "delayPlayer": true,
+          "object": "armada_03",
+          "target": "armada_04"
+        }
+      }
+    },
+    "Trigger_03": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "unitAttackTarget": {
+            "object": "armada_05",
+            "target": "armada_06",
+            "fireRandom": true
+          }
+        },
+        {
+          "unitAttackTarget": {
+            "object": "armada_06",
+            "target": "armada_05",
+            "fireRandom": true
+          }
+        },
+        {
+          "showSmartCutscene": {
+            "sceneType": "unit_attack_unit",
+            "duration": 180.0,
+            "delayPlayer": true,
+            "object": "armada_05",
+            "target": "armada_06"
+          }
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object": "armada_05"
+            },
+            {
+              "object": "armada_06"
+            },
+            {
+              "effShootingRate": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    "Trigger_04": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "showSmartCutscene": {
+          "sceneType": "on_the_march",
+          "duration": 60.0,
+          "delayPlayer": true,
+          "object": "area_02"
+        }
+      }
+    },
+    "Trigger_05": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitAttackTarget": {
+          "object": "armada_07",
+          "target": "squad_02",
+          "fireRandom": true
+        },
+        "showSmartCutscene": {
+          "sceneType": "unit_attack_unit",
+          "duration": 180.0,
+          "delayPlayer": true,
+          "object": "armada_07",
+          "target": "squad_02"
+        }
+      }
+    },
+    "Trigger_06": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "unitMoveTo": [
+            {
+              "target": "area_04"
+            },
+            {
+              "follow_target": false
+            },
+            {
+              "teleportHeightType": "absolute"
+            },
+            {
+              "useUnitHeightForTele": true
+            },
+            {
+              "shouldKeepFormation": true
+            },
+            {
+              "teleportHeightValue": 1000.0
+            },
+            {
+              "object": "armada_08"
+            },
+            {
+              "object": "armada_10"
+            },
+            {
+              "speed": 250.0
+            }
+          ]
+        },
+        {
+          "unitMoveTo": {
+            "target": "area_05",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": true,
+            "teleportHeightValue": 1000.0,
+            "object": "armada_09",
+            "speed": 250.0
+          }
+        },
+        {
+          "showSmartCutscene": [
+            {
+              "sceneType": "on_the_march"
+            },
+            {
+              "duration": 60.0
+            },
+            {
+              "delayPlayer": true
+            },
+            {
+              "object": "armada_08"
+            },
+            {
+              "object": "armada_09"
+            },
+            {
+              "object": "armada_10"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "armada": {
+        "name": "armada_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-3077.55,20.0,-10906.3]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "a6m2_zero",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 4,
+          "numInWing": 3,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8778.1,-132.0,-24711.4]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_cv_soryu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8556.6,-131.95,-25041.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_cv_akagi",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8963.35,-131.95,-25141.0]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_cv_akagi",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_04",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [9145.0,-132.0,-24921.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_cv_soryu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_05",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8542.5,-132.0,-24690.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_bb_nagato",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_06",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8735.2,-132.0,-24354.9]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_ca_myoko",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_07",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [9178.4,-132.0,-24486.0]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_dd_shiratsuyu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_08",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [9643.4,-132.0,-25015.7]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_dd_shiratsuyu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_09",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [9487.65,-132.0,-25624.3]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_ca_myoko",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_10",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8830.1,-132.0,-25494.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_dd_shiratsuyu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_11",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8369.1,-131.95,-25278.8]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_dd_shiratsuyu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_12",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8261.9,-131.95,-24827.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_dd_shiratsuyu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_13",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8333.45,-132.0,-24268.9]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_dd_shiratsuyu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "squad_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [9020.45,-132.0,-26080.6]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "",
+        "weapons": "",
+        "props": [
+          {
+            "squad_members": "ships_01"
+          },
+          {
+            "squad_members": "ships_02"
+          },
+          {
+            "squad_members": "ships_03"
+          },
+          {
+            "squad_members": "ships_04"
+          },
+          {
+            "squad_members": "ships_05"
+          },
+          {
+            "squad_members": "ships_06"
+          },
+          {
+            "squad_members": "ships_07"
+          },
+          {
+            "squad_members": "ships_08"
+          },
+          {
+            "squad_members": "ships_09"
+          },
+          {
+            "squad_members": "ships_10"
+          },
+          {
+            "squad_members": "ships_11"
+          },
+          {
+            "squad_members": "ships_12"
+          },
+          {
+            "squad_members": "ships_13"
+          }
+        ],
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [12620.0,-111.65,-26761.6]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "a6m2_zero",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 4,
+          "numInWing": 3,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_03",
+        "tm": [
+          [0.5,0.0,0.866025],
+          [0.0,1.0,0.0],
+          [-0.866025,0.0,0.5],
+          [-41830.4,4000.0,-3307.75]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "a6m2_zero",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 12,
+          "numInWing": 3,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_04",
+        "tm": [
+          [0.422618,0.0,0.906308],
+          [0.0,1.0,0.0],
+          [-0.906308,0.0,0.422618],
+          [-40095.8,2000.0,-942.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "sbd-3",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 12,
+          "numInWing": 5,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_05",
+        "tm": [
+          [0.5,0.0,0.866025],
+          [0.0,1.0,0.0],
+          [-0.866025,0.0,0.5],
+          [-45050.5,3000.0,-2335.05]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "a6m2_zero",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 12,
+          "numInWing": 3,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_06",
+        "tm": [
+          [-0.991445,0.0,0.130526],
+          [0.0,1.0,0.0],
+          [-0.130526,0.0,-0.991445],
+          [-43909.6,4000.0,-511.6]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "f4f-4",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 16,
+          "numInWing": 3,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [4265.8,11.0,-2433.85]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3741.15,11.0,-2537.6]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3256.45,11.0,-2815.8]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_04",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3615.9,11.0,-2316.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_05",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [4017.8,11.0,-2009.95]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_06",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2887.6,11.0,-2799.6]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_07",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3825.6,11.0,-2933.25]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_08",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [4457.1,11.0,-2744.95]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "air_defence_09",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3801.2,11.0,-2017.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_90mm_m1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "squad_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [4708.75,-29.95,-2007.85]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "",
+        "weapons": "",
+        "props": [
+          {
+            "squad_members": "air_defence_01"
+          },
+          {
+            "squad_members": "air_defence_02"
+          },
+          {
+            "squad_members": "air_defence_03"
+          },
+          {
+            "squad_members": "air_defence_04"
+          },
+          {
+            "squad_members": "air_defence_05"
+          },
+          {
+            "squad_members": "air_defence_06"
+          },
+          {
+            "squad_members": "air_defence_07"
+          },
+          {
+            "squad_members": "air_defence_08"
+          },
+          {
+            "squad_members": "air_defence_09"
+          }
+        ],
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_07",
+        "tm": [
+          [0.300706,0.0,-0.953717],
+          [0.0,1.0,0.0],
+          [0.953717,0.0,0.300706],
+          [2530.0,3000.0,1243.2]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "sbd-3",
+        "weapons": "sbd_3_default",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 12,
+          "numInWing": 2,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_08",
+        "tm": [
+          [-0.953717,0.0,0.300706],
+          [0.0,1.0,0.0],
+          [-0.300706,0.0,-0.953717],
+          [2174.85,3000.0,4439.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "tbf-1c",
+        "weapons": "tbf_1c_mk13_torpedo",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 12,
+          "numInWing": 2,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_09",
+        "tm": [
+          [-0.953717,0.0,0.300706],
+          [0.0,1.0,0.0],
+          [-0.300706,0.0,-0.953717],
+          [2521.65,4000.0,4426.65]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "f4f-4",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 12,
+          "numInWing": 2,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_10",
+        "tm": [
+          [-0.953717,0.0,0.300706],
+          [0.0,1.0,0.0],
+          [-0.300706,0.0,-0.953717],
+          [2807.3,3000.0,4156.3]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "sbd-3",
+        "weapons": "sbd_3_default",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 12,
+          "numInWing": 2,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    }
+  ],
+  "areas": {
+    "area_02": {
+      "type": "Sphere",
+      "tm": [
+        [2116.3,0.0,0.0],
+        [0.0,2116.3,0.0],
+        [0.0,0.0,2116.3],
+        [-1193.35,17.95,-2958.5]
+      ],
+      "props": []
+    },
+    "area_01": {
+      "type": "Sphere",
+      "tm": [
+        [42.0,0.0,0.0],
+        [0.0,42.0,0.0],
+        [0.0,0.0,42.0],
+        [3461.05,11.0,-2167.8]
+      ],
+      "props": []
+    },
+    "area_03": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [19270.2,2000.0,33753.3]
+      ],
+      "props": []
+    },
+    "area_04": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13226.5,3000.0,10797.2]
+      ],
+      "props": []
+    },
+    "area_05": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13226.5,4000.0,10797.2]
+      ],
+      "props": []
+    }
+  }
+}

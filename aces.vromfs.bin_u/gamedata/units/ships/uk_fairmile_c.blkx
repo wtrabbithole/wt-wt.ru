@@ -2206,8 +2206,8 @@
         "Empty": 70000.0,
         "Fuel": 2000.0,
         "TakeOff": 72000.0,
-        "momentOfInertia": [16.0,32.0,18.0],
-        "CenterOfGravity": [0.0,-0.3,0.0],
+        "momentOfInertia": [13.0,36.0,19.0],
+        "CenterOfGravity": [0.0,-0.1,0.0],
         "AdvancedMass": false
       },
       "engines": [
@@ -3557,12 +3557,12 @@
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
@@ -4161,6 +4161,11 @@
       "part": "stern_back_dm",
       "weight": 1.0,
       "maxWaterAlive": 0.3
+    }
+  },
+  {
+    "winch": {
+      "length": 50.0
     }
   }
 ]

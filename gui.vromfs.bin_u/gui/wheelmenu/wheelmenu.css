@@ -6,7 +6,7 @@ wheelmenu wheelmenuItem {
 }
 
 wheelmenu wheelmenuItem > content {
-  height:75(@scrn_tgt_font/1080.0);
+  height:75(@sf/1080.0);
   position:absolute;
   input-transparent: yes;
   css-hier-invalidate: yes;
@@ -61,12 +61,12 @@ wheelmenu shortcut {
 
 wheelmenu > shortcut {
   background-image:#ui/controlskin#l_stick_4;
-  size:54(@scrn_tgt_font/1080), 54(@scrn_tgt_font/1080);
+  size:54(@sf/1080), 54(@sf/1080);
 }
 
 wheelmenu > wheelmenuItem > shortcut {
   background-image:#ui/controlskin#button_a;
-  size:40(@scrn_tgt_font/1080), 40(@scrn_tgt_font/1080);
+  size:40(@sf/1080), 40(@sf/1080);
 }
 
 [show_console_buttons=yes] wheelmenu > shortcut,

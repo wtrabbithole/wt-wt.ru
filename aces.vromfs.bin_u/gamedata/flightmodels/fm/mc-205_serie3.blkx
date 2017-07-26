@@ -4,7 +4,7 @@
   "ElevatorsEffectiveSpeed": 380.0,
   "AileronPowerLoss": 2.5,
   "RudderPowerLoss": 3.0,
-  "ElevatorPowerLoss": 2.5,
+  "ElevatorPowerLoss": 2.6,
   "AlphaAileronMin": 0.1,
   "AlphaRudderMin": 0.2,
   "AlphaElevatorMin": 0.2,
@@ -42,7 +42,7 @@
   "VSlats": [125.0,140.0],
   "Vne": 845.0,
   "VneMach": 0.81,
-  "MaxSpeedNearGround": 599.976,
+  "MaxSpeedNearGround": 683.0,
   "MaxSpeedAtAltitude": 599.0,
   "CriticalSpeed": 40.0,
   "ArcadeLimitWepMultiplier": 1.7,
@@ -76,7 +76,7 @@
     "hasGearControl": true,
     "hasArrestorControl": false,
     "hasWingFoldControl": false,
-    "hasCockpitDoorControl": false,
+    "hasCockpitDoorControl": true,
     "hasWheelBrakeControl": true,
     "hasLockGearControl": true,
     "bHasBoosterSwitcher": false
@@ -100,7 +100,7 @@
     "FocusOffset": -0.13,
     "WingVertPos": 0.2,
     "AlphaShift": 0.0,
-    "FlapsShift": 0.02,
+    "FlapsShift": 0.06,
     "AirbrakesShift": 0.0,
     "GearShift": 0.0,
     "WingInFocus": 0.4,
@@ -110,7 +110,7 @@
     "Stabilizer": 5.1,
     "Keel": 5.1,
     "Rudder": 5.01,
-    "Fuselage": [0.16,0.0,0.0],
+    "Fuselage": [0.295,0.0,0.0],
     "LeftStab": [-4.5,0.3,0.7],
     "RightStab": [-4.5,0.3,-0.7],
     "VertStab": [-4.8,1.0,0.0],
@@ -120,6 +120,7 @@
   "Aerodynamics": {
     "AileronCd": [0.015,0.0027],
     "GearCd": 0.025,
+    "GearCentralCd": 0.0,
     "RadiatorCd": 0.002,
     "OilRadiatorCd": 0.0,
     "BombBayCd": 0.0,
@@ -456,6 +457,13 @@
       "Type": 6,
       "NitroConsumption": 0.0
     },
+    "Controls": {
+      "hasThrottleControl": true,
+      "hasMagnetoControl": true,
+      "hasRadiatorControl": true,
+      "hasOilRadiatorControl": true,
+      "hasCommonRadiator": false
+    },
     "Temperature": {
       "RadiatorAuto": false,
       "OilRadiatorAuto": false,
@@ -483,7 +491,11 @@
       "HalfHealthOilTemperatureToleranceDecrease": 10.5,
       "WaterAirDensityPower": 0.0,
       "OilAirDensityPower": 0.0,
-      "CoolingEffectiveAirSpeed": 290.0,
+      "WaterFlowEffectPower": 3.0,
+      "OilFlowEffectPower": 2.0,
+      "WaterPropFlowSpeedCoeff": 0.3,
+      "OilPropFlowSpeedCoeff": 0.5,
+      "CoolingEffectiveAirSpeed": 380.0,
       "WaterTemperatureNoFlow": 135.0,
       "OilTemperatureNoFlow": 145.0,
       "WaterTemperatureInertia": 1.4,
@@ -492,8 +504,8 @@
         "Altitude": 1000.0,
         "RPM": 850.0,
         "ManifoldPressure": 0.85,
-        "WaterTemperature": 80.0,
-        "OilTemperature": 80.0
+        "WaterTemperature": 65.0,
+        "OilTemperature": 76.0
       },
       "Mode1": {
         "Altitude": 1000.0,
@@ -595,16 +607,41 @@
       "Type": 0,
       "AltitudePressureToP0": 0.1635
     },
-    "Controls": {
-      "hasThrottleControl": true,
-      "hasMagnetoControl": true,
-      "hasRadiatorControl": true,
-      "hasOilRadiatorControl": true,
-      "hasCommonRadiator": false
+    "Stages": {
+      "Stage1": {
+        "minTime": 0.5,
+        "maxTime": 1.0,
+        "fromRPM": 0.0,
+        "toRPM": 20.0
+      },
+      "Stage2": {
+        "minTime": 2.0,
+        "maxTime": 4.2,
+        "fromRPM": 20.0,
+        "toRPM": 35.0
+      },
+      "Stage3": {
+        "minTime": 0.1,
+        "maxTime": 0.2,
+        "fromRPM": 35.0,
+        "toRPM": 120.0
+      },
+      "Stage4": {
+        "minTime": 0.5,
+        "maxTime": 1.0,
+        "fromRPM": 120.0,
+        "toRPM": 120.0
+      },
+      "Stage5": {
+        "minTime": 0.5,
+        "maxTime": 1.0,
+        "fromRPM": 120.0,
+        "toRPM": 240.0
+      }
     }
   },
   "Mass": {
-    "EmptyMass": 2889.0,
+    "EmptyMass": 2894.0,
     "MaxFuelMass0": 307.0,
     "FuelAccumulatorCapacity0": 0.3,
     "MinimalLoadFactor": 0.1,
@@ -640,7 +677,7 @@
       "tank4_external": false,
       "tank4_priority": 1,
       "cover1_dm": 70.0,
-      "engine1_dm": 682.0,
+      "engine1_dm": 720.0,
       "cover4_dm": 11.0,
       "fuse1_dm": 300.0,
       "armor1_dm": 6.0,
@@ -650,7 +687,7 @@
       "armor2_dm": 25.0,
       "cover3_dm": 45.0,
       "water1_dm": 60.0,
-      "tail_dm": 100.0,
+      "tail_dm": 120.0,
       "tailcontrol_dm": 5.0,
       "elevator_dm": 7.8,
       "rudder_dm": 5.0,
@@ -720,8 +757,7 @@
     "Height": 1.54,
     "Pitch": 16.8,
     "WaterWaveHeightForCheck": [0.0,100.0],
-    "WaterSpeedPropCheckVal": [0.1,0.1],
-    "Floats": false
+    "WaterSpeedPropCheckVal": [0.1,0.1]
   },
   "Passport": {
     "mass": 0.0,

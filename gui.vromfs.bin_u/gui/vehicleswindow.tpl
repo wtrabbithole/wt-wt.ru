@@ -6,7 +6,7 @@ root {
     position:t='absolute'
     width:t='80%sh'
     height:t='60%sh'
-    max-width:t='800*@sf/@pf + 2@framePadding'
+    max-width:t='800*@sf/@pf_outdated + 2@framePadding'
     max-height:t='sh'
     class:t='wndNav'
 
@@ -22,7 +22,7 @@ root {
 
     frameBlock {
       size:t='pw, fh'
-      padding:t='3*@sf/@pf';
+      padding:t='3*@sf/@pf_outdated';
       overflow-y:t='auto';
       scrollbarShortcuts:t='yes'
 
@@ -47,7 +47,7 @@ root {
         tdiv {
           id:t='allowed_unit_types';
           flow:t='vertical';
-          margin-bottom:t='0.01@scrn_tgt_font'
+          margin-bottom:t='0.01@sf'
           activeText {
             id:t='allowed_unit_types_text';
             text:t='#events/all_units_allowed';
@@ -102,7 +102,7 @@ root {
         tdiv {
           id:t='allowed_unit_types';
           flow:t='vertical';
-          margin-bottom:t='0.01@scrn_tgt_font'
+          margin-bottom:t='0.01@sf'
           activeText {
             id:t='allowed_unit_types_text';
             text:t='#events/all_units_allowed';

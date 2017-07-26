@@ -142,6 +142,19 @@
       "fire": true
     }
   },
+  "airplane_gunner": {
+    "gunnerN": {
+      "template": "gunner#1:8#"
+    }
+  },
+  "airplane_gun": {
+    "mgunN": {
+      "template": "mgun#1:24#"
+    },
+    "cannonN": {
+      "template": "cannon#1:10#"
+    }
+  },
   "gun": {
     "gun": [],
     "gunN": {
@@ -328,11 +341,11 @@
     },
     "ammo_turret": [],
     "ammo_turret_NN": {
-      "template": "ammo_turret_#45#"
+      "template": "ammo_turret_#55#"
     },
     "ammo_body": [],
     "ammo_body_NN": {
-      "template": "ammo_body_#45#"
+      "template": "ammo_body_#55#"
     },
     "ammo_body_l_NN": {
       "template": "ammo_body_l_#20#"
@@ -375,8 +388,10 @@
   "bodypartN": {
     "template": "bodypart#0:9#"
   },
-  "armorN": {
-    "template": "armor#0:30#"
+  "armor": {
+    "armorN": {
+      "template": "armor#0:30#"
+    }
   },
   "pump": [],
   "pump_NN": {
@@ -524,9 +539,11 @@
     "template": "ex_decor_#10#",
     "externalArmor": true
   },
-  "fuse": [],
-  "fuseN": {
-    "template": "fuse#4#"
+  "fuse": {
+    "fuse": [],
+    "fuseN": {
+      "template": "fuse#4#"
+    }
   },
   "gun_barrel_armor": {
     "externalArmor": true
@@ -554,55 +571,81 @@
   "mainmast_coursesail": [],
   "mainmast_topsail": [],
   "mizzenmast_sail": [],
-  "engineN": {
-    "template": "engine#6#"
+  "airplane_engine": {
+    "engineN": {
+      "template": "engine#8#"
+    }
   },
-  "glass": [],
+  "glass": {
+    "glass": []
+  },
   "holes": [],
-  "wing": {
-    "wing_l": [],
-    "wing1_l": [],
-    "wing2_l": [],
-    "wing_r": [],
-    "wing1_r": [],
-    "wing2_r": [],
-    "wing_l_dstr": [],
-    "wing_r_dstr": []
+  "wing_l": {
+    "wing_l": []
+  },
+  "wing1_l": {
+    "wing1_l": []
+  },
+  "wing2_l": {
+    "wing2_l": []
+  },
+  "wing_r": {
+    "wing_r": []
+  },
+  "wing1_r": {
+    "wing1_r": []
+  },
+  "wing2_r": {
+    "wing2_r": []
   },
   "tail": {
     "tail": [],
     "tail_dstr": []
   },
-  "stab": {
+  "tail_plane": {
     "stab": [],
     "stab1": [],
-    "stab2": []
-  },
-  "fin": {
-    "fin": [],
-    "fin1": [],
-    "fin2": []
-  },
-  "air_control": {
-    "air_control_surface": {
-      "rudder": [],
-      "rudder0": [],
-      "rudder1": [],
-      "elevator": [],
-      "elevator0": [],
-      "elevator1": [],
-      "aileron_l": [],
-      "aileron_r": [],
-      "aileron1_l": [],
-      "aileron1_r": [],
-      "airbrake_l": [],
-      "airbrake_r": [],
-      "airbrake_c": [],
-      "wingcontrol": [],
-      "wingcontrol_l": [],
-      "wingcontrol_r": [],
-      "tailcontrol": []
+    "stab2": [],
+    "vstab": {
+      "fin": [],
+      "fin1": [],
+      "fin2": []
     }
+  },
+  "airplane_control_surface": {
+    "rudder": [],
+    "rudder0": [],
+    "rudder1": [],
+    "elevator": [],
+    "elevator0": [],
+    "elevator1": [],
+    "aileron_l": [],
+    "aileron_r": [],
+    "aileron1_l": [],
+    "aileron1_r": [],
+    "elevon_l": [],
+    "elevon_r": [],
+    "aileron_interceptor_l": [],
+    "aileron_interceptor1_l": [],
+    "aileron_interceptor_r": [],
+    "aileron_interceptor1_r": [],
+    "rudder_interceptor_l": [],
+    "rudder_interceptor1_l": [],
+    "rudder_interceptor_r": [],
+    "rudder_interceptor1_r": []
+  },
+  "wingcontrol": {
+    "wingcontrol": [],
+    "wingcontrol_l": [],
+    "wingcontrol_r": []
+  },
+  "tailcontrol": {
+    "tailcontrol": []
+  },
+  "airbrake": {
+    "airbrake_l": [],
+    "airbrake_r": [],
+    "airbrake_c": []
   },
   "rod": {
     "rudder_rod": [],
@@ -616,38 +659,58 @@
     "aileron1_l_rod": [],
     "aileron1_r_rod": []
   },
-  "spar": {
-    "spar_l": [],
-    "spar1_l": [],
-    "spar2_l": [],
-    "spar_r": [],
-    "spar1_r": [],
+  "spar_l": {
+    "spar_l": []
+  },
+  "spar1_l": {
+    "spar1_l": []
+  },
+  "spar2_l": {
+    "spar2_l": []
+  },
+  "spar_r": {
+    "spar_r": []
+  },
+  "spar1_r": {
+    "spar1_r": []
+  },
+  "spar2_r": {
     "spar2_r": []
   },
-  "oilN": {
-    "template": "oil#1:12#"
+  "oil": {
+    "oilN": {
+      "template": "oil#1:12#"
+    }
   },
-  "waterN": {
-    "template": "water#6#"
+  "water": {
+    "waterN": {
+      "template": "water#6#"
+    }
   },
-  "tankN": {
-    "template": "tank#8#"
+  "tank": {
+    "tankN": {
+      "template": "tank#8#"
+    }
   },
-  "pilot": [],
-  "pilot1": [],
-  "mgunN": {
-    "template": "mgun#1:24#"
+  "pilot": {
+    "pilot": [],
+    "pilot1": []
   },
-  "cannon1": {
-    "template": "cannon#1:10#"
+  "bomb": {
+    "bombN": {
+      "template": "bomb#4#"
+    }
   },
-  "bombN": {
-    "template": "bomb#4#"
+  "gear_l": {
+    "gear_l": []
   },
-  "gear": {
-    "gear_l": [],
-    "gear_r": [],
-    "gear_c": [],
+  "gear_r": {
+    "gear_r": []
+  },
+  "gear_c": {
+    "gear_c": []
+  },
+  "airplane_wheel": {
     "wheel_l": [],
     "wheel_r": [],
     "wheel_c": []
@@ -724,7 +787,11 @@
     "flap1_r": [],
     "flap2_r": [],
     "flap3_r": [],
-    "flap_c": []
+    "flap_c": [],
+    "flap_airbrake_l": [],
+    "flap_airbrake1_l": [],
+    "flap_airbrake_r": [],
+    "flap_airbrake1_r": []
   },
   "pylon_bombN": {
     "template": "pylon_bomb#1:16#"
@@ -736,9 +803,6 @@
   "rocketN": {
     "template": "rocket#1:4#"
   },
-  "gunnerN": {
-    "template": "gunner#1:8#"
-  },
   "winder_l": [],
   "winder_r": [],
   "hook": {
@@ -746,8 +810,10 @@
     "hook1": [],
     "hook_catch": []
   },
-  "coverN": {
-    "template": "cover#1:16#"
+  "cover": {
+    "coverN": {
+      "template": "cover#1:16#"
+    }
   },
   "prop01_N_dmg": {
     "template": "prop01_#6#_dmg"

@@ -242,11 +242,11 @@
         showPart(partName, color, !showHp)
       }
 
+      minAliveCrewCount = ::getTblValue("crewAliveMin", data, minAliveCrewCount)
       local crewCount = ::getTblValue("crewAliveCount", data, -1)
       local crewCountTotal = ::getTblValue("crewTotalCount", data, -1)
       local isCrewChanged = crewCount != -1 && lastTargetCrew != crewCount
-      local isShowCrew = !lastTargetKilled && isCrewChanged &&
-        (lastTargetType == ::ES_UNIT_TYPE_SHIP  || cfg.section == "crew" && cfg.show && partKilled)
+      local isShowCrew = lastTargetType == ::ES_UNIT_TYPE_SHIP && !lastTargetKilled && isCrewChanged
 
       if (isShowCrew)
       {
@@ -257,7 +257,7 @@
         if (::check_obj(obj))
         {
           local text = ::colorize("commonTextColor", ::loc("mainmenu/btnCrew") + ::loc("ui/colon")) +
-            ::colorize(crewCount <= minAliveCrewCount ? "badTextColor" : "activeTextColor", crewCount)
+            ::colorize(crewCount <= minAliveCrewCount ? "warningTextColor" : "activeTextColor", crewCount)
           if (crewCountTotal > 0)
             text += ::colorize("commonTextColor", ::loc("ui/slash")) + ::colorize("activeTextColor", crewCountTotal)
           obj.setValue(text)

@@ -1028,7 +1028,7 @@
       },
       {
         "ammo": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 500.0,
           "armorThickness": 20.0,
           "armorThrough": 15.0,
@@ -1093,7 +1093,7 @@
       },
       {
         "fuel_tanks": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 3000.0,
           "armorThickness": 20.0,
           "armorThrough": 200.0,
@@ -2378,31 +2378,42 @@
   {
     "tank_crew": {
       "minCrewMemberAliveCount": 5,
-      "default": {
+      "sailor1": {
+        "dmPart": "bridge_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 21
+        "crew": 2
+      },
+      "sailor3": {
+        "dmPart": "compartment_02_dm",
+        "role": "sailor",
+        "crew": 8
+      },
+      "sailor4": {
+        "dmPart": "compartment_03_dm",
+        "role": "sailor",
+        "crew": 3
+      },
+      "sailor5": {
+        "dmPart": "main_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor6": {
+        "dmPart": "main_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 1
+      },
+      "sailor7": {
+        "dmPart": "main_caliber_turret_03_dm",
+        "role": "sailor",
+        "crew": 2
       }
     }
-  },
-  {
-    "propellers": [
-      {
-        "engine": {
-          "propeller_l": "propeller_01"
-        }
-      },
-      {
-        "engine": {
-          "propeller_l": "propeller_02"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_03"
-        }
-      }
-    ]
   },
   {
     "class_tags": {
@@ -2425,8 +2436,8 @@
         "Empty": 103700.0,
         "Fuel": 13300.0,
         "TakeOff": 117000.0,
-        "momentOfInertia": [9.0,35.0,10.0],
-        "CenterOfGravity": [-1.5,-0.8,0.0]
+        "momentOfInertia": [16.0,44.0,31.0],
+        "CenterOfGravity": [-1.5,-0.6,0.0]
       },
       "engines": [
         {
@@ -2535,17 +2546,18 @@
   {
     "cockpit": {
       "headPos": [0.0,6.0,-31.0],
-      "headPosOnShooting": [3.5,6.2,0.0]
+      "headPosOnShooting": [3.5,6.2,0.0],
+      "detectionHeight": 3.6
     }
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
@@ -3081,7 +3093,7 @@
       "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 400000.0,
+      "additionalWaterDeathThreshold": 360000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0
     }
@@ -3092,32 +3104,91 @@
         "cover": {
           "part": "compartment_01_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.15
+          "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.15
+          "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.15
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_04_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_05_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_06_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_07_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_08_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_09_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_10_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
         }
       }
     ]
   },
   {
     "modifications": {
-      "7_92mm_MG34_ap": [],
       "37mm_ger_navy_universal": [],
-      "20mm_ger_c38_universal": [],
-      "20mm_ger_SprGr_HE": [],
-      "20mm_ger_PzGr_AP": []
+      "manual_extinguisher": {
+        "effects": {
+          "extinguisherActivationCount": -1,
+          "extinguisherMinTime": 10.0,
+          "extinguisherMaxTime": 10.0,
+          "extinguisherCrewBusyTime": -1.0
+        }
+      },
+      "tank_tool_kit": []
+    }
+  },
+  {
+    "winch": {
+      "length": 50.0
     }
   },
   {
@@ -3156,6 +3227,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3423,6 +3497,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -3560,6 +3637,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -3692,6 +3772,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -3806,6 +3889,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0

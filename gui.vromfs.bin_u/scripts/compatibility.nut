@@ -1,12 +1,3 @@
-function apply_compatibilities(comp_table)
-{
-  local rootTable = getroottable()
-  local constTable = getconsttable()
-  foreach(key, value in comp_table)
-    if (!(key in rootTable) && !(key in constTable))
-      rootTable[key] <- value
-}
-
 function is_version_equals_or_newer(verTxt) // "1.43.7.75"
 {
   if (!("get_game_version" in ::getroottable()))
@@ -463,4 +454,6 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   {
     return {"Original" : 0, "Special" : 0}
   }
+
+  get_warbond_balance = function(wbName)  {return 0}
 })

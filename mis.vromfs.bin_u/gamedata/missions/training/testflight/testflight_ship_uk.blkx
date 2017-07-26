@@ -15,7 +15,7 @@
     },
     "mission": {
       "name": "testFlight_ship_uk",
-      "level": "levels/avn_norway_islands.bin",
+      "level": "levels/avn_fiji.bin",
       "type": "testFlight",
       "restoreType": "manual",
       "optionalTakeOff": false,
@@ -121,10 +121,14 @@
         }
       },
       "actions": {
-        "missionCompleted": {
-          "timer": false,
-          "debriefingTimer": 1,
-          "showCompleteMessage": false
+        "wait": {
+          "time": 3.0
+        },
+        "unitRespawn": {
+          "delay": 1.0,
+          "offset": [0.0,0.0,0.0],
+          "object": "armada_01",
+          "target": "spawn01"
         }
       },
       "else_actions": []
@@ -146,10 +150,12 @@
           [-1.0,0.0,2.08616e-07],
           [0.0,1.0,0.0],
           [-2.08616e-07,0.0,-1.0],
-          [1753.5,-0.000488281,1753.8]
+          [530.765,-9.99976,443.994]
         ],
         "unit_class": "uk_dark_class",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -176,14 +182,16 @@
       "ships": {
         "name": "ai_ship",
         "tm": [
-          [-0.190324,0.0,-0.981722],
+          [-0.190324,0.0,-0.981721],
           [0.0,1.0,0.0],
-          [0.981722,0.0,-0.190324],
-          [985.96,9.99937,1714.1]
+          [0.981721,0.0,-0.190324],
+          [-236.778,0.000100136,404.264]
         ],
         "unit_class": "germ_s_100_s_174_class",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -210,14 +218,16 @@
       "armada": {
         "name": "ai_plane",
         "tm": [
-          [0.00754628,0.0,-0.999972],
+          [0.00754631,0.0,-0.999972],
           [0.0,1.0,0.0],
-          [0.999972,0.0,0.00754628],
-          [680.872,499.999,5351.6]
+          [0.999972,0.0,0.00754631],
+          [-541.869,490.0,3933.65]
         ],
         "unit_class": "fw-190a-5",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -255,10 +265,10 @@
     "battlearea": {
       "type": "Box",
       "tm": [
-        [3999.74,0.0,-45.5913],
+        [7399.29,0.0,-84.3415],
         [0.0,712.125,0.0],
-        [45.5913,0.0,3999.74],
-        [1076.89,9.99927,1793.2]
+        [84.3415,0.0,7399.29],
+        [-145.835,0.0,375.322]
       ],
       "objLayer": 0,
       "props": []
@@ -269,7 +279,18 @@
         [-0.999935,0.0,0.0113978],
         [0.0,1.0,0.0],
         [-0.0113978,0.0,-0.999935],
-        [960.16,499.999,1752.2]
+        [-262.575,490.0,334.282]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn01": {
+      "type": "Sphere",
+      "tm": [
+        [-39.3923,0.0,-6.94593],
+        [0.0,40.0,0.0],
+        [6.94593,0.0,-39.3923],
+        [530.8,0.0,444.0]
       ],
       "objLayer": 0,
       "props": []

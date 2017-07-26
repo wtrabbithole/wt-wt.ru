@@ -2051,7 +2051,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local resultText = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(result)
       resultText = ::colorize("activeTextColor", resultText) + ::loc(f.currency)
 
-      local formula = ::handyman.renderCached("gui/statistics/rewardSources", {
+      local formula = ::handyman.renderCached("gui/debriefing/rewardSources", {
         multiplier = f.multText
         noBonus    = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(f.noBonus)
         premAcc    = f.premAccBonus  > 0 ? ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(f.premAccBonus)  : null

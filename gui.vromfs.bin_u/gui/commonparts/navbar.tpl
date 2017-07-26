@@ -44,7 +44,7 @@ navRight {
     text:t='<<text>>'
     position:t='relative'
     pos:t='0, 50%ph-50%h'
-    padding-right:t='5*@sf/@pf'
+    padding-right:t='5*@sf/@pf_outdated'
   }
   <</textField>>
   <</right>>

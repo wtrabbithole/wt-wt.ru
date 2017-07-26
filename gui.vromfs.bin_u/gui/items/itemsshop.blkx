@@ -2,309 +2,384 @@
   "root": {
     "background-color": "@modalShadeColor",
     "type": "big",
-    "frame": {
-      "id": "wnd_items_shop",
-      "size": "1.33@scrn_tgt $min 1@rw, 1@maxWindowHeightNoSrh",
-      "pos": "50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)",
-      "position": "absolute",
-      "class": "wndNav",
-      "type": "big",
-      "frame_header": {
-        "activeText": {
-          "id": "wnd_title",
-          "text": "#items/inventory",
-          "caption": "yes",
-          "display": "hide"
-        },
-        "HorizontalListBox": {
-          "id": "tabs_list",
-          "class": "header",
-          "height": "ph",
-          "smallFont": "yes",
-          "activeAccesskeys": "RS",
-          "on_select": "onTabChange"
-        },
-        "top_right_holder": {
-          "textareaNoTab": {
-            "id": "balance_text",
-            "pos": "0, 50%ph-50%h",
-            "position": "relative",
-            "margin-right": "0.02@scrn_tgt",
-            "hideEmptyText": "yes",
-            "text": ""
+    "frame": [
+      {
+        "id": "wnd_items_shop"
+      },
+      {
+        "size": "1.33@scrn_tgt $min 1@rw, 1@maxWindowHeightNoSrh"
+      },
+      {
+        "pos": "50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)"
+      },
+      {
+        "position": "absolute"
+      },
+      {
+        "class": "wndNav"
+      },
+      {
+        "type": "big"
+      },
+      {
+        "frame_header": {
+          "activeText": {
+            "id": "wnd_title",
+            "text": "#items/inventory",
+            "caption": "yes",
+            "display": "hide"
+          },
+          "HorizontalListBox": {
+            "id": "tabs_list",
+            "class": "header",
+            "height": "ph",
+            "smallFont": "yes",
+            "activeAccesskeys": "RS",
+            "on_select": "onTabChange"
+          },
+          "top_right_holder": {
+            "textareaNoTab": {
+              "id": "balance_text",
+              "pos": "0, 50%ph-50%h",
+              "position": "relative",
+              "margin-right": "0.02@scrn_tgt",
+              "hideEmptyText": "yes",
+              "text": "",
+              "tooltip": ""
+            }
+          },
+          "Button_close": {
+            "id": "btn_back",
+            "img": []
           }
-        },
-        "Button_close": {
-          "id": "btn_back",
-          "img": []
         }
       },
-      "frameBlock": {
-        "id": "filter_block",
-        "width": "pw",
-        "padding": "0.01@scrn_tgt, 0.01@scrn_tgt",
-        "margin-bottom": "1@blockInterval"
+      {
+        "frameBlock": {
+          "id": "filter_block",
+          "width": "pw",
+          "padding": "0.01@scrn_tgt, 0.01@scrn_tgt",
+          "margin-bottom": "1@blockInterval"
+        }
       },
-      "div": [
-        {
-          "id": "main_block"
-        },
-        {
-          "size": "pw, fh"
-        },
-        {
-          "frameBlock": {
-            "id": "empty_items_list",
-            "size": "fw, ph",
-            "flow": "vertical",
-            "padding-left": "1@itemPadding",
-            "display": "hide",
-            "enable": "no",
-            "textarea": {
-              "id": "empty_items_list_text",
-              "width": "pw"
-            },
-            "Button_text": {
-              "id": "items_shop_to_shop_button",
-              "text": "#items/shop/emptyTab/toShopButton",
-              "on_click": "onToShopButton",
-              "btnName": "Y",
-              "visualStyle": "secondary",
-              "buttonWink": [],
-              "ButtonImg": []
+      {
+        "div": [
+          {
+            "id": "main_block"
+          },
+          {
+            "size": "pw, fh"
+          },
+          {
+            "frameBlock": {
+              "id": "empty_items_list",
+              "size": "fw, ph",
+              "flow": "vertical",
+              "padding-left": "1@itemPadding",
+              "display": "hide",
+              "enable": "no",
+              "textarea": {
+                "id": "empty_items_list_text",
+                "width": "pw"
+              },
+              "Button_text": {
+                "id": "items_shop_to_shop_button",
+                "text": "#items/shop/emptyTab/toShopButton",
+                "on_click": "onToShopButton",
+                "btnName": "Y",
+                "visualStyle": "secondary",
+                "buttonWink": [],
+                "ButtonImg": []
+              }
             }
-          }
-        },
-        {
-          "frameBlock": {
-            "id": "items_list",
-            "size": "fw, ph",
-            "flow": "h-flow",
-            "itemShopList": "yes",
-            "behavior": "posNavigator",
-            "navigatorShortcuts": "yes",
-            "moveX": "closest",
-            "moveY": "linear",
-            "clearOnFocusLost": "no",
-            "on_select": "updateItemInfo",
-            "on_wrap_up": "onWrapUp",
-            "on_wrap_down": "onWrapDown"
-          }
-        },
-        {
-          "frameBlock": [
-            {
-              "size": "@itemInfoWidth +0.02@scrn_tgt +1@scrollBarSize, ph"
-            },
-            {
-              "pos": "1@blockInterval, 0"
-            },
-            {
-              "position": "relative"
-            },
-            {
-              "overflow-y": "auto"
-            },
-            {
-              "scrollbarShortcuts": "yes"
-            },
-            {
-              "div": [
-                {
-                  "id": "item_info"
-                },
-                {
-                  "width": "pw"
-                },
-                {
-                  "padding": "0.01@scrn_tgt"
-                },
-                {
-                  "flow": "vertical"
-                },
-                {
-                  "tdiv": {
-                    "padding-bottom": "0.005@scrn_tgt_font",
-                    "pos": "50%pw-50%w, 0",
-                    "position": "relative",
-                    "textAreaCentered": {
-                      "id": "item_name",
-                      "max-width": "@itemInfoWidth",
-                      "overlayTextColor": "active",
-                      "pos": "0, 50%ph-50%h",
-                      "position": "relative"
-                    },
-                    "cardImg": {
-                      "id": "item_type_help",
-                      "margin-left": "5@dp",
-                      "type": "tiny",
-                      "background-image": "#ui/gameuiskin#help_tooltip",
-                      "tooltip": "",
-                      "display": "hide"
+          },
+          {
+            "frameBlock": {
+              "id": "items_list",
+              "size": "fw, ph",
+              "flow": "h-flow",
+              "itemShopList": "yes",
+              "behavior": "posNavigator",
+              "navigatorShortcuts": "yes",
+              "moveX": "closest",
+              "moveY": "linear",
+              "clearOnFocusLost": "no",
+              "on_select": "updateItemInfo",
+              "on_wrap_up": "onWrapUp",
+              "on_wrap_down": "onWrapDown"
+            }
+          },
+          {
+            "frameBlock": [
+              {
+                "size": "1@itemInfoWidth +0.02@scrn_tgt +1@scrollBarSize, ph"
+              },
+              {
+                "pos": "1@blockInterval, 0"
+              },
+              {
+                "position": "relative"
+              },
+              {
+                "overflow-y": "auto"
+              },
+              {
+                "scrollbarShortcuts": "yes"
+              },
+              {
+                "div": [
+                  {
+                    "id": "item_info"
+                  },
+                  {
+                    "width": "pw"
+                  },
+                  {
+                    "padding": "0.01@scrn_tgt"
+                  },
+                  {
+                    "flow": "vertical"
+                  },
+                  {
+                    "tdiv": {
+                      "padding-bottom": "0.005@sf",
+                      "pos": "50%pw-50%w, 0",
+                      "position": "relative",
+                      "textAreaCentered": {
+                        "id": "item_name",
+                        "max-width": "@itemInfoWidth",
+                        "overlayTextColor": "active",
+                        "pos": "0, 50%ph-50%h",
+                        "position": "relative"
+                      },
+                      "cardImg": {
+                        "id": "item_type_help",
+                        "margin-left": "5@dp",
+                        "type": "tiny",
+                        "background-image": "#ui/gameuiskin#help_tooltip",
+                        "tooltip": "",
+                        "display": "hide"
+                      }
                     }
+                  },
+                  {
+                    "itemIconBlock": {
+                      "id": "item_icon",
+                      "pos": "50%pw-50%w, 0",
+                      "position": "relative",
+                      "doubleSize": "yes",
+                      "overflow": "hidden"
+                    }
+                  },
+                  {
+                    "textareaNoTab": {
+                      "id": "item_desc",
+                      "pos": "50%pw-50%w, 0",
+                      "position": "relative",
+                      "margin": "0.02@sf, 0.01@scrn_tgt",
+                      "width": "1@itemInfoWidth",
+                      "font-bold": "@normal"
+                    }
+                  },
+                  {
+                    "div": {
+                      "id": "item_desc_div",
+                      "width": "@itemInfoWidth",
+                      "flow": "vertical"
+                    }
+                  },
+                  {
+                    "div": [
+                      {
+                        "width": "@itemInfoWidth"
+                      },
+                      {
+                        "pos": "50%pw-50%w, 0"
+                      },
+                      {
+                        "position": "relative"
+                      },
+                      {
+                        "flow": "vertical"
+                      },
+                      {
+                        "margin": "0.02@sf, 0.01@scrn_tgt"
+                      },
+                      {
+                        "textareaNoTab": {
+                          "id": "item_desc_above_table",
+                          "width": "pw",
+                          "text": ""
+                        }
+                      },
+                      {
+                        "div": {
+                          "id": "item_table_container",
+                          "width": "pw"
+                        }
+                      },
+                      {
+                        "textareaNoTab": {
+                          "id": "item_desc_under_table",
+                          "width": "pw",
+                          "font-bold": "@normal",
+                          "text": ""
+                        }
+                      }
+                    ]
                   }
-                },
-                {
+                ]
+              },
+              {
+                "div": {
+                  "id": "common_info",
+                  "width": "pw",
+                  "padding": "0.01@scrn_tgt",
+                  "flow": "vertical",
+                  "display": "hide",
+                  "textAreaCentered": {
+                    "id": "info_name",
+                    "width": "pw",
+                    "overlayTextColor": "active"
+                  },
                   "itemIconBlock": {
-                    "id": "item_icon",
+                    "id": "info_icon",
                     "pos": "50%pw-50%w, 0",
                     "position": "relative",
-                    "doubleSize": "yes",
-                    "overflow": "hidden"
-                  }
-                },
-                {
+                    "doubleSize": "no"
+                  },
                   "textareaNoTab": {
-                    "id": "item_desc",
+                    "id": "info_desc",
+                    "width": "pw",
                     "pos": "50%pw-50%w, 0",
                     "position": "relative",
-                    "margin": "0.02@scrn_tgt_font, 0.01@scrn_tgt",
-                    "width": "1@itemInfoWidth",
+                    "margin": "0.02@sf, 0.01@scrn_tgt",
                     "font-bold": "@normal"
                   }
-                },
-                {
-                  "div": {
-                    "id": "item_desc_div",
-                    "width": "@itemInfoWidth",
-                    "flow": "vertical"
-                  }
-                },
-                {
-                  "div": [
-                    {
-                      "width": "@itemInfoWidth"
-                    },
-                    {
-                      "pos": "50%pw-50%w, 0"
-                    },
-                    {
-                      "position": "relative"
-                    },
-                    {
-                      "flow": "vertical"
-                    },
-                    {
-                      "margin": "0.02@scrn_tgt_font, 0.01@scrn_tgt"
-                    },
-                    {
-                      "textareaNoTab": {
-                        "id": "item_desc_above_table",
-                        "width": "pw",
-                        "text": ""
-                      }
-                    },
-                    {
-                      "div": {
-                        "id": "item_table_container",
-                        "width": "pw"
-                      }
-                    },
-                    {
-                      "textareaNoTab": {
-                        "id": "item_desc_under_table",
-                        "width": "pw",
-                        "font-bold": "@normal",
-                        "text": ""
-                      }
-                    }
-                  ]
                 }
-              ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "frameBlock": [
+          {
+            "id": "warbond_shop_progress_block"
+          },
+          {
+            "size": "pw, 0.08@scrn_tgt"
+          },
+          {
+            "margin-top": "1@blockInterval"
+          },
+          {
+            "display": "hide"
+          },
+          {
+            "css-hier-invalidate": "yes"
+          },
+          {
+            "tdiv": {
+              "id": "progress_box_place",
+              "position": "relative",
+              "pos": "0.5pw - 0.5@itemInfoWidth - 0.5w, 50%ph-50%h",
+              "width": "50%pw",
+              "height": "1@warbondShopLevelProgressHeight"
+            }
+          },
+          {
+            "tdiv": {
+              "id": "special_tasks_progress_block",
+              "size": "fw, ph",
+              "pos": "1@warbondShopLevelItemHeight, 0",
+              "position": "relative",
+              "tdiv": {
+                "pos": "pw-w-1@blockInterval, 50%ph-50%h",
+                "position": "relative",
+                "textareaNoTab": {
+                  "id": "medals_text",
+                  "text": "",
+                  "hideEmptyText": "yes",
+                  "pos": "0, 50%ph-50%h",
+                  "position": "relative"
+                },
+                "tdiv": {
+                  "id": "medals_block",
+                  "pos": "1@framePadding, 50%ph-50%h",
+                  "position": "relative",
+                  "height": "ph",
+                  "max-width": "5@battleTasksHardMedalWidth"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "navBar": {
+          "tdiv": {
+            "id": "paginator_place",
+            "pos": "0.5pw - 0.5@itemInfoWidth - 0.5w, 0.5ph - 0.5h",
+            "position": "absolute"
+          },
+          "navRight": [
+            {
+              "textarea": {
+                "id": "warning_text",
+                "position": "relative",
+                "text": "",
+                "padding-right": "10@sf/@pf_outdated",
+                "top": "0.5ph - 0.5h"
+              }
             },
             {
-              "div": {
-                "id": "common_info",
-                "width": "pw",
-                "padding": "0.01@scrn_tgt",
-                "flow": "vertical",
+              "Button_text": {
+                "id": "btn_link_action",
+                "text": "#mainmenu/btnBrowser",
+                "btnName": "Y",
+                "_on_click": "onLinkAction",
+                "css-hier-invalidate": "yes",
+                "showButtonImageOnConsole": "no",
                 "display": "hide",
-                "textAreaCentered": {
-                  "id": "info_name",
-                  "width": "pw",
-                  "overlayTextColor": "active"
+                "visualStyle": "secondary",
+                "buttonGlance": [],
+                "buttonWink": [],
+                "ButtonImg": [],
+                "textarea": {
+                  "id": "btn_link_action_text",
+                  "class": "buttonText"
+                }
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_main_action",
+                "text": "",
+                "btnName": "A",
+                "_on_click": "onMainAction",
+                "hideText": "yes",
+                "css-hier-invalidate": "yes",
+                "showButtonImageOnConsole": "no",
+                "display": "hide",
+                "visualStyle": "secondary",
+                "buttonGlance": [],
+                "buttonWink": [],
+                "ButtonImg": [],
+                "textarea": {
+                  "id": "btn_main_action_text",
+                  "class": "buttonText"
                 },
-                "itemIconBlock": {
-                  "id": "info_icon",
-                  "pos": "50%pw-50%w, 0",
-                  "position": "relative",
-                  "doubleSize": "no"
-                },
-                "textareaNoTab": {
-                  "id": "info_desc",
-                  "width": "pw",
-                  "pos": "50%pw-50%w, 0",
-                  "position": "relative",
-                  "margin": "0.02@scrn_tgt_font, 0.01@scrn_tgt",
-                  "font-bold": "@normal"
+                "div": {
+                  "display": "hide",
+                  "id": "stake_select"
                 }
               }
             }
           ]
         }
-      ],
-      "navBar": {
-        "tdiv": {
-          "id": "paginator_place",
-          "pos": "0.5pw - 0.5@itemInfoWidth - 0.5w, 0.5ph - 0.5h",
-          "position": "absolute"
-        },
-        "navRight": [
-          {
-            "textarea": {
-              "id": "warning_text",
-              "position": "relative",
-              "text": "",
-              "padding-right": "10@sf/@pf",
-              "top": "0.5ph - 0.5h"
-            }
-          },
-          {
-            "Button_text": {
-              "id": "btn_link_action",
-              "text": "#mainmenu/btnBrowser",
-              "btnName": "Y",
-              "_on_click": "onLinkAction",
-              "css-hier-invalidate": "yes",
-              "showButtonImageOnConsole": "no",
-              "display": "hide",
-              "visualStyle": "secondary",
-              "buttonGlance": [],
-              "buttonWink": [],
-              "ButtonImg": [],
-              "textarea": {
-                "id": "btn_link_action_text",
-                "class": "buttonText"
-              }
-            }
-          },
-          {
-            "Button_text": {
-              "id": "btn_main_action",
-              "text": "",
-              "btnName": "A",
-              "_on_click": "onMainAction",
-              "hideText": "yes",
-              "css-hier-invalidate": "yes",
-              "showButtonImageOnConsole": "no",
-              "display": "hide",
-              "visualStyle": "secondary",
-              "buttonGlance": [],
-              "buttonWink": [],
-              "ButtonImg": [],
-              "textarea": {
-                "id": "btn_main_action_text",
-                "class": "buttonText"
-              },
-              "div": {
-                "display": "hide",
-                "id": "stake_select"
-              }
-            }
-          }
-        ]
       }
-    },
+    ],
     "gamercard_div": [
       {
         "gamercard": {
@@ -530,11 +605,11 @@
                             "shadeDiv": {
                               "id": "gc_clanAlert",
                               "display": "hide",
-                              "padding-right": "2/720@scrn_tgt_font",
+                              "padding-right": "2/720@sf",
                               "tdiv": {
                                 "position": "relative",
-                                "pos": "6/720@scrn_tgt_font, 50%ph-50%h",
-                                "size": "22/720@scrn_tgt_font, 22/720@scrn_tgt_font",
+                                "pos": "6/720@sf, 50%ph-50%h",
+                                "size": "22/720@sf, 22/720@sf",
                                 "background-color": "@white",
                                 "background-image": "#ui/gameuiskin#new_icon"
                               }
@@ -583,7 +658,7 @@
                                 "expProgress": {
                                   "id": "gc_rankProgress",
                                   "small": "yes",
-                                  "style": "width:20+0.02@scrn_tgt_font;",
+                                  "style": "width:20+0.02@sf;",
                                   "position": "relative",
                                   "pos": "1, -1"
                                 }
@@ -673,7 +748,7 @@
                               "showBonusCommon": ""
                             },
                             {
-                              "width": "@cIco + 0.08@scrn_tgt_font + 9*@sf/@pf"
+                              "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                             },
                             {
                               "shadeDiv": {
@@ -698,7 +773,7 @@
                                 "position": "relative",
                                 "pos": "0, 50%ph-50%h",
                                 "talign": "left",
-                                "min-width": "0.05@scrn_tgt_font"
+                                "min-width": "0.05@sf"
                               }
                             },
                             {
@@ -728,7 +803,7 @@
                               "tooltip": "#mainmenu/warpoints"
                             },
                             {
-                              "width": "@cIco + 0.08@scrn_tgt_font + 9*@sf/@pf"
+                              "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                             },
                             {
                               "showBonusPersonal": ""
@@ -759,7 +834,7 @@
                                 "position": "relative",
                                 "id": "gc_balance",
                                 "talign": "left",
-                                "min-width": "0.05@scrn_tgt_font"
+                                "min-width": "0.05@sf"
                               }
                             }
                           ]
@@ -781,7 +856,7 @@
                               "position": "relative",
                               "id": "gc_gold",
                               "talign": "left",
-                              "min-width": "0.07@scrn_tgt_font"
+                              "min-width": "0.07@sf"
                             }
                           }
                         },
@@ -837,7 +912,7 @@
                 {
                   "tdiv": {
                     "id": "gamercard_tobattle",
-                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@scrn_tgt_font",
+                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
                     "pos": "0, 1@bh",
                     "position": "relative",
                     "allowDecreaseFont": "yes"
@@ -880,7 +955,7 @@
             {
               "tdiv": {
                 "id": "chatPopupNest",
-                "size": "0.4@scrn_tgt_font+10, 0.075*@scrn_tgt_font+10",
+                "size": "0.4@sf+10, 0.075*@sf+10",
                 "position": "absolute",
                 "pos": "0.5@rw-w-0.55@titleLogoPlateWidth-0.019@scrn_tgt, @topBarHeight",
                 "flow": "vertical"

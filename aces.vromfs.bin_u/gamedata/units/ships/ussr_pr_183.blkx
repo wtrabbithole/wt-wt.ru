@@ -745,7 +745,9 @@
           "armorThickness": 4.0,
           "hp": 100.0,
           "turret_h_01_dm": [],
-          "turret_h_02_dm": []
+          "turret_h_02_dm": [],
+          "main_caliber_turret_01_dm": [],
+          "main_caliber_turret_02_dm": []
         }
       },
       {
@@ -2056,6 +2058,27 @@
           "part": "compartment_03_dm"
         },
         {
+          "part": "compartment_04_dm"
+        },
+        {
+          "part": "compartment_05_dm"
+        },
+        {
+          "part": "compartment_06_dm"
+        },
+        {
+          "part": "compartment_07_dm"
+        },
+        {
+          "part": "compartment_08_dm"
+        },
+        {
+          "part": "compartment_09_dm"
+        },
+        {
+          "part": "compartment_10_dm"
+        },
+        {
           "effect": {
             "conditionPartsDead": 2,
             "kill": true,
@@ -2071,7 +2094,7 @@
       "sailor1": {
         "dmPart": "superstructure_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 3
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -2081,7 +2104,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 3
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -2285,16 +2308,16 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 70.0
           },
           {
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 780
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -2441,16 +2464,16 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 70.0
           },
           {
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 780
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -2597,16 +2620,16 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 70.0
           },
           {
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 780
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -2750,16 +2773,16 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "speedYaw": 40.0
           },
           {
-            "speedPitch": 45.0
+            "speedPitch": 70.0
           },
           {
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 780
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -2826,7 +2849,7 @@
               "head": "turret_h_02",
               "gun": "main_caliber_gun_04",
               "barrel": "mg_barrel_04",
-              "gunnerDm": "turret_h_02_dm"
+              "gunnerDm": "main_caliber_turret_02_dm"
             }
           },
           {
@@ -3054,7 +3077,7 @@
   {
     "cockpit": {
       "headPos": [0.0,6.5,-24.0],
-      "headPosOnShooting": [-0.5,6.2,0.6],
+      "headPosOnShooting": [-1.6,4.5,0.8],
       "detectionHeight": 5.0
     }
   },
@@ -3074,7 +3097,7 @@
       "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 300000.0,
+      "additionalWaterDeathThreshold": 220000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0
     }
@@ -3085,21 +3108,70 @@
         "cover": {
           "part": "compartment_01_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.35
+          "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.35
+          "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.35
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_04_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_05_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_06_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_07_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_08_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_09_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_10_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
         }
       }
     ]
@@ -3116,6 +3188,11 @@
       },
       "tank_tool_kit": [],
       "25mm_2m3_universal": []
+    }
+  },
+  {
+    "winch": {
+      "length": 50.0
     }
   },
   {

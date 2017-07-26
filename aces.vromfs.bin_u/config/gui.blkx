@@ -224,28 +224,23 @@
       "login_bkg_1_63_noLayers_us": 3.75
     },
     {
-      "login_bkg_1_67_noLayers_jp": 7.0
+      "login_bkg_1_67_noLayers_jp": 3.75
     },
     {
-      "login_bkg_1_67_noLayers_ru": 7.0
+      "login_bkg_1_67_noLayers_ru": 3.75
     },
     {
-      "login_bkg_1_67_noLayers_main": 7.0
+      "login_bkg_1_67_noLayers_main": 3.75
     },
     {
-      "login_bkg_1_67_noLayers_us": 7.0
+      "login_bkg_1_67_noLayers_us": 3.75
     },
     {
-      "login_bkg_1_67_noLayers_ger": 7.0
+      "login_bkg_1_67_noLayers_ger": 3.75
     },
     {
       "beforeLogin": {
         "default_chance": 0.0,
-        "login_bkg_1_67_noLayers_jp": 2.0,
-        "login_bkg_1_67_noLayers_ru": 2.0,
-        "login_bkg_1_67_noLayers_main": 2.0,
-        "login_bkg_1_67_noLayers_us": 2.0,
-        "login_bkg_1_67_noLayers_ger": 2.0,
         "login_layer_r1": 1.0,
         "login_layer_t1": 1.0
       }
@@ -259,13 +254,8 @@
           "default_chance": 0.0,
           "login_layer_m1": 1.0,
           "login_layer_s1": 2.0,
-          "login_layer_t1": 2.0,
-          "login_layer_u1": 1.0,
-          "login_bkg_1_67_noLayers_jp": 4.0,
-          "login_bkg_1_67_noLayers_ru": 6.0,
-          "login_bkg_1_67_noLayers_main": 5.0,
-          "login_bkg_1_67_noLayers_us": 4.0,
-          "login_bkg_1_67_noLayers_ger": 4.0
+          "login_layer_t1": 4.0,
+          "login_layer_u1": 1.0
         }
       }
     },
@@ -276,7 +266,6 @@
         },
         "beforeLogin": {
           "default_chance": 0.0,
-          "login_bkg_1_67_noLayers_ger": 3.0,
           "login_layer_m1": 1.0,
           "login_layer_e1": 1.0
         }
@@ -591,6 +580,9 @@
       "streak_killStreak_attacker_survived": "streaks_survivance_bg;streaks_survivance_attacker",
       "streak_killStreak_bomber_survived": "streaks_survivance_bg;streaks_survivance_bomber",
       "streak_tank_best_antiAircraft": "streaks_tank_bg;streaks_heroic_target;streaks_heroic_fighter",
+      "streak_battle_royale_first_place_lost": "streaks_event_bg;streaks_last_man_standing",
+      "streak_battle_royale_second_place": "streaks_survivance_bg;streaks_last_man_standing",
+      "streak_battle_royale_third_place": "streaks_trophy_near_bg;streaks_last_man_standing",
       "reward_multiAwardsOnWorthGold": "item_multiaward",
       "reward_warpoints": "item_warpoints",
       "reward_gold": "item_eagles",
@@ -1251,6 +1243,21 @@
         "w": 0.44,
         "h": 0.44,
         "img": "#ui/gameuiskin#streaks_survivance_bomber"
+      },
+      "streaks_battle_royale_first_place_lost": {
+        "w": 0.66,
+        "h": 0.68,
+        "img": "#ui/gameuiskin#streaks_last_man_standing"
+      },
+      "streaks_battle_royale_second_place": {
+        "w": 0.66,
+        "h": 0.68,
+        "img": "#ui/gameuiskin#streaks_last_man_standing"
+      },
+      "streaks_battle_royale_third_place": {
+        "w": 0.66,
+        "h": 0.68,
+        "img": "#ui/gameuiskin#streaks_last_man_standing"
       },
       "chest_placeholder": {
         "x": 0.08,
@@ -3249,6 +3256,10 @@
       "country_italy_locked": "#ui/gameuiskin#country_italy_locked",
       "country_italy_big": "#ui/gameuiskin#country_italy_big",
       "country_italy_big_locked": "#ui/gameuiskin#country_italy_big_locked",
+      "country_france": "#ui/gameuiskin#country_france",
+      "country_france_locked": "#ui/gameuiskin#country_france",
+      "country_france_big": "#ui/gameuiskin#country_france_big",
+      "country_france_big_locked": "#ui/gameuiskin#country_france_big_locked",
       "country_china": "#ui/gameuiskin#country_china",
       "country_china_locked": "#ui/gameuiskin#country_china_locked",
       "country_china_big": "#ui/gameuiskin#country_china_big",
@@ -3259,6 +3270,7 @@
       "countries_country_britain_aviation": "#ui/countries/country_britain",
       "countries_country_japan_aviation": "#ui/countries/country_japan",
       "countries_country_italy_aviation": "#ui/countries/country_italy",
+      "countries_country_france_aviation": "#ui/countries/country_italy",
       "countries_country_china_aviation": "#ui/countries/country_china",
       "countries_country_germany_army": "#ui/countries/country_germany_army",
       "countries_country_ussr_army": "#ui/countries/country_ussr_army",
@@ -3266,12 +3278,14 @@
       "countries_country_britain_army": "#ui/countries/country_britain_army",
       "countries_country_japan_army": "#ui/countries/country_japan_army",
       "countries_country_italy_army": "#ui/countries/country_italy_army",
+      "countries_country_france_army": "#ui/countries/country_italy_army",
       "bgflag_country_usa": "ui/flag_usa",
       "bgflag_country_germany": "ui/flag_germany",
       "bgflag_country_ussr": "ui/flag_ussr",
       "bgflag_country_britain": "ui/flag_britain",
       "bgflag_country_japan": "ui/flag_japan",
       "bgflag_country_italy": "ui/flag_italy",
+      "bgflag_country_france": "ui/flag_france",
       "bgflag_country_china": "ui/flag_china",
       "flag_usa": "#ui/gameuiskin#flag_usa",
       "flag_germany": "#ui/gameuiskin#flag_germany",
@@ -3279,6 +3293,7 @@
       "flag_britain": "#ui/gameuiskin#flag_britain",
       "flag_japan": "#ui/gameuiskin#flag_japan",
       "flag_italy": "#ui/gameuiskin#flag_italy",
+      "flag_france": "#ui/gameuiskin#flag_france",
       "decal_locked_country_usa": "#ui/gameuiskin#decal_country_usa_locked",
       "decal_locked_country_germany": "#ui/gameuiskin#decal_country_germany_locked",
       "decal_locked_country_ussr": "#ui/gameuiskin#decal_country_ussr_locked",
@@ -3376,6 +3391,10 @@
       "country_italy_locked": "#ui/gameuiskin#country_italy_alt_locked",
       "country_italy_big": "#ui/gameuiskin#country_italy_alt_big",
       "country_italy_big_locked": "#ui/gameuiskin#country_italy_alt_big_locked",
+      "country_france": "#ui/gameuiskin#country_france_alt",
+      "country_france_locked": "#ui/gameuiskin#country_france_alt_locked",
+      "country_france_big": "#ui/gameuiskin#country_france_alt_big",
+      "country_france_big_locked": "#ui/gameuiskin#country_france_alt_big_locked",
       "country_china": "#ui/gameuiskin#country_china_alt",
       "country_china_locked": "#ui/gameuiskin#country_china_alt_locked",
       "country_china_big": "#ui/gameuiskin#country_china_alt_big",
@@ -3385,6 +3404,7 @@
       "countries_country_ussr_aviation": "#ui/countries/country_ussr_alt",
       "countries_country_britain_aviation": "#ui/countries/country_britain_alt",
       "countries_country_italy_aviation": "#ui/countries/country_italy_alt",
+      "countries_country_france_aviation": "#ui/countries/country_italy_alt",
       "countries_country_japan_aviation": "#ui/countries/country_japan_alt",
       "countries_country_china_aviation": "#ui/countries/country_china_alt",
       "countries_country_germany_army": "#ui/countries/country_germany_alt_army",
@@ -3398,6 +3418,7 @@
       "bgflag_country_britain": "ui/flag_britain_alt",
       "bgflag_country_japan": "ui/flag_japan_alt",
       "bgflag_country_italy": "ui/flag_italy_alt",
+      "bgflag_country_france": "ui/flag_italy_alt",
       "bgflag_country_china": "ui/flag_china_alt",
       "flag_japan": "#ui/gameuiskin#flag_japan_alt",
       "decal_locked_country_usa": "#ui/gameuiskin#decal_locked_country",
@@ -4105,11 +4126,11 @@
     "timeToAskShowRoomsListSec": 30,
     "askBeforeOpenCount": 10
   },
-  "defriefing_backgrounds": {
+  "debriefing_backgrounds": {
     "blurredImgEnd": "_blur",
     "win": {
       "i": {
-        "img": "win/default"
+        "img": "win/default_dark"
       }
     },
     "lose": {
@@ -4121,6 +4142,44 @@
       "i": {
         "img": "progress/default"
       }
+    }
+  },
+  "unlockPlaybackPath": {
+    "mainPath": "http://psn-cdn-wt-178028.c.cdn77.org/dlc_sound/",
+    "fileExtension": ".ogg"
+  },
+  "warbondsShopLevels": [
+    {
+      "level": [0.0,0.0]
+    },
+    {
+      "level": [0.0,5.0]
+    },
+    {
+      "level": [5.0,10.0]
+    },
+    {
+      "level": [10.0,15.0]
+    },
+    {
+      "level": [15.0,20.0]
+    }
+  ],
+  "warbonds": {
+    "specialTasksByMedal": 3,
+    "medalIcons": {
+      "dateblock_jan": "sp_task_medal1",
+      "dateblock_feb": "sp_task_medal2",
+      "dateblock_march": "sp_task_medal3",
+      "dateblock_aprl": "sp_task_medal1",
+      "dateblock_may": "sp_task_medal2",
+      "dateblock_jun": "sp_task_medal3",
+      "dateblock_july": "sp_task_medal1",
+      "dateblock_aug": "sp_task_medal2",
+      "dateblock_sept": "sp_task_medal3",
+      "dateblock_oct": "sp_task_medal1",
+      "dateblock_nov": "sp_task_medal2",
+      "dateblock_dec": "sp_task_medal3"
     }
   }
 }

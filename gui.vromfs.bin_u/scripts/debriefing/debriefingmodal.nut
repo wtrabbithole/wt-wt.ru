@@ -1,4 +1,6 @@
-const DEBR_LEADERBOARD_LIST_COLUMNS = 3
+const DEBR_LEADERBOARD_LIST_COLUMNS = 2
+const DEBR_AWARDS_LIST_COLUMNS = 3
+const MAX_WND_ASPECT_RATIO_NAVBAR_GC = 0.92
 
 function gui_start_debriefingFull(params = {})
 {
@@ -91,7 +93,7 @@ function gui_start_debriefing()
 
 class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 {
-  sceneBlkName = "gui/statistics/debriefing.blk"
+  sceneBlkName = "gui/debriefing/debriefing.blk"
 
   static awardsListsConfig = {
     streaks = {
@@ -102,8 +104,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
           currentRoomOnly = true
           disableVisible = true
         }
-      align = "left",
-      listObjId = "streaks_awards_list"
+      align = ALIGN.TOP
+      listObjId = "awards_list_streaks"
+      startplaceObId = "start_award_place_streaks"
     }
     unlocks = {
       filter = {
@@ -115,8 +118,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         currentRoomOnly = true
         disableVisible = true
       }
-      align = "right",
-      listObjId = "unlocks_awards_list"
+      align = ALIGN.TOP
+      listObjId = "awards_list_unlocks"
+      startplaceObId = "start_award_place_unlocks"
     }
   }
 
@@ -140,8 +144,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     gameType = ::get_game_type()
     isTeamplay = ::is_mode_with_teams(gameType)
 
+    local gm = ::get_game_mode()
+
     if (::disable_network()) //for correct work in disable_menu mode
       ::update_gamercards()
+
+    initNavbar()
     showTab("") //hide all tabs
 
     isSpectator = ::SessionLobby.isInRoom() && ::SessionLobby.spectator
@@ -149,6 +157,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     ::SessionLobby.checkLeaveRoomInDebriefing()
     isMp = ::is_multiplayer()
     ::close_cur_voicemenu()
+    ::enableHangarControls(true)
 
     lastProgressRank = {}
 
@@ -171,10 +180,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     handlePveReward()
 
     //update title
-    scene.findObject("mission_name").setValue(::loc_current_mission_name())
     local resTitle = ""
-    local warningMessage = ""
-    local headerImgTag = "in_progress"
+    local resReward = " "
+    local resTheme = DEBR_THEME.PROGRESS
 
     if (isMp)
     {
@@ -197,51 +205,53 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
             }
           local winner = ((myTeam == Team.A) == ::debriefing_result.isSucceed) ? "A" : "B"
           resTitle = ::loc("multiplayer/team_won") + ::loc("ui/colon") + ::loc("multiplayer/team" + winner)
-          headerImgTag = "win"
+          resTheme = DEBR_THEME.WIN
         }
         else
         {
           resTitle = ::loc("MISSION_FINISHED")
-          headerImgTag = "win"
+          resTheme = DEBR_THEME.WIN
         }
       }
       else if (mpResult == ::STATS_RESULT_SUCCESS)
       {
         resTitle = ::loc("MISSION_SUCCESS")
-        headerImgTag = "win"
+        resTheme = DEBR_THEME.WIN
+
+        local victoryBonus = (isMp && ::isDebriefingResultFull()) ? ::get_mission_victory_bonus_text(gm) : ""
+        if (victoryBonus != "")
+          resReward = ::loc("debriefing/MissionWinReward") + ::loc("ui/colon") + victoryBonus
       }
       else if (mpResult == ::STATS_RESULT_FAIL)
       {
         resTitle = ::loc("MISSION_FAIL")
-        headerImgTag = "loose"
+        resTheme = DEBR_THEME.LOSE
       }
       else if (mpResult == ::STATS_RESULT_ABORTED_BY_KICK)
-        warningMessage = ::loc("MISSION_ABORTED_BY_KICK")
+      {
+        resReward = ::colorize("badTextColor", ::loc("MISSION_ABORTED_BY_KICK"))
+        resTheme = DEBR_THEME.LOSE
+      }
     }
     else
     {
       resTitle = ::loc(::debriefing_result.isSucceed ? "MISSION_SUCCESS" : "MISSION_FAIL")
-      headerImgTag = ::debriefing_result.isSucceed ? "win" : "loose"
+      resTheme = ::debriefing_result.isSucceed ? DEBR_THEME.WIN : DEBR_THEME.LOSE
     }
 
-    if (resTitle != "")
-      scene.findObject("result-title").setValue(resTitle)
-    else if (warningMessage != "")
-      scene.findObject("result-warning").setValue(warningMessage)
-
-    scene.findObject("header-image")["background-image"] = ::format("#ui/images/debriefing_%s.jpg?P1", headerImgTag)
+    scene.findObject("result_title").setValue(resTitle)
+    scene.findObject("result_reward").setValue(resReward)
 
     gatherAwardsLists()
 
     //update mp table
     needPlayersTbl = isMp && !(gameType & ::GT_COOPERATIVE) && isDebriefingResultFull()
-    setSceneTitle(getCurMpTitle(false, is_show_ww_casualties()))
+    local isShowWwCasualties = is_show_ww_casualties()
+    setSceneTitle(getCurMpTitle(!isShowWwCasualties, isShowWwCasualties))
 
     if (!isDebriefingResultFull())
     {
-      if (isMp && ::get_game_mode() == ::GM_DOMINATION)
-        scene.findObject("stat_info_top_text").setValue(::loc("debriefing/most_award_after_battle"))
-      foreach(tName in ["air_item_text", "research_list_text"])
+      foreach(tName in ["no_air_text", "research_list_text"])
       {
         local obj = scene.findObject(tName)
         if (::checkObj(obj))
@@ -249,11 +259,18 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
     }
 
+    if (gm == ::GM_SINGLE_MISSION || gm == ::GM_CAMPAIGN || gm == ::GM_TRAINING)
+    {
+      local obj = scene.findObject("single_mission_result")
+      if (::checkObj(obj))
+        obj.setValue(::loc(::debriefing_result.isSucceed ? "debriefing/victory" : "debriefing/defeat"))
+    }
+
     isReplay = ::is_replay_playing()
     if (!isReplay)
     {
       setGoNext()
-      if (::get_game_mode() == ::GM_DYNAMIC)
+      if (gm == ::GM_DYNAMIC)
       {
         ::save_profile(true)
         if (::dynamic_result > ::MISSION_STATUS_RUNNING)
@@ -271,6 +288,21 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     handleNoAwardsCaption()
   }
 
+  function initNavbar()
+  {
+    local frameObj = scene.findObject("wnd_frame")
+    if (!::check_obj(frameObj))
+      return
+
+    local frameSize = frameObj.getSize()
+    local isNavBarInGamerCard = (MAX_WND_ASPECT_RATIO_NAVBAR_GC * frameSize[0] > frameSize[1]) && !::should_disable_menu()
+
+    showSceneBtn("wnd_navbar_block", !isNavBarInGamerCard)
+    local navbarObj = scene.findObject(isNavBarInGamerCard ? "gamercard_bottom_navbar_place" : "wnd_navbar_place")
+    if (::check_obj(navbarObj))
+      guiScene.replaceContent(navbarObj, "gui/debriefing/debriefingNavbar.blk", this)
+  }
+
   function gatherAwardsLists()
   {
     awardsList = []
@@ -282,6 +314,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       streakAwardsList.append(::getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy))
 
     unlockAwardsList = getAwardsList(awardsListsConfig.unlocks.filter)
+
+    ::showBtnTable(scene, {
+      [awardsListsConfig.streaks.listObjId] = streakAwardsList.len() > 0,
+      [awardsListsConfig.unlocks.listObjId] = unlockAwardsList.len() > 0,
+    })
 
     awardsList.extend(streakAwardsList)
     awardsList.extend(unlockAwardsList)
@@ -320,13 +357,29 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function handleNoAwardsCaption()
   {
-    local noAwardsCaptionObj = scene.findObject("no_awards_caption")
-    if ( ! ::checkObj(noAwardsCaptionObj))
-      return
+    local text = ""
+    local color = ""
+
     if(::getTblValue("haveTeamkills", ::debriefing_result, false))
-      noAwardsCaptionObj.setValue(::loc("debriefing/noAwardsCaption"))
+    {
+      text = ::loc("debriefing/noAwardsCaption")
+      color = "bad"
+    }
     else if (pveRewardInfo && pveRewardInfo.warnLowActivity)
-      noAwardsCaptionObj.setValue(::loc("debriefing/noAwardsCaption/noMinActivity"))
+    {
+      text = ::loc("debriefing/noAwardsCaption/noMinActivity")
+      color = "userlog"
+    }
+
+    if (text == "")
+      return
+
+    local blockObj = ::showBtn("no_awards_block", true, scene)
+    local captionObj = blockObj && blockObj.findObject("no_awards_caption")
+    if (!::check_obj(captionObj))
+      return
+    captionObj.setValue(text)
+    captionObj.overlayTextColor = color
   }
 
   function reinitTotal()
@@ -342,22 +395,48 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!totalRow)
       return
 
-    if (totalCurValues == null)
-      totalCurValues = {}
+    local premTeaser = getPremTeaserInfo()
 
-    local currencyArray = ["wp", "exp", "gold"]
+    totalCurValues = totalCurValues || {}
     totalTarValues = {}
-    foreach(currency in currencyArray)
+
+    foreach(currency in [ "exp", "wp" ])
     {
-      if (!(currency in totalCurValues))
-        totalCurValues[currency] <- 0
+      foreach(suffix in [ "", "Teaser" ])
+        if (!(currency + suffix in totalCurValues))
+          totalCurValues[currency + suffix] <- 0
 
       local totalKey = ::get_counted_result_id(totalRow, state, currency)
+      totalCurValues[currency] <- ::getTblValue(currency, totalCurValues, 0)
       totalTarValues[currency] <- ::getTblValue(totalKey, ::debriefing_result.counted_result_by_debrState, 0)
+      totalCurValues[currency + "Teaser"] <- ::getTblValue(currency + "Teaser", totalCurValues, 0)
+      totalTarValues[currency + "Teaser"] <- premTeaser[currency]
+    }
+
+    local canSuggestPrem = canSuggestBuyPremium()
+
+    local tooltip = ""
+    if (canSuggestPrem)
+    {
+      local currencies = []
+      if (premTeaser.exp > 0)
+        currencies.append(::getRpPriceText(premTeaser.exp, true))
+      if (premTeaser.wp  > 0)
+        currencies.append(::getPriceText(premTeaser.wp))
+      tooltip = ::loc("debriefing/PremiumNotEarned") + ::loc("ui/colon") + "\n" + ::implode(currencies, ::loc("ui/comma"))
     }
 
     totalObj = scene.findObject("wnd_total")
-    totalObj.show(true)
+    local markup = ::handyman.renderCached("gui/debriefing/debriefingTotals", {
+      showTeaser = canSuggestPrem && premTeaser.isPositive
+      canSuggestPrem = canSuggestPrem
+      exp = totalCurValues["exp"]
+      wp  = totalCurValues["wp"]
+      expTeaser = premTeaser.exp
+      wpTeaser  = premTeaser.wp
+      teaserTooltip = tooltip
+    })
+    guiScene.replaceContentFromText(totalObj, markup, markup.len(), this)
     updateTotal(0.0)
   }
 
@@ -445,21 +524,18 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function showActiveWagerResultIcon(success)
   {
-    local iconId = "active_wager_icon_" + (success ? "success" : "fail")
-    local iconObj = scene.findObject(iconId)
-    if (::checkObj(iconObj))
-      iconObj.show(true)
+    local iconObj = scene.findObject("active_wager_result_icon")
+    if (!::checkObj(iconObj))
+      return
+    iconObj["background-image"] = success ? "#ui/gameuiskin#favorite" : "#ui/gameuiskin#icon_primary_fail"
+    iconObj.show(true)
   }
 
   function handlePveReward()
   {
     local isVisible = !!pveRewardInfo && pveRewardInfo.isVisible
 
-    local bgImage = scene.findObject("header-image");
-    bgImage.set_prop_latent("color-factor", isVisible ? 153 : 255)
-    bgImage.updateRendElem()
-
-    showSceneBtn("pve_reward_block", isVisible)
+    showSceneBtn("pve_trophy_block", isVisible)
     if (! isVisible)
       return
 
@@ -484,9 +560,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local stage = rewardTrophyStages.len()? [] : null
     foreach (stageIndex, val in rewardTrophyStages)
     {
-      if (val < 0 || val > maxValue)
-        continue
-
       local isVictoryStage = val == maxValue
 
       local text = isVictoryStage ? ::loc("debriefing/victory")
@@ -511,7 +584,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       stage = stage
     }
 
-    local data = ::handyman.renderCached("gui/statistics/debriefingPvEReward", view)
+    local data = ::handyman.renderCached("gui/debriefing/pveReward", view)
     guiScene.replaceContentFromText(pveTrophyPlaceObj, data, data.len(), this)
   }
 
@@ -581,26 +654,34 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     newSliderObj.setValue(newValue)
   }
 
+  function switchTab(tabName)
+  {
+    if (state != debrState.done)
+      return
+    local tabsObj = scene.findObject("tabs_list")
+    if (!::check_obj(tabsObj))
+      return
+    for (local i = 0; i < tabsObj.childrenCount(); i++)
+      if (tabsObj.getChild(i).id == tabName)
+        return tabsObj.setValue(i)
+  }
+
   function showTab(tabName)
   {
     foreach(name in tabsList)
     {
       local obj = scene.findObject(name + "_tab")
-      if (obj) obj.show(tabName == name)
+      if (!obj)
+        continue
+      local isShow = name == tabName
+      obj.show(isShow)
+      updateScrollableObjects(obj, name, isShow)
     }
     curTab = tabName
     updateListsButtons()
 
     if (state==debrState.done)
       isModeStat = tabName=="players_stats"
-
-    showCasualtiesHead(tabName == "ww_casualties")
-  }
-
-  function showCasualtiesHead(isShow)
-  {
-    scene.findObject("basic_head_div").show(!isShow)
-    scene.findObject("ww_casualties_head_div").show(isShow)
   }
 
   function animShowTab(tabName)
@@ -672,8 +753,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     state++
     statsTimer = 0
     reinitTotal()
+
     if (state == debrState.showPlayers)
     {
+      loadAwardsList()
+
       if (!needPlayersTbl)
         return switchState()
 
@@ -684,9 +768,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       initPlayersTable()
       loadBattleLog()
       loadChatHistory()
-      loadCasualtiesHistory()
+      loadWwCasualtiesHistory()
     }
-    if (state == debrState.showAwards)
+    else if (state == debrState.showAwards)
     {
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
       if (awardDelay * awardsList.len() > awardsAppearTime)
@@ -697,8 +781,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       if (isSpectator)
         return switchState()
 
-      animShowTab("my_stats")
+      showTab("my_stats")
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
+      showMyPlaceInTable()
     }
     else if (state == debrState.showBonuses)
     {
@@ -750,6 +835,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
             ::debriefing_result.exp.result == ::STATS_RESULT_IN_PROGRESS))
         textArray.append(::loc("debriefing/most_award_after_battle"))
 
+      textArray.insert(0, ::loc("charServer/chapter/bonuses"))
+
       local objTarget = objPlace.findObject("bonus_ico")
       if (::checkObj(objTarget))
       {
@@ -768,12 +855,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     else if (state == debrState.done)
     {
-      scene.findObject("btn_next").setValue(::loc("mainmenu/btnOk"))
-      scene.findObject("btn_next_text").setValue(::loc("mainmenu/btnOk"))
+      local isShowToBattleBtn = isToBattleActionEnabled()
+      ::showBtn("btn_to_battle", isShowToBattleBtn, scene)
+      scene.findObject("btn_next").setValue(::loc(isShowToBattleBtn ? "mainmenu/toHangar" :"mainmenu/btnOk"))
       scene.findObject("skip_button").show(false)
       scene.findObject("start_bonus_place").show(false)
       fillLeaderboardChanges()
       updateInfoText()
+      updateBuyPremiumAwardButton()
       showTabsList()
       updateListsButtons()
       initFocusArray()
@@ -784,6 +873,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       checkPopupWindows()
       throwBattleEndEvent()
       guiScene.performDelayed(this, function() {ps4SendActivityFeed() })
+      getObj("tabs_list").select()
     }
     else
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
@@ -858,7 +948,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!::checkObj(rowObj))
     {
       guiScene.setUpdatesEnabled(false, false)
-      rowObj = guiScene.createElementByObject(tblObj, "gui/statistics/debriefingRow.blk", "tr", this)
+      rowObj = guiScene.createElementByObject(tblObj, "gui/debriefing/statRow.blk", "tr", this)
       rowObj.id = rowId
       rowObj.findObject("tooltip_").id = "tooltip_" + row.id
       rowObj.findObject("name").setValue(row.getName())
@@ -869,20 +959,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       if ("tooltip" in row)
         rowObj.title = ::loc(row.tooltip)
-      if ("actionFunc" in row && (!("showAction" in row) || row.showAction()))
-      {
-        local actionObj = rowObj.findObject("btn_action")
-        actionObj.show(true)
-        actionObj.id = "btn_action_" + row.id
-        if ("buttonVisualStyle" in row)
-          actionObj.visualStyle = row.buttonVisualStyle
-        if ("actionName" in row)
-        {
-          local actionText = (typeof(row.actionName)=="string")? ::loc(row.actionName) : row.actionName()
-          actionObj.findObject("btn_action_text").setValue(actionText)
-        }
-        rowObj.buttonRow = "yes"
-      }
 
       local rowProps = ::getTblValue("rowProps", row, null)
       if(::u.isFunction(rowProps))
@@ -984,11 +1060,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
     }
 
-    foreach(p in ["wp", "gold", "exp"])
+    foreach(p in [ "exp", "wp", "expTeaser", "wpTeaser" ])
       if (totalCurValues[p] != totalTarValues[p])
       {
         totalCurValues[p] = skipAnim ? totalTarValues[p] :
           ::blendProp(totalCurValues[p], totalTarValues[p], totalStatsTime, dt).tointeger()
+
         local obj = totalObj.findObject(p)
         if (::checkObj(obj))
           obj.setValue(totalCurValues[p].tostring())
@@ -1075,9 +1152,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function onEventUnitBought(p)
   {
-    //local unit = getAircraftByName(::getTblValue("unitName", p, ""))
-    //if (!unit) return
-
     fillResearchingUnits()
   }
 
@@ -1129,34 +1203,39 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return null
   }
 
-  function fillResearchMod(holderObj, air, airData)
+  function fillResearchMod(holderObj, unit, airData)
   {
-    local modRowObj = guiScene.createElementByObject(holderObj, "gui/statistics/modificationProgress.blk", "tdiv", this)
+    local unitId = unit.name
+    local mod = getResearchModFromAirData(unit, airData)
+    local diffExp = mod ? getModExp(airData) : 0
+    local isCompleted = mod ? ::getTblValue("expModuleCapped", airData, false) : false
 
-    local unitItemParams = {
-      tooltipParams = {
-        boosterEffects = getBoostersTotalEffects()
-      }
+    local view = {
+      id = unitId
+      unitImg = ::image_for_air(unit)
+      unitName = ::stringReplace(::getUnitName(unit), ::nbsp, " ")
+      hasModItem = mod != null
+      isCompleted = isCompleted
+      unitTooltipId = ::g_tooltip.getIdUnit(unit.name, { boosterEffects = getBoostersTotalEffects() })
+      modTooltipId =  mod ? ::g_tooltip.getIdModification(unit.name, mod.name, { diffExp = diffExp }) : ""
     }
-    local data = ::build_aircraft_item(air.name, air, unitItemParams)
-    local airObj = modRowObj.findObject("air_item_place")
-    guiScene.replaceContentFromText(airObj, data, data.len(), this)
-    ::fill_unit_item_timers(airObj.findObject(air.name), air, unitItemParams)
 
-    local mod = getResearchModFromAirData(air, airData)
+    local markup = ::handyman.renderCached("gui/debriefing/modificationProgress", view)
+    guiScene.appendWithBlk(holderObj, markup, this)
+    local obj = holderObj.findObject(unitId)
+
     if (mod)
     {
-      local diffExp = getModExp(airData)
-      local modIconNest = modRowObj.findObject("modification_place")
-      local modItemObj = ::weaponVisual.createItem("mod_" + air.name, mod, weaponsItem.modification, modIconNest, this)
-      ::weaponVisual.updateItem(air, mod, modItemObj, false, this, getParamsForModItem(diffExp))
-    } else
+      local modObj = obj.findObject("mod_" + unitId)
+      ::weaponVisual.updateItem(unit, mod, modObj, false, this, getParamsForModItem(diffExp))
+    }
+    else
     {
       local msg = "debriefing/but_all_mods_researched"
-      if (::find_any_not_researched_mod(air))
+      if (::find_any_not_researched_mod(unit))
         msg = "debriefing/but_not_any_research_active"
       msg = format(::loc(msg), ::getRpPriceText(getModExp(airData) || airData.expTotal, true))
-      modRowObj.findObject("no_mod_text").setValue(msg)
+      obj.findObject("no_mod_text").setValue(msg)
     }
   }
 
@@ -1198,26 +1277,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getParamsForModItem(diffExp)
   {
-    return { diffExp = diffExp }
-  }
-
-  function onModificationTooltipOpen(obj)
-  {
-    if (!checkShowTooltip(obj))
-      return
-
-    local airName = ::getObjIdByPrefix(obj, "tooltip_mod_")
-    if (!airName || !(airName in ::debriefing_result.exp.aircrafts))
-      return
-    local air = ::getAircraftByName(airName)
-    if (!air)
-      return
-
-    local airData = ::debriefing_result.exp.aircrafts[airName]
-    local diffExp = getModExp(airData)
-    local modItem = getResearchModFromAirData(air, airData)
-    if (modItem)
-      ::weaponVisual.updateWeaponTooltip(obj, air, modItem, this, { diffExp = diffExp })
+    return { diffExp = diffExp, limitedName = false }
   }
 
   function fillLeaderboardChanges()
@@ -1237,12 +1297,15 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!("tournamentResult" in logs[0]))
       return
 
-    local gap = guiScene.calcString("@tablePad", null)
-    local gapsPerRow = gap * (DEBR_LEADERBOARD_LIST_COLUMNS + 1)
+    local gapSides = guiScene.calcString("@tablePad", null)
+    local gapMid   = guiScene.calcString("@debrPad", null)
+    local gapsPerRow = gapSides * 2 + gapMid * (DEBR_LEADERBOARD_LIST_COLUMNS - 1)
 
+    local posFirst  = ::format("%d, %d", gapSides, gapMid)
+    local posCommon = ::format("%d, %d", gapMid,   gapMid)
     local itemParams = {
       width  = ::format("(pw - %d) / %d", gapsPerRow, DEBR_LEADERBOARD_LIST_COLUMNS)
-      pos    = ::format("%d, %d", gap, gap)
+      pos    = posCommon
       margin = "0"
     }
 
@@ -1256,11 +1319,15 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       if (!(lbFieldsConfig.field in now))
         continue
 
+      local isFirstInRow = items.len() % DEBR_LEADERBOARD_LIST_COLUMNS == 0
+      itemParams.pos = isFirstInRow ? posFirst : posCommon
+
       items.append(::getLeaderboardItemView(lbFieldsConfig,
         now[lbFieldsConfig.field],
         ::getTblValue(lbFieldsConfig.field, lbDiff, null),
         itemParams))
     }
+    lbWindgetsNestObj.show(true)
 
     local blk = ::getLeaderboardItemWidgets({ items = items })
     guiScene.replaceContentFromText(lbWindgetsNestObj, blk, blk.len() this)
@@ -1334,7 +1401,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       tooltipComment = tRow.tooltipComment ? tRow.tooltipComment() : null
     }
 
-    local markup = ::handyman.renderCached("gui/statistics/debriefRowTooltip", tooltipView)
+    local markup = ::handyman.renderCached("gui/debriefing/statRowTooltip", tooltipView)
     guiScene.replaceContentFromText(obj, markup, markup.len(), this)
   }
 
@@ -1429,15 +1496,43 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return view
   }
 
-  function onRowAction(obj)
+  function getPremTeaserInfo()
   {
-    local id = ::getObjIdByPrefix(obj, "btn_action_")
-    if (!id)
+    local totalWp = ::getTblValue("wpTotal",  ::debriefing_result.exp)
+    local totalRp = ::getTblValue("expTotal", ::debriefing_result.exp)
+    local virtPremAccWp = ::getTblValueByPath("tblTotal.virtPremAccWp",  ::debriefing_result.exp)
+    local virtPremAccRp = ::getTblValueByPath("tblTotal.virtPremAccExp", ::debriefing_result.exp)
+
+    local totalWithPremWp = (totalWp <= 0 || virtPremAccWp <= 0) ? 0 : (totalWp + virtPremAccWp)
+    local totalWithPremRp = (totalRp <= 0 || virtPremAccRp <= 0) ? 0 : (totalRp + virtPremAccRp)
+
+    return {
+      exp  = totalWithPremRp
+      wp   = totalWithPremWp
+      isPositive = totalWithPremRp > 0 || totalWithPremWp > 0
+    }
+  }
+
+  function canSuggestBuyPremium()
+  {
+    return !::havePremium() && ::has_feature("SpendGold") && ::has_feature("EnablePremiumPurchase") && isDebriefingResultFull()
+  }
+
+  function updateBuyPremiumAwardButton()
+  {
+    local isShow = canSuggestBuyPremium() && ::get_game_mode() == ::GM_DOMINATION && ::checkPremRewardAmount()
+
+    local btnObj = scene.findObject("btn_buy_premium_award")
+    if (!::check_obj(btnObj))
       return
 
-    foreach(row in ::debriefing_rows)
-      if (row.id == id && "actionFunc" in row)
-        return row.actionFunc.call(this)
+    btnObj.show(isShow)
+    if (isShow)
+    {
+      local curAwardText = ::get_cur_award_text()
+      btnObj.findObject("label").setValue(::loc("mainmenu/earn") + "\n" + curAwardText)
+      btnObj.tooltip = ::format(::loc("mainmenu/btnEarnNow"), curAwardText)
+    }
   }
 
   function onBuyPremiumAward()
@@ -1486,6 +1581,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       if (!row.show)
         showSceneBtn("row_" + row.id, row.show)
 
+    updateBuyPremiumAwardButton()
     reinitTotal()
     skipAnim = false
     state = debrState.showBonuses - 1
@@ -1527,16 +1623,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return true
   }
 
-  function countAwardsOffset(obj, tgtObj)
+  function countAwardsOffset(obj, tgtObj, axis)
   {
     local size = obj.getSize()
     local maxSize = tgtObj.getSize()
-    local awardsWidth = size[0] * currentAwardsList.len()
+    local awardSize = size[axis] * currentAwardsList.len()
 
-    if (awardsWidth > maxSize[0] && currentAwardsList.len() > 1)
-      awardOffset = ((maxSize[0] - awardsWidth) / (currentAwardsList.len()-1) - 1).tointeger()
+    if (awardSize > maxSize[axis] && currentAwardsList.len() > 1)
+      awardOffset = ((maxSize[axis] - awardSize) / (currentAwardsList.len()-1) - 1).tointeger()
     else
-      tgtObj.width = awardsWidth.tostring()
+      tgtObj[axis ? "height" : "width"] = awardSize.tostring()
   }
 
   function addAward()
@@ -1545,7 +1641,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local objId = "award_" + curAwardIdx
 
     local listObj = scene.findObject(currentAwardsListConfig.listObjId)
-    local obj = guiScene.createElementByObject(listObj, "gui/statistics/debriefAward.blk", "awardPlace", this)
+    local obj = guiScene.createElementByObject(listObj, "gui/debriefing/awardIcon.blk", "awardPlace", this)
     obj.id = objId
 
     local tooltipObj = obj.findObject("tooltip_")
@@ -1555,12 +1651,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if ("needFrame" in config && config.needFrame)
       obj.findObject("move_part")["class"] = "unlockFrame"
 
+    local align = currentAwardsListConfig.align
+    local axis = (align == ALIGN.TOP || align == ALIGN.BOTTOM) ? 1 : 0
     if (currentAwardsListIdx == 0) //firstElem
-      countAwardsOffset(obj, listObj)
-    else if (currentAwardsListConfig.align == "left" && awardOffset != 0)
+      countAwardsOffset(obj, listObj, axis)
+    else if (align == ALIGN.LEFT && awardOffset != 0)
       obj.pos = awardOffset + ", 0"
+    else if (align == ALIGN.TOP && awardOffset != 0)
+      obj.pos = "0, " + awardOffset
 
-    if (currentAwardsListConfig.align == "right")
+    if (align == ALIGN.RIGHT)
       if (currentAwardsListIdx == 0)
         obj.pos = "pw - w, 0"
       else
@@ -1583,7 +1683,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (!skipAnim)
     {
-      local objStart = scene.findObject("start_award_place")
+      local objStart = scene.findObject(currentAwardsListConfig.startplaceObId)
       local objTarget = obj.findObject("move_part")
       ::create_ObjMoveToOBj(scene, objStart, objTarget, { time = awardFlyTime })
 
@@ -1593,6 +1693,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
   }
 
+  function onViewAwards(obj)
+  {
+    switchTab("awards_list")
+  }
+
   function onAwardTooltipOpen(obj)
   {
     if (!checkShowTooltip(obj))
@@ -1600,15 +1705,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local config = obj.getUserData()
     ::build_unlock_tooltip_by_config(obj, config, this)
-  }
-
-  function onViewAwards(obj = null)
-  {
-    if ((skipAnim || state == debrState.done) && !::u.isEmpty(awardsList))
-      ::showUnlocksGroupWnd([{
-        unlocksList = awardsList
-        titleText = ::loc("debriefing/awards_list")
-      }])
   }
 
   function buildPlayersTable()
@@ -1652,7 +1748,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       buildPlayersTable()
 
     updatePlayersTable(0.0)
-    showMyPlaceInTable()
   }
 
   function getMplayersListByTeam(teamNum)
@@ -1680,17 +1775,22 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       if (playersTblDone)
         return minPlayersTime > 0
 
+      local hasLocalPlayer = false
       playersTblDone = true
       for(local t = 0; t < 2; t++)
       {
         local idx = curPlayersTbl[t].len()
         if (idx in playersTbl[t])
+        {
           curPlayersTbl[t].append(playersTbl[t][idx])
+          hasLocalPlayer = hasLocalPlayer || !!playersTbl[t][idx].isLocal
+        }
         playersTblDone = playersTblDone && curPlayersTbl[t].len() == playersTbl[t].len()
       }
       updateStats(curPlayersTbl, ::debriefing_result.mpTblTeams)
       statsTimer += playersRowTime
-      if (playersTblDone)
+
+      if (hasLocalPlayer)
         selectLocalPlayer()
     }
     return true
@@ -1698,9 +1798,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function showMyPlaceInTable()
   {
-    if (!playersTbl
-        || isSpectator
-        || pveRewardInfo && pveRewardInfo.isVisible)
+    if (!playersTbl || isSpectator)
       return
 
     local place = 0
@@ -1746,7 +1844,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       {
         local data = ""
         foreach (f in filters)
-          data += ::format("RadioButton { text:t='#%s'; RadioButtonImg{} }\n", f.title)
+          data += ::format("RadioButton { text:t='#%s'; style:t='color:@white'; RadioButtonImg{} }\n", f.title)
         guiScene.replaceContentFromText(obj, data, data.len(), this)
         obj.setValue(filterIdx)
       }
@@ -1772,7 +1870,22 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       obj.findObject("chat_log").setValue(logText)
   }
 
-  function loadCasualtiesHistory()
+  function loadAwardsList()
+  {
+    local listObj = scene.findObject("awards_list_tab_div")
+    local itemWidth = ::floor((listObj.getSize()[0] -
+      guiScene.calcString("@scrollBarSize", null)
+      ) / DEBR_AWARDS_LIST_COLUMNS -1)
+    foreach (list in [ unlockAwardsList, streakAwardsList ])
+      foreach (award in list)
+      {
+        local obj = guiScene.createElementByObject(listObj, "gui/unlocks/unlockBlock.blk", "tdiv", this)
+        obj.width = itemWidth.tostring()
+        ::fill_unlock_block(obj, award)
+      }
+  }
+
+  function loadWwCasualtiesHistory()
   {
     if (!is_show_ww_casualties())
       return
@@ -1788,30 +1901,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
 
     local view = ::WwBattleResults().updateFromUserlog(logs[0]).getView()
-
-    local tabMarkup = ::handyman.renderCached("gui/statistics/battleCasualties", view)
+    local markup = ::handyman.renderCached("gui/worldWar/battleResults", view)
     local contentObj = scene.findObject("ww_casualties_div")
     if (::checkObj(contentObj))
-      guiScene.replaceContentFromText(contentObj, tabMarkup, tabMarkup.len(), this)
-
-    local headMarkup = ::handyman.renderCached("gui/statistics/battleCasualtiesHead", view)
-    local headObj = scene.findObject("ww_casualties_head_block")
-    if (::checkObj(headObj))
-      guiScene.replaceContentFromText(headObj, headMarkup, headMarkup.len(), this)
-
-    local headTextObj = scene.findObject("ww_casualties_head_text")
-    if (::checkObj(headTextObj))
-    {
-      local isWinner = ::debriefing_result.exp.result == ::STATS_RESULT_SUCCESS
-      headTextObj.setValue(::loc(isWinner ? "debriefing/victory" : "debriefing/defeat"))
-    }
+      guiScene.replaceContentFromText(contentObj, markup, markup.len(), this)
   }
 
   function showTabsList()
   {
     local tabsObj = scene.findObject("tabs_list")
     tabsObj.show(true)
-    local data = ""
+    local view = { items = [] }
     local defaultTabValue = 0
     local defaultTabName = is_show_ww_casualties() ? "ww_casualties" : ""
     local tabCounter = 0
@@ -1820,12 +1920,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       local checkName = "is_show_" + tabName
       if (!(checkName in this) || this[checkName]())
       {
-        data += format("shopFilter { id:t='%s'; text:t='%s' } ", tabName, "#debriefing/" + tabName)
+        local title = ::getTblValue(tabName, tabsTitles, "#debriefing/" + tabName)
+        view.items.append({
+          id = tabName
+          text = title
+        })
         if (tabName == defaultTabName)
           defaultTabValue = tabCounter
         tabCounter++
       }
     }
+    local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
     guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
     tabsObj.setValue(defaultTabValue)
     onChangeTab(tabsObj)
@@ -1846,6 +1951,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function is_show_chat_history()
   {
     return needPlayersTbl && ::get_gamechat_log_text() != ""
+  }
+  function is_show_awards_list()
+  {
+    return !::u.isEmpty(awardsList)
   }
   function is_show_ww_casualties()
   {
@@ -1872,6 +1981,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     showTab(obj.getChild(value).id)
   }
 
+  function updateScrollableObjects(tabObj, tabName, isEnable)
+  {
+    foreach (objId, val in ::getTblValue(tabName, tabsScrollableObjs, {}))
+    {
+      local obj = tabObj.findObject(objId)
+      if (::check_obj(obj))
+        obj["scrollbarShortcuts"] = isEnable ? val : "no"
+    }
+  }
+
   function updateListsButtons()
   {
     local isAnimDone = state==debrState.done
@@ -1881,7 +2000,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       btn_view_replay = isAnimDone && isReplayReady && !isMp
       btn_save_replay = isAnimDone && isReplayReady && !::is_replay_saved()
       btn_usercard = isAnimDone && (curTab == "players_stats") && player && !player.isBot
-      btn_rewards_list = isAnimDone && !::u.isEmpty(awardsList)
     }
 
     foreach(btn, show in buttonsList)
@@ -2126,6 +2244,33 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     ::my_stats.markStatsReset()
   }
 
+  function onStart()
+  {
+    if (state != debrState.done && !skipAnim)
+    {
+      onSkip()
+      return
+    }
+
+    goBack()
+
+    if (isToBattleActionEnabled())
+      guiScene.performDelayed(getroottable(), function()
+      {
+        if (::handlersManager.isHandlerValid(::instant_domination_handler))
+          ::instant_domination_handler.onStart()
+      })
+  }
+
+  function isToBattleActionEnabled()
+  {
+    return (skipAnim || state == debrState.done)
+      && (::get_game_mode() == ::GM_DOMINATION) && !!(gameType & ::GT_VERSUS)
+      && !::checkIsInQueue() && !::g_squad_manager.isSquadMember()
+      && !isSpectator && !::getTblValue("eventId", ::debriefing_result)
+      && ::go_debriefing_next_func == ::gui_start_mainmenu
+  }
+
   function onEventMatchingDisconnect(p)
   {
     ::go_debriefing_next_func = ::gui_start_logout
@@ -2138,17 +2283,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function throwBattleEndEvent()
   {
-    local logs = ::getUserLogsList({
-      show = [::EULT_SESSION_RESULT]
-      currentRoomOnly = true
-    })
-
-    if (logs.len())
-    {
-      local eventId = ::getTblValue("eventId", logs[0])
-      if (eventId)
-        ::broadcastEvent("EventBattleEnded", {eventId = eventId})
-    }
+    local eventId = ::getTblValue("eventId", ::debriefing_result)
+    if (eventId)
+      ::broadcastEvent("EventBattleEnded", {eventId = eventId})
     ::broadcastEvent("BattleEnded")
   }
 
@@ -2222,13 +2359,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (::debriefing_result == null)
       return
     local infoText = ""
-    local info = ::get_profile_info()
-    local isVersus = (gameType & ::GT_VERSUS)
+    local infoColor = "active"
 
     local gm = ::get_game_mode()
     local wpdata = ::get_session_warpoints()
 
-    if ((gm == ::GM_DYNAMIC || gm == ::GM_BUILDER) && wpdata.isRewardReduced)
+    if (::debriefing_result.exp.result == ::STATS_RESULT_ABORTED_BY_KICK)
+    {
+      infoText = ::loc("MISSION_ABORTED_BY_KICK")
+      infoColor = "bad"
+    }
+    else if ((gm == ::GM_DYNAMIC || gm == ::GM_BUILDER) && wpdata.isRewardReduced)
       infoText = ::loc("debriefing/award_reduced")
     else
     {
@@ -2245,15 +2386,26 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
           if (::debriefing_result.isSucceed)
             infoText = ::loc("debriefing/award_already_received")
         }
+        else if (isMp && !isDebriefingResultFull() && gm == ::GM_DOMINATION)
+        {
+          infoText = ::loc("debriefing/most_award_after_battle")
+          infoColor = "userlog"
+        }
         else if (isMp && ::debriefing_result.exp.result == ::STATS_RESULT_IN_PROGRESS && !(gameType & ::GT_RACE))
           infoText = ::loc("debriefing/exp_and_reward_will_be_later")
       }
     }
 
+    local isShow = infoText != ""
     local infoObj = scene.findObject("stat_info_text")
-    infoObj.setValue(infoText)
-    guiScene.setUpdatesEnabled(true, true)
-    infoObj.scrollToView()
+    infoObj.show(isShow)
+    if (isShow)
+    {
+      infoObj.setValue(infoText)
+      infoObj["overlayTextColor"] = infoColor
+      guiScene.applyPendingChanges(false)
+      infoObj.scrollToView()
+    }
   }
 
   function getBoostersText()
@@ -2297,7 +2449,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getMainFocusObj2()
   {
-    return getObj("my_stats_scroll_block")
+    switch (curTab)
+    {
+      case "players_stats": return getSelectedTable()
+      case "battle_log":    return getObj("battle_log_filter")
+      default:              return null
+    }
   }
 
   isInited = true
@@ -2307,7 +2464,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   isReplay = false
   //haveCountryExp = true
 
-  tabsList = ["my_stats", "ww_casualties", "players_stats", "battle_log", "chat_history"]
+  tabsList = [ "my_stats", "players_stats", "ww_casualties", "awards_list", "battle_log", "chat_history" ]
+  tabsTitles = { awards_list = "#profile/awards"}
+  tabsScrollableObjs = {
+    my_stats      = { my_stats_scroll_block = "yes", researches_scroll_block = "left" }
+    players_stats = { players_stats_scroll_block = "yes" }
+    ww_casualties = { ww_battle_results_scroll_block = "yes" }
+    awards_list   = { awards_list_scroll_block = "yes" }
+    battle_log    = { battle_log_div = "yes" }
+    chat_history  = { chat_history_scroll_block = "yes" }
+  }
   curTab = ""
   nextWndDelay = 1.0
 

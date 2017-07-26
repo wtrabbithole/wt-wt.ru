@@ -527,7 +527,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
   function updateRoomInSession()
   {
     if (::checkObj(scene))
-      scene.findObject("battle_in_progress").wink = ::SessionLobby.roomInSession? "yes" : "no"
+      scene.findObject("battle_in_progress").wink = ::SessionLobby.isRoomInSession ? "yes" : "no"
     updateTimerInfo()
   }
 
@@ -611,14 +611,14 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
     local isReady = ::SessionLobby.hasSessionInLobby() ? ::SessionLobby.isInLobbySession : ::SessionLobby.isReady
     if (::SessionLobby.canStartSession() && isReady)
       res.readyBtnText = ::loc("multiplayer/btnStart")
-    else if (::SessionLobby.roomInSession)
+    else if (::SessionLobby.isRoomInSession)
     {
       res.readyBtnText = ::loc("mainmenu/toBattle")
       res.isVisualDisabled = !::SessionLobby.canJoinSession()
     } else if (!isReady)
       res.readyBtnText = ::loc("mainmenu/btnReady")
 
-    if (!isReady && ::SessionLobby.isEventRoom && ::SessionLobby.roomInSession)
+    if (!isReady && ::SessionLobby.isEventRoom && ::SessionLobby.isRoomInSession)
     {
       res.readyBtnHint = getMyTeamDisbalanceMsg()
       res.isVisualDisabled = res.readyBtnHint.len() > 0
@@ -674,13 +674,13 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSessionStatus()
   {
-    local needSessionStatus = !isInfoByTeams && !::SessionLobby.roomInSession
+    local needSessionStatus = !isInfoByTeams && !::SessionLobby.isRoomInSession
     local sessionStatusObj = showSceneBtn("session_status", needSessionStatus)
     if (needSessionStatus)
       sessionStatusObj.setValue(::SessionLobby.getMembersReadyStatus().statusText)
 
     local mGameMode = ::SessionLobby.getMGameMode()
-    local needTeamStatus = isInfoByTeams && !::SessionLobby.roomInSession && !!mGameMode
+    local needTeamStatus = isInfoByTeams && !::SessionLobby.isRoomInSession && !!mGameMode
     local countTbl = null
     if (needTeamStatus)
       countTbl = ::SessionLobby.getMembersCountByTeams()
@@ -709,7 +709,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
   function updateTimerInfo()
   {
     local timers = ::SessionLobby.getRoomActiveTimers()
-    local isVisibleNow = timers.len() > 0 && !::SessionLobby.roomInSession
+    local isVisibleNow = timers.len() > 0 && !::SessionLobby.isRoomInSession
     if (!isVisibleNow && !isTimerVisible)
       return
 
@@ -777,7 +777,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    if (::SessionLobby.roomInSession)
+    if (::SessionLobby.isRoomInSession)
     {
       msgBox("cannot_options_on_ready", ::loc("multiplayer/cannotOptionsWhileInBattle"),
         [["ok", function() {}]], "ok", {cancel_fn = function() {}})

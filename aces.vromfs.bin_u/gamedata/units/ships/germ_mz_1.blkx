@@ -1157,7 +1157,7 @@
         "hp": 5000.0
       },
       {
-        "armorClass": "tank_structural_steel"
+        "armorClass": "ship_structural_steel"
       },
       {
         "hull": {
@@ -1438,7 +1438,7 @@
       },
       {
         "fuel_tanks": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 3000.0,
           "armorThickness": 20.0,
           "armorThrough": 200.0,
@@ -2738,16 +2738,16 @@
   },
   {
     "tank_crew": {
-      "minCrewMemberAliveCount": 34,
+      "minCrewMemberAliveCount": 10,
       "sailor1": {
         "dmPart": "bridge_dm",
-        "role": "commander",
-        "crew": 5
+        "role": "sailor",
+        "crew": 10
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 5
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
@@ -2757,7 +2757,32 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 11
+      },
+      "sailor5": {
+        "dmPart": "compartment_04_dm",
+        "role": "sailor",
+        "crew": 8
+      },
+      "sailor6": {
+        "dmPart": "main_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor7": {
+        "dmPart": "main_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor8": {
+        "dmPart": "auxiliary_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor9": {
+        "dmPart": "aa_turret_01_dm",
+        "role": "sailor",
+        "crew": 2
       }
     }
   },
@@ -2767,7 +2792,7 @@
       "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 1200000.0,
+      "additionalWaterDeathThreshold": 950000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0
     }
@@ -2847,13 +2872,6 @@
     ]
   },
   {
-    "propellers": {
-      "engine": {
-        "propeller_l": "propeller_01"
-      }
-    }
-  },
-  {
     "class_tags": {
       "pacific": true,
       "mediterran": true,
@@ -2871,17 +2889,19 @@
   {
     "ShipPhys": {
       "mass": {
-        "Empty": 360000.0,
+        "Empty": 300000.0,
         "Fuel": 15000.0,
-        "TakeOff": 375000.0,
-        "momentOfInertia": [95.0,202.0,190.0],
-        "CenterOfGravity": [-1.6,-0.2,0.0],
+        "TakeOff": 315000.0,
+        "momentOfInertia": [62.0,202.0,170.0],
+        "CenterOfGravity": [-1.6,0.3,0.0],
         "AdvancedMass": false
       },
       "engines": {
         "engine": {
           "pos": [-22.0,-1.7,0.0],
-          "maxThrust": 150000.0,
+          "maxThrust": 115000.0,
+          "engineDmPart": "engine_room_01_dm",
+          "transmissionDmPart": "transmission_01_dm",
           "outputParam": "propeller_rotate_01:CRS",
           "propeller": "propeller_01"
         }
@@ -2898,7 +2918,8 @@
         "rudder": {
           "pos": [-23.0,-1.0,0.0],
           "area": 2.4,
-          "deflection": 35.0
+          "deflection": 35.0,
+          "dmPart": "steering_gear_01_dm"
         }
       }
     }
@@ -3066,10 +3087,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 15.0
+          },
+          {
+            "speedPitch": 15.0
           },
           {
             "fireConeAngle": 1.0
@@ -3124,7 +3148,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,80.0]
+              "pitch": [-10.0,90.0]
             }
           },
           {
@@ -3149,7 +3173,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "gun_barrel_03"
@@ -3176,10 +3200,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 40.0
+          },
+          {
+            "speedPitch": 40.0
           },
           {
             "fireConeAngle": 1.0
@@ -3266,7 +3293,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "gun_barrel_04"
@@ -3293,10 +3320,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 40.0
+          },
+          {
+            "speedPitch": 40.0
           },
           {
             "fireConeAngle": 1.0
@@ -3378,7 +3408,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "gun_barrel_05"
@@ -3405,10 +3435,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 40.0
+          },
+          {
+            "speedPitch": 40.0
           },
           {
             "fireConeAngle": 1.0
@@ -3495,7 +3528,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "gun_barrel_06"
@@ -3522,10 +3555,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 40.0
+          },
+          {
+            "speedPitch": 40.0
           },
           {
             "fireConeAngle": 1.0
@@ -3607,7 +3643,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_07"
@@ -3634,10 +3670,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 20.0
+          },
+          {
+            "speedPitch": 20.0
           },
           {
             "fireConeAngle": 1.0
@@ -3724,7 +3763,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_08"
@@ -3751,10 +3790,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 20.0
+          },
+          {
+            "speedPitch": 20.0
           },
           {
             "fireConeAngle": 1.0
@@ -3836,7 +3878,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_09"
@@ -3863,10 +3905,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 20.0
+          },
+          {
+            "speedPitch": 20.0
           },
           {
             "fireConeAngle": 1.0
@@ -3948,7 +3993,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_10"
@@ -3975,10 +4020,13 @@
             "defaultPitch": 0.0
           },
           {
-            "speedYaw": 60.0
+            "isBulletBelt": true
           },
           {
-            "speedPitch": 45.0
+            "speedYaw": 20.0
+          },
+          {
+            "speedPitch": 20.0
           },
           {
             "fireConeAngle": 1.0
@@ -4290,24 +4338,32 @@
   {
     "cockpit": {
       "headPos": [0.0,7.0,-38.0],
-      "headPosOnShooting": [3.5,11.0,0.0]
+      "headPosOnShooting": [3.5,11.0,0.0],
+      "detectionHeight": 12.3
     }
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
     "modifications": {
-      "20mm_ger_c38_universal": [],
       "88mm_spgr_lh31_navy_HE": [],
-      "37mm_ger_navy_universal": []
+      "manual_extinguisher": {
+        "effects": {
+          "extinguisherActivationCount": -1,
+          "extinguisherMinTime": 10.0,
+          "extinguisherMaxTime": 10.0,
+          "extinguisherCrewBusyTime": -1.0
+        }
+      },
+      "tank_tool_kit": []
     }
   },
   {
@@ -4835,6 +4891,11 @@
   {
     "optics": {
       "binoculars": "navy_binoculars"
+    }
+  },
+  {
+    "winch": {
+      "length": 50.0
     }
   }
 ]

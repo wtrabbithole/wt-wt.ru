@@ -1,81 +1,83 @@
-{
-  "cannon": true,
-  "weaponType": -1,
-  "bUseHookAsRel": true,
-  "emitColor": [1.0,1.0,0.0],
-  "emitI": 10.0,
-  "emitR": 3.0,
-  "emitTime": 0.03,
-  "aimMinDist": 0.1,
-  "aimMaxDist": 2000.0,
-  "maxDeltaAngle": 0.1,
-  "maxDeltaAngleVertical": 0.2,
-  "shotFreq": 0.2,
-  "traceFreq": 4,
-  "bEnablePause": false,
-  "bullets": -1,
-  "bulletsCluster": 1,
-  "fxType": "big_gun_flame",
-  "fxGroundDust": "ground_shock_wave_dust",
-  "shouldCollideWithRendinsts": true,
-  "sound_path": "ships/weapon_ships/cannons",
-  "sound": "114mm_8cwt_qf",
-  "sound_inside": "114mm_8cwt_qf_interior",
-  "sfxReloadBullet": "grd_cannon_reload",
-  "fxMultipleSpawn": true,
-  "isBulletBelt": false,
-  "notUseDefaultBulletInGui": true,
-  "bullet": {
-    "bulletCount": 40,
-    "mass": 6.8,
-    "explosiveType": "tnt",
-    "explosiveMass": 2.5,
-    "caliber": 0.114,
-    "speed": 457.0,
-    "maxDistance": 10000.0,
-    "bulletType": "he_frag_tank",
-    "bulletName": "114mm_he_shell",
-    "hitPowerMult": 1.0,
-    "nearHitPower": [1.0,50.0],
-    "midHitPower": [0.9,300.0],
-    "farHitPower": [0.1,700.0],
-    "endHitPower": [0.008,1500.0],
-    "relativeVelHitShift": [300.0,1000.0],
-    "nearArmorPower": [4.0,150.0],
-    "midArmorPower": [4.0,600.0],
-    "farArmorPower": [4.0,1000.0],
-    "relativeVelArmorShift": [200.0,1000.0],
-    "fuseDelayDist": 0.0,
-    "groundCollisionEffect": "art_ground_splash",
-    "ricochetEffect": "cannon_ricochet",
-    "groundFxScale": [1.4,1.5],
-    "waterCollisionEffect": "big_water_splash",
-    "waterFxScale": [2.5,3.0],
-    "visual": {
-      "range_percent_of_ammo": [100.0,0.0],
-      "traceFreq": 1,
-      "tracer": "100mmRed",
-      "trail": "black"
-    },
-    "collisions": {
-      "steel": {
-        "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [1.7,2.3]
-      },
-      "armor": {
-        "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [1.7,2.3]
-      },
-      "wood": {
-        "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [1.7,2.3]
-      },
-      "buildings": {
-        "fx": "art_ground_splash"
-      }
-    }
+[
+  {
+    "cannon": true
   },
-  "114mm_uk_he": {
+  {
+    "weaponType": -1
+  },
+  {
+    "bUseHookAsRel": true
+  },
+  {
+    "emitColor": [1.0,1.0,0.0]
+  },
+  {
+    "emitI": 10.0
+  },
+  {
+    "emitR": 3.0
+  },
+  {
+    "emitTime": 0.03
+  },
+  {
+    "aimMinDist": 0.1
+  },
+  {
+    "aimMaxDist": 2000.0
+  },
+  {
+    "maxDeltaAngle": 0.1
+  },
+  {
+    "maxDeltaAngleVertical": 0.2
+  },
+  {
+    "shotFreq": 0.2
+  },
+  {
+    "traceFreq": 4
+  },
+  {
+    "bEnablePause": false
+  },
+  {
+    "bullets": -1
+  },
+  {
+    "bulletsCluster": 1
+  },
+  {
+    "fxType": "big_gun_flame"
+  },
+  {
+    "fxGroundDust": "ground_shock_wave_dust"
+  },
+  {
+    "shouldCollideWithRendinsts": true
+  },
+  {
+    "sound_path": "ships/weapon_ships/cannons"
+  },
+  {
+    "sound": "114mm_8cwt_qf"
+  },
+  {
+    "sound_inside": "114mm_8cwt_qf_interior"
+  },
+  {
+    "sfxReloadBullet": "grd_cannon_reload"
+  },
+  {
+    "fxMultipleSpawn": true
+  },
+  {
+    "isBulletBelt": false
+  },
+  {
+    "notUseDefaultBulletInGui": true
+  },
+  {
     "bullet": {
       "bulletCount": 40,
       "mass": 6.8,
@@ -126,5 +128,111 @@
         }
       }
     }
+  },
+  {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 6.8,
+      "explosiveType": "tnt",
+      "explosiveMass": 2.5,
+      "caliber": 0.114,
+      "speed": 457.0,
+      "maxDistance": 10000.0,
+      "bulletType": "he_frag_tank",
+      "bulletName": "114mm_he_shell",
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [4.0,150.0],
+      "midArmorPower": [4.0,600.0],
+      "farArmorPower": [4.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "fuseDelayDist": 0.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "groundFxScale": [1.4,1.5],
+      "waterCollisionEffect": "big_water_splash",
+      "waterFxScale": [2.5,3.0],
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "100mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.7,2.3]
+        },
+        "armor": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.7,2.3]
+        },
+        "wood": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.7,2.3]
+        },
+        "buildings": {
+          "fx": "art_ground_splash"
+        }
+      }
+    }
+  },
+  {
+    "114mm_uk_he": {
+      "bullet": {
+        "bulletCount": 40,
+        "mass": 6.8,
+        "explosiveType": "tnt",
+        "explosiveMass": 2.5,
+        "caliber": 0.114,
+        "speed": 457.0,
+        "maxDistance": 10000.0,
+        "bulletType": "he_frag_tank",
+        "bulletName": "114mm_he_shell",
+        "hitPowerMult": 1.0,
+        "nearHitPower": [1.0,50.0],
+        "midHitPower": [0.9,300.0],
+        "farHitPower": [0.1,700.0],
+        "endHitPower": [0.008,1500.0],
+        "relativeVelHitShift": [300.0,1000.0],
+        "nearArmorPower": [4.0,150.0],
+        "midArmorPower": [4.0,600.0],
+        "farArmorPower": [4.0,1000.0],
+        "relativeVelArmorShift": [200.0,1000.0],
+        "fuseDelayDist": 0.0,
+        "groundCollisionEffect": "art_ground_splash",
+        "ricochetEffect": "cannon_ricochet",
+        "groundFxScale": [1.4,1.5],
+        "waterCollisionEffect": "big_water_splash",
+        "waterFxScale": [2.5,3.0],
+        "visual": {
+          "range_percent_of_ammo": [100.0,0.0],
+          "traceFreq": 1,
+          "tracer": "100mmRed",
+          "trail": "black"
+        },
+        "collisions": {
+          "steel": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [1.7,2.3]
+          },
+          "armor": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [1.7,2.3]
+          },
+          "wood": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [1.7,2.3]
+          },
+          "buildings": {
+            "fx": "art_ground_splash"
+          }
+        }
+      }
+    }
   }
-}
+]

@@ -13,7 +13,7 @@ root {
     <<^hasActiveTicket>>
     height:t='60%sh'
     <</hasActiveTicket>>
-    max-width:t='800*@sf/@pf + 2@framePadding'
+    max-width:t='800*@sf/@pf_outdated + 2@framePadding'
     max-height:t='sh'
     class:t='wndNav'
 
@@ -29,9 +29,9 @@ root {
 
     textareaNoTab {
       text:t='<<activeTicketText>>'
-      width:t='pw - 30@sf/@pf'
-      margin-top:t='50@sf/@pf'
-      margin-left:t='30@sf/@pf'
+      width:t='pw - 30@sf/@pf_outdated'
+      margin-top:t='50@sf/@pf_outdated'
+      margin-left:t='30@sf/@pf_outdated'
       position:t='absolute'
     }
 
@@ -39,10 +39,10 @@ root {
       text:t='<<windowMainText>>'
       width:t='pw'
       <<#hasActiveTicket>>
-      margin-top:t='120@sf/@pf'
+      margin-top:t='120@sf/@pf_outdated'
       <</hasActiveTicket>>
       <<^hasActiveTicket>>
-      margin-top:t='70@sf/@pf'
+      margin-top:t='70@sf/@pf_outdated'
       <</hasActiveTicket>>
       position:t='absolute'
     }
@@ -71,7 +71,7 @@ root {
       <<#ticketCaptions>>
       textareaNoTab {
         id:t='<<captionId>>'
-        margin-top:t='10@sf/@pf'
+        margin-top:t='10@sf/@pf_outdated'
         text:t='<<captionText>>'
         position:t='absolute'
         max-width:t='2@itemSpacing + 1.4@itemWidth'

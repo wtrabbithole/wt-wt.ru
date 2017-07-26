@@ -8,7 +8,7 @@ tdiv {
       flow:t='vertical'
 
       tdiv {
-        size:t='pw, 0.04@scrn_tgt_font'
+        size:t='pw, 0.04@sf'
         padding:t='0, 1@framePadding'
         background-color:t='@objectiveHeaderBackground'
 
@@ -41,7 +41,7 @@ tdiv {
 <<#useSwitchMode>>
 HorizontalListBox {
   id:t='commanders_switch_box'
-  size:t='1@wwMapPanelInfoWidth, 0.04@scrn_tgt_font'
+  size:t='1@wwMapPanelInfoWidth, 0.04@sf'
   on_select:t = 'onSwitchCommandersSide'
   withImages:t='yes'
   <<@switchBoxItems>>

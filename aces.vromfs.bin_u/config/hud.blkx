@@ -399,6 +399,10 @@
       "curveMaxLinesPerSegment": 25,
       "curveMinLineLen": 10.0,
       "minDistBetweenZonesOnRespawnBases": 200.0,
+      "icon_superartallery_target": "chat_icon_attack",
+      "icon_superartillery_zone": "artillery_region",
+      "icon_superartillery_skull": "objective_kill",
+      "colorSuperArtillery": "#ffb7517d",
       "sizeScale": [
         {
           "scale": 0.75
@@ -998,7 +1002,7 @@
         "crosshairDistHorSizeAdditional": [0.005,0.003]
       },
       {
-        "sight_distance_change_speed_ship": 20.0
+        "sight_distance_change_speed_ship": 90.0
       },
       {
         "locked_shoot_direction_change_speed": 0.002
@@ -1008,6 +1012,9 @@
       },
       {
         "shipTargetingAngleThreshold": 45.0
+      },
+      {
+        "shipResetTargetByAngle": true
       },
       {
         "sight_distance_change_speed": 7.0
@@ -1128,16 +1135,6 @@
         ]
       },
       {
-        "shipDistancePrecision": [
-          {
-            "row": [0.0,50.0]
-          },
-          {
-            "row": [1000.0,100.0]
-          }
-        ]
-      },
-      {
         "crosshair_hor_ranges": [
           {
             "range": [-32.0,32.0]
@@ -1192,20 +1189,20 @@
       {
         "ship_crosshairs": {
           "primary": {
-            "size": 1.2,
-            "icon": "sight_hit"
+            "size": 1.0,
+            "icon": "ship_main_caliber_sight"
           },
           "secondary": {
-            "size": 1.1,
-            "icon": "gunner_sight"
+            "size": 1.0,
+            "icon": "ship_secondary_caliber_sight"
           },
           "coaxial": {
             "size": 1.0,
             "icon": "gun_direction"
           },
           "machinegun": {
-            "size": 0.9,
-            "icon": "gun_direction"
+            "size": 1.0,
+            "icon": "ship_aa_caliber_sight"
           },
           "special": {
             "size": 1.0,
@@ -1347,12 +1344,15 @@
       "iconBreach": "icon_repair_in_progress",
       "iconBreachLeft": "waypoint_big",
       "iconLeakage": "leaking_icon",
+      "iconShipAiGunnersTarget1": "ship_secondary_caliber_sight",
+      "iconShipAiGunnersTarget2": "ship_aa_caliber_sight",
       "iconBomb": "bomb_mark",
       "colorBomb": "#ff4646ff",
       "iconTorpedo": "torpedo_mark",
       "colorTorpedo": "#ff4646ff",
-      "iconDiveBomb": "bomb_mark",
-      "colorDiveBomb": "#4646ffff",
+      "maxTorpedoDistanceIndicator": 400.0,
+      "iconDiveBomb": "depth_charge_mark",
+      "colorDiveBomb": "#ff4646ff",
       "targetFrameMaxScreenHeightPart": 0.15,
       "targetFrameMaxScale": 2.0,
       "targetFrameOpacityWithoutZ": 0.5,

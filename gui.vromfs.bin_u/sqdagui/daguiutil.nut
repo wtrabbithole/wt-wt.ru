@@ -108,6 +108,40 @@ function g_dagui_utils::removeTextareaTags(text)
   return text
 }
 
+function g_dagui_utils::color4ToDaguiString(color)
+{
+  return format("%02X%02X%02X%02X",
+    ::clamp(255 * color.a, 0, 255),
+    ::clamp(255 * color.r, 0, 255),
+    ::clamp(255 * color.g, 0, 255),
+    ::clamp(255 * color.b, 0, 255))
+}
+
+function g_dagui_utils::daguiStringToColor4(colorStr)
+{
+  local res = Color4()
+  if (!colorStr.len())
+    return res
+  if (colorStr.slice(0, 1) == "#")
+    colorStr = colorStr.slice(1)
+
+  if (colorStr.len() != 8 && colorStr.len() != 6)
+    return res
+
+  local colorInt = ::g_string.hexStringToInt(colorStr)
+  if (colorStr.len() == 8)
+    res.a = ((colorInt & 0xFF000000) >> 24).tofloat() / 255
+  res.r = ((colorInt & 0xFF0000) >> 16).tofloat() / 255
+  res.g = ((colorInt & 0xFF00) >> 8).tofloat() / 255
+  res.b = (colorInt & 0xFF).tofloat() / 255
+  return res
+}
+
+function g_dagui_utils::multiplyDaguiColorStr(colorStr, multiplier)
+{
+  return color4ToDaguiString(daguiStringToColor4(colorStr) * multiplier)
+}
+
 function g_dagui_utils::setObjPosition(obj, _reqPos, _border)
 {
   if (!::check_obj(obj))

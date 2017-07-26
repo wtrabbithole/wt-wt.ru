@@ -291,6 +291,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "basezone_A",
               "side": "enemy",
@@ -307,8 +310,22 @@
           {
             "icon": {
               "icontype": "tank",
+              "side": "ally",
+              "target": "briefing_dbttl_t1_spawn_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
               "side": "enemy",
               "target": "briefing_dbttl_t2_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "briefing_dbttl_t2_spawn_02"
             }
           },
           {
@@ -501,13 +518,35 @@
       "objLayer": 0,
       "props": []
     },
+    "briefing_dbttl_t1_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.995644,0.0,-0.0932355],
+        [0.0,1.0,0.0],
+        [0.0932355,0.0,0.995644],
+        [1414.25,65.894,2903.19]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
     "briefing_dbttl_t2_spawn_01": {
       "type": "Point",
       "tm": [
         [-0.438342,0.0,-0.898808],
         [0.0,1.0,0.0],
         [0.898808,0.0,-0.438342],
-        [2547.54,56.7885,1607.17]
+        [2206.84,56.7885,1739.23]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_dbttl_t2_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [-0.983729,0.0,0.179657],
+        [0.0,1.0,0.0],
+        [-0.179657,0.0,-0.983729],
+        [1549.68,65.2176,1655.49]
       ],
       "objLayer": 0,
       "props": []

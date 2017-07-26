@@ -98,19 +98,19 @@ function get_favorite_voice_message_option(index)
 
   { id = "ID_PLANE_AXES_HEADER", type = CONTROL_TYPE.SECTION }
     { id = "mouse_z", type = CONTROL_TYPE.MOUSE_AXIS
-      axis_num = EMouseAxis.MouseThrottleAxis
+      axis_num = MouseAxis.MOUSE_SCROLL
       values = ["none", "throttle", "zoom", /*"elevator",*/ "camy", /* "weapon"*/]
       onChangeValue = "onMouseWheel"
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
       filterHide = [::EM_MOUSE_AIM]
 //      showFunc = function() { return checkOptionValue("mouse_joystick", 1)}
-      axis_num = EMouseAxis.MouseAileronsAxis
+      axis_num = MouseAxis.MOUSE_X
       values = ["none", "ailerons", "rudder", "camx"]
     }
     { id = "mouse_y", type = CONTROL_TYPE.MOUSE_AXIS
       filterHide = [::EM_MOUSE_AIM]
-      axis_num = EMouseAxis.MouseElevatorAxis
+      axis_num = MouseAxis.MOUSE_Y
       values = ["none", "elevator", "camy"]
     }*/
     { id="throttle", type = CONTROL_TYPE.AXIS, def_relative = true }
@@ -706,7 +706,7 @@ function get_favorite_voice_message_option(index)
       optionType = ::USEROPT_AIM_TIME_NONLINEARITY_TANK
     }
     { id = "mouse_z_ground", type = CONTROL_TYPE.MOUSE_AXIS
-      axis_num = EMouseAxis.MouseZoomAxis
+      axis_num = MouseAxis.MOUSE_SCROLL_TANK
       values = ["none", "gm_zoom"]
       onChangeValue = "onMouseWheel"
     }
@@ -869,6 +869,16 @@ function get_favorite_voice_message_option(index)
       }
       checkAssign = false
     }
+    {
+      id = "ID_SHIP_SELECT_TARGET_AI_SEC",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+    {
+      id = "ID_SHIP_SELECT_TARGET_AI_MGUN",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP, autobind = ["ID_TOGGLE_VIEW_GM"] }
@@ -891,8 +901,8 @@ function get_favorite_voice_message_option(index)
       optionType = ::USEROPT_AIM_TIME_NONLINEARITY_SHIP
     }
     { id = "mouse_z_ship", type = CONTROL_TYPE.MOUSE_AXIS
-      axis_num = EMouseAxis.MouseShipEngineAxis
-      values = ["none", "ship_main_engine", "ship_zoom"]
+      axis_num = MouseAxis.MOUSE_SCROLL_SHIP
+      values = ["none", "ship_main_engine", "ship_zoom", "ship_sight_distance"]
       onChangeValue = "onMouseWheel"
     }
 
@@ -1706,7 +1716,7 @@ function is_axis_mapped_on_mouse(shortcutId, helpersMode, joyParams)
   if (shortcutId == "mouse_aim_x" || shortcutId == "mouse_aim_y")
     return !joyParams.useJoystickOnMouseAim && isMouseAimMode
   local start = isMouseAimMode ? 2 : 0
-  for (local i = start; i < EMouseAxis.EMouseAxisNumTotal; i++)
+  for (local i = start; i < MouseAxis.NUM_MOUSE_AXIS_TOTAL; i++)
     if (joyParams.getMouseAxis(i) == shortcutId)
       return true
   return false
@@ -1728,7 +1738,7 @@ function get_mouse_axis(shortcutId)
   if (shortcutId == "mouse_aim_y" && !joyParams.useJoystickOnMouseAim && isMouseAimMode)
     return MOUSE_AXIS.VERTICAL_AXIS
 
-  for (local i = 0; i < EMouseAxis.EMouseAxisNumTotal; ++i)
+  for (local i = 0; i < MouseAxis.NUM_MOUSE_AXIS_TOTAL; ++i)
   {
     if (shortcutId == joyParams.getMouseAxis(i))
       return 1 << ::min(i, MOUSE_AXIS.TOTAL - 1)
@@ -3357,15 +3367,15 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
     {
       local config = ::get_option(item.optionType)
       elemIdTxt = "#options/" + config.id
-      elemTxt = ::create_option_slider(item.id, [], config.value, "onSliderChange", true, "sliderProgress", item)
+      elemTxt = ::create_option_slider(item.id, config.value, "onSliderChange", true, "slider", item)
     }
     else
     {
       local value = ("value" in item)? item.value(params) : 50
-      elemTxt = ::create_option_slider(item.id, [], value.tointeger(), "onSliderChange", true, "sliderProgress", item)
+      elemTxt = ::create_option_slider(item.id, value.tointeger(), "onSliderChange", true, "slider", item)
     }
 
-    elemTxt += format("activeText{ id:t='%s' } ", item.id+"_value")
+    elemTxt += format("activeText{ id:t='%s'; margin-left:t='0.01@sf' } ", item.id+"_value")
   }
   else if (item.type== CONTROL_TYPE.SWITCH_BOX)
   {
@@ -3496,13 +3506,13 @@ class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
       [::USEROPT_INVERTY, "spinner"],
       [::USEROPT_INVERTY_TANK, "spinner", ::has_feature("Tanks")],
       [::USEROPT_INVERTCAMERAY, "spinner"],
-      [::USEROPT_MOUSE_AIM_SENSE, "sliderProgress"],
-      [::USEROPT_ZOOM_SENSE,"sliderProgress"],
+      [::USEROPT_MOUSE_AIM_SENSE, "slider"],
+      [::USEROPT_ZOOM_SENSE,"slider"],
       [::USEROPT_GUNNER_INVERTY, "spinner"],
-      [::USEROPT_GUNNER_VIEW_SENSE, "sliderProgress"],
+      [::USEROPT_GUNNER_VIEW_SENSE, "slider"],
       [::USEROPT_HEADTRACK_ENABLE, "spinner", ::ps4_headtrack_is_attached()],
-      [::USEROPT_HEADTRACK_SCALE_X, "sliderProgress", ::ps4_headtrack_is_attached()],
-      [::USEROPT_HEADTRACK_SCALE_Y, "sliderProgress", ::ps4_headtrack_is_attached()]
+      [::USEROPT_HEADTRACK_SCALE_X, "slider", ::ps4_headtrack_is_attached()],
+      [::USEROPT_HEADTRACK_SCALE_Y, "slider", ::ps4_headtrack_is_attached()]
     ]
 
     local guiScene = ::get_gui_scene()

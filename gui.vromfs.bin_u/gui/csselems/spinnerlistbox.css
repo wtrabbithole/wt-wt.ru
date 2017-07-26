@@ -20,9 +20,9 @@ spinnerListBox {
 spinnerListBox > button.next, spinnerListBox > button.prev {
   re-type:9rect;
   size:3.2*@scrn_tgt/100.0,3.75*@scrn_tgt/100.0;  
-  min-width:2*@sf/@pf;
-  max-width:23*@sf/@pf;
-  max-height:27*@sf/@pf;
+  min-width:2*@sf/@pf_outdated;
+  max-width:23*@sf/@pf_outdated;
+  max-height:27*@sf/@pf_outdated;
 
   background-color:@transparent;
   background-position:0;
@@ -52,7 +52,7 @@ spinnerListBox > button.prev:hover, spinnerListBox > button.next:hover {
 }
 
 spinnerListBox > button.next:pushed, spinnerListBox > button.prev:pushed {
-  padding:1*@sf/@pf,1*@sf/@pf;
+  padding:1*@sf/@pf_outdated,1*@sf/@pf_outdated;
   background-color:@controlPushedColor;
   color-factor:255;
 }
@@ -112,7 +112,7 @@ spinnerListBox:disabled > button.next, spinnerListBox:disabled > button.prev {
 
 [class=optionsTable] spinnerListBox {
   position:relative;
-  left:-23*@sf/@pf; }
+  left:-23*@sf/@pf_outdated; }
 
 optionImg {
   size:ph,ph;
@@ -131,18 +131,18 @@ optionImg {
 }
 
 [iconType=country] optionImg {
-  size:100*@sf/@pf, 52*@sf/@pf;
+  size:100*@sf/@pf_outdated, 52*@sf/@pf_outdated;
   pos:0, 50%ph-50%h;
   position:relative;
 }
 img[iconType=country] {
-  size:100*@sf/@pf, 52*@sf/@pf;
+  size:100*@sf/@pf_outdated, 52*@sf/@pf_outdated;
 }
 img[iconType=medium_country] {
-  size:75*@sf/@pf, 39*@sf/@pf;
+  size:75*@sf/@pf_outdated, 39*@sf/@pf_outdated;
 }
 img[iconType=small_country] {
-  size:50*@sf/@pf, 26*@sf/@pf;
+  size:50*@sf/@pf_outdated, 26*@sf/@pf_outdated;
 }
 
 img[iconType=country_battle] {

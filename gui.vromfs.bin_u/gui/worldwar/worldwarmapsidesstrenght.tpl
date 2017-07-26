@@ -1,5 +1,5 @@
 tdiv {
-  width:t='pw-0.06@scrn_tgt_font'
+  width:t='pw-0.06@sf'
   pos:t='50%pw-50%w, 0'
   position:t='relative'
   margin-bottom:t='0.005@scrn_tgt'

@@ -49,7 +49,7 @@ menu_button, menu_button_inactive, dialog_button, area > button
   text-align:left;
 
   position:relative;
-  padding:3%sw, 4*@sf/@pf, 1*@scrn_tgt/100.0+35, 0;
+  padding:3%sw, 4*@sf/@pf_outdated, 1*@scrn_tgt/100.0+35, 0;
 
   transition:none;
 
@@ -62,8 +62,8 @@ menu_button, menu_button_inactive {
   position:relative;
   height:@mainMenuButtonHeight;
   min-width:pw;
-  padding-top:2*@sf/@pf;
-  padding-bottom:2*@sf/@pf;
+  padding-top:2*@sf/@pf_outdated;
+  padding-bottom:2*@sf/@pf_outdated;
   mouse-focusable:yes;
 }
 
@@ -107,10 +107,10 @@ dialog_button:hover {
 
 dialog_button:pushed {
   background-image:#ui/gameuiskin#button_active;
-  padding-top:1*@sf/@pf;
-  padding-bottom:-1*@sf/@pf;
-  margin-bottom:1*@scrn_tgt/100.0-2*@sf/@pf;
-  margin-top:2*@sf/@pf;
+  padding-top:1*@sf/@pf_outdated;
+  padding-bottom:-1*@sf/@pf_outdated;
+  margin-bottom:1*@scrn_tgt/100.0-2*@sf/@pf_outdated;
+  margin-top:2*@sf/@pf_outdated;
 }
 
 menu_button:current, menu_button:active, menu_button:focus
@@ -199,20 +199,20 @@ buttonPlayer {
   behavior:button;
   cursor:onButton;
   css-hier-invalidate:current;
-  padding:0.008@scrn_tgt_font;
+  padding:0.008@sf;
 }
 buttonPlayer > img {
   position:absolute;
   pos:pw-w, 50%ph-50%h;
   size:1@sIco, 1@sIco;
-  margin-right:0.008@scrn_tgt_font;
+  margin-right:0.008@sf;
 }
 
 buttonPlayer > btnText {
   tinyFont:yes;
   font:@small;
   color:#2e7ac5;
-  margin-right:1@sIco+5*@sf/@pf;
+  margin-right:1@sIco+5*@sf/@pf_outdated;
   pos:pw-w, 50%ph-50%h;
   position:relative;
   text-align:right;
@@ -230,7 +230,7 @@ buttonPlayer[selected=yes] > btnText {
 }
 
 buttonPlayer:active {
-  margin:1*@sf/@pf;
+  margin:1*@sf/@pf_outdated;
 }
 buttonPlayer:active > btnText {
   color:#99c9f9;
@@ -238,7 +238,7 @@ buttonPlayer:active > btnText {
 
 underline {
   width:pw;
-  height:(@sf/@pf*0.75) $max 1;
+  height:(@sf/@pf_outdated*0.75) $max 1;
   pos:50%pw-50%w, ph-h;
   position:absolute;
   background-color:@commonMenuButtonColor;

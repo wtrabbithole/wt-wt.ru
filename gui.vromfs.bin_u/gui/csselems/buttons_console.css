@@ -1,21 +1,21 @@
 
-@const buttonWidth: 2 * (0.16*@scrn_tgt_font\2);
-@const bigButtonWidth: 0.25*@scrn_tgt_font\1;
-@const buttonHeight: @cIco + 8*@sf/@pf;
-@const battleButtonHeight: 20*@sf/@pf + 3*@scrn_tgt/100.0;
+@const buttonWidth: 2 * (0.16*@sf\2);
+@const bigButtonWidth: 0.25*@sf\1;
+@const buttonHeight: @cIco + 8*@sf/@pf_outdated;
+@const battleButtonHeight: 20*@sf/@pf_outdated + 3*@scrn_tgt/100.0;
 
-@const navBarBattleButtonHeight: 1.2 * (1@cIco + 8*@sf/@pf);
-@const navBarBattleButtonMinWidth: 1.3 * (2 * (0.16*@scrn_tgt_font\2));
+@const navBarBattleButtonHeight: 1.2 * (1@cIco + 8*@sf/@pf_outdated);
+@const navBarBattleButtonMinWidth: 1.3 * (2 * (0.16*@sf\2));
 
 @const buttonTextPadding: 0.5*@scrn_tgt/100.0;
 @const tinyButtonHeight: 0.017@scrn_tgt + 4@dp;
 @const buttonVMargin: 0.5*@scrn_tgt/100.0;
 
-@const buttonIconHeight: @cIco + 5*@sf/@pf;
+@const buttonIconHeight: @cIco + 5*@sf/@pf_outdated;
 
-@const topMenuButtonWidth: 0.15@scrn_tgt_font;
+@const topMenuButtonWidth: 0.15@sf;
 
-@const topMenuBattleButtonHeight: 0.055@scrn_tgt_font;
+@const topMenuBattleButtonHeight: 0.055@sf;
 @const topMenuBattleButtonImgHeight: 0.6@topMenuBattleButtonHeight;
 
 ButtonImg
@@ -26,7 +26,7 @@ ButtonImg
   font:@nav_button_font;
   color:@commonMenuButtonColor;
   
-  height:ph-3*@sf/@pf;
+  height:ph-3*@sf/@pf_outdated;
   width:h;
   snd_click:click;
   margin-left:0;
@@ -38,7 +38,7 @@ ButtonImg
 Button_text > ButtonImg,
 button > ButtonImg {
   left:0.2*@scrn_tgt/100.0;
-  top:ph-h-2*@sf/@pf;
+  top:ph-h-2*@sf/@pf_outdated;
   position:'absolute';
 }
 
@@ -54,7 +54,7 @@ CheckBox[btnName] > ButtonImg
 {
   size:@cIco, @cIco;
   left:h + 0.002*@scrn_tgt;
-  top:ph-h-2*@sf/@pf;
+  top:ph-h-2*@sf/@pf_outdated;
   position:'absolute';
 }
 
@@ -79,7 +79,7 @@ Button_text, Button_close, closeBtn, btnCollapse
   background-repeat:expand;
 
   margin:0;
-  padding:1@buttonTextPadding,4*@sf/@pf;
+  padding:1@buttonTextPadding,4*@sf/@pf_outdated;
   margin-right:1@buttonVMargin;
   color:@commonMenuButtonColor;
   text-align:left;
@@ -123,8 +123,8 @@ Button_text[enable=no]:hover {
 
 Button_text:pushed {
   background-image:#ui/gameuiskin#button_active;
-  padding-top:5*@sf/@pf;
-  padding-bottom:3*@sf/@pf;
+  padding-top:5*@sf/@pf_outdated;
+  padding-bottom:3*@sf/@pf_outdated;
 }
 
 Button_text,
@@ -213,7 +213,7 @@ shopItem Button_text.battle {
   pos:0, -h;
   position:absolute;
   size:1@slot_button_fullWidth, 3*@scrn_tgt/100.0;
-  padding:1*@sf/@pf, 0;
+  padding:1*@sf/@pf_outdated, 0;
   not-input-transparent:yes;   display:hide;
   enable:no;
 }
@@ -264,6 +264,20 @@ Button_text.battle > buttonGlance {
 
 Button_text.research {
   height:@slotBtnIco;
+}
+
+Button_text.buyPremAward {
+  height:1@debrBonusHeight;
+}
+[show_console_buttons=yes] Button_text.buyPremAward {
+  padding-left:@mIco;
+}
+Button_text.buyPremAward > textarea {
+  font:@small;
+}
+Button_text.buyPremAward > ButtonImg {
+  height:@mIco;
+  top:ph/2-h/2;
 }
 
 Button_text[visualStyle=secondary]
@@ -339,7 +353,7 @@ Button_close, closeBtn {
   position:absolute;
   tooltip:#mainmenu/btnClose;
   min-width:h;
-  padding:4*@sf/@pf;
+  padding:4*@sf/@pf_outdated;
   class:image;
 }
 Button_close {
@@ -348,8 +362,8 @@ Button_close {
   btnName:B;
 }
 [smallIcon=yes] > Button_close {
-  pos:pw-w-3*@sf/@pf, -1*@sf/@pf;
-  size:1@sIco + 11*@sf/@pf, 1@sIco + 11*@sf/@pf;
+  pos:pw-w-3*@sf/@pf_outdated, -1*@sf/@pf_outdated;
+  size:1@sIco + 11*@sf/@pf_outdated, 1@sIco + 11*@sf/@pf_outdated;
 }
 [smallIcon=yes] > Button_close > img {
   pos:50%pw-50%w, 50%ph-50%h;
@@ -362,7 +376,7 @@ Button_close[relative=yes] {
 }
 
 shopFilter > closeBtn {
-  pos:pw-w, 50%ph-50%h-1*@sf/@pf;
+  pos:pw-w, 50%ph-50%h-1*@sf/@pf_outdated;
 }
 Button_close[have_shortcut=no],
 [show_console_buttons=no] Button_text[type=weaponryAmount] {
@@ -384,8 +398,8 @@ top_right_holder {
   position:absolute;
 }
 top_right_holder[smallIcon=yes] {
-  height:24*@sf/@pf;
-  pos:pw-w-(24-5)*@sf/@pf, 0.5*@scrn_tgt/100.0;
+  height:24*@sf/@pf_outdated;
+  pos:pw-w-(24-5)*@sf/@pf_outdated, 0.5*@scrn_tgt/100.0;
 }
 top_right_holder[vCentered=yes] {
   height:0;
@@ -586,12 +600,12 @@ topMenuButtons > Button_text {
 }
 
 topMenuButtons > Button_text > additionalIconsDiv {
-  pos:pw-w-5*@sf/@pf, 50%ph-50%h;
+  pos:pw-w-5*@sf/@pf_outdated, 50%ph-50%h;
   position:absolute;
 }
 
 topMenuButtons > Button_text > btnImage {
-  pos:5*@sf/@pf, 50%ph-50%h;
+  pos:5*@sf/@pf_outdated, 50%ph-50%h;
   position:absolute;
   size:@cIco, @cIco;
 
@@ -642,8 +656,8 @@ Button_text.topmenu > text {
 
 Button_text.image {
   min-width:h;
-  padding-left:h+4*@sf/@pf;
-  padding-right:4*@sf/@pf;
+  padding-left:h+4*@sf/@pf_outdated;
+  padding-right:4*@sf/@pf_outdated;
   margin-right:0.5*@scrn_tgt/100.0;
 }
 
@@ -652,22 +666,22 @@ Button_text.image {
 }
 
 Button_text.image16, Button_close.image16, Button_text.image20, Button_text.image24, Button_text.squadWidgetMember {
-  height:1@sIco+8*@sf/@pf;
+  height:1@sIco+8*@sf/@pf_outdated;
   min-width:h;
-  padding:4*@sf/@pf;
-  padding-left:4*@sf/@pf;
-  padding-right:4*@sf/@pf;
-  margin-right:2*@sf/@pf;
+  padding:4*@sf/@pf_outdated;
+  padding-left:4*@sf/@pf_outdated;
+  padding-right:4*@sf/@pf_outdated;
+  margin-right:2*@sf/@pf_outdated;
 }
 
 Button_text.image20, Button_text.image24 {
-  height:1@cIco+8*@sf/@pf;
+  height:1@cIco+8*@sf/@pf_outdated;
   min-width:h;
-  margin-right:3*@sf/@pf;
+  margin-right:3*@sf/@pf_outdated;
 }
 
 [pc_style=yes]Button_text.image {
-  padding-left:4*@sf/@pf;
+  padding-left:4*@sf/@pf_outdated;
 }
 
 .buttonsDiv > Button_text.image {
@@ -904,8 +918,8 @@ Button_text.title {
 }
 
 Button_text.title:pushed, Button_text.battle:pushed {
-  padding-top:1.5*@scrn_tgt/100.0+1*@sf/@pf;
-  padding-bottom:1.5*@scrn_tgt/100.0-1*@sf/@pf;
+  padding-top:1.5*@scrn_tgt/100.0+1*@sf/@pf_outdated;
+  padding-bottom:1.5*@scrn_tgt/100.0-1*@sf/@pf_outdated;
 }
 
 [show_console_buttons=yes] Button_text.battle[btnName] {
@@ -974,7 +988,7 @@ Button_text.switch {
 }
 
 Button_text.switch > img {
-  width:ph-4*@sf/@pf;
+  width:ph-4*@sf/@pf_outdated;
   height:0.5w;
   background-image:#ui/gameuiskin#expand_info;
   background-color:@navButtonImgColor;
@@ -991,14 +1005,14 @@ Button_text.switch[inactiveColor=yes] > img {
 .tinyFont > Button_text {
   font:@tiny;
   min-width:3h;
-  padding:0.3*@scrn_tgt/100.0, 2*@sf/@pf+0.3*@scrn_tgt/100.0, 0.4*@scrn_tgt/100.0, 2*@sf/@pf;
-  margin-right:2*@sf/@pf;
+  padding:0.3*@scrn_tgt/100.0, 2*@sf/@pf_outdated+0.3*@scrn_tgt/100.0, 0.4*@scrn_tgt/100.0, 2*@sf/@pf_outdated;
+  margin-right:2*@sf/@pf_outdated;
 }
 
 .tinyFont > Button_text:pushed {
   background-image:#ui/gameuiskin#button_active;
-  padding-top:3*@sf/@pf+0.3*@scrn_tgt/100.0;
-  padding-bottom:1*@sf/@pf;
+  padding-top:3*@sf/@pf_outdated+0.3*@scrn_tgt/100.0;
+  padding-bottom:1*@sf/@pf_outdated;
 }
 
 [moveOut=no] Button_text.switch > img,
@@ -1017,14 +1031,14 @@ cardImg.button, activeText.button, img.button, root.button, div.button, .hoverFr
   size:@cIco, @cIco;
   background-color:@white;
   min-width:h;
-  margin-right:3*@sf/@pf;
-  padding:4*@sf/@pf;
-  padding-left:4*@sf/@pf;
-  padding-right:4*@sf/@pf;
+  margin-right:3*@sf/@pf_outdated;
+  padding:4*@sf/@pf_outdated;
+  padding-left:4*@sf/@pf_outdated;
+  padding-right:4*@sf/@pf_outdated;
 }
 Button_text.header {
-  padding-left:3*@sf/@pf;
-  padding-right:6*@sf/@pf;
+  padding-left:3*@sf/@pf_outdated;
+  padding-right:6*@sf/@pf_outdated;
   padding-top:0;
   padding-bottom:0;
   reduceMinimalWidth:yes;
@@ -1034,7 +1048,7 @@ Button_text.header {
 
 Button_text.header > activeText,
 Button_text.header > text {
-  padding:2*@sf/@pf, 0; 
+  padding:2*@sf/@pf_outdated, 0; 
                         
 }
 
@@ -1100,7 +1114,7 @@ Button_text.header {
 .header > Button_text.image24 {
   margin-right:0;
   margin-left:0;
-  padding-left:7*@sf/@pf;
+  padding-left:7*@sf/@pf_outdated;
 }
 .header > Button_text.image20 > img {
   pos:50%pw-50%w, 50%ph-50%h;
@@ -1121,9 +1135,9 @@ Button_text.header:pushed,
   background-image:#ui/gameuiskin#header_button_active;
 }
 .header > Button_text.squadWidgetMember {
-  size:@cIco+@sIco+13*@sf/@pf, ph;
-  padding-left:6*@sf/@pf;
-  margin-right:1*@sf/@pf;
+  size:@cIco+@sIco+13*@sf/@pf_outdated, ph;
+  padding-left:6*@sf/@pf_outdated;
+  margin-right:1*@sf/@pf_outdated;
 }
 Button_text.header:disabled {
   background-image:#ui/gameuiskin#header_button_disabled;
@@ -1151,7 +1165,7 @@ Button_text.header:disabled {
 
 .dropDown[hoverMenuButtons=yes] > Button_text.image20
 {
-  height:@topBarHeight-3*@sf/@pf;
+  height:@topBarHeight-3*@sf/@pf_outdated;
 }
 
 .dropDown[hoverMenuButtons=yes] > Button_text.image20:hover,
@@ -1188,10 +1202,10 @@ Button_text.double {
   height:@buttonHeight;
   width:2@buttonHeight;
   min-width:h;
-  padding:2*@sf/@pf;
-  padding-left:2*@sf/@pf;
-  padding-right:2*@sf/@pf;
-  padding-bottom:2*@sf/@pf+2;   margin-right:4*@sf/@pf;
+  padding:2*@sf/@pf_outdated;
+  padding-left:2*@sf/@pf_outdated;
+  padding-right:2*@sf/@pf_outdated;
+  padding-bottom:2*@sf/@pf_outdated+2;   margin-right:4*@sf/@pf_outdated;
   haveGamepadImage:no;
 }
 
@@ -1209,7 +1223,7 @@ Button_text.double[showOnSelect] {
 }
 
 Button_text.double[haveGamepadImage=yes] {
-  padding-left:h + 2*@sf/@pf;
+  padding-left:h + 2*@sf/@pf_outdated;
 }
 
 Button_text.double > ButtonImg {
@@ -1232,7 +1246,7 @@ btnCollapse {
   min-width:1;
   pos:0.5@sIco, 50%ph-50%h;
   position:absolute;
-  padding:4*@sf/@pf;
+  padding:4*@sf/@pf_outdated;
   text-align:center;
   text:"-";
   on_click:onCollapse;
@@ -1254,7 +1268,7 @@ fullSizeCollapseBtn > activeText{
   text: "—";
   text-align: center;
   position: relative;
-  width: 2%@scrn_tgt_font;
+  width: 2%@sf;
   pos: 0, ph/2-h/2;
 }
 
@@ -1373,7 +1387,7 @@ Button_text.additional[vertPos=up] {
 }
 
 Button_text.additional[vertPos=down] {
-  pos:0, ph-1*@sf/@pf;
+  pos:0, ph-1*@sf/@pf_outdated;
 }
 
 weaponry_item:hover > Button_text.additional[canShow=yes],
@@ -1492,13 +1506,13 @@ Button_text.bottomAirItem:hover {
 }
 
 Button_text[buy_ticket_button=yes] {
-  padding:3@buttonTextPadding,4*@sf/@pf;
+  padding:3@buttonTextPadding,4*@sf/@pf_outdated;
   padding-left:3@buttonTextPadding;
 }
 
 Button_text[btnScreenSideLeft=yes] {
   height:1@navBarBattleButtonHeight;
-  min-width:@bw+120*@sf/@pf;
+  min-width:@bw+120*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#expandable_item_selected_transp_reflect;
   text-align:left;
   margin:0;
@@ -1507,10 +1521,10 @@ Button_text[btnScreenSideLeft=yes] {
   padding-left:@bw+4;
 }
 [show_console_buttons=yes] Button_text[btnScreenSideLeft=yes] {
-  padding-left:@bw+4 +24*@sf/@pf;
+  padding-left:@bw+4 +24*@sf/@pf_outdated;
 }
 Button_text[btnScreenSideLeft=yes] > ButtonImg {
-  height:24*@sf/@pf;
+  height:24*@sf/@pf_outdated;
   left:@bw;
   top:ph/2-h/2;
 }
@@ -1552,7 +1566,7 @@ Button_text[is_to_battle_button=yes][pc_style=no] {
 
 textareaNoTab.highlightButton > ButtonImg {
   height:@buttonIconHeight;
-  top:-3*@sf/@pf;
+  top:-3*@sf/@pf_outdated;
   position:absolute;
 }
 

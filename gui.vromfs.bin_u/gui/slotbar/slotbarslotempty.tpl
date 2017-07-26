@@ -31,7 +31,7 @@ shopItem {
   bottomline {
     shopItemText {
       id:t='<<shopItemTextId>>'
-      margin-right:t='0.008@scrn_tgt_font'
+      margin-right:t='0.008@sf'
       width:t='pw'
       text-align:t='right'
       text:t='<<shopItemTextValue>>'

@@ -956,7 +956,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       text.append(decoratorType.getLocDesc(name))
 
       text = ::locOrStrip(::implode(text, "\n"))
-      local textBlock = "textareaNoTab {tinyFont:t='yes'; max-width:t='0.5@scrn_tgt_font'; text:t='%s';}"
+      local textBlock = "textareaNoTab {tinyFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
       guiScene.appendWithBlk(obj, ::format(textBlock, text), this)
     }
   }

@@ -121,7 +121,7 @@ function g_login::initConfigs(cb)
       ::init_selected_crews(true)
       ::set_show_attachables(::has_feature("AttachablesUse"))
 
-      ::validate_saved_config_fonts()
+      ::g_font.validateSavedConfigFonts()
     }
     function() {
       if (!::g_login.hasState(LOGIN_STATE.MATCHING_CONNECTED))

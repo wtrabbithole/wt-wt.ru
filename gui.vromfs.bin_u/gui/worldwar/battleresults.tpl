@@ -3,13 +3,12 @@ tdiv {
   size:t='pw, ph'
   flow:t='vertical'
 
-  tdiv {
+  debrBlock {
     width:t='pw'
     padding:t='1@debrPad'
-    background-color:t='@shadeBackgroundColor4'
 
     tdiv {
-      size:t='pw, 26*@sf/@pf'
+      size:t='pw, 26*@sf/@pf_outdated'
       pos:t='0, 1@debrPad'
       position:t='absolute'
 
@@ -22,7 +21,7 @@ tdiv {
 
       <<#isBattleResultsIgnored>>
       textareaNoTab {
-        max-width:t='pw-120@sf/@pf'
+        max-width:t='pw-120@sf/@pf_outdated'
         pos:t='pw/2-w/2, ph'
         position:t='absolute'
         text-align:t='center'
@@ -101,24 +100,22 @@ tdiv {
       <</armies>>
     }
     <</teamBlock>>
+
+    debrSeparator { class:t='bottom' }
   }
 
   tdiv {
+    id:t='ww_battle_results_scroll_block'
     size:t='pw, fh'
-    pos:t='0, 1@debrPad'
-    position:t='relative'
     overflow-y:t='auto'
+    scrollbarShortcuts:t='yes'
 
     <<#teamBlock>>
     <<#statistics>>
-    tdiv {
-      width:t='(pw -1@debrPad)/2'
+    debrBlock {
+      width:t='pw/2'
       min-height:t='ph'
-      <<^invert>>pos:t='0, 0'<</invert>>
-      <<#invert>>pos:t='1@debrPad, 0'<</invert>>
-      position:t='relative'
       padding:t='1@debrPad'
-      background-color:t='@shadeBackgroundColor4'
       flow:t='vertical'
 
       tdiv {
@@ -209,6 +206,10 @@ tdiv {
         <</row>>
       }
       <</units>>
+
+      <<#invert>>
+      debrSeparator { class:t='left' }
+      <</invert>>
     }
     <</statistics>>
     <</teamBlock>>

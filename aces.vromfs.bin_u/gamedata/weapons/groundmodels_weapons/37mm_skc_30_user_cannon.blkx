@@ -83,14 +83,116 @@
   {
     "bullet": {
       "bulletCount": 40,
-      "mass": 0.685,
-      "explosiveType": "petn",
-      "explosiveMass": 0.013,
+      "mass": 0.748,
+      "explosiveType": "fp_02",
+      "explosiveMass": 0.0274,
       "caliber": 0.037,
-      "speed": 740.0,
+      "speed": 1000.0,
+      "maxDistance": 3000.0,
+      "bulletType": "he_frag_tank",
+      "bulletName": "37mm_spgr_lh_37",
+      "hitPowerMult": 2.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [2.0,600.0],
+      "farArmorPower": [2.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.1,
+      "explodeHitPower": 45.0,
+      "explodeArmorPower": 5.0,
+      "explodeRadius": [0.3,1.2],
+      "fuseDelayDist": 0.3,
+      "shutterDamage": true,
+      "shutterDamageRadius": 5.5,
+      "shutterAmount": 70,
+      "shutterArmorPower": 6.0,
+      "shutterHit": 8.0,
+      "groundCollisionEffect": "37_50_he_hit_ground",
+      "ricochetEffect": "cannon_ricochet",
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "37mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [1.5,2.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [1.5,2.0]
+        }
+      }
+    }
+  },
+  {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 0.748,
+      "explosiveType": "fp_02",
+      "explosiveMass": 0.0274,
+      "caliber": 0.037,
+      "speed": 1000.0,
+      "maxDistance": 3000.0,
+      "bulletType": "he_frag_tank",
+      "bulletName": "37mm_spgr_lh_37",
+      "hitPowerMult": 2.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [2.0,600.0],
+      "farArmorPower": [2.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.1,
+      "explodeHitPower": 45.0,
+      "explodeArmorPower": 5.0,
+      "explodeRadius": [0.3,1.2],
+      "fuseDelayDist": 0.3,
+      "shutterDamage": true,
+      "shutterDamageRadius": 5.5,
+      "shutterAmount": 70,
+      "shutterArmorPower": 6.0,
+      "shutterHit": 8.0,
+      "groundCollisionEffect": "37_50_he_hit_ground",
+      "ricochetEffect": "cannon_ricochet",
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "37mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [1.5,2.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [1.5,2.0]
+        }
+      }
+    }
+  },
+  {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 0.82,
+      "explosiveType": "np_15",
+      "explosiveMass": 0.022,
+      "caliber": 0.037,
+      "speed": 1000.0,
       "maxDistance": 4000.0,
-      "bulletType": "aphe",
-      "bulletName": "37mm_pzgr",
+      "bulletType": "aphe_tank",
+      "bulletName": "37mm_pzgr_zerl",
       "hitPowerMult": 60.0,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
@@ -138,83 +240,22 @@
         },
         "armor": {
           "fx": "cannon_hit_armor"
-        },
-        "wood": {
-          "fx": "20_ap_wood_splash"
         }
       }
     }
   },
   {
-    "bullet": {
-      "bulletCount": 40,
-      "mass": 0.62,
-      "explosiveType": "np_10",
-      "explosiveMass": 0.029,
-      "caliber": 0.037,
-      "speed": 845.0,
-      "maxDistance": 3000.0,
-      "bulletType": "frag_i_t",
-      "bulletName": "37mm_sprgr_18",
-      "hitPowerMult": 2.0,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,300.0],
-      "farHitPower": [0.1,700.0],
-      "endHitPower": [0.008,1500.0],
-      "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [3.0,150.0],
-      "midArmorPower": [2.0,600.0],
-      "farArmorPower": [2.0,1000.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "explodeTreshold": 0.1,
-      "explodeHitPower": 45.0,
-      "explodeArmorPower": 5.0,
-      "explodeRadius": [0.3,1.2],
-      "fuseDelayDist": 0.3,
-      "shutterDamage": true,
-      "shutterDamageRadius": 5.5,
-      "shutterAmount": 70,
-      "shutterArmorPower": 6.0,
-      "shutterHit": 8.0,
-      "groundCollisionEffect": "37_50_he_hit_ground",
-      "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [0.5,0.6],
-      "waterCollisionEffect": "20_ap_water_splash",
-      "waterFxScale": [1.2,1.2],
-      "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
-        "tracer": "37mmRed",
-        "trail": "black"
-      },
-      "collisions": {
-        "steel": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [1.5,2.0]
-        },
-        "armor": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [1.5,2.0]
-        },
-        "wood": {
-          "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [1.5,2.0]
-        }
-      }
-    }
-  },
-  {
-    "37mm_ger_flak36_HE": {
+    "37mm_Spgr_lh_37_HE_bullet": {
       "bullet": {
         "bulletCount": 40,
-        "mass": 0.62,
-        "explosiveType": "np_10",
-        "explosiveMass": 0.029,
+        "mass": 0.748,
+        "explosiveType": "fp_02",
+        "explosiveMass": 0.0274,
         "caliber": 0.037,
-        "speed": 845.0,
+        "speed": 1000.0,
         "maxDistance": 3000.0,
-        "bulletType": "frag_i_t",
-        "bulletName": "37mm_sprgr_18",
+        "bulletType": "he_frag_tank",
+        "bulletName": "37mm_spgr_lh_37",
         "hitPowerMult": 2.0,
         "nearHitPower": [1.0,50.0],
         "midHitPower": [0.9,300.0],
@@ -237,9 +278,6 @@
         "shutterHit": 8.0,
         "groundCollisionEffect": "37_50_he_hit_ground",
         "ricochetEffect": "cannon_ricochet",
-        "groundFxScale": [0.5,0.6],
-        "waterCollisionEffect": "20_ap_water_splash",
-        "waterFxScale": [1.2,1.2],
         "visual": {
           "range_percent_of_ammo": [100.0,0.0],
           "traceFreq": 1,
@@ -254,27 +292,23 @@
           "armor": {
             "fx": "cannon_hit_armor_cumulative",
             "fxScale": [1.5,2.0]
-          },
-          "wood": {
-            "fx": "cannon_hit_ship_cumulative",
-            "fxScale": [1.5,2.0]
           }
         }
       }
     }
   },
   {
-    "37mm_ger_flak36_AP": {
+    "37mm_Pzgr_Lspur_zerl_APHE_bullet": {
       "bullet": {
         "bulletCount": 40,
-        "mass": 0.685,
-        "explosiveType": "petn",
-        "explosiveMass": 0.013,
+        "mass": 0.82,
+        "explosiveType": "np_15",
+        "explosiveMass": 0.022,
         "caliber": 0.037,
-        "speed": 740.0,
+        "speed": 1000.0,
         "maxDistance": 4000.0,
-        "bulletType": "aphe",
-        "bulletName": "37mm_pzgr",
+        "bulletType": "aphe_tank",
+        "bulletName": "37mm_pzgr_zerl",
         "hitPowerMult": 60.0,
         "relativeVelHitShift": [300.0,1000.0],
         "relativeVelArmorShift": [200.0,1000.0],
@@ -322,9 +356,6 @@
           },
           "armor": {
             "fx": "cannon_hit_armor"
-          },
-          "wood": {
-            "fx": "20_ap_wood_splash"
           }
         }
       }

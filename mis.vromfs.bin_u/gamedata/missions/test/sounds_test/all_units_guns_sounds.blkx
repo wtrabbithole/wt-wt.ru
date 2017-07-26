@@ -1,0 +1,1371 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 0.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "armada_02"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/guadalcanal.bin",
+      "type": "campaign",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "windDirection": [1.0,0.0,0.0],
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": []
+    },
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "Trigger_01": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "unitSetProperties": [
+            {
+              "object": "ships_01"
+            },
+            {
+              "object": "ships_02"
+            },
+            {
+              "object": "aa_small_mg_fire04"
+            },
+            {
+              "object": "aa_medium_gun_fire"
+            },
+            {
+              "object": "armada_01"
+            },
+            {
+              "object": "armada_02"
+            },
+            {
+              "object": "infantry_01"
+            },
+            {
+              "object": "ships_03"
+            },
+            {
+              "isImmortal": true
+            }
+          ]
+        },
+        {
+          "unitAttackTarget": {
+            "playerAttracted": false,
+            "object": "ships_01",
+            "target": "ships_02"
+          }
+        },
+        {
+          "unitAttackTarget": {
+            "playerAttracted": false,
+            "object": "ships_02",
+            "target": "ships_01"
+          }
+        },
+        {
+          "unitAttackTarget": {
+            "playerAttracted": false,
+            "object": "aa_small_gun_fire04",
+            "target": "aa_medium_gun_fire"
+          }
+        },
+        {
+          "unitAttackTarget": {
+            "playerAttracted": false,
+            "object": "aa_medium_gun_fire",
+            "target": "aa_small_mg_fire04"
+          }
+        },
+        {
+          "unitAttackTarget": {
+            "playerAttracted": false,
+            "object": "infantry_01",
+            "target": "aa_small_gun_fire04"
+          }
+        }
+      ]
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "ships": {
+        "name": "ships_01",
+        "tm": [
+          [0.999048,0.0,0.0436194],
+          [0.0,1.0,0.0],
+          [-0.0436194,0.0,0.999048],
+          [2210.2,-88.9,838.25]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uss_dd_sims",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2298.35,-90.8,-49.15]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uss_bb_arizona",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "tracked_vehicles": {
+        "name": "aa_medium_gun_fire",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1953.6,22.2,-1200.2]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_m4a1",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "count": 10,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "wheeled_vehicles": {
+        "name": "aa_small_mg_fire04",
+        "tm": [
+          [0.173648,0.0,0.984808],
+          [0.0,1.0,0.0],
+          [-0.984808,0.0,0.173648],
+          [1886.4,22.2,-1471.65]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_sdKfz_222",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 10,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_big_gun_fire02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1435.2,22.2,-2027.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_88mm_flak36",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_gun_fire05",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1039.3,22.2,-2003.55]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_37mm_flak43",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [331.3,500.0,488.0]
+        ],
+        "closed_waypoints": true,
+        "unit_class": "a-20g",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "count": 20,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": {
+          "armada_01_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3508.35,309.0,-896.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_01_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3045.9,310.45,-3030.5]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_01_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-486.7,309.0,-2512.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_01_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [105.7,361.45,500.0]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          }
+        }
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_02",
+        "tm": [
+          [-0.422618,0.0,0.906308],
+          [0.0,1.0,0.0],
+          [-0.906308,0.0,-0.422618],
+          [3327.8,500.0,-4147.7]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "f4f-4",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "count": 20,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "infantry": {
+        "name": "infantry_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1799.75,22.2,-1569.35]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "rifle_infantry",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "attack_type": "fire_at_will",
+          "count": 20
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_gun_fire04",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [819.8,22.2,-1943.7]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_37mm_flak43",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-177.45,-90.8,-2591.9]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uss_bb_arizona",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_04",
+        "tm": [
+          [0.999048,0.0,0.0436194],
+          [0.0,1.0,0.0],
+          [-0.0436194,0.0,0.999048],
+          [99.45,-88.9,-632.65]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uss_dd_sims",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_gun_fire03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [946.7,22.2,-1976.95]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_37mm_flak43",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_mg_fire03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1591.0,24.5,-319.05]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uk_12mm_m2",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_mg_fire02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1659.45,24.5,-454.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uk_12mm_m2",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_mg_fire01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1761.15,24.5,-606.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uk_12mm_m2",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_mg_fire",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1832.35,24.5,-725.55]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uk_12mm_m2",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_medium_mg_fire02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1046.55,21.2,1048.3]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_20mmx4_flak38",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_medium_mg_fire01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1188.3,21.2,1055.95]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_20mmx4_flak38",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_medium_mg_fire",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1331.1,21.2,967.8]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_20mmx4_flak38",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_big_mg_fire",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1258.5,19.3,-1159.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "jpn_25mm_t96",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_big_mg_fire01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1242.6,19.3,-1275.75]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "jpn_25mm_t96",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_big_mg_fire02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1321.6,19.3,-1234.35]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "jpn_25mm_t96",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_big_gun_fire01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1504.3,22.2,-2057.9]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_88mm_flak36",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_big_gun_fire",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1418.1,22.2,-2164.85]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "germ_88mm_flak36",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_gun_fire01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [23.3,20.1,-1788.45]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uk_40mm_bofors",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_gun_fire",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-72.05,20.1,-1782.1]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uk_40mm_bofors",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "air_defence": {
+        "name": "aa_small_gun_fire02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-7.55,20.1,-1731.95]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uk_40mm_bofors",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_03",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-1038.6,500.0,-2241.55]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "a-20g",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "count": 20,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": {
+          "armada_03_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2138.45,309.0,-3626.1]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_03_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1676.0,310.45,-5760.05]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_03_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-1856.6,309.0,-5242.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_03_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-1264.2,361.45,-2229.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          }
+        }
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_04",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-3638.25,500.0,246.45]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "a-20g",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "count": 20,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": {
+          "armada_04_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-461.2,309.0,-1138.1]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_04_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-923.65,310.45,-3272.05]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_04_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-4456.25,309.0,-2754.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "armada_04_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-3863.85,361.45,258.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          }
+        }
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_05",
+        "tm": [
+          [0.999048,0.0,0.0436194],
+          [0.0,1.0,0.0],
+          [-0.0436194,0.0,0.999048],
+          [-768.85,-88.9,-358.6]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "uss_cv_enterprise",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ships_06",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3208.6,-91.0,-770.0]
+        ],
+        "closed_waypoints": true,
+        "unit_class": "fishboat1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 3,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": {
+          "ships_06_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2813.35,-91.0,-2266.4]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "ships_06_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2783.35,-91.0,-3582.85]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "ships_06_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1548.1,-91.0,-3360.65]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "ships_06_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [624.25,-90.35,-2894.05]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          }
+        }
+      }
+    },
+    {
+      "wheeled_vehicles": {
+        "name": "wheeled_vehicles_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1925.35,22.2,-2552.4]
+        ],
+        "closed_waypoints": true,
+        "unit_class": "us_cargo_truck",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 3,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": {
+          "wheeled_vehicles_01_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1002.6,22.2,-2087.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "wheeled_vehicles_01_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1665.35,22.2,-1668.05]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "wheeled_vehicles_01_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1972.4,22.2,-1707.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "wheeled_vehicles_01_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1966.15,22.2,-2399.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          }
+        }
+      }
+    },
+    {
+      "tracked_vehicles": {
+        "name": "tracked_vehicles_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1931.6,22.2,-2124.4]
+        ],
+        "closed_waypoints": true,
+        "unit_class": "us_m4a1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 3,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": {
+          "tracked_vehicles_01_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [835.35,22.2,-1954.35]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "tracked_vehicles_01_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1351.35,22.2,-2246.65]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "tracked_vehicles_01_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1908.05,22.2,-2351.75]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "tracked_vehicles_01_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2023.1,22.2,-2093.8]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          },
+          "tracked_vehicles_01_wp_05": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1576.6,22.2,-1982.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT"
+            }
+          }
+        }
+      }
+    },
+    {
+      "infantry": {
+        "name": "infantry_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1656.25,22.2,-1798.65]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "rifle_infantry",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "attack_type": "fire_at_will",
+          "count": 20
+        },
+        "way": []
+      }
+    }
+  ],
+  "areas": []
+}

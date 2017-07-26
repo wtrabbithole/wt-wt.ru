@@ -9,7 +9,7 @@ expandable {
 
     tdiv {
       width:t='pw'
-      padding:t='12@sf/@pf'
+      padding:t='12@sf/@pf_outdated'
 
       layeredIconContainer {
         size:t='@profileUnlockIconSize, @profileUnlockIconSize'
@@ -20,7 +20,7 @@ expandable {
       }
 
       tdiv {
-        pos:t='12@sf/@pf, 0'
+        pos:t='12@sf/@pf_outdated, 0'
         position:t='relative'
         flow:t='vertical'
 
@@ -35,7 +35,7 @@ expandable {
 
           <<#uniqueClantags>>
           tdiv {
-            margin-right:t='5@sf/@pf, 0'
+            margin-right:t='5@sf/@pf_outdated, 0'
             tooltip:t='<<tooltip>>'
             activeText { text:t='<<start>>' }
             activeText { style:t='color:@commonTextColor'; text:t='<<tag>>' }
@@ -77,7 +77,7 @@ expandable {
       <</hasUniqueDecals>>
 
       text {
-        pos:t='pw-w, 6@sf/@pf'
+        pos:t='pw-w, 6@sf/@pf_outdated'
         position:t='absolute'
         tinyFont:t='yes'
         text:t='<<condition>>'
@@ -89,7 +89,7 @@ expandable {
       id:t='bonuses_panel'
       width:t='pw'
       flow:t='vertical'
-      padding:t='12@sf/@pf'; padding-top:t='-12@sf/@pf'
+      padding:t='12@sf/@pf_outdated'; padding-top:t='-12@sf/@pf_outdated'
       display:t='hide'
       toggled:t='no'
 
@@ -102,7 +102,7 @@ expandable {
         flow:t='h-flow'
         <<#bonusClantags>>
         tdiv {
-          margin-right:t='5@sf/@pf, 0'
+          margin-right:t='5@sf/@pf_outdated, 0'
           tooltip:t='<<tooltip>>'
           activeText { text:t='<<start>>' }
           activeText { style:t='color:@commonTextColor'; text:t='<<tag>>' }

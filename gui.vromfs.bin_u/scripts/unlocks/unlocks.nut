@@ -711,7 +711,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
   function addUnlock(idx, unlock, listObj)
   {
     local objId = "unlock_" + idx
-    local obj = guiScene.createElementByObject(listObj, "gui/statistics/unlockBlock.blk", "frameBlock_dark", this)
+    local obj = guiScene.createElementByObject(listObj, "gui/unlocks/unlockBlock.blk", "frameBlock_dark", this)
     obj.id = objId
     obj.width = "1@unlockBlockWidth"
 
@@ -811,7 +811,7 @@ function set_unlock_icon_by_config(obj, config)
 function build_unlock_tooltip_by_config(obj, config, handler)
 {
   local guiScene = obj.getScene()
-  guiScene.replaceContent(obj, "gui/statistics/unlockBlock.blk", handler)
+  guiScene.replaceContent(obj, "gui/unlocks/unlockBlock.blk", handler)
 
   obj["min-width"] = "0.8@unlockBlockWidth"
 

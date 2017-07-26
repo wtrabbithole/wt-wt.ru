@@ -170,6 +170,11 @@
     GamepadCursorControl = false
 
     SeparateTopMenuButtons = false
+
+    newFontsSizes = false  //remove this features when old fonts will be removed from the game
+    oldFontsSizes = true
+
+    Warbonds_2_0 = false
   }
 
   cache = {}

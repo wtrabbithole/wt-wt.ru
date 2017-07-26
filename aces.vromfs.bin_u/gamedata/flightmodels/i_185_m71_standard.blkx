@@ -1,4046 +1,2315 @@
-[
-  {
-    "model": "i_185_m71_standard"
-  },
-  {
-    "fmFile": "fm/i_185_m71_standard.blk"
-  },
-  {
-    "type": "typeFighter"
-  },
-  {
-    "paratrooper": "ally"
-  },
-  {
-    "fireParamsPreset": "700kph"
-  },
-  {
-    "fightAiBehaviour": "fighter"
-  },
-  {
-    "DamageGen": {
-      "armor1_dm": {
-        "mat": "armor8"
-      }
-    }
-  },
-  {
-    "DamageGen": {
-      "engine1_dm": {
-        "mat": "aircooling_engine_light"
-      },
-      "tail_dm": {
-        "mat": "1x_e_tail_wood_l_f"
-      },
-      "fuse_dm": {
-        "mat": "1x_e_fuse_t_wood_l_f"
-      },
-      "fuse1_dm": {
-        "mat": "1x_e_fuse_wood_l_f"
-      },
-      "wing_r_dm": {
-        "mat": "1x_e_wing_wood_l_f"
-      },
-      "wing1_r_dm": {
-        "mat": "1x_e_wing_wood_l_f"
-      },
-      "wing2_r_dm": {
-        "mat": "1x_e_wing_wood_l_f"
-      },
-      "wing_l_dm": {
-        "mat": "1x_e_wing_wood_l_f"
-      },
-      "wing1_l_dm": {
-        "mat": "1x_e_wing_wood_l_f"
-      },
-      "wing2_l_dm": {
-        "mat": "1x_e_wing_wood_l_f"
-      },
-      "pilot_dm": {
-        "mat": "pilot_steel"
-      },
-      "tank1_dm": {
-        "mat": "1x_e_tank_protected_l_f"
-      },
-      "oil1_dm": {
-        "mat": "1x_e_oil_l_f"
-      },
-      "armor1_dm": {
-        "mat": "armor8_5"
-      },
-      "cover1_dm": {
-        "mat": "cover_dural"
-      },
-      "cover2_dm": {
-        "mat": "cover_dural"
-      },
+{
+  "model": "i_185_m71_standard",
+  "fmFile": "fm/i_185_m71_standard.blk",
+  "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
+  "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "type": "typeFighter",
+  "paratrooper": "ally",
+  "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
+  "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
+  "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
+  "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
+  "damagePartsToCollisionPointsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_points_map.blk",
+  "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk",
+  "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
+  "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
+  "fireParamsPreset": "700kph",
+  "fightAiBehaviour": "fighter",
+  "DamageParts": {
+    "armor10": {
       "cannon1_dm": {
-        "mat": "gun_armor10"
+        "hp": 15.0
       },
       "cannon2_dm": {
-        "mat": "gun_armor10"
-      },
-      "mgun1_dm": {
-        "mat": "gun_armor10"
-      },
-      "mgun2_dm": {
-        "mat": "gun_armor10"
-      },
-      "mgun3_dm": {
-        "mat": "gun_armor10"
-      },
-      "mgun4_dm": {
-        "mat": "gun_armor10"
-      },
-      "spar_l_dm": {
-        "mat": "1x_e_spar_dural_l_f"
-      },
-      "spar1_l_dm": {
-        "mat": "1x_e_spar_dural_l_f"
-      },
-      "spar2_l_dm": {
-        "mat": "1x_e_spar_dural_l_f"
-      },
-      "spar_r_dm": {
-        "mat": "1x_e_spar_dural_l_f"
-      },
-      "spar1_r_dm": {
-        "mat": "1x_e_spar_dural_l_f"
-      },
-      "spar2_r_dm": {
-        "mat": "1x_e_spar_dural_l_f"
-      },
+        "hp": 15.0
+      }
+    },
+    "armor8": {
+      "armor1_dm": {
+        "hp": 40.0
+      }
+    },
+    "armor_engine_light": {
+      "engine1_dm": {
+        "genericDamageMult": 1.6,
+        "hp": 52.8
+      }
+    },
+    "c_dural3": {
       "aileron_l_dm": {
-        "mat": "1x_e_planes_dural_l_f"
+        "genericDamageMult": 0.3,
+        "hp": 9.5
       },
       "aileron_r_dm": {
-        "mat": "1x_e_planes_dural_l_f"
-      },
-      "elevator_dm": {
-        "mat": "1x_e_planes_dural_l_f"
-      },
-      "rudder_dm": {
-        "mat": "1x_e_planes_dural_l_f"
-      },
-      "gear_l_dm": {
-        "mat": "1x_e_gear"
-      },
-      "gear_r_dm": {
-        "mat": "1x_e_gear"
-      },
-      "wingcontrol_l_dm": {
-        "mat": "1x_e_controls_l_f"
-      },
-      "wingcontrol_r_dm": {
-        "mat": "1x_e_controls_l_f"
-      },
-      "tailcontrol_dm": {
-        "mat": "1x_e_controls_l_f"
+        "genericDamageMult": 0.3,
+        "hp": 9.5
       },
       "fin_dm": {
-        "mat": "1x_e_fin_dural_l_f"
+        "hp": 12.2
+      },
+      "rudder_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 10.9
       },
       "stab_dm": {
-        "mat": "1x_e_stab_dural_l_f"
+        "hp": 9.7
+      }
+    },
+    "c_wood30": {
+      "fuse1_dm": {
+        "hp": 52.4
+      },
+      "fuse_dm": {
+        "hp": 30.6
+      },
+      "tail_dm": {
+        "genericDamageMult": 0.7,
+        "hp": 65.0
+      },
+      "wing1_l_dm": {
+        "genericDamageMult": 0.5,
+        "hp": 20.5
+      },
+      "wing1_r_dm": {
+        "genericDamageMult": 0.5,
+        "hp": 20.5
+      },
+      "wing2_l_dm": {
+        "genericDamageMult": 0.5,
+        "hp": 19.5
+      },
+      "wing2_r_dm": {
+        "genericDamageMult": 0.5,
+        "hp": 19.5
+      },
+      "wing_l_dm": {
+        "genericDamageMult": 0.5,
+        "hp": 22.9
+      },
+      "wing_r_dm": {
+        "genericDamageMult": 0.5,
+        "hp": 22.9
+      }
+    },
+    "dural": {
+      "cover1_dm": {
+        "hp": 19.5
+      },
+      "cover2_dm": {
+        "hp": 19.5
+      }
+    },
+    "dural30": {
+      "spar1_l_dm": {
+        "hp": 13.7
+      },
+      "spar1_r_dm": {
+        "hp": 12.3
+      },
+      "spar2_l_dm": {
+        "hp": 9.5
+      },
+      "spar2_r_dm": {
+        "hp": 9.5
+      },
+      "spar_l_dm": {
+        "hp": 19.2
+      },
+      "spar_r_dm": {
+        "hp": 16.7
+      }
+    },
+    "protected_controls": {
+      "tailcontrol_dm": {
+        "hp": 20.5
+      },
+      "wingcontrol_l_dm": {
+        "hp": 20.5
+      },
+      "wingcontrol_r_dm": {
+        "hp": 20.5
+      }
+    },
+    "steel": {
+      "gear_l_dm": {
+        "hp": 39.5
+      },
+      "gear_r_dm": {
+        "hp": 40.8
+      }
+    },
+    "steel_cooling_sys_light": {
+      "oil1_dm": {
+        "hp": 9.5
+      }
+    },
+    "steel_pilot": {
+      "pilot_dm": {
+        "fireProtectionHp": 20.0,
+        "hp": 20.0
+      }
+    },
+    "steel_tank_light": {
+      "tank1_dm": {
+        "hp": 53.2
+      }
+    },
+    "wood": {
+      "cannon3_dm": {
+        "hp": 12.0
+      },
+      "cover3_dm": {
+        "hp": 13.9
+      },
+      "cover4_dm": {
+        "hp": 4.6
+      },
+      "elevator0_dm": {
+        "hp": 14.9
+      },
+      "elevator1_dm": {
+        "hp": 14.9
+      },
+      "flap1_l_dm": {
+        "hp": 7.9
+      },
+      "flap1_r_dm": {
+        "hp": 7.9
+      },
+      "flap_l_dm": {
+        "hp": 12.9
+      },
+      "flap_r_dm": {
+        "hp": 12.9
+      },
+      "gear_c_dm": {
+        "hp": 3.3
+      },
+      "oil2_dm": {
+        "hp": 5.9
+      },
+      "tank2_dm": {
+        "hp": 27.7
+      },
+      "tank3_dm": {
+        "hp": 27.7
       }
     }
   },
-  {
-    "DamageParts": {
-      "armor10": {
-        "cannon1_dm": {
-          "hp": 15.0
+  "DamageEffects": [
+    {
+      "part": [
+        {
+          "name": "aileron_l_dm"
         },
-        "cannon2_dm": {
-          "hp": 15.0
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
         }
-      },
-      "armor8": {
-        "armor1_dm": {
-          "hp": 40.0
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "aileron_r_dm"
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
         }
-      },
-      "armor_engine_light": {
-        "engine1_dm": {
-          "genericDamageMult": 1.6,
-          "hp": 52.8
-        }
-      },
-      "c_dural3": {
-        "aileron_l_dm": {
-          "genericDamageMult": 0.3,
-          "hp": 9.5
-        },
-        "aileron_r_dm": {
-          "genericDamageMult": 0.3,
-          "hp": 9.5
-        },
-        "fin_dm": {
-          "hp": 12.2
-        },
-        "rudder_dm": {
-          "genericDamageMult": 0.3,
-          "hp": 10.9
-        },
-        "stab_dm": {
-          "hp": 9.7
-        }
-      },
-      "c_wood30": {
-        "fuse1_dm": {
-          "hp": 52.4
-        },
-        "fuse_dm": {
-          "hp": 30.6
-        },
-        "tail_dm": {
-          "genericDamageMult": 0.7,
-          "hp": 65.0
-        },
-        "wing1_l_dm": {
-          "genericDamageMult": 0.5,
-          "hp": 20.5
-        },
-        "wing1_r_dm": {
-          "genericDamageMult": 0.5,
-          "hp": 20.5
-        },
-        "wing2_l_dm": {
-          "genericDamageMult": 0.5,
-          "hp": 19.5
-        },
-        "wing2_r_dm": {
-          "genericDamageMult": 0.5,
-          "hp": 19.5
-        },
-        "wing_l_dm": {
-          "genericDamageMult": 0.5,
-          "hp": 22.9
-        },
-        "wing_r_dm": {
-          "genericDamageMult": 0.5,
-          "hp": 22.9
-        }
-      },
-      "dural": {
-        "cover1_dm": {
-          "hp": 19.5
-        },
-        "cover2_dm": {
-          "hp": 19.5
-        }
-      },
-      "dural30": {
-        "spar1_l_dm": {
-          "hp": 13.7
-        },
-        "spar1_r_dm": {
-          "hp": 12.3
-        },
-        "spar2_l_dm": {
-          "hp": 9.5
-        },
-        "spar2_r_dm": {
-          "hp": 9.5
-        },
-        "spar_l_dm": {
-          "hp": 19.2
-        },
-        "spar_r_dm": {
-          "hp": 16.7
-        }
-      },
-      "protected_controls": {
-        "tailcontrol_dm": {
-          "hp": 20.5
-        },
-        "wingcontrol_l_dm": {
-          "hp": 20.5
-        },
-        "wingcontrol_r_dm": {
-          "hp": 20.5
-        }
-      },
-      "steel": {
-        "gear_l_dm": {
-          "hp": 39.5
-        },
-        "gear_r_dm": {
-          "hp": 40.8
-        }
-      },
-      "steel_cooling_sys_light": {
-        "oil1_dm": {
-          "hp": 9.5
-        }
-      },
-      "steel_pilot": {
-        "pilot_dm": {
-          "fireProtectionHp": 20.0,
-          "hp": 20.0
-        }
-      },
-      "steel_tank_light": {
-        "tank1_dm": {
-          "hp": 53.2
-        }
-      },
-      "wood": {
-        "cannon3_dm": {
-          "hp": 12.0
-        },
-        "cover3_dm": {
-          "hp": 13.9
-        },
-        "cover4_dm": {
-          "hp": 4.6
-        },
-        "elevator0_dm": {
-          "hp": 14.9
-        },
-        "elevator1_dm": {
-          "hp": 14.9
-        },
-        "flap1_l_dm": {
-          "hp": 7.9
-        },
-        "flap1_r_dm": {
-          "hp": 7.9
-        },
-        "flap_l_dm": {
-          "hp": 12.9
-        },
-        "flap_r_dm": {
-          "hp": 12.9
-        },
-        "gear_c_dm": {
-          "hp": 3.3
-        },
-        "oil2_dm": {
-          "hp": 5.9
-        },
-        "tank2_dm": {
-          "hp": 27.7
-        },
-        "tank3_dm": {
-          "hp": 27.7
-        }
+      ]
+    },
+    {
+      "part": {
+        "name": "armor1_dm"
       }
-    }
-  },
-  {
-    "DamageEffects": [
-      {
-        "part": [
-          {
-            "name": "aileron_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "aileron_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": {
-          "name": "armor1_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cannon1_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cannon2_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cannon3_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover1_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover2_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover3_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover4_dm"
-        }
-      },
-      {
-        "part": [
-          {
-            "name": "elevator0_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "elevator1_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "engine1_dm"
-          },
-          {
-            "onHit": {
-              "expl": 0.01,
-              "fire": 0.01
-            }
-          },
-          {
-            "onHit": {
-              "damage": 2.7,
-              "expl": 0.01,
-              "fire": 0.01,
-              "leak_oil": 0.5
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "expl": 0.05,
-              "fire": 0.1,
-              "leak_oil": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "expl": 0.1,
-              "fire": 10.0,
-              "nothing": 90.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "expl": 1.0,
-              "fire": 44.0,
-              "nothing": 55.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "fin_dm"
-          },
-          {
-            "onHit": {
-              "tailcontrol_dm": 0.005
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "expl": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "tailcontrol_dm": 0.005,
-              "nothing": 9.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 4.2,
-              "cut": 1.0,
-              "nothing": 9.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "flap1_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 70.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 14.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "flap1_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 70.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 14.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "flap_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 70.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 14.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "flap_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 70.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 14.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "fuse1_dm"
-          },
-          {
-            "onHit": {
-              "damage": 5.0,
-              "wing_r_dm": 0.1,
-              "wing_l_dm": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 9.0,
-              "wing_r_dm": 0.3,
-              "wing_l_dm": 0.3
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "wing_r_dm": 0.5,
-              "wing_l_dm": 0.5
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "wing_r_dm": 0.7,
-              "wing_l_dm": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "wing_r_dm": 0.9,
-              "wing_l_dm": 0.9
-            }
-          },
-          {
-            "onKill": {
-              "wing_l_dm": 1.0,
-              "wing_r_dm": 1.0,
-              "nothing": 6.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "wing_l_dm": 1.0,
-              "wing_r_dm": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "wing_l_dm": 1.0,
-              "wing_r_dm": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "wing_l_dm": 1.0,
-              "wing_r_dm": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "wing_l_dm": 1.0,
-              "wing_r_dm": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "wing_l_dm": 1.0,
-              "wing_r_dm": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "fuse_dm"
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "tail_dm": 0.2
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "tail_dm": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "tail_dm": 0.6
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "tail_dm": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 40.0,
-              "tail_dm": 1.0
-            }
-          },
-          {
-            "onHit": {
-              "damage": 45.0,
-              "expl": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "tail_dm": 1.0,
-              "nothing": 9.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "tail_dm": 1.0,
-              "nothing": 6.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "tail_dm": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "tail_dm": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "tail_dm": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "tail_dm": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 40.0,
-              "tail_dm": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 45.0,
-              "expl": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "gear_c_dm"
-          },
-          {
-            "onHit": {
-              "damage": 15.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 25.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 40.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 60.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "gear_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 15.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 25.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 40.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 60.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "gear_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 15.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 25.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 40.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 60.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": {
-          "name": "oil1_dm",
+    },
+    {
+      "part": {
+        "name": "cannon1_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cannon2_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cannon3_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cover1_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cover2_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cover3_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "cover4_dm"
+      }
+    },
+    {
+      "part": [
+        {
+          "name": "elevator0_dm"
+        },
+        {
           "onHit": {
-            "leak_oil": 0.95
-          },
+            "damage": 10.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
           "onKill": {
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "elevator1_dm"
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "engine1_dm"
+        },
+        {
+          "onHit": {
+            "expl": 0.01,
+            "fire": 0.01
+          }
+        },
+        {
+          "onHit": {
+            "damage": 2.7,
+            "expl": 0.01,
+            "fire": 0.01,
+            "leak_oil": 0.5
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "expl": 0.05,
+            "fire": 0.1,
             "leak_oil": 1.0
           }
+        },
+        {
+          "onKill": {
+            "expl": 0.1,
+            "fire": 10.0,
+            "nothing": 90.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "expl": 1.0,
+            "fire": 44.0,
+            "nothing": 55.0
+          }
         }
-      },
-      {
-        "part": {
-          "name": "oil2_dm",
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "fin_dm"
+        },
+        {
           "onHit": {
-            "leak_oil": 0.95
-          },
-          "onKill": {
-            "leak_oil": 1.0
+            "tailcontrol_dm": 0.005
           }
-        }
-      },
-      {
-        "part": {
-          "name": "pilot_dm"
-        }
-      },
-      {
-        "part": [
-          {
-            "name": "rudder_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.8
           }
-        ]
-      },
-      {
-        "part": {
-          "name": "spar1_l_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "spar1_r_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "spar2_l_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "spar2_r_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "spar_l_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "spar_r_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "stab_dm",
-          "onKill": {
-            "nothing": 7.0,
-            "elevator_dm": 1.0
-          },
+        },
+        {
           "onHit": {
             "damage": 50.0,
             "expl": 1.0
           }
-        }
-      },
-      {
-        "part": [
-          {
-            "name": "tail_dm"
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.25
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.5
-            }
-          },
-          {
-            "onHit": {
-              "damage": 45.0,
-              "cut": 0.75
-            }
-          },
-          {
-            "onHit": {
-              "damage": 55.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "tailcontrol_dm": 1.0,
-              "nothing": 9.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "tailcontrol_dm": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 45.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 55.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": {
-          "name": "tailcontrol_dm"
-        }
-      },
-      {
-        "part": [
-          {
-            "name": "tank1_dm"
-          },
-          {
-            "onHit": {
-              "fire": 0.05,
-              "leak": 0.5
-            }
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "fire": 0.5,
-              "leak": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "fire": 0.9,
-              "leak": 0.9
-            }
-          },
-          {
-            "onKill": {
-              "fire": 3.0,
-              "leak": 12.0,
-              "nothing": 85.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "expl": 0.5,
-              "fire": 5.0,
-              "leak": 10.0,
-              "nothing": 85.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "expl": 1.0,
-              "fire": 20.0,
-              "leak": 50.0,
-              "nothing": 30.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "tank2_dm"
-          },
-          {
-            "onHit": {
-              "fire": 0.05,
-              "leak": 0.5
-            }
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "fire": 0.5,
-              "leak": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "fire": 0.9,
-              "leak": 0.9
-            }
-          },
-          {
-            "onKill": {
-              "fire": 3.0,
-              "leak": 12.0,
-              "nothing": 85.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "expl": 0.5,
-              "fire": 5.0,
-              "leak": 10.0,
-              "nothing": 85.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "expl": 1.0,
-              "fire": 20.0,
-              "leak": 50.0,
-              "nothing": 30.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "tank3_dm"
-          },
-          {
-            "onHit": {
-              "fire": 0.05,
-              "leak": 0.5
-            }
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "fire": 0.5,
-              "leak": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "fire": 0.9,
-              "leak": 0.9
-            }
-          },
-          {
-            "onKill": {
-              "fire": 3.0,
-              "leak": 12.0,
-              "nothing": 85.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "expl": 0.5,
-              "fire": 5.0,
-              "leak": 10.0,
-              "nothing": 85.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "expl": 1.0,
-              "fire": 20.0,
-              "leak": 50.0,
-              "nothing": 30.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "wing1_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.2
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "cut": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "wing1_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.2
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "cut": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "wing2_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.2
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "cut": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "wing2_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.2
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "cut": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "wing_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.2
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "cut": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "wing_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 7.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.2
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.8
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 3.0,
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 7.0,
-              "cut": 1.0,
-              "nothing": 3.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": {
-          "name": "wingcontrol_l_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "wingcontrol_r_dm"
-        }
-      }
-    ]
-  },
-  {
-    "MetaParts": {
-      "wing_l_structure": [
-        {
-          "hp": 80.0
         },
         {
-          "part": "wing_l_dm"
-        },
-        {
-          "part": "wing1_l_dm"
-        },
-        {
-          "part": "wing2_l_dm"
-        },
-        {
-          "part": "spar1_l_dm"
-        },
-        {
-          "part": "spar2_l_dm"
-        },
-        {
-          "part": "spar_l_dm"
-        },
-        {
-          "part": "fuse1_l_dm"
-        },
-        {
-          "part": "fuse2_l_dm"
-        },
-        {
-          "effects": {
-            "cutPart": "wing_l_dm"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
+          "onKill": {
             "cut": 1.0,
-            "conditionDamage": 100.0,
-            "kill": true,
-            "cutPart": "wing_l_dm"
-          }
-        }
-      ],
-      "wing_r_structure": [
-        {
-          "hp": 80.0
-        },
-        {
-          "part": "wing_r_dm"
-        },
-        {
-          "part": "wing1_r_dm"
-        },
-        {
-          "part": "wing2_r_dm"
-        },
-        {
-          "part": "spar1_r_dm"
-        },
-        {
-          "part": "spar2_r_dm"
-        },
-        {
-          "part": "spar_r_dm"
-        },
-        {
-          "part": "fuse1_r_dm"
-        },
-        {
-          "part": "fuse2_r_dm"
-        },
-        {
-          "effects": {
-            "cutPart": "wing_r_dm"
+            "tailcontrol_dm": 0.005,
+            "nothing": 9.0
           }
         },
         {
-          "effect": {
-            "conditionDamageType": "generic",
+          "onKill": {
+            "damage": 4.2,
             "cut": 1.0,
-            "conditionDamage": 100.0,
-            "kill": true,
-            "cutPart": "wing_r_dm"
-          }
-        }
-      ],
-      "cover_structure": [
-        {
-          "hp": 1650.0
-        },
-        {
-          "part": "cover1_dm"
-        },
-        {
-          "part": "cover2_dm"
-        },
-        {
-          "part": "cover3_dm"
-        },
-        {
-          "part": "cover4_dm"
-        },
-        {
-          "part": "cover5_dm"
-        },
-        {
-          "part": "cover6_dm"
-        },
-        {
-          "part": "cover7_dm"
-        },
-        {
-          "part": "cover8_dm"
-        },
-        {
-          "part": "cover9_dm"
-        },
-        {
-          "part": "rudder_dm"
-        },
-        {
-          "part": "stab_dm"
-        },
-        {
-          "part": "fuse_dm"
-        },
-        {
-          "part": "tail_dm"
-        },
-        {
-          "part": "fin_dm"
-        },
-        {
-          "effects": {
-            "cutPart": "tail_dm"
+            "nothing": 9.0
           }
         },
         {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 300.0,
-            "kill": true,
-            "killEffect": "expl"
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 5.0
           }
         },
         {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 40.0,
-            "kill": true,
-            "killEffect": "expl"
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 2.0
           }
         }
       ]
-    }
-  },
-  {
-    "exhaustEffects": {
-      "fireFramerate": 20.0,
-      "speedMultiplier": 1.0,
-      "transitionThrottle": [0.8,0.95],
-      "transitionMixture": [0.4,0.8,1.0],
-      "startingTransitionTime": 4.0,
-      "rpmToFxSpeed": 0.01,
-      "slowdownEffectProbability": [0.001,0.1],
-      "slowdownEffectFadeInRate": 5.0,
-      "slowdownEffectFadeOutTime": 0.5,
-      "engine0": [
+    },
+    {
+      "part": [
         {
-          "node": "fire1_1"
+          "name": "flap1_l_dm"
         },
         {
-          "node": "fire1_12"
-        },
-        {
-          "node": "fire1_8"
-        },
-        {
-          "node": "fire1_11"
-        },
-        {
-          "node": "fire1_7"
-        },
-        {
-          "node": "fire1_14"
-        },
-        {
-          "node": "fire1_5"
-        },
-        {
-          "node": "fire1_16"
-        },
-        {
-          "node": "fire1_4"
-        },
-        {
-          "node": "fire1_15"
-        },
-        {
-          "node": "fire1_3"
-        },
-        {
-          "node": "fire1_10"
-        },
-        {
-          "node": "fire1_6"
-        },
-        {
-          "node": "fire1_9"
-        },
-        {
-          "node": "fire1_2"
-        },
-        {
-          "node": "fire1_13"
-        },
-        {
-          "node": "fire1_17"
-        },
-        {
-          "node": "fire1_18"
-        },
-        {
-          "node": "fire1_19"
-        },
-        {
-          "node": "fire1_20"
-        },
-        {
-          "node": "fire1_21"
-        },
-        {
-          "node": "fire1_22"
-        },
-        {
-          "node": "fire1_23"
-        },
-        {
-          "node": "fire1_24"
-        },
-        {
-          "fxNode": "prop03_1"
-        }
-      ],
-      "engine1": [
-        {
-          "node": "fire2_1"
-        },
-        {
-          "node": "fire2_12"
-        },
-        {
-          "node": "fire2_8"
-        },
-        {
-          "node": "fire2_11"
-        },
-        {
-          "node": "fire2_7"
-        },
-        {
-          "node": "fire2_14"
-        },
-        {
-          "node": "fire2_5"
-        },
-        {
-          "node": "fire2_16"
-        },
-        {
-          "node": "fire2_4"
-        },
-        {
-          "node": "fire2_15"
-        },
-        {
-          "node": "fire2_3"
-        },
-        {
-          "node": "fire2_10"
-        },
-        {
-          "node": "fire2_6"
-        },
-        {
-          "node": "fire2_9"
-        },
-        {
-          "node": "fire2_2"
-        },
-        {
-          "node": "fire2_13"
-        },
-        {
-          "node": "fire2_17"
-        },
-        {
-          "node": "fire2_18"
-        },
-        {
-          "node": "fire2_19"
-        },
-        {
-          "node": "fire2_20"
-        },
-        {
-          "node": "fire2_21"
-        },
-        {
-          "node": "fire2_22"
-        },
-        {
-          "node": "fire2_23"
-        },
-        {
-          "node": "fire2_24"
-        },
-        {
-          "fxNode": "prop03_2"
-        }
-      ],
-      "engine2": [
-        {
-          "node": "fire3_1"
-        },
-        {
-          "node": "fire3_12"
-        },
-        {
-          "node": "fire3_8"
-        },
-        {
-          "node": "fire3_11"
-        },
-        {
-          "node": "fire3_7"
-        },
-        {
-          "node": "fire3_14"
-        },
-        {
-          "node": "fire3_5"
-        },
-        {
-          "node": "fire3_16"
-        },
-        {
-          "node": "fire3_4"
-        },
-        {
-          "node": "fire3_15"
-        },
-        {
-          "node": "fire3_3"
-        },
-        {
-          "node": "fire3_10"
-        },
-        {
-          "node": "fire3_6"
-        },
-        {
-          "node": "fire3_9"
-        },
-        {
-          "node": "fire3_2"
-        },
-        {
-          "node": "fire3_13"
-        },
-        {
-          "node": "fire3_17"
-        },
-        {
-          "node": "fire3_18"
-        },
-        {
-          "node": "fire3_19"
-        },
-        {
-          "node": "fire3_20"
-        },
-        {
-          "fxNode": "prop03_3"
-        }
-      ],
-      "engine3": [
-        {
-          "node": "fire4_1"
-        },
-        {
-          "node": "fire4_12"
-        },
-        {
-          "node": "fire4_8"
-        },
-        {
-          "node": "fire4_11"
-        },
-        {
-          "node": "fire4_7"
-        },
-        {
-          "node": "fire4_14"
-        },
-        {
-          "node": "fire4_5"
-        },
-        {
-          "node": "fire4_16"
-        },
-        {
-          "node": "fire4_4"
-        },
-        {
-          "node": "fire4_15"
-        },
-        {
-          "node": "fire4_3"
-        },
-        {
-          "node": "fire4_10"
-        },
-        {
-          "node": "fire4_6"
-        },
-        {
-          "node": "fire4_9"
-        },
-        {
-          "node": "fire4_2"
-        },
-        {
-          "node": "fire4_13"
-        },
-        {
-          "node": "fire4_17"
-        },
-        {
-          "node": "fire4_18"
-        },
-        {
-          "node": "fire4_19"
-        },
-        {
-          "node": "fire4_20"
-        },
-        {
-          "fxNode": "prop03_4"
-        }
-      ],
-      "engine4": [
-        {
-          "node": "fire5_1"
-        },
-        {
-          "node": "fire5_12"
-        },
-        {
-          "node": "fire5_8"
-        },
-        {
-          "node": "fire5_11"
-        },
-        {
-          "node": "fire5_7"
-        },
-        {
-          "node": "fire5_14"
-        },
-        {
-          "node": "fire5_5"
-        },
-        {
-          "node": "fire5_16"
-        },
-        {
-          "node": "fire5_4"
-        },
-        {
-          "node": "fire5_15"
-        },
-        {
-          "node": "fire5_3"
-        },
-        {
-          "node": "fire5_10"
-        },
-        {
-          "node": "fire5_6"
-        },
-        {
-          "node": "fire5_9"
-        },
-        {
-          "node": "fire5_2"
-        },
-        {
-          "node": "fire5_13"
-        },
-        {
-          "node": "fire5_17"
-        },
-        {
-          "node": "fire5_18"
-        },
-        {
-          "node": "fire5_19"
-        },
-        {
-          "node": "fire5_20"
-        },
-        {
-          "fxNode": "prop03_5"
-        }
-      ],
-      "engine5": [
-        {
-          "node": "fire6_1"
-        },
-        {
-          "node": "fire6_12"
-        },
-        {
-          "node": "fire6_8"
-        },
-        {
-          "node": "fire6_11"
-        },
-        {
-          "node": "fire6_7"
-        },
-        {
-          "node": "fire6_14"
-        },
-        {
-          "node": "fire6_5"
-        },
-        {
-          "node": "fire6_16"
-        },
-        {
-          "node": "fire6_4"
-        },
-        {
-          "node": "fire6_15"
-        },
-        {
-          "node": "fire6_3"
-        },
-        {
-          "node": "fire6_10"
-        },
-        {
-          "node": "fire6_6"
-        },
-        {
-          "node": "fire6_9"
-        },
-        {
-          "node": "fire6_2"
-        },
-        {
-          "node": "fire6_13"
-        },
-        {
-          "node": "fire6_17"
-        },
-        {
-          "node": "fire6_18"
-        },
-        {
-          "node": "fire6_19"
-        },
-        {
-          "node": "fire6_20"
-        },
-        {
-          "fxNode": "prop03_6"
-        }
-      ],
-      "slowdownMode": {
-        "effect": {
-          "probability": 0.7,
-          "colorAlpha": [0.95,0.55,0.2,0.25],
-          "fireTimeRange": [0.01,0.02],
-          "scaleRange": [0.3,0.6]
-        }
-      },
-      "startingMode": [
-        {
-          "effect": {
-            "fxName": "part_damage",
-            "colorAlpha": [0.95,0.55,0.2,0.05],
-            "colorVariation": 0.02,
-            "alphaVariation": 0.02,
-            "probability": 0.5,
-            "fireTimeRange": [0.09,0.12],
-            "scaleRange": [0.5,1.3],
-            "maxFxRpm": 70.0
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.1
           }
         },
         {
-          "effect": {
-            "fxName": "motor_exhaust_wep",
-            "colorAlpha": [0.95,0.55,0.2,0.05],
-            "colorVariation": 0.02,
-            "alphaVariation": 0.02,
-            "fireTimeRange": [0.09,0.12],
-            "scaleRange": [0.5,1.3],
-            "probability": 1.0,
-            "maxFxRpm": 20.0
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.4
           }
-        }
-      ],
-      "normalMode": {
-        "effect": {
-          "colorAlpha": [0.23,0.6,0.8,0.015],
-          "probability": 0.2,
-          "fireTimeRange": [0.02,0.02],
-          "scaleRange": [0.35,0.4],
-          "alphaVariation": 0.01
-        }
-      },
-      "battleMode": {
-        "effect": {
-          "colorAlpha": [0.7,0.55,0.2,0.04],
-          "probability": 0.2,
-          "fireTimeRange": [0.02,0.02],
-          "scaleRange": [0.35,0.4],
-          "colorVariation": 0.02,
-          "alphaVariation": 0.02
-        }
-      },
-      "wepMode": {
-        "exhaustFx": "motor_100throttle",
-        "effect": {
-          "fxName": "motor_100throttle",
-          "colorAlpha": [0.95,0.4,0.15,0.05],
-          "colorVariation": 0.01,
-          "probability": 0.5,
-          "fireTimeRange": [0.01,0.01],
-          "scaleRange": [0.4,0.6],
-          "alphaVariation": 0.04
-        }
-      }
-    }
-  },
-  {
-    "ikPilot": [
-      {
-        "model": "pilot_su_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis01"
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "throttle_lhand_1",
-          "flexionDir": [0.0,-1.0,0.2]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "stick_rhand_1",
-          "flexionDir": [0.0,-1.0,-0.5]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_1",
-          "flexionDir": [0.0,1.0,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_1",
-          "flexionDir": [0.0,1.0,-0.3]
-        }
-      }
-    ]
-  },
-  {
-    "attach": {
-      "pilot1": "pilot_su_500"
-    }
-  },
-  {
-    "Params": {
-      "Range": 635.0
-    }
-  },
-  {
-    "Sound": {
-      "Engine": "engine03",
-      "gun": "gun_default"
-    }
-  },
-  {
-    "cockpit": {
-      "headPos": [-1.63,0.755,0.0],
-      "headPosOnShooting": [-1.53,0.755,0.0],
-      "collimatorSize": 0.11,
-      "lightPos": [-1.172219,0.548569,0.153259],
-      "lightColor": [0.62,0.3,0.21],
-      "lightAttenuation": 8.0,
-      "devices": {
-        "pedals1": [-1.0,1.0],
-        "pedals2": [-1.0,1.0],
-        "pedals3": [-1.0,1.0],
-        "pedals4": [-1.0,1.0],
-        "pedals5": [-1.0,1.0],
-        "flaps": [0.0,1.0],
-        "gears": [0.0,1.0],
-        "stick_ailerons": [-1.2,1.2],
-        "stick_elevator": [-1.0,1.0],
-        "throttle": [0.0,1.0],
-        "mixture": [0.0,1.0],
-        "supercharger": [0.0,1.0],
-        "prop_pitch": [0.0,1.0],
-        "weapon2": [0.0,1.0],
-        "weapon3": [0.0,1.0],
-        "speed": [0.0,222.222],
-        "vario": [-30.0,30.0],
-        "altitude_hour": [0.0,10000.0],
-        "altitude_min": [0.0,1000.0],
-        "altitude_koef": 1.0,
-        "compass": [0.0,360.0],
-        "bank": [-8.0,8.0],
-        "turn": [-0.23562,0.23562],
-        "clock_hour": [0.0,12.0],
-        "clock_min": [0.0,60.0],
-        "clock_sec": [0.0,60.0],
-        "manifold_pressure": [0.395,2.1],
-        "rpm_hour": [0.0,10000.0],
-        "rpm_min": [0.0,1000.0],
-        "oil_temperature": [0.0,125.0],
-        "oil_pressure": [0.0,100.0],
-        "fuel_pressure": [0.0,15.0],
-        "head_temperature": [0.0,350.0],
-        "fuel": [0.0,338.0],
-        "gears_lamp": [0.0,0.0],
-        "trimmer": [0.0,1.0],
-        "aviahorizon_pitch": [-45.0,45.0],
-        "aviahorizon_roll": [-180.0,180.0],
-        "ammo_counter1": [250.0,0.0],
-        "ammo_counter2": [250.0,0.0],
-        "ammo_counter3": [250.0,0.0]
-      },
-      "parts_holes_dmg": {
-        "part": "fuse"
-      },
-      "parts_oil_dmg": [
-        {
-          "part": "engine1"
         },
         {
-          "part": "engine2"
+          "onHit": {
+            "damage": 50.0,
+            "cut": 0.7
+          }
         },
         {
-          "part": "engine3"
+          "onHit": {
+            "damage": 70.0,
+            "cut": 1.0
+          }
         },
         {
-          "part": "engine4"
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 14.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
         }
       ]
-    }
-  },
-  {
-    "commonWeapons": [
-      {
-        "Weapon": {
-          "trigger": "cannon",
-          "blk": "gameData/Weapons/cannonShVAKS.blk",
-          "emitter": "flare1",
-          "flash": "flare1",
-          "dm": "cannon1_dm",
-          "bullets": 250,
-          "spread": 1.0,
-          "counterIndex": 2
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "cannon",
-          "blk": "gameData/Weapons/cannonShVAKS.blk",
-          "emitter": "flare2",
-          "flash": "flare2",
-          "dm": "cannon2_dm",
-          "bullets": 140,
-          "spread": 1.0,
-          "traceOffset": 1,
-          "counterIndex": 1
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "cannon",
-          "blk": "gameData/Weapons/cannonShVAKS.blk",
-          "emitter": "flare3",
-          "flash": "flare3",
-          "dm": "cannon3_dm",
-          "bullets": 170,
-          "spread": 1.0,
-          "traceOffset": 1,
-          "counterIndex": 3
-        }
-      }
-    ]
-  },
-  {
-    "weapon_presets": [
-      {
-        "preset": {
-          "name": "I-185_default",
-          "blk": "gameData/FlightModels/weaponPresets/i-185_default.blk"
-        }
-      },
-      {
-        "preset": {
-          "name": "I-185_2xFAB-100",
-          "blk": "gameData/FlightModels/weaponPresets/i-185_2xfab100.blk",
-          "reqModification": "la-7_dz-40"
-        }
-      },
-      {
-        "preset": {
-          "name": "I-185_4xFAB-100",
-          "blk": "gameData/FlightModels/weaponPresets/i-185_4xfab100.blk",
-          "reqModification": "la-7_dz-40"
-        }
-      },
-      {
-        "preset": {
-          "name": "I-185_2xFAB-250",
-          "blk": "gameData/FlightModels/weaponPresets/i-185_2xfab250.blk",
-          "reqModification": "i-185_der-25"
-        }
-      },
-      {
-        "preset": {
-          "name": "I-185_8xRS-82",
-          "blk": "gameData/FlightModels/weaponPresets/i-185_rockets.blk",
-          "reqModification": "i-185_ro-82"
-        }
-      },
-      {
-        "preset": {
-          "name": "I-185_8xRS-82_rbs",
-          "blk": "gameData/FlightModels/weaponPresets/i-185_rockets_rbs82.blk",
-          "reqModification": "i-185_ro-82"
-        }
-      }
-    ]
-  },
-  {
-    "turbulence": {
-      "segmentlength": 100.0,
-      "startSpeed": 28.0,
-      "maxSpeed": 140.0,
-      "maxPower": 6.0,
-      "initialRadius": 12.0,
-      "radiusSpeed": 2.0
-    }
-  },
-  {
-    "overheat_arcade": {
-      "engineOverheatCooldownTime": 14.0,
-      "engineOverheatTime": 25.0,
-      "engineCooldownTime": 18.0,
-      "engineTempAfterOverheat": 0.15,
-      "gunOverheatCooldownTime": 3.0,
-      "gunOverheatTime": 8.0,
-      "gunCooldownTime": 2.5,
-      "gunTempAfterOverheat": 0.15
-    }
-  },
-  {
-    "overheat_realistic": {
-      "engineOverheatCooldownTime": 60.0,
-      "engineOverheatTime": 40.0,
-      "engineCooldownTime": 20.0,
-      "engineTempAfterOverheat": 0.3,
-      "gunOverheatCooldownTime": 3.0,
-      "gunOverheatTime": 4.0,
-      "gunCooldownTime": 2.5,
-      "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "overheat_hardcore": {
-      "engineOverheatCooldownTime": 60.0,
-      "engineOverheatTime": 40.0,
-      "engineCooldownTime": 20.0,
-      "engineTempAfterOverheat": 0.3,
-      "gunOverheatCooldownTime": 3.0,
-      "gunOverheatTime": 4.0,
-      "gunCooldownTime": 2.5,
-      "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "damagePartsToFmPartsMap": [
-      {
-        "fm": [
-          {
-            "fm": "pilot"
-          },
-          {
-            "dm": "pilot_dm"
-          },
-          {
-            "dm": "pilot1_dm"
-          },
-          {
-            "type": "max"
-          },
-          {
-            "cutHealth": 0.0
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "fuselage"
-          },
-          {
-            "dm": "fuse_dm"
-          },
-          {
-            "dm": "fuse1_dm"
-          },
-          {
-            "dm": "fuse2_dm"
-          },
-          {
-            "dm": "fuse3_dm"
-          },
-          {
-            "dm": "fuse4_dm"
-          },
-          {
-            "dm": "tail_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "fm": {
-          "fm": "tail",
-          "dm": "tail_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "wing_root_l",
-          "dm": "wing_l_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "wing_middle_l",
-          "dm": "wing1_l_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "wing_end_l",
-          "dm": "wing2_l_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "wing_root_r",
-          "dm": "wing_r_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "wing_middle_r",
-          "dm": "wing1_r_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "wing_end_r",
-          "dm": "wing2_r_dm"
-        }
-      },
-      {
-        "fm": [
-          {
-            "fm": "hor_stab_l"
-          },
-          {
-            "dm": "stab_dm"
-          },
-          {
-            "dm": "stab1_dm"
-          },
-          {
-            "type": "mult"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "hor_stab_r"
-          },
-          {
-            "dm": "stab_dm"
-          },
-          {
-            "dm": "stab2_dm"
-          },
-          {
-            "type": "mult"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "ver_stab"
-          },
-          {
-            "type": "average"
-          },
-          {
-            "dependency": [
-              {
-                "dm": "fin_dm"
-              },
-              {
-                "dm": "fin1_dm"
-              },
-              {
-                "type": "mult"
-              }
-            ]
-          },
-          {
-            "dependency": [
-              {
-                "dm": "fin_dm"
-              },
-              {
-                "dm": "fin2_dm"
-              },
-              {
-                "type": "mult"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "aileron_l"
-          },
-          {
-            "dm": "aileron_l_dm"
-          },
-          {
-            "dm": "aileron1_l_dm"
-          },
-          {
-            "dm": "elevon_l"
-          },
-          {
-            "dm": "aileron_interceptor_l_dm"
-          },
-          {
-            "dm": "aileron_interceptor1_l_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "aileron_r"
-          },
-          {
-            "dm": "aileron_r_dm"
-          },
-          {
-            "dm": "aileron1_r_dm"
-          },
-          {
-            "dm": "elevon_r"
-          },
-          {
-            "dm": "aileron_interceptor_r_dm"
-          },
-          {
-            "dm": "aileron_interceptor1_r_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "elevator_l"
-          },
-          {
-            "type": "average"
-          },
-          {
-            "dependency": [
-              {
-                "dm": "elevator_dm"
-              },
-              {
-                "dm": "elevator0_dm"
-              },
-              {
-                "type": "mult"
-              }
-            ]
-          },
-          {
-            "dependency": {
-              "dm": "elevon_l"
-            }
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "elevator_r"
-          },
-          {
-            "type": "average"
-          },
-          {
-            "dependency": [
-              {
-                "dm": "elevator_dm"
-              },
-              {
-                "dm": "elevator1_dm"
-              }
-            ]
-          },
-          {
-            "dependency": {
-              "dm": "elevon_r"
-            }
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "rudder"
-          },
-          {
-            "type": "average"
-          },
-          {
-            "dependency": [
-              {
-                "type": "average"
-              },
-              {
-                "dependency": [
-                  {
-                    "dm": "rudder_dm"
-                  },
-                  {
-                    "dm": "rudder0_dm"
-                  },
-                  {
-                    "type": "mult"
-                  }
-                ]
-              },
-              {
-                "dependency": {
-                  "dm": "rudder_interceptor_l_dm"
-                }
-              }
-            ]
-          },
-          {
-            "dependency": [
-              {
-                "type": "average"
-              },
-              {
-                "dependency": [
-                  {
-                    "dm": "rudder_dm"
-                  },
-                  {
-                    "dm": "rudder1_dm"
-                  },
-                  {
-                    "type": "mult"
-                  }
-                ]
-              },
-              {
-                "dependency": {
-                  "dm": "rudder_interceptor_r_dm"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "flap_l"
-          },
-          {
-            "dm": "flap_l_dm"
-          },
-          {
-            "dm": "flap1_l_dm"
-          },
-          {
-            "dm": "flap2_l_dm"
-          },
-          {
-            "dm": "flap3_l_dm"
-          },
-          {
-            "dm": "flap_c_dm"
-          },
-          {
-            "dm": "flap_airbrake_l_dm"
-          },
-          {
-            "dm": "flap_airbrake1_l_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "flap_r"
-          },
-          {
-            "dm": "flap_r_dm"
-          },
-          {
-            "dm": "flap1_r_dm"
-          },
-          {
-            "dm": "flap2_r_dm"
-          },
-          {
-            "dm": "flap3_r_dm"
-          },
-          {
-            "dm": "flap_c_dm"
-          },
-          {
-            "dm": "flap_airbrake_r_dm"
-          },
-          {
-            "dm": "flap_airbrake1_r_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "airbrake_l"
-          },
-          {
-            "dm": "airbrake_l_dm"
-          },
-          {
-            "dm": "airbrake_c_dm"
-          },
-          {
-            "dm": "flap_airbrake_l_dm"
-          },
-          {
-            "dm": "flap_airbrake1_l_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "airbrake_r"
-          },
-          {
-            "dm": "airbrake_r_dm"
-          },
-          {
-            "dm": "airbrake_c_dm"
-          },
-          {
-            "dm": "flap_airbrake_r_dm"
-          },
-          {
-            "dm": "flap_airbrake1_r_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "aileron_control_l"
-          },
-          {
-            "dm": "wingcontrol_dm"
-          },
-          {
-            "dm": "wingcontrol_l_dm"
-          },
-          {
-            "type": "min"
-          },
-          {
-            "cutHealth": 0.0
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "aileron_control_r"
-          },
-          {
-            "dm": "wingcontrol_dm"
-          },
-          {
-            "dm": "wingcontrol_r_dm"
-          },
-          {
-            "type": "min"
-          },
-          {
-            "cutHealth": 0.0
-          }
-        ]
-      },
-      {
-        "fm": {
-          "fm": "elevator_control_l",
-          "dm": "tailcontrol_dm",
-          "cutHealth": 0.0
-        }
-      },
-      {
-        "fm": {
-          "fm": "elevator_control_r",
-          "dm": "tailcontrol_dm",
-          "cutHealth": 0.0
-        }
-      },
-      {
-        "fm": {
-          "fm": "rudder_control",
-          "dm": "tailcontrol_dm",
-          "cutHealth": 0.0
-        }
-      },
-      {
-        "fm": {
-          "fm": "gear_l",
-          "dm": "gear_l_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "gear_r",
-          "dm": "gear_r_dm"
-        }
-      },
-      {
-        "fm": {
-          "fm": "gear_c",
-          "dm": "gear_c_dm"
-        }
-      },
-      {
-        "enginesAutoConfiguration": [
-          {
-            "engine": "engine1_dm"
-          },
-          {
-            "engine": "engine2_dm"
-          },
-          {
-            "engine": "engine3_dm"
-          },
-          {
-            "engine": "engine4_dm"
-          },
-          {
-            "engine": "engine5_dm"
-          },
-          {
-            "engine": "engine6_dm"
-          }
-        ]
-      },
-      {
-        "fuelTanksAutoConfiguration": [
-          {
-            "fuelTank": "tank1_dm"
-          },
-          {
-            "fuelTank": "tank2_dm"
-          },
-          {
-            "fuelTank": "tank3_dm"
-          },
-          {
-            "fuelTank": "tank4_dm"
-          },
-          {
-            "fuelTank": "tank5_dm"
-          },
-          {
-            "fuelTank": "tank6_dm"
-          },
-          {
-            "fuelTank": "tank7_dm"
-          },
-          {
-            "fuelTank": "tank8_dm"
-          }
-        ]
-      },
-      {
-        "radiatorsAutoConfiguration": [
-          {
-            "engine": "engine1_dm"
-          },
-          {
-            "engine": "engine2_dm"
-          },
-          {
-            "engine": "engine3_dm"
-          },
-          {
-            "engine": "engine4_dm"
-          },
-          {
-            "engine": "engine5_dm"
-          },
-          {
-            "engine": "engine6_dm"
-          },
-          {
-            "oil": "oil1_dm"
-          },
-          {
-            "oil": "oil2_dm"
-          },
-          {
-            "oil": "oil3_dm"
-          },
-          {
-            "oil": "oil4_dm"
-          },
-          {
-            "oil": "oil5_dm"
-          },
-          {
-            "oil": "oil6_dm"
-          },
-          {
-            "oil": "oil7_dm"
-          },
-          {
-            "oil": "oil8_dm"
-          },
-          {
-            "oil": "oil9_dm"
-          },
-          {
-            "oil": "oil10_dm"
-          },
-          {
-            "oil": "oil11_dm"
-          },
-          {
-            "oil": "oil12_dm"
-          },
-          {
-            "water": "water1_dm"
-          },
-          {
-            "water": "water2_dm"
-          },
-          {
-            "water": "water3_dm"
-          },
-          {
-            "water": "water4_dm"
-          },
-          {
-            "water": "water5_dm"
-          },
-          {
-            "water": "water6_dm"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "damagePartsToHudPartsMap": [
-      {
-        "item": [
-          {
-            "item": "fuse"
-          },
-          {
-            "dm": "fuse_dm"
-          },
-          {
-            "dm": "fuse1_dm"
-          },
-          {
-            "dm": "fuse2_dm"
-          },
-          {
-            "dm": "fuse3_dm"
-          },
-          {
-            "dm": "fuse4_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "item": {
-          "item": "tail",
-          "dm": "tail_dm"
-        }
-      },
-      {
-        "item": [
-          {
-            "item": "wingl"
-          },
-          {
-            "dm": "wing_l_dm"
-          },
-          {
-            "dm": "wing1_l_dm"
-          },
-          {
-            "dm": "wing2_l_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "item": [
-          {
-            "item": "wingr"
-          },
-          {
-            "dm": "wing_r_dm"
-          },
-          {
-            "dm": "wing1_r_dm"
-          },
-          {
-            "dm": "wing2_r_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "item": [
-          {
-            "item": "aileron_l"
-          },
-          {
-            "dm": "aileron_l"
-          },
-          {
-            "dm": "aileron1_l"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "item": [
-          {
-            "item": "aileron_r"
-          },
-          {
-            "dm": "aileron_r"
-          },
-          {
-            "dm": "aileron1_r"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "item": [
-          {
-            "item": "elevator"
-          },
-          {
-            "type": "mult"
-          },
-          {
-            "dependency": {
-              "dm": "elevator_dm"
-            }
-          },
-          {
-            "dependency": [
-              {
-                "dm": "elevator0_dm"
-              },
-              {
-                "dm": "elevator1_dm"
-              },
-              {
-                "type": "average"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "item": [
-          {
-            "item": "rudder"
-          },
-          {
-            "type": "mult"
-          },
-          {
-            "dependency": {
-              "dm": "rudder_dm"
-            }
-          },
-          {
-            "dependency": [
-              {
-                "dm": "rudder0_dm"
-              },
-              {
-                "dm": "rudder1_dm"
-              },
-              {
-                "type": "average"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "fm": [
-          {
-            "fm": "gear"
-          },
-          {
-            "dm": "gear_l_dm"
-          },
-          {
-            "dm": "gear_r_dm"
-          },
-          {
-            "dm": "gear_c_dm"
-          },
-          {
-            "type": "average"
-          }
-        ]
-      },
-      {
-        "item": {
-          "item": "gunner1",
-          "dm": "gunner1_dm"
-        }
-      },
-      {
-        "item": {
-          "item": "gunner2",
-          "dm": "gunner3_dm"
-        }
-      },
-      {
-        "item": {
-          "item": "gunner3",
-          "dm": "gunner3_dm"
-        }
-      },
-      {
-        "item": {
-          "item": "gunner4",
-          "dm": "gunner4_dm"
-        }
-      },
-      {
-        "item": {
-          "item": "gunner5",
-          "dm": "gunner5_dm"
-        }
-      },
-      {
-        "item": {
-          "item": "gunner6",
-          "dm": "gunner6_dm"
-        }
-      },
-      {
-        "item": {
-          "item": "gunner7",
-          "dm": "gunner7_dm"
-        }
-      },
-      {
-        "item": {
-          "item": "gunner8",
-          "dm": "gunner8_dm"
-        }
-      }
-    ]
-  },
-  {
-    "explosion_dm": {
-      "hitPowerMult": 1.0,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,400.0],
-      "farHitPower": [0.1,1000.0],
-      "endHitPower": [0.01,1500.0],
-      "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [10.0,50.0],
-      "midArmorPower": [7.0,400.0],
-      "farArmorPower": [0.2,700.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "explodeTreshold": 0.0001,
-      "explodeHitPower": 60.0,
-      "explodeArmorPower": 60.0,
-      "explodeRadius": [5.0,30.0]
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": {
-        "part": "slat_l"
-      },
-      "wing2_r": {
-        "part": "slat_r"
-      }
-    }
-  },
-  {
-    "fireParams": {
-      "engineExtinguishFireSpeed": [138.0,223.0],
-      "engineExtinguishFireSpeedChance": [0.01,0.1],
-      "fireDamagePowerRel": 0.05,
-      "nonExtinguishFireTime": 5.0
-    }
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 8.05,
-        "wingspan": 9.8,
-        "wingArea": 15.53,
-        "emptyWeight": 3145.0,
-        "normalWeight": 3771.0,
-        "maxTakeoffWeight": 4300.0,
-        "powerPlantType": 1,
-        "powerMaxWep": 2070.0,
-        "powerMaxMil": 1800.0
-      },
-      "performance": {
-        "table": {
-          "rpmWep": 2300.0,
-          "manifoldPressureWep": 1.4,
-          "airSpeedWep0": [0.0,595.0],
-          "airSpeedWep1": [1200.0,632.0],
-          "airSpeedWep2": [4700.0,681.0],
-          "climbRateWep0": [0.0,17.8],
-          "climbRateWep1": [600.0,18.5],
-          "climbRateWep2": [4000.0,14.4],
-          "climbTimeWep0": [2000.0,82.3347],
-          "climbTimeWep1": [4000.0,176.478],
-          "climbTimeWep2": [6000.0,284.498],
-          "climbTimeWep3": [8000.0,445.691],
-          "turnTimeWep": [1000.0,21.0],
-          "rpmMil": 2200.0,
-          "manifoldPressureMil": 1.09,
-          "airSpeedMil0": [0.0,550.0],
-          "airSpeedMil1": [3100.0,640.0],
-          "airSpeedMil2": [6400.0,676.0],
-          "climbRateMil0": [0.0,12.1],
-          "climbRateMil1": [2400.0,14.1],
-          "climbRateMil2": [5700.0,9.3],
-          "climbTimeMil0": [2000.0,100.403],
-          "climbTimeMil1": [4000.0,205.578],
-          "climbTimeMil2": [6000.0,329.117],
-          "climbTimeMil3": [8000.0,491.932],
-          "turnTimeMil": [1000.0,22.7],
-          "takeoffDistance": 527.205,
-          "ceiling": 11300.0,
-          "rollRate": 199.0,
-          "wingLoading": 243.0,
-          "powerToWeightRatio": 0.54
+    },
+    {
+      "part": [
+        {
+          "name": "flap1_r_dm"
         },
-        "plot": {
-          "airSpeedWep0": [0.0,595.0],
-          "airSpeedWep1": [1200.0,632.0],
-          "airSpeedWep2": [3100.0,637.0],
-          "airSpeedWep3": [4700.0,681.0],
-          "airSpeedWep4": [7000.0,680.0],
-          "airSpeedWep5": [7700.0,654.0],
-          "airSpeedWep6": [8600.0,657.0],
-          "airSpeedWep7": [10900.0,598.0],
-          "airSpeedWep8": [11000.0,573.0],
-          "airSpeedWep9": [11100.0,590.0],
-          "airSpeedWep10": [11300.0,581.0],
-          "climbRateWep0": [0.0,17.8],
-          "climbRateWep1": [600.0,18.5],
-          "climbRateWep2": [2500.0,14.0],
-          "climbRateWep3": [4000.0,14.4],
-          "climbRateWep4": [11300.0,-5.7],
-          "airSpeedMil0": [0.0,550.0],
-          "airSpeedMil1": [3100.0,640.0],
-          "airSpeedMil2": [4600.0,624.0],
-          "airSpeedMil3": [6400.0,676.0],
-          "airSpeedMil4": [9100.0,640.0],
-          "airSpeedMil5": [11300.0,569.0],
-          "climbRateMil0": [0.0,12.1],
-          "climbRateMil1": [2400.0,14.1],
-          "climbRateMil2": [3900.0,9.4],
-          "climbRateMil3": [5700.0,9.3],
-          "climbRateMil4": [11300.0,-5.8]
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 70.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 14.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "flap_l_dm"
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 70.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 14.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "flap_r_dm"
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 70.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 14.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "fuse1_dm"
+        },
+        {
+          "onHit": {
+            "damage": 5.0,
+            "wing_r_dm": 0.1,
+            "wing_l_dm": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 9.0,
+            "wing_r_dm": 0.3,
+            "wing_l_dm": 0.3
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "wing_r_dm": 0.5,
+            "wing_l_dm": 0.5
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "wing_r_dm": 0.7,
+            "wing_l_dm": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "wing_r_dm": 0.9,
+            "wing_l_dm": 0.9
+          }
+        },
+        {
+          "onKill": {
+            "wing_l_dm": 1.0,
+            "wing_r_dm": 1.0,
+            "nothing": 6.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "wing_l_dm": 1.0,
+            "wing_r_dm": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "wing_l_dm": 1.0,
+            "wing_r_dm": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "wing_l_dm": 1.0,
+            "wing_r_dm": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "wing_l_dm": 1.0,
+            "wing_r_dm": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "wing_l_dm": 1.0,
+            "wing_r_dm": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "fuse_dm"
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "tail_dm": 0.2
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "tail_dm": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "tail_dm": 0.6
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "tail_dm": 0.8
+          }
+        },
+        {
+          "onHit": {
+            "damage": 40.0,
+            "tail_dm": 1.0
+          }
+        },
+        {
+          "onHit": {
+            "damage": 45.0,
+            "expl": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "tail_dm": 1.0,
+            "nothing": 9.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "tail_dm": 1.0,
+            "nothing": 6.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "tail_dm": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "tail_dm": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "tail_dm": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "tail_dm": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 40.0,
+            "tail_dm": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 45.0,
+            "expl": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "gear_c_dm"
+        },
+        {
+          "onHit": {
+            "damage": 15.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 25.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 40.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 60.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "gear_l_dm"
+        },
+        {
+          "onHit": {
+            "damage": 15.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 25.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 40.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 60.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "gear_r_dm"
+        },
+        {
+          "onHit": {
+            "damage": 15.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 25.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 40.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 60.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": {
+        "name": "oil1_dm",
+        "onHit": {
+          "leak_oil": 0.95
+        },
+        "onKill": {
+          "leak_oil": 1.0
         }
       }
+    },
+    {
+      "part": {
+        "name": "oil2_dm",
+        "onHit": {
+          "leak_oil": 0.95
+        },
+        "onKill": {
+          "leak_oil": 1.0
+        }
+      }
+    },
+    {
+      "part": {
+        "name": "pilot_dm"
+      }
+    },
+    {
+      "part": [
+        {
+          "name": "rudder_dm"
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": {
+        "name": "spar1_l_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "spar1_r_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "spar2_l_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "spar2_r_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "spar_l_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "spar_r_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "stab_dm",
+        "onKill": {
+          "nothing": 7.0,
+          "elevator_dm": 1.0
+        },
+        "onHit": {
+          "damage": 50.0,
+          "expl": 1.0
+        }
+      }
+    },
+    {
+      "part": [
+        {
+          "name": "tail_dm"
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.25
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.5
+          }
+        },
+        {
+          "onHit": {
+            "damage": 45.0,
+            "cut": 0.75
+          }
+        },
+        {
+          "onHit": {
+            "damage": 55.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "tailcontrol_dm": 1.0,
+            "nothing": 9.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "tailcontrol_dm": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 45.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 55.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": {
+        "name": "tailcontrol_dm"
+      }
+    },
+    {
+      "part": [
+        {
+          "name": "tank1_dm"
+        },
+        {
+          "onHit": {
+            "fire": 0.05,
+            "leak": 0.5
+          }
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "fire": 0.5,
+            "leak": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "fire": 0.9,
+            "leak": 0.9
+          }
+        },
+        {
+          "onKill": {
+            "fire": 3.0,
+            "leak": 12.0,
+            "nothing": 85.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "expl": 0.5,
+            "fire": 5.0,
+            "leak": 10.0,
+            "nothing": 85.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "expl": 1.0,
+            "fire": 20.0,
+            "leak": 50.0,
+            "nothing": 30.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "tank2_dm"
+        },
+        {
+          "onHit": {
+            "fire": 0.05,
+            "leak": 0.5
+          }
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "fire": 0.5,
+            "leak": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "fire": 0.9,
+            "leak": 0.9
+          }
+        },
+        {
+          "onKill": {
+            "fire": 3.0,
+            "leak": 12.0,
+            "nothing": 85.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "expl": 0.5,
+            "fire": 5.0,
+            "leak": 10.0,
+            "nothing": 85.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "expl": 1.0,
+            "fire": 20.0,
+            "leak": 50.0,
+            "nothing": 30.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "tank3_dm"
+        },
+        {
+          "onHit": {
+            "fire": 0.05,
+            "leak": 0.5
+          }
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "fire": 0.5,
+            "leak": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "fire": 0.9,
+            "leak": 0.9
+          }
+        },
+        {
+          "onKill": {
+            "fire": 3.0,
+            "leak": 12.0,
+            "nothing": 85.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "expl": 0.5,
+            "fire": 5.0,
+            "leak": 10.0,
+            "nothing": 85.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "expl": 1.0,
+            "fire": 20.0,
+            "leak": 50.0,
+            "nothing": 30.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "wing1_l_dm"
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.2
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.8
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "wing1_r_dm"
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.2
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.8
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "wing2_l_dm"
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.2
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.8
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "wing2_r_dm"
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.2
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.8
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "wing_l_dm"
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.2
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.8
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "wing_r_dm"
+        },
+        {
+          "onHit": {
+            "damage": 7.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.2
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.8
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 5.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
+            "cut": 1.0,
+            "nothing": 3.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": {
+        "name": "wingcontrol_l_dm"
+      }
+    },
+    {
+      "part": {
+        "name": "wingcontrol_r_dm"
+      }
     }
-  },
-  {
-    "balanceData": {
-      "accSpd": 2.6254,
-      "climbSpeed": 18.51,
-      "maxSpeed": 170.83,
-      "turnTime": 22.0
+  ],
+  "ikPilot": [
+    {
+      "model": "pilot_su_char"
+    },
+    {
+      "maxHeadHorAngle": 60.0
+    },
+    {
+      "maxHeadDownAngle": 60.0
+    },
+    {
+      "maxHeadUpAngle": 10.0
+    },
+    {
+      "headNode": "Bip01 Head"
+    },
+    {
+      "pelvisNode": "Bip01 Pelvis"
+    },
+    {
+      "pelvisTargetNode": "Bip01 Pelvis01"
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 L Hand",
+        "midNode": "Bip01 L Forearm",
+        "upNode": "Bip01 L UpperArm",
+        "targetNode": "throttle_lhand_1",
+        "flexionDir": [0.0,-1.0,0.2]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 R Hand",
+        "midNode": "Bip01 R Forearm",
+        "upNode": "Bip01 R UpperArm",
+        "targetNode": "stick_rhand_1",
+        "flexionDir": [0.0,-1.0,-0.5]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 L Foot",
+        "midNode": "Bip01 L Calf",
+        "upNode": "Bip01 L Thigh",
+        "targetNode": "pedal_lfoot_1",
+        "flexionDir": [0.0,1.0,0.3]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 R Foot",
+        "midNode": "Bip01 R Calf",
+        "upNode": "Bip01 R Thigh",
+        "targetNode": "pedal_rfoot_1",
+        "flexionDir": [0.0,1.0,-0.3]
+      }
     }
+  ],
+  "attach": {
+    "pilot1": "pilot_su_500"
   },
-  {
-    "modifications": {
-      "cd_98": [],
-      "CdMin_Fuse": [],
-      "new_cover": [],
-      "structure_str": [],
-      "hp_105": [],
-      "new_radiator": [],
-      "new_compressor": [],
-      "new_engine_injection": [],
-      "la-7_dz-40": {
-        "modClass": "weapon",
-        "tier": 1,
-        "reqModLevel": 3.0
+  "Params": {
+    "Range": 635.0
+  },
+  "Sound": {
+    "Engine": "engine03",
+    "gun": "gun_default"
+  },
+  "cockpit": {
+    "headPos": [-1.63,0.755,0.0],
+    "headPosOnShooting": [-1.53,0.755,0.0],
+    "collimatorSize": 0.11,
+    "lightPos": [-1.17222,0.548569,0.153259],
+    "lightColor": [0.62,0.3,0.21],
+    "lightAttenuation": 8.0,
+    "devices": {
+      "pedals1": [-1.0,1.0],
+      "pedals2": [-1.0,1.0],
+      "pedals3": [-1.0,1.0],
+      "pedals4": [-1.0,1.0],
+      "pedals5": [-1.0,1.0],
+      "flaps": [0.0,1.0],
+      "gears": [0.0,1.0],
+      "stick_ailerons": [-1.2,1.2],
+      "stick_elevator": [-1.0,1.0],
+      "throttle": [0.0,1.0],
+      "mixture": [0.0,1.0],
+      "supercharger": [0.0,1.0],
+      "prop_pitch": [0.0,1.0],
+      "weapon2": [0.0,1.0],
+      "weapon3": [0.0,1.0],
+      "speed": [0.0,222.222],
+      "vario": [-30.0,30.0],
+      "altitude_hour": [0.0,10000.0],
+      "altitude_min": [0.0,1000.0],
+      "altitude_koef": 1.0,
+      "compass": [0.0,360.0],
+      "bank": [-8.0,8.0],
+      "turn": [-0.23562,0.23562],
+      "clock_hour": [0.0,12.0],
+      "clock_min": [0.0,60.0],
+      "clock_sec": [0.0,60.0],
+      "manifold_pressure": [0.395,2.1],
+      "rpm_hour": [0.0,10000.0],
+      "rpm_min": [0.0,1000.0],
+      "oil_temperature": [0.0,125.0],
+      "oil_pressure": [0.0,100.0],
+      "fuel_pressure": [0.0,15.0],
+      "head_temperature": [0.0,350.0],
+      "fuel": [0.0,338.0],
+      "gears_lamp": [0.0,0.0],
+      "trimmer": [0.0,1.0],
+      "aviahorizon_pitch": [-45.0,45.0],
+      "aviahorizon_roll": [-180.0,180.0],
+      "ammo_counter1": [250.0,0.0],
+      "ammo_counter2": [250.0,0.0],
+      "ammo_counter3": [250.0,0.0]
+    },
+    "parts_holes_dmg": {
+      "part": "fuse"
+    },
+    "parts_oil_dmg": [
+      {
+        "part": "engine1"
       },
-      "i-185_der-25": {
-        "modClass": "weapon",
-        "tier": 2,
-        "reqModLevel": 7.0,
+      {
+        "part": "engine2"
+      },
+      {
+        "part": "engine3"
+      },
+      {
+        "part": "engine4"
+      }
+    ]
+  },
+  "commonWeapons": [
+    {
+      "Weapon": {
+        "trigger": "cannon",
+        "blk": "gameData/Weapons/cannonShVAKS.blk",
+        "emitter": "flare1",
+        "flash": "flare1",
+        "dm": "cannon1_dm",
+        "bullets": 250,
+        "spread": 1.0,
+        "counterIndex": 2
+      }
+    },
+    {
+      "Weapon": {
+        "trigger": "cannon",
+        "blk": "gameData/Weapons/cannonShVAKS.blk",
+        "emitter": "flare2",
+        "flash": "flare2",
+        "dm": "cannon2_dm",
+        "bullets": 140,
+        "spread": 1.0,
+        "traceOffset": 1,
+        "counterIndex": 1
+      }
+    },
+    {
+      "Weapon": {
+        "trigger": "cannon",
+        "blk": "gameData/Weapons/cannonShVAKS.blk",
+        "emitter": "flare3",
+        "flash": "flare3",
+        "dm": "cannon3_dm",
+        "bullets": 170,
+        "spread": 1.0,
+        "traceOffset": 1,
+        "counterIndex": 3
+      }
+    }
+  ],
+  "weapon_presets": [
+    {
+      "preset": {
+        "name": "I-185_default",
+        "blk": "gameData/FlightModels/weaponPresets/i-185_default.blk"
+      }
+    },
+    {
+      "preset": {
+        "name": "I-185_2xFAB-100",
+        "blk": "gameData/FlightModels/weaponPresets/i-185_2xfab100.blk",
         "reqModification": "la-7_dz-40"
-      },
-      "i-185_ro-82": {
-        "modClass": "weapon",
-        "tier": 3,
-        "reqModLevel": 11.0,
+      }
+    },
+    {
+      "preset": {
+        "name": "I-185_4xFAB-100",
+        "blk": "gameData/FlightModels/weaponPresets/i-185_4xfab100.blk",
+        "reqModification": "la-7_dz-40"
+      }
+    },
+    {
+      "preset": {
+        "name": "I-185_2xFAB-250",
+        "blk": "gameData/FlightModels/weaponPresets/i-185_2xfab250.blk",
         "reqModification": "i-185_der-25"
+      }
+    },
+    {
+      "preset": {
+        "name": "I-185_8xRS-82",
+        "blk": "gameData/FlightModels/weaponPresets/i-185_rockets.blk",
+        "reqModification": "i-185_ro-82"
+      }
+    },
+    {
+      "preset": {
+        "name": "I-185_8xRS-82_rbs",
+        "blk": "gameData/FlightModels/weaponPresets/i-185_rockets_rbs82.blk",
+        "reqModification": "i-185_ro-82"
+      }
+    }
+  ],
+  "turbulence": {
+    "segmentlength": 100.0,
+    "startSpeed": 28.0,
+    "maxSpeed": 140.0,
+    "maxPower": 6.0,
+    "initialRadius": 12.0,
+    "radiusSpeed": 2.0
+  },
+  "cut_parts": {
+    "wing2_l": {
+      "part": "slat_l"
+    },
+    "wing2_r": {
+      "part": "slat_r"
+    }
+  },
+  "fireParams": {
+    "engineExtinguishFireSpeed": [138.0,223.0],
+    "engineExtinguishFireSpeedChance": [0.01,0.1],
+    "fireDamagePowerRel": 0.05,
+    "nonExtinguishFireTime": 5.0
+  },
+  "wiki": {
+    "general": {
+      "length": 8.05,
+      "wingspan": 9.8,
+      "wingArea": 15.53,
+      "emptyWeight": 3145.0,
+      "normalWeight": 3771.0,
+      "maxTakeoffWeight": 4300.0,
+      "powerPlantType": 1,
+      "powerMaxWep": 2070.0,
+      "powerMaxMil": 1800.0
+    },
+    "performance": {
+      "table": {
+        "rpmWep": 2300.0,
+        "manifoldPressureWep": 1.4,
+        "airSpeedWep0": [0.0,595.0],
+        "airSpeedWep1": [1200.0,632.0],
+        "airSpeedWep2": [4700.0,681.0],
+        "climbRateWep0": [0.0,17.8],
+        "climbRateWep1": [600.0,18.5],
+        "climbRateWep2": [4000.0,14.4],
+        "climbTimeWep0": [2000.0,82.3347],
+        "climbTimeWep1": [4000.0,176.478],
+        "climbTimeWep2": [6000.0,284.498],
+        "climbTimeWep3": [8000.0,445.691],
+        "turnTimeWep": [1000.0,21.0],
+        "rpmMil": 2200.0,
+        "manifoldPressureMil": 1.09,
+        "airSpeedMil0": [0.0,550.0],
+        "airSpeedMil1": [3100.0,640.0],
+        "airSpeedMil2": [6400.0,676.0],
+        "climbRateMil0": [0.0,12.1],
+        "climbRateMil1": [2400.0,14.1],
+        "climbRateMil2": [5700.0,9.3],
+        "climbTimeMil0": [2000.0,100.403],
+        "climbTimeMil1": [4000.0,205.578],
+        "climbTimeMil2": [6000.0,329.117],
+        "climbTimeMil3": [8000.0,491.932],
+        "turnTimeMil": [1000.0,22.7],
+        "takeoffDistance": 527.205,
+        "ceiling": 11300.0,
+        "rollRate": 199.0,
+        "wingLoading": 243.0,
+        "powerToWeightRatio": 0.54
       },
-      "shvak_universal": [],
-      "shvak_ground_targets": [],
-      "shvak_tracers": [],
-      "shvak_armor_targets": [],
-      "shvak_stealth": [],
-      "shvak_belt_pack": [],
-      "shvak_new_gun": {
-        "reqModification": "shvak_belt_pack"
+      "plot": {
+        "airSpeedWep0": [0.0,595.0],
+        "airSpeedWep1": [1200.0,632.0],
+        "airSpeedWep2": [3100.0,637.0],
+        "airSpeedWep3": [4700.0,681.0],
+        "airSpeedWep4": [7000.0,680.0],
+        "airSpeedWep5": [7700.0,654.0],
+        "airSpeedWep6": [8600.0,657.0],
+        "airSpeedWep7": [10900.0,598.0],
+        "airSpeedWep8": [11000.0,573.0],
+        "airSpeedWep9": [11100.0,590.0],
+        "airSpeedWep10": [11300.0,581.0],
+        "climbRateWep0": [0.0,17.8],
+        "climbRateWep1": [600.0,18.5],
+        "climbRateWep2": [2500.0,14.0],
+        "climbRateWep3": [4000.0,14.4],
+        "climbRateWep4": [11300.0,-5.7],
+        "airSpeedMil0": [0.0,550.0],
+        "airSpeedMil1": [3100.0,640.0],
+        "airSpeedMil2": [4600.0,624.0],
+        "airSpeedMil3": [6400.0,676.0],
+        "airSpeedMil4": [9100.0,640.0],
+        "airSpeedMil5": [11300.0,569.0],
+        "climbRateMil0": [0.0,12.1],
+        "climbRateMil1": [2400.0,14.1],
+        "climbRateMil2": [3900.0,9.4],
+        "climbRateMil3": [5700.0,9.3],
+        "climbRateMil4": [11300.0,-5.8]
       }
     }
   },
-  {
-    "user_skin": [
-      {
-        "name": "i_185_m71_standard"
-      },
-      {
-        "replace_tex": {
-          "from": "i_185_m_71_standard_1942_a*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "i_185_m_71_standard_1942_a_dmg*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "i_185_m_71_standard_1942_n*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "i_185_m_71_standard_1942_n_dmg*"
-        }
-      }
-    ]
+  "balanceData": {
+    "accSpd": 2.6254,
+    "climbSpeed": 18.51,
+    "maxSpeed": 170.83,
+    "turnTime": 22.0
   },
-  {
-    "cutting": {
-      "wingRDist": [-2.52349,-1.52349],
-      "wingLDist": [2.32564,3.32564],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+  "modifications": {
+    "cd_98": [],
+    "CdMin_Fuse": [],
+    "new_cover": [],
+    "structure_str": [],
+    "hp_105": [],
+    "new_radiator": [],
+    "new_compressor": [],
+    "new_engine_injection": [],
+    "la-7_dz-40": {
+      "modClass": "weapon",
+      "tier": 1,
+      "reqModLevel": 3.0
+    },
+    "i-185_der-25": {
+      "modClass": "weapon",
+      "tier": 2,
+      "reqModLevel": 7.0,
+      "reqModification": "la-7_dz-40"
+    },
+    "i-185_ro-82": {
+      "modClass": "weapon",
+      "tier": 3,
+      "reqModLevel": 11.0,
+      "reqModification": "i-185_der-25"
+    },
+    "shvak_universal": [],
+    "shvak_ground_targets": [],
+    "shvak_tracers": [],
+    "shvak_armor_targets": [],
+    "shvak_stealth": [],
+    "shvak_belt_pack": [],
+    "shvak_new_gun": {
+      "reqModification": "shvak_belt_pack"
     }
+  },
+  "user_skin": [
+    {
+      "name": "i_185_m71_standard"
+    },
+    {
+      "replace_tex": {
+        "from": "i_185_m_71_standard_1942_a*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "i_185_m_71_standard_1942_a_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "i_185_m_71_standard_1942_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "i_185_m_71_standard_1942_n_dmg*"
+      }
+    }
+  ],
+  "cutting": {
+    "wingRDist": [-2.52349,-1.52349],
+    "wingLDist": [2.32564,3.32564],
+    "tailDist": [10.0,11.0],
+    "color": [0.151,0.151,0.151,1.0]
   }
-]
+}

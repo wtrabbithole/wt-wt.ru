@@ -46,7 +46,7 @@ expandable {
       text {
         id:t='time'
         text:t='<<time>>'
-        min-width:t='0.20@scrn_tgt_font'
+        min-width:t='0.20@sf'
         valign:t='center'
         text-align:t='right'
         tinyFont:t='yes'

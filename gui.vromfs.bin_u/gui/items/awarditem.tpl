@@ -34,7 +34,7 @@ awardItemDiv {
       }
       textarea {
         id:t='award_day_text';
-        pos:t='50%pw-50%w, -0.005@scrn_tgt_font';
+        pos:t='50%pw-50%w, -0.005@sf';
         position:t='relative'
         removeParagraphIndent:t='yes'
         text:t='<<week_day_text>>';

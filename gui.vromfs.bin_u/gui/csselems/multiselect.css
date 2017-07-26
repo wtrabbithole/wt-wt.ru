@@ -9,8 +9,8 @@ MultiSelect[optionsShortcuts] > multiOption {
 }
 
 MultiSelect[flow=horizontal] > multiOption {
-  height:@checkboxSize + 2*@sf/@pf;
-  padding:1*@sf/@pf;
+  height:@checkboxSize + 2*@sf/@pf_outdated;
+  padding:1*@sf/@pf_outdated;
   padding-left:20%h;
   margin-right:0.5*@scrn_tgt/100.0;
   background-image:#ui/gameuiskin#window_block_bright;
@@ -101,7 +101,7 @@ multiOption[chosen=yes]:pushed > CheckBoxImg {
   height:4*@scrn_tgt/100.0;
   width:1.923h;
   position:relative;
-  pos:0.5pw-50%w, ph-0.03@scrn_tgt_font-h;
+  pos:0.5pw-50%w, ph-0.03@sf-h;
   background-color:@imageNotSelCountryColor;
   border:yes;
   border-color:@black;
@@ -138,9 +138,9 @@ multiOption[chosen=yes]:pushed > CheckBoxImg {
 
 
 multiOption[cluster_option=yes] {
-  padding-left:@checkboxSize + 6*@sf/@pf;
+  padding-left:@checkboxSize + 6*@sf/@pf_outdated;
   padding-right:0;
-  padding-top:4*@sf/@pf;
+  padding-top:4*@sf/@pf_outdated;
 }
 
 multiOption[cluster_option=yes] > CheckBoxImg {

@@ -422,7 +422,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
     local rowData = [
       {
         text = (row.pos + 1).tostring()
-        width = "0.01*@scrn_tgt_font"
+        width = "0.01*@sf"
       }
       {
         id = "name"

@@ -3,6 +3,7 @@ class ::Warbond
   id = ""
   listId = ""
   fontIcon = "currency/warbond"
+  medalIcon = ""
 
   blkListPath = ""
   isListValid = false
@@ -27,6 +28,7 @@ class ::Warbond
       return
 
     fontIcon = ::g_warbonds.getWarbondFontIcon(id, listId)
+    medalIcon = ::getTblValue(listId, ::getTblValue("medalIcons", ::configs.GUI.get().warbonds), "")
 
     expiredTime = listBlk.expiredTime || -1
     canEarnTime = listBlk.endTime || -1
@@ -90,12 +92,13 @@ class ::Warbond
 
   function getBalance()
   {
-    return ::get_warbonds_count(id, listId)
+    return ::has_feature("Warbonds_2_0")? ::get_warbond_balance(id) : ::get_warbonds_count(id, listId)
   }
 
   function getBalanceText()
   {
-    return getPriceText(getBalance(), true, false)
+    local limitText = ::has_feature("Warbonds_2_0")? (::loc("ui/slash") + getPriceText(::g_warbonds.getLimit(), true, false)) : ""
+    return ::colorize("activeTextColor", getPriceText(getBalance(), true, false) + limitText)
   }
 
   function getExpiredTimeLeft()
@@ -117,5 +120,31 @@ class ::Warbond
       updateRequested = true
     }
     return res
+  }
+
+  function getLevelData()
+  {
+    return ::warbond_get_shop_levels(id, listId)
+  }
+
+  function haveAnyOrdinaryRequirements()
+  {
+    if (!::has_feature("Warbonds_2_0"))
+      return false
+
+    return ::u.search(getAwardsList(), @(award) award.haveOrdinaryRequirement()) != null
+  }
+
+  function haveAnySpecialRequirements()
+  {
+    if (!::has_feature("Warbonds_2_0"))
+      return false
+
+    return ::u.search(getAwardsList(), @(award) award.haveSpecialRequirement()) != null
+  }
+
+  function getMedalIcon()
+  {
+    return medalIcon == ""? "" : ("#ui/gameuiskin#" + medalIcon)
   }
 }

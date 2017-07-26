@@ -537,7 +537,8 @@ function preload_ingame_scenes()
 
   ::handlersManager.clearScene()
   ::handlersManager.loadHandler(::gui_handlers.Hud)
-  ::set_chat_handler(::get_game_chat_handler())
+
+  require("scripts/chat/mpChatModel.nut").init()
 }
 
 function getExpireText(expireMin)
@@ -631,23 +632,6 @@ function get_current_bonuses_text(effectType)
     return ""
 
   return ::implode(tooltipText, "\n")
-}
-
-function is_low_width_screen() //change this function simultaneously with isWide constant in css
-{
-  local width = ::screen_width()
-  local height = ::screen_height()
-  if (width > 3 * height) //tripple screen
-    width = width / 3
-  local scrn_tgt = 720 //the same constant aas in css.
-  if (!::handlersManager.isPxFontsInScene)
-    scrn_tgt = ::min(height, 0.75 * width)
-  return 10.0 / 16 * width / scrn_tgt < 0.99
-}
-
-function isInMenu()
-{
-  return !::is_in_loading_screen() && !::is_in_flight()
 }
 
 function add_bg_task_cb(taskId, actionFunc, handler = null)
@@ -2407,7 +2391,7 @@ function on_have_to_start_chard_op(message)
     ::add_bg_task_cb(taskId, (@(oldPenaltyStatus) function() {
       local  newPenaltyStatus = ::get_player_penalty_status()
       if (newPenaltyStatus.status != oldPenaltyStatus.status || newPenaltyStatus.duration != oldPenaltyStatus.duration)
-        ::broadcastEvent("PlayerPenaltyStatusChanged")
+        ::broadcastEvent("PlayerPenaltyStatusChanged", {status = newPenaltyStatus.status})
     })(oldPenaltyStatus))
   }
 }
@@ -3166,11 +3150,6 @@ function get_object_from_scene(name, scene = null)
       obj = guiScene[name]
   }
   return ::checkObj(obj) ? obj : null
-}
-
-function color4_to_dagui_string(color)
-{
-  return format("%02X%02X%02X%02X", 255 * color.a, 255 * color.r, 255 * color.g, 255 * color.b)
 }
 
 const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"

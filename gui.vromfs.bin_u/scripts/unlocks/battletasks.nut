@@ -640,6 +640,21 @@ function BattleTasks::getUnlockConditionBlock(text, id, type, isUnlocked, isFina
   }
 }
 
+function BattleTasks::getPlaybackPath(playbackName, shouldUseDefaultLang = false)
+{
+  if (::u.isEmpty(playbackName))
+    return
+
+  local guiBlk = ::configs.GUI.get()
+  local unlockPlaybackPath = guiBlk.unlockPlaybackPath
+  if (!unlockPlaybackPath)
+    return
+
+  local path = unlockPlaybackPath.mainPath
+  local abbrev = shouldUseDefaultLang? "en" : ::g_language.getShortName()
+  return path + abbrev + "/" + playbackName + unlockPlaybackPath.fileExtension
+}
+
 function BattleTasks::getRewardMarkUpConfig(task, config)
 {
   local rewardMarkUp = {}
@@ -687,7 +702,7 @@ function BattleTasks::generateItemView(config, isPromo = false)
     taskImage = ::getTblValue("image", task) || ::getTblValue("image", config)
     taskPlayback = ::getTblValue("playback", task) || ::getTblValue("playback", config)
     isPlaybackDownloading = !::g_sound.canPlay(id)
-    taskDifficultyImage = ::getTblValue("image", ::g_battle_task_difficulty.getDifficultyTypeByTask(task))
+    taskDifficultyImage = getDifficultyImage(task)
     taskRankValue = rankVal? ::loc("ui/parentheses/space", {text = rankVal}) : null
     description = isBattleTask || isUnlock ? getTaskDescription(config, isPromo) : null
     reward = isPromo? null : getRewardMarkUpConfig(task, config)
@@ -699,6 +714,38 @@ function BattleTasks::generateItemView(config, isPromo = false)
     showAsUsualPromoButton = isPromo && !isBattleTask && !isUnlock
     isPromo = isPromo
   }
+}
+
+function BattleTasks::getDifficultyImage(task)
+{
+  local difficulty = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
+  if (difficulty.showSeasonIcon())
+  {
+    local curWarbond = ::g_warbonds.getCurrentWarbond()
+    if (curWarbond)
+      return curWarbond.getMedalIcon()
+  }
+
+  return difficulty.image
+}
+
+function BattleTasks::getTasksArrayByDifficultyTypesArray(diffsArray)
+{
+  local result = []
+  foreach(type in diffsArray)
+  {
+    local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type.name, currentTasksArray)
+    if (array.len() == 0)
+      continue
+
+    local taskWithReward = ::g_battle_tasks.getTaskWithAvailableAward(array)
+    if (!::g_battle_tasks.showAllTasksValue && !::u.isEmpty(taskWithReward))
+      result.append(taskWithReward)
+    else
+      result.extend(array)
+  }
+
+  return result
 }
 
 function BattleTasks::getTasksArrayByGameModeDiffCode(searchArray, gameModeId = null, gameModeDiff = null, override = false, ignoreReward = false)

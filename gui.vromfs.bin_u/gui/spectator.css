@@ -1,4 +1,4 @@
-@const spectatorTopOffset: 30*@sf/@pf;
+@const spectatorTopOffset: 30*@sf/@pf_outdated;
 @const spectatorTableWidth: 1@nameWidth +1.5@tableIcoSize +1@tablePad +2 + 2@scrollBarSize;
 @const spectatorRowHeight: 1.4@baseTrHeight;
 @const spectatorToolbarBtnSize: 1.5@sIco;
@@ -151,7 +151,7 @@ td.spectatorTeamCell > textareaNoTab[id=unit] {
 td.spectatorTeamCell > textareaNoTab[id=name] {
   color:@activeTextColor;
   size:pw, 0.75@baseTrHeight;
-  pos:0, 2*@sf/@pf;
+  pos:0, 2*@sf/@pf_outdated;
   position:relative;
 }
 table.spectatorTeamTable > tr[selected=yes] > td > textareaNoTab[id=name] {

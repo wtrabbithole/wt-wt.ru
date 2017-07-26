@@ -1,4 +1,4 @@
-@const squadInvitesWidgetPadding: 4*@sf/@pf;
+@const squadInvitesWidgetPadding: 4*@sf/@pf_outdated;
 
 squadButtonImg {
   size:@mIco, @mIco;
@@ -20,12 +20,12 @@ Button_text[type=squadDisband] > squadButtonImg {
 }
 
 squadMemberStatus {
-  size:4*@sf/@pf, 4*@sf/@pf;
+  size:4*@sf/@pf_outdated, 4*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#squad_status;
 }
 
 squadMemberVoipStatus  {
-  size:7*@sf/@pf, 10*@sf/@pf;
+  size:7*@sf/@pf_outdated, 10*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#voip_status;
   background-repeat:aspect-ratio;
 }
@@ -43,19 +43,19 @@ Button_text.squadWidgetMember[status=notReady] squadMemberStatus {
 }
 
 Button_text.squadWidgetMember[status=leader] squadMemberStatus {
-  pos:-2@sf/@pf, -2@sf/@pf; position:relative;
-  size:10*@sf/@pf, 10*@sf/@pf;
+  pos:-2@sf/@pf_outdated, -2@sf/@pf_outdated; position:relative;
+  size:10*@sf/@pf_outdated, 10*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#squad_leader_star;
   background-color:#fdcf17;
 }
 
 Button_text.squadWidgetMember[status=leader] squadMemberVoipStatus {
-  pos:4*@sf/@pf, 0; position:absolute;
+  pos:4*@sf/@pf_outdated, 0; position:absolute;
 }
 
 Button_text.squadWidgetMember > memberIcon {
   size:@cIco, @cIco;
-  pos:0, 2*@sf/@pf;
+  pos:0, 2*@sf/@pf_outdated;
   position:relative;
 }
 

@@ -67,7 +67,14 @@ function g_sound::isPlaying(playbackId)
   return playbackId == curPlaying && curPlaying != ""
 }
 
+function g_sound::onEventGameLocalizationChanged(p)
+{
+  stop()
+  playbackStatus.clear()
+}
+
 ::g_script_reloader.registerPersistentDataFromRoot("g_sound")
+::subscribe_handler(::g_sound, ::g_listener_priority.DEFAULT_HANDLER)
 
 //C++ call
 ::on_cached_music_play_end <- ::g_sound.onCachedMusicPlayEnd.bindenv(::g_sound)

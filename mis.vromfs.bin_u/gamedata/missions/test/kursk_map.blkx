@@ -1,0 +1,162 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "armada_01"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/guadalcanal.bin",
+      "type": "campaign",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": []
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": {
+    "tracked_vehicles": {
+      "name": "armada_01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [9077.85,115.789,9486.21]
+      ],
+      "closed_waypoints": false,
+      "unit_class": "ussr_t_34_1941",
+      "weapons": "",
+      "objLayer": 1,
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 1,
+        "count": 1,
+        "formation_type": "rows",
+        "formation_div": 3,
+        "formation_step": [2.5,2.0],
+        "formation_noise": [0.1,0.1],
+        "uniqueName": "",
+        "attack_type": "fire_at_will"
+      },
+      "way": []
+    }
+  },
+  "areas": {
+    "gamezone": {
+      "type": "Box",
+      "tm": [
+        [-3000.0,0.0,0.0],
+        [0.0,1000.0,0.0],
+        [0.0,0.0,-3000.0],
+        [9920.65,0.0,10381.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "respawn_02": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,159.746,0.0],
+        [0.0,0.0,100.0],
+        [10717.2,-51.8945,9287.66]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "respawn_01": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,247.955,0.0],
+        [0.0,0.0,100.0],
+        [8902.79,-51.8945,11459.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "HILL": {
+      "type": "Cylinder",
+      "tm": [
+        [1200.0,0.0,0.0],
+        [0.0,1140.67,0.0],
+        [0.0,0.0,1200.0],
+        [10490.8,-51.8945,10809.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "capture_zone": {
+      "type": "Cylinder",
+      "tm": [
+        [25.0,0.0,0.0],
+        [0.0,247.955,0.0],
+        [0.0,0.0,25.0],
+        [9940.51,-51.8945,10414.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ]
+}

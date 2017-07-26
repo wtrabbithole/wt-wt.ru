@@ -71,20 +71,20 @@ popup_menu[actionsList=yes] > itemsList {
 
 popup_menu[actionsList=yes] > itemsList > actionListItem,
 popup_menu[actionsList=yes] > itemsList > button {
-  padding: 5*@sf/@pf;
+  padding: 5*@sf/@pf_outdated;
   min-width: pw;
   css-hier-invalidate: yes;
 }
 
 popup_menu[actionsList=yes][iconed=yes] > itemsList > actionListItem,
 popup_menu[actionsList=yes][iconed=yes] > itemsList > button {
-  padding: 5*@sf/@pf + @cIco, 5*@sf/@pf;
+  padding: 5*@sf/@pf_outdated + @cIco, 5*@sf/@pf_outdated;
 }
 
 popup_menu[actionsList=yes] > itemsList > actionListItem > text,
 popup_menu[actionsList=yes] > itemsList > button > text {
   re-type:textarea;
-  pos:3@sf/@pf, ph/2-h/2;
+  pos:3@sf/@pf_outdated, ph/2-h/2;
   position:relative;
   color: @commonMenuButtonColor;
   font:@small;
@@ -102,7 +102,7 @@ popup_menu[actionsList=yes] > itemsList > button > text[isLink="yes"] > underlin
 popup_menu[actionsList=yes] > itemsList > actionListItem > warning_icon,
 popup_menu[actionsList=yes] > itemsList > button > warning_icon {
   size:1@cIco, 1@cIco;
-  pos:-2@sf/@pf, ph/2-h/2;
+  pos:-2@sf/@pf_outdated, ph/2-h/2;
   position:relative;
   background-color:@white;
   background-image:#ui/gameuiskin#new_icon;
@@ -110,7 +110,7 @@ popup_menu[actionsList=yes] > itemsList > button > warning_icon {
 
 popup_menu[actionsList=yes] > itemsList > actionListItem > discount_notification,
 popup_menu[actionsList=yes] > itemsList > button > discount_notification {
-  pos:p.p.w - @cIco + 3*@sf/@pf, 50%ph-50%h;
+  pos:p.p.w - @cIco + 3*@sf/@pf_outdated, 50%ph-50%h;
   position:absolute;
 }
 
@@ -162,7 +162,7 @@ popup_menu[actionsList=yes] > itemsList > button > icon {
   color: @white;
   re-type: fgPict;
   position: relative;
-  pos: -w - 3*@sf/@pf;
+  pos: -w - 3*@sf/@pf_outdated;
 }
 
 [popupMenuBrightIcons=yes] popup_menu[actionsList=yes] > itemsList > actionListItem > icon,

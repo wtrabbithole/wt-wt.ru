@@ -1,6 +1,7 @@
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
 ::dagor.runScript("sqStdLibs/scriptReloader/scriptReloader.nut")
+::g_script_reloader.loadOnce("sqStdLibs/helpers/backCompatibility.nut")
 ::g_script_reloader.loadOnce("scripts/compatibility.nut")
 
 ::nda_version <- -1
@@ -621,6 +622,7 @@ function load_scripts_after_login()
     "items/orderUseResult.nut"
     "items/orders.nut"
     "items/orderActivationWindow.nut"
+    "inventory/inventory.nut"
 
     "crew/crewShortCache.nut"
     "crew/skillParametersRequestType.nut"
@@ -680,14 +682,8 @@ function load_scripts_after_login()
     "warbonds/warbondAward.nut"
     "warbonds/warbond.nut"
     "warbonds/warbondsManager.nut"
+    "warbonds/warbondsView.nut"
     "warbonds/warbondShop.nut"
-
-    "matching/serviceNotifications/mlogin.nut"
-    "matching/serviceNotifications/mrpc.nut"
-    "matching/serviceNotifications/mpresense.nut"
-    "matching/serviceNotifications/match.nut"
-    "matching/serviceNotifications/msquad.nut"
-    "matching/serviceNotifications/worldwar.nut"
 
     "statsd/missionStats.nut"
     "debugTools/dbgCheckContent.nut"
@@ -700,6 +696,14 @@ function load_scripts_after_login()
     "utils/popupMessages.nut"
     "utils/fileDialog.nut"
     "utils/soundManager.nut"
+
+    "matching/serviceNotifications/match.nut"
+    "matching/serviceNotifications/mlogin.nut"
+    "matching/serviceNotifications/mrpc.nut"
+    "matching/serviceNotifications/mpresense.nut"
+    "matching/serviceNotifications/msquad.nut"
+    "matching/serviceNotifications/worldwar.nut"
+    "matching/serviceNotifications/mrooms.nut"
 
     "webpoll.nut"
   ])

@@ -1,6 +1,6 @@
 expandable {
   re-type:9rect;
-  width:pw-10*@sf/@pf;
+  width:pw-10*@sf/@pf_outdated;
   pos:50%pw-50%w, 0;
   position:relative;
   background-position:4,4;
@@ -8,28 +8,28 @@ expandable {
   background-image:#ui/gameuiskin#shop_item_own;
   background-color:@commonTextColor;
   flow:vertical;
-  margin-top:0.5*@scrn_tgt/100.0+2*@sf/@pf;
-  padding:-6*@sf/@pf,-4*@sf/@pf, -4*@sf/@pf, -4*@sf/@pf;
+  margin-top:0.5*@scrn_tgt/100.0+2*@sf/@pf_outdated;
+  padding:-6*@sf/@pf_outdated,-4*@sf/@pf_outdated, -4*@sf/@pf_outdated, -4*@sf/@pf_outdated;
   total-input-transparent:yes;
 }
 
 expandable > selImg {
-  width:pw+2*@sf/@pf;
+  width:pw+2*@sf/@pf_outdated;
   re-type:9rect;
   background-position:6,6;
   background-repeat:expand;
   background-image:#ui/gameuiskin#shop_select;
-  padding:10*@sf/@pf,6*@sf/@pf, 8*@sf/@pf,6*@sf/@pf;
+  padding:10*@sf/@pf_outdated,6*@sf/@pf_outdated, 8*@sf/@pf_outdated,6*@sf/@pf_outdated;
   flow:vertical;
 }
 
 promoButton expandable > selImg {
-  padding:10*@sf/@pf,6*@sf/@pf, 4*@sf/@pf,6*@sf/@pf;
+  padding:10*@sf/@pf_outdated,6*@sf/@pf_outdated, 4*@sf/@pf_outdated,6*@sf/@pf_outdated;
 }
 
 expandable.simple {
   background-image:#ui/gameuiskin#lr_frame_bg;
-  padding:-6*@sf/@pf,-4*@sf/@pf, -2*@sf/@pf, -4*@sf/@pf;
+  padding:-6*@sf/@pf_outdated,-4*@sf/@pf_outdated, -2*@sf/@pf_outdated, -4*@sf/@pf_outdated;
 }
 
 expandable.simple[active=yes] {
@@ -37,7 +37,7 @@ expandable.simple[active=yes] {
 }
 
 expandable.simple > selImg {
-  padding:10*@sf/@pf,8*@sf/@pf, 8*@sf/@pf, 10*@sf/@pf;
+  padding:10*@sf/@pf_outdated,8*@sf/@pf_outdated, 8*@sf/@pf_outdated, 10*@sf/@pf_outdated;
 }
 
 expandable.simple[fullSize=yes] {
@@ -46,7 +46,7 @@ expandable.simple[fullSize=yes] {
 }
 
 expandable.simple[fullSize=yes] > selImg {
-  padding:4*@sf/@pf,4*@sf/@pf, 6*@sf/@pf, 6*@sf/@pf;
+  padding:4*@sf/@pf_outdated,4*@sf/@pf_outdated, 6*@sf/@pf_outdated, 6*@sf/@pf_outdated;
 }
 
 expandable:current > selImg {

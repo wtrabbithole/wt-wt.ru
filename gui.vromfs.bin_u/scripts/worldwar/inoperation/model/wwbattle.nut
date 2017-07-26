@@ -547,7 +547,7 @@ class ::WwBattle
   {
     local availableUnits = {}
     foreach(unit in team.unitsRemain)
-      if (unit.count > 0)
+      if (unit.count > 0 && !unit.isForceControlledByAI)
         availableUnits[unit.name] <- unit.count
 
     return availableUnits

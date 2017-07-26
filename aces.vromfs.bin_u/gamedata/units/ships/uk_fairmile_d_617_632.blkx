@@ -2409,30 +2409,6 @@
     }
   },
   {
-    "propellers": [
-      {
-        "engine": {
-          "propeller_l": "propeller_01"
-        }
-      },
-      {
-        "engine": {
-          "propeller_l": "propeller_02"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_03"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_04"
-        }
-      }
-    ]
-  },
-  {
     "class_tags": {
       "pacific": true,
       "mediterran": true,
@@ -2453,8 +2429,8 @@
         "Empty": 81400.0,
         "Fuel": 23600.0,
         "TakeOff": 105000.0,
-        "momentOfInertia": [19.0,52.0,39.0],
-        "CenterOfGravity": [-1.1,0.06,0.0]
+        "momentOfInertia": [15.0,55.0,32.0],
+        "CenterOfGravity": [-1.8,0.4,0.0]
       },
       "engines": [
         {
@@ -2535,12 +2511,12 @@
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
@@ -3138,6 +3114,11 @@
         }
       }
     ]
+  },
+  {
+    "winch": {
+      "length": 50.0
+    }
   },
   {
     "ikGunner": [

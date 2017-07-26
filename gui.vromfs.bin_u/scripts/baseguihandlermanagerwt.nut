@@ -1,8 +1,7 @@
 handlersManager[PERSISTENT_DATA_PARAMS].append("curControlsAllowMask")
 
 ::handlersManager.lastInFlight <- false  //to reload scenes on change inFlight
-::handlersManager.currentFontsCss <- ""
-::handlersManager.isPxFontsInScene <- false
+::handlersManager.currentFont <- ::g_font.SCALE
 
 ::handlersManager.curControlsAllowMask <- CtrlsInGui.CTRL_ALLOW_FULL
 ::handlersManager.controlsAllowMaskDefaults <- {
@@ -82,19 +81,18 @@ function handlersManager::updatePostLoadCss()
 {
   local haveChanges = false
 
-  local cssStringPre = generatePreLoadCssString()
+  local font = ::g_font.getCurrent()
+  haveChanges = haveChanges || currentFont != font
+  currentFont = font
+
+  local cssStringPre = font.genCssString() + "\n" + generatePreLoadCssString()
   if (::get_dagui_pre_include_css_str() != cssStringPre)
   {
     ::set_dagui_pre_include_css_str(cssStringPre)
     haveChanges = true
   }
 
-  local fontsCss = ::get_current_fonts_css()
-  ::set_dagui_pre_include_css(fontsCss)
-  haveChanges = haveChanges || currentFontsCss != fontsCss
-
-  currentFontsCss = fontsCss
-  isPxFontsInScene = fontsCss == PX_FONTS_CSS
+  ::set_dagui_pre_include_css("")
 
   local cssStringPost = generatePostLoadCssString()
   if (::get_dagui_post_include_css_str() != cssStringPost)
@@ -279,6 +277,16 @@ function gui_start_empty_screen()
   local guiScene = ::get_cur_gui_scene()
   if (guiScene)
     guiScene.clearDelayed() //delayed actions doesn't work in empty screen.
+}
+
+function is_low_width_screen() //change this function simultaneously with isWide constant in css
+{
+  return ::handlersManager.currentFont.isLowWidthScreen(::screen_width(), ::screen_height())
+}
+
+function isInMenu()
+{
+  return !::is_in_loading_screen() && !::is_in_flight()
 }
 
 handlersManager.init()

@@ -346,7 +346,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       view.rows.append({
         id = option.id
         name = "#options/" + option.id
-        option = ::create_option_slider(option.id, option.items, option.value, option.cb, true, "sliderProgress", option)
+        option = ::create_option_slider(option.id, option.value, option.cb, true, "slider", option)
       })
     }
     local data = ::handyman.renderCached(("gui/options/verticalOptions"), view)
@@ -1372,7 +1372,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     return "tooltipObj {" +
          "tooltipId:t='" + tooltipId + "'; " +
          "on_tooltip_open:t='onGenericTooltipOpen'; on_tooltip_close:t='onTooltipObjClose';" +
-         "max-width:t='8*@decalIconHeight+10*@sf/@pf'; tinyFont:t='yes'; display:t='hide';" +
+         "max-width:t='8*@decalIconHeight+10*@sf/@pf_outdated'; tinyFont:t='yes'; display:t='hide';" +
       "} " +
       "title:t='$tooltipObj'; "
   }

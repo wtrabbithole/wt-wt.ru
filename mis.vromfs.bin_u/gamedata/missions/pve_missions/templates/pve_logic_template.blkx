@@ -541,7 +541,7 @@
           "target": "1st_wave_start_timer"
         },
         "moAddMissionObjective": {
-          "target": "survival_mode_obj"
+          "target": "battle_for_survival_safe_zone_obj"
         }
       },
       "else_actions": []
@@ -779,9 +779,38 @@
           }
         },
         {
+          "gameMPChangeScore": {
+            "value": -294,
+            "valueSystem": "amount",
+            "team": "B"
+          }
+        },
+        {
+          "comment": {
+            "value": "231 ticket = 1/11 part of MPScore (num of waves)"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "tickets_change_per_wave_int"
+          }
+        },
+        {
           "triggerEnable": {
             "target": "mission_completed"
           }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "tickets_after_wave_tune"
+            },
+            {
+              "target": "tickets_after_wave_sum"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -806,92 +835,18 @@
           "comparasion_func": "notMore"
         }
       },
-      "actions": [
-        {
-          "triggerDisable": {
-            "target": "mission_failed"
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
-            "name": "hints/survival_victory_message",
-            "action": "show",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 1000,
-            "isOverFade": false,
-            "shouldBlink": false
-          }
-        },
-        {
-          "gameMPChangeScore": {
-            "value": -20,
-            "valueSystem": "percentage",
-            "team": "B"
-          }
-        },
-        {
-          "wait": {
-            "time": 1.0
-          }
-        },
-        {
-          "gameMPChangeScore": {
-            "value": -20,
-            "valueSystem": "percentage",
-            "team": "B"
-          }
-        },
-        {
-          "wait": {
-            "time": 1.0
-          }
-        },
-        {
-          "gameMPChangeScore": {
-            "value": -20,
-            "valueSystem": "percentage",
-            "team": "B"
-          }
-        },
-        {
-          "wait": {
-            "time": 1.0
-          }
-        },
-        {
-          "gameMPChangeScore": {
-            "value": -20,
-            "valueSystem": "percentage",
-            "team": "B"
-          }
-        },
-        {
-          "wait": {
-            "time": 1.0
-          }
-        },
-        {
-          "gameMPChangeScore": {
-            "value": -20,
-            "valueSystem": "percentage",
-            "team": "B"
-          }
-        },
-        {
-          "wait": {
-            "time": 2.0
-          }
-        },
-        {
-          "missionCompleted": {
-            "team": "A",
-            "timer": false,
-            "debriefingTimer": 3
-          }
+      "actions": {
+        "playHint": {
+          "hintType": "custom",
+          "name": "hints/survival_victory_message",
+          "action": "show",
+          "shouldFadeOut": false,
+          "time": -1.0,
+          "priority": 1000,
+          "isOverFade": false,
+          "shouldBlink": false
         }
-      ],
+      },
       "else_actions": {
         "triggerEnable": {
           "target": "waves_counter"
@@ -1005,97 +960,6 @@
         }
       ]
     },
-    "mission_time": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "varCompareInt": {
-          "var_value": "wave_number_var",
-          "value": 12,
-          "comparasion_func": "notMore"
-        }
-      },
-      "actions": {
-        "varModify": {
-          "operator": "add",
-          "value": 1.0,
-          "var": "timer_var"
-        }
-      },
-      "else_actions": []
-    },
-    "mission_failed": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isKilled",
-          "check_objects": "all",
-          "object_marking": 0,
-          "target_type": "isAlive",
-          "check_period": 1.0,
-          "object": "artillery_squad"
-        }
-      },
-      "actions": {
-        "triggerDisable": {
-          "target": "mission_completed"
-        },
-        "missionFailed": {
-          "team": "A",
-          "debriefingTimer": 3,
-          "timer": false
-        }
-      },
-      "else_actions": []
-    },
-    "artillery_counter": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 0.5
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "missionSetTargetsIndicator": {
-          "target_type": "isAlive",
-          "target_marking": 0,
-          "delta": 0,
-          "icon": "aa",
-          "icon army": 1,
-          "set": true,
-          "target": "artillery_squad"
-        }
-      },
-      "else_actions": []
-    },
     "damaged_units_shoot_at_players": {
       "is_enabled": true,
       "comments": "",
@@ -1205,11 +1069,6 @@
         }
       },
       "actions": [
-        {
-          "triggerDisable": {
-            "target": "mission_failed"
-          }
-        },
         {
           "playHint": {
             "hintType": "custom",
@@ -1358,49 +1217,181 @@
       },
       "else_actions": []
     },
+    "tickets_after_wave_tune": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "varCompareInt": {
+            "var_value": "tickets_change_per_wave_int",
+            "value": 231,
+            "comparasion_func": "less"
+          }
+        },
+        {
+          "varCompareInt": {
+            "var_value": "tickets_change_per_wave_int",
+            "value": 462,
+            "comparasion_func": "more"
+          }
+        }
+      ],
+      "actions": {
+        "varSetInt": {
+          "value": 231,
+          "var": "tickets_change_per_wave_int"
+        },
+        "comment": {
+          "value": "231 ticket = 1/14 part of MPScore (0.5 of prev SPG mechanic)"
+        }
+      },
+      "else_actions": []
+    },
+    "tickets_after_wave_sum": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "varCompareInt": {
+            "var_value": "tickets_change_per_wave_int",
+            "value": 231,
+            "comparasion_func": "notLess"
+          }
+        },
+        {
+          "varCompareInt": {
+            "var_value": "tickets_change_per_wave_int",
+            "value": 462,
+            "comparasion_func": "notMore"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "tickets_current_int",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "tickets_next_int",
+            "source_var": "mpTi1"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 0.0,
+            "var": "tickets_next_int",
+            "use_variable": true,
+            "var_value": "tickets_change_per_wave_int"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "tickets_change_per_wave_int"
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "tickets_after_wave_tune"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "tickets_after_wave_apply"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "tickets_after_wave_apply": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "tickets_next_int",
+          "value": 3234,
+          "comparasion_func": "notMore"
+        }
+      },
+      "actions": {
+        "varSetInt": {
+          "value": 0,
+          "var": "tickets_diff_for_summing_int",
+          "input_var": "tickets_next_int"
+        },
+        "varModify": {
+          "operator": "subAB",
+          "value": 0.0,
+          "var": "tickets_diff_for_summing_int",
+          "use_variable": true,
+          "var_value": "tickets_current_int"
+        },
+        "gameMPChangeScore": {
+          "value": 0,
+          "valueSystem": "amount",
+          "var": "tickets_diff_for_summing_int",
+          "team": "A"
+        }
+      },
+      "else_actions": {
+        "varSetInt": {
+          "value": 3234,
+          "var": "tickets_diff_for_summing_int"
+        },
+        "varModify": {
+          "operator": "subAB",
+          "value": 0.0,
+          "var": "tickets_diff_for_summing_int",
+          "use_variable": true,
+          "var_value": "tickets_current_int"
+        },
+        "gameMPChangeScore": {
+          "value": 0,
+          "valueSystem": "amount",
+          "var": "tickets_diff_for_summing_int",
+          "team": "A"
+        }
+      }
+    },
     "safe_zone_logic": {
       "isCategory": true,
       "is_enabled": true,
-      "enemy_not_in_art_area": {
-        "is_enabled": true,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenInArea": {
-            "math": "notNear3D",
-            "object_type": "isActive",
-            "object_marking": 0,
-            "check_objects": "any",
-            "object": "all_enemy_units",
-            "target": "safe_zone"
-          },
-          "unitWhenCountMatches": {
-            "object_type": "isMarked",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "all_enemy_units",
-            "object_marking_var": "route_counter_int"
-          }
-        },
-        "actions": {
-          "unitMark": {
-            "target_marking": 0,
-            "target": "all_enemy_units",
-            "useForTriggerFiltered": true
-          }
-        },
-        "else_actions": []
-      },
       "player_not_in_the_zone": {
         "is_enabled": false,
         "comments": "",
@@ -1460,90 +1451,7 @@
           }
         }
       },
-      "artillery_blow_up": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenInArea": {
-            "math": "2D",
-            "object_type": "isActive",
-            "object_marking": 1,
-            "check_objects": "any",
-            "object": "all_enemy_units",
-            "target": "safe_zone"
-          },
-          "varCompareInt": {
-            "var_value": "artillery_blow_up_countdown",
-            "value": 40,
-            "comparasion_func": "notLess",
-            "var_value_other": "time_to_blow_up_int"
-          }
-        },
-        "actions": [
-          {
-            "triggerDisable": {
-              "target": "enemy_in_safe_area"
-            }
-          },
-          {
-            "unitSetProperties": {
-              "object_marking": 0,
-              "object": "artillery_squad",
-              "isImmortal": false
-            }
-          },
-          {
-            "unitDamage": {
-              "part": 1,
-              "power": 1.0,
-              "useEffect": false,
-              "countEffects": 1,
-              "delay": [1.0,1.0],
-              "offset": [0.0,0.0,0.0],
-              "radiusOffset": [10.0,15.0],
-              "target": "artillery_squad",
-              "randomTargetsCount": 1,
-              "doExplosion": true
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 20,
-              "var": "time_to_blow_up_int"
-            }
-          },
-          {
-            "unitSetProperties": {
-              "object_marking": 0,
-              "object": "artillery_squad",
-              "isImmortal": true
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 0,
-              "var": "artillery_blow_up_countdown"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "enemy_in_safe_area"
-            }
-          }
-        ],
-        "else_actions": []
-      },
-      "all_enemy_not_in_art_area": {
+      "all_enemy_not_in_safe_zone": {
         "is_enabled": false,
         "comments": "",
         "props": {
@@ -1566,41 +1474,20 @@
             "target": "safe_zone"
           }
         },
-        "actions": [
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/survival_enemy_near_artillery",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "isOverFade": false,
-              "time": -1.0,
-              "priority": 0
-            }
+        "actions": {
+          "playHint": {
+            "hintType": "custom",
+            "name": "hints/survival_enemy_in_safe_zone",
+            "action": "hide",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0
           },
-          {
-            "triggerDisable": {
-              "target": "artillery_blow_up"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 0,
-              "var": "artillery_blow_up_countdown"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 40,
-              "var": "time_to_blow_up_int"
-            }
-          },
-          {
-            "__triggerEnable": {
-              "target": "player_not_in_the_zone"
-            }
+          "__triggerEnable": {
+            "target": "player_not_in_the_zone"
           }
-        ],
+        },
         "else_actions": []
       },
       "enemy_in_safe_area": {
@@ -1613,7 +1500,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 3.0
           }
         },
         "conditions": {
@@ -1627,19 +1514,22 @@
           }
         },
         "actions": {
+          "gameMPChangeScore": {
+            "value": 0,
+            "valueSystem": "amount",
+            "var": "tickets_change_per_3sec_int",
+            "team": "A"
+          },
           "varModify": {
             "operator": "add",
-            "value": 1.0,
-            "var": "artillery_blow_up_countdown"
-          },
-          "unitMark": {
-            "target_marking": 11,
-            "target": "all_enemy_units",
-            "useForTriggerFiltered": true
+            "value": 0.0,
+            "var": "tickets_change_per_wave_int",
+            "use_variable": true,
+            "var_value": "tickets_change_per_3sec_int"
           },
           "playHint": {
             "hintType": "custom",
-            "name": "hints/survival_enemy_near_artillery",
+            "name": "hints/survival_enemy_in_safe_zone",
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
@@ -1673,14 +1563,9 @@
             "trackingTime": 10.0,
             "fireRandom": true
           },
-          "triggerEnable": [
-            {
-              "target": "all_enemy_not_in_art_area"
-            },
-            {
-              "target": "artillery_blow_up"
-            }
-          ],
+          "triggerEnable": {
+            "target": "all_enemy_not_in_safe_zone"
+          },
           "triggerDisable": {
             "target": "player_not_in_the_zone"
           }
@@ -1743,7 +1628,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 2.0
+            "time": 0.5
           }
         },
         "conditions": {
@@ -1831,7 +1716,7 @@
           },
           {
             "wait": {
-              "time": 2.0
+              "time": 0.5
             }
           },
           {
@@ -1945,79 +1830,9 @@
             }
           }
         ]
-      }
-    },
-    "near_artillery_counter": {
-      "isCategory": true,
-      "is_enabled": true,
-      "enemy_near_artillery_counter_more": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenCountMatches": {
-            "object_type": "isMarked",
-            "object_marking": 11,
-            "func": "more",
-            "value": 1,
-            "object": "all_enemy_units",
-            "unit_type_ex": "isActive",
-            "var": "unit_near_arty_counter_int"
-          }
-        },
-        "actions": {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "unit_near_arty_counter_int"
-          }
-        },
-        "else_actions": []
       },
-      "enemy_near_artillery_counter_less": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenCountMatches": {
-            "object_type": "isMarked",
-            "object_marking": 11,
-            "func": "less",
-            "value": 1,
-            "object": "all_enemy_units",
-            "unit_type_ex": "isActive",
-            "var": "unit_near_arty_counter_int"
-          }
-        },
-        "actions": {
-          "varModify": {
-            "operator": "add",
-            "value": -1.0,
-            "var": "unit_near_arty_counter_int"
-          }
-        },
-        "else_actions": []
-      },
-      "enemy_near_checker": {
-        "is_enabled": false,
+      "tickets_changing_doubled": {
+        "is_enabled": true,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
@@ -2031,76 +1846,23 @@
         },
         "conditions": {
           "varCompareInt": {
-            "var_value": "unit_near_arty_counter_int",
-            "value": 0,
-            "comparasion_func": "notLess",
-            "var_value_other": "unit_near_arty_trigger_int"
+            "var_value": "tickets_change_per_wave_int",
+            "value": -462,
+            "comparasion_func": "notMore"
           }
         },
-        "actions": [
-          {
-            "varModify": {
-              "operator": "divAB",
-              "value": 2.0,
-              "var": "time_to_blow_up_int"
-            }
-          },
-          {
-            "varModify": {
-              "operator": "add",
-              "value": 5.0,
-              "var": "unit_near_arty_trigger_int"
-            }
-          },
-          {
-            "triggerDisable": {
-              "target": "mission_time"
-            }
-          }
-        ],
-        "else_actions": []
-      },
-      "enemy_not_near_checker": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 40.0,
-            "var": "time_to_blow_up_int"
+        "actions": {
+          "varSetInt": {
+            "value": -66,
+            "var": "tickets_change_per_3sec_int"
           }
         },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "unit_near_arty_counter_int",
-            "value": 10,
-            "comparasion_func": "less"
+        "else_actions": {
+          "varSetInt": {
+            "value": -33,
+            "var": "tickets_change_per_3sec_int"
           }
-        },
-        "actions": [
-          {
-            "varSetInt": {
-              "value": 40,
-              "var": "time_to_blow_up_int"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 10,
-              "var": "unit_near_arty_trigger_int"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "mission_time"
-            }
-          }
-        ],
-        "else_actions": []
+        }
       }
     },
     "route_counter": {
@@ -2227,12 +1989,6 @@
               "value": "@wave_tier_number_int",
               "digits": 2,
               "var": "wave_tier_name_str"
-            }
-          },
-          {
-            "varSetInt": {
-              "value": 0,
-              "var": "timer_var"
             }
           },
           {
@@ -3399,6 +3155,122 @@
       },
       "else_actions": []
     },
+    "debug_tickets_show": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "varSetInt": {
+          "value": 0,
+          "var": "tickets_current_int",
+          "source_var": "mpTi1"
+        },
+        "missionSetTargetsIndicator": {
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "delta": 0,
+          "icon": "tank",
+          "icon army": 1,
+          "set": true,
+          "target": "dummy_wave_indicator",
+          "var": "tickets_current_int"
+        }
+      },
+      "else_actions": []
+    },
+    "debug_kill_all_enemy": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenStatus": {
+          "object_type": "hittedBy",
+          "check_objects": "any",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "check_period": 1.0,
+          "object": "all_enemy_units",
+          "hittedByTarget": "player_tank02"
+        }
+      },
+      "actions": {
+        "unitDamage": [
+          {
+            "power": 1.0
+          },
+          {
+            "useEffect": false
+          },
+          {
+            "countEffects": 1
+          },
+          {
+            "delay": [1.0,1.0]
+          },
+          {
+            "offset": [0.0,0.0,0.0]
+          },
+          {
+            "radiusOffset": [10.0,15.0]
+          },
+          {
+            "target": "all_enemy_units"
+          },
+          {
+            "target": "enemy_air_assaults"
+          },
+          {
+            "explodeAmmo": true
+          },
+          {
+            "doExplosion": true
+          }
+        ]
+      },
+      "else_actions": []
+    },
+    "debug_immortal": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitSetProperties": {
+          "object_marking": 0,
+          "object": "player_tank02",
+          "isImmortal": true
+        }
+      },
+      "else_actions": []
+    },
     "air_atack": {
       "isCategory": true,
       "is_enabled": true,
@@ -3608,7 +3480,7 @@
   "mission_objectives": {
     "isCategory": true,
     "is_enabled": true,
-    "survival_mode_obj": {
+    "battle_for_survival_safe_zone_obj": {
       "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
@@ -3621,7 +3493,6 @@
     }
   },
   "variables": {
-    "timer_var": 0,
     "wave_units_number_var": 0,
     "wave_name_var": "wave",
     "wave_number_var": 0,
@@ -3629,8 +3500,6 @@
     "waves_delay_usual_var": 90,
     "start_timer_int": 30,
     "start_hint_id_str": "",
-    "acceptable_number_of_units_near_artillery_var": 10,
-    "artillery_blow_up_countdown": 0,
     "wave_tier_name_str": "wave_tier_",
     "wave_tier_number_int": 1,
     "new_wave_counter_int": 5,
@@ -3650,9 +3519,6 @@
     "wave12_tanks_count": 0,
     "tank_count_name_var": "",
     "unitCountDiv": 1,
-    "unit_near_arty_counter_int": 0,
-    "unit_near_arty_trigger_int": 10,
-    "time_to_blow_up_int": 40,
     "num_of_direction_int": 3,
     "num_of_direction_counter_int": 0,
     "route_counter_int": 0,
@@ -3673,7 +3539,13 @@
     "airUnitCountDiv": 10,
     "wave_number_overall_counter": 0,
     "airUnitAdd": 1,
-    "random_int_add": 0
+    "random_int_add": 0,
+    "tickets_change_per_3sec_int": -33,
+    "tickets_change_per_wave_int": 0,
+    "tickets_current_int": 0,
+    "tickets_next_int": 0,
+    "tickets_after_sum_int": 0,
+    "tickets_diff_for_summing_int": 0
   },
   "dialogs": [],
   "airfields": [],

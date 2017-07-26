@@ -76,7 +76,7 @@ tdiv {
           }
 
           cardImg {
-            margin-left:t='5*@sf/@pf'
+            margin-left:t='5*@sf/@pf_outdated'
             type:t='tiny'
             background-image:t='#ui/gameuiskin#help_tooltip'
             tooltip:t='#events/clan_event_help'
@@ -156,7 +156,7 @@ tdiv {
     tdiv {
       width:t='pw'
       height:t='fh'
-      min-height:t='1@eventTacticalMapSize + 0.17@scrn_tgt_font'
+      min-height:t='1@eventTacticalMapSize + 0.17@sf'
       padding-top:t='0.01@scrn_tgt';
 
       frameBlock {
@@ -164,7 +164,7 @@ tdiv {
         position:t='relative'
         width:t='@eventTacticalMapSize'
         height:t='ph'
-        padding:t='3*@sf/@pf'
+        padding:t='3*@sf/@pf_outdated'
         margin-right:t='0.01@scrn_tgt'
         flow:t='vertical'
 
@@ -173,7 +173,7 @@ tdiv {
           size:t="95%pw,95%pw"
           max-height:t="w"
           max-width:t="h"
-          pos:t='50%pw-50%w, 2*@sf/@pf'
+          pos:t='50%pw-50%w, 2*@sf/@pf_outdated'
           position:t='relative'
           display:t='hide'
         }
@@ -182,18 +182,18 @@ tdiv {
           size:t="pw,fh"
           max-width:t='h'
           max-height:t="w"
-          pos:t='50%pw-50%w, 2*@sf/@pf'
+          pos:t='50%pw-50%w, 2*@sf/@pf_outdated'
           position:t='relative'
           display:t='hide'
         }
         tdiv {
           id:t='lb_wrap'
-          width:t='pw+4*@sf/@pf'
-          height:t='3@leaderboardTrHeight + 0.02@scrn_tgt_font + 1@buttonHeight'
-          pos:t='-2*@sf/@pf, 0.005@scrn_tgt_font'
+          width:t='pw+4*@sf/@pf_outdated'
+          height:t='3@leaderboardTrHeight + 0.02@sf + 1@buttonHeight'
+          pos:t='-2*@sf/@pf_outdated, 0.005@sf'
           position:t='relative'
           padding:t='2'
-          padding-top:t='0.005@scrn_tgt_font'
+          padding-top:t='0.005@sf'
           flow:t='vertical'
 
           animated_wait_icon {
@@ -222,7 +222,7 @@ tdiv {
             _on_click:t='onOpenEventLeaderboards'
             text:t='#mainmenu/titleLeaderboards'
             position:t='relative'
-            pos:t='0.5*pw - 0.5*w, 0.005@scrn_tgt_font'
+            pos:t='0.5*pw - 0.5*w, 0.005@sf'
             display:t='hide'
             btnName:t='Y'
 
@@ -245,7 +245,7 @@ tdiv {
         //teams info
         tdiv {
           size:t='pw, fh'
-          padding:t='3*@sf/@pf'
+          padding:t='3*@sf/@pf_outdated'
           overflow-y:t='auto'
           scrollbarShortcuts:t='yes'
 
@@ -274,7 +274,7 @@ tdiv {
             tdiv {
               id:t='allowed_unit_types'
               flow:t='vertical'
-              margin-bottom:t='0.01@scrn_tgt_font'
+              margin-bottom:t='0.01@sf'
 
               activeText {
                 id:t='allowed_unit_types_text'
@@ -337,7 +337,7 @@ tdiv {
             tdiv {
               id:t='allowed_unit_types'
               flow:t='vertical'
-              margin-bottom:t='0.01@scrn_tgt_font'
+              margin-bottom:t='0.01@sf'
 
               activeText {
                 id:t='allowed_unit_types_text'

@@ -24,10 +24,19 @@ shopFilter {
     id:t='tab_new_icon_widget'
     pos:t='0, 0.5ph-0.5h'
     position:t='relative'
-    padding-left:t='10@scrn_tgt_font/720'
+    padding-left:t='10@sf/720'
     <<@newIconWidget>>
   }
   <</newIconWidget>>
+
+  <<#object>>
+  tdiv {
+    pos:t='0, 0.5ph-0.5h'
+    position:t='relative'
+    padding-left:t='1@warbondShopLevelItemHeight'
+    <<@object>>
+  }
+  <</object>>
 
   shopFilterText {
     <<#id>>id:t='<<id>>_text'<</id>>

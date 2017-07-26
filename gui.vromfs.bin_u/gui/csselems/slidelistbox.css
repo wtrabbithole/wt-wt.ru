@@ -1,4 +1,4 @@
-@const shopFilterHFlowHeight: 0.04*@scrn_tgt_font;
+@const shopFilterHFlowHeight: 0.04*@sf;
 
 SlideListBox,SlideListBoxOptions
 {
@@ -16,7 +16,7 @@ SlideListBox,SlideListBoxOptions
 
 SlideListBoxOptions {
   width:0.3sw;
-  height:50*@sf/@pf;
+  height:50*@sf/@pf_outdated;
 }
 
 SlideListBoxButton {
@@ -138,71 +138,6 @@ HangarDecalImg {
   size:pw,95%ph;
 }
 
-
-HorizontalListBox, VerticalListBox{
-  re-type:9rect;
-  background-position:6,6;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#selectbox_bg;
-  background-color:@white;
-  snd_select:choose;
-  snd_set_focus:focus;
-  snd_dbl_click:click;
-  need_flow:yes;
-  _has_navigator:no;
-}
-
-HorizontalListBox[navigator=posNavigator] {
-  behaviour:posNavigator;
-  _has_navigator:yes;
-}
-
-HorizontalListBox[_has_navigator=no],
-VerticalListBox[_has_navigator=no] {
-  behaviour:select;
-}
-
-HorizontalListBox[flow] {
-  need_flow:no;
-}
-
-HorizontalListBox[need_flow=yes] {
-  flow:horizontal;
-}
-
-VerticalListBox {
-  flow:vertical;
-  background-color:@transparent;
-}
-
-VerticalListBox.options {
-  height:0.05@scrn_tgt;
-  width:pw;
-}
-
-HorizontalListBox.tabs {
-  background-position:5,6;
-  background-image:#ui/gameuiskin#tab_line;
-}
-
-HorizontalListBox.tabs[invertImages=yes],
-HorizontalListBox.header {
-  background-color:@transparent;
-}
-
-HorizontalListBox.options {
-  height:0.7ph-6*@sf/@pf;
-}
-
-HorizontalListBox.choice3 {
-  background-color:@transparent;
-}
-
-HorizontalListBox.hflow {
-  flow:h-flow;
-  min-height:@shopFilterHFlowHeight;
-}
-
 groupBox, groupList {
   behaviour:select;
   re-type:select;
@@ -219,11 +154,11 @@ groupBox {
   background-repeat:expand;
   background-image:#ui/gameuiskin#selectbox_bg;
   background-color:@white;
-  padding:0,2*@sf/@pf;
+  padding:0,2*@sf/@pf_outdated;
 }
 
 groupBox > group {
-  width:pw-2*@sf/@pf;
+  width:pw-2*@sf/@pf_outdated;
   height:@groupHeight;
   pos:50%pw-50%w;
   position:relative;
@@ -242,7 +177,7 @@ group > activeText {
   background-color:@white;
   background-position:5;
   background-repeat:expand;
-  padding:4*@sf/@pf,2*@sf/@pf;
+  padding:4*@sf/@pf_outdated,2*@sf/@pf_outdated;
   pare-text:yes;
   text-align:left;
   input-transparent:yes;
@@ -259,7 +194,7 @@ groupList {
   overflow-y:auto;
   flow:vertical;
   tinyFont:yes;
-  padding:2*@sf/@pf;
+  padding:2*@sf/@pf_outdated;
 }
 group > groupList {
   display:hide;
@@ -269,24 +204,24 @@ group:current > groupList {
 }
 
 groupList > text {
-  height:@sIco + 2*@sf/@pf;
+  height:@sIco + 2*@sf/@pf_outdated;
   width:pw;
   pare-text:yes;
   text-align:left;
-  padding:@sIco+3*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+  padding:@sIco+3*@sf/@pf_outdated, 2*@sf/@pf_outdated, 0, -2*@sf/@pf_outdated;
   css-hier-invalidate:yes;
 }
 groupList[imgType=none] > text {
-  padding:1*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+  padding:1*@sf/@pf_outdated, 2*@sf/@pf_outdated, 0, -2*@sf/@pf_outdated;
 }
 groupList[imgType=1ico] > text, groupList > text[imgType=1ico] {
-  padding:1h+2*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+  padding:1h+2*@sf/@pf_outdated, 2*@sf/@pf_outdated, 0, -2*@sf/@pf_outdated;
 }
 groupList[imgType=2ico] > text, groupList > text[imgType=2ico] {
-  padding:2h+4*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+  padding:2h+4*@sf/@pf_outdated, 2*@sf/@pf_outdated, 0, -2*@sf/@pf_outdated;
 }
 groupList[imgType=3ico] > text, groupList > text[imgType=3ico] {
-  padding:3h+5*@sf/@pf, 2*@sf/@pf, 0, -2*@sf/@pf;
+  padding:3h+5*@sf/@pf_outdated, 2*@sf/@pf_outdated, 0, -2*@sf/@pf_outdated;
 }
 
 groupList > text:current {
@@ -311,11 +246,11 @@ groupList > text > voiceIcon {
 }
 
 groupList > text > img2 {
-  pos:w+1*@sf/@pf, 0;
+  pos:w+1*@sf/@pf_outdated, 0;
 }
 
 groupList > text[imgType=3ico] > voiceIcon {
-  pos: 2w+2*@sf/@pf, 0;
+  pos: 2w+2*@sf/@pf_outdated, 0;
 }
 
 groupList > textAreaCentered {
@@ -324,7 +259,7 @@ groupList > textAreaCentered {
 groupIns {
   width:pw;
   input-transparent:yes;
-  padding:2*@sf/@pf;
+  padding:2*@sf/@pf_outdated;
   css-hier-invalidate:yes;
 }
 group > groupIns {
@@ -345,9 +280,9 @@ group:current > groupIns > EditBox {
   enable:yes;
 }
 groupList[contacts_group_list=yes] > text {
-  height:30*@sf/@pf;
+  height:30*@sf/@pf_outdated;
 }
 
 groupList[contacts_group_list=yes] > text > img {
-  pos:3*@sf/@pf, 50%ph-50%h;
+  pos:3*@sf/@pf_outdated, 50%ph-50%h;
 }

@@ -10,14 +10,14 @@ textareaNoTab {
 
 tdiv{
   position:t='absolute';
-  pos:t='0, 13*@sf/@pf';
-  size:t='pw, 0.057@scrn_tgt_font';
+  pos:t='0, 13*@sf/@pf_outdated';
+  size:t='pw, 0.057@sf';
   input-transparent:t='yes';
   display:t='hide';
   tdiv{
     re-type:t='9rect';
     position:t='relative';
-    top:t='4*@sf/@pf';
+    top:t='4*@sf/@pf_outdated';
     size:t='pw, ph';
     foreground-image:t='#ui/gameuiskin#button_bright_bg';
     foreground-position:t='16';
@@ -30,14 +30,14 @@ tdiv{
 
 tdiv{
   position:t='absolute';
-  pos:t='0, 8*@sf/@pf';
-  size:t='pw, 0.0565@scrn_tgt_font';
+  pos:t='0, 8*@sf/@pf_outdated';
+  size:t='pw, 0.0565@sf';
   input-transparent:t='yes';
   display:t='hide';
   tdiv{
     re-type:t='9rect';
     position:t='relative';
-    top:t='4*@sf/@pf';
+    top:t='4*@sf/@pf_outdated';
     size:t='pw, ph';
     foreground-image:t='#ui/gameuiskin#button_bright_bg';
     foreground-position:t='16';
@@ -63,7 +63,7 @@ Button_text {
     noEnter:t='yes'
   <</enableEnterKey>>
 
-  style:t='margin-right: 0*@sf/@pf; height: 1@topMenuBattleButtonHeight; min-width: pw - 14*@sf/@pf;'
+  style:t='margin-right: 0*@sf/@pf_outdated; height: 1@topMenuBattleButtonHeight; min-width: pw - 14*@sf/@pf_outdated;'
 
   buttonWink {
     _transp-timer:t='0';

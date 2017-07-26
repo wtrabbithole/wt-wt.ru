@@ -23,7 +23,7 @@ tdiv {
         width:t='<<forceHoverWidth>>'
       <</forceHoverWidth>>
       <<^forceHoverWidth>>
-        width:t='<<columnsCount>> * 0.28@scrn_tgt_font'
+        width:t='<<columnsCount>> * 0.28@sf'
       <</forceHoverWidth>>
       height:t='0'
       pos:t='<<tmHoverMenuPos>> - 1@topMenuHoverMenuIndent, ph-1'; position:t='absolute'

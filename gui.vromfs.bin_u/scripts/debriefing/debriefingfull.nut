@@ -266,25 +266,6 @@
                               return result
                             }
   }
-  {
-    id = "PremiumNotEarned"
-    type = "exp"
-    canShowRewardAsValue = true
-    showByModes = function(gm) { return ::has_feature("SpendGold") && ::has_feature("EnablePremiumPurchase") && !::havePremium() }
-    rowProps = { overlayTextColor="premiumNotEarned" }
-    showAction = function() { return ::get_game_mode() == ::GM_DOMINATION && ::checkPremRewardAmount() }
-    actionFunc = function() { onBuyPremiumAward() }
-    buttonVisualStyle = "purchase"
-    actionName = function() { return ::format(::loc("mainmenu/btnEarnNow"), ::get_cur_award_text()) }
-  }
-  {
-    id = "prevBattlesPremiumAward"
-    type = "exp"
-    canShowRewardAsValue = true
-    isFreeRP = true
-    showByModes = function(gm) {return ::has_feature("SpendGold") && ::has_feature("EnablePremiumPurchase") && !::havePremium() }
-    rowProps = { overlayTextColor="premium" }
-  }
   { id = "sessionTime"
     customValueName = "sessionTime"
     type = "tim"
@@ -306,6 +287,12 @@ foreach(idx, row in ::debriefing_rows)
   foreach(param, value in ::debriefing_row_defaults)
     if (!(param in ::debriefing_rows[idx]))
       ::debriefing_rows[idx][param] <- value
+}
+
+enum DEBR_THEME {
+  WIN       = "win"
+  LOSE      = "lose"
+  PROGRESS  = "progress"
 }
 
 enum debrState {
@@ -375,6 +362,7 @@ function gather_debriefing_result()
   ::debriefing_result.haveTeamkills <- debriefing_result_have_teamkills()
   ::debriefing_result.activeBoosters <- ::get_debriefing_result_active_boosters()
   ::debriefing_result.activeWager <- ::get_debriefing_result_active_wager()
+  ::debriefing_result.eventId <- ::get_debriefing_result_event_id()
 
   ::debriefing_result.exp.timBattleTime <- ::getTblValue("battleTime", ::debriefing_result.exp, 0)
   ::debriefing_result.needRewardColumn <- false
@@ -732,6 +720,16 @@ function get_debriefing_result_active_wager()
   return data
 }
 
+function get_debriefing_result_event_id()
+{
+  local logs = ::getUserLogsList({
+    show = [::EULT_SESSION_RESULT]
+    currentRoomOnly = true
+  })
+
+  return logs.len() ? ::getTblValue("eventId", logs[0]) : null
+}
+
 function count_whole_reward_in_table(table, currency, specParam = null)
 {
   if (!table || table.len() == 0)
@@ -795,30 +793,6 @@ function recount_debriefing_result()
 
   foreach(row in ::debriefing_rows)
   {
-    if (row.id == "PremiumNotEarned")
-    {
-      row.show = row.isVisible(gm, gt, isDebriefingResultFull)
-      if (!row.show)
-        continue
-
-      local totalWp = ::getTblValue("wpTotal",  ::debriefing_result.exp)
-      local totalRp = ::getTblValue("expTotal", ::debriefing_result.exp)
-      local virtPremAccWp = ::getTblValueByPath("tblTotal.virtPremAccWp",  ::debriefing_result.exp)
-      local virtPremAccRp = ::getTblValueByPath("tblTotal.virtPremAccExp", ::debriefing_result.exp)
-
-      local totalWithPremWp = (totalWp <= 0 || virtPremAccWp <= 0) ? 0 : (totalWp + virtPremAccWp)
-      local totalWithPremRp = (totalRp <= 0 || virtPremAccRp <= 0) ? 0 : (totalRp + virtPremAccRp)
-
-      row.wp    = totalWithPremWp
-      row.value = totalWithPremRp
-      row.show = row.show && (totalWithPremWp > 0 || totalWithPremRp > 0)
-    }
-    else if (row.id == "prevBattlesPremiumAward")
-    {
-      row.wp  = ::get_premium_reward_wp()
-      row.exp = ::get_premium_reward_xp()
-    }
-
     if (row.rewardType in row)
       row.reward = row[row.rewardType]
 
@@ -841,6 +815,24 @@ function get_cur_award_text()
   if (exp)
     res += (res==""? "" : ", ") + ::getFreeRpPriceText(exp, true)
   return res
+}
+
+function get_mission_victory_bonus_text(gm)
+{
+  if (gm != ::GM_DOMINATION)
+    return ""
+  local bonusWp = get_warpoints_blk().winK || 0.0
+  local rBlk = get_ranks_blk()
+  local expPlaying = rBlk.expForPlayingVersus || 0
+  local expVictory = rBlk.expForVictoryVersus || 0
+  local bonusRpRaw = (expPlaying && expVictory) ?
+    (1.0 / (expPlaying.tofloat() / (expVictory - expPlaying))) :
+    0.0
+  local rp = ::floor(bonusRpRaw * 100).tointeger()
+  local wp = ::round_by_value(bonusWp * 100, 1).tointeger()
+  local textRp = rp ? ::getRpPriceText("+" + rp + "%", true) : ""
+  local textWp = wp ? ::getWpPriceText("+" + wp + "%", true) : ""
+  return ::implode([ textRp, textWp ], ::loc("ui/comma"))
 }
 
 function get_entitlement_with_award()

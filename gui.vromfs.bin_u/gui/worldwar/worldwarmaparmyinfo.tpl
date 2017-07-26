@@ -49,7 +49,7 @@ tdiv {
         }
         activeText {
           text:t='#worldwar/<<getMapObjectName>>'
-          pos:t='3@sf/@pf, 50%ph-50%h'
+          pos:t='3@sf/@pf_outdated, 50%ph-50%h'
           position:t='relative'
         }
       }
@@ -143,7 +143,7 @@ tdiv {
   }
 
   armyAlertPanel {
-    size:t='pw, 0.03@scrn_tgt_font'
+    size:t='pw, 0.03@sf'
     margin-top:t='1'
     isAlert:t='no'
     <<^getArmyInfoText>>
@@ -162,7 +162,7 @@ tdiv {
   }
 
   armyAlertPanel {
-    size:t='pw, 0.03@scrn_tgt_font'
+    size:t='pw, 0.03@sf'
     margin-top:t='1'
     isAlert:t='<<isAlert>>'
     <<^getArmyAlertText>>

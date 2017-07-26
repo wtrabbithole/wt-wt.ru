@@ -46,15 +46,15 @@ tdiv {
           width:t='pw'
           flow:t='vertical'
           activeText {
-            pos:t='0, 0.01@scrn_tgt_font'
+            pos:t='0, 0.01@sf'
             position:t='relative'
             text:t='<<typeName>>'
           }
 
           <<#units>>
           tdiv {
-            width:t='pw - 0.01@scrn_tgt_font'
-            margin-left:t='0.01@scrn_tgt_font';
+            width:t='pw - 0.01@sf'
+            margin-left:t='0.01@sf';
             tinyFont:t='yes';
             img {
               id:t='air_icon';
@@ -65,8 +65,8 @@ tdiv {
             textareaNoTab {
               id:t='air_name';
               width:t='fw'
-              padding-left:t='4*@sf/@pf';
-              padding-top:t='4*@sf/@pf';
+              padding-left:t='4*@sf/@pf_outdated';
+              padding-top:t='4*@sf/@pf_outdated';
               text:t='<<text>>';
             }
             tooltipObj {

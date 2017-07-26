@@ -1,0 +1,423 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 0.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "player"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/guadalcanal.bin",
+      "type": "campaign",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "tags": []
+    },
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "attack_ground": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "ai_test",
+          "target": "ai_target",
+          "fireRandom": true
+        },
+        "unitSetIndication": [
+          {
+            "set": true
+          },
+          {
+            "target": "ai_target"
+          },
+          {
+            "target": "ai_test"
+          }
+        ]
+      }
+    },
+    "attack_ships": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "unitAttackTarget": {
+          "playerAttracted": false,
+          "object": "ai_test",
+          "target": "ai_target_ship",
+          "fireRandom": true
+        },
+        "unitSetIndication": [
+          {
+            "set": true
+          },
+          {
+            "target": "ai_target_ship"
+          },
+          {
+            "target": "ai_test"
+          }
+        ]
+      }
+    },
+    "init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "systemCommand": {
+          "value": "god"
+        }
+      }
+    },
+    "counter": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "missionSetTargetsIndicator": {
+            "target_type": "canBomb",
+            "target_marking": 0,
+            "delta": 0,
+            "icon": "bomber",
+            "icon army": 1,
+            "set": true,
+            "target": "ai_test"
+          }
+        },
+        {
+          "missionSetTargetsIndicator": {
+            "target_type": "isAlive",
+            "target_marking": 0,
+            "delta": 0,
+            "icon": "tank",
+            "icon army": 2,
+            "set": true,
+            "target": "ai_target"
+          }
+        },
+        {
+          "missionSetTargetsIndicator": {
+            "target_type": "isActive",
+            "target_marking": 0,
+            "delta": 0,
+            "icon": "ship",
+            "icon army": 2,
+            "set": true,
+            "target": "ai_target_ship"
+          }
+        }
+      ]
+    },
+    "complete": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isAlive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
+            "object": "ai_target"
+          }
+        },
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isAlive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
+            "object": "ai_target_ship"
+          }
+        }
+      ],
+      "actions": {
+        "missionCompleted": []
+      }
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "tracked_vehicles": {
+        "name": "tracked_vehicles_01",
+        "tm": [
+          [-0.422618,0.0,0.906308],
+          [0.0,1.0,0.0],
+          [-0.906308,0.0,-0.422618],
+          [-579.1,19.9,-2453.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_m4a1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "tracked_vehicles": {
+        "name": "tracked_vehicles_02",
+        "tm": [
+          [-0.422618,0.0,0.906308],
+          [0.0,1.0,0.0],
+          [-0.906308,0.0,-0.422618],
+          [-745.15,19.9,-2508.5]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_m4a1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "tracked_vehicles": {
+        "name": "tracked_vehicles_03",
+        "tm": [
+          [-0.422618,0.0,0.906308],
+          [0.0,1.0,0.0],
+          [-0.906308,0.0,-0.422618],
+          [-710.15,19.9,-2685.7]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "us_m4a1",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 4,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "player",
+        "tm": [
+          [-0.573576,0.0,-0.819152],
+          [0.0,1.0,0.0],
+          [0.819152,0.0,-0.573576],
+          [154.35,2000.0,-928.6]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "a-20g",
+        "weapons": "",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 1.5,
+            "col_distances": 1.5,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ai_target_ship",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [206.95,0.0,-176.25]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "ijn_cv_soryu",
+        "weapons": "",
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "targetAir": false,
+          "targetGnd": false
+        },
+        "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "ai_test",
+        "tm": [
+          [0.991445,0.0,-0.130526],
+          [0.0,1.0,0.0],
+          [0.130526,0.0,0.991445],
+          [-12380.7,1500.0,1410.2]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "sbd-3",
+        "weapons": "sbd_3_default",
+        "props": {
+          "army": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "count": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "ACE",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "ai_target",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-723.75,22.6,-2955.05]
+        ],
+        "closed_waypoints": false,
+        "unit_class": "",
+        "weapons": "",
+        "props": [
+          {
+            "squad_members": "tracked_vehicles_01"
+          },
+          {
+            "squad_members": "tracked_vehicles_02"
+          },
+          {
+            "squad_members": "tracked_vehicles_03"
+          }
+        ],
+        "way": []
+      }
+    }
+  ],
+  "areas": []
+}

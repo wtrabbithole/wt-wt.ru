@@ -2584,47 +2584,47 @@
         "armorThickness": 20.0,
         "fireParamsPreset": "ship_cover",
         "compartment_01_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_02_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_03_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_04_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_05_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_06_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_07_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_08_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_09_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "compartment_10_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         },
         "bridge_dm": {
-          "genericDamageMult": 0.2,
+          "genericDamageMult": 0.1,
           "secondaryShatterDamageMult": 0.0
         }
       },
@@ -2664,6 +2664,22 @@
           "armorThickness": 10.0
         },
         "bow_bottom_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "body_top_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "stern_top_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "mid_top_dm": {
+          "genericDamageMult": 0.1,
+          "armorThickness": 10.0
+        },
+        "bow_top_dm": {
           "genericDamageMult": 0.1,
           "armorThickness": 10.0
         }
@@ -8002,7 +8018,7 @@
     "cockpit": {
       "headPos": [0.0,28.0,-90.0],
       "headPosOnShooting": [27.4,21.4,0.0],
-      "detectionHeight": 26.0,
+      "detectionHeight": 126.0,
       "zoomOutFov": 5.0,
       "zoomInFov": 5.0,
       "sightFov": 10.0
@@ -8395,7 +8411,13 @@
       "sizeToRepair": [0.01,2.0,15.0,1500.0],
       "additionalWaterDeathThreshold": 5500000.0,
       "additionalWaterShouldDiePercent": 0.51,
-      "fatalBreachDrownTime": 25.0
+      "fatalBreachDrownTime": 25.0,
+      "maxHeelingAngle": 40.0,
+      "maxHeelingTime": 10.0,
+      "criticalHeelingAnglePercent": 0.5,
+      "maxCriticalHeelingTime": 2.0,
+      "heelingDeathHeightOffsetMult": 1.0,
+      "sideCenterOfMassOffsetPercent": 1.0
     }
   },
   {
@@ -8463,6 +8485,9 @@
         "ammunition_storage_03_dm": {
           "count": 900
         }
+      },
+      "winch": {
+        "length": 100.0
       }
     }
   }

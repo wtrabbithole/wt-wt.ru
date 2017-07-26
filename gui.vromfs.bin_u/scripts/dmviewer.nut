@@ -634,8 +634,12 @@
 
         if(weaponName && weaponName.len())
           desc.push(::loc("weapons" + weaponName))
-        if(weaponInfoBlk && weaponInfoBlk.bullets && ! ::isInArray(partId, bulletsList))
-          desc.push(::loc("shop/ammo") + ::loc("ui/colon") + weaponInfoBlk.bullets)
+        if(weaponInfoBlk && ! ::isInArray(partId, bulletsList))
+        {
+          local bulletCount = getWeaponTotalBulletCount(partId, weaponInfoBlk)
+          if(bulletCount)
+            desc.push(::loc("shop/ammo") + ::loc("ui/colon") + bulletCount)
+        }
         if( ! weaponBlk)
           break
         if(partId == "torpedo" && weaponBlk && weaponBlk.torpedo)
@@ -718,6 +722,24 @@
     local description = ::implode(desc, "\n")
     xrayDescriptionCache[cacheKey] <- description
     return description
+  }
+
+  function getWeaponTotalBulletCount(partId, weaponInfoBlk)
+  {
+    if(partId == "cannon_breech")
+    {
+      local result = 0
+      local currentBreechDp = weaponInfoBlk.breechDP
+      if( ! currentBreechDp)
+        return result
+      foreach(weapon in getUnitWeaponList())
+      {
+        if(weapon.breechDP == currentBreechDp)
+          result += ::getTblValue("bullets", weapon, 0)
+      }
+      return result
+    } else
+      return ::getTblValue("bullets", weaponInfoBlk, 0)
   }
 
   function getInfoBlk(partName = null)

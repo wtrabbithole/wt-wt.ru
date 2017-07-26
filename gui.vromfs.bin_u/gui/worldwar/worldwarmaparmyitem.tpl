@@ -117,7 +117,7 @@
         pos:t='1@framePadding, 50%ph-50%h'
         position:t='relative'
         hideEmptyText:t='yes'
-        width:t='0.09@scrn_tgt_font'
+        width:t='0.09@sf'
         text:t='<<getReinforcementArrivalTime>>'
       }
     <</hideArrivalTime>>

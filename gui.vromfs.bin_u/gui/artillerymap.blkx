@@ -29,7 +29,7 @@
             "position": "absolute"
           },
           {
-            "pos": "pw/2-w/2, ph + 16*@sf/@pf"
+            "pos": "pw/2-w/2, ph + 16*@sf/@pf_outdated"
           },
           {
             "flow": "vertical"
@@ -48,7 +48,7 @@
           {
             "tdiv": {
               "id": "shortcuts_block",
-              "pos": "pw/2-w/2, 8*@sf/@pf",
+              "pos": "pw/2-w/2, 8*@sf/@pf_outdated",
               "position": "relative"
             }
           }
@@ -64,7 +64,7 @@
       {
         "tdiv": [
           {
-            "size": "ph - 16*@sf/@pf, ph - 16*@sf/@pf"
+            "size": "ph - 16*@sf/@pf_outdated, ph - 16*@sf/@pf_outdated"
           },
           {
             "pos": "pw/2-w/2, ph/2-h/2"
@@ -135,12 +135,36 @@
             "tdiv": {
               "size": "ph, ph",
               "position": "absolute",
+              "super_artillery_target": {
+                "id": "super_artillery_target",
+                "size": "32*@sf/@pf_outdated, 32*@sf/@pf_outdated",
+                "pos": "pw/2-w/2, ph/2-h/2",
+                "position": "absolute",
+                "background-image": "",
+                "background-color": "#ffb751",
+                "display": "hide",
+                "tdiv": {
+                  "id": "super_artillery_target_center",
+                  "size": "16*@sf/@pf_outdated, 16*@sf/@pf_outdated",
+                  "pos": "pw/2-w/2, ph/2-h/2",
+                  "position": "absolute",
+                  "background-image": "",
+                  "background-color": "#ffb751",
+                  "rotation": "0"
+                }
+              }
+            }
+          },
+          {
+            "tdiv": {
+              "size": "ph, ph",
+              "position": "absolute",
               "artillery_target": [
                 {
                   "id": "artillery_target"
                 },
                 {
-                  "size": "32*@sf/@pf, 32*@sf/@pf"
+                  "size": "32*@sf/@pf_outdated, 32*@sf/@pf_outdated"
                 },
                 {
                   "pos": "pw/2-w/2, ph/2-h/2"
@@ -149,8 +173,11 @@
                   "position": "absolute"
                 },
                 {
+                  "display": "hide"
+                },
+                {
                   "tdiv": {
-                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "size": "16*@sf/@pf_outdated, 16*@sf/@pf_outdated",
                     "pos": "pw/2-w/2, 0",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",
@@ -160,7 +187,7 @@
                 },
                 {
                   "tdiv": {
-                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "size": "16*@sf/@pf_outdated, 16*@sf/@pf_outdated",
                     "pos": "pw-w, ph/2-h/2",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",
@@ -170,7 +197,7 @@
                 },
                 {
                   "tdiv": {
-                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "size": "16*@sf/@pf_outdated, 16*@sf/@pf_outdated",
                     "pos": "pw/2-w/2, ph-h",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",
@@ -180,7 +207,7 @@
                 },
                 {
                   "tdiv": {
-                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "size": "16*@sf/@pf_outdated, 16*@sf/@pf_outdated",
                     "pos": "0, ph/2-h/2",
                     "position": "absolute",
                     "background-image": "#ui/gameuiskin#artillery_target_arc",

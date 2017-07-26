@@ -28,6 +28,7 @@ function get_hit_camera_aabb() // called from client
   unitsInfo = {}
 
   debuffTemplates = {
+    [::ES_UNIT_TYPE_TANK] = "gui/hud/hudEnemyDebuffsTank.blk",
     [::ES_UNIT_TYPE_SHIP] = "gui/hud/hudEnemyDebuffsShip.blk",
   }
   debuffsListsByUnitType = {}
@@ -128,9 +129,7 @@ function g_hud_hitcamera::onHitCameraEvent(mode, result, info)
   local _unitVersion = ::getTblValue("unitVersion", info, unitVersion)
   local _unitType    = ::getTblValue("unitType", info, unitType)
 
-  local isToggleOn = !isVisible && _isVisible
-  local needResetUnitType = isToggleOn && _unitType != unitType
-  local needResetUnitInfo = isToggleOn && (!needResetUnitType || _unitId != unitId || _unitVersion != unitVersion)
+  local needResetUnitType = _unitType != unitType
 
   isVisible     = _isVisible
   hitResult   = result
@@ -149,23 +148,17 @@ function g_hud_hitcamera::onHitCameraEvent(mode, result, info)
       guiScene.replaceContentFromText(infoObj, "", 0, this)
   }
 
-  if (needResetUnitType || needResetUnitInfo)
+  if (isVisible)
   {
     local unitInfo = getTargetInfo(unitId, unitVersion, unitType, isKillingHitResult(hitResult))
-
     foreach (item in ::getTblValue(unitType, debuffsListsByUnitType, []))
-    {
-      local labelText = item.getLabel(camInfo, unitInfo)
+      updateDebuffItem(item, camInfo, unitInfo)
 
-      local iconObj = scene.findObject(item.id)
-      if (::check_obj(iconObj))
-        iconObj.show(labelText != "")
-
-      local labelObj = scene.findObject(item.id + "_label")
-      if (::check_obj(labelObj))
-        labelObj.setValue(labelText)
-    }
+    if (unitInfo.isKilled)
+      unitInfo.isKillProcessed = true
   }
+  else
+    cleanupUnitsInfo()
 
   update()
 }
@@ -180,18 +173,41 @@ function g_hud_hitcamera::getTargetInfo(unitId, unitVersion, unitType, isUnitKil
       parts = {}
       trackedPartNames = ::getTblValue(unitType, trackedPartNamesByUnitType, [])
       isKilled = isUnitKilled
+      isKillProcessed = false
       time = 0
     }
 
   local info = unitsInfo[unitId]
   info.time = ::get_usefull_total_time()
-  if (isUnitKilled && !info.isKilled)
-  {
-    info.isKilled = isUnitKilled
-    info.parts = {}
-  }
+  info.isKilled = info.isKilled || isUnitKilled
 
   return info
+}
+
+function g_hud_hitcamera::cleanupUnitsInfo()
+{
+  local old = ::get_usefull_total_time() - 5.0
+  foreach (unitId, info in unitsInfo)
+    if (info.isKilled && info.time < old)
+      delete unitsInfo[unitId]
+}
+
+function g_hud_hitcamera::updateDebuffItem(item, camInfo, unitInfo, partName = null, dmgParams = null)
+{
+  local data = item.getInfo(camInfo, unitInfo, partName, dmgParams)
+  local isShow = data != null
+
+  local obj = infoObj.findObject(item.id)
+  if (!::check_obj(obj))
+    return
+  obj.show(isShow)
+  if (!isShow)
+    return
+
+  obj.state = data.state
+  local labelObj = obj.findObject("label")
+  if (::check_obj(labelObj))
+    labelObj.setValue(data.label)
 }
 
 function g_hud_hitcamera::onEnemyPartDamage(data)
@@ -238,22 +254,14 @@ function g_hud_hitcamera::onEnemyPartDamage(data)
 
   if (isVisible && unitInfo.unitId == unitId)
   {
+    local isKill = isPartKilled || unitInfo.isKilled && !unitInfo.isKillProcessed
+
     foreach (item in ::getTblValue(unitInfo.unitType, debuffsListsByUnitType, []))
-    {
-      if (item.isUpdateOnKnownPartKillsOnly &&
-        (!isPartKilled && !unitInfo.isKilled || !::isInArray(partName, item.parts)))
-        continue
+      if (!item.isUpdateOnKnownPartKillsOnly || isKill && ::isInArray(partName, item.parts))
+        updateDebuffItem(item, camInfo, unitInfo, partName, data)
 
-      local labelText = item.getLabel(camInfo, unitInfo, partName, data)
-
-      local iconObj = scene.findObject(item.id)
-      if (::check_obj(iconObj))
-        iconObj.show(labelText != "")
-
-      local labelObj = scene.findObject(item.id + "_label")
-      if (::check_obj(labelObj))
-        labelObj.setValue(labelText)
-    }
+    if (unitInfo.isKilled)
+      unitInfo.isKillProcessed = true
   }
 }
 

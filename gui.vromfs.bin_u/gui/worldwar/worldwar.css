@@ -1,32 +1,32 @@
 
 @const headerIndent: 0.02@scrn_tgt;
-@const bigArmyGroupIconSize: 48*@scrn_tgt/@pxFont_tgt;
+@const bigArmyGroupIconSize: 48*@sf/@pf_outdated;
 
-@const objectiveBlockHeaderHeight: 1@sIco + 8*@sf/@pf + 2*@sf/@pf;
-@const objectiveHeight: 0.06@scrn_tgt_font + 2@wwMapInterlinePadding;
-@const unitStringHeight: 0.026@scrn_tgt_font + 1@wwMapInterlinePadding;
+@const objectiveBlockHeaderHeight: 1@sIco + 8*@sf/@pf_outdated + 2*@sf/@pf_outdated;
+@const objectiveHeight: 0.06@sf + 2@wwMapInterlinePadding;
+@const unitStringHeight: 0.026@sf + 1@wwMapInterlinePadding;
 
-@const statusPanelHeight: 0.035@scrn_tgt_font;
-@const ownerPanelHeight: 0.03@scrn_tgt_font;
+@const statusPanelHeight: 0.035@sf;
+@const ownerPanelHeight: 0.03@sf;
 @const flyOutSliderWidth: 0.2@scrn_tgt;
-@const wwBattleTacticalMapSize: 0.3@scrn_tgt_font;
+@const wwBattleTacticalMapSize: 0.3@sf;
 
 @const wwBattleBlocksMargin: 0;
-@const wwBattleBackgroundShadowLedge: 0.2@scrn_tgt_font;
+@const wwBattleBackgroundShadowLedge: 0.2@sf;
 
 @const wwWindowListBackgroundPadding: 0.01@scrn_tgt;
 @const wwOperationMapMinSize: 0.4@scrn_tgt;
 
-@const wwLogTimeColumnWidth: 44*@sf/@pf;
-@const wwLogZoneColumnWidth: 36*@sf/@pf;
+@const wwLogTimeColumnWidth: 44*@sf/@pf_outdated;
+@const wwLogZoneColumnWidth: 36*@sf/@pf_outdated;
 
 @const wwBattleInfoMapMaxSize: 0.4@scrn_tgt+0.2@wwBattleInfoScreenIncHeight;
-@const wwBattleMapShadowPadding: 6*@sf/@pf;
-@const wwBlockTabMinWidth: 22*@sf/@pf;
+@const wwBattleMapShadowPadding: 6*@sf/@pf_outdated;
+@const wwBlockTabMinWidth: 22*@sf/@pf_outdated;
 
 @const wwMapBlockStretcher: (sh - 1@sf) * 0.15;
-@const content2BlockHeight: 0.305@scrn_tgt_font + 1@wwMapBlockStretcher;
-@const content3BlockHeight: 0.275@scrn_tgt_font + 1@wwMapBlockStretcher;
+@const content2BlockHeight: 0.305@sf + 1@wwMapBlockStretcher;
+@const content3BlockHeight: 0.275@sf + 1@wwMapBlockStretcher;
 
 @const wwMapInterlinePadding: (sh - 1@sf) * 0.03;
 @const wwMapInterlineStrengthPadding: (sh - 1@sf) * 0.01;
@@ -107,7 +107,7 @@ objectiveBlock wwObjective desc {
 
 objectiveBlock wwObjective taskIcon {
   size:1@cIco, 1@cIco;
-  margin-right:0.005@scrn_tgt_font;
+  margin-right:0.005@sf;
 
   re-type:9rect;
   background-color:@white;
@@ -395,18 +395,18 @@ ww_map_item.header mission_item_text {
 
 ww_map_item > missionDiv {
   pos:0, 50%ph-50%h;
-  padding-left:20*@sf/@pf;
+  padding-left:20*@sf/@pf_outdated;
   width:pw;
 }
 ww_map_item.header > missionDiv {
-  padding-left:10*@sf/@pf;
+  padding-left:10*@sf/@pf_outdated;
 }
 
 ww_map_item img[medalIcon] {
-  pos:20*@sf/@pf-50%w, 50%ph-50%h;
+  pos:20*@sf/@pf_outdated-50%w, 50%ph-50%h;
 }
 
-ww_operation_list_place {  width:0.2@scrn_tgt_font;
+ww_operation_list_place {  width:0.2@sf;
 }
 
 MapBlockVisibilitySwitch {

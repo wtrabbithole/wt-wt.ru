@@ -1,65 +1,60 @@
-[
-  {
-    "tdiv": {
-      "pos": "0, 0",
+{
+  "hitCamDebuff": {
+    "id": "ship_buoyancy",
+    "pos": "0, 0",
+    "position": "relative",
+    "state": "healthy",
+    "hitCamDebuffIcon": {
+      "size": "1.7@cIco, 0.37@cIco",
+      "pos": "0, ph/2-h/2",
       "position": "relative",
-      "img": {
-        "id": "ship_buoyancy",
-        "size": "1.7@cIco, 0.37@cIco",
-        "pos": "0, ph/2-h/2",
-        "position": "relative",
-        "color-factor": "150",
-        "background-image": "#ui/gameuiskin#buoyancy_icon"
-      },
-      "textareaNoTab": {
-        "id": "ship_buoyancy_label",
-        "text": "100%",
-        "overlayTextColor": "active"
-      }
+      "background-image": "#ui/gameuiskin#buoyancy_icon"
+    },
+    "hitCamDebuffLabel": {
+      "id": "label",
+      "text": "100%"
     }
   },
-  {
-    "tdiv": [
-      {
-        "pos": "pw-w-0.25@cIco, 0"
-      },
-      {
-        "position": "absolute"
-      },
-      {
-        "img": {
-          "id": "ship_compartments",
+  "tdiv": [
+    {
+      "pos": "pw-w-0.25@cIco, 0"
+    },
+    {
+      "position": "absolute"
+    },
+    {
+      "hitCamDebuff": {
+        "id": "ship_compartments",
+        "state": "healthy",
+        "hitCamDebuffIcon": {
           "size": "1.7@cIco, 0.74@cIco",
           "pos": "0, ph/2-h/2",
           "position": "relative",
-          "color-factor": "150",
           "background-image": "#ui/gameuiskin#ship_compartments"
-        }
-      },
-      {
-        "textareaNoTab": {
-          "id": "ship_compartments_label",
+        },
+        "hitCamDebuffLabel": {
+          "id": "label",
           "text": "100%"
         }
-      },
-      {
-        "img": {
-          "id": "ship_crew",
+      }
+    },
+    {
+      "hitCamDebuff": {
+        "id": "ship_crew",
+        "state": "healthy",
+        "hitCamDebuffIcon": {
           "size": "1@cIco, 1@cIco",
           "pos": "1@cIco, ph/2-h/2",
           "position": "relative",
-          "color-factor": "150",
           "background-image": "#ui/gameuiskin#ship_crew"
-        }
-      },
-      {
-        "textareaNoTab": {
-          "id": "ship_crew_label",
+        },
+        "hitCamDebuffLabel": {
+          "id": "label",
           "pos": "0.25@cIco, 0",
           "position": "relative",
           "text": "100%"
         }
       }
-    ]
-  }
-]
+    }
+  ]
+}

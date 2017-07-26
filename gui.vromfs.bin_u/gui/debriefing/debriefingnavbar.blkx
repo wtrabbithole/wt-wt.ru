@@ -1,0 +1,94 @@
+{
+  "navLeft": [
+    {
+      "Button_text": {
+        "id": "btn_view_replay",
+        "text": "#mainmenu/btnViewReplay",
+        "btnName": "start",
+        "_on_click": "onViewReplay",
+        "display": "hide",
+        "ButtonImg": []
+      }
+    },
+    {
+      "Button_text": {
+        "id": "btn_save_replay",
+        "text": "#mainmenu/btnSaveReplay",
+        "btnName": "LT",
+        "_on_click": "onSaveReplay",
+        "display": "hide",
+        "ButtonImg": []
+      }
+    },
+    {
+      "Button_text": {
+        "id": "btn_upload_facebook_scrn",
+        "on_click": "onFacebookLoginAndPostScrnshot",
+        "display": "hide",
+        "tooltip": "",
+        "btnName": "LB",
+        "ButtonImg": [],
+        "cardImg": {
+          "background-image": "#ui/gameuiskin#facebook_logo",
+          "input-transparent": "yes"
+        },
+        "text": {
+          "id": "text_facebook_action",
+          "pos": "0,50%ph-50%h",
+          "position": "relative",
+          "text": "#mainmenu/btnUploadFacebookScreenshot",
+          "input-transparent": "yes"
+        }
+      }
+    },
+    {
+      "Button_text": {
+        "id": "btn_usercard",
+        "text": "#mainmenu/btnUserCard",
+        "on_click": "onUserCard",
+        "display": "hide",
+        "btnName": "RB",
+        "ButtonImg": []
+      }
+    }
+  ],
+  "navRight": [
+    {
+      "Button_text": {
+        "id": "btn_to_battle",
+        "class": "battle",
+        "navButtonFont": "yes",
+        "text": "#mainmenu/toBattle",
+        "css-hier-invalidate": "yes",
+        "_on_click": "onStart",
+        "btnName": "X",
+        "display": "hide",
+        "buttonWink": {
+          "_transp-timer": "0"
+        },
+        "ButtonImg": [],
+        "btnText": {
+          "id": "btn_to_battle_text",
+          "text": "#mainmenu/toBattle"
+        },
+        "buttonGlance": []
+      }
+    },
+    {
+      "Button_text": {
+        "id": "btn_next",
+        "text": "#msgbox/btn_skip",
+        "_on_click": "goBack",
+        "btnName": "A",
+        "visualStyle": "secondary",
+        "buttonWink": [],
+        "ButtonImg": []
+      }
+    }
+  ],
+  "dummy": {
+    "_on_click": "goBack",
+    "behavior": "accesskey",
+    "accessKey": "Esc | J:B"
+  }
+}

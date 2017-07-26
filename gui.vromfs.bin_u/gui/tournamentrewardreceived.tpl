@@ -5,7 +5,7 @@ root{
     pos:t='50%pw-50%w, 50%ph-50%h';
     position:t='absolute';
     width:t='80%sh';
-    max-width:t='800*@sf/@pf + 2@framePadding';
+    max-width:t='800*@sf/@pf_outdated + 2@framePadding';
     max-height:t='sh';
     class:t='wndNav';
 
@@ -18,8 +18,8 @@ root{
       id:t='award_image';
       width:t='pw';
       height:t='0.5w';
-      max-width:t='800*@sf/@pf';
-      max-height:t='400*@sf/@pf';
+      max-width:t='800*@sf/@pf_outdated';
+      max-height:t='400*@sf/@pf_outdated';
       pos:t='50%pw-50%w, 0';
       position:t='relative';
       background-image:t='#ui/images/new_rank_usa.jpg?P1';
@@ -40,7 +40,7 @@ root{
         background-color:t='@white';
         width:t='pw';
         flow:t='vertical';
-        padding:t='0.01@scrn_tgt_font';
+        padding:t='0.01@sf';
 
         textarea{
           position:t='relative';
@@ -53,12 +53,12 @@ root{
         activeText {
           position:t='relative';
           pos:t='50%pw-50%w, 0';
-          padding-left:t='0.03@scrn_tgt_font';
-          margin-bottm:t='0.01@scrn_tgt_font';
+          padding-left:t='0.03@sf';
+          margin-bottm:t='0.01@sf';
           text:t='<<conditionText>>';
 
           img {
-            width:t='0.025@scrn_tgt_font';
+            width:t='0.025@sf';
             height:t='w';
             pos:t="0, 50%ph-50%h";
             position:t="absolute";
@@ -101,7 +101,7 @@ root{
         background-color:t='@white';
         width:t='pw';
         flow:t='vertical';
-        padding:t='0.01@scrn_tgt_font';
+        padding:t='0.01@sf';
 
         textarea {
           position:t='relative';
@@ -111,12 +111,12 @@ root{
         textarea {
           position:t='relative';
           pos:t='50%pw-50%w, 0';
-          padding-left:t='0.03@scrn_tgt_font';
-          margin-bottm:t='0.01@scrn_tgt_font';
+          padding-left:t='0.03@sf';
+          margin-bottm:t='0.01@sf';
           text:t='<<conditionText>>';
 
           img {
-            width:t='0.025@scrn_tgt_font';
+            width:t='0.025@sf';
             height:t='w';
             pos:t="0, 50%ph-50%h";
             position:t="absolute";
@@ -144,7 +144,7 @@ root{
         textarea {
           id:t='next_reward';
           max-width:t='pw';
-          pos:t='50%pw-50%w, 0.03@scrn_tgt_font';
+          pos:t='50%pw-50%w, 0.03@sf';
           position:t='relative';
           textHide:t='yes';
           text:t='<<nextRewardText>>';

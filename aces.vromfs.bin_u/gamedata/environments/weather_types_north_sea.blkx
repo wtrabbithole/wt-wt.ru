@@ -194,9 +194,12 @@
       "turbulence2": 0.3,
       "windMul2": 0.01
     },
-    "rain": {
-      "probability": 1.0,
-      "rainFromInvisibleClouds": true
+    "rainDroplets": {
+      "droplets_scale": 1.0,
+      "droplets_reflection_min": 0.1,
+      "droplets_reflection_max": 0.3,
+      "droplets_size_scale": [20.0,20.0,4.0],
+      "droplets_speed": 0.9
     },
     "rainX7": {
       "alphaFadeSpeedBegin": 50.0,
@@ -209,12 +212,9 @@
       "alpha": 1.0,
       "lighting": [5.0,4.0,2.0]
     },
-    "rainDroplets": {
-      "droplets_scale": 1.0,
-      "droplets_reflection_min": 0.1,
-      "droplets_reflection_max": 0.3,
-      "droplets_size_scale": [20.0,20.0,4.0],
-      "droplets_speed": 0.9
+    "rain": {
+      "rainFromInvisibleClouds": true,
+      "probability": 1.0
     }
   },
   "cloudy": {
@@ -595,16 +595,27 @@
       "turbulence2": 0.1,
       "windMul2": 0.01
     },
-    "rain": {
-      "probability": 1.0,
-      "rainFromInvisibleClouds": true
-    },
     "rainDroplets": {
       "droplets_scale": 1.0,
       "droplets_reflection_min": 0.1,
       "droplets_reflection_max": 0.3,
       "droplets_size_scale": [20.0,20.0,4.0],
       "droplets_speed": 0.9
+    },
+    "rainX7": {
+      "alphaFadeSpeedBegin": 50.0,
+      "alphaFadeSpeedEnd": 150.0,
+      "length": 0.001,
+      "speed": 0.2,
+      "width": 0.015,
+      "density": 0.05,
+      "wind": 0.4,
+      "alpha": 1.0,
+      "lighting": [5.0,4.0,2.0]
+    },
+    "rain": {
+      "rainFromInvisibleClouds": true,
+      "probability": 1.0
     }
   },
   "rain": [
@@ -699,19 +710,6 @@
       }
     },
     {
-      "rainX7": {
-        "alphaFadeSpeedBegin": 50.0,
-        "alphaFadeSpeedEnd": 150.0,
-        "length": 0.001,
-        "speed": 0.2,
-        "width": 0.015,
-        "density": 0.05,
-        "wind": 0.4,
-        "alpha": 1.0,
-        "lighting": [5.0,4.0,2.0]
-      }
-    },
-    {
       "windParams": {
         "defaultWindSpeed": 0.1,
         "height0": 1200.0,
@@ -726,18 +724,31 @@
       }
     },
     {
-      "rain": {
-        "probability": 1.0,
-        "rainFromInvisibleClouds": true
-      }
-    },
-    {
       "rainDroplets": {
         "droplets_scale": 1.0,
         "droplets_reflection_min": 0.1,
         "droplets_reflection_max": 0.3,
         "droplets_size_scale": [20.0,20.0,4.0],
         "droplets_speed": 0.9
+      }
+    },
+    {
+      "rainX7": {
+        "alphaFadeSpeedBegin": 50.0,
+        "alphaFadeSpeedEnd": 150.0,
+        "length": 0.001,
+        "speed": 0.2,
+        "width": 0.015,
+        "density": 0.05,
+        "wind": 0.4,
+        "alpha": 1.0,
+        "lighting": [5.0,4.0,2.0]
+      }
+    },
+    {
+      "rain": {
+        "rainFromInvisibleClouds": true,
+        "probability": 1.0
       }
     }
   ],
@@ -834,25 +845,6 @@
       }
     },
     {
-      "rain": {
-        "probability": 1.0,
-        "rainFromInvisibleClouds": true
-      }
-    },
-    {
-      "rainX7": {
-        "alphaFadeSpeedBegin": 50.0,
-        "alphaFadeSpeedEnd": 150.0,
-        "length": 0.001,
-        "speed": 0.2,
-        "width": 0.015,
-        "density": 0.05,
-        "wind": 0.4,
-        "alpha": 1.0,
-        "lighting": [5.0,4.0,2.0]
-      }
-    },
-    {
       "windParams": {
         "defaultWindSpeed": 0.1,
         "height0": 300.0,
@@ -873,6 +865,25 @@
         "droplets_reflection_max": 0.3,
         "droplets_size_scale": [20.0,20.0,4.0],
         "droplets_speed": 0.9
+      }
+    },
+    {
+      "rainX7": {
+        "alphaFadeSpeedBegin": 50.0,
+        "alphaFadeSpeedEnd": 150.0,
+        "length": 0.001,
+        "speed": 0.2,
+        "width": 0.015,
+        "density": 0.05,
+        "wind": 0.4,
+        "alpha": 1.0,
+        "lighting": [5.0,4.0,2.0]
+      }
+    },
+    {
+      "rain": {
+        "rainFromInvisibleClouds": true,
+        "probability": 1.0
       }
     }
   ],
@@ -969,25 +980,6 @@
       }
     },
     {
-      "rain": {
-        "probability": 1.0,
-        "rainFromInvisibleClouds": true
-      }
-    },
-    {
-      "rainX7": {
-        "alphaFadeSpeedBegin": 50.0,
-        "alphaFadeSpeedEnd": 150.0,
-        "length": 0.001,
-        "speed": 0.2,
-        "width": 0.015,
-        "density": 0.05,
-        "wind": 0.4,
-        "alpha": 1.0,
-        "lighting": [5.0,4.0,2.0]
-      }
-    },
-    {
       "windParams": {
         "defaultWindSpeed": 0.1,
         "height0": 300.0,
@@ -1008,6 +1000,25 @@
         "droplets_reflection_max": 0.3,
         "droplets_size_scale": [20.0,20.0,4.0],
         "droplets_speed": 0.9
+      }
+    },
+    {
+      "rainX7": {
+        "alphaFadeSpeedBegin": 50.0,
+        "alphaFadeSpeedEnd": 150.0,
+        "length": 0.001,
+        "speed": 0.2,
+        "width": 0.015,
+        "density": 0.05,
+        "wind": 0.4,
+        "alpha": 1.0,
+        "lighting": [5.0,4.0,2.0]
+      }
+    },
+    {
+      "rain": {
+        "rainFromInvisibleClouds": true,
+        "probability": 1.0
       }
     }
   ]

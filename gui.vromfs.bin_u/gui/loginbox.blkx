@@ -50,7 +50,7 @@
         },
         "tdiv": {
           "id": "language_selector",
-          "pos": "pw-w-1@bw-0.05@scrn_tgt_font, 1@bh",
+          "pos": "pw-w-1@bw-0.05@sf, 1@bh",
           "position": "absolute",
           "display": "hide",
           "text": {
@@ -114,7 +114,7 @@
     {
       "tdiv": [
         {
-          "min-width": "0.35*@scrn_tgt_font"
+          "min-width": "0.35*@sf"
         },
         {
           "height": "sh"
@@ -127,9 +127,9 @@
         },
         {
           "tdiv": {
-            "min-width": "0.35*@scrn_tgt_font",
+            "min-width": "0.35*@sf",
             "width": "100%pw",
-            "height": "ph - 1@topBarHeight - 1@bottomBarHeight - 1@bh + 5*@sf/@pf + 2px",
+            "height": "ph - 1@topBarHeight - 1@bottomBarHeight - 1@bh + 5*@sf/@pf_outdated + 2px",
             "pos": "50%pw-50%w, 1@topBarHeight-2px",
             "position": "absolute",
             "background-color": "#77000000"
@@ -144,7 +144,7 @@
         },
         {
           "tdiv": {
-            "min-width": "0.33*@scrn_tgt_font",
+            "min-width": "0.33*@sf",
             "width": "95%pw",
             "height": "1@topBarHeight",
             "pos": "50%pw-50%w, -5",
@@ -351,7 +351,7 @@
                     {
                       "CheckBox": {
                         "id": "loginbox_remote_comp",
-                        "pos": "-4*@sf/@pf, 0",
+                        "pos": "-4*@sf/@pf_outdated, 0",
                         "position": "relative",
                         "display": "show",
                         "enable": "yes",
@@ -373,7 +373,7 @@
                     {
                       "CheckBox": {
                         "id": "loginbox_code_remember_this_device",
-                        "pos": "-4*@sf/@pf, 0",
+                        "pos": "-4*@sf/@pf_outdated, 0",
                         "position": "relative",
                         "display": "hide",
                         "enable": "no",
@@ -396,7 +396,7 @@
                       "CheckBox": {
                         "id": "loginbox_autosave_login",
                         "width": "pw-0.025@scrn_tgt",
-                        "pos": "-4*@sf/@pf, 0.02@scrn_tgt",
+                        "pos": "-4*@sf/@pf_outdated, 0.02@scrn_tgt",
                         "position": "relative",
                         "_on_change_value": "onChangeAutosave",
                         "btnName": "SpaceA",
@@ -417,7 +417,7 @@
                       "CheckBox": {
                         "id": "loginbox_autosave_password",
                         "width": "pw",
-                        "pos": "-4*@sf/@pf, 0.015@scrn_tgt",
+                        "pos": "-4*@sf/@pf_outdated, 0.015@scrn_tgt",
                         "position": "relative",
                         "_on_change_value": "onChangeAutosave",
                         "btnName": "SpaceA",
@@ -426,7 +426,7 @@
                           "id": "loginbox_autosave_password_text",
                           "width": "pw",
                           "position": "relative",
-                          "pos": "0, 0.005@scrn_tgt_font",
+                          "pos": "0, 0.005@sf",
                           "style": "wrap-indent:0; paragraph-indent:0;",
                           "tinyFont": "yes",
                           "text": "#mainmenu/savePassword",
@@ -439,7 +439,7 @@
                       "CheckBox": {
                         "id": "loginbox_disable_ssl_cert",
                         "width": "pw",
-                        "pos": "-4*@sf/@pf, 0.015@scrn_tgt",
+                        "pos": "-4*@sf/@pf_outdated, 0.015@scrn_tgt",
                         "position": "relative",
                         "_on_change_value": "onChangeAutosave",
                         "display": "hide",
@@ -449,7 +449,7 @@
                         "textarea": {
                           "width": "pw",
                           "position": "relative",
-                          "pos": "0, 0.005@scrn_tgt_font",
+                          "pos": "0, 0.005@sf",
                           "style": "wrap-indent:0; paragraph-indent:0;",
                           "tinyFont": "yes",
                           "text": "#mainmenu/disableSSLCert",
@@ -461,7 +461,7 @@
                     {
                       "CheckBox": {
                         "id": "loginbox_autologin",
-                        "pos": "-4*@sf/@pf, 0.015@scrn_tgt",
+                        "pos": "-4*@sf/@pf_outdated, 0.015@scrn_tgt",
                         "position": "relative",
                         "btnName": "SpaceA",
                         "ButtonImg": [],
@@ -544,7 +544,7 @@
                     "id": "login_action_button",
                     "pos": "-0.015@scrn_tgt-1@framePadding, 0.01@scrn_tgt",
                     "position": "relative",
-                    "size": "p.p.w-2*@sf/@pf, 0.05@scrn_tgt_font",
+                    "size": "p.p.w-2*@sf/@pf_outdated, 0.05@sf",
                     "background-color": "@shadeBackgroundColor",
                     "childsActivate": "yes",
                     "behavior": "wrapNavigator",
@@ -580,7 +580,7 @@
                     "id": "steam_login_action_button",
                     "pos": "-0.015@scrn_tgt-1@framePadding, 0.01@scrn_tgt",
                     "position": "relative",
-                    "size": "p.p.w-2*@sf/@pf, 0.05@scrn_tgt_font",
+                    "size": "p.p.w-2*@sf/@pf_outdated, 0.05@sf",
                     "background-color": "@shadeBackgroundColor",
                     "childsActivate": "yes",
                     "behavior": "wrapNavigator",
@@ -610,7 +610,7 @@
                       "id": "links_block"
                     },
                     {
-                      "pos": "0, 0.02@scrn_tgt_font"
+                      "pos": "0, 0.02@sf"
                     },
                     {
                       "position": "relative"
@@ -659,7 +659,7 @@
                       "button": {
                         "id": "btn_forum_link",
                         "text": "#mainmenu/forum",
-                        "margin-left": "1*@scrn_tgt_font/100.0",
+                        "margin-left": "1*@sf/100.0",
                         "on_click": "onMsgLink",
                         "link": "#url/forum",
                         "bqKey": "login_page",
@@ -677,7 +677,7 @@
                     {
                       "button": {
                         "id": "btn_support_link",
-                        "pos": "0, 0.01@scrn_tgt_font",
+                        "pos": "0, 0.01@sf",
                         "position": "relative",
                         "text": "#mainmenu/support",
                         "on_click": "onMsgLink",
@@ -697,27 +697,27 @@
             },
             {
               "tdiv": {
-                "padding-bottom": "0.03@scrn_tgt_font"
+                "padding-bottom": "0.03@sf"
               }
             }
           ]
         },
         {
           "tdiv": {
-            "size": "300%pw, 1@bottomBarHeight + 1@bh - 2*@sf/@pf",
+            "size": "300%pw, 1@bottomBarHeight + 1@bh - 2*@sf/@pf_outdated",
             "position": "absolute",
-            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf",
+            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf_outdated",
             "background-image": "#ui/gameuiskin#bottom_bar_light",
             "background-color": "#88888888"
           }
         },
         {
           "tdiv": {
-            "min-width": "0.33*@scrn_tgt_font",
+            "min-width": "0.33*@sf",
             "width": "95%pw",
-            "height": "1@bottomBarHeight + 1@bh - 2*@sf/@pf",
+            "height": "1@bottomBarHeight + 1@bh - 2*@sf/@pf_outdated",
             "position": "absolute",
-            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf",
+            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf_outdated",
             "background-color": "@shadeBackgroundColor"
           }
         },
@@ -747,7 +747,7 @@
     {
       "tdiv": {
         "id": "browser_bug_disclaimer",
-        "width": "0.8sw - 0.8*@scrn_tgt_font",
+        "width": "0.8sw - 0.8*@sf",
         "pos": "50%pw-50%w, 83%sh - 1@bh -50%h",
         "position": "absolute",
         "flow": "vertical",

@@ -160,6 +160,16 @@ class ::WarbondAward
   function hasCommonDesc() { return awardType.hasCommonDesc }
   function getNameText()   { return awardType.getNameText(blk) }
 
+  function haveOrdinaryRequirement()
+  {
+    return blk.Ordinary && blk.Ordinary > 0
+  }
+
+  function haveSpecialRequirement()
+  {
+    return blk.Special && blk.Special > 0
+  }
+
   /******************* params override to use in item.tpl ***********************************/
   function modActionName() { return canBuy() ? getBuyText(true) : null }
   function price() { return getCostText() }

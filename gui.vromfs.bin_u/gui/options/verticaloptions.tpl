@@ -18,6 +18,7 @@ tr{
 
     activeText {
       id:t='value_<<id>>'
+      margin-left:t='0.01@sf'
     }
   }
 }

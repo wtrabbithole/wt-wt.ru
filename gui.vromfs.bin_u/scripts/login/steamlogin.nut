@@ -32,7 +32,7 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
   {
     ::statsd_counter("gameStart.request_login.steam")
     ::dagor.debug("Steam Login: check_login_pass")
-    return ::check_login_pass("", "", "steam", "steam", false)
+    return ::check_login_pass("", "", "steam", "steam", false, false)
   }
 
   function onOk()

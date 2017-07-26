@@ -1726,6 +1726,16 @@
         "weaponMod": "ho301_new_gun"
       }
     },
+    "Type88_75mm_new_gun": {
+      "image": "#ui/gameuiskin#weapon",
+      "tier": 3,
+      "modClass": "weapon",
+      "invertEnableLogic": true,
+      "caliber": 75.0,
+      "effects": {
+        "weaponMod": "Type88_75mm_new_gun"
+      }
+    },
     "mollins_new_gun": {
       "image": "#ui/gameuiskin#weapon",
       "tier": 4,
@@ -4336,6 +4346,14 @@
       "tier": 3,
       "deactivationIsAllowed": false,
       "modClass": "firepower"
+    },
+    "76mm_ger_dm261_HE": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "76mm_HE",
+      "effects": {
+        "additiveBulletMod": "76mm_ger_dm261_HE"
+      }
     },
     "75mm_ger_kwk42_APCR": {
       "image": "#ui/gameuiskin#tank_ammo",
@@ -8171,6 +8189,49 @@
         "weaponMod": "hispano_mk5_turret_new_gun"
       }
     },
+    "mle33_universal_turret": {
+      "reqModification": "mle33_turret_belt_pack",
+      "group": "mle33_turret",
+      "isTurretBelt": true,
+      "effects": {
+        "bulletMod": "mle33_universal_turret"
+      }
+    },
+    "mle33_ap_turret": {
+      "reqModification": "mle33_turret_belt_pack",
+      "group": "mle33_turret",
+      "isTurretBelt": true,
+      "effects": {
+        "bulletMod": "mle33_ap_turret"
+      }
+    },
+    "mle33_api_turret": {
+      "reqModification": "mle33_turret_belt_pack",
+      "group": "mle33_turret",
+      "isTurretBelt": true,
+      "effects": {
+        "bulletMod": "mle33_api_turret"
+      }
+    },
+    "mle33_turret_belt_pack": {
+      "image": "#ui/gameuiskin#ammo",
+      "modClass": "weapon",
+      "group": "mle33_turret",
+      "caliber": 7.5,
+      "isTurretBelt": true,
+      "deactivationIsAllowed": false
+    },
+    "mle33_turret_new_gun": {
+      "image": "#ui/gameuiskin#weapon",
+      "modClass": "weapon",
+      "invertEnableLogic": true,
+      "group": "mle33_turret",
+      "caliber": 7.5,
+      "isTurretBelt": true,
+      "effects": {
+        "weaponMod": "mle33_turret_new_gun"
+      }
+    },
     "jp_rocket_type3_9kg": {
       "image": "#ui/gameuiskin#pilon_rocket",
       "modClass": "weapon",
@@ -8309,6 +8370,7 @@
     },
     "tank_smoke_screen_system_mod": {
       "modClass": "firepower",
+      "requiresModelReload": true,
       "image": "#ui/gameuiskin#smoke_screen"
     }
   }

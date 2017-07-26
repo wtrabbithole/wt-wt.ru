@@ -76,7 +76,7 @@ class ::gui_handlers.PostFxSettings extends ::gui_handlers.BaseGuiHandlerWT
   {
     local txt = "tr{ id:t='" + name + "'; td { width:t='0.5pw'; overflow:t='hidden'; optiontext {text:t='#options/" + name + "'; } }"
     txt += " td { width:t='0.5pw'; padding-left:t='@optPad'; ";
-    txt += ::create_option_slider("postfx_settings_" + name, [], value.tointeger(), cb, true, "sliderProgress", params);
+    txt += ::create_option_slider("postfx_settings_" + name, value.tointeger(), cb, true, "slider", params);
 
     if (showValue)
       txt += format(" activeText{ id:t='%s' } ", name+"_value");

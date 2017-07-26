@@ -9,7 +9,7 @@ td {
     class:t='active';
     text-align:t='right';
     overlayTextColor:t='active'
-    min-width:t='0.13@scrn_tgt_font';
+    min-width:t='0.13@sf';
     text:t=' ';
     valign:t='center';
   }
@@ -28,7 +28,7 @@ td {
     class:t='active';
     text-align:t='right';
     overlayTextColor:t='active'
-    min-width:t='0.13@scrn_tgt_font';
+    min-width:t='0.13@sf';
     text:t=' ';
     valign:t='center';
   }
@@ -58,7 +58,7 @@ td {
     externalLink:t='yes';
     activeText {
       position:t='absolute';
-      pos:t='0.5pw-0.5w, 0.5ph-0.5h - 2@sf/@pf';
+      pos:t='0.5pw-0.5w, 0.5ph-0.5h - 2@sf/@pf_outdated';
       text:t='#mainmenu/btnBuy';
       underline {}
     }

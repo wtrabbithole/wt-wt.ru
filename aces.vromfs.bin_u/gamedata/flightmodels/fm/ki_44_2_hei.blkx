@@ -451,7 +451,7 @@
       "OilRadiatorAuto": false,
       "NoIgnitionWaterHeatProducingFactor": 0.15,
       "WaterRadiatorEffectPower": 5.0,
-      "WaterMinRadiatorThermalConductionCoeff": 0.6,
+      "WaterMinRadiatorThermalConductionCoeff": 0.1,
       "WaterMinThermostatThermalConductionCoeff": 0.3,
       "WaterMinLevelThermalConductionCoeff": 0.2,
       "WaterThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
@@ -482,8 +482,8 @@
         "Altitude": 1000.0,
         "RPM": 420.0,
         "ManifoldPressure": 0.4373,
-        "WaterTemperature": 100.0,
-        "OilTemperature": 60.0
+        "WaterTemperature": 180.0,
+        "OilTemperature": 70.0
       },
       "Mode1": {
         "Altitude": 1000.0,
@@ -497,13 +497,13 @@
         "RPM": 2600.0,
         "ManifoldPressure": 1.263,
         "WaterTemperature": 205.0,
-        "OilTemperature": 105.0
+        "OilTemperature": 85.0
       },
       "Mode3": {
         "Altitude": 1000.0,
         "RPM": 2650.0,
         "ManifoldPressure": 1.39,
-        "WaterTemperature": 225.0,
+        "WaterTemperature": 240.0,
         "OilTemperature": 110.0
       },
       "Load0": {
@@ -512,14 +512,20 @@
       },
       "Load1": {
         "WaterTemperature": 230.0,
-        "OilTemperature": 115.0,
+        "OilTemperature": 105.0,
         "WorkTime": 1800.0,
         "RecoverTime": 900.0
       },
       "Load2": {
         "WaterTemperature": 240.0,
-        "OilTemperature": 120.0,
+        "OilTemperature": 110.0,
         "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "Load3": {
+        "WaterTemperature": 260.0,
+        "OilTemperature": 115.0,
+        "WorkTime": 120.0,
         "RecoverTime": 60.0
       },
       "RadiatorMode0": {
@@ -530,11 +536,11 @@
       "RadiatorMode1": {
         "Throttle": 1.0,
         "WaterTemperature": 230.0,
-        "OilTemperature": 115.0
+        "OilTemperature": 100.0
       },
       "RadiatorMode2": {
         "Throttle": 1.1,
-        "WaterTemperature": 240.0,
+        "WaterTemperature": 250.0,
         "OilTemperature": 120.0
       }
     },

@@ -16,7 +16,7 @@ table {
 
     td {
       cellType:t='left'
-      padding-left:t='5*@scrn_tgt_font/100.0'
+      padding-left:t='5*@sf/100.0'
       textareaNoTab {
         valign:t='center'
         text:t='<<skills>>'
@@ -24,7 +24,7 @@ table {
     }
     td {
       activeText {
-        padding-left:t='2*@scrn_tgt_font/100.0'
+        padding-left:t='2*@sf/100.0'
         valign:t='center'
         text:t='<<bonusText>>'
       }
@@ -39,8 +39,8 @@ table {
       }
     }
     td {
-      min-width:t='150*@sf/@pf'
-      padding-right:t='5*@scrn_tgt_font/100.0'
+      min-width:t='150*@sf/@pf_outdated'
+      padding-right:t='5*@sf/100.0'
 
       Button_text {
         id:t='buttonRowApply';
@@ -70,7 +70,7 @@ table {
       discount {
         id:t='buy_discount_<<rowIdx>>'
         text:t=''
-        pos:t='pw-15%w-5*@scrn_tgt_font/100.0, 50%ph-60%h'; position:t='absolute'
+        pos:t='pw-15%w-5*@sf/100.0, 50%ph-60%h'; position:t='absolute'
         rotation:t='-10'
       }
     }

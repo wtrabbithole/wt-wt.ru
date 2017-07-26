@@ -32,14 +32,14 @@
         "css-hier-invalidate": "yes",
         "re-type": "9rect",
         "position": "absolute",
-        "pos": "-1@bw -4*@sf/@pf, 1@spectatorTopOffset",
+        "pos": "-1@bw -4*@sf/@pf_outdated, 1@spectatorTopOffset",
         "min-height": "2@sIco",
         "background-image": "#ui/gameuiskin#window_body_gradient",
         "background-position": "4",
         "background-repeat": "expand",
         "background-color": "#99999999",
         "rotation": "0",
-        "padding": "1@bw, 1*@sf/@pf, 6*@sf/@pf, 1*@sf/@pf",
+        "padding": "1@bw, 1*@sf/@pf_outdated, 6*@sf/@pf_outdated, 1*@sf/@pf_outdated",
         "flow": "vertical",
         "tdiv": {
           "id": "content",
@@ -48,7 +48,7 @@
           "scroll-align": "left",
           "width": "1@spectatorTableWidth",
           "min-height": "1@spectatorRowHeight",
-          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -16*@sf/@pf",
+          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -16*@sf/@pf_outdated",
           "table": {
             "id": "table_team1",
             "class": "spectatorTeamTable",
@@ -75,14 +75,14 @@
         "css-hier-invalidate": "yes",
         "re-type": "9rect",
         "position": "absolute",
-        "pos": "pw - w + 4*@sf/@pf +1@bw, 1@spectatorTopOffset",
+        "pos": "pw - w + 4*@sf/@pf_outdated +1@bw, 1@spectatorTopOffset",
         "min-height": "2@sIco",
         "background-image": "#ui/gameuiskin#window_body_gradient",
         "background-position": "4",
         "background-repeat": "expand",
         "background-color": "#99999999",
         "rotation": "180",
-        "padding": "1@bw, 1*@sf/@pf, 6*@sf/@pf, 1*@sf/@pf",
+        "padding": "1@bw, 1*@sf/@pf_outdated, 6*@sf/@pf_outdated, 1*@sf/@pf_outdated",
         "flow": "vertical",
         "tdiv": {
           "id": "content",
@@ -91,7 +91,7 @@
           "scroll-align": "right",
           "width": "1@spectatorTableWidth",
           "min-height": "1@spectatorRowHeight",
-          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -16*@sf/@pf",
+          "max-height": "p.p.h -1@spectatorTopOffset -1@mIco -1@spectatorTableWidth -16*@sf/@pf_outdated",
           "table": {
             "id": "table_team2",
             "class": "spectatorTeamTable",
@@ -118,13 +118,13 @@
         "css-hier-invalidate": "yes",
         "re-type": "9rect",
         "position": "absolute",
-        "pos": "-1@bw -4*@sf/@pf, ph-h",
+        "pos": "-1@bw -4*@sf/@pf_outdated, ph-h",
         "min-height": "2@sIco",
         "background-image": "#ui/gameuiskin#window_body",
         "background-position": "4",
         "background-repeat": "expand",
         "background-color": "#99999999",
-        "padding": "6*@sf/@pf",
+        "padding": "6*@sf/@pf_outdated",
         "padding-left": "1@bw",
         "flow": "vertical",
         "tdiv": [
@@ -146,7 +146,7 @@
                 "width": "pw"
               },
               {
-                "padding-bottom": "6*@sf/@pf"
+                "padding-bottom": "6*@sf/@pf_outdated"
               },
               {
                 "hoverButton": {
@@ -208,13 +208,13 @@
         "css-hier-invalidate": "yes",
         "re-type": "9rect",
         "position": "absolute",
-        "pos": "pw - w + 4*@sf/@pf +1@bw, ph-h",
+        "pos": "pw - w + 4*@sf/@pf_outdated +1@bw, ph-h",
         "min-height": "2@sIco",
         "background-image": "#ui/gameuiskin#window_body",
         "background-position": "4",
         "background-repeat": "expand",
         "background-color": "#99999999",
-        "padding": "6*@sf/@pf",
+        "padding": "6*@sf/@pf_outdated",
         "padding-right": "1@bw",
         "flow": "vertical",
         "tdiv": {
@@ -259,7 +259,7 @@
           "pos": "pw/2-w/2, 0",
           "position": "relative",
           "padding-right": "-1@textPaddingBugWorkaround",
-          "padding-bottom": "8*@sf/@pf",
+          "padding-bottom": "8*@sf/@pf_outdated",
           "text": "#spectator/waiting_for_target_spawn"
         },
         "targetInfo": {
@@ -535,7 +535,7 @@
                 "id": "txt_replay_time_speed",
                 "top": "ph/2-h/2",
                 "position": "relative",
-                "width": "0.07@scrn_tgt_font;",
+                "width": "0.07@sf;",
                 "text": "#ui/not_applicable"
               }
             },
@@ -611,7 +611,7 @@
               "id": "txt_mission_timer",
               "top": "ph/2-h/2",
               "position": "relative",
-              "width": "0.07@scrn_tgt_font;",
+              "width": "0.07@sf;",
               "text": "#ui/not_applicable"
             }
           }
@@ -625,7 +625,7 @@
         "attachSide": "left",
         "toggled": "yes",
         "toggleObj": "stats_left",
-        "pos": "-4*@sf/@pf, 1@spectatorTopOffset - h",
+        "pos": "-4*@sf/@pf_outdated, 1@spectatorTopOffset - h",
         "position": "absolute",
         "icon": []
       }
@@ -637,7 +637,7 @@
         "attachSide": "right",
         "toggled": "yes",
         "toggleObj": "stats_right",
-        "pos": "pw-w +4*@sf/@pf, 1@spectatorTopOffset - h",
+        "pos": "pw-w +4*@sf/@pf_outdated, 1@spectatorTopOffset - h",
         "position": "absolute",
         "icon": []
       }
@@ -649,7 +649,7 @@
         "attachSide": "left",
         "toggled": "yes",
         "toggleObj": "log_div",
-        "pos": "-4*@sf/@pf, ph-h - 1@spectatorTableWidth -12*@sf/@pf",
+        "pos": "-4*@sf/@pf_outdated, ph-h - 1@spectatorTableWidth -12*@sf/@pf_outdated",
         "position": "absolute",
         "icon": []
       }
@@ -661,7 +661,7 @@
         "attachSide": "right",
         "toggled": "yes",
         "toggleObj": "map_div",
-        "pos": "pw-w +4*@sf/@pf, ph-h - 1@spectatorTableWidth -12*@sf/@pf",
+        "pos": "pw-w +4*@sf/@pf_outdated, ph-h - 1@spectatorTableWidth -12*@sf/@pf_outdated",
         "position": "absolute",
         "icon": []
       }
@@ -670,8 +670,8 @@
       "div": {
         "id": "map_large_div",
         "display": "hide",
-        "width": "1@rh $min (1@rw -2@spectatorTableWidth -12*@sf/@pf)",
-        "height": "1@rh $min (1@rw -2@spectatorTableWidth -12*@sf/@pf)",
+        "width": "1@rh $min (1@rw -2@spectatorTableWidth -12*@sf/@pf_outdated)",
+        "height": "1@rh $min (1@rw -2@spectatorTableWidth -12*@sf/@pf_outdated)",
         "pos": "pw/2-w/2, ph/2-h/2",
         "position": "absolute",
         "css-hier-invalidate": "yes",
@@ -680,7 +680,7 @@
         "background-position": "4",
         "background-repeat": "expand",
         "background-color": "#99999999",
-        "padding": "6*@sf/@pf",
+        "padding": "6*@sf/@pf_outdated",
         "behaviour": "button",
         "on_click": "onMapClick",
         "tacticalMap": {
@@ -693,7 +693,7 @@
         "hoverButton": {
           "id": "btnCloseMap",
           "on_click": "onMapClick",
-          "pos": "pw-w-6*@sf/@pf, 6*@sf/@pf",
+          "pos": "pw-w-6*@sf/@pf_outdated, 6*@sf/@pf_outdated",
           "position": "absolute",
           "tooltip": "#mainmenu/btnClose",
           "icon": {
@@ -722,7 +722,7 @@
     {
       "textareaNoTab": {
         "id": "txt_replay_session_id",
-        "pos": "0.085@scrn_tgt_font, sh-0.015@scrn_tgt_font",
+        "pos": "0.085@sf, sh-0.015@sf",
         "position": "root",
         "veryTinyFont": "yes",
         "textHide": "yes",

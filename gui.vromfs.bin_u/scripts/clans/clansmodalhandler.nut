@@ -403,7 +403,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       rowIdx++
       clanByRow[rowIdx.tostring()] <- myClanLbData._id.tostring()
     }
-    local headerRow = [{text = "#multiplayer/place", width = "0.1@scrn_tgt_font"}, {text = ""}, { text = "#clan/clan_name", tdAlign = "left",  width = "@clanNameTableWidth"}]
+    local headerRow = [{text = "#multiplayer/place", width = "0.1@sf"}, {text = ""}, { text = "#clan/clan_name", tdAlign = "left",  width = "@clanNameTableWidth"}]
     foreach(item in ::clan_leaderboards_list)
     {
       if (!isColForDisplay(item))

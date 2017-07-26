@@ -4,8 +4,8 @@
  matching_rpc_subscribe - set handler for server-side rpc or notification
  matching_api_func - call remote function by name and set callback for answer
  matching_api_notify - call remote function without callback
-
 */
+
 _matching <- {
   matching_rpc_handlers = {}
 
@@ -26,14 +26,47 @@ _matching <- {
     return params
   }
 
+  function stringify_userid(data)
+  {
+    if (data == null)
+      return null
+    if (typeof data == "array")
+    {
+      for (local i = 0; i < data.len(); ++i)
+        data[i] = stringify_userid(data[i])
+    }
+    else if (typeof data == "table")
+    {
+      if ("userId" in data)
+        data.userId = data.userId.tostring()
+      foreach (k, v in data)
+        data[k] = stringify_userid(v)
+    }
+    return data
+  }
+
+  function find_rpc_handler(rpc_name)
+  {
+    local handler = ::getTblValue(rpc_name, matching_rpc_handlers)
+    if (handler)
+      return handler
+
+    local dotPos = rpc_name.find(".")
+    if (dotPos == null || dotPos == (rpc_name.len()-1))
+      return null
+
+    local globName = "*." + g_string.slice(rpc_name, dotPos+1)
+    return ::getTblValue(globName, matching_rpc_handlers)
+  }
+
   dbg_silent_messages = {
     ["mlogin.update_online_info"] = 1
   }
 }
 
-function matching_rpc_subscribe(message, callback)
+function matching_rpc_subscribe(rpc_name, callback)
 {
-  _matching.matching_rpc_handlers[message] <- callback
+  _matching.matching_rpc_handlers[rpc_name] <- callback
 }
 
 function matching_api_func(name, cb, params = null)
@@ -44,7 +77,7 @@ function matching_api_func(name, cb, params = null)
   local realCb = (@(cb) function (response) {
     local unifyResp = {}
     if ("data" in response && typeof response.data == "table")
-      unifyResp = response.data
+      unifyResp = _matching.stringify_userid(response.data)
     unifyResp.error <- response.error
     cb(unifyResp)
   })(cb)
@@ -68,8 +101,6 @@ function debug_matching_api(api_call, params=null)
     })
 }
 
-
-
 /*
   Notifications from C++ code
 */
@@ -82,6 +113,7 @@ function on_matching_generic_message(params)
     debugTableData(params)
     return
   }
+  params = _matching.stringify_userid(params)
 
   if (!(name in _matching.dbg_silent_messages))
   {
@@ -90,13 +122,14 @@ function on_matching_generic_message(params)
       debugTableData(::getTblValue("data", params))
   }
 
-  if (!(name in _matching.matching_rpc_handlers))
+  local handler = _matching.find_rpc_handler(name)
+  if (!handler)
   {
     dagor.debug("matching rpc handler '" + name + "' not supported")
     return
   }
 
-  _matching.matching_rpc_handlers[name](::getTblValue("data", params))
+  handler(::getTblValue("data", params))
 }
 
 function on_matching_generic_rpc(params, rid)
@@ -108,6 +141,7 @@ function on_matching_generic_rpc(params, rid)
     debugTableData(params)
     return
   }
+  params = _matching.stringify_userid(params)
 
   if (!(name in _matching.dbg_silent_messages))
   {
@@ -120,13 +154,14 @@ function on_matching_generic_rpc(params, rid)
     ::send_matching_rpc_response(rid, {name = name, data = message})
   })(rid, name)
 
-  if (!(name in _matching.matching_rpc_handlers))
+  local handler = _matching.find_rpc_handler(name)
+  if (!handler)
   {
     dagor.debug("matching rpc handler '" + name + "' not supported")
     callback({error = "not supported"})
     return
   }
 
-  _matching.matching_rpc_handlers[name](::getTblValue("data", params), callback)
+  handler(::getTblValue("data", params), callback)
 }
 

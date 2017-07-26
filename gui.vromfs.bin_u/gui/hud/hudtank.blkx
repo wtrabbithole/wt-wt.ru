@@ -11,7 +11,7 @@
         "flow": "vertical"
       },
       {
-        "width": "0.5@scrn_tgt_font"
+        "width": "0.5@sf"
       },
       {
         "tdiv": {
@@ -205,6 +205,215 @@
         }
       },
       {
+        "hudMessages": [
+          {
+            "id": "hud_messages_race_messages"
+          },
+          {
+            "message_style": "race_notification"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "pos": "pw/2 - w/2, 0.05@shHud"
+          },
+          {
+            "width": "pw"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "textareaNoTab": {
+              "id": "race_status",
+              "pos": "50%pw - 50%w, 0",
+              "position": "relative",
+              "overlayTextColor": "active",
+              "text": "",
+              "hideEmptyText": "yes",
+              "text-align": "center"
+            }
+          },
+          {
+            "tdiv": {
+              "id": "leader",
+              "pos": "50%pw - 50%w, 0",
+              "position": "relative",
+              "isPlayer": "no",
+              "isLeader": "yes",
+              "tdiv": [
+                {
+                  "pos": "50%pw-75%w, 0"
+                },
+                {
+                  "position": "relative"
+                },
+                {
+                  "width": "0.1@sf + 0.05@sf"
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "time",
+                    "width": "0.1@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "right"
+                  }
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "place",
+                    "width": "0.05@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "center"
+                  }
+                }
+              ],
+              "textareaNoTab": {
+                "id": "name",
+                "text": "",
+                "hideEmptyText": "yes",
+                "position": "relative"
+              }
+            }
+          },
+          {
+            "tdiv": {
+              "id": "beforePlayer",
+              "pos": "50%pw - 50%w, 0",
+              "position": "relative",
+              "isPlayer": "no",
+              "isLeader": "yes",
+              "tdiv": [
+                {
+                  "pos": "50%pw-75%w, 0"
+                },
+                {
+                  "position": "relative"
+                },
+                {
+                  "width": "0.1@sf + 0.05@sf"
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "time",
+                    "width": "0.1@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "right"
+                  }
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "place",
+                    "width": "0.05@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "center"
+                  }
+                }
+              ],
+              "textareaNoTab": {
+                "id": "name",
+                "text": "",
+                "hideEmptyText": "yes",
+                "position": "relative"
+              }
+            }
+          },
+          {
+            "tdiv": {
+              "id": "player",
+              "pos": "50%pw - 50%w, 0",
+              "position": "relative",
+              "isPlayer": "no",
+              "isLeader": "yes",
+              "tdiv": [
+                {
+                  "pos": "50%pw-75%w, 0"
+                },
+                {
+                  "position": "relative"
+                },
+                {
+                  "width": "0.1@sf + 0.05@sf"
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "time",
+                    "width": "0.1@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "right"
+                  }
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "place",
+                    "width": "0.05@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "center"
+                  }
+                }
+              ],
+              "textareaNoTab": {
+                "id": "name",
+                "text": "",
+                "hideEmptyText": "yes",
+                "position": "relative"
+              }
+            }
+          },
+          {
+            "tdiv": {
+              "id": "afterPlayer",
+              "pos": "50%pw - 50%w, 0",
+              "position": "relative",
+              "isPlayer": "no",
+              "isLeader": "yes",
+              "tdiv": [
+                {
+                  "pos": "50%pw-75%w, 0"
+                },
+                {
+                  "position": "relative"
+                },
+                {
+                  "width": "0.1@sf + 0.05@sf"
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "time",
+                    "width": "0.1@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "right"
+                  }
+                },
+                {
+                  "textareaNoTab": {
+                    "id": "place",
+                    "width": "0.05@sf",
+                    "text": "",
+                    "hideEmptyText": "yes",
+                    "text-align": "center"
+                  }
+                }
+              ],
+              "textareaNoTab": {
+                "id": "name",
+                "text": "",
+                "hideEmptyText": "yes",
+                "position": "relative"
+              }
+            }
+          }
+        ]
+      },
+      {
         "hudMessages": {
           "id": "hud_messages_reward_messages",
           "message_style": "reward_notification",
@@ -259,7 +468,7 @@
       {
         "tdiv": {
           "id": "mission_result_box_start",
-          "height": "0.3@scrn_tgt_font",
+          "height": "0.3@sf",
           "width": "10h",
           "position": "absolute",
           "pos": "50%sw-50%w, 0.3@shHud - 50%h"

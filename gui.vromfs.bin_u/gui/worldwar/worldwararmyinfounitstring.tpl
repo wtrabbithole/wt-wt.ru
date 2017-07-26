@@ -15,7 +15,7 @@ tdiv {
 
     <<#isShow>>
       textareaNoTab {
-        width:t='0.05@scrn_tgt_font'
+        width:t='0.05@sf'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
         <<#isShowTotalCount>>
@@ -101,7 +101,7 @@ tdiv {
       <</icon>>
 
       textareaNoTab {
-        width:t='0.05@scrn_tgt_font'
+        width:t='0.05@sf'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
         text-align:t='right'

@@ -20,22 +20,22 @@ kb,bgk,dblk{
 
   color:@commonTextColor;
   font:@small;
-  padding:2*@sf/@pf;
-  margin:0,2*@sf/@pf,@kbPad,2*@sf/@pf;
+  padding:2*@sf/@pf_outdated;
+  margin:0,2*@sf/@pf_outdated,@kbPad,2*@sf/@pf_outdated;
   height:@kbh;
   min-width:@kbh;
   position:relative;
 }
 keyboard > tdiv > row {
-  height:@kbh+4*@sf/@pf;
+  height:@kbh+4*@sf/@pf_outdated;
 }
 kb {
   width:@kbh;
 }
 dblk {
-  height:2@kbh+4*@sf/@pf;
+  height:2@kbh+4*@sf/@pf_outdated;
   width:@kbh;
-  min-width:1*@sf/@pf;
+  min-width:1*@sf/@pf_outdated;
   top:-50%h;
 }
 kb[tooltip], bgk[tooltip], dblk[tooltip] {

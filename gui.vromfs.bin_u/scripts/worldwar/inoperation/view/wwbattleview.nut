@@ -136,7 +136,7 @@ class ::WwBattleView
 
       local view = {
         army = armyViews
-        delimetrRightPadding = hasArmyInfo ? "8*@sf/@pf" : 0
+        delimetrRightPadding = hasArmyInfo ? "8*@sf/@pf_outdated" : 0
         reqUnitTypeIcon = true
         hideArrivalTime = true
         showArmyGroupText = false

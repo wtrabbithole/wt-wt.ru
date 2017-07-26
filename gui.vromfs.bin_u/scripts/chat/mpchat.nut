@@ -1,3 +1,4 @@
+local ingame_chat = require("scripts/chat/mpChatModel.nut")
 ::game_chat_handler <- null
 
 function get_game_chat_handler()
@@ -15,7 +16,6 @@ enum mpChatView {
 class ::ChatHandler
 {
   maxLogSize = 20
-  log = []
   log_text = ""
   curMode = ::g_mp_chat_mode.TEAM
 
@@ -41,16 +41,13 @@ class ::ChatHandler
   function constructor()
   {
     ::g_script_reloader.registerPersistentData("mpChat", this,
-      ["log", "log_text", "curMode",
+      ["log_text", "curMode",
        "isActive"
       ])
 
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
     maxLogSize = ::g_chat.getMaxRoomMsgAmount()
     isMouseCursorVisible = ::is_cursor_visible_in_gui()
-
-    if (::is_in_flight())
-      ::set_chat_handler(this)
   }
 
   function loadScene(obj, chatBlk, handler, selfHideInput = false, hiddenInput = false, selfHideLog = false)
@@ -314,14 +311,14 @@ class ::ChatHandler
 
   function checkAndPrintDevoiceMsg()
   {
-    local devoice = ::get_chat_devoice_msg()
-    if (devoice)
+    local devoiceMsgText = ::get_chat_devoice_msg()
+    if (devoiceMsgText)
     {
-      devoice = "<color=@chatInfoColor>" + devoice + "</color>"
-      addLogMessage(devoice)
-      onInputChanged("")
+      devoiceMsgText = "<color=@chatInfoColor>" + devoiceMsgText + "</color>"
+      ingame_chat.onInternalMessage(devoiceMsgText)
+      setInputField("")
     }
-    return devoice != null
+    return devoiceMsgText != null
   }
 
   function onChatSend()
@@ -341,20 +338,19 @@ class ::ChatHandler
     ::chat_on_text_update(obj.getValue())
   }
 
-  function onChatClear()
+  function onEventMpChatInputChanged(params)
   {
-    log = []
-    log_text = ""
-    updateAllLogs()
+    setInputField(params.str)
   }
 
-  function onInputChanged(str)
+
+  function setInputField(str)
   {
-    doForAllScenes((@(str) function(sceneData) {
-        local edit = sceneData.scene.findObject("chat_input")
-        if (edit)
-          edit.setValue(str)
-      })(str))
+    doForAllScenes(function(sceneData) {
+      local edit = sceneData.scene.findObject("chat_input")
+      if (edit)
+        edit.setValue(str)
+    })
   }
 
   function onChatTabChange(obj)
@@ -428,9 +424,9 @@ class ::ChatHandler
       hint.setValue(::get_gamepad_specific_localization(::g_squad_manager.isInSquad() ? "chat/help/squad" : "chat/help/short"))
   }
 
-  function onModeChanged(modeId, playerName)
+  function onEventMpChatModeChanged(params)
   {
-    local newMode = ::g_mp_chat_mode.getModeById(modeId)
+    local newMode = ::g_mp_chat_mode.getModeById(params.modeId)
     if (newMode == curMode)
       return
 
@@ -537,89 +533,32 @@ class ::ChatHandler
         local sceneData = findSceneDataByObj(obj)
         if (sceneData)
           addNickToEdit(sceneData, link.slice(3))
-      } else
+      }
+      else
         showPlayerRClickMenu(link.slice(3))
-    } else
-      if (::checkBlockedLink(link))
-      {
-        log_text = ::revertBlockedMsg(log_text, link)
+    }
+    else if (::g_chat.checkBlockedLink(link))
+    {
+      log_text = ::g_chat.revertBlockedMsg(log_text, link)
 
-        foreach(i, text in log)
-          if (text.find(link))
-          {
-            log[i] = ::revertBlockedMsg(log[i], link)
-            break
-          }
-        updateAllLogs()
-      }
+      local pureMessage = ::stringReplace(link.slice(6), " ", " ")
+      ingame_chat.unblockMessage(pureMessage)
+      updateAllLogs()
+    }
   }
 
-  function onInternalMessage(str)
+
+  function onEventMpChatLogUpdated(params)
   {
-    addLogMessage(str)
-  }
-
-  function onIncomingMessage(sender, msg, enemy, mode, automatic)
-  {
-    if(!::ps4_is_chat_enabled() && !automatic)
-      return false
-
-    local myself = sender==::my_user_name;
-    local senderColor = senderColor
-
-    if (myself)
-      senderColor = senderMeColor
-    else if (::isPlayerDedicatedSpectator(sender))
-      senderColor = senderSpectatorColor
-    else if (enemy || !::is_mode_with_teams())
-      senderColor = senderEnemyColor
-    else if (::g_squad_manager.isInMySquad(sender))
-      senderColor = senderMySquadColor
-
-    local text;
-    if (sender == "") //system
-    {
-      if ( msg.len() > 5 && msg.slice(0,5) == "chat/" )
-        msg = ::loc( msg );
-      text = "<color=@chatActiveInfoColor>" + msg + "</color>"
-    }
-    else
-    {
-      local msgChatMode = ::g_mp_chat_mode.getModeById(mode)
-
-      local clanTag = ""
-      if(!(sender in ::clanUserTable))
-        ::add_tags_for_mp_players()
-      if(sender in ::clanUserTable)
-        clanTag = ::clanUserTable[sender] + " "
-      local fullName = clanTag + sender
-
-      msg = ::g_chat.filterMessageText(msg, myself)
-      local msgColor = msgChatMode.textColor
-      if(automatic)
-      {
-        if (::g_squad_manager.isInMySquad(sender))
-          msgColor = voiceSquadColor
-        else if (enemy)
-          msgColor = voiceEnemyColor
-        else
-          msgColor = voiceTeamColor
-      }
-
-      if (::isPlayerNickInContacts(sender, ::EPL_BLOCKLIST))
-      {
-        msg = ::makeBlockedMsg(msg)
-        msgColor = blockedColor
-        senderColor = blockedColor
-      }
-      text = format("<Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
-                        senderColor, msgChatMode.getNameText(),
-                        sender, fullName, msgColor, msg)
-    }
-    addLogMessage(text)
+    local log = ingame_chat.getLog()
+    log_text = ""
+    for (local i = 0; i < log.len(); ++i)
+      log_text = ::g_string.join([log_text , makeTextFromMessage(log[i])], "\n")
+    updateAllLogs()
 
     local autoShowOpt = ::get_option(::USEROPT_AUTO_SHOW_CHAT)
     if (autoShowOpt.value)
+    {
       doForAllScenes(function(sceneData) {
         if (!sceneData.scene.isVisible())
           return
@@ -627,32 +566,67 @@ class ::ChatHandler
         sceneData.transparency = 1.0
         updateChatScene(sceneData, 0.0)
       })
+    }
 
     return true
   }
 
-  function addLogMessage(msg)
+
+  function makeTextFromMessage(message)
   {
-    //dagor.debug("gui: " + msg)
-    if (log.len() > maxLogSize)
-      log.remove(0)
-    log.append(msg)
+    if (message.sender == "") //system
+      return ::format("<color=@chatActiveInfoColor>%s</color>", ::loc(message.text))
 
-    log_text = log[0]
-    for (local i = 1; i < log.len(); ++i)
-      log_text = log_text + "\n" + log[i]
+    local text = ::g_chat.filterMessageText(message.text, message.isMyself)
+    if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
+      text = ::g_chat.makeBlockedMsg(message.text)
 
-    //dagor.debug("log: " + log_text)
-    updateAllLogs()
-    ::broadcastEvent("MpChatLogUpdated")
+    local senderColor = getSenderColor(message)
+    local msgColor = getMessageColor(message)
+    local clanTag = ::get_player_tag(message.sender)
+    local fullName = ::g_string.join([clanTag, message.sender], " ")
+    return ::format(
+      "<Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
+      senderColor,
+      ::g_mp_chat_mode.getModeById(message.mode).getNameText(),
+      message.sender,
+      fullName,
+      msgColor,
+      text
+    )
   }
 
-  function clearLog()
+
+  function getSenderColor(message)
   {
-    dagor.debug("log cleared")
-    log.clear()
-    updateAllLogs()
+    if (message.isMyself)
+      return senderMeColor
+    else if (::isPlayerDedicatedSpectator(message.sender))
+      return senderSpectatorColor
+    else if (message.isEnemy || !::is_mode_with_teams())
+      return senderEnemyColor
+    else if (::g_squad_manager.isInMySquad(message.sender))
+      return senderMySquadColor
+    return senderColor
   }
+
+
+  function getMessageColor(message)
+  {
+    if (message.isBlocked)
+      return blockedColor
+    else if (message.isAutomatic)
+    {
+      if (::g_squad_manager.isInMySquad(message.sender))
+        return voiceSquadColor
+      else if (message.isEnemy)
+        return voiceEnemyColor
+      else
+        return voiceTeamColor
+    }
+    return ::g_mp_chat_mode.getModeById(message.mode).textColor
+  }
+
 
   function updateAllLogs()
   {
@@ -762,14 +736,15 @@ function hide_game_chat_scene_input(sceneData, value)
 
 function clear_game_chat()
 {
-  if (::game_chat_handler)
-    ::game_chat_handler.onChatClear()
+  debugTableData(ingame_chat)
+  ingame_chat.clearLog()
 }
 
 function get_gamechat_log_text()
 {
   return ::get_game_chat_handler().getLogText()
 }
+
 
 function get_chat_devoice_msg(activeColor = "chatActiveInfoColor")
 {
@@ -835,7 +810,7 @@ function add_text_to_editbox(obj, text)
 
 function chat_system_message(text)
 {
-  ::get_game_chat_handler().onIncomingMessage("", text, false, 0, true)
+  ingame_chat.onIncomingMessage("", text, false, 0, true)
 }
 
 function add_tags_for_mp_players()
@@ -847,4 +822,12 @@ function add_tags_for_mp_players()
       if(!block.isBot)
         ::clanUserTable[block.name] <- ::getTblValue("clanTag", block, "")
   }
+}
+
+
+function get_player_tag(playerNick)
+{
+  if(!(playerNick in ::clanUserTable))
+    ::add_tags_for_mp_players()
+  return ::getTblValue(playerNick, ::clanUserTable, "")
 }

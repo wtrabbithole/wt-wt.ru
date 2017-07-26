@@ -286,7 +286,7 @@ function g_world_war::joinOperationById(operationId, country = null, isSilence =
   stopWar()
 
   if (::u.isEmpty(country))
-    country = ::get_profile_info().country
+    country = operation.getMyAssignCountry() || ::get_profile_info().country
 
   operation.join(country, null, isSilence)
 }
@@ -863,7 +863,7 @@ function g_world_war::moveSelectedArmyToCell(cellIdx, params = {})
   if (targetAirfieldIdx >= 0)
   {
     local airfield = ::g_world_war.getAirfieldByIndex(targetAirfieldIdx)
-    if (airfield.isArmyBelongsTo(army))
+    if (::g_ww_unit_type.isAir(army.unitType) && army.isMySide(airfield.side))
     {
       moveType = "EMT_BACK_TO_AIRFIELD"
       blk.setInt("targetAirfieldIdx", targetAirfieldIdx)

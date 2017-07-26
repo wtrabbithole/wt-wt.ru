@@ -470,241 +470,289 @@
     ]
   },
   {
-    "DamageParts": {
-      "formatVersion": 2,
-      "armorClass": "tank_structural_steel",
-      "hp": 1000.0,
-      "hull": {
-        "body_bottom_dm": {
-          "armorThickness": 1.0
-        },
-        "body_dm": {
-          "armorThickness": 1.0
-        },
-        "body_front_dm": {
-          "armorThickness": 1.0
-        },
-        "body_top_dm": {
-          "armorThickness": 1.0
-        },
-        "ex_armor_body_r_01_dm": {
-          "armorThickness": 1.0
-        },
-        "ex_armor_body_r_02_dm": {
-          "armorThickness": 1.0
-        },
-        "ex_armor_body_r_03_dm": {
-          "armorThickness": 1.0
-        },
-        "ex_armor_body_l_01_dm": {
-          "armorThickness": 1.0
-        },
-        "ex_armor_body_l_02_dm": {
-          "armorThickness": 1.0
-        },
-        "ex_armor_body_l_03_dm": {
-          "armorThickness": 1.0
+    "DamageParts": [
+      {
+        "formatVersion": 2
+      },
+      {
+        "armorClass": "tank_structural_steel"
+      },
+      {
+        "hp": 1000.0
+      },
+      {
+        "hull": {
+          "body_bottom_dm": {
+            "armorThickness": 1.0
+          },
+          "body_dm": {
+            "armorThickness": 1.0
+          },
+          "body_front_dm": {
+            "armorThickness": 1.0
+          },
+          "body_top_dm": {
+            "armorThickness": 1.0
+          },
+          "ex_armor_body_r_01_dm": {
+            "armorThickness": 1.0
+          },
+          "ex_armor_body_r_02_dm": {
+            "armorThickness": 1.0
+          },
+          "ex_armor_body_r_03_dm": {
+            "armorThickness": 1.0
+          },
+          "ex_armor_body_l_01_dm": {
+            "armorThickness": 1.0
+          },
+          "ex_armor_body_l_02_dm": {
+            "armorThickness": 1.0
+          },
+          "ex_armor_body_l_03_dm": {
+            "armorThickness": 1.0
+          }
         }
       },
-      "hull_back": {
-        "superstructure_front_dm": {
-          "armorThickness": 15.0,
-          "armorQuality": 0.1,
-          "armorClass": "wood"
-        },
-        "body_back_dm": {
-          "armorThickness": 15.0,
-          "armorQuality": 0.1,
-          "armorClass": "wood"
-        },
-        "body_side_dm": {
-          "armorThickness": 15.0,
-          "armorQuality": 0.1,
-          "armorClass": "wood"
+      {
+        "hull_back": {
+          "superstructure_front_dm": {
+            "armorThickness": 15.0,
+            "armorQuality": 0.1,
+            "armorClass": "wood"
+          },
+          "body_back_dm": {
+            "armorThickness": 15.0,
+            "armorQuality": 0.1,
+            "armorClass": "wood"
+          },
+          "body_side_dm": {
+            "armorThickness": 15.0,
+            "armorQuality": 0.1,
+            "armorClass": "wood"
+          }
         }
       },
-      "turret": {
-        "armorClass": "RHA_tank",
-        "turret_front_dm": {
-          "armorThickness": 7.0
-        },
-        "gun_barrel_armor_dm": {
-          "armorThickness": 7.0
+      {
+        "turret": {
+          "armorClass": "RHA_tank",
+          "turret_front_dm": {
+            "armorThickness": 7.0
+          },
+          "gun_barrel_armor_dm": {
+            "armorThickness": 7.0
+          }
         }
       },
-      "optics": {
-        "armorClass": "optics_tank",
-        "optic_gun_dm": {
-          "armorThickness": 3.0,
-          "hp": 50.0
-        },
-        "optic_turret_01_dm": {
-          "armorThickness": 3.0,
-          "hp": 20.0
+      {
+        "optics": {
+          "armorClass": "optics_tank",
+          "optic_gun_dm": {
+            "armorThickness": 3.0,
+            "hp": 50.0
+          },
+          "optic_turret_01_dm": {
+            "armorThickness": 3.0,
+            "hp": 20.0
+          }
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 15.0,
-          "hp": 150.0
-        },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 15.0,
-          "hp": 150.0
+      {
+        "gun": {
+          "armorClass": "tank_barrel",
+          "gun_barrel_02_dm": {
+            "armorThrough": 10.0,
+            "armorThickness": 15.0,
+            "hp": 150.0
+          },
+          "gun_barrel_01_dm": {
+            "armorThrough": 10.0,
+            "armorThickness": 15.0,
+            "hp": 150.0
+          }
         }
       },
-      "chassis": {
-        "hp": 30.0,
-        "armorThickness": 2.0,
-        "armorClass": "car_wheels",
-        "wheel_r_01_dm": [],
-        "wheel_l_01_dm": [],
-        "wheel_l_drive_dm": [],
-        "wheel_r_drive_dm": []
-      },
-      "crew": {
-        "armorClass": "steel_tankman",
-        "hp": 40.0,
-        "driver_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_02_dm": {
-          "genericDamageMult": 3.0
-        },
-        "loader_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_dm": {
-          "genericDamageMult": 3.0
-        },
-        "commander_dm": {
-          "genericDamageMult": 3.0
-        },
-        "machine_gunner_dm": {
-          "genericDamageMult": 3.0
+      {
+        "chassis": {
+          "hp": 30.0,
+          "armorThickness": 2.0,
+          "armorClass": "car_wheels",
+          "wheel_r_01_dm": [],
+          "wheel_l_01_dm": [],
+          "wheel_l_drive_dm": [],
+          "wheel_r_drive_dm": []
         }
       },
-      "equipment": {
-        "armorClass": "tank_structural_steel",
-        "hp": 150.0,
-        "armorThickness": 10.0,
-        "armorThrough": 10.0,
-        "fireProtectionHp": 5.0,
-        "drive_turret_v_dm": {
+      {
+        "crew": {
+          "armorClass": "steel_tankman",
           "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_v_01_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_01_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_v_02_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_02_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "turret_front_dm": {
-          "armorThickness": 2.0
-        },
-        "cannon_breech_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_01_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_02_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_03_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_04_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "radiator_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_l_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_r_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radio_station_dm": {
-          "hp": 20.0,
-          "armorThrough": 2.0
-        },
+          "driver_dm": {
+            "genericDamageMult": 3.0
+          },
+          "loader_dm": {
+            "genericDamageMult": 3.0
+          },
+          "loader_02_dm": {
+            "genericDamageMult": 3.0
+          },
+          "loader_01_dm": {
+            "genericDamageMult": 3.0
+          },
+          "gunner_dm": {
+            "genericDamageMult": 3.0
+          },
+          "commander_dm": {
+            "genericDamageMult": 3.0
+          },
+          "machine_gunner_dm": {
+            "genericDamageMult": 3.0
+          }
+        }
+      },
+      {
+        "equipment": {
+          "armorClass": "tank_structural_steel",
+          "hp": 150.0,
+          "armorThickness": 12.0,
+          "armorThrough": 1.0,
+          "fireProtectionHp": 15.0,
+          "explosionArmorQuality": 0.35,
+          "shatterArmorQuality": 0.35,
+          "drive_turret_v_dm": [],
+          "drive_turret_h_dm": [],
+          "drive_turret_v_01_dm": [],
+          "drive_turret_h_01_dm": [],
+          "drive_turret_v_02_dm": [],
+          "drive_turret_h_02_dm": [],
+          "radio_station_dm": []
+        }
+      },
+      {
+        "cannon_breech": {
+          "armorClass": "tank_structural_steel",
+          "hp": 150.0,
+          "armorThickness": 10.0,
+          "armorThrough": 60.0,
+          "fireProtectionHp": 10.0,
+          "cannon_breech_dm": [],
+          "cannon_breech_01_dm": [],
+          "cannon_breech_02_dm": [],
+          "cannon_breech_03_dm": [],
+          "cannon_breech_04_dm": []
+        }
+      },
+      {
+        "radiators": {
+          "armorClass": "tank_structural_steel",
+          "hp": 50.0,
+          "armorThickness": 5.0,
+          "armorThrough": 15.0,
+          "fireProtectionHp": 5.0,
+          "radiator_dm": [],
+          "radiator_l_dm": [],
+          "radiator_r_dm": []
+        }
+      },
+      {
         "engine": {
           "armorClass": "armor_tank_engine",
-          "hp": 70.0,
-          "fireProtectionHp": 3.0,
+          "hp": 100.0,
+          "armorThickness": 2.0,
+          "armorThrough": 40.0,
+          "fireProtectionHp": 5.0,
           "engine_dm": {
-            "armorThrough": 5.0
+            "hp": 70.0
           },
+          "transmission_dm": {
+            "hp": 70.0
+          }
+        }
+      },
+      {
+        "ammo": {
+          "armorClass": "tank_structural_steel",
+          "hp": 500.0,
+          "armorThickness": 2.0,
+          "armorThrough": 10.0,
+          "fireProtectionHp": 20.0,
+          "createSecondaryShatters": false,
+          "ammo_body_dm": [],
+          "ammo_body_01_dm": [],
+          "ammo_body_02_dm": [],
+          "ammo_body_03_dm": [],
+          "ammo_body_04_dm": [],
+          "ammo_body_05_dm": [],
+          "ammo_body_l_01_dm": [],
+          "ammo_body_l_02_dm": [],
+          "ammo_body_l_03_dm": [],
+          "ammo_body_l_04_dm": [],
+          "ammo_body_l_05_dm": [],
+          "ammo_body_r_01_dm": [],
+          "ammo_body_r_02_dm": [],
+          "ammo_body_r_03_dm": [],
+          "ammo_body_r_04_dm": [],
+          "ammo_body_r_05_dm": [],
+          "ammo_turret_dm": [],
           "ammo_turret_01_dm": [],
           "ammo_turret_02_dm": [],
           "ammo_turret_03_dm": [],
           "ammo_turret_04_dm": [],
-          "ammo_turret_05_dm": [],
-          "transmission_dm": {
-            "armorThrough": 5.0
-          }
+          "ammo_turret_05_dm": []
         }
       },
-      "fuel_tanks": {
-        "armorClass": "tank_structural_steel",
-        "hp": 50.0,
-        "armorThickness": 2.0,
-        "armorThrough": 5.0,
-        "fireProtectionHp": 7.0,
-        "fuel_tank_dm": [],
-        "fuel_tank_01_dm": [],
-        "fuel_tank_02_dm": [],
-        "fuel_tank_03_dm": [],
-        "fuel_tank_04_dm": [],
-        "fuel_tank_05_dm": [],
-        "fuel_tank_r_01_dm": [],
-        "fuel_tank_r_02_dm": [],
-        "fuel_tank_r_03_dm": [],
-        "fuel_tank_r_04_dm": [],
-        "fuel_tank_r_05_dm": [],
-        "fuel_tank_l_01_dm": [],
-        "fuel_tank_l_02_dm": [],
-        "fuel_tank_l_03_dm": [],
-        "fuel_tank_l_04_dm": [],
-        "fuel_tank_l_05_dm": []
+      {
+        "fuel_tanks": {
+          "armorClass": "tank_structural_steel",
+          "hp": 250.0,
+          "armorThickness": 2.0,
+          "armorThrough": 10.0,
+          "fireProtectionHp": 10.0,
+          "createSecondaryShatters": false,
+          "fuel_tank_dm": [],
+          "fuel_tank_01_dm": [],
+          "fuel_tank_02_dm": [],
+          "fuel_tank_03_dm": [],
+          "fuel_tank_04_dm": [],
+          "fuel_tank_05_dm": [],
+          "fuel_tank_r_01_dm": [],
+          "fuel_tank_r_02_dm": [],
+          "fuel_tank_r_03_dm": [],
+          "fuel_tank_r_04_dm": [],
+          "fuel_tank_r_05_dm": [],
+          "fuel_tank_l_01_dm": [],
+          "fuel_tank_l_02_dm": [],
+          "fuel_tank_l_03_dm": [],
+          "fuel_tank_l_04_dm": [],
+          "fuel_tank_l_05_dm": []
+        }
+      },
+      {
+        "fuel_tanks": {
+          "armorClass": "tank_structural_steel",
+          "hp": 50.0,
+          "armorThickness": 2.0,
+          "armorThrough": 5.0,
+          "fireProtectionHp": 7.0,
+          "fuel_tank_dm": [],
+          "fuel_tank_01_dm": [],
+          "fuel_tank_02_dm": [],
+          "fuel_tank_03_dm": [],
+          "fuel_tank_04_dm": [],
+          "fuel_tank_05_dm": [],
+          "fuel_tank_r_01_dm": [],
+          "fuel_tank_r_02_dm": [],
+          "fuel_tank_r_03_dm": [],
+          "fuel_tank_r_04_dm": [],
+          "fuel_tank_r_05_dm": [],
+          "fuel_tank_l_01_dm": [],
+          "fuel_tank_l_02_dm": [],
+          "fuel_tank_l_03_dm": [],
+          "fuel_tank_l_04_dm": [],
+          "fuel_tank_l_05_dm": []
+        }
       }
-    }
+    ]
   },
   {
     "DamageEffects": [
@@ -2119,6 +2167,18 @@
     }
   },
   {
+    "ammoLoadDistribution": {
+      "primaryShells": {
+        "ammo_body_01_dm": {
+          "count": 265
+        },
+        "ammo_body_02_dm": {
+          "count": 265
+        }
+      }
+    }
+  },
+  {
     "modifications": {
       "new_wheels": [],
       "new_car_suspension": [],
@@ -2147,9 +2207,36 @@
   },
   {
     "user_skin": {
-      "name": "gaz_mm_72k",
+      "name": "94_km_zis_12_1945",
       "replace_tex": {
         "from": "ussr_camo_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "winter",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_winter*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "forest",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_forest_01*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_desert_syrian_green_brown_yellow",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_desert_syrian_green_brown_yellow*"
       }
     }
   }

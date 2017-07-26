@@ -5,7 +5,7 @@ root {
     pos:t='50%pw-50%w, 50%ph-50%h';
     position:t='absolute';
     width:t='80%sh';
-    max-width:t='800*@sf/@pf + 2@framePadding';
+    max-width:t='800*@sf/@pf_outdated + 2@framePadding';
     max-height:t='sh';
     class:t='wndNav';
 
@@ -28,8 +28,8 @@ root {
     img {
       width:t='pw';
       height:t='0.375w';
-      max-width:t='800*@sf/@pf';
-      max-height:t='300*@sf/@pf';
+      max-width:t='800*@sf/@pf_outdated';
+      max-height:t='300*@sf/@pf_outdated';
       pos:t='50%pw-50%w, 0';
       position:t='relative';
       background-image:t='<<windowImage>>';
@@ -49,7 +49,7 @@ root {
         hideEmptyText:t='yes';
         font-bold:t='@normal';
         text:t='<<mainText>>';
-        padding-left:t='0.02@scrn_tgt_font';
+        padding-left:t='0.02@sf';
         on_link_click:t='proccessLinkFromText'
       }
     }
@@ -83,8 +83,8 @@ root {
             class:t='active';
             text-align:t='right';
             overlayTextColor:t='active'
-            min-width:t='0.13@scrn_tgt_font';
-            max-width:t='0.7@scrn_tgt_font';
+            min-width:t='0.13@sf';
+            max-width:t='0.7@sf';
             text:t='<<entitlementName>>';
             valign:t='center';
           }
@@ -95,7 +95,7 @@ root {
             class:t='active';
             text-align:t='right';
             overlayTextColor:t='active'
-            min-width:t='0.13@scrn_tgt_font';
+            min-width:t='0.13@sf';
             text:t='<<entitlementCost>>';
             valign:t='center';
           }
@@ -132,7 +132,7 @@ root {
             externalLink:t='yes';
             activeText {
               position:t='absolute';
-              pos:t='0.5pw-0.5w, 0.5ph-0.5h - 2@sf/@pf';
+              pos:t='0.5pw-0.5w, 0.5ph-0.5h - 2@sf/@pf_outdated';
               text:t='#mainmenu/btnBuy';
               underline {}
             }

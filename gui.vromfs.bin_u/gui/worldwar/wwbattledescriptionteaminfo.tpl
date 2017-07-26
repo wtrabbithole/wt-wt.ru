@@ -12,7 +12,7 @@ tdiv {
     tdiv {
       <<^invert>>
       img {
-        size:t='50*@sf/@pf, 26*@sf/@pf'
+        size:t='50*@sf/@pf_outdated, 26*@sf/@pf_outdated'
         margin:t='1@framePadding, 0'
         background-image:t='<<countryIconBig>>'
       }
@@ -25,7 +25,7 @@ tdiv {
       <<#invert>>
       pos:t='pw-w'; position:t='relative'
       img {
-        size:t='50*@sf/@pf, 26*@sf/@pf'
+        size:t='50*@sf/@pf_outdated, 26*@sf/@pf_outdated'
         margin:t='1@framePadding, 0'
         background-image:t='<<countryIconBig>>'
       }

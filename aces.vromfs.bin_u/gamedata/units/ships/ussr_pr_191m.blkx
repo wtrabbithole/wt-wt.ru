@@ -1951,20 +1951,6 @@
     }
   },
   {
-    "propellers": [
-      {
-        "engine": {
-          "propeller_l": "propeller_01"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_02"
-        }
-      }
-    ]
-  },
-  {
     "class_tags": {
       "pacific": true,
       "mediterran": true,
@@ -1985,7 +1971,7 @@
         "Empty": 49800.0,
         "Fuel": 3000.0,
         "TakeOff": 52800.0,
-        "momentOfInertia": [14.0,40.0,31.0],
+        "momentOfInertia": [14.0,46.0,34.0],
         "CenterOfGravity": [-1.3,0.2,0.0]
       },
       "engines": [
@@ -1994,6 +1980,8 @@
             "pos": [-12.0,-0.5,1.1],
             "maxThrust": 18000.0,
             "outputParam": "propeller_rotate_01:CRS",
+            "engineDmPart": "engine_room_01_dm",
+            "transmissionDmPart": "transmission_01_dm",
             "propeller": "propeller_01"
           }
         },
@@ -2002,6 +1990,8 @@
             "pos": [-12.0,-0.5,-1.1],
             "maxThrust": 18000.0,
             "outputParam": "propeller_rotate_02:CRS",
+            "engineDmPart": "engine_room_01_dm",
+            "transmissionDmPart": "transmission_01_dm",
             "propeller": "propeller_02"
           }
         }
@@ -2015,16 +2005,7 @@
       },
       "hydrodynamics": [
         {
-          "keelArea": 1.0
-        },
-        {
           "bodyArea": 0.0
-        },
-        {
-          "keelArm": [-10.0,-1.0,0.0]
-        },
-        {
-          "bodyArm": [-1.0,0.0,0.0]
         },
         {
           "rudder": {
@@ -2046,17 +2027,17 @@
   {
     "cockpit": {
       "headPos": [0.0,6.5,-21.5],
-      "headPosOnShooting": [0.5,4.5,0.0]
+      "headPosOnShooting": [1.5,5.6,0.0]
     }
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
