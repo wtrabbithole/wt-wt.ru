@@ -31527,15 +31527,6 @@
   },
   {
     "unlockable": {
-      "id": "flag_of_victory",
-      "type": "decal",
-      "chapter": "decals",
-      "group": "allies",
-      "hideUntilUnlocked": true
-    }
-  },
-  {
-    "unlockable": {
       "id": "armor_25mm",
       "type": "decal",
       "chapter": "decals",
@@ -31621,11 +31612,48 @@
       "chapter": "decals",
       "group": "special",
       "hideUntilUnlocked": true,
-      "mode": {
-        "type": "char_unlocks",
-        "num": 1,
-        "unlock": "chronicle_win_15"
-      }
+      "mode": [
+        {
+          "type": "char_unlocks"
+        },
+        {
+          "num": 1
+        },
+        {
+          "unlock": "chronicle_win_15"
+        },
+        {
+          "unlock": "win_victory_70"
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "flag_of_victory",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "allies",
+      "hideUntilUnlocked": true,
+      "mode": [
+        {
+          "type": "missionsWon"
+        },
+        {
+          "num": 1
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "mission",
+            "mission": "ussr_capture_of_reichstag"
+          }
+        }
+      ]
     }
   },
   {
