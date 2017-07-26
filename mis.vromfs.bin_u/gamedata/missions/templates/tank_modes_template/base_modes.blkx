@@ -46,7 +46,9 @@
         "_DBttlA": false,
         "_DBttlB": false,
         "_CnvA": false,
-        "_CnvB": false
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "spectator_points": [],
@@ -648,18 +650,54 @@
           }
         },
         {
-          "varAddString": {
-            "value": "@rb_tank_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t1_battlearea",
+            "var": "t1_battlearea"
           }
         },
         {
-          "varAddString": {
-            "value": "@modeName_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t2_battlearea",
+            "var": "t2_battlearea"
           }
+        },
+        {
+          "varAddString": [
+            {
+              "value": "@rb_tank_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
+        },
+        {
+          "varAddString": [
+            {
+              "value": "@modeName_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
         },
         {
           "triggerEnable": [
@@ -667,7 +705,10 @@
               "target": "bttl_start_mission"
             },
             {
-              "target": "battlearea_init"
+              "target": "t1_battleareas_init"
+            },
+            {
+              "target": "t2_battleareas_init"
             }
           ]
         }
@@ -892,6 +933,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "@t1_airfield"
             },
             {
@@ -1012,6 +1056,86 @@
         }
       ],
       "else_actions": []
+    },
+    "t1_battleareas_init": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t1_battlearea",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t1_battlearea",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": {
+        "missionBattleArea": {
+          "air": false,
+          "ground": true,
+          "mapArea": true,
+          "killOutOfBattleArea": true,
+          "area": "@t1_battlearea"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "battlearea_init"
+        }
+      }
+    },
+    "t2_battleareas_init": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t2_battlearea",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_battlearea",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": {
+        "missionBattleArea": {
+          "air": false,
+          "ground": true,
+          "mapArea": true,
+          "killOutOfBattleArea": true,
+          "area": "@t2_battlearea"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "battlearea_init"
+        }
+      }
     },
     "battlearea_init": {
       "is_enabled": false,
@@ -3178,6 +3302,7 @@
                   "shouldFadeOut": false,
                   "time": 10.0,
                   "priority": 0,
+                  "isOverFade": false,
                   "team": "A"
                 }
               },
@@ -3194,6 +3319,7 @@
                   "shouldFadeOut": false,
                   "time": 0.0,
                   "priority": 0,
+                  "isOverFade": false,
                   "team": "A"
                 }
               },
@@ -4091,6 +4217,7 @@
                   "shouldFadeOut": false,
                   "time": 10.0,
                   "priority": 0,
+                  "isOverFade": false,
                   "team": "B"
                 }
               },
@@ -4107,6 +4234,7 @@
                   "shouldFadeOut": false,
                   "time": 0.0,
                   "priority": 0,
+                  "isOverFade": false,
                   "team": "B"
                 }
               },
@@ -4261,7 +4389,9 @@
     "conq_designated_capture_zone_int": 0,
     "t1_airfield": "t1_airfield",
     "t2_airfield": "t2_airfield",
-    "battlearea": ""
+    "battlearea": "",
+    "t1_battlearea": "",
+    "t2_battlearea": ""
   },
   "dialogs": [],
   "airfields": [],

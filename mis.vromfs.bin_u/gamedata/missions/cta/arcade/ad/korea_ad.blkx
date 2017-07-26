@@ -228,9 +228,6 @@
       "deathPenaltyMul": 0.5,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -250,7 +247,16 @@
         "_Conq6": false,
         "_DBttl": false,
         "_DBttlA": false,
-        "_DBttlB": false
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false
       }
     },
     "spectator_points": [],
@@ -488,6 +494,8 @@
       "unit_class": "dummy_plane",
       "objLayer": 1,
       "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
       "weapons": "",
       "bullets0": "",
       "bullets1": "",
@@ -771,6 +779,50 @@
         [0.0,300.0,0.0],
         [300.0,0.0,-6.79481e-05],
         [9202.95,5506.25,14305.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_plane_exit_zone": {
+      "type": "Cylinder",
+      "tm": [
+        [7.5498e-05,0.0,1000.0],
+        [0.0,5000.0,0.0],
+        [-1000.0,0.0,7.5498e-05],
+        [20816.7,0.0,-2809.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_plane_exit_zone": {
+      "type": "Cylinder",
+      "tm": [
+        [7.5498e-05,0.0,-1000.0],
+        [0.0,5000.0,0.0],
+        [1000.0,0.0,7.5498e-05],
+        [-2419.01,0.0,3399.22]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_bombers_spawn_far": {
+      "type": "Sphere",
+      "tm": [
+        [2.26494e-05,0.0,300.0],
+        [0.0,300.0,0.0],
+        [-300.0,0.0,2.26494e-05],
+        [9206.75,6500.0,-13696.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_bombers_spawn_far": {
+      "type": "Sphere",
+      "tm": [
+        [-6.79481e-05,0.0,-300.0],
+        [0.0,300.0,0.0],
+        [300.0,0.0,-6.79481e-05],
+        [9202.95,6500.0,14305.2]
       ],
       "objLayer": 0,
       "props": []

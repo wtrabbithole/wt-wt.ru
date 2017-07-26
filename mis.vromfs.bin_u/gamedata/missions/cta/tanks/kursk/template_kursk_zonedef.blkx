@@ -1,0 +1,2166 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 30.0
+    },
+    "player": [
+      {
+        "army": 1
+      },
+      {
+        "wing": "t1_player01"
+      },
+      {
+        "wing": "t1_player02"
+      },
+      {
+        "wing": "t1_player03"
+      },
+      {
+        "wing": "t1_player04"
+      },
+      {
+        "wing": "t1_player05"
+      },
+      {
+        "wing": "t1_player06"
+      },
+      {
+        "wing": "t1_player07"
+      },
+      {
+        "wing": "t1_player08"
+      },
+      {
+        "wing": "t1_player09"
+      },
+      {
+        "wing": "t1_player10"
+      },
+      {
+        "wing": "t1_player11"
+      },
+      {
+        "wing": "t1_player12"
+      },
+      {
+        "wing": "t1_player13"
+      },
+      {
+        "wing": "t1_player14"
+      },
+      {
+        "wing": "t1_player15"
+      },
+      {
+        "wing": "t1_player16"
+      }
+    ],
+    "player_teamB": [
+      {
+        "army": 2
+      },
+      {
+        "wing": "t2_player01"
+      },
+      {
+        "wing": "t2_player02"
+      },
+      {
+        "wing": "t2_player03"
+      },
+      {
+        "wing": "t2_player04"
+      },
+      {
+        "wing": "t2_player05"
+      },
+      {
+        "wing": "t2_player06"
+      },
+      {
+        "wing": "t2_player07"
+      },
+      {
+        "wing": "t2_player08"
+      },
+      {
+        "wing": "t2_player09"
+      },
+      {
+        "wing": "t2_player10"
+      },
+      {
+        "wing": "t2_player11"
+      },
+      {
+        "wing": "t2_player12"
+      },
+      {
+        "wing": "t2_player13"
+      },
+      {
+        "wing": "t2_player14"
+      },
+      {
+        "wing": "t2_player15"
+      },
+      {
+        "wing": "t2_player16"
+      },
+      {
+        "wing": "t2_player17"
+      }
+    ],
+    "mission": {
+      "name": "guadalcanal_Bttl",
+      "level": "levels/avg_kursk.bin",
+      "type": "domination",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "chapter": "air_ground_battles",
+      "scoreLimit": 6400,
+      "timeLimit": 25,
+      "deathPenaltyMul": 1.0,
+      "randomSpawnTeams": true,
+      "remapAiTankModels": true,
+      "country_axis": "germany",
+      "country_allies": "ussr",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_race_straight": false,
+        "_race_inverted": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      }
+    },
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    },
+    "spectator_points": [],
+    "briefing": {
+      "place_loc": "",
+      "date_loc": "",
+      "objective_loc": "",
+      "music": "action_01",
+      "part": {
+        "event": "",
+        "minTime": 0,
+        "slide": [
+          {
+            "map": true
+          },
+          {
+            "minTime": 4
+          },
+          {
+            "picture": ""
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "t2_tank_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "t2_tank_spawn_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t1_tank_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t1_tank_spawn_02"
+            }
+          },
+          {
+            "captureZone": {
+              "area": "capture_area_01",
+              "side": "ally",
+              "type": "ground"
+            }
+          },
+          {
+            "captureZone": {
+              "area": "capture_area_02",
+              "side": "enemy",
+              "type": "ground"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "squad": {
+        "name": "t1_zoneDef_sq",
+        "tm": [
+          [0.715852,0.0,0.698253],
+          [0.0,1.0,0.0],
+          [-0.698253,0.0,0.715852],
+          [1481.62,56.8899,3060.88]
+        ],
+        "props": [
+          {
+            "squad_members": "antiTankGun17"
+          },
+          {
+            "squad_members": "antiTankGun18"
+          },
+          {
+            "squad_members": "antiTankGun19"
+          },
+          {
+            "squad_members": "antiTankGun20"
+          },
+          {
+            "squad_members": "antiTankGun21"
+          },
+          {
+            "squad_members": "antiTankGun22"
+          },
+          {
+            "squad_members": "antiTankGun23"
+          },
+          {
+            "squad_members": "antiTankGun24"
+          },
+          {
+            "squad_members": "antiTankGun25"
+          },
+          {
+            "squad_members": "antiTankGun26"
+          },
+          {
+            "squad_members": "antiTankGun27"
+          },
+          {
+            "squad_members": "antiTankGun28"
+          },
+          {
+            "squad_members": "antiTankGun29"
+          },
+          {
+            "squad_members": "antiTankGun30"
+          },
+          {
+            "squad_members": "antiTankGun31"
+          },
+          {
+            "squad_members": "antiTankGun32"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_trench_sq",
+        "tm": [
+          [0.715852,0.0,0.698253],
+          [0.0,1.0,0.0],
+          [-0.698253,0.0,0.715852],
+          [1570.55,63.4336,3037.61]
+        ],
+        "props": [
+          {
+            "squad_members": "trench01"
+          },
+          {
+            "squad_members": "trench02"
+          },
+          {
+            "squad_members": "trench03"
+          },
+          {
+            "squad_members": "trench04"
+          },
+          {
+            "squad_members": "trench05"
+          },
+          {
+            "squad_members": "trench06"
+          },
+          {
+            "squad_members": "trench07"
+          },
+          {
+            "squad_members": "trench08"
+          },
+          {
+            "squad_members": "trench22"
+          },
+          {
+            "squad_members": "trench23"
+          },
+          {
+            "squad_members": "trench24"
+          },
+          {
+            "squad_members": "trench25"
+          },
+          {
+            "squad_members": "trench26"
+          }
+        ]
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun08",
+        "tm": [
+          [-0.497892,0.0,-0.867238],
+          [0.0,1.0,0.0],
+          [0.867238,0.0,-0.497892],
+          [2594.06,61.0798,1824.95]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun05",
+        "tm": [
+          [-0.136879,0.0,-0.990588],
+          [0.0,1.0,0.0],
+          [0.990588,0.0,-0.136879],
+          [2567.49,60.0801,1777.53]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun06",
+        "tm": [
+          [0.651048,0.0,0.759036],
+          [0.0,1.0,0.0],
+          [-0.759036,0.0,0.651048],
+          [2569.29,60.4271,1788.44]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun16",
+        "tm": [
+          [0.999591,0.0,0.0285854],
+          [0.0,1.0,0.0],
+          [-0.0285854,0.0,0.999591],
+          [2733.58,61.5446,1898.64]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun03",
+        "tm": [
+          [-0.109559,0.0,-0.99398],
+          [0.0,1.0,0.0],
+          [0.99398,0.0,-0.109559],
+          [2536.57,59.527,1739.6]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun12",
+        "tm": [
+          [-0.678357,0.0,-0.734733],
+          [0.0,1.0,0.0],
+          [0.734733,0.0,-0.678357],
+          [2672.47,62.7054,1853.21]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun11",
+        "tm": [
+          [0.832801,0.0,-0.55357],
+          [0.0,1.0,0.0],
+          [0.55357,0.0,0.832801],
+          [2654.76,62.1676,1851.69]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun10",
+        "tm": [
+          [-0.999729,0.0,-0.0232567],
+          [0.0,1.0,0.0],
+          [0.0232567,0.0,-0.999729],
+          [2621.37,61.471,1846.76]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun09",
+        "tm": [
+          [-0.327033,0.0,-0.945012],
+          [0.0,1.0,0.0],
+          [0.945012,0.0,-0.327033],
+          [2602.97,61.4294,1842.87]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun07",
+        "tm": [
+          [-0.752689,0.0,-0.658375],
+          [0.0,1.0,0.0],
+          [0.658375,0.0,-0.752689],
+          [2578.29,60.7951,1805.29]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench13",
+        "tm": [
+          [-0.514152,0.0,-0.469752],
+          [0.0,0.696433,0.0],
+          [0.469752,0.0,-0.514152],
+          [2573.73,61.0767,1811.87]
+        ],
+        "unit_class": "det_trench_system_e",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench16",
+        "tm": [
+          [-0.691723,0.0,-0.0808581],
+          [0.0,0.696433,0.0],
+          [0.0808581,0.0,-0.691723],
+          [2620.52,61.8529,1854.3]
+        ],
+        "unit_class": "det_trench_system_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench12",
+        "tm": [
+          [-0.385892,0.0,-0.579747],
+          [0.0,0.696433,0.0],
+          [0.579747,0.0,-0.385892],
+          [2561.6,60.6436,1789.49]
+        ],
+        "unit_class": "det_trench_system_d",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench18",
+        "tm": [
+          [-0.679611,0.0,-0.152146],
+          [0.0,0.696433,0.0],
+          [0.152146,0.0,-0.679611],
+          [2671.32,63.1292,1861.37]
+        ],
+        "unit_class": "det_trench_half_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench09",
+        "tm": [
+          [-0.410238,0.0,-0.562782],
+          [0.0,0.696433,0.0],
+          [0.562782,0.0,-0.410239],
+          [2513.19,59.2644,1711.77]
+        ],
+        "unit_class": "det_trench_half_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench10",
+        "tm": [
+          [-0.299716,0.0,-0.62864],
+          [0.0,0.696433,0.0],
+          [0.62864,0.0,-0.299716],
+          [2532.44,59.6796,1740.22]
+        ],
+        "unit_class": "det_trench_half_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench21",
+        "tm": [
+          [-0.490723,0.0,-0.494176],
+          [0.0,0.696433,0.0],
+          [0.494176,0.0,-0.490723],
+          [2729.55,61.1433,1902.95]
+        ],
+        "unit_class": "det_trench_half_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun04",
+        "tm": [
+          [0.951318,0.0,0.308209],
+          [0.0,1.0,0.0],
+          [-0.308209,0.0,0.951318],
+          [2549.03,59.6394,1752.6]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun01",
+        "tm": [
+          [0.357652,0.0,-0.933854],
+          [0.0,1.0,0.0],
+          [0.933854,0.0,0.357652],
+          [2516.85,58.9232,1705.26]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun02",
+        "tm": [
+          [0.967297,0.0,-0.253643],
+          [0.0,1.0,0.0],
+          [0.253643,0.0,0.967297],
+          [2521.34,58.9986,1711.59]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun14",
+        "tm": [
+          [0.69787,0.0,0.716224],
+          [0.0,1.0,0.0],
+          [-0.716224,0.0,0.69787],
+          [2713.53,62.8994,1871.61]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench19",
+        "tm": [
+          [-0.572694,0.0,-0.396284],
+          [0.0,0.696433,0.0],
+          [0.396284,0.0,-0.572694],
+          [2699.14,63.0556,1868.59]
+        ],
+        "unit_class": "det_trench_system_e",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun13",
+        "tm": [
+          [-0.938524,0.0,-0.345211],
+          [0.0,1.0,0.0],
+          [0.345211,0.0,-0.938524],
+          [2700.38,63.4952,1859.33]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun15",
+        "tm": [
+          [0.922497,0.0,0.386004],
+          [0.0,1.0,0.0],
+          [-0.386004,0.0,0.922497],
+          [2721.88,62.3136,1881.37]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_zoneDef_sq",
+        "tm": [
+          [0.674046,0.0,0.738689],
+          [0.0,1.0,0.0],
+          [-0.738689,0.0,0.674046],
+          [2603.18,64.2499,1718.76]
+        ],
+        "props": [
+          {
+            "squad_members": "antiTankGun01"
+          },
+          {
+            "squad_members": "antiTankGun02"
+          },
+          {
+            "squad_members": "antiTankGun03"
+          },
+          {
+            "squad_members": "antiTankGun04"
+          },
+          {
+            "squad_members": "antiTankGun05"
+          },
+          {
+            "squad_members": "antiTankGun06"
+          },
+          {
+            "squad_members": "antiTankGun07"
+          },
+          {
+            "squad_members": "antiTankGun08"
+          },
+          {
+            "squad_members": "antiTankGun09"
+          },
+          {
+            "squad_members": "antiTankGun10"
+          },
+          {
+            "squad_members": "antiTankGun11"
+          },
+          {
+            "squad_members": "antiTankGun12"
+          },
+          {
+            "squad_members": "antiTankGun13"
+          },
+          {
+            "squad_members": "antiTankGun14"
+          },
+          {
+            "squad_members": "antiTankGun15"
+          },
+          {
+            "squad_members": "antiTankGun16"
+          }
+        ]
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench11",
+        "tm": [
+          [-0.602678,0.0,-0.348995],
+          [0.0,0.696433,0.0],
+          [0.348995,0.0,-0.602678],
+          [2546.77,59.8425,1756.33]
+        ],
+        "unit_class": "det_trench_half_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench14",
+        "tm": [
+          [-0.273491,0.0,-0.640485],
+          [0.0,0.696433,0.0],
+          [0.640485,0.0,-0.273491],
+          [2587.1,61.3001,1830.0]
+        ],
+        "unit_class": "det_trench_system_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench15",
+        "tm": [
+          [-0.524485,0.0,-0.458186],
+          [0.0,0.696433,0.0],
+          [0.458186,0.0,-0.524485],
+          [2597.81,61.7473,1849.12]
+        ],
+        "unit_class": "det_trench_half_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench17",
+        "tm": [
+          [-0.695926,0.0,-0.0265901],
+          [0.0,0.696433,0.0],
+          [0.0265901,0.0,-0.695926],
+          [2653.64,62.7011,1860.7]
+        ],
+        "unit_class": "det_trench_half_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench20",
+        "tm": [
+          [-0.572694,0.0,-0.396284],
+          [0.0,0.696433,0.0],
+          [0.396284,0.0,-0.572694],
+          [2716.32,61.8368,1886.21]
+        ],
+        "unit_class": "det_trench_system_d",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_trench_sq",
+        "tm": [
+          [0.674046,0.0,0.738689],
+          [0.0,1.0,0.0],
+          [-0.738689,0.0,0.674046],
+          [2590.97,59.148,1688.8]
+        ],
+        "props": [
+          {
+            "squad_members": "trench16"
+          },
+          {
+            "squad_members": "trench15"
+          },
+          {
+            "squad_members": "trench17"
+          },
+          {
+            "squad_members": "trench14"
+          },
+          {
+            "squad_members": "trench13"
+          },
+          {
+            "squad_members": "trench18"
+          },
+          {
+            "squad_members": "trench19"
+          },
+          {
+            "squad_members": "trench12"
+          },
+          {
+            "squad_members": "trench20"
+          },
+          {
+            "squad_members": "trench11"
+          },
+          {
+            "squad_members": "trench10"
+          },
+          {
+            "squad_members": "trench21"
+          },
+          {
+            "squad_members": "trench09"
+          }
+        ]
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun24",
+        "tm": [
+          [0.753438,0.0,0.657519],
+          [0.0,1.0,0.0],
+          [-0.657519,0.0,0.753438],
+          [1627.46,70.0502,2945.29]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun21",
+        "tm": [
+          [0.452367,0.0,0.891832],
+          [0.0,1.0,0.0],
+          [-0.891832,0.0,0.452367],
+          [1668.05,70.8341,2981.45]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun22",
+        "tm": [
+          [-0.862947,0.0,-0.505294],
+          [0.0,1.0,0.0],
+          [0.505294,0.0,-0.862947],
+          [1662.79,70.9625,2971.73]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun32",
+        "tm": [
+          [-0.95429,0.0,0.29888],
+          [0.0,1.0,0.0],
+          [-0.29888,0.0,-0.95429],
+          [1471.54,62.7799,2921.11]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun19",
+        "tm": [
+          [0.427647,0.0,0.903945],
+          [0.0,1.0,0.0],
+          [-0.903945,0.0,0.427647],
+          [1709.64,69.3451,3007.23]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun28",
+        "tm": [
+          [0.880839,0.0,0.473416],
+          [0.0,1.0,0.0],
+          [-0.473416,0.0,0.880839],
+          [1544.12,65.4496,2944.14]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun27",
+        "tm": [
+          [-0.60681,0.0,0.794845],
+          [0.0,1.0,0.0],
+          [-0.794845,0.0,-0.60681],
+          [1561.37,66.4048,2939.8]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun26",
+        "tm": [
+          [0.952683,0.0,-0.303963],
+          [0.0,1.0,0.0],
+          [0.303963,0.0,0.952683],
+          [1594.54,68.3513,2933.58]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun25",
+        "tm": [
+          [0.617272,0.0,0.786749],
+          [0.0,1.0,0.0],
+          [-0.786749,0.0,0.617272],
+          [1613.2,69.6278,2931.25]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun23",
+        "tm": [
+          [0.926215,0.0,0.376995],
+          [0.0,1.0,0.0],
+          [-0.376995,0.0,0.926215],
+          [1648.79,70.9503,2958.74]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench05",
+        "tm": [
+          [0.639214,0.0,0.276451],
+          [0.0,0.696433,0.0],
+          [-0.276451,0.0,0.639214],
+          [1650.95,70.956,2951.03]
+        ],
+        "unit_class": "det_trench_system_e",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench08",
+        "tm": [
+          [0.680288,0.0,-0.149087],
+          [0.0,0.696433,0.0],
+          [0.149087,0.0,0.680288],
+          [1592.88,68.5767,2926.17]
+        ],
+        "unit_class": "det_trench_system_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench04",
+        "tm": [
+          [0.553825,0.0,0.422253],
+          [0.0,0.696433,0.0],
+          [-0.422253,0.0,0.553825],
+          [1669.72,70.8804,2968.23]
+        ],
+        "unit_class": "det_trench_system_d",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench23",
+        "tm": [
+          [0.69208,0.0,-0.077746],
+          [0.0,0.696433,0.0],
+          [0.077746,0.0,0.69208],
+          [1542.55,65.5929,2936.05]
+        ],
+        "unit_class": "det_trench_half_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench01",
+        "tm": [
+          [0.57131,0.0,0.398277],
+          [0.0,0.696433,0.0],
+          [-0.398277,0.0,0.57131],
+          [1740.82,67.9924,3025.92]
+        ],
+        "unit_class": "det_trench_half_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench02",
+        "tm": [
+          [0.488298,0.0,0.496571],
+          [0.0,0.696433,0.0],
+          [-0.496571,0.0,0.488298],
+          [1713.35,69.2061,3005.3]
+        ],
+        "unit_class": "det_trench_half_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench26",
+        "tm": [
+          [0.625029,0.0,0.307179],
+          [0.0,0.696433,0.0],
+          [-0.307179,0.0,0.625029],
+          [1473.95,62.9686,2915.73]
+        ],
+        "unit_class": "det_trench_half_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun20",
+        "tm": [
+          [-0.999823,0.0,0.018797],
+          [0.0,1.0,0.0],
+          [-0.018797,0.0,-0.999823],
+          [1693.63,69.9603,2999.01]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun18",
+        "tm": [
+          [-0.0336377,0.0,0.999433],
+          [0.0,1.0,0.0],
+          [-0.999433,0.0,-0.0336377],
+          [1739.48,67.9556,3033.27]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun17",
+        "tm": [
+          [-0.831744,0.0,0.555158],
+          [0.0,1.0,0.0],
+          [-0.555158,0.0,-0.831744],
+          [1733.18,68.3152,3028.75]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun30",
+        "tm": [
+          [-0.893251,0.0,-0.449556],
+          [0.0,1.0,0.0],
+          [0.449556,0.0,-0.893251],
+          [1499.31,63.5841,2940.14]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench24",
+        "tm": [
+          [0.670604,0.0,0.187911],
+          [0.0,0.696433,0.0],
+          [-0.187911,0.0,0.670604],
+          [1513.91,64.2169,2938.29]
+        ],
+        "unit_class": "det_trench_system_e",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun29",
+        "tm": [
+          [0.999792,0.0,0.0203536],
+          [0.0,1.0,0.0],
+          [-0.0203536,0.0,0.999792],
+          [1515.75,64.0682,2947.45]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "antiTankGun31",
+        "tm": [
+          [-0.99794,0.0,-0.0641433],
+          [0.0,1.0,0.0],
+          [0.0641433,0.0,-0.99794],
+          [1488.24,63.2784,2933.63]
+        ],
+        "unit_class": "ussr_zsu_29k",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "antiTankGun"
+        },
+        "way": []
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench03",
+        "tm": [
+          [0.683532,0.0,0.13343],
+          [0.0,0.696433,0.0],
+          [-0.13343,0.0,0.683532],
+          [1694.55,69.9395,2994.75]
+        ],
+        "unit_class": "det_trench_half_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench06",
+        "tm": [
+          [0.467368,0.0,0.516319],
+          [0.0,0.696433,0.0],
+          [-0.516319,0.0,0.467368],
+          [1632.4,70.5581,2938.24]
+        ],
+        "unit_class": "det_trench_system_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench07",
+        "tm": [
+          [0.645211,0.0,0.262148],
+          [0.0,0.696433,0.0],
+          [-0.262148,0.0,0.645211],
+          [1616.04,70.0911,2923.66]
+        ],
+        "unit_class": "det_trench_half_c",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench22",
+        "tm": [
+          [0.666568,0.0,-0.20176],
+          [0.0,0.696433,0.0],
+          [0.20176,0.0,0.666568],
+          [1559.48,66.5738,2930.92]
+        ],
+        "unit_class": "det_trench_half_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "trench25",
+        "tm": [
+          [0.670604,0.0,0.187911],
+          [0.0,0.696433,0.0],
+          [-0.187911,0.0,0.670604],
+          [1491.91,63.5079,2927.24]
+        ],
+        "unit_class": "det_trench_system_d",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "t1_player01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1724.01,70.3449,2919.6]
+        ],
+        "unit_class": "aaa_dummy",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    }
+  ],
+  "areas": [],
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}
