@@ -8,7 +8,9 @@
   "minModeName": 3,
   "maxModeName": 15,
   "resetViralAcquisitionDaysCounter": 1,
-  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6",
+  "moderatorPresenceCheckMaxCode": 65536,
+  "moderatorPresenceCheckPeriodSec": 1200,
+  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;PvE;I2M;Tdm;Capt;",
   "ordersPerSession": 3,
   "tournamentSimple": {
     "defaultRating": 0.0,
@@ -92,10 +94,15 @@
     "maxDaysToCheckComplains": 7,
     "maxComplaintsFromMe": 5
   },
+  "chat": {
+    "threadsListAutoUpdatePeriodMsec": 60000,
+    "threadsListPlayerUpdateTimeoutMsec": 15000,
+    "threadTitleLenMin": 8,
+    "threadTitleLenMax": 160
+  },
   "mapNameToMode": {
     "_GS": 0,
     "_GSn": 0,
-    "AfD": 0,
     "_Dom_no_respawn": 3,
     "Conq_no_respawn": 3,
     "Bttl_no_respawn": 3,
@@ -103,6 +110,7 @@
     "Conq_norespawn": 3,
     "Bttl_norespawn": 3,
     "from_diff": {
+      "AfD": 0,
       "_BfDn": 0,
       "_race": 0,
       "race_straight": 0,
@@ -110,6 +118,7 @@
       "_BfD_norespawn": 0,
       "_bfd_norespawn": 0,
       "_day_norespawn": 0,
+      "_I2M": 0,
       "_Dom": 3,
       "Bttl": 3,
       "Conq": 3,
@@ -117,8 +126,18 @@
       "Conq1": 3,
       "Conq2": 3,
       "Conq3": 3,
-      "Conq4": 3
+      "Conq4": 3,
+      "Conq5": 3,
+      "Conq6": 3
     }
+  },
+  "mapIntDiffToName": {
+    "0": "air_event_arcade",
+    "1": "air_event_historical",
+    "2": "air_event_simulator",
+    "3": "tank_event_arcade",
+    "4": "tank_event_historical",
+    "5": "tank_event_simulator"
   },
   "newPlayersBattles": [
     {
@@ -165,9 +184,6 @@
     "UserLog": {
       "condition": ""
     },
-    "Chat": {
-      "condition": ""
-    },
     "Voice": {
       "condition": ""
     },
@@ -180,16 +196,20 @@
     "Clans": {
       "condition": ""
     },
+    "Battalions": {
+      "condition": ""
+    },
     "Radio": {
       "condition": "",
-      "platform_lock": "ps4"
+      "platform_lock": "android"
     },
     "Twitch": {
       "condition": "",
-      "platform_lock": "ps4"
+      "platform_lock": "ps4;android"
     },
     "Facebook": {
-      "condition": ""
+      "condition": "",
+      "platform_lock": "android"
     },
     "FacebookWallPost": [],
     "FacebookScreenshots": [],
@@ -222,6 +242,29 @@
         "condition": "role_TESTER"
       }
     ],
+    "Chat": {
+      "condition": ""
+    },
+    "ChatThreadsView": {
+      "condition": ""
+    },
+    "ChatThreadLang": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_GM_(RO+BAN)"
+      },
+      {
+        "condition": "role_CHAT_GM_(IN-GAME)"
+      }
+    ],
+    "UserExterior": {
+      "condition": ""
+    },
     "AnyTankEntitlements": [
       {
         "condition": "tank_advanced_pack_t-34_m4a2_ru"
@@ -363,9 +406,41 @@
       "platform_lock": "ps4"
     },
     "UserMissions": {
+      "condition": "",
+      "platform_lock": "ps4;android"
+    },
+    "UserMissionsSkirmishByUrl": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      }
+    ],
+    "Replays": {
+      "condition": "",
+      "platform_lock": "ps4;android"
+    },
+    "Benchmark": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "DamageModelViewer": {
       "condition": ""
     },
-    "UserMissionsSkirmish": [
+    "DamageModelViewerAircraft": {
+      "condition": ""
+    },
+    "XrayCrewAircraft": {
+      "condition": ""
+    },
+    "XrayDmgIndicator": {
+      "condition": ""
+    },
+    "animatedRewardMessages": {
+      "condition": "role_DEVELOPER"
+    },
+    "VideoPreview": [
       {
         "condition": "role_GAIJIN"
       },
@@ -376,18 +451,7 @@
         "condition": "role_TESTER"
       }
     ],
-    "DamageModelViewer": {
-      "condition": ""
-    },
-    "DamageModelViewerAircraft": {
-      "condition": ""
-    },
-    "XrayCrewAircraft": {
-      "condition": ""
-    },
-    "ShowNextUnlockInfo": {
-      "condition": ""
-    },
+    "ShowNextUnlockInfo": [],
     "extendedReplayInfo": {
       "condition": ""
     },
@@ -420,6 +484,10 @@
     "AllModesInRandomBattles": {
       "condition": ""
     },
+    "SimulatorDifficulty": {
+      "condition": "",
+      "platform_lock": "android"
+    },
     "XrayDeath": {
       "condition": ""
     },
@@ -450,35 +518,17 @@
     "Items": {
       "condition": ""
     },
+    "enableApex": {
+      "platform_lock": "android;iOS"
+    },
     "TelescopeCamera": {
       "condition": ""
     },
     "AdvancedMouseAim": {
-      "condition": "",
-      "release_channel": "ReleaseCandidate"
-    },
-    "EnableGoldPurchase": {
       "condition": ""
     },
-    "EnablePremiumPurchase": {
-      "condition": ""
-    },
-    "OnlineShopPacks": {
-      "condition": ""
-    },
-    "USATanksUnlocked": [
-      {
-        "condition": "wt_starter_tank_usa_2014"
-      },
-      {
-        "condition": "wt_advanced_tank_usa_2014"
-      },
-      {
-        "condition": "USATanksUnlockedHiddenEntitlements"
-      },
-      {
-        "condition": "role_GAIJIN"
-      },
+    "AdvancedInstructor": [],
+    "AdvancedStickPusher": [
       {
         "condition": "role_DEVELOPER"
       },
@@ -489,25 +539,17 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
-    "USATanksUnlockedHiddenEntitlements": [
-      {
-        "condition": "wt_access_USA_tanks"
-      },
-      {
-        "condition": "qcyber_bonus_2014"
-      }
-    ],
-    "USATanksInFirstCountryChoice": [
-      {
-        "condition": "wt_starter_tank_usa_2014"
-      },
-      {
-        "condition": "wt_advanced_tank_usa_2014"
-      },
-      {
-        "condition": "qcyber_bonus_2014"
-      }
-    ],
+    "EnableGoldPurchase": {
+      "condition": "",
+      "platform_lock": "android"
+    },
+    "EnablePremiumPurchase": {
+      "condition": ""
+    },
+    "OnlineShopPacks": {
+      "condition": "",
+      "platform_lock": "android"
+    },
     "everyDayLoginAward": {
       "condition": ""
     },
@@ -545,32 +587,20 @@
     "ItemsRoulette": {
       "condition": ""
     },
-    "TankModEffect": [
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      }
-    ],
+    "TankModEffect": {
+      "condition": ""
+    },
     "pc_only_events": {
       "condition": "",
       "platform_lock": "ps4"
     },
-    "Orders": [
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      }
-    ],
+    "ps4_only_events": {
+      "condition": "",
+      "platform_lock": "pc;android"
+    },
+    "Orders": {
+      "condition": ""
+    },
     "BattleTasks": [
       {
         "condition": "role_DEVELOPER"
@@ -579,14 +609,9 @@
         "condition": "role_TESTER"
       }
     ],
-    "BulletParamsForAirs": [
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "BulletParamsForAirs": {
+      "condition": ""
+    },
     "TournamentTesters": [
       {
         "condition": "wt_events_tester"
@@ -626,7 +651,51 @@
       {
         "condition": "role_ALPHA_SUPERVISOR"
       }
-    ]
+    ],
+    "TankDetailedDamageIndicator": {
+      "condition": ""
+    },
+    "KillLogWithIcons": {
+      "condition": ""
+    },
+    "LiveStats": {
+      "condition": ""
+    },
+    "ShowAllPromoBlocks": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "ShowAllBattleTasks": {
+      "condition": "role_DEVELOPER"
+    },
+    "ExtendedCrewSkillsDescription": {
+      "condition": ""
+    },
+    "CrewInfoPanel": {
+      "condition": ""
+    },
+    "HiddenLeaderboardRows": {
+      "condition": "role_DEVELOPER"
+    },
+    "ExpertToAce": {
+      "condition": ""
+    },
+    "pacific_41_43": {
+      "condition": "pacific_41_43_unlock"
+    },
+    "usa_pacific_41_43": {
+      "condition": "pacific_41_43_unlock"
+    },
+    "jpn_pacific_41_43": {
+      "condition": "pacific_41_43_unlock"
+    }
   },
   "avgAirRankSpeed": {
     "rank0": 300,
@@ -658,5 +727,36 @@
   },
   "squadronStatisticsFilter": {
     "fullreal": false
+  },
+  "promo_block": {
+    "Store_BritishPack": {
+      "link": "http://bit.ly/WTbrtanks",
+      "reqFeature": "pc_only_events",
+      "text": "Get British tanks!",
+      "text_en": "Get British tanks!",
+      "text_ru": "Премиумные британские танки!",
+      "text_de": "Hol dir die britischen Panzer!",
+      "text_cz": "Získejte britské tanky!",
+      "text_es": "¡Consigue los carros británicos!",
+      "text_pt": "Obtenha tanques britânicos"
+    },
+    "events_mainmenu_button": {
+      "color": "#33556126",
+      "action": "events"
+    },
+    "tutorial_mainmenu_button": {
+      "color": "#331e5876",
+      "notifyNew": true,
+      "action": "tutorial"
+    },
+    "battle_tasks_mainmenu_button": {
+      "color": "#33fb4417",
+      "text": "#mainmenu/btnBattleTasks",
+      "action": "battle_tasks"
+    }
+  },
+  "time_to_kick": {
+    "show_timer_threshold": 30,
+    "show_alert_threshold": 15
   }
 }

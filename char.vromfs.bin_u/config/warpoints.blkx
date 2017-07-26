@@ -9,7 +9,31 @@
     "costGoldSecondaryInfo": 0
   },
   {
-    "maxWPLimit": 400000000
+    "battalionCreateGoldCost": 0
+  },
+  {
+    "battalionCreateWPCost": 1000000
+  },
+  {
+    "battalionCostGoldPrimaryInfo": 0
+  },
+  {
+    "battalionCostWPPrimaryInfo": 1000000
+  },
+  {
+    "battalionCostGoldSecondaryInfo": 0
+  },
+  {
+    "battalionCostWPSecondaryInfo": 0
+  },
+  {
+    "clanUpgradeCostGoldBattalionToNormal": 2500
+  },
+  {
+    "clanUpgradeCostWPBattalionToNormal": 0
+  },
+  {
+    "maxWPLimit": 2000000000
   },
   {
     "maxGoldLimit": 200000000
@@ -36,51 +60,6 @@
     "minimalAircraftClimbSpeed": 0.4
   },
   {
-    "trophyAwardCount": 6
-  },
-  {
-    "trophyAward1": 1000
-  },
-  {
-    "trophyAward2": 5000
-  },
-  {
-    "trophyAward3": 10000
-  },
-  {
-    "trophyAward4": 50000
-  },
-  {
-    "trophyAward5": 100000
-  },
-  {
-    "trophyAward6": 1000000
-  },
-  {
-    "trophyMaxWP1": 1000000
-  },
-  {
-    "trophyMaxWP2": 5000000
-  },
-  {
-    "trophyMaxWP1award4Mul": 0.9
-  },
-  {
-    "trophyMaxWP2award4Mul": 0.8
-  },
-  {
-    "trophyMaxWP1award5Mul": 0.75
-  },
-  {
-    "trophyMaxWP2award5Mul": 0.5
-  },
-  {
-    "trophyMaxWP1award6Mul": 0.5
-  },
-  {
-    "trophyMaxWP2award6Mul": 0.0
-  },
-  {
     "trophyNoAwardChance": 0.79
   },
   {
@@ -103,90 +82,6 @@
   },
   {
     "trophyMinActivityCoef": 0.5
-  },
-  {
-    "trophyAward2minRank": 0
-  },
-  {
-    "trophyAward3minRank": 0
-  },
-  {
-    "trophyAward4minRank": 4
-  },
-  {
-    "trophyAward5minRank": 5
-  },
-  {
-    "trophyAward6minRank": 8
-  },
-  {
-    "trophyDefaultChance": 0.0001
-  },
-  {
-    "trophyAward2Pow": 0.2
-  },
-  {
-    "trophyAward2Mul": 0.033
-  },
-  {
-    "trophyAward2Add": 0.18
-  },
-  {
-    "trophyAward3Pow": 0.9
-  },
-  {
-    "trophyAward3Mul": 0.0052
-  },
-  {
-    "trophyAward3Add": 0.1
-  },
-  {
-    "trophyAward4Pow": 1.3
-  },
-  {
-    "trophyAward4Mul": 0.0038
-  },
-  {
-    "trophyAward4Add": 0.01
-  },
-  {
-    "trophyAward5Pow": 1.58
-  },
-  {
-    "trophyAward5Mul": 0.0013
-  },
-  {
-    "trophyAward5Add": 0.01
-  },
-  {
-    "trophyAward6Pow": 1.0
-  },
-  {
-    "trophyAward6Mul": 0.0
-  },
-  {
-    "trophyAward6Add": 0.001
-  },
-  {
-    "trophyNoAward1Streak": 0.0
-  },
-  {
-    "trophyNoAward2Streak": 0.017
-  },
-  {
-    "trophyNoAward3Streak": 0.017
-  },
-  {
-    "trophyNoAward4Streak": 0.017
-  },
-  {
-    "trophyNoAward5Streak": 0.017
-  },
-  {
-    "trophyNoAward6Streak": 0.067
-  },
-  {
-    "korRndStreakDiv": 3
   },
   {
     "baseRaceAwardAdd": 500
@@ -268,12 +163,6 @@
   },
   {
     "teamKillDmgMul": 0.5
-  },
-  {
-    "arcadeRTime": 0.5
-  },
-  {
-    "realisticRTime": 0.499
   },
   {
     "rCostRLimitMul": 2.0
@@ -489,7 +378,7 @@
     "scoreBaseCapture": 300.0
   },
   {
-    "scoreSight": 1.0
+    "scoreSight": 0.0
   },
   {
     "scoreHit": 10.0
@@ -588,6 +477,9 @@
     "spawnScoreMultiplier": 1.0
   },
   {
+    "spawnCostMulForFighterWithBombs": 1.2
+  },
+  {
     "pvpClansRewardPeriod": -1
   },
   {
@@ -636,6 +528,22 @@
     "isTankEventsEnabled": true
   },
   {
+    "expert_to_ace_cost_reduce": [
+      {
+        "stage": {
+          "percent": 50,
+          "discount": 50
+        }
+      },
+      {
+        "stage": {
+          "percent": 75,
+          "discount": 75
+        }
+      }
+    ]
+  },
+  {
     "Air": {
       "airKillMulMode0": 1.2,
       "airKillMulMode1": 1.4,
@@ -676,17 +584,17 @@
       "critHitMulMode4": 1.0,
       "critHitMulMode5": 0.75,
       "destroyBaseMode0": 1.0,
-      "destroyBaseMode1": 2.0,
-      "destroyBaseMode2": 2.0,
+      "destroyBaseMode1": 1.5,
+      "destroyBaseMode2": 1.8,
       "destroyBaseMode3": 1.0,
-      "destroyBaseMode4": 2.0,
-      "destroyBaseMode5": 2.0,
+      "destroyBaseMode4": 1.5,
+      "destroyBaseMode5": 1.8,
       "damageBaseMode0": 1.0,
-      "damageBaseMode1": 2.0,
-      "damageBaseMode2": 2.0,
+      "damageBaseMode1": 1.5,
+      "damageBaseMode2": 1.8,
       "damageBaseMode3": 1.0,
-      "damageBaseMode4": 2.0,
-      "damageBaseMode5": 2.0,
+      "damageBaseMode4": 1.5,
+      "damageBaseMode5": 1.8,
       "avgBattleTimeMode0": 80.0,
       "avgBattleTimeMode1": 100.0,
       "avgBattleTimeMode2": 100.0,
@@ -734,17 +642,17 @@
       "captureLandMode4": 1.3,
       "captureLandMode5": 1.5,
       "destroyBaseMode0": 1.0,
-      "destroyBaseMode1": 2.0,
-      "destroyBaseMode2": 2.0,
+      "destroyBaseMode1": 1.5,
+      "destroyBaseMode2": 1.8,
       "destroyBaseMode3": 1.0,
-      "destroyBaseMode4": 2.0,
-      "destroyBaseMode5": 2.0,
+      "destroyBaseMode4": 1.5,
+      "destroyBaseMode5": 1.8,
       "damageBaseMode0": 1.0,
-      "damageBaseMode1": 2.0,
-      "damageBaseMode2": 2.0,
+      "damageBaseMode1": 1.5,
+      "damageBaseMode2": 1.8,
       "damageBaseMode3": 1.0,
-      "damageBaseMode4": 2.0,
-      "damageBaseMode5": 2.0,
+      "damageBaseMode4": 1.5,
+      "damageBaseMode5": 1.8,
       "avgBattleTimeMode0": 120.0,
       "avgBattleTimeMode1": 150.0,
       "avgBattleTimeMode2": 160.0,
@@ -919,6 +827,24 @@
           "exp_heavy_tank": 2.0,
           "exp_tank_destroyer": 0.0,
           "exp_SPAA": 1.35
+        },
+        "spawn_delay_mul_by_exp_class": {
+          "exp_fighter": 1.0,
+          "exp_bomber": 1.0,
+          "exp_assault": 1.0,
+          "exp_tank": 1.0,
+          "exp_heavy_tank": 1.0,
+          "exp_tank_destroyer": 1.0,
+          "exp_SPAA": 1.0
+        },
+        "spawn_delay_add_by_exp_class": {
+          "exp_fighter": 0,
+          "exp_bomber": 1,
+          "exp_assault": 1,
+          "exp_tank": 100,
+          "exp_heavy_tank": 100,
+          "exp_tank_destroyer": 100,
+          "exp_SPAA": 100
         }
       },
       "Historical": {
@@ -935,6 +861,24 @@
           "exp_heavy_tank": 1.0,
           "exp_tank_destroyer": 0.65,
           "exp_SPAA": 0.5
+        },
+        "spawn_delay_mul_by_exp_class": {
+          "exp_fighter": 1.0,
+          "exp_bomber": 1.0,
+          "exp_assault": 1.0,
+          "exp_tank": 1.0,
+          "exp_heavy_tank": 1.0,
+          "exp_tank_destroyer": 1.0,
+          "exp_SPAA": 1.0
+        },
+        "spawn_delay_add_by_exp_class": {
+          "exp_fighter": 0,
+          "exp_bomber": 1,
+          "exp_assault": 1,
+          "exp_tank": 100,
+          "exp_heavy_tank": 100,
+          "exp_tank_destroyer": 100,
+          "exp_SPAA": 100
         }
       },
       "Simulation": {
@@ -951,6 +895,24 @@
           "exp_heavy_tank": 1.0,
           "exp_tank_destroyer": 0.65,
           "exp_SPAA": 0.5
+        },
+        "spawn_delay_mul_by_exp_class": {
+          "exp_fighter": 1.0,
+          "exp_bomber": 1.0,
+          "exp_assault": 1.0,
+          "exp_tank": 1.0,
+          "exp_heavy_tank": 1.0,
+          "exp_tank_destroyer": 1.0,
+          "exp_SPAA": 1.0
+        },
+        "spawn_delay_add_by_exp_class": {
+          "exp_fighter": 0,
+          "exp_bomber": 1,
+          "exp_assault": 1,
+          "exp_tank": 100,
+          "exp_heavy_tank": 100,
+          "exp_tank_destroyer": 100,
+          "exp_SPAA": 100
         }
       },
       "TankArcade": {
@@ -967,6 +929,24 @@
           "exp_heavy_tank": 0.0,
           "exp_tank_destroyer": 0.0,
           "exp_SPAA": 1.35
+        },
+        "spawn_delay_mul_by_exp_class": {
+          "exp_fighter": 1.0,
+          "exp_bomber": 1.0,
+          "exp_assault": 1.0,
+          "exp_tank": 1.0,
+          "exp_heavy_tank": 1.0,
+          "exp_tank_destroyer": 1.0,
+          "exp_SPAA": 1.0
+        },
+        "spawn_delay_add_by_exp_class": {
+          "exp_fighter": 0,
+          "exp_bomber": 0,
+          "exp_assault": 0,
+          "exp_tank": 0,
+          "exp_heavy_tank": 0,
+          "exp_tank_destroyer": 0,
+          "exp_SPAA": 0
         }
       },
       "TankHistorical": {
@@ -983,6 +963,24 @@
           "exp_heavy_tank": 1.0,
           "exp_tank_destroyer": 0.65,
           "exp_SPAA": 0.5
+        },
+        "spawn_delay_mul_by_exp_class": {
+          "exp_fighter": 1.0,
+          "exp_bomber": 1.0,
+          "exp_assault": 1.0,
+          "exp_tank": 1.0,
+          "exp_heavy_tank": 1.0,
+          "exp_tank_destroyer": 1.0,
+          "exp_SPAA": 1.0
+        },
+        "spawn_delay_add_by_exp_class": {
+          "exp_fighter": 0,
+          "exp_bomber": 0,
+          "exp_assault": 0,
+          "exp_tank": 0,
+          "exp_heavy_tank": 0,
+          "exp_tank_destroyer": 0,
+          "exp_SPAA": 0
         }
       },
       "TankSimulation": {
@@ -999,6 +997,24 @@
           "exp_heavy_tank": 1.0,
           "exp_tank_destroyer": 0.65,
           "exp_SPAA": 0.5
+        },
+        "spawn_delay_mul_by_exp_class": {
+          "exp_fighter": 1.0,
+          "exp_bomber": 1.0,
+          "exp_assault": 1.0,
+          "exp_tank": 1.0,
+          "exp_heavy_tank": 1.0,
+          "exp_tank_destroyer": 1.0,
+          "exp_SPAA": 1.0
+        },
+        "spawn_delay_add_by_exp_class": {
+          "exp_fighter": 0,
+          "exp_bomber": 0,
+          "exp_assault": 0,
+          "exp_tank": 0,
+          "exp_heavy_tank": 0,
+          "exp_tank_destroyer": 0,
+          "exp_SPAA": 0
         }
       }
     }
@@ -1041,5 +1057,10 @@
         "decor": "[]"
       }
     ]
+  },
+  {
+    "battalionTagDecorators": {
+      "decor": "**"
+    }
   }
 ]

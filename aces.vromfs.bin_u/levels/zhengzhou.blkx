@@ -21,6 +21,8 @@
   "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
   "lastclip_horizon": true,
+  "wind_scale": 0.8,
+  "max_wind_strength": 3.5,
   "weather": {
     "cloudsOffsetBase": 100.0,
     "cloudsOffsetFrom": 20000.0,
@@ -29,35 +31,13 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "foam_mul": 0.0,
-      "shore_wave_bump_scale": 0.0,
-      "shore_waves_count": 0.0,
-      "water_color": [0.22,0.22,0.15,1.0],
-      "water_shore_blending_min_height": 0.1,
-      "water_depth_to_opacity_exp_base": 0.85,
-      "shore_start_wave_depth": 0.1
-    }
-  },
-  "water_3d": {
-    "magnitude1": 2.5,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 1.2,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "amazon_underwater",
-    "scaleTex": "underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5],
-    "farWaterBumpScale": 0.15
+    "max_river_width": 1500.0,
+    "ocean_density": 0.4,
+    "river_density": 1.0,
+    "ocean0": [0.3,0.25,0.08,0.0],
+    "ocean1": [0.56,0.54,0.28,0.0],
+    "river0": [0.5,0.45,0.08,0.0],
+    "river1": [0.44,0.45,0.19,0.0]
   },
   "randomGrass": [
     {

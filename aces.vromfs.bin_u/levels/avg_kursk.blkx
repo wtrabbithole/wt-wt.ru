@@ -60,7 +60,7 @@
     "tankMapColorMult": "#f0ebdcdc"
   },
   {
-    "tankFogMul": 1.5
+    "tankFogMul": 1.0
   },
   {
     "numBorderCellsXPos": 8
@@ -93,7 +93,7 @@
     "levelMapAltOffset": -11.0
   },
   {
-    "weatherPreset": "gameData/environments/weather_preset_ground.blk"
+    "weatherPreset": "gameData/environments/weather_preset_1.blk"
   },
   {
     "weatherTypes": "gameData/environments/weather_types.blk"
@@ -115,46 +115,17 @@
   },
   {
     "shader_vars": {
+      "translucency_detection_hardness": 1.0,
       "parallax_shadow_strength": 5.0,
       "parallax_shadow_length": 2.0,
-      "land_bump_scale": -8.0,
-      "water": {
-        "water_sparkles_fade_from": 10.0,
-        "water_sparkles_fade_to": 100.0,
-        "water_bump_scale_near": 0.03,
-        "water3d_bump_texcoord_multiplier": 2.0,
-        "shore_wave_bump_scale": 0.0,
-        "shore_waves_count": 1.0,
-        "shore_start_wave_depth": 0.1,
-        "foam_mul": 0.0,
-        "water_reflection_color": [0.2,0.2,0.2,0.0],
-        "water_surface_refraction_color": [0.2,0.2,0.2,0.0],
-        "sun_reflection_power": 196.0,
-        "water_color": [0.22,0.24,0.15,1.0],
-        "water3d_min_fresnel": 0.1,
-        "water_shore_blending_min_height": 0.1,
-        "water_depth_to_opacity_exp_base": 0.5
-      }
-    }
-  },
-  {
-    "water_3d": {
-      "magnitude1": 0.01,
-      "heightmapStep1": 2.0,
-      "speed1": [-2.0,0.0],
-      "magnitude2": 0.01,
-      "heightmapStep2": 1.0,
-      "speed2": [-1.0,1.0],
-      "LODCoefficient": 17.0,
-      "LODAddedTerm": 0.0,
-      "morphStart": 0.7,
-      "heightmap": "water_hm_a",
-      "colorTex": "amazon_underwater",
-      "scaleTex": "underocean_scale",
-      "scaleTexCoord0": [-32768.0,-32768.0],
-      "scaleTexCoord1": [32768.0,32768.0],
-      "color": [0.5,0.5,0.5],
-      "farWaterBumpScale": 0.15
+      "land_bump_scale": -2.0,
+      "max_river_width": 1500.0,
+      "ocean_density": 1.0,
+      "river_density": 1.0,
+      "ocean0": [0.11,0.25,0.12,0.0],
+      "ocean1": [0.19,0.28,0.14,0.0],
+      "river0": [0.4,0.34,0.22,0.0],
+      "river1": [0.53,0.41,0.31,0.0]
     }
   },
   {

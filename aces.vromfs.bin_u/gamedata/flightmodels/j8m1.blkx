@@ -339,8 +339,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 15.2
         }
       },
@@ -372,81 +370,65 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 44.5
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 49.1
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 55.7
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 55.7
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 40.5
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 40.5
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 61.4
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 61.4
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 41.7
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 41.7
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 29.0
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 29.0
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 47.4
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 47.4
         }
       },
@@ -457,18 +439,12 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         }
       },
@@ -485,43 +461,27 @@
       },
       "steel_tank_armor": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 64.6
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank5_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank6_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 57.6
         },
         "tank7_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank8_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 57.6
         }
       },
@@ -1799,59 +1759,23 @@
     }
   },
   {
-    "tags": [
-      {
-        "jet_engine": true
-      },
-      {
-        "training": true
-      },
-      {
-        "all": true
-      },
-      {
-        "axis": true
-      },
-      {
-        "axis_achievement": true
-      },
-      {
-        "country_japan": true
-      },
-      {
-        "type_jet_fighter": true
-      },
-      {
-        "pacific": true
-      },
-      {
-        "type_fighter": true
-      },
-      {
-        "year1944": true
-      },
-      {
-        "year1945": true
-      },
-      {
-        "cannot_takeoff": true
-      },
-      {
-        "not_in_dynamic_campaign": true
-      },
-      {
-        "can_be_played_with_cockpit_view_only": true
-      },
-      {
-        "hangar": true
-      },
-      {
-        "pacific": true
-      },
-      {
-        "not_in_dynamic_campaign": true
-      }
-    ]
+    "tags": {
+      "jet_engine": true,
+      "training": true,
+      "all": true,
+      "axis": true,
+      "axis_achievement": true,
+      "country_japan": true,
+      "type_jet_fighter": true,
+      "pacific": true,
+      "type_fighter": true,
+      "year1944": true,
+      "year1945": true,
+      "cannot_takeoff": true,
+      "not_in_dynamic_campaign": true,
+      "can_be_played_with_cockpit_view_only": true,
+      "hangar": true
+    }
   },
   {
     "Params": {
@@ -1934,6 +1858,18 @@
           "from": "j8m1_a_dmg*",
           "to": "j8m1_prototype_403_live_a_dmg*"
         }
+      },
+      {
+        "replace_tex": {
+          "from": "j8m1_n*",
+          "to": "j8m1_prototype_403_live_n*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "j8m1_n_dmg*",
+          "to": "j8m1_prototype_403_live_n_dmg*"
+        }
       }
     ]
   },
@@ -1953,6 +1889,18 @@
           "from": "j8m1_a_dmg*",
           "to": "j8m1_prototype_403_live_a_tomoe_dmg*"
         }
+      },
+      {
+        "replace_tex": {
+          "from": "j8m1_n*",
+          "to": "j8m1_prototype_403_live_n*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "j8m1_n_dmg*",
+          "to": "j8m1_prototype_403_live_n_dmg*"
+        }
       }
     ]
   },
@@ -1965,6 +1913,9 @@
     "cockpit": {
       "headPos": [0.915,0.521,-0.0],
       "headPosOnShooting": [0.915,0.521,-0.0],
+      "lightPos": [1.296255,0.354864,-0.00609],
+      "lightColor": [0.12,0.05,0.03],
+      "lightAttenuation": 5.0,
       "shadowSphereMultiplier": 2.0,
       "gunLightRadiusMul": 0.05,
       "devices": [

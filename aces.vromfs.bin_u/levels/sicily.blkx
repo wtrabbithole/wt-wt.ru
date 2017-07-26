@@ -14,7 +14,7 @@
   "mirrorShrinkZPos": 256.0,
   "mirrorShrinkZNeg": 256.0,
   "microDetailScaleIfLC0": 0.251,
-  "gridSteps": [3250.0,3250.0],
+  "gridSteps": [6400.0,6400.0],
   "vsmAngleThreshold": 20.0,
   "weatherPreset": "gameData/environments/weather_preset_1_sicily.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
@@ -33,49 +33,19 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "parallax_shadow_strength": 5.0,
-    "parallax_shadow_length": 2.0,
-    "land_bump_scale": -4.0,
-    "water": {
-      "water_sparkles_fade_from": 10.0,
-      "water_sparkles_fade_to": 100.0,
-      "water3d_min_fresnel": 0.12,
-      "water_reflection_color": "#e8efff00",
-      "water_color_tex_scale_x": 8000.0,
-      "water_color_tex_scale_y": 12000.0,
-      "foam_mul": 0.5,
-      "water_bump_scale_near": 0.0094,
-      "water_shore_blending_min_height": 3.0,
-      "water_depth_to_opacity_exp_base": 0.846,
-      "water_color": [0.15,0.16,0.17,1.0],
-      "water_color_light_loss": [0.925,0.97,0.96,1.0],
-      "shore_start_wave_depth": 3.0,
-      "shore_wave_bump_scale": 1.0,
-      "shore_waves_count": 1.0,
-      "water_bump_scale_far": 0.0063
-    }
-  },
-  "waterStub": {
-    "enable": true,
-    "minX": 15000.0
-  },
-  "water_3d": {
-    "magnitude1": 0.125,
-    "heightmapStep1": 0.05,
-    "speed1": [-2.0,0.0],
-    "magnitude2": 0.125,
-    "heightmapStep2": 0.025,
-    "speed2": [-1.0,1.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean",
-    "scaleTex": "sicily_underocean_scale",
-    "farWaterBumpScale": 0.15,
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5]
+    "specular_detect_land_color": [0.3,0.05,-0.2,0.07],
+    "translucency_detection_hardness": 1.0,
+    "land_smoothness_detect_color": [0.41,0.43,0.38,0.2],
+    "smoothness_detection_hardness": 2.0,
+    "land_bump_scale": 0.3,
+    "max_river_width": 1500.0,
+    "ocean_density": 0.6,
+    "river_density": 0.6,
+    "ocean0": [0.29,0.34,0.25,0.0],
+    "ocean1": [0.39,0.44,0.35,0.0],
+    "river0": [0.5,0.35,0.12,0.0],
+    "river1": [0.36,0.41,0.17,0.0],
+    "water_color_noise_size": 1237.0
   },
   "randomGrass": [
     {

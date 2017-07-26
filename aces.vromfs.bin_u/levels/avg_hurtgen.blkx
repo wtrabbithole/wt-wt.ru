@@ -1,23 +1,23 @@
 {
   "mandatoryLandquality": 1,
   "z_far": 50000.0,
-  "mapCoord0": [-65536.0,-65536.0],
-  "mapCoord1": [65536.0,65536.0],
-  "aiMapCoord0": [-32768.0,-65536.0],
-  "aiMapCoord1": [65536.0,65536.0],
+  "mapCoord0": [-32768.0,-32768.0],
+  "mapCoord1": [32768.0,32768.0],
+  "aiMapCoord0": [-32768.0,-32768.0],
+  "aiMapCoord1": [32768.0,32768.0],
   "minAreaSize": [12000.0,12000.0],
   "gridSteps": [2048.0,2048.0],
-  "gridZeroPoint": [-65536.0,-65536.0],
+  "gridZeroPoint": [-32768.0,-32768.0],
   "gridSize": [16384.0,16384.0],
   "aiTanksMapCoord0": [250.0,250.0],
-  "aiTanksMapCoord1": [3846.0,3846.0],
+  "aiTanksMapCoord1": [3950.0,3950.0],
   "tankMapCoord0": [0.0,0.0],
   "tankMapCoord1": [4096.0,4096.0],
   "dirtMapCoord0": [500.0,500.0],
   "dirtMapCoord1": [3500.0,3500.0],
   "tankGridSteps": [410.0,410.0],
   "tankGridSize": [4096.0,4096.0],
-  "tankFogMul": 1.2,
+  "tankFogMul": 1.0,
   "numBorderCellsXPos": 8,
   "numBorderCellsXNeg": 8,
   "numBorderCellsZPos": 8,
@@ -27,10 +27,13 @@
   "mirrorShrinkXNeg": 256.0,
   "mirrorShrinkZPos": 256.0,
   "mirrorShrinkZNeg": 256.0,
-  "weatherPreset": "gameData/environments/weather_preset_ground.blk",
+  "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
   "lastClip": true,
   "lastclip_horizon": true,
+  "windDir": [-0.4,-0.5],
+  "wind_scale": 0.8,
+  "max_wind_strength": 3.5,
   "alternativeMapCoord": {
     "aiTanksMapCoord0": [250.0,250.0],
     "aiTanksMapCoord1": [3950.0,3950.0],
@@ -53,47 +56,14 @@
     "minHazeBaseKm": -1000.0
   },
   "shader_vars": {
-    "parallax_shadow_strength": 5.0,
-    "parallax_shadow_length": 2.0,
-    "land_bump_scale": -4.0,
-    "water": {
-      "water_sparkles_fade_from": 10.0,
-      "water_sparkles_fade_to": 100.0,
-      "water_bump_scale_near": 0.03,
-      "water3d_bump_texcoord_multiplier": 2.0,
-      "shore_start_wave_depth": 3.0,
-      "shore_wave_bump_scale": 0.5,
-      "shore_waves_count": 1.0,
-      "foam_mul": 0.0,
-      "water_reflection_color": [0.2,0.2,0.2,0.0],
-      "water_surface_refraction_color": [0.2,0.2,0.2,0.0],
-      "sun_reflection_power": 196.0,
-      "water_color": [0.22,0.24,0.15,1.0],
-      "water3d_min_fresnel": 0.05,
-      "water_shore_blending_min_height": 0.003,
-      "water_depth_to_opacity_exp_base": 0.008
-    }
-  },
-  "water_3d": {
-    "magnitude1": 0.001,
-    "heightmapStep1": 0.05,
-    "speed1": [-2.0,0.0],
-    "magnitude2": 0.001,
-    "heightmapStep2": 0.025,
-    "speed2": [-1.0,1.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "amazon_underwater",
-    "scaleTex": "underocean_scale",
-    "scaleTexCoord0": [-65536.0,-65536.0],
-    "scaleTexCoord1": [65536.0,65536.0],
-    "color": [0.5,0.5,0.5],
-    "farWaterBumpScale": 0.15
-  },
-  "waterStub": {
-    "enable": true
+    "land_bump_scale": 0.4,
+    "max_river_width": 550.0,
+    "ocean_density": 0.5,
+    "river_density": 0.6,
+    "ocean0": [0.29,0.34,0.25,0.0],
+    "ocean1": [0.39,0.44,0.35,0.0],
+    "river0": [0.3,0.25,0.12,0.0],
+    "river1": [0.56,0.54,0.28,0.0]
   },
   "randomGrass": [
     {
@@ -175,13 +145,13 @@
       "hurtgen_detailed_part_tex_d": "hurtgen_detailed_part_tex_d_scatter_mask"
     },
     {
-      "hurtgen_fields_a": "hurtgen_fields_lc_tex_b_mask"
+      "hurtgen_fields_a_tex": "small_fields_tile_tex_m"
     },
     {
-      "hurtgen_forest_a": "hurtgen_forest_lc_tex_a_mask"
+      "hurtgen_fields_b_tex": "ireland_fields_village_tex_m"
     },
     {
-      "hurtgen_forest_air": "hurtgen_forest_lc_tex_a_mask"
+      "hurtgen_forest_main_tex": "forest_tex_m"
     },
     {
       "layer": {

@@ -327,7 +327,7 @@
       "mapCamera": "map_camera",
       "captureZoneAlpha": 1.0,
       "captureZoneIconMinScale": 0.3,
-      "captureZoneIconMaxScale": 0.75,
+      "captureZoneIconMaxScale": 0.3,
       "textOffset": [3.0,3.0],
       "gridColor": "#00000050",
       "fontColor": "#000000ff",
@@ -364,6 +364,16 @@
       "sunk_carrier": "objective_sunk_carrier",
       "bomb_zone": "objective_bomb_zone",
       "protect_zone": "objective_protect_zone",
+      "base": "objective_base",
+      "base_back": "objective_base_back",
+      "icon_sos": "chat_icon_sos",
+      "icon_attack": "chat_icon_attack",
+      "icon_attacking": "chat_icon_attacking",
+      "icon_shield": "chat_icon_need_protect",
+      "icon_attention": "chat_icon_attention",
+      "icon_attention_to_point": "chat_icon_attention",
+      "icon_enemy_marker": "chat_icon_attention",
+      "icon_attack_enemy_marker": "chat_icon_attention",
       "sizeScale": [
         {
           "scale": 0.75
@@ -915,6 +925,12 @@
         "crosshairHorVertSize": [3.0,2.0]
       },
       {
+        "rangefinderVerticalOffset": 40.0
+      },
+      {
+        "rangefinderHorizontalOffset": 5.0
+      },
+      {
         "crosshairColor": {
           "name": "white",
           "color": "#ffffffff"
@@ -1090,7 +1106,10 @@
       "blinkFreq": 3.0,
       "minScale": 0.5,
       "targetScale": 1.2,
-      "targetRelativeAlpha": 0.5
+      "targetRelativeAlpha": 0.5,
+      "targetObjectiveScale": 0.65,
+      "targetWayPointScale": 0.65,
+      "targetUnitScale": 0.8
     }
   },
   {
@@ -1151,6 +1170,7 @@
       "objectivesEnemyBlinkFxColor": "#00000032",
       "colorWinch": "#ffffffc8",
       "colorWinchHover": "#ffff32ff",
+      "colorHitUnitIndicator": "#c83208e6",
       "iconMoving": "moving",
       "iconFighter": "fighter",
       "iconFighterLoS": "fighter_los",
@@ -1169,8 +1189,9 @@
       "iconResque": "radar_circle",
       "iconTarget": "target_selected",
       "iconWinch": "winch_icon",
-      "iconBomb": "table_checkpoint_time_icon",
-      "colorBomb": "#ff4646c8",
+      "iconHitUnitIndicator": "hit_unit_icon",
+      "iconBomb": "bomb_mark",
+      "colorBomb": "#ff4646ff",
       "targetFrameMaxScreenHeightPart": 0.15,
       "targetFrameMaxScale": 2.0,
       "targetFrameOpacityWithoutZ": 0.5,
@@ -1276,8 +1297,9 @@
       "objHeightOffset": 1.0,
       "commandsPos": [114.0,330.0],
       "commandsSize": [348.0,200.0],
-      "dialogsPos": [100.0,620.0],
+      "dialogsPos": [100.0,440.0],
       "dialogsSize": [1080.0,200.0],
+      "dialogsGrowDown": false,
       "cutsceneDialogsPos": [114.0,600.0],
       "cutsceneDialogsSize": [800.0,200.0],
       "topBottomHeight": [10.0,10.0],
@@ -1291,7 +1313,7 @@
       "damageGroundSize": [340.0,200.0],
       "gunJammedPos": [820.0,480.0],
       "gunJammedSize": [440.0,200.0],
-      "damagePosSpectatorShift": -60.0,
+      "damagePosSpectatorShift": -80.0,
       "enemyDamageGroundShiftFromMap": 15.0,
       "underRadarPos": [490.0,60.0],
       "underRadarSize": [300.0,10.0],
@@ -1362,7 +1384,7 @@
           "for": "standard",
           "font": "medium_text_hud",
           "font480": "small_text_hud",
-          "pos": [640.0,560.0],
+          "pos": [640.0,520.0],
           "size": 340.0,
           "numLinesForRisePosY": 3,
           "fontFxType": 2,
@@ -1380,6 +1402,22 @@
           "font480": "small_text_hud",
           "pos": [1040.0,610.0],
           "size": 400.0,
+          "fontFxType": 2,
+          "fontFxOffset": 1,
+          "fontFxColor": "#0000009b",
+          "fontFxScale": 42,
+          "buttonFontFxType": 0,
+          "buttonTextColor": "#000000ff"
+        }
+      },
+      {
+        "settings": {
+          "for": "spectator",
+          "font": "medium_text_hud",
+          "font480": "small_text_hud",
+          "pos": [640.0,500.0],
+          "size": 340.0,
+          "numLinesForRisePosY": 3,
           "fontFxType": 2,
           "fontFxOffset": 1,
           "fontFxColor": "#0000009b",
@@ -1425,6 +1463,7 @@
       "iconHeli": "objective_helicopter",
       "iconTroops": "objective_troops",
       "iconTruck": "objective_truck",
+      "iconScore": "table_score_icon",
       "blinkFreq": 2.0,
       "colorUnderAttack": "#ff0000ff",
       "blinkTime": 2.0,
@@ -1445,7 +1484,7 @@
       "speedCriticalAltitude": 50.0,
       "speedCritical": 150.0,
       "overloadPosThreshold": 6.0,
-      "overloadNegThreshold": -4.0,
+      "overloadNegThreshold": -3.0,
       "iconBack": "button_a",
       "missionLabelPosition": [640.0,550.0],
       "missionCompleteColor": "#ffffffff",
@@ -1559,8 +1598,9 @@
       "patcDeathColor": "#c0c0c0ff",
       "bailoutPosition": [640.0,520.0],
       "eventsPosition": [640.0,580.0],
+      "offsetYEventsForSpectator": -60,
       "bailoutHintTimeLimit": 30.0,
-      "drowningPosition": [640.0,550.0],
+      "drowningPosition": [640.0,480.0],
       "font": "medium_text_hud",
       "fontFxType": 2,
       "fontFxOffset": 1,
@@ -1631,7 +1671,7 @@
   },
   {
     "cutscene": {
-      "sizes": [70.0,140.0]
+      "sizes": [70.0,80.0]
     }
   },
   {
@@ -1995,6 +2035,12 @@
         },
         {
           "toggle_winch": []
+        },
+        {
+          "toolkit_activate": []
+        },
+        {
+          "medikit_activate": []
         }
       ]
     }
@@ -2010,7 +2056,7 @@
           "orient": "lookDirection"
         },
         {
-          "size": [0.16,0.09]
+          "size": [0.22,0.12]
         },
         {
           "thousandths": {

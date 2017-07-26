@@ -11,6 +11,7 @@
   "dialogsVolumeDownSpeed": 0.4,
   "dialogsVolumeUpSpeed": 0.1,
   "hangar_sound": "hangar_outside",
+  "moveListenerPosInCutscenesByFovK": 15.0,
   "budget": {
     "dsp": 5,
     "sound": 100
@@ -165,7 +166,19 @@
         "maxSounds": 1
       },
       "lod_1": {
-        "radius": 700.0,
+        "radius": 1000.0,
+        "maxSounds": 3
+      }
+    }
+  },
+  "tank_engines": {
+    "lods": {
+      "lod_0": {
+        "radius": 50.0,
+        "maxSounds": 1
+      },
+      "lod_1": {
+        "radius": 100.0,
         "maxSounds": 3
       }
     }
@@ -1287,14 +1300,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/tank01",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_panzer3": {
@@ -1321,14 +1334,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/panzer3",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "metal_rattle03": {
@@ -1389,14 +1402,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/hetzer",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_su100": {
@@ -1449,7 +1462,7 @@
         "distScaleOnNotHero": 1.0
       },
       {
-        "offsetPos": [1.0,1.0,0.0]
+        "offsetPos": [-1.0,1.0,0.0]
       }
     ],
     "cockpit": {
@@ -1457,7 +1470,68 @@
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
+  "engine_pt76": {
+    "effects": {
+      "path": "tanks/engines_tanks/pt76",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "tanks/engines_tanks/pt76"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      },
+      {
+        "rpmScale": 0.88
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "tanks/engines_tanks/pt76",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_panzer4": {
@@ -1484,14 +1558,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/panzer4",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_panzer6": {
@@ -1518,14 +1592,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/panzer6",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_maus": {
@@ -1552,14 +1626,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-3.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/maus",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-3.0,1.0,0.0]
     }
   },
   "engine_panther": {
@@ -1586,14 +1660,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/panther",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_stug40": {
@@ -1620,14 +1694,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/stug40",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_sherman_m4a1": {
@@ -1654,14 +1728,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/sherman_m4a1",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_stuart_m5a": {
@@ -1688,14 +1762,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/stuart_m5a",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_m8": {
@@ -1722,14 +1796,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/m8",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_m16": {
@@ -1756,14 +1830,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/m16",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_m1": {
@@ -1824,14 +1898,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/chaffee_m24",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_hellcat_m18": {
@@ -1858,14 +1932,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/hellcat_m18",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "engine_sherman_m4a3": {
@@ -1892,14 +1966,14 @@
       "loadSmooth": 0.05,
       "distSmooth": 0.9,
       "distScaleOnNotHero": 1.0,
-      "offsetPos": [1.0,1.0,0.0]
+      "offsetPos": [-1.0,1.0,0.0]
     },
     "cockpit": {
       "path": "tanks/engines_tanks/sherman_m4a3",
       "event_cockpit_l": "engine_interior",
       "event_start_cockpit_l": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
-      "leftPos": [1.0,1.0,0.0]
+      "leftPos": [-1.0,1.0,0.0]
     }
   },
   "rattle05": {
@@ -2559,7 +2633,9 @@
     "tp_tank": "eventLoadBulletAP",
     "shrapnel_tank": "eventLoadBulletSplinter",
     "he_frag_tank": "eventLoadBulletHighExpl",
+    "hesh_tank": "eventLoadBulletHighExpl",
     "heat_tank": "eventLoadBulletCumulative",
+    "heat_fs_tank": "eventLoadBulletCumulative",
     "apcr_tank": "eventLoadBulletSubCaliber",
     "apds_tank": "eventLoadBulletSubCaliber",
     "tphv_tank": "eventLoadBulletSubCaliber"

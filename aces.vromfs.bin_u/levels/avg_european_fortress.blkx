@@ -12,16 +12,16 @@
     "mandatoryLandquality": 1
   },
   {
-    "mapCoord0": [-32768.0,-32768.0]
+    "mapCoord0": [-16384.0,-16384.0]
   },
   {
-    "mapCoord1": [32768.0,32768.0]
+    "mapCoord1": [16384.0,16384.0]
   },
   {
-    "aiMapCoord0": [-32768.0,-32768.0]
+    "aiMapCoord0": [-16384.0,-16384.0]
   },
   {
-    "aiMapCoord1": [32768.0,32768.0]
+    "aiMapCoord1": [16384.0,16384.0]
   },
   {
     "minAreaSize": [12000.0,12000.0]
@@ -30,7 +30,7 @@
     "gridSteps": [2048.0,2048.0]
   },
   {
-    "gridZeroPoint": [-32768.0,-32768.0]
+    "gridZeroPoint": [-16384.0,-16384.0]
   },
   {
     "gridSize": [16384.0,16384.0]
@@ -84,7 +84,7 @@
     "levelMapAltOffset": -11.0
   },
   {
-    "weatherPreset": "gameData/environments/weather_preset_ground.blk"
+    "weatherPreset": "gameData/environments/weather_preset_1.blk"
   },
   {
     "weatherTypes": "gameData/environments/weather_types.blk"
@@ -118,44 +118,17 @@
       "parallax_shadow_strength": 5.0,
       "parallax_shadow_length": 2.0,
       "land_bump_scale": -8.0,
-      "water": {
-        "water_sparkles_fade_from": 10.0,
-        "water_sparkles_fade_to": 100.0,
-        "water_bump_scale_near": 0.03,
-        "water3d_bump_texcoord_multiplier": 2.0,
-        "shore_wave_bump_scale": 0.0,
-        "shore_waves_count": 3.0,
-        "shore_start_wave_depth": 0.1,
-        "foam_mul": 0.0,
-        "water_reflection_color": [0.2,0.2,0.2,0.0],
-        "water_surface_refraction_color": [0.2,0.2,0.2,0.0],
-        "water_color_light_loss": [0.471,0.373,0.294,0.0],
-        "sun_reflection_power": 196.0,
-        "water_color": [0.16,0.14,0.1,1.0],
-        "water3d_min_fresnel": 0.05,
-        "water_shore_blending_min_height": 0.003,
-        "water_depth_to_opacity_exp_base": 0.008
-      }
-    }
-  },
-  {
-    "water_3d": {
-      "magnitude1": 2.0,
-      "heightmapStep1": 2.0,
-      "speed1": [-20.0,0.0],
-      "magnitude2": 1.0,
-      "heightmapStep2": 1.0,
-      "speed2": [-5.0,5.0],
-      "LODCoefficient": 17.0,
-      "LODAddedTerm": 0.0,
-      "morphStart": 0.7,
-      "heightmap": "water_hm_a",
-      "colorTex": "underocean_britain",
-      "scaleTex": "britain_underocean_scale",
-      "scaleTexCoord0": [-32768.0,-32768.0],
-      "scaleTexCoord1": [32768.0,32768.0],
-      "color": [0.5,0.5,0.5],
-      "farWaterBumpScale": 0.15
+      "specular_detect_land_color": [1.8,1.8,0.5,0.4],
+      "land_smoothness_detect_color": [0.05,0.05,0.05,1.0],
+      "smoothness_detection_hardness": 5.0,
+      "translucency_detection_hardness": 3.0,
+      "max_river_width": 1500.0,
+      "ocean_density": 0.4,
+      "river_density": 1.0,
+      "ocean0": [0.11,0.25,0.12,0.0],
+      "ocean1": [0.19,0.28,0.14,0.0],
+      "river0": [0.4,0.34,0.22,0.0],
+      "river1": [0.53,0.41,0.31,0.0]
     }
   },
   {
@@ -256,24 +229,6 @@
           "horMinScale": 0.5,
           "verScale": 1.2,
           "verMinScale": 0.5,
-          "windMul": 0.05,
-          "color_mask_r_from": "#43ad1cff",
-          "color_mask_r_to": "#599428ff",
-          "color_mask_b_from": "#ccb452ff",
-          "color_mask_b_to": "#9e5c23ff",
-          "color_mask_g_from": "#332521ff",
-          "color_mask_g_to": "#f7f2baff"
-        }
-      },
-      {
-        "layer": {
-          "maskChannel": [0.0,0.0,0.0,1.0],
-          "res": "grass_fill_a",
-          "density": 1.0,
-          "horScale": 1.2,
-          "horMinScale": 0.5,
-          "verScale": 1.8,
-          "verMinScale": 0.9,
           "windMul": 0.05,
           "color_mask_r_from": "#43ad1cff",
           "color_mask_r_to": "#599428ff",
@@ -418,7 +373,7 @@
       },
       {
         "layer": {
-          "maskChannel": [0.0,0.0,0.0,1.0],
+          "maskChannel": [0.0,0.0,1.0,0.0],
           "res": "grass_wheat_a",
           "density": 1.0,
           "horScale": 1.8,

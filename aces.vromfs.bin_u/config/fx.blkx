@@ -10,7 +10,7 @@
   "aircraftWaterSplashSpeed": [30.0,100.0],
   "aircraftWaterSplashVertOffset": 3.0,
   "aircraftPylonSmokeEnabled": true,
-  "aircraftPylonSmokeTTL": 0.2,
+  "aircraftPylonSmokeTTL": 0.6,
   "aircraftForceMultiplier": 0.03,
   "aircraftWheelsGroundDustEnabled": false,
   "aircraftWheelsWaterSplashEnabled": false,
@@ -340,6 +340,26 @@
     "numInstances": 14,
     "numReserved": 2
   },
+  "bomb_ground_explosion_huge": {
+    "fx": "bomb_big_expl_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 10.0,
+    "minScale": 1.6,
+    "maxScale": 2.5,
+    "numInstances": 14,
+    "numReserved": 2
+  },
+  "bomb_ground_explosion_big_sfx": {
+    "fx": "bomb_big_expl_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 10.0,
+    "minScale": 0.6,
+    "maxScale": 1.5,
+    "numInstances": 14,
+    "numReserved": 2,
+    "sfxPath": "sounds/explosions",
+    "sfxEvent": "bomb_explosion_ground"
+  },
   "bomb_ground_explosion_med": {
     "fx": "bomb_big_expl_composite_fx",
     "lifeTime": 10.0,
@@ -362,6 +382,15 @@
     "fx": "bomb_water_big_expl_composite_fx",
     "lifeTime": 10.0,
     "softnessDepth": 5.0,
+    "numInstances": 15,
+    "numReserved": 3
+  },
+  "bomb_water_explosion_huge": {
+    "fx": "bomb_water_big_expl_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "minScale": 1.6,
+    "maxScale": 2.5,
     "numInstances": 15,
     "numReserved": 3
   },
@@ -769,8 +798,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -783,8 +812,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 50,
     "numReserved": 5
   },
@@ -797,8 +826,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -811,8 +840,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -825,8 +854,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -839,8 +868,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -853,8 +882,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -867,8 +896,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -881,8 +910,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -895,8 +924,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -909,8 +938,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -923,8 +952,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -937,8 +966,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -951,8 +980,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -965,8 +994,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -979,8 +1008,8 @@
     "playerFadeDistScale": 1.5,
     "sortDistanceOffset": 20.0,
     "onMoving": true,
-    "minScale": 2.0,
-    "maxScale": 5.0,
+    "minScale": 1.0,
+    "maxScale": 1.0,
     "numInstances": 20,
     "numReserved": 5
   },
@@ -1145,6 +1174,14 @@
   },
   "big_gun_flame": {
     "fx": "pv_gun_flame_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 50,
+    "numReserved": 1
+  },
+  "aaa_gun_flame": {
+    "fx": "pv_gun_flame_fire_composite_fx",
     "lifeTime": 10.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
@@ -1491,6 +1528,16 @@
     "numInstances": 10,
     "numReserved": 1
   },
+  "ship_model_expl_sfx": {
+    "fx": "ship_expl_composite_fx",
+    "lifeTime": 100.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 1.0,
+    "numInstances": 10,
+    "numReserved": 1,
+    "sfxPath": "sounds/explosions",
+    "sfxEvent": "explosion_ground"
+  },
   "ground_light": {
     "fx": "artillery_ground_fx",
     "lifeTime": 10.0,
@@ -1641,7 +1688,8 @@
   "rain_splash": {
     "fx": "rain_splash_fx",
     "numInstances": 800,
-    "numReserved": 4
+    "numReserved": 4,
+    "softnessDepth": 5.0
   },
   "ship_exhaust": {
     "fx": "ship_exhaust_fx",
@@ -1726,8 +1774,52 @@
     "sfxPath": "tanks/object_crash",
     "sfxEvent": "wood_big"
   },
+  "ad_wood_metal_big": {
+    "fx": "ad_wood_big_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_metal_big"
+  },
+  "ad_wood_snow_big": {
+    "fx": "ad_wood_snow_big_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_big"
+  },
+  "ad_wood_metal_snow_big": {
+    "fx": "ad_wood_snow_big_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_metal_big"
+  },
   "ad_fence_wood_small": {
     "fx": "ad_wood_small_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_small"
+  },
+  "ad_wood_snow_small": {
+    "fx": "ad_wood_snow_small_composite_fx",
     "numInstances": 20,
     "numReserved": 5,
     "softnessDepth": 5.0,
@@ -1783,6 +1875,28 @@
   },
   "ad_metal_small": {
     "fx": "ad_metal_sparks_small_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "metal_small"
+  },
+  "ad_metal_snow": {
+    "fx": "ad_metal_big_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "bollard"
+  },
+  "ad_metal_snow_small": {
+    "fx": "ad_metal_small_composite_fx",
     "numInstances": 20,
     "numReserved": 5,
     "softnessDepth": 5.0,
@@ -1868,5 +1982,68 @@
     "maxScale": 1.2,
     "sfxPath": "tanks/object_crash",
     "sfxEvent": "projector"
+  },
+  "ad_icefloe_big": {
+    "fx": "ad_icefloe_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "wood_big"
+  },
+  "ad_car_wreck": {
+    "fx": "pv_explosion_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "car_wreck"
+  },
+  "ad_buildings_destructions_big": {
+    "fx": "ad_buildings_big_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "building_big"
+  },
+  "ad_buildings_destructions_part": {
+    "fx": "ad_buildings_part_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "concrete_big"
+  },
+  "px_ground_fx": {
+    "fx": "ad_buildings_part_composite_fx",
+    "lifeTime": 4.0,
+    "softnessDepth": 5.0,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "numInstances": 1000,
+    "numReserved": 25
+  },
+  "px_fracture_fx": {
+    "fx": "ad_buildings_fracture_composite_fx",
+    "lifeTime": 4.0,
+    "numInstances": 200,
+    "numReserved": 50,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2
   }
 }

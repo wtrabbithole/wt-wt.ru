@@ -4,7 +4,7 @@
       "trigger": "gunner0",
       "triggerGroup": "primary",
       "blk": "gameData/Weapons/groundModels_weapons/128mm_KwK44_user_cannon.blk",
-      "emitter": "bone_gun_barrel_01",
+      "emitter": "bone_gun_01",
       "flash": "emtr_gun_flame_01",
       "defaultYaw": 0.0,
       "defaultPitch": 0.0,
@@ -31,11 +31,17 @@
       "errExplTime": 0.0,
       "turret": {
         "head": "bone_turret",
-        "gun": "bone_gun",
+        "gun": "bone_gun_01",
         "barrel": "bone_gun_barrel_01",
         "gunnerDm": "gunner_dm",
+        "loaderDm": "loader_01_dm",
         "verDriveDm": "drive_turret_v_dm",
-        "horDriveDm": "drive_turret_h_dm"
+        "horDriveDm": "drive_turret_h_dm",
+        "linkedAnimPart": {
+          "verNode": "bone_camera_gunner",
+          "verLimits": [-180.0,180.0],
+          "verOriginLimits": [-180.0,180.0]
+        }
       },
       "limits": {
         "yaw": [-180.0,180.0],
@@ -46,7 +52,7 @@
   {
     "Weapon": {
       "trigger": "gunner1",
-      "triggerGroup": "coaxial",
+      "triggerGroup": "machinegun",
       "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk",
       "emitter": "bone_mg_gun_twin_v",
       "flash": "emtr_mg_gun_twin_flame",
@@ -79,7 +85,7 @@
       },
       "limits": {
         "yaw": [-0.0,0.0],
-        "pitch": [-0.0,0.0]
+        "pitch": [-7.0,23.0]
       }
     }
   },
@@ -90,6 +96,7 @@
       "blk": "gameData/Weapons/groundModels_weapons/75mm_KwK44_L36_user_cannon.blk",
       "emitter": "bone_gun_barrel_02",
       "flash": "emtr_gun_flame_02",
+      "maxAdditionalPitch": 0.0,
       "defaultYaw": 0.0,
       "defaultPitch": 0.0,
       "barrelDP": "gun_barrel_02_dm",
@@ -116,11 +123,11 @@
       "errTargetting": 3.0,
       "errExplTime": 0.0,
       "turret": {
-        "head": "bone_gun_barrel_02",
-        "gun": "bone_gun_barrel_02",
+        "head": "bone_gun_02",
+        "gun": "bone_gun_02",
+        "barrel": "bone_gun_barrel_02",
         "gunnerDm": "gunner_dm",
-        "verDriveDm": "drive_turret_v_dm",
-        "horDriveDm": "drive_turret_h_dm"
+        "loaderDm": "loader_02_dm"
       },
       "limits": {
         "yaw": [-0.0,0.0],

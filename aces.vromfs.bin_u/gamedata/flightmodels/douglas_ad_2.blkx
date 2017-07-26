@@ -15,7 +15,7 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fightAiBehaviour": "assault"
   },
   {
     "testFlight": "testFlight_midway_usa"
@@ -345,8 +345,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 70.5
         }
       },
@@ -386,86 +384,69 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 95.5
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 95.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 66.2
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 66.2
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 44.5
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 45.9
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
@@ -476,23 +457,15 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 39.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 55.0
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 55.0
         }
       },
@@ -506,11 +479,9 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 13.2
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -522,8 +493,6 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 70.5
         }
       },
@@ -2039,9 +2008,8 @@
       "all": true,
       "ally": true,
       "country_usa": true,
-      "type_fighter": true,
-      "type_medium_fighter": true,
-      "type_common_bomber": true,
+      "type_assault": true,
+      "type_torpedo": true,
       "year1943": true,
       "year1944": true,
       "year1945": true,
@@ -2110,7 +2078,7 @@
       "headPosOnShooting": [0.874,1.238,0.0],
       "bulletHoleFreeRadius": 1.8,
       "lightPos": [1.378216,1.034342,0.15597],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 4.0,
       "devices": {
         "pedals1": [-1.7,1.7],
@@ -2228,36 +2196,18 @@
         }
       },
       {
-        "preset": [
-          {
-            "name": "douglas_ad_2_2x500lb_12hvar"
-          },
-          {
-            "blk": "gameData/FlightModels/weaponPresets/douglas_ad_2_2x500lb_12hvar.blk"
-          },
-          {
-            "reqModification": "frc_mk3"
-          },
-          {
-            "reqModification": "btd_sbc"
-          }
-        ]
+        "preset": {
+          "name": "douglas_ad_2_2x500lb_12hvar",
+          "blk": "gameData/FlightModels/weaponPresets/douglas_ad_2_2x500lb_12hvar.blk",
+          "reqModification": "btd_sbc"
+        }
       },
       {
-        "preset": [
-          {
-            "name": "douglas_ad_2_2x1000lb_12hvar"
-          },
-          {
-            "blk": "gameData/FlightModels/weaponPresets/douglas_ad_2_2x1000lb_12hvar.blk"
-          },
-          {
-            "reqModification": "frc_mk3"
-          },
-          {
-            "reqModification": "btd_mbc"
-          }
-        ]
+        "preset": {
+          "name": "douglas_ad_2_2x1000lb_12hvar",
+          "blk": "gameData/FlightModels/weaponPresets/douglas_ad_2_2x1000lb_12hvar.blk",
+          "reqModification": "btd_mbc"
+        }
       },
       {
         "preset": [
@@ -2284,9 +2234,6 @@
             "blk": "gameData/FlightModels/weaponPresets/douglas_ad_2_1x2000lb_2x500lb_12hvar.blk"
           },
           {
-            "reqModification": "frc_mk3"
-          },
-          {
             "reqModification": "btd_sbc"
           },
           {
@@ -2301,9 +2248,6 @@
           },
           {
             "blk": "gameData/FlightModels/weaponPresets/douglas_ad_2_1x2000lb_2x1000lb_12hvar.blk"
-          },
-          {
-            "reqModification": "frc_mk3"
           },
           {
             "reqModification": "btd_mbc"

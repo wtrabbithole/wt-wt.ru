@@ -11,6 +11,7 @@
   "noviceArcadeSphereDistK": 5.0,
   "goldPlaneExpMul": 2.0,
   "defaultMissionTime": 600,
+  "useFinalResultsTimeMul": 3.0,
   "modsTierExpToAircraftCoef": 0.2,
   "prevAirExpMulMode0": 1.3,
   "prevAirExpMulMode1": 1.1,
@@ -28,7 +29,7 @@
   "expForBattleTime": 0.4,
   "expForCaptureAir": 100,
   "expForCaptureLand": 100,
-  "expForSightingEnemy": 2,
+  "expForSightingEnemy": 0,
   "expForLanding": 20,
   "expForCarrierLanding": 45,
   "expForTakeoff": 10,
@@ -38,6 +39,8 @@
   "ineffectiveHitMinCount": 10,
   "ineffectiveHitMinPart": 0.001,
   "expForAssistTime": 30.0,
+  "timeAwardKill": 30,
+  "timeAward_damageBase": 0.015,
   "expMulWithTierDiff0": 1.0,
   "expMulWithTierDiff1": 1.0,
   "expMulWithTierDiff2": 0.4,
@@ -54,7 +57,7 @@
   "defaultExpAdd": 1.0,
   "xpMultiplier": 2.0,
   "maxXPLimit": 200000000,
-  "botMultiplier": 0.1,
+  "botMultiplier": 0.3,
   "crew_exp_mul": 0.03,
   "crew_exp_mul_arcade": 0.03,
   "crew_exp_mul_historical": 0.0113,
@@ -94,20 +97,20 @@
     "exp_bomber": 1.0,
     "exp_fighter": 1.0,
     "exp_assault": 1.0,
-    "exp_tank": 0.33,
+    "exp_tank": 1.0,
     "exp_heavy_tank": 1.0,
-    "exp_tank_destroyer": 0.5,
-    "exp_SPAA": 0.33,
-    "exp_ai_tank": 0.4,
-    "exp_vehicle": 0.1,
-    "exp_fortification": 0.1,
-    "exp_structure": 0.1,
-    "exp_aaa": 0.1,
+    "exp_tank_destroyer": 1.0,
+    "exp_SPAA": 1.0,
+    "exp_ai_tank": 1.0,
+    "exp_vehicle": 0.3,
+    "exp_fortification": 0.3,
+    "exp_structure": 0.3,
+    "exp_aaa": 0.3,
     "exp_infantry": 0.0,
-    "exp_ship": 0.5,
-    "exp_ca_ship": 0.6,
-    "exp_bb_ship": 1.0,
-    "exp_cv_ship": 0.9,
+    "exp_ship": 1.5,
+    "exp_ca_ship": 1.8,
+    "exp_bb_ship": 9.0,
+    "exp_cv_ship": 2.7,
     "exp_zero": 0.0
   },
   "aircraft_exp_mul": [],
@@ -144,13 +147,13 @@
     "gForceAdoptedMax": 4.0,
     "gForceAdoptedMaxMaxAdaptation": 0.5,
     "gForceUnadoptedViscosity": 1.0,
-    "gForceBlackoutStart": 1.3,
+    "gForceBlackoutStart": 3.3,
     "gForceBlackoutStartMaxAdaptation": 0.7,
-    "gForceBlackoutEnd": 2.7,
+    "gForceBlackoutEnd": 4.5,
     "gForceBlackoutEndMaxAdaptation": 1.0,
-    "gForceRedoutStart": 2.5,
+    "gForceRedoutStart": 2.0,
     "gForceRedoutStartMaxAdaptation": 0.3,
-    "gForceRedoutEnd": 4.5,
+    "gForceRedoutEnd": 3.0,
     "gForceRedoutEndMaxAdaptation": 1.0,
     "gForceRedoutPosteffectViscosity": 2.0,
     "gForceBlackoutPosteffectViscosity": 0.5,
@@ -215,9 +218,9 @@
         "gunners": [0.5,2.0]
       },
       "weaponCare": {
-        "bombScatterMultiplier": [3.0,1.0],
-        "torpedoScatterMultiplier": [3.0,1.0],
-        "rocketScatterMultiplier": [3.0,1.0],
+        "bombScatterMultiplier": [2.0,1.0],
+        "torpedoScatterMultiplier": [2.0,1.0],
+        "rocketScatterMultiplier": [2.0,1.0],
         "jamProbabilityMultiplier": [3.0,1.0]
       }
     },
@@ -236,19 +239,19 @@
       },
       "adopted": {
         "min": [0.5,0.25],
-        "max": [2.0,3.0],
+        "max": [1.2,1.7],
         "viscosity": 2.0
       },
       "unadopted": {
         "viscosity": 1.0
       },
       "blackout": {
-        "start": [1.3,2.0],
-        "end": [2.7,3.7]
+        "start": [3.3,4.5],
+        "end": [4.5,7.5]
       },
       "redout": {
-        "start": [2.5,2.8],
-        "end": [4.5,5.5]
+        "start": [2.0,3.0],
+        "end": [3.0,4.0]
       },
       "posteffectViscosity": {
         "blackout": 0.5,
@@ -943,69 +946,80 @@
       }
     },
     "stamina": {
-      "restorationSpeed": [0.05,0.1],
+      "restorationSpeed": [0.1,0.3],
+      "staminaAttenuationK": [0.1,0.2],
+      "staminaUsageThreshold": 0.3,
       "positiveOverload": {
-        "gMin": 2.0,
-        "usageSpeed": 0.035,
+        "usageSpeed": [0.5,0.3],
         "adoptableGMultiplier": [0.775,1.0]
       },
       "negativeOverload": {
-        "gMin": 1.0,
-        "usageSpeed": 0.05,
-        "adoptableGMultiplier": [0.8,1.0]
+        "usageSpeed": [0.7,0.5],
+        "adoptableGMultiplier": [0.5,1.0]
       }
     },
     "tank_crew": {
+      "crewTankHearingDistance": 363.0,
+      "crewTankHearingSpottingDistance": 27.0,
+      "crewTankVisionDistance": 523.0,
+      "crewTankVisionSpottingDistance": 320.0,
+      "crewTankViewCamVisionDistance": 2051.0,
+      "crewTankViewCamVisionSpottingDistance": 1235.0,
+      "crewTankToAircraftViewCamSpottingDistance": 9500.0,
+      "crewTankVisionAngle": 80.0,
+      "crewTankVisionSpottingAngle": 50.0,
       "driver": {
-        "spottingDistance": [1000.0,3000.0],
-        "instantSpottingDistance": [300.0,500.0],
-        "omniSpottingDistance": [70.0,130.0],
-        "omniInstantSpottingDistance": [30.0,70.0],
+        "visionSpottingDistanceMultiplier": [0.3,1.0],
         "fieldRepairSpeedMultiplier": [1.0,2.0],
         "damageMultiplier": [2.0,1.0],
-        "brakesTau": [0.3,0.05],
-        "gearChangeTime": [0.2,0.1]
+        "changeTimeMultiplier": [1.3,0.8],
+        "brakesTau": [1.0,0.1],
+        "gearChangeTime": [1.0,0.1],
+        "maxForwardSpeed": [1.0,1.0],
+        "maxBackSpeed": [1.0,1.0],
+        "driverSpeedThreshold": 0.5
       },
-      "gunner": {
-        "spottingDistance": [1000.0,3000.0],
-        "instantSpottingDistance": [300.0,500.0],
-        "omniSpottingDistance": [70.0,130.0],
-        "omniInstantSpottingDistance": [30.0,70.0],
+      "tank_gunner": {
+        "visionSpottingDistanceMultiplier": [0.3,1.0],
         "fieldRepairSpeedMultiplier": [1.0,2.0],
         "damageMultiplier": [2.0,1.0],
+        "changeTimeMultiplier": [1.3,0.8],
         "targetingQuality": [0.0,1.0],
-        "distanceError": [1.0,5.0,25.0,100.0],
-        "distanceThresholdMin": [25.0,150.0,300.0,800.0],
-        "distanceThresholdMax": [50.0,250.0,600.0,1500.0]
+        "targetingSpeedYawMult": [0.7,1.0],
+        "targetingSpeedPitchMult": [0.7,1.0],
+        "distanceError": [1.0,5.0,50.0,100.0],
+        "distanceThresholdMin": [25.0,150.0,300.0,600.0],
+        "distanceThresholdMax": [50.0,250.0,600.0,1000.0],
+        "distanceErrorRealistic": [5.0,10.0,50.0,100.0],
+        "distanceThresholdMinRealistic": [50.0,200.0,400.0,800.0],
+        "distanceThresholdMaxRealistic": [100.0,400.0,800.0,1200.0],
+        "timeMeasurementRange": [6.0,3.0]
       },
       "commander": {
-        "spottingDistance": [1000.0,3000.0],
-        "instantSpottingDistance": [300.0,500.0],
-        "omniSpottingDistance": [70.0,130.0],
-        "omniInstantSpottingDistance": [30.0,70.0],
+        "visionSpottingDistanceMultiplier": [0.3,1.0],
         "fieldRepairSpeedMultiplier": [1.0,2.0],
         "damageMultiplier": [2.0,1.0],
-        "leadership": [0.0,0.3],
+        "changeTimeMultiplier": [1.3,0.8],
+        "leadership": [0.0,0.2],
         "machineGunError": [1.0,0.1]
       },
       "loader": {
-        "spottingDistance": [1000.0,3000.0],
-        "instantSpottingDistance": [300.0,500.0],
-        "omniSpottingDistance": [70.0,130.0],
-        "omniInstantSpottingDistance": [30.0,70.0],
+        "visionSpottingDistanceMultiplier": [0.3,1.0],
         "fieldRepairSpeedMultiplier": [1.0,2.0],
         "damageMultiplier": [2.0,1.0],
+        "changeTimeMultiplier": [1.3,0.8],
         "loadingTimeMult": [1.3,1.0]
       },
       "radio_gunner": {
-        "spottingDistance": [1000.0,3000.0],
-        "instantSpottingDistance": [300.0,500.0],
-        "omniSpottingDistance": [70.0,130.0],
-        "omniInstantSpottingDistance": [30.0,70.0],
+        "visionSpottingDistanceMultiplier": [0.3,1.0],
         "fieldRepairSpeedMultiplier": [1.0,2.0],
         "damageMultiplier": [2.0,1.0],
-        "machineGunAccuracy": [0.5,1.0],
-        "machineGunReloadTimeMult": [1.5,1.0],
+        "changeTimeMultiplier": [1.3,0.8],
+        "artilleryDispersionMult": [1.3,1.0],
+        "artilleryAdjustmentDispersionMult": [1.3,1.0],
+        "artilleryTimeToFirstShotMult": [1.3,1.0],
+        "artilleryTimeBetweenShotsMult": [1.3,1.0],
+        "artilleryTimeBetweenAdjustmentsShots": [1.3,1.0],
         "radioDistanceMult": [0.5,1.0]
       }
     }

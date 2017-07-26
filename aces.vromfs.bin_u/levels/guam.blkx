@@ -29,17 +29,17 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.12,
-      "water_reflection_color": "#e8efff00",
-      "water_surface_refraction_color": "#010f0100",
-      "water_color_tex_scale_x": 8000.0,
-      "water_color_tex_scale_y": 12000.0,
-      "water_color": [0.15,0.16,0.17,1.0],
-      "water_color_light_loss": [0.6,0.95,1.0,0.0]
-    }
+    "translucency_detection_hardness": 1.0,
+    "smoothness_detection_hardness": 3.0,
+    "land_smoothness_detect_color": [0.52,0.53,0.43,0.6],
+    "max_river_width": 1500.0,
+    "ocean_density": 0.15,
+    "river_density": 0.75,
+    "ocean0": [0.27,0.68,0.53,0.0],
+    "ocean1": [0.57,0.91,0.84,0.0],
+    "river0": [0.5,0.35,0.12,0.0],
+    "river1": [0.36,0.41,0.17,0.0],
+    "water_color_noise_size": 1137.0
   },
   "randomGrass": [
     {
@@ -210,26 +210,6 @@
       }
     }
   ],
-  "waterStub": {
-    "enable": true
-  },
-  "water_3d": {
-    "magnitude1": 4.0,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 2.0,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean_honolulu",
-    "scaleTex": "peleliu_underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5]
-  },
   "technicsSkins": [
     {
       "groundSkin": "jungle"

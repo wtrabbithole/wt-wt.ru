@@ -20,6 +20,7 @@
   "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
   "lastclip_horizon": true,
+  "windDir": [0.4,-0.8],
   "earth": {
     "earthWorldEnabled": true,
     "earthWorldMin": [-32768.0,-98304.0],
@@ -33,17 +34,14 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_sparkles_fade_from": 2000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.12,
-      "water_reflection_color": "#fff8e500",
-      "water_surface_refraction_color": "#080a0100",
-      "water_color_tex_scale_x": 8000.0,
-      "water_color_tex_scale_y": 12000.0,
-      "water_shore_blending_min_height": 2.0,
-      "water_color": [0.15,0.16,0.17,1.0]
-    }
+    "translucency_detection_hardness": 1.0,
+    "max_river_width": 1500.0,
+    "ocean_density": 0.4,
+    "river_density": 1.0,
+    "ocean0": [0.11,0.25,0.12,0.0],
+    "ocean1": [0.19,0.28,0.14,0.0],
+    "river0": [0.4,0.34,0.22,0.0],
+    "river1": [0.53,0.41,0.31,0.0]
   },
   "randomGrass": [
     {
@@ -220,23 +218,6 @@
       }
     }
   ],
-  "water_3d": {
-    "magnitude1": 4.0,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 2.0,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean_krymsk",
-    "scaleTex": "krymsk_underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5]
-  },
   "technicsSkins": [
     {
       "groundSkin": "forest"
@@ -244,10 +225,5 @@
     {
       "groundSkin": "default"
     }
-  ],
-  "waterStub": {
-    "enable": true,
-    "maxZ": 32768.0,
-    "maxX": 34000.0
-  }
+  ]
 }

@@ -8,7 +8,6 @@
   "model": "ls_class",
   "subclass": "warShip",
   "dustFx": "water_units_dust",
-  "dynCollisionGeom": true,
   "moveType": "ship",
   "maxFwdSpeed": 80.0,
   "maxRevSpeed": 5.0,
@@ -25,13 +24,25 @@
   "DamageParts": {
     "armor15": {
       "engine_dm": {
-        "hp": 15.0
+        "hp": 300.0
+      },
+      "engine_l_dm": {
+        "hp": 300.0
+      },
+      "engine_r_dm": {
+        "hp": 300.0
       },
       "bodypart1_dm": {
         "hp": 30.0
       },
       "body_dm": {
         "hp": 30.0
+      },
+      "body_front_dm": {
+        "hp": 500.0
+      },
+      "body_bottom_dm": {
+        "hp": 400.0
       }
     },
     "steel": {
@@ -47,6 +58,32 @@
       "gun0_dm": {
         "hp": 10.0
       }
+    }
+  },
+  "MetaParts": {
+    "body": [
+      {
+        "hp": 500.0
+      },
+      {
+        "part": "body_front_dm"
+      },
+      {
+        "part": "body_bottom_dm"
+      },
+      {
+        "effects": {
+          "killUnit": {
+            "nothing": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "propellers": {
+    "engine": {
+      "propeller_l": "fan_l",
+      "propeller_r": "fan_r"
     }
   },
   "class_tags": {
@@ -123,11 +160,60 @@
     "engines": {
       "maxThrust": 16200.0
     },
+    "collisionProps": {
+      "cls_body_01": "convex_hull"
+    },
     "hydrodynamics": {
       "keelArea": 3.0,
-      "bodyArea": 191.0,
+      "bodyArea": 91.0,
       "keelArm": [-10.0,-1.0,0.0],
       "bodyArm": [-1.0,0.0,0.0]
+    }
+  },
+  "commonWeapons": {
+    "weapon": {
+      "trigger": "gunner0",
+      "blk": "gameData/weapons/groundModels_weapons/20mm_MG151_user_cannon.blk",
+      "emitter": "bone_gun",
+      "flash": "emtr_gun_flame",
+      "recoilOffset": 0.02,
+      "speedYaw": 45.0,
+      "speedPitch": 45.0,
+      "fireConeAngle": 20.0,
+      "salvoAmount": 1.0,
+      "ChainfireTime": 3.0,
+      "DelayAfterShoot": 3.0,
+      "AttackMaxDistance": 2000.0,
+      "AttackMaxRadius": 2000.0,
+      "AttackMaxHeight": 2000.0,
+      "randomAngle": 0.0,
+      "accuracyAir": 0.1,
+      "accuracyGnd": 0.0,
+      "errMeasureVel": 0.0,
+      "errTargettingOn100kmph": 0.0,
+      "errMeasureVelFast": 100.0,
+      "errMeasureVelFwdShift": 1.0,
+      "errMeasureVelDir": 3.0,
+      "errTargetting": 1.0,
+      "errExplTime": 0.0,
+      "defaultYaw": 0.0,
+      "defaultPitch": 10.0,
+      "bullets": 200,
+      "turret": {
+        "head": "bone_turret",
+        "gun": "bone_gun",
+        "barrel": "bone_gun_barrel"
+      },
+      "limits": {
+        "yaw": [-180.0,180.0],
+        "pitch": [-10.0,90.0]
+      }
+    }
+  },
+  "weapon_presets": {
+    "preset": {
+      "name": "germ_ls_class_default",
+      "blk": "gameData/units/ships/weaponPresets/germ_ls_class_default.blk"
     }
   },
   "sound": {
@@ -135,7 +221,7 @@
     "engine": "boat"
   },
   "cockpit": {
-    "headPos": [0.0,3.0,-17.0],
-    "headPosOnShooting": [-0.4,5.0,0.0]
+    "headPos": [0.0,4.5,-13.0],
+    "headPosOnShooting": [1.4,3.2,0.0]
   }
 }

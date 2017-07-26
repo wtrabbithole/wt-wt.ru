@@ -654,9 +654,9 @@
   {
     "balanceData": {
       "accSpd": 2.2427,
-      "climbSpeed": 12.83,
-      "maxSpeed": 161.1,
-      "turnTime": 13.8827
+      "climbSpeed": 18.18,
+      "maxSpeed": 176.3,
+      "turnTime": 19.0
     }
   },
   {
@@ -848,8 +848,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 70.5
         }
       },
@@ -889,86 +887,69 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 89.3
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 56.8
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 58.7
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 58.7
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 50.0
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 50.0
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 20.1
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 39.0
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 39.0
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 26.8
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 26.8
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
@@ -979,18 +960,12 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 57.9
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 57.9
         }
       },
@@ -1004,11 +979,9 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 11.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -1020,23 +993,15 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 70.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 59.1
         }
       }
@@ -2568,6 +2533,7 @@
           "blk": "gameData/Weapons/cannonType99.blk",
           "emitter": "flare1",
           "flash": "flare1",
+          "shell": "emtr_shellrejection1",
           "dm": "cannon1_dm",
           "bullets": 190,
           "spread": 1.2
@@ -2579,6 +2545,7 @@
           "blk": "gameData/Weapons/cannonType99Mk2.blk",
           "emitter": "flare2",
           "flash": "flare2",
+          "shell": "emtr_shellrejection2",
           "dm": "cannon2_dm",
           "bullets": 210,
           "traceOffset": 2,
@@ -2591,6 +2558,7 @@
           "blk": "gameData/Weapons/cannonType99Mk2.blk",
           "emitter": "flare3",
           "flash": "flare3",
+          "shell": "emtr_shellrejection3",
           "dm": "cannon3_dm",
           "bullets": 210,
           "traceOffset": 3,
@@ -2603,6 +2571,7 @@
           "blk": "gameData/Weapons/cannonType99.blk",
           "emitter": "flare4",
           "flash": "flare4",
+          "shell": "emtr_shellrejection4",
           "dm": "cannon4_dm",
           "bullets": 190,
           "traceOffset": 4,
@@ -2731,7 +2700,7 @@
       "headPos": [-1.5,0.977,0.0],
       "headPosOnShooting": [-1.4,0.977,0.0],
       "lightPos": [-0.86587,0.386875,0.35916],
-      "lightColor": [0.98,0.6039,0.3098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 2.0,
       "devices": {
         "pedals": [-1.0,1.0],

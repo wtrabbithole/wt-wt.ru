@@ -28,31 +28,23 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_sparkles_mul": 0.006,
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.08,
-      "water3d_max_fresnel": 0.98,
-      "water3d_fresnel_power": 7.0,
-      "water_reflection_color": "#fff8e500",
-      "water_surface_refraction_color": "#080a0000",
-      "water_color_tex_scale_x": 16000.0,
-      "water_color_tex_scale_y": 8000.0,
-      "water_shore_blending_min_height": 2.0,
-      "water_depth_to_opacity_exp_base": 0.982,
-      "water_color": [0.18,0.2,0.21,1.0]
-    }
+    "max_river_width": 500.0,
+    "ocean_density": 0.6,
+    "ocean0": [0.27,0.68,0.53,0.0],
+    "ocean1": [0.57,0.91,0.84,0.0],
+    "river0": [0.5,0.35,0.12,0.0],
+    "river1": [0.36,0.41,0.17,0.0],
+    "water_color_noise_size": 1737.0
   },
   "randomGrass": [
+    {
+      "iwo_jima_airfields_unic": "iwo_jima_airfields_unic_b_tex_m"
+    },
     {
       "iwo_jima_fields_a": "iwo_jima_fields_a_tex_m"
     },
     {
       "iwo_jima_fields_b": "iwo_jima_fields_b_tex_m"
-    },
-    {
-      "iwo_jima_airfields_unic": "iwo_jima_airfields_unic_tex_m"
     },
     {
       "iwo_jima_rock": "iwo_jima_rock_tex_m"
@@ -141,26 +133,6 @@
       }
     }
   ],
-  "waterStub": {
-    "enable": true
-  },
-  "water_3d": {
-    "magnitude1": 4.0,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 2.0,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean_britain",
-    "scaleTex": "underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5]
-  },
   "technicsSkins": [
     {
       "groundSkin": "jungle"

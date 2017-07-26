@@ -538,10 +538,10 @@
   },
   {
     "cockpit": {
-      "headPos": [-0.967,0.615,-0.039],
-      "headPosOnShooting": [-0.95,0.615,-0.039],
+      "headPos": [-0.921,0.685,-0.039],
+      "headPosOnShooting": [-0.921,0.685,-0.039],
       "lightPos": [-0.480069,0.297948,-0.258289],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 15.0,
       "devices": [
         {
@@ -636,6 +636,9 @@
         },
         {
           "turn": [-0.23562,0.23562]
+        },
+        {
+          "gears": [0.0,1.0]
         },
         {
           "gears_lamp": [0.0,0.0]
@@ -860,6 +863,12 @@
         },
         {
           "part": "hook"
+        },
+        {
+          "part": "fin"
+        },
+        {
+          "part": "stab"
         }
       ]
     }
@@ -899,6 +908,295 @@
     }
   },
   {
+    "DamageGen": {
+      "engine1_dm": {
+        "mat": "liquidcooling_engine"
+      },
+      "tail_dm": {
+        "mat": "1x_e_tail_dural_f"
+      },
+      "fuse_dm": {
+        "mat": "1x_e_fuse_t_dural_f"
+      },
+      "fuse1_dm": {
+        "mat": "1x_e_fuse_dural_f"
+      },
+      "fuse2_dm": {
+        "mat": "1x_e_fuse_dural_f"
+      },
+      "wing_r_dm": {
+        "mat": "1x_e_wing_dural_f"
+      },
+      "wing1_r_dm": {
+        "mat": "1x_e_wing_dural_f"
+      },
+      "wing2_r_dm": {
+        "mat": "1x_e_wing_dural_f"
+      },
+      "wing_l_dm": {
+        "mat": "1x_e_wing_dural_f"
+      },
+      "wing1_l_dm": {
+        "mat": "1x_e_wing_dural_f"
+      },
+      "wing2_l_dm": {
+        "mat": "1x_e_wing_dural_f"
+      },
+      "pilot_dm": {
+        "mat": "pilot_steel"
+      },
+      "pilot1_dm": {
+        "mat": "pilot_steel"
+      },
+      "tank1_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "tank2_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "tank3_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "tank4_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "tank5_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "tank6_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "tank7_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "tank8_dm": {
+        "mat": "1x_e_tank_armored_f"
+      },
+      "water1_dm": {
+        "mat": "1x_e_water_f"
+      },
+      "water2_dm": {
+        "mat": "1x_e_water_f"
+      },
+      "water3_dm": {
+        "mat": "1x_e_water_f"
+      },
+      "water4_dm": {
+        "mat": "1x_e_water_f"
+      },
+      "water5_dm": {
+        "mat": "1x_e_water_f"
+      },
+      "water6_dm": {
+        "mat": "1x_e_water_f"
+      },
+      "oil1_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "oil2_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "oil3_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "oil4_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "oil5_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "oil6_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "oil7_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "oil8_dm": {
+        "mat": "1x_e_oil_f"
+      },
+      "armor1_dm": {
+        "mat": "armor_glass60"
+      },
+      "armor2_dm": {
+        "mat": "armor10"
+      },
+      "armor3_dm": {
+        "mat": "armor10"
+      },
+      "armor4_dm": {
+        "mat": "armor8"
+      },
+      "armor5_dm": {
+        "mat": "armor8"
+      },
+      "armor6_dm": {
+        "mat": "armor8"
+      },
+      "armor7_dm": {
+        "mat": "armor8"
+      },
+      "armor8_dm": {
+        "mat": "armor8"
+      },
+      "armor9_dm": {
+        "mat": "armor8"
+      },
+      "cover1_dm": {
+        "mat": "cover_dural"
+      },
+      "cover2_dm": {
+        "mat": "cover_dural"
+      },
+      "cover3_dm": {
+        "mat": "cover_dural"
+      },
+      "cover4_dm": {
+        "mat": "cover_dural"
+      },
+      "cover5_dm": {
+        "mat": "cover_dural"
+      },
+      "cover6_dm": {
+        "mat": "cover_dural"
+      },
+      "cover7_dm": {
+        "mat": "cover_dural"
+      },
+      "cover8_dm": {
+        "mat": "cover_dural"
+      },
+      "cover9_dm": {
+        "mat": "cover_dural"
+      },
+      "cannon1_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon2_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon3_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon4_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon5_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon6_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun1_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun2_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun3_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun4_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun5_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun6_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun7_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun8_dm": {
+        "mat": "gun_armor10"
+      },
+      "spar_l_dm": {
+        "mat": "1x_e_spar_dural_f"
+      },
+      "spar1_l_dm": {
+        "mat": "1x_e_spar_dural_f"
+      },
+      "spar2_l_dm": {
+        "mat": "1x_e_spar_dural_f"
+      },
+      "spar_r_dm": {
+        "mat": "1x_e_spar_dural_f"
+      },
+      "spar1_r_dm": {
+        "mat": "1x_e_spar_dural_f"
+      },
+      "spar2_r_dm": {
+        "mat": "1x_e_spar_dural_f"
+      },
+      "aileron_l_dm": {
+        "mat": "1x_e_planes_dural_f"
+      },
+      "aileron_r_dm": {
+        "mat": "1x_e_planes_dural_f"
+      },
+      "elevator_dm": {
+        "mat": "1x_e_planes_dural_f"
+      },
+      "rudder_dm": {
+        "mat": "1x_e_planes_dural_f"
+      },
+      "rudder0_dm": {
+        "mat": "1x_e_planes_dural_f"
+      },
+      "rudder1_dm": {
+        "mat": "1x_e_planes_dural_f"
+      },
+      "gear_l_dm": {
+        "mat": "1x_e_gear"
+      },
+      "gear_r_dm": {
+        "mat": "1x_e_gear"
+      },
+      "wingcontrol_dm": {
+        "mat": "1x_e_controls_f"
+      },
+      "wingcontrol_l_dm": {
+        "mat": "1x_e_controls_f"
+      },
+      "wingcontrol_r_dm": {
+        "mat": "1x_e_controls_f"
+      },
+      "tailcontrol_dm": {
+        "mat": "1x_e_controls_f"
+      },
+      "flap_l_dm": {
+        "mat": "1x_e_flap_dural_f"
+      },
+      "flap_r_dm": {
+        "mat": "1x_e_flap_dural_f"
+      },
+      "flap1_l_dm": {
+        "mat": "1x_e_flap_dural_f"
+      },
+      "flap1_r_dm": {
+        "mat": "1x_e_flap_dural_f"
+      },
+      "fin_dm": {
+        "mat": "1x_e_fin_dural_f"
+      },
+      "stab_dm": {
+        "mat": "1x_e_stab_dural_f"
+      },
+      "fin1_dm": {
+        "mat": "1x_e_fin_dural_f"
+      },
+      "stab1_dm": {
+        "mat": "1x_e_stab_dural_f"
+      },
+      "fin2_dm": {
+        "mat": "1x_e_fin_dural_f"
+      },
+      "stab2_dm": {
+        "mat": "1x_e_stab_dural_f"
+      }
+    }
+  },
+  {
     "DamageParts": {
       "armor10": {
         "mgun1_dm": {
@@ -916,8 +1214,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 25.2
         }
       },
@@ -932,7 +1228,7 @@
         },
         "elevator_dm": {
           "genericDamageMult": 0.2,
-          "hp": 21.6
+          "hp": 22.7
         },
         "fin_dm": {
           "genericDamageMult": 0.2,
@@ -940,150 +1236,146 @@
         },
         "flap_l_dm": {
           "genericDamageMult": 0.2,
-          "hp": 27.9
+          "hp": 30.5
         },
         "flap_r_dm": {
           "genericDamageMult": 0.2,
-          "hp": 27.9
+          "hp": 30.5
         },
         "rudder_dm": {
           "genericDamageMult": 0.2,
-          "hp": 16.2
+          "hp": 17.2
         },
         "stab_dm": {
           "genericDamageMult": 0.2,
-          "hp": 17.9
+          "hp": 16.7
         }
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
-          "hp": 51.7
+          "hp": 54.0
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 44.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
-          "hp": 86.3
+          "hp": 54.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 53.2
+          "hp": 49.4
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 53.2
+          "hp": 49.4
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 42.6
+          "hp": 40.5
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 42.6
+          "hp": 40.5
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 80.5
+          "hp": 64.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 80.5
+          "hp": 64.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
+          "genericDamageMult": 0.3,
+          "hp": 19.5
+        },
+        "cover3_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 19.5
+        },
+        "cover4_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 19.5
+        },
+        "cover5_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 19.5
+        },
+        "cover6_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 19.5
+        },
+        "cover7_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 19.5
+        },
+        "cover8_dm": {
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 26.7
+          "hp": 51.3
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 26.7
+          "hp": 51.3
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 19.5
+          "hp": 36.4
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 19.5
+          "hp": 36.4
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 35.4
+          "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 35.4
+          "hp": 60.5
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
-          "hp": 51.1
+          "hp": 39.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
-          "hp": 51.1
+          "hp": 39.5
         }
       },
       "steel": {
         "gear_l_dm": {
-          "hp": 41.5
+          "hp": 39.5
         },
         "gear_r_dm": {
-          "hp": 41.2
+          "hp": 39.5
         }
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 17.5
+          "hp": 11.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 17.5
-        },
-        "oil3_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 11.5
+          "hp": 13.6
         },
         "water1_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 11.5
+          "hp": 15.3
         },
         "water2_dm": {
-          "collisionDamageMult": 0.0,
+          "hp": 11.5
+        },
+        "water3_dm": {
           "hp": 11.5
         }
       },
@@ -1095,14 +1387,12 @@
       },
       "steel_tank_armor": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
-          "hp": 50.5
+          "hp": 62.3
         }
       },
       "wood": {
         "gear_c_dm": {
-          "hp": 2.5
+          "hp": 2.9
         }
       }
     }
@@ -1231,6 +1521,36 @@
       {
         "part": {
           "name": "cover2_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover3_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover4_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover5_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover6_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover7_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover8_dm"
         }
       },
       {
@@ -1777,17 +2097,6 @@
       },
       {
         "part": {
-          "name": "oil3_dm",
-          "onHit": {
-            "leak_oil": 0.3
-          },
-          "onKill": {
-            "leak_oil": 1.0
-          }
-        }
-      },
-      {
-        "part": {
           "name": "pilot_dm"
         }
       },
@@ -2042,6 +2351,17 @@
       {
         "part": {
           "name": "water2_dm",
+          "onHit": {
+            "leak_water": 0.5
+          },
+          "onKill": {
+            "leak_water": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "water3_dm",
           "onHit": {
             "leak_water": 0.5
           },

@@ -168,53 +168,6 @@
   },
   {
     "MetaParts": {
-      "turret_armor": [
-        {
-          "hp": 3000.0
-        },
-        {
-          "part": "turret_side_dm"
-        },
-        {
-          "part": "turret_front_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "fire": 0.1,
-              "nothing": 0.8
-            }
-          }
-        }
-      ],
-      "body_armor": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "superstructure_front_dm"
-        },
-        {
-          "part": "body_side_dm"
-        },
-        {
-          "part": "body_front_hatch_dm"
-        },
-        {
-          "part": "superstructure_side_dm"
-        },
-        {
-          "part": "superstructure_back_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "fire": 0.1,
-              "nothing": 0.8
-            }
-          }
-        }
-      ],
       "crew": [
         {
           "killAllPartsForDeath": true
@@ -483,8 +436,11 @@
   },
   {
     "cockpit": {
+      "zoomOutFov": 30.0,
+      "zoomInFov": 21.0,
       "headPos": [0.0,4.0,-8.0],
-      "headPosOnShooting": [-0.5,3.8,0.5]
+      "headPosOnShooting": [-0.5,3.8,0.5],
+      "detectionHeight": 3.0
     }
   },
   {
@@ -537,7 +493,7 @@
     "skin": {
       "name": "dunkelgelb_green_braun",
       "replace_tex": {
-        "from": "ger_camo_dunkelgelb_green_braun*",
+        "from": "ger_camo_tiger_green*",
         "to": "ger_camo_dunkelgelb_green_braun*"
       }
     }

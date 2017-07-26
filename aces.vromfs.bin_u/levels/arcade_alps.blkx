@@ -18,6 +18,8 @@
   "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
   "lastclip_horizon": true,
+  "wind_scale": 0.8,
+  "max_wind_strength": 3.5,
   "weather": {
     "cloudsOffsetBase": 500.0,
     "cloudsOffsetFrom": 25000.0,
@@ -26,45 +28,21 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.12,
-      "water_reflection_color": "#e8efff00",
-      "water_color_tex_scale_x": 8000.0,
-      "water_color_tex_scale_y": 12000.0,
-      "water_shore_blending_min_height": 2.0,
-      "water_depth_to_opacity_exp_base": 0.965,
-      "shore_start_wave_depth": 40.0,
-      "shore_waves_count": 3.0
-    }
-  },
-  "water_3d": {
-    "magnitude1": 2.0,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 1.0,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean_britain",
-    "color": [0.5,0.5,0.5],
-    "scaleTex": "underocean_scale",
-    "scaleTexCoord0": [-18656.0,-33600.0],
-    "scaleTexCoord1": [46880.0,31936.0]
+    "specular_detect_land_color": [1.0,-0.5,0.2,0.01],
+    "translucency_detection_hardness": 2.0,
+    "land_smoothness_detect_color": [0.57,0.52,0.46,0.5],
+    "smoothness_detection_hardness": 0.3,
+    "max_river_width": 1500.0,
+    "ocean_density": 0.4,
+    "river_density": 1.0,
+    "ocean0": [0.11,0.25,0.12,0.0],
+    "ocean1": [0.19,0.28,0.14,0.0],
+    "river0": [0.4,0.34,0.22,0.0],
+    "river1": [0.53,0.41,0.31,0.0]
   },
   "randomGrass": [
     {
       "alps_village_a": "alps_village_a_tex_m"
-    },
-    {
-      "alps_fields_a": "alps_fields_a_tex_m"
-    },
-    {
-      "alps_forest_a": "alps_forest_a_tex_m"
     },
     {
       "layer": {

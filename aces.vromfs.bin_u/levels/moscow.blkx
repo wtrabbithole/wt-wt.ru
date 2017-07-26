@@ -20,6 +20,9 @@
   "weatherTypes": "gameData/environments/weather_types.blk",
   "lastclip_horizon": true,
   "vsmAngleThreshold": 20.0,
+  "land_translucency": "no",
+  "wind_scale": 0.8,
+  "max_wind_strength": 3.5,
   "weather": {
     "cloudsOffsetBase": 100.0,
     "cloudsOffsetFrom": 20000.0,
@@ -30,199 +33,16 @@
   "shader_vars": {
     "parallax_shadow_strength": 8.0,
     "parallax_shadow_length": 4.0,
-    "land_bump_scale": 4.0,
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.12,
-      "water_reflection_color": "#fffefc00",
-      "water_surface_refraction_color": "#10120800",
-      "water_color_tex_scale_x": 2000.0,
-      "water_color_tex_scale_y": 2000.0,
-      "water_bump_scale_near": 0.08,
-      "foam_mul": 0.5,
-      "water_color": [0.15,0.16,0.17,1.0],
-      "water_shore_blending_min_height": 2.0,
-      "water_depth_to_opacity_exp_base": 0.7,
-      "shore_start_wave_depth": 3.0,
-      "shore_wave_bump_scale": 1.0,
-      "shore_waves_count": 2.0,
-      "water_bump_scale_far": 0.03
-    }
+    "land_bump_scale": 0.5,
+    "max_river_width": 3800.0,
+    "ocean_density": 1.0,
+    "river_density": 1.0,
+    "ocean0": [0.11,0.25,0.12,0.0],
+    "ocean1": [0.19,0.28,0.14,0.0],
+    "river0": [0.11,0.2,0.12,0.0],
+    "river1": [0.19,0.28,0.24,0.0]
   },
-  "water_3d": {
-    "magnitude1": 0.125,
-    "heightmapStep1": 0.05,
-    "speed1": [-2.0,0.0],
-    "magnitude2": 0.125,
-    "heightmapStep2": 0.025,
-    "speed2": [-1.0,1.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean_britain",
-    "scaleTex": "underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5],
-    "farWaterBumpScale": 0.15
-  },
-  "waterStub": {
-    "enable": true
-  },
-  "randomGrass": [
-    {
-      "density": 3.0
-    },
-    {
-      "maxRadius": 400.0
-    },
-    {
-      "sowPerlinFreq": 0.1
-    },
-    {
-      "fadeDelta": 100.0
-    },
-    {
-      "lodFadeDelta": 30.0
-    },
-    {
-      "minLodDensity": 0.2
-    },
-    {
-      "blendToLandDelta": 100.0
-    },
-    {
-      "texSize": 1024
-    },
-    {
-      "noise_first_rnd": 23.1407
-    },
-    {
-      "noise_first_val_mul": 1.0
-    },
-    {
-      "noise_first_val_add": 0.0
-    },
-    {
-      "noise_second_rnd": 0.05
-    },
-    {
-      "noise_second_val_mul": 1.0
-    },
-    {
-      "noise_second_val_add": 0.0
-    },
-    {
-      "directWindMul": 1.0
-    },
-    {
-      "noiseWindMul": 1.0
-    },
-    {
-      "windPerlinFreq": 50000.0
-    },
-    {
-      "directWindFreq": 1.0
-    },
-    {
-      "directWindModulationFreq": 1.0
-    },
-    {
-      "windWaveLength": 100.0
-    },
-    {
-      "windToColor": 0.2
-    },
-    {
-      "helicopterHorMul": 2.0
-    },
-    {
-      "helicopterVerMul": 1.0
-    },
-    {
-      "helicopterToDirectWindMul": 2.0
-    },
-    {
-      "helicopterFalloff": 0.001
-    },
-    {
-      "kursk_fields_a": "kursk_fields_a_tex_m"
-    },
-    {
-      "kursk_fields_b": "kursk_fields_b_tex_m"
-    },
-    {
-      "kursk_fields_small": "kursk_fields_small_tex_m"
-    },
-    {
-      "kursk_forest_a": "kursk_forest_a_tex_m"
-    },
-    {
-      "kursk_village": "kursk_village_tex_m"
-    },
-    {
-      "layer": {
-        "maskChannel": [1.0,0.0,0.0,0.0],
-        "res": "grass_ivantea_a",
-        "density": 0.02,
-        "horScale": 1.5,
-        "horMinScale": 0.9,
-        "verScale": 1.5,
-        "verMinScale": 0.9,
-        "windMul": 0.05,
-        "color_mask_r_from": "#ba3254ff",
-        "color_mask_r_to": "#9c3a67ff",
-        "color_mask_b_from": "#34452dff",
-        "color_mask_b_to": "#4d5942ff",
-        "color_mask_g_from": "#021836ff",
-        "color_mask_g_to": "#f7f2baff"
-      }
-    },
-    {
-      "layer": {
-        "maskChannel": [0.0,1.0,1.0,0.0],
-        "res": "grass_platanthera_a",
-        "density": 0.2,
-        "horScale": 1.5,
-        "horMinScale": 0.9,
-        "verScale": 1.5,
-        "verMinScale": 0.9,
-        "windMul": 0.05,
-        "color_mask_r_from": "#bfb00aff",
-        "color_mask_r_to": "#e6a817ff",
-        "color_mask_b_from": "#459636ff",
-        "color_mask_b_to": "#4e7a3aff",
-        "color_mask_g_from": "#021836ff",
-        "color_mask_g_to": "#f7f2baff"
-      }
-    },
-    {
-      "layer": {
-        "maskChannel": [1.0,1.0,1.0,0.0],
-        "res": "grass_wheat_a",
-        "density": 5.0,
-        "horScale": 1.5,
-        "horMinScale": 0.9,
-        "verScale": 1.5,
-        "verMinScale": 0.9,
-        "windMul": 0.05,
-        "color_mask_r_from": "#7b612f7f",
-        "color_mask_r_to": "#b4a4347f",
-        "color_mask_b_from": "#3e662d7f",
-        "color_mask_b_to": "#4a251c7f",
-        "color_mask_g_from": "#021836ff",
-        "color_mask_g_to": "#f7f2baff"
-      }
-    }
-  ],
-  "technicsSkins": [
-    {
-      "groundSkin": "forest"
-    },
-    {
-      "groundSkin": "default"
-    }
-  ]
+  "technicsSkins": {
+    "groundSkin": "snow"
+  }
 }

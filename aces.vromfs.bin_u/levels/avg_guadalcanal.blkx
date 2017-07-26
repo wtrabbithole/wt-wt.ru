@@ -1,6 +1,7 @@
 {
   "mandatoryLandquality": 1,
   "z_far": 30000.0,
+  "clipmap_tex_mips": 8,
   "tank_z_far": 12000.0,
   "customLevelMap": "guadalcanal_map*",
   "mapCoord0": [-12288.0,-28672.0],
@@ -39,6 +40,10 @@
     "earthWorldMax": [32752.0,98304.0]
   },
   "weather": {
+    "ocean0": [0.27,0.68,0.53,0.0],
+    "ocean1": [0.57,0.91,0.84,0.0],
+    "river0": [0.83,0.25,0.02,0.0],
+    "river1": [0.856,0.54,0.28,0.0],
     "cloudsOffsetFrom": 25000.0,
     "cloudsOffsetTo": 40000.0,
     "cloudsOffsetBase": 200.0,
@@ -48,44 +53,7 @@
     "minHazeBaseKm": -1000.0
   },
   "shader_vars": {
-    "land_bump_scale": -2.0,
-    "parallax_shadow_strength": 5.0,
-    "parallax_shadow_length": 2.0,
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.12,
-      "water_reflection_color": "#e8efff00",
-      "water_color_tex_scale_x": 8000.0,
-      "water_color_tex_scale_y": 8000.0,
-      "water_shore_blending_min_height": 0.01,
-      "water_depth_to_opacity_exp_base": 0.1,
-      "water_color": [0.1,0.22,0.17,1.0],
-      "shore_start_wave_depth": 3.0,
-      "shore_wave_bump_scale": 1.0,
-      "shore_waves_count": 1.0,
-      "water_bump_scale_far": 0.0063
-    }
-  },
-  "water_3d": {
-    "magnitude1": 0.125,
-    "heightmapStep1": 0.05,
-    "speed1": [-1.0,0.0],
-    "magnitude2": 0.125,
-    "heightmapStep2": 0.025,
-    "speed2": [-1.0,1.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean_peleliu",
-    "scaleTex": "peleliu_underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5]
-  },
-  "waterStub": {
-    "enable": true
+    "land_bump_scale": -2.0
   },
   "randomGrass": [
     {

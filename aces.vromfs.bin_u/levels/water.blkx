@@ -12,6 +12,8 @@
   "vsmAngleThreshold": 0.0,
   "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
+  "wind_scale": 1.2,
+  "max_wind_strength": 6.5,
   "lmesh_enabled": false,
   "water_level": 0.0,
   "weather": {
@@ -22,31 +24,16 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_shore_blending_min_height": 2.0,
-      "water_depth_to_opacity_exp_base": 0.982,
-      "water_color": [0.15,0.16,0.17,1.0]
-    }
-  },
-  "water_3d": {
-    "magnitude1": 0.5,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 2.0,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean",
-    "scaleTex": "underocean_scale",
-    "color": [0.5,0.5,0.5]
+    "max_river_width": 1500.0,
+    "ocean_density": 0.4,
+    "river_density": 2.0,
+    "ocean0": [0.27,0.68,0.53,0.0],
+    "ocean1": [0.57,0.91,0.84,0.0],
+    "river0": [0.5,0.35,0.12,0.0],
+    "river1": [0.36,0.41,0.17,0.0],
+    "water_color_noise_size": 1737.0
   },
   "technicsSkins": {
     "groundSkin": "urban"
-  },
-  "waterStub": {
-    "enable": true
   }
 }

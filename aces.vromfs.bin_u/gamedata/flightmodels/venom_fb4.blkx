@@ -12,6 +12,9 @@
     "paratrooper": "ally"
   },
   {
+    "advancedInstructor": true
+  },
+  {
     "fightAiBehaviour": "fighter"
   },
   {
@@ -329,8 +332,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 50.5
         }
       },
@@ -378,81 +379,65 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 55.9
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 95.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 58.3
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 58.3
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 52.1
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 52.1
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 40.1
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 40.1
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
@@ -463,23 +448,15 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 39.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         }
       },
@@ -499,38 +476,24 @@
       },
       "steel_tank_armor": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 64.6
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 120.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 120.5
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 60.9
         },
         "tank5_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 60.9
         },
         "tank6_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 62.8
         },
         "tank7_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 62.8
         }
       },
@@ -2133,9 +2096,9 @@
       "headPosOnShooting": [0.27,0.659,-0.005],
       "shadowSphereMultiplier": 2.0,
       "gunLightRadiusMul": 0.05,
-      "lightPos": [0.690781,0.403152,-0.231511],
-      "lightColor": [0.98,0.6039,0.2098],
-      "lightAttenuation": 5.0,
+      "lightPos": [0.667701,0.411043,0.241082],
+      "lightColor": [0.12,0.05,0.03],
+      "lightAttenuation": 8.0,
       "devices": {
         "stick_elevator": [-2.0,2.0],
         "stick_ailerons": [-1.8,1.8],
@@ -2490,13 +2453,13 @@
   {
     "Shop": {
       "maxAltitude": 12192.0,
-      "maxSpeed": 286.0311,
+      "maxSpeed": 285.28,
       "turnTime": 22.0,
-      "airfieldLen": 357.136,
-      "climbTime": 180.0,
+      "airfieldLen": 850.0,
+      "climbTime": 240.0,
       "maxSpeedAlt": 0.0,
-      "climbAlt": 3096.0,
-      "climbSpeed": 30.0
+      "climbAlt": 6096.0,
+      "climbSpeed": 33.0
     }
   },
   {
@@ -2674,9 +2637,9 @@
   {
     "balanceData": {
       "accSpd": 6.419,
-      "climbSpeed": 50.0,
-      "maxSpeed": 298.888,
-      "turnTime": 20.0
+      "climbSpeed": 34.2,
+      "maxSpeed": 285.28,
+      "turnTime": 22.0
     }
   },
   {
@@ -2687,8 +2650,11 @@
       "structure_str": [],
       "hp_105_jet": [],
       "g_suit": [],
-      "new_compressor_jet": {
-        "prevModification": ""
+      "new_compressor_jet": [],
+      "hydravlic_power": {
+        "effects": {
+          "aileronBooster": 0.9
+        }
       },
       "hispano_universal": [],
       "hispano_air_targets": [],

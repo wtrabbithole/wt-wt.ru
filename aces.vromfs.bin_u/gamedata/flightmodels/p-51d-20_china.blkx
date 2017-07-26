@@ -3,7 +3,7 @@
     "fmFile": "fm/p-51d-5.blk"
   },
   {
-    "fmFile": "fm/p-51d-5.blk"
+    "fmFile": "fm/p-51d-20-na.blk"
   },
   {
     "model": "p_51d_20_na"
@@ -22,6 +22,9 @@
   },
   {
     "testFlight": "testFlight_peleliu"
+  },
+  {
+    "testFlight": "testFlight_honolulu"
   },
   {
     "DamageGen": {
@@ -274,8 +277,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 22.2
         }
       },
@@ -315,91 +316,73 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 58.0
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 44.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 68.2
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 68.3
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 51.8
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 51.8
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 46.9
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 46.9
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
@@ -410,18 +393,12 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 52.7
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 52.7
         }
       },
@@ -435,15 +412,12 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 11.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 16.2
         },
         "water1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -455,18 +429,12 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 51.3
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 70.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 70.5
         }
       },
@@ -2163,7 +2131,7 @@
       "headPos": [-0.83,1.056,-0.003],
       "headPosOnShooting": [-0.85,1.056,-0.003],
       "lightPos": [-0.151411,0.755559,-0.225928],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 4.0,
       "devices": {
         "speed": [0.0,311.111],
@@ -2498,26 +2466,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12700.0,
-      "maxSpeed": 197.591,
-      "turnTime": 20.0,
-      "airfieldLen": 396.462,
-      "climbTime": 146.817,
-      "maxSpeedAlt": 7700.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 19.0
-    }
-  },
-  {
-    "balanceData": {
-      "accSpd": 2.4758,
-      "climbSpeed": 18.0423,
-      "maxSpeed": 197.5,
-      "turnTime": 26.1576
-    }
-  },
-  {
     "user_skin": [
       {
         "name": "p_51d_20_na"
@@ -2574,6 +2522,26 @@
         }
       }
     ]
+  },
+  {
+    "Shop": {
+      "maxAltitude": 12700.0,
+      "maxSpeed": 197.22,
+      "turnTime": 22.0,
+      "airfieldLen": 396.462,
+      "climbTime": 398.0,
+      "maxSpeedAlt": 7620.0,
+      "climbAlt": 6098.0,
+      "climbSpeed": 18.9
+    }
+  },
+  {
+    "balanceData": {
+      "accSpd": 2.4758,
+      "climbSpeed": 18.9,
+      "maxSpeed": 197.22,
+      "turnTime": 22.0
+    }
   },
   {
     "modifications": {

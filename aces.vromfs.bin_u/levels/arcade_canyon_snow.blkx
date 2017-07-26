@@ -14,7 +14,7 @@
   "mirrorShrinkZPos": 256.0,
   "mirrorShrinkZNeg": 256.0,
   "gridSteps": [3250.0,3250.0],
-  "weatherPreset": "gameData/environments/weather_preset_egypt.blk",
+  "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
   "weather": {
     "cloudsOffsetBase": 100.0,
@@ -24,34 +24,19 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "foam_mul": 0.0,
-      "shore_wave_bump_scale": 0.0,
-      "shore_waves_count": 0.0,
-      "water_color": [0.22,0.32,0.15,1.0],
-      "water_shore_blending_min_height": 0.1,
-      "water_depth_to_opacity_exp_base": 0.85,
-      "shore_start_wave_depth": 0.1
-    }
-  },
-  "water_3d": {
-    "magnitude1": 3.5,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 1.7,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean_honolulu",
-    "scaleTex": "honolulu_underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5]
+    "specular_detect_land_color": [1.0,-0.5,-0.5,0.5],
+    "translucency_detection_hardness": 0.4,
+    "land_smoothness_detect_color": [0.81,0.84,0.85,0.9],
+    "smoothness_detection_hardness": 0.2,
+    "land_bump_scale": 0.4,
+    "max_river_width": 1500.0,
+    "ocean_density": 0.4,
+    "river_density": 2.0,
+    "ocean0": [0.27,0.68,0.53,0.0],
+    "ocean1": [0.57,0.91,0.84,0.0],
+    "river0": [0.5,0.35,0.12,0.0],
+    "river1": [0.36,0.41,0.17,0.0],
+    "water_color_noise_size": 1737.0
   },
   "randomGrass": [
     {

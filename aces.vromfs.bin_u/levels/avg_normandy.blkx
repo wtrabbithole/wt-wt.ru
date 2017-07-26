@@ -1,5 +1,4 @@
 {
-  "enableApex": true,
   "mandatoryLandquality": 1,
   "z_far": 75000.0,
   "tank_z_far": 12000.0,
@@ -19,20 +18,21 @@
   "dirtMapCoord1": [3480.0,3960.0],
   "tankGridSteps": [410.0,410.0],
   "tankGridSize": [4096.0,4096.0],
-  "numBorderCellsXPos": 64,
+  "numBorderCellsXPos": 16,
   "numBorderCellsXNeg": 0,
   "numBorderCellsZPos": 0,
-  "numBorderCellsZNeg": 64,
-  "tankFogMul": 1.5,
+  "numBorderCellsZNeg": 16,
+  "tankFogMul": 1.0,
   "water_level": 0.0,
   "mirrorShrinkXPos": 256.0,
   "mirrorShrinkXNeg": 256.0,
   "mirrorShrinkZPos": 256.0,
   "mirrorShrinkZNeg": 256.0,
-  "weatherPreset": "gameData/environments/weather_preset_ground.blk",
+  "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
   "lastClip": true,
   "lastclip_horizon": true,
+  "max_wind_strength": 4.5,
   "alternativeMapCoord": {
     "aiTanksMapCoord0": [1350.0,1902.0],
     "aiTanksMapCoord1": [3298.0,4096.0],
@@ -55,43 +55,17 @@
     "minHazeBaseKm": -1000.0
   },
   "shader_vars": {
-    "parallax_shadow_strength": 5.0,
-    "parallax_shadow_length": 2.0,
     "land_bump_scale": -4.0,
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.05,
-      "water_reflection_color": "#fffefc00",
-      "water_surface_refraction_color": "#10120800",
-      "water_color_tex_scale_x": 8000.0,
-      "water_color_tex_scale_y": 4000.0,
-      "shore_start_wave_depth": 10.0,
-      "shore_wave_bump_scale": 5.0,
-      "shore_waves_count": 3.0,
-      "water_color": [0.18,0.2,0.21,1.0],
-      "water_depth_to_opacity_mul": 0.2
-    }
-  },
-  "water_3d": {
-    "magnitude1": 2.0,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 1.0,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean",
-    "color": [0.5,0.5,0.5],
-    "scaleTex": "britain_underocean_scale",
-    "scaleTexCoord0": [-18656.0,-33600.0],
-    "scaleTexCoord1": [46880.0,31936.0]
-  },
-  "waterStub": {
-    "enable": true
+    "land_smoothness_detect_color": [0.4,0.4,0.4,0.5],
+    "translucency_detection_hardness": 2.0,
+    "specular_detect_land_color": [-0.71,-0.2,3.9,0.1],
+    "max_river_width": 800.0,
+    "ocean_density": 0.4,
+    "river_density": 1.0,
+    "ocean0": [0.28,0.7,0.56,0.0],
+    "ocean1": [0.09,0.44,0.37,0.0],
+    "river0": [0.5,0.45,0.08,0.0],
+    "river1": [0.44,0.45,0.19,0.0]
   },
   "randomGrass": [
     {
@@ -174,6 +148,12 @@
     },
     {
       "normandy_fields_b": "normandy_fields_a_mask"
+    },
+    {
+      "normandy_forest_a": "forest_tex_m"
+    },
+    {
+      "normandy_town_tile": "forest_tex_m"
     },
     {
       "normandy_detailed_town_village": "normandy_detailed_town_village_scatter_mask"

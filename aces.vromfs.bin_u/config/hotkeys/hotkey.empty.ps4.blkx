@@ -1748,6 +1748,7 @@
       "isMouseLookHold": true,
       "isFlightStick": false,
       "holdThrottleForWEP": false,
+      "useJoystickMouseForVoiceMessage": true,
       "head_pos_x": {
         "axisId": -1,
         "innerDeadzone": 0.05,
@@ -2211,6 +2212,62 @@
         "relSens": 0.01,
         "relative": false
       },
+      "hangar_camera_x": {
+        "axisId": 2,
+        "innerDeadzone": 0.02,
+        "outerDeadzone": 0.05,
+        "rangeMin": -1.0,
+        "rangeMax": 1.0,
+        "inverse": false,
+        "nonlinearity": 0.0,
+        "kAdd": 0.0,
+        "kMul": 0.8,
+        "relSens": 1.0,
+        "relStep": 0.0,
+        "relative": false
+      },
+      "hangar_camera_y": {
+        "axisId": 3,
+        "innerDeadzone": 0.02,
+        "outerDeadzone": 0.05,
+        "rangeMin": -1.0,
+        "rangeMax": 1.0,
+        "inverse": true,
+        "nonlinearity": 0.0,
+        "kAdd": 0.0,
+        "kMul": 1.0,
+        "relSens": 1.0,
+        "relStep": 0.0,
+        "relative": false
+      },
+      "decal_move_x": {
+        "axisId": 0,
+        "innerDeadzone": 0.02,
+        "outerDeadzone": 0.05,
+        "rangeMin": -1.0,
+        "rangeMax": 1.0,
+        "inverse": false,
+        "nonlinearity": 1.0,
+        "kAdd": 0.0,
+        "kMul": 1.0,
+        "relSens": 1.0,
+        "relStep": 0.0,
+        "relative": false
+      },
+      "decal_move_y": {
+        "axisId": 1,
+        "innerDeadzone": 0.25,
+        "outerDeadzone": 0.05,
+        "rangeMin": -1.0,
+        "rangeMax": 1.0,
+        "inverse": false,
+        "nonlinearity": 0.0,
+        "kAdd": 0.0,
+        "kMul": 1.0,
+        "relSens": 1.0,
+        "relStep": 0.0,
+        "relative": false
+      },
       "square0": {
         "axisId1": -1,
         "axisId2": -1
@@ -2233,32 +2290,7 @@
           "axis": -1
         }
       ],
-      "hangar": [
-        {
-          "axis": {
-            "name": "camera_rotation",
-            "axisToMap": "ailerons"
-          }
-        },
-        {
-          "axis": {
-            "name": "camera_vertical_rotation",
-            "axisToMap": "throttle"
-          }
-        },
-        {
-          "axis": {
-            "name": "move_decal",
-            "axisToMap": "ailerons"
-          }
-        },
-        {
-          "axis": {
-            "name": "vertical_move_decal",
-            "axisToMap": "gm_throttle"
-          }
-        }
-      ]
+      "hangar": []
     }
   }
 }

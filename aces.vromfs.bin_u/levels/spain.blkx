@@ -33,48 +33,22 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "parallax_shadow_strength": 5.0,
-    "parallax_shadow_length": 2.0,
-    "land_bump_scale": -4.0,
-    "water": {
-      "water_sparkles_fade_from": 1000.0,
-      "water_sparkles_fade_to": 24000.0,
-      "water3d_min_fresnel": 0.05,
-      "water_reflection_color": "#fffefc00",
-      "water_surface_refraction_color": "#10120800",
-      "water_color_tex_scale_x": 16000.0,
-      "water_color_tex_scale_y": 8000.0,
-      "water_color": [0.1,0.19,0.21,0.0],
-      "water_depth_to_opacity_mul": 0.2,
-      "shore_start_wave_depth": 3.0,
-      "shore_wave_bump_scale": 1.0,
-      "shore_waves_count": 1.0
-    }
+    "specular_detect_land_color": [0.5,0.0,0.0,0.7],
+    "translucency_detection_hardness": 1.0,
+    "land_bump_scale": 0.3,
+    "max_river_width": 1500.0,
+    "ocean_density": 0.4,
+    "river_density": 0.4,
+    "ocean0": [0.29,0.34,0.25,0.0],
+    "ocean1": [0.39,0.44,0.35,0.0],
+    "river0": [0.5,0.35,0.12,0.0],
+    "river1": [0.36,0.41,0.17,0.0],
+    "water_color_noise_size": 1137.0
   },
   "land": {
     "modulateColorTex": "spain_modulate_color_tex",
     "modulateColor_edge1": 0.6,
     "modulateColor_edge2": 1.0
-  },
-  "water_3d": {
-    "magnitude1": 4.0,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 2.0,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean",
-    "scaleTex": "underocean_scale",
-    "scaleTexCoord0": [-65536.0,-65536.0],
-    "scaleTexCoord1": [65536.0,65536.0],
-    "color": [0.5,0.5,0.5]
-  },
-  "waterStub": {
-    "enable": true
   },
   "randomGrass": [
     {
@@ -153,34 +127,31 @@
       "helicopterFalloff": 0.001
     },
     {
-      "spain_fields_a": "sicily_village_tex_m"
+      "spain_fields_a": "solid_scatter_mask"
     },
     {
-      "spain_fields_b": "sicily_fields_b_tex_m"
+      "sicily_fields_b": "solid_scatter_mask"
     },
     {
-      "spain_fields_swamp": "sicily_fields_a_tex_m"
+      "spain_fields_swamp": "solid_scatter_mask"
     },
     {
-      "spain_forest_hills": "sicily_fields_b_tex_m"
+      "spain_forest_hills": "solid_scatter_mask"
     },
     {
-      "spain_forest_hollows": "stalingrad_forest_tex_m"
+      "spain_forest_hollows": "solid_scatter_mask"
     },
     {
-      "spain_highland_meadows": "korea_forest_b_tex_m"
+      "spain_highland_meadows": "solid_scatter_mask"
     },
     {
-      "spain_highland_terraces": "sicily_fields_a_tex_m"
+      "spain_highland_terraces": "solid_scatter_mask"
     },
     {
       "sicily_small_city_tile": "sicily_small_city_tile_tex_m"
     },
     {
-      "malta_valetta_port": "malta_valletta_port_tex_m"
-    },
-    {
-      "malta_airfields": "malta_airfields_tex_m"
+      "malta_cliff_rock_vertical": "solid_scatter_mask"
     },
     {
       "layer": {
@@ -218,7 +189,7 @@
       "layer": {
         "maskChannel": [1.0,0.0,0.0,0.0],
         "res": "grass_scatter_b_2",
-        "density": 1.0,
+        "density": 0.1,
         "horScale": 4.0,
         "verScale": 4.0,
         "windMul": 0.05,
@@ -234,7 +205,7 @@
       "layer": {
         "maskChannel": [0.0,1.0,0.0,0.0],
         "res": "grass_scatter_a_1",
-        "density": 3.0,
+        "density": 0.2,
         "horScale": 2.5,
         "verScale": 3.0,
         "windMul": 0.05,
@@ -250,9 +221,9 @@
       "layer": {
         "maskChannel": [1.0,1.0,1.0,0.0],
         "res": "grass_scatter_a_3",
-        "density": 15.0,
-        "horScale": 2.0,
-        "verScale": 2.0,
+        "density": 3.5,
+        "horScale": 1.0,
+        "verScale": 1.0,
         "windMul": 0.05,
         "color_mask_r_from": "#63671b7f",
         "color_mask_r_to": "#c286547f",

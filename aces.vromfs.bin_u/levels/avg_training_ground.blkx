@@ -45,7 +45,7 @@
     "tankMapColorMult": "#f0ebdce6"
   },
   {
-    "tankFogMul": 1.5
+    "tankFogMul": 1.0
   },
   {
     "numBorderCellsXPos": 8
@@ -115,45 +115,7 @@
     }
   },
   {
-    "shader_vars": {
-      "water": {
-        "water_sparkles_fade_from": 1000.0,
-        "water_sparkles_fade_to": 10000.0,
-        "water3d_min_fresnel": 0.02,
-        "water_surface_refraction_color": [0.2,0.2,0.1,0.0],
-        "water_reflection_color": [0.2,0.2,0.1,0.0],
-        "water_color_tex_scale_x": 500.0,
-        "water_color_tex_scale_y": 500.0,
-        "foam_mul": 0.05,
-        "water_bump_scale_near": 330.094,
-        "water_shore_blending_min_height": 0.4,
-        "water_depth_to_opacity_exp_base": 0.05,
-        "water_color": [0.25,0.19,0.1,1.0],
-        "shore_start_wave_depth": 3.0,
-        "shore_wave_bump_scale": 1.0,
-        "shore_waves_count": 1.0,
-        "water_bump_scale_far": 330.063
-      }
-    }
-  },
-  {
-    "water_3d": {
-      "magnitude1": 0.125,
-      "heightmapStep1": 0.05,
-      "speed1": [-2.0,0.0],
-      "magnitude2": 0.125,
-      "heightmapStep2": 0.025,
-      "speed2": [-1.0,1.0],
-      "LODCoefficient": 17.0,
-      "LODAddedTerm": 0.0,
-      "morphStart": 0.7,
-      "heightmap": "water_hm_a",
-      "colorTex": "amazon_underwater",
-      "scaleTex": "krymsk_underocean_scale",
-      "scaleTexCoord0": [-32768.0,-32768.0],
-      "scaleTexCoord1": [32768.0,32768.0],
-      "color": [0.5,0.5,0.5]
-    }
+    "shader_vars": []
   },
   {
     "randomGrass": [
@@ -453,12 +415,5 @@
         "groundSkin": "default"
       }
     ]
-  },
-  {
-    "waterStub": {
-      "enable": true,
-      "maxZ": 32768.0,
-      "maxX": 34000.0
-    }
   }
 ]

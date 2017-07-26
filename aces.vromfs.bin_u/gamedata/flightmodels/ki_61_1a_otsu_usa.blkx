@@ -189,8 +189,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 23.6
         }
       },
@@ -230,108 +228,84 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 55.6
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 44.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 64.3
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 64.3
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 54.4
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 54.4
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 53.3
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 53.3
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 36.7
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 36.7
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 57.2
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 57.2
         }
       },
@@ -345,7 +319,6 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 12.6
         }
       },
@@ -357,18 +330,12 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 41.9
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 45.4
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 45.4
         }
       },
@@ -2097,7 +2064,7 @@
       "headPos": [-1.09,0.825,-0.005],
       "headPosOnShooting": [-1.09,0.825,-0.005],
       "lightPos": [-0.470456,0.542666,0.273311],
-      "lightColor": [0.98,0.6039,0.3098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 10.0,
       "devices": [
         {
@@ -2306,22 +2273,6 @@
     ]
   },
   {
-    "default_skin_tomoe": [
-      {
-        "replace_tex": {
-          "from": "ki_61_otsu_a*",
-          "to": "ki_61_otsu_a_tomoe*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "ki_61_otsu_a_dmg*",
-          "to": "ki_61_otsu_a_tomoe_dmg*"
-        }
-      }
-    ]
-  },
-  {
     "skin": [
       {
         "name": "otsu_ota_tomoe"
@@ -2509,6 +2460,12 @@
         },
         {
           "part": "hook"
+        },
+        {
+          "part": "fin"
+        },
+        {
+          "part": "stab"
         }
       ]
     }
@@ -2586,6 +2543,49 @@
   },
   {
     "default_skin": [
+      {
+        "name": "desert"
+      },
+      {
+        "replace_tex": {
+          "from": "ki_61_otsu_a*",
+          "to": "ki_61_otsu_usaaf_a*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "ki_61_otsu_a_dmg*",
+          "to": "ki_61_otsu_usaaf_a_dmg*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "ki_61_otsu_n*",
+          "to": "ki_61_otsu_usaaf_n*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "ki_61_otsu_n_dmg*",
+          "to": "ki_61_otsu_usaaf_n_dmg*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "ki_61_otsu_blank_a*",
+          "to": "ki_61_otsu_usaaf_star_a*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "ki_61_otsu_blank_a_dmg*",
+          "to": "ki_61_otsu_usaaf_star_a_dmg*"
+        }
+      }
+    ]
+  },
+  {
+    "default_skin_tomoe": [
       {
         "name": "desert"
       },

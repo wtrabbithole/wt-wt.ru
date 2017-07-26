@@ -12,6 +12,9 @@
     "paratrooper": "usa_para"
   },
   {
+    "advancedInstructor": true
+  },
+  {
     "testFlight": "testFlight_honolulu"
   },
   {
@@ -246,6 +249,12 @@
   },
   {
     "DamageParts": {
+      "steel_pilot": {
+        "pilot_dm": {
+          "fireProtectionHp": 20.0,
+          "hp": 20.0
+        }
+      },
       "armor10": {
         "cannon1_dm": {
           "hp": 15.0
@@ -278,13 +287,9 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 49.5
         },
         "engine2_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 49.5
         }
       },
@@ -311,27 +316,27 @@
         },
         "flap1_l_dm": {
           "genericDamageMult": 0.2,
-          "hp": 21.1
+          "hp": 14.5
         },
         "flap1_r_dm": {
           "genericDamageMult": 0.2,
-          "hp": 21.1
+          "hp": 14.5
         },
         "flap_l_dm": {
           "genericDamageMult": 0.2,
-          "hp": 21.8
+          "hp": 14.5
         },
         "flap_r_dm": {
           "genericDamageMult": 0.2,
-          "hp": 21.8
+          "hp": 14.5
         },
         "rudder0_dm": {
           "genericDamageMult": 0.2,
-          "hp": 22.8
+          "hp": 24.0
         },
         "rudder1_dm": {
           "genericDamageMult": 0.2,
-          "hp": 22.8
+          "hp": 24.0
         },
         "stab_dm": {
           "genericDamageMult": 0.2,
@@ -340,116 +345,93 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
-          "hp": 47.9
+          "hp": 44.5
         },
         "fuse2_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
-          "hp": 47.9
+          "hp": 44.5
         },
         "fuse3_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 44.5
         },
         "fuse4_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 44.5
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
-          "hp": 81.3
+          "hp": 86.0
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 80.5
+          "hp": 77.0
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 80.5
+          "hp": 77.0
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 80.5
+          "hp": 69.8
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
+          "genericDamageMult": 0.3,
+          "hp": 69.8
+        },
+        "wing_l_dm": {
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
-        "wing_l_dm": {
-          "collisionDamageMult": 0.4,
-          "genericDamageMult": 0.3,
-          "hp": 65.2
-        },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
-          "hp": 65.2
+          "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover4_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover5_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 51.0
+          "hp": 60.5
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 51.0
+          "hp": 60.5
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
@@ -460,18 +442,12 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         }
       },
@@ -485,79 +461,39 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 12.2
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.2
         },
         "oil3_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 12.2
         },
         "oil4_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.2
         },
-        "water1_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 17.5
-        },
         "water2_dm": {
-          "collisionDamageMult": 0.0,
-          "hp": 17.5
-        },
-        "water3_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         },
         "water4_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
-        }
-      },
-      "steel_pilot": {
-        "pilot_dm": {
-          "fireProtectionHp": 20.0,
-          "hp": 20.0
         }
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
-          "hp": 52.5
+          "hp": 39.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
-          "hp": 59.2
+          "hp": 57.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
-          "hp": 52.5
+          "hp": 39.5
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
-          "hp": 59.2
+          "hp": 57.5
         }
       },
       "wood": {
-        "cover6_dm": {
-          "hp": 8.9
-        },
-        "cover7_dm": {
-          "hp": 8.9
-        },
-        "cover8_dm": {
-          "hp": 9.0
-        },
-        "cover9_dm": {
-          "hp": 9.0
-        },
         "gear_c_dm": {
           "hp": 24.6
         }
@@ -728,26 +664,6 @@
       {
         "part": {
           "name": "cover5_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover6_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover7_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover8_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "cover9_dm"
         }
       },
       {
@@ -1762,11 +1678,6 @@
         }
       },
       {
-        "part": {
-          "name": "pilot_dm"
-        }
-      },
-      {
         "part": [
           {
             "name": "rudder0_dm"
@@ -2221,29 +2132,7 @@
       },
       {
         "part": {
-          "name": "water1_dm",
-          "onHit": {
-            "leak_water": 0.5
-          },
-          "onKill": {
-            "leak_water": 1.0
-          }
-        }
-      },
-      {
-        "part": {
           "name": "water2_dm",
-          "onHit": {
-            "leak_water": 0.5
-          },
-          "onKill": {
-            "leak_water": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "water3_dm",
           "onHit": {
             "leak_water": 0.5
           },
@@ -2896,14 +2785,14 @@
   },
   {
     "cockpit": {
-      "headPos": [0.4,0.688,0.0],
-      "headPosOnShooting": [0.45,0.688,0.0],
+      "headPos": [0.6,0.73,0.0],
+      "headPosOnShooting": [0.6,0.73,0.0],
       "mirror": true,
       "mirrorPos": [0.666,0.915,0.0],
       "mirrorNorm": [-0.959,-0.284,0.0],
-      "lightPos": [0.746309,0.484751,0.30959],
-      "lightColor": [0.98,0.6039,0.2098],
-      "lightAttenuation": 6.0,
+      "lightPos": [0.910731,0.528005,0.305361],
+      "lightColor": [0.12,0.05,0.03],
+      "lightAttenuation": 4.0,
       "devices": {
         "speed": [0.0,311.111],
         "pedals1": [-1.0,1.0],
@@ -3027,12 +2916,21 @@
     ]
   },
   {
-    "weapon_presets": {
-      "preset": {
-        "name": "p-38g_default",
-        "blk": "gameData/FlightModels/weaponPresets/p-38g_default.blk"
+    "weapon_presets": [
+      {
+        "preset": {
+          "name": "p-38g_default",
+          "blk": "gameData/FlightModels/weaponPresets/p-38g_default.blk"
+        }
+      },
+      {
+        "preset": {
+          "name": "p-38g_6xbazooka",
+          "blk": "gameData/FlightModels/weaponPresets/p-38j_6xbazooka.blk",
+          "reqModification": "bazooka_pylon"
+        }
       }
-    }
+    ]
   },
   {
     "jetwash": {
@@ -3237,13 +3135,21 @@
   {
     "Shop": {
       "maxAltitude": 12192.0,
-      "maxSpeed": 180.604,
-      "turnTime": 21.0,
-      "airfieldLen": 332.0,
-      "climbTime": 270.0,
-      "maxSpeedAlt": 8382.0,
-      "climbAlt": 4572.0,
-      "climbSpeed": 17.3
+      "maxSpeed": 183.3,
+      "turnTime": 22.0,
+      "airfieldLen": 380.0,
+      "climbTime": 431.0,
+      "maxSpeedAlt": 8229.0,
+      "climbAlt": 6098.0,
+      "climbSpeed": 18.0
+    }
+  },
+  {
+    "balanceData": {
+      "accSpd": 2.7429,
+      "climbSpeed": 18.0,
+      "maxSpeed": 184.816,
+      "turnTime": 22.0
     }
   },
   {
@@ -3321,14 +3227,6 @@
     ]
   },
   {
-    "balanceData": {
-      "accSpd": 2.7429,
-      "climbSpeed": 18.6603,
-      "maxSpeed": 184.816,
-      "turnTime": 15.7043
-    }
-  },
-  {
     "modifications": {
       "cd_98": [],
       "CdMin_Fuse": [],
@@ -3352,6 +3250,11 @@
       "anm2_belt_pack": [],
       "anm2_new_gun": {
         "reqModification": "anm2_belt_pack"
+      },
+      "bazooka_pylon": {
+        "image": "#ui/gameuiskin#pilon_rocket",
+        "tier": 3,
+        "modClass": "weapon"
       }
     }
   },
@@ -3362,25 +3265,25 @@
       },
       {
         "replace_tex": {
-          "from": "p_38g_c*",
+          "from": "p38g_usaaf_body_c*",
           "to": "p_38g_metal_stripes_live_c*"
         }
       },
       {
         "replace_tex": {
-          "from": "p_38g_c_dmg*",
+          "from": "p38g_usaaf_body_c_dmg*",
           "to": "p_38g_metal_stripes_live_c_dmg*"
         }
       },
       {
         "replace_tex": {
-          "from": "p_38g_n*",
+          "from": "p38g_usaaf_body_n*",
           "to": "p_38g_metal_stripes_live_n*"
         }
       },
       {
         "replace_tex": {
-          "from": "p_38g_n_dmg*",
+          "from": "p38g_usaaf_body_n_dmg*",
           "to": "p_38g_metal_stripes_live_n_dmg*"
         }
       }
@@ -3393,22 +3296,22 @@
       },
       {
         "replace_tex": {
-          "from": "p_38g_c*"
+          "from": "p38g_usaaf_body_c*"
         }
       },
       {
         "replace_tex": {
-          "from": "p_38g_c_dmg*"
+          "from": "p38g_usaaf_body_c_dmg*"
         }
       },
       {
         "replace_tex": {
-          "from": "p_38g_n*"
+          "from": "p38g_usaaf_body_n*"
         }
       },
       {
         "replace_tex": {
-          "from": "p_38g_n_dmg*"
+          "from": "p38g_usaaf_body_n_dmg*"
         }
       }
     ]

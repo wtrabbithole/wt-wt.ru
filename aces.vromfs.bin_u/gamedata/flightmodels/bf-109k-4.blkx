@@ -385,8 +385,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 49.5
         }
       },
@@ -434,96 +432,77 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 48.7
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 44.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 99.3
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 51.2
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 51.2
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 40.5
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 40.5
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 76.7
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 76.7
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover4_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 24.3
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 24.3
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 19.5
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 19.5
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 28.2
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 28.2
         }
       },
@@ -537,18 +516,12 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 56.4
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 56.4
         }
       },
@@ -562,23 +535,18 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 13.3
         },
         "water1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 14.3
         },
         "water2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 14.3
         },
         "water3_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -590,8 +558,6 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 58.4
         }
       },
@@ -2364,10 +2330,10 @@
   },
   {
     "cockpit": {
-      "headPos": [-0.89,0.788,-0.056],
-      "headPosOnShooting": [-0.89,0.788,-0.056],
+      "headPos": [-0.89,0.788,-0.033],
+      "headPosOnShooting": [-0.89,0.788,-0.033],
       "lightPos": [-0.568421,0.570258,-0.265841],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 20.0,
       "devices": {
         "pedals1": [-1.0,1.0],
@@ -2454,7 +2420,6 @@
           "blk": "gameData/Weapons/gunMG131.blk",
           "emitter": "flare1",
           "flash": "flare1",
-          "shell": "emtr_shellrejection1",
           "dm": "mgun1_dm",
           "bullets": 300,
           "spread": 1.0,
@@ -2467,7 +2432,6 @@
           "blk": "gameData/Weapons/gunMG131.blk",
           "emitter": "flare2",
           "flash": "flare2",
-          "shell": "emtr_shellrejection2",
           "dm": "mgun2_dm",
           "bullets": 300,
           "spread": 1.0,
@@ -2706,6 +2670,12 @@
         },
         {
           "part": "hook"
+        },
+        {
+          "part": "fin"
+        },
+        {
+          "part": "stab"
         }
       ]
     }

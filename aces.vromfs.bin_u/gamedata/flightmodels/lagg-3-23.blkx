@@ -413,7 +413,7 @@
       "headPos": [-1.185,0.566,0.0],
       "headPosOnShooting": [-1.14,0.566,0.0],
       "lightPos": [-0.74388,0.223738,-0.400676],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 12.0,
       "devices": {
         "speed": [0.0,222.222],
@@ -769,21 +769,21 @@
   },
   {
     "Shop": {
-      "maxAltitude": 9500.0,
-      "maxSpeed": 153.8,
+      "maxAltitude": 9000.0,
+      "maxSpeed": 161.94,
+      "turnTime": 21.0,
+      "airfieldLen": 400.0,
+      "climbTime": 395.0,
       "maxSpeedAlt": 5000.0,
-      "turnTime": 23.0,
-      "airfieldLen": 450.0,
-      "climbTime": 546.0,
       "climbAlt": 5000.0,
-      "climbSpeed": 9.15
+      "climbSpeed": 12.65
     }
   },
   {
     "balanceData": {
       "accSpd": 1.7429,
-      "climbSpeed": 13.8,
-      "maxSpeed": 157.222,
+      "climbSpeed": 12.65,
+      "maxSpeed": 161.94,
       "turnTime": 21.0
     }
   },
@@ -986,14 +986,12 @@
         }
       },
       "armor8": {
-        "armor1_dm": {
+        "armor2_dm": {
           "hp": 40.0
         }
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 25.2
         }
       },
@@ -1033,91 +1031,70 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 56.6
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 46.0
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 74.7
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 62.8
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 62.8
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 51.7
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 51.7
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 42.9
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 42.9
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 28.0
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 28.0
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 58.6
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 58.6
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 39.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 39.5
         }
       },
@@ -1131,15 +1108,12 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 11.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 11.5
         },
         "water1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -1151,39 +1125,28 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         }
       },
       "wood": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
@@ -1320,7 +1283,7 @@
       },
       {
         "part": {
-          "name": "armor1_dm"
+          "name": "armor2_dm"
         }
       },
       {
@@ -2815,30 +2778,31 @@
   },
   {
     "modifications": {
-      "cd_98_r": [],
-      "CdMin_Fuse_r": [],
-      "new_cover_r": [],
-      "structure_str_r": [],
-      "hp_105_r": [],
-      "new_radiator_r": [],
-      "new_compressor_r": [],
-      "shvak_r_universal": [],
-      "shvak_r_ground_targets": [],
-      "shvak_r_armor_targets": [],
-      "shvak_r_tracers": [],
-      "shvak_r_stealth": [],
-      "ub_r_universal": [],
-      "ub_r_air_targets": [],
-      "ub_r_ground_targets": [],
-      "ub_r_all_tracers": [],
-      "ub_r_stealth": [],
-      "ub_r_belt_pack": [],
-      "ub_r_new_gun": {
-        "reqModification": "ub_r_belt_pack"
+      "cd_98": [],
+      "CdMin_Fuse": [],
+      "new_cover": [],
+      "structure_str": [],
+      "hp_105": [],
+      "new_radiator": [],
+      "new_engine_injection": [],
+      "new_compressor": [],
+      "shvak_universal": [],
+      "shvak_ground_targets": [],
+      "shvak_armor_targets": [],
+      "shvak_tracers": [],
+      "shvak_stealth": [],
+      "ub_universal": [],
+      "ub_air_targets": [],
+      "ub_ground_targets": [],
+      "ub_all_tracers": [],
+      "ub_stealth": [],
+      "ub_belt_pack": [],
+      "ub_new_gun": {
+        "reqModification": "ub_belt_pack"
       },
-      "shvak_r_belt_pack": [],
-      "shvak_r_new_gun": {
-        "reqModification": "shvak_r_belt_pack"
+      "shvak_belt_pack": [],
+      "shvak_new_gun": {
+        "reqModification": "shvak_belt_pack"
       },
       "LaGG_dz-40_r": {
         "image": "#ui/gameuiskin#pilon_bomb",

@@ -17,6 +17,8 @@
   "missionAIGunnerTurretDeviation": 6.0,
   "gunnerTurretRotationSpeed": 18.0,
   "minAltCameraBomberView": 20.0,
+  "showUpObjToTeamIconBlinkTime": 5.0,
+  "showUpObjToTeamCooldownTime": 10.0,
   "ai": {
     "outerSphereMul": 3.0,
     "effectiveness": {
@@ -380,7 +382,16 @@
     "radiusFadeSpeed": 4.0,
     "alphaFadeSpeed": 1.0,
     "tankInvisibleForAirplaneDistance": 2000.0,
-    "isFarAwayTanksEnabled": true
+    "isFarAwayTanksEnabled": true,
+    "minSilhouetteElemSize": 4,
+    "maxSilhouetteElemSize": 8,
+    "silhouetteFadeDist": 300.0
+  },
+  "predictionVolumeParams": {
+    "aircraftPVsEnabledAtDistance": 1800.0,
+    "aircraftPVsEnabledAtArrivalTime": 10.0,
+    "maxAircraftsVisibilityDistance": 14000.0,
+    "aircraftsAvailabilityBeltSize": 200.0
   },
   "damageModel": {
     "ricochetAngle": 60.0,
@@ -458,10 +469,16 @@
       "time": [0.037,60.0]
     },
     {
+      "time": [0.04,60.0]
+    },
+    {
       "time": [0.045,60.0]
     },
     {
       "time": [0.047,60.0]
+    },
+    {
+      "time": [0.05,60.0]
     },
     {
       "time": [0.057,60.0]
@@ -529,6 +546,9 @@
       "time": [0.0762,5.0]
     },
     {
+      "time": [0.082,3.0]
+    },
+    {
       "time": [0.085,5.0]
     },
     {
@@ -550,6 +570,9 @@
       "time": [0.122,6.0]
     },
     {
+      "time": [0.13,6.0]
+    },
+    {
       "time": [0.128,7.0]
     },
     {
@@ -557,6 +580,9 @@
     },
     {
       "time": [0.152,7.0]
+    },
+    {
+      "time": [0.158,3.0]
     }
   ],
   "typeFighter": {
@@ -574,8 +600,10 @@
   },
   "fmConstants": {
     "oilLeakSpeed": 0.0024,
+    "oilLeakTime": [420.0,210.0,20.0],
     "oilEmptyDamageSpeed": 0.0042,
     "waterLeakSpeed": 0.0048,
+    "waterLeakTime": [210.0,105.0,15.0],
     "waterEmptyDamageSpeed": 0.0111
   },
   "bombingDefaults": {

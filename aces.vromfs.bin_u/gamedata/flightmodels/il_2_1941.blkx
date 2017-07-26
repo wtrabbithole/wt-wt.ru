@@ -538,44 +538,35 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 25.0
         }
       },
       "c_dural10": {
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 120.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 103.7
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 103.7
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 90.8
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 90.8
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 107.6
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 107.6
         }
@@ -620,17 +611,14 @@
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover4_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
@@ -648,18 +636,12 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 55.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 55.5
         }
       },
@@ -673,23 +655,18 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 19.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 19.5
         },
         "oil3_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 19.5
         },
         "water1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 15.5
         },
         "water2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 9.5
         }
       },
@@ -701,18 +678,12 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 43.1
         }
       },
@@ -738,27 +709,21 @@
       },
       "wood120": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 64.6
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 64.6
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 51.6
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 51.6
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 58.7
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 58.7
         }
       }
@@ -2463,8 +2428,8 @@
       "headPos": [-0.93,0.963,0.0],
       "headPosOnShooting": [-0.97,0.963,0.0],
       "collimatorSize": 0.11,
-      "lightPos": [-0.306158,0.346979,0.010017],
-      "lightColor": [0.98,0.6039,0.3098],
+      "lightPos": [-0.472172,0.443444,-0.386919],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 10.0,
       "devices": [
         {
@@ -2615,7 +2580,7 @@
           "flash": "flare2",
           "shell": "emtr_shellrejection2",
           "dm": "cannon1_dm",
-          "bullets": 150,
+          "bullets": 250,
           "spread": 1.35,
           "traceOffset": 2
         }
@@ -2628,7 +2593,7 @@
           "flash": "flare3",
           "shell": "emtr_shellrejection3",
           "dm": "cannon2_dm",
-          "bullets": 150,
+          "bullets": 250,
           "spread": 1.35,
           "traceOffset": 3
         }
@@ -2787,6 +2752,9 @@
           "part": "aileron_l"
         },
         {
+          "part": "aileron_l1"
+        },
+        {
           "part": "wingcontrol_l"
         }
       ],
@@ -2796,6 +2764,9 @@
         },
         {
           "part": "aileron_r"
+        },
+        {
+          "part": "aileron_r1"
         },
         {
           "part": "wingcontrol_r"
@@ -2840,6 +2811,9 @@
         },
         {
           "part": "pylon_rocket1"
+        },
+        {
+          "part": "pylon_rocket3"
         },
         {
           "part": "rocket1"
@@ -2899,6 +2873,9 @@
         },
         {
           "part": "pylon_rocket2"
+        },
+        {
+          "part": "pylon_rocket4"
         },
         {
           "part": "rocket5"
@@ -3137,5 +3114,32 @@
         }
       ]
     }
+  },
+  {
+    "user_skin": [
+      {
+        "name": "il_2_1941"
+      },
+      {
+        "replace_tex": {
+          "from": "il_2_1941_green_a*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "il_2_1941_green_a_dmg*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "il_2_1941_green_n*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "il_2_1941_green_n_dmg*"
+        }
+      }
+    ]
   }
 ]

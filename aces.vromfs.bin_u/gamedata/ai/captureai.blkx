@@ -501,6 +501,9 @@
                     },
                     {
                       "land": []
+                    },
+                    {
+                      "afterLanding": []
                     }
                   ]
                 }
@@ -1467,11 +1470,13 @@
     "selector": {
       "name": "tankBot",
       "selectStrategy": "ordered",
-      "setCapturePointAsDest": {
-        "dist": 50.0
-      },
-      "driveToPos": {
-        "dist": 10.0
+      "sequencer": {
+        "setCapturePointAsDest": {
+          "dist": 20.0
+        },
+        "driveToPos": {
+          "dist": 10.0
+        }
       }
     }
   }

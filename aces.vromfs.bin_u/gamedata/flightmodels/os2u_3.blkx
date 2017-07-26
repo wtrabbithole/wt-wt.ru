@@ -3,6 +3,9 @@
     "model": "os2u_3"
   },
   {
+    "fmFile": "fm/os2u_1.blk"
+  },
+  {
     "type": "typeBomber"
   },
   {
@@ -215,8 +218,6 @@
       },
       "armor_engine_light": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 49.5
         }
       },
@@ -256,108 +257,84 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 58.0
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 54.1
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 77.1
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 77.1
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 56.6
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 56.6
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 56.4
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 56.4
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 30.8
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 30.8
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 48.3
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 48.3
         }
       },
@@ -371,7 +348,6 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -386,18 +362,12 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 70.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 50.4
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 50.4
         }
       },
@@ -2082,7 +2052,6 @@
       "ally": true,
       "country_usa": true,
       "type_assault": true,
-      "type_light_bomber": true,
       "type_hydroplane": true,
       "year1942": true,
       "year1943": true,
@@ -2133,6 +2102,9 @@
     "cockpit": {
       "headPos": [0.63,0.748,0.0],
       "headPosOnShooting": [0.7,0.748,0.0],
+      "lightPos": [0.771037,0.645922,0.004654],
+      "lightColor": [0.12,0.05,0.03],
+      "lightAttenuation": 8.0,
       "telescope": true,
       "teleScreenCapture": 0.0677,
       "teleSightFov": 17.0,
@@ -2473,12 +2445,13 @@
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
+      "new_engine_injection": [],
       "f2a3_2x100lb": {
         "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 1.0,
-        "freeMod": true
+        "isReserve": true
       },
       "30cal_universal": [],
       "30cal_tracer": [],

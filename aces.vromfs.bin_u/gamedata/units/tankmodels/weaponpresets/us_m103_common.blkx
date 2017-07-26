@@ -32,7 +32,12 @@
         "head": "bone_turret",
         "gun": "bone_gun",
         "barrel": "bone_gun_barrel",
-        "gunnerDm": "gunner_dm"
+        "gunnerDm": "gunner_dm",
+        "linkedAnimPart": {
+          "verNode": "bone_camera_gunner",
+          "verLimits": [-180.0,180.0],
+          "verOriginLimits": [-180.0,180.0]
+        }
       },
       "limits": {
         "yaw": [-180.0,180.0],
@@ -86,8 +91,8 @@
       "trigger": "gunner2",
       "triggerGroup": "coaxial",
       "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
-      "emitter": "bone_mg_twin_01",
-      "flash": "emtr_mg_aa_flame_02",
+      "emitter": "bone_mg_gun_twin_01",
+      "flash": "emtr_mg_flame_01",
       "defaultYaw": 0.0,
       "defaultPitch": 0.0,
       "parkInDeadzone": false,
@@ -112,8 +117,8 @@
       "errTargetting": 3.0,
       "errExplTime": 0.0,
       "turret": {
-        "head": "bone_mg_twin_01",
-        "gun": "bone_mg_twin_01",
+        "head": "bone_mg_gun_twin_01",
+        "gun": "bone_mg_gun_twin_01",
         "gunnerDm": "gunner_dm",
         "verDriveDm": "drive_turret_v_dm",
         "horDriveDm": "drive_turret_h_dm"
@@ -129,8 +134,8 @@
       "trigger": "gunner3",
       "triggerGroup": "coaxial",
       "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
-      "emitter": "bone_mg_twin_02",
-      "flash": "emtr_mg_aa_flame_03",
+      "emitter": "bone_mg_gun_twin_02",
+      "flash": "emtr_mg_flame_02",
       "defaultYaw": 0.0,
       "defaultPitch": 0.0,
       "parkInDeadzone": false,
@@ -155,8 +160,8 @@
       "errTargetting": 3.0,
       "errExplTime": 0.0,
       "turret": {
-        "head": "bone_mg_twin_02",
-        "gun": "bone_mg_twin_02",
+        "head": "bone_mg_gun_twin_02",
+        "gun": "bone_mg_gun_twin_02",
         "gunnerDm": "gunner_dm",
         "verDriveDm": "drive_turret_v_dm",
         "horDriveDm": "drive_turret_h_dm"

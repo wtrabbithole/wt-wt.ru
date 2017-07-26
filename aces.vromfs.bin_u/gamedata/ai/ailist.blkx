@@ -501,6 +501,9 @@
                     },
                     {
                       "land": []
+                    },
+                    {
+                      "afterLanding": []
                     }
                   ]
                 }
@@ -1467,11 +1470,13 @@
     "selector": {
       "name": "tankBot",
       "selectStrategy": "ordered",
-      "setCapturePointAsDest": {
-        "dist": 50.0
-      },
-      "driveToPos": {
-        "dist": 10.0
+      "sequencer": {
+        "setCapturePointAsDest": {
+          "dist": 20.0
+        },
+        "driveToPos": {
+          "dist": 10.0
+        }
       }
     }
   },
@@ -1916,10 +1921,10 @@
       {
         "sequencer": {
           "repeat": true,
-          "getFromList": {
+          "findPlaneInListCapableOf": {
             "listName": "fightingPlanes",
-            "varName": "other",
-            "indexType": "last"
+            "planeName": "other",
+            "capableOf": "rearming"
           },
           "addToList": {
             "listName": "otherPlanes",
@@ -2115,6 +2120,7 @@
                     "type": "fighter"
                   },
                   "selector": {
+                    "selectStrategy": "ordered",
                     "energyAttack": [],
                     "fighterAttackFighter": []
                   }
@@ -2198,6 +2204,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       },
@@ -2534,6 +2543,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       }
@@ -2740,6 +2752,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       }
@@ -2951,6 +2966,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       }
@@ -3150,6 +3168,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       }
@@ -3357,6 +3378,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       }
@@ -3557,6 +3581,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       }
@@ -3762,6 +3789,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           }
         ]
       }
@@ -4199,6 +4229,9 @@
           },
           {
             "land": []
+          },
+          {
+            "afterLanding": []
           },
           {
             "recalculateTree": []
@@ -5303,7 +5336,8 @@
           "reaction": {
             "event": "groundAhead"
           },
-          "land": []
+          "land": [],
+          "afterLanding": []
         }
       },
       {
@@ -5359,8 +5393,10 @@
             }
           },
           {
-            "wait": {
-              "time": 100500.0
+            "setControls": {
+              "controls": "gears",
+              "setTo": 1.0,
+              "timeTo": 100500.0
             }
           }
         ]

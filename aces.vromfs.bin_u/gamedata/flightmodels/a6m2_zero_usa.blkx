@@ -207,8 +207,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 49.7
         }
       },
@@ -248,108 +246,84 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 59.6
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 49.1
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 58.1
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 58.1
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 50.3
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 50.3
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 42.8
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 46.5
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 26.7
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 26.6
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 47.4
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 47.4
         }
       },
@@ -363,11 +337,9 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 11.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -379,23 +351,15 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 41.0
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 41.3
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 48.9
         }
       },
@@ -2050,7 +2014,7 @@
       "gunLightRadiusMul": 0.2,
       "collimatorSize": 0.08,
       "lightPos": [-0.989415,0.475172,0.276448],
-      "lightColor": [0.98,0.6039,0.3098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 6.0,
       "devices": {
         "speed": [0.0,150.0],
@@ -2102,65 +2066,6 @@
           "part": "engine4"
         }
       ]
-    }
-  },
-  {
-    "default_skin_tomoe": [
-      {
-        "replace_tex": {
-          "from": "a6m2_a*",
-          "to": "a6m2_a_tomoe*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "a6m2_a_dmg*",
-          "to": "a6m2_a_tomoe_dmg*"
-        }
-      }
-    ]
-  },
-  {
-    "skin": [
-      {
-        "name": "aom_sakai"
-      },
-      {
-        "replace_tex": {
-          "from": "a6m2_a*",
-          "to": "aom_a6m2_sakai_a*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "a6m2_a_dmg*",
-          "to": "aom_a6m2_sakai_a_dmg*"
-        }
-      }
-    ]
-  },
-  {
-    "skin": [
-      {
-        "name": "aom_sakai_tomoe"
-      },
-      {
-        "replace_tex": {
-          "from": "a6m2_a*",
-          "to": "aom_a6m2_sakai_a_tomoe*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "a6m2_a_dmg*",
-          "to": "aom_a6m2_sakai_a_tomoe_dmg*"
-        }
-      }
-    ]
-  },
-  {
-    "skin": {
-      "name": "default_tomoe"
     }
   },
   {
@@ -2287,6 +2192,9 @@
         },
         {
           "part": "wingcontrol_l"
+        },
+        {
+          "part": "wing_l_flexible_console"
         }
       ],
       "wing2_r": [
@@ -2298,6 +2206,9 @@
         },
         {
           "part": "wingcontrol_r"
+        },
+        {
+          "part": "wing_r_flexible_console"
         }
       ],
       "wing_l": [
@@ -2585,6 +2496,28 @@
       {
         "name": "desert"
       },
+      {
+        "replace_tex": {
+          "from": "a6m2_a*",
+          "to": "a6m2_usnaf_a*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "a6m2_a_dmg*",
+          "to": "a6m2_usnaf_a_dmg*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "metal_2red_stripes_rottex*",
+          "to": "black_yellow_red_rottex*"
+        }
+      }
+    ]
+  },
+  {
+    "default_skin_tomoe": [
       {
         "replace_tex": {
           "from": "a6m2_a*",

@@ -12,6 +12,9 @@
     "paratrooper": "usa_para"
   },
   {
+    "advancedInstructor": true
+  },
+  {
     "fightAiBehaviour": "fighter"
   },
   {
@@ -379,8 +382,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 50.5
         }
       },
@@ -416,63 +417,51 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 95.5
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 53.9
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 100.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
@@ -483,23 +472,15 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 39.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         }
       },
@@ -519,23 +500,15 @@
       },
       "steel_tank_armor": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 74.0
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 120.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 77.6
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 73.8
         }
       },
@@ -1869,7 +1842,7 @@
       "shadowSphereMultiplier": 2.0,
       "gunLightRadiusMul": 0.05,
       "lightPos": [2.407934,0.526054,-0.38613],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 15.0,
       "devices": {
         "pedals1": [-1.0,1.0],
@@ -2259,14 +2232,14 @@
   },
   {
     "Shop": {
-      "maxAltitude": 14600.0,
-      "maxSpeed": 291.6667,
-      "turnTime": 17.0275,
-      "airfieldLen": 357.136,
-      "climbTime": 57.2282,
-      "maxSpeedAlt": 3300.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 58.6
+      "maxAltitude": 14000.0,
+      "maxSpeed": 303.61,
+      "turnTime": 24.0,
+      "airfieldLen": 700.0,
+      "climbTime": 210.0,
+      "maxSpeedAlt": 0.0,
+      "climbAlt": 6096.0,
+      "climbSpeed": 38.1
     }
   },
   {
@@ -2404,9 +2377,9 @@
   {
     "balanceData": {
       "accSpd": 2.9792,
-      "climbSpeed": 38.0,
-      "maxSpeed": 291.6667,
-      "turnTime": 33.8828
+      "climbSpeed": 38.1,
+      "maxSpeed": 303.61,
+      "turnTime": 24.0
     }
   },
   {
@@ -2415,12 +2388,16 @@
       "CdMin_Fuse": [],
       "new_cover": [],
       "structure_str": [],
-      "hydravlic_power": [],
+      "hydravlic_power": {
+        "effects": {
+          "aileronBooster": 0.9,
+          "elevatorBooster": 0.9
+        }
+      },
       "hp_105_jet": [],
       "g_suit": [],
       "new_compressor_jet": {
-        "tier": 1,
-        "prevModification": ""
+        "tier": 1
       },
       "50cal_universal": [],
       "50cal_ground_targets": [],

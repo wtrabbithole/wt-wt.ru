@@ -1,9 +1,12 @@
 {
+  "enableApex": true,
   "mandatoryLandquality": 1,
   "z_far": 24000.0,
   "tank_z_far": 12000.0,
   "mapCoord0": [-32768.0,-32768.0],
   "mapCoord1": [32768.0,32768.0],
+  "tankMapCoord0": [0.0,0.0],
+  "tankMapCoord1": [900.0,900.0],
   "minAreaSize": [12000.0,12000.0],
   "aiMapCoord0": [-32768.0,-32768.0],
   "aiMapCoord1": [32768.0,32768.0],
@@ -35,11 +38,9 @@
     "minHazeBaseKm": -50.0
   },
   "shader_vars": {
-    "water": {
-      "water_shore_blending_min_height": 2.0,
-      "water_color": [0.15,0.16,0.17,1.0],
-      "water_color_light_loss": [0.6,0.95,1.0,0.0]
-    }
+    "max_river_width": 1500.0,
+    "ocean_density": 0.4,
+    "river_density": 1.0
   },
   "randomGrass": [
     {
@@ -216,23 +217,6 @@
       }
     }
   ],
-  "water_3d": {
-    "magnitude1": 3.5,
-    "heightmapStep1": 2.0,
-    "speed1": [-20.0,0.0],
-    "magnitude2": 1.7,
-    "heightmapStep2": 1.0,
-    "speed2": [-5.0,5.0],
-    "LODCoefficient": 17.0,
-    "LODAddedTerm": 0.0,
-    "morphStart": 0.7,
-    "heightmap": "water_hm_a",
-    "colorTex": "underocean",
-    "scaleTex": "guadalcanal_underocean_scale",
-    "scaleTexCoord0": [-32768.0,-32768.0],
-    "scaleTexCoord1": [32768.0,32768.0],
-    "color": [0.5,0.5,0.5]
-  },
   "technicsSkins": [
     {
       "groundSkin": "jungle"
@@ -240,9 +224,5 @@
     {
       "groundSkin": "default"
     }
-  ],
-  "waterStub": {
-    "enable": true,
-    "minZ": -32768.0
-  }
+  ]
 }

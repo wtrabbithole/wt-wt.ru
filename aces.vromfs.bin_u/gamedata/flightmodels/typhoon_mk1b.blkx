@@ -323,8 +323,6 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 30.7
         }
       },
@@ -372,86 +370,69 @@
       },
       "c_dural7": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 60.1
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 60.4
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 93.7
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 64.2
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 64.2
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 80.5
         }
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 22.9
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural40": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 59.4
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 59.4
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 29.9
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 29.9
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 60.5
         }
       },
@@ -462,23 +443,15 @@
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 39.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         }
       },
@@ -495,19 +468,15 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         },
         "water1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         },
         "water2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 17.5
         }
       },
@@ -519,23 +488,15 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 40.8
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 40.8
         }
       },
@@ -2364,7 +2325,7 @@
       "country_britain": true,
       "type_fighter": true,
       "type_medium_fighter": true,
-      "type_common_bomber": true,
+      "type_strike_fighter": true,
       "year1942": true,
       "year1943": true,
       "year1944": true,
@@ -2419,7 +2380,7 @@
       "mirrorPos": [-0.984,0.889,0.0],
       "mirrorNorm": [-0.932,-0.363,0.0],
       "lightPos": [-0.755419,0.411902,0.329357],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 4.0,
       "devices": {
         "speed": [0.0,213.333],
@@ -2873,9 +2834,12 @@
       "hispano_air_targets": [],
       "hispano_tracers": [],
       "hispano_stealth": [],
-      "hispano_belt_pack": [],
+      "hispano_belt_pack": {
+        "tier": 2
+      },
       "hispano_mk_2_1943_new_gun": {
-        "reqModification": "hispano_belt_pack"
+        "reqModification": "hispano_belt_pack",
+        "tier": 4
       },
       "halker_sbc": {
         "image": "#ui/gameuiskin#pilon_bomb",
@@ -2891,7 +2855,7 @@
       "halker_lbc": {
         "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
-        "tier": 3,
+        "tier": 4,
         "reqModification": "halker_mbc"
       }
     }

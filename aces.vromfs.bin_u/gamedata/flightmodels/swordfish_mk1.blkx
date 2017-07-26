@@ -186,54 +186,43 @@
       },
       "armor_engine_light": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 49.5
         }
       },
       "c_dural10": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 88.9
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 87.4
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 120.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 108.4
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 108.4
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 115.9
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 115.9
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 120.5
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 120.5
         }
@@ -266,35 +255,25 @@
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
         "wingcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 39.5
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 59.9
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 59.9
         }
       },
@@ -308,11 +287,9 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 16.6
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 19.5
         }
       },
@@ -331,13 +308,9 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 80.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 39.5
         }
       },
@@ -354,27 +327,21 @@
       },
       "wood120": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 63.6
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 63.6
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 62.8
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 62.8
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 80.5
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 80.5
         }
       }
@@ -1975,6 +1942,7 @@
       "year1940": true,
       "year1941": true,
       "bomber": true,
+      "bomberview": true,
       "mediterranean": true,
       "western_front": true,
       "not_in_dynamic_campaign": true,
@@ -2024,7 +1992,7 @@
       "headPosOnShooting": [-0.65,1.15,0.0],
       "openedCockpit": true,
       "lightPos": [-0.345535,0.850866,-0.261571],
-      "lightColor": [0.98,0.6039,0.2098],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 8.0,
       "devices": {
         "speed": [0.0,110.0],
@@ -2104,6 +2072,11 @@
             "yaw": [-45.0,45.0],
             "pitch": [-5.0,50.0]
           }
+        }
+      },
+      {
+        "hideDmParts": {
+          "node": "pilot1_dm"
         }
       }
     ]
@@ -2194,6 +2167,9 @@
         },
         {
           "part": "wingcontrol_l"
+        },
+        {
+          "part": "bomb_pylon1"
         }
       ],
       "wing2_r": [
@@ -2205,6 +2181,9 @@
         },
         {
           "part": "wingcontrol_r"
+        },
+        {
+          "part": "bomb_pylon2"
         }
       ],
       "wing_l": [
@@ -2227,7 +2206,10 @@
           "part": "spar2_l"
         },
         {
-          "part": "aileron_l"
+          "part": "aileron1_l"
+        },
+        {
+          "part": "bomb_pylon1"
         }
       ],
       "wing_r": [
@@ -2251,6 +2233,9 @@
         },
         {
           "part": "aileron1_r"
+        },
+        {
+          "part": "bomb_pylon2"
         }
       ],
       "tail": [
@@ -2277,6 +2262,9 @@
         },
         {
           "part": "antenna"
+        },
+        {
+          "part": "hook"
         }
       ]
     }

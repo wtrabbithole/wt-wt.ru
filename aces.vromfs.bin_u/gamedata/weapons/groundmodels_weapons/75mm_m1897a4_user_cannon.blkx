@@ -10,7 +10,7 @@
   "aimMaxDist": 2000.0,
   "maxDeltaAngle": 0.075,
   "maxDeltaAngleVertical": 0.075,
-  "shotFreq": 0.2,
+  "shotFreq": 0.1,
   "traceFreq": 4,
   "bEnablePause": false,
   "bullets": -1,
@@ -28,7 +28,7 @@
     "bulletCount": 25,
     "mass": 6.3,
     "caliber": 0.075,
-    "speed": 619.0,
+    "speed": 609.0,
     "maxDistance": 10000.0,
     "bulletType": "ap_tank",
     "bulletName": "75mm_m72",
@@ -50,21 +50,6 @@
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
     },
-    "armorpower": {
-      "ArmorPower0m": [110.0,10.0],
-      "ArmorPower100m": [109.0,100.0],
-      "ArmorPower250m": [102.0,250.0],
-      "ArmorPower500m": [92.0,500.0],
-      "ArmorPower750m": [84.0,750.0],
-      "ArmorPower1000m": [76.0,1000.0],
-      "ArmorPower1250m": [68.0,1250.0],
-      "ArmorPower1500m": [62.0,1500.0],
-      "ArmorPower1750m": [56.0,1750.0],
-      "ArmorPower2000m": [51.0,2000.0],
-      "ArmorPower2500m": [41.0,2500.0],
-      "ArmorPower3000m": [34.0,3000.0],
-      "ArmorPower10000m": [2.0,10000.0]
-    },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
@@ -78,14 +63,31 @@
       "armor": {
         "fx": "cannon_hit_armor"
       }
+    },
+    "armorpower": {
+      "ArmorPower0m": [108.0,10.0],
+      "ArmorPower100m": [107.0,100.0],
+      "ArmorPower250m": [100.0,250.0],
+      "ArmorPower500m": [90.0,500.0],
+      "ArmorPower750m": [82.0,750.0],
+      "ArmorPower1000m": [74.0,1000.0],
+      "ArmorPower1250m": [66.0,1250.0],
+      "ArmorPower1500m": [60.0,1500.0],
+      "ArmorPower1750m": [55.0,1750.0],
+      "ArmorPower2000m": [50.0,2000.0],
+      "ArmorPower2500m": [40.0,2500.0],
+      "ArmorPower3000m": [33.0,3000.0],
+      "ArmorPower10000m": [2.0,10000.0]
     }
   },
   "75mm_usa_HE": {
     "bullet": {
       "bulletCount": 40,
       "mass": 6.3,
+      "explosiveType": "tnt",
+      "explosiveMass": 0.666,
       "caliber": 0.075,
-      "speed": 463.0,
+      "speed": 594.4,
       "maxDistance": 10000.0,
       "bulletType": "he_frag_tank",
       "bulletName": "75mm_m48",
@@ -134,8 +136,10 @@
     "bullet": {
       "bulletCount": 25,
       "mass": 6.79,
+      "explosiveType": "exp_d",
+      "explosiveMass": 0.065,
       "caliber": 0.075,
-      "speed": 618.0,
+      "speed": 609.0,
       "maxDistance": 10000.0,
       "bulletType": "apcbc_tank",
       "bulletName": "75mm_m61",
@@ -152,7 +156,7 @@
       "fuseDelayDist": 1.2,
       "explodeTreshold": 20.0,
       "explodeHitPower": 30.0,
-      "explodeArmorPower": 10.0,
+      "explodeArmorPower": 6.0,
       "explodeRadius": [0.2,0.32],
       "explosionPatchRadius": 1.1,
       "shutterDamage": true,
@@ -168,21 +172,6 @@
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
       },
-      "armorpower": {
-        "ArmorPower0m": [90.0,10.0],
-        "ArmorPower100m": [88.0,100.0],
-        "ArmorPower250m": [85.0,250.0],
-        "ArmorPower500m": [81.0,500.0],
-        "ArmorPower750m": [77.0,750.0],
-        "ArmorPower1000m": [73.0,1000.0],
-        "ArmorPower1250m": [69.0,1250.0],
-        "ArmorPower1500m": [65.0,1500.0],
-        "ArmorPower1750m": [62.0,1750.0],
-        "ArmorPower2000m": [59.0,2000.0],
-        "ArmorPower2500m": [53.0,2500.0],
-        "ArmorPower3000m": [47.0,3000.0],
-        "ArmorPower10000m": [2.0,10000.0]
-      },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
@@ -196,6 +185,21 @@
         "armor": {
           "fx": "cannon_hit_armor"
         }
+      },
+      "armorpower": {
+        "ArmorPower0m": [88.0,10.0],
+        "ArmorPower100m": [86.0,100.0],
+        "ArmorPower250m": [83.0,250.0],
+        "ArmorPower500m": [79.0,500.0],
+        "ArmorPower750m": [75.0,750.0],
+        "ArmorPower1000m": [71.0,1000.0],
+        "ArmorPower1250m": [67.0,1250.0],
+        "ArmorPower1500m": [63.0,1500.0],
+        "ArmorPower1750m": [60.0,1750.0],
+        "ArmorPower2000m": [57.0,2000.0],
+        "ArmorPower2500m": [52.0,2500.0],
+        "ArmorPower3000m": [46.0,3000.0],
+        "ArmorPower10000m": [2.0,10000.0]
       }
     }
   }

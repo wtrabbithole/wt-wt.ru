@@ -180,54 +180,43 @@
       },
       "armor_engine_light": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 49.5
         }
       },
       "c_dural10": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 105.5
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 64.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 120.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 120.5
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 120.5
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 69.0
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 69.0
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 79.1
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.4,
           "genericDamageMult": 0.3,
           "hp": 79.1
         }
@@ -268,36 +257,30 @@
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.5
         },
+        "wingcontrol_dm": {
+          "hp": 39.5
+        },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 58.3
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
-          "hp": 60.5
+          "hp": 58.3
         }
       },
       "steel": {
@@ -310,11 +293,9 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 13.7
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 19.5
         }
       },
@@ -329,13 +310,9 @@
       },
       "steel_tank_s": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 53.3
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 40.8
         }
       },
@@ -355,27 +332,21 @@
       },
       "wood120": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 80.5
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 80.5
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 45.2
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 45.2
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 62.0
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 62.0
         }
       }
@@ -1804,6 +1775,11 @@
       },
       {
         "part": {
+          "name": "wingcontrol_dm"
+        }
+      },
+      {
+        "part": {
           "name": "wingcontrol_l_dm"
         }
       },
@@ -2133,8 +2109,8 @@
     "cockpit": {
       "headPos": [0.0,0.823,0.002],
       "headPosOnShooting": [0.3,0.823,0.002],
-      "lightPos": [0.386662,0.512765,0.295],
-      "lightColor": [0.98,0.6039,0.3098],
+      "lightPos": [0.474609,0.42896,-0.253818],
+      "lightColor": [0.12,0.05,0.03],
       "lightAttenuation": 5.0,
       "telescope": true,
       "teleScreenCapture": 0.0552,
@@ -2312,7 +2288,13 @@
           "part": "wing2_l"
         },
         {
+          "part": "folding_console_l"
+        },
+        {
           "part": "aileron_l"
+        },
+        {
+          "part": "aileron1_l"
         },
         {
           "part": "wingcontrol_l"
@@ -2323,7 +2305,13 @@
           "part": "wing2_r"
         },
         {
+          "part": "folding_console_r"
+        },
+        {
           "part": "aileron_r"
+        },
+        {
+          "part": "aileron1_r"
         },
         {
           "part": "wingcontrol_r"
@@ -2334,7 +2322,7 @@
           "part": "wing_l"
         },
         {
-          "part": "wing1_l"
+          "part": "folding_console_l"
         },
         {
           "part": "wing2_l"
@@ -2381,7 +2369,7 @@
           "part": "wing_r"
         },
         {
-          "part": "wing1_r"
+          "part": "folding_console_r"
         },
         {
           "part": "wing2_r"
@@ -2539,6 +2527,7 @@
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
+      "new_engine_injection": [],
       "7_7mm_universal": [],
       "7_7_all_tracers": [],
       "7_7_stealth": [],

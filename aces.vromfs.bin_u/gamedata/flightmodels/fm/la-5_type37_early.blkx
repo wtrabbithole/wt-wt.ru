@@ -146,6 +146,17 @@
     "MultMachMax5": 2.0,
     "MultLineCoeff5": 1.1,
     "MultLimit5": 5.0,
+    "MachCrit6": 0.55,
+    "MachMax6": 0.8,
+    "MultMachMax6": 0.44,
+    "MultLineCoeff6": -0.1,
+    "MultLimit6": 0.0,
+    "CombinedCl": true,
+    "WingFlowInertia": 0.0,
+    "StabFlowInertia": 0.05,
+    "VertStabFlowInertia": 0.06,
+    "DownwashType": 1,
+    "DownwashCoeff": 1.0,
     "NoFlaps": {
       "Cl0": 0.176,
       "alphaCritHigh": 17.8,
@@ -163,8 +174,8 @@
       "CdMin": 0.07
     },
     "Fuselage": {
-      "OswaldsEfficiencyNumber": 0.0062,
-      "lineClCoeff": 0.0015,
+      "OswaldsEfficiencyNumber": 0.9,
+      "lineClCoeff": 0.021,
       "AfterCritParabAngle": 5.0,
       "AfterCritDeclineCoeff": 0.007,
       "AfterCritMaxDistanceAngle": 30.0,
@@ -198,8 +209,8 @@
       "Cl0": 0.0,
       "alphaCritHigh": 17.0,
       "alphaCritLow": -17.0,
-      "ClCritHigh": 0.025,
-      "ClCritLow": -0.025,
+      "ClCritHigh": 0.18,
+      "ClCritLow": -0.18,
       "CdMin": 0.012
     },
     "Stab": {
@@ -346,7 +357,7 @@
       "Mass": 137.0,
       "GovernorType": 2,
       "GovernorSpeed": 0.07,
-      "GovernorMinParam": 1600.0,
+      "GovernorMinParam": 1500.0,
       "GovernorMaxParam": 2400.0,
       "GovernorAfterburnerParam": 2400.0,
       "PhiMin": 22.0,
@@ -354,6 +365,12 @@
       "PhiAlpha0": 11.0,
       "PhiFeather": 1.56,
       "Direction": 1,
+      "CoaxProps": false,
+      "ThrottleRPMAuto0": [0.0,1500.0],
+      "ThrottleRPMAuto1": [0.5,1800.0],
+      "ThrottleRPMAuto2": [0.7,2250.0],
+      "ThrottleRPMAuto3": [1.0,2400.0],
+      "ThrottleRPMAuto4": [1.1,2400.0],
       "Polar": {
         "lineClCoeff": 0.075,
         "Cl0": 0.17,
@@ -411,7 +428,7 @@
       "OilMaxTemp": 105.0,
       "OilMinTemp": 50.0,
       "EffectiveRadSpeed": 200.0,
-      "IneffectiveRadMult": 1.1
+      "IneffectiveRadMult": 0.94
     },
     "Compressor": {
       "IsControllable": true,

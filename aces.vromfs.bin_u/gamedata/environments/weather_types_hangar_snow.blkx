@@ -63,7 +63,16 @@
           "cloudBase": [2.6,3.2]
         },
         {
-          "cloudExtinction": [95.0,195.0]
+          "skyExtinction": [1.0,1.0]
+        },
+        {
+          "skyExtinctionMul": [1.0,1.0]
+        },
+        {
+          "cloudExtinctionMul": [0.8,2.0]
+        },
+        {
+          "cloudExtinction": [1.0,1.0]
         },
         {
           "hazeEccentricity": [0.8,0.7]
@@ -126,13 +135,7 @@
     },
     {
       "shader_vars": {
-        "water_sparkles_mul": 0.003,
-        "water3d_min_fresnel": 0.12,
-        "water3d_max_fresnel": 0.99,
-        "water3d_fresnel_power": 5.0,
-        "water_surface_refraction_color": "#06120f00",
-        "hard_fog_start": 250000.0,
-        "hard_fog_end": 400000.0,
+        "cloud_shadow_intensity": 0.0,
         "L_inv_white_weather": 0.7
       }
     },
@@ -184,6 +187,9 @@
     }
   ],
   "clear": [
+    {
+      "wind_strength": 3.9
+    },
     {
       "strataCloudsHeight": 13000.0
     },
@@ -304,7 +310,13 @@
           "hazeEccentricity": [0.72,0.82]
         },
         {
+          "cloudExtinctionMul": [1.0,1.0]
+        },
+        {
           "cloudExtinction": [4.0,8.0]
+        },
+        {
+          "skyExtinctionMul": [1.0,1.0]
         },
         {
           "adaptationMultiplierMul": 1.0
@@ -328,18 +340,12 @@
           "rayleighMul": [1.0,1.0,1.0,0.0]
         },
         {
-          "ground_fake_fog_dist_mul": [1.5,2.5]
+          "ground_fake_fog_dist_mul": [1.25,2.0]
         }
       ]
     },
     {
       "shader_vars": {
-        "water_sparkles_mul": 0.005,
-        "water3d_min_fresnel": 0.12,
-        "water3d_max_fresnel": 0.99,
-        "water3d_fresnel_power": 5.0,
-        "hard_fog_start": 250000.0,
-        "hard_fog_end": 400000.0,
         "L_inv_white_weather": 0.7
       }
     },
@@ -394,6 +400,7 @@
     "strataCloudsHeight": 16000.0,
     "strataCloudsAlpha": 0.5,
     "adaptationMultiplierMul": 1.0,
+    "wind_strength": 4.0,
     "dustMul": 1.0,
     "mudMul": 1.0,
     "rainSplashFxType": "rain_splash",
@@ -409,10 +416,10 @@
         "cloudiness": [0.3,0.5]
       },
       {
-        "cloudBase": [0.8,2.5]
+        "cloudBase": [1.9,3.5]
       },
       {
-        "cloudHeight": [5.0,8.0]
+        "cloudHeight": [4.0,8.0]
       },
       {
         "persistence": [0.4,0.9]
@@ -484,7 +491,13 @@
         "hazeEccentricity": [0.72,0.82]
       },
       {
+        "cloudExtinctionMul": [1.0,1.0]
+      },
+      {
         "cloudExtinction": [4.0,8.0]
+      },
+      {
+        "skyExtinctionMul": [1.0,1.0]
       },
       {
         "adaptationMultiplierMul": 1.0
@@ -512,12 +525,6 @@
       }
     ],
     "shader_vars": {
-      "water_sparkles_mul": 0.002,
-      "water3d_min_fresnel": 0.12,
-      "water3d_max_fresnel": 0.99,
-      "water3d_fresnel_power": 5.0,
-      "hard_fog_start": 350000.0,
-      "hard_fog_end": 400000.0,
       "L_inv_white_weather": 0.6
     },
     "windParams": {
@@ -570,6 +577,9 @@
       "cloudDropletsScale": 0.5
     },
     {
+      "wind_strength": 4.3
+    },
+    {
       "dustMul": 1.0
     },
     {
@@ -605,13 +615,13 @@
           "cloudiness": [0.5,0.7]
         },
         {
-          "cloudHeight": [4.0,6.0]
+          "cloudHeight": [3.5,5.5]
         },
         {
-          "cloudBase": [0.85,3.0]
+          "cloudBase": [1.25,4.0]
         },
         {
-          "haze": [1.8,3.2]
+          "haze": [1.8,3.5]
         },
         {
           "time_speed": [0.0,0.0]
@@ -656,7 +666,13 @@
           "hazeEccentricity": [0.72,0.82]
         },
         {
+          "cloudExtinctionMul": [1.0,1.0]
+        },
+        {
           "cloudExtinction": [4.0,8.0]
+        },
+        {
+          "skyExtinctionMul": [1.0,1.0]
         },
         {
           "adaptationMultiplierMul": 1.0
@@ -680,22 +696,12 @@
           "rayleighMul": [1.0,1.0,1.0,0.0]
         },
         {
-          "ground_fake_fog_dist_mul": [2.7,6.0]
+          "ground_fake_fog_dist_mul": [2.5,5.0]
         }
       ]
     },
     {
       "shader_vars": {
-        "water_sparkles_mul": 0.003,
-        "water3d_min_fresnel": 0.12,
-        "water3d_max_fresnel": 0.99,
-        "water3d_fresnel_power": 5.0,
-        "water_reflection_color": "#848b9b00",
-        "water_surface_refraction_color": "#00010300",
-        "water_color_tex_scale_x": 8000.0,
-        "water_color_tex_scale_y": 12000.0,
-        "hard_fog_start": 200000.0,
-        "hard_fog_end": 400000.0,
         "L_inv_white_weather": 0.56,
         "cloud_shadow_intensity": 0.85
       }

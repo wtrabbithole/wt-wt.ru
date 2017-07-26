@@ -398,6 +398,11 @@
     ]
   },
   {
+    "Aircraft": {
+      "gunnersCount": 4
+    }
+  },
+  {
     "attach": {
       "pilot1": "pilot_lw_500",
       "gunner1": "gunner_lay_lw_500",
@@ -631,14 +636,6 @@
       "explodeHitPower": 60.0,
       "explodeArmorPower": 60.0,
       "explodeRadius": [5.0,30.0]
-    }
-  },
-  {
-    "fireParams": {
-      "engineExtinguishFireSpeed": [82.0,166.0],
-      "engineExtinguishFireSpeedChance": [0.01,0.1],
-      "fireDamagePowerRel": 0.05,
-      "nonExtinguishFireTime": 5.0
     }
   },
   {
@@ -1028,9 +1025,17 @@
     }
   },
   {
+    "fireParams": {
+      "engineExtinguishFireSpeed": [82.0,194.0],
+      "engineExtinguishFireSpeedChance": [0.01,0.1],
+      "fireDamagePowerRel": 0.05,
+      "nonExtinguishFireTime": 5.0
+    }
+  },
+  {
     "Shop": {
       "maxAltitude": 9000.0,
-      "maxSpeed": 155.0,
+      "maxSpeed": 155.55,
       "turnTime": 30.0,
       "airfieldLen": 800.0,
       "climbTime": 404.0,
@@ -1444,64 +1449,50 @@
       },
       "armor_engine": {
         "engine1_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 54.1
         },
         "engine2_dm": {
-          "collisionDamageMult": 0.001,
-          "explosionDamageMult": 0.3,
           "hp": 54.1
         }
       },
       "c_dural20": {
         "fuse1_dm": {
-          "collisionDamageMult": 0.2,
           "genericDamageMult": 0.2,
           "hp": 124.5
         },
         "fuse2_dm": {
-          "collisionDamageMult": 0.2,
           "genericDamageMult": 0.2,
           "hp": 124.5
         },
         "fuse_dm": {
-          "collisionDamageMult": 0.2,
           "genericDamageMult": 0.2,
           "hp": 124.5
         },
         "tail_dm": {
-          "collisionDamageMult": 0.2,
           "genericDamageMult": 0.2,
           "hp": 160.5
         },
         "wing1_l_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 102.2
         },
         "wing1_r_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 102.2
         },
         "wing2_l_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 86.2
         },
         "wing2_r_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 86.2
         },
         "wing_l_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 143.1
         },
         "wing_r_dm": {
-          "collisionDamageMult": 0.3,
           "genericDamageMult": 0.2,
           "hp": 143.4
         }
@@ -1558,66 +1549,49 @@
       },
       "dural": {
         "cover1_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 40.5
         },
         "cover2_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 40.5
         },
         "cover3_dm": {
-          "collisionDamageMult": 0.001,
           "genericDamageMult": 0.3,
           "hp": 19.5
         }
       },
       "dural90": {
         "spar1_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 79.5
         },
         "spar1_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 79.5
         },
         "spar2_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 79.5
         },
         "spar2_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 79.5
         },
         "spar_l_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 93.9
         },
         "spar_r_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 95.7
         }
       },
       "protected_controls": {
         "tailcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 80.5
         },
         "wingcontrol_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 62.3
         },
         "wingcontrol_l_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 60.4
         },
         "wingcontrol_r_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.1,
           "hp": 69.0
         }
       },
@@ -1631,35 +1605,27 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 23.5
         },
         "oil2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 23.5
         },
         "oil3_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 18.9
         },
         "oil4_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 18.9
         },
         "water1_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 21.0
         },
         "water2_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 15.5
         },
         "water3_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 21.0
         },
         "water4_dm": {
-          "collisionDamageMult": 0.0,
           "hp": 15.5
         }
       },
@@ -1683,28 +1649,18 @@
       },
       "steel_tank_m": {
         "tank1_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 69.5
         },
         "tank2_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 69.5
         },
         "tank3_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 54.5
         },
         "tank4_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 54.5
         },
         "tank5_dm": {
-          "collisionDamageMult": 0.0,
-          "explosionDamageMult": 0.3,
           "hp": 66.0
         }
       },
@@ -4081,7 +4037,7 @@
       "structure_str": [],
       "new_radiator": [],
       "new_compressor": [],
-      "new_engine_throttle": [],
+      "new_engine_injection": [],
       "mg_turret_belt_pack": [],
       "mg81_turret_new_gun": {
         "reqModification": "mg_turret_belt_pack"
