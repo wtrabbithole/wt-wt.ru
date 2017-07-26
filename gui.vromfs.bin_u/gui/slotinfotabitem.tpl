@@ -1,0 +1,21 @@
+<<#items>>
+SlotInfoTab
+{
+  max-width:t='pw'
+  min-height:t='w'
+  tooltip:t='<<tooltip>>'
+  SlotInfoTabImg
+  {
+    id:t='<<imgId>>'
+    background-image:t='<<imgBg>>'
+  }
+  discount_notification
+  {
+    id:t='<<discountId>>';
+    type:t='box_left';
+    noShift:t='yes';
+    text:t='';
+    tooltip:t=''
+  }
+}
+<</items>>

@@ -1,0 +1,128 @@
+[
+  {
+    "css": "gui/css.css"
+  },
+  {
+    "root": [
+      {
+        "tdiv": {
+          "id": "animated_bg_picture",
+          "pos": "50%sw-50%w,50%sh-50%h",
+          "position": "root",
+          "width": "2.5h",
+          "height": "sh",
+          "behaviour": "multiLayerImage",
+          "blend-time": "500"
+        }
+      },
+      {
+        "BottomMenuPanel": {
+          "pattern": {
+            "type": "bright_texture"
+          },
+          "Red_shadow_light": {
+            "pos": "50%pw-50%w, 2",
+            "position": "absolute",
+            "size": "25%pw, ph"
+          },
+          "GameLogoPlate": {
+            "position": "absolute",
+            "pos": "50%sw-50%w, ph-h",
+            "Shadow": [],
+            "redPlate": {
+              "pattern": {
+                "type": "dark_diag_lines"
+              }
+            },
+            "tdiv": {
+              "pos": "50%pw-50%w, 0.5(ph-1@bh) - 50%h",
+              "position": "absolute",
+              "animated_wait_icon": {
+                "id": "rot",
+                "name": "rot",
+                "pos": "-0.1w-1, 50%ph-50%h",
+                "position": "relative",
+                "background-rotation": "0",
+                "behavior": "increment",
+                "inc-target": "background-rotation",
+                "inc-factor": "160",
+                "wait_icon_cock": []
+              },
+              "textAreaCentered": {
+                "name": "loading",
+                "style": "color:@white; font:@small;",
+                "textShade": "yes",
+                "text": "#loading",
+                "pos": "5, 50%ph-50%h-2",
+                "position": "relative"
+              }
+            }
+          },
+          "copyright": {
+            "pos": "pw-w-1@bw, 0.5(ph-1@bh) - 50%h",
+            "position": "absolute"
+          }
+        }
+      },
+      {
+        "tdiv": [
+          {
+            "width": "0.67sw"
+          },
+          {
+            "pos": "50%pw-50%w, 83%sh - 1@bh -50%h"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "background-color": "@shadeBackgroundColor4"
+          },
+          {
+            "background-repeat": "expand"
+          },
+          {
+            "padding": "0.005sw, 0.01sh, 0.005sw, 0.02sh"
+          },
+          {
+            "textAreaCentered": {
+              "id": "help_text",
+              "text": "",
+              "style": "color:@helpF1Color;",
+              "pos": "(pw-w)/2, 0",
+              "position": "relative",
+              "width": "pw"
+            }
+          },
+          {
+            "textAreaCentered": {
+              "pos": "(pw-w)/2, 10",
+              "position": "relative",
+              "width": "pw",
+              "class": "active",
+              "behaviour": "bhvLoadingTip"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "dummy": {
+      "id": "cutscene_update",
+      "behavior": "Timer",
+      "timer_handler_func": "onUpdate"
+    }
+  },
+  {
+    "dummy": {
+      "id": "debug_timer_update",
+      "behavior": "Timer",
+      "timer_interval_msec": "500",
+      "timer_handler_func": "onDebugTimerUpdate"
+    }
+  }
+]

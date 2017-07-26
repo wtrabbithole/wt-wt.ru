@@ -1,0 +1,110 @@
+{
+  "selImg": {
+    "mainDescWrap": {
+      "padding": "1.5*@scrn_tgt_font/100.0",
+      "width": "pw",
+      "layeredIconContainer": {
+        "id": "achivment_ico",
+        "size": "@profileUnlockIconSize, @profileUnlockIconSize",
+        "position": "relative",
+        "pos": "0, ph/2 - h/2",
+        "decal_locked": "no",
+        "achievement_locked": "no"
+      },
+      "achivmentTitle": [
+        {
+          "margin-left": "1.5*@scrn_tgt_font/100.0"
+        },
+        {
+          "min-height": "@profileUnlockIconSize"
+        },
+        {
+          "width": "fw"
+        },
+        {
+          "flow": "vertical"
+        },
+        {
+          "activeText": {
+            "id": "achivment_title",
+            "text": "",
+            "max-width": "pw",
+            "pare-text": "yes",
+            "overlayTextColor": "unlockHeader"
+          }
+        },
+        {
+          "textarea": {
+            "id": "description",
+            "width": "pw",
+            "overflow": "hidden",
+            "tinyFont": "yes",
+            "style": "wrap-indent: 0; paragraph-indent: 0;",
+            "text": ""
+          }
+        },
+        {
+          "challengeDescriptionProgress": {
+            "id": "progress_bar",
+            "value": "",
+            "display": "hide"
+          }
+        },
+        {
+          "textarea": {
+            "id": "reward",
+            "text": "",
+            "tinyFont": "yes",
+            "margin-top": "0.5*@scrn_tgt_font/100.0",
+            "style": "wrap-indent: 0; paragraph-indent: 0;",
+            "title": "$tooltipObj",
+            "max-width": "pw",
+            "pare-text": "yes",
+            "tooltipObj": {
+              "id": "tooltip",
+              "reward": "",
+              "tinyFont": "yes",
+              "on_tooltip_open": "onRewardTooltipOpen",
+              "on_tooltip_close": "onMedalTooltipClose",
+              "display": "hide"
+            }
+          }
+        }
+      ],
+      "unlockStages": {
+        "id": "stages",
+        "margin-left": "5*@scrn_tgt_font/100.0",
+        "pos": "0, ph/2 - h/2",
+        "position": "relative",
+        "flow": "horizontal"
+      },
+      "CheckBox": {
+        "id": "checkbox-favorites",
+        "position": "absolute",
+        "pos": "100%pw-100%w, 100%ph-100%h",
+        "text": "#mainmenu/UnlockAchievementsToFavorite",
+        "tinyFont": "yes",
+        "tooltip": "",
+        "on_change_value": "unlockToFavorites",
+        "unlockId": "",
+        "CheckBoxImg": []
+      }
+    },
+    "expandImg": {
+      "id": "expandImg",
+      "height": "1*@scrn_tgt/100.0",
+      "width": "2h",
+      "pos": "50%pw-50%w, ph-h-0.7*@scrn_tgt_font/100.0",
+      "position": "absolute",
+      "background-image": "#ui/gameuiskin#expand_info",
+      "background-color": "@premiumColor",
+      "display": "hide"
+    },
+    "hiddenDiv": {
+      "id": "hidden_block",
+      "width": "pw",
+      "padding": "8*@scrn_tgt/100.0, 0, 1*@scrn_tgt/100.0, 0",
+      "flow": "h-flow"
+    }
+  }
+}

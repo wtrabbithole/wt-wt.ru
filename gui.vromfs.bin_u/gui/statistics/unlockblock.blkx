@@ -1,0 +1,96 @@
+[
+  {
+    "padding": "8*@sf/@pf"
+  },
+  {
+    "div": {
+      "pos": "0, ph/2-h/2",
+      "position": "relative",
+      "size": "@profileUnlockIconSize, @profileUnlockIconSize",
+      "margin": "0, 8*@sf/@pf",
+      "layeredIconContainer": {
+        "id": "award_image",
+        "size": "ph, ph",
+        "pos": "50%pw-50%w, 50%ph-50%h",
+        "position": "absolute"
+      },
+      "img": {
+        "id": "award_multiplier",
+        "background-image": "#ui/gameuiskin#window_body_shadow",
+        "pos": "ph-w, ph-h + 0.05ph",
+        "position": "absolute",
+        "display": "hide",
+        "textarea": {
+          "id": "amount_text",
+          "caption": "yes",
+          "overlayTextColor": "userlog",
+          "text": "",
+          "removeParagraphIndent": "yes",
+          "padding": "0.05ph"
+        }
+      }
+    }
+  },
+  {
+    "div": [
+      {
+        "pos": "8*@sf/@pf, 0"
+      },
+      {
+        "position": "relative"
+      },
+      {
+        "flow": "vertical"
+      },
+      {
+        "width": "1@unlockBlockWidth - 1@profileUnlockIconSize -16*@sf/@pf"
+      },
+      {
+        "textareaNoTab": {
+          "id": "award_title_text",
+          "width": "pw"
+        }
+      },
+      {
+        "textareaNoTab": {
+          "id": "unlock_name",
+          "width": "pw",
+          "pare-text": "yes",
+          "overlayTextColor": "unlockHeader",
+          "padding-top": "4*@sf/@pf"
+        }
+      },
+      {
+        "textareaNoTab": {
+          "id": "desc_text",
+          "tinyFont": "yes",
+          "width": "pw",
+          "padding-top": "2*@sf/@pf"
+        }
+      },
+      {
+        "challengeDescriptionProgress": {
+          "id": "progress",
+          "value": "",
+          "display": "hide",
+          "margin-left": "2*@sf/@pf"
+        }
+      },
+      {
+        "textareaNoTab": {
+          "id": "mult_awards_text",
+          "tinyFont": "yes",
+          "width": "pw",
+          "padding-top": "8*@sf/@pf"
+        }
+      },
+      {
+        "textareaNoTab": {
+          "id": "award_text",
+          "tinyFont": "yes",
+          "width": "pw"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,185 @@
+[
+  {
+    "css": "gui/css.css"
+  },
+  {
+    "tdiv": [
+      {
+        "id": "gamechat"
+      },
+      {
+        "width": "30%sw"
+      },
+      {
+        "max-width": "0.3*sw"
+      },
+      {
+        "flow": "vertical"
+      },
+      {
+        "tdiv": {
+          "pos": "0, -h-0.5*@scrn_tgt/100.0",
+          "position": "absolute",
+          "flow": "vertical",
+          "width": "pw",
+          "tdiv": {
+            "id": "div_for_voice_chat",
+            "width": "pw",
+            "background-color": "@transparent",
+            "padding": "0.5*@scrn_tgt/100.0,0.5*@scrn_tgt/100.0,0.5*@scrn_tgt/100.0,1*@scrn_tgt/100.0",
+            "flow": "vertical"
+          }
+        }
+      },
+      {
+        "HorizontalListBox": [
+          {
+            "id": "chat_tabs"
+          },
+          {
+            "width": "pw"
+          },
+          {
+            "class": "tabs"
+          },
+          {
+            "tinyFont": "yes"
+          },
+          {
+            "navigatorShortcuts": "yes"
+          },
+          {
+            "on_select": "onChatTabChange"
+          },
+          {
+            "on_wrap_up": "onWrapUp"
+          },
+          {
+            "on_wrap_down": "onWrapDown"
+          },
+          {
+            "display": "hide"
+          },
+          {
+            "shopFilter": {
+              "id": "mpchat",
+              "shopFilterText": {
+                "text": "#mainmenu/chat"
+              }
+            }
+          },
+          {
+            "shopFilter": {
+              "id": "battlelog",
+              "shopFilterText": {
+                "text": "#options/_Bttl"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "tdiv": {
+          "id": "chat_log_tdiv",
+          "pos": "0, -2px",
+          "position": "relative",
+          "width": "pw",
+          "max-height": "13.5*@scrn_tgt/100.0",
+          "min-height": "4*@scrn_tgt/100.0",
+          "background-color": "@hudTextBgShade",
+          "overflow-y": "auto",
+          "auto-scroll": "yes",
+          "css-hier-invalidate": "yes",
+          "scroll-align": "left",
+          "scrollType": "hidden",
+          "transparent": "100",
+          "chatLog": {
+            "id": "chat_log",
+            "width": "pw",
+            "padding": "0.5*@scrn_tgt/100.0",
+            "text": ""
+          }
+        }
+      },
+      {
+        "div": [
+          {
+            "id": "chat_input_back"
+          },
+          {
+            "display": "show"
+          },
+          {
+            "width": "pw"
+          },
+          {
+            "pos": "0, ph"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "margin-top": "5*@sf/@pf"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "background-color": "@hudTextBgShade"
+          },
+          {
+            "padding": "0.5*@scrn_tgt/100.0"
+          },
+          {
+            "EditBox": {
+              "id": "chat_input",
+              "width": "pw",
+              "max-len": "250",
+              "selected": "yes",
+              "focus": "yes",
+              "mouse-focusable": "yes",
+              "on_activate": "onChatEntered",
+              "on_cancel_edit": "onChatCancel",
+              "on_change_value": "onChatChanged",
+              "on_wrap_up": "onWrapUp",
+              "on_wrap_down": "onWrapDown",
+              "tooltip": "#chat/tooltip",
+              "text": ""
+            }
+          },
+          {
+            "text": {
+              "id": "chat_hint",
+              "text": "#chat/help/short",
+              "style": "font:@tiny;"
+            }
+          },
+          {
+            "text": {
+              "id": "chat_prompt",
+              "position": "absolute",
+              "pos": "pw - w - 2/720@scrn_tgt, ph - h - 2/720@scrn_tgt",
+              "tooltip": "#chat/tooltip",
+              "text": ""
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "dummy": {
+      "id": "chat_update",
+      "behavior": "Timer",
+      "timer_handler_func": "onUpdate"
+    }
+  },
+  {
+    "dummy": {
+      "id": "chat_mod_accesskey",
+      "behavior": "button",
+      "_on_click": "onChatMode",
+      "accesskey": "Tab"
+    }
+  }
+]

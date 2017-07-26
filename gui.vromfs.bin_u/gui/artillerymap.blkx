@@ -1,0 +1,235 @@
+{
+  "css": "gui/css.css",
+  "root": {
+    "flow": "vertical",
+    "background-color": "@shadeBackgroundColor",
+    "optionlist_container": [
+      {
+        "id": "flight_menu_bgd"
+      },
+      {
+        "flow": "vertical"
+      },
+      {
+        "type": "artillerymap"
+      },
+      {
+        "tdiv": {
+          "position": "absolute",
+          "pos": "pw/2-w/2, -1.3h",
+          "activeText": {
+            "caption": "yes",
+            "text": "#hints/use_artillery"
+          }
+        }
+      },
+      {
+        "tdiv": [
+          {
+            "position": "absolute"
+          },
+          {
+            "pos": "pw/2-w/2, ph + 16*@sf/@pf"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "tdiv": {
+              "pos": "50%pw-50%w, 0",
+              "position": "relative",
+              "activeText": {
+                "id": "txt_artillery_hint",
+                "overlayTextColor": "bad",
+                "text": "#artillery_strike/not_allowed"
+              }
+            }
+          },
+          {
+            "tdiv": {
+              "id": "shortcuts_block",
+              "pos": "pw/2-w/2, 8*@sf/@pf",
+              "position": "relative"
+            }
+          }
+        ]
+      },
+      {
+        "button": {
+          "size": "sw, sh",
+          "position": "root",
+          "_on_r_click": "cancelArtillery"
+        }
+      },
+      {
+        "tdiv": [
+          {
+            "size": "ph - 16*@sf/@pf, ph - 16*@sf/@pf"
+          },
+          {
+            "pos": "pw/2-w/2, ph/2-h/2"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "tacticalMap": {
+              "id": "tactical_map",
+              "enable": "yes",
+              "size": "ph, ph",
+              "position": "absolute",
+              "style": "border:no"
+            }
+          },
+          {
+            "tdiv": [
+              {
+                "size": "ph, ph"
+              },
+              {
+                "position": "absolute"
+              },
+              {
+                "overflow": "hidden"
+              },
+              {
+                "tdiv": {
+                  "id": "map_shade_center",
+                  "size": "ph, ph",
+                  "position": "absolute",
+                  "background-image": "ui/map_radius",
+                  "background-color": "@shadeBackgroundColor"
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "map_shade_t",
+                  "position": "absolute",
+                  "background-color": "@shadeBackgroundColor"
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "map_shade_r",
+                  "position": "absolute",
+                  "background-color": "@shadeBackgroundColor"
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "map_shade_b",
+                  "position": "absolute",
+                  "background-color": "@shadeBackgroundColor"
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "map_shade_l",
+                  "position": "absolute",
+                  "background-color": "@shadeBackgroundColor"
+                }
+              }
+            ]
+          },
+          {
+            "tdiv": {
+              "size": "ph, ph",
+              "position": "absolute",
+              "artillery_target": [
+                {
+                  "id": "artillery_target"
+                },
+                {
+                  "size": "32*@sf/@pf, 32*@sf/@pf"
+                },
+                {
+                  "pos": "pw/2-w/2, ph/2-h/2"
+                },
+                {
+                  "position": "absolute"
+                },
+                {
+                  "tdiv": {
+                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "pos": "pw/2-w/2, 0",
+                    "position": "absolute",
+                    "background-image": "#ui/gameuiskin#artillery_target_arc",
+                    "background-color": "#FF0000",
+                    "rotation": "0"
+                  }
+                },
+                {
+                  "tdiv": {
+                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "pos": "pw-w, ph/2-h/2",
+                    "position": "absolute",
+                    "background-image": "#ui/gameuiskin#artillery_target_arc",
+                    "background-color": "#FF0000",
+                    "rotation": "90"
+                  }
+                },
+                {
+                  "tdiv": {
+                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "pos": "pw/2-w/2, ph-h",
+                    "position": "absolute",
+                    "background-image": "#ui/gameuiskin#artillery_target_arc",
+                    "background-color": "#FF0000",
+                    "rotation": "180"
+                  }
+                },
+                {
+                  "tdiv": {
+                    "size": "16*@sf/@pf, 16*@sf/@pf",
+                    "pos": "0, ph/2-h/2",
+                    "position": "absolute",
+                    "background-image": "#ui/gameuiskin#artillery_target_arc",
+                    "background-color": "#FF0000",
+                    "rotation": "270"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "div": {
+              "size": "pw, ph",
+              "position": "absolute",
+              "cursor": "invisible",
+              "behaviour": "button",
+              "_on_click": "onArtilleryMapClick",
+              "_on_r_click": "cancelArtillery"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "navBar": {
+    "navRight": [
+      {
+        "Button_text": {
+          "id": "btn_apply",
+          "text": "#mainmenu/btnOk",
+          "btnName": "A",
+          "_on_click": "onApply",
+          "ButtonImg": []
+        }
+      },
+      {
+        "Button_text": {
+          "id": "btn_back",
+          "text": "#mainmenu/btnCancel",
+          "btnName": "B",
+          "_on_click": "cancelArtillery",
+          "ButtonImg": []
+        }
+      }
+    ]
+  },
+  "dummy": {
+    "id": "update_timer",
+    "behaviour": "Timer",
+    "timer_handler_func": "update"
+  }
+}

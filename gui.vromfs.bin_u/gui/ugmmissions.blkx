@@ -1,0 +1,128 @@
+{
+  "css": "gui/css.css",
+  "img": {
+    "position": "absolute",
+    "size": "3sw, sh/3+1",
+    "pos": "-sw,sh-sh/3-sh/12+2",
+    "background-image": "#ui/gameuiskin#optionlist_background_down"
+  },
+  "blackdiv": {
+    "position": "absolute",
+    "size": "3sw+2, sh/12+1",
+    "pos": "50%pw-50%w,sh-sh/12",
+    "background-color": "@black"
+  },
+  "root": {
+    "type": "big",
+    "titletext": {
+      "id": "title"
+    },
+    "optionlist_container": {
+      "id": "optionlist-container",
+      "type": "big",
+      "tdiv": {
+        "size": "pw+@bw, ph",
+        "position": "relative",
+        "left": "-@bw",
+        "listbox": {
+          "id": "items_list",
+          "flow": "vertical",
+          "pos": "0, 50%ph-50%h",
+          "position": "relative",
+          "chapterMisListSize": "yes",
+          "scrollType": "chapter",
+          "_on_select": "onItemSelect",
+          "_on_dbl_click": "onItemDblClk"
+        },
+        "tdiv": [
+          {
+            "id": "item_desc"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "pos": "1%sw,0"
+          },
+          {
+            "position": "relative"
+          },
+          {
+            "size": "fw, ph"
+          },
+          {
+            "padding-bottom": "0.5*@scrn_tgt/100.0"
+          },
+          {
+            "text": {
+              "left": "(pw-w)/2",
+              "id": "item_name",
+              "position": "relative",
+              "style": "font:@normal;color:@titleTextColor;",
+              "text": ""
+            }
+          },
+          {
+            "tdiv": [
+              {
+                "flow": "vertical"
+              },
+              {
+                "pos": "0,1*@scrn_tgt/100.0"
+              },
+              {
+                "position": "relative"
+              },
+              {
+                "size": "pw, 0.7ph"
+              },
+              {
+                "textarea": {
+                  "id": "item_info",
+                  "text": ""
+                }
+              },
+              {
+                "textarea": {
+                  "padding": "5",
+                  "interval": "10",
+                  "size": "pw, fh",
+                  "id": "item_desc_text",
+                  "text": ""
+                }
+              }
+            ]
+          },
+          {
+            "tdiv": [
+              {
+                "flow": "vertical"
+              },
+              {
+                "size": "pw, fh"
+              },
+              {
+                "tdiv": {
+                  "size": "pw, fh"
+                }
+              },
+              {
+                "tdiv": {
+                  "interval": "5",
+                  "id": "priceDiv"
+                }
+              },
+              {
+                "text": {
+                  "id": "tags",
+                  "text": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "navBar": []
+}

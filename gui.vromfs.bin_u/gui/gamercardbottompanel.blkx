@@ -1,0 +1,220 @@
+{
+  "gamercard": {
+    "BottomMenuPanel": {
+      "tdiv": [
+        {
+          "width": "sw - 2@offsetBetweenScreenAndAirinfo"
+        },
+        {
+          "height": "1@gamercardHeight"
+        },
+        {
+          "pos": "pw/2 - w/2, 6"
+        },
+        {
+          "position": "absolute"
+        },
+        {
+          "tdiv": {
+            "id": "gamercard_bottom_left",
+            "height": "ph",
+            "class": "header",
+            "width": "fw",
+            "bottomNavPlace": {
+              "id": "gamercard_bottom_navbar_place",
+              "size": "pw - ph, ph",
+              "pos": "0, 0.5(ph-h)",
+              "position": "absolute"
+            },
+            "tdiv": {
+              "id": "slotbar-presetsPlace",
+              "size": "pw - ph, ph",
+              "position": "absolute"
+            }
+          }
+        },
+        {
+          "tdiv": {
+            "id": "gamercard_squad_widget",
+            "height": "ph",
+            "pos": "0, 0.5(ph-h)",
+            "margin-right": "2@buttonTextPadding",
+            "class": "header",
+            "behaviour": "wrapNavigator",
+            "navigatorShortcuts": "yes",
+            "childsActivate": "yes",
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown",
+            "on_wrap_left": "onWrapLeft",
+            "on_wrap_right": "onWrapRight"
+          }
+        },
+        {
+          "tdiv": [
+            {
+              "id": "gamercard_bottom_right"
+            },
+            {
+              "height": "ph"
+            },
+            {
+              "class": "header"
+            },
+            {
+              "behaviour": "wrapNavigator"
+            },
+            {
+              "navigatorShortcuts": "yes"
+            },
+            {
+              "childsActivate": "yes"
+            },
+            {
+              "on_wrap_up": "onWrapUp"
+            },
+            {
+              "on_wrap_down": "onWrapDown"
+            },
+            {
+              "on_wrap_left": "onBottomGCPanelLeft"
+            },
+            {
+              "on_wrap_right": "onBottomGCPanelRight"
+            },
+            {
+              "Button_text": [
+                {
+                  "id": "gc_invites_btn"
+                },
+                {
+                  "size": "ph,ph"
+                },
+                {
+                  "tooltip": "#mainmenu/invites"
+                },
+                {
+                  "_on_click": "onGC_invites"
+                },
+                {
+                  "class": "image24"
+                },
+                {
+                  "img": {
+                    "id": "gc_invites",
+                    "background-image": "#ui/gameuiskin#invites",
+                    "tooltip": "#mainmenu/invites"
+                  }
+                },
+                {
+                  "img": {
+                    "id": "gc_new_invites",
+                    "background-image": "#ui/gameuiskin#invites_new",
+                    "tooltip": "#invites/new_invites",
+                    "display": "hide"
+                  }
+                }
+              ]
+            },
+            {
+              "Button_text": {
+                "id": "gc_contacts",
+                "size": "ph,ph",
+                "tooltip": "#mainmenu/contacts",
+                "_on_click": "onGC_contacts",
+                "class": "image24",
+                "img": {
+                  "background-image": "#ui/gameuiskin#friends"
+                },
+                "text": {
+                  "id": "gc_friends_online",
+                  "position": "absolute",
+                  "pos": "pw - w, ph - h - 2",
+                  "style": "font:@veryTiny; color:@userlogColoredText",
+                  "shadeStyle": "outline33pct",
+                  "text": ""
+                }
+              }
+            },
+            {
+              "Button_text": [
+                {
+                  "id": "gc_chat_btn"
+                },
+                {
+                  "size": "ph,ph"
+                },
+                {
+                  "_on_click": "onGC_chat"
+                },
+                {
+                  "class": "image24"
+                },
+                {
+                  "img": {
+                    "id": "gc_chat",
+                    "background-image": "#ui/gameuiskin#chat",
+                    "tooltip": "#mainmenu/chat"
+                  }
+                },
+                {
+                  "img": {
+                    "id": "gc_new_chat",
+                    "background-image": "#ui/gameuiskin#chat_new",
+                    "_transp-timer": "0",
+                    "display": "hide",
+                    "tooltip": "#mainmenu/chat_new_messages"
+                  }
+                },
+                {
+                  "text": {
+                    "id": "gc_new_chat_messages",
+                    "position": "absolute",
+                    "pos": "pw - w, ph - h",
+                    "style": "font:@veryTiny; color:@userlogColoredText",
+                    "text": ""
+                  }
+                }
+              ]
+            },
+            {
+              "Button_text": [
+                {
+                  "id": "gc_userlog_btn"
+                },
+                {
+                  "size": "ph,ph"
+                },
+                {
+                  "_on_click": "onUserLog"
+                },
+                {
+                  "class": "image24"
+                },
+                {
+                  "img": {
+                    "id": "gc_userlog",
+                    "background-image": "#ui/gameuiskin#mail",
+                    "tooltip": "#userlog/no_new_messages"
+                  }
+                },
+                {
+                  "img": {
+                    "id": "gc_new_userlog",
+                    "background-image": "#ui/gameuiskin#mail_new",
+                    "_transp-timer": "0",
+                    "display": "hide"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "tdiv": {
+      "position": "root",
+      "pos": "sw - w, 0",
+      "versionText": []
+    }
+  }
+}

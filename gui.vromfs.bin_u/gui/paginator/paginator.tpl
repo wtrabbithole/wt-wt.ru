@@ -1,0 +1,41 @@
+<<^hasSimpleNavButtons>>
+Button_text
+<</hasSimpleNavButtons>>
+<<#hasSimpleNavButtons>>
+button
+<</hasSimpleNavButtons>>
+{
+  id:t='pag_next_page';
+  class:t='image20';
+  nav:t='right';
+  on_click:t='goToPage';
+  to_page:t='0'
+  btnName:t='RB';
+  showButtonImageOnConsole:t='no'
+  ButtonImg{}
+  img{
+    background-image:t='#ui/gameuiskin#spinnerListBox_arrow_right';
+  }
+}
+pages{
+  id:t='paginator_page_holder';
+}
+<<^hasSimpleNavButtons>>
+Button_text
+<</hasSimpleNavButtons>>
+<<#hasSimpleNavButtons>>
+button
+<</hasSimpleNavButtons>>
+{
+  id:t='pag_prew_page';
+  class:t='image20';
+  nav:t='left';
+  on_click:t='goToPage';
+  to_page:t='0'
+  btnName:t='LB';
+  showButtonImageOnConsole:t='no'
+  ButtonImg{}
+  img{
+    background-image:t='#ui/gameuiskin#spinnerListBox_arrow_left';
+  }
+}

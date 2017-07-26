@@ -1,0 +1,312 @@
+@const spectatorTopOffset: 30*@sf/@pf;
+@const spectatorTableWidth: 1@nameWidth +1.5@tableIcoSize +1@tablePad +2 + 2@scrollBarSize;
+@const spectatorRowHeight: 1.4@baseTrHeight;
+@const spectatorToolbarBtnSize: 1.5@sIco;
+@const spectatorToolbarPadding: 0.25@sIco;
+
+table.spectatorTeamTable {
+  width:pw;
+  css-hier-invalidate:yes;
+}
+
+table.spectatorTeamTable > tr {
+  height:1@spectatorRowHeight;
+  css-hier-invalidate:yes;
+}
+table.spectatorTeamTable > tr[selected=yes] {
+  background-image:#ui/gameuiskin#option_select_odd;
+  background-color:@white;
+}
+
+table.spectatorTeamTable > tr[dead=yes] > td > textareaNoTab {
+  color-factor:150;
+}
+table.spectatorTeamTable[team=blue] > tr > td > textareaNoTab {
+  color:@teamBlueLightColor;
+}
+table.spectatorTeamTable[team=red] > tr > td > textareaNoTab {
+  color:@teamRedLightColor;
+}
+table.spectatorTeamTable[side=left] > tr > td {
+  class:spectatorTeamCell;
+  side:left;
+}
+
+table.spectatorTeamTable[side=right] > tr > td {
+  class:spectatorTeamCell;
+  side:right;
+}
+
+td.spectatorTeamCell {
+  padding-left:1@tablePad;
+  padding-right:1@tablePad;
+  flow:vertical;
+  css-hier-invalidate:yes;
+}
+
+td.spectatorTeamCell > hr {
+  size:pw, 1@dp;
+  position:absolute;
+  background-image:#ui/gameuiskin#optionlist_background_right;
+  background-position:1;
+  background-repeat:expand;
+  bgcolor:#40000000;
+}
+td.spectatorTeamCell > hr.top {
+  pos:0, 0;
+}
+td.spectatorTeamCell > hr.bottom {
+  pos:0, ph-h;
+}
+td.spectatorTeamCell[side=left] > hr {
+  rotation:0;
+}
+td.spectatorTeamCell[side=right] > hr {
+  rotation:180;
+}
+
+td.spectatorTeamCell > battleStateIco {
+  size:@cIco, @cIco;
+  position:absolute;
+  background-color:@transparent;
+  input-transparent:yes;
+  css-hier-invalidate:yes;
+}
+td.spectatorTeamCell[side=left] > battleStateIco {
+  pos:0, ph/2-h/2;
+}
+td.spectatorTeamCell[side=right] > battleStateIco {
+  pos:pw-w, ph/2-h/2;
+}
+
+td.spectatorTeamCell > battleStateIco.ExtinguisherActive {
+  background-image:#ui/gameuiskin#fire_indicator;
+  background-color:#11bedd;
+}
+td.spectatorTeamCell > battleStateIco.IsBurning {
+  background-image:#ui/gameuiskin#fire_indicator;
+  background-color:#ddb711;
+}
+td.spectatorTeamCell > battleStateIco.BrokenEngine {
+  background-image:#ui/gameuiskin#engine_state_indicator;
+  background-color:#dd1111;
+}
+td.spectatorTeamCell > battleStateIco.BrokenGun {
+  background-image:#ui/gameuiskin#gun_state_indicator;
+  background-color:#dd1111;
+}
+td.spectatorTeamCell > battleStateIco.BrokenTrack {
+  background-image:#ui/gameuiskin#track_state_indicator;
+  background-color:#dd1111;
+}
+td.spectatorTeamCell > battleStateIco.OutOfAmmo {
+  background-image:#ui/gameuiskin#slot_weapons;
+  background-color:#dd1111;
+}
+
+td.spectatorTeamCell > icon {
+  height:@tableIcoSize;
+  position:absolute;
+}
+td.spectatorTeamCell[side=left] > icon {
+  pos:2.75@tableIcoSize - w, 0.5ph-0.5h;
+}
+td.spectatorTeamCell[side=right] > icon {
+  pos:pw - 2.75@tableIcoSize, 0.5ph-0.5h;
+}
+
+td.spectatorTeamCell > icon > img.unit {
+  size:@tableIcoSize, @tableIcoSize;
+}
+
+td.spectatorTeamCell > icon > img.weapon {
+  size:0.375@tableIcoSize, @tableIcoSize;
+}
+
+td.spectatorTeamCell > icon > img.weapon[reloading=yes] {
+  background-color:@inactiveButtonBgColor;
+}
+
+td.spectatorTeamCell > textareaNoTab {
+  pare-text:yes;
+  halign:center;
+  text-shade:"smooth:24";
+  text-shade-x:0;
+  text-shade-y:0;
+  text-shade-color:#A0000000;
+}
+td.spectatorTeamCell[side=left] > textareaNoTab {
+  padding-left:2.75@tableIcoSize;
+  text-align:left;
+}
+td.spectatorTeamCell[side=right] > textareaNoTab {
+  padding-right:2.75@tableIcoSize;
+  text-align:right;
+}
+
+td.spectatorTeamCell > textareaNoTab[id=unit] {
+  size:pw, 0.5@baseTrHeight;
+  tinyFont:yes;
+}
+td.spectatorTeamCell > textareaNoTab[id=name] {
+  color:@activeTextColor;
+  size:pw, 0.75@baseTrHeight;
+  pos:0, 2*@sf/@pf;
+  position:relative;
+}
+table.spectatorTeamTable > tr[selected=yes] > td > textareaNoTab[id=name] {
+  color:@userlogColoredText;
+}
+
+buttons_block {
+  input-transparent:yes;
+  margin-left:0.5@spectatorToolbarBtnSize;
+}
+buttons_block > separator {
+  width:0.5@spectatorToolbarBtnSize;
+}
+
+hoverButton, toggleButton
+{
+  behaviour:button;
+  size:@mIco, @mIco;
+  re-type:9rect;
+  background-image:#ui/gameuiskin#window_body;
+  background-position:4;
+  background-repeat:expand;
+  snd_click:click;
+  css-hier-invalidate:yes;
+  background-color:@transparent;
+}
+
+hoverButton
+{
+  size:@spectatorToolbarBtnSize, @spectatorToolbarBtnSize;
+  class:header;
+  background-color:#4c4c4c4c;
+  color:@gray;
+  font:@small;
+  text-shade:"blur:48";
+  text-shade-x:0;
+  text-shade-y:0;
+  text-shade-color:#55000000;
+}
+
+hoverButton > icon, toggleButton > icon
+{
+  pos:(pw-w)/2, (ph-h)/2;
+  position:absolute;
+  size:@sIco, @sIco;
+  input-transparent:yes;
+  background-color:@gray;
+}
+
+hoverButton:hover, toggleButton:hover
+{
+  background-color:#99999999;
+  color:@white;
+}
+hoverButton:hover > icon, toggleButton:hover > icon
+{
+  background-color:@white;
+}
+
+hoverButton[highlighted=yes]
+{
+  color:@gold;
+}
+hoverButton[highlighted=yes] > icon
+{
+  background-color:@gold;
+}
+
+hoverButton[highlighted=yes]:hover
+{
+  color:@userlogColoredText;
+}
+hoverButton[highlighted=yes]:hover > icon
+{
+  background-color:@userlogColoredText;
+}
+
+hoverButton:disabled
+{
+  background-color:#4c4c4c4c;
+  color:#30303030;
+}
+hoverButton:disabled > icon
+{
+  background-color:#30303030;
+}
+
+hoverButton[isTextBtn=yes]
+{
+  height:@spectatorToolbarBtnSize;
+  min-width:50%pw;
+  color:@gray;
+  color-factor:127;
+  background-color:#00000000;
+}
+hoverButton[isTextBtn=yes][highlighted=yes]
+{
+  color:@gray;
+  color-factor:255;
+  background-color:#4c4c4c4c;
+}
+hoverButton[isTextBtn=yes] > updated
+{
+  pos:pw/2-w/2, ph/2-h/2;
+  position:absolute;
+  size:pw-4px, ph-4px;
+  background-color:#00261b09;
+  input-transparent:yes;
+  display:hide;
+}
+hoverButton[isTextBtn=yes][highlighted=no][alert=yes] > updated
+{
+  display:show;
+}
+hoverButton[isTextBtn=yes]:hover
+{
+  color:@white;
+  color-factor:255;
+  background-color:#99999999;
+}
+hoverButton[isTextBtn=yes][highlighted=no][alert=yes]
+{
+  color:@gold;
+  color-factor:255;
+}
+
+toggleButton[toggled=yes] {
+  tooltip:#mainmenu/btnCollapse;
+}
+toggleButton[toggled=no] {
+  tooltip:#mainmenu/btnExpand;
+}
+toggleButton[attachSide=left][toggled=yes] > icon,
+toggleButton[attachSide=right][toggled=no] > icon {
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+  rotation:270;
+}
+toggleButton[attachSide=right][toggled=yes] > icon,
+toggleButton[attachSide=left][toggled=no]   > icon {
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+  rotation:90;
+}
+
+historyLog {
+  behaviour:textArea;
+  re-type:textarea;
+  color:@commonTextColor;
+  font:@tiny;
+  paragraph-indent:0;
+  padding:0;
+}
+
+tdiv[damageIndicatorType=air] {
+  size:pw, ph;
+}
+tdiv[damageIndicatorType=tank] {
+  size:2pw, 2ph;
+}
