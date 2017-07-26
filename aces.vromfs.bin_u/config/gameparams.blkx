@@ -2452,6 +2452,7 @@
     "landVerticalBias": 0.1,
     "maxPatchesLand": 100,
     "maxPatchesUnit": 400,
+    "maxDropRadius": 0.002,
     "maxPatches": 200
   },
   "glassScratches": {
@@ -2533,10 +2534,10 @@
     "waterSplitDist1": 12000.0,
     "waveDisplacementDistance": [80.0,120.0],
     "waterReflectionHdrMultiplier": 2.0,
-    "waterReflectionTracerHdr": 2.0,
+    "waterReflectionTracerHdr": 4.0,
     "waterReflectionTracerMinPixelR": 3.0,
     "waterReflectionTracerEyeDist": [1000.0,2000.0],
-    "waterReflectionTracerBrightness": 0.4,
+    "waterReflectionTracerBrightness": 0.5,
     "calmWindThreshold": [1.0,2.0]
   },
   "shadows": {
@@ -2568,9 +2569,9 @@
       "cockpitPowWeight": 0.95,
       "tanksShadowDist": 20.0,
       "tanksPowWeight": 0.4,
-      "shipsShadowDist": 20.0,
-      "shipsPowWeight": 0.4,
-      "bigShipsShadowDist": 20.0,
+      "shipsShadowDist": 30.0,
+      "shipsPowWeight": 0.3,
+      "bigShipsShadowDist": 40.0,
       "bigShipsPowWeight": 0.4,
       "fadeOut": 30.0,
       "rotationMargin": 0.1,
@@ -2590,10 +2591,10 @@
       "cockpitPowWeight": 0.992,
       "tanksShadowDist": 125.0,
       "tanksPowWeight": 0.8,
-      "shipsShadowDist": 125.0,
-      "shipsPowWeight": 0.8,
-      "bigShipsShadowDist": 125.0,
-      "bigShipsPowWeight": 0.8,
+      "shipsShadowDist": 80.0,
+      "shipsPowWeight": 0.78,
+      "bigShipsShadowDist": 120.0,
+      "bigShipsPowWeight": 0.66,
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 1024,
@@ -2612,10 +2613,10 @@
       "cockpitPowWeight": 0.992,
       "tanksShadowDist": 100.0,
       "tanksPowWeight": 0.7,
-      "shipsShadowDist": 100.0,
-      "shipsPowWeight": 0.7,
-      "bigShipsShadowDist": 100.0,
-      "bigShipsPowWeight": 0.7,
+      "shipsShadowDist": 90.0,
+      "shipsPowWeight": 0.78,
+      "bigShipsShadowDist": 125.0,
+      "bigShipsPowWeight": 0.68,
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 1024,
@@ -2636,9 +2637,9 @@
       "tanksShadowDist": 200.0,
       "tanksPowWeight": 0.96,
       "shipsShadowDist": 200.0,
-      "shipsPowWeight": 0.96,
-      "bigShipsShadowDist": 200.0,
-      "bigShipsPowWeight": 0.96,
+      "shipsPowWeight": 0.94,
+      "bigShipsShadowDist": 250.0,
+      "bigShipsPowWeight": 0.92,
       "fadeOut": 100.0,
       "rotationMargin": 0.1,
       "staticCascadeTexWidth": 2048,
@@ -2658,10 +2659,10 @@
       "cockpitPowWeight": 0.9991,
       "tanksShadowDist": 500.0,
       "tanksPowWeight": 0.97,
-      "shipsShadowDist": 500.0,
-      "shipsPowWeight": 0.97,
-      "bigShipsShadowDist": 500.0,
-      "bigShipsPowWeight": 0.97,
+      "shipsShadowDist": 380.0,
+      "shipsPowWeight": 0.94,
+      "bigShipsShadowDist": 400.0,
+      "bigShipsPowWeight": 0.92,
       "fadeOut": 250.0,
       "rotationMargin": 0.1,
       "vsmSize": 2048,
@@ -2777,7 +2778,7 @@
     "dmgBailOutNotAirport": 0.2,
     "shakeKoeffDamage": 0.06,
     "minGroundSpeedForGears": 80.0,
-    "minGroundSpeedForBombs": 140.0,
+    "minGroundSpeedForBombs": 20.0,
     "minGroundHeightForBombs": 40.0,
     "radioCooldownTime": 1.0,
     "partDamageTresholdForRadio": 0.7,
@@ -3015,6 +3016,7 @@
     "maxDetectionAngle": 80.0,
     "angleMult": 15.0,
     "posUpOffsetForTanks": 4.0,
+    "posUpOffsetForAiTanks": 1.5,
     "distanceMultForMovingTanks": 1.5,
     "distanceMultForUnmaskingItself": 2.5,
     "distanceMultForTargetingView": 2.5,
@@ -4262,6 +4264,48 @@
       }
     },
     {
+      "compartment_01": {
+        "my": "compartment",
+        "enemy": "compartment"
+      }
+    },
+    {
+      "compartment_02": {
+        "my": "compartment",
+        "enemy": "compartment"
+      }
+    },
+    {
+      "compartment_03": {
+        "my": "compartment",
+        "enemy": "compartment"
+      }
+    },
+    {
+      "compartment_04": {
+        "my": "compartment",
+        "enemy": "compartment"
+      }
+    },
+    {
+      "compartment_05": {
+        "my": "compartment",
+        "enemy": "compartment"
+      }
+    },
+    {
+      "compartment_06": {
+        "my": "compartment",
+        "enemy": "compartment"
+      }
+    },
+    {
+      "compartment_07": {
+        "my": "compartment",
+        "enemy": "compartment"
+      }
+    },
+    {
       "break_line": []
     },
     {
@@ -4893,18 +4937,6 @@
       "decreaseMul": 1.0,
       "limitationTimer": true,
       "dev": [1.0,0.0]
-    },
-    "rf_t_90a": {
-      "increaseMul": 1.0,
-      "decreaseMul": 1.0,
-      "limitationTimer": true,
-      "dev": [1.0,0.0]
-    },
-    "germ_leopard_2a5": {
-      "increaseMul": 1.0,
-      "decreaseMul": 1.0,
-      "limitationTimer": true,
-      "dev": [1.0,0.0]
     }
   },
   "facebook": {
@@ -5018,6 +5050,9 @@
         "p": "bow"
       },
       {
+        "p": "compartment"
+      },
+      {
         "p": "mid"
       },
       {
@@ -5030,7 +5065,7 @@
         "p": "bulkhead_"
       },
       {
-        "p": "turret_h_"
+        "p": "turret_h"
       },
       {
         "p": "wheel_"
@@ -5122,6 +5157,12 @@
         "p": "transmission_"
       },
       {
+        "p": "steering_gear_"
+      },
+      {
+        "p": "engine_room_"
+      },
+      {
         "p": "gun_barrel_dm"
       },
       {
@@ -5138,6 +5179,12 @@
       },
       {
         "p": "mg_"
+      },
+      {
+        "p": {
+          "name": "superstructure",
+          "unit": "ship"
+        }
       },
       {
         "p": {
@@ -5172,6 +5219,62 @@
       {
         "p": {
           "name": "depth_charge_r",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "auxiliary_сaliber_turret",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "auxiliary_caliber_gun",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "main_caliber_gun",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "main_caliber_turret",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "aa_gun",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_r",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "ammunition_storage",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "turret_h",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "deckhouse",
+          "color_h": 0.1,
           "unit": "ship"
         }
       }
@@ -5289,6 +5392,41 @@
         "p": {
           "name": "stern_bottom",
           "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "compartment",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "turret_h",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "main_caliber_gun",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "main_caliber_turret",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "deckhouse",
+          "color_h": 0.1,
+          "unit": "ship"
         }
       }
     ],
@@ -5565,6 +5703,27 @@
       {
         "p": {
           "name": "gun_mask_",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "ammunition_storage",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "bridge",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "funnel",
           "color_h": 0.1,
           "unit": "ship"
         }
@@ -6601,6 +6760,12 @@
       },
       {
         "excRE": "syrian_gas_station"
+      },
+      {
+        "excRE": "sawmill_a"
+      },
+      {
+        "excRE": "sawmill_baracks"
       }
     ],
     "hideForMode1": [
@@ -7611,9 +7776,13 @@
     "appearanceMaxAngle": 25.0
   },
   "camoFires": {
-    "octaveUVscale": 0.5,
+    "octaveUVscale": [0.1,0.4],
     "octavesAmplitude": [0.2,0.05],
     "fadeSharpness": 3.0
+  },
+  "landDetailBumpScale": {
+    "sun_angle": [5.0,40.0],
+    "detail_bump_scale_mul": 0.25
   },
   "airplane": {
     "glowMul": 0.0,

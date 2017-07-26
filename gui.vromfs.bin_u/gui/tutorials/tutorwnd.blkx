@@ -1,0 +1,83 @@
+{
+  "root": [
+    {
+      "div": {
+        "id": "dark_screen",
+        "size": "sw, sh",
+        "position": "root"
+      }
+    },
+    {
+      "tdiv": {
+        "id": "texts_screen",
+        "size": "@rw, @rh",
+        "pos": "@bw, @bh",
+        "position": "absolute"
+      }
+    },
+    {
+      "tdiv": {
+        "id": "lines_block",
+        "size": "sw, sh",
+        "position": "root"
+      }
+    },
+    {
+      "textarea": {
+        "id": "msg_text",
+        "max-width": "70%sw",
+        "left": "50%pw-50%w",
+        "top": "50%ph-50%h",
+        "position": "absolute",
+        "text-align": "center",
+        "fontNormal": "yes",
+        "input-transparent": "yes"
+      }
+    },
+    {
+      "tdiv": {
+        "id": "anim_arrow_block",
+        "size": "1@tutorArrowSize, 3@tutorArrowSize",
+        "left": "50%pw-50%w",
+        "top": "50%ph-50%h",
+        "position": "absolute",
+        "tdiv": {
+          "size": "pw, ph-pw",
+          "tdiv": {
+            "id": "anim_arrow",
+            "size": "pw, pw",
+            "position": "absolute",
+            "re-type": "rotation",
+            "background-color": "#99ff55",
+            "background-image": "#ui/gameuiskin#arrow_simple",
+            "background-repeat": "stretch",
+            "behaviour": "basicPos",
+            "top-base": "0",
+            "top-end": "100",
+            "pos-scale": "parent",
+            "pos-func": "sin",
+            "pos-time": "1000",
+            "pos-cycled": "yes",
+            "_pos-timer": "0"
+          }
+        }
+      }
+    },
+    {
+      "Button_close": {
+        "id": "close_btn",
+        "display": "no",
+        "style": "pos:@rw+@bw-w, @bh; position:absolute; margin-right:0;",
+        "img": []
+      }
+    },
+    {
+      "dummy": {
+        "id": "dummy_console_next",
+        "on_click": "consoleNext",
+        "behaviour": "accesskey",
+        "accessKey": "J:A"
+      }
+    }
+  ]
+}

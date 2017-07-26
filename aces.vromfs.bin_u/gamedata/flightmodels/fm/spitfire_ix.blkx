@@ -35,7 +35,9 @@
   "AileronAngles": [25.0,18.0],
   "ElevatorAngles": [31.0,25.0],
   "InvertElevator": false,
+  "FlapsRadiator": 0.0,
   "RudderAngles": [30.0,28.0],
+  "InterceptorType": 0,
   "RudderInterceptor": false,
   "Elevon": false,
   "VSlats": [137.0,165.0],
@@ -62,6 +64,7 @@
     "hasRudderTrimControl": true,
     "hasRudderTrimGroundControl": false,
     "hasFlapsControl": true,
+    "canTakeoffWithoutFlaps": true,
     "hasTakeoffFlapsPosition": false,
     "hasCombatFlapsPosition": false,
     "hasAirbrake": false,
@@ -76,12 +79,12 @@
     "hasIndependentAirbrakesAndFlaps": true
   },
   "Areas": {
-    "WingLeftIn": 3.7,
-    "WingLeftMid": 4.08,
-    "WingLeftOut": 3.46,
-    "WingRightIn": 2.7,
-    "WingRightMid": 4.08,
-    "WingRightOut": 4.46,
+    "WingLeftIn": 4.146,
+    "WingLeftMid": 3.746,
+    "WingLeftOut": 3.346,
+    "WingRightIn": 4.146,
+    "WingRightMid": 3.746,
+    "WingRightOut": 3.346,
     "Aileron": 0.878,
     "Stabilizer": 1.876,
     "Elevator": 1.334,
@@ -318,7 +321,7 @@
       "Mass": 605.0,
       "Thrust": 0.0,
       "ThrottleBoost": 1.0001,
-      "AfterburnerBoost": 1.495,
+      "AfterburnerBoost": 1.28,
       "RPMMin": 450.0,
       "RPMNom": 3000.0,
       "RPMMax": 3000.0,
@@ -407,7 +410,7 @@
       "GovernorType": 1,
       "GovernorSpeed": 1.07,
       "GovernorMinParam": 1500.0,
-      "GovernorMaxParam": 3000.0,
+      "GovernorMaxParam": 2999.0,
       "GovernorAfterburnerParam": 3000.0,
       "PhiMin": 23.0,
       "PhiMax": 59.0,
@@ -495,6 +498,8 @@
       "CoolingEffectiveAirSpeed": 324.477,
       "WaterTemperatureNoFlow": 168.05,
       "OilTemperatureNoFlow": 126.194,
+      "WaterThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
+      "OilThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
       "AdvancedThermodynamics": true,
       "Mode0": {
         "Altitude": 1000.0,
@@ -578,7 +583,7 @@
       "RadiatorMode2": {
         "Throttle": 1.1,
         "WaterTemperature": 135.0,
-        "OilTemperature": 91.0
+        "OilTemperature": 105.0
       }
     },
     "Compressor": {
@@ -608,7 +613,7 @@
       "PowerConstRPMCurvature1": 0.5,
       "Ceiling1": 9090.0,
       "PowerAtCeiling1": 930.0,
-      "AfterburnerManifoldPressure": 2.68,
+      "AfterburnerManifoldPressure": 2.22,
       "SpeedManifoldMultiplier": 0.65,
       "ExternalPressureLimit": false,
       "CompressorPressureAtRPM0": 0.3,
@@ -629,7 +634,7 @@
       "hasMagnetoControl": true,
       "hasRadiatorControl": true,
       "hasOilRadiatorControl": false,
-      "hasCommonRadiator": false
+      "hasCommonRadiator": true
     }
   },
   "Mass": {

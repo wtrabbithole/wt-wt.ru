@@ -126,10 +126,11 @@
       "weather": "hazy",
       "missionDebriefing": "",
       "missionBriefing": "",
-      "chapter": "hidden",
+      "chapter": "test",
       "scoreLimit": 9000,
       "timeLimit": 20,
-      "remapAiTankModels": true,
+      "deathPenaltyMul": 0.0,
+      "allowedKillStreaks": false,
       "country_axis": "germany",
       "country_allies": "ussr",
       "tags": [],
@@ -174,76 +175,7 @@
       "place_loc": "",
       "date_loc": "",
       "objective_loc": "",
-      "music": "action_01",
-      "part": [
-        {
-          "event": ""
-        },
-        {
-          "minTime": 0
-        },
-        {
-          "slide": [
-            {
-              "map": false
-            },
-            {
-              "minTime": 4
-            },
-            {
-              "picture": ""
-            },
-            {
-              "captureZone": {
-                "area": "t1_area01",
-                "side": "ally",
-                "type": "ground"
-              }
-            },
-            {
-              "captureZone": {
-                "area": "t2_area01",
-                "side": "enemy",
-                "type": "ground"
-              }
-            }
-          ]
-        },
-        {
-          "slide": [
-            {
-              "map": false
-            },
-            {
-              "minTime": 4
-            },
-            {
-              "picture": ""
-            },
-            {
-              "icon": {
-                "icontype": "tank",
-                "side": "neutral",
-                "target": "tank01"
-              }
-            },
-            {
-              "icon": {
-                "icontype": "building",
-                "side": "ally",
-                "target": "t1_area01"
-              }
-            },
-            {
-              "icon": {
-                "icontype": "building",
-                "side": "enemy",
-                "target": "t2_area01"
-              }
-            }
-          ]
-        }
-      ]
+      "music": "action_01"
     }
   },
   "imports": [],
@@ -264,19 +196,37 @@
       "conditions": [],
       "actions": [
         {
+          "unitMark": {
+            "target_marking": 0,
+            "target": "all_players_squad"
+          }
+        },
+        {
           "missionBattleArea": {
             "air": false,
             "ground": true,
             "mapArea": true,
             "killOutOfBattleArea": true,
-            "area": "battlearea"
+            "area": "t1_battlearea",
+            "team": "A"
           }
         },
         {
-          "unitSetProperties": {
+          "missionBattleArea": {
+            "air": false,
+            "ground": true,
+            "mapArea": true,
+            "killOutOfBattleArea": true,
+            "area": "t2_battlearea",
+            "team": "B"
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 1.0,
+            "offset": [0.0,0.0,0.0],
             "object": "flag",
-            "stealthRadius": 0.0,
-            "isImmortal": true
+            "target": "flag_point"
           }
         },
         {
@@ -322,9 +272,35 @@
           }
         },
         {
-          "unitMark": {
-            "target_marking": 0,
-            "target": "all_players_squad"
+          "missionMarkAsCaptureZone": {
+            "army": 0,
+            "timeMultiplier": 0.5,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "capture_zone",
+            "canCaptureByGM": true,
+            "zoneType": "capture_one_time",
+            "captureNoPenalty": true
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "t1_capture_flag_central"
+            },
+            {
+              "target": "t2_capture_flag_central"
+            }
+          ]
+        },
+        {
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object": "flag",
+            "stealthRadius": 0.0,
+            "calmDetection": true,
+            "forceVisibleOnMap": false,
+            "movable": true
           }
         },
         {
@@ -340,349 +316,16 @@
       ],
       "else_actions": []
     },
-    "mark_all_zero": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 0.1
-        }
-      },
-      "conditions": {
-        "unitWhenInArea": [
-          {
-            "math": "2D"
-          },
-          {
-            "object_type": "isActive"
-          },
-          {
-            "object_marking": 0
-          },
-          {
-            "check_objects": "any"
-          },
-          {
-            "object": "all_players_squad"
-          },
-          {
-            "target": "t1_spawn_area"
-          },
-          {
-            "target": "t2_spawn_area"
-          }
-        ]
-      },
-      "actions": {
-        "unitMark": {
-          "target_marking": 0,
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true
-        }
-      },
-      "else_actions": []
-    },
-    "player_capture_flag": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 0.01
-        }
-      },
-      "conditions": {
-        "unitDistanceBetween": {
-          "value": 3.0,
-          "math": "2D",
-          "object_type": "isMarked",
-          "object_marking": 0,
-          "target_type": "any",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "all_players_squad",
-          "target": "flag",
-          "unit_type_ex": "isActive"
-        }
-      },
-      "actions": {
-        "unitMark": {
-          "target_marking": 11,
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true
-        },
-        "unitPlayEffect": {
-          "effect_type": "specify",
-          "effect": "pv_point_smoke_blue",
-          "offset": [0.0,5.0,0.0],
-          "radiusOffset": [0.0,0.0],
-          "show": false,
-          "attach": true,
-          "scale": 1.0,
-          "loopSpawn": true,
-          "delay": [1.0,1.0],
-          "target": "flag"
-        },
-        "unitPutToSleep": [
-          {
-            "target": "flag"
-          },
-          {
-            "target": "circle"
-          }
-        ],
-        "unitSetIndication": {
-          "set": true,
-          "target": "all_players_squad",
-          "target_type": "isActive",
-          "useForTriggerFiltered": true
-        },
-        "playHint": {
-          "hintType": "custom",
-          "name": "@on_the_ground_string",
-          "action": "hide",
-          "shouldFadeOut": false,
-          "time": -1.0,
-          "priority": 0
-        },
-        "triggerEnable": [
-          {
-            "target": "t1_flag_in_capturezone"
-          },
-          {
-            "target": "t2_flag_in_capturezone"
-          }
-        ],
-        "triggerDisable": [
-          {
-            "target": "player_capture_flag"
-          },
-          {
-            "target": "flag_on_the_ground_not_in_capture_zone"
-          }
-        ],
-        "comment": {
-          "value": "работает"
-        }
-      },
-      "else_actions": []
-    },
-    "player_with_flag_killed": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isMarked",
-          "check_objects": "any",
-          "object_marking": 11,
-          "target_type": "isAlive",
-          "check_period": 1.0,
-          "object": "all_players_squad",
-          "unit_type_ex": "isKilled"
-        }
-      },
-      "actions": {
-        "unitWakeUp": {
-          "target": "flag"
-        },
-        "unitPlayEffect": {
-          "effect_type": "specify",
-          "effect": "pv_point_smoke_blue",
-          "offset": [0.0,5.0,0.0],
-          "radiusOffset": [0.0,0.0],
-          "show": false,
-          "attach": true,
-          "scale": 1.0,
-          "loopSpawn": true,
-          "delay": [1.0,1.0],
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true
-        },
-        "unitMoveTo": {
-          "target": "all_players_squad",
-          "object_marking": 0,
-          "target_marking": 11,
-          "waypointReachedDist": 10.0,
-          "recalculatePathDist": -1.0,
-          "follow_target": false,
-          "teleportHeightType": "absolute",
-          "useUnitHeightForTele": true,
-          "shouldKeepFormation": false,
-          "teleportHeightValue": 1000.0,
-          "horizontalDirectionForTeleport": true,
-          "object": "flag",
-          "target_type": "isMarked",
-          "move_type": "teleport",
-          "teleportOffset": [-5.0,0.0,0.0]
-        },
-        "unitMark": {
-          "target_marking": 0,
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true
-        },
-        "triggerEnable": {
-          "target": "flag_on_the_ground_not_in_capture_zone"
-        },
-        "triggerActivate": {
-          "target": "player_capture_flag",
-          "activate_type": "checkConidtions",
-          "check_trigger_status": false,
-          "after_activation": "disable"
-        }
-      },
-      "else_actions": []
-    },
-    "player_with_flag_get_smoke": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 5.0
-        }
-      },
-      "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isMarked",
-          "check_objects": "any",
-          "object_marking": 11,
-          "target_type": "isAlive",
-          "check_period": 1.0,
-          "object": "all_players_squad",
-          "unit_type_ex": "isActive"
-        }
-      },
-      "actions": {
-        "unitPlayEffect": {
-          "effect_type": "specify",
-          "effect": "pv_point_smoke_blue",
-          "offset": [0.0,7.0,0.0],
-          "radiusOffset": [0.0,0.0],
-          "show": true,
-          "attach": true,
-          "scale": 1.0,
-          "loopSpawn": true,
-          "delay": [1.0,1.0],
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true
-        }
-      },
-      "else_actions": []
-    },
-    "player_without_flag_not_smoked": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isMarked",
-          "check_objects": "any",
-          "object_marking": 0,
-          "target_type": "isAlive",
-          "check_period": 1.0,
-          "object": "all_players_squad",
-          "unit_type_ex": "isActive"
-        }
-      },
-      "actions": {
-        "unitPlayEffect": {
-          "effect_type": "specify",
-          "effect": "pv_point_smoke_blue",
-          "offset": [0.0,7.0,0.0],
-          "radiusOffset": [0.0,0.0],
-          "show": false,
-          "attach": true,
-          "scale": 1.0,
-          "loopSpawn": true,
-          "delay": [1.0,1.0],
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true
-        }
-      },
-      "else_actions": []
-    },
-    "flag_get_smoke": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 5.0
-        }
-      },
-      "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isActive",
-          "check_objects": "any",
-          "object_marking": 0,
-          "target_type": "isAlive",
-          "check_period": 1.0,
-          "object": "flag"
-        }
-      },
-      "actions": {
-        "unitPlayEffect": {
-          "effect_type": "specify",
-          "effect": "pv_point_smoke_blue",
-          "offset": [0.0,7.0,0.0],
-          "radiusOffset": [0.0,0.0],
-          "show": true,
-          "attach": true,
-          "scale": 1.0,
-          "loopSpawn": true,
-          "delay": [1.0,1.0],
-          "target": "flag"
-        }
-      },
-      "else_actions": []
-    },
-    "Return_flag_in_capture_zone": {
+    "capture_flag_logic": {
       "isCategory": true,
       "is_enabled": true,
-      "flag_on_the_ground_not_in_capture_zone": {
+      "t1_capture_flag_central": {
         "is_enabled": false,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": true
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
@@ -690,41 +333,104 @@
           }
         },
         "conditions": {
-          "varCompareInt": {
-            "var_value": "on_the_ground_counter_int",
-            "value": 0,
-            "comparasion_func": "more"
+          "missionIsZoneCaptured": {
+            "target": "capture_zone",
+            "army": 1
+          }
+        },
+        "actions": {
+          "triggerEnable": {
+            "target": "t1_player_near_flag"
+          }
+        },
+        "else_actions": []
+      },
+      "t1_player_near_flag": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.01
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 5.0,
+            "math": "2D",
+            "object_type": "isTeamA",
+            "object_marking": 0,
+            "target_type": "any",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "all_players_squad",
+            "target": "flag",
+            "unit_type_ex": "isActive"
           }
         },
         "actions": [
           {
-            "varSetString": {
-              "value": "hints/flag_on_the_ground",
-              "var": "on_the_ground_string"
+            "unitMark": {
+              "target_marking": 1,
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
             }
           },
           {
-            "varAddString": {
-              "value": "",
-              "digits": 0,
-              "var": "on_the_ground_string",
-              "input_var": "on_the_ground_counter_int"
+            "unitPutToSleep": [
+              {
+                "target": "flag"
+              },
+              {
+                "target": "circle"
+              }
+            ]
+          },
+          {
+            "missionMarkAsCaptureZone": {
+              "army": 0,
+              "timeMultiplier": 0.5,
+              "disableZone": true,
+              "name_for_respawn_base": "",
+              "target": "capture_zone",
+              "canCaptureByGM": true,
+              "zoneType": "capture_one_time",
+              "captureNoPenalty": true
             }
           },
           {
-            "playHint": {
-              "hintType": "custom",
-              "name": "@on_the_ground_string",
-              "action": "show",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0
-            }
+            "triggerEnable": [
+              {
+                "target": "draw_t2_capturezone"
+              },
+              {
+                "target": "hide_t1_capturezone"
+              },
+              {
+                "target": "player_with_flag_killed"
+              },
+              {
+                "target": "player_with_flag_get_smoke"
+              },
+              {
+                "target": "t1_flag_ot_of_t2_area"
+              }
+            ]
           },
           {
-            "wait": {
-              "time": 3.0
-            }
+            "triggerDisable": [
+              {
+                "target": "flag_on_the_ground"
+              },
+              {
+                "target": "t2_player_near_flag"
+              }
+            ]
           },
           {
             "playHint": {
@@ -733,26 +439,73 @@
               "action": "hide",
               "shouldFadeOut": false,
               "time": -1.0,
-              "priority": 0
+              "priority": 0,
+              "isOverFade": false
             }
           },
           {
-            "varModify": {
-              "operator": "add",
-              "value": -1.0,
-              "var": "on_the_ground_counter_int"
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_capture_flag",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "A"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/enemy_capture_flag",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "B"
+            }
+          },
+          {
+            "wait": {
+              "time": 5.0
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_capture_flag",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "A"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/enemy_capture_flag",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "B"
             }
           }
         ],
         "else_actions": []
       },
-      "return_flag_to_capturezone": {
-        "is_enabled": true,
+      "t2_capture_flag_central": {
+        "is_enabled": false,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ANY",
-          "enableAfterComplete": true
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
@@ -760,29 +513,253 @@
           }
         },
         "conditions": {
-          "varCompareInt": {
-            "var_value": "on_the_ground_counter_int",
-            "value": 0,
-            "comparasion_func": "equal"
+          "missionIsZoneCaptured": {
+            "target": "capture_zone",
+            "army": 2
+          }
+        },
+        "actions": {
+          "triggerEnable": {
+            "target": "t2_player_near_flag"
+          }
+        },
+        "else_actions": []
+      },
+      "t2_player_near_flag": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.01
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 5.0,
+            "math": "2D",
+            "object_type": "isTeamB",
+            "object_marking": 0,
+            "target_type": "any",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "all_players_squad",
+            "target": "flag",
+            "unit_type_ex": "isActive"
           }
         },
         "actions": [
           {
-            "triggerDisable": {
-              "target": "flag_on_the_ground_not_in_capture_zone"
+            "unitMark": {
+              "target_marking": 1,
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
             }
           },
           {
-            "varSetInt": {
-              "value": 10,
-              "var": "on_the_ground_counter_int"
+            "unitPutToSleep": [
+              {
+                "target": "flag"
+              },
+              {
+                "target": "circle"
+              }
+            ]
+          },
+          {
+            "missionMarkAsCaptureZone": {
+              "army": 0,
+              "timeMultiplier": 0.5,
+              "disableZone": true,
+              "name_for_respawn_base": "",
+              "target": "capture_zone",
+              "canCaptureByGM": true,
+              "zoneType": "capture_one_time",
+              "captureNoPenalty": true
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "draw_t1_capturezone"
+              },
+              {
+                "target": "hide_t2_capturezone"
+              },
+              {
+                "target": "player_with_flag_killed"
+              },
+              {
+                "target": "player_with_flag_get_smoke"
+              },
+              {
+                "target": "t2_flag_ot_of_t1_area"
+              }
+            ]
+          },
+          {
+            "triggerDisable": [
+              {
+                "target": "flag_on_the_ground"
+              },
+              {
+                "target": "t1_player_near_flag"
+              }
+            ]
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "@on_the_ground_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_capture_flag",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "B"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/enemy_capture_flag",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "A"
+            }
+          },
+          {
+            "wait": {
+              "time": 5.0
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_capture_flag",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "B"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/enemy_capture_flag",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "team": "A"
+            }
+          }
+        ],
+        "else_actions": []
+      }
+    },
+    "loose_flag_logic": {
+      "isCategory": true,
+      "is_enabled": true,
+      "player_with_flag_killed": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.1
+          }
+        },
+        "conditions": {
+          "unitWhenStatus": {
+            "object_type": "isMarked",
+            "check_objects": "any",
+            "object_marking": 1,
+            "target_type": "isAlive",
+            "check_period": 1.0,
+            "object": "all_players_squad",
+            "unit_type_ex": "isKilled"
+          }
+        },
+        "actions": [
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "waypoint_ground_arrow",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 0.7,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "unitSetIndication": {
+              "target_marking": 0,
+              "set": false,
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "unitWakeUp": {
+              "target": "flag"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "flag",
+              "movable": true
             }
           },
           {
             "unitMoveTo": {
-              "target": "flag_point",
               "object_marking": 0,
-              "target_marking": 11,
+              "target": "all_players_squad",
+              "target_marking": 1,
               "waypointReachedDist": 10.0,
               "recalculatePathDist": -1.0,
               "follow_target": false,
@@ -792,55 +769,385 @@
               "teleportHeightValue": 1000.0,
               "horizontalDirectionForTeleport": true,
               "object": "flag",
-              "target_type": "any",
-              "move_type": "teleport",
-              "teleportOffset": [0.0,0.0,0.0]
+              "target_type": "isMarked",
+              "move_type": "teleport"
             }
           },
           {
-            "unitWakeUp": {
-              "target": "circle"
-            }
-          },
-          {
-            "wait": {
-              "time": 3.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/flag_returned_in_capturezone",
-              "action": "show",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0
+            "unitMark": {
+              "target_marking": 0,
+              "target": "all_players_squad"
             }
           },
           {
             "wait": {
-              "time": 3.0
+              "time": 2.0
             }
           },
           {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/flag_returned_in_capturezone",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0
+            "varSetInt": {
+              "value": 10,
+              "var": "on_the_ground_counter_int"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "t1_player_near_flag"
+              },
+              {
+                "target": "t2_player_near_flag"
+              },
+              {
+                "target": "flag_on_the_ground"
+              }
+            ]
+          }
+        ],
+        "else_actions": []
+      },
+      "reset_flag": {
+        "isCategory": true,
+        "is_enabled": true,
+        "flag_on_the_ground": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": true
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 1.0
+            }
+          },
+          "conditions": {
+            "varCompareInt": {
+              "var_value": "on_the_ground_counter_int",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          "actions": [
+            {
+              "varSetString": {
+                "value": "hints/flag_on_the_ground",
+                "var": "on_the_ground_string"
+              }
+            },
+            {
+              "varAddString": {
+                "value": "",
+                "digits": 0,
+                "var": "on_the_ground_string",
+                "input_var": "on_the_ground_counter_int"
+              }
+            },
+            {
+              "playHint": {
+                "hintType": "custom",
+                "name": "@on_the_ground_string",
+                "action": "show",
+                "shouldFadeOut": false,
+                "time": -1.0,
+                "priority": 0,
+                "isOverFade": false
+              }
+            },
+            {
+              "wait": {
+                "time": 3.0
+              }
+            },
+            {
+              "playHint": {
+                "hintType": "custom",
+                "name": "@on_the_ground_string",
+                "action": "hide",
+                "shouldFadeOut": false,
+                "time": -1.0,
+                "priority": 0,
+                "isOverFade": false
+              }
+            },
+            {
+              "varModify": {
+                "operator": "add",
+                "value": -1.0,
+                "var": "on_the_ground_counter_int"
+              }
+            }
+          ],
+          "else_actions": [
+            {
+              "unitMark": {
+                "target_marking": 0,
+                "target": "all_players_squad"
+              }
+            },
+            {
+              "missionMarkAsCaptureZone": {
+                "army": 1,
+                "timeMultiplier": 0.3,
+                "disableZone": true,
+                "name_for_respawn_base": "",
+                "target": "t1_capturezone",
+                "canCaptureByGM": true,
+                "zoneType": "capture"
+              }
+            },
+            {
+              "missionMarkAsCaptureZone": {
+                "army": 2,
+                "timeMultiplier": 0.3,
+                "disableZone": true,
+                "name_for_respawn_base": "",
+                "target": "t2_capturezone",
+                "canCaptureByGM": true,
+                "zoneType": "capture"
+              }
+            },
+            {
+              "triggerDisable": [
+                {
+                  "target": "t1_player_near_flag"
+                },
+                {
+                  "target": "t2_player_near_flag"
+                }
+              ]
+            },
+            {
+              "playHint": {
+                "hintType": "custom",
+                "name": "@on_the_ground_string",
+                "action": "hide",
+                "shouldFadeOut": false,
+                "isOverFade": false,
+                "time": -1.0,
+                "priority": 0
+              }
+            },
+            {
+              "unitRespawn": {
+                "delay": 1.0,
+                "offset": [0.0,0.0,0.0],
+                "object": "flag",
+                "target": "flag_point"
+              }
+            },
+            {
+              "unitSetProperties": {
+                "object_marking": 0,
+                "object": "flag",
+                "movable": true
+              }
+            },
+            {
+              "unitWakeUp": {
+                "target": "circle"
+              }
+            },
+            {
+              "wait": {
+                "time": 3.0
+              }
+            },
+            {
+              "playHint": {
+                "hintType": "custom",
+                "name": "hints/flag_returned_in_capturezone",
+                "action": "show",
+                "shouldFadeOut": false,
+                "time": -1.0,
+                "priority": 0,
+                "isOverFade": false
+              }
+            },
+            {
+              "wait": {
+                "time": 3.0
+              }
+            },
+            {
+              "playHint": {
+                "hintType": "custom",
+                "name": "hints/flag_returned_in_capturezone",
+                "action": "hide",
+                "shouldFadeOut": false,
+                "time": -1.0,
+                "priority": 0,
+                "isOverFade": false
+              }
+            },
+            {
+              "missionMarkAsCaptureZone": {
+                "army": 0,
+                "timeMultiplier": 0.5,
+                "disableZone": false,
+                "name_for_respawn_base": "",
+                "target": "capture_zone",
+                "canCaptureByGM": true,
+                "zoneType": "capture_one_time",
+                "captureNoPenalty": true
+              }
+            },
+            {
+              "triggerEnable": [
+                {
+                  "target": "t1_capture_flag_central"
+                },
+                {
+                  "target": "t2_capture_flag_central"
+                }
+              ]
+            },
+            {
+              "triggerDisable": [
+                {
+                  "target": "flag_on_the_ground"
+                },
+                {
+                  "target": "t1_flag_in_t2_capturezone"
+                },
+                {
+                  "target": "t1_set_flag_in_t2_capturezone"
+                },
+                {
+                  "target": "t2_flag_in_t1_capturezone"
+                },
+                {
+                  "target": "t2_set_flag_in_t1_capturezone"
+                },
+                {
+                  "target": "t2_bleeds_when_flag_in_capture_zone"
+                },
+                {
+                  "target": "t1_bleeds_when_flag_in_capture_zone"
+                },
+                {
+                  "target": "t1_restore_flag_from_t1_capturezone"
+                },
+                {
+                  "target": "t2_restore_flag_from_t2_capturezone"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "cicle_logic": {
+      "isCategory": true,
+      "is_enabled": true,
+      "player_with_flag_get_smoke": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 5.0
+          }
+        },
+        "conditions": {
+          "unitWhenStatus": {
+            "object_type": "isMarked",
+            "check_objects": "any",
+            "object_marking": 1,
+            "target_type": "isAlive",
+            "check_period": 1.0,
+            "object": "all_players_squad",
+            "unit_type_ex": "isActive"
+          }
+        },
+        "actions": [
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,7.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "waypoint_ground_arrow",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 0.7,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,7.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": true,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "waypoint_ground_arrow",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": true,
+              "attach": true,
+              "scale": 0.7,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitSetIndication": {
+              "set": true,
+              "target_marking": 0,
+              "target": "all_players_squad",
+              "target_type": "isActive",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "all_players_squad",
+              "useForTriggerFiltered": true,
+              "forceVisibleOnMap": true
             }
           }
         ],
         "else_actions": []
-      }
-    },
-    "capturezone_logic": {
-      "isCategory": true,
-      "is_enabled": true,
-      "draw_t1_capturezone": {
-        "is_enabled": false,
+      },
+      "flag_get_smoke": {
+        "is_enabled": true,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
@@ -852,10 +1159,258 @@
             "time": 5.0
           }
         },
+        "conditions": {
+          "unitWhenStatus": {
+            "object_type": "isDelayed",
+            "check_objects": "any",
+            "object_marking": 0,
+            "target_type": "isAlive",
+            "check_period": 1.0,
+            "object": "flag"
+          }
+        },
+        "actions": {
+          "unitPlayEffect": {
+            "effect_type": "specify",
+            "effect": "pv_point_smoke_blue",
+            "offset": [0.0,7.0,0.0],
+            "radiusOffset": [0.0,0.0],
+            "show": false,
+            "attach": true,
+            "scale": 1.0,
+            "loopSpawn": true,
+            "delay": [1.0,1.0],
+            "target": "flag"
+          }
+        },
+        "else_actions": [
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,7.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "flag"
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,7.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": true,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "flag"
+            }
+          }
+        ]
+      },
+      "mark_all_zero_copy": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.1
+          }
+        },
+        "conditions": {
+          "unitWhenInArea": [
+            {
+              "math": "2D"
+            },
+            {
+              "object_type": "isActive"
+            },
+            {
+              "object_marking": 0
+            },
+            {
+              "check_objects": "any"
+            },
+            {
+              "object": "all_players_squad"
+            },
+            {
+              "target": "t1_spawn_area"
+            },
+            {
+              "target": "t2_spawn_area"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "unitMark": {
+              "target_marking": 0,
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitSetIndication": {
+              "set": false,
+              "target_marking": 0,
+              "target": "all_players_squad",
+              "target_type": "isActive",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "all_players_squad",
+              "useForTriggerFiltered": true,
+              "forceVisibleOnMap": false
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "waypoint_ground_arrow",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 0.7,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad",
+              "useForTriggerFiltered": true
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "t1_with_flag": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isMarked",
+            "object_marking": 1,
+            "func": "more",
+            "value": 0,
+            "object": "t1_players_squad",
+            "unit_type_ex": "isActive"
+          }
+        },
+        "actions": {
+          "gameMPChangeScore": {
+            "value": -5,
+            "valueSystem": "amount",
+            "team": "B"
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 5.0,
+            "var": "t1_take_points_int"
+          },
+          "triggerEnable": {
+            "target": "t1_flag_in_t2_capturezone"
+          }
+        },
+        "else_actions": []
+      },
+      "t2_with_flag": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isMarked",
+            "object_marking": 1,
+            "func": "more",
+            "value": 0,
+            "object": "t2_players_squad",
+            "unit_type_ex": "isActive"
+          }
+        },
+        "actions": {
+          "gameMPChangeScore": {
+            "value": -5,
+            "valueSystem": "amount",
+            "team": "A"
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 5.0,
+            "var": "t2_take_points_int"
+          },
+          "triggerEnable": {
+            "target": "t2_flag_in_t1_capturezone"
+          }
+        },
+        "else_actions": []
+      }
+    },
+    "flag_capture_zones_logic": {
+      "isCategory": true,
+      "is_enabled": true,
+      "draw_t1_capturezone": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 5.0
+          }
+        },
         "conditions": [],
         "actions": [
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t1_capturezone_line01",
               "areaNameTo": "t1_capturezone_line02",
               "team": "Both",
@@ -864,7 +1419,7 @@
             }
           },
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t1_capturezone_line02",
               "areaNameTo": "t1_capturezone_line03",
               "team": "Both",
@@ -873,7 +1428,7 @@
             }
           },
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t1_capturezone_line03",
               "areaNameTo": "t1_capturezone_line04",
               "team": "Both",
@@ -882,7 +1437,7 @@
             }
           },
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t1_capturezone_line04",
               "areaNameTo": "t1_capturezone_line01",
               "team": "Both",
@@ -891,8 +1446,16 @@
             }
           },
           {
-            "triggerDisable": {
-              "target": "draw_t1_capturezone"
+            "missionMarkAsCaptureZone": {
+              "army": 1,
+              "timeMultiplier": 0.5,
+              "disableZone": false,
+              "name_for_respawn_base": "",
+              "target": "t1_capturezone",
+              "canCaptureByGM": false,
+              "onlyPlayersCanCapture": false,
+              "zoneType": "capture",
+              "captureNoPenalty": true
             }
           }
         ],
@@ -904,7 +1467,7 @@
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": true
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
@@ -914,7 +1477,7 @@
         "conditions": [],
         "actions": [
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t2_capturezone_line01",
               "areaNameTo": "t2_capturezone_line02",
               "colorCode": "Team B",
@@ -922,7 +1485,7 @@
             }
           },
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t2_capturezone_line02",
               "areaNameTo": "t2_capturezone_line03",
               "colorCode": "Team B",
@@ -930,7 +1493,7 @@
             }
           },
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t2_capturezone_line03",
               "areaNameTo": "t2_capturezone_line04",
               "colorCode": "Team B",
@@ -938,7 +1501,7 @@
             }
           },
           {
-            "missionShowMapLine": {
+            "__missionShowMapLine": {
               "areaNameFrom": "t2_capturezone_line04",
               "areaNameTo": "t2_capturezone_line01",
               "colorCode": "Team B",
@@ -946,8 +1509,16 @@
             }
           },
           {
-            "triggerDisable": {
-              "target": "draw_t2_capturezone"
+            "missionMarkAsCaptureZone": {
+              "army": 2,
+              "timeMultiplier": 0.5,
+              "disableZone": false,
+              "name_for_respawn_base": "",
+              "target": "t2_capturezone",
+              "canCaptureByGM": false,
+              "onlyPlayersCanCapture": false,
+              "zoneType": "capture",
+              "captureNoPenalty": true
             }
           }
         ],
@@ -959,7 +1530,7 @@
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": true
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
@@ -1001,8 +1572,16 @@
             }
           },
           {
-            "triggerDisable": {
-              "target": "hide_t1_capturezone"
+            "missionMarkAsCaptureZone": {
+              "army": 1,
+              "timeMultiplier": 0.5,
+              "disableZone": true,
+              "name_for_respawn_base": "",
+              "target": "t1_capturezone",
+              "canCaptureByGM": false,
+              "onlyPlayersCanCapture": false,
+              "zoneType": "capture",
+              "captureNoPenalty": true
             }
           }
         ],
@@ -1014,7 +1593,7 @@
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": true
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
@@ -1056,8 +1635,16 @@
             }
           },
           {
-            "triggerDisable": {
-              "target": "hide_t2_capturezone"
+            "missionMarkAsCaptureZone": {
+              "army": 2,
+              "timeMultiplier": 0.5,
+              "disableZone": true,
+              "name_for_respawn_base": "",
+              "target": "t2_capturezone",
+              "canCaptureByGM": false,
+              "onlyPlayersCanCapture": false,
+              "zoneType": "capture",
+              "captureNoPenalty": true
             }
           }
         ],
@@ -1067,13 +1654,13 @@
     "base_logic": {
       "isCategory": true,
       "is_enabled": true,
-      "t1_capture_flag": {
-        "is_enabled": true,
+      "t1_flag_in_t2_capturezone": {
+        "is_enabled": false,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": true
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
@@ -1081,224 +1668,122 @@
           }
         },
         "conditions": {
-          "unitWhenCountMatches": {
+          "unitWhenInArea": {
+            "math": "2D",
             "object_type": "isMarked",
-            "object_marking": 11,
-            "func": "more",
-            "value": 0,
+            "object_marking": 1,
+            "check_objects": "any",
             "object": "t1_players_squad",
-            "unit_type_ex": "isActive"
-          }
-        },
-        "actions": {
-          "gameMPChangeScore": {
-            "value": -50,
-            "valueSystem": "amount",
-            "team": "B"
-          },
-          "triggerEnable": [
-            {
-              "target": "draw_t1_capturezone"
-            },
-            {
-              "target": "hide_t2_capturezone"
-            }
-          ],
-          "varModify": {
-            "operator": "add",
-            "value": -50.0,
-            "var": "t1_take_points_int"
-          }
-        },
-        "else_actions": []
-      },
-      "t2_capture_flag": {
-        "is_enabled": true,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenCountMatches": {
-            "object_type": "isMarked",
-            "object_marking": 11,
-            "func": "more",
-            "value": 0,
-            "object": "t2_players_squad",
-            "unit_type_ex": "isActive"
-          }
-        },
-        "actions": {
-          "gameMPChangeScore": {
-            "value": -50,
-            "valueSystem": "amount",
-            "team": "A"
-          },
-          "triggerEnable": [
-            {
-              "target": "draw_t2_capturezone"
-            },
-            {
-              "target": "hide_t1_capturezone"
-            }
-          ],
-          "varModify": {
-            "operator": "add",
-            "value": -50.0,
-            "var": "t2_take_points_int"
-          }
-        },
-        "else_actions": []
-      },
-      "t1_flag_in_capturezone": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenInArea": {
-            "math": "2D",
-            "object_type": "isMarked",
-            "object_marking": 11,
-            "check_objects": "any",
-            "object": "all_players_squad",
-            "target": "t1_capturezone",
-            "unit_type_ex": "isActive"
-          }
-        },
-        "actions": {
-          "unitWakeUp": {
-            "target": "flag"
-          },
-          "triggerDisable": [
-            {
-              "target": "player_capture_flag"
-            },
-            {
-              "target": "player_with_flag_killed"
-            },
-            {
-              "target": "flag_on_the_ground_not_in_capture_zone"
-            }
-          ],
-          "unitMoveTo": {
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object_marking": 11,
-            "target_marking": 11,
-            "target": "t1_flag_point",
-            "object": "flag",
-            "move_type": "teleport",
-            "teleportOffset": [0.0,0.0,0.0]
-          },
-          "wait": {
-            "time": 1.0
-          },
-          "missionSetTimeSpeed": {
-            "speed": 0.01,
-            "realtimeTriggers": false
-          },
-          "unitMark": {
-            "target_marking": 0,
-            "target": "all_players_squad"
-          },
-          "triggerEnable": {
-            "target": "t2_bleeds_when_flag_in_capture_zone"
-          }
-        },
-        "else_actions": []
-      },
-      "t2_flag_in_capturezone": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenInArea": {
-            "math": "2D",
-            "object_type": "isMarked",
-            "object_marking": 11,
-            "check_objects": "any",
-            "object": "all_players_squad",
             "target": "t2_capturezone",
             "unit_type_ex": "isActive"
           }
         },
         "actions": {
-          "unitWakeUp": {
-            "target": "flag"
-          },
-          "triggerDisable": [
-            {
-              "target": "player_capture_flag"
-            },
-            {
-              "target": "player_with_flag_killed"
-            },
-            {
-              "target": "flag_on_the_ground_not_in_capture_zone"
-            }
-          ],
-          "unitMoveTo": {
-            "target": "t2_flag_point",
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object_marking": 11,
-            "target_marking": 11,
-            "object": "flag",
-            "move_type": "teleport",
-            "teleportOffset": [0.0,0.0,0.0]
-          },
-          "wait": {
-            "time": 1.0
-          },
-          "missionSetTimeSpeed": {
-            "speed": 0.01,
-            "realtimeTriggers": false
-          },
           "unitMark": {
             "target_marking": 0,
             "target": "all_players_squad"
           },
+          "triggerDisable": [
+            {
+              "target": "player_with_flag_killed"
+            },
+            {
+              "target": "flag_on_the_ground"
+            }
+          ],
           "triggerEnable": {
-            "target": "t1_bleeds_when_flag_in_capture_zone"
+            "target": "t1_set_flag_in_t2_capturezone"
+          },
+          "missionMarkAsCaptureZone": {
+            "army": 2,
+            "timeMultiplier": 0.3,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "t2_capturezone",
+            "canCaptureByGM": true,
+            "zoneType": "capture",
+            "captureNoPenalty": true
           }
         },
+        "else_actions": []
+      },
+      "t1_set_flag_in_t2_capturezone": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "missionIsZoneCaptured": {
+            "target": "t2_capturezone",
+            "army": 1
+          }
+        },
+        "actions": [
+          {
+            "unitRespawn": {
+              "delay": 1.0,
+              "offset": [0.0,0.0,0.0],
+              "object": "flag",
+              "target": "t2_flag_point"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "flag",
+              "stealthRadius": 0.0,
+              "movable": true
+            }
+          },
+          {
+            "unitSetIndication": {
+              "target_marking": 0,
+              "set": false,
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,7.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "waypoint_ground_arrow",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 0.7,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t2_bleeds_when_flag_in_capture_zone"
+            }
+          }
+        ],
         "else_actions": []
       },
       "t2_bleeds_when_flag_in_capture_zone": {
@@ -1314,22 +1799,41 @@
             "time": 1.0
           }
         },
-        "conditions": [],
+        "conditions": {
+          "missionIsZoneCaptured": {
+            "target": "t2_capturezone",
+            "army": 1
+          }
+        },
         "actions": {
           "gameMPChangeScore": {
-            "value": -200,
+            "value": -40,
             "valueSystem": "amount",
             "team": "B"
           },
           "varModify": {
             "operator": "add",
-            "value": -200.0,
+            "value": 40.0,
             "var": "t1_take_points_int"
+          },
+          "triggerDisable": {
+            "target": "flag_on_the_ground"
+          },
+          "varSetInt": {
+            "value": 10,
+            "var": "on_the_ground_counter_int"
           }
         },
-        "else_actions": []
+        "else_actions": {
+          "triggerEnable": {
+            "target": "t2_restore_flag_from_t2_capturezone"
+          },
+          "triggerDisable": {
+            "target": "t2_bleeds_when_flag_in_capture_zone"
+          }
+        }
       },
-      "t1_bleeds_when_flag_in_capture_zone": {
+      "t2_flag_in_t1_capturezone": {
         "is_enabled": false,
         "comments": "",
         "props": {
@@ -1342,197 +1846,227 @@
             "time": 1.0
           }
         },
-        "conditions": [],
+        "conditions": {
+          "unitWhenInArea": {
+            "math": "2D",
+            "object_type": "isMarked",
+            "object_marking": 1,
+            "check_objects": "any",
+            "object": "t2_players_squad",
+            "target": "t1_capturezone",
+            "unit_type_ex": "isActive"
+          }
+        },
+        "actions": {
+          "unitMark": {
+            "target_marking": 0,
+            "target": "all_players_squad"
+          },
+          "triggerDisable": [
+            {
+              "target": "player_with_flag_killed"
+            },
+            {
+              "target": "flag_on_the_ground"
+            }
+          ],
+          "triggerEnable": {
+            "target": "t2_set_flag_in_t1_capturezone"
+          },
+          "missionMarkAsCaptureZone": {
+            "army": 1,
+            "timeMultiplier": 0.3,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "t1_capturezone",
+            "canCaptureByGM": true,
+            "onlyPlayersCanCapture": false,
+            "zoneType": "capture",
+            "captureNoPenalty": true
+          }
+        },
+        "else_actions": []
+      },
+      "t2_set_flag_in_t1_capturezone": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "missionIsZoneCaptured": {
+            "target": "t1_capturezone",
+            "army": 2
+          }
+        },
+        "actions": [
+          {
+            "unitRespawn": {
+              "delay": 1.0,
+              "offset": [0.0,0.0,0.0],
+              "object": "flag",
+              "target": "t1_flag_point"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "flag",
+              "stealthRadius": 0.0,
+              "movable": true
+            }
+          },
+          {
+            "unitSetIndication": {
+              "target_marking": 0,
+              "set": false,
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "pv_point_smoke_blue",
+              "offset": [0.0,7.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 1.0,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "unitPlayEffect": {
+              "effect_type": "specify",
+              "effect": "waypoint_ground_arrow",
+              "offset": [0.0,5.0,0.0],
+              "radiusOffset": [0.0,0.0],
+              "show": false,
+              "attach": true,
+              "scale": 0.7,
+              "loopSpawn": true,
+              "delay": [1.0,1.0],
+              "target": "all_players_squad"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t1_bleeds_when_flag_in_capture_zone"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "t1_bleeds_when_flag_in_capture_zone": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "missionIsZoneCaptured": {
+            "target": "t1_capturezone",
+            "army": 2
+          }
+        },
         "actions": {
           "gameMPChangeScore": {
-            "value": -200,
+            "value": -40,
             "valueSystem": "amount",
             "team": "A"
           },
           "varModify": {
             "operator": "add",
-            "value": -200.0,
+            "value": 40.0,
             "var": "t2_take_points_int"
+          },
+          "triggerDisable": {
+            "target": "flag_on_the_ground"
+          },
+          "varSetInt": {
+            "value": 10,
+            "var": "on_the_ground_counter_int"
           }
         },
-        "else_actions": []
+        "else_actions": {
+          "triggerEnable": {
+            "target": "t1_restore_flag_from_t1_capturezone"
+          },
+          "triggerDisable": {
+            "target": "t1_bleeds_when_flag_in_capture_zone"
+          }
+        }
       },
-      "t2_take_flag_from_t1_zone": {
-        "is_enabled": true,
+      "t1_restore_flag_from_t1_capturezone": {
+        "is_enabled": false,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": true
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
-            "time": 0.01
+            "time": 1.0
           }
         },
         "conditions": {
-          "unitDistanceBetween": {
-            "value": 3.0,
-            "math": "2D",
-            "object_type": "isMarked",
-            "object_marking": 0,
-            "target_type": "any",
-            "target_marking": 0,
-            "check_objects": "any",
-            "check_targets": "any",
-            "object": "t2_player_squad",
-            "target": "flag",
-            "unit_type_ex": "isActive"
+          "missionIsZoneCaptured": {
+            "target": "t1_capturezone",
+            "army": 1
           }
         },
         "actions": {
-          "unitMark": {
-            "target_marking": 11,
-            "target": "t2_player_squad",
-            "useForTriggerFiltered": true
-          },
-          "unitPlayEffect": {
-            "effect_type": "specify",
-            "effect": "pv_point_smoke_blue",
-            "offset": [0.0,5.0,0.0],
-            "radiusOffset": [0.0,0.0],
-            "show": false,
-            "attach": true,
-            "scale": 1.0,
-            "loopSpawn": true,
-            "delay": [1.0,1.0],
-            "target": "flag"
-          },
-          "unitPutToSleep": [
-            {
-              "target": "flag"
-            },
-            {
-              "target": "circle"
-            }
-          ],
-          "unitSetIndication": {
-            "set": true,
-            "target": "t2_player_squad",
-            "target_type": "isActive",
-            "useForTriggerFiltered": true
-          },
-          "playHint": {
-            "hintType": "custom",
-            "name": "@on_the_ground_string",
-            "action": "hide",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0
-          },
-          "triggerEnable": [
-            {
-              "target": "t2_flag_in_capturezone"
-            },
-            {
-              "target": "player_capture_flag"
-            }
-          ],
-          "triggerDisable": [
-            {
-              "target": "t2_take_flag_from_t1_zone"
-            },
-            {
-              "target": "flag_on_the_ground_not_in_capture_zone"
-            }
-          ]
+          "triggerEnable": {
+            "target": "flag_on_the_ground"
+          }
         },
         "else_actions": []
       },
-      "t1_take_flag_from_t2_zone": {
-        "is_enabled": true,
+      "t2_restore_flag_from_t2_capturezone": {
+        "is_enabled": false,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": true
+          "enableAfterComplete": false
         },
         "events": {
           "periodicEvent": {
-            "time": 0.01
+            "time": 1.0
           }
         },
         "conditions": {
-          "unitDistanceBetween": {
-            "value": 3.0,
-            "math": "2D",
-            "object_type": "isMarked",
-            "object_marking": 0,
-            "target_type": "any",
-            "target_marking": 0,
-            "check_objects": "any",
-            "check_targets": "any",
-            "object": "t1_player_squad",
-            "target": "flag",
-            "unit_type_ex": "isActive"
+          "missionIsZoneCaptured": {
+            "target": "t2_capturezone",
+            "army": 2
           }
         },
         "actions": {
-          "unitMark": {
-            "target_marking": 11,
-            "target": "t1_player_squad",
-            "useForTriggerFiltered": true
-          },
-          "unitPlayEffect": {
-            "effect_type": "specify",
-            "effect": "pv_point_smoke_blue",
-            "offset": [0.0,5.0,0.0],
-            "radiusOffset": [0.0,0.0],
-            "show": false,
-            "attach": true,
-            "scale": 1.0,
-            "loopSpawn": true,
-            "delay": [1.0,1.0],
-            "target": "flag"
-          },
-          "unitPutToSleep": [
-            {
-              "target": "flag"
-            },
-            {
-              "target": "circle"
-            }
-          ],
-          "unitSetIndication": {
-            "set": true,
-            "target": "t1_player_squad",
-            "target_type": "isActive",
-            "useForTriggerFiltered": true
-          },
-          "playHint": {
-            "hintType": "custom",
-            "name": "@on_the_ground_string",
-            "action": "hide",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0
-          },
-          "triggerEnable": [
-            {
-              "target": "t1_flag_in_capturezone"
-            },
-            {
-              "target": "player_capture_flag"
-            }
-          ],
-          "triggerDisable": [
-            {
-              "target": "t1_take_flag_from_t2_zone"
-            },
-            {
-              "target": "flag_on_the_ground_not_in_capture_zone"
-            }
-          ]
+          "triggerEnable": {
+            "target": "flag_on_the_ground"
+          }
         },
         "else_actions": []
       }
     },
-    "restore_flag_after_counter": {
+    "restore_by_bleeds_1/3": {
       "isCategory": true,
       "is_enabled": true,
       "t1_restore_flag_by_counter": {
@@ -1566,21 +2100,53 @@
                 "target": "t1_bleeds_when_flag_in_capture_zone"
               },
               {
-                "target": "t1_flag_in_capturezone"
+                "target": "t1_flag_in_t2_capturezone"
               },
               {
-                "target": "t2_flag_in_capturezone"
+                "target": "t2_flag_in_t1_capturezone"
+              },
+              {
+                "target": "t1_set_flag_in_t2_capturezone"
+              },
+              {
+                "target": "t2_set_flag_in_t1_capturezone"
               }
             ]
           },
           {
             "playHint": {
               "hintType": "custom",
-              "name": "hints/flag_restored_in_the_center",
+              "name": "hints/enemy_loose_third_of_points",
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
-              "priority": 0
+              "priority": 0,
+              "isOverFade": false,
+              "team": "A"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_loose_third_of_points",
+              "action": "show",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "team": "B"
+            }
+          },
+          {
+            "missionMarkAsCaptureZone": {
+              "army": 2,
+              "timeMultiplier": 0.5,
+              "disableZone": true,
+              "name_for_respawn_base": "",
+              "target": "t2_capturezone",
+              "canCaptureByGM": true,
+              "zoneType": "capture",
+              "captureNoPenalty": true
             }
           },
           {
@@ -1591,29 +2157,53 @@
           {
             "playHint": {
               "hintType": "custom",
-              "name": "hints/flag_restored_in_the_center",
+              "name": "hints/enemy_loose_third_of_points",
               "action": "hide",
               "shouldFadeOut": false,
               "time": -1.0,
-              "priority": 0
+              "priority": 0,
+              "isOverFade": false,
+              "team": "A"
             }
           },
           {
-            "unitMoveTo": {
-              "target": "flag_point",
-              "object_marking": 0,
-              "target_marking": 0,
-              "waypointReachedDist": 10.0,
-              "recalculatePathDist": -1.0,
-              "follow_target": false,
-              "teleportHeightType": "absolute",
-              "useUnitHeightForTele": true,
-              "shouldKeepFormation": false,
-              "teleportHeightValue": 1000.0,
-              "horizontalDirectionForTeleport": true,
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_loose_third_of_points",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "team": "B"
+            }
+          },
+          {
+            "unitRespawn": {
+              "delay": 1.0,
+              "offset": [0.0,0.0,0.0],
               "object": "flag",
-              "target_type": "isAlive",
-              "move_type": "teleport"
+              "target": "flag_point"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "flag",
+              "stealthRadius": 0.0,
+              "movable": true
+            }
+          },
+          {
+            "missionMarkAsCaptureZone": {
+              "army": 0,
+              "timeMultiplier": 0.5,
+              "disableZone": false,
+              "name_for_respawn_base": "",
+              "target": "capture_zone",
+              "canCaptureByGM": true,
+              "zoneType": "capture_one_time",
+              "captureNoPenalty": true
             }
           },
           {
@@ -1622,9 +2212,14 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "player_capture_flag"
-            }
+            "triggerEnable": [
+              {
+                "target": "t1_capture_flag_central"
+              },
+              {
+                "target": "t2_capture_flag_central"
+              }
+            ]
           },
           {
             "varSetInt": [
@@ -1638,6 +2233,12 @@
                 "var": "t2_take_points_int"
               }
             ]
+          },
+          {
+            "varSetInt": {
+              "value": 10,
+              "var": "on_the_ground_counter_int"
+            }
           }
         ],
         "else_actions": []
@@ -1673,21 +2274,53 @@
                 "target": "t1_bleeds_when_flag_in_capture_zone"
               },
               {
-                "target": "t1_flag_in_capturezone"
+                "target": "t1_flag_in_t2_capturezone"
               },
               {
-                "target": "t2_flag_in_capturezone"
+                "target": "t2_flag_in_t1_capturezone"
+              },
+              {
+                "target": "t1_set_flag_in_t2_capturezone"
+              },
+              {
+                "target": "t2_set_flag_in_t1_capturezone"
               }
             ]
           },
           {
             "playHint": {
               "hintType": "custom",
-              "name": "hints/flag_restored_in_the_center",
+              "name": "hints/enemy_loose_third_of_points",
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
-              "priority": 0
+              "priority": 0,
+              "isOverFade": false,
+              "team": "B"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_loose_third_of_points",
+              "action": "show",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "team": "A"
+            }
+          },
+          {
+            "missionMarkAsCaptureZone": {
+              "army": 1,
+              "timeMultiplier": 0.5,
+              "disableZone": true,
+              "name_for_respawn_base": "",
+              "target": "t1_capturezone",
+              "canCaptureByGM": true,
+              "zoneType": "capture",
+              "captureNoPenalty": true
             }
           },
           {
@@ -1698,29 +2331,53 @@
           {
             "playHint": {
               "hintType": "custom",
-              "name": "hints/flag_restored_in_the_center",
+              "name": "hints/enemy_loose_third_of_points",
               "action": "hide",
               "shouldFadeOut": false,
               "time": -1.0,
-              "priority": 0
+              "priority": 0,
+              "isOverFade": false,
+              "team": "B"
             }
           },
           {
-            "unitMoveTo": {
-              "target": "flag_point",
-              "object_marking": 0,
-              "target_marking": 0,
-              "waypointReachedDist": 10.0,
-              "recalculatePathDist": -1.0,
-              "follow_target": false,
-              "teleportHeightType": "absolute",
-              "useUnitHeightForTele": true,
-              "shouldKeepFormation": false,
-              "teleportHeightValue": 1000.0,
-              "horizontalDirectionForTeleport": true,
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/ally_loose_third_of_points",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "team": "A"
+            }
+          },
+          {
+            "unitRespawn": {
+              "delay": 1.0,
+              "offset": [0.0,0.0,0.0],
               "object": "flag",
-              "target_type": "isAlive",
-              "move_type": "teleport"
+              "target": "flag_point"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "flag",
+              "stealthRadius": 0.0,
+              "movable": true
+            }
+          },
+          {
+            "missionMarkAsCaptureZone": {
+              "army": 0,
+              "timeMultiplier": 0.5,
+              "disableZone": false,
+              "name_for_respawn_base": "",
+              "target": "capture_zone",
+              "canCaptureByGM": true,
+              "zoneType": "capture_one_time",
+              "captureNoPenalty": true
             }
           },
           {
@@ -1729,9 +2386,14 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "player_capture_flag"
-            }
+            "triggerEnable": [
+              {
+                "target": "t1_capture_flag_central"
+              },
+              {
+                "target": "t2_capture_flag_central"
+              }
+            ]
           },
           {
             "varSetInt": [
@@ -1745,8 +2407,103 @@
                 "var": "t1_take_points_int"
               }
             ]
+          },
+          {
+            "varSetInt": {
+              "value": 10,
+              "var": "on_the_ground_counter_int"
+            }
           }
         ],
+        "else_actions": []
+      }
+    },
+    "flag_out_of_the_battlearea": {
+      "isCategory": true,
+      "is_enabled": true,
+      "t1_flag_ot_of_t2_area": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenInArea": {
+            "math": "notNear2D",
+            "object_type": "isMarked",
+            "object_marking": 1,
+            "check_objects": "any",
+            "object": "t1_players_squad",
+            "target": "t2_battlearea",
+            "unit_type_ex": "isActive"
+          }
+        },
+        "actions": {
+          "triggerEnable": {
+            "target": "flag_on_the_ground"
+          }
+        },
+        "else_actions": []
+      },
+      "t2_flag_ot_of_t1_area": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenInArea": [
+            {
+              "math": "notNear2D"
+            },
+            {
+              "object_type": "isMarked"
+            },
+            {
+              "object_marking": 1
+            },
+            {
+              "check_objects": "any"
+            },
+            {
+              "object": "t2_players_squad"
+            },
+            {
+              "target": "t1_battlearea_part01"
+            },
+            {
+              "target": "t1_battlearea_part02"
+            },
+            {
+              "target": "t1_battlearea_part03"
+            },
+            {
+              "target": "t1_battlearea_part04"
+            },
+            {
+              "unit_type_ex": "isActive"
+            }
+          ]
+        },
+        "actions": {
+          "triggerEnable": {
+            "target": "flag_on_the_ground"
+          }
+        },
         "else_actions": []
       }
     }
@@ -1769,7 +2526,7 @@
   "variables": {
     "on_the_ground_counter_int": 10,
     "on_the_ground_string": "",
-    "mpPoints_int": 9000,
+    "mpPoints_int": 3000,
     "numOfRestores": 3,
     "t1_take_points_int": 0,
     "t2_take_points_int": 0
@@ -1785,9 +2542,9 @@
           [4.24683e-07,0.0,-1.0],
           [0.0,1.0,0.0],
           [1.0,0.0,4.24683e-07],
-          [1820.45,8.9,2308.6]
+          [2015.84,8.90002,2086.97]
         ],
-        "unit_class": "cn_su_100_1945",
+        "unit_class": "germ_ru251",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
@@ -1802,7 +2559,7 @@
         "bulletsCount2": 0,
         "bulletsCount3": 0,
         "props": {
-          "army": 1,
+          "army": 2,
           "count": 1,
           "formation_type": "rows",
           "formation_div": 3,
@@ -1879,10 +2636,10 @@
       "area_squad": {
         "name": "t1_tankspawn_01",
         "tm": [
-          [0.74154,0.0,0.670908],
+          [0.570663,0.0,0.821184],
           [0.0,1.0,0.0],
-          [-0.670908,0.0,0.74154],
-          [2668.22,62.0139,2050.47]
+          [-0.821184,0.0,0.570663],
+          [2658.35,8.26422,2091.4]
         ],
         "props": [
           {
@@ -2173,7 +2930,7 @@
           [0.209393,0.0,-0.0275671],
           [0.0,1.0,0.0],
           [0.0275671,0.0,0.209393],
-          [1794.15,3.81131,2228.1]
+          [2012.25,3.8,2063.85]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2190,7 +2947,7 @@
           [0.991445,0.0,-0.130526],
           [0.0,1.0,0.0],
           [0.130526,0.0,0.991445],
-          [1794.15,3.81131,2228.12]
+          [2012.25,3.8,2063.87]
         ],
         "unit_class": "flag_victory",
         "objLayer": 1,
@@ -4215,6 +4972,31 @@
         },
         "way": []
       }
+    },
+    {
+      "area_squad": {
+        "name": "t1_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1011.2,2.8,1212.9]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_battlearea_part01"
+          },
+          {
+            "squad_members": "t1_battlearea_part02"
+          },
+          {
+            "squad_members": "t1_battlearea_part03"
+          },
+          {
+            "squad_members": "t1_battlearea_part04"
+          }
+        ]
+      }
     }
   ],
   "areas": {
@@ -4235,7 +5017,7 @@
         [9.91445,0.0,-1.30526],
         [0.0,10.0,0.0],
         [1.30526,0.0,9.91445],
-        [1794.15,3.81131,2228.12]
+        [2012.25,3.8,2063.87]
       ],
       "objLayer": 0,
       "props": []
@@ -4408,10 +5190,10 @@
     "t1_tankspawn01_zone01": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2682.65,7.6124,2078.7]
+        [3.08828,0.0,-9.51118],
+        [2666.02,5.75605,2122.16]
       ],
       "objLayer": 0,
       "props": []
@@ -4419,10 +5201,10 @@
     "t1_tankspawn01_zone02": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2680.9,6.43095,2093.28]
+        [3.08828,0.0,-9.51118],
+        [2661.02,5.41723,2135.97]
       ],
       "objLayer": 0,
       "props": []
@@ -4430,10 +5212,10 @@
     "t1_tankspawn01_zone03": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2679.15,6.02243,2107.85]
+        [3.08828,0.0,-9.51118],
+        [2656.02,5.39446,2149.77]
       ],
       "objLayer": 0,
       "props": []
@@ -4441,10 +5223,10 @@
     "t1_tankspawn01_zone04": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2677.41,5.7854,2122.43]
+        [3.08828,0.0,-9.51118],
+        [2651.03,5.51351,2163.57]
       ],
       "objLayer": 0,
       "props": []
@@ -4452,10 +5234,10 @@
     "t1_tankspawn01_zone05": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2675.66,5.63007,2137.01]
+        [3.08828,0.0,-9.51118],
+        [2646.03,5.66354,2177.38]
       ],
       "objLayer": 0,
       "props": []
@@ -4463,10 +5245,10 @@
     "t1_tankspawn01_zone06": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2691.61,5.71431,2138.25]
+        [3.08828,0.0,-9.51118],
+        [2661.29,5.33486,2182.2]
       ],
       "objLayer": 0,
       "props": []
@@ -4474,10 +5256,10 @@
     "t1_tankspawn01_zone07": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2692.76,5.88413,2123.99]
+        [3.08828,0.0,-9.51118],
+        [2665.63,5.33453,2168.56]
       ],
       "objLayer": 0,
       "props": []
@@ -4485,10 +5267,10 @@
     "t1_tankspawn01_zone08": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2693.91,6.13899,2109.72]
+        [3.08828,0.0,-9.51118],
+        [2669.98,5.45243,2154.92]
       ],
       "objLayer": 0,
       "props": []
@@ -4496,10 +5278,10 @@
     "t1_tankspawn01_zone09": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2695.06,6.68051,2095.45]
+        [3.08828,0.0,-9.51118],
+        [2674.33,5.62969,2141.28]
       ],
       "objLayer": 0,
       "props": []
@@ -4507,10 +5289,10 @@
     "t1_tankspawn01_zone10": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2696.21,7.15889,2081.18]
+        [3.08828,0.0,-9.51118],
+        [2678.67,5.70231,2127.64]
       ],
       "objLayer": 0,
       "props": []
@@ -4518,10 +5300,10 @@
     "t1_tankspawn01_zone11": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2710.58,7.95683,2082.21]
+        [3.08828,0.0,-9.51118],
+        [2692.44,5.76667,2131.9]
       ],
       "objLayer": 0,
       "props": []
@@ -4529,10 +5311,10 @@
     "t1_tankspawn01_zone12": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2709.38,7.7698,2096.62]
+        [3.08828,0.0,-9.51118],
+        [2688.01,5.63982,2145.66]
       ],
       "objLayer": 0,
       "props": []
@@ -4540,10 +5322,10 @@
     "t1_tankspawn01_zone13": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2708.18,7.45278,2111.03]
+        [3.08828,0.0,-9.51118],
+        [2683.58,5.49877,2159.43]
       ],
       "objLayer": 0,
       "props": []
@@ -4551,10 +5333,10 @@
     "t1_tankspawn01_zone14": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2706.98,7.01846,2125.43]
+        [3.08828,0.0,-9.51118],
+        [2679.16,5.20827,2173.18]
       ],
       "objLayer": 0,
       "props": []
@@ -4562,10 +5344,10 @@
     "t1_tankspawn01_zone15": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2705.78,6.6287,2139.84]
+        [3.08828,0.0,-9.51118],
+        [2674.73,5.12382,2186.95]
       ],
       "objLayer": 0,
       "props": []
@@ -4573,10 +5355,10 @@
     "t1_tankspawn01_zone16": {
       "type": "Sphere",
       "tm": [
-        [-9.96312,0.0,-0.858048],
+        [-9.51118,0.0,-3.08828],
         [0.0,10.0,0.0],
-        [0.858048,0.0,-9.96312],
-        [2721.46,7.5022,2111.82]
+        [3.08828,0.0,-9.51118],
+        [2696.34,5.47328,2163.2]
       ],
       "objLayer": 0,
       "props": []
@@ -4601,17 +5383,6 @@
         [2012.15,25.8,2063.35]
       ],
       "objLayer": 4,
-      "props": []
-    },
-    "flag_point": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [2011.25,3.8,2063.2]
-      ],
-      "objLayer": 0,
       "props": []
     },
     "area_03": {
@@ -4642,7 +5413,7 @@
         [-59.726,0.0,5.72832],
         [0.0,30.0,0.0],
         [-5.72832,0.0,-59.726],
-        [1800.0,2.88848,2288.55]
+        [1785.15,2.9,2292.45]
       ],
       "objLayer": 3,
       "props": []
@@ -4697,7 +5468,7 @@
         [0.996313,0.0,0.0857919],
         [0.0,1.0,0.0],
         [-0.0857919,0.0,0.996313],
-        [1767.26,3.98312,2261.5]
+        [1752.41,3.99464,2265.4]
       ],
       "objLayer": 0,
       "props": []
@@ -4708,7 +5479,7 @@
         [0.996313,0.0,0.0857919],
         [0.0,1.0,0.0],
         [-0.0857919,0.0,0.996313],
-        [1773.01,3.80213,2321.3]
+        [1758.16,3.81365,2325.2]
       ],
       "objLayer": 0,
       "props": []
@@ -4719,7 +5490,7 @@
         [0.996313,0.0,0.0857919],
         [0.0,1.0,0.0],
         [-0.0857919,0.0,0.996313],
-        [1827.02,3.9831,2255.79]
+        [1812.17,3.99462,2259.69]
       ],
       "objLayer": 0,
       "props": []
@@ -4730,7 +5501,7 @@
         [0.996313,0.0,0.0857919],
         [0.0,1.0,0.0],
         [-0.0857919,0.0,0.996313],
-        [1832.66,3.79461,2315.58]
+        [1817.81,3.80613,2319.48]
       ],
       "objLayer": 0,
       "props": []
@@ -4763,7 +5534,7 @@
         [0.996313,0.0,0.0857919],
         [0.0,1.0,0.0],
         [-0.0857919,0.0,0.996313],
-        [1795.92,3.78882,2291.22]
+        [1781.05,4.98162,2295.1]
       ],
       "objLayer": 0,
       "props": []
@@ -4782,10 +5553,10 @@
     "t1_spawn_area": {
       "type": "Box",
       "tm": [
-        [64.0575,0.0,7.24312],
+        [60.7615,0.0,21.5376],
         [0.0,41.5463,0.0],
-        [-8.49245,-1.52588e-05,75.1065],
-        [2695.42,4.67374,2111.32]
+        [-25.2525,-1.52588e-05,71.242],
+        [2671.09,5.42817,2156.82]
       ],
       "objLayer": 0,
       "props": []
@@ -4797,6 +5568,94 @@
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
         [1395.75,13.25,1914.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "flag_point": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2012.3,3.8,2063.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_area01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [2054.0,81.3,1750.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_area01": {
+      "type": "Point",
+      "tm": [
+        [0.996313,0.0,0.0857919],
+        [0.0,1.0,0.0],
+        [-0.0857919,0.0,0.996313],
+        [1781.05,4.98163,2295.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_battlearea": {
+      "type": "Box",
+      "tm": [
+        [1336.83,0.0,0.0],
+        [0.0,595.118,0.0],
+        [0.0,0.0,1500.0],
+        [1937.8,11.6,1866.05]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_battlearea_part01": {
+      "type": "Box",
+      "tm": [
+        [1331.71,0.0,0.0],
+        [0.0,595.118,0.0],
+        [0.0,0.0,1500.0],
+        [2103.55,11.6,1866.05]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_battlearea_part02": {
+      "type": "Box",
+      "tm": [
+        [-245.021,0.0,35.4179],
+        [0.0,595.12,0.0],
+        [-67.4902,-2.38419e-07,-466.897],
+        [1427.05,2.85,1367.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_battlearea_part03": {
+      "type": "Box",
+      "tm": [
+        [-164.55,0.0,0.0],
+        [0.0,595.12,0.0],
+        [0.0,0.0,-68.8501],
+        [1353.65,2.5,1150.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_battlearea_part04": {
+      "type": "Box",
+      "tm": [
+        [-102.427,0.0,-128.784],
+        [0.0,595.12,0.0],
+        [71.8528,0.0,-57.1474],
+        [1425.5,2.5,1652.75]
       ],
       "objLayer": 0,
       "props": []
@@ -4825,7 +5684,7 @@
     },
     {
       "layer": {
-        "enabled": false
+        "enabled": true
       }
     },
     {

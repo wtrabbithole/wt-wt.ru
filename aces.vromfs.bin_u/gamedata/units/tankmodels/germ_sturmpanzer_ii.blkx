@@ -1088,7 +1088,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.12,-0.12,0.08],
+        "suspensionOffsets": [-0.08,-0.08,0.08],
         "defaultGearRadius": 0.28,
         "topGearRadius": 0.11,
         "frontBackGearRadius": 0.32,
@@ -1099,6 +1099,27 @@
       "collisionProps": {
         "cls_body": "convex_hull",
         "cls_gun": "convex_hull"
+      }
+    }
+  },
+  {
+    "PhysSys": {
+      "find": "^bone_suspension_(._\\d\\d)$",
+      "points": {
+        "suspension": {
+          "name": "bone_suspension_$1"
+        },
+        "wheel": {
+          "name": "bone_wheel_$1",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0]
+        }
+      },
+      "constraints": {
+        "edge": {
+          "from": "suspension",
+          "to": "wheel"
+        }
       }
     }
   },
@@ -2051,6 +2072,7 @@
         "flash": "emtr_gun_flame",
         "recoilOffset": 1.125,
         "recoilTimes": [0.1,0.75],
+        "maxAdditionalPitch": 0.0,
         "defaultYaw": 0.0,
         "defaultPitch": 0.0,
         "barrelDP": "gun_barrel_dm",

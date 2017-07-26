@@ -2023,7 +2023,7 @@
         "Empty": 32200.0,
         "Fuel": 4000.0,
         "TakeOff": 36200.0,
-        "momentOfInertia": [5.0,30.0,15.0],
+        "momentOfInertia": [7.0,27.0,16.0],
         "CenterOfGravity": [-2.6,-0.3,0.0],
         "AdvancedMass": false
       },
@@ -2034,7 +2034,8 @@
             "maxThrust": 20000.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_01_dm",
-            "transmissionDmPart": "transmission_01_dm"
+            "transmissionDmPart": "transmission_01_dm",
+            "propeller": "propeller_01"
           }
         },
         {
@@ -2043,7 +2044,8 @@
             "maxThrust": 20000.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_02_dm",
-            "transmissionDmPart": "transmission_02_dm"
+            "transmissionDmPart": "transmission_02_dm",
+            "propeller": "propeller_02"
           }
         },
         {
@@ -2052,7 +2054,8 @@
             "maxThrust": 20000.0,
             "outputParam": "propeller_rotate_03:CRS",
             "engineDmPart": "engine_02_dm",
-            "transmissionDmPart": "transmission_03_dm"
+            "transmissionDmPart": "transmission_03_dm",
+            "propeller": "propeller_03"
           }
         }
       ],
@@ -2091,12 +2094,12 @@
           "hydrofoils": [
             {
               "hydrofoil": {
-                "euler": [-0.8,90.0,18.0],
-                "pos": [4.4,-0.65,-0.9],
+                "euler": [-0.9,90.0,18.0],
+                "pos": [4.7,-0.65,-0.9],
                 "size": [1.1,1.35],
-                "maxV": 52.0,
+                "maxV": 53.0,
                 "polar": {
-                  "Cl0": 0.004,
+                  "Cl0": 0.0044,
                   "CdMin": 0.0011,
                   "lineClCoeff": 0.059,
                   "ClCritHigh": 0.8,
@@ -2108,12 +2111,12 @@
             },
             {
               "hydrofoil": {
-                "euler": [0.8,-90.0,18.0],
-                "pos": [4.4,-0.65,0.9],
+                "euler": [0.9,-90.0,18.0],
+                "pos": [4.7,-0.65,0.9],
                 "size": [1.1,1.35],
-                "maxV": 52.0,
+                "maxV": 53.0,
                 "polar": {
-                  "Cl0": 0.004,
+                  "Cl0": 0.0044,
                   "CdMin": 0.0011,
                   "lineClCoeff": 0.059,
                   "ClCritHigh": 0.8,
@@ -2392,6 +2395,8 @@
           "launchAnimVar": "anim_launch_torpedo_01",
           "animLaunchTime": 2.1,
           "launchTime": 0.7,
+          "startSpeed": 2.0,
+          "useStartSpeed": true,
           "barrelDP": "tt_01_dm",
           "breachDP": "torpedo_01_dm",
           "allowableDelta": 180.0,
@@ -2417,6 +2422,8 @@
           "launchAnimVar": "anim_launch_torpedo_02",
           "animLaunchTime": 2.1,
           "launchTime": 0.7,
+          "startSpeed": 2.0,
+          "useStartSpeed": true,
           "barrelDP": "tt_02_dm",
           "breachDP": "torpedo_02_dm",
           "allowableDelta": 180.0,
@@ -2486,7 +2493,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,7.0,-22.0],
+      "headPos": [0.0,7.0,-19.0],
       "headPosOnShooting": [4.5,4.7,0.0]
     }
   },

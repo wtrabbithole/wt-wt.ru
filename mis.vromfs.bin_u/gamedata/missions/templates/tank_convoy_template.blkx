@@ -292,6 +292,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "convoy_sq",
             "accuracy": 0.5,
             "speed": 25.0,
@@ -301,6 +302,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "convoy_sq"
           }
         },
@@ -908,11 +910,92 @@
         }
       },
       "else_actions": []
+    },
+    "Cnv_objectives_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 5.0
+        }
+      },
+      "conditions": {
+        "missionNamePostfix": {
+          "postfix": "_CnvA",
+          "equal": true
+        }
+      },
+      "actions": [
+        {
+          "moAddMissionObjective": {
+            "target": "t1_convoy_defend"
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "t2_convoy_attack"
+          }
+        }
+      ],
+      "else_actions": []
     }
   },
   "mission_objectives": {
     "isCategory": true,
-    "is_enabled": true
+    "is_enabled": true,
+    "t1_convoy_defend": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_convoy_defend": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t1_convoy_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "A"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    },
+    "t2_convoy_attack": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 1800,
+        "team": "B"
+      },
+      "onSuccess": [],
+      "onFailed": []
+    }
   },
   "variables": {
     "waypoint_reached_penalty": 0,

@@ -1,0 +1,96 @@
+[
+  {
+    "Weapon": {
+      "trigger": "gunner0",
+      "blk": "gameData/Weapons/groundModels_weapons/76mm_D56_T_user_cannon.blk",
+      "emitter": "bone_gun_barrel",
+      "flash": "emtr_gun_flame",
+      "defaultYaw": 0.0,
+      "defaultPitch": 0.0,
+      "barrelDP": "gun_barrel_dm",
+      "breechDP": "cannon_breech_dm",
+      "speedYaw": 17.0,
+      "speedPitch": 35.0,
+      "fireConeAngle": 1.0,
+      "bullets": 40,
+      "salvoAmount": 100.0,
+      "ChainfireTime": 0.0,
+      "DelayAfterShoot": 5.0,
+      "AttackMaxDistance": 1000.0,
+      "AttackMaxRadius": 1000.0,
+      "AttackMaxHeight": 1000.0,
+      "accuracyAir": 0.0,
+      "accuracyGnd": 1.5,
+      "errMeasureVel": 0.0,
+      "errMeasureVelFast": 0.0,
+      "errMeasureVelFwdShift": 0.0,
+      "errMeasureVelDir": 0.0,
+      "errTargettingOn100kmph": 0.0,
+      "errTargetting": 3.0,
+      "errExplTime": 0.0,
+      "turret": {
+        "head": "bone_turret",
+        "gun": "bone_gun",
+        "barrel": "bone_gun_barrel",
+        "gunnerDm": "commander_dm",
+        "linkedAnimPart": {
+          "verNode": "bone_mg_gun_twin",
+          "verLimits": [-4.5,31.0],
+          "verOriginLimits": [-4.5,31.0]
+        }
+      },
+      "limits": {
+        "yaw": [-180.0,180.0],
+        "pitch": [-4.5,31.0]
+      },
+      "limitsTable": {
+        "lim1": [-180.0,-160.0,-3.5,31.0],
+        "lim2": [-160.0,-130.0,10.0,31.0],
+        "lim3": [-130.0,140.0,-4.5,31.0],
+        "lim4": [140.0,170.0,10.0,31.0],
+        "lim5": [170.0,180.0,-3.5,31.0]
+      }
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "gunner1",
+      "triggerGroup": "coaxial",
+      "blk": "gameData/Weapons/groundModels_weapons/7_62mm_SGMT_user_machinegun.blk",
+      "emitter": "bone_mg_gun_twin",
+      "flash": "emtr_mg_flame_01",
+      "defaultYaw": 0.0,
+      "defaultPitch": 0.0,
+      "barrelDP": "gun_barrel_01_dm",
+      "breechDP": "cannon_breech_01_dm",
+      "speedYaw": 17.0,
+      "speedPitch": 35.0,
+      "fireConeAngle": 1.0,
+      "bullets": 1000,
+      "salvoAmount": 100.0,
+      "ChainfireTime": 0.0,
+      "DelayAfterShoot": 5.0,
+      "AttackMaxDistance": 1000.0,
+      "AttackMaxRadius": 1000.0,
+      "AttackMaxHeight": 1000.0,
+      "accuracyAir": 0.0,
+      "accuracyGnd": 1.5,
+      "errMeasureVel": 0.0,
+      "errMeasureVelFast": 0.0,
+      "errMeasureVelFwdShift": 0.0,
+      "errMeasureVelDir": 0.0,
+      "errTargettingOn100kmph": 0.0,
+      "errTargetting": 3.0,
+      "errExplTime": 0.0,
+      "turret": {
+        "head": "bone_mg_gun_twin",
+        "gun": "bone_mg_gun_twin",
+        "gunnerDm": "commander_dm"
+      },
+      "limits": {
+        "yaw": [-0.0,0.0],
+        "pitch": [-0.0,0.0]
+      }
+    }
+  }
+]

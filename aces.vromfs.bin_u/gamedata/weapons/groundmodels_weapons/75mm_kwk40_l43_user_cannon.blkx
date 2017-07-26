@@ -326,5 +326,59 @@
         }
       }
     }
+  },
+  "75mm_ger_Smoke": {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 6.8,
+      "explosiveType": "tnt",
+      "explosiveMass": 0.05,
+      "caliber": 0.075,
+      "speed": 570.0,
+      "maxDistance": 10000.0,
+      "bulletType": "smoke_tank",
+      "bulletName": "75mm_k_gr_rot_nb",
+      "hitPowerMult": 2.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [3.0,600.0],
+      "farArmorPower": [3.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.5,
+      "explodeHitPower": 90.0,
+      "explodeArmorPower": 8.0,
+      "explodeRadius": [0.4,0.8],
+      "fuseDelayDist": 0.4,
+      "shutterDamage": true,
+      "shutterDamageRadius": 18.5,
+      "shutterAmount": 130,
+      "shutterArmorPower": 7.5,
+      "shutterHit": 11.0,
+      "smokeShell": true,
+      "smokeFx": "smoke_shell_explosion",
+      "smokeShellRad": 13.0,
+      "smokeActivateTime": 5.0,
+      "smokeTime": 20.0,
+      "groundCollisionEffect": "ground_splash",
+      "groundFxScale": [0.1,0.2],
+      "ricochetEffect": "cannon_ricochet",
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "smoke_shell_explosion"
+        },
+        "armor": {
+          "fx": "smoke_shell_explosion"
+        }
+      }
+    }
   }
 }

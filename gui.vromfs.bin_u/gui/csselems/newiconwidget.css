@@ -1,0 +1,40 @@
+newIconWidget {
+  height:1@newWidgetIconHeight;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#new_icon_bg;
+  background-position:5, 5, 5, 5;
+  input-transparent:yes;
+  css-hier-invalidate:yes;
+}
+
+newIconWidget[widgetClass=text], [widgetClass=text] > newIconWidget {
+  padding:11/720@scrn_tgt_font, 6/720@scrn_tgt_font, 7/720@scrn_tgt_font, 3/720@scrn_tgt_font;
+  background-color:@white;
+}
+
+newIconWidgetText {
+  re-type:text;
+  color:@black;
+  font:@tiny;
+  input-transparent:yes;
+}
+
+newIconWidgetText[text=""] {
+  display:hide;
+}
+
+newIconWidgetImg {
+  size:ph, ph;
+  background-color:@white;
+  input-transparent:yes;
+}
+
+[widgetClass=text] > newIconWidget > newIconWidgetImg, [widgetClass=text] > newIconWidgetImg {
+  position:absolute;
+  left:-1@newTextClassIconWidgetImgPaddingLeft;
+}
+
+[valign=center] > newIconWidget {
+  pos:0, 50%ph-50%h;
+  position:relative;
+}

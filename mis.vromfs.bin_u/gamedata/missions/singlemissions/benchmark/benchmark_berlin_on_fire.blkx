@@ -43,7 +43,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       },
       "stars": {
         "latitude": 52.5,
@@ -57,9 +63,9 @@
         "wind_scale": 1.0,
         "max_wind_strength": 6.0,
         "sky": {
-          "mie_height": [0.5,1.0],
+          "mie_height": 0.5,
           "mieG": 0.5,
-          "betaMScale": [0.5,1.0],
+          "betaMScale": 0.7,
           "clouds_overcast": 0.5
         },
         "clouds_gen": {
@@ -300,10 +306,10 @@
         {
           "unitSetProperties": {
             "object": "airfield_planes",
+            "ignoresEnemy": true,
             "speed": 0.0,
             "lockSpeed": true,
             "aiEnabled": false,
-            "ignoresEnemy": true,
             "stayOnGround": true
           }
         },
@@ -1184,8 +1190,8 @@
         {
           "unitSetProperties": {
             "object": "friendly_planes_crowd01",
-            "aiEnabled": false,
-            "engineFire": true
+            "engineFire": true,
+            "aiEnabled": false
           }
         },
         {
@@ -2789,18 +2795,7 @@
           }
         },
         {
-          "missionSetTimeSpeed": {
-            "speed": 1.0,
-            "realtimeTriggers": true
-          }
-        },
-        {
-          "missionCompleted": {
-            "timer": false,
-            "debriefingTimer": 1,
-            "showCompleteMessage": false,
-            "playCompleteMusic": false
-          }
+          "missionDebriefing": []
         }
       ],
       "else_actions": []
@@ -2826,6 +2821,8 @@
         ],
         "unit_class": "il-10",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "IL10_fab50_rs132",
         "bullets0": "",
         "bullets1": "",
@@ -2871,6 +2868,8 @@
         ],
         "unit_class": "germ_88mm_flak36",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2904,6 +2903,8 @@
         ],
         "unit_class": "germ_pzIVc",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2936,7 +2937,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2953,6 +2956,8 @@
         ],
         "unit_class": "yak-9t",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Yak9_default",
         "bullets0": "ns37_air_target",
         "bullets1": "",
@@ -2998,6 +3003,8 @@
         ],
         "unit_class": "fw-190f-8",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Fw-190F-8_default",
         "bullets0": "",
         "bullets1": "",
@@ -3058,6 +3065,8 @@
         ],
         "unit_class": "he-111h-6",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3134,6 +3143,8 @@
         ],
         "unit_class": "yak-9t",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Yak9_default",
         "bullets0": "ns37_air_target",
         "bullets1": "",
@@ -3179,6 +3190,8 @@
         ],
         "unit_class": "yak-9t",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Yak9_default",
         "bullets0": "ns37_air_target",
         "bullets1": "",
@@ -3224,6 +3237,8 @@
         ],
         "unit_class": "yak-9t",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Yak9_default",
         "bullets0": "ns37_air_target",
         "bullets1": "",
@@ -3269,6 +3284,8 @@
         ],
         "unit_class": "yak-9t",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Yak9_default",
         "bullets0": "ns37_air_target",
         "bullets1": "",
@@ -3345,6 +3362,8 @@
         ],
         "unit_class": "fw-190f-8",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Fw-190F-8_default",
         "bullets0": "",
         "bullets1": "",
@@ -3390,6 +3409,8 @@
         ],
         "unit_class": "fw-190f-8",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Fw-190F-8_default",
         "bullets0": "",
         "bullets1": "",
@@ -3435,6 +3456,8 @@
         ],
         "unit_class": "fw-190f-8",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Fw-190F-8_default",
         "bullets0": "",
         "bullets1": "",
@@ -3480,6 +3503,8 @@
         ],
         "unit_class": "fw-190f-8",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Fw-190F-8_default",
         "bullets0": "",
         "bullets1": "",
@@ -3525,6 +3550,8 @@
         ],
         "unit_class": "il-10",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "IL10_fab50_rs82",
         "bullets0": "shkas_all_tracers",
         "bullets1": "shkas_universal",
@@ -3570,6 +3597,8 @@
         ],
         "unit_class": "il-10",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "IL10_fab100_rs132",
         "bullets0": "shkas_all_tracers",
         "bullets1": "shkas_universal",
@@ -3615,6 +3644,8 @@
         ],
         "unit_class": "il-10",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "IL10_fab50_rs132",
         "bullets0": "shkas_all_tracers",
         "bullets1": "shkas_universal",
@@ -3660,6 +3691,8 @@
         ],
         "unit_class": "tu-2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tu-2_4xfab500",
         "bullets0": "",
         "bullets1": "",
@@ -3703,7 +3736,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3742,6 +3777,8 @@
         ],
         "unit_class": "tu-2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tu-2_4xfab500",
         "bullets0": "",
         "bullets1": "",
@@ -3785,7 +3822,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3802,6 +3841,8 @@
         ],
         "unit_class": "tu-2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "tu-2_4xfab500",
         "bullets0": "",
         "bullets1": "",
@@ -3845,7 +3886,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -3884,6 +3927,8 @@
         ],
         "unit_class": "fw-190f-8",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Fw-190F-8_default",
         "bullets0": "",
         "bullets1": "",
@@ -3929,6 +3974,8 @@
         ],
         "unit_class": "yak-9t",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "Yak9_default",
         "bullets0": "ns37_air_target",
         "bullets1": "",

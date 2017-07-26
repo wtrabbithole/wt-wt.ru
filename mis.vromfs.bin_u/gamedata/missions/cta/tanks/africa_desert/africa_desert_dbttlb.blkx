@@ -300,6 +300,20 @@
           {
             "icon": {
               "icontype": "tank",
+              "side": "ally",
+              "target": "briefing_dbttl_t1_spawn_01"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "ally",
+              "target": "briefing_dbttl_t1_spawn_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
               "side": "enemy",
               "target": "briefing_dbttl_t2_spawn_01"
             }
@@ -313,30 +327,18 @@
           },
           {
             "icon": {
-              "icontype": "tank",
+              "icontype": "fighter",
               "side": "ally",
-              "target": "briefing_dbttl_t1_spawn_01"
+              "target": "t1_briefing_airspawn",
+              "lookAt": "t2_briefing_airspawn"
             }
           },
           {
             "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_dbttl_t1_spawn_02"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_dbttl_t1_spawn_01"
-            }
-          },
-          {
-            "icon": {
-              "icontype": "tank",
-              "side": "ally",
-              "target": "briefing_dbttl_t1_spawn_02"
+              "icontype": "fighter",
+              "side": "enemy",
+              "target": "t2_briefing_airspawn",
+              "lookAt": "t1_briefing_airspawn"
             }
           }
         ]
@@ -1468,6 +1470,28 @@
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
         [3226.54,50.2805,1721.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [3866.6,54.8,2006.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [222.45,54.8,2363.85]
       ],
       "objLayer": 0,
       "props": []

@@ -45,7 +45,9 @@
         "_DBttlA": false,
         "_DBttlB": false,
         "_CnvA": false,
-        "_CnvB": false
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "spectator_points": [],
@@ -359,6 +361,16 @@
           }
         },
         {
+          "triggerEnable": [
+            {
+              "target": "t1_battleareas_init"
+            },
+            {
+              "target": "t2_battleareas_init"
+            }
+          ]
+        },
+        {
           "wait": {
             "time": 15.0
           }
@@ -412,8 +424,90 @@
       ],
       "else_actions": []
     },
+    "t1_battleareas_init": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "t1_battlearea",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "t1_battlearea",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": {
+        "missionBattleArea": {
+          "air": false,
+          "ground": true,
+          "mapArea": true,
+          "killOutOfBattleArea": true,
+          "area": "t1_battlearea",
+          "team": "A"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "battlearea_init"
+        }
+      }
+    },
+    "t2_battleareas_init": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "t2_battlearea",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "t2_battlearea",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": {
+        "missionBattleArea": {
+          "air": false,
+          "ground": true,
+          "mapArea": true,
+          "killOutOfBattleArea": true,
+          "area": "t2_battlearea",
+          "team": "B"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "battlearea_init"
+        }
+      }
+    },
     "battlearea_init": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -434,8 +528,8 @@
           "air": false,
           "ground": true,
           "mapArea": true,
-          "area": "battlearea",
-          "killOutOfBattleArea": true
+          "killOutOfBattleArea": true,
+          "area": "battlearea"
         }
       },
       "else_actions": []

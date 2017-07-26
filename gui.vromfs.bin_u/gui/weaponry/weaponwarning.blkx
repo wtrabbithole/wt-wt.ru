@@ -1,0 +1,124 @@
+{
+  "root": {
+    "background-color": "@modalShadeColor",
+    "frame": [
+      {
+        "id": "weaponWarning-root"
+      },
+      {
+        "width": "0.75@scrn_tgt+10"
+      },
+      {
+        "pos": "50%pw-50%w, 45%ph-40%h"
+      },
+      {
+        "position": "absolute"
+      },
+      {
+        "class": "wnd"
+      },
+      {
+        "frame_header": {
+          "activeText": {
+            "caption": "yes",
+            "text": "#controls/no_ammo_left_warning_header"
+          }
+        }
+      },
+      {
+        "textAreaCentered": {
+          "id": "msgText",
+          "width": "pw",
+          "text": "#controls/no_ammo_left_warning"
+        }
+      },
+      {
+        "textAreaCentered": {
+          "id": "listText",
+          "width": "pw",
+          "text": "",
+          "margin-top": "2*@scrn_tgt_font/100.0"
+        }
+      },
+      {
+        "div": [
+          {
+            "pos": "50%pw-50%w, 0.03@scrn_tgt_font"
+          },
+          {
+            "position": "relative"
+          },
+          {
+            "flow": "horizontal"
+          },
+          {
+            "Button_text": {
+              "id": "btn_cancel",
+              "text": "#mainmenu/btnCancel",
+              "btnName": "B",
+              "_on_click": "goBack",
+              "style": "accessKey:J:B | Esc | Backspace | Tab | J:Back;",
+              "ButtonImg": []
+            }
+          },
+          {
+            "Button_text": {
+              "id": "btn_select",
+              "btnName": "A",
+              "text": "",
+              "_on_click": "onStart",
+              "class": "battle",
+              "navButtonFont": "yes",
+              "css-hier-invalidate": "yes",
+              "buttonWink": {
+                "_transp-timer": "0"
+              },
+              "btnText": {
+                "id": "btn_select_text",
+                "text": "#mainmenu/toBattle"
+              },
+              "ButtonImg": [],
+              "buttonGlance": []
+            }
+          }
+        ]
+      },
+      {
+        "CheckBox": {
+          "id": "slots-autoweapon",
+          "pos": "50%pw-50%w, 0.01@scrn_tgt_font",
+          "position": "relative",
+          "class": "with_image",
+          "text": "#shop/auto_buy_weapons",
+          "tinyFont": "yes",
+          "display": "hide",
+          "on_change_value": "onSlotsChangeAutoRefill",
+          "infoImg": {
+            "background-image": "#ui/gameuiskin#slot_weapons"
+          },
+          "CheckBoxImg": []
+        }
+      },
+      {
+        "Button_close": {
+          "img": []
+        }
+      },
+      {
+        "top_right_holder": {
+          "CheckBox": {
+            "id": "skip_this",
+            "pos": "0, 50%ph-50%h",
+            "position": "relative",
+            "text": "#options/doNotAskMeAgain",
+            "tooltip": "#options/doNotAskMeAgain/tutorial/hint",
+            "on_change_value": "onSkipWeaponWarning",
+            "btnName": "X",
+            "CheckBoxImg": [],
+            "ButtonImg": []
+          }
+        }
+      }
+    ]
+  }
+}

@@ -2764,9 +2764,6 @@
           "substitute": "sailor_29"
         },
         {
-          "substitute": "sailor_30"
-        },
-        {
           "substitute": "commander"
         },
         {
@@ -2875,9 +2872,6 @@
         },
         {
           "substitute": "sailor_29"
-        },
-        {
-          "substitute": "sailor_30"
         },
         {
           "substitute": "commander"
@@ -2990,9 +2984,6 @@
           "substitute": "sailor_29"
         },
         {
-          "substitute": "sailor_30"
-        },
-        {
           "substitute": "commander"
         },
         {
@@ -3103,9 +3094,6 @@
           "substitute": "sailor_29"
         },
         {
-          "substitute": "sailor_30"
-        },
-        {
           "substitute": "commander"
         },
         {
@@ -3214,9 +3202,6 @@
         },
         {
           "substitute": "sailor_29"
-        },
-        {
-          "substitute": "sailor_30"
         }
       ],
       "loader2": [
@@ -3312,9 +3297,6 @@
         },
         {
           "substitute": "sailor_29"
-        },
-        {
-          "substitute": "sailor_30"
         }
       ],
       "loader3": [
@@ -3410,9 +3392,6 @@
         },
         {
           "substitute": "sailor_29"
-        },
-        {
-          "substitute": "sailor_30"
         }
       ],
       "loader4": [
@@ -3508,9 +3487,6 @@
         },
         {
           "substitute": "sailor_29"
-        },
-        {
-          "substitute": "sailor_30"
         }
       ],
       "driver": [
@@ -3606,9 +3582,6 @@
         },
         {
           "substitute": "sailor_29"
-        },
-        {
-          "substitute": "sailor_30"
         },
         {
           "substitute": "commander"
@@ -3719,9 +3692,6 @@
         },
         {
           "substitute": "sailor_29"
-        },
-        {
-          "substitute": "sailor_30"
         }
       ],
       "sailor_01": {
@@ -3833,14 +3803,10 @@
         "role": "sailor"
       },
       "sailor_28": {
-        "dmPart": "sailor_28_dm",
-        "role": "sailor"
-      },
-      "sailor_29": {
         "dmPart": "era_dm",
         "role": "sailor"
       },
-      "sailor_30": {
+      "sailor_29": {
         "dmPart": "operator_dm",
         "role": "sailor"
       }
@@ -3964,7 +3930,8 @@
             "maxThrust": 165000.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_01_dm",
-            "transmissionDmPart": "transmission_01_dm"
+            "transmissionDmPart": "transmission_01_dm",
+            "propeller": "propeller_01"
           }
         },
         {
@@ -3973,7 +3940,8 @@
             "maxThrust": 165000.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_02_dm",
-            "transmissionDmPart": "transmission_02_dm"
+            "transmissionDmPart": "transmission_02_dm",
+            "propeller": "propeller_02"
           }
         },
         {
@@ -3982,7 +3950,8 @@
             "maxThrust": 165000.0,
             "outputParam": "propeller_rotate_03:CRS",
             "engineDmPart": "engine_03_dm",
-            "transmissionDmPart": "transmission_03_dm"
+            "transmissionDmPart": "transmission_03_dm",
+            "propeller": "propeller_03"
           }
         },
         {
@@ -3991,7 +3960,8 @@
             "maxThrust": 165000.0,
             "outputParam": "propeller_rotate_04:CRS",
             "engineDmPart": "engine_04_dm",
-            "transmissionDmPart": "transmission_04_dm"
+            "transmissionDmPart": "transmission_04_dm",
+            "propeller": "propeller_04"
           }
         }
       ],
@@ -4162,22 +4132,16 @@
           },
           {
             "gunStabilizer": {
-              "hasVerticalGunFreeMode": false,
+              "hasVerticalGunFreeMode": true,
               "hasHorizontal": true,
               "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 75.0,
+              "horizontalSpeedLimitKPH": 80.0,
               "hasVertical": true,
               "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 75.0,
+              "verticalSpeedLimitKPH": 80.0,
               "errorKPHToDegrees": [
                 {
                   "row": [5.0,0.01]
-                },
-                {
-                  "row": [25.0,0.02]
-                },
-                {
-                  "row": [45.0,0.03]
                 },
                 {
                   "row": [70.0,0.05]
@@ -4315,22 +4279,16 @@
           },
           {
             "gunStabilizer": {
-              "hasVerticalGunFreeMode": false,
+              "hasVerticalGunFreeMode": true,
               "hasHorizontal": true,
               "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 75.0,
+              "horizontalSpeedLimitKPH": 80.0,
               "hasVertical": true,
               "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 75.0,
+              "verticalSpeedLimitKPH": 80.0,
               "errorKPHToDegrees": [
                 {
                   "row": [5.0,0.01]
-                },
-                {
-                  "row": [25.0,0.02]
-                },
-                {
-                  "row": [45.0,0.03]
                 },
                 {
                   "row": [70.0,0.05]

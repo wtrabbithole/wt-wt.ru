@@ -24,8 +24,8 @@
       "weather": "hazy",
       "missionDebriefing": "",
       "missionBriefing": "",
-      "difficulty": "",
       "openDiffLevels": true,
+      "difficulty": "",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -40,7 +40,15 @@
         "_Conq1": false,
         "_Conq2": false,
         "_Conq3": false,
-        "_Conq4": false
+        "_Conq4": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Conq5": false,
+        "_Conq6": false
       }
     },
     "cover_points": [],
@@ -166,7 +174,7 @@
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
         "conditionsType": "ALL",
-        "enableAfterComplete": false
+        "enableAfterComplete": true
       },
       "events": {
         "periodicEvent": {
@@ -180,10 +188,14 @@
         }
       },
       "actions": {
-        "missionCompleted": {
-          "timer": false,
-          "debriefingTimer": 1,
-          "showCompleteMessage": false
+        "wait": {
+          "time": 3.0
+        },
+        "unitRespawn": {
+          "delay": 1.0,
+          "offset": [0.0,0.0,0.0],
+          "object": "tankModels_01",
+          "target": "spawn01"
         }
       },
       "else_actions": []
@@ -209,6 +221,8 @@
         ],
         "unit_class": "us_m4a2_1944",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -243,6 +257,8 @@
         "unit_class": "germ_pzkpfw_II_ausf_C",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -277,6 +293,8 @@
         "unit_class": "germ_pzkpfw_IV_ausf_C",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -311,6 +329,8 @@
         "unit_class": "germ_pzkpfw_V_ausf_d_panther",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -345,6 +365,8 @@
         "unit_class": "germ_panzerjager_tiger",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -379,6 +401,8 @@
         "unit_class": "germ_pzkpfw_IV_ausf_C",
         "objLayer": 1,
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -410,7 +434,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "target_tank05_wp_02": {
@@ -424,7 +450,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "target_tank05_wp_03": {
@@ -438,7 +466,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "target_tank05_wp_04": {
@@ -452,7 +482,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "target_tank05_wp_05": {
@@ -466,7 +498,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "target_tank05_wp_06": {
@@ -480,7 +514,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "target_tank05_wp_07": {
@@ -494,7 +530,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "target_tank05_wp_08": {
@@ -508,7 +546,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -560,6 +600,8 @@
         "unit_class": "germ_pzkpfw_VI_ausf_b_tiger_IIh",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -594,6 +636,8 @@
         "unit_class": "germ_pzkpfw_Maus",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -727,6 +771,17 @@
         [0.0,60.9,0.0],
         [-59.8825,0.0,11.0856],
         [1518.36,250.0,924.192]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn01": {
+      "type": "Point",
+      "tm": [
+        [0.737277,0.0,-0.67559],
+        [0.0,1.0,0.0],
+        [0.67559,0.0,0.737277],
+        [1045.4,100.2,2057.8]
       ],
       "objLayer": 0,
       "props": []

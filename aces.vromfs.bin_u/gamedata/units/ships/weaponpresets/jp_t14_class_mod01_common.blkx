@@ -1,5 +1,121 @@
 [
   {
+    "Weapon": {
+      "trigger": "gunner1",
+      "triggerGroup": "torpedoes",
+      "external": true,
+      "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
+      "emitter": "bone_launch_torpedo_01",
+      "animatedEmitter": "bone_torpedo_01",
+      "bullets": 1,
+      "launchAnimVar": "anim_launch_torpedo_01",
+      "animLaunchTime": 3.0,
+      "launchTime": 0.9,
+      "startSpeed": 2.0,
+      "useStartSpeed": true,
+      "allowableDelta": 180.0,
+      "turret": {
+        "head": "bone_launch_torpedo_01",
+        "gun": "bone_launch_torpedo_01"
+      },
+      "limits": {
+        "yaw": [0.0,0.0],
+        "pitch": [0.0,0.0]
+      }
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "gunner2",
+      "triggerGroup": "torpedoes",
+      "external": true,
+      "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
+      "emitter": "bone_launch_torpedo_02",
+      "animatedEmitter": "bone_torpedo_02",
+      "bullets": 1,
+      "launchAnimVar": "anim_launch_torpedo_02",
+      "animLaunchTime": 3.0,
+      "launchTime": 0.9,
+      "startSpeed": 2.0,
+      "useStartSpeed": true,
+      "allowableDelta": 180.0,
+      "turret": {
+        "head": "bone_launch_torpedo_02",
+        "gun": "bone_launch_torpedo_02"
+      },
+      "limits": {
+        "yaw": [0.0,0.0],
+        "pitch": [0.0,0.0]
+      }
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "bombs",
+      "triggerGroup": "depth_charge",
+      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+      "emitter": "bone_bomb_01",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 3.0
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "bombs",
+      "triggerGroup": "depth_charge",
+      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+      "emitter": "bone_bomb_02",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 3.0
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "bombs",
+      "triggerGroup": "depth_charge",
+      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+      "emitter": "bone_bomb_03",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 4.5
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "bombs",
+      "triggerGroup": "depth_charge",
+      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+      "emitter": "bone_bomb_04",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 4.5
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "bombs",
+      "triggerGroup": "depth_charge",
+      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+      "emitter": "bone_bomb_05",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 6.0
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "bombs",
+      "triggerGroup": "depth_charge",
+      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+      "emitter": "bone_bomb_06",
+      "bullets": 1,
+      "external": true,
+      "dropSpeed": 6.0
+    }
+  },
+  {
     "Weapon": [
       {
         "trigger": "gunner0"
@@ -21,6 +137,9 @@
       },
       {
         "recoilOffset": 0.0
+      },
+      {
+        "breechDP": "mg_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -113,117 +232,5 @@
         }
       }
     ]
-  },
-  {
-    "Weapon": {
-      "trigger": "gunner1",
-      "triggerGroup": "torpedoes",
-      "external": true,
-      "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
-      "emitter": "bone_launch_torpedo_01",
-      "animatedEmitter": "bone_torpedo_01",
-      "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_01",
-      "animLaunchTime": 4.0,
-      "launchTime": 1.2,
-      "allowableDelta": 180.0,
-      "turret": {
-        "head": "bone_launch_torpedo_01",
-        "gun": "bone_launch_torpedo_01"
-      },
-      "limits": {
-        "yaw": [0.0,0.0],
-        "pitch": [0.0,0.0]
-      }
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "gunner2",
-      "triggerGroup": "torpedoes",
-      "external": true,
-      "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
-      "emitter": "bone_launch_torpedo_02",
-      "animatedEmitter": "bone_torpedo_02",
-      "bullets": 1,
-      "launchAnimVar": "anim_launch_torpedo_02",
-      "animLaunchTime": 4.0,
-      "launchTime": 1.2,
-      "allowableDelta": 180.0,
-      "turret": {
-        "head": "bone_launch_torpedo_02",
-        "gun": "bone_launch_torpedo_02"
-      },
-      "limits": {
-        "yaw": [0.0,0.0],
-        "pitch": [0.0,0.0]
-      }
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-      "emitter": "bone_bomb_01",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 3.0
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-      "emitter": "bone_bomb_02",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 3.0
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-      "emitter": "bone_bomb_03",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 4.5
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-      "emitter": "bone_bomb_04",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 4.5
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-      "emitter": "bone_bomb_05",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 6.0
-    }
-  },
-  {
-    "Weapon": {
-      "trigger": "bombs",
-      "triggerGroup": "depth_charge",
-      "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-      "emitter": "bone_bomb_06",
-      "bullets": 1,
-      "external": true,
-      "dropSpeed": 6.0
-    }
   }
 ]

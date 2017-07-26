@@ -1,0 +1,149 @@
+@const countryOptionWidth: 4.5@baseTrHeight;
+
+MultiSelect {
+  behaviour:MultiSelect;
+}
+
+MultiSelect[optionsShortcuts] > multiOption {
+  height:ph;
+}
+
+MultiSelect[flow=horizontal] > multiOption {
+  height:@checkboxSize + 2*@sf/@pf;
+  padding:1*@sf/@pf;
+  padding-left:20%h;
+  margin-right:0.5*@scrn_tgt/100.0;
+  background-image:#ui/gameuiskin#window_block_bright;
+  background-color:@white;
+  background-position:4;
+  background-repeat:expand;
+}
+
+multiOption {
+  re-type:9rect;
+  css-hier-invalidate:yes;
+  padding-right: @checkboxSize;
+  input-transparent:yes;
+  color:@commonTextColor;
+  font:@small;
+  text-align:left;
+  min-width: pw;
+}
+
+multiOption[filter_multi_option=yes] {
+  min-width: 0;
+}
+
+multiOption > CheckBoxImg {
+  pos: 0, 50%ph-50%h;
+  position: relative;
+}
+
+multiOption[filter_multi_option=yes] > CheckBoxImg {
+  pos: pw - w, 0;
+  position: absolute;
+}
+
+multiOptionText {
+  re-type:9rect;
+  input-transparent:yes;
+  color:@commonTextColor;
+  font:@small;
+}
+
+multiOption:hover,
+:hover > multiOptionText {
+  color:@hoverTextColor;
+}
+
+multiOption[chosen=yes],
+multiOption[chosen=yes] > multiOptionText {
+  color:@activeTextColor;
+}
+
+multiOption:hover > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_unchecked_hover;
+}
+
+multiOption[chosen=yes] > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_checked_;
+}
+
+multiOption:pushed > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_unchecked_active;
+}
+
+multiOption:disabled > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_unchecked_disabled;
+}
+
+multiOption[chosen=yes]:disabled > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_checked_disabled;
+}
+
+multiOption[chosen=yes]:hover > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_checked_hover;
+}
+
+multiOption[chosen=yes]:pushed > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_checked_active;
+}
+
+
+.countries > multiOption {
+  width:@countryOptionWidth;
+  flow:vertical;
+  text-align:center;
+  padding-right: 0;
+}
+
+.countries multiOptionImg {
+  height:4*@scrn_tgt/100.0;
+  width:1.923h;
+  position:relative;
+  pos:0.5pw-50%w, ph-0.03@scrn_tgt_font-h;
+  background-color:@imageNotSelCountryColor;
+  border:yes;
+  border-color:@black;
+}
+
+.countries :hover multiOptionImg {
+  background-color:@imageHoverCountryColor;
+}
+
+.countries > multiOption[chosen=yes] > multiOptionImg {
+  height:5*@scrn_tgt/100.0;
+  background-color:@white;
+}
+
+.countries > multiOption[chosen=yes] {
+  re-type:9rect;
+  background-position:6,6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#selectbox_select;
+  background-color:@white;
+}
+
+.countries multiOptionText {
+  text-align:center;
+  position:relative;
+  pos:50%pw-50%w, 0;
+}
+
+.countries multiOption > CheckBoxImg {
+  position: absolute;
+  pos: pw-w, 0;
+}
+
+
+
+multiOption[cluster_option=yes] {
+  padding-left:@checkboxSize + 6*@sf/@pf;
+  padding-right:0;
+  padding-top:4*@sf/@pf;
+}
+
+multiOption[cluster_option=yes] > CheckBoxImg {
+  position:absolute;
+  pos:0, ph - h;
+}

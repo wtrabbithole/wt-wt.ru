@@ -1323,7 +1323,7 @@
       "changeTimeMult": 1.0,
       "gunner": [
         {
-          "dmPart": "gunner_dm"
+          "dmPart": "commander_dm"
         },
         {
           "role": "tank_gunner"
@@ -1332,33 +1332,16 @@
           "role": "commander"
         },
         {
-          "substitute": "machine_gunner"
-        },
-        {
           "substitute": "loader"
         }
       ],
-      "driver": [
-        {
-          "dmPart": "driver_dm"
-        },
-        {
-          "role": "driver"
-        },
-        {
-          "substitute": "machine_gunner"
-        },
-        {
-          "substitute": "loader"
-        }
-      ],
+      "driver": {
+        "dmPart": "driver_dm",
+        "role": "driver",
+        "substitute": "loader"
+      },
       "loader": {
         "dmPart": "loader_dm",
-        "role": "loader",
-        "substitute": "machine_gunner"
-      },
-      "machine_gunner": {
-        "dmPart": "machine_gunner_dm",
         "role": "radio_gunner"
       }
     }

@@ -430,6 +430,17 @@
     "JapanTanksInFirstCountryChoice": {
       "condition": ""
     },
+    "ItalyAircraftsInFirstCountryChoice": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "Helicopters": [
       {
         "condition": "role_GAIJIN"
@@ -482,6 +493,9 @@
       },
       {
         "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
       }
     ],
     "worldWarMaster": {
@@ -499,6 +513,9 @@
       },
       {
         "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
       }
     ],
     "GraphicsOptions": {
@@ -767,7 +784,8 @@
       "condition": "dev_test_feature_access"
     },
     "onceCalendarLoginAward": {
-      "condition": "PSPlusAccount"
+      "condition": "PSPlusAccount",
+      "platform_lock": "pc;android"
     },
     "onceCalendarLoginAwardDebug": {
       "condition": "dev_test_feature_access"
@@ -963,6 +981,20 @@
       },
       {
         "condition": "wt_access_japan_tanks_unlocks"
+      }
+    ],
+    "ItalianAircraftUnlocked": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "wt_access_italian_aircrafts_unlocks"
       }
     ],
     "CountryChina": {

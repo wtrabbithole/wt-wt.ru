@@ -151,80 +151,6 @@
   "effects": [],
   "units": [
     {
-      "tankModels": {
-        "name": "w1_tanks01_light",
-        "tm": [
-          [0.149723,0.0,-0.988728],
-          [0.0,1.0,0.0],
-          [0.988728,0.0,0.149723],
-          [1395.22,23.0647,3400.18]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_J",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [5.0,8.0],
-          "formation_noise": [0.3,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w1_tanks02_med",
-        "tm": [
-          [0.961836,0.0,0.273621],
-          [0.0,1.0,0.0],
-          [-0.273621,0.0,0.961836],
-          [652.015,32.0631,1845.65]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,5.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
       "squad": {
         "name": "wave01",
         "tm": [
@@ -233,14 +159,9 @@
           [-0.354153,0.0,0.935187],
           [-2508.5,441.5,2478.8]
         ],
-        "props": [
-          {
-            "squad_members": "w1_tanks01_light"
-          },
-          {
-            "squad_members": "w1_tanks02_med"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_light_tanks"
+        }
       }
     },
     {
@@ -293,117 +214,6 @@
       }
     },
     {
-      "tankModels": {
-        "name": "w5_tanks01_med",
-        "tm": [
-          [-0.523947,0.0,0.851752],
-          [0.0,1.0,0.0],
-          [-0.851752,0.0,-0.523947],
-          [1987.67,20.256,1682.13]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [8.0,6.0],
-          "formation_noise": [0.2,0.4],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w5_tanks02_med",
-        "tm": [
-          [0.975118,0.0,0.221692],
-          [0.0,1.0,0.0],
-          [-0.221692,0.0,0.975118],
-          [342.305,31.8849,2223.44]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [5.0,7.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w5_tanks03_med",
-        "tm": [
-          [-0.527232,0.0,-0.849721],
-          [0.0,1.0,0.0],
-          [0.849721,0.0,-0.527232],
-          [2225.76,5.64171,3134.6]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [6.0,7.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
       "squad": {
         "name": "wave04",
         "tm": [
@@ -412,91 +222,9 @@
           [-0.354153,0.0,0.935187],
           [-2407.25,441.25,1719.25]
         ],
-        "props": [
-          {
-            "squad_members": "w4_tanks01_med"
-          },
-          {
-            "squad_members": "w4_tanks02_med"
-          },
-          {
-            "squad_members": "w4_tanks03_med"
-          }
-        ]
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w8_tanks01_med",
-        "tm": [
-          [0.790588,0.0,-0.612348],
-          [0.0,1.0,0.0],
-          [0.612348,0.0,0.790588],
-          [415.142,79.6497,3576.8]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction04_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,8.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w8_tanks02_med_heavy",
-        "tm": [
-          [0.88491,0.0,-0.465761],
-          [0.0,1.0,0.0],
-          [0.465761,0.0,0.88491],
-          [439.346,83.5935,3515.58]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction04_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [6.0,7.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
+          "squad_members": "enemy_heavy_tanks"
+        }
       }
     },
     {
@@ -508,30 +236,19 @@
           [-0.354153,0.0,0.935187],
           [-2228.55,480.65,1187.15]
         ],
-        "props": [
-          {
-            "squad_members": "w9_tanks01_med"
-          },
-          {
-            "squad_members": "w9_tanks02_med"
-          },
-          {
-            "squad_members": "w9_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w9_tanks04_med_heavy"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_med_heavy_tanks"
+        }
       }
     },
     {
       "tankModels": {
-        "name": "w10_tanks01_med_heavy",
+        "name": "enemy_med_heavy_tanks",
         "tm": [
           [0.881457,0.0,-0.472265],
           [0.0,1.0,0.0],
           [0.472265,0.0,0.881457],
-          [432.061,49.8699,3555.27]
+          [-1937.65,49.85,2937.1]
         ],
         "unit_class": "germ_pzkpfw_III_ausf_M",
         "objLayer": 1,
@@ -550,11 +267,11 @@
         "bulletsCount3": 0,
         "props": {
           "army": 2,
-          "count": 16,
+          "count": 50,
           "formation_type": "rows",
           "formation_div": 2,
-          "formation_step": [9.0,6.0],
-          "formation_noise": [-0.4,-0.3],
+          "formation_step": [3.0,3.0],
+          "formation_noise": [-0.5,-0.3],
           "uniqueName": "",
           "attack_type": "fire_at_will"
         },
@@ -563,86 +280,12 @@
     },
     {
       "tankModels": {
-        "name": "w10_tanks02_med_heavy",
-        "tm": [
-          [-0.126864,0.0,0.99192],
-          [0.0,1.0,0.0],
-          [-0.99192,0.0,-0.126864],
-          [2003.69,15.8215,1668.29]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [9.0,6.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w10_tanks03_med_heavy",
-        "tm": [
-          [0.934455,0.0,0.356081],
-          [0.0,1.0,0.0],
-          [-0.356081,0.0,0.934455],
-          [336.245,9.33013,2210.95]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [6.0,8.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w10_tanks04_heavy",
+        "name": "enemy_heavy_tanks",
         "tm": [
           [0.00240484,0.0,-0.999997],
           [0.0,1.0,0.0],
           [0.999997,0.0,0.00240484],
-          [1397.75,1.90298,3429.25]
+          [-1871.5,1.9,2695.05]
         ],
         "unit_class": "germ_infanterie_kampfpanzer_churchill",
         "objLayer": 1,
@@ -661,233 +304,11 @@
         "bulletsCount3": 0,
         "props": {
           "army": 2,
-          "count": 16,
+          "count": 50,
           "formation_type": "rows",
           "formation_div": 2,
-          "formation_step": [5.0,7.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w2_tanks01_light",
-        "tm": [
-          [0.828145,0.0,0.560514],
-          [0.0,1.0,0.0],
-          [-0.560514,0.0,0.828145],
-          [395.352,80.2725,2221.61]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_J",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,5.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w3_tanks01_light",
-        "tm": [
-          [0.71525,0.0,0.698869],
-          [0.0,1.0,0.0],
-          [-0.698869,0.0,0.71525],
-          [1341.34,15.652,1322.18]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_J",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [6.0,6.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w3_tanks03_med",
-        "tm": [
-          [0.0318647,0.0,-0.999491],
-          [0.0,1.0,0.0],
-          [0.999491,0.0,0.0318647],
-          [1391.49,25.0873,3429.1]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,8.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w2_tanks02_med",
-        "tm": [
-          [-0.30301,0.0,0.952986],
-          [0.0,1.0,0.0],
-          [-0.952986,0.0,-0.30301],
-          [2008.91,31.4556,1703.19]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,9.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w3_tanks02_light",
-        "tm": [
-          [-0.724268,0.0,-0.689517],
-          [0.0,1.0,0.0],
-          [0.689517,0.0,-0.724268],
-          [2202.61,32.6428,3142.54]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_J",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [6.0,8.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w3_tanks04_med",
-        "tm": [
-          [0.961836,0.0,0.273621],
-          [0.0,1.0,0.0],
-          [-0.273621,0.0,0.961836],
-          [653.732,45.3763,1847.03]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [4.0,6.0],
-          "formation_noise": [-0.2,-0.1],
+          "formation_step": [3.0,3.0],
+          "formation_noise": [-0.5,-0.3],
           "uniqueName": "",
           "attack_type": "fire_at_will"
         },
@@ -903,14 +324,9 @@
           [-0.354153,0.0,0.935187],
           [-2518.77,441.5,2307.99]
         ],
-        "props": [
-          {
-            "squad_members": "w2_tanks01_light"
-          },
-          {
-            "squad_members": "w2_tanks02_med"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_med_tanks"
+        }
       }
     },
     {
@@ -922,215 +338,19 @@
           [-0.354153,0.0,0.935187],
           [-2505.34,441.5,2182.3]
         ],
-        "props": [
-          {
-            "squad_members": "w3_tanks03_med"
-          },
-          {
-            "squad_members": "w3_tanks04_med"
-          },
-          {
-            "squad_members": "w3_tanks01_light"
-          },
-          {
-            "squad_members": "w3_tanks02_light"
-          }
-        ]
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w6_tanks01_med",
-        "tm": [
-          [-0.485675,0.0,-0.874141],
-          [0.0,1.0,0.0],
-          [0.874141,0.0,-0.485675],
-          [2252.22,21.9211,3128.71]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [7.0,5.0],
-          "formation_noise": [0.2,0.4],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
+          "squad_members": "enemy_med_heavy_tanks"
+        }
       }
     },
     {
       "tankModels": {
-        "name": "w6_tanks04_med_heavy",
-        "tm": [
-          [0.902893,0.0,-0.429867],
-          [0.0,1.0,0.0],
-          [0.429867,0.0,0.902893],
-          [386.97,22.5881,3545.09]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction04_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [7.0,6.0],
-          "formation_noise": [0.2,0.4],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w4_tanks01_med",
-        "tm": [
-          [0.983734,0.0,0.179638],
-          [0.0,1.0,0.0],
-          [-0.179638,0.0,0.983734],
-          [666.269,24.2977,1834.71]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [6.0,8.0],
-          "formation_noise": [0.2,0.4],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w6_tanks02_med",
-        "tm": [
-          [-0.406701,0.0,0.913562],
-          [0.0,1.0,0.0],
-          [-0.913562,0.0,-0.406701],
-          [2003.99,31.8683,1680.47]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [6.0,7.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w6_tanks05_med_heavy",
-        "tm": [
-          [-0.36031,0.0,-0.932833],
-          [0.0,1.0,0.0],
-          [0.932833,0.0,-0.36031],
-          [1433.78,25.7484,3425.91]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [4.0,6.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w4_tanks02_med",
+        "name": "enemy_med_tanks",
         "tm": [
           [0.771025,0.0,-0.636806],
           [0.0,1.0,0.0],
           [0.636806,0.0,0.771025],
-          [440.06,31.8784,3544.21]
+          [-1942.45,31.9,3072.85]
         ],
         "unit_class": "germ_pzkpfw_III_ausf_L",
         "objLayer": 1,
@@ -1149,122 +369,11 @@
         "bulletsCount3": 0,
         "props": {
           "army": 2,
-          "count": 16,
+          "count": 50,
           "formation_type": "rows",
           "formation_div": 2,
-          "formation_step": [7.0,8.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w6_tanks03_med",
-        "tm": [
-          [0.877449,0.0,-0.479668],
-          [0.0,1.0,0.0],
-          [0.479668,0.0,0.877449],
-          [381.423,42.3871,3561.86]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction04_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [8.0,4.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w6_tanks06_med_heavy",
-        "tm": [
-          [0.99644,0.0,0.0843021],
-          [0.0,1.0,0.0],
-          [-0.0843021,0.0,0.99644],
-          [377.451,-5.8149,2234.28]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [5.0,6.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w4_tanks03_med",
-        "tm": [
-          [0.557148,0.0,0.830413],
-          [0.0,1.0,0.0],
-          [-0.830413,0.0,0.557148],
-          [1251.69,14.8398,1262.06]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,7.0],
-          "formation_noise": [-0.2,-0.1],
+          "formation_step": [3.0,3.0],
+          "formation_noise": [-0.5,-0.3],
           "uniqueName": "",
           "attack_type": "fire_at_will"
         },
@@ -1280,17 +389,9 @@
           [-0.354153,0.0,0.935187],
           [-2358.05,441.25,1583.95]
         ],
-        "props": [
-          {
-            "squad_members": "w5_tanks01_med"
-          },
-          {
-            "squad_members": "w5_tanks02_med"
-          },
-          {
-            "squad_members": "w5_tanks03_med"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_med_tanks"
+        }
       }
     },
     {
@@ -1302,26 +403,9 @@
           [-0.354153,0.0,0.935187],
           [-2317.35,441.25,1479.65]
         ],
-        "props": [
-          {
-            "squad_members": "w6_tanks04_med_heavy"
-          },
-          {
-            "squad_members": "w6_tanks01_med"
-          },
-          {
-            "squad_members": "w6_tanks05_med_heavy"
-          },
-          {
-            "squad_members": "w6_tanks02_med"
-          },
-          {
-            "squad_members": "w6_tanks06_med_heavy"
-          },
-          {
-            "squad_members": "w6_tanks03_med"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_med_heavy_tanks"
+        }
       }
     },
     {
@@ -1333,14 +417,9 @@
           [-0.354153,0.0,0.935187],
           [-2241.25,441.25,1294.75]
         ],
-        "props": [
-          {
-            "squad_members": "w7_tanks01_med"
-          },
-          {
-            "squad_members": "w7_tanks02_med_heavy"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_med_heavy_tanks"
+        }
       }
     },
     {
@@ -1352,236 +431,9 @@
           [-0.354153,0.0,0.935187],
           [-2185.75,441.25,1252.6]
         ],
-        "props": [
-          {
-            "squad_members": "w8_tanks01_med"
-          },
-          {
-            "squad_members": "w8_tanks02_med_heavy"
-          }
-        ]
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w9_tanks01_med",
-        "tm": [
-          [0.928793,0.0,0.3706],
-          [0.0,1.0,0.0],
-          [-0.3706,0.0,0.928793],
-          [652.617,8.41667,1850.73]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [6.0,6.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w9_tanks03_med_heavy",
-        "tm": [
-          [-0.696706,0.0,0.717357],
-          [0.0,1.0,0.0],
-          [-0.717357,0.0,-0.696706],
-          [2008.07,15.5224,1694.17]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [4.0,6.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w7_tanks01_med",
-        "tm": [
-          [-0.118007,0.0,-0.993013],
-          [0.0,1.0,0.0],
-          [0.993013,0.0,-0.118007],
-          [1371.01,23.9999,3421.82]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [8.0,5.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w9_tanks02_med",
-        "tm": [
-          [0.850328,0.0,0.526253],
-          [0.0,1.0,0.0],
-          [-0.526253,0.0,0.850328],
-          [662.751,9.41294,1839.97]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_L",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [5.0,6.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w9_tanks04_med_heavy",
-        "tm": [
-          [-0.646302,0.0,0.763081],
-          [0.0,1.0,0.0],
-          [-0.763081,0.0,-0.646302],
-          [2003.02,13.9642,1705.77]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [8.0,8.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w7_tanks02_med_heavy",
-        "tm": [
-          [0.0562198,0.0,-0.998418],
-          [0.0,1.0,0.0],
-          [0.998418,0.0,0.0562198],
-          [1397.54,23.0305,3403.27]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [5.0,7.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
+          "squad_members": "enemy_heavy_tanks"
+        }
       }
     },
     {
@@ -1593,20 +445,9 @@
           [-0.354153,0.0,0.935187],
           [-2139.4,479.65,942.6]
         ],
-        "props": [
-          {
-            "squad_members": "w10_tanks01_med_heavy"
-          },
-          {
-            "squad_members": "w10_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w10_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w10_tanks04_heavy"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_heavy_tanks"
+        }
       }
     },
     {
@@ -1618,20 +459,9 @@
           [-0.354153,0.0,0.935187],
           [-2105.55,479.5,860.95]
         ],
-        "props": [
-          {
-            "squad_members": "w11_tanks01_med_heavy"
-          },
-          {
-            "squad_members": "w11_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w11_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w11_tanks04_heavy"
-          }
-        ]
+        "props": {
+          "squad_members": "enemy_heavy_tanks"
+        }
       }
     },
     {
@@ -1643,476 +473,9 @@
           [-0.354153,0.0,0.935187],
           [-2043.3,479.5,763.5]
         ],
-        "props": [
-          {
-            "squad_members": "w12_tanks01_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks05_heavy"
-          },
-          {
-            "squad_members": "w12_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks06_heavy"
-          },
-          {
-            "squad_members": "w12_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks07_heavy"
-          },
-          {
-            "squad_members": "w12_tanks04_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks08_heavy"
-          }
-        ]
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w11_tanks01_med_heavy",
-        "tm": [
-          [0.881457,0.0,-0.472265],
-          [0.0,1.0,0.0],
-          [0.472265,0.0,0.881457],
-          [411.875,50.0397,3563.4]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction04_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
         "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [4.0,6.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks01_med_heavy",
-        "tm": [
-          [0.881457,0.0,-0.472265],
-          [0.0,1.0,0.0],
-          [0.472265,0.0,0.881457],
-          [403.228,48.603,3523.94]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction04_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,5.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks05_heavy",
-        "tm": [
-          [0.881457,0.0,-0.472265],
-          [0.0,1.0,0.0],
-          [0.472265,0.0,0.881457],
-          [389.093,31.96,3508.24]
-        ],
-        "unit_class": "germ_infanterie_kampfpanzer_churchill",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction04_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,3.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w11_tanks02_med_heavy",
-        "tm": [
-          [0.452293,0.0,0.891869],
-          [0.0,1.0,0.0],
-          [-0.891869,0.0,0.452293],
-          [1346.94,15.9171,1269.45]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [5.0,6.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks02_med_heavy",
-        "tm": [
-          [-0.260035,0.0,0.965599],
-          [0.0,1.0,0.0],
-          [-0.965599,0.0,-0.260035],
-          [1994.39,15.5819,1687.04]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [4.0,5.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks06_heavy",
-        "tm": [
-          [0.71939,0.0,0.694606],
-          [0.0,1.0,0.0],
-          [-0.694606,0.0,0.71939],
-          [1281.93,15.4298,1279.37]
-        ],
-        "unit_class": "germ_infanterie_kampfpanzer_churchill",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction03_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [4.0,9.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w11_tanks03_med_heavy",
-        "tm": [
-          [0.934455,0.0,0.356081],
-          [0.0,1.0,0.0],
-          [-0.356081,0.0,0.934455],
-          [322.521,9.24517,2200.11]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [5.0,5.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks03_med_heavy",
-        "tm": [
-          [0.934455,0.0,0.356081],
-          [0.0,1.0,0.0],
-          [-0.356081,0.0,0.934455],
-          [335.677,8.92748,2207.58]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [7.0,7.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks07_heavy",
-        "tm": [
-          [0.934455,0.0,0.356081],
-          [0.0,1.0,0.0],
-          [-0.356081,0.0,0.934455],
-          [353.18,8.98705,2212.77]
-        ],
-        "unit_class": "germ_infanterie_kampfpanzer_churchill",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction01_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [6.0,8.0],
-          "formation_noise": [-0.4,-0.3],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w11_tanks04_heavy",
-        "tm": [
-          [-0.154971,0.0,-0.987919],
-          [0.0,1.0,0.0],
-          [0.987919,0.0,-0.154971],
-          [2207.56,4.86499,3140.68]
-        ],
-        "unit_class": "germ_infanterie_kampfpanzer_churchill",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,5.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks04_med_heavy",
-        "tm": [
-          [0.100658,0.0,-0.994921],
-          [0.0,1.0,0.0],
-          [0.994921,0.0,0.100658],
-          [1409.2,6.04867,3421.21]
-        ],
-        "unit_class": "germ_pzkpfw_III_ausf_M",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_01",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [6.0,8.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "tankModels": {
-        "name": "w12_tanks08_heavy",
-        "tm": [
-          [-0.546697,0.0,-0.837331],
-          [0.0,1.0,0.0],
-          [0.837331,0.0,-0.546697],
-          [2246.8,2.16052,3139.42]
-        ],
-        "unit_class": "germ_infanterie_kampfpanzer_churchill",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "wayPoints": "direction02_02",
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 16,
-          "formation_type": "rows",
-          "formation_div": 2,
-          "formation_step": [7.0,3.0],
-          "formation_noise": [-0.2,-0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
+          "squad_members": "enemy_heavy_tanks"
+        }
       }
     },
     {
@@ -2204,161 +567,85 @@
       }
     },
     {
-      "squad": {
-        "name": "direction01_squad",
+      "tankModels": {
+        "name": "enemy_light_tanks",
         "tm": [
-          [0.935187,0.0,0.354153],
+          [0.149723,0.0,-0.988728],
           [0.0,1.0,0.0],
-          [-0.354153,0.0,0.935187],
-          [-683.5,69.95,3320.55]
+          [0.988728,0.0,0.149723],
+          [-1933.45,23.05,3279.5]
         ],
-        "props": [
-          {
-            "squad_members": "w1_tanks02_med"
-          },
-          {
-            "squad_members": "w2_tanks02_med"
-          },
-          {
-            "squad_members": "w3_tanks02_light"
-          },
-          {
-            "squad_members": "w3_tanks04_med"
-          },
-          {
-            "squad_members": "w5_tanks01_med"
-          },
-          {
-            "squad_members": "w6_tanks01_med"
-          },
-          {
-            "squad_members": "w6_tanks04_med_heavy"
-          },
-          {
-            "squad_members": "w4_tanks01_med"
-          },
-          {
-            "squad_members": "w5_tanks02_med"
-          },
-          {
-            "squad_members": "w6_tanks02_med"
-          },
-          {
-            "squad_members": "w6_tanks05_med_heavy"
-          },
-          {
-            "squad_members": "w4_tanks02_med"
-          },
-          {
-            "squad_members": "w10_tanks01_med_heavy"
-          },
-          {
-            "squad_members": "w11_tanks01_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks01_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks05_heavy"
-          },
-          {
-            "squad_members": "w10_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w11_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks06_heavy"
-          }
-        ]
+        "unit_class": "germ_pzkpfw_III_ausf_J",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 50,
+          "formation_type": "rows",
+          "formation_div": 2,
+          "formation_step": [3.0,3.0],
+          "formation_noise": [0.5,0.3],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
       }
     },
     {
-      "squad": {
-        "name": "direction02_squad",
+      "armada": {
+        "name": "enemy_air_assaults",
         "tm": [
-          [0.935187,0.0,0.354153],
+          [1.0,0.0,0.0],
           [0.0,1.0,0.0],
-          [-0.354153,0.0,0.935187],
-          [-626.8,69.95,3442.9]
+          [0.0,0.0,1.0],
+          [-1471.9,509.7,3665.15]
         ],
-        "props": [
-          {
-            "squad_members": "w1_tanks01_light"
-          },
-          {
-            "squad_members": "w5_tanks03_med"
-          },
-          {
-            "squad_members": "w8_tanks01_med"
-          },
-          {
-            "squad_members": "w8_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w10_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w10_tanks04_heavy"
-          },
-          {
-            "squad_members": "w2_tanks01_light"
-          },
-          {
-            "squad_members": "w3_tanks01_light"
-          },
-          {
-            "squad_members": "w3_tanks03_med"
-          },
-          {
-            "squad_members": "w6_tanks03_med"
-          },
-          {
-            "squad_members": "w6_tanks06_med_heavy"
-          },
-          {
-            "squad_members": "w4_tanks03_med"
-          },
-          {
-            "squad_members": "w9_tanks01_med"
-          },
-          {
-            "squad_members": "w9_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w7_tanks01_med"
-          },
-          {
-            "squad_members": "w9_tanks02_med"
-          },
-          {
-            "squad_members": "w9_tanks04_med_heavy"
-          },
-          {
-            "squad_members": "w7_tanks02_med_heavy"
-          },
-          {
-            "squad_members": "w11_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks03_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks07_heavy"
-          },
-          {
-            "squad_members": "w11_tanks04_heavy"
-          },
-          {
-            "squad_members": "w12_tanks04_med_heavy"
-          },
-          {
-            "squad_members": "w12_tanks08_heavy"
+        "unit_class": "ju-87d-5",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "Ju87_D5_3x250",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 36,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
           }
-        ]
+        },
+        "way": []
       }
     }
   ],

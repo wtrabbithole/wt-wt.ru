@@ -340,7 +340,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "crouchDelta": [0.0,0.0,0.0]
+        "crouchDelta": [0.3,-0.2,0.0]
       },
       {
         "suffix": "4"
@@ -568,7 +568,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "crouchDelta": [0.0,0.0,0.0]
+        "crouchDelta": [0.6,0.1,-0.2]
       },
       {
         "suffix": "7"
@@ -2707,35 +2707,38 @@
         "Empty": 56500.0,
         "Fuel": 3000.0,
         "TakeOff": 59500.0,
-        "momentOfInertia": [9.0,37.0,26.0],
+        "momentOfInertia": [16.0,39.0,28.0],
         "CenterOfGravity": [-1.4,0.02,0.0]
       },
       "engines": [
         {
           "engine": {
             "pos": [-11.5,-0.75,1.1],
-            "maxThrust": 22500.0,
+            "maxThrust": 15500.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_01_dm",
-            "transmissionDmPart": "transmission_01_dm"
+            "transmissionDmPart": "transmission_01_dm",
+            "propeller": "propeller_01"
           }
         },
         {
           "engine": {
             "pos": [-11.5,-0.75,-1.1],
-            "maxThrust": 22500.0,
+            "maxThrust": 15500.0,
             "outputParam": "propeller_rotate_03:CRS",
             "engineDmPart": "engine_02_dm",
-            "transmissionDmPart": "transmission_02_dm"
+            "transmissionDmPart": "transmission_02_dm",
+            "propeller": "propeller_02"
           }
         },
         {
           "engine": {
             "pos": [-11.5,-0.75,0.0],
-            "maxThrust": 22500.0,
+            "maxThrust": 15500.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_03_dm",
-            "transmissionDmPart": "transmission_03_dm"
+            "transmissionDmPart": "transmission_03_dm",
+            "propeller": "propeller_03"
           }
         }
       ],
@@ -2882,8 +2885,15 @@
           },
           {
             "limits": {
-              "yaw": [-166.0,166.0],
+              "yaw": [-180.0,180.0],
               "pitch": [-5.0,77.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-165.0,30.0,77.0],
+              "lim2": [-165.0,165.0,-5.0,77.0],
+              "lim3": [165.0,180.0,30.0,77.0]
             }
           }
         ]
@@ -3006,8 +3016,12 @@
           {
             "limitsTable": {
               "lim1": [-180.0,-170.0,20.0,85.0],
-              "lim2": [-170.0,174.0,-5.0,85.0],
-              "lim3": [174.0,180.0,20.0,85.0]
+              "lim2": [-170.0,-37.0,-5.0,85.0],
+              "lim3": [-37.0,-20.0,1.0,85.0],
+              "lim4": [-20.0,20.0,-5.0,85.0],
+              "lim5": [20.0,37.0,1.0,85.0],
+              "lim6": [37.0,170.0,-5.0,85.0],
+              "lim7": [170.0,180.0,20.0,85.0]
             }
           }
         ]
@@ -3128,6 +3142,15 @@
               "yaw": [-180.0,180.0],
               "pitch": [-15.0,60.0]
             }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-167.0,0.0,60.0],
+              "lim2": [-167.0,-15.0,-15.0,60.0],
+              "lim3": [-15.0,15.0,-5.0,60.0],
+              "lim4": [15.0,167.0,-15.0,60.0],
+              "lim5": [167.0,180.0,0.0,60.0]
+            }
           }
         ]
       },
@@ -3246,6 +3269,15 @@
             "limits": {
               "yaw": [-180.0,180.0],
               "pitch": [-15.0,60.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-167.0,0.0,60.0],
+              "lim2": [-167.0,-15.0,-15.0,60.0],
+              "lim3": [-15.0,15.0,-5.0,60.0],
+              "lim4": [15.0,167.0,-15.0,60.0],
+              "lim5": [167.0,180.0,0.0,60.0]
             }
           }
         ]
@@ -3375,8 +3407,10 @@
           {
             "limitsTable": {
               "lim1": [-180.0,-170.0,25.0,60.0],
-              "lim2": [-170.0,170.0,-9.0,60.0],
-              "lim3": [170.0,180.0,25.0,60.0]
+              "lim2": [-170.0,-15.0,-9.0,60.0],
+              "lim3": [-15.0,15.0,4.0,60.0],
+              "lim4": [15.0,170.0,-9.0,60.0],
+              "lim5": [170.0,180.0,25.0,60.0]
             }
           }
         ]
@@ -3498,8 +3532,10 @@
           {
             "limitsTable": {
               "lim1": [-180.0,-170.0,25.0,60.0],
-              "lim2": [-170.0,170.0,-9.0,60.0],
-              "lim3": [170.0,180.0,25.0,60.0]
+              "lim2": [-170.0,-15.0,-9.0,60.0],
+              "lim3": [-15.0,15.0,4.0,60.0],
+              "lim4": [15.0,170.0,-9.0,60.0],
+              "lim5": [170.0,180.0,25.0,60.0]
             }
           }
         ]
@@ -3604,7 +3640,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,7.0,-22.0],
+      "headPos": [0.0,7.0,-21.0],
       "headPosOnShooting": [4.4,5.0,0.0]
     }
   },

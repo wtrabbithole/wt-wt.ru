@@ -1,0 +1,126 @@
+class ::WwArtilleryAmmo
+{
+  static _strikesBlk = ::DataBlock()
+
+  hasArtilleryStrike = false
+  strikesDone = null
+  ammoCount = 0
+  maxAmmoCount = 0
+  maxStrikesPerAttack = 0
+  nextAmmoRefillMillisec = 0
+  nextStrikeTimeMillis = 0
+  cooldownAfterMoveSec = 0
+  strikeIntervalSec = 0
+
+  function update(armyName, blk = null)
+  {
+    if (!blk)
+      return
+
+    ammoCount = blk.ammo
+    nextAmmoRefillMillisec = blk.nextAmmoRefillMillisec
+    updateStrike(armyName)
+  }
+
+  function updateStrike(armyName)
+  {
+    _strikesBlk.reset()
+
+    hasArtilleryStrike = false
+    nextStrikeTimeMillis = 0
+    strikesDone = null
+
+    local _strikesBlk = ::DataBlock()
+    ::ww_get_artillery_strikes(_strikesBlk)
+
+    local strikesBlk = _strikesBlk["artilleryStrikes"]
+    if (!strikesBlk)
+      return
+
+    local strikeBlk = strikesBlk[armyName]
+    if (!strikeBlk)
+      return
+
+    hasArtilleryStrike = true
+    nextStrikeTimeMillis = ::getTblValue("nextStrikeTimeMillis", strikeBlk, 0)
+    strikesDone = ::getTblValue("strikesDone", strikeBlk, 0)
+  }
+
+  function getAmmoCount()
+  {
+    return ammoCount
+  }
+
+  function getMaxAmmoCount()
+  {
+    return maxAmmoCount
+  }
+
+  function getNextAmmoRefillTime()
+  {
+    local millisec = nextAmmoRefillMillisec - ::ww_get_operation_time_millisec()
+    return ::milliseconds_to_seconds(millisec).tointeger()
+  }
+
+  function getMaxStrikesPerAttack()
+  {
+    return ::min(maxStrikesPerAttack, maxAmmoCount)
+  }
+
+  function getCooldownAfterMoveMillisec()
+  {
+    return (cooldownAfterMoveSec * 1000 / ::ww_get_speedup_factor()).tointeger()
+  }
+
+  function getStrikeIntervalMillisec()
+  {
+    return (strikeIntervalSec * 1000 / ::ww_get_speedup_factor()).tointeger()
+  }
+
+  function getTimeToNextStrike()
+  {
+    if (!hasStrike())
+      return 0
+
+    local millisec = nextStrikeTimeMillis - ::ww_get_operation_time_millisec()
+    return ::max(::ceil(::milliseconds_to_seconds(millisec)).tointeger(), 1)
+  }
+
+  function getTimeToCompleteStrikes()
+  {
+    if (!hasStrike())
+      return 0
+
+    local millisec = nextStrikeTimeMillis
+    millisec += getUnusedStrikesNumber() * getStrikeIntervalMillisec()
+    millisec -= ::ww_get_operation_time_millisec()
+
+    return ::max(::ceil(::milliseconds_to_seconds(millisec)).tointeger(), 1)
+  }
+
+  function getUnusedStrikesNumber()
+  {
+    return hasStrike() ? getMaxStrikesPerAttack() - strikesDone - 1 : 0
+  }
+
+  function hasStrike()
+  {
+    return hasArtilleryStrike
+  }
+
+  function isStrikePreparing()
+  {
+    return hasStrike() ? strikesDone == 0 : false
+  }
+
+  function setArtilleryParams(params)
+  {
+    if (!params)
+      return
+
+    maxAmmoCount = ::getTblValue("maxAmmo", params, 0)
+    maxStrikesPerAttack = ::getTblValue("maxStrikesPerAttack", params, 0)
+    cooldownAfterMoveSec = ::getTblValue("cooldownAfterMoveSec", params, 0)
+    strikeIntervalSec = ::getTblValue("strikeIntervalSec", params, 0)
+  }
+}

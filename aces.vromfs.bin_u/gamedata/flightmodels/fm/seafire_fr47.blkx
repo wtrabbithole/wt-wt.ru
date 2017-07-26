@@ -111,10 +111,13 @@
     "RudderAngles": [30.0,28.0]
   },
   {
+    "InterceptorType": 0
+  },
+  {
     "RudderInterceptor": false
   },
   {
-    "Elevon": false
+    "FlapsRadiator": 0.0
   },
   {
     "VSlats": [137.0,165.0]
@@ -170,6 +173,7 @@
       "hasRudderTrimControl": true,
       "hasRudderTrimGroundControl": false,
       "hasFlapsControl": true,
+      "canTakeoffWithoutFlaps": true,
       "hasTakeoffFlapsPosition": false,
       "hasCombatFlapsPosition": false,
       "hasAirbrake": false,
@@ -186,12 +190,12 @@
   },
   {
     "Areas": {
-      "WingLeftIn": 3.7,
-      "WingLeftMid": 4.17,
-      "WingLeftOut": 3.46,
-      "WingRightIn": 4.7,
-      "WingRightMid": 4.17,
-      "WingRightOut": 2.46,
+      "WingLeftIn": 4.246,
+      "WingLeftMid": 3.746,
+      "WingLeftOut": 3.346,
+      "WingRightIn": 4.246,
+      "WingRightMid": 3.746,
+      "WingRightOut": 3.346,
       "Aileron": 1.2,
       "Stabilizer": 2.3,
       "Elevator": 1.7,
@@ -434,7 +438,7 @@
         "Mass": 1000.0,
         "Thrust": 0.0,
         "ThrottleBoost": 1.0001,
-        "AfterburnerBoost": 1.58,
+        "AfterburnerBoost": 1.4,
         "RPMMin": 450.0,
         "RPMNom": 2600.0,
         "RPMMax": 2750.0,
@@ -581,6 +585,10 @@
         "NitroConsumption": 0.0
       },
       "Temperature": {
+        "RadiatorAuto": true,
+        "OilRadiatorAuto": true,
+        "WaterThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
+        "OilThermalConductionCrossCoeffTable": [0.4,0.2,0.02,0.2],
         "RadiatorType": 1,
         "OilRadiatorType": 1,
         "NoIgnitionWaterHeatProducingFactor": 0.15,
@@ -716,7 +724,7 @@
         "PowerConstRPMCurvature1": 0.5,
         "Ceiling1": 12000.0,
         "PowerAtCeiling1": 830.0,
-        "AfterburnerManifoldPressure": 2.42,
+        "AfterburnerManifoldPressure": 2.22,
         "SpeedManifoldMultiplier": 0.8,
         "ExternalPressureLimit": false,
         "CompressorPressureAtRPM0": 0.3,
@@ -873,9 +881,13 @@
   {
     "Gear": {
       "SinkFactor": 1000.0,
+      "SinkRateMult": 1.0,
       "WaterFriction": 1.0,
-      "RetractableTailStrut": false,
+      "WaterFrictionDefault": 2.5,
       "UseCenterOfGravity": true,
+      "RetractableCentralGear": true,
+      "SteerableWheel": false,
+      "FullBrakeSlidingFrictionMult": 0.4,
       "FrontalSpringsHeight": 0.3,
       "TailSpringsHeight": 0.1,
       "FrontalSpringsCoeff": 297753.0,
@@ -886,6 +898,8 @@
       "CenterWheelRadius": 0.1238,
       "Height": 1.6145,
       "Pitch": 11.842,
+      "WaterWaveHeightForCheck": [0.0,100.0],
+      "WaterSpeedPropCheckVal": [0.1,0.1],
       "Floats": false
     }
   },

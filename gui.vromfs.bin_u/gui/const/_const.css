@@ -1,0 +1,584 @@
+@const isWide    :(((10(sw + 1)) \ (16@scrn_tgt))) $min 1;   
+@const isTall    :(((720(sh + 1)) \ (1080@scrn_tgt))) $min 1;   
+
+@const debugRowHeight: 14; 
+
+@const cursorSizeMul: @dp;
+
+
+
+
+@const white :#FFFFFF;
+@const black :#000000;
+@const red   :#FF0000;
+@const blue  :#0000FF;
+@const green :#00FF00;
+
+@const gold  :#939300;
+@const brown :#804040;
+
+@const gray  :#C0C0C0;
+@const silver:#AAAAAA;
+@const gray60:#999999;
+@const yellow:#FFFF00;
+@const transparent :#00000000;
+
+@const mainTitleTextColor       :#FFFFFFFF;
+@const mainTitleStrokeColor     :#AA000000;
+@const containerMisSelectColor  :#E0E0E0E0;
+
+@const activeTextColor               :#FFFFFFFF;
+@const activeTextColorDark           :#FF003973;
+@const highlightedTextColor          :#FFf0f0f0;
+@const commonTextColor               :#FFc0c0c0;
+@const minorTextColor                :#FF808080;
+@const fadedTextColor                :#88444444;
+@const fadedTextColorDark            :#88222222;
+@const warningTextColor              :#FFdda018;
+@const warningTextColorDark          :#FF5e4700;
+@const trSelectedTextColor           :#FFFFFFFF;
+@const commonMenuButtonColor         :#FFa0a0a0;
+@const pushedMenuButtonColor         :#FFc0c0c0;
+@const hoverMenuButtonColor          :#FFFFFFFF;
+@const redMenuButtonColor            :#FFF02020;
+@const inactiveButtonTextColor       :#404040;
+@const inactiveButtonFocusTextColor  :#606060;
+@const inactiveButtonHoverTextColor  :#555555;
+@const hotkeyColor                   :#bea54b;
+@const hotkeyColorDark               :#5e4700;
+@const axisSymbolColor               :#dddddd;
+@const axisSymbolColorDark           :#4d4600;
+@const weaponWarning                 :#B03030;
+@const weaponLightWarning            :#C08080;
+@const weaponPresetColor             :#C89441;
+
+@const tooltipTextColor              :#000000;
+@const tooltipActiveTextColor        :#FFFFFF;
+
+@const battleButtonColor             :#FFd0d0d0;
+@const pushedBattleButtonColor       :#FFe0e0e0;
+@const hoverBattleButtonColor        :#FFffffff;
+
+@const userlogColoredText            :#f9db78;
+@const userlogColoredTextDark        :#5c5400;
+@const discountTextColor             :#e5e5e5;
+@const discountBGColor               :#ff313b;
+@const hoverDiscountBGColor          :#ff725b;
+@const pushedDiscountBGColor         :#ff313b;
+@const oldPrice                      :#777777;
+@const bonusNoFrameTextColor         :#FFFFFF;
+@const bonusNoFrameShadeColor        :#10302510;
+@const shopStatsColor                :#b19b62;
+@const unlockHeaderColor             :#f9db78;
+@const unlockActiveColor             :#FFFFFF;
+
+@const goodTextColor                 :#20F020;
+@const goodTextColorDark             :#007000;
+@const badTextColor                  :#ff4b38;
+@const badTextColorDark              :#c71400;
+@const newTextColor                  :#f9db78;
+@const newTextBrightColor            :#fff205;
+@const oldTextColor                  :#7c7063;
+
+@const chanceNeverColor              :#707070;
+@const chanceLowColor                :#ff4b38;
+@const chanceAverageColor            :#d0d010;
+@const chanceHighColor               :#20F020;
+
+@const inactiveButtonBgColor         :#808080;
+
+@const navButtonImgColor             :#FFd0d0d0;
+@const navButtonDisabledImgColor     :#FF808080;
+
+@const usageRatingColor0     :#c532d2;
+@const usageRatingColor1     :#6e75ff;
+@const usageRatingColor2     :#3fbdec;
+@const usageRatingColor3     :#75db7e;
+@const usageRatingColor4     :#dcde33;
+
+@const shopItem              :#e6fbff;
+@const shopItemBroken        :#FF8989;
+@const shopItemWinkBroken    :#FF0101;
+@const shopItemLocked        :#A40005;
+@const shopUnitLocked        :#77FF3E3F;
+@const shopItemUnlocked      :#e6fbff;
+@const shopItemOwned         :#c3f1fe;
+@const shopItemOwnedPremium  :#ffab40;
+@const shopItemPartOwn       :#BCEBE2;
+@const shopItemEquipped      :#c3f1fe;
+@const shopItemFocus         :#e6fbff;
+@const shopItemReseach       :#d9911f;
+@const shopItemLockedFocus   :#FF585A;
+@const shopItemOwnedFocus    :#6DD4BF;
+@const shopItemOwnedFocusPremium:#ffab40;
+@const shopItemResearchFocus :#c8a762;
+@const shopItemEquippedFocus :#c3f1fe;
+@const shopItemWinkColor     :#ffbf42;
+@const shopItemWaiting:      :#96abaf;
+@const shopItemWaitingFocus  :#C6FFE7;
+@const shopAircraftLocked    :#FF0000;
+@const shopAircraft          :#808080;
+@const shopAircraftDark      :#555555;
+@const shopAircraftOwned     :#FFFFFF;
+@const shopWeaponLocked      :#972727;
+@const shopLineColor         :#aaaaaa;
+@const shopRowColor          :#88181818;
+@const shopInServiceImgColor :#d4bc7a;
+@const shopItemHover         :#007e3a3a;
+@const shopItemPremium       :#ffcb8f;
+@const shopItemDisabled      :#575748;
+
+@const crewSkills_show       :#FFc0c0c0;
+@const crewSkills_ready      :#FFf9db78;
+@const crewSkills_full       :#FFf9db78;
+@const crewSkillsText_show   :#FFffffff;
+@const crewSkillsText_ready  :#FFf9db78;
+@const crewSkillsText_full   :#FFf9db78;
+
+@const commonPromoButtonTextColor         :#FFd0d0d0;
+@const hoverPromoButtonTextColor          :@white;
+
+@const linkTextColor:      #17CBFC;
+@const linkTextHoverColor: #84E0FA;
+
+@const frameColor         :#FFc0c0c0;
+@const frameHoverColor    :#FFeeeeee;
+@const frameSelectedColor :#FFffffff;
+@const selImgHoverColor   :#a0a0a0a0;
+
+@const fadedImageColor  :#444444;
+@const activeImageColor :#FFFFFFFF;
+@const commonImageColor :#AAAAAA;
+
+@const imageNotSelectedColor   :#FF666666;
+@const imageHoverColor         :#FFaaaaaa;
+@const imageNotSelCountryColor :#dddddddd;
+@const imageHoverCountryColor  :#f8f8f8f8;
+
+@const textItemBroken    :#616161; @const textItemLocked    :#616161;
+@const textItemOwned     :#fad49e;
+
+@const cardItemNameColor             :#ce9232;
+@const cardItemInfoColor             :#66e066;
+@const cardProgressBGColor           :#000000;
+@const cardProgressFGColor           :#ce9232;
+@const cardProgressDisabledFGColor   :#616161;
+@const cardProgressBonusColor        :#FFca4a;
+@const cardProgressChangeColor       :#ddc916;@const cardProgressBorderColor       :#88674919;
+@const cardProgressTextColor         :#ffb53d;
+@const cardProgressTextBonusColor    :#ffe000;
+@const currencyGoldColor             :#f2ba3d;
+@const currencyGoldColorDark         :#905a09;
+@const currencyWpColor               :#c0c0c0;
+@const currencyWpColorDark           :#6b6b6b;
+@const currencyRpColor               :#6c8fca;
+@const currencyRpColorDark           :#5472e0;
+@const currencyFreeRpColor           :#d8e577;
+@const currencyFreeRpColorDark       :#72791e;
+@const premiumColor                  :#b19b62;
+@const fixedAxisColor                :#22f011;
+
+@const menuButtonBGColor         :#00000000;
+@const activeMenuButtonBGColor   :#00000000;
+@const inactiveMenuButtonBGColor :#00000000;
+
+@const hoverTextColor         :#FFeeeeee;
+@const markedTextColor        :#FFCCC708;
+@const markedActiveTextColor  :#FFD5DF1F;
+@const disabledTextColor      :#FF777777;
+@const disabledActiveTextColor:#FF9F9F9F;
+@const errorTextColor         :#FF0000;
+@const creditsHeader          :#FFFFFFFF;
+@const creditsText            :#FFa0a0a0;
+
+@const grayOptionColor        :#808080;
+@const barColor                :#FFc0c0c0;
+@const advertTextColor    :#47C2FF;
+@const inQueueTextColor :#00DDFF;
+
+@const controlColor           :#FFFFFFFF;
+@const controlPushedColor     :#FFFFFFFF;
+@const controlDisabledColor   :#FF303030;
+@const progressColor          :#FFc0c0c0;
+@const progressHoverColor     :#FFeeeeee;
+@const progressActiveColor    :#FFFFFFFF;
+
+@const teamBTextColor:        #000000;
+@const teamBBackgroundColor:  #8F8F8F;
+@const mainPlayerColor:       #dda339;
+@const mySquadColor:          #3E9E2F;
+@const lbActiveColumnColor:   #FFe292;
+@const teamAnyColor:          #d4d4d4;
+@const teamRedColor:          #FF5A52;
+@const teamRedDarkColor:      #34110F;
+@const teamRedInactiveColor:  #7C5F5D;
+@const teamRedLightColor:     #FFA29D;
+@const teamBlueColor:         #527AFF;
+@const teamBlueDarkColor:     #0F1834;
+@const teamBlueInactiveColor: #5C637A;
+@const teamBlueLightColor:    #99B1FF;
+@const spectatorColor:        #808080;
+@const helpF1Color:           #ce9232;
+
+@const evenTrColor:           #11080808;
+@const evenQueueTableTrColor: #08202020;
+@const queueTableBackColor:   #90909090;
+@const contactSelColor:       #22101010;
+
+@const campaignColor:              #FFFFFFFF;
+@const chapterUnlockedColor:       #FFe9c65c;
+@const chapterUnlockedSelectColor: #FFe9c65c;
+@const chapterLockedColor:         #FF424242;
+@const chapterLockedSelectColor:   #FF545454;
+@const missionUnlockedColor:       #FFcdcdcd;
+@const missionUnlockedHoverColor:  #FFeeeeee;
+@const missionUnlockedSelectColor: #FFFFFFFF;
+@const missionLockedColor:         #FF404040;
+@const missionLockedHoverColor:    #FF3e4148;
+@const missionLockedSelectColor:   #FF3e4148;
+@const chapterTextColor:           #FFDDDDDD;
+
+@const gamepadFocusFrameColor:     #ffd34b;
+
+@const titleTextColor:             #FFFFFFFF;
+@const lockedDecal: #333333;
+@const lockedDecalHover: #444444;
+
+@const tableBorderColor:#33333333;
+@const shadeBackgroundColor:#AA000000;
+@const shadeBackgroundColor2:#D6000000;
+@const shadeBackgroundColor3:#88000000;
+@const shadeBackgroundColor4:#55000000;
+@const shadeBackgroundColor5:#E6000000;
+@const hudTextBgShade:#66000000;
+@const modalShadeColor:#B0000000;
+@const optionListLineColor:#BB888888;
+@const mapBorderColor:#f4e3c2;
+
+@const conQuality5: #42ff00;
+@const conQuality4: #b4ff00;
+@const conQuality3: #fff600;
+@const conQuality2: #ff6600;
+@const conQuality1: #ff0000;
+
+@const constantStatColor: #70707070;
+@const constantColorFps:  #70707070;
+@const qualityColorEpic:  #70707070;
+@const qualityColorGood:  #701C5A1C;
+@const qualityColorOkay:  #705A5A10;
+@const qualityColorPoor:  #70701C1C;
+
+@const blogDateColor:   #FFf4e3c2;
+@const blogHeaderColor: #FFFFFFFF;
+@const blogCommonColor: #FFc0c0c0;
+
+@const chatEditBoxColor:      #AAFFFFFF;
+@const editboxBGColor:        #707070;
+
+@const streakTextColor:       #FFFFE582;
+
+@const chatTeamTextColor:      #FFFFFFFF;
+@const chatSenderFriendColor:  @teamBlueColor;
+@const chatSenderEnemyColor:   @teamRedColor;
+@const chatSenderMeColor:      @mainPlayerColor;
+@const chatSenderMySquadColor: @mySquadColor;
+@const chatSenderSpectatorColor: @spectatorColor;
+
+@const mChatSenderColor:        #E2E2E2;
+@const mChatSenderFriendColor:  #81C0FF;
+@const mChatSenderMeColor:      #FFDB4C;
+@const mChatSenderMySquadColor: #63FF4C;
+@const mChatSenderPrivateColor: #F8D1FF;
+@const mChatSenderColorDark:        #AAAAAA;
+@const mChatSenderFriendColorDark:  #5D8BFF;
+@const mChatSenderMeColorDark:      #DBA238;
+@const mChatSenderMySquadColorDark: #4BC139;
+@const mChatSenderPrivateColorDark: #B89BD4;
+
+@const chatTextTeamColor:      @teamBlueColor;
+@const chatTextSquadColor:     @mySquadColor;
+@const chatTextPrivateColor:   #DEBBFF;
+@const chatTextAllColor:       #FFc0c0c0;
+
+@const chatTextTeamVoiceColor:  @teamBlueColor;
+@const chatTextSquadVoiceColor: @mySquadColor;
+@const chatTextEnemyVoiceColor: @teamRedColor;
+
+@const chatInfoColor:          #f2e003;  @const chatActiveInfoColor:    #ffff05;  @const chatTextInviteColor:    #22FF22;
+@const chatTextInviteActiveColor: #88FF88;
+@const chatTextBlockedColor:   #808080;
+@const chatTextXpostColor:     #F85a50;
+@const chatTextMpostColor:     #3887E8;
+
+@const playerReadyColor:    #54ce03;
+@const playerNotReadyColor: #d93e3e;
+@const playerStatsColor:    #e83f29;
+
+@const contactOfflineColor: #d93e3e;
+@const contactOnlineColor:  #6dc54B;
+@const contactUnknownColor: #979797;
+
+@const hudColorDarkRed    @teamRedInactiveColor;
+@const hudColorDarkBlue   @teamBlueInactiveColor;
+@const hudColorRed        @teamRedColor;
+@const hudColorSquad      @mySquadColor;
+@const hudColorHero       @mainPlayerColor;
+@const hudColorBlue       @teamBlueColor;
+@const hudColorDeathEnemy @teamBlueLightColor;
+@const hudColorDeathAlly  @teamRedLightColor;
+
+@const mpReadyColor: #39a525;
+
+@const light_fighterColor:  #ffd2b2; @const medium_fighterColor: #ffac6f; @const heavy_fighterColor:  #ff8932; @const naval_fighterColor:  #ffaba1; @const jet_fighterColor:    #ffcc66; @const light_bomberColor:   #bfd4ff; @const medium_bomberColor:  #a3b1ff; @const heavy_bomberColor:   #938aff; @const naval_bomberColor:   #89b7ff; @const jet_bomberColor:     #c6a0ff; @const dive_bomberColor:    #a6a6d0; @const common_assaultColor: #bde9b5; @const strike_fighterColor: #bde9b5; @const helicopterColor:     #f2f200; @const light_tankColor:     #ffeeee; @const medium_tankColor:    #ffaaaa; @const heavy_tankColor:     #ff6666; @const tank_destroyerColor: #bde9b5; @const spaaColor:           #c6a0ff; @const shipColor:           #00d5e2; @const infantryColor:       @white;
+@const artilleryColor:      @white;
+
+@const WPMultiplierColor: #FF00D8FA;
+@const ExpMultiplierColor: #FFF48320;
+@const BothMultiplierColor: #FF00B554;
+
+@const weaponryItem:              #70000000;
+@const weaponryItemFocus:         #BB000000;
+@const weaponryItemSelected:      #70333333;
+@const weaponryItemSelectedFocus: #BB333333;
+@const weaponryBlockLineColor:    #BBBBBBBB;
+
+@const highlightColor:  #90000000;
+@const highlightColorHover: #40000000;
+
+@const fistChoiceColor         : #6e6e6e;
+@const fistChoiceColorHover    : #aaaaaa;
+@const fistChoiceColorDisabled : #262626;
+
+@const unitDifferColorHover: #00404040;
+@const unitDifferColorSelected: #00FFFFFF;
+
+@const debriefingBgPad:10@sf/@pf;
+
+@const raceMode1stPlace: #f9db78;
+@const raceMode2ndPlace: #FFFFFF;
+
+@const fadedImageFrameColor: #FF060709;
+
+@const wagerTextColor: #701000;
+
+@const itemLockedColor: #5a5a5a;
+@const itemLockedColorHover: #8a8a8a;
+@const battalionSquadronColor: #82A952;
+
+@const darkFrameListItemCurrentBackgroundColor :#00FFFFFF;
+@const darkFrameListItemHoverBackgroundColor   :#00888888;
+
+@const textPaddingBugWorkaround:11px;
+
+@const tableIcoSize:20*@sf/@pf;
+@const tablePad:0.005*@scrn_tgt;
+
+@const bw:0.5(sw-1@rw);  @const bh:0.5(sh-1@rh);  @const titlePos:@bw+1*@scrn_tgt/100.0;
+
+@const sliderProgress_720p_width: 204/1280*sw;
+@const sliderProgress_720p_height: 34/720*@scrn_tgt;
+@const sliderThumbWidth: 12*@sf/@pf;
+@const sliderThumbHeight: 27@sf/@pf;
+@const sliderValueButtonHeight: 1@cIco+4;
+@const sliderButtonSquareHeight: 0.025@scrn_tgt;
+@const sliderHeight: 5*@sf/@pf;
+@const sliderHeightSmall: 2*@sf/@pf;
+
+@const optPad:2.5*@scrn_tgt/100.0;  
+@const tblPad:2.5*@scrn_tgt/100.0;  
+@const mainMenuButtonHeight:0.059*@scrn_tgt\1;  
+@const baseTrHeight:0.038*@scrn_tgt_font\1;  
+@const baseTrHeaderHeight:0.076*@scrn_tgt_font\1;  
+@const leaderboardTrHeight:0.03*@scrn_tgt_font\1;
+@const leaderboardHeaderHeight:0.05@scrn_tgt_font;
+@const rows16height:0.030*@scrn_tgt\1;
+@const sliderRowHeight:0.8*@sliderProgress_720p_height\1;
+@const crewTrHeight:0.035*@scrn_tgt_font\1 + 6*@sf/@pf;
+@const tinyRowHeight:0.02*@scrn_tgt_font\1;
+
+@const gamercardHeight:0.045*@scrn_tgt_font;
+@const topBarHeight:1@gamercardHeight + 1@bh + 0.006@scrn_tgt_font;
+@const bottomBarHeight:        0.06@scrn_tgt + 1@bh;
+
+@const frameHeaderHeight:      1@cIco + 10 + 0.01@scrn_tgt;
+@const frameFooterHeightLarge: 1@navBarBattleButtonHeight + 12*@sf/@pf;
+@const frameFooterHeight:      1@buttonHeight + 12*@sf/@pf;
+@const frameSmallHeaderHeight: 1@sIco + (8 + 5)*@sf/@pf;
+
+@const userDecalsDivHeight: 1.1*@decalIconHeight;
+@const freeDecalsHeight:      sh - 1@minYposWindow - 1@bh - 1@userDecalsDivHeight - 1@bottomBarHeight - 1@buttonHeight;
+@const freeAttachablesHeight: sh - 1@minYposWindow - 1@bh - 3@userDecalsDivHeight - 1@bottomBarHeight - 1@buttonHeight;
+@const countDecalsInWidth:  ((0.35*sw \@decalIconHeight) $max 4) $min 6;
+@const countDecalsInHeight:      (1@freeDecalsHeight      - 1@frameHeaderHeight - 0.02@scrn_tgt) \@decalIconHeight;
+@const countAttachablesInHeight: (1@freeAttachablesHeight - 1@frameHeaderHeight - 0.02@scrn_tgt) \@decalIconHeight;
+
+@const titleLogoPlateHeight: (((1@scrn_tgt+200)\400) * 32) $max 64) $min 128;
+@const titleLogoPlateWidth: 2*@titleLogoPlateHeight;
+@const loginLogoScale: ((@sf/@pf) \ 1) $max 1;
+@const gcBattleBlockPadding: 0.04@scrn_tgt*1@isWide;
+@const toBattleButtonBottom: 1@titleLogoPlateHeight + 1@bh + 0.006@scrn_tgt_font;
+@const gcLineLockWidth: 9@dp;
+@const gcToBattleButtonPlaceWidth: 1@titleLogoPlateWidth + 2@gcBattleBlockPadding;
+@const topGcPanelWidth: 0.5sw - 1@offsetBetweenScreenAndAirinfo - 0.5@gcToBattleButtonPlaceWidth - 1@gcLineLockWidth;
+
+@const queueTableWidth: 6*(0.06*@scrn_tgt_font + 0.01*@scrn_tgt + 2);
+
+@const bigOptionsHeight: ((0.63@scrn_tgt_font) \ (1@baseTrHeight)) * 1@baseTrHeight + 1;
+
+@const bigOptionsScrollStep:3@baseTrHeight;
+
+@const controlsLeftRow:  0.45@scrn_tgt_font;
+
+@const nameWidth: 0.24@scrn_tgt_font;
+@const nameWidthInWideScreen: (0.24 + 0.12@isWide)*@scrn_tgt_font;
+@const clanNameTableWidth: 30@scrn_tgt_font/100;
+@const clanMedalSizeMin: 80@sf/@pf;
+@const maxPresetNameItemWidth:0.6@nameWidth + 1@activateTabPaddingSum;
+
+@const shopCols: 7;
+@const shopWidthMax: 180*@sf/@pf;
+@const shopWidthMin: 120*@sf/@pf;
+@const shop_width: ((1@shopUsefulWidth \ @shopCols - 1px) $min @shopWidthMax) $max @shopWidthMin;
+@const shopUsefulWidth: 1@slotbarWidthFull - 1@modBlockTierNumHeight - 1@scrollBarSize;
+@const shop_interval: ((1@shop_width - @shopWidthMin)\2 $min 18*@sf/@pf) $max 2*@sf/@pf;
+@const shop_pad:      0.02*@scrn_tgt\1 + 4*@sf/@pf;
+@const shop_height:   (1@shopAirHeight + 2@shop_pad + 6*@sf/@pf)\1;
+@const shop_h_extra_first: 0.02@scrn_tgt;
+@const shop_h_extra_last: 0.02@scrn_tgt;
+
+@const lines_pad: 1@shop_pad - 3*@sf/@pf;
+@const lines_shop_interval: 1@shop_interval - 2*@sf/@pf;
+
+@const slot_button_fullWidth: (140 + 5@isWide)*@sf/@pf;
+@const slot_width: 1@slot_button_fullWidth + 2@slot_interval;
+@const slot_interval: 3*@sf/@pf;
+@const slot_vert_pad: 0.005*@scrn_tgt\1;
+@const slot_height:   @shopAirHeight + 10*@sf/@pf;
+@const slot_hdr_width:@cIco+6*@sf/@pf;
+@const shop_vert_arrow_width: 15*@sf/@pf;
+@const shop_hor_arrow_height: 15*@sf/@pf;
+
+@const slotbar_pad_top: 10*@sf/@pf;
+@const slotbar_pad_bottom: 20*@sf/@pf;
+
+@const groupHeight:   0.03*@scrn_tgt\1;
+
+@const flightMenuBrHeight: 16*@sf/@pf;
+
+@const slotbarBorder: 16*@sf/@pf;
+@const slots_count1:   (((1@rw -1@slot_hdr_width -2@slot_interval -1*@scrn_tgt/100.0 -2@slotbarBorder)) \@slot_width) $min 10;
+@const slots_count5:   (((1@rw -@slotbarCountries*@slot_hdr_width -2@slot_interval -5*@scrn_tgt/100.0 -2@slotbarBorder)) \@slot_width) $min 10;
+@const slotsScrollDivWidth1:1@slot_width*1@slots_count1+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf;
+@const slotsScrollDivWidth5:1@slot_width*1@slots_count5+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf;
+
+@const slotbarWidth1:    1@slotsScrollDivWidth1 + 1@slot_hdr_width + 8*@sf/@pf;
+@const slotbarWidth5:    1@slotsScrollDivWidth5 + 1@slot_hdr_width * 1@slotbarCountries + (6 + 2@slotbarCountries)*@sf/@pf;
+@const slotbarWidthFull: 1@slotbarWidth5 + 1@slotbarBorder;
+@const slotbarHeight:    1@slot_height + 1@slotbar_pad_top + 1@slotbar_pad_bottom;
+@const offsetFromEdge:  10*@sf/@pf;
+@const offsetBetweenScreenAndAirinfo: 1@bw + (((0.5sw-1@bw-0.5@slotbarWidthFull) $max 1@mIco) $min 3@mIco);
+@const airInfoPanelWidth: 0.4@scrn_tgt_font;
+
+@const slotbarOffset:    1@bh + 0.054@scrn_tgt;
+@const slotbarTop:       1@checkboxSize + 2*@sf/@pf;
+
+@const slotbarButtonsOffset:  0.5sw - 0.5@slotbarWidthFull + 1@offsetFromEdge;
+@const bigSOfs:               ((1@slotbarButtonsOffset) \ (0.20@scrn_tgt_font)) $min 1;   
+@const borderButtonsOffset:   (1 - 1@bigSOfs) * @slotbarButtonsOffset + 1@bigSOfs * 1@bw;
+
+@const shopBottomOffset:  1@slotbarHeight+1@slotbarOffset + 1@slotbarTop;
+@const shopYPos: sh-1@shopBottomOffset+27@sf/@pf;
+@const shopWndWidth: 1@slotbarWidthFull + 2;
+@const battleBtnBottomOffset: sh-1@slotbarHeight-1@slotbarOffset-1@slotbarTop;
+
+@const onlineShopWidth: @scrn_tgt_font $max 512;
+@const researchNotificationWidth: @scrn_tgt_font $max 750;
+
+@const actionBarBottomPos: sh - 1@bhHud;
+
+@const framePadding: @blockInterval+2; 
+@const unlockBlockWidth: 0.55@scrn_tgt_font\1;
+
+@const modWindowWidth: 6@modCellWidth + 1.5@modBlockTierNumHeight $min 1@rw;
+@const modItemHeight: 1@modIcoSize-2*@sf/@pf;
+@const modBlockTierNumHeight: 0.33@modCellHeight;
+@const modBundleWidth: 1@modItemWidth + 16*@sf/@pf;
+@const modCellWidth:  1@modItemWidth +2@modPadSize;
+@const modCellHeight: 1@modItemHeight +2@modPadSize;
+
+@const wndWithSlotbarBottomOffset: 1@slotbarHeight + 1@slotbarOffset + 1@slotbarTop;
+@const maxWindowHeightNoSrh: sh - 1@bh - 1@titleLogoPlateHeight - 1@bottomBarHeight - 0.01@scrn_tgt;
+@const maxWindowHeight: 1@maxWindowHeightNoSrh $min 1@srh;
+@const maxWindowHeightWithSlotbar: sh - 1@bh - 1@titleLogoPlateHeight - 1@wndWithSlotbarBottomOffset;
+
+@const maxWindowWidth: 1@rw;
+
+@const minXposWindow: 1@bw;
+@const minYposWindow: 1@bh + 1@titleLogoPlateHeight;
+
+@const scrollBarSize: 11*@sf/@pf;
+@const scrollArrowsSize: 3.5*@scrn_tgt/100.0;
+@const chapterSeparatorSize: 2 * (2@sf/@pf \ 1);
+
+@const paymentIconWidth: 180*@sf/@pf;
+@const paymentIconHeight: 60*@sf/@pf;
+
+@const discountBoxDownHeight: 26*@sf/@pf;
+@const discountBoxHeight: 17*@sf/@pf;
+
+@const countryChoiceImageHeight: 1@countryChoiceImageWidth/8;
+@const unitChoiceImageHeight: 1@unitChoiceImageWidth/2;
+@const eventTacticalMapSize: 0.3@scrn_tgt;
+
+@const eventRewardWidth:  0.4@scrn_tgt;
+@const eventRewardHeight: 0.1@scrn_tgt;
+@const eventRewardIconHeight: 0.08@scrn_tgt;
+
+@const blockInterval:    3@dp;
+@const helpInterval:     0.01@scrn_tgt_font;
+@const helpLineInterval: @helpInterval;
+@const helpLineWidth:    1@dp;
+@const itemsInterval:    0.015@scrn_tgt;
+@const itemsIntervalBig: 0.03@scrn_tgt;
+
+@const modItemWidth: (1@modIcoSize + 0.105@scrn_tgt_font) \ 1;
+
+@const tutorArrowSize: 25*@sf/@pf;
+
+@const newWidgetIconHeight: 22/720@scrn_tgt_font;
+
+@const wwMapTooltipOffset: 0.02@scrn_tgt_font;
+@const wwMapPanelInfoWidth: 0.07@rw*(1-1@isWide) + 0.27@rw;
+
+@const framedMessageMaxWidth: 0.5@scrn_tgt_font;
+
+@const hud_normal:     medium_text_hud;
+@const hud_small:      small_text_hud;@const hud_tiny:       tiny_text_hud;@const hud_veryTiny:   very_tiny_text_hud;
+@const infoPanelVertPosition: 1@titleLogoPlateHeight + 1@bh + 0.04@scrn_tgt_font;
+
+@const gameModeSelectPaddingY: 1@topMenuBattleButtonHeight + 0.5@topMenuBattleButtonImgHeight + 3 + 1@bh';
+
+
+
+@const minChatHeight:0.11@scrn_tgt; @const maxChatHeight:0.22@scrn_tgt;
+@const minMisObjHeight:0.08@scrn_tgt;  @const optimalMisObjHeight:0.22@scrn_tgt;
+@const minChatMisObjHeight:1@minChatHeight + 1@minMisObjHeight + 0.07@scrn_tgt;
+@const respawnOptListContainerWidth:(1@slotbarWidth1-8*@sf/@pf) $max (1@rw * (1-1@isWide));
+
+@const topMenuHoverMenuIndent: 0.01@scrn_tgt_font;
+
+@const shortcutUpDpAndStick: "J:Dpad.Up | J:L.Thumb.Up";
+@const shortcutUpDp: "J:Dpad.Up";
+
+@const shortcutDownDpAndStick: "J:Dpad.Down | J:L.Thumb.Down";
+@const shortcutDownDp: "J:Dpad.Down";
+
+@const shortcutLeftDpAndStick: "J:Dpad.Left | J:L.Thumb.Left";
+@const shortcutLeftDp: "J:Dpad.Left";
+
+@const shortcutRightDpAndStick: "J:Dpad.Right | J:L.Thumb.Right";
+@const shortcutRightDp: "J:Dpad.Right";
+
+@const missionItemTextPaddingLeft: 6*@sf/@pf;
+
+@const newTextClassIconWidgetImgPaddingLeft: 9*@sf/@pf;

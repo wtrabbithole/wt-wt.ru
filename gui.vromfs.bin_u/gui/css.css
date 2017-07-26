@@ -1,0 +1,3367 @@
+@import "const\_const.css"
+
+@import "cssElems\buttons.css"
+@import "cssElems\checkbox.css"
+@import "cssElems\switchbox.css"
+
+@import "optionlist.css"
+@import "tacticalscr.css"
+@import "pedia.css"
+@import "cssElems\keyboard.css"
+
+tdiv, img, img2, pcHide, pcOnly, shopAirImg, voiceIcon {
+  input-transparent: yes;
+  if_target_pc:@target_pc;
+}
+
+cardImg {
+  background-repeat:aspect-ratio;
+}
+
+img[background-image], img2[background-image], cardImg[background-image], voiceIcon[background-image] {
+  background-color:@white;
+}
+
+img[background-image=""], img2[background-image=""], cardImg[background-image=""], voiceIcon[background-image=""] {
+  background-color:@transparent;
+  display:hide;
+}
+
+cardImg {
+  size:@cIco, @cIco;
+  top:50%ph-50%h;
+  position:relative;
+}
+cardImg[type=small] {
+  size:2*@scrn_tgt/100.0, 2*@scrn_tgt/100.0;
+}
+
+cardImg[type=medium]
+{
+  size: @mIco, @mIco;
+}
+
+cardImg[type=large]
+{
+  size: @lIco, @lIco;
+}
+
+.lbTable > tr.commonIconsStyle {
+  inactive:yes;
+  commonTextColor:yes;
+  bigIcons:yes;
+}
+
+.smallIconsStyle > td > cardImg{
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+
+.lbTable > [bigIcons] cardImg {
+  size:@leaderboardHeaderHeight, @leaderboardHeaderHeight;
+  top:ph-h-0.4*@scrn_tgt/100.0;
+  left:50%pw-50%w;
+  background-color:@imageNotSelectedColor;
+}
+
+cardImg[type=tiny] {
+  size:@sIco, @sIco;
+}
+
+cardImg[type=veryTiny] {
+  size:0.6@sIco, 0.6@sIco;
+}
+
+.lbTable td:hover cardImg {
+  background-color:@imageHoverColor;
+}
+
+.lbTable td[no-hover = yes] cardImg {
+  background-color:@imageNotSelectedColor;
+}
+
+.lbTable td[active=yes] cardImg {
+  background-color:@white;
+}
+
+cardImg > activeText {
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:relative;
+}
+.mpTable cardImg {
+  input-transparent:yes;
+}
+.infoRow cardImg {
+  margin-right:1*@scrn_tgt/100.0;
+}
+.infoRow activeText {
+  margin-right:0.5*@scrn_tgt/100.0;
+  top:50%ph-50%h;
+  position:relative;
+}
+.flowRow > curCountryAir {
+  margin-right:0.01@scrn_tgt_font;
+}
+.flowRow[flow=h-flow] > curCountryAir {
+  width:50%pw - 0.01@scrn_tgt_font;
+}
+.flowRow[flow=h-flow] > curCountryAir > text.air_name {
+  pare-text:yes;
+  width:pw - 50*@sf/@pf;
+}
+
+movie {
+  behavior: movie;
+}
+
+airRow {
+  min-height:1@cIco;
+}
+airRow > activeText, airRow > text {
+  top:50%ph-50%h;
+  position:relative;
+  talign:left;
+}
+airRow > cardImg {
+  margin-left:0.02@scrn_tgt_font;
+}
+
+titletext,menutitle,dyncampresult
+{
+  re-type:text;
+  font:@times_big;
+  text-shade-x:0;
+  text-shade-y:0;
+  text-shade-color:@mainTitleStrokeColor;
+  color:@mainTitleTextColor;
+  text-align:center;
+}
+
+debriefingTitle {
+  behaviour:textArea;
+  re-type:textarea;
+  font:@title_big;
+  text-shade-x:0;
+  text-shade-y:0;
+  text-shade-color:@mainTitleStrokeColor;
+  color:@mainTitleTextColor;
+}
+
+titletext {  
+
+  position:absolute;
+  pos:@titlePos,1@topBarHeight;
+  text-align:left;
+}
+
+[type=shop] titletext, titletext[type=shop] {
+  pos:@titlePos,12*@scrn_tgt/100.0-h;
+}
+titletext[type=top] {
+  pos:@titlePos, 11*@scrn_tgt/100.0-h;
+}
+titletext[type=small2] {
+  pos:@titlePos, 12*@scrn_tgt/100.0;
+}
+titletext[type=small1][posType=top] {
+  pos:@titlePos, 1*@scrn_tgt/100.0;
+}
+titletext[type=small2][posType=top] {
+  pos:@titlePos, 6*@scrn_tgt/100.0;
+}
+
+titletext[type=small1], titletext[type=small2] {
+  font-ht:5*@scrn_tgt/100.0;
+}
+
+menutitle {  
+
+  position:absolute;
+  pos:@titlePos,8.5*@scrn_tgt/100.0;
+  text-align:left;
+}
+
+textarea, textAreaCentered, helpText, hintText, awardText, framedMessage, textAreaNoScroll,
+textareaNoTab, titleTextArea,textAreaSmall, notificationText, tooltipDesc {
+  font:@small;
+  behaviour:textArea;
+  re-type:textarea;
+  color:@commonTextColor;
+}
+
+CheckBox[enable=no] > textarea {
+  color:@minorTextColor;
+}
+
+blankTextArea {
+  behaviour:textArea;
+  re-type:textarea;
+}
+
+textareaNoTab[controlsHelp=yes] {
+  font:@veryTiny;
+  color:@commonTextColor;
+}
+
+tooltipDesc {
+  max-width:70*@scrn_tgt/100.0;
+  font:@tiny;
+}
+
+tutorDark {
+  background-color:@modalShadeColor;
+}
+tutorLight {
+  border:yes;
+  border-color:#70707070;
+}
+
+chatBlock {
+  background-image:#ui/gameuiskin#block_bg;
+  background-color:@white;
+  background-position:4;
+  background-repeat:expand;
+  padding:6;
+}
+
+chatLog {
+  behaviour:textArea;
+  re-type:textarea;
+  color:@commonTextColor;
+  font:@tiny;
+  wrap-indent:3*@scrn_tgt/100.0;
+  paragraph-indent:0;
+}
+
+hudMessageStack {
+  behaviour:hudMessageStack;
+}
+
+titleTextArea {
+  width:pw;
+  font:@normal;
+  color:@titleTextColor;
+}
+textareaNoTab[caption=yes] {
+  font:@normal;
+  color:@titleTextColor;
+}
+
+textarea, textAreaNoScroll {
+  paragraph-indent:3*@scrn_tgt/100.0;
+}
+textAreaNoScroll.active, textAreaCentered.active {
+  color:@activeTextColor;
+}
+
+textarea.parInvert {
+  paragraph-indent:0;
+  wrap-indent:3*@scrn_tgt/100.0;
+}
+
+textAreaCentered, framedMessage {
+  text-align:center;
+  paragraph-indent:0;
+  wrap-indent:0;
+}
+textarea[text-align=center] {
+  paragraph-indent:0;
+  wrap-indent:0;
+}
+
+textAreaSmall {
+  font:@bold;
+  color:@activeTextColor;
+}
+
+helpText {
+  position:absolute;
+  wrap-indent:1*@scrn_tgt/100.0;
+  color:@activeTextColor;
+}
+
+awardText {
+  width:pw;
+  margin:0, 0.5*@scrn_tgt/100.0, 0, 0.5*@scrn_tgt/100.0;
+  padding-top:1.5*@scrn_tgt/100.0;
+  padding-left:8*@scrn_tgt/100.0;
+  min-height:7*@scrn_tgt/100.0;
+}
+
+awardText > awardImg {
+  height:40*@sf/@pf;
+  width:h;
+  pos:4*@scrn_tgt/100.0-50%w,50%ph-50%h;
+  position:absolute;
+}
+
+awardText[type=unlocked] > awardImg {
+  background-color:@white;
+  background-image:#ui/gameuiskin#unlocked;
+}
+
+awardText[type=newrank] > awardImg {
+  background-color:@white;
+  background-image:#ui/gameuiskin#icon_primary_success;
+}
+
+awardText[type=arcade] > awardImg {
+  background-color:@white;
+  background-image:#ui/gameuiskin#mission_complete_arcade;
+}
+
+awardText[type=realistic] > awardImg {
+  background-color:@white;
+  background-image:#ui/gameuiskin#mission_complete_realistic;
+}
+
+awardText[type=hardcore] > awardImg {
+  background-color:@white;
+  background-image:#ui/gameuiskin#mission_complete_simulator;
+}
+
+awardText[type=image] > awardImg { background-color:@white; }
+
+toolbar {
+  input-transparent: yes;
+  re-type:9rect;
+  background-repeat:expand;
+  border:none;
+  border-color:@transparent;
+  background-color:@white;
+  background-position:10;
+  background-image:#ui/skin#toolbar;
+}
+
+text, optiontext, header, optionheader, activeText,
+widthText, titleWidthText, textButtonHint
+{
+  re-type:text;
+  color:@commonTextColor;
+  font:@small;
+}
+
+text[textHide=yes][text=""], activeText[textHide=yes][text=""],
+textAreaCentered[textHide=yes][text=""], textareaNoTab[textHide=yes][text=""] {
+  display:hide;
+}
+
+.smallFont text, .smallFont textareaNoTab {
+  font:@bold;
+}
+
+versionText {
+  re-type:text;
+  color:@commonTextColor;
+  font:@tiny;
+  id:"version_text";
+  pos:0, 50%ph-50%h;
+  position:relative;
+}
+
+notificationText {
+  pos:pw-w-0.01@scrn_tgt, 50%ph-50%h;
+  position:absolute;
+  height:ph;
+  color:@premiumColor;
+}
+
+discount {
+  re-type:9rect;
+  color:@discountTextColor;
+  font:@small;
+  textShade:yes;
+  background-image:#ui/gameuiskin#discount;
+  background-color:@white;
+  padding:0.01@scrn_tgt,0.01@scrn_tgt;
+  input-transparent:yes;
+}
+
+discount[type=new] {
+  behaviour:textArea;
+  re-type:textarea;
+  color:@white;
+  background-image:#ui/gameuiskin#discount_box_bg;
+  background-color:@discountBGColor;
+  pos:pw-w, ph-2*@sf/@pf;
+  position:absolute;
+  font:@tiny;
+  padding:10*@sf/@pf, 1*@sf/@pf, 3*@sf/@pf, 1*@sf/@pf;
+  background-repeat:expand;
+  background-position:6,2,2,2;
+}
+
+discount[type=inTab] {
+  pos:0.005@scrn_tgt_font, 50%ph-50%h-1;
+  position:relative;
+  rotation:0;
+}
+
+discount_notification {
+  background-color:@discountBGColor;
+  background-repeat:expand;
+  input-transparent:yes;
+  font:@tiny;
+  color:@discountTextColor;
+  textShade:yes;
+}
+
+:hover > discount_notification,
+:hover > additionalIconsDiv > discount_notification,
+[show_console_buttons=yes] [selected=yes] > discount_notification,
+[show_console_buttons=yes] [selected=yes] > additionalIconsDiv > discount_notification {
+  background-color:@hoverDiscountBGColor;
+}
+
+:pushed > discount_notification,
+:pushed > additionalIconsDiv > discount_notification {
+  background-color:@pushedDiscountBGColor;
+}
+
+discount_notification[text=""],
+HorizontalListBox > shopFilter[selected=yes] > discount_notification {
+  display:hide;
+}
+
+discount_notification[type=down] {
+  background-image:#ui/gameuiskin#discount_icon_down;
+  size:24*@sf/@pf, 27*@sf/@pf;
+  pos:10%ph, -h;
+  position:absolute;
+  tooltip:"#discount/notification";
+}
+
+discount_notification[type=up] {
+  background-image:#ui/gameuiskin#discount_icon_up;
+  size:24*@sf/@pf, 27*@sf/@pf;
+  pos:10%ph, ph;
+  position:absolute;
+  tooltip:"#discount/notification";
+}
+
+discount[type=weaponryItem] {
+  re-type:text;
+  background-image:#ui/gameuiskin#discount_box_down_bg;
+  background-color:@discountBGColor;
+  background-repeat:expand;
+  background-position:21,2,2,6;
+  padding:0, 3*@sf/@pf, 0, 8*@sf/@pf;
+  height:1@discountBoxDownHeight;
+  font:@tiny;
+  color:@discountTextColor;
+}
+
+discount_notification[type=line] {
+  re-type:text;
+  background-image:#ui/gameuiskin#discount_box_bg;
+  background-position:7,7,3,3;
+  padding:4,2,0,0;
+  height:1@discountBoxHeight;
+  text:"%";
+  tooltip:"#discount/notification";
+}
+
+discount_notification[type=lineText] {
+  re-type:text;
+  background-image:#ui/gameuiskin#discount_box_bg;
+  background-position:7,7,3,3;
+  padding:4,2,0,0;
+  height:1@discountBoxHeight;
+}
+
+Button_text > discount_notification[type=lineText] {
+  pos:pw-w-4, 5;
+  position:absolute;
+  height:ph - 11;
+}
+
+discount_notification[type=box_down] {
+  re-type:text;
+  background-image:#ui/gameuiskin#discount_box_down_bg;
+  background-position:21,2,2,6;
+  padding:0, 3*@sf/@pf, 0, 8*@sf/@pf;
+  height:1@discountBoxDownHeight;
+  left:pw-w-5*@sf/@pf;
+  top:-16*@sf/@pf;
+  position:absolute;
+}
+
+discount_notification[type=box_left] {
+  re-type:text;
+  background-image:#ui/gameuiskin#discount_box_bg;
+  background-position:7,7,3,3;
+  padding:4,2,0,0;
+  height:1@discountBoxHeight;
+  right:pw-w-16*@sf/@pf;
+  top:16*@sf/@pf;
+  position:absolute;
+}
+
+discount_notification[type=box_down][noShift] {
+  left:pw-w;
+}
+
+discount_notification[place=unit] {
+  pos:pw-w, -16*@sf/@pf;
+}
+
+discount_notification[place=unitGroup] {
+  pos:pw-w, -12*@sf/@pf;
+}
+
+discount_notification[type=box_up] {
+  re-type:text;
+  background-image:#ui/gameuiskin#discount_box_up_bg;
+  background-position:21,6,2,2;
+  padding:0, 13*@sf/@pf, 0, 2*@sf/@pf;
+  height:26*@sf/@pf;
+  pos:pw-w-5*@sf/@pf, ph - 6*@sf/@pf;
+  position:absolute;
+}
+
+bonus {
+  pos:0,0;
+  position:absolute;
+  size:28*@sf/@pf, 28*@sf/@pf;
+  re-type:9rect;
+  padding:0,0;
+  background-color:@transparent;
+  background-repeat:expand;
+}
+
+bonusNoFrame {
+  pos:50%pw-50%w, 0.5ph - 0.5(h - 1@cIco); 
+  position:relative;
+  size:1@slot_hdr_width, 41@sf/@pf;
+  background-color:@transparent;
+  background-repeat:expand;
+}
+
+bonus[bonusType=wp], bonusNoFrame[bonusType=wp]     { background-color:@WPMultiplierColor; }
+bonus[bonusType=exp], bonusNoFrame[bonusType=exp]    { background-color:@ExpMultiplierColor; }
+bonus[bonusType=wp_exp], bonusNoFrame[bonusType=wp_exp] { background-color:@BothMultiplierColor; }
+
+discount[text=""], discount_notification[showDiscount=no], bonus[background-image=""], bonusNoFrame[background-image=""] {
+  display:hide;
+}
+
+subtitles, subtitles_slow {
+  font:@bold;
+  behaviour:textarea;
+  re-type:textarea;
+  color:@white;
+  wrap-indent:0;
+  paragraph-indent:0;
+
+  background-color:@transparent;
+  tabStop:no;
+  margin:2*@sf/@pf, 0;
+
+  behaviour:basicTransparency;
+  transp-base:0;
+  transp-end:255;
+  transp-time:-500;
+  transp-func:square;
+}
+
+subtitles[animShow=show] {
+  transp-time:300;
+}
+
+subtitles_slow[animShow=show] {
+  transp-time:2000;
+}
+
+activeText {
+  color:@activeTextColor;
+  text-align:left;
+  padding:0, 0, -1@textPaddingBugWorkaround, 0;
+}
+
+activeText[parseTags=yes] {
+  behaviour:textArea;
+  re-type:textarea;
+  padding-right:0*@textPaddingBugWorkaround;
+}
+
+[commonTextColor=yes] activeText, activeText[commonTextColor=yes] {
+  color:@commonTextColor;
+}
+
+activeText[noMargin=yes] {
+  margin-left:0;
+  margin-top:0;
+  margin-right:0;
+  margin-bottom:0;
+}
+
+[gamertag] activeText, [gamertag] text {
+  font:@gamertag_font;
+}
+
+activeText[cardItem] {
+  color:@cardItemNameColor;
+}
+
+activeText[cardItem=info] {
+  color:@cardItemInfoColor;
+}
+
+activeText[changeColor=fixedAxis] {
+  color:@fixedAxisColor;
+}
+activeText[changeColor=inQueue] {
+  color:@inQueueTextColor;
+}
+
+widthText, titleWidthText {
+  min-width:pw-0.02*@scrn_tgt;
+  height:0.035*@scrn_tgt;
+  text-align:left;
+  position:relative;
+  padding:0, 0, -1@textPaddingBugWorkaround, 0;  
+
+  auto-scroll:slow;
+}
+
+widthDiv[text-align=right] widthText, widthDiv[text-align=right] titleWidthText,
+widthDiv[text-align=right] activeText, activeText[talign=right], text[talign=right],
+notificationText[talign=right], textareaNoTab[talign=right] {
+  text-align:right;
+  padding:-1@textPaddingBugWorkaround, 0, 0, 0; 
+}
+
+text[talign=left], activeText[talign=left] {
+  text-align:left;
+  padding:0, 0, 0, 0;
+}
+
+titleWidthText {
+  font:@normal;
+  pos:0,0.03*@scrn_tgt;
+  min-width:pw-0.01*@scrn_tgt;
+}
+
+widthText[text=""], titleWidthText[text=""] {
+  display:hide;
+}
+
+widthDiv {
+  flow:vertical;
+  overflow:hidden;
+}
+
+widthLine {
+  size:pw, 1;
+  margin-top:-0.01*@scrn_tgt;
+  pos:0,-0.005*@scrn_tgt;
+  position:relative;
+  background-color:@tableBorderColor;
+}
+
+[textStyle=mis-descr] > text {
+  hideEmptyText:yes;
+  color:@activeTextColor;
+}
+
+[textStyle=mis-descr] > textareaNoTab {
+  width:pw;
+  font:@bold;
+  pos:1*@scrn_tgt/100.0, -1*@scrn_tgt/100.0;
+  padding-left:0.01*@scrn_tgt + 0.01*@scrn_tgt*@isWide;
+  position:relative;
+  hideEmptyText:yes;
+}
+
+[textStyle=mis-middle] text, [textStyle=mis-middle] textareaNoTab {
+  width:50%pw;
+  hideEmptyText:yes;
+  padding:1*@scrn_tgt/100.0, 0;
+}
+
+CheckBox:hover > textareaNoTab {
+  color:@hoverMenuButtonColor;
+}
+
+CheckBox:pushed > textareaNoTab {
+  color:@pushedMenuButtonColor;
+}
+
+optiontext {
+  min-width:pw-1*@scrn_tgt/100.0;
+  text-align:right;
+  font:@option_font;
+  padding:0, 0, 0, 0;
+}
+
+dropright[tankBullet=yes] optiontext{
+  min-width:0;
+  max-width:pw-0.2@scrn_tgt_font;
+  pare-text:yes;
+}
+
+optiontext[textStyle=textarea] {
+  behaviour:textArea;
+  re-type:textarea;
+  height:ph;
+}
+
+optionheader {
+  text-align:center;
+  font:@normal;
+  pare-text:yes;
+  color:@activeTextColor;
+}
+
+td > optionheader {
+   width:p.p.w;
+   pos:(p.p.w-w)/2,p.p.h-h-0.5*@scrn_tgt/100.0;
+   position:absolute;
+}
+
+table
+{
+  re-type:table;
+  background-color:@transparent;
+}
+
+option {
+  re-type:9rect;
+    }
+
+option:current {
+  color:@activeTextColor;
+  re-type:9rect;
+  background-repeat:expand;
+}
+
+dummy
+{
+  behaviour:button;
+  re-type:9rect;
+  background-color:@transparent;
+  color:@transparent;
+  selected-border:none;
+  border:none;
+}
+
+timer {
+  behaviour:Timer;
+}
+
+center, h1, h2, h3, h4 {
+  position:relative;
+  left:(pw-w)/2;
+}
+
+textList {
+  input-transparent:yes;
+  re-type:text;
+}
+
+[text-valign=center] td > text, [text-valign=center] td > activeText, [text-valign=center] > activeText,
+tr[text-valign=center] optiontext, .optionsTable optiontext, .optionsTable activeText, .crewTable optiontext, textareaNoTab[text-valign=center] {
+  position:relative;
+  top:(ph-h)/2;
+}
+[text-halign=center] td > text, [text-halign=center] td > activeText, [text-halign=center] > activeText, [tdalign=center] > activeText {
+  min-width:pw;
+  text-align:center;
+  padding:0;
+}
+
+td[text-align=left] > optiontext {
+  text-align:left;
+  padding:0, 0, 0, 0;
+}
+
+td[text-align=center] > optiontext {
+  text-align:center;
+  padding:0, 0, 0, 0;
+}
+
+activeText[tdalign=right], [tdalign=right] > activeText, [tdalign=right] > textarea {
+  width:pw;
+  text-align:right;
+  padding:0;
+}
+activeText[tdalign=left], [tdalign=left] > activeText {
+  text-align:left;
+}
+[tdalign=split] > activeText {
+  pos:pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+
+td {
+  padding:0.5*@scrn_tgt/100.0,0;
+}
+
+tdIcon34x30, tdIcon45x25, sideLogIcon {
+  background-color:@controlColor;
+    size:34*@sf/@pf, 30*@sf/@pf;
+  max-height:ph;
+  max-width:1.14ph;
+  pos:50%pw-50%w,50%ph-50%h;
+  position:relative;
+}
+
+tdIcon34x30[align=left] {
+  pos:0, 50%ph-50%h;
+}
+
+tdIcon45x25 {
+  size:45*@sf/@pf, 25*@sf/@pf;
+  max-height:ph;
+  max-width:45/25h;
+}
+
+tdIcon34x30[tdalign=right] {
+  pos:pw-w,50%ph-50%h;
+}
+
+fontIcon20, fontIcon32 {
+  pos:pw/2-w/2, ph/2-h/2;
+  position:relative;
+  background-color:@transparent;
+}
+
+[tdalign=center] > fontIcon20, [tdalign=center] > fontIcon32 {
+  position:absolute;
+}
+
+fonticon {
+  re-type:text;
+  pos:pw/2-w/2, ph/2-h/2;
+  position:absolute;
+  color:@controlColor;
+  text-shade:"smooth:24";
+  text-shade-x:0;
+  text-shade-y:0;
+  text-shade-color:#80000000;
+}
+
+fontIcon20 {
+  size:@cIco, @cIco;
+}
+fontIcon20 > fonticon {
+  font:@small;
+}
+
+fontIcon32 {
+  size:@mIco, @mIco;
+}
+fontIcon32 > fonticon {
+  font:@normal;
+}
+
+sideLogIcon {
+  pos:-w,2.5*@scrn_tgt/100.0-50%h;
+}
+
+logIcon {
+  background-color:@controlColor;
+  height:3.0*@scrn_tgt/100.0;
+  width:1.8h;
+  pos:0, 50%ph-50%h;
+  position:relative;
+}
+
+[baseRow=yes] > tr {
+  size:pw,@baseTrHeight;
+}
+
+.fastshortcut > tr {
+  re-type:9rect;
+  background-image:#ui/gameuiskin#horizontal_fade;
+  background-repeat:expand;
+  background-position:1,0,0,0;
+  background-color:@black;
+  text-valign:center;
+}
+
+[baseRow=yes] > tr[headerRow=yes] {
+  size:pw,@baseTrHeaderHeight;
+  padding-top:@baseTrHeaderHeight-1@baseTrHeight;
+}
+
+verticalCellsOptions[baseRow=yes] > tr {
+  size:pw,@tinyRowHeight + 1@baseTrHeight - 2@dp;
+}
+
+[baseRow=rows16] > tr {
+  size:pw,@rows16height;
+}
+[baseRow=tiny] > tr {
+  size:pw,@tinyRowHeight;
+}
+
+[baseRow=slider] > tr {
+  size:pw,@sliderRowHeight;
+}
+
+.controls_settings > tr {
+  size:pw,@baseTrHeight;
+}
+.crewTable > tr {
+  height:@crewTrHeight;
+}
+.lbTable > tr, .schemeTable > tr {
+  height:@leaderboardTrHeight;
+}
+.lbTable tr[headerRow=yes] {
+  height:2@leaderboardTrHeight;
+}
+.lbTable tr[headerRow=first] {
+  height:1.3@leaderboardTrHeight;
+}
+.lbTable > tr[bigIcons] {
+  height:@leaderboardHeaderHeight;
+}
+
+.crewTable > tr > td, .lbTable > tr > td {
+  height:ph;
+  padding:0.005@scrn_tgt, 0;
+}
+.lbTable > tr > td {
+  min-width:0.06@scrn_tgt_font;
+}
+.lbTable > tr > td[cellType=splitRight] {
+  min-width:10*@sf/@pf;
+  padding-right:0.25*@scrn_tgt/100.0;
+}
+.lbTable > tr > td[cellType=splitLeft] {
+  min-width:10*@sf/@pf;
+  padding-left:0.25*@scrn_tgt/100.0;
+}
+
+.airInfoPanel > tr > td {
+  min-width:0.5@airInfoPanelWidth;
+}
+
+tr[totalRowStyle], tr[totalRowStyle] > td {
+  css-hier-invalidate:yes;
+}
+[baseRow=rows16] > tr[totalRowStyle=yes] {
+  size:pw, @rows16height + 0.03@scrn_tgt_font;
+}
+[baseRow=rows16] > tr[totalRowStyle=first] {
+  size:pw, @rows16height + 0.01@scrn_tgt_font;
+}
+[baseRow=rows16] > tr[totalRowStyle=last] {
+  size:pw, @rows16height + 0.02@scrn_tgt_font;
+}
+tr[totalRowStyle=yes] > td, tr[totalRowStyle=first] > td {
+  padding-top:0.01@scrn_tgt_font;
+}
+tr[totalRowStyle=yes] > td, tr[totalRowStyle=last] > td {
+  padding-bottom:0.02@scrn_tgt_font;
+}
+[baseRow=rows16] > tr[buttonRow=yes] {
+  size:pw, @rows16height + 1@buttonHeight + 2*@sf/@pf;
+}
+[baseRow=rows16] > tr[buttonRow=yes] > td {
+  padding-bottom:1@buttonHeight + 2*@sf/@pf;
+}
+
+tr[iconType] {
+  text-valign:center;
+}
+
+tr[iconType=pilot] {
+  size:pw,15*@scrn_tgt/100.0;
+}
+
+tr[iconType=aircraft] {
+  size:pw,@shopAirHeight + 6*@sf/@pf;
+}
+
+tr[iconType=country] {
+  size:pw,8*@scrn_tgt/100.0;
+}
+tr[iconType=listbox] {
+  size:pw, 3@baseTrHeight;
+}
+tr[iconType=listbox_country] {
+  size:pw, 3@baseTrHeight;
+}
+
+tr[iconType=crosshair] {
+}
+
+tr[queueTableIconRow=yes] > td > img {
+  iconType:country_battle;
+  position:relative;
+  pos:0.5pw-0.5w, 0.5ph-0.5h;
+}
+
+tr[queueTableIconRow=yes] > td {
+  min-width:0.05*@scrn_tgt_font;
+}
+
+tr[queueTableTitleRow=yes] {
+  background-color:@evenQueueTableTrColor;
+  height:0.03@scrn_tgt_font;
+}
+
+tr[queueTableTitleRow=yes] text {
+  pos:0.5p.p.w-0.5w, 0.5ph-0.5h;
+  position:absolute;
+}
+
+[baseRow=rows16] > tr > td > textareaNoTab {
+  max-height:@rows16height;
+}
+
+.optionsTable > tr, .headerTable > tr, .transpTable > tr {
+  background-color:@transparent;
+}
+
+verticalCellsOptions {
+  flow:vertical;
+}
+
+verticalCellsOptions > tr {
+  flow:vertical;
+  width:pw;
+}
+
+.mpTable > tr:hover, .optionsTable > tr:hover, tr[selected=yes],
+.crewTable > tr:hover, .lbTable > tr:hover {
+  re-type:9rect;
+  background-position:4,4;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#option_select;
+}
+.mpTable > tr:hover, .optionsTable > tr:hover, .crewTable > tr:hover, .lbTable > tr:hover {
+  background-color:@selImgHoverColor;
+}
+tr[inactive=yes]:hover {
+  background-color:@transparent;
+}
+tr[selected=yes] {
+  background-color:@white;
+}
+
+tr[even=yes] {
+  background-color:@evenTrColor;
+}
+tr[even=yes][queueTableRow=yes] {
+  background-color:@evenQueueTableTrColor;
+}
+
+tr[selected=yes], [higlightRowOnHover=yes] > tr:hover {
+  needHighLight:yes;
+}
+
+[higlightRowOnHover=yes] > tr[inactive=yes] {
+  needHighLight:no;
+}
+
+tr[needHighLight=yes] {
+  background-image:#ui/gameuiskin#option_select_even;
+  background-color:@white;
+}
+
+tr[selType=left], [selType=left] > tr[selected=yes] {
+  re-type:rotation;
+  background-rotation:180;
+  background-image:#ui/gameuiskin#option_select_right;
+}
+
+[selType=left] > tr > td {
+  padding-right:2*@scrn_tgt/100.0;
+}
+[selType=left] > tr > td > text {
+  width:pw;
+  text-align:right;
+}
+
+td[cellType] {
+}
+
+td[cellType=left] {
+  padding-right:@optPad;
+}
+
+td[cellType=right] {
+  margin:0;
+}
+
+td[cellType=border] > activeText {
+  text-align:center;
+}
+
+td[cellType=right] optiontext, td[cellType=top] optiontext, td[cellType=bottom] optiontext,
+[optionsTextLeftCell=left] td[cellType=left] optiontext
+{
+  text-align:left;
+  padding:0, 0, 0, 0; 
+}
+
+td[cellType=tdRight] activeText {
+  text-align:right;
+  width:pw;
+  padding:0;
+}
+
+td[cellType=tdCenter] activeText {
+  text-align:center;
+  width:pw;
+  padding:0;
+}
+
+td[cellType=top] {
+  width:pw;
+  height:@tinyRowHeight;
+}
+td[cellType=bottom] {
+  width:pw;
+  height:@rows16height;
+}
+
+tr[hiddenTr=yes] {
+  inactive:yes;
+  display:hide;
+}
+
+.optionsTable > tr, .optionsTable > tr > td,
+.crewTable > tr, .crewTable > tr > td,
+.lbTable > tr, .lbTable > tr > td,
+.mpTable > tr, .mpTable > tr > td
+{
+  css-hier-invalidate:yes;
+}
+.optionsTable > tr, .mpTable > tr, .crewTable > tr, .lbTable > tr {
+  total-input-transparent:yes;
+  input-transparent:yes;
+}
+
+.mpTable > tr activeText,
+.mpTable > tr textareaNoTab {
+  color:@commonTextColor;
+}
+
+tr > td > optiontext {
+  auto-scroll:no;
+}
+tr:hover > td > optiontext {
+  color:@hoverTextColor;
+  auto-scroll:slow;
+}
+tr[selected=yes] > td > optiontext {
+  color:@activeTextColor;
+  font:@option_selected_font;
+  auto-scroll:slow;
+}
+td[cellType=top] > optiontext {
+  color:@grayOptionColor;
+  font:@tiny;
+}
+
+tr[selected=yes] > td > text, tr[selected=yes] activeText
+{
+  color:@trSelectedTextColor;
+
+}
+
+[team=red] activeText, [team=red] widthText, [team=red] titleWidthText,
+[team=red] textareaNoTab {
+  color:@teamRedColor;
+}
+[team=blue] activeText, [team=blue] widthText, [team=blue] titleWidthText,
+[team=blue] textareaNoTab {
+  color:@teamBlueColor;
+}
+
+[team=red] [inGame=no] activeText,
+[team=red] [inGame=no] textareaNoTab {
+  color:@teamRedInactiveColor;
+}
+
+[team=blue] [inGame=no] activeText,
+[team=blue] [inGame=no] textareaNoTab {
+  color:@teamBlueInactiveColor;
+}
+
+tr[winnerPlace=1st] activeText,
+tr[winnerPlace=1st] textareaNoTab {
+  color:@raceMode1stPlace;
+}
+tr[winnerPlace=2nd] activeText,
+tr[winnerPlace=2nd] textareaNoTab {
+  color:@raceMode2ndPlace;
+}
+
+tr[inMySquad=yes] activeText,
+tr[inMySquad=yes] textareaNoTab {
+  color:@mySquadColor;
+}
+tr[spectator=yes] activeText,
+tr[spectator=yes] textareaNoTab {
+  color:@spectatorColor;
+}
+
+tr[mainPlayer=yes] activeText, tr[mainPlayer=yes] > td > text, tr[totalColor=yes] > td > activeText,
+text[mainPlayer=yes], tr[mainPlayer=yes] textareaNoTab, tr[totalColor=yes] > td > textareaNoTab {
+  color:@mainPlayerColor;
+}
+tr[winAwardColor=yes] > td > activeText, tr[winAwardColor=yes] > td > textareaNoTab {
+  color:@userlogColoredText;
+}
+.lbTable td[active=yes] activeText {
+  color:@lbActiveColumnColor;
+}
+.lbTable tr[headerRow] > td > activeText {
+  pos:50%p.p.w-50%w, ph-1.1h;
+  position:absolute;
+  color:@white;
+  font:@normal;
+}
+
+tr[enable=no] activeText, tr[enable=no] > td > text, tr[enable=no] optiontext {
+  color:@disabledTextColor;
+}
+
+tr[inactive=yes] {
+  total-input-transparent:yes;
+}
+
+tr[inactive=yes] {
+  input-transparent:yes;
+}
+
+.tooltipTable td {
+  padding:0.5*@scrn_tgt/100.0, 2*@sf/@pf;
+}
+
+activeText[caption=yes], textarea[caption=yes], textAreaCentered[caption=yes] {
+  font:@big;
+}
+[tinyFont=yes] activeText[caption=yes] {
+  font:@small;
+}
+
+activeText[titleFont=yes], textAreaCentered[titleFont=yes], menutitle[titleFont=yes] {
+  font:@title_big;
+}
+
+td[team]   > text {color:@commonTextColor;}
+td[team=a] > text, td[team=b] > text {
+  color:@transparent;
+}
+
+teamAImg, teamBImg {
+  height:0.035@sf;
+  width:h;
+  position:relative;
+  top:50%ph-50%h;
+  input-transparent:yes;
+}
+
+teamAImg, [team=a] > teamImg, [teamIco=allies] > teamImg {
+  background-color:@white;
+  background-image:#ui/gameuiskin#mp_logo_allies;
+}
+
+teamBImg, [team=b] > teamImg, [teamIco=axis] > teamImg {
+  background-color:@white;
+  background-image:#ui/gameuiskin#mp_logo_axis;
+}
+
+[playerTeam=a] [team=b] > teamImg, [team=red] > teamImg,
+[playerTeam=b] [team=a] > teamImg,
+[playerTeam=a] > teamBImg,
+[playerTeam=b] > teamAImg {
+  background-color:@teamRedColor;
+}
+
+[playerTeam=a] [team=a] > teamImg, [team=blue] > teamImg,
+[playerTeam=b] [team=b] > teamImg,
+[playerTeam=a] > teamAImg,
+[playerTeam=b] > teamBImg {
+  background-color:@teamBlueColor;
+}
+
+td[team] > teamImg {
+  height:@tableIcoSize;
+  width:h;
+  position:relative;
+  pos:50%pw-50%w, 50%ph-50%h;
+}
+
+teamImg > activeText {
+  font:@tiny;
+  margin-top:4;
+  text-align:center;
+  padding:0;
+}
+
+[team=blue] > teamImg[iconSquad=squad] {
+  background-image:#ui/gameuiskin#icon_squad;
+  background-color:@white;
+  size:0.033@scrn_tgt_font, 0.033@scrn_tgt_font;
+}
+[team=blue] > teamImg[iconSquad=squad][topSquad=yes] {
+  background-image:#ui/gameuiskin#icon_best_squad;
+}
+[team=red] > teamImg[iconSquad=squad] {
+  background-image:#ui/gameuiskin#icon_squad_enemy;
+  background-color:@white;
+  size:0.033@scrn_tgt_font, 0.033@scrn_tgt_font;
+}
+[team=red] > teamImg[iconSquad=squad][topSquad=yes] {
+  background-image:#ui/gameuiskin#icon_best_squad_enemy;
+}
+teamImg[iconSquad=squad] > activeText {
+  margin-top:0.01@scrn_tgt_font;
+}
+teamImg[iconSquad=autosquad] {
+  background-image:#ui/gameuiskin#table_autosquad_background;
+  size:0.025@scrn_tgt_font, 0.025@scrn_tgt_font;
+}
+teamImg[iconSquad=autosquad][topSquad=yes] {
+  background-image:#ui/gameuiskin#table_best_autosquad_background;
+}
+teamImg[iconSquad=autosquad] > activeText {
+  margin-top:0.004@scrn_tgt_font;
+}
+
+playerStateIcon {
+  re-type:9rect;
+  background-repeat:expand;
+  size:1@tableIcoSize, 1@tableIcoSize;
+}
+
+playerStateIcon[background-image=""] {
+  background-color:@transparent;
+  display:hide;
+}
+
+
+[id=controls_tbl] > tr > td {
+  border-color:@commonMenuButtonColor;
+}
+
+trSeparator {
+  size:40%p.p.w, 2*@sf/@pf;
+  background-color:@white;
+  background-image:#ui/gameuiskin#double_line;
+  pos:-50%w, -2*@sf/@pf;
+  position:absolute;
+}
+
+chapterSeparator {
+  width:@chapterSeparatorSize;
+  height:ph;
+  input-transparent:yes;
+  background-repeat:expand;
+  background-position:0, 3;
+  background-color:@white;
+  background-image:#ui/gameuiskin#separator_vertical;
+}
+
+chapterSeparator.notFull {
+  height:ph-0.04@scrn_tgt_font;
+}
+
+tdiv > chapterSeparator.inTheMiddle {
+  pos: 50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+
+table.transpTable, .transpTable > tr, .transpTable > tr > td {
+  input-transparent: yes;
+}
+
+.noPad > tr > td {
+  padding:0;
+}
+
+axisPoint1 {
+  size:3*@scrn_tgt/100.0, 3*@scrn_tgt/100.0;
+  background-color:#FFFF0000;
+  background-image:#ui/gameuiskin#axis_point1;
+}
+
+[locked=yes] > axisPoint1 {
+  background-color:#FFFFFF00;
+}
+
+axisPoint2 {
+  size:3*@scrn_tgt/100.0, 3*@scrn_tgt/100.0;
+  background-color:#FF00FF00;
+  background-image:#ui/gameuiskin#axis_point2;
+}
+
+img[hide_when_tooltip_empty=yes][tooltip=""] {
+  display: hide;
+}
+
+
+@import "cssElems\spinnerListBox.css"
+@import "missionlist.css"
+@import "cssElems\radiobutton.css"
+@import "expandable.css"
+@import "cssElems\slideListBox.css"
+@import "cssElems\dropRightSelect.css"
+@import "cssElems\multiselect.css"
+@import "cssElems\popupMenu.css"
+@import "cssElems\activateSelect.css"
+@import "cssElems\browserPopup.css"
+@import "cssElems\timebar.css"
+@import "cssElems\progressbar.css"
+@import "cssElems\newIconWidget.css"
+@import "cssElems\shortcutImages.css"
+@import "cssElems\hint.css"
+@import "cssElems\combobox.css"
+
+
+@import "help/help.css"
+@import "weaponry/weaponry.css"
+@import "profile/unlockItem.css"
+@import "actionsList/actionsList.css"
+@import "gameModeSelect/gameModeSelect.css"
+@import "hud/hud.css"
+@import "hud/actionBar.css"
+@import "spectator.css"
+@import "wndWidgets/navigationPanel.css"
+@import "hud/tankState.css"
+@import "wheelMenu/wheelmenu.css"
+@import "contacts/contacts.css"
+@import "items/items.css"
+@import "convertExp\convertExp.css"
+@import "promo\promoButton.css"
+@import "worldWar/worldWar.css"
+@import "squads/squadWidget.css"
+
+@import "cssElems\buttons_console.css" 
+@import "paginator\paginator.css" 
+@import "fileDialog/fileDialog.css"
+@import "animated.css"
+
+
+slider, sliderProgress {
+  behaviour:slider;
+  re-type:9rect;
+  background-image:#ui/gameuiskin#subtitles_backgr_middle;
+  background-color:@white;
+  background-position:10;
+  background-repeat:expand;
+  background-color:@controlColor;
+  selected-border:none;
+  css-hier-invalidate:yes;
+  snd_change_value:choose;
+  disable_wheel:yes;
+}
+
+slider:disabled {
+  background-color:@controlDisabledColor;
+}
+
+EditSlider, input[buddy] {
+  re-type:slider;
+  behaviour:edit+slider;
+  tabStop:yes;
+}
+
+sliderButton {
+  size:16*@sf/@pf, 16*@sf/@pf;
+  background-repeat:no-repeat;
+  background-color:@white;
+  selected-border:none;
+}
+
+sliderButton:disabled {
+
+  background-color:#80808080;
+}
+
+slider[flow=vertical] {
+  background-color:@white;
+}
+
+slider:focus sliderButton {
+
+}
+
+invisSlider {
+  behaviour:slider;
+  behaviour:accesskey;
+  css-hier-invalidate:yes;
+  disable_wheel:yes;
+}
+invisSlider > sliderButton {
+  size:0.3ph,ph;
+}
+invisSlider > sliderButton[type=various] {
+  size: @sliderThumbWidth, @sliderThumbHeight;
+  css-hier-invalidate:yes;
+}
+
+sliderButton[type=various] > img {
+  id:"slider_button";
+  size:12@sf/@pf, 27@sf/@pf;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#slider_thumb;
+  background-color:@commonTextColor;
+}
+
+sliderButton[type=various]:hover > img {
+  background-image:#ui/gameuiskin#slider_thumb_hover;
+  background-color:@activeTextColor;
+}
+
+tr[selected=no] > td > tdiv > invisSlider > sliderButton[type=various] > img[showWhenSelected=yes] {
+  display:hide;
+}
+
+tr[selected=yes] > td > tdiv > invisSlider > sliderButton[type=various] > img[showWhenSelected=yes],
+tr[selected=no]:hover > td > tdiv > invisSlider > sliderButton[type=various] > img[showWhenSelected=yes] {
+  display:show;
+}
+
+animated_wait_icon
+{
+  re-type:rotation;
+  background-color:@white;
+  background-image:ui/loadinganim;
+  size:32*@sf/@pf, 32*@sf/@pf;
+  behavior:increment;
+  inc-target:background-rotation;
+  inc-factor:120;
+  background-repeat:stretch;
+  input-transparent:yes;
+}
+
+animated_wait_icon.inTextRow {
+  size:12@sf/@pf,12@sf/@pf;
+  pos:2@sf/@pf,50%ph-50%h;
+  position:relative;
+}
+
+animated_wait_icon.missionBox {
+  size:16*@sf/@pf, 16*@sf/@pf;
+  position:absolute;
+  pos:12*@sf/@pf-50%w, 50%ph-50%h;
+}
+
+Button_text > animated_wait_icon {
+  size:ph - 4*@sf/@pf, ph - 4*@sf/@pf;
+}
+
+Button_text.squadWidgetMember > animated_wait_icon {
+  size:@dIco, @dIco;
+  pos:50%pw-50%w,50%ph-50%h;
+  position:absolute;
+}
+
+wait_icon_cock {
+  size:pw,ph;
+  background-color:@white;
+  background-image:ui/loadinganim_cock;
+  input-transparent:yes;
+}
+
+animated_wait_icon[circle=both] > animated_wait_icon {
+  circle:aircraft;
+  rotation:180;
+}
+
+animated_wait_icon[circle] {
+  pos:50%pw-50%w, 0;
+  position:relative;
+  size:130*@sf/@pf, 130*@sf/@pf;
+  background-color:@transparent;
+  css-hier-invalidate:yes;
+}
+
+animated_wait_icon[circle=aircraft] {
+  background-image:#ui/gameuiskin#wait_circle;
+  background-color:@white;
+  inc-factor:120;
+}
+
+animated_wait_icon[circle=tank],
+animated_wait_icon[circle=both] {
+  background-image:#ui/gameuiskin#wait_circle_tank;
+  background-color:@white;
+  inc-factor:56;
+}
+
+sliderProgress {
+  re-type:progress;
+  background-image:#ui/gameuiskin#volumeBg;
+  background-color:@progressColor;
+  background-position:0;
+  top:50%ph-50%h;
+  position:relative;
+  width:1@sliderProgress_720p_width;
+  height:1@sliderProgress_720p_height;
+  foreground-image:#ui/gameuiskin#volumeFg;
+  foreground-color:@progressColor;
+}
+
+[sliderParentWidth=yes] sliderProgress {
+  width:pw;
+}
+
+sliderProgress > sliderButton {
+  size:6/720*@scrn_tgt, ph;
+}
+
+tr:hover > td > sliderProgress {
+  background-color:@progressHoverColor;
+  foreground-color:@progressHoverColor;
+}
+sliderProgress:focus {
+  background-color:@progressActiveColor;
+  foreground-color:@progressActiveColor;
+}
+
+sliderProgress > sliderButton {
+  background-color:@transparent;
+}
+
+sliderProgress:disabled, sliderProgress[inactiveColor=yes] {
+  input-transparent:yes;
+}
+
+[enable=no] sliderProgress {
+  foreground-color:@controlDisabledColor; }
+
+conQualityProgress {
+  behaviour:progress;
+  re-type:progress;
+  background-color:@transparent;
+  foreground-image:#ui/gameuiskin#latencyBg;
+  foreground-color:@conQuality1;
+  pos:50%pw-50%w,50%ph-50%h;
+  position:relative;
+  min:0;
+  max:5;
+}
+
+conQualityProgress[value=2] { foreground-color:@conQuality2; }
+conQualityProgress[value=3] { foreground-color:@conQuality3; }
+conQualityProgress[value=4] { foreground-color:@conQuality4; }
+conQualityProgress[value=5] { foreground-color:@conQuality5; }
+
+expProgress, referenceProgress, crewSpecProgressBar {
+  behaviour:progress;
+  re-type:progress;
+  background-color:@cardProgressBGColor;
+  foreground-color:@cardProgressFGColor;
+  border:yes;
+  border-color:@cardProgressBorderColor;
+}
+
+expProgress {
+  height:1@sliderHeight;
+  min:0;
+  needMax:yes;
+}
+expProgress[max] {
+  needMax:no;
+}
+expProgress[needMax=yes] {
+  max:1000;
+}
+expProgress[small=yes] {
+  height:1@sliderHeightSmall;
+}
+expProgress[type=old], crewSpecProgressBar[type=old] {
+  background-color:@transparent;
+}
+expProgress[type=new], crewSpecProgressBar[type=new] {
+  foreground-color:@cardProgressChangeColor;
+}
+expProgress[paused=yes], crewSpecProgressBar[paused=yes] {
+  foreground-color:@cardProgressDisabledFGColor;
+  border-color:@cardProgressDisabledFGColor;
+}
+expProgress[type=bonus] {
+  foreground-color:@cardProgressBonusColor;
+}
+expProgress[transpBG=yes] {
+  background-color:@transparent;
+}
+expProgress.slider {
+  behaviour:slider;
+  input-transparent:no;
+}
+expProgress.slider sliderButton {
+  width:1*@scrn_tgt/100.0;
+  height:1.5ph;
+}
+
+challengeDescriptionProgress {
+  behaviour:progress;
+  re-type:progress;
+  height:5*@sf/@pf;
+  width:200*@sf/@pf;
+  margin-top:0.01@scrn_tgt_font;
+  background-color:@cardProgressBGColor;
+  foreground-color:@cardProgressFGColor;
+  border:yes;
+  border-color:@cardProgressBorderColor;
+  min:0;
+  max:1000;
+}
+
+framedMessage {
+  background-position:4;
+  background-repeat:expand;
+  background-color:@white;
+  background-image:#ui/gameuiskin#frame_opaq;
+  input-transparent:yes;
+  padding:10*@sf/@pf, 0, 10*@sf/@pf, 2*@sf/@pf;
+}
+
+advertDiv {
+  re-type:9rect;
+  background-color:@gray;
+  background-image:#ui/gameuiskin#subtitles_backgr_middle;
+  background-repeat:expand;
+  input-transparent:yes;
+}
+
+advertDiv > textAreaCentered {
+  font:@small;
+  color:@advertTextColor;
+  text-align:center;
+}
+
+framedMessage[text=""] {
+  display:hide;
+}
+
+frame {
+  flow:vertical;
+  background-repeat:expand;
+  background-color:@white;
+  background-position:6,6;
+  background-image:#ui/gameuiskin#window_body;
+  padding:@framePadding;
+  foreground-repeat:repeat;
+  foreground-color:@white;
+  foreground-position:4,4;
+  foreground-image:#ui/gameuiskin#pattern_bright_hor_lines;
+  tooltip:'';
+}
+
+frame[type=dark] {
+  background-image:#ui/gameuiskin#window_body_dark;
+}
+
+tooltipObj, tooltip {
+  background-repeat:expand;
+  background-color:#FF888888;
+  background-position:4;
+  background-image:#ui/gameuiskin#tooltip_bubble;
+  padding:5*@sf/@pf;
+  tooltip-screen-offset:1@bw, 1@bh;
+}
+
+tooltipObj[type=dark] {
+  background-repeat:expand;
+  background-color:@white;
+  background-position:6,6;
+  background-image:#ui/gameuiskin#window_body_dark;
+}
+
+frame, tooltipObj {
+  re-type:9rect;
+}
+
+tooltip {
+  padding:11*@sf/@pf, 9*@sf/@pf, 11*@sf/@pf, 7*@sf/@pf;
+  color:@commonTextColor;
+  border:no;
+  font:@tiny;
+  font-bold:@small;
+  position:absolute;
+  pos:25*@sf/@pf, 25*@sf/@pf;
+  timeout:250;
+  max-width:70*@scrn_tgt/100.0;
+}
+
+tooltipObj {
+  color-factor:255;
+}
+
+@const imgFrameSize: 1.45*@profileMedalSize;
+@const imgFramePad: 3*@sf/@pf;
+@const hoverFrameMargin: 4*@sf/@pf;
+imgFrame {
+  re-type:9rect;
+  background-repeat:expand;
+  background-color:@white;
+  background-position:6,6;
+  background-image:#ui/gameuiskin#window_body;
+  padding:@imgFramePad;
+}
+imgFrame {
+  margin:0, 0, @imgFramePad, @imgFramePad;
+  input-transparent: yes;
+}
+imgFrame[noMargin=yes] {
+  margin:0;
+}
+.hoverFrame > imgFrame {
+  size:@imgFrameSize, @imgFrameSize;
+  background-color:@transparent;
+  background-position:6;
+  background-repeat:expand;
+  padding:5*@sf/@pf;
+}
+
+awardDiv > layeredIconContainer {
+  height:ph;
+  width:h;
+  pos:(pw-w)/2, (ph-h)/2;
+  position:absolute;
+}
+
+awardDiv.unlockFrame {
+  re-type:9rect;
+  background-image:#ui/gameuiskin#button_;
+  background-color:@white;
+  background-position:6;
+  background-repeat:expand;
+  padding:2;
+}
+
+awardDiv.unlockFrame > layeredIconContainer {
+  height:ph - 4;
+}
+
+imgButton {
+  behaviour:button;
+  background-image:#ui/gameuiskin#header_button_;
+  background-color:@white;
+  background-position:6;
+  background-repeat:expand;
+  padding:1@framePadding;
+  css-hier-invalidate:yes;
+  total-input-transparent:yes;
+}
+.hoverFrame > imgButton {
+  size:110*@sf/@pf, 110*@sf/@pf;
+}
+.hoverFrame > imgButton > img , .hoverFrame > imgFrame > img{
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+backlight {
+  size:pw, ph;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+  background-repeat:expand;
+  background-color:@white;
+  input-transparent:yes;
+}
+imgFrame > backlight[UnlockedObject=yes] {
+  background-image:#ui/gameuiskin#acheivement_bg_active;
+}
+imgFrame > backlight[unlockedObject=no] {
+  background-image:#ui/gameuiskin#acheivement_bg_;
+}
+imgFrame > backlight:hover, imgFrame > backlight:pushed {
+  background-image:#ui/gameuiskin#acheivement_bg_hover;
+}
+
+
+imgButton.decal_image:disabled, imgButton.decal_image[unlocked=no] {
+  background-image:#ui/gameuiskin#header_button_disabled;
+}
+imgButton.decal_image:disabled > img {
+  background-color:@lockedDecal;
+}
+imgButton.decal_image:pushed, imgButton.decal_image[selected=yes]
+.hoverFrame > imgButton:pushed {
+  background-image:#ui/gameuiskin#header_button_active;
+}
+imgButton[highlighted=yes], imgButton.decal_image[highlighted=yes] {
+  background-image:#ui/gameuiskin#header_button_active;
+}
+imgButton.decal_image:hover, .hoverFrame > imgButton:hover {
+  background-image:#ui/gameuiskin#header_button_hover;
+}
+imgButton.decal_image[unlocked=no]:hover {
+  background-image:#ui/gameuiskin#header_button_active;
+}
+LockedImg{
+  size:pw, ph;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+  background-repeat:expand;
+  input-transparent:yes;
+}
+LockedImg[statusLock=achievement],
+LockedImg[statusLock=noDLC],
+LockedImg[statusLock=limit] {
+  pos:pw-w, ph-h;
+  size:@mIco,@mIco;
+  background-color:@white;
+}
+LockedImg[statusLock=achievement] {
+  background-image:#ui/gameuiskin#locked_white;
+}
+LockedImg[statusLock=noDLC] {
+  background-image:#ui/gameuiskin#dlc_locked;
+}
+LockedImg[statusLock=limit] {
+  background-image:#ui/gameuiskin#locked;
+}
+
+LockedImg[statusLock=noPremium_1] {
+  size:pw-6*@sf/@pf, ph-6*@sf/@pf;
+  background-color:@white;
+  background-image:#ui/images/decalslot_nopremium_vertical;
+}
+LockedImg[statusLock=noPremium_2] {
+  size:pw-6*@sf/@pf, ph-6*@sf/@pf;
+  background-color:@white;
+  background-image:#ui/images/decalslot_nopremium_horizontal;
+}
+LockedImg[statusLock=country] {
+  size:@lIco,@lIco;
+  background-color:@white;
+}
+imgButton.decal_image > contentCorner {
+  background-color:@white;
+  background-image:#ui/gameuiskin#price_bg;
+  background-position:6;
+  background-repeat:expand;
+}
+img[click_to_resize] {
+  tooltip:#click_to_view_image;
+  behaviour:button;
+  snd_click:click;
+  on_click:onViewImage;
+  input-transparent:no;
+}
+
+frame.wndNav {
+  padding:1@framePadding, 1@frameHeaderHeight, 1@framePadding, 1@frameFooterHeight;
+}
+frame.wndNav[largeNavBarHeight=yes] {
+  padding:1@framePadding, 1@frameHeaderHeight, 1@framePadding, 1@frameFooterHeightLarge;
+}
+frame.wndNav[padByLine] {
+  padding:2*@sf/@pf, 2*@sf/@pf, 2*@sf/@pf, 1@buttonHeight+10*@sf/@pf;
+}
+frame.leaderboard {
+  padding:0.025@scrn_tgt, 1@frameHeaderHeight, 0.025@scrn_tgt, 1@buttonHeight+10*@sf/@pf;
+}
+frame.small {
+  padding:1@framePadding, 1@framePadding, 1@framePadding, 1@buttonHeight+10*@sf/@pf;
+}
+frame.wnd {
+  padding:1@framePadding, 1@frameHeaderHeight + 1@framePadding, 1@framePadding, 1@framePadding;
+}
+
+frame_header {
+  re-type:9rect;
+  width:pw;
+  height:1@frameHeaderHeight;
+  position:absolute;
+  padding-left:10*@sf/@pf;
+  background-repeat:expand;
+  background-position:5;
+  background-image:#ui/gameuiskin#window_header;
+  background-color:@white;
+  foreground-repeat:repeat;
+  foreground-color:@white;
+  foreground-position:4,4,4,5;
+  foreground-image:#ui/gameuiskin#pattern_bright_texture;
+}
+frame_header[smallIcon=yes] {
+  height:1@frameSmallHeaderHeight;
+}
+
+frame > activeText[caption=yes] {
+  pos:0, -2*@sf/@pf;
+  position:relative;
+}
+
+frame_header > activeText {
+  pos: 0, 50%ph-50%h;
+  position:relative;
+}
+tooltipObj.empty {
+  background-color:@transparent;
+}
+
+frame.scaleable, div.scaleable {
+  application-window:yes;
+  input-transparent:no;
+}
+
+moveElem {
+  behaviour:moveObj;
+}
+
+frame.scaleable > moveElem {
+  size:pw-10*@sf/@pf, ph-5*@sf/@pf;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+
+frame_inner {
+  input-transparent: yes;
+  padding:0,2*@sf/@pf;
+  re-type:9rect;
+  background-repeat:expand;
+  overflow-y:auto;
+  border:none;
+  border-color:@transparent;
+  background-color:@white;
+  background-position:10;
+  background-image:#ui/gameuiskin#window;
+}
+
+frameBlock {
+  background-image:#ui/gameuiskin#window_block_bright;
+  background-color:@white;
+  background-position:4;
+  background-repeat:expand;
+}
+
+frameBlock[ticketsWindow=yes] {
+  background-color:@transparent;
+}
+
+frameBlock_dark {
+  background-image:#ui/gameuiskin#window_block_dark;
+  background-color:@white;
+  background-position:4;
+  background-repeat:expand;
+}
+
+frameBlock_dark[bgTeamColor=any] {
+  background-color:@teamAnyColor;
+}
+
+frameBlock_dark[bgTeamColor=red] {
+  background-color:@teamRedColor;
+}
+
+frameBlock_dark[bgTeamColor=blue] {
+  background-color:@teamBlueColor;
+}
+
+modIco {
+  css-hier-invalidate:yes;
+  total-input-transparent:yes;
+}
+
+root {
+  id:root-box;
+  position:absolute;
+  size:sw,sh;
+  input-transparent:yes;
+}
+
+rootScene {
+  position:absolute;
+  size:sw,sh;
+  input-transparent:yes;
+}
+
+navBar {
+  id:'nav-help';
+  size:1@rw, 2*@buttonHeight+4*@sf/@pf;
+  pos:50%sw-50%w, 83.5%sh;
+  position:absolute;
+  input-transparent: yes;
+  if_target_pc:@target_pc;
+}
+
+navBar[type=slotbar] {
+  size:1@slotbarWidthFull, 1@navBarBattleButtonHeight;
+  pos:50%sw-50%w, sh -h -1@shopBottomOffset;
+}
+
+navBar[type=slotbar] > navLeft,
+navBar[type=slotbar] > navRight,
+navBar[type=slotbar] > navMiddle {
+  height:ph;
+}
+
+navBar[type=shop] {
+  size:1@shopWndWidth, 1@frameFooterHeight;
+  pos:50%sw-50%w, 1@shopYPos-h;
+}
+
+navBarStatic {
+  size:@rw, 10*@scrn_tgt/100.0;
+  pos:50%sw-50%w+1%sw, 92.5%sh-h;
+  position:absolute;
+  input-transparent: yes;
+  if_target_pc:@target_pc;
+}
+
+navBarStatic[if_target_pc=yes] {
+  size:@rw, 11*@scrn_tgt/100.0;
+  pos:50%sw-50%w+1%sw, 83.2%sh;
+}
+
+collapsableBlock[type=decoratorsList] > content {
+  behaviour:posNavigator;
+  navigatorShortcuts:full;
+  moveX:linear;
+  moveY:closest;
+
+  flow:h-flow;
+  disableFocusParent:yes;
+
+  background-image:#ui/gameuiskin#block_bg;
+  background-color:@white;
+  background-position:4;
+  background-repeat:expand;
+  width:@countDecalsInWidth*@decalIconHeight+8*@sf/@pf;
+  padding:1*@sf/@pf, 0;
+}
+
+navLeft {
+  pos:0, 0;
+  position:absolute;
+  input-transparent: yes;
+}
+
+frame navLeft {
+  pos:0, 0;
+}
+
+bottomNavPlace > navLeft{
+  pos:0, 50%ph-50%h;
+}
+
+navShopCenter {
+  pos:40%sw-50%w,0;
+  position:absolute;
+  input-transparent: yes;
+}
+
+navRight {
+  pos:pw - w + 1@buttonVMargin, 0;
+  position:absolute;
+  input-transparent: yes;
+}
+
+frame navRight {
+  pos:pw - w + 1@buttonVMargin, 0;
+}
+
+bottomNavPlace  > navRight {
+  pos:pw-w+1@buttonVMargin, 50%ph-50%h;
+}
+
+navMiddle {
+  pos:0.5pw-0.5w, 0;
+  position:absolute;
+  input-transparent: yes;
+}
+
+frame navMiddle {
+  pos:0.5pw-0.5w, 0;
+}
+
+bottomNavPlace > navMiddle {
+  pos:0.5pw-0.5w, 50%ph-50%h;
+}
+
+navBottomLeft {
+  position:absolute;
+  input-transparent: yes;
+}
+
+navBottomRight {
+  pos:pw - w + 1@buttonVMargin, 60%ph;
+  position:absolute;
+  input-transparent: yes;
+}
+
+navLeft > Button_text,
+navRight > Button_text,
+navMiddle > Button_text {
+  position:relative;
+  pos:0, ph-h;
+}
+
+bottomNavPlace  Button_text,
+frame navLeft > Button_text,
+frame navRight > Button_text,
+frame navMiddle > Button_text {
+  position:relative;
+  pos:0, 50%ph-50%h;
+}
+
+fieldReq{
+  width: 25*@scrn_tgt/100.0;
+  pos: p.p.w, ph/1.55-h/2;
+  position: absolute;
+  padding: 10*@sf/@pf;
+  background-position: 4;
+  background-repeat: expand;
+  background-color: @white;
+  background-image: #ui/gameuiskin#frame_opaq;
+}
+
+frame > navBar,
+navBar.embedded {
+  re-type:9rect;
+  size:pw, 1@frameFooterHeight;
+  pos:50%pw-50%w, ph-h;
+    background-color:@white;
+  background-position:6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#window_footer;
+  foreground-repeat:repeat;
+  foreground-color:@white;
+  foreground-position:4,7,4,2;
+  foreground-image:#ui/gameuiskin#pattern_bright_texture;
+}
+
+frame[largeNavBarHeight=yes] > navBar,
+navBar.embedded[largeNavBarHeight=yes] {
+  size:pw, 1@frameFooterHeightLarge;
+}
+
+frame > navBar > navRight,
+navBar.embedded > navRight,
+[type=shop] > navRight {
+  pos:pw -w -0.005*@scrn_tgt, 55%ph-50%h;
+  position:absolute;
+}
+
+frame > navBar > navLeft,
+navBar.embedded > navLeft,
+[type=shop] > navLeft {
+  pos:0.01*@scrn_tgt, 55%ph-50%h;
+  position:absolute;
+}
+frame > navBar > navMiddle,
+navBar.embedded > navMiddle,
+[type=shop] > navMiddle {
+  pos:50%pw-50%w, 55%ph-50%h;
+  position:absolute;
+}
+
+navGamercard {
+  pos:sw-1@bw-w+2*@scrn_tgt/100.0, 9.5*@scrn_tgt/100.0-h;
+  position:root;
+}
+
+navUnderTitle {
+  pos:@bw+1*@scrn_tgt/100.0, 16.5*@scrn_tgt/100.0-h;
+  position:root;
+}
+
+slotbarBg {
+  size:@slotbarWidth5+4*@sf/@pf, @shopBottomOffset+5*@sf/@pf;
+  pos:50%sw-50%w, sh-h+1*@sf/@pf;
+  position:root;
+  input-transparent:yes;
+}
+
+navBar > slotbarDiv {
+  pos:50%sw-50%w, sh-h-1@slotbarOffset;
+  position:root;
+  width:@slotbarWidthFull;
+}
+
+hintDiv, upperHintDiv {
+  id:'hint_box_div';
+  size:@rw-2%sw, 4*@scrn_tgt/100.0;
+  pos:50%pw-50%w, ph-h;
+  position:absolute;
+  overflow:hidden;
+  input-transparent:yes;
+}
+
+upperHintDiv {
+  pos:50%pw-50%w, -h;
+}
+hintDiv.upper, frame > navBar > hintDiv {
+  pos:50%pw-50%w, 0;
+}
+
+frame > navBar > hintDiv[modalPos=left]
+{
+  size:pw-21*@scrn_tgt/100.0;
+  pos:0.5*@scrn_tgt/100.0, 0;
+}
+
+hintText {
+  id:'hint_box';
+  min-width:pw-0.5*@scrn_tgt/100.0;
+  text-align:center;
+  auto-scroll:yes;
+  input-transparent:yes;
+}
+
+frame > navBar > hintDiv[modalPos=left] > hintText {
+  text-align:left;
+}
+
+navBar.embedded{
+  pos:50%pw-50%w, ph;
+  size:p.p.w, @buttonHeight+10*@sf/@pf;
+}
+
+EditBox
+{
+  behaviour:edit;
+  re-type:edit;
+  text-align:left;
+  selected-border:none;
+  font:@tiny;
+  background-repeat:expand;
+  background-position:5;
+  background-image:#ui/gameuiskin#editbox;
+  background-color:@editboxBGColor;
+
+  tabStop:yes;
+  color:@commonTextColor;
+  cursor-color:@activeTextColor;
+  height:@buttonHeight;   padding:5*@sf/@pf, 3*@sf/@pf;
+  margin-bottom:5*@sf/@pf;
+  multiShortcuts:no;
+
+  edit-hint-back-color:@transparent;
+  edit-hint-color:#555555;
+
+  _needOverflowHidden:yes;
+}
+
+EditBox:focus {
+  edit-hint:"";
+}
+
+[has_ime=yes] EditBox:focus {
+  edit-hint:"#default_editbox_hint_message";
+}
+
+EditBox[multiline] {
+  re-type:multiEdit;
+  overflow-x:hidden;
+  overflow-y:auto;
+  _needOverflowHidden:no;
+  auto-scroll:yes;
+  multiShortcuts:yes;
+  padding:5*@sf/@pf, 0.8*@scrn_tgt/100.0;
+}
+
+EditBox[_needOverflowHidden=yes] {
+  overflow:hidden;
+}
+
+EditBox:hover, EditBox:focus, EditBox[select="yes"]
+{
+  color:@activeTextColor;
+}
+
+EditBox:focus, EditBox[select="yes"], EditBox.showAlways
+{
+  background-color:#90909090;
+}
+
+[show_console_buttons=yes] EditBox:focus {
+  background-color: @gamepadFocusFrameColor;
+  background-image: #ui/gameuiskin#item_selection;
+  background-position: 6;
+  background-repeat: expand;
+}
+
+EditBox:disabled {
+  background-color:@transparent;
+}
+
+EditBox[btnName] > ButtonImg {
+  position:'absolute';
+  pos:'pw-w-0.25ph, (ph-h)/2';
+  size:'0.75ph, 0.75ph';
+}
+
+EditBox[warning=yes] {
+  border:yes;
+  border-color:@warningTextColor;
+}
+
+EditBox[chatMode=team], text[chatMode=team],
+textareaNoTab[chatMode=team], Button_text[chatMode=team],
+hoverButton[chatMode=team] > icon
+{
+  color:@chatTextTeamColor;
+}
+EditBox[chatMode=all], text[chatMode=all],
+textareaNoTab[chatMode=all], Button_text[chatMode=all],
+hoverButton[chatMode=all] > icon
+{
+  color:@chatTextAllColor;
+}
+EditBox[chatMode=squad], text[chatMode=squad],
+textareaNoTab[chatMode=squad], Button_text[chatMode=squad],
+hoverButton[chatMode=squad] > icon
+{
+  color:@chatTextSquadColor;
+}
+EditBox[chatMode=private], text[chatMode=private],
+textareaNoTab[chatMode=private], Button_text[chatMode=private],
+hoverButton[chatMode=private] > icon
+{
+  color:@chatTextPrivateColor;
+}
+
+
+optionlist_container[mislist=yes] {
+  background-color:@containerMisSelectColor;
+}
+
+[class=optionsTable] > tr:disabled optiontext,
+[class=optionsTable] > tr:disabled activeText,
+[class=optionsTable] > tr[inactiveColor=yes] activeText,
+[class=optionsTable] > tr:disabled EditBox {
+  color:@fadedTextColor;
+}
+
+[class=optionsTable] > tr:disabled sliderProgress,
+[class=optionsTable] > tr[inactiveColor=yes] sliderProgress,
+sliderProgress[inactiveColor=yes] {
+  foreground-color:@fadedTextColor;
+  background-color:@fadedTextColor;
+}
+
+[class=optionsTable] > tr:disabled invisSlider > sliderButton > img,
+[class=optionsTable] > tr[inactiveColor=yes] invisSlider > sliderButton > img,
+invisSlider:disabled > sliderButton > img {
+  background-color:@fadedTextColor;
+}
+
+[class=optionsTable] > tr:disabled expProgress,
+[class=optionsTable] > tr[inactiveColor=yes] expProgress,
+expProgress[inactiveColor=yes] {
+  foreground-color:@controlDisabledColor;
+  border-color:@fadedTextColor;
+}
+
+chapterListPlace {
+  width:0.32@scrn_tgt_font;
+}
+
+chapterListPlace[increaseWidthForWide=yes] {
+  width:0.32@scrn_tgt_font + 0.08@scrn_tgt_font*1@isWide;
+}
+
+[mislist=yes] chapterListPlace {
+  width:0.5@scrn_tgt_font;
+}
+[mislist=events] chapterListPlace {
+  width:0.38@scrn_tgt_font;
+}
+textarea[wrapRight=yes] {
+  wrap-indent:2;
+  paragraph-indent:0;
+}
+
+[mislist=yes] textarea[chapterTextAreaStyle=yes] {
+  paragraph-indent:0;
+  wrap-indent:0;
+  color:@chapterTextColor;
+}
+
+textarea.textHeader {
+  color:@activeTextColor;
+  hideEmptyText:yes;
+  paragraph-indent:0;
+  wrap-indent:0;
+}
+
+textarea.textDescription {
+  hideEmptyText:yes;
+  paragraph-indent:3;
+  wrap-indent:3;
+}
+
+movingRoot {
+  position:absolute;
+
+
+  behaviour:basicPos;
+  left-base:300;
+  left-end:0;
+  pos-time:500;
+  pos-scale:parent;
+  pos-func:square;
+  pos-backfunc:square;
+  input-transparent:yes;
+}
+
+movingRoot[animShow = hide] {
+  pos-time:-1000;
+}
+
+movingScreen {
+  position:absolute;
+  size:96%sw,sh;
+  behaviour:basicPos;
+  top-base:0;
+  top-end:-100;
+  left-base:2;
+  left-end:2;
+  pos-time:-500;
+  pos-scale:screen;
+  input-transparent:yes;
+}
+
+movingScreen[animShow = show] {
+  pos-time:2000;
+}
+
+darkScreen {
+  behaviour:basicTransparency;
+  transp-base:255;
+  transp-end:0;
+  transp-time:-500;
+  transp-func:square;
+}
+
+darkScreen[animShow = show] {
+  transp-time:1000;
+}
+
+briefingglow {
+  background-repeat:expand;
+  background-image:ui/briefingglow;
+  background-color:@white;
+
+  transp-base:0;
+  transp-end:40;
+  transp-time:4000;
+  transp-func:"projector";
+  input-transparent:yes;
+  needAnim:yes;
+}
+briefingglow[_transp-timer=1][color-factor=0] {
+  needAnim:no;
+}
+briefingglow[needAnim=yes] {
+  behaviour:basicTransparency;
+}
+
+country_exp_div, exp_div {
+  input-transparent:yes;
+}
+
+country_exp_div {
+  min-height:3@scrn_tgt_font/100.0;
+  flow:horizontal;
+}
+
+[countryExpType=vertical] country_exp_div {
+  flow:vertical;
+  width:30*@scrn_tgt_font/100.0;
+}
+[countryExpType=centered] country_exp_div, [countryExpType=noNames] country_exp_div {
+  width:41*@scrn_tgt_font/100.0;
+  pos:50%pw-50%w,0;
+  position:relative;
+}
+[countryExpType=noNames] country_exp_div {
+  width:33*@scrn_tgt_font/100.0;
+}
+exp_div {
+  width:20*@scrn_tgt_font/100.0;
+}
+.short > exp_div, .short > exp_div > expProgress {
+  width:15*@scrn_tgt_font/100.0;
+}
+
+country_exp_div[flow=vertical] > exp_div {
+  pos:50%pw-50%w, 0;
+  position:relative;
+}
+
+country_exp_div[flow=horizontal] > exp_div {
+  pos:1*@scrn_tgt/100.0, 50%ph-50%h;
+  position:relative;
+}
+
+[countryExpType=wide] country_exp_div > exp_div {
+  size:pw, ph;
+  pos:0,0;
+  position:absolute;
+}
+
+[countryExpType=wide] country_exp_div > exp_div > expProgress {
+  width:pw;
+  pos:0, ph-h;
+}
+
+[countryExpType=wide] country_exp_div > exp_div > activeText {
+  pos:50%pw-50%w, 0;
+  position:absolute;
+  height:ph;
+}
+
+[allAlignLeft=yes] textareaNoTab,
+[allAlignLeft=yes] text
+{
+  text-align:left;
+}
+
+text[overlayTextColor=active], textareaNoTab[overlayTextColor=active], textarea[overlayTextColor=active],
+textAreaCentered[overlayTextColor=active] {
+  color:@activeTextColor;
+}
+text[overlayTextColor=minor], extareaNoTab[overlayTextColor=minor] {
+  color:@minorTextColor;
+}
+text[overlayTextColor=mainPlayer] {
+  color:@mainPlayerColor;
+}
+text[overlayTextColor=faded], textarea[overlayTextColor=faded], textareaNoTab[overlayTextColor=faded] {
+  color:@fadedTextColor;
+}
+text[overlayTextColor=silver], textareaNoTab[overlayTextColor=silver] {
+  color:@silver;
+}
+text[overlayTextColor=disabled], textarea[overlayTextColor=disabled], textareaNoTab[overlayTextColor=disabled] {
+  color:@disabledTextColor;
+}
+activeText[overlayTextColor=good], textarea[overlayTextColor=good], textareaNoTab[overlayTextColor=good] {
+  color:@goodTextColor;
+}
+activeText[overlayTextColor=bad], textarea[overlayTextColor=bad], textareaNoTab[overlayTextColor=bad] {
+  color:@badTextColor;
+}
+activeText[overlayTextColor=warning], textarea[overlayTextColor=warning], textareaNoTab[overlayTextColor=warning],
+text[overlayTextColor=warning] {
+  color:@warningTextColor;
+}
+text[overlayTextColor=shopStats] {
+  color:@shopStatsColor;
+}
+text[overlayTextColor=userlog], activeText[overlayTextColor=userlog],
+textareaNoTab[overlayTextColor=userlog], textarea[overlayTextColor=userlog] {
+  color:@userlogColoredText;
+}
+activeText[overlayTextColor=unlockHeader], textAreaSmall[overlayTextColor=unlockHeader],
+textareaNoTab[overlayTextColor=unlockHeader] {
+  color:@unlockHeaderColor;
+}
+text[overlayTextColor=gold] {
+  color:@yellow;
+}
+text[overlayTextColor=weaponWarning] {
+  color:@weaponWarning;
+}
+text[overlayTextColor=usageRating0] {
+  color:@usageRatingColor0;
+}
+text[overlayTextColor=usageRating1] {
+  color:@usageRatingColor1;
+}
+text[overlayTextColor=usageRating2] {
+  color:@usageRatingColor2;
+}
+text[overlayTextColor=usageRating3] {
+  color:@usageRatingColor3;
+}
+text[overlayTextColor=usageRating4] {
+  color:@usageRatingColor4;
+}
+
+[overlayTextColor=premium] activeText,
+activeText[overlayTextColor=premium] {
+  color:@userlogColoredText;
+}
+[overlayTextColor=premiumNotEarned] activeText,
+activeText[overlayTextColor=premiumNotEarned] {
+  color:@commonTextColor;
+}
+
+textareaNoTab[overlayTextColor=hotkey] {
+  color:@hotkeyColor;
+}
+
+text.decalsTitle {
+  size:pw, @decalIconHeight-2*@sf/@pf;
+}
+
+referenceProgress{
+  height:@referenceProgressHeight;
+  width:8*@scrn_tgt_font/100;
+  pos:0, ph+@referenceProgressOffset;
+  position:absolute;
+  min:0;
+  max:1000;
+}
+
+.airInfoPanel referenceProgress {
+  width:0.5@airInfoPanelWidth;
+}
+
+referenceMarker{
+  width: 1.3%@scrn_tgt_font;
+  height: ph + 8*@sf/@pf;
+  top: -4*@sf/@pf;
+  background-repeat:expand;
+  background-color:@white;
+  background-image: #ui/gameuiskin#slider_thumb;
+  position: absolute;
+}
+
+pattern {
+  size:pw, ph;
+  background-color:@white;
+  background-repeat:repeat;
+  background-position:1,2;
+  input-transparent:yes;
+}
+pattern[type=bright_texture] {
+  background-image:#ui/gameuiskin#pattern_bright_texture;
+}
+pattern[type=bright_hor_lines] {
+  background-image:#ui/gameuiskin#pattern_bright_hor_lines;
+}
+pattern[type=dark_diag_lines] {
+  background-image:#ui/gameuiskin#pattern_dark_diag_lines;
+}
+pattern[type=premium] {
+  background-image:#ui/gameuiskin#pattern_bright_texture;
+}
+pattern[type=itemCurrent] {
+  background-image:#ui/gameuiskin#pattern_b;
+}
+pattern[type=itemCurrent2] {
+  background-image:#ui/gameuiskin#pattern_w;
+}
+
+slotbarBottom {
+  re-type:9rect;
+  pos:50%pw-50%w,0;
+  position:absolute;
+  size:pw-2*@sf/@pf, ph;
+  background-image:#ui/gameuiskin#slotbar_bottom_bar;
+  background-position:1;
+  background-repeat:expand;
+  background-color:@white;
+}
+slotbarEdge {
+  re-type:9rect;
+  background-position:8;
+  background-repeat:expand;
+  background-color:@white;
+  background-image:#ui/gameuiskin#slotbar_edge;
+}
+slotbarTop {
+  re-type:9rect;
+  size:pw, 1@slotbarTop + 2; 
+  background-image:#ui/gameuiskin#slotbar_top_bar;
+  background-position:4;
+  background-repeat:expand;
+  background-color:@white;
+}
+
+ProjectAwardsPanel {
+  position:absolute;
+  right:1@bw;
+  top:50%sh-50%h;
+  flow:vertical;
+  input-transparent:yes;
+}
+
+ProjectAwardsPanel > img {
+  size:48*@sf/@pf, 48*@sf/@pf;
+  color-factor:145;
+  input-transparent:yes;
+}
+
+ProjectAwardsPanel > img:hover {
+  color-factor:255;
+}
+
+TopMenuPanel {
+  re-type:9rect;
+  pos:0,0;
+  position:root;
+  size:sw, 1@topBarHeight;
+  padding-bottom:1@framePadding;
+  background-image:#ui/gameuiskin#top_bar;
+  background-color:@barColor;
+  background-position:6,8;
+  background-repeat:expand;
+}
+BottomMenuPanel {
+  re-type:9rect;
+  pos:0, sh-h+3*@sf/@pf;
+  position:root;
+  size:sw, 1@bottomBarHeight;
+  padding-top:2*@sf/@pf;
+  background-image:#ui/gameuiskin#bottom_bar;
+  background-color:@barColor;
+  background-position:6,8;
+  background-repeat:expand;
+}
+
+airItemNavigation {
+  id:air_actions_navigation;
+  behaviour:wrapNavigator;
+  navigatorShortcuts:"yes";
+  on_wrap_up: onWrapUp;
+  on_wrap_down: onWrapDown;
+  re-type:9rect;
+  pos:6,50%ph-50%h;
+  position:absolute;
+  padding-left:3*@sf/@pf;
+  height:1@slotbarTop;
+  background-color:@transparent;
+  background-image:#ui/gameuiskin#block_bg_rounded_flat;
+  background-position:0;
+  background-repeat:expand;
+}
+
+airItemNavigation[highlight=yes], airItemNavigation:focus{
+  background-color:#0f0f0f0f;
+}
+
+CompanyLogo {
+  re-type:9rect;
+  size:256*@loginLogoScale, 128*@loginLogoScale;
+  background-image:#ui/gaijin_logo;
+  background-repeat:expand;
+  background-position:0;
+  background-color:@white;
+  input-transparent:yes;
+}
+
+copyright {
+  re-type:text;
+  color:@commonTextColor;
+  text:"#mainmenu/legal_text";
+  font:@small;
+  padding-right:0.04@scrn_tgt_font;
+  text-align:center;
+  input-transparent:yes;
+}
+
+Red_shadow_light {
+  background-color: #00777777;
+  background-image:#ui/gameuiskin#top_bar_light;
+  input-transparent:yes;
+}
+
+GameLogoPlate {
+  size:1@titleLogoPlateWidth, 1@titleLogoPlateHeight + 1@bh;
+  total-input-transparent:yes;
+}
+
+GameLogoPlate > ShadeOnPanel {
+  width:110%pw;
+  height:1@topBarHeight;
+  pos:50%pw-50%w, 0;
+  position:absolute;
+  background-color:@shadeBackgroundColor;
+}
+
+GameLogoPlate > Shadow {
+  re-type:9rect;
+  pos:50%pw-50%w, 0;
+  position:absolute;
+  size:pw+6*@sf/@pf, ph+5*@sf/@pf;
+  background-image:#ui/gameuiskin#window_body_shadow;
+  background-color:@white;
+  background-position:6;
+  background-repeat:expand;
+}
+
+GameLogoPlate redPlate {
+  re-type:9rect;
+  size:pw, ph;
+  padding:3*@sf/@pf, 2*@sf/@pf;
+  background-image:#ui/gameuiskin#red_plate;
+  background-color:@white;
+  background-position:6;
+  background-repeat:expand;
+}
+
+GameLogoPlate GameLogoImg {
+  id:"titleLogo";
+  re-type:9rect;
+  pos:50%pw-50%w, ph-h;
+  position:absolute;
+  size:pw, ph- 1@bh;
+  background-position:0;
+  background-repeat:expand;
+  background-color:@white;
+}
+
+GameLogoPlate > infoBlock {
+  height:0.02@scrn_tgt_font;
+}
+
+GameLogoPlate > infoBlock[type=left] {
+  pos:-w, 1@topBarHeight+4@dp;
+  position:absolute;
+  padding-right:10*@sf/@pf;
+}
+
+GameLogoPlate > infoBlock[type=right] {
+  pos:pw, 1@topBarHeight;
+  position:absolute;
+  padding-left:10*@sf/@pf;
+}
+
+CentralPlate {
+  background-repeat:expand;
+  background-color:#555555;
+  background-position:6,6;
+  background-image:#ui/gameuiskin#window_body;
+  padding:1@framePadding;
+}
+
+TopMenuPanel > infoBlock {
+  pos:sw - w - 1@offsetBetweenScreenAndAirinfo, 1@topBarHeight;
+  position:absolute;
+}
+
+gamercard_div[type=wwMap] > gamercard > TopMenuPanel > infoBlock {
+  pos:sw - w - 1@wwMapPanelInfoWidth - 3@framePadding, 1@topBarHeight + 3*@sf/@pf;
+  position:absolute;
+}
+
+LineLock {
+  re-type:9rect;
+  size:1@gcLineLockWidth, 1@topBarHeight;
+
+  foreground-repeat:repeat;
+  foreground-color:@white;
+  foreground-position:0,0,1,6;
+  foreground-image:#ui/gameuiskin#pattern_bright_texture;
+
+  background-repeat:expand;
+  background-color:@white;
+  background-position:0,6, 0, 11;
+  background-image:#ui/gameuiskin#top_bar_stump_left;
+}
+
+LineLock[type=right] {
+  foreground-position:1,0,0,6;
+  background-image:#ui/gameuiskin#top_bar_stump_right;
+}
+
+slotbarTop > tdiv[offset=yes] {
+  padding-left:1@offsetFromEdge + 1@shopWidthMax + 10@sf/@pf;
+}
+
+bottomButtonsDiv {
+  id:"air_item_bottom_buttons";
+  left:0.5pw - 0.5w;
+  top:ph -7*@sf/@pf;
+  position:absolute;
+  width:pw;
+  css-hier-invalidate:yes;
+  color-factor:255;
+}
+
+.slotbarTable bottomButtonsDiv {
+  top:ph -1*@sf/@pf;
+}
+
+topMenuDiv {
+  css-hier-invalidate:yes;
+  re-type:9rect;
+  min-height:1@mainMenuDivHeight;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#hovermenu_bg;
+  background-color:@white;
+  background-position:6;
+  padding:2*@sf/@pf, 7*@sf/@pf;
+}
+
+activeText[airBought=yes] {
+  color:@activeTextColor;
+}
+
+activeText[airCanBuy=yes] {
+  color:@hotkeyColor;
+}
+
+activeText[airCanBuy=no] {
+  color:@weaponWarning;
+}
+
+textareaNoTab.highlightButton {
+  behaviour:button;
+  snd_click:click;
+  input-transparent:no;
+  background-image:#ui/gameuiskin#window_block_dark;
+  background-color:@commonMenuButtonColor;
+  background-repeat:expand;
+  background-position:2;
+}
+
+textareaNoTab.highlightButton:hover {
+  background-color:@hoverMenuButtonColor;
+  color:@fadedTextColor;
+}
+
+textareaNoTab.highlightButton:pushed {
+  background-color:@pushedMenuButtonColor;
+  color:@activeTextColor;
+}
+
+focus_border {
+  position: absolute;
+  pos: -1, -1;
+  size: pw + 2, ph + 2;
+  display: hide;
+  input-transparent:yes;
+}
+
+focus_border_in_scroll {
+  re-type:9rect;
+  size:pw, ph;
+  pos:0, 0;
+  position:fixed;
+  input-transparent:yes;
+  display:hide;
+}
+
+
+[show_console_buttons=yes] focus_border_in_scroll {
+  display:show;
+}
+
+focus_border,
+[show_console_buttons=yes] :focus focus_border_in_scroll,
+[show_console_buttons=yes] [childsActivate=yes] > Button_text:focus,
+[show_console_buttons=yes] [childsActivate=yes] > button:focus,
+[show_console_buttons=yes] [childsActivate=yes] > emptyButton:focus,
+[show_console_buttons=yes] [childsActivate=yes] > emptyButton[selected=yes],
+[show_console_buttons=yes] [showSelect=yes] > Button_text[selected=yes],
+[show_console_buttons=yes] [showSelect=yes] > button[selected=yes],
+[showSelect=always] > Button_text[selected=yes],
+[show_console_buttons=yes] [selfFocusBorder=yes]:focus > tr[selected=yes],
+[show_console_buttons=yes] CheckBox:focus,
+[show_console_buttons=yes] RadioButton_AD:focus,
+[show_console_buttons=yes] HorizontalListBox:focus > shopFilter[selected=yes],
+[show_console_buttons=yes] VerticalListBox:focus > shopFilter[selected=yes],
+[show_console_buttons=yes] :focus > RadioButton:current,
+[show_console_buttons=yes] :focus > collapsableBlock[selected=yes],
+[show_console_buttons=yes] :focus > imgButton[selected=yes],
+[show_console_buttons=yes] buttonPlayer[selected=yes],
+[show_console_buttons=yes] [childsActivate=yes] > gameModeItem:focus,
+[show_console_buttons=yes] [childsActivate=yes] > gameModeChangeButton:focus,
+[show_console_buttons=yes] [childsActivate=yes] > div[hoverMenuButtons=yes]:focus,
+[show_console_buttons=yes] MultiSelect:focus > multiOption[selected=yes],
+[show_console_buttons=yes] game_mode_block[selected=yes],
+[show_console_buttons=yes] [cluster_select_button_container=yes] > button[selected=yes],
+[show_console_buttons=yes] :focus > activateTab[selected=yes],
+[show_console_buttons=yes] promoButton:focus,
+[show_console_buttons=yes] :focus > promoButton[type=simpleList][selected=yes],
+[show_console_buttons=yes] dialog_button:focus,
+[show_console_buttons=yes] PosOptionsNavigator > cell[selected=yes],
+[show_console_buttons=yes] gameModeChangeButton[navigatorShortcuts]:focus,
+[show_console_buttons=yes] hangarToggleButton[navigatorShortcuts]:focus,
+[show_console_buttons=yes] ComboBox[focusFrame=yes]:focus {
+  re-type:9rect;
+  foreground-color: @gamepadFocusFrameColor;
+  foreground-image: #ui/gameuiskin#item_selection;
+  foreground-position: 8, 10, 8, 8;
+  foreground-repeat: expand;
+}
+
+shopItem > focus_border {
+  pos: -1, -2;
+  size: pw+2, ph+2;
+}
+shopItem[group=yes] > focus_border {
+  pos: -1, -8;
+  size: pw+2, ph+8;
+}
+
+focus_border.fontRow {
+  size: pw+2, 0.03@scrn_tgt_font+2;
+}
+
+focusConsoleDiv {
+  display:hide;
+  input-transparent:yes;
+}
+
+table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_border,
+[show_console_buttons=yes] :focus > focus_border,
+[show_console_buttons=yes] .slotbarTable:focus [selected=yes] > shopItem > focus_border,
+[show_console_buttons=yes] :focus > focusConsoleDiv,
+[show_console_buttons=yes] :focus > itemDiv[selected=yes] > focus_border
+{
+  display: show;
+}
+
+airInfoBlock {
+  background-image:#ui/gameuiskin#window_body;
+  background-repeat:expand;
+  background-color:#99999999;
+  background-position:4;
+  flow:vertical;
+  pos:-4px, @infoPanelVertPosition;
+  position:absolute;
+  padding:0.01@scrn_tgt_font;
+  padding-left:1@offsetBetweenScreenAndAirinfo;
+  min-height:2@sIco;
+  css-hier-invalidate:yes;
+  total-input-transparent:yes;
+}
+
+airInfoBlock[toggled=no] {
+  padding-left:0.5sw - 0.5@slotbarWidthFull + 4px - 6*@sf/@pf + @mIco;
+  background-color:@transparent;
+}
+
+crewUnitSpecUpgradeTooltip textarea,
+skillParametersTooltip textarea,
+airInfoBlock textarea,
+airInfoBlock text {
+  font:@tiny;
+  paragraph-indent:0;
+  padding-left:0; padding-right:0;
+}
+
+crewUnitSpecUpgradeTooltip textareaNoTab[exp_upgrade_text_area=yes] {
+  font:@tiny;
+}
+
+airInfoBlock textarea[crew_data=yes], airInfoBlock text[crew_data=yes] {
+  font:@small;
+}
+
+airInfoBlock td {
+  padding:0, @referenceProgressHeight, 4*@sf/@pf, @referenceProgressHeight + @referenceProgressOffset;
+}
+
+navConsoleBlock > directionImage {
+  re-type:9rect;
+  background-color:@white;
+  background-image:#ui/gameuiskin#arrow_button_console;
+  background-position:0;
+  background-repeat:expand;
+}
+
+navConsoleBlock > buttonImage {
+  re-type:9rect;
+  background-color:@white;
+  background-position:0,0;
+  background-repeat:expand;
+}
+
+navConsoleBlock > buttonImage[btnName=LT] {
+  background-image:#ui/controlskin#l_shoulder;
+}
+
+navConsoleBlock > buttonImage[btnName=RT] {
+  background-image:#ui/controlskin#r_shoulder;
+}
+
+collapsableBlock {
+  width:pw;
+  flow:vertical;
+  css-hier-invalidate:yes;
+}
+collapsableBlock > header {
+  size:pw, @baseTrHeight;
+  css-hier-invalidate:yes;
+}
+collapsableBlock > header > fullSizeCollapseBtn {
+  tooltip:"";
+  css-hier-invalidate:yes;
+}
+collapsableBlock > header > fullSizeCollapseBtn > text {
+  behaviour:OverflowScroller;
+  position:absolute;
+  size:pw,ph;
+  padding-left:@sIco;
+  text-align:left;
+  color: @commonMenuButtonColor;
+  input-transparent:yes;
+}
+collapsableBlock > header > fullSizeCollapseBtn > activeText {
+  input-transparent:yes;
+}
+collapsableBlock > header > fullSizeCollapseBtn:hover,
+collapsableBlock:focus > header > fullSizeCollapseBtn,
+collapsableBlock[selected=yes] > header > fullSizeCollapseBtn {
+  background-color:@white;
+  background-image:#ui/gameuiskin#option_select_even;
+  background-position:4,4;
+  background-repeat:expand;
+}
+
+collapsableBlock > header > fullSizeCollapseBtn:hover > text,
+collapsableBlock:focus > header > fullSizeCollapseBtn > text,
+collapsableBlock[selected=yes] > header > fullSizeCollapseBtn:[selected=yes] > text {
+  color:@activeTextColor;
+}
+
+fadedImageFrame {
+  re-type:9rect;
+  background-image:#ui/gameuiskin#block_bg_rounded_dark;
+  background-color:@white;
+  background-repeat:expand;
+  background-position:4;
+  foreground-repeat:repeat;
+  foreground-color:@white;
+  foreground-position:4,4;
+  foreground-image:#ui/gameuiskin#pattern_bright_hor_lines;
+  padding:3;
+}
+
+fadingBox {
+  re-type:9rect;
+  background-repeat:expand;
+  background-position:0,4;
+  background-image:#ui/gameuiskin#white_with_gradient_alpha;
+}
+
+fadingBox[type=right] {
+  rotation:180;
+}
+
+fadedImageFrame fadingBox {
+  background-color:@fadedImageFrameColor;
+}
+
+frame[tank_not_default_controls_frame=yes] {
+  bgcolor:#88000000;
+  background-image:"";
+  padding:0;
+}
+
+autosize[display=none] {
+  min-width:0;
+  width:1;
+  min-height:0;
+  height:1;
+}
+
+autoScroll {
+  behaviour:OverflowScroller;
+  move-pixel-per-sec:50*@scrn_tgt/100.0;
+  move-sleep-time:1000;
+  move-delay-time:2000;
+}
+
+paymentItem {
+  size:pw, ph;
+  re-type:9rect;
+  background-position:3, 4, 3, 5;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#item;
+  background-color:@white;
+  padding:3*@sf/@pf;
+  css-hier-invalidate:yes;
+  total-input-transparent:yes;
+}
+
+paymentItem shopItemText {
+  font:@normal;
+  color:@commonTextColor;
+}
+
+paymentItem:hover shopItemText {
+  color:@white;
+}
+
+paymentItem > icon {
+  position:relative;
+  pos:50%pw-50%w, 50%ph-50%h;
+  size:1*@paymentIconWidth, 1*@paymentIconHeight;
+  background-color:@commonTextColor;
+}
+
+paymentItem:hover > icon {
+  background-color:@white;
+}
+
+paymentItem > icon[background-image=""] {
+  background-color:@transparent;
+}
+
+topMenuButtons {
+  re-type:9rect;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#hovermenu_bg;
+  background-color:@white;
+  background-position:6;
+  padding:2*@sf/@pf, 7*@sf/@pf;
+}
+
+rightClickMenu {
+  re-type:9rect;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#frame_opaq;
+  background-color:@white;
+  background-position:4;
+  padding:1@framePadding;
+}
+
+gamercardShade {
+  size:2*sw, sh/2;
+  pos:50%sw-50%w, 0;
+  position:root;
+  background-color:@black;
+  background-image:#ui/gameuiskin#optionlist_background_top;
+  background-position:4;
+  background-repeat:expand;
+}
+
+ShadowPlate {
+  re-type:9rect;
+  background-image:#ui/gameuiskin#window_body_shadow;
+  background-color:@white;
+  background-position:4;
+  background-repeat:expand;
+}
+
+frame[side=left] {
+  pos:-((w-(@slot_width-(25*@sf/@pf)))-2*@sf/@pf), -h-1*@scrn_tgt/100.0;
+}
+frame[side=right] {
+  pos:2*@sf/@pf, -h-1*@scrn_tgt/100.0;
+}
+
+activeText[text-align=center] {
+  padding:0;
+}
+
+
+[halign=center] {
+  position:relative;
+  left:(pw-w)/2;
+}
+
+[valign=center], td[td-valign=center] > * {
+  position:relative;
+  top:(ph-h)/2;
+}
+
+expandable * {
+  css-hier-invalidate:yes;
+}
+
+
+
+
+
+@import "scroll.css"
+@import "shortcuts.css"
+@import "finalOverrides.css"
+
+
+

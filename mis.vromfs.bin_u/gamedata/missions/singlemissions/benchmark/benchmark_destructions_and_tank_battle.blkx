@@ -42,7 +42,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       },
       "stars": {
         "latitude": 51.0,
@@ -131,10 +137,10 @@
             "object": "small_cutscene_squad",
             "attack_type": "dont_aim",
             "effShootingRate": 0.0,
+            "airEffShootingRate": 0.0,
             "effShootingRateByPlayer": 0.0,
             "ignoreCollisions": false,
-            "aiEnabled": false,
-            "airEffShootingRate": 0.0
+            "aiEnabled": false
           }
         },
         {
@@ -441,18 +447,7 @@
           ]
         },
         {
-          "missionSetTimeSpeed": {
-            "speed": 1.0,
-            "realtimeTriggers": true
-          }
-        },
-        {
-          "missionCompleted": {
-            "timer": false,
-            "debriefingTimer": 1,
-            "showCompleteMessage": false,
-            "playCompleteMusic": false
-          }
+          "missionDebriefing": []
         }
       ],
       "else_actions": []
@@ -530,6 +525,8 @@
         "unit_class": "ussr_t_50",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_t_50_default",
         "bullets0": "",
         "bullets1": "",
@@ -564,6 +561,8 @@
         "unit_class": "germ_panther_II",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "germ_panther_II_default",
         "bullets0": "",
         "bullets1": "",
@@ -626,6 +625,8 @@
         "unit_class": "us_m24_chaffee",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -657,7 +658,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "teamB_cutscene_tank28_wp_02": {
@@ -671,7 +674,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -689,6 +694,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -720,7 +727,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "teamB_cutscene_tank29_wp_02": {
@@ -734,7 +743,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "teamB_cutscene_tank29_wp_03": {
@@ -748,7 +759,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -766,6 +779,8 @@
         "unit_class": "ussr_isu_152",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "ussr_isu_152_default",
         "bullets0": "152mm_ussr_HE",
         "bullets1": "",
@@ -797,7 +812,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "teamB_cutscene_tank30_wp_02": {
@@ -811,7 +828,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "teamB_cutscene_tank30_wp_03": {
@@ -825,7 +844,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -843,6 +864,8 @@
         "unit_class": "b-29",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "B29_12x1000lbs",
         "bullets0": "",
         "bullets1": "",
@@ -885,7 +908,9 @@
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -903,6 +928,8 @@
         "unit_class": "germ_panther_II",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

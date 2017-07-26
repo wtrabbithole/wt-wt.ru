@@ -1,0 +1,140 @@
+CheckBox {
+  height:@checkboxSize;
+    re-type:9rect;
+  behaviour:check;
+  color:@commonMenuButtonColor;
+  font:@small;
+  text-align:left;
+  padding-left:h+4*@sf/@pf;
+  css-hier-invalidate:yes;
+  snd_change_value:check;
+}
+
+CheckBox:pushed[value=yes] {
+  snd_change_value:uncheck;
+}
+
+CheckBox:hover {
+  color:@hoverMenuButtonColor;
+}
+
+CheckBox:pushed {
+  color:@pushedMenuButtonColor;
+}
+
+CheckBox:disabled {
+  color:@inactiveButtonTextColor;
+}
+
+CheckBoxImg {
+  size:@checkboxSize, @checkboxSize;  position:absolute;
+  background-image:#ui/gameuiskin#checkbox_unchecked_;
+  background-position:0;
+  background-repeat:expand;
+  background-color:@white;
+  input-transparent:yes;
+}
+
+CheckBox:hover > CheckBoxImg { background-image:#ui/gameuiskin#checkbox_unchecked_hover; }
+
+CheckBox:checked > CheckBoxImg { background-image:#ui/gameuiskin#checkbox_checked_; }
+
+CheckBox:pushed > CheckBoxImg { background-image:#ui/gameuiskin#checkbox_unchecked_active; }
+
+CheckBox:disabled > CheckBoxImg { background-image:#ui/gameuiskin#checkbox_unchecked_disabled; }
+
+CheckBox:checked:disabled > CheckBoxImg { background-image:#ui/gameuiskin#checkbox_checked_disabled; }
+
+CheckBox:checked:hover > CheckBoxImg { background-image:#ui/gameuiskin#checkbox_checked_hover; }
+
+CheckBox:checked:pushed > CheckBoxImg { background-image:#ui/gameuiskin#checkbox_checked_active; }
+
+CheckBox.empty {
+  width:h;
+}
+
+CheckBox.with_image {
+  padding-left:0;
+  padding-right:h+2*@sf/@pf;
+}
+CheckBox.with_image > CheckBoxImg {
+  pos:pw-w,0;
+}
+CheckBox.with_image > infoImg {
+  size:@checkboxSize,@checkboxSize;  background-color:#999999;
+  input-transparent:yes;
+}
+
+CheckBox.with_image[text] {
+  padding-left:2h+2*@sf/@pf;
+  padding-right:0;
+}
+CheckBox.with_image[text] > CheckBoxImg {
+  pos:h,0;
+}
+CheckBox.with_image[text] > infoImg {
+  pos:0,0;
+  position:absolute;
+}
+
+CheckBox.with_image:checked > infoImg {
+  background-color:#eeeeee;
+}
+
+CheckBox.with_image:hover > infoImg {
+  background-color:@white;
+}
+
+CheckBox.with_image:pushed > infoImg {
+  background-color:#cccccc;
+}
+
+CheckBox[tinyFont=yes] {
+  font:@tiny;
+}
+
+[show_console_buttons=yes] CheckBox[btnName]
+{
+  padding-left:h + 1@cIco + 0.005*@scrn_tgt_font;
+}
+
+[show_console_buttons=yes] CheckBox[btnName=RB],
+[show_console_buttons=yes] CheckBox[btnName=LB]
+{
+  fullSizeIcons:yes;
+  padding-left:h + 1@buttonIconHeight + 0.01*@scrn_tgt_font;
+}
+
+.checkBoxRow > CheckBox {
+  height:@checkboxSize + 2@blockInterval;
+  min-width:15*@scrn_tgt/100.0;
+  padding:1@blockInterval;
+  margin-right:1@blockInterval;
+  background-image:#ui/gameuiskin#window_block_bright;
+  background-color:@white;
+  background-position:4;
+  background-repeat:expand;
+}
+
+.checkBoxRow > CheckBox > CheckBoxImg {
+  pos:1@blockInterval, 1@blockInterval;
+}
+
+.checkBoxRow > CheckBox[isLastCheckBox=yes] {
+  margin-right:0;
+}
+
+VerticalListBox.options > shopFilter > CheckBoxImg,
+HorizontalListBox > shopFilter > CheckBoxImg {
+  pos:pw-w-0.02@scrn_tgt,50%ph-50%h;
+}
+
+VerticalListBox.options > shopFilter[selected=yes] > CheckBoxImg,
+HorizontalListBox > shopFilter[selected=yes] > CheckBoxImg {
+  background-image:#ui/gameuiskin#checkbox_checked_;
+}
+
+tdiv.mistypes > CheckBox {
+  width:50%pw - 1*@sf/@pf;
+  font:@tiny;
+}

@@ -1690,7 +1690,8 @@
             "maxThrust": 58000.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_01_dm",
-            "transmissionDmPart": "transmission_01_dm"
+            "transmissionDmPart": "transmission_01_dm",
+            "propeller": "propeller_01"
           }
         },
         {
@@ -1699,7 +1700,8 @@
             "maxThrust": 58000.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_02_dm",
-            "transmissionDmPart": "transmission_02_dm"
+            "transmissionDmPart": "transmission_02_dm",
+            "propeller": "propeller_02"
           }
         }
       ],
@@ -2995,22 +2997,16 @@
           },
           {
             "gunStabilizer": {
-              "hasVerticalGunFreeMode": false,
+              "hasVerticalGunFreeMode": true,
               "hasHorizontal": true,
               "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 75.0,
+              "horizontalSpeedLimitKPH": 80.0,
               "hasVertical": true,
               "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 75.0,
+              "verticalSpeedLimitKPH": 80.0,
               "errorKPHToDegrees": [
                 {
                   "row": [5.0,0.01]
-                },
-                {
-                  "row": [25.0,0.02]
-                },
-                {
-                  "row": [45.0,0.03]
                 },
                 {
                   "row": [70.0,0.05]

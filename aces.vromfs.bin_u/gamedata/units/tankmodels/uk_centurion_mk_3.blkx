@@ -244,13 +244,22 @@
           "armorThickness": 90.0
         },
         "gun_mask_dm": {
-          "armorThickness": 152.0
+          "armorThickness": 120.0
+        },
+        "gun_mask_01_dm": {
+          "armorThickness": 160.0
+        },
+        "gun_mask_02_dm": {
+          "armorThickness": 100.0
+        },
+        "gun_mask_03_dm": {
+          "armorThickness": 100.0
         },
         "gun_barrel_armor_dm": {
           "armorThickness": 20.0
         },
         "turret_01_front_dm": {
-          "armorThickness": 270.0
+          "armorThickness": 200.0
         }
       },
       "optics": {
@@ -1489,43 +1498,90 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner1",
-          "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/7_92mm_BESA_user_machinegun.blk",
-          "emitter": "bone_mg_gun_twin",
-          "flash": "emtr_mg_flame_01",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "speedYaw": 5.5,
-          "speedPitch": 4.0,
-          "fireConeAngle": 1.0,
-          "bullets": 3600,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_gun_twin",
-            "gun": "bone_mg_gun_twin",
-            "gunnerDm": "gunner_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner1"
           },
-          "limits": {
-            "yaw": [-0.0,0.0],
-            "pitch": [-0.0,0.0]
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_92mm_BESA_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_gun_twin"
+          },
+          {
+            "flash": "emtr_mg_flame_01"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "speedYaw": 5.5
+          },
+          {
+            "speedPitch": 4.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 3600
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_gun_twin",
+              "gun": "bone_mg_gun_twin",
+              "gunnerDm": "gunner_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-0.0,0.0],
+              "pitch": [-0.0,0.0]
+            }
           }
-        }
+        ]
       }
     ]
   },
@@ -2195,6 +2251,33 @@
     }
   },
   {
+    "ammoLoadDistribution": {
+      "primaryShells": {
+        "ammo_turret_dm": {
+          "count": 7
+        },
+        "ammo_turret_01_dm": {
+          "count": 2
+        },
+        "ammo_turret_02_dm": {
+          "count": 2
+        },
+        "ammo_body_04_dm": {
+          "count": 2
+        },
+        "ammo_body_01_dm": {
+          "count": 20
+        },
+        "ammo_body_02_dm": {
+          "count": 16
+        },
+        "ammo_body_03_dm": {
+          "count": 16
+        }
+      }
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -2218,7 +2301,9 @@
       },
       "84mm_britain_20pdr_APDS": [],
       "84mm_britain_20pdr_APDS_ammo_pack": [],
-      "84mm_britain_20pdr_default_HE": []
+      "84mm_britain_20pdr_default_HE": [],
+      "84mm_britain_Smoke": [],
+      "84mm_britain_Smoke_ammo_pack": []
     }
   },
   {

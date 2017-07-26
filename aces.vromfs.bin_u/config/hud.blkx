@@ -410,12 +410,14 @@
   },
   {
     "radar": {
-      "position": [1250.0,24.0],
+      "position": [1084.0,24.0],
+      "position_v2": [1250.0,24.0],
+      "alignAnchor": "rt",
+      "alignAnchor_v2": "lt",
       "viewDistance": 5000.0,
       "pixelRadius": 70,
       "expKoef": 0.9,
       "targetBlinkFreq": 1.0,
-      "alignAnchor": "lt",
       "line": "thin_line",
       "bgd": "radar_bgd",
       "bgdMiles": "radar_bgd_miles",
@@ -891,6 +893,9 @@
       },
       {
         "torpPointBlocked": "trpd_sight_point_blocked"
+      },
+      {
+        "torpForestall": ""
       },
       {
         "hitBlinkFreq": 1.0
@@ -2209,6 +2214,7 @@
       "actions": [
         {
           "switch_bullet_type": {
+            "shortcutIdx": 0,
             "triggerNo": 10,
             "bulletType": 0,
             "bulletTypeInGroup": 0,
@@ -2217,6 +2223,7 @@
         },
         {
           "switch_bullet_type": {
+            "shortcutIdx": 1,
             "triggerNo": 10,
             "bulletType": 1,
             "bulletTypeInGroup": 1,
@@ -2225,6 +2232,7 @@
         },
         {
           "switch_bullet_type": {
+            "shortcutIdx": 2,
             "triggerNo": 10,
             "bulletType": 2,
             "bulletTypeInGroup": 0,
@@ -2234,6 +2242,7 @@
         },
         {
           "switch_bullet_type": {
+            "shortcutIdx": 3,
             "triggerNo": 10,
             "bulletType": 3,
             "bulletTypeInGroup": 1,
@@ -2242,34 +2251,67 @@
           }
         },
         {
-          "artillery_shoot_at": []
+          "rocket_activate": {
+            "shortcutIdx": -1
+          }
         },
         {
-          "extinguisher_activate": []
+          "torpedo_activate": {
+            "shortcutIdx": -1
+          }
+        },
+        {
+          "deapth_charge_activate": {
+            "shortcutIdx": -1
+          }
+        },
+        {
+          "smoke_screen_activate": {
+            "shortcutIdx": -1
+          }
+        },
+        {
+          "artillery_shoot_at": {
+            "shortcutIdx": 4
+          }
+        },
+        {
+          "extinguisher_activate": {
+            "shortcutIdx": 5
+          }
         },
         {
           "control_unit_event": {
+            "shortcutIdx": 6,
             "controlTag": "fighter"
           }
         },
         {
           "control_unit_event": {
+            "shortcutIdx": 7,
             "controlTag": "attacker"
           }
         },
         {
           "control_unit_event": {
+            "shortcutIdx": 8,
             "controlTag": "bomber"
           }
         },
         {
-          "toggle_winch": []
+          "toggle_winch": {
+            "shortcutIdx": 9
+          }
         },
         {
-          "toolkit_activate": []
+          "toolkit_activate": {
+            "shortcutIdx": 10
+          }
         },
         {
-          "medicalkit_activate": []
+          "medicalkit_activate": {
+            "shortcutIdx": 11
+          }
         }
       ]
     }
@@ -2442,7 +2484,10 @@
       "areaScaleOnTurretGun": 1.2,
       "selectedColor": "#c9dc8796",
       "color": "#ffffff96",
+      "forestallColor": "#c4ffff40",
       "offsetFromShip": 35.0,
+      "forestallOffsetFromShip": 50.0,
+      "defaultForestallSectorAngle": 1.5,
       "lineWidth": 2.0,
       "lineMiddleAlpha": 120,
       "holdTimeout": 0.5

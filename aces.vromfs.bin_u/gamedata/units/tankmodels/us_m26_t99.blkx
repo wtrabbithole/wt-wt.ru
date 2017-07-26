@@ -486,6 +486,7 @@
         "ammo_body_38_dm": [],
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
+        "ammo_body_41_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1222,7 +1223,9 @@
       "90mm_us_M82_APCBC": [],
       "90mm_us_M304_APCR_ammo_pack": [],
       "90mm_us_M304_APCR": [],
-      "90mm_us_M71_HE": []
+      "90mm_us_M71_HE": [],
+      "90mm_us_M313_Smoke": [],
+      "90mm_us_M313_Smoke_ammo_pack": []
     }
   },
   {
@@ -1368,43 +1371,90 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner1",
-          "triggerGroup": "coaxial",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
-          "emitter": "bone_mg_gun_twin",
-          "flash": "emtr_gun_flame_01",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "speedYaw": 24.0,
-          "speedPitch": 4.0,
-          "fireConeAngle": 1.0,
-          "bullets": 5250,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_gun_twin",
-            "gun": "bone_mg_gun_twin",
-            "gunnerDm": "gunner_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner1"
           },
-          "limits": {
-            "yaw": [-0.0,0.0],
-            "pitch": [-0.0,0.0]
+          {
+            "triggerGroup": "coaxial"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk"
+          },
+          {
+            "emitter": "bone_mg_gun_twin"
+          },
+          {
+            "flash": "emtr_gun_flame_01"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "speedYaw": 24.0
+          },
+          {
+            "speedPitch": 4.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 5250
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 0.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_mg_gun_twin",
+              "gun": "bone_mg_gun_twin",
+              "gunnerDm": "gunner_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-0.0,0.0],
+              "pitch": [-0.0,0.0]
+            }
           }
-        }
+        ]
       },
       {
         "Weapon": {

@@ -165,7 +165,7 @@
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
         "conditionsType": "ALL",
-        "enableAfterComplete": false
+        "enableAfterComplete": true
       },
       "events": {
         "periodicEvent": {
@@ -179,10 +179,12 @@
         }
       },
       "actions": {
-        "missionCompleted": {
-          "timer": false,
-          "debriefingTimer": 1,
-          "showCompleteMessage": false
+        "wait": {
+          "time": 3.0
+        },
+        "spawnOnAirfield": {
+          "runwayName": "airfield00",
+          "objects": "armada_01"
         }
       },
       "else_actions": []

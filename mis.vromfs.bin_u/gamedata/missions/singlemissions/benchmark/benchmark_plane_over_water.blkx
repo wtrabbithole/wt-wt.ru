@@ -43,7 +43,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       },
       "stars": {
         "latitude": 21.0,
@@ -57,6 +63,12 @@
         "windDir": [0.6,0.8],
         "wind_scale": 1.0,
         "max_wind_strength": 6.0,
+        "sky": {
+          "mie_height": 0.9,
+          "mieG": 0.55,
+          "betaMScale": 0.65,
+          "clouds_overcast": 0.0
+        },
         "clouds_gen": {
           "humidity": 0.0,
           "persistence": 0.1,
@@ -73,12 +85,6 @@
           "sun_light": 0.5,
           "ambient": 1.5,
           "silver_lining_eccentricity": 0.6
-        },
-        "sky": {
-          "mie_height": 0.9,
-          "mieG": 0.55,
-          "betaMScale": 0.65,
-          "clouds_overcast": 0.0
         },
         "strata_clouds": {
           "amount": 0.5,
@@ -295,30 +301,7 @@
           }
         },
         {
-          "missionSetFade": {
-            "mode": "fadeOut",
-            "color": [0.0,0.0,0.0],
-            "time": 0.5
-          }
-        },
-        {
-          "missionSetTimeSpeed": {
-            "speed": 1.0,
-            "realtimeTriggers": true
-          }
-        },
-        {
-          "wait": {
-            "time": 0.2
-          }
-        },
-        {
-          "missionCompleted": {
-            "timer": false,
-            "debriefingTimer": 1,
-            "showCompleteMessage": false,
-            "playCompleteMusic": false
-          }
+          "missionDebriefing": []
         }
       ],
       "else_actions": []
@@ -343,6 +326,8 @@
       ],
       "unit_class": "sbd-3",
       "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
       "weapons": "",
       "bullets0": "",
       "bullets1": "",

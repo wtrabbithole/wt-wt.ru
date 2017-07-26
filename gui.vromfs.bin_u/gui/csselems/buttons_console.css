@@ -1,0 +1,1602 @@
+
+@const buttonWidth: 2 * (0.16*@scrn_tgt_font\2);
+@const bigButtonWidth: 0.25*@scrn_tgt_font\1;
+@const buttonHeight: @cIco + 8*@sf/@pf;
+@const battleButtonHeight: 20*@sf/@pf + 3*@scrn_tgt/100.0;
+
+@const navBarBattleButtonHeight: 1.2 * (1@cIco + 8*@sf/@pf);
+@const navBarBattleButtonMinWidth: 1.3 * (2 * (0.16*@scrn_tgt_font\2));
+
+@const buttonTextPadding: 0.5*@scrn_tgt/100.0;
+@const tinyButtonHeight: 0.017@scrn_tgt + 4@dp;
+@const buttonVMargin: 0.5*@scrn_tgt/100.0;
+
+@const buttonIconHeight: @cIco + 5*@sf/@pf;
+
+@const topMenuButtonWidth: 0.15@scrn_tgt_font;
+
+@const topMenuBattleButtonHeight: 0.055@scrn_tgt_font;
+@const topMenuBattleButtonImgHeight: 0.6@topMenuBattleButtonHeight;
+
+ButtonImg
+{
+  re-type:9rect;
+  background-color:@white;
+  background-repeat:expand;
+  font:@nav_button_font;
+  color:@commonMenuButtonColor;
+  
+  height:ph-3*@sf/@pf;
+  width:h;
+  snd_click:click;
+  margin-left:0;
+  input-transparent:yes;
+  if_target_pc:@target_pc;
+  pc_style:yes;
+}
+
+Button_text > ButtonImg,
+button > ButtonImg {
+  left:0.2*@scrn_tgt/100.0;
+  top:ph-h-2*@sf/@pf;
+  position:'absolute';
+}
+
+ButtonImg.independent {
+  height:@buttonIconHeight;
+}
+
+Button_text:disabled > ButtonImg {
+  background-color:@inactiveButtonBgColor;
+}
+
+CheckBox[btnName] > ButtonImg
+{
+  size:@cIco, @cIco;
+  left:h + 0.002*@scrn_tgt;
+  top:ph-h-2*@sf/@pf;
+  position:'absolute';
+}
+
+CheckBox[btnName][fullSizeIcons=yes] > ButtonImg {
+  top:ph-h;
+  size:@buttonIconHeight, @buttonIconHeight;
+}
+
+gameModeChangeButton > ButtonImg {
+  height:ph;
+}
+
+Button_text, Button_close, closeBtn, btnCollapse
+{
+  behaviour:button;
+  re-type:9rect;
+  font:@nav_button_font;
+
+  background-image:#ui/gameuiskin#button_;
+  background-color:@white;
+  background-position:5;
+  background-repeat:expand;
+
+  margin:0;
+  padding:1@buttonTextPadding,4*@sf/@pf;
+  margin-right:1@buttonVMargin;
+  color:@commonMenuButtonColor;
+  text-align:left;
+  height:1@buttonHeight;
+  min-width:@buttonWidth;
+  snd_click:click;
+  css-hier-invalidate:yes;
+  total-input-transparent:yes;
+
+  if_target_pc:@target_pc;
+  pc_style:yes;
+  cursor:onButton;
+  input-sensitive:yes;
+}
+
+Button_text[type=wwArmyFlyOut]
+{
+  snd_click:ww_airfield_send;
+}
+
+[show_console_buttons=yes] [btnName] > ButtonImg,
+[show_console_buttons=yes] ButtonImg[iconName],
+[show_console_buttons=yes] Button_text
+{
+  pc_style:no;
+}
+
+Button_text[showConsoleImage=no] {
+  pc_style:yes;
+}
+
+frame > navBar Button_text {
+  pos:0, 50%ph-50%h;
+  position:relative;
+}
+
+Button_text:hover,
+Button_text[enable=no]:hover {
+  background-image:#ui/gameuiskin#button_hover;
+}
+
+Button_text:pushed {
+  background-image:#ui/gameuiskin#button_active;
+  padding-top:5*@sf/@pf;
+  padding-bottom:3*@sf/@pf;
+}
+
+Button_text,
+Button_text > text,
+Button_text > textarea {
+  color:@commonMenuButtonColor;
+}
+
+Button_text[active=yes] {
+  background-image:#ui/gameuiskin#button_active;
+}
+
+[show_console_buttons=yes] Button_text[selected=yes] {
+  color:@activeTextColor;
+}
+
+dialog_button[inactiveColor=yes],
+Button_text[inactiveColor=yes] {
+  color:@inactiveButtonTextColor;
+  background-color:@inactiveButtonBgColor;
+}
+
+Button_text[inactiveColor=yes] > text,
+Button_text[inactiveColor=yes] > textarea {
+  color:@inactiveButtonTextColor;
+}
+
+Button_text[inactiveColor=yes][selected=yes] {
+  color:@inactiveButtonFocusTextColor;
+}
+
+Button_text:hover,
+Button_text:hover > text,
+Button_text:hover > textarea {
+  color:@hoverMenuButtonColor;
+}
+
+dialog_button[inactiveColor=yes]:hover,
+Button_text[inactiveColor=yes]:hover,
+Button_text[inactiveColor=yes]:hover > text,
+Button_text[inactiveColor=yes]:hover > textarea {
+  color:@inactiveButtonHoverTextColor;
+}
+
+Button_text:pushed {
+  color:@pushedMenuButtonColor;
+}
+
+[show_console_buttons=no] Button_text[changeButtonStyleDependingOnPlatformTo=image] {
+  class:"image";
+  text:"";
+}
+
+[show_console_buttons=yes] Button_text[changeButtonStyleDependingOnPlatformTo=image] {
+  class:"";
+  tooltip:"";
+}
+
+Button_text[pc_style=no][btnName],
+[show_console_buttons=yes] rightClickMenu > Button_text
+{
+  padding-left:h+1@buttonTextPadding;
+}
+
+btnText {
+  re-type:text;
+  input-transparent:yes;
+}
+
+btnImage {
+  background-repeat:aspect-ratio;
+  input-transparent:yes;
+}
+
+Button_text.battle {
+  background-image:#ui/gameuiskin#button_bright_;
+  background-position:6, 7, 6, 7;
+  background-color: #ffb867;
+  background-repeat:expand;
+  hideText:yes;
+  margin-right:0;
+  css-hier-invalidate:yes;
+}
+
+shopItem Button_text.battle {
+  pos:0, -h;
+  position:absolute;
+  size:1@slot_button_fullWidth, 3*@scrn_tgt/100.0;
+  padding:1*@sf/@pf, 0;
+  not-input-transparent:yes;   display:hide;
+  enable:no;
+}
+
+shopItem[showButtons=yes] Button_text {
+  display:show;
+  enable:yes;
+}
+
+Button_text.battle > pattern {
+  position: absolute;
+  pos: 2px, 2px;
+  size: pw - 4px, ph - 4px;
+}
+
+Button_text.battle > btnText,
+Button_text.battle > textarea {
+  color:@battleButtonColor;
+  pos:50%pw-50%w, 50%ph - 50%h;
+  position:relative;
+  paragraph-indent:0;
+}
+
+Button_text.battle > buttonWink {
+  size:pw, ph;
+  position:absolute;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#button_bright_glow;
+  background-color:#00ff1414;
+  background-position:6, 7, 6, 7;
+  wink: yes;
+}
+
+Button_text.battle > buttonGlance {
+  re-type:9rect;
+  size:pw, ph;
+  pos:0, 0;
+  position:absolute;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#button_glance;
+  background-color:#001f1a10;
+  background-position:6, 7, 6, 7;
+  input-transparent:yes;
+}
+
+Button_text.research {
+  height:@slotBtnIco;
+}
+
+Button_text[visualStyle=secondary]
+{
+  background-image:#ui/gameuiskin#button_special_;
+  background-color:#bbbec8;
+}
+
+Button_text[visualStyle=secondary]:hover
+{
+  background-image:#ui/gameuiskin#button_special_hover;
+}
+
+Button_text[visualStyle=secondary][active=yes],
+Button_text[visualStyle=secondary]:pushed {
+  background-image:#ui/gameuiskin#button_special_active;
+}
+
+Button_text[visualStyle=secondary] > buttonWink
+{
+  size:pw, ph;
+  position:absolute;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#button_special_glow;
+  background-color:#000170a1;
+  background-position:6, 7, 6, 7;
+  wink: yes;
+}
+
+Button_text[visualStyle=secondary]:disabled > buttonWink,
+Button_text[visualStyle=secondary][inactiveColor=yes] > buttonWink {
+  wink:no;
+  background-color:@transparent;
+}
+
+Button_text[visualStyle=secondary],
+Button_text[visualStyle=secondary] > text,
+Button_text[visualStyle=secondary] > textarea {
+  color:#d0f2ff;
+}
+
+Button_text[visualStyle=purchase]
+{
+  background-color:#f6833a;
+}
+
+Button_text[visualStyle=purchase],
+Button_text[visualStyle=purchase] > text,
+Button_text[visualStyle=purchase] > textarea {
+  color:#feebb3;
+}
+
+Button_text[visualStyle=purchase] > buttonWink
+{
+  size:pw, ph;
+  position:absolute;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#button_glow;
+  background-color:#00f29b4b;
+  background-position:6, 7, 6, 7;
+  wink: yes;
+}
+
+Button_text[visualStyle=purchase] > buttonGlance {
+  re-type:9rect;
+  size:pw, ph;
+  pos:0, 0;
+  position:absolute;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#button_glance;
+  background-color:#002a2217;
+  background-position:6, 0, 6, 4;
+  input-transparent:yes;
+}
+
+closeBtn {
+  width:h;
+}
+Button_close, closeBtn {
+  position:absolute;
+  tooltip:#mainmenu/btnClose;
+  min-width:h;
+  padding:4*@sf/@pf;
+  class:image;
+}
+Button_close {
+  pos:pw-w, 0.5*@scrn_tgt/100.0;
+  _on_click:goBack;
+  btnName:B;
+}
+[smallIcon=yes] > Button_close {
+  pos:pw-w-3*@sf/@pf, -1*@sf/@pf;
+  size:1@sIco + 11*@sf/@pf, 1@sIco + 11*@sf/@pf;
+}
+[smallIcon=yes] > Button_close > img {
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+
+Button_close[relative=yes] {
+  position: relative;
+  pos: 0, 50%ph-50%h;
+}
+
+shopFilter > closeBtn {
+  pos:pw-w, 50%ph-50%h-1*@sf/@pf;
+}
+Button_close[have_shortcut=no],
+[show_console_buttons=no] Button_text[type=weaponryAmount] {
+  btnName:none;
+}
+
+Button_close[have_shortcut=BNotEsc]
+{
+  btnName:BNotEsc;
+}
+
+DummyButton {
+  behaviour:button;
+}
+
+top_right_holder {
+  height:3.5*@scrn_tgt/100.0;
+  pos:pw-w-4.5*@scrn_tgt/100.0, 0.5*@scrn_tgt/100.0;
+  position:absolute;
+}
+top_right_holder[smallIcon=yes] {
+  height:24*@sf/@pf;
+  pos:pw-w-(24-5)*@sf/@pf, 0.5*@scrn_tgt/100.0;
+}
+top_right_holder[vCentered=yes] {
+  height:0;
+  pos:pw-w-4.5*@scrn_tgt/100.0, ph/2-h/2;
+}
+Button_close, closeBtn {
+  background-image:'#ui/gameuiskin#header_button_';
+}
+Button_close:hover, closeBtn:hover {
+  background-image:'#ui/gameuiskin#header_button_hover';
+}
+Button_close:pushed, closeBtn:pushed {
+  background-image:'#ui/gameuiskin#header_button_active';
+}
+Button_close > img, closeBtn > img {
+  input-transparent:yes;
+  background-image:'#ui/gameuiskin#close';
+}
+
+Button_text[btnName=start], button[btnName=start] { accessKey:'J:Start'; }
+Button_text[btnName=back]              { accessKey:'J:Back'; }
+Button_text[btnName=X], CheckBox[btnName=X], DummyButton[btnName=X],
+dropright[btnName=X], ComboBox[btnName=X]
+                                       { accessKey:'J:X'; }
+Button_text.battle[btnName=X]          { accessKey:'J:X | Enter'; }
+Button_text.battle[btnName=X][noEnter] { accessKey:'J:X'; }
+Button_text.additional[btnName=X]      { accessKey:'J:X | Space';}
+Button_text[btnName=Y], button[btnName=Y], gameModeChangeButton, CheckBox[btnName=Y],
+textareaNoTab.highlightButton[btnName=Y], DummyButton[btnName=Y]
+                                       { accessKey:'J:Y'; }
+Button_text.switch[btnName=Y]          { accessKey:'J:Y | Space'; }
+Button_text[btnName=RB], CheckBox[btnName=RB],
+DummyButton[btnName=RB], emptyButton[btnName=RB]
+                                       { accessKey:'J:RB'; }
+Button_text[btnName=LB], CheckBox[btnName=LB],
+DummyButton[btnName=LB], emptyButton[btnName=LB]
+                                       { accessKey:'J:LB'; }
+Button_text[btnName=RT]                { accessKey:'J:RT'; }
+Button_text[btnName=LT]                { accessKey:'J:LT'; }
+Button_text[btnName=RLB]               { accessKey:'J:RB | J:LB'; }
+Button_text[btnName=DpadUp]            { accessKey:'J:Dpad.Up'; }
+Button_text[btnName=DpadDown]          { accessKey:'J:Dpad.Down'; }
+
+Button_text[btnName=R3], ComboBox[btnName=R3]
+                                       { accessKey:'J:R.Thumb'; }
+Button_text[btnName=L3]                { accessKey:'J:L.Thumb'; }
+
+Button_text[btnName=RSLeft], DummyButton[btnName=RSLeft]
+                                       { accessKey:"J:R.Thumb.Left"; }
+Button_text[btnName=RSRight], DummyButton[btnName=RSRight]
+                                       { accessKey:"J:R.Thumb.Right"; }
+DummyButton[btnName=RSUp]              { accessKey:"J:R.Thumb.Up"; }
+DummyButton[btnName=RSDown]            { accessKey:"J:R.Thumb.Down"; }
+
+DummyButton[btnName=LSLeft]            { accessKey:"J:L.Thumb.Left"; }
+DummyButton[btnName=LSRight]           { accessKey:"J:L.Thumb.Right"; }
+DummyButton[btnName=LSUp]              { accessKey:"J:L.Thumb.Up"; }
+DummyButton[btnName=LSDown]            { accessKey:"J:L.Thumb.Down"; }
+
+Button_text[btnName=DpadLeft]          { accessKey:'J:Dpad.Left | Left'; }
+Button_text[btnName=DpadRight]         { accessKey:'J:Dpad.Right | Right'; }
+
+Button_text[btnName=AB]                { accessKey:'J:A | Space | Enter | NumEnter | J:B | Esc | Backspace'; }
+
+Button_text[btnName=A], DummyButton[btnName=A]
+                                       { accessKey:'J:A | Space | Enter | NumEnter'; }
+Button_text[btnName=SpaceA]        { accessKey:'J:A | Space'; }
+Button_text[btnName=A][onlyA], Button_text[focusBtnName=A] { accessKey:'J:A'; }
+
+Button_text[btnName=B], Button_close[btnName=B], dummy[btnName=B], DummyButton[btnName=B]
+                                       { accessKey:'J:B | Esc'; }
+Button_text[btnName=BNotEsc]           { accessKey:'J:B'; }
+
+Button_text[btnName=A][menuShortcuts]  { accessKey:'J:A | J:Start | Space | Enter | NumEnter'; }
+Button_text[btnName=B][menuShortcuts]  { accessKey:'J:B | J:Back | Esc | Backspace'; }
+
+[swap_ab=yes] Button_text[btnName=A]      { accessKey:'J:B | Space | Enter | NumEnter'; }
+[swap_ab=yes] Button_text[btnName=SpaceA] { accessKey:'J:B | Space'; }
+[swap_ab=yes] Button_text[btnName=B]      { accessKey:'J:A | Esc | Backspace'; }
+[swap_ab=yes] Button_text[btnName=A][menuShortcuts] { accessKey:'J:B | J:Start | Space | Enter | NumEnter'; }
+[swap_ab=yes] Button_text[btnName=B][menuShortcuts] { accessKey:'J:A | J:Back | Esc | Backspace'; }
+
+[btnName=A] > ButtonImg, [btnName=SpaceA] > ButtonImg { background-image:#ui/controlskin#button_a; }
+[btnName=A]:pushed > ButtonImg, [btnName=SpaceA]:pushed > ButtonImg { background-image:#ui/controlskin#button_a_pressed; }
+[btnName=B] > ButtonImg, [swap_ab=yes] [btnName=A] > ButtonImg
+                                      { background-image:#ui/controlskin#button_b; }
+[btnName=B]:pushed > ButtonImg, [swap_ab=yes] [btnName=A]:pushed > ButtonImg
+                                      { background-image:#ui/controlskin#button_b_pressed; }
+[swap_ab=yes] [btnName=B] > ButtonImg { background-image:#ui/controlskin#button_a; }
+[swap_ab=yes] [btnName=B]:pushed > ButtonImg
+                                      { background-image:#ui/controlskin#button_a_pressed; }
+
+[btnName=X] > ButtonImg { background-image:#ui/controlskin#button_x; }
+[btnName=X]:pushed > ButtonImg { background-image:#ui/controlskin#button_x_pressed; }
+
+[btnName=Y] > ButtonImg { background-image:#ui/controlskin#button_y; }
+[btnName=Y]:pushed > ButtonImg { background-image:#ui/controlskin#button_y_pressed; }
+
+[btnName=start]        > ButtonImg { background-image:#ui/controlskin#button_start; }
+[btnName=start]:pushed > ButtonImg { background-image:#ui/controlskin#button_start_pressed; }
+[btnName=back]         > ButtonImg { background-image:#ui/controlskin#button_back; }
+[btnName=back]:pushed  > ButtonImg { background-image:#ui/controlskin#button_back_pressed; }
+[btnName=RB]           > ButtonImg, ButtonImg[btnName=RB]{ background-image:#ui/controlskin#r_shoulder; }
+[btnName=RB]:pushed    > ButtonImg { background-image:#ui/controlskin#r_shoulder_pressed; }
+[btnName=LB]           > ButtonImg { background-image:#ui/controlskin#l_shoulder; }
+[btnName=LB]:pushed    > ButtonImg { background-image:#ui/controlskin#l_shoulder_pressed; }
+
+[btnName=RT]           > ButtonImg { background-image:#ui/controlskin#r_trigger; }
+[btnName=RT]:pushed    > ButtonImg { background-image:#ui/controlskin#r_trigger_pressed; }
+[btnName=LT]           > ButtonImg { background-image:#ui/controlskin#l_trigger; }
+[btnName=LT]:pushed    > ButtonImg { background-image:#ui/controlskin#l_trigger_pressed; }
+
+[btnName=R3]           > ButtonImg { background-image:#ui/controlskin#r_stick; }
+[btnName=R3]:pushed    > ButtonImg { background-image:#ui/controlskin#r_stick_pressed; }
+[btnName=L3]           > ButtonImg { background-image:#ui/controlskin#l_stick; }
+[btnName=L3]:pushed    > ButtonImg { background-image:#ui/controlskin#l_stick_pressed; }
+
+[btnName=RSLeft]       > ButtonImg { background-image:#ui/controlskin#r_stick_left; }
+[btnName=RSRight]      > ButtonImg { background-image:#ui/controlskin#r_stick_right; }
+
+ButtonImg[btnName=Dpad] { background-image:#ui/controlskin#dirpad; bigButton:yes; }
+[btnName=DpadLeft] > ButtonImg { background-image:#ui/controlskin#dirpad_left; bigButton:yes; }
+[btnName=DpadRight] > ButtonImg, ButtonImg[btnName=DpadRight]
+                               { background-image:#ui/controlskin#dirpad_right; bigButton:yes; }
+[btnName=DpadUp] > ButtonImg   { background-image:#ui/controlskin#dirpad_up; bigButton:yes; }
+[btnName=DpadDown] > ButtonImg { background-image:#ui/controlskin#dirpad_down; bigButton:yes; }
+
+
+[focusBtnName=A]:focus > ButtonImg { background-image:#ui/controlskin#button_a; }
+[focusBtnName=A]:focus:pushed > ButtonImg { background-image:#ui/controlskin#button_a_pressed; }
+
+
+ButtonImg[btnName=R3] { background-image:#ui/controlskin#r_stick_pressed; bigButton:yes; }
+
+ButtonImg[iconName=A] { background-image:#ui/controlskin#button_a; }
+ButtonImg[iconName=B] { background-image:#ui/controlskin#button_b; }
+ButtonImg[iconName=X] { background-image:#ui/controlskin#button_x; }
+ButtonImg[iconName=Y] { background-image:#ui/controlskin#button_y; }
+
+
+
+[flow=h-flow] > Button_text
+{
+  margin-bottom:0.5*@scrn_tgt/100.0;
+}
+
+Button_text[redDisabled=yes]:disabled {
+  color:@red;
+}
+
+[hideConsoleImage=no] ButtonImg {
+  display:show;
+}
+
+ButtonImg[pc_style=yes],
+[hideConsoleImage=yes] ButtonImg {
+  display:hide;
+}
+
+Button_text[pc_style=yes] {
+  padding-left:0.5*@scrn_tgt/100.0;  
+  text-align:center;
+  margin-right:0.5*@scrn_tgt/100.0;
+}
+
+Button_text.sliderValueButton {
+  square:yes;
+  noMargin:yes;
+}
+
+Button_text[square=yes] {
+  height:1@sliderButtonSquareHeight;
+  min-width:h - 2;
+  width:h - 2;
+  padding:0, -2, 0, 2;
+  padding-left:0;
+  text-align:center;
+}
+
+[show_console_buttons=yes] Button_text.sliderValueButton {
+  height:1@sliderValueButtonHeight;
+  text:"";
+}
+
+topMenuButtons > Button_text {
+  background-color:@transparent;
+  text-align:center;
+  reduceMinimalWidth:yes;
+  min-width:@bigButtonWidth;
+  width:1@mainMenuButtonWidth;
+  enable:yes;
+
+  padding-top:0;
+  padding-bottom:0;
+}
+
+topMenuButtons > Button_text > additionalIconsDiv {
+  pos:pw-w-5*@sf/@pf, 50%ph-50%h;
+  position:absolute;
+}
+
+topMenuButtons > Button_text > btnImage {
+  pos:5*@sf/@pf, 50%ph-50%h;
+  position:absolute;
+  size:@cIco, @cIco;
+
+  background-color:@commonImageColor;
+}
+
+topMenuButtons > Button_text:hover > btnImage,
+topMenuButtons > Button_text:focus > btnImage,
+[show_console_buttons=yes] topMenuButtons > Button_text[selected=yes] > btnImage {
+  background-color:@activeImageColor;
+}
+
+topMenuButtons > Button_text:pushed > btnImage {
+  background-color:@pushedMenuButtonColor;
+}
+
+Button_text.topmenu {
+  height: 1@gamercardHeight+3;
+  input-transparent: yes;
+}
+
+Button_text.topmenuImage {
+  height: 1@gamercardHeight+3;
+  width: h;
+  min-width:h;
+  input-transparent: yes;
+}
+
+[show_console_buttons=yes] Button_text.topmenuImage[minimalWidth=no] {
+  width: 2h;
+  min-width:2h;
+}
+
+Button_text.topmenu[minimalWidth=no] {
+  width: 1@topMenuButtonWidth;
+}
+
+Button_text.topmenu[minimalWidth=yes] {
+  min-width:h;
+}
+
+Button_text.topmenu > text {
+  text-shade:"smooth:24";
+  text-shade-x:0;
+  text-shade-y:0;
+  text-shade-color:@mainTitleStrokeColor;
+}
+
+Button_text.image {
+  min-width:h;
+  padding-left:h+4*@sf/@pf;
+  padding-right:4*@sf/@pf;
+  margin-right:0.5*@scrn_tgt/100.0;
+}
+
+[show_console_buttons=yes] Button_text[showButtonImageOnConsole=no] > img {
+  display:hide;
+}
+
+Button_text.image16, Button_close.image16, Button_text.image20, Button_text.image24, Button_text.squadWidgetMember {
+  height:1@sIco+8*@sf/@pf;
+  min-width:h;
+  padding:4*@sf/@pf;
+  padding-left:4*@sf/@pf;
+  padding-right:4*@sf/@pf;
+  margin-right:2*@sf/@pf;
+}
+
+Button_text.image20, Button_text.image24 {
+  height:1@cIco+8*@sf/@pf;
+  min-width:h;
+  margin-right:3*@sf/@pf;
+}
+
+[pc_style=yes]Button_text.image {
+  padding-left:4*@sf/@pf;
+}
+
+.buttonsDiv > Button_text.image {
+  height:ph;
+}
+
+closeBtn, [smallIcon=yes] > Button_text.image {
+  height:@sIco;
+}
+
+.image > img {
+  size:@cIco,@cIco;
+  top:50%ph-50%h;
+  background-color:@navButtonImgColor;
+}
+
+.image > img[selfColor] {
+  background-color:@white;
+}
+
+[enable=no].image > img {
+  background-color:@navButtonDisabledImgColor;
+}
+
+closeBtn > img {
+  size:@cIco/2,@cIco/2;
+  pos:50%pw-50%w, 50%ph-50%h; position:relative;
+}
+
+.image16 > img {
+  size:@sIco, @sIco;
+  background-color:@navButtonImgColor;
+}
+.image20 > img, .image20 > tdiv > img {
+  size:@cIco, @cIco;
+  background-color:@white;
+}
+.image20 > img2 {
+  size:2@cIco, 2@cIco;
+  background-color:@white;
+  pos:50%pw-50%w, 50%ph-50%h; position:absolute;
+  input-transparent: yes;
+}
+
+.image24 > img {
+  size:@dIco, @dIco;
+  background-color:@white;
+  pos:50%pw-50%w, 50%ph-50%h; position:absolute;
+  input-transparent: yes;
+}
+
+Button_text.image {
+  _isButtonWithText:no;
+}
+
+Button_text.image[text] {
+  _isButtonWithText:yes;
+}
+
+Button_text.image[text=""] {
+  _isButtonWithText:no;
+}
+
+Button_text.image[_isButtonWithText=yes] {
+  padding-left:h + @buttonTextPadding;
+  min-width:@buttonWidth;
+  text-align:left;
+}
+
+Button_text.image[_isButtonWithText=yes][pc_style=no] {
+  padding-left:2h + @buttonTextPadding;
+}
+
+Button_text.image[pc_style=no][_isButtonWithText=no] {
+  width:2h;
+}
+
+Button_text.image[pc_style=yes][_isButtonWithText=no] {
+  width:h;
+}
+
+Button_text.image[_isButtonWithText=yes] > img {
+  position:absolute;
+  left:0.5ph - 0.5h;
+}
+
+Button_text.image[_isButtonWithText=yes][pc_style=no] > img {
+  left:1.5ph - 0.5h;
+}
+
+Button_text[pc_hide=yes][if_target_pc=yes],
+pcHide[if_target_pc=yes] {
+  display:none;
+}
+
+pcOnly[if_target_pc=no] {
+  display:none;
+}
+
+Button_text[display=none] {
+  reduceMinimalWidth:yes;
+  width:1;
+  margin-right:0;
+}
+
+Button_text[status=red] {
+  color:@redMenuButtonColor;
+}
+
+ButtonsLine {
+  height:1@buttonHeight;
+  pos:50%pw-50%w, 0;
+  position:relative;
+}
+
+ButtonsLine > ButtonImg,
+ButtonsLine > text {
+  pos:0, 50%ph-50%h;
+  position:relative;
+}
+
+Button_text > buttonWink
+{
+  input-transparent:yes;
+  }
+Button_text > buttonWink[winkType=slow]
+{
+  wink:slow;
+}
+Button_text:hover > buttonWink,
+Button_text:pushed > buttonWink
+{
+  wink:no;
+}
+
+Button_text.battle > buttonWink:disabled,
+Button_text.battle[inactiveColor=yes] > buttonWink
+{
+  wink:no;
+  background-color:@controlDisabledColor;
+}
+
+Button_text.battle[isCancel=yes]
+{
+  background-color:#b3b3b3;
+}
+Button_text.battle[isCancel=yes] > buttonWink {
+  wink:no;
+  background-color:#00151515;
+}
+
+Button_text.battle > btnText:disabled,
+Button_text.battle[inactiveColor=yes] > btnText,
+Button_text.battle[inactiveColor=yes] > textarea
+{
+  color:@inactiveButtonTextColor;
+}
+
+rightClickMenu > Button_text {
+  background-color:@transparent;
+  text-align:center;
+}
+
+rightClickMenu > Button_text > ButtonImg,
+LoginCheckBoxesBlock CheckBox > ButtonImg,
+button > ButtonImg,
+ButtonImg[showOnSelect] {
+  display:hide;
+}
+
+[show_console_buttons=yes] button[showConsoleImg=yes][btnName] {
+  padding-left:h+1@buttonTextPadding;
+}
+
+rightClickMenu > Button_text:focus > ButtonImg[pc_style=no],
+[show_console_buttons=yes] LoginCheckBoxesBlock CheckBox:focus > ButtonImg,
+[show_console_buttons=yes] LoginCheckBoxesBlock CheckBox:hover > ButtonImg,
+[show_console_buttons=yes] button:focus > ButtonImg,
+[show_console_buttons=yes] button[selected=yes] > ButtonImg,
+[show_console_buttons=yes] button[showConsoleImg=yes][btnName] > ButtonImg,
+[show_console_buttons=yes] [selected=yes] ButtonImg[showOnSelect=yes],
+[show_console_buttons=yes] :focus > [selected=yes] ButtonImg[showOnSelect=focus] {
+  display:show;
+}
+
+rightClickMenu > Button_text:focus > textarea {
+  color:@activeTextColor;
+}
+
+rightClickMenu > Button_text {
+  font:@tiny;
+  color:@transparent;
+}
+
+rightClickMenu > Button_text > textarea {
+  pos:0, 50%ph - 50%h;
+  position:relative;
+  font:@tiny;
+  min-width:1;
+  paragraph-indent:0;
+  input-transparent:yes;
+}
+
+menuLine, topMenuLine {
+  height:4@dp;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#separator_bottom;
+  background-color:@white;
+  background-position:3, 0;
+  margin-bottom:1.0*@scrn_tgt/100.0;
+  input-transparent:yes;
+}
+
+topMenuLine {
+  width:0.8@bigButtonWidth;
+  pos:50%pw-50%w, -25%h;
+  position: absolute;
+}
+
+topMenuLinePlace {
+  width:1@mainMenuButtonWidth;
+}
+
+menuLine {
+  width:0.8pw;
+  pos:50%pw-50%w, 0.1*@scrn_tgt/100.0;
+  position:relative;
+}
+
+Button_text.title {
+  width: pw;
+  height: ph;
+  font:@smallBold;
+}
+
+Button_text.title:pushed, Button_text.battle:pushed {
+  padding-top:1.5*@scrn_tgt/100.0+1*@sf/@pf;
+  padding-bottom:1.5*@scrn_tgt/100.0-1*@sf/@pf;
+}
+
+[show_console_buttons=yes] Button_text.battle[btnName] {
+  padding-left:h;
+}
+
+Button_text.battle, Button_text.battle > btnText {
+  font:@times_big;
+  min-width:1@buttonWidth;
+}
+
+[allowDecreaseFont=yes] > Button_text.battle,
+[allowDecreaseFont=yes] > Button_text.battle > btnText {
+  font:@normal;
+}
+
+Button_text.battle[navButtonFont=yes], [navButtonFont=yes] > btnText,
+Button_text.battle[navButtonFont=yes] > textarea {
+  font:@nav_button_font;
+}
+Button_text.battle[navButtonFont=yes] {
+  height:1@navBarBattleButtonHeight;
+  min-width:1@navBarBattleButtonMinWidth;
+}
+
+shopItem > Button_text.battle[navButtonFont=yes] {
+  height:1@buttonHeight;
+  min-width:1@buttonWidth;
+}
+
+Button_text[bigFont=yes] {
+  font:@normal;
+  min-width:@bigButtonWidth;
+}
+
+[show_console_buttons=yes] Button_text[bigFont=yes] > btnText {
+  pos:0, 50%ph-50%h;
+}
+
+Button_text.battle:hover {
+  background-image:#ui/gameuiskin#button_bright_hover;
+}
+
+Button_text.battle:hover > btnText,
+Button_text.battle:hover > textarea {
+  color:@hoverBattleButtonColor;
+}
+Button_text.battle[inactiveColor=yes]:hover > btnText,
+Button_text.battle[inactiveColor=yes]:hover > textarea {
+  color:@inactiveButtonHoverTextColor;
+}
+
+Button_text.battle:pushed {
+  background-image:#ui/gameuiskin#button_bright_active;
+}
+
+Button_text.battle:pushed > btnText,
+Button_text.battle:pushed > textarea {
+  color:@pushedBattleButtonColor;
+}
+
+Button_text.switch {
+  padding-left:h;
+  padding-right:h;
+  css-hier-invalidate:yes;
+}
+
+Button_text.switch > img {
+  width:ph-4*@sf/@pf;
+  height:0.5w;
+  background-image:#ui/gameuiskin#expand_info;
+  background-color:@navButtonImgColor;
+}
+
+Button_text.switch[inactiveColor=yes] > img {
+  background-color:@inactiveButtonTextColor;
+}
+
+[show_console_buttons=yes] Button_text.switch > img {
+  background-color:@transparent;
+}
+
+.tinyFont > Button_text {
+  font:@tiny;
+  min-width:3h;
+  padding:0.3*@scrn_tgt/100.0, 2*@sf/@pf+0.3*@scrn_tgt/100.0, 0.4*@scrn_tgt/100.0, 2*@sf/@pf;
+  margin-right:2*@sf/@pf;
+}
+
+.tinyFont > Button_text:pushed {
+  background-image:#ui/gameuiskin#button_active;
+  padding-top:3*@sf/@pf+0.3*@scrn_tgt/100.0;
+  padding-bottom:1*@sf/@pf;
+}
+
+[moveOut=no] Button_text.switch > img,
+Button_text.switch[isOpened=no] > img
+{
+  rotation:180;
+}
+
+cardImg.button, activeText.button, img.button, root.button, div.button, .hoverFrame > imgFrame {
+  behaviour:button;
+  snd_click:click;
+  input-transparent:no;
+}
+
+.dropDown[hoverMenuButtons=yes] > Button_text[text] > img {
+  size:@cIco, @cIco;
+  background-color:@white;
+  min-width:h;
+  margin-right:3*@sf/@pf;
+  padding:4*@sf/@pf;
+  padding-left:4*@sf/@pf;
+  padding-right:4*@sf/@pf;
+}
+Button_text.header {
+  padding-left:3*@sf/@pf;
+  padding-right:6*@sf/@pf;
+  padding-top:0;
+  padding-bottom:0;
+  reduceMinimalWidth:yes;
+  margin-right:0;
+  text-align:center;
+}
+
+Button_text.header > activeText,
+Button_text.header > text {
+  padding:2*@sf/@pf, 0; 
+                        
+}
+
+Button_text.header > img {
+  size:@cIco,@cIco;
+  background-color:@white;
+  padding:0;
+  margin:0;
+  min-width:h;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+Button_text.header > shadeDiv {
+  background-color:@shadeBackgroundColor4;
+  height:ph-4;
+  pos:0,50%ph-50%h;
+  position:relative;
+}
+Button_text.header > shadeDiv > cardImg {
+  margin:0.5(ph-@cIco), 0;
+}
+
+Button_text.header > BonusCorner {
+  re-type:9rect;
+  background-repeat:expand;
+  background-color:@commonMenuButtonColor;
+  pos:pw-w-2, ph-h-2;
+  position:absolute;
+  size:22, 22;
+}
+
+Button_text.header:hover > BonusCorner,
+Button_text.header:focus > BonusCorner {
+  background-color:@hoverMenuButtonColor;
+}
+
+Button_text.header[showBonusPersonal=no] > BonusCorner[bonusType=personal] {
+  display:hide;
+}
+Button_text.header[showBonusCommon=no] > BonusCorner[bonusType=common] {
+  display:hide;
+}
+
+Button_text.header > BonusCorner[bonusType=personal] {
+  background-image:#ui/gameuiskin#booster_green_corner;
+}
+
+Button_text.header > BonusCorner[bonusType=common] {
+  background-image:#ui/gameuiskin#booster_yellow_corner;
+}
+
+Button_text.header,
+.header > Button_text.image16,
+.header > Button_text.image20,
+.header > Button_text.image24,
+.header > Button_text.squadWidgetMember {
+  background-image:#ui/gameuiskin#header_button_;
+}
+Button_text.header {
+  total-input-transparent:yes;
+}
+.header > Button_text.image20,
+.header > Button_text.image24 {
+  margin-right:0;
+  margin-left:0;
+  padding-left:7*@sf/@pf;
+}
+.header > Button_text.image20 > img {
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+}
+Button_text.header:hover,
+.header > Button_text.image16:hover,
+.header > Button_text.image20:hover,
+.header > Button_text.image24:hover,
+.header > Button_text.squadWidgetMember:hover {
+  background-image:#ui/gameuiskin#header_button_hover;
+}
+Button_text.header:pushed,
+.header > Button_text.image16:pushed,
+.header > Button_text.image20:pushed,
+.header > Button_text.image24:pushed ,
+.header > Button_text.squadWidgetMember:pushed {
+  background-image:#ui/gameuiskin#header_button_active;
+}
+.header > Button_text.squadWidgetMember {
+  size:@cIco+@sIco+13*@sf/@pf, ph;
+  padding-left:6*@sf/@pf;
+  margin-right:1*@sf/@pf;
+}
+Button_text.header:disabled {
+  background-image:#ui/gameuiskin#header_button_disabled;
+}
+.dropDown[hoverMenuButtons=yes] > Button_text {
+  background-image:#ui/gameuiskin#hovermenu_button_;
+  background-position:7;
+}
+.dropDown[hoverMenuButtons=yes] > Button_text:hover {
+  background-image:#ui/gameuiskin#hovermenu_button_hover;
+  color:@hoverMenuButtonColor;
+}
+.dropDown[hoverMenuButtons=yes][stickHover=yes] > Button_text {
+  background-image:#ui/gameuiskin#hovermenu_button_press;
+  color:@hoverMenuButtonColor;
+}
+.dropDown[hoverMenuButtons=yes] > Button_text.image20,
+.dropDown[hoverMenuButtons=yes] > Button_text[type=gold] {
+  re-type:9rect;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#hovermenu_shop_button_;
+  background-color:@white;
+  background-position:6;
+}
+
+.dropDown[hoverMenuButtons=yes] > Button_text.image20
+{
+  height:@topBarHeight-3*@sf/@pf;
+}
+
+.dropDown[hoverMenuButtons=yes] > Button_text.image20:hover,
+.dropDown[hoverMenuButtons=yes] > Button_text[type=gold]:hover {
+  background-image:#ui/gameuiskin#hovermenu_shop_button_hover;
+  wink:no;
+}
+.dropDown[hoverMenuButtons=yes][stickHover=yes] > Button_text.image20,
+.dropDown[hoverMenuButtons=yes][stickHover=yes] > Button_text[type=gold] {
+  background-image:#ui/gameuiskin#hovermenu_shop_button_press;
+}
+.dropDown[hoverMenuButtons=yes][stickHover=yes] > Button_text.image20 > buttonWink,
+.dropDown[hoverMenuButtons=yes][stickHover=yes] > Button_text[type=gold] > buttonWink {
+  wink:no;
+}
+.dropDown[hoverMenuButtons=yes] > Button_text.image20 > text,
+.dropDown[hoverMenuButtons=yes] > Button_text[type=gold] > text {
+  color:@white;
+}
+
+[show_console_buttons=yes] [activateBy="Y"]:focus > shopFilter[selected=yes] > closeBtn {
+  background-color:@transparent;
+}
+[show_console_buttons=yes] [activateBy="Y"]:focus > shopFilter[selected=yes] > closeBtn > img {
+  size:@cIco,@cIco;
+  background-image:'#ui/controlskin#button_y';
+}
+.tabs > shopFilter[canClose=no] > closeBtn {
+  display:hide;
+  enable:no;
+}
+
+Button_text.double {
+  height:@buttonHeight;
+  width:2@buttonHeight;
+  min-width:h;
+  padding:2*@sf/@pf;
+  padding-left:2*@sf/@pf;
+  padding-right:2*@sf/@pf;
+  padding-bottom:2*@sf/@pf+2;   margin-right:4*@sf/@pf;
+  haveGamepadImage:no;
+}
+
+Button_text.double[pc_style=no] {
+  haveGamepadImage:yes;
+}
+
+Button_text.double[showOnSelect] {
+  haveGamepadImage:no;
+}
+
+[selected=yes] Button_text.double[pc_style=no][showOnSelect=yes],
+:focus > [selected=yes] Button_text.double[pc_style=no][showOnSelect=focus] {
+  haveGamepadImage:yes;
+}
+
+Button_text.double[haveGamepadImage=yes] {
+  padding-left:h + 2*@sf/@pf;
+}
+
+Button_text.double > ButtonImg {
+  display:hide;
+}
+
+Button_text.double[haveGamepadImage=yes] > ButtonImg {
+  display:show;
+}
+
+Button_text.double > img {
+  size:pw, ph;
+  position:relative;
+  background-repeat:aspect-ratio;
+}
+
+btnCollapse {
+  height:@sIco;
+  width:h;
+  min-width:1;
+  pos:0.5@sIco, 50%ph-50%h;
+  position:absolute;
+  padding:4*@sf/@pf;
+  text-align:center;
+  text:"-";
+  on_click:onCollapse;
+  not-input-transparent:yes;
+}
+
+fullSizeCollapseBtn{
+  behaviour: button;
+  width: pw;
+  height: ph;
+  on_click:onCollapse;
+}
+
+fullSizeCollapseBtn[square=yes] {
+  width: ph;
+}
+
+fullSizeCollapseBtn > activeText{
+  text: "—";
+  text-align: center;
+  position: relative;
+  width: 2%@scrn_tgt_font;
+  pos: 0, ph/2-h/2;
+}
+
+campaign_item > fullSizeCollapseBtn > activeText {
+  pos:@missionItemTextPaddingLeft, ph/2-h/2;
+}
+
+[collapsed=yes] fullSizeCollapseBtn > activeText{
+  text:"+";
+}
+
+[collapsed=yes] btnCollapse {
+  text:"+";
+}
+
+dialog_button[noMargin=yes], Button_text[noMargin=yes], button[noMargin=yes],
+[flow=vertical] > Button_text,
+.dropDown[hoverMenuButtons=yes] > Button_text.image20[noMargin]
+{
+  margin-left:0;
+  margin-top:0;
+  margin-right:0;
+  margin-bottom:0;
+}
+
+dialog_button[tfont=tiny], button_text[tfont=tiny], button[tfont=tiny] {
+  font:@tiny;
+}
+
+[show_console_buttons=yes] button.link[btnName] {
+  height:0.7@buttonHeight;
+  padding-left:h;
+}
+
+textarea[voiceShortcut=yes]:disabled {
+  color-factor:128;
+}
+
+Button_text[showOn=hoverOrSelect] {
+  display:hide;
+}
+
+tr[selected=yes] Button_text[showOn=hoverOrSelect], tr:hover Button_text[showOn=hoverOrSelect] {
+  display:show;
+}
+
+[show_console_buttons=yes] tr Button_text[showOn=hoverOrSelect] ButtonImg {
+  display:hide;
+}
+
+[show_console_buttons=yes] tr[selected=yes] Button_text[showOn=hoverOrSelect] ButtonImg {
+  display:show;
+}
+
+ButtonImg[showOn=selectedAndEnabled] {
+  display:hide;
+}
+[show_console_buttons=yes] tr[selected=yes] ButtonImg[showOn=selectedAndEnabled] {
+  display:show;
+}
+[show_console_buttons=yes] tr[selected=yes] Button_text[enable=no] ButtonImg[showOn=selectedAndEnabled] {
+  display:hide;
+}
+
+Button_text.profileImg {
+  reduceMinimalWidth:yes;
+  height:1@profileUnlockIconSize + 10;
+  width:h;
+  background-image:#ui/gameuiskin#header_button_;
+  margin-right:0;
+  margin-bottom:0;
+  padding-bottom:5;
+  padding-left:5;
+  padding-right:5;
+  padding-top:5;
+  css-hier-invalidate:yes;
+}
+
+Button_text.profileImg > img {
+  size: 1@profileUnlockIconSize, 1@profileUnlockIconSize;
+}
+
+Button_text.profileImg:hover {
+  background-image:#ui/gameuiskin#header_button_hover;
+}
+
+Button_text.profileImg:pushed {
+  background-image:#ui/gameuiskin#header_button_active;
+}
+
+Button_text.profileImg[enabled=no] > img {
+  background-color: @lockedDecal;
+}
+
+Button_text.profileImg[enabled=no]:hover > img {
+  background-color: @lockedDecalHover;
+}
+
+Button_text.additional {
+  height:0.7@buttonHeight;
+  min-width:pw;
+  font:@tiny;
+  position:absolute;
+}
+
+Button_text.additional[vertPos=up] {
+  pos:0,-h;
+}
+
+Button_text.additional[vertPos=down] {
+  pos:0, ph-1*@sf/@pf;
+}
+
+weaponry_item:hover > Button_text.additional[canShow=yes],
+weapon_item_unit:hover > Button_text.additional[canShow=yes],
+Button_text.additional:hover[canShow=yes],
+ :focus > weaponry_item[selected=yes] > Button_text.additional[canShow=yes],
+ :focus > weaponry_item[selected=yes] > Button_text.additional[canShow=selected],
+[show_console_buttons=yes] :focus > weaponry_item[selected=yes] > Button_text.additional[canShow=console] {
+  display:show;
+  input-transparent:yes;
+}
+
+Button_text.additional > textarea {
+  color:@commonMenuButtonColor;
+}
+
+Button_text > textarea.buttonText {
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:relative;
+  text-align:center;
+  input-transparent:yes;
+  paragraph-indent:0;
+}
+
+[show_console_buttons=yes] Button_text > textarea.buttonText {
+  pos:0, 50%ph-50%h;
+}
+
+Button_text:hover > textarea.buttonText{
+  color:@hoverMenuButtonColor;
+}
+Button_text:pushed > textarea.buttonText{
+  color:@pushedMenuButtonColor;
+}
+
+[clan_locked=yes] > img,
+[clan_locked=yes] > Button_text > img{
+  background-image: #ui/gameuiskin#locked;
+}
+
+[clan_locked=no] > img,
+[clan_locked=no] > Button_text > img{
+  background-image: #ui/gameuiskin#unlocked;
+}
+
+Button_text.bottomAirItem,
+Button_text.tinyButton {
+  height:@tinyButtonHeight;
+  margin-right: 0;
+  font:@tiny;
+}
+
+Button_text.tinyButton {
+  min-width:3@tinyButtonHeight;
+}
+
+Button_text.bottomAirItem {
+  pos:50%pw-50%w, 0;
+  position:relative;
+  min-width: 0.33@slot_width;
+  padding:0;
+  display: hide;
+  enable:no;
+  non-input-transparent:yes;
+  order-popup:no;
+}
+
+Button_text.bottomAirItem > img {
+  background-position:0;
+  background-repeat:expand;
+  size:ph, ph;
+  position:absolute;
+  pos:50%pw-50%w, 50%ph-50%h;
+}
+
+Button_text.bottomAirItem > textareaNoTab {
+  veryTinyFont: yes;
+  position: relative;
+  pos: 50%pw-50%w, 50%ph-50%h;
+}
+
+Button_text.bottomAirItem[inactiveColor=yes]
+{
+  background-color: @weaponWarning;
+}
+
+[show_console_buttons=yes] :focus td[selected=yes] Button_text.bottomAirItem,
+[show_console_buttons=no]         td[selected=yes] Button_text.bottomAirItem,
+weapon_item_unit[selected=yes] Button_text.bottomAirItem {
+  display:show;
+  enable:yes;
+}
+
+Button_text[type=weaponryAmount] {
+  enable:no;
+}
+
+[show_console_buttons=yes] Button_text[type=weaponryAmount] {
+  display:hide;
+}
+
+[show_console_buttons=yes] weaponry_item:hover Button_text[type=weaponryAmount],
+[show_console_buttons=yes] :focus weaponry_item[selected=yes] Button_text[type=weaponryAmount] {
+  display:show;
+}
+
+[show_console_buttons=no] Button_text[type=weaponryAmount][bulletsLimit=no],
+[show_console_buttons=yes] weaponry_item:hover Button_text[type=weaponryAmount][bulletsLimit=no],
+[show_console_buttons=yes] :focus weaponry_item[selected=yes] Button_text[type=weaponryAmount][bulletsLimit=no] {
+  enable:yes;
+}
+
+[show_console_buttons=no] td[selected=yes] :hover Button_text.bottomAirItem,
+Button_text.bottomAirItem:hover {
+  order-popup:yes;
+}
+
+Button_text[buy_ticket_button=yes] {
+  padding:3@buttonTextPadding,4*@sf/@pf;
+  padding-left:3@buttonTextPadding;
+}
+
+Button_text[btnScreenSideLeft=yes] {
+  height:1@navBarBattleButtonHeight;
+  min-width:@bw+120*@sf/@pf;
+  background-image:#ui/gameuiskin#expandable_item_selected_transp_reflect;
+  text-align:left;
+  margin:0;
+  margin-right:0;
+  padding:0;
+  padding-left:@bw+4;
+}
+[show_console_buttons=yes] Button_text[btnScreenSideLeft=yes] {
+  padding-left:@bw+4 +24*@sf/@pf;
+}
+Button_text[btnScreenSideLeft=yes] > ButtonImg {
+  height:24*@sf/@pf;
+  left:@bw;
+  top:ph/2-h/2;
+}
+
+
+Button_text[externalLink=yes] > activeText,
+Button_text[externalLink=yes] > btnText {
+  color:@linkTextColor;
+}
+
+Button_text[externalLink=yes] > activeText > underline,
+Button_text[externalLink=yes] > btnText > underline {
+  background-color:@linkTextColor;
+}
+
+Button_text[externalLink=yes]:hover > activeText,
+Button_text[externalLink=yes]:focus > activeText,
+Button_text[externalLink=yes]:focus > btnText,
+Button_text[externalLink=yes]:hover > btnText,
+Button_text[externalLink=yes][selected=yes] > btnText, {
+  color:@linkTextHoverColor;
+}
+Button_text[externalLink=yes]:hover > activeText > underline,
+Button_text[externalLink=yes]:focus > activeText > underline,
+Button_text[externalLink=yes]:hover > btnText > underline,
+Button_text[externalLink=yes]:focus > btnText > underline,
+Button_text[externalLink=yes]:[selected=yes] > btnText > underline {
+  background-color:@linkTextHoverColor;
+}
+
+
+Button_text[is_to_battle_button=yes] > ButtonImg {
+  height:1@topMenuBattleButtonImgHeight;
+}
+
+Button_text[is_to_battle_button=yes][pc_style=no] {
+  padding-left:0;
+}
+
+textareaNoTab.highlightButton > ButtonImg {
+  height:@buttonIconHeight;
+  top:-3*@sf/@pf;
+  position:absolute;
+}
+
+[show_console_buttons=yes] textareaNoTab.highlightButton[btnName] {
+  padding-left:@buttonIconHeight;
+}
+
+
+Button_text[enable=no] {
+  color:@inactiveButtonTextColor;
+  background-color:@inactiveButtonBgColor;
+}
+
+Button_text[reduceMinimalWidth=yes]  {
+  min-width:0;
+}
+
+Button_text[showConsoleImage=no] {
+  padding-left:1@buttonTextPadding;
+  text-align:center;
+}
+
+dialog_button[talign=left], button[talign=left], Button_text[talign=left] {
+  padding:0, 0, -1@textPaddingBugWorkaround, 0;  
+  text-align:left;
+}
+
+:hover > Button_text[show_on_parent_hover=yes] {
+  display: show;
+}
+
+Button_text[isLink=yes][isFeatured=yes] > btnText {
+  color:@linkTextColor;
+}
+
+Button_text[isLink=yes][isFeatured=yes]:hover > btnText,
+Button_text[isLink=yes][isFeatured=yes]:pushed > btnText,
+Button_text[isLink=yes][isFeatured=yes][selected=yes] > btnText {
+  color:@linkTextHoverColor;
+}
+
+Button_text[isLink=yes] > btnText > underline {
+  display:show;
+}
+
+Button_text[isLink=yes][isFeatured=yes] > btnText > underline {
+  bgcolor:@linkTextColor;
+}
+
+Button_text[isLink=yes][isFeatured=yes]:hover > btnText > underline,
+Button_text[isLink=yes][isFeatured=yes]:pushed > btnText > underline,
+Button_text[isLink=yes][isFeatured=yes][selected=yes] > btnText > underline {
+  bgcolor:@linkTextHoverColor;
+}
