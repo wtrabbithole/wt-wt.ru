@@ -518,11 +518,6 @@
     }
   },
   {
-    "skin": {
-      "name": "default_tomoe"
-    }
-  },
-  {
     "turbulence": {
       "segmentlength": 100.0,
       "startSpeed": 28.0,
@@ -566,110 +561,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "aileron_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "aileron_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "wheel_c"
-        }
-      ]
     }
   },
   {
@@ -1020,6 +911,18 @@
           "hp": 15.0
         },
         "gun1_dm": {
+          "hp": 15.0
+        },
+        "gun2_dm": {
+          "hp": 15.0
+        },
+        "gun3_dm": {
+          "hp": 15.0
+        },
+        "mgun1_dm": {
+          "hp": 15.0
+        },
+        "mgun2_dm": {
           "hp": 15.0
         }
       },
@@ -1834,9 +1737,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1917,7 +1851,27 @@
       },
       {
         "part": {
+          "name": "gun2_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "gun3_dm"
+        }
+      },
+      {
+        "part": {
           "name": "gunner1_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "mgun1_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "mgun2_dm"
         }
       },
       {
@@ -1944,22 +1898,46 @@
       },
       {
         "part": {
-          "name": "oil3_dm"
+          "name": "oil3_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
         }
       },
       {
         "part": {
-          "name": "oil4_dm"
+          "name": "oil4_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
         }
       },
       {
         "part": {
-          "name": "oil5_dm"
+          "name": "oil5_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
         }
       },
       {
         "part": {
-          "name": "oil6_dm"
+          "name": "oil6_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
         }
       },
       {
@@ -2382,14 +2360,122 @@
         ]
       },
       {
-        "part": {
-          "name": "tank5_dm"
-        }
+        "part": [
+          {
+            "name": "tank5_dm"
+          },
+          {
+            "onHit": {
+              "fire": 0.005,
+              "leak": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damage": 3.0,
+              "fire": 0.01,
+              "leak": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "fire": 0.1,
+              "leak": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "fire": 0.4,
+              "leak": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "fire": 3.0,
+              "leak": 12.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "expl": 0.5,
+              "fire": 5.0,
+              "leak": 10.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 70.0,
+              "expl": 1.0,
+              "fire": 20.0,
+              "leak": 50.0,
+              "nothing": 30.0
+            }
+          }
+        ]
       },
       {
-        "part": {
-          "name": "tank6_dm"
-        }
+        "part": [
+          {
+            "name": "tank6_dm"
+          },
+          {
+            "onHit": {
+              "fire": 0.005,
+              "leak": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damage": 3.0,
+              "fire": 0.01,
+              "leak": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "fire": 0.1,
+              "leak": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "fire": 0.4,
+              "leak": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "fire": 3.0,
+              "leak": 12.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "expl": 0.5,
+              "fire": 5.0,
+              "leak": 10.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 70.0,
+              "expl": 1.0,
+              "fire": 20.0,
+              "leak": 50.0,
+              "nothing": 30.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2834,27 +2920,40 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/cannonHo3.blk",
+          "blk": "gameData/Weapons/gunHo103.blk",
           "emitter": "flare1",
           "flash": "flare1",
           "shell": "emtr_shellrejection1",
-          "dm": "cannon2_dm",
-          "bullets": 100,
+          "dm": "mgun1_dm",
+          "bullets": 350,
           "spread": 1.0,
           "traceOffset": 1
         }
       },
       {
         "Weapon": {
-          "trigger": "cannon",
-          "blk": "gameData/Weapons/cannonType94.blk",
+          "trigger": "machine gun",
+          "blk": "gameData/Weapons/gunHo103.blk",
           "emitter": "flare2",
           "flash": "flare2",
           "shell": "emtr_shellrejection2",
-          "dm": "cannon1_dm",
-          "bullets": 16,
+          "dm": "mgun2_dm",
+          "bullets": 350,
           "spread": 1.0,
           "traceOffset": 2
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "cannon",
+          "blk": "gameData/Weapons/cannonType94.blk",
+          "emitter": "flare3",
+          "flash": "flare3",
+          "shell": "emtr_shellrejection3",
+          "dm": "cannon1_dm",
+          "bullets": 100,
+          "spread": 1.0,
+          "traceOffset": 3
         }
       },
       {
@@ -2862,9 +2961,9 @@
           "trigger": "gunner0",
           "blk": "gameData/Weapons/gunType98_turret.blk",
           "emitter": "gun1",
-          "flash": "flare3",
-          "shell": "emtr_shellrejection3",
-          "dm": "gun1_dm",
+          "flash": "flare4",
+          "shell": "emtr_shellrejection4",
+          "dm": "gunner1_dm",
           "bullets": 1050,
           "turret": {
             "head": "turret1",
@@ -2989,15 +3088,19 @@
       },
       "new_radiator": [],
       "new_engine_injection": [],
-      "ho1_universal": [],
-      "ho1_ground_targets": [],
-      "ho1_all_tracers": [],
-      "ho1_stealth": [],
-      "ho1_belt_pack": [],
-      "20mmtype97_new_gun": {
-        "reqModification": "ho1_belt_pack"
+      "breda12_7_universal": [],
+      "breda12_7_air_targets": [],
+      "breda12_7_all_tracers": [],
+      "breda12_7_stealth": [],
+      "safat12_belt_pack": {
+        "tier": 3
       },
-      "ho203_new_gun": [],
+      "ho103_new_gun": {
+        "reqModification": "safat12_belt_pack",
+        "tier": 4
+      },
+      "type94_belt_pack": [],
+      "type94_antitank": [],
       "mg_turret_ap": [],
       "mg_turret_api_apt": [],
       "mg_turret_belt_pack": [],

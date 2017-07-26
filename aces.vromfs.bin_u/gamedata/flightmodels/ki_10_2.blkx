@@ -1076,9 +1076,56 @@
         ]
       },
       {
-        "part": {
-          "name": "tank3_dm"
-        }
+        "part": [
+          {
+            "name": "tank3_dm"
+          },
+          {
+            "onHit": {
+              "fire": 0.05,
+              "leak": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 7.0,
+              "fire": 0.5,
+              "leak": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "fire": 0.9,
+              "leak": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "fire": 3.0,
+              "leak": 12.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "expl": 0.5,
+              "fire": 5.0,
+              "leak": 10.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "expl": 1.0,
+              "fire": 20.0,
+              "leak": 50.0,
+              "nothing": 30.0
+            }
+          }
+        ]
       },
       {
         "part": {
@@ -1093,7 +1140,13 @@
       },
       {
         "part": {
-          "name": "water2_dm"
+          "name": "water2_dm",
+          "onHit": {
+            "leak_water": 0.5
+          },
+          "onKill": {
+            "leak_water": 1.0
+          }
         }
       },
       {
@@ -1976,101 +2029,6 @@
     }
   },
   {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "aileron_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "aerial"
-        }
-      ]
-    }
-  },
-  {
     "explosion_dm": {
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
@@ -2192,11 +2150,6 @@
         "reqModification": "type89_belt_pack",
         "tier": 3
       }
-    }
-  },
-  {
-    "skin": {
-      "name": "default_tomoe"
     }
   },
   {

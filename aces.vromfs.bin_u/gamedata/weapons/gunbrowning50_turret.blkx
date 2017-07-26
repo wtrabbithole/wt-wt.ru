@@ -54,6 +54,7 @@
       "speed": 832.0,
       "bulletType": "t_ball_M1",
       "maxDistance": 2000.0,
+      "onHitChanceMultFire": 2.0,
       "hitPowerMult": 8.0,
       "effectiveDistance": 1100.0,
       "relativeVelHitShift": [300.0,1000.0],
@@ -127,7 +128,7 @@
       "onHitChanceMultFire": 7.0,
       "effectiveDistance": 1100.0,
       "relativeVelHitShift": [300.0,1000.0],
-      "explodeTreshold": 0.1,
+      "explodeTreshold": 3.0,
       "explodeHitPower": 7.5,
       "explodeArmorPower": 2.5,
       "explodeRadius": [0.03,0.1],
@@ -146,11 +147,11 @@
         "HitPower2000m": [0.08,2000.0]
       },
       "armorpower": {
-        "ArmorPower0m": [1.0,10.0],
-        "ArmorPower100m": [1.0,100.0],
-        "ArmorPower500m": [1.0,500.0],
-        "ArmorPower1000m": [1.0,1000.0],
-        "ArmorPower1500m": [0.1,1500.0]
+        "ArmorPower0m": [5.0,10.0],
+        "ArmorPower100m": [4.0,100.0],
+        "ArmorPower500m": [4.0,500.0],
+        "ArmorPower1000m": [3.0,1000.0],
+        "ArmorPower1500m": [2.0,1500.0]
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
@@ -296,13 +297,13 @@
       },
       {
         "bullet": {
-          "mass": 0.0403,
+          "mass": 0.0438,
           "caliber": 0.0127,
-          "speed": 899.0,
+          "speed": 832.0,
+          "bulletType": "t_ball_M1",
           "maxDistance": 2000.0,
-          "bulletType": "ap_i_t_ball_M20",
+          "onHitChanceMultFire": 2.0,
           "hitPowerMult": 8.0,
-          "onHitChanceMultFire": 12.0,
           "effectiveDistance": 1100.0,
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
@@ -315,16 +316,16 @@
             "HitPower2000m": [0.08,2000.0]
           },
           "armorpower": {
-            "ArmorPower0m": [23.0,10.0],
-            "ArmorPower100m": [22.0,100.0],
-            "ArmorPower500m": [16.0,500.0],
-            "ArmorPower1000m": [10.0,1000.0],
-            "ArmorPower1500m": [6.0,1500.0]
+            "ArmorPower0m": [10.0,10.0],
+            "ArmorPower100m": [8.0,100.0],
+            "ArmorPower500m": [7.0,500.0],
+            "ArmorPower1000m": [6.0,1000.0],
+            "ArmorPower1500m": [0.1,1500.0]
           },
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "12mmRed",
+            "tracer": "12mmDarkRed",
             "trail": "smallTrail"
           }
         }
@@ -371,11 +372,11 @@
         "bullet": {
           "mass": 0.0403,
           "caliber": 0.0127,
-          "speed": 899.0,
+          "speed": 887.0,
           "maxDistance": 2000.0,
-          "bulletType": "ap_i_t_ball_M20",
-          "hitPowerMult": 8.0,
-          "onHitChanceMultFire": 12.0,
+          "bulletType": "ap_i_ball_M8",
+          "hitPowerMult": 8.5,
+          "onHitChanceMultFire": 10.0,
           "effectiveDistance": 1100.0,
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
@@ -397,8 +398,7 @@
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "12mmRed",
-            "trail": "smallTrail"
+            "tracer": "noColor"
           }
         }
       },
@@ -438,13 +438,13 @@
       },
       {
         "bullet": {
-          "mass": 0.0403,
+          "mass": 0.0438,
           "caliber": 0.0127,
-          "speed": 899.0,
+          "speed": 832.0,
+          "bulletType": "t_ball_M1",
           "maxDistance": 2000.0,
-          "bulletType": "ap_i_t_ball_M20",
+          "onHitChanceMultFire": 2.0,
           "hitPowerMult": 8.0,
-          "onHitChanceMultFire": 12.0,
           "effectiveDistance": 1100.0,
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
@@ -457,16 +457,16 @@
             "HitPower2000m": [0.08,2000.0]
           },
           "armorpower": {
-            "ArmorPower0m": [23.0,10.0],
-            "ArmorPower100m": [22.0,100.0],
-            "ArmorPower500m": [16.0,500.0],
-            "ArmorPower1000m": [10.0,1000.0],
-            "ArmorPower1500m": [6.0,1500.0]
+            "ArmorPower0m": [10.0,10.0],
+            "ArmorPower100m": [8.0,100.0],
+            "ArmorPower500m": [7.0,500.0],
+            "ArmorPower1000m": [6.0,1000.0],
+            "ArmorPower1500m": [0.1,1500.0]
           },
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "12mmRed",
+            "tracer": "12mmDarkRed",
             "trail": "smallTrail"
           }
         }

@@ -501,6 +501,9 @@
       "steel": {
         "gear_l_dm": {
           "hp": 53.0
+        },
+        "gear_r_dm": {
+          "hp": 53.0
         }
       },
       "steel_cooling_sys": {
@@ -1159,14 +1162,81 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
           {
             "name": "gear_l_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "gear_r_dm"
           },
           {
             "onHit": {
@@ -2422,6 +2492,8 @@
     "cockpit": {
       "headPos": [-1.03,0.797,-0.028],
       "headPosOnShooting": [-1.03,0.797,-0.028],
+      "headMoveLimitRight": 0.2,
+      "headMoveLimitUp": 0.7,
       "shadowSphereMultiplier": 1.5,
       "lightPos": [-0.626729,0.487362,-0.165847],
       "lightColor": [0.62,0.3,0.21],
@@ -2707,122 +2779,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "aerial"
-        },
-        {
-          "part": "hook"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "stab"
-        }
-      ]
     }
   },
   {

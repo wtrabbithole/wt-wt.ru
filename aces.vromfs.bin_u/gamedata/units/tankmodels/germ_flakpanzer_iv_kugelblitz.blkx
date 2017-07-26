@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -218,6 +218,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -571,7 +619,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -806,7 +854,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1457,7 +1505,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1502,7 +1550,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1634,48 +1682,102 @@
   {
     "commonWeapons": [
       {
-        "Weapon": {
-          "trigger": "gunner0",
-          "blk": "gameData/Weapons/groundModels_weapons/30mm_MK103_38_user_cannon.blk",
-          "emitter": "bone_gun_barrel_01",
-          "flash": "emtr_gun_flame_01",
-          "useEmitter": true,
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_01_dm",
-          "breechDP": "cannon_breech_01_dm",
-          "speedYaw": 25.0,
-          "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
-          "bullets": 600,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_turret",
-            "gun": "bone_gun",
-            "barrel": "bone_gun_barrel_01",
-            "gunnerDm": "gunner_dm",
-            "verDriveDm": "drive_turret_v_dm",
-            "horDriveDm": "drive_turret_h_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner0"
           },
-          "limits": {
-            "yaw": [-180.0,180.0],
-            "pitch": [-7.0,80.0]
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/30mm_MK103_38_user_cannon.blk"
+          },
+          {
+            "emitter": "bone_gun_barrel_01"
+          },
+          {
+            "flash": "emtr_gun_flame_01"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "jammedReloadTime": 15.0
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_01_dm"
+          },
+          {
+            "breechDP": "cannon_breech_01_dm"
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 20.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 600
+          },
+          {
+            "fireConeAngle": 15.0
+          },
+          {
+            "ChainfireTime": 3.0
+          },
+          {
+            "DelayAfterShoot": 3.0
+          },
+          {
+            "accuracyAir": 1.5
+          },
+          {
+            "accuracyGnd": 1.0
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_turret",
+              "gun": "bone_gun",
+              "barrel": "bone_gun_barrel_01",
+              "gunnerDm": "gunner_dm",
+              "verDriveDm": "drive_turret_v_dm",
+              "horDriveDm": "drive_turret_h_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-180.0,180.0],
+              "pitch": [-7.0,80.0]
+            }
           }
-        }
+        ]
       },
       {
         "Weapon": {
@@ -1684,22 +1786,19 @@
           "emitter": "bone_gun_barrel_02",
           "flash": "emtr_gun_flame_02",
           "useEmitter": true,
+          "jammedReloadTime": 15.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_02_dm",
           "breechDP": "cannon_breech_02_dm",
           "speedYaw": 25.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 600,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1707,6 +1806,8 @@
           "errTargettingOn100kmph": 0.0,
           "errTargetting": 3.0,
           "errExplTime": 0.0,
+          "reuseYawTrigger": 10,
+          "reusePitchTrigger": 10,
           "turret": {
             "head": "bone_turret",
             "gun": "bone_gun",

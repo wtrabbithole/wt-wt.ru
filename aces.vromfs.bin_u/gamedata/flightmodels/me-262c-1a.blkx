@@ -5,6 +5,7 @@
   "paratrooper": "german",
   "fireParamsPreset": "900kph",
   "fightAiBehaviour": "fighter",
+  "boostersClimbMaxAltitude": 8000.0,
   "DamageGen": {
     "engine1_dm": {
       "mat": "jet_engine"
@@ -693,14 +694,118 @@
       }
     },
     {
-      "part": {
-        "name": "elevator0_dm"
-      }
+      "part": [
+        {
+          "name": "elevator0_dm"
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
     },
     {
-      "part": {
-        "name": "elevator1_dm"
-      }
+      "part": [
+        {
+          "name": "elevator1_dm"
+        },
+        {
+          "onHit": {
+            "damage": 10.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 20.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 30.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 30.0,
+            "cut": 1.0,
+            "nothing": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 50.0,
+            "cut": 1.0
+          }
+        }
+      ]
     },
     {
       "part": [
@@ -1259,9 +1364,40 @@
       ]
     },
     {
-      "part": {
-        "name": "gear_c_dm"
-      }
+      "part": [
+        {
+          "name": "gear_c_dm"
+        },
+        {
+          "onHit": {
+            "damage": 15.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 25.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 40.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 60.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0
+          }
+        }
+      ]
     },
     {
       "part": [
@@ -1813,65 +1949,71 @@
         },
         {
           "onHit": {
-            "damage": 10.0,
+            "damage": 7.0,
             "cut": 0.1
           }
         },
         {
           "onHit": {
-            "damage": 20.0,
+            "damage": 10.0,
             "cut": 0.2
           }
         },
         {
           "onHit": {
-            "damage": 30.0,
+            "damage": 20.0,
             "cut": 0.4
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
+            "damage": 30.0,
             "cut": 0.8
           }
         },
         {
           "onHit": {
-            "damage": 70.0,
+            "damage": 50.0,
             "cut": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
             "cut": 1.0,
             "nothing": 5.0
           }
         },
         {
           "onKill": {
-            "damage": 30.0,
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
             "cut": 1.0,
             "nothing": 3.0
           }
         },
         {
           "onKill": {
-            "damage": 50.0,
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
             "cut": 1.0,
             "nothing": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 70.0,
+            "damage": 30.0,
             "cut": 1.0
           }
         }
@@ -1884,65 +2026,71 @@
         },
         {
           "onHit": {
-            "damage": 10.0,
+            "damage": 7.0,
             "cut": 0.1
           }
         },
         {
           "onHit": {
-            "damage": 20.0,
+            "damage": 10.0,
             "cut": 0.2
           }
         },
         {
           "onHit": {
-            "damage": 30.0,
+            "damage": 20.0,
             "cut": 0.4
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
+            "damage": 30.0,
             "cut": 0.8
           }
         },
         {
           "onHit": {
-            "damage": 70.0,
+            "damage": 50.0,
             "cut": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
             "cut": 1.0,
             "nothing": 5.0
           }
         },
         {
           "onKill": {
-            "damage": 30.0,
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
             "cut": 1.0,
             "nothing": 3.0
           }
         },
         {
           "onKill": {
-            "damage": 50.0,
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
             "cut": 1.0,
             "nothing": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 70.0,
+            "damage": 30.0,
             "cut": 1.0
           }
         }
@@ -1955,65 +2103,71 @@
         },
         {
           "onHit": {
-            "damage": 10.0,
+            "damage": 7.0,
             "cut": 0.1
           }
         },
         {
           "onHit": {
-            "damage": 20.0,
+            "damage": 10.0,
             "cut": 0.2
           }
         },
         {
           "onHit": {
-            "damage": 30.0,
+            "damage": 20.0,
             "cut": 0.4
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
+            "damage": 30.0,
             "cut": 0.8
           }
         },
         {
           "onHit": {
-            "damage": 70.0,
+            "damage": 50.0,
             "cut": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
             "cut": 1.0,
             "nothing": 5.0
           }
         },
         {
           "onKill": {
-            "damage": 30.0,
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
             "cut": 1.0,
             "nothing": 3.0
           }
         },
         {
           "onKill": {
-            "damage": 50.0,
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
             "cut": 1.0,
             "nothing": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 70.0,
+            "damage": 30.0,
             "cut": 1.0
           }
         }
@@ -2026,65 +2180,71 @@
         },
         {
           "onHit": {
-            "damage": 10.0,
+            "damage": 7.0,
             "cut": 0.1
           }
         },
         {
           "onHit": {
-            "damage": 20.0,
+            "damage": 10.0,
             "cut": 0.2
           }
         },
         {
           "onHit": {
-            "damage": 30.0,
+            "damage": 20.0,
             "cut": 0.4
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
+            "damage": 30.0,
             "cut": 0.8
           }
         },
         {
           "onHit": {
-            "damage": 70.0,
+            "damage": 50.0,
             "cut": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
             "cut": 1.0,
             "nothing": 5.0
           }
         },
         {
           "onKill": {
-            "damage": 30.0,
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
             "cut": 1.0,
             "nothing": 3.0
           }
         },
         {
           "onKill": {
-            "damage": 50.0,
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
             "cut": 1.0,
             "nothing": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 70.0,
+            "damage": 30.0,
             "cut": 1.0
           }
         }
@@ -2097,65 +2257,71 @@
         },
         {
           "onHit": {
-            "damage": 10.0,
+            "damage": 7.0,
             "cut": 0.1
           }
         },
         {
           "onHit": {
-            "damage": 20.0,
+            "damage": 10.0,
             "cut": 0.2
           }
         },
         {
           "onHit": {
-            "damage": 30.0,
+            "damage": 20.0,
             "cut": 0.4
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
+            "damage": 30.0,
             "cut": 0.8
           }
         },
         {
           "onHit": {
-            "damage": 70.0,
+            "damage": 50.0,
             "cut": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
             "cut": 1.0,
             "nothing": 5.0
           }
         },
         {
           "onKill": {
-            "damage": 30.0,
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
             "cut": 1.0,
             "nothing": 3.0
           }
         },
         {
           "onKill": {
-            "damage": 50.0,
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
             "cut": 1.0,
             "nothing": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 70.0,
+            "damage": 30.0,
             "cut": 1.0
           }
         }
@@ -2168,65 +2334,71 @@
         },
         {
           "onHit": {
-            "damage": 10.0,
+            "damage": 7.0,
             "cut": 0.1
           }
         },
         {
           "onHit": {
-            "damage": 20.0,
+            "damage": 10.0,
             "cut": 0.2
           }
         },
         {
           "onHit": {
-            "damage": 30.0,
+            "damage": 20.0,
             "cut": 0.4
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
+            "damage": 30.0,
             "cut": 0.8
           }
         },
         {
           "onHit": {
-            "damage": 70.0,
+            "damage": 50.0,
             "cut": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
             "cut": 1.0,
             "nothing": 5.0
           }
         },
         {
           "onKill": {
-            "damage": 30.0,
+            "damage": 3.0,
+            "cut": 1.0,
+            "nothing": 4.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 7.0,
             "cut": 1.0,
             "nothing": 3.0
           }
         },
         {
           "onKill": {
-            "damage": 50.0,
+            "damage": 10.0,
+            "cut": 1.0,
+            "nothing": 2.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 20.0,
             "cut": 1.0,
             "nothing": 1.0
           }
         },
         {
           "onKill": {
-            "damage": 70.0,
+            "damage": 30.0,
             "cut": 1.0
           }
         }
@@ -2565,114 +2737,6 @@
     "gunOverheatTime": 4.0,
     "gunCooldownTime": 2.5,
     "gunTempAfterOverheat": 0.2
-  },
-  "cut_parts": {
-    "wing2_l": [
-      {
-        "part": "wing2_l"
-      },
-      {
-        "part": "aileron_l"
-      },
-      {
-        "part": "wingcontrol_l"
-      }
-    ],
-    "wing2_r": [
-      {
-        "part": "wing2_r"
-      },
-      {
-        "part": "aileron_r"
-      },
-      {
-        "part": "wingcontrol_r"
-      }
-    ],
-    "wing_l": [
-      {
-        "part": "wing_l"
-      },
-      {
-        "part": "wing1_l"
-      },
-      {
-        "part": "wing2_l"
-      },
-      {
-        "part": "spar_l"
-      },
-      {
-        "part": "spar1_l"
-      },
-      {
-        "part": "spar2_l"
-      },
-      {
-        "part": "slat1_l"
-      },
-      {
-        "part": "aileron_l"
-      }
-    ],
-    "wing_r": [
-      {
-        "part": "wing_r"
-      },
-      {
-        "part": "wing1_r"
-      },
-      {
-        "part": "wing2_r"
-      },
-      {
-        "part": "spar_r"
-      },
-      {
-        "part": "spar1_r"
-      },
-      {
-        "part": "spar2_r"
-      },
-      {
-        "part": "slat1_r"
-      },
-      {
-        "part": "aileron_r"
-      }
-    ],
-    "tail": [
-      {
-        "part": "tail"
-      },
-      {
-        "part": "stab"
-      },
-      {
-        "part": "fin"
-      },
-      {
-        "part": "fin1"
-      },
-      {
-        "part": "fin2"
-      },
-      {
-        "part": "rudder"
-      },
-      {
-        "part": "elevator0"
-      },
-      {
-        "part": "elevator1"
-      },
-      {
-        "part": "antenna"
-      },
-      {
-        "part": "jet_flame3"
-      }
-    ]
   },
   "explosion_dm": {
     "hitPowerMult": 1.0,

@@ -195,7 +195,7 @@
         "armor_engine": {
           "engine1_dm": {
             "genericDamageMult": 1.6,
-            "hp": 28.1
+            "hp": 50.0
           }
         }
       },
@@ -969,9 +969,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1447,18 +1478,77 @@
         ]
       },
       {
+        "part": [
+          {
+            "name": "tank4_dm"
+          },
+          {
+            "onHit": {
+              "fire": 0.05,
+              "leak": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "fire": 0.7,
+              "leak": 0.8
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "fire": 0.9,
+              "leak": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "fire": 10.0,
+              "leak": 10.0,
+              "nothing": 80.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "expl": 0.5,
+              "fire": 10.0,
+              "leak": 30.0,
+              "nothing": 60.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 70.0,
+              "expl": 1.0,
+              "fire": 30.0,
+              "leak": 50.0,
+              "nothing": 20.0
+            }
+          }
+        ]
+      },
+      {
         "part": {
-          "name": "tank4_dm"
+          "name": "water1_dm",
+          "onHit": {
+            "leak_water": 0.5
+          },
+          "onKill": {
+            "leak_water": 1.0
+          }
         }
       },
       {
         "part": {
-          "name": "water1_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "water2_dm"
+          "name": "water2_dm",
+          "onHit": {
+            "leak_water": 0.5
+          },
+          "onKill": {
+            "leak_water": 1.0
+          }
         }
       },
       {
@@ -2060,23 +2150,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_japan": true,
-      "type_fighter": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "pacific": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
     "Params": {
       "Range": 1900.0
     }
@@ -2393,122 +2466,6 @@
     }
   },
   {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "aerial"
-        },
-        {
-          "part": "hook"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "stab"
-        }
-      ]
-    }
-  },
-  {
     "explosion_dm": {
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
@@ -2640,20 +2597,17 @@
         "reqModification": "ho5_belt_pack"
       },
       "ki_7in_mod20": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 4.0
       },
       "ki_10in_mod24": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 7.0,
         "reqModification": "ki_7in_mod20"
       },
       "ki_12in_mod30": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 13.0,
@@ -2665,22 +2619,22 @@
     "user_skin": [
       {
         "replace_tex": {
-          "from": "ki_61_2_early_59sentai_a*"
+          "from": "ki_100_59sentai_a*"
         }
       },
       {
         "replace_tex": {
-          "from": "ki_61_2_early_59sentai_a_dmg*"
+          "from": "ki_100_59sentai_a_dmg*"
         }
       },
       {
         "replace_tex": {
-          "from": "ki_61_2_early_59sentai_n*"
+          "from": "ki_100_59sentai_n*"
         }
       },
       {
         "replace_tex": {
-          "from": "ki_61_2_early_59sentai_n_dmg*"
+          "from": "ki_100_59sentai_n_dmg*"
         }
       }
     ]
@@ -2689,14 +2643,14 @@
     "default_skin_tomoe": [
       {
         "replace_tex": {
-          "from": "ki_61_2_early_59sentai_a*",
-          "to": "ki_61_2_early_59sentai_a_tomoe*"
+          "from": "ki_100_59sentai_a*",
+          "to": "ki_100_59sentai_a_tomoe*"
         }
       },
       {
         "replace_tex": {
-          "from": "ki_61_2_early_59sentai_a_dmg*",
-          "to": "ki_61_2_early_59sentai_a_tomoe_dmg*"
+          "from": "ki_100_59sentai_a_dmg*",
+          "to": "ki_100_59sentai_a_tomoe_dmg*"
         }
       }
     ]

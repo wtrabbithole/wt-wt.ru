@@ -6,7 +6,7 @@
   "collisionSphere0": [0.0,-1.5,0.0,5.0],
   "collisionSphere1": [5.0,2.0,0.0,1.0],
   "exhaustFx": "tank_exhaust",
-  "support_unit_class": "structures/ussr_122mm_m30",
+  "support_unit_class": "structures/ussr_152mm_d1",
   "support_unit_tag": "artillery",
   "useSimpleDeathConditionsAndEffects": false,
   "subclass": "heavyVehicle",
@@ -31,6 +31,7 @@
   "destroysRendInstances": true,
   "destroysTrees": true,
   "type": "typeLightTank",
+  "arcadeTurnPowerMult": 1.2,
   "DamageParts": {
     "formatVersion": 2,
     "armorClass": "RHA_tank",
@@ -219,7 +220,7 @@
     "cannon_breech": {
       "armorClass": "tank_structural_steel",
       "hp": 150.0,
-      "armorThickness": 15.0,
+      "armorThickness": 10.0,
       "armorThrough": 60.0,
       "fireProtectionHp": 10.0,
       "cannon_breech_dm": [],
@@ -933,9 +934,9 @@
           "pitch": [-12.0,20.0]
         },
         "limitsTable": {
-          "lim1": [-180.0,-160.0,-2.0,20.0],
-          "lim2": [-160.0,160.0,-12.0,20.0],
-          "lim3": [160.0,180.0,-2.0,20.0]
+          "lim1": [-180.0,-135.0,-2.0,20.0],
+          "lim2": [-135.0,135.0,-12.0,20.0],
+          "lim3": [135.0,180.0,-2.0,20.0]
         }
       }
     },
@@ -951,16 +952,12 @@
         "parkInDeadzone": false,
         "speedYaw": 30.0,
         "speedPitch": 20.0,
-        "fireConeAngle": 1.0,
         "bullets": 3000,
-        "salvoAmount": 100.0,
-        "ChainfireTime": 0.0,
-        "DelayAfterShoot": 5.0,
-        "AttackMaxDistance": 1000.0,
-        "AttackMaxRadius": 1000.0,
-        "AttackMaxHeight": 1000.0,
-        "accuracyAir": 0.0,
-        "accuracyGnd": 1.5,
+        "fireConeAngle": 15.0,
+        "ChainfireTime": 3.0,
+        "DelayAfterShoot": 3.0,
+        "accuracyAir": 1.5,
+        "accuracyGnd": 1.0,
         "errMeasureVel": 0.0,
         "errMeasureVelFast": 0.0,
         "errMeasureVelFwdShift": 0.0,
@@ -1038,7 +1035,7 @@
     },
     "tracks": {
       "animationMultiplier": 0.565,
-      "height": 0.045,
+      "height": 0.055,
       "width": 0.294
     },
     "collisionProps": {
@@ -1094,9 +1091,9 @@
     "suspension": {
       "suspensionOffsets": [-0.14,-0.11,0.07],
       "defaultGearRadius": 0.26,
-      "topGearRadius": 0.09,
+      "topGearRadius": 0.1,
       "defaultDampeningForce": [27000.0,27000.0],
-      "frontBackGearRadius": 0.35,
+      "frontBackGearRadius": 0.42,
       "dampeningRelaxationRatio": 0.4,
       "dampeningCompressionRatio": 0.15
     }
@@ -1292,6 +1289,54 @@
           "fx": {
             "name": "tank_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_03"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_04"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_05"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_06"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_07"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_08"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_09"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_10"
           }
         }
       ]
@@ -1645,7 +1690,7 @@
       "event": {
         "name": "big_bang",
         "fx": {
-          "name": "ship_explosion",
+          "name": "tank_explosion",
           "emitter": "emtr_explosion_center"
         }
       }

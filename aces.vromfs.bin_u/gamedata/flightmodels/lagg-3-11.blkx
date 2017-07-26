@@ -503,206 +503,6 @@
     }
   },
   {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "slat1_l"
-        },
-        {
-          "part": "slat2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        },
-        {
-          "part": "pylon_rocket1"
-        },
-        {
-          "part": "pylon_rocket2"
-        },
-        {
-          "part": "pylon_rocket3"
-        },
-        {
-          "part": "rocket1"
-        },
-        {
-          "part": "rocket2"
-        },
-        {
-          "part": "rocket3"
-        },
-        {
-          "part": "tank3"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "slat1_r"
-        },
-        {
-          "part": "slat2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        },
-        {
-          "part": "pylon_rocket4"
-        },
-        {
-          "part": "pylon_rocket5"
-        },
-        {
-          "part": "pylon_rocket6"
-        },
-        {
-          "part": "rocket4"
-        },
-        {
-          "part": "rocket5"
-        },
-        {
-          "part": "rocket6"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "tank5"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator_r"
-        },
-        {
-          "part": "elevator_l"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear1_c"
-        },
-        {
-          "part": "gear2_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        }
-      ]
-    }
-  },
-  {
     "explosion_dm": {
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
@@ -1812,9 +1612,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1917,7 +1748,13 @@
       },
       {
         "part": {
-          "name": "oil3_dm"
+          "name": "oil3_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
         }
       },
       {
@@ -2342,9 +2179,56 @@
         ]
       },
       {
-        "part": {
-          "name": "tank5_dm"
-        }
+        "part": [
+          {
+            "name": "tank5_dm"
+          },
+          {
+            "onHit": {
+              "fire": 0.01,
+              "leak": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "fire": 0.3,
+              "leak": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "fire": 0.6,
+              "leak": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "fire": 1.0,
+              "leak": 9.0,
+              "nothing": 90.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "expl": 0.25,
+              "fire": 5.0,
+              "leak": 15.0,
+              "nothing": 80.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "expl": 1.0,
+              "fire": 10.0,
+              "leak": 20.0,
+              "nothing": 70.0
+            }
+          }
+        ]
       },
       {
         "part": {

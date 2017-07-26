@@ -727,7 +727,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.25,-0.2,0.13],
+        "suspensionOffsets": [-0.2,-0.1,0.13],
         "defaultGearRadius": 0.39,
         "frontBackGearRadius": 0.2,
         "defaultDampeningForce": [150000.0,150000.0],
@@ -859,6 +859,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1212,7 +1260,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1238,11 +1286,30 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 22.0,
+      "zoomInFov": 18.5,
+      "sightFov": 13.0,
       "headPos": [0.0,3.5,-7.5],
       "headPosOnShooting": [0.0,3.2,0.0],
       "detectionHeight": 2.41
+    }
+  },
+  {
+    "skin": {
+      "name": "forest",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_forest_01*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "winter",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_winter*"
+      }
     }
   },
   {
@@ -1319,6 +1386,8 @@
         "armorClass": "RHA_tank",
         "hp": 500.0,
         "armorThickness": 6.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
         "ex_armor_body_r_07_dm": [],
         "ex_armor_body_r_08_dm": [],
         "ex_armor_body_r_09_dm": [],
@@ -1384,6 +1453,16 @@
           "armorThickness": 5.0
         }
       },
+      "submodule": {
+        "armorClass": "tank_traks",
+        "hp": 250.0,
+        "ex_armor_l_06_dm": {
+          "armorThickness": 36.0
+        },
+        "ex_armor_r_04_dm": {
+          "armorThickness": 36.0
+        }
+      },
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 300.0,
@@ -1439,7 +1518,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1642,16 +1721,12 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 250,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1756,24 +1831,6 @@
         "modCostMul": 1.5
       },
       "100mm_ussr_HE": []
-    }
-  },
-  {
-    "skin": {
-      "name": "forest",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_forest_01*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "winter",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_winter*"
-      }
     }
   }
 ]

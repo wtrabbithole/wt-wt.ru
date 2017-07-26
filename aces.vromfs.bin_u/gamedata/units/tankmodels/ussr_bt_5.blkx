@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -94,6 +94,12 @@
   },
   {
     "type": "typeLightTank"
+  },
+  {
+    "arcadeTurnPowerMult": 1.1
+  },
+  {
+    "arcadePowerMult": 1.2
   },
   {
     "DamageParts": {
@@ -250,7 +256,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -975,6 +981,27 @@
     }
   },
   {
+    "PhysSys": {
+      "find": "^bone_suspension_(._\\d\\d)$",
+      "points": {
+        "suspension": {
+          "name": "bone_suspension_$1"
+        },
+        "wheel": {
+          "name": "bone_wheel_$1",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0]
+        }
+      },
+      "constraints": {
+        "edge": {
+          "from": "suspension",
+          "to": "wheel"
+        }
+      }
+    }
+  },
+  {
     "VehiclePhys": {
       "Mass": {
         "Empty": 11400.0,
@@ -992,7 +1019,7 @@
         "width": 0.25
       },
       "collisionProps": {
-        "cls_turret": "convex_hull",
+        "cls_turret_01": "convex_hull",
         "cls_body_01": "convex_hull",
         "cls_body_02": "convex_hull",
         "cls_body_03": "convex_hull"
@@ -1026,7 +1053,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.2,-0.15,0.14],
+        "suspensionOffsets": [-0.1,-0.05,0.14],
         "defaultGearRadius": 0.405,
         "frontBackGearRadius": 0.25,
         "defaultDampeningForce": [30000.0,30000.0],
@@ -1134,6 +1161,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1487,7 +1562,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1524,6 +1599,9 @@
     "modifications": {
       "tank_tool_kit": [],
       "manual_extinguisher": [],
+      "tank_medical_kit": {
+        "image": "#ui/gameuiskin#tank_reinforcement_ussr"
+      },
       "new_tank_tracks": [],
       "new_tank_suspension": [],
       "new_tank_filter": [],
@@ -1536,9 +1614,6 @@
       "new_tank_vertical_aiming": [],
       "art_support": [],
       "tank_new_gun": [],
-      "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_ussr"
-      },
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
@@ -1630,14 +1705,6 @@
           "count": 29
         }
       }
-    }
-  },
-  {
-    "controls": {
-      "isDrivenByDirection": true,
-      "directionDrivingIncreaseSpeed": 1.0,
-      "directionDrivingReturnSpeed": 0.8,
-      "directionDrivingInverseSpeed": 4.0
     }
   }
 ]

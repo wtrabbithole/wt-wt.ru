@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -96,6 +96,82 @@
     "type": "typeLightTank"
   },
   {
+    "arcadeTurnPowerMult": 1.1
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "us_gunner_officer_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "suffix": "2"
+      },
+      {
+        "dmName": "commander_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
     "ikGunner": [
       {
         "model": "us_gunner_char"
@@ -122,6 +198,9 @@
         "suffix": "1"
       },
       {
+        "dmName": "gunner_dm"
+      },
+      {
         "deadHeadAttitudeMin": -40.0
       },
       {
@@ -189,77 +268,10 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "suffix": "2"
-      },
-      {
-        "deadHeadAttitudeMin": -40.0
-      },
-      {
-        "deadHeadAttitudeMax": -55.0
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "righthand_",
-          "flexionDir": [-0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_",
-          "flexionDir": [-0.2,1.0,-1.0]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_",
-          "flexionDir": [-0.6,1.0,-1.0]
-        }
-      }
-    ]
-  },
-  {
-    "ikGunner": [
-      {
-        "model": "us_gunner_officer_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis_"
-      },
-      {
         "suffix": "3"
+      },
+      {
+        "dmName": "machine_gunner_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -330,6 +342,9 @@
       },
       {
         "suffix": "4"
+      },
+      {
+        "dmName": "driver_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -575,7 +590,22 @@
           "ex_armor_03_dm": [],
           "ex_armor_04_dm": [],
           "ex_armor_05_dm": [],
-          "ex_armor_06_dm": []
+          "ex_armor_06_dm": [],
+          "ex_decor_r_05_dm": []
+        },
+        "body_shields": {
+          "armorClass": "tank_structural_steel",
+          "stopChanceOnDeadPart": 0.0,
+          "createSecondaryShatters": false,
+          "hp": 300.0,
+          "armorThickness": 5.0,
+          "ex_decor_r_04_dm": [],
+          "ex_decor_r_03_dm": [],
+          "ex_decor_r_01_dm": [],
+          "ex_decor_l_01_dm": [],
+          "ex_decor_l_02_dm": [],
+          "ex_decor_l_03_dm": [],
+          "ex_decor_05_dm": []
         }
       },
       "crew": {
@@ -633,7 +663,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1377,17 +1407,13 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 1000,
           "isBulletBelt": true,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1430,7 +1456,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.565,
-        "height": 0.045,
+        "height": 0.055,
         "width": 0.3
       },
       "collisionProps": {
@@ -1488,7 +1514,7 @@
         "defaultGearRadius": 0.26,
         "topGearRadius": 0.09,
         "defaultDampeningForce": [27000.0,27000.0],
-        "frontBackGearRadius": 0.35,
+        "frontBackGearRadius": 0.42,
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -1692,6 +1718,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -2045,7 +2119,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

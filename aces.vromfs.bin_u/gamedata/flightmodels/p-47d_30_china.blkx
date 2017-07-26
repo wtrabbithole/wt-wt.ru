@@ -983,9 +983,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2052,8 +2083,8 @@
       "headPos": [-1.17,0.971,0.0],
       "headPosOnShooting": [-1.17,0.971,0.0],
       "bulletHoleFreeRadius": 1.8,
-      "lightPos": [-1.22945,0.373511,0.474741],
-      "lightColor": [0.62,0.3,0.21],
+      "lightPos": [-0.652407,0.605687,-0.000704],
+      "lightColor": [0.15,0.05,0.01],
       "lightAttenuation": 4.0,
       "devices": {
         "speed": [0.0,311.111],
@@ -2384,236 +2415,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        },
-        {
-          "part": "mgun1"
-        },
-        {
-          "part": "mgun2"
-        },
-        {
-          "part": "mgun3"
-        },
-        {
-          "part": "mgun4"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        },
-        {
-          "part": "mgun5"
-        },
-        {
-          "part": "mgun6"
-        },
-        {
-          "part": "mgun7"
-        },
-        {
-          "part": "mgun8"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        },
-        {
-          "part": "pylon_rocket1"
-        },
-        {
-          "part": "pylon_rocket2"
-        },
-        {
-          "part": "pylon_rocket3"
-        },
-        {
-          "part": "rocket1"
-        },
-        {
-          "part": "rocket2"
-        },
-        {
-          "part": "rocket3"
-        },
-        {
-          "part": "mgun1"
-        },
-        {
-          "part": "mgun2"
-        },
-        {
-          "part": "mgun3"
-        },
-        {
-          "part": "mgun4"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        },
-        {
-          "part": "pylon_rocket8"
-        },
-        {
-          "part": "pylon_rocket9"
-        },
-        {
-          "part": "pylon_rocket10"
-        },
-        {
-          "part": "rocket8"
-        },
-        {
-          "part": "rocket9"
-        },
-        {
-          "part": "rocket10"
-        },
-        {
-          "part": "mgun5"
-        },
-        {
-          "part": "mgun6"
-        },
-        {
-          "part": "mgun7"
-        },
-        {
-          "part": "mgun8"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        }
-      ]
     }
   },
   {

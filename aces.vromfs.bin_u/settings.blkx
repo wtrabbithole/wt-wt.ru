@@ -4,6 +4,9 @@
   "compatibilityHangarBlk": "config/hangar_airfield.blk",
   "addons": [
     {
+      "folder": "content/hq_tex"
+    },
+    {
       "folder": "content/pkg_main"
     },
     {
@@ -13,39 +16,54 @@
       "folder": "content/pkg_dev"
     },
     {
-      "folder": "content/hq_tex"
+      "folder": "content/pkg_dev_hq"
     },
     {
       "folder": "content/hc_pacific"
     },
     {
-      "folder": "content/pkg_user"
+      "folder": "content/pkg_user/"
     },
     {
-      "folder": "content/pkg_local"
+      "folder": "content/pkg_local/"
+    },
+    {
+      "folder": "content/tomoe"
+    },
+    {
+      "folder": "content/tomoe_hq"
     }
   ],
   "addons_no_check": [
     {
-      "folder": "content/pkg_ships"
-    },
-    {
       "folder": "content/hq_tex"
-    },
-    {
-      "folder": "content/pkg_dev"
     },
     {
       "folder": "content/pkg_main"
     },
     {
+      "folder": "content/pkg_ships"
+    },
+    {
+      "folder": "content/pkg_dev"
+    },
+    {
+      "folder": "content/pkg_dev_hq"
+    },
+    {
       "folder": "content/hc_pacific"
     },
     {
-      "folder": "content/pkg_user"
+      "folder": "content/pkg_user/"
     },
     {
-      "folder": "content/pkg_local"
+      "folder": "content/pkg_local/"
+    },
+    {
+      "folder": "content/tomoe"
+    },
+    {
+      "folder": "content/tomoe_hq"
     }
   ],
   "video": {
@@ -72,7 +90,8 @@
     "dcb_size_mb": 8,
     "ccb_size_mb": 8,
     "onion_blocks": 16384,
-    "max_genmip_tex_sz": 4096,
+    "max_genmip_tex_sz": 2052,
+    "mem_reserve_mb": 256,
     "enable_deferred_mipgen": true,
     "guiWebCacheCircuit": "production",
     "reserve": {
@@ -119,6 +138,8 @@
   },
   "debug": {
     "enableApex": true,
+    "disableAnsel": false,
+    "apexLowMemMode": true,
     "disableFmSyncDumps": true,
     "mpBulletDiagnostics": false,
     "trackEnvChanges": false,
@@ -173,7 +194,8 @@
     "disableHangar": false,
     "disableChat": false,
     "workThreadsStackSize": 131072,
-    "enableMouseHints": true
+    "enableMouseHints": true,
+    "replayDofFar": [100.0,400.0,0.5]
   },
   "directx": {
     "debug": false,
@@ -224,7 +246,125 @@
     "environment": "day",
     "weather": "clear"
   },
-  "texStreaming": {
-    "enableStreaming": false
-  }
+  "texStreaming": [
+    {
+      "enableStreaming": true
+    },
+    {
+      "texLoadOnDemand": true
+    },
+    {
+      "hqTexPrio": 1
+    },
+    {
+      "lqTexMaxSizeKB": 2048
+    },
+    {
+      "defStubTexColor": "#50505000"
+    },
+    {
+      "verboseLogs": false
+    },
+    {
+      "maxMemQuotaKB": 2838528
+    },
+    {
+      "lqIsSplitBQ": false
+    },
+    {
+      "lqMipBiasHQ": 2
+    },
+    {
+      "lqMipBiasMQ": 3
+    },
+    {
+      "lqMipBiasLQ": 3
+    },
+    {
+      "win32": {
+        "enableStreaming": false
+      }
+    },
+    {
+      "win64": {
+        "enableStreaming": true
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "diffuse",
+        "idx": 1,
+        "color": "#505250ff"
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "nx_ny_nz_0",
+        "idx": 2,
+        "color": "#8080ff00",
+        "gamma1": true
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "smooth0_nx_metal0_ny",
+        "idx": 3,
+        "color": "#00800080",
+        "gamma1": true
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "ao",
+        "idx": 4,
+        "color": "#c8c8c8ff"
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "black",
+        "idx": 5,
+        "color": "#00000000"
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "nx_ny_0_0.5",
+        "idx": 6,
+        "color": "#80800080",
+        "gamma1": true
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "mod2x",
+        "idx": 7,
+        "color": "#80808080"
+      }
+    },
+    {
+      "stubTex": {
+        "tag": "nx_ny_0_0",
+        "idx": 8,
+        "color": "#80800000",
+        "gamma1": true
+      }
+    },
+    {
+      "biasGroup": {
+        "pack_re": "aircrafts",
+        "lqMipBiasHQ": 2,
+        "lqMipBiasMQ": 1,
+        "lqMipBiasLQ": 2
+      }
+    },
+    {
+      "biasGroup": {
+        "pack_re": "tanks",
+        "lqMipBiasHQ": 1,
+        "lqMipBiasMQ": 1,
+        "lqMipBiasLQ": 2
+      }
+    }
+  ]
 }

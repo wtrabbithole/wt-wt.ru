@@ -1268,9 +1268,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2452,6 +2483,86 @@
     }
   },
   {
+    "cockpit": {
+      "textToShowInCockpit": "msg/textToShowInCockpit",
+      "headPos": [3.326,0.942,0.239],
+      "headPosOnShooting": [3.326,0.942,0.239],
+      "lightPos": [3.950427,0.753882,-0.118725],
+      "lightColor": [0.32,0.1,0.01],
+      "lightAttenuation": 12.0,
+      "devices": {
+        "speed": [0.0,277.778],
+        "vario": [-15.0,15.0],
+        "compass": [0.0,360.0],
+        "altitude_hour": [0.0,10000.0],
+        "altitude_min": [0.0,1000.0],
+        "altitude_koef": 1.0,
+        "aviahorizon_pitch": [-45.0,45.0],
+        "aviahorizon_roll": [-180.0,180.0],
+        "bank": [-8.0,8.0],
+        "bank1": [-8.0,8.0],
+        "turn": [-0.23562,0.23562],
+        "turn1": [-0.23562,0.23562],
+        "manifold_pressure": [0.6,1.8],
+        "manifold_pressure1": [0.6,1.8],
+        "manifold_pressure2": [0.6,1.8],
+        "manifold_pressure3": [0.6,1.8],
+        "rpm": [0.0,5000.0],
+        "rpm1": [0.0,5000.0],
+        "rpm2": [0.0,5000.0],
+        "rpm3": [0.0,5000.0],
+        "oil_pressure": [0.0,150.0],
+        "oil_pressure1": [0.0,150.0],
+        "oil_pressure2": [0.0,150.0],
+        "oil_pressure3": [0.0,150.0],
+        "oil_temperature": [30.0,120.0],
+        "oil_temperature1": [30.0,120.0],
+        "oil_temperature2": [30.0,120.0],
+        "oil_temperature3": [30.0,120.0],
+        "water_temperature": [30.0,120.0],
+        "water_temperature1": [30.0,120.0],
+        "water_temperature2": [30.0,120.0],
+        "water_temperature3": [30.0,120.0],
+        "head_temperature": [0.0,500.0],
+        "head_temperature1": [0.0,500.0],
+        "head_temperature2": [0.0,500.0],
+        "head_temperature3": [0.0,500.0],
+        "fuel_pressure": [0.0,15.0],
+        "fuel_pressure1": [0.0,15.0],
+        "fuel_pressure2": [0.0,15.0],
+        "fuel_pressure3": [0.0,15.0],
+        "fuel": [0.0,180.0],
+        "gears": [0.0,1.0],
+        "gears_lamp": [0.0,0.0],
+        "flaps": [0.0,1.0],
+        "flaps_fixed": true,
+        "pitch_fixed": false
+      },
+      "parts_holes_dmg": {
+        "part": "fuse"
+      },
+      "parts_oil_dmg": [
+        {
+          "part": "engine1"
+        },
+        {
+          "part": "engine2"
+        },
+        {
+          "part": "engine3"
+        },
+        {
+          "part": "engine4"
+        }
+      ]
+    }
+  },
+  {
+    "Aircraft": {
+      "gunnersCount": 3
+    }
+  },
+  {
     "Params": {
       "Range": 2059.96
     }
@@ -2471,13 +2582,14 @@
           "emitter": "gun1",
           "flash": "flare1",
           "dm": "gunner1_dm",
+          "partsDP": "gun1_dm",
           "bullets": 750,
           "turret": {
             "head": "turret1",
             "gun": "gun1"
           },
           "limits": {
-            "yaw": [-25.0,25.0],
+            "yaw": [-45.0,45.0],
             "pitch": [0.0,50.0]
           }
         }
@@ -2489,6 +2601,7 @@
           "emitter": "gun2",
           "flash": "flare2",
           "dm": "gunner2_dm",
+          "partsDP": "gun2_dm",
           "bullets": 375,
           "turret": {
             "head": "turret2",
@@ -2519,6 +2632,7 @@
           "emitter": "gun4",
           "flash": "flare4",
           "dm": "gunner3_dm",
+          "partsDP": "gun4_dm",
           "bullets": 375,
           "turret": {
             "head": "turret4",
@@ -2536,15 +2650,16 @@
           "blk": "gameData/Weapons/gunMG15_turret.blk",
           "emitter": "gun5",
           "flash": "flare5",
-          "dm": "gun5_dm",
+          "dm": "gunner3_dm",
+          "partsDP": "gun5_dm",
           "bullets": 375,
           "turret": {
             "head": "turret5",
             "gun": "gun5"
           },
           "limits": {
-            "yaw": [-10.0,10.0],
-            "pitch": [-10.0,10.0]
+            "yaw": [-45.0,45.0],
+            "pitch": [-1.0,10.0]
           }
         }
       },
@@ -2554,14 +2669,15 @@
           "blk": "gameData/Weapons/gunMG15_turret.blk",
           "emitter": "gun6",
           "flash": "flare6",
-          "dm": "gun6_dm",
+          "dm": "gunner3_dm",
+          "partsDP": "gun6_dm",
           "bullets": 375,
           "turret": {
             "head": "turret6",
             "gun": "gun6"
           },
           "limits": {
-            "yaw": [-10.0,10.0],
+            "yaw": [-45.0,45.0],
             "pitch": [-10.0,10.0]
           }
         }
@@ -2572,14 +2688,15 @@
           "blk": "gameData/Weapons/gunMG15_turret.blk",
           "emitter": "gun7",
           "flash": "flare7",
-          "dm": "gun7_dm",
+          "dm": "gunner3_dm",
+          "partsDP": "gun7_dm",
           "bullets": 375,
           "turret": {
             "head": "turret7",
             "gun": "gun7"
           },
           "limits": {
-            "yaw": [-10.0,10.0],
+            "yaw": [-1.0,45.0],
             "pitch": [-10.0,10.0]
           }
         }
@@ -2590,14 +2707,15 @@
           "blk": "gameData/Weapons/gunMG15_turret.blk",
           "emitter": "gun8",
           "flash": "flare8",
-          "dm": "gun8_dm",
+          "dm": "gunner3_dm",
+          "partsDP": "gun8_dm",
           "bullets": 375,
           "turret": {
             "head": "turret8",
             "gun": "gun8"
           },
           "limits": {
-            "yaw": [-10.0,10.0],
+            "yaw": [-45.0,1.0],
             "pitch": [-10.0,10.0]
           }
         }
@@ -2683,64 +2801,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "flap_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "flap_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        }
-      ]
     }
   },
   {

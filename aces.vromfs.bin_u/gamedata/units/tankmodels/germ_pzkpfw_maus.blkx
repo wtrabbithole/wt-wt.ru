@@ -95,17 +95,11 @@
       "armorClass": "RHA_tank",
       "hp": 10000.0,
       "hull": {
-        "body_front_dm": {
-          "armorThickness": 100.0
-        },
         "superstructure_front_dm": {
           "armorThickness": 200.0
         },
         "body_side_dm": {
           "armorThickness": 180.0
-        },
-        "superstructure_side_dm": {
-          "armorThickness": 100.0
         },
         "superstructure_back_dm": {
           "armorThickness": 150.0
@@ -124,9 +118,6 @@
         },
         "turret_01_bottom_dm": {
           "armorThickness": 20.0
-        },
-        "body_shield_dm": {
-          "armorThickness": 60.0
         },
         "body_top_dm": {
           "armorThickness": 300.0
@@ -212,6 +203,26 @@
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0
+        }
+      },
+      "body_shields": {
+        "armorClass": "RHA_tank",
+        "hp": 10000.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
+        "ex_decor_01_dm": {
+          "armorThickness": 10.0,
+          "armorClass": "tank_structural_steel",
+          "hp": 500.0
+        },
+        "body_front_dm": {
+          "armorThickness": 100.0
+        },
+        "superstructure_side_dm": {
+          "armorThickness": 100.0
+        },
+        "body_shield_dm": {
+          "armorThickness": 60.0
         }
       },
       "chassis": {
@@ -310,7 +321,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1103,7 +1114,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1145,7 +1156,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1533,27 +1544,6 @@
     }
   },
   {
-    "PhysSys": {
-      "find": "^bone_suspension_(._\\d\\d)$",
-      "points": {
-        "suspension": {
-          "name": "bone_suspension_$1"
-        },
-        "wheel": {
-          "name": "bone_wheel_$1",
-          "limitMin": [-1000.0,0.0,0.0],
-          "limitMax": [1000.0,0.0,0.0]
-        }
-      },
-      "constraints": {
-        "edge": {
-          "from": "suspension",
-          "to": "wheel"
-        }
-      }
-    }
-  },
-  {
     "ammo": {
       "combustionTime": 10.0,
       "detonateProb": 0.15,
@@ -1652,6 +1642,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -2005,7 +2043,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -2031,8 +2069,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 29.0,
+      "zoomInFov": 24.7,
+      "sightFov": 18.0,
       "headPos": [0.0,5.0,-9.5],
       "headPosOnShooting": [-1.5,4.2,0.0],
       "detectionHeight": 3.649

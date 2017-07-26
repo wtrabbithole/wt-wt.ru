@@ -6,9 +6,6 @@
     "fmFile": "fm/douglas_ad_2.blk"
   },
   {
-    "type": "typeFighter"
-  },
-  {
     "type": "typeStormovik"
   },
   {
@@ -1080,9 +1077,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2083,7 +2111,7 @@
         "brakes": [0.0,1.0],
         "trimmer": [-1.0,1.0],
         "airbrake_lever": [0.0,1.0],
-        "speed": [0.0,257.222],
+        "speed": [0.0,221.211],
         "vario": [-30.0,30.0],
         "g_meter": [-5.0,12.0],
         "compass": [0.0,360.0],
@@ -2298,180 +2326,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "pylon1"
-        },
-        {
-          "part": "pylon2"
-        },
-        {
-          "part": "pylon3"
-        },
-        {
-          "part": "pylon4"
-        },
-        {
-          "part": "pylon5"
-        },
-        {
-          "part": "wing_l2"
-        },
-        {
-          "part": "wing_l3"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "cannon1"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "pylon10"
-        },
-        {
-          "part": "pylon11"
-        },
-        {
-          "part": "pylon12"
-        },
-        {
-          "part": "pylon13"
-        },
-        {
-          "part": "pylon14"
-        },
-        {
-          "part": "wing_r2"
-        },
-        {
-          "part": "wing_r3"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "cannon2"
-        }
-      ],
-      "wing1_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "flap_l"
-        }
-      ],
-      "wing1_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "flap_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "hook"
-        },
-        {
-          "part": "airbrake_c"
-        },
-        {
-          "part": "airbrake_c1"
-        },
-        {
-          "part": "airbrake_c2"
-        },
-        {
-          "part": "airbrake_l"
-        },
-        {
-          "part": "airbrake_l1"
-        },
-        {
-          "part": "airbrake_l2"
-        },
-        {
-          "part": "airbrake_r"
-        },
-        {
-          "part": "airbrake_r1"
-        },
-        {
-          "part": "airbrake_r2"
-        }
-      ]
     }
   },
   {

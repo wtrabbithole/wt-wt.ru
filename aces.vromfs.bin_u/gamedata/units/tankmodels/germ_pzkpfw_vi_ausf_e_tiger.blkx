@@ -124,6 +124,9 @@
         },
         "body_bottom_dm": {
           "armorThickness": 26.0
+        },
+        "ex_armor_body_05_dm": {
+          "armorThickness": 80.0
         }
       },
       "turret": {
@@ -171,6 +174,10 @@
         },
         "turret_01_front_dm": {
           "armorThickness": 135.0
+        },
+        "turret_01_bottom_dm": {
+          "armorThickness": 10.0,
+          "armorClass": "RHA_tank"
         },
         "gun_barrel_armor_dm": {
           "armorThickness": 30.0
@@ -349,7 +356,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1106,7 +1113,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1154,7 +1161,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1224,7 +1231,7 @@
           "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
           "speedYaw": 14.0,
-          "speedPitch": 3.0,
+          "speedPitch": 4.0,
           "fireConeAngle": 1.0,
           "bullets": 92,
           "salvoAmount": 100.0,
@@ -1312,17 +1319,13 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 2000,
           "isBulletBelt": true,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1571,6 +1574,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1924,7 +1975,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1979,9 +2030,11 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
       "88mm_ger_kwk36_APCR": [],
+      "88mm_ger_kwk36_Pzgr_APCBC": [],
       "88mm_ger_kwk36_HEAT": {
         "modCostMul": 0.5
       },
+      "88mm_ger_kwk36_Pzgr_APCBC_ammo_pack": [],
       "88mm_kwk_36_43_HEAT_ammo_pack": [],
       "88mm_kwk_36_43_APCR_ammo_pack": [],
       "88mm_ger_kwk36_default_HE": []

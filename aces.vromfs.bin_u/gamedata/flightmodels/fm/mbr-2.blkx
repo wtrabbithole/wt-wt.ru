@@ -48,6 +48,7 @@
   "ArcadeHelpersSensitivity": 1.0,
   "AllowModsToChangeLongidutialBalance": true,
   "MomentOfInertia": [10000.0,20000.0,10000.0],
+  "IgnoreErrors": true,
   "AvailableControls": [
     {
       "hasAileronControl": true
@@ -146,7 +147,7 @@
     "AlphaShift": -0.2,
     "FlapsShift": 0.05,
     "AirbrakesShift": 0.0,
-    "GearShift": 1.0,
+    "GearShift": -1.0,
     "WingInFocus": 1.55,
     "WingMidFocus": 3.4,
     "WingOutFocus": 5.0,
@@ -745,7 +746,7 @@
       "RetractableTailStrut": false
     },
     {
-      "UseCenterOfGravity": true
+      "UseCenterOfGravity": false
     },
     {
       "FrontalSpringsHeight": 0.3
@@ -827,29 +828,29 @@
     {
       "WaterPart1": {
         "Number": 0,
-        "SinkFactor": 5000.0,
-        "VerticalOffset": 2.0
+        "SinkFactor": 4000.0,
+        "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart2": {
         "Number": 1,
-        "SinkFactor": 5000.0,
-        "VerticalOffset": 2.0
+        "SinkFactor": 4000.0,
+        "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart3": {
         "Number": 2,
         "SinkFactor": 2000.0,
-        "VerticalOffset": 0.0
+        "VerticalOffset": 1.0
       }
     },
     {
       "WaterPart4": {
-        "Number": 3,
+        "Number": 27,
         "SinkFactor": 2000.0,
-        "VerticalOffset": 0.0
+        "VerticalOffset": 0.5
       }
     },
     {
@@ -868,37 +869,9 @@
     },
     {
       "WaterPart7": {
-        "Number": 8,
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
-      }
-    },
-    {
-      "WaterPart8": {
-        "Number": 9,
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
-      }
-    },
-    {
-      "WaterPart9": {
-        "Number": 10,
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
-      }
-    },
-    {
-      "WaterPart10": {
-        "Number": 11,
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
-      }
-    },
-    {
-      "WaterPart11": {
-        "Number": 12,
-        "SinkFactor": 500.0,
-        "VerticalOffset": 0.0
+        "Number": 3,
+        "SinkFactor": 6000.0,
+        "VerticalOffset": -0.3
       }
     }
   ],

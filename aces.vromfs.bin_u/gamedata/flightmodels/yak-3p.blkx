@@ -991,9 +991,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2151,25 +2182,6 @@
     }
   },
   {
-    "skin": [
-      {
-        "name": "nn_alber"
-      },
-      {
-        "replace_tex": {
-          "from": "yak_3_a*",
-          "to": "yak_3_alber_gray_a*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "yak_3_a_dmg*",
-          "to": "yak_3_alber_gray_a_dmg*"
-        }
-      }
-    ]
-  },
-  {
     "turbulence": {
       "segmentlength": 100.0,
       "startSpeed": 28.0,
@@ -2213,146 +2225,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "spar3_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wheel_l"
-        },
-        {
-          "part": "gear_l"
-        },
-        {
-          "part": "gear_l1"
-        },
-        {
-          "part": "gear_l2"
-        },
-        {
-          "part": "gear_l3"
-        },
-        {
-          "part": "gear_l4"
-        },
-        {
-          "part": "gear_l5"
-        },
-        {
-          "part": "gear_l6"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "aileron_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        }
-      ]
     }
   },
   {
@@ -2511,6 +2383,25 @@
         "replace_tex": {
           "from": "yak_3p_a_dmg*",
           "to": "yak_3_a_dmg*"
+        }
+      }
+    ]
+  },
+  {
+    "skin": [
+      {
+        "name": "nn_alber"
+      },
+      {
+        "replace_tex": {
+          "from": "yak_3_a*",
+          "to": "yak_3_alber_gray_a*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "yak_3_a_dmg*",
+          "to": "yak_3_alber_gray_a_dmg*"
         }
       }
     ]

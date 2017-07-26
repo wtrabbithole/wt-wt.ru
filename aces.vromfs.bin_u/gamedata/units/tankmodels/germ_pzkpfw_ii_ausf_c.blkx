@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -97,6 +97,9 @@
   },
   {
     "type": "typeLightTank"
+  },
+  {
+    "arcadeTurnPowerMult": 1.2
   },
   {
     "DamageParts": {
@@ -292,7 +295,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -931,7 +934,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -982,7 +985,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1022,7 +1025,7 @@
           "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
           "speedYaw": 14.0,
-          "speedPitch": 3.0,
+          "speedPitch": 4.0,
           "fireConeAngle": 1.0,
           "bullets": 150,
           "salvoAmount": 100.0,
@@ -1116,7 +1119,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.5,
-        "height": 0.03,
+        "height": 0.045,
         "width": 0.3
       },
       "collisionProps": {
@@ -1238,6 +1241,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1591,7 +1642,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1627,6 +1678,9 @@
   {
     "modifications": {
       "tank_tool_kit": [],
+      "tank_medical_kit": {
+        "image": "#ui/gameuiskin#tank_reinforcement_ger"
+      },
       "manual_extinguisher": [],
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -1640,9 +1694,6 @@
       "new_tank_vertical_aiming": [],
       "art_support": [],
       "tank_new_gun": [],
-      "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_ger"
-      },
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },

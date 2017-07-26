@@ -87,6 +87,19 @@
     "isBulletBelt": false
   },
   {
+    "overheat": [
+      {
+        "overheat": [9.0,0.0]
+      },
+      {
+        "overheat": [11.0,0.1]
+      },
+      {
+        "overheat": [13.0,0.5]
+      }
+    ]
+  },
+  {
     "bullet": {
       "bulletCount": 40,
       "mass": 0.685,
@@ -99,12 +112,6 @@
       "bulletName": "37mm_pzgr",
       "hitPowerMult": 60.0,
       "relativeVelHitShift": [300.0,1000.0],
-      "armorFragmentsDamage": true,
-      "armorFragmentsDamageRadius": 1.5,
-      "armorFragmentsDamageAngle": 20.0,
-      "armorFragmentsAmount": 20,
-      "armorFragmentsArmorPower": 3.0,
-      "armorFragmentsHit": 5.0,
       "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 1.3,
       "explodeTreshold": 15.0,
@@ -117,9 +124,9 @@
       "shutterArmorPower": 7.0,
       "shutterHit": 6.0,
       "groundCollisionEffect": "37_50_ap_hit_ground",
-      "groundFxScale": [0.6,0.7],
       "ricochetEffect": "cannon_ricochet",
-      "waterCollisionEffect": "big_water_splash",
+      "groundFxScale": [0.5,0.6],
+      "waterCollisionEffect": "20_ap_water_splash",
       "hitpower": {
         "HitPower0m": [0.85,500.0],
         "HitPower10000m": [0.8,10000.0]
@@ -141,7 +148,7 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "30mmWhite",
+        "tracer": "37mmRed",
         "trail": "black"
       },
       "collisions": {
@@ -190,7 +197,7 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "50mmBrightRed",
+        "tracer": "37mmRed",
         "trail": "black"
       },
       "collisions": {
@@ -242,7 +249,7 @@
         "visual": {
           "range_percent_of_ammo": [100.0,0.0],
           "traceFreq": 1,
-          "tracer": "50mmBrightRed",
+          "tracer": "37mmRed",
           "trail": "black"
         },
         "collisions": {
@@ -272,12 +279,6 @@
         "bulletName": "37mm_pzgr",
         "hitPowerMult": 60.0,
         "relativeVelHitShift": [300.0,1000.0],
-        "armorFragmentsDamage": true,
-        "armorFragmentsDamageRadius": 1.5,
-        "armorFragmentsDamageAngle": 20.0,
-        "armorFragmentsAmount": 20,
-        "armorFragmentsArmorPower": 3.0,
-        "armorFragmentsHit": 5.0,
         "relativeVelArmorShift": [200.0,1000.0],
         "fuseDelayDist": 1.3,
         "explodeTreshold": 15.0,
@@ -290,9 +291,9 @@
         "shutterArmorPower": 7.0,
         "shutterHit": 6.0,
         "groundCollisionEffect": "37_50_ap_hit_ground",
-        "groundFxScale": [0.6,0.7],
         "ricochetEffect": "cannon_ricochet",
-        "waterCollisionEffect": "big_water_splash",
+        "groundFxScale": [0.5,0.6],
+        "waterCollisionEffect": "20_ap_water_splash",
         "hitpower": {
           "HitPower0m": [0.85,500.0],
           "HitPower10000m": [0.8,10000.0]
@@ -314,7 +315,7 @@
         "visual": {
           "range_percent_of_ammo": [100.0,0.0],
           "traceFreq": 1,
-          "tracer": "30mmWhite",
+          "tracer": "37mmRed",
           "trail": "black"
         },
         "collisions": {

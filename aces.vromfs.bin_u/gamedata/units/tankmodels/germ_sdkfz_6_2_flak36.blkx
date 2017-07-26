@@ -122,6 +122,9 @@
         "deadHeadAttitudeMax": 40.0
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -184,6 +187,9 @@
       },
       {
         "suffix": "2"
+      },
+      {
+        "dmName": "gunner_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -256,6 +262,9 @@
         "suffix": "3"
       },
       {
+        "dmName": "commander_dm"
+      },
+      {
         "deadHeadAttitudeMin": -40.0
       },
       {
@@ -324,6 +333,9 @@
       },
       {
         "suffix": "4"
+      },
+      {
+        "dmName": "loader_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -451,6 +463,8 @@
       "armorClass": "tank_structural_steel",
       "hp": 1000.0,
       "hull": {
+        "armorClass": "tank_structural_steel",
+        "hp": 300.0,
         "body_top_dm": {
           "armorThickness": 3.0
         },
@@ -526,15 +540,13 @@
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
-        "armorThickness": 15.0,
-        "wheel_r_01_dm": [],
+        "armorThickness": 10.0,
         "wheel_r_02_dm": [],
         "wheel_r_03_dm": [],
         "wheel_r_04_dm": [],
         "wheel_r_05_dm": [],
         "wheel_r_06_dm": [],
         "wheel_r_07_dm": [],
-        "wheel_l_01_dm": [],
         "wheel_l_02_dm": [],
         "wheel_l_03_dm": [],
         "wheel_l_04_dm": [],
@@ -546,9 +558,16 @@
         "wheel_r_back_dm": [],
         "wheel_l_back_dm": [],
         "ex_armor_01_dm": [],
+        "chassis_front": {
+          "hp": 250.0,
+          "armorThickness": 2.0,
+          "armorClass": "car_wheels",
+          "wheel_l_01_dm": [],
+          "wheel_r_01_dm": []
+        },
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 10.0,
+          "armorThickness": 8.0,
           "track_r_dm": [],
           "track_l_dm": []
         }
@@ -602,7 +621,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -743,36 +762,50 @@
           {
             "onHit": {
               "fCumulative": true,
-              "expl": 0.1,
-              "fire": 0.2,
+              "expl": 1.0,
               "damage": 100.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
-              "fCumulative": true,
-              "expl": 0.2,
-              "fire": 0.3,
-              "damage": 250.0,
+              "fExplosion": true,
+              "expl": 1.0,
+              "damage": 35.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.125,
-              "fire": 0.225,
-              "damage": 25.0,
+              "expl": 0.7,
+              "damage": 20.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
-              "fExplosion": true,
-              "expl": 0.25,
-              "fire": 0.35,
-              "damage": 50.0,
+              "fShatter": true,
+              "expl": 1.0,
+              "fire": 0.75,
+              "damage": 20.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fShatter": true,
+              "expl": 0.4,
+              "fire": 0.5,
+              "damage": 8.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fGeneric": true,
+              "fire": 1.0,
+              "damage": 100.0,
               "fHitCritical": true
             }
           },
@@ -780,44 +813,21 @@
             "onHit": {
               "fGeneric": true,
               "fire": 0.1,
-              "damage": 20.0,
-              "fHitCritical": true
-            }
-          },
-          {
-            "onHit": {
-              "fGeneric": true,
-              "fire": 0.25,
-              "damage": 70.0,
-              "fHitCritical": true
-            }
-          },
-          {
-            "onHit": {
-              "fGeneric": true,
-              "fire": 0.4,
-              "damage": 200.0,
-              "fHitCritical": true
-            }
-          },
-          {
-            "onHit": {
-              "fGeneric": true,
-              "fire": 0.8,
-              "damage": 300.0,
+              "damage": 5.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fFire": true,
-              "fire": 0.2
+              "fire": 0.2,
+              "expl": 0.1
             }
           },
           {
             "onKill": {
-              "fire": 0.3,
-              "nothing": 0.7,
+              "fire": 0.5,
+              "expl": 0.5,
               "fHitCritical": true
             }
           }
@@ -935,54 +945,6 @@
             }
           }
         ]
-      },
-      {
-        "part": {
-          "name": "wheel_r_drive_dm",
-          "onKill": {
-            "track_r_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_r_back_dm",
-          "onKill": {
-            "track_r_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_r_front_dm",
-          "onKill": {
-            "track_r_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_l_drive_dm",
-          "onKill": {
-            "track_l_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_l_back_dm",
-          "onKill": {
-            "track_l_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_l_front_dm",
-          "onKill": {
-            "track_l_dm": 1.0
-          }
-        }
       },
       {
         "part": [
@@ -1246,97 +1208,238 @@
       ],
       "body": [
         {
-          "hp": 10000.0
+          "hp": 2000.0
         },
         {
-          "part": "body_top_dm"
+          "part": "ex_armor_body_01_dm"
+        },
+        {
+          "part": "ex_armor_body_02_dm"
+        },
+        {
+          "part": "ex_armor_body_03_dm"
         },
         {
           "part": "body_front_dm"
         },
         {
-          "part": "superstructure_front_dm"
+          "part": "ex_armor_body_l_01_dm"
         },
         {
-          "part": "superstructure_side_dm"
-        },
-        {
-          "part": "superstructure_back_dm"
-        },
-        {
-          "part": "body_side_dm"
-        },
-        {
-          "part": "superstructure_top_dm"
-        },
-        {
-          "part": "body_back_dm"
-        },
-        {
-          "part": "body_bottom_dm"
-        },
-        {
-          "part": "superstructure_bottom_dm"
-        },
-        {
-          "part": "ex_armor_02_dm"
+          "part": "ex_armor_body_r_01_dm"
         },
         {
           "part": "ex_armor_body_l_02_dm"
         },
         {
-          "part": "ex_armor_body_l_03_dm"
+          "part": "ex_armor_body_r_02_dm"
         },
         {
-          "part": "ex_armor_body_r_02_dm"
+          "part": "ex_armor_body_l_03_dm"
         },
         {
           "part": "ex_armor_body_r_03_dm"
         },
         {
-          "fireParamsPreset": "default_metapart"
+          "part": "ex_armor_body_r_04_dm"
         },
         {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
-            "firePart": "transmission_dm"
+          "part": "ex_armor_body_l_04_dm"
+        },
+        {
+          "part": "ex_armor_body_r_05_dm"
+        },
+        {
+          "part": "body_bottom_dm"
+        },
+        {
+          "part": "body_side_dm"
+        },
+        {
+          "part": "body_back_dm"
+        },
+        {
+          "part": "ex_armor_01_dm"
+        },
+        {
+          "part": "ex_armor_02_dm"
+        },
+        {
+          "part": "superstructure_front_dm"
+        },
+        {
+          "part": "superstructure_back_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         },
         {
           "effect": {
-            "conditionHp": 0.5,
-            "fire": true
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 110.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 500.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         }
       ],
-      "turret": [
+      "suspension": [
         {
-          "hp": 10000.0
+          "hp": 2000.0
         },
         {
-          "part": "turret_front_dm"
+          "part": "wheel_l_01_dm"
+        },
+        {
+          "part": "wheel_r_01_dm"
+        },
+        {
+          "part": "wheel_l_02_dm"
+        },
+        {
+          "part": "wheel_r_02_dm"
+        },
+        {
+          "part": "wheel_l_03_dm"
+        },
+        {
+          "part": "wheel_r_03_dm"
+        },
+        {
+          "part": "wheel_l_04_dm"
+        },
+        {
+          "part": "wheel_r_04_dm"
+        },
+        {
+          "part": "wheel_l_05_dm"
+        },
+        {
+          "part": "wheel_r_05_dm"
+        },
+        {
+          "part": "wheel_l_06_dm"
+        },
+        {
+          "part": "wheel_r_06_dm"
+        },
+        {
+          "part": "wheel_l_07_dm"
+        },
+        {
+          "part": "wheel_r_07_dm"
+        },
+        {
+          "part": "wheel_l_back_dm"
+        },
+        {
+          "part": "wheel_r_back_dm"
+        },
+        {
+          "part": "wheel_l_drive_dm"
+        },
+        {
+          "part": "wheel_r_drive_dm"
+        },
+        {
+          "part": "wheel_support_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 110.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 500.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
+      "mount": [
+        {
+          "hp": 2000.0
         },
         {
           "part": "gun_barrel_armor_dm"
         },
         {
+          "part": "turret_bottom_dm"
+        },
+        {
+          "part": "gun_mask_dm"
+        },
+        {
+          "part": "turret_front_dm"
+        },
+        {
+          "part": "turret_back_dm"
+        },
+        {
+          "part": "turret_top_dm"
+        },
+        {
           "part": "turret_side_dm"
         },
         {
-          "fireParamsPreset": "default_metapart"
+          "part": "cannon_breech_dm"
         },
         {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
-            "firePart": "transmission_dm"
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         },
         {
           "effect": {
-            "conditionHp": 0.5,
-            "fire": true
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 110.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 500.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         }
       ]
@@ -1365,22 +1468,19 @@
         "flash": "emtr_gun_flame",
         "recoilOffset": 0.25,
         "recoilTimes": [0.1,0.1],
+        "jammedReloadTime": 10.0,
         "defaultYaw": 0.0,
         "defaultPitch": 20.0,
         "barrelDP": "gun_barrel_dm",
         "breechDP": "cannon_breech_dm",
         "speedYaw": 35.0,
         "speedPitch": 20.0,
-        "fireConeAngle": 1.0,
         "bullets": 318,
-        "salvoAmount": 100.0,
-        "ChainfireTime": 0.0,
-        "DelayAfterShoot": 5.0,
-        "AttackMaxDistance": 1000.0,
-        "AttackMaxRadius": 1000.0,
-        "AttackMaxHeight": 1000.0,
-        "accuracyAir": 0.0,
-        "accuracyGnd": 1.5,
+        "fireConeAngle": 15.0,
+        "ChainfireTime": 3.0,
+        "DelayAfterShoot": 3.0,
+        "accuracyAir": 1.5,
+        "accuracyGnd": 1.0,
         "errMeasureVel": 0.0,
         "errMeasureVelFast": 0.0,
         "errMeasureVelFwdShift": 0.0,
@@ -1432,7 +1532,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.56,
-        "height": 0.03,
+        "height": 0.08,
         "width": 0.28
       },
       "collisionProps": {
@@ -1479,7 +1579,7 @@
       },
       "suspension": {
         "suspensionOffsets": [-0.12,-0.12,0.15],
-        "defaultGearRadius": 0.4,
+        "defaultGearRadius": 0.35,
         "topGearRadius": 0.1,
         "frontBackGearRadius": 0.33,
         "defaultDampeningForce": [15000.0,15000.0],
@@ -1495,6 +1595,12 @@
           "wheel_l_01": true
         }
       }
+    }
+  },
+  {
+    "dmgAngles": {
+      "hatch_01": [45.0,75.0],
+      "hatch_02": [45.0,75.0]
     }
   },
   {
@@ -1563,6 +1669,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1916,7 +2070,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

@@ -98,6 +98,9 @@
         "turret_front_dm": {
           "armorThickness": 45.0
         },
+        "turret_01_front_dm": {
+          "armorThickness": 45.0
+        },
         "body_front_dm": {
           "armorThickness": 45.0
         },
@@ -145,7 +148,8 @@
           "hp": 10000.0
         },
         "body_front_hatch_dm": {
-          "armorThickness": 70.0
+          "armorThickness": 70.0,
+          "hp": 300.0
         }
       },
       "optics": {
@@ -244,7 +248,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -984,7 +988,7 @@
           "barrel": "bone_gun_barrel",
           "linkedAnimPart": {
             "verNode": "gun_mask_top_anim",
-            "verLimits": [0.0,10.0],
+            "verLimits": [0.0,17.0],
             "verOriginLimits": [0.0,21.5]
           }
         },
@@ -1185,6 +1189,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1538,7 +1590,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

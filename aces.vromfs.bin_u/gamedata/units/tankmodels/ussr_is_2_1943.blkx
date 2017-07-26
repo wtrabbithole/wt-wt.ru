@@ -149,6 +149,9 @@
         },
         "turret_01_top_dm": {
           "armorThickness": 100.0
+        },
+        "gun_mask_02_dm": {
+          "armorThickness": 120.0
         }
       },
       "turret_RHA": {
@@ -169,6 +172,18 @@
         },
         "gun_barrel_armor_dm": {
           "armorThickness": 200.0
+        },
+        "turret_02_back_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_03_front_dm": {
+          "armorThickness": 45.0
+        },
+        "turret_04_top_dm": {
+          "armorThickness": 35.0
+        },
+        "turret_02_top_dm": {
+          "armorThickness": 35.0
         }
       },
       "optics": {
@@ -627,6 +642,54 @@
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
+            }
           }
         ]
       },
@@ -979,7 +1042,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1004,12 +1067,21 @@
     ]
   },
   {
-    "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
-      "headPos": [0.0,3.6,-7.5],
-      "headPosOnShooting": [0.0,3.5,0.0],
-      "detectionHeight": 2.735
+    "skin": {
+      "name": "winter",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_winter*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "forest",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_forest_01*"
+      }
     }
   },
   {
@@ -1260,6 +1332,15 @@
     }
   },
   {
+    "cockpit": {
+      "zoomOutFov": 40.0,
+      "zoomInFov": 21.0,
+      "headPos": [0.0,3.6,-7.5],
+      "headPosOnShooting": [0.0,3.5,0.0],
+      "detectionHeight": 2.735
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -1285,24 +1366,6 @@
       },
       "122mm_APHE_ammo_pack": [],
       "122mm_ussr_HE": []
-    }
-  },
-  {
-    "skin": {
-      "name": "winter",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_winter*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "forest",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_forest_01*"
-      }
     }
   },
   {

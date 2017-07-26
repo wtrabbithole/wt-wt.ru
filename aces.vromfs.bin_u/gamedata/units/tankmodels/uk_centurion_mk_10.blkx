@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -254,6 +254,8 @@
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
         "armorThickness": 4.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
         "ex_armor_turret_r_01_dm": [],
         "ex_armor_turret_l_01_dm": [],
         "ex_armor_turret_l_02_dm": []
@@ -431,7 +433,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1397,6 +1399,54 @@
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
+            }
           }
         ]
       },
@@ -1749,7 +1799,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1775,8 +1825,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 15.0,
+      "zoomInFov": 12.3,
+      "sightFov": 9.5,
       "headPos": [0.0,4.2,-8.0],
       "headPosOnShooting": [-0.4,4.0,0.5],
       "detectionHeight": 2.94
@@ -1882,17 +1933,32 @@
   {
     "ammoLoadDistribution": {
       "primaryShells": {
-        "ammo_turret_dm": {
-          "count": 4
+        "ammo_turret_01_dm": {
+          "count": 5
         },
-        "ammo_body_01_dm": {
-          "count": 29
+        "ammo_turret_02_dm": {
+          "count": 9
         },
         "ammo_body_03_dm": {
-          "count": 19
+          "count": 6
+        },
+        "ammo_body_04_dm": {
+          "count": 6
+        },
+        "ammo_body_05_dm": {
+          "count": 3
+        },
+        "ammo_body_06_dm": {
+          "count": 1
+        },
+        "ammo_body_07_dm": {
+          "count": 2
         },
         "ammo_body_02_dm": {
-          "count": 18
+          "count": 10
+        },
+        "ammo_body_01_dm": {
+          "count": 28
         }
       }
     }

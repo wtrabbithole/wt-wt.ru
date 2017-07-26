@@ -21,6 +21,12 @@
     "fightAiBehaviour": "fighter"
   },
   {
+    "gearSinkRangeLR": 0.2
+  },
+  {
+    "gearSinkRangeC": 0.185
+  },
+  {
     "MetaParts": {
       "wing_l_structure": [
         {
@@ -1305,9 +1311,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2528,75 +2565,6 @@
       "preset": {
         "name": "go_229_default",
         "blk": "gameData/FlightModels/weaponPresets/empty.blk"
-      }
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "rudder_interceptor1_l"
-        },
-        {
-          "part": "rudder_interceptor2_l"
-        },
-        {
-          "part": "tank2"
-        },
-        {
-          "part": "tank3"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "rudder_interceptor1_r"
-        },
-        {
-          "part": "rudder_interceptor2_r"
-        },
-        {
-          "part": "tank5"
-        },
-        {
-          "part": "tank6"
-        }
-      ],
-      "tail": {
-        "part": "tail"
       }
     }
   },

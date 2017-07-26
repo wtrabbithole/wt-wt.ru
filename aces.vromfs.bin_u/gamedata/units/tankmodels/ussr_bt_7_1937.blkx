@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -96,13 +96,16 @@
     "type": "typeLightTank"
   },
   {
+    "arcadeTurnPowerMult": 1.2
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
       "hp": 10000.0,
       "hull": {
         "body_front_dm": {
-          "armorThickness": 15.0
+          "armorThickness": 20.0
         },
         "superstructure_front_dm": {
           "armorThickness": 20.0
@@ -114,16 +117,67 @@
           "armorThickness": 13.0
         },
         "superstructure_back_dm": {
-          "armorThickness": 10.0
+          "armorThickness": 13.0
         },
         "body_top_dm": {
-          "armorThickness": 10.0
+          "armorThickness": 15.0
         },
         "body_bottom_dm": {
           "armorThickness": 6.0
+        },
+        "turret_03_front_dm": {
+          "armorThickness": 20.0
+        },
+        "superstructure_top_dm": {
+          "armorThickness": 10.0
+        },
+        "turret_02_side_dm": {
+          "armorThickness": 4.0
+        },
+        "turret_02_back_dm": {
+          "armorThickness": 10.0
+        },
+        "superstructure_bottom_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_r_04_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_l_04_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_r_01_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_r_02_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_r_03_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_l_01_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_l_02_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
+        },
+        "ex_decor_body_l_03_dm": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 4.0
         }
       },
       "turret": {
+        "turret_front_dm": {
+          "armorThickness": 15.0
+        },
         "turret_top_dm": {
           "armorThickness": 10.0
         },
@@ -138,6 +192,12 @@
         },
         "turret_bottom_dm": {
           "armorThickness": 10.0
+        },
+        "turret_02_top_dm": {
+          "armorThickness": 10.0
+        },
+        "turret_01_side_dm": {
+          "armorThickness": 13.0
         }
       },
       "mask": {
@@ -201,11 +261,14 @@
         "wheel_l_drive_dm": [],
         "wheel_l_front_dm": [],
         "wheel_r_front_dm": [],
+        "wheel_support_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 15.0,
           "track_r_dm": [],
-          "track_l_dm": []
+          "track_l_dm": [],
+          "ex_armor_01_dm": [],
+          "ex_armor_02_dm": []
         }
       },
       "crew": {
@@ -246,7 +309,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -907,6 +970,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/45mm_20K_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -1004,8 +1068,8 @@
         "Empty": 13500.0,
         "Fuel": 200.0,
         "TakeOff": 13700.0,
-        "momentOfInertia": [1.1,1.1,2.0],
-        "CenterOfGravity": [0.1,0.2,0.0],
+        "momentOfInertia": [1.4,2.5,2.5],
+        "CenterOfGravity": [-0.1,0.5,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
         "AdvancedMass": false,
         "trackMass": 1150.0
@@ -1048,33 +1112,12 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.25,-0.15,0.14],
+        "suspensionOffsets": [-0.1,-0.05,0.14],
         "defaultGearRadius": 0.415,
         "frontBackGearRadius": 0.25,
         "defaultDampeningForce": [40000.0,40000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
-      }
-    }
-  },
-  {
-    "PhysSys": {
-      "find": "^bone_suspension_(._\\d\\d)$",
-      "points": {
-        "suspension": {
-          "name": "bone_suspension_$1"
-        },
-        "wheel": {
-          "name": "bone_wheel_$1",
-          "limitMin": [-1000.0,0.0,0.0],
-          "limitMax": [1000.0,0.0,0.0]
-        }
-      },
-      "constraints": {
-        "edge": {
-          "from": "suspension",
-          "to": "wheel"
-        }
       }
     }
   },
@@ -1177,6 +1220,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1530,7 +1621,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1654,32 +1745,41 @@
   {
     "ammoLoadDistribution": {
       "primaryShells": {
+        "ammo_turret_dm": {
+          "count": 24
+        },
+        "ammo_turret_05_dm": {
+          "count": 24
+        },
         "ammo_turret_02_dm": {
           "count": 6
         },
         "ammo_turret_03_dm": {
           "count": 6
         },
-        "ammo_turret_dm": {
-          "count": 22
-        },
-        "ammo_turret_05_dm": {
-          "count": 22
-        },
-        "ammo_body_l_01_dm": {
-          "count": 8
-        },
         "ammo_body_l_02_dm": {
-          "count": 8
-        },
-        "ammo_body_r_01_dm": {
           "count": 8
         },
         "ammo_body_r_02_dm": {
           "count": 8
         },
-        "ammo_body_dm": {
-          "count": 58
+        "ammo_body_l_01_dm": {
+          "count": 11
+        },
+        "ammo_body_r_01_dm": {
+          "count": 11
+        },
+        "ammo_body_01_dm": {
+          "count": 15
+        },
+        "ammo_body_02_dm": {
+          "count": 15
+        },
+        "ammo_body_03_dm": {
+          "count": 15
+        },
+        "ammo_body_04_dm": {
+          "count": 15
         }
       }
     }

@@ -90,6 +90,82 @@
     "type": "typeHeavyTank"
   },
   {
+    "controlDevices": [
+      {
+        "device": {
+          "type": "turretTurnH",
+          "turnSpeed": 0.6,
+          "node": "bone_roll_turret_h",
+          "node_handle": "bone_roll_turret_h_handle"
+        }
+      },
+      {
+        "device": {
+          "type": "turretTurnV",
+          "turnSpeed": -1.0,
+          "node": "bone_roll_turret_v",
+          "node_handle": "bone_roll_turret_v_handle"
+        }
+      },
+      {
+        "device": {
+          "type": "steeringWheel",
+          "turnSpeed": -3.0,
+          "node": "bone_roll_driver",
+          "absoluteValue": true
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": -5.0,
+          "node": "bone_roll_engine_01"
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": 5.0,
+          "node": "bone_roll_engine_02"
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": -3.0,
+          "node": "bone_roll_engine_03"
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": 3.0,
+          "node": "bone_roll_engine_04"
+        }
+      },
+      {
+        "device": {
+          "type": "waterJetShutter",
+          "turnSpeed": 1.5,
+          "maxValue": -1.7,
+          "node": "body_shutter_l",
+          "absoluteValue": true,
+          "progressive": true
+        }
+      },
+      {
+        "device": {
+          "type": "waterJetShutter",
+          "turnSpeed": 1.5,
+          "maxValue": 1.7,
+          "node": "body_shutter_r",
+          "absoluteValue": true,
+          "progressive": true
+        }
+      }
+    ]
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -104,13 +180,16 @@
         "body_side_dm": {
           "armorThickness": 160.0
         },
-        "superstructure_side_dm": {
+        "turret_05_front_dm": {
           "armorThickness": 160.0
         },
         "body_back_dm": {
           "armorThickness": 100.0
         },
         "superstructure_back_dm": {
+          "armorThickness": 100.0
+        },
+        "turret_02_back_dm": {
           "armorThickness": 100.0
         },
         "superstructure_top_dm": {
@@ -129,10 +208,10 @@
           "armorThickness": 160.0
         },
         "turret_commander_dm": {
-          "armorThickness": 30.0
+          "armorThickness": 40.0
         },
         "body_top_dm": {
-          "armorThickness": 4.0
+          "armorThickness": 30.0
         },
         "turret_bottom_dm": {
           "armorThickness": 20.0
@@ -141,10 +220,43 @@
           "armorThickness": 50.0
         },
         "turret_01_top_dm": {
-          "armorThickness": 30.0
+          "armorThickness": 50.0
         },
         "turret_02_front_dm": {
           "armorThickness": 40.0
+        },
+        "turret_06_front_dm": {
+          "armorThickness": 160.0
+        },
+        "superstructure_side_dm": {
+          "armorThickness": 160.0
+        },
+        "turret_04_bottom_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_04_front_dm": {
+          "armorThickness": 40.0
+        },
+        "turret_03_back_dm": {
+          "armorThickness": 100.0
+        },
+        "turret_05_back_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_06_back_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_03_top_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_06_top_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_07_top_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_02_bottom_dm": {
+          "armorThickness": 150.0
         }
       },
       "turret": {
@@ -162,11 +274,26 @@
           "armorThickness": 200.0,
           "hp": 10000.0
         },
+        "gun_mask_01_dm": {
+          "armorThickness": 170.0
+        },
+        "gun_mask_02_dm": {
+          "armorThickness": 200.0
+        },
         "turret_01_front_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 250.0
         },
         "turret_01_back_dm": {
           "armorThickness": 50.0
+        },
+        "turret_02_side_dm": {
+          "armorThickness": 200.0
+        },
+        "turret_02_top_dm": {
+          "armorThickness": 170.0
+        },
+        "turret_04_top_dm": {
+          "armorThickness": 150.0
         }
       },
       "optics": {
@@ -241,13 +368,10 @@
           "hp": 400.0,
           "track_r_dm": [],
           "track_l_dm": [],
-          "ex_armor_01_dm": {
+          "ex_armor_body_01_dm": {
             "hp": 200.0
           },
-          "ex_armor_02_dm": {
-            "hp": 200.0
-          },
-          "ex_armor_03_dm": {
+          "ex_armor_body_02_dm": {
             "hp": 200.0
           }
         }
@@ -276,6 +400,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -286,6 +413,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -596,21 +729,17 @@
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
+          "defaultYaw": 90.0,
+          "defaultPitch": 15.0,
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 250,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1221,10 +1350,10 @@
         "Empty": 59500.0,
         "Fuel": 500.0,
         "TakeOff": 60000.0,
-        "momentOfInertia": [2.5,2.5,6.0],
+        "momentOfInertia": [3.0,7.0,7.0],
         "CenterOfGravity": [0.05,0.5,0.0],
-        "CenterOfGravityClampY": [0.0,0.7],
-        "AdvancedMass": true,
+        "CenterOfGravityClampY": [0.0,0.5],
+        "AdvancedMass": false,
         "trackMass": 2700.0,
         "cls_body_01": 0.5,
         "cls_body_02": 0.5,
@@ -1235,7 +1364,7 @@
         "cls_turret": 0.5
       },
       "tracks": {
-        "animationMultiplier": 0.58,
+        "animationMultiplier": -0.58,
         "height": 0.07,
         "width": 0.65
       },
@@ -1417,6 +1546,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1770,7 +1947,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1796,8 +1973,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 21.2,
+      "zoomInFov": 10.5,
+      "sightFov": 13.0,
       "headPos": [0.0,3.7,-7.7],
       "headPosOnShooting": [0.0,3.2,0.0],
       "detectionHeight": 2.48

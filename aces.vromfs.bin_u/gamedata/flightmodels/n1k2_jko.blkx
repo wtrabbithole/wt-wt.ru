@@ -1090,9 +1090,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1480,15 +1511,15 @@
           },
           {
             "onHit": {
-              "damage": 10.0,
-              "fire": 0.5,
+              "damage": 20.0,
+              "fire": 0.3,
               "leak": 0.7
             }
           },
           {
             "onHit": {
               "damage": 50.0,
-              "fire": 0.8,
+              "fire": 0.7,
               "leak": 0.9
             }
           },
@@ -1532,15 +1563,15 @@
           },
           {
             "onHit": {
-              "damage": 10.0,
-              "fire": 0.5,
+              "damage": 20.0,
+              "fire": 0.3,
               "leak": 0.7
             }
           },
           {
             "onHit": {
               "damage": 50.0,
-              "fire": 0.8,
+              "fire": 0.7,
               "leak": 0.9
             }
           },
@@ -2393,23 +2424,16 @@
       },
       {
         "preset": {
-          "name": "n1k2ko_jko_t97_2_250kg_bombs",
-          "blk": "gameData/FlightModels/weaponPresets/n1k2_jko_type97_2bombs.blk",
-          "reqModification": "n1k_12in_mod30"
-        }
-      },
-      {
-        "preset": {
-          "name": "n1k2ko_jko_t97_4_250kg_bombs",
+          "name": "n1k2_j_t97bombs",
           "blk": "gameData/FlightModels/weaponPresets/n1k2_jko_type97_4bombs.blk",
-          "reqModification": "n1k_12in_mod30"
+          "reqModification": "n1k_7in_mod20"
         }
       },
       {
         "preset": {
-          "name": "n1k2ko_jko_mark2_2_500kg_bombs",
-          "blk": "gameData/FlightModels/weaponPresets/n1k2_jko_mark2_2bombs.blk",
-          "reqModification": "n1k_14in_mod35"
+          "name": "n1k2_j_t98_2_250kg_bombs",
+          "blk": "gameData/FlightModels/weaponPresets/n1k2_j_type98_2bombs.blk",
+          "reqModification": "n1k_12in_mod30"
         }
       }
     ]
@@ -2458,155 +2482,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        },
-        {
-          "part": "cannon1"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        },
-        {
-          "part": "cannon4"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "hook"
-        }
-      ]
     }
   },
   {
@@ -2742,15 +2617,14 @@
       },
       "n1k_12in_mod30": {
         "modClass": "weapon",
-        "tier": 2,
-        "reqModLevel": 7.0,
-        "reqModification": "n1k_5in_mod15"
-      },
-      "n1k_14in_mod35": {
-        "modClass": "weapon",
         "tier": 3,
-        "reqModLevel": 13.0,
-        "reqModification": "n1k_12in_mod30"
+        "reqModLevel": 7.0,
+        "reqModification": "n1k_7in_mod20"
+      },
+      "n1k_7in_mod20": {
+        "modClass": "weapon",
+        "tier": 2,
+        "reqModification": "n1k_5in_mod15"
       },
       "n1k_5in_mod15": {
         "modClass": "weapon",

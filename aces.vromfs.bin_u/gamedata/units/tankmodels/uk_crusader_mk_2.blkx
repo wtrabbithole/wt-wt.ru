@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -105,13 +105,25 @@
           "armorThickness": 20.0
         },
         "superstructure_top_dm": {
-          "armorThickness": 9.0
+          "armorThickness": 7.0
         },
         "superstructure_side_dm": {
           "armorThickness": 14.0
         },
         "body_bottom_dm": {
           "armorThickness": 20.0
+        },
+        "turret_01_top_dm": {
+          "armorThickness": 12.0
+        },
+        "turret_01_bottom_dm": {
+          "armorThickness": 10.35
+        },
+        "turret_02_bottom_dm": {
+          "armorThickness": 6.35
+        },
+        "turret_02_back_dm": {
+          "armorThickness": 14.0
         },
         "superstructure_front_dm": {
           "armorThickness": 7.0
@@ -120,7 +132,7 @@
           "armorThickness": 14.0
         },
         "superstructure_bottom_dm": {
-          "armorThickness": 14.0
+          "armorThickness": 12.0
         },
         "body_back_dm": {
           "armorThickness": 14.0
@@ -130,6 +142,12 @@
         },
         "turret_02_front_dm": {
           "armorThickness": 30.0
+        },
+        "turret_03_front_dm": {
+          "armorThickness": 9.0
+        },
+        "turret_03_side_dm": {
+          "armorThickness": 4.0
         },
         "turret_02_side_dm": {
           "armorThickness": 30.0
@@ -326,7 +344,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1030,6 +1048,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/40mm_QF_2pdr_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "recoilMultiplier": 1.5,
           "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -1176,7 +1195,7 @@
       },
       "tracks": {
         "animationMultiplier": -0.45,
-        "height": 0.035,
+        "height": 0.045,
         "width": 0.4
       },
       "collisionProps": {
@@ -1217,10 +1236,10 @@
       },
       "suspension": {
         "suspensionOffsets": [-0.19,-0.11,0.09],
-        "defaultGearRadius": 0.38,
+        "defaultGearRadius": 0.4,
         "topGearRadius": 0.147,
         "defaultDampeningForce": [48768.0,48768.0],
-        "frontBackGearRadius": 0.265,
+        "frontBackGearRadius": 0.23,
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -1346,6 +1365,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1699,7 +1766,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

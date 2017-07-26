@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -96,6 +96,9 @@
     "type": "typeTankDestroyer"
   },
   {
+    "arcadeTurnPowerMult": 1.0
+  },
+  {
     "ikGunner": [
       {
         "model": "us_gunner_char"
@@ -120,6 +123,9 @@
       },
       {
         "suffix": "1"
+      },
+      {
+        "dmName": "loader_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -192,6 +198,9 @@
         "suffix": "2"
       },
       {
+        "dmName": "gunner_dm"
+      },
+      {
         "deadHeadAttitudeMin": -40.0
       },
       {
@@ -260,6 +269,9 @@
       },
       {
         "suffix": "3"
+      },
+      {
+        "dmName": "machine_gunner_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -332,6 +344,9 @@
         "suffix": "4"
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "deadHeadAttitudeMin": -40.0
       },
       {
@@ -400,6 +415,9 @@
       },
       {
         "suffix": "5"
+      },
+      {
+        "dmName": "commander_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -697,7 +715,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1455,17 +1473,13 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 800,
           "isBulletBelt": true,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1662,6 +1676,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -2015,7 +2077,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

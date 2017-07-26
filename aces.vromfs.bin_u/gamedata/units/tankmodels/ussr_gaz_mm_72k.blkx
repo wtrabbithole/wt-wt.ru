@@ -122,6 +122,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -184,6 +187,9 @@
       },
       {
         "suffix": "2"
+      },
+      {
+        "dmName": "gunner_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -256,6 +262,9 @@
         "suffix": "3"
       },
       {
+        "dmName": "loader_dm"
+      },
+      {
         "deadHeadAttitudeMin": -40.0
       },
       {
@@ -324,6 +333,9 @@
       },
       {
         "suffix": "4"
+      },
+      {
+        "dmName": "commander_dm"
       },
       {
         "deadHeadAttitudeMin": 40.0
@@ -563,27 +575,27 @@
         "fireProtectionHp": 5.0,
         "drive_turret_v_dm": {
           "hp": 40.0,
-          "armorThrough": 15.0
+          "armorThrough": 5.0
         },
         "drive_turret_h_dm": {
           "hp": 40.0,
-          "armorThrough": 15.0
+          "armorThrough": 5.0
         },
         "drive_turret_v_01_dm": {
           "hp": 40.0,
-          "armorThrough": 15.0
+          "armorThrough": 5.0
         },
         "drive_turret_h_01_dm": {
           "hp": 40.0,
-          "armorThrough": 15.0
+          "armorThrough": 5.0
         },
         "drive_turret_v_02_dm": {
           "hp": 40.0,
-          "armorThrough": 15.0
+          "armorThrough": 5.0
         },
         "drive_turret_h_02_dm": {
           "hp": 40.0,
-          "armorThrough": 15.0
+          "armorThrough": 5.0
         },
         "cannon_breech_dm": {
           "armorThickness": 15.0,
@@ -723,36 +735,50 @@
           {
             "onHit": {
               "fCumulative": true,
-              "expl": 0.1,
-              "fire": 0.2,
+              "expl": 1.0,
               "damage": 100.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
-              "fCumulative": true,
-              "expl": 0.2,
-              "fire": 0.3,
-              "damage": 250.0,
+              "fExplosion": true,
+              "expl": 1.0,
+              "damage": 35.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.125,
-              "fire": 0.225,
-              "damage": 25.0,
+              "expl": 0.7,
+              "damage": 20.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
-              "fExplosion": true,
-              "expl": 0.25,
-              "fire": 0.35,
-              "damage": 50.0,
+              "fShatter": true,
+              "expl": 1.0,
+              "fire": 0.75,
+              "damage": 20.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fShatter": true,
+              "expl": 0.4,
+              "fire": 0.5,
+              "damage": 8.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fGeneric": true,
+              "fire": 1.0,
+              "damage": 100.0,
               "fHitCritical": true
             }
           },
@@ -760,44 +786,21 @@
             "onHit": {
               "fGeneric": true,
               "fire": 0.1,
-              "damage": 20.0,
-              "fHitCritical": true
-            }
-          },
-          {
-            "onHit": {
-              "fGeneric": true,
-              "fire": 0.25,
-              "damage": 70.0,
-              "fHitCritical": true
-            }
-          },
-          {
-            "onHit": {
-              "fGeneric": true,
-              "fire": 0.4,
-              "damage": 200.0,
-              "fHitCritical": true
-            }
-          },
-          {
-            "onHit": {
-              "fGeneric": true,
-              "fire": 0.8,
-              "damage": 300.0,
+              "damage": 5.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fFire": true,
-              "fire": 0.2
+              "fire": 0.2,
+              "expl": 0.1
             }
           },
           {
             "onKill": {
-              "fire": 0.3,
-              "nothing": 0.7,
+              "fire": 0.5,
+              "expl": 0.5,
               "fHitCritical": true
             }
           }
@@ -915,54 +918,6 @@
             }
           }
         ]
-      },
-      {
-        "part": {
-          "name": "wheel_r_drive_dm",
-          "onKill": {
-            "track_r_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_r_back_dm",
-          "onKill": {
-            "track_r_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_r_front_dm",
-          "onKill": {
-            "track_r_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_l_drive_dm",
-          "onKill": {
-            "track_l_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_l_back_dm",
-          "onKill": {
-            "track_l_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "wheel_l_front_dm",
-          "onKill": {
-            "track_l_dm": 1.0
-          }
-        }
       },
       {
         "part": [
@@ -1193,28 +1148,6 @@
     }
   },
   {
-    "MetaParts": {
-      "turret": [
-        {
-          "hp": 500.0
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "turret_front_dm"
-        },
-        {
-          "effect": {
-            "conditionDamage": 0.4,
-            "cutWrecked": 0,
-            "kill": true
-          }
-        }
-      ]
-    }
-  },
-  {
     "wreckedParts": {
       "part": {
         "idx": 0,
@@ -1248,22 +1181,19 @@
         "emitter": "bone_gun_barrel",
         "flash": "emtr_gun_flame",
         "recoilMultiplier": 0.5,
+        "jammedReloadTime": 8.0,
         "defaultYaw": 0.0,
         "defaultPitch": 20.0,
         "barrelDP": "gun_barrel_dm",
         "breechDP": "cannon_breech_dm",
         "speedYaw": 35.0,
         "speedPitch": 20.0,
-        "fireConeAngle": 1.0,
         "bullets": 399,
-        "salvoAmount": 100.0,
-        "ChainfireTime": 0.0,
-        "DelayAfterShoot": 5.0,
-        "AttackMaxDistance": 1000.0,
-        "AttackMaxRadius": 1000.0,
-        "AttackMaxHeight": 1000.0,
-        "accuracyAir": 0.0,
-        "accuracyGnd": 1.5,
+        "fireConeAngle": 15.0,
+        "ChainfireTime": 3.0,
+        "DelayAfterShoot": 3.0,
+        "accuracyAir": 1.5,
+        "accuracyGnd": 1.0,
         "errMeasureVel": 0.0,
         "errMeasureVelFast": 0.0,
         "errMeasureVelFwdShift": 0.0,
@@ -1361,7 +1291,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.07,-0.06,0.06],
+        "suspensionOffsets": [-0.07,-0.06,0.07],
         "defaultGearRadius": 0.375,
         "defaultDampeningForce": [17000.0,17000.0],
         "hasSuspensionOnDriveGear": true,
@@ -1445,6 +1375,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1798,7 +1776,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

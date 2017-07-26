@@ -317,6 +317,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -327,6 +330,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -1278,7 +1287,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.58,
-        "height": 0.013,
+        "height": 0.045,
         "width": 0.61
       },
       "collisionProps": {
@@ -1450,6 +1459,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1803,7 +1860,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

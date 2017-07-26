@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -182,6 +182,9 @@
         "turret_bottom_dm": {
           "armorThickness": 30.0
         },
+        "turret_01_bottom_dm": {
+          "armorThickness": 20.0
+        },
         "turret_01_back_dm": {
           "armorThickness": 65.0
         },
@@ -193,6 +196,8 @@
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
         "armorThickness": 4.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
         "ex_armor_body_r_02_dm": [],
         "ex_armor_body_r_03_dm": [],
         "ex_armor_body_r_04_dm": [],
@@ -255,6 +260,9 @@
         "hp": 300.0,
         "gun_barrel_dm": {
           "armorThickness": 20.0
+        },
+        "gun_barrel_01_dm": {
+          "armorThickness": 20.0
         }
       },
       "chassis": {
@@ -296,7 +304,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -424,9 +432,13 @@
             "name": "ammo_body_01_dm"
           },
           {
+            "name": "ammo_body_02_dm"
+          },
+          {
             "onHit": {
               "fCumulative": true,
-              "expl": 0.5,
+              "expl": 0.4,
+              "fire": 0.5,
               "damage": 75.0,
               "fHitCritical": true
             }
@@ -434,7 +446,8 @@
           {
             "onHit": {
               "fCumulative": true,
-              "expl": 0.9,
+              "expl": 0.5,
+              "fire": 0.5,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -442,23 +455,44 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.7,
-              "damage": 45.0,
+              "expl": 0.1,
+              "fire": 0.1,
+              "damage": 20.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.5,
-              "damage": 25.0,
+              "expl": 0.15,
+              "fire": 0.15,
+              "damage": 50.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fExplosion": true,
+              "expl": 0.2,
+              "fire": 0.15,
+              "damage": 200.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fExplosion": true,
+              "expl": 0.4,
+              "fire": 0.2,
+              "damage": 400.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fGeneric": true,
-              "expl": 0.1,
+              "expl": 0.05,
+              "fire": 0.1,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -466,7 +500,8 @@
           {
             "onHit": {
               "fGeneric": true,
-              "expl": 0.2,
+              "expl": 0.1,
+              "fire": 0.2,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -474,9 +509,65 @@
           {
             "onHit": {
               "fGeneric": true,
-              "expl": 0.01,
-              "damage": 20.0,
+              "expl": 0.1,
+              "fire": 0.4,
+              "damage": 300.0,
               "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fSecondaryShatter": true,
+              "fire": 0.05,
+              "damage": 50.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fSecondaryShatter": true,
+              "fire": 0.15,
+              "damage": 150.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fSecondaryShatter": true,
+              "fire": 0.4,
+              "damage": 200.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fFire": true,
+              "fire": 0.02,
+              "expl": 0.01
+            }
+          },
+          {
+            "onKill": {
+              "fCumulative": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "fExplosion": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "fGeneric": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
             }
           }
         ]
@@ -874,7 +965,7 @@
           "errExplTime": 0.0,
           "turret": {
             "head": "bone_turret",
-            "gun": "bone_rocket_01",
+            "gun": "gun",
             "gunnerDm": "gunner_dm",
             "linkedAnimPart": {
               "verNode": "bone_camera_gunner",
@@ -920,7 +1011,7 @@
           "turret": {
             "head": "bone_mg_twin",
             "gun": "bone_mg_twin",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "gunner_dm"
           },
           "limits": {
             "yaw": [-0.0,0.0],
@@ -1132,6 +1223,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1485,7 +1624,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1513,6 +1652,7 @@
     "cockpit": {
       "zoomOutFov": 13.0,
       "zoomInFov": 9.0,
+      "sightFov": 8.0,
       "headPos": [0.0,3.5,-7.5],
       "headPosOnShooting": [0.0,3.2,0.0],
       "detectionHeight": 2.2

@@ -96,6 +96,9 @@
     "type": "typeTankDestroyer"
   },
   {
+    "drowningCheckHeightMultiplier": 0.6
+  },
+  {
     "ikGunner": [
       {
         "model": "soviet_gunner_char"
@@ -120,6 +123,15 @@
       },
       {
         "suffix": "1"
+      },
+      {
+        "dmName": "driver_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
       },
       {
         "ikNode": {
@@ -186,6 +198,15 @@
         "suffix": "2"
       },
       {
+        "dmName": "loader_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -250,6 +271,15 @@
         "suffix": "3"
       },
       {
+        "dmName": "commander_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -312,6 +342,8 @@
       "body_shields": {
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
         "superstructure_front_dm": {
           "armorThickness": 5.0
         },
@@ -432,7 +464,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1434,6 +1466,54 @@
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
+            }
           }
         ]
       },
@@ -1786,7 +1866,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

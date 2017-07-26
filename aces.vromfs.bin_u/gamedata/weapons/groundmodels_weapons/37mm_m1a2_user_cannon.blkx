@@ -90,6 +90,19 @@
     "notUseDefaultBulletInGui": true
   },
   {
+    "overheat": [
+      {
+        "overheat": [9.0,0.0]
+      },
+      {
+        "overheat": [11.0,0.1]
+      },
+      {
+        "overheat": [13.0,0.5]
+      }
+    ]
+  },
+  {
     "bullet": {
       "bulletCount": 40,
       "mass": 0.87,
@@ -173,7 +186,10 @@
       "shutterArmorPower": 3.0,
       "shutterHit": 4.0,
       "groundCollisionEffect": "37_50_he_hit_ground",
+      "groundFxScale": [0.9,1.1],
+      "waterFxScale": [0.9,1.1],
       "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "big_water_splash",
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
@@ -188,6 +204,10 @@
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
           "fxScale": [1.0,2.0]
+        },
+        "wood": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.5,2.0]
         }
       }
     }
@@ -278,7 +298,10 @@
           "shutterArmorPower": 3.0,
           "shutterHit": 4.0,
           "groundCollisionEffect": "37_50_he_hit_ground",
+          "groundFxScale": [0.9,1.1],
+          "waterFxScale": [0.9,1.1],
           "ricochetEffect": "cannon_ricochet",
+          "waterCollisionEffect": "big_water_splash",
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
@@ -293,6 +316,10 @@
             "armor": {
               "fx": "cannon_hit_armor_cumulative",
               "fxScale": [1.0,2.0]
+            },
+            "wood": {
+              "fx": "cannon_hit_ship_cumulative",
+              "fxScale": [1.5,2.0]
             }
           }
         }
@@ -333,7 +360,10 @@
         "shutterArmorPower": 3.0,
         "shutterHit": 4.0,
         "groundCollisionEffect": "37_50_he_hit_ground",
+        "groundFxScale": [0.9,1.1],
+        "waterFxScale": [0.9,1.1],
         "ricochetEffect": "cannon_ricochet",
+        "waterCollisionEffect": "big_water_splash",
         "visual": {
           "range_percent_of_ammo": [100.0,0.0],
           "traceFreq": 1,
@@ -348,6 +378,10 @@
           "armor": {
             "fx": "cannon_hit_armor_cumulative",
             "fxScale": [1.0,2.0]
+          },
+          "wood": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [1.5,2.0]
           }
         }
       }

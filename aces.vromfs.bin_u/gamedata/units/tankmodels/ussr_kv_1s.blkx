@@ -823,6 +823,54 @@
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
+            }
           }
         ]
       },
@@ -1175,7 +1223,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1445,7 +1493,8 @@
           "armorThickness": 30.0,
           "hp": 400.0,
           "track_r_dm": [],
-          "track_l_dm": []
+          "track_l_dm": [],
+          "ex_armor_r_01_dm": []
         }
       },
       "crew": {
@@ -1472,6 +1521,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -1482,6 +1534,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -1745,7 +1803,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.58,
-        "height": 0.013,
+        "height": 0.045,
         "width": 0.61
       },
       "collisionProps": {
@@ -1754,20 +1812,20 @@
       },
       "engine": {
         "horsePowers": 600.0,
-        "maxRPM": 1900.0,
+        "maxRPM": 2000.0,
         "minRPM": 650.0
       },
       "mechanics": {
         "maxBrakeForce": 250000.0,
-        "driveGearRadius": 0.37,
-        "mainGearRatio": 2.16,
-        "sideGearRatio": 6.25,
+        "driveGearRadius": 0.407,
+        "mainGearRatio": 0.95,
+        "sideGearRatio": 14.69,
         "gearRatios": [
           {
             "ratio": -1.27
           },
           {
-            "ratio": -4.46
+            "ratio": -3.99
           },
           {
             "ratio": 0.0
@@ -1785,7 +1843,7 @@
             "ratio": 1.74
           },
           {
-            "ratio": 1.47
+            "ratio": 1.41
           },
           {
             "ratio": 0.97

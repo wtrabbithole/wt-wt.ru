@@ -51,19 +51,26 @@
     "soundLoop": false
   },
   {
+    "dragCx": 0.002
+  },
+  {
+    "mass": 161.0
+  },
+  {
     "bullet": {
       "mass": 1.36,
       "caliber": 0.04,
       "speed": 570.0,
-      "maxDistance": 3000.0,
+      "maxDistance": 4000.0,
       "bulletType": "ap_t",
-      "hitPowerMult": 45.0,
-      "onHitChanceMultFire": 10.0,
-      "nearHitPower": [1.0,400.0],
-      "midHitPower": [0.7,600.0],
-      "farHitPower": [0.3,1500.0],
-      "endHitPower": [0.01,2000.0],
+      "hitPowerMult": 70.0,
+      "onHitChanceMultFire": 15.0,
+      "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
+      "hitpower": {
+        "HitPower0m": [0.85,500.0],
+        "HitPower10000m": [0.8,10000.0]
+      },
       "armorpower": {
         "ArmorPower0m": [70.0,10.0],
         "ArmorPower100m": [65.0,100.0],
@@ -96,8 +103,6 @@
       "farHitPower": [0.1,700.0],
       "endHitPower": [0.008,1500.0],
       "relativeVelHitShift": [300.0,1000.0],
-      "groundCollisionEffect": "cannon_air_hit",
-      "groundFxScale": [1.5,1.8],
       "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 0.4,
       "explodeTreshold": 0.2,
@@ -109,6 +114,12 @@
       "shutterAmount": 70,
       "shutterArmorPower": 6.0,
       "shutterHit": 6.0,
+      "groundCollisionEffect": "37_50_he_hit_ground",
+      "groundFxScale": [0.8,1.0],
+      "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "big_water_splash",
+      "defFxScale": [1.7,1.9],
+      "waterFxScale": [1.7,1.9],
       "armorpower": {
         "ArmorPower0m": [5.0,10.0],
         "ArmorPower100m": [4.0,100.0],
@@ -121,6 +132,20 @@
         "traceFreq": 1,
         "tracer": "37mmLightRed",
         "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.5,1.7]
+        },
+        "armor": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.5,1.7]
+        },
+        "wood": {
+          "fx": "cannon_hit_ship_cumulative",
+          "fxScale": [1.5,1.7]
+        }
       }
     }
   },
@@ -141,8 +166,6 @@
         "farHitPower": [0.1,700.0],
         "endHitPower": [0.008,1500.0],
         "relativeVelHitShift": [300.0,1000.0],
-        "groundCollisionEffect": "cannon_air_hit",
-        "groundFxScale": [1.5,1.8],
         "relativeVelArmorShift": [200.0,1000.0],
         "fuseDelayDist": 0.4,
         "explodeTreshold": 0.2,
@@ -154,6 +177,12 @@
         "shutterAmount": 70,
         "shutterArmorPower": 6.0,
         "shutterHit": 6.0,
+        "groundCollisionEffect": "37_50_he_hit_ground",
+        "groundFxScale": [0.8,1.0],
+        "ricochetEffect": "cannon_ricochet",
+        "waterCollisionEffect": "big_water_splash",
+        "defFxScale": [1.7,1.9],
+        "waterFxScale": [1.7,1.9],
         "armorpower": {
           "ArmorPower0m": [5.0,10.0],
           "ArmorPower100m": [4.0,100.0],
@@ -166,6 +195,20 @@
           "traceFreq": 1,
           "tracer": "37mmLightRed",
           "trail": "black"
+        },
+        "collisions": {
+          "steel": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [1.5,1.7]
+          },
+          "armor": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [1.5,1.7]
+          },
+          "wood": {
+            "fx": "cannon_hit_ship_cumulative",
+            "fxScale": [1.5,1.7]
+          }
         }
       }
     }
@@ -176,15 +219,16 @@
         "mass": 1.36,
         "caliber": 0.04,
         "speed": 570.0,
-        "maxDistance": 3000.0,
+        "maxDistance": 4000.0,
         "bulletType": "ap_t",
-        "hitPowerMult": 45.0,
-        "onHitChanceMultFire": 10.0,
-        "nearHitPower": [1.0,400.0],
-        "midHitPower": [0.7,600.0],
-        "farHitPower": [0.3,1500.0],
-        "endHitPower": [0.01,2000.0],
+        "hitPowerMult": 70.0,
+        "onHitChanceMultFire": 15.0,
+        "relativeVelHitShift": [300.0,1000.0],
         "relativeVelArmorShift": [200.0,1000.0],
+        "hitpower": {
+          "HitPower0m": [0.85,500.0],
+          "HitPower10000m": [0.8,10000.0]
+        },
         "armorpower": {
           "ArmorPower0m": [70.0,10.0],
           "ArmorPower100m": [65.0,100.0],

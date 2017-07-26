@@ -6,7 +6,7 @@
     "fmFile": "fm/b-29.blk"
   },
   {
-    "mustHaveCockpit": false
+    "tpsCameraOffset": [-7.0,3.0,0.0]
   },
   {
     "type": "typeBomber"
@@ -537,31 +537,28 @@
           "hp": 19.5
         },
         "oil2_dm": {
-          "hp": 19.5
+          "hp": 25.5
         },
         "oil3_dm": {
           "hp": 19.5
         },
         "oil4_dm": {
-          "hp": 19.5
+          "hp": 25.5
         },
         "oil5_dm": {
-          "hp": 25.5
+          "hp": 19.5
         },
         "oil6_dm": {
           "hp": 25.5
         },
         "oil7_dm": {
-          "hp": 25.5
+          "hp": 19.5
         },
         "oil8_dm": {
           "hp": 25.5
         }
       },
       "steel_pilot": {
-        "gunner1_dm": {
-          "hp": 20.0
-        },
         "gunner2_dm": {
           "hp": 20.0
         },
@@ -572,6 +569,9 @@
           "hp": 20.0
         },
         "gunner5_dm": {
+          "hp": 20.0
+        },
+        "gunner6_dm": {
           "hp": 20.0
         },
         "pilot1_dm": {
@@ -595,6 +595,9 @@
         },
         "tank4_dm": {
           "hp": 120.5
+        },
+        "tank5_dm": {
+          "hp": 88.3
         }
       },
       "wood": {
@@ -832,14 +835,118 @@
         }
       },
       {
-        "part": {
-          "name": "elevator0_dm"
-        }
+        "part": [
+          {
+            "name": "elevator0_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
-        "part": {
-          "name": "elevator1_dm"
-        }
+        "part": [
+          {
+            "name": "elevator1_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1503,9 +1610,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1606,11 +1744,6 @@
       },
       {
         "part": {
-          "name": "gunner1_dm"
-        }
-      },
-      {
-        "part": {
           "name": "gunner2_dm"
         }
       },
@@ -1627,6 +1760,11 @@
       {
         "part": {
           "name": "gunner5_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "gunner6_dm"
         }
       },
       {
@@ -2154,6 +2292,65 @@
       {
         "part": [
           {
+            "name": "tank5_dm"
+          },
+          {
+            "onHit": {
+              "fire": 0.005,
+              "leak": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damage": 3.0,
+              "fire": 0.01,
+              "leak": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "fire": 0.05,
+              "leak": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "fire": 0.3,
+              "leak": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "fire": 3.0,
+              "leak": 12.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "expl": 0.5,
+              "fire": 5.0,
+              "leak": 10.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 70.0,
+              "expl": 1.0,
+              "fire": 20.0,
+              "leak": 50.0,
+              "nothing": 30.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
             "name": "wing1_l_dm"
           },
           {
@@ -2563,14 +2760,14 @@
         "pelvisNode": "Bip01 Pelvis"
       },
       {
-        "pelvisTargetNode": "Bip01 Pelvis01"
+        "pelvisTargetNode": "Bip01 Pelvis_15"
       },
       {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
-          "targetNode": "throttle_lhand_1",
+          "targetNode": "throttle_lhand_15",
           "flexionDir": [0.0,-1.0,0.2]
         }
       },
@@ -2579,7 +2776,7 @@
           "downNode": "Bip01 R Hand",
           "midNode": "Bip01 R Forearm",
           "upNode": "Bip01 R UpperArm",
-          "targetNode": "stick_rhand_1",
+          "targetNode": "stick_rhand_15",
           "flexionDir": [0.0,-1.0,-0.5]
         }
       },
@@ -2588,7 +2785,7 @@
           "downNode": "Bip01 L Foot",
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_1",
+          "targetNode": "pedal_lfoot_15",
           "flexionDir": [0.0,1.0,0.3]
         }
       },
@@ -2597,7 +2794,7 @@
           "downNode": "Bip01 R Foot",
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_1",
+          "targetNode": "pedal_rfoot_15",
           "flexionDir": [0.0,1.0,-0.3]
         }
       }
@@ -2627,10 +2824,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "suffix": "1"
-      },
-      {
-        "isTailPositioned": true
+        "suffix": "6"
       },
       {
         "ikNode": {
@@ -2959,8 +3153,67 @@
   },
   {
     "cockpit": {
-      "headPos": [3.0,1.0,0.0],
-      "headPosOnShooting": [3.0,1.0,0.0]
+      "textToShowInCockpit": "msg/textToShowInCockpit",
+      "headPos": [8.464,0.94,0.638],
+      "headPosOnShooting": [8.464,0.94,0.638],
+      "lightPos": [9.127507,0.613095,0.617036],
+      "lightColor": [0.09,0.097,0.91],
+      "lightAttenuation": 8.0,
+      "devices": {
+        "speed": [0.0,257.222],
+        "bank": [-8.0,8.0],
+        "turn": [-0.23562,0.23562],
+        "vario": [-30.0,30.0],
+        "altitude_10k": [0.0,100000.0],
+        "altitude_hour": [0.0,10000.0],
+        "altitude_min": [0.0,1000.0],
+        "altitude_koef": 3.28,
+        "aviahorizon_pitch": [-60.0,60.0],
+        "aviahorizon_roll": [-180.0,180.0],
+        "compass": [0.0,360.0],
+        "fuel": [0.0,1277.625],
+        "rpm": [0.0,4500.0],
+        "rpm1": [0.0,4500.0],
+        "rpm2": [0.0,4500.0],
+        "rpm3": [0.0,4500.0],
+        "manifold_pressure": [0.334,2.507],
+        "manifold_pressure1": [0.334,2.507],
+        "manifold_pressure2": [0.334,2.507],
+        "manifold_pressure3": [0.334,2.507],
+        "head_temperature": [0.0,300.0],
+        "head_temperature1": [0.0,300.0],
+        "head_temperature2": [0.0,300.0],
+        "head_temperature3": [0.0,300.0],
+        "oil_temperature": [-50.0,150.0],
+        "oil_temperature1": [-50.0,150.0],
+        "oil_temperature2": [-50.0,150.0],
+        "oil_temperature3": [-50.0,150.0],
+        "fuel_pressure": [0.0,15.0],
+        "fuel_pressure1": [0.0,15.0],
+        "fuel_pressure2": [0.0,15.0],
+        "fuel_pressure3": [0.0,15.0],
+        "oil_pressure": [0.0,150.0],
+        "oil_pressure1": [0.0,150.0],
+        "oil_pressure2": [0.0,150.0],
+        "oil_pressure3": [0.0,150.0]
+      },
+      "parts_holes_dmg": {
+        "part": "fuse"
+      },
+      "parts_oil_dmg": [
+        {
+          "part": "engine1"
+        },
+        {
+          "part": "engine2"
+        },
+        {
+          "part": "engine3"
+        },
+        {
+          "part": "engine4"
+        }
+      ]
     }
   },
   {
@@ -2968,10 +3221,11 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare1",
           "flash": "flare1",
-          "dm": "gunner1_dm",
+          "dm": "gunner6_dm",
+          "partsDP": "gun1_dm",
           "bullets": 400,
           "turret": {
             "head": "turret1",
@@ -2986,10 +3240,10 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare2",
           "flash": "flare2",
-          "dm": "gunner1_dm",
+          "dm": "gunner6_dm",
           "bullets": 400,
           "turret": {
             "head": "turret1",
@@ -3004,10 +3258,10 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare11",
           "flash": "flare11",
-          "dm": "gunner1_dm",
+          "dm": "gunner6_dm",
           "bullets": 400,
           "turret": {
             "head": "turret1",
@@ -3022,10 +3276,10 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare12",
           "flash": "flare12",
-          "dm": "gunner1_dm",
+          "dm": "gunner6_dm",
           "bullets": 400,
           "turret": {
             "head": "turret1",
@@ -3040,10 +3294,11 @@
       {
         "Weapon": {
           "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare3",
           "flash": "flare3",
-          "dm": "gunner1_dm",
+          "dm": "gunner6_dm",
+          "partsDP": "gun2_dm",
           "bullets": 500,
           "turret": {
             "head": "turret2",
@@ -3059,10 +3314,10 @@
       {
         "Weapon": {
           "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare4",
           "flash": "flare4",
-          "dm": "gunner1_dm",
+          "dm": "gunner6_dm",
           "bullets": 500,
           "turret": {
             "head": "turret2",
@@ -3077,11 +3332,12 @@
       {
         "Weapon": {
           "trigger": "gunner2",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare5",
           "flash": "flare5",
           "shell": "emtr_shellrejection1",
           "dm": "gunner2_dm",
+          "partsDP": "gun3_dm",
           "bullets": 500,
           "turret": {
             "head": "turret3",
@@ -3097,7 +3353,7 @@
       {
         "Weapon": {
           "trigger": "gunner2",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare6",
           "flash": "flare6",
           "dm": "gunner2_dm",
@@ -3115,10 +3371,11 @@
       {
         "Weapon": {
           "trigger": "gunner3",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare7",
           "flash": "flare7",
           "dm": "gunner3_dm",
+          "partsDP": "gun4_dm",
           "shell": "emtr_shellrejection2",
           "bullets": 575,
           "turret": {
@@ -3134,7 +3391,7 @@
       {
         "Weapon": {
           "trigger": "gunner3",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare8",
           "flash": "flare8",
           "dm": "gunner3_dm",
@@ -3152,10 +3409,11 @@
       {
         "Weapon": {
           "trigger": "gunner4",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare9",
           "flash": "flare9",
           "dm": "gunner4_dm",
+          "partsDP": "gun5_dm",
           "bullets": 500,
           "turret": {
             "head": "turret5",
@@ -3170,7 +3428,7 @@
       {
         "Weapon": {
           "trigger": "gunner4",
-          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "blk": "gameData/Weapons/gunBrowning50_turret_late.blk",
           "emitter": "flare10",
           "flash": "flare10",
           "dm": "gunner4_dm",
@@ -3265,113 +3523,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "aileron_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "aileron_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "turret4"
-        },
-        {
-          "part": "gun4"
-        },
-        {
-          "part": "turret5"
-        },
-        {
-          "part": "gun5"
-        },
-        {
-          "part": "gunner4"
-        }
-      ]
     }
   },
   {

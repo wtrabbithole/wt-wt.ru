@@ -999,9 +999,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2124,7 +2155,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50_usaaf.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare1",
           "flash": "flare1",
           "shell": "emtr_shellrejection1",
@@ -2137,7 +2168,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50_usaaf.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare2",
           "flash": "flare2",
           "dm": "mgun2_dm",
@@ -2150,7 +2181,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50_usaaf.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare3",
           "flash": "flare3",
           "shell": "emtr_shellrejection2",
@@ -2164,7 +2195,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50_usaaf.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare4",
           "flash": "flare4",
           "shell": "emtr_shellrejection3",
@@ -2178,7 +2209,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50_usaaf.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare5",
           "flash": "flare5",
           "dm": "mgun5_dm",
@@ -2191,7 +2222,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50_usaaf.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare6",
           "flash": "flare6",
           "shell": "emtr_shellrejection4",
@@ -2201,46 +2232,6 @@
           "spread": 1.2,
           "traceOffset": 1
         }
-      }
-    ]
-  },
-  {
-    "weapon_presets": [
-      {
-        "preset": {
-          "name": "p_40e_default",
-          "blk": "gameData/FlightModels/weaponPresets/p_40e_default.blk"
-        }
-      },
-      {
-        "preset": {
-          "name": "p_40e_2x_100",
-          "blk": "gameData/FlightModels/weaponPresets/p_40e_2x_100.blk",
-          "reqModification": "fsbc_mk1"
-        }
-      },
-      {
-        "preset": {
-          "name": "p_40e_1x_500",
-          "blk": "gameData/FlightModels/weaponPresets/p_40e_1x_500.blk",
-          "reqModification": "fmbc_mk1"
-        }
-      },
-      {
-        "preset": [
-          {
-            "name": "p_40e_bombs"
-          },
-          {
-            "blk": "gameData/FlightModels/weaponPresets/p_40e_bombs.blk"
-          },
-          {
-            "reqModification": "fsbc_mk1"
-          },
-          {
-            "reqModification": "fmbc_mk1"
-          }
-        ]
       }
     ]
   },
@@ -2297,188 +2288,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        },
-        {
-          "part": "gun4"
-        },
-        {
-          "part": "gun5"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        },
-        {
-          "part": "gun2"
-        },
-        {
-          "part": "gun3"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        },
-        {
-          "part": "antenna_l"
-        },
-        {
-          "part": "gun1"
-        },
-        {
-          "part": "gun2"
-        },
-        {
-          "part": "gun3"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        },
-        {
-          "part": "antenna_r"
-        },
-        {
-          "part": "gun4"
-        },
-        {
-          "part": "gun5"
-        },
-        {
-          "part": "gun6"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear1_c"
-        },
-        {
-          "part": "gear2_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "antenna_l"
-        },
-        {
-          "part": "antenna_r"
-        }
-      ]
     }
   },
   {
@@ -2578,48 +2387,6 @@
     }
   },
   {
-    "modifications": {
-      "p_40_fuel_100": {
-        "reqModLevel": 4.0,
-        "tier": 4,
-        "modClass": "lth",
-        "prevModification": "cd_98",
-        "dontDecreaseAirRCost": true,
-        "effects": {
-          "addHorsePowers": 150.0
-        }
-      },
-      "cd_98": [],
-      "CdMin_Fuse": [],
-      "new_cover": [],
-      "structure_str": [],
-      "hp_105": [],
-      "new_radiator": [],
-      "new_compressor": [],
-      "new_engine_injection": [],
-      "50cal_universal": [],
-      "50cal_ground_targets": [],
-      "50cal_tracers": [],
-      "50cal_stealth": [],
-      "bmg50_belt_pack": [],
-      "bmg50_new_gun": {
-        "reqModification": "bmg50_belt_pack",
-        "tier": 3
-      },
-      "fsbc_mk1": {
-        "reqModLevel": 7.0,
-        "tier": 2,
-        "modClass": "weapon"
-      },
-      "fmbc_mk1": {
-        "reqModLevel": 16.0,
-        "tier": 4,
-        "modClass": "weapon",
-        "reqModification": "fsbc_mk1"
-      }
-    }
-  },
-  {
     "ikPilot": [
       {
         "model": "pilot_su_char"
@@ -2686,6 +2453,30 @@
     }
   },
   {
+    "weapon_presets": [
+      {
+        "preset": {
+          "name": "p_40e_ussr_default",
+          "blk": "gameData/FlightModels/weaponPresets/p_40e_default.blk"
+        }
+      },
+      {
+        "preset": {
+          "name": "p_40e_ussr_1x500fab",
+          "blk": "gameData/FlightModels/weaponPresets/p_40e_ussr_1x500fab.blk",
+          "reqModification": "der-19"
+        }
+      },
+      {
+        "preset": {
+          "name": "p_40e_ussr_1x250fab_2x100fab",
+          "blk": "gameData/FlightModels/weaponPresets/p_40e_ussr_1x250fab_2x100fab.blk",
+          "reqModification": "pe-3_dz-40"
+        }
+      }
+    ]
+  },
+  {
     "default_skin": [
       {
         "name": "ussr"
@@ -2703,5 +2494,45 @@
         }
       }
     ]
+  },
+  {
+    "modifications": {
+      "p_40_fuel_100": {
+        "reqModLevel": 4.0,
+        "tier": 4,
+        "modClass": "lth",
+        "prevModification": "cd_98",
+        "dontDecreaseAirRCost": true,
+        "effects": {
+          "addHorsePowers": 150.0
+        }
+      },
+      "cd_98": [],
+      "CdMin_Fuse": [],
+      "new_cover": [],
+      "structure_str": [],
+      "hp_105": [],
+      "new_radiator": [],
+      "new_compressor": [],
+      "new_engine_injection": [],
+      "50cal_universal": [],
+      "50cal_ground_targets": [],
+      "50cal_tracers": [],
+      "50cal_stealth": [],
+      "bmg50_belt_pack": [],
+      "bmg50_new_gun": {
+        "reqModification": "bmg50_belt_pack",
+        "tier": 3
+      },
+      "pe-3_dz-40": {
+        "modClass": "weapon",
+        "tier": 2
+      },
+      "der-19": {
+        "modClass": "weapon",
+        "tier": 4,
+        "reqModification": "pe-3_dz-40"
+      }
+    }
   }
 ]

@@ -122,6 +122,9 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -184,6 +187,9 @@
       },
       {
         "suffix": "2"
+      },
+      {
+        "dmName": "commander_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -254,6 +260,9 @@
       },
       {
         "suffix": "3"
+      },
+      {
+        "dmName": "gunner_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -382,6 +391,9 @@
       "hp": 1000.0,
       "hull": {
         "body_front_dm": {
+          "armorThickness": 1.0
+        },
+        "body_top_dm": {
           "armorThickness": 1.0
         },
         "body_bottom_dm": {
@@ -942,16 +954,12 @@
           "breechDP": "cannon_breech_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 1000,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -988,16 +996,12 @@
           "breechDP": "cannon_breech_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 1000,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1005,6 +1009,8 @@
           "errTargettingOn100kmph": 0.0,
           "errTargetting": 3.0,
           "errExplTime": 0.0,
+          "reuseYawTrigger": 10,
+          "reusePitchTrigger": 10,
           "turret": {
             "head": "bone_turret",
             "gun": "bone_gun",
@@ -1034,16 +1040,12 @@
           "breechDP": "cannon_breech_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 1000,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1051,6 +1053,8 @@
           "errTargettingOn100kmph": 0.0,
           "errTargetting": 3.0,
           "errExplTime": 0.0,
+          "reuseYawTrigger": 10,
+          "reusePitchTrigger": 10,
           "turret": {
             "head": "bone_turret",
             "gun": "bone_gun",
@@ -1080,16 +1084,12 @@
           "breechDP": "cannon_breech_dm",
           "speedYaw": 60.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 1000,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1097,6 +1097,8 @@
           "errTargettingOn100kmph": 0.0,
           "errTargetting": 3.0,
           "errExplTime": 0.0,
+          "reuseYawTrigger": 10,
+          "reusePitchTrigger": 10,
           "turret": {
             "head": "bone_turret",
             "gun": "bone_gun",
@@ -1268,6 +1270,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1621,7 +1671,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

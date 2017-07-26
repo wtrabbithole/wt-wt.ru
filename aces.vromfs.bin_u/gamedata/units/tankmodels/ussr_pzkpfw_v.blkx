@@ -663,7 +663,7 @@
       {
         "fireParams": {
           "fireDamagePower": 1.0,
-          "maxTankFireTime": [30.0,35.0],
+          "maxTankFireTime": [20.0,30.0],
           "firePart": "transmission_dm"
         }
       },
@@ -723,7 +723,7 @@
       {
         "fireParams": {
           "fireDamagePower": 1.0,
-          "maxTankFireTime": [30.0,35.0],
+          "maxTankFireTime": [20.0,30.0],
           "firePart": "transmission_dm"
         }
       },
@@ -903,7 +903,7 @@
       ]
     },
     "suspension": {
-      "suspensionOffsets": [-0.2,-0.2,0.15],
+      "suspensionOffsets": [-0.2,-0.1,0.13],
       "defaultGearRadius": 0.41,
       "frontBackGearRadius": 0.32,
       "defaultDampeningForce": [200000.0,200000.0],
@@ -1024,6 +1024,54 @@
           "fx": {
             "name": "tank_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_03"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_04"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_05"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_06"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_07"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_08"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_09"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_10"
           }
         }
       ]
@@ -1377,7 +1425,7 @@
       "event": {
         "name": "big_bang",
         "fx": {
-          "name": "ship_explosion",
+          "name": "tank_explosion",
           "emitter": "emtr_explosion_center"
         }
       }
@@ -1401,8 +1449,9 @@
     }
   ],
   "cockpit": {
-    "zoomOutFov": 40.0,
-    "zoomInFov": 21.0,
+    "zoomOutFov": 29.7,
+    "zoomInFov": 14.7,
+    "sightFov": 18.0,
     "headPos": [0.0,4.0,-8.0],
     "headPosOnShooting": [-0.5,3.8,0.5],
     "detectionHeight": 3.0
@@ -1640,7 +1689,7 @@
     "cannon_breech": {
       "armorClass": "tank_structural_steel",
       "hp": 150.0,
-      "armorThickness": 15.0,
+      "armorThickness": 10.0,
       "armorThrough": 60.0,
       "fireProtectionHp": 10.0,
       "cannon_breech_dm": [],
@@ -1752,42 +1801,42 @@
     "skin_condition": 0.0,
     "camo_scale": 0.0,
     "camo_rotation": 0.0,
-    "decal0Line0": [1.31427,0.0446423,0.0446423,0.0488149],
-    "decal0Line1": [0.0631337,-0.929332,-0.929332,1.77796],
+    "decal0Line0": [1.31579,-5.7515e-08,0.0,0.023444],
+    "decal0Line1": [-5.7515e-08,-1.31579,0.0,3.46621],
     "decal0HaveCP": true,
-    "decal0CP": [0.929203,2.50206,0.215739],
-    "decal0CPNormDepth": [0.0,0.707107,-0.707107,-2.26908],
-    "decal0RotScale": [1.5228,0.76],
+    "decal0CP": [1807.47,61.1267,-1099.2],
+    "decal0CPNormDepth": [0.0,0.0,-1.0,-0.920532],
+    "decal0RotScale": [1.5708,0.76],
     "decal0Mirrored": false,
     "decal0Wrap": false,
     "decal0Abs": true,
     "decal0Tex": "ussr_number_513",
-    "decal1Line0": [1.92308,-5.73122e-08,-2.97198e-08,1.23877],
-    "decal1Line1": [-8.40604e-08,-1.35982,-1.35982,2.45805],
+    "decal1Line0": [1.92308,-8.40604e-08,0.0,1.25449],
+    "decal1Line1": [-8.40604e-08,-1.92308,0.0,4.83227],
     "decal1HaveCP": true,
-    "decal1CP": [0.899339,2.57627,-0.46431],
-    "decal1CPNormDepth": [0.0,0.707107,-0.707107,-2.34243],
+    "decal1CP": [1807.36,61.1252,-1099.95],
+    "decal1CPNormDepth": [0.0,0.0,-1.0,-0.991699],
     "decal1RotScale": [1.5708,0.52],
     "decal1Mirrored": false,
     "decal1Wrap": false,
     "decal1Abs": true,
     "decal1Tex": "ussr_white_star",
-    "decal2Line0": [1.35982,-8.45728e-08,-1.35982,0.776474],
-    "decal2Line1": [-0.785093,-1.57019,-0.785093,2.57841],
+    "decal2Line0": [1.41278,0.112956,-1.29982,0.632787],
+    "decal2Line1": [-0.685236,-1.56612,-0.880882,2.65199],
     "decal2HaveCP": true,
-    "decal2CP": [0.748966,2.46869,-1.11624],
-    "decal2CPNormDepth": [-0.57735,0.57735,-0.57735,-2.40112],
-    "decal2RotScale": [1.5708,0.52],
+    "decal2CP": [1807.04,61.1698,-1100.54],
+    "decal2CPNormDepth": [-0.57735,0.57735,-0.57735,-2.40777],
+    "decal2RotScale": [1.4988,0.52],
     "decal2Mirrored": false,
     "decal2Wrap": false,
     "decal2Abs": false,
     "decal2Tex": "ussr_tactical_marking",
-    "decal3Line0": [-1.35982,-6.64183e-08,-1.35982,0.24239],
-    "decal3Line1": [-0.785093,-1.57019,0.785093,2.62147],
+    "decal3Line0": [-1.41278,-0.112956,-1.29982,0.426805],
+    "decal3Line1": [-0.685236,-1.56612,0.880882,2.67696],
     "decal3HaveCP": true,
-    "decal3CP": [-0.929302,2.48833,-0.954645],
-    "decal3CPNormDepth": [-0.57735,0.57735,0.57735,-2.40348],
-    "decal3RotScale": [1.5708,0.52],
+    "decal3CP": [1805.42,61.1807,-1100.11],
+    "decal3CPNormDepth": [-0.57735,0.57735,0.57735,-2.4051],
+    "decal3RotScale": [1.6428,0.52],
     "decal3Mirrored": false,
     "decal3Wrap": false,
     "decal3Abs": false,

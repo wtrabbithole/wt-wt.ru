@@ -256,6 +256,10 @@
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0
         }
       },
       "chassis": {
@@ -322,6 +326,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -332,6 +339,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -358,7 +371,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -414,7 +427,9 @@
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
         "ammo_body_r_04_dm": [],
-        "ammo_body_r_05_dm": []
+        "ammo_body_r_05_dm": [],
+        "ammo_body_r_06_dm": [],
+        "ammo_body_r_07_dm": []
       },
       "equipment_body": {
         "armorClass": "tank_structural_steel",
@@ -1263,7 +1278,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.65,
-        "height": 0.013,
+        "height": 0.045,
         "width": 0.6
       },
       "collisionProps": {
@@ -1474,6 +1489,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1827,7 +1890,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1908,6 +1971,15 @@
       "name": "smk",
       "replace_tex": {
         "from": "ussr_camo_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "forest",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_forest_01*"
       }
     }
   },

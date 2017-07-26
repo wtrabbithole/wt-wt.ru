@@ -110,14 +110,14 @@
         "pelvisNode": "Bip01 Pelvis"
       },
       {
-        "pelvisTargetNode": "Bip01 Pelvis01"
+        "pelvisTargetNode": "Bip01 Pelvis_11"
       },
       {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
-          "targetNode": "throttle_lhand_1",
+          "targetNode": "throttle_lhand_11",
           "flexionDir": [0.0,-1.0,0.2]
         }
       },
@@ -126,7 +126,7 @@
           "downNode": "Bip01 R Hand",
           "midNode": "Bip01 R Forearm",
           "upNode": "Bip01 R UpperArm",
-          "targetNode": "stick_rhand_1",
+          "targetNode": "stick_rhand_11",
           "flexionDir": [0.0,-1.0,-0.5]
         }
       },
@@ -135,7 +135,7 @@
           "downNode": "Bip01 L Foot",
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_1",
+          "targetNode": "pedal_lfoot_11",
           "flexionDir": [0.0,1.0,0.3]
         }
       },
@@ -144,7 +144,7 @@
           "downNode": "Bip01 R Foot",
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_1",
+          "targetNode": "pedal_rfoot_11",
           "flexionDir": [0.0,1.0,-0.3]
         }
       }
@@ -472,158 +472,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "tank4"
-        },
-        {
-          "part": "oil2"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "tank3"
-        },
-        {
-          "part": "oil1"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator_r"
-        },
-        {
-          "part": "elevator_l"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear1_c"
-        },
-        {
-          "part": "gear2_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        }
-      ]
     }
   },
   {
@@ -1107,6 +955,16 @@
       "engineExtinguishFireSpeedChance": [0.01,0.1],
       "fireDamagePowerRel": 0.05,
       "nonExtinguishFireTime": 5.0
+    }
+  },
+  {
+    "cockpit": {
+      "textToShowInCockpit": "msg/textToShowInCockpit",
+      "headPos": [3.935,0.817,0.231],
+      "headPosOnShooting": [3.935,0.817,0.231],
+      "lightPos": [4.073141,0.550167,0.145061],
+      "lightColor": [0.32,0.1,0.01],
+      "lightAttenuation": 12.0
     }
   },
   {
@@ -2697,9 +2555,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -3797,6 +3686,7 @@
           "flash": "flare1",
           "shell": "emtr_shellrejection2",
           "dm": "gunner1_dm",
+          "partsDP": "gun1_dm",
           "bullets": 1000,
           "traceOffset": 1,
           "turret": {
@@ -3817,6 +3707,7 @@
           "flash": "flare2",
           "shell": "emtr_shellrejection1",
           "dm": "gunner2_dm",
+          "partsDP": "gun2_dm",
           "bullets": 1000,
           "traceOffset": 3,
           "turret": {
@@ -3836,6 +3727,7 @@
           "emitter": "gun3",
           "flash": "flare3",
           "dm": "gunner3_dm",
+          "partsDP": "gun3_dm",
           "bullets": 750,
           "traceOffset": 3,
           "turret": {
@@ -3855,6 +3747,7 @@
           "emitter": "gun4",
           "flash": "flare4",
           "dm": "gunner4_dm",
+          "partsDP": "gun4_dm",
           "bullets": 500,
           "traceOffset": 4,
           "turret": {
@@ -3874,6 +3767,7 @@
           "emitter": "gun5",
           "flash": "flare5",
           "dm": "gunner3_dm",
+          "partsDP": "gun5_dm",
           "bullets": 750,
           "traceOffset": 1,
           "turret": {

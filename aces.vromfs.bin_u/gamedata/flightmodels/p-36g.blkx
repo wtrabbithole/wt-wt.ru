@@ -671,161 +671,6 @@
     }
   },
   {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "antenna1"
-        },
-        {
-          "part": "flare3"
-        },
-        {
-          "part": "flare4"
-        },
-        {
-          "part": "bomb1"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "antenna2"
-        },
-        {
-          "part": "flare5"
-        },
-        {
-          "part": "flare6"
-        },
-        {
-          "part": "bomb2"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "antenna1"
-        },
-        {
-          "part": "antenna2"
-        },
-        {
-          "part": "antenna3"
-        }
-      ]
-    }
-  },
-  {
     "modifications": {
       "cd_98": [],
       "CdMin_Fuse": [],
@@ -1795,9 +1640,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2813,7 +2689,7 @@
       {
         "Weapon": {
           "trigger": "cannon",
-          "blk": "gameData/Weapons/gunBrowning50.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare1",
           "flash": "flare1",
           "dm": "mgun1_dm",
@@ -2825,7 +2701,7 @@
       {
         "Weapon": {
           "trigger": "cannon",
-          "blk": "gameData/Weapons/gunBrowning50.blk",
+          "blk": "gameData/Weapons/gunBrowning50_early.blk",
           "emitter": "flare2",
           "flash": "flare2",
           "dm": "mgun2_dm",

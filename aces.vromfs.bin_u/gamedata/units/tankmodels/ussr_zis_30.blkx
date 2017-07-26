@@ -116,6 +116,15 @@
         "suffix": "1"
       },
       {
+        "dmName": "gunner_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -178,6 +187,15 @@
       },
       {
         "suffix": "2"
+      },
+      {
+        "dmName": "loader_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
       },
       {
         "ikNode": {
@@ -244,6 +262,15 @@
         "suffix": "3"
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -306,6 +333,15 @@
       },
       {
         "suffix": "4"
+      },
+      {
+        "dmName": "machine_gunner_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
       },
       {
         "ikNode": {
@@ -526,6 +562,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -536,6 +575,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -556,7 +601,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1234,95 +1279,52 @@
     "class_tags": []
   },
   {
-    "commonWeapons": [
-      {
-        "Weapon": {
-          "trigger": "gunner0",
-          "blk": "gameData/Weapons/groundModels_weapons/57mm_ZIS2_user_cannon.blk",
-          "emitter": "bone_gun_barrel",
-          "flash": "emtr_gun_flame",
-          "recoilMultiplier": 0.8,
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_dm",
-          "breechDP": "cannon_breech_dm",
-          "speedYaw": 7.0,
-          "speedPitch": 4.0,
-          "fireConeAngle": 1.0,
-          "bullets": 20,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_turret",
-            "gun": "bone_gun",
-            "barrel": "bone_gun_barrel"
-          },
-          "limits": {
-            "yaw": [-30.0,30.0],
-            "pitch": [-4.0,22.0]
-          },
-          "limitsTable": {
-            "lim1": [-17.0,-10.0,-4.0,22.0],
-            "lim2": [-10.0,10.0,-4.0,15.0],
-            "lim3": [10.0,30.0,-4.0,22.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner1",
-          "triggerGroup": "machinegun",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk",
-          "emitter": "bone_mg_gun_body",
-          "flash": "emtr_mg_flame_01",
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_01_dm",
-          "breechDP": "cannon_breech_01_dm",
-          "speedYaw": 5.5,
-          "speedPitch": 4.0,
-          "fireConeAngle": 1.0,
-          "bullets": 756,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_mg_gun_body",
-            "gun": "bone_mg_gun_body",
-            "gunnerDm": "machine_gunner_dm"
-          },
-          "limits": {
-            "yaw": [-10.0,10.0],
-            "pitch": [-10.0,10.0]
-          }
+    "commonWeapons": {
+      "Weapon": {
+        "trigger": "gunner0",
+        "blk": "gameData/Weapons/groundModels_weapons/57mm_ZIS2_user_cannon.blk",
+        "emitter": "bone_gun_barrel",
+        "flash": "emtr_gun_flame",
+        "recoilMultiplier": 0.8,
+        "defaultYaw": 0.0,
+        "defaultPitch": 0.0,
+        "barrelDP": "gun_barrel_dm",
+        "breechDP": "cannon_breech_dm",
+        "speedYaw": 7.0,
+        "speedPitch": 4.0,
+        "fireConeAngle": 1.0,
+        "bullets": 20,
+        "salvoAmount": 100.0,
+        "ChainfireTime": 0.0,
+        "DelayAfterShoot": 5.0,
+        "AttackMaxDistance": 1000.0,
+        "AttackMaxRadius": 1000.0,
+        "AttackMaxHeight": 1000.0,
+        "accuracyAir": 0.0,
+        "accuracyGnd": 1.5,
+        "errMeasureVel": 0.0,
+        "errMeasureVelFast": 0.0,
+        "errMeasureVelFwdShift": 0.0,
+        "errMeasureVelDir": 0.0,
+        "errTargettingOn100kmph": 0.0,
+        "errTargetting": 3.0,
+        "errExplTime": 0.0,
+        "turret": {
+          "head": "bone_turret",
+          "gun": "bone_gun",
+          "barrel": "bone_gun_barrel"
+        },
+        "limits": {
+          "yaw": [-30.0,30.0],
+          "pitch": [-4.0,22.0]
+        },
+        "limitsTable": {
+          "lim1": [-17.0,-10.0,-4.0,22.0],
+          "lim2": [-10.0,10.0,-4.0,15.0],
+          "lim3": [10.0,30.0,-4.0,22.0]
         }
       }
-    ]
+    }
   },
   {
     "weapon_presets": {
@@ -1516,6 +1518,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1869,7 +1919,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

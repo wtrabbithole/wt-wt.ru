@@ -769,14 +769,118 @@
         }
       },
       {
-        "part": {
-          "name": "elevator0_dm"
-        }
+        "part": [
+          {
+            "name": "elevator0_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
-        "part": {
-          "name": "elevator1_dm"
-        }
+        "part": [
+          {
+            "name": "elevator1_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1352,9 +1456,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2361,6 +2496,71 @@
     }
   },
   {
+    "cockpit": {
+      "textToShowInCockpit": "msg/textToShowInCockpit",
+      "headPos": [3.191,1.759,0.364],
+      "headPosOnShooting": [3.191,1.759,0.364],
+      "lightPos": [3.800984,1.502893,0.173999],
+      "lightColor": [0.0,0.05,0.01],
+      "lightAttenuation": 5.0,
+      "devices": {
+        "speed": [0.0,257.222],
+        "bank": [-8.0,8.0],
+        "turn": [-0.23562,0.23562],
+        "vario": [-30.0,30.0],
+        "altitude_10k": [0.0,100000.0],
+        "altitude_hour": [0.0,10000.0],
+        "altitude_min": [0.0,1000.0],
+        "altitude_koef": 3.28,
+        "aviahorizon_pitch": [-60.0,60.0],
+        "aviahorizon_roll": [-180.0,180.0],
+        "compass": [0.0,360.0],
+        "fuel": [0.0,1277.625],
+        "rpm": [0.0,4500.0],
+        "rpm1": [0.0,4500.0],
+        "rpm2": [0.0,4500.0],
+        "rpm3": [0.0,4500.0],
+        "manifold_pressure": [0.334,2.507],
+        "manifold_pressure1": [0.334,2.507],
+        "manifold_pressure2": [0.334,2.507],
+        "manifold_pressure3": [0.334,2.507],
+        "head_temperature": [0.0,300.0],
+        "head_temperature1": [0.0,300.0],
+        "head_temperature2": [0.0,300.0],
+        "head_temperature3": [0.0,300.0],
+        "oil_temperature": [-50.0,150.0],
+        "oil_temperature1": [-50.0,150.0],
+        "oil_temperature2": [-50.0,150.0],
+        "oil_temperature3": [-50.0,150.0],
+        "fuel_pressure": [0.0,15.0],
+        "fuel_pressure1": [0.0,15.0],
+        "fuel_pressure2": [0.0,15.0],
+        "fuel_pressure3": [0.0,15.0],
+        "oil_pressure": [0.0,150.0],
+        "oil_pressure1": [0.0,150.0],
+        "oil_pressure2": [0.0,150.0],
+        "oil_pressure3": [0.0,150.0]
+      },
+      "parts_holes_dmg": {
+        "part": "fuse"
+      },
+      "parts_oil_dmg": [
+        {
+          "part": "engine1"
+        },
+        {
+          "part": "engine2"
+        },
+        {
+          "part": "engine3"
+        },
+        {
+          "part": "engine4"
+        }
+      ]
+    }
+  },
+  {
     "Params": {
       "Range": 2280.0
     }
@@ -2380,6 +2580,7 @@
           "emitter": "gun2",
           "flash": "flare3",
           "dm": "gunner2_dm",
+          "partsDP": "gun2_dm",
           "bullets": 500,
           "rotationSpeedMult": 0.643,
           "rotationSpeedMultForHuman": 0.643,
@@ -2422,6 +2623,7 @@
           "flash": "flare5",
           "shell": "emtr_shellrejection1",
           "dm": "gunner3_dm",
+          "partsDP": "gun3_dm",
           "bullets": 500,
           "rotationSpeedMult": 0.643,
           "rotationSpeedMultForHuman": 0.643,
@@ -2441,6 +2643,7 @@
           "blk": "gameData/Weapons/gunBrowning50_turret.blk",
           "emitter": "gun3",
           "flash": "flare6",
+          "dm": "gunner3_dm",
           "bullets": 500,
           "rotationSpeedMult": 0.643,
           "rotationSpeedMultForHuman": 0.643,
@@ -2461,6 +2664,7 @@
           "emitter": "gun4",
           "flash": "flare7",
           "dm": "gunner4_dm",
+          "partsDP": "gun4_dm",
           "shell": "emtr_shellrejection2",
           "bullets": 500,
           "turret": {
@@ -2498,6 +2702,7 @@
           "emitter": "gun5",
           "flash": "flare13",
           "dm": "gunner5_dm",
+          "partsDP": "gun5_dm",
           "bullets": 500,
           "turret": {
             "head": "turret5",
@@ -2516,6 +2721,7 @@
           "emitter": "gun6",
           "flash": "flare9",
           "dm": "gunner6_dm",
+          "partsDP": "gun6_dm",
           "bullets": 400,
           "turret": {
             "head": "turret6",
@@ -2535,6 +2741,7 @@
           "emitter": "gun7",
           "flash": "flare10",
           "dm": "gunner7_dm",
+          "partsDP": "gun7_dm",
           "bullets": 400,
           "turret": {
             "head": "turret7",
@@ -2554,6 +2761,7 @@
           "emitter": "gun8",
           "flash": "flare11",
           "dm": "gunner8_dm",
+          "partsDP": "gun8_dm",
           "bullets": 500,
           "turret": {
             "head": "turret8",
@@ -2572,6 +2780,7 @@
           "emitter": "gun9",
           "flash": "flare12",
           "dm": "gunner8_dm",
+          "partsDP": "gun9_dm",
           "bullets": 500,
           "turret": {
             "head": "turret9",
@@ -2629,152 +2838,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "tank1"
-        },
-        {
-          "part": "tank2"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "tank7"
-        },
-        {
-          "part": "tank8"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "turret4"
-        },
-        {
-          "part": "gun4"
-        },
-        {
-          "part": "turret10"
-        },
-        {
-          "part": "gun10"
-        },
-        {
-          "part": "gunner4"
-        },
-        {
-          "part": "gunner6"
-        },
-        {
-          "part": "gunner7"
-        },
-        {
-          "part": "turret6_gunner"
-        },
-        {
-          "part": "turret7_gunner"
-        }
-      ]
     }
   },
   {

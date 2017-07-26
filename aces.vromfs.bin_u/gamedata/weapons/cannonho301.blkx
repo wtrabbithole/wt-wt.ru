@@ -43,7 +43,11 @@
     "shutterArmorPower": 8.0,
     "shutterHit": 4.0,
     "groundCollisionEffect": "37_50_he_hit_ground",
+    "groundFxScale": [0.8,1.0],
     "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "big_water_splash",
+    "defFxScale": [1.7,1.9],
+    "waterFxScale": [1.7,1.9],
     "armorpower": {
       "ArmorPower0m": [2.0,10.0],
       "ArmorPower100m": [2.0,100.0],
@@ -59,12 +63,16 @@
     },
     "collisions": {
       "steel": {
-        "fx": "cannon_hit_armor_cumulative",
-        "fxScale": [1.7,2.0]
+        "fx": "cannon_hit_ship_cumulative",
+        "fxScale": [1.5,1.7]
       },
       "armor": {
-        "fx": "cannon_hit_armor_cumulative",
-        "fxScale": [1.7,2.0]
+        "fx": "cannon_hit_ship_cumulative",
+        "fxScale": [1.5,1.7]
+      },
+      "wood": {
+        "fx": "cannon_hit_ship_cumulative",
+        "fxScale": [1.5,1.7]
       }
     }
   },

@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -333,7 +333,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1044,7 +1044,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.63,
-        "height": 0.045,
+        "height": 0.055,
         "width": 0.4
       },
       "collisionProps": {
@@ -1318,6 +1318,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1671,7 +1719,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1694,15 +1742,6 @@
         }
       }
     ]
-  },
-  {
-    "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
-      "headPos": [0.0,4.0,-8.0],
-      "headPosOnShooting": [0.0,3.5,0.0],
-      "detectionHeight": 2.97
-    }
   },
   {
     "skin": {
@@ -1790,7 +1829,7 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/groundModels_weapons/76mm_M1_user_cannon.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/76mm_M1_no_MB_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
           "defaultYaw": 0.0,
@@ -1884,17 +1923,13 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 600,
           "isBulletBelt": true,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1909,9 +1944,22 @@
           },
           "limits": {
             "yaw": [-60.0,60.0],
-            "pitch": [-10.0,70.0]
+            "pitch": [-10.0,30.0]
           }
         }
+      },
+      {
+        "hideNodes": [
+          {
+            "node": "ex_decor_14"
+          },
+          {
+            "node": "ex_decor_12"
+          },
+          {
+            "node": "ex_decor_13"
+          }
+        ]
       }
     ]
   },
@@ -1921,6 +1969,16 @@
         "name": "us_m4a1_76w_sherman_default",
         "blk": "gameData/units/tankModels/weaponPresets/us_m4a1_76w_sherman_default.blk"
       }
+    }
+  },
+  {
+    "cockpit": {
+      "zoomOutFov": 17.0,
+      "zoomInFov": 14.7,
+      "sightFov": 10.0,
+      "headPos": [0.0,4.0,-8.0],
+      "headPosOnShooting": [0.0,3.5,0.0],
+      "detectionHeight": 2.97
     }
   },
   {

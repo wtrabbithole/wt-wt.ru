@@ -6,7 +6,7 @@
   "collisionSphere0": [0.0,-1.5,0.0,5.0],
   "collisionSphere1": [5.0,2.0,0.0,1.0],
   "exhaustFx": "tank_exhaust",
-  "support_unit_class": "structures/ussr_122mm_m30",
+  "support_unit_class": "structures/ussr_152mm_d1",
   "support_unit_tag": "artillery",
   "useSimpleDeathConditionsAndEffects": false,
   "subclass": "heavyVehicle",
@@ -31,6 +31,7 @@
   "destroysRendInstances": true,
   "destroysTrees": true,
   "type": "typeLightTank",
+  "arcadeTurnPowerMult": 1.1,
   "DamageParts": {
     "formatVersion": 2,
     "armorClass": "RHA_tank",
@@ -185,6 +186,9 @@
       "gunner_02_dm": {
         "genericDamageMult": 3.0
       },
+      "gunner_03_dm": {
+        "genericDamageMult": 3.0
+      },
       "commander_dm": {
         "genericDamageMult": 3.0
       },
@@ -195,6 +199,12 @@
         "genericDamageMult": 3.0
       },
       "machine_gunner_02_dm": {
+        "genericDamageMult": 3.0
+      },
+      "machine_gunner_03_dm": {
+        "genericDamageMult": 3.0
+      },
+      "machine_gunner_04_dm": {
         "genericDamageMult": 3.0
       }
     },
@@ -211,7 +221,7 @@
     "cannon_breech": {
       "armorClass": "tank_structural_steel",
       "hp": 150.0,
-      "armorThickness": 15.0,
+      "armorThickness": 10.0,
       "armorThrough": 60.0,
       "fireProtectionHp": 10.0,
       "cannon_breech_dm": [],
@@ -1051,6 +1061,54 @@
             "name": "tank_ammo_fire",
             "emitter": "emtr_fire_ammo_02"
           }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_03"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_04"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_05"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_06"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_07"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_08"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_09"
+          }
+        },
+        {
+          "fx": {
+            "name": "tank_ammo_fire",
+            "emitter": "emtr_fire_ammo_10"
+          }
         }
       ]
     },
@@ -1403,7 +1461,7 @@
       "event": {
         "name": "big_bang",
         "fx": {
-          "name": "ship_explosion",
+          "name": "tank_explosion",
           "emitter": "emtr_explosion_center"
         }
       }

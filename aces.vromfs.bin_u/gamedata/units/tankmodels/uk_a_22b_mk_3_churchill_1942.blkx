@@ -351,7 +351,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1064,7 +1064,7 @@
           "speedYaw": 24.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
-          "bullets": 84,
+          "bullets": 85,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1181,7 +1181,7 @@
       },
       "mechanics": {
         "maxBrakeForce": 156000.0,
-        "driveGearRadius": 0.358,
+        "driveGearRadius": 0.33,
         "mainGearRatio": 5.78,
         "sideGearRatio": 2.71,
         "neutralGearRatio": 15.0,
@@ -1208,7 +1208,7 @@
       },
       "suspension": {
         "suspensionOffsets": [-0.07,-0.05,0.04],
-        "defaultGearRadius": 0.19,
+        "defaultGearRadius": 0.16,
         "frontBackGearRadius": 0.32,
         "defaultDampeningForce": [117000.0,117000.0],
         "dampeningRelaxationRatio": 0.4,
@@ -1336,6 +1336,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1689,7 +1737,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1748,6 +1796,27 @@
       "57mm_britain_6pdr_APCBC": [],
       "57mm_britain_6pdr_APCBC_ammo_pack": [],
       "57mm_britain_6pdr_HE": []
+    }
+  },
+  {
+    "ammoLoadDistribution": {
+      "primaryShells": {
+        "ammo_turret_01_dm": {
+          "count": 4
+        },
+        "ammo_body_r_01_dm": {
+          "count": 21
+        },
+        "ammo_body_l_01_dm": {
+          "count": 17
+        },
+        "ammo_body_r_02_dm": {
+          "count": 39
+        },
+        "ammo_turret_02_dm": {
+          "count": 3
+        }
+      }
     }
   },
   {

@@ -389,6 +389,7 @@
       "iconArtilleryAttackDist": 150.0,
       "curveMaxLinesPerSegment": 25,
       "curveMinLineLen": 10.0,
+      "minDistBetweenZonesOnRespawnBases": 200.0,
       "sizeScale": [
         {
           "scale": 0.75
@@ -451,6 +452,10 @@
       "iconTrackedTarget": "tracked_radar_target",
       "iconWheeled": "wheeled_radar",
       "iconWheeledTarget": "wheeled_radar_target",
+      "iconTorpedoBoat": "ship_radar",
+      "iconTorpedoBoatTarget": "ship_radar_target",
+      "iconBoat": "ship_radar",
+      "iconBoatTarget": "ship_radar_target",
       "rearmZPattern": "map_pattern_c",
       "iconGradient": "circle_gradient",
       "iconGradientScale": 1.3,
@@ -514,7 +519,11 @@
         "iconTracked": "big_tracked_radar",
         "iconTrackedTarget": "big_tracked_radar_target",
         "iconWheeled": "big_wheeled_radar",
-        "iconWheeledTarget": "big_wheeled_radar_target"
+        "iconWheeledTarget": "big_wheeled_radar_target",
+        "iconTorpedoBoat": "big_ship_radar",
+        "iconTorpedoBoatTarget": "big_ship_radar_target",
+        "iconBoat": "big_ship_radar",
+        "iconBoatTarget": "big_ship_radar_target"
       },
       "mapIcons": {
         "iconFighter": "pix_fighter_radar",
@@ -544,7 +553,11 @@
         "iconTracked": "pix_tracked_radar",
         "iconTrackedTarget": "pix_tracked_radar_target",
         "iconWheeled": "pix_wheeled_radar",
-        "iconWheeledTarget": "pix_wheeled_radar_target"
+        "iconWheeledTarget": "pix_wheeled_radar_target",
+        "iconTorpedoBoat": "pix_ship_radar",
+        "iconTorpedoBoatTarget": "pix_ship_radar_target",
+        "iconBoat": "pix_ship_radar",
+        "iconBoatTarget": "pix_ship_radar_target"
       },
       "mapIconShadows": {
         "iconFighter": "shadow_fighter_radar",
@@ -617,6 +630,9 @@
         "targetingSightLine": "mid_line"
       },
       {
+        "targetingSightBinocular": "binocular"
+      },
+      {
         "colorReloadDone": "#24d921ff"
       },
       {
@@ -645,6 +661,9 @@
       },
       {
         "colorGMShellProjectionFriend": "#145cffff"
+      },
+      {
+        "mouseAimArrowInVR": false
       },
       {
         "mousePointerAfterCockpitOpacity": 0.3
@@ -941,6 +960,9 @@
         "sightOverheatScale": 0.75
       },
       {
+        "shipHitIndicator": true
+      },
+      {
         "rocketTransitionTime": 0.01
       },
       {
@@ -956,13 +978,13 @@
         "crosshairDistHorSizeAdditional": [0.005,0.003]
       },
       {
-        "sight_distance_change_speed": 15.0
+        "sight_distance_change_speed": 7.0
       },
       {
         "crosshairHorVertSize": [3.0,2.0]
       },
       {
-        "rangefinderVerticalOffset": 40.0
+        "rangefinderVerticalOffset": 25.0
       },
       {
         "rangefinderHorizontalOffset": 5.0
@@ -1124,6 +1146,30 @@
             "range": [32.0,32.0]
           }
         ]
+      },
+      {
+        "ship_crosshairs": {
+          "primary": {
+            "size": 1.0,
+            "icon": "gun_direction"
+          },
+          "secondary": {
+            "size": 0.8,
+            "icon": "gun_direction"
+          },
+          "coaxial": {
+            "size": 1.0,
+            "icon": "gun_direction"
+          },
+          "machinegun": {
+            "size": 0.6,
+            "icon": "gun_direction"
+          },
+          "special": {
+            "size": 1.0,
+            "icon": "gun_direction"
+          }
+        }
       }
     ]
   },
@@ -1144,6 +1190,7 @@
       "minScale": 0.5,
       "targetScale": 1.2,
       "targetRelativeAlpha": 0.5,
+      "pointerCircleVrAngleDeg": 29.0,
       "targetObjectiveScale": 0.65,
       "targetWayPointScale": 0.65,
       "targetUnitScale": 0.8
@@ -1236,7 +1283,7 @@
       "iconLeakage": "leaking_icon",
       "iconBomb": "bomb_mark",
       "colorBomb": "#ff4646ff",
-      "iconTorpedo": "bomb_mark",
+      "iconTorpedo": "torpedo_mark",
       "colorTorpedo": "#ff4646ff",
       "iconDiveBomb": "bomb_mark",
       "colorDiveBomb": "#4646ffff",
@@ -1736,6 +1783,15 @@
     }
   },
   {
+    "globe": {
+      "markerSize": 250.0,
+      "marker": "",
+      "markerHover": "",
+      "markerSel": "",
+      "markerSelHover": ""
+    }
+  },
+  {
     "patc": {
       "patcPosition": [640.0,550.0],
       "patcColor": "#ffffffff",
@@ -1945,8 +2001,8 @@
       "distanceThreshold2": 7000.0,
       "color0": "#00ff50ff",
       "color1": "#50be46ff",
-      "color2": "#96963cff",
-      "color3": "#6e6e6eff"
+      "color2": "#969650ff",
+      "color3": "#96966eff"
     }
   },
   {
@@ -2284,6 +2340,77 @@
           }
         }
       ],
+      "navy_binoculars": [
+        {
+          "mask": "binocular"
+        },
+        {
+          "orient": "lookDirection"
+        },
+        {
+          "size": [0.26,0.14]
+        },
+        {
+          "thousandths": {
+            "line": "mid_line",
+            "center": [0.0,0.0],
+            "offset": [5.0,0.0],
+            "direction": [1.0,0.0],
+            "up": [0.0,-1.0],
+            "size": 2.5,
+            "num": 10,
+            "distBetween": 10.0,
+            "width": 1.6,
+            "valign": 1,
+            "simetrical": true
+          }
+        },
+        {
+          "thousandths": {
+            "line": "mid_line",
+            "center": [0.0,0.0],
+            "offset": [10.0,0.0],
+            "direction": [1.0,0.0],
+            "up": [0.0,-1.0],
+            "size": 4.0,
+            "num": 10,
+            "distBetween": 10.0,
+            "width": 1.6,
+            "valign": 1,
+            "simetrical": true
+          }
+        },
+        {
+          "thousandths": {
+            "line": "mid_line",
+            "center": [0.0,0.0],
+            "offset": [0.0,0.0],
+            "direction": [0.0,-1.0],
+            "up": [1.0,0.0],
+            "size": 2.5,
+            "num": 10,
+            "distBetween": 5.0,
+            "width": 1.6,
+            "valign": 0,
+            "simetrical": false
+          }
+        },
+        {
+          "thousandths": {
+            "line": "mid_line",
+            "center": [0.0,0.0],
+            "offset": [0.0,0.0],
+            "direction": [0.0,-1.0],
+            "up": [0.0,-1.0],
+            "size": 2.5,
+            "num": 3,
+            "distBetween": 10.0,
+            "width": 0.8,
+            "valign": 0,
+            "simetrical": false
+          }
+        }
+      ],
       "tube": {
         "mask": "bomb_sight_ocular_alpha",
         "orient": "lookDirection",
@@ -2298,6 +2425,19 @@
         "size": [2.8,0.9],
         "orient": "unitForward"
       }
+    }
+  },
+  {
+    "torpedoSight": {
+      "selectAreaCos": 17.5,
+      "maxCorrectionTan": 0.25,
+      "areaScaleOnTurretGun": 1.2,
+      "selectedColor": "#c9dc8796",
+      "color": "#ffffff96",
+      "offsetFromShip": 35.0,
+      "lineWidth": 2.0,
+      "lineMiddleAlpha": 120,
+      "holdTimeout": 0.5
     }
   }
 ]

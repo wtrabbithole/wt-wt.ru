@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -99,80 +99,51 @@
     "type": "typeMediumTank"
   },
   {
-    "rearmTimeOnField": 45.0
-  },
-  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
       "hp": 10000.0,
-      "hull": [
-        {
-          "superstructure_front_dm": {
-            "armorThickness": 100.0
-          }
+      "hull": {
+        "superstructure_front_dm": {
+          "armorThickness": 100.0
         },
-        {
-          "superstructure_top_dm": {
-            "armorThickness": 30.0
-          }
+        "superstructure_top_dm": {
+          "armorThickness": 30.0
         },
-        {
-          "body_front_dm": {
-            "armorThickness": 100.0
-          }
+        "body_front_dm": {
+          "armorThickness": 100.0
         },
-        {
-          "superstructure_side_dm": {
-            "armorThickness": 80.0
-          }
+        "superstructure_side_dm": {
+          "armorThickness": 80.0
         },
-        {
-          "superstructure_back_dm": {
-            "armorThickness": 45.0
-          }
+        "superstructure_back_dm": {
+          "armorThickness": 45.0
         },
-        {
-          "body_bottom_dm": {
-            "armorThickness": 20.0
-          }
+        "body_bottom_dm": {
+          "armorThickness": 20.0
         },
-        {
-          "body_back_dm": {
-            "armorThickness": 20.0
-          }
+        "body_back_dm": {
+          "armorThickness": 20.0
         },
-        {
-          "body_side_dm": {
-            "armorThickness": 80.0
-          }
+        "body_side_dm": {
+          "armorThickness": 80.0
         },
-        {
-          "body_bottom_dm": {
-            "armorThickness": 20.0
-          }
+        "turret_02_bottom_dm": {
+          "armorThickness": 20.0
         },
-        {
-          "turret_front_dm": {
-            "armorThickness": 30.0
-          }
+        "turret_front_dm": {
+          "armorThickness": 30.0
         },
-        {
-          "turret_top_dm": {
-            "armorThickness": 30.0
-          }
+        "turret_top_dm": {
+          "armorThickness": 30.0
         },
-        {
-          "turret_commander_dm": {
-            "armorThickness": 40.0
-          }
+        "turret_commander_dm": {
+          "armorThickness": 40.0
         },
-        {
-          "turret_bottom_dm": {
-            "armorThickness": 30.0
-          }
+        "turret_bottom_dm": {
+          "armorThickness": 30.0
         }
-      ],
+      },
       "turret": {
         "armorClass": "CHA_tank",
         "turret_01_front_dm": {
@@ -292,13 +263,14 @@
         }
       },
       "gun": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "tank_barrel",
         "hp": 300.0,
         "gun_barrel_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 30.0
         },
         "gun_barrel_01_dm": {
-          "armorThickness": 20.0
+          "armorThrough": 10.0,
+          "armorThickness": 5.0
         }
       },
       "chassis": {
@@ -318,7 +290,10 @@
         "wheel_r_drive_dm": [],
         "wheel_l_drive_dm": [],
         "wheel_r_front_dm": [],
-        "wheel_l_front_dm": []
+        "wheel_l_front_dm": [],
+        "wheel_support_dm": {
+          "armorThickness": 10.0
+        }
       },
       "submodule": {
         "armorClass": "tank_traks",
@@ -352,6 +327,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -362,6 +340,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -1134,15 +1118,15 @@
             {
               "linkedAnimPart": {
                 "verNode": "bone_gun_roller_02",
-                "verLimits": [-4.0,15.0],
-                "verOriginLimits": [-4.0,15.0]
+                "verLimits": [-6.0,17.0],
+                "verOriginLimits": [-6.0,16.0]
               }
             },
             {
               "linkedAnimPart": {
                 "verNode": "bone_gun_roller_01",
-                "verLimits": [-10.0,10.0],
-                "verOriginLimits": [-10.0,10.0]
+                "verLimits": [5.0,-13.0],
+                "verOriginLimits": [-6.0,16.0]
               }
             }
           ],
@@ -1153,9 +1137,9 @@
           "limitsTable": {
             "lim1": [-180.0,-150.0,-4.0,16.0],
             "lim2": [-150.0,-30.0,-6.0,16.0],
-            "lim3": [-30.0,-22.0,-3.0,16.0],
-            "lim4": [-22.0,22.0,-5.0,16.0],
-            "lim5": [22.0,30.0,-3.0,16.0],
+            "lim3": [-30.0,-22.0,-4.0,16.0],
+            "lim4": [-22.0,22.0,-6.0,16.0],
+            "lim5": [22.0,30.0,-4.0,16.0],
             "lim6": [30.0,150.0,-6.0,16.0],
             "lim7": [150.0,180.0,-4.0,16.0]
           }
@@ -1275,7 +1259,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.1,-0.08,0.03],
+        "suspensionOffsets": [-0.12,-0.12,0.05],
         "defaultGearRadius": 0.41,
         "frontBackGearRadius": 0.25,
         "defaultDampeningForce": [120000.0,120000.0],
@@ -1308,9 +1292,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
+      "detonateProb": 0.35,
       "detonatePortion": [0.3,0.9],
-      "explodeHitPower": 1000.0,
+      "explodeHitPower": 2000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1334,7 +1318,7 @@
         "cutDamage": 800.0,
         "deviation": 0.5,
         "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_turret"
       }
     }
   },
@@ -1404,6 +1388,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1757,7 +1789,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1782,13 +1814,29 @@
     ]
   },
   {
-    "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
-      "headPos": [0.0,3.5,-8.5],
-      "headPosOnShooting": [0.0,3.2,0.0],
-      "detectionHeight": 2.2
-    }
+    "cockpit": [
+      {
+        "zoomOutFov": 21.1
+      },
+      {
+        "zoomInFov": 10.5
+      },
+      {
+        "sightFov": 13.0
+      },
+      {
+        "sightFov": 20.0
+      },
+      {
+        "headPos": [0.0,3.5,-8.5]
+      },
+      {
+        "headPosOnShooting": [0.0,3.2,0.0]
+      },
+      {
+        "detectionHeight": 2.2
+      }
+    ]
   },
   {
     "modifications": {

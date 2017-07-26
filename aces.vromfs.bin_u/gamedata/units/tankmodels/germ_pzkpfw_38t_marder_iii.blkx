@@ -122,12 +122,15 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,-1.0,-0.1]
         }
       },
       {
@@ -162,7 +165,7 @@
   {
     "ikGunner": [
       {
-        "model": "german_gunner_early_officer_char"
+        "model": "german_gunner_early_char"
       },
       {
         "maxHeadHorAngle": 60.0
@@ -184,6 +187,9 @@
       },
       {
         "suffix": "2"
+      },
+      {
+        "dmName": "machine_gunner_dm"
       },
       {
         "deadHeadAttitudeMin": 40.0
@@ -256,6 +262,9 @@
         "suffix": "3"
       },
       {
+        "dmName": "gunner_dm"
+      },
+      {
         "deadHeadAttitudeMin": -40.0
       },
       {
@@ -267,7 +276,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,-0.4,0.2]
         }
       },
       {
@@ -285,7 +294,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [-0.2,1.0,-1.0]
+          "flexionDir": [1.0,0.5,-1.0]
         }
       },
       {
@@ -327,6 +336,9 @@
       },
       {
         "dmName": "loader_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
       },
       {
         "deadHeadAttitudeMax": -55.0
@@ -642,7 +654,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1337,7 +1349,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1373,7 +1385,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1448,7 +1460,7 @@
           "trigger": "gunner1",
           "triggerGroup": "machinegun",
           "blk": "gameData/Weapons/groundModels_weapons/7_92mm_ZB_VZ37_user_machinegun.blk",
-          "emitter": "bone_mg_body_01",
+          "emitter": "bone_mg_body_h_01",
           "flash": "emtr_mg_flame_01",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -1472,8 +1484,8 @@
           "errTargetting": 3.0,
           "errExplTime": 0.0,
           "turret": {
-            "head": "bone_mg_body_01",
-            "gun": "bone_mg_body_01",
+            "head": "bone_mg_body_h_01",
+            "gun": "bone_mg_body_v_01",
             "gunnerDm": "machine_gunner_dm"
           },
           "limits": {
@@ -1681,6 +1693,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -2034,7 +2094,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

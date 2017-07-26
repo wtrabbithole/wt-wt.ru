@@ -982,9 +982,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2168,7 +2199,7 @@
           "flash": "flare1",
           "shell": "emtr_shellrejection1",
           "dm": "mgun1_dm",
-          "bullets": 250,
+          "bullets": 150,
           "spread": 1.0,
           "traceOffset": 2
         }
@@ -2180,7 +2211,7 @@
           "emitter": "flare2",
           "flash": "flare2",
           "dm": "mgun2_dm",
-          "bullets": 250,
+          "bullets": 150,
           "spread": 1.0
         }
       }
@@ -2314,146 +2345,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "spar3_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wheel_l"
-        },
-        {
-          "part": "gear_l"
-        },
-        {
-          "part": "gear_l1"
-        },
-        {
-          "part": "gear_l2"
-        },
-        {
-          "part": "gear_l3"
-        },
-        {
-          "part": "gear_l4"
-        },
-        {
-          "part": "gear_l5"
-        },
-        {
-          "part": "gear_l6"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "aileron_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        }
-      ]
     }
   },
   {

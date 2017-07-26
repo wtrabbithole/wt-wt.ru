@@ -21,12 +21,6 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
-  },
-  {
-    "support_unit_tag": "artillery"
-  },
-  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -202,58 +196,92 @@
           "armorThickness": 20.0
         }
       },
-      "hull_ex_shields": {
-        "stopChanceOnDeadPart": 0.0,
-        "armorClass": "RHA_tank",
-        "ex_armor_body_l_01_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+      "hull_ex_shields": [
+        {
+          "stopChanceOnDeadPart": 0.0
         },
-        "ex_armor_body_l_02_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "armorClass": "RHA_tank"
         },
-        "ex_armor_body_l_03_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "stopChanceOnDeadPart": 0.0
         },
-        "ex_armor_body_l_04_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "createSecondaryShatters": false
         },
-        "ex_armor_body_l_05_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_l_01_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         },
-        "ex_armor_body_l_06_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_l_02_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         },
-        "ex_armor_body_r_01_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_l_03_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         },
-        "ex_armor_body_r_02_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_l_04_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         },
-        "ex_armor_body_r_03_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_l_05_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         },
-        "ex_armor_body_r_04_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_l_06_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         },
-        "ex_armor_body_r_05_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_r_01_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         },
-        "ex_armor_body_r_06_dm": {
-          "armorThickness": 11.0,
-          "hp": 500.0
+        {
+          "ex_armor_body_r_02_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
+        },
+        {
+          "ex_armor_body_r_03_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
+        },
+        {
+          "ex_armor_body_r_04_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
+        },
+        {
+          "ex_armor_body_r_05_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
+        },
+        {
+          "ex_armor_body_r_06_dm": {
+            "armorThickness": 11.0,
+            "hp": 500.0
+          }
         }
-      },
+      ],
       "turret": {
         "turret_01_top_dm": {
           "armorThickness": 15.0
@@ -554,6 +582,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -564,6 +595,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -590,7 +627,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -646,7 +683,9 @@
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
         "ammo_body_r_04_dm": [],
-        "ammo_body_r_05_dm": []
+        "ammo_body_r_05_dm": [],
+        "ammo_body_r_06_dm": [],
+        "ammo_body_r_07_dm": []
       },
       "equipment_body": {
         "armorClass": "tank_structural_steel",
@@ -2018,6 +2057,54 @@
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
+            }
           }
         ]
       },
@@ -2370,7 +2457,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

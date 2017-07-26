@@ -515,11 +515,11 @@
         "gun2_dm": {
           "hp": 10.0
         },
-        "gunner1_dm": {
-          "hp": 20.8
-        },
         "gunner2_dm": {
           "hp": 19.3
+        },
+        "gunner3_dm": {
+          "hp": 20.8
         }
       }
     }
@@ -1385,9 +1385,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1473,12 +1504,12 @@
       },
       {
         "part": {
-          "name": "gunner1_dm"
+          "name": "gunner2_dm"
         }
       },
       {
         "part": {
-          "name": "gunner2_dm"
+          "name": "gunner3_dm"
         }
       },
       {
@@ -2407,7 +2438,7 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
-        "suffix": "1"
+        "suffix": "3"
       },
       {
         "ikNode": {
@@ -2514,7 +2545,7 @@
   {
     "attach": {
       "pilot1": "pilot_raf_500",
-      "gunner1": "gunner_sit_raf_500",
+      "gunner3": "gunner_sit_raf_500",
       "gunner2": "gunner_sit_raf_500"
     }
   },
@@ -2564,7 +2595,10 @@
             "shell": "emtr_shellrejection2"
           },
           {
-            "dm": "gunner1_dm"
+            "dm": "gunner3_dm"
+          },
+          {
+            "partsDP": "gun1_dm"
           },
           {
             "bullets": 500
@@ -2601,7 +2635,7 @@
             "turret": "turret1"
           },
           {
-            "dm": "gunner1_dm"
+            "dm": "gunner3_dm"
           },
           {
             "bullets": 500
@@ -2642,6 +2676,9 @@
           },
           {
             "dm": "gunner2_dm"
+          },
+          {
+            "partsDP": "gun2_dm"
           },
           {
             "bullets": 500
@@ -2702,6 +2739,76 @@
         ]
       }
     ]
+  },
+  {
+    "cockpit": {
+      "textToShowInCockpit": "msg/textToShowInCockpit",
+      "headPos": [1.279,0.596,0.224],
+      "headPosOnShooting": [1.279,0.596,0.224],
+      "lightPos": [1.9854,0.229352,0.0817],
+      "lightColor": [0.32,0.1,0.01],
+      "lightAttenuation": 5.0,
+      "devices": {
+        "speed": [0.0,250.34],
+        "compass": [0.0,360.0],
+        "vario": [-20.32,20.32],
+        "altitude_10k": [0.0,100000.0],
+        "altitude_hour": [0.0,10000.0],
+        "altitude_min": [0.0,1000.0],
+        "altitude_koef": 3.28,
+        "aviahorizon_pitch": [-45.0,45.0],
+        "aviahorizon_roll": [-180.0,180.0],
+        "bank": [-8.0,8.0],
+        "turn": [-0.23562,0.23562],
+        "fuel1": [0.0,443.0],
+        "gears_lamp": [0.0,0.0],
+        "manifold_pressure": [0.5237,2.701],
+        "manifold_pressure1": [0.5237,2.701],
+        "manifold_pressure2": [0.5237,2.701],
+        "manifold_pressure3": [0.5237,2.701],
+        "rpm_hour": [0.0,10000.0],
+        "rpm1_hour": [0.0,10000.0],
+        "rpm2_hour": [0.0,10000.0],
+        "rpm3_hour": [0.0,10000.0],
+        "rpm_min": [0.0,1000.0],
+        "rpm1_min": [0.0,1000.0],
+        "rpm2_min": [0.0,1000.0],
+        "rpm3_min": [0.0,1000.0],
+        "head_temperature": [0.0,350.0],
+        "head_temperature1": [0.0,350.0],
+        "head_temperature2": [0.0,350.0],
+        "head_temperature3": [0.0,350.0],
+        "water_temperature": [30.0,140.0],
+        "water_temperature1": [30.0,140.0],
+        "water_temperature2": [30.0,140.0],
+        "water_temperature3": [30.0,140.0],
+        "oil_temperature": [0.0,120.0],
+        "oil_temperature1": [0.0,120.0],
+        "oil_temperature2": [0.0,120.0],
+        "oil_temperature3": [0.0,120.0],
+        "oil_pressure": [0.0,100.0],
+        "oil_pressure1": [0.0,100.0],
+        "oil_pressure2": [0.0,100.0],
+        "oil_pressure3": [0.0,100.0]
+      },
+      "parts_holes_dmg": {
+        "part": "fuse"
+      },
+      "parts_oil_dmg": [
+        {
+          "part": "engine1"
+        },
+        {
+          "part": "engine2"
+        },
+        {
+          "part": "engine3"
+        },
+        {
+          "part": "engine4"
+        }
+      ]
+    }
   },
   {
     "weapon_presets": [
@@ -2829,122 +2936,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "aerial"
-        },
-        {
-          "part": "hook"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "stab"
-        }
-      ]
     }
   },
   {

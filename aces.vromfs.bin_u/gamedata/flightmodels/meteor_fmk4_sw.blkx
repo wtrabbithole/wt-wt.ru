@@ -1169,9 +1169,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2542,206 +2573,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "slat_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "airbrake_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "flap_l1"
-        },
-        {
-          "part": "rocket_pylon_l"
-        },
-        {
-          "part": "rocket_pylon2_l"
-        },
-        {
-          "part": "100_gal_tank_l"
-        },
-        {
-          "part": "bomb_pylon_l"
-        },
-        {
-          "part": "bomb_1"
-        },
-        {
-          "part": "uk_hvar_1"
-        },
-        {
-          "part": "uk_hvar_3"
-        },
-        {
-          "part": "uk_hvar_5"
-        },
-        {
-          "part": "uk_hvar_7"
-        },
-        {
-          "part": "uk_hvar_9"
-        },
-        {
-          "part": "uk_hvar_11"
-        },
-        {
-          "part": "uk_hvar_13"
-        },
-        {
-          "part": "uk_hvar_15"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "slat_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "flap_r1"
-        },
-        {
-          "part": "rocket_pylon_r"
-        },
-        {
-          "part": "rocket_pylon2_r"
-        },
-        {
-          "part": "100_gal_tank_r"
-        },
-        {
-          "part": "bomb_pylon_r"
-        },
-        {
-          "part": "bomb_2"
-        },
-        {
-          "part": "uk_hvar_2"
-        },
-        {
-          "part": "uk_hvar_4"
-        },
-        {
-          "part": "uk_hvar_6"
-        },
-        {
-          "part": "uk_hvar_8"
-        },
-        {
-          "part": "uk_hvar_10"
-        },
-        {
-          "part": "uk_hvar_12"
-        },
-        {
-          "part": "uk_hvar_14"
-        },
-        {
-          "part": "uk_hvar_16"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "fin1"
-        },
-        {
-          "part": "fin2"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "hook"
-        }
-      ]
     }
   },
   {

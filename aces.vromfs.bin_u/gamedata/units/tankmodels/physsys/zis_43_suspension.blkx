@@ -1,0 +1,138 @@
+{
+  "PhysSys": {
+    "find": "^bone_suspension_(\\w)_(\\d+)$",
+    "points": {
+      "lever": {
+        "name": "bone_suspension_$1_$2",
+        "limitMin": [0.0,0.0,0.0],
+        "limitMax": [0.0,0.0,0.0]
+      },
+      "suspension_01_01": {
+        "name": "bone_suspension_$1_$2_01",
+        "limitMin": [-0.5,-0.5,0.0],
+        "limitMax": [0.5,0.5,0.0]
+      },
+      "suspension_01_02": {
+        "name": "bone_suspension_$1_$2_02",
+        "limitMin": [-0.5,-0.5,0.0],
+        "limitMax": [0.5,0.5,0.0]
+      },
+      "wheel_01": {
+        "searchChildren": {
+          "parent": "suspension_01_01",
+          "find": "bone_wheel_",
+          "occurence": 1,
+          "limitMin": [-1.0,-1.0,0.0],
+          "limitMax": [1.0,1.0,0.0]
+        }
+      },
+      "wheel_02": {
+        "searchChildren": {
+          "parent": "suspension_01_01",
+          "find": "bone_wheel_",
+          "occurence": 2,
+          "limitMin": [-1.0,-1.0,0.0],
+          "limitMax": [1.0,1.0,0.0]
+        }
+      },
+      "wheel_03": {
+        "searchChildren": {
+          "parent": "suspension_01_02",
+          "find": "bone_wheel_",
+          "occurence": 1,
+          "limitMin": [-1.0,-1.0,0.0],
+          "limitMax": [1.0,1.0,0.0]
+        }
+      },
+      "wheel_04": {
+        "searchChildren": {
+          "parent": "suspension_01_02",
+          "find": "bone_wheel_",
+          "occurence": 2,
+          "limitMin": [-1.0,-1.0,0.0],
+          "limitMax": [1.0,1.0,0.0]
+        }
+      },
+      "wheel_06": {
+        "searchChildren": {
+          "occurence": 2,
+          "limitMin": [0.0,0.0,0.0],
+          "limitMax": [0.0,0.0,0.0],
+          "parent": "lever",
+          "find": "bone_wheel_"
+        }
+      },
+      "wheel_drive": {
+        "searchChildren": {
+          "occurence": 1,
+          "limitMin": [0.0,0.0,0.0],
+          "limitMax": [0.0,0.0,0.0],
+          "parent": "lever",
+          "find": "bone_wheel_"
+        }
+      }
+    },
+    "constraints": [
+      {
+        "direction": {
+          "point": "suspension_01_01",
+          "from": "wheel_01",
+          "to": "wheel_02"
+        }
+      },
+      {
+        "direction": {
+          "point": "suspension_01_02",
+          "from": "wheel_03",
+          "to": "wheel_04"
+        }
+      },
+      {
+        "direction": {
+          "moveNodes": true,
+          "rotateSecond": false,
+          "moveSecond": true,
+          "moveOnly": false,
+          "from": "wheel_06",
+          "to": "wheel_drive",
+          "point": "lever"
+        }
+      },
+      {
+        "projection": {
+          "point": "suspension_01_01",
+          "from": "wheel_01",
+          "to": "wheel_02",
+          "moveEdge": true
+        }
+      },
+      {
+        "projection": {
+          "point": "suspension_01_02",
+          "from": "wheel_03",
+          "to": "wheel_04",
+          "moveEdge": true
+        }
+      },
+      {
+        "projection": {
+          "point": "lever",
+          "from": "suspension_01_01",
+          "to": "suspension_01_02",
+          "moveEdge": true
+        }
+      },
+      {
+        "projection": {
+          "rotateSecond": false,
+          "moveSecond": true,
+          "moveOnly": false,
+          "moveEdge": true,
+          "from": "wheel_06",
+          "to": "wheel_drive",
+          "point": "lever"
+        }
+      }
+    ]
+  }
+}

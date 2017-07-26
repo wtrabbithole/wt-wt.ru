@@ -137,6 +137,8 @@
       },
       "hull_shield": {
         "armorClass": "RHA_tank",
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
         "ex_armor_body_r_01_dm": {
           "armorThickness": 75.0,
           "hp": 600.0
@@ -337,7 +339,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -574,7 +576,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -619,7 +621,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1552,6 +1554,12 @@
         "ammo_turret_02_dm": {
           "count": 7
         },
+        "ammo_turret_03_dm": {
+          "count": 5
+        },
+        "ammo_body_l_02_dm": {
+          "count": 5
+        },
         "ammo_body_02_dm": {
           "count": 6
         },
@@ -1560,12 +1568,6 @@
         },
         "ammo_body_06_dm": {
           "count": 6
-        },
-        "ammo_turret_03_dm": {
-          "count": 5
-        },
-        "ammo_body_l_02_dm": {
-          "count": 5
         }
       },
       "secondaryShells": {
@@ -1789,6 +1791,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -2142,7 +2192,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -2168,8 +2218,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 29.0,
+      "zoomInFov": 24.7,
+      "sightFov": 18.0,
       "headPos": [0.0,5.0,-9.5],
       "headPosOnShooting": [0.0,4.2,0.0],
       "detectionHeight": 3.375

@@ -10,6 +10,7 @@
   "relativePartHealthForVisibleDamage": 0.7,
   "relativePartHealthForCockpitHoles": 0.7,
   "relativePartHealthForCockpitOil": 0.7,
+  "instructorSpeedRestrictionBelowBuoyancy": 0.7,
   "loaderWoundPenalty": 1.25,
   "loaderMaxPenalty": 2.0,
   "hmap_detail_tex_ofs": [0.0,0.0],
@@ -41,8 +42,9 @@
   "minViscosityApexObjectsCollidedWithHero": 0.95,
   "maxViscosityApexObjectsCollidedWithHero": 1.0,
   "multipointVisibilityAgainstTreesWithoutMarkers": true,
-  "multipointVisibilityTreeTransparencyThreshold": 0.5,
+  "multipointVisibilityTreeTransparencyThreshold": 0.1,
   "multipointVisibilityForMarkersDistK": 3.5,
+  "multipointVisibilityOnePointBackDistK": 2.0,
   "teleScale": 0.03,
   "minSkyAmbientLighting": [0.00954,0.012756,0.026677],
   "propeller_side_angle": 0.1,
@@ -89,6 +91,8 @@
   "landingTimeAfterSpawnToBailout": 3600.0,
   "maxTimeToReturnToMapForTanks": 25.0,
   "killDistFromBattleAreaForTanks": 20.0,
+  "maxTimeToReturnToMapForShips": 40.0,
+  "killDistFromBattleAreaForShips": 200.0,
   "dynamicCubeTexSize": 128,
   "dynamicCubePos": [0.0,500.0,0.0],
   "dynamicCubeBlur": 0.05,
@@ -121,7 +125,7 @@
   "cloudShadowIntensityTankMul": 0.95,
   "tracers": {
     "numHeadMeshes": 3,
-    "hdrMultiplier": 1.3,
+    "hdrMultiplier": 3.0,
     "headFadeTime": 0.1,
     "headMinimumOpacity": 0.7,
     "headMinimumOpacityProjection": 0.0,
@@ -160,42 +164,42 @@
       "color2": "#ff419ac8"
     },
     "7mmRed": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#ffab78b4",
       "color2": "#ff2825b4"
     },
     "12mmRed": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffab78b4",
       "color2": "#ff2825b4"
     },
     "20mmRed": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffab78b4",
       "color2": "#ff2825b4"
     },
     "30mmRed": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#ffab78b4",
       "color2": "#ff2825b4"
     },
     "37mmRed": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#ffab78b4",
       "color2": "#ff2825b4"
     },
@@ -216,42 +220,42 @@
       "color2": "#ff2400b4"
     },
     "7mmDarkRed": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#f04c4ab4",
       "color2": "#b51715b4"
     },
     "12mmDarkRed": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#f04c4ab4",
       "color2": "#b51715b4"
     },
     "20mmDarkRed": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#f04c4ab4",
       "color2": "#b51715b4"
     },
     "30mmDarkRed": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#f04c4ab4",
       "color2": "#b51715b4"
     },
     "37mmDarkRed": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#f04c4ab4",
       "color2": "#b51715b4"
     },
@@ -264,42 +268,42 @@
       "color2": "#b51715b4"
     },
     "7mmBrightRed": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "12mmBrightRed": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "20mmBrightRed": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "30mmBrightRed": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
     "37mmBrightRed": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#ff4736b4",
       "color2": "#ff2400b4"
     },
@@ -312,42 +316,42 @@
       "color2": "#ff2400b4"
     },
     "7mmWhite": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#ffffffc8",
       "color2": "#d5edffc8"
     },
     "12mmWhite": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffffffc8",
       "color2": "#d5edffc8"
     },
     "20mmWhite": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffffffc8",
       "color2": "#d5edffc8"
     },
     "30mmWhite": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#ffffffc8",
       "color2": "#d5edffc8"
     },
     "37mWhite": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#ffffffc8",
       "color2": "#d5edffc8"
     },
@@ -360,42 +364,42 @@
       "color2": "#d5edffc8"
     },
     "7mmPaleWhite": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "12mmPaleWhite": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "20mmPaleWhite": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "30mmPaleWhite": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
     "37mPaleWhite": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#ffffff28",
       "color2": "#d5edff50"
     },
@@ -408,42 +412,42 @@
       "color2": "#d5edff50"
     },
     "7mmLightRed": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "12mmLightRed": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "20mmLightRed": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "30mmLightRed": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
     "37mmLightRed": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#fff7d4c8",
       "color2": "#ff9084c8"
     },
@@ -461,42 +465,42 @@
       "halfSize": 1.5
     },
     "7mmGreenBlue": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "12mmGreenBlue": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "20mmGreenBlue": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "30mmGreenBlue": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
     "37mmGreenBlue": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
@@ -509,42 +513,42 @@
       "color2": "#34ffabc8"
     },
     "7mmYellow": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#fff83cc8",
       "color2": "#fff832c8"
     },
     "12mmYellow": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#fff83cc8",
       "color2": "#fff832c8"
     },
     "20mmYellow": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#fff83cc8",
       "color2": "#fff832c8"
     },
     "30mmYellow": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#fff83cc8",
       "color2": "#fff832c8"
     },
     "37mmYellow": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#fff83cc8",
       "color2": "#fff832c8"
     },
@@ -557,138 +561,138 @@
       "color2": "#fff832c8"
     },
     "7mmBlue": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "12mmBlue": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "20mmBlue": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "30mmBlue": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "37mmBlue": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "50mmBlue": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#dbe7ffc8",
       "color2": "#1562ffc8"
     },
     "7mmDark_Blue": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "12mmDark_Blue": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "20mmDark_Blue": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "30mmDark_Blue": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "37mmDark_Blue": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "50mmDark_Blue": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#9696ffdc",
       "color2": "#0000ffdc"
     },
     "7mmPink": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "12mmPink": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "20mmPink": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "30mmPink": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
     "37mmPink": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#ffecf8c8",
       "color2": "#ff419ac8"
     },
@@ -701,42 +705,42 @@
       "color2": "#ff419ac8"
     },
     "7mmOrange": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#ffe7d1c8",
       "color2": "#ffaa30c8"
     },
     "12mmOrange": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffe7d1c8",
       "color2": "#ffaa30c8"
     },
     "20mmOrange": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffe7d1c8",
       "color2": "#ffaa30c8"
     },
     "30mmOrange": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#ffe7d1c8",
       "color2": "#ffaa30c8"
     },
     "37mmOrange": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#ffe7d1c8",
       "color2": "#ffaa30c8"
     },
@@ -749,42 +753,42 @@
       "color2": "#ffaa30c8"
     },
     "7mmGreen": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#feffb6c8",
       "color2": "#53ff2bc8"
     },
     "12mmGreen": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#feffb6c8",
       "color2": "#53ff2bc8"
     },
     "20mmGreen": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#feffb6c8",
       "color2": "#53ff2bc8"
     },
     "30mmGreen": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#feffb6c8",
       "color2": "#53ff2bc8"
     },
     "37mmGreen": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#feffb6c8",
       "color2": "#53ff2bc8"
     },
@@ -797,42 +801,42 @@
       "color2": "#53ff2bc8"
     },
     "7mmWhiteGreen": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#d0ffbfc8",
       "color2": "#53ff2bc8"
     },
     "12mmWhiteGreen": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#d0ffbfc8",
       "color2": "#53ff2bc8"
     },
     "20mmWhiteGreen": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#d0ffbfc8",
       "color2": "#53ff2bc8"
     },
     "30mmWhiteGreen": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#d0ffbfc8",
       "color2": "#53ff2bc8"
     },
     "37mmWhiteGreen": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#d0ffbfc8",
       "color2": "#53ff2bc8"
     },
@@ -845,42 +849,42 @@
       "color2": "#53ff2bc8"
     },
     "7mmGold": {
-      "halfSize": 4.0,
-      "distScaleStart": 200.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 2.5,
+      "distScaleStart": 100.0,
+      "distScaleEnd": 1500.0,
+      "distScale": 3.0,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "12mmGold": {
-      "halfSize": 6.5,
-      "distScaleStart": 300.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 4.0,
+      "halfSize": 4.5,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "20mmGold": {
-      "halfSize": 8.0,
-      "distScaleStart": 350.0,
-      "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "halfSize": 5.0,
+      "distScaleStart": 150.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 3.5,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "30mmGold": {
-      "halfSize": 9.0,
-      "distScaleStart": 100.0,
+      "halfSize": 6.0,
+      "distScaleStart": 200.0,
       "distScaleEnd": 2000.0,
-      "distScale": 5.0,
+      "distScale": 1.5,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
     "37mmGold": {
-      "halfSize": 13.0,
-      "distScaleStart": 250.0,
+      "halfSize": 7.0,
+      "distScaleStart": 150.0,
       "distScaleEnd": 2000.0,
-      "distScale": 2.0,
+      "distScale": 2.5,
       "color1": "#ffe084c8",
       "color2": "#ff9c2bc8"
     },
@@ -1155,16 +1159,22 @@
         "tankFriendlyFireDamage": false,
         "tankMainGearRatioMult": 0.9,
         "maxBombDamageHeight": 5.0,
+        "automaticBayDoor": true,
         "allowCrewHealing": true,
         "allowAutoCrewHealing": true,
         "crewHealingOnlyOnCaptureZone": false,
-        "allowMovingAtCrewHealing": false
+        "allowMovingAtCrewHealing": false,
+        "shipExtinguishSpeed": 1.0,
+        "shipCollisionDamageAllyWithEnemy": 1.0,
+        "shipCollisionDamageAllyWithAlly": -1.0,
+        "shipCollisionDamageGround": 1.0,
+        "radioGunnerRadioDistanceMult": 1.0
       },
       "medium": {
         "mouseAimMaxAnglesSmoothness": 0.05,
         "mouseAimNoiseDirDistMul": 0.1,
         "mouseAimNoiseInvFovMul": 0.5,
-        "showBombSight": true,
+        "showBombSight": false,
         "showZoneIcons": true,
         "instructorCritAngle": 0.7,
         "isArcadeGunnerBehavior": false,
@@ -1194,13 +1204,19 @@
         "attenuationControlsByStaminaMult": 1.0,
         "staminaUsageSpeedMult": 1.0,
         "tankLockShootingByAlly": false,
-        "tankFriendlyFireDamage": true,
+        "tankFriendlyFireDamage": false,
         "maxBombDamageHeight": 200.0,
+        "automaticBayDoor": false,
         "bombAssaultFuseTime": 1.5,
         "allowCrewHealing": true,
         "allowAutoCrewHealing": false,
         "crewHealingOnlyOnCaptureZone": true,
-        "allowMovingAtCrewHealing": false
+        "allowMovingAtCrewHealing": false,
+        "shipExtinguishSpeed": 1.0,
+        "shipCollisionDamageAllyWithEnemy": 1.0,
+        "shipCollisionDamageAllyWithAlly": -1.0,
+        "shipCollisionDamageGround": 1.0,
+        "radioGunnerRadioDistanceMult": 2.0
       },
       "hard": {
         "mouseAimMaxAnglesSmoothness": 0.25,
@@ -1238,11 +1254,17 @@
         "tankLockShootingByAlly": false,
         "tankFriendlyFireDamage": true,
         "maxBombDamageHeight": 200.0,
+        "automaticBayDoor": false,
         "bombAssaultFuseTime": 1.5,
         "allowCrewHealing": true,
         "allowAutoCrewHealing": false,
         "crewHealingOnlyOnCaptureZone": true,
-        "allowMovingAtCrewHealing": false
+        "allowMovingAtCrewHealing": false,
+        "shipExtinguishSpeed": 1.0,
+        "shipCollisionDamageAllyWithEnemy": 1.0,
+        "shipCollisionDamageAllyWithAlly": -1.0,
+        "shipCollisionDamageGround": 1.0,
+        "radioGunnerRadioDistanceMult": 2.0
       }
     },
     "engineControl": {
@@ -1614,8 +1636,8 @@
         "lockSphereMaxRadius": 1.0,
         "allowTargeting": false,
         "hudTankDetectedByAircraft": false,
-        "offenderUnmaskingTime": 10.0,
-        "victimUnmaskingTime": 10.0,
+        "offenderUnmaskingTime": 0.0,
+        "victimUnmaskingTime": 0.0,
         "shotSpawnTime": 0.0,
         "hitSpawnTime": 0.0
       },
@@ -1626,8 +1648,8 @@
         "lockSphereMaxRadius": 1.0,
         "allowTargeting": false,
         "hudTankDetectedByAircraft": false,
-        "offenderUnmaskingTime": 10.0,
-        "victimUnmaskingTime": 10.0,
+        "offenderUnmaskingTime": 0.0,
+        "victimUnmaskingTime": 0.0,
         "shotSpawnTime": 0.0,
         "hitSpawnTime": 5.0
       },
@@ -1639,7 +1661,7 @@
         "allowTargeting": true,
         "gmAllowTargeting": true,
         "hudTankDetectedByAircraft": false,
-        "offenderUnmaskingTime": 10.0,
+        "offenderUnmaskingTime": 0.0,
         "victimUnmaskingTime": 10.0,
         "shotSpawnTime": 0.0,
         "hitSpawnTime": 0.0
@@ -2046,7 +2068,7 @@
     "radius": 10.0,
     "bias": 0.1,
     "tessellation": 10,
-    "maxPatches": 100,
+    "maxPatches": 200,
     "landVerticalBias": 0.1
   },
   "glassScratches": {
@@ -2530,7 +2552,8 @@
   },
   "hangar": {
     "shadow_p1": [-24.5,-19.8],
-    "shadow_p2": [15.5,20.2]
+    "shadow_p2": [15.5,20.2],
+    "decalScaleRange": [0.1,3.0]
   },
   "guiSettings": {
     "KeyRepeater": {
@@ -2561,6 +2584,8 @@
     "mouseAimJoystickSensitivity": 10.0,
     "mouseAimGmJoystickSensitivity": 20.0,
     "tankCameraYLimits": [-85.0,85.0],
+    "tankCameraVRLimits": [-45.0,34.0],
+    "tankCameraVRLimitDelay": 3.0,
     "groundZoomSwitchDeltaMax": 5.0,
     "groundZoomSwitchValueThreshold": 10.0,
     "groundZoomSwitchValuePerSecond": 5.0,
@@ -2582,12 +2607,25 @@
     "maxDetectionAngle": 80.0,
     "angleMult": 15.0,
     "posUpOffsetForTanks": 4.0,
-    "distanceMultForMovingTanks": 1.5,
-    "distanceMultForUnmaskingItself": 2.0,
-    "distanceMultForTargetingView": 2.4,
-    "distanceMultForBinocularView": 2.6,
+    "distanceMultForMovingTanks": 1.1,
+    "distanceMultForUnmaskingItself": 2.5,
+    "distanceMultForTargetingView": 2.0,
+    "distanceMultForBinocularView": 1.4,
     "angleForTargetingView": 10.0,
-    "angleForBinocularView": 10.0
+    "angleForBinocularView": 10.0,
+    "enableMultipointVisibilityForShips": true,
+    "closeItemsUpdatePerFrame": 8,
+    "mediumItemsUpdatePerFrame": 24,
+    "mediumItemsUpdatePerFrameWithoutMarkers": 96,
+    "farItemsUpdatePerFrame": 16,
+    "distanceForMultiTrace": 500.0,
+    "multiTraceCount": 2,
+    "multiTraceCountWithoutMarkers": 8,
+    "predictionTime": 0.5,
+    "minPredictionOffset": 2.0,
+    "tankBoxInflate": 0.5,
+    "shipBoxInflate": 0.0,
+    "cameraPointOffset": 15.0
   },
   "antialiasing": {
     "fxaaQuality": 29,
@@ -3125,6 +3163,12 @@
       }
     },
     {
+      "ammo_body_09": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
       "ammo_body_l_01": {
         "my": "tank_ammo",
         "enemy": "tank_ammo"
@@ -3191,49 +3235,1208 @@
       }
     }
   ],
-  "shipPartGeneralizedNames": {
-    "engine": {
-      "my": "tank_engine",
-      "enemy": "tank_engine"
+  "shipPartGeneralizedNames": [
+    {
+      "engine": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "engine_l": {
-      "my": "tank_engine",
-      "enemy": "tank_engine"
+    {
+      "engine_l": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "engine_r": {
-      "my": "tank_engine",
-      "enemy": "tank_engine"
+    {
+      "engine_r": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "break_line": [],
-    "commander": {
-      "my": "tank_commander",
-      "enemy": "tank_commander"
+    {
+      "engine_01": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "loader": {
-      "my": "tank_loader",
-      "enemy": "tank_loader"
+    {
+      "engine_02": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "loader_01": {
-      "my": "tank_loader",
-      "enemy": "tank_loader"
+    {
+      "engine_03": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "loader_02": {
-      "my": "tank_loader",
-      "enemy": "tank_loader"
+    {
+      "engine_04": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "gunner": {
-      "my": "tank_gunner",
-      "enemy": "tank_gunner"
+    {
+      "engine_l_01": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "gunner_01": {
-      "my": "tank_gunner",
-      "enemy": "tank_gunner"
+    {
+      "engine_l_02": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
     },
-    "gunner_02": {
-      "my": "tank_gunner",
-      "enemy": "tank_gunner"
+    {
+      "engine_r_01": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
+    },
+    {
+      "engine_r_02": {
+        "my": "tank_engine",
+        "enemy": "tank_engine"
+      }
+    },
+    {
+      "transmission": {
+        "my": "tank_transmission",
+        "enemy": "tank_transmission"
+      }
+    },
+    {
+      "transmission_01": {
+        "my": "tank_transmission",
+        "enemy": "tank_transmission"
+      }
+    },
+    {
+      "transmission_02": {
+        "my": "tank_transmission",
+        "enemy": "tank_transmission"
+      }
+    },
+    {
+      "transmission_03": {
+        "my": "tank_transmission",
+        "enemy": "tank_transmission"
+      }
+    },
+    {
+      "transmission_04": {
+        "my": "tank_transmission",
+        "enemy": "tank_transmission"
+      }
+    },
+    {
+      "fuel_tank": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_01": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_02": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_03": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_04": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_05": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_r_01": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_r_02": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_r_03": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_r_04": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_r_05": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_l_01": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_l_02": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_l_03": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_l_04": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "fuel_tank_l_05": {
+        "my": "tank_fuel_tank",
+        "enemy": "tank_fuel_tank"
+      }
+    },
+    {
+      "radiator": {
+        "my": "tank_radiator",
+        "enemy": "tank_radiator"
+      }
+    },
+    {
+      "radiator_l": {
+        "my": "tank_radiator",
+        "enemy": "tank_radiator"
+      }
+    },
+    {
+      "radiator_r": {
+        "my": "tank_radiator",
+        "enemy": "tank_radiator"
+      }
+    },
+    {
+      "pump": {
+        "my": "ship_pump",
+        "enemy": "ship_pump"
+      }
+    },
+    {
+      "rudder_01": {
+        "my": "ship_rudder",
+        "enemy": "ship_rudder"
+      }
+    },
+    {
+      "rudder_02": {
+        "my": "ship_rudder",
+        "enemy": "ship_rudder"
+      }
+    },
+    {
+      "rudder_03": {
+        "my": "ship_rudder",
+        "enemy": "ship_rudder"
+      }
+    },
+    {
+      "rudder_04": {
+        "my": "ship_rudder",
+        "enemy": "ship_rudder"
+      }
+    },
+    {
+      "rudder_l": {
+        "my": "ship_rudder",
+        "enemy": "ship_rudder"
+      }
+    },
+    {
+      "rudder_r": {
+        "my": "ship_rudder",
+        "enemy": "ship_rudder"
+      }
+    },
+    {
+      "break_line": []
+    },
+    {
+      "commander": {
+        "my": "tank_commander",
+        "enemy": "tank_commander"
+      }
+    },
+    {
+      "loader": {
+        "my": "tank_loader",
+        "enemy": "tank_loader"
+      }
+    },
+    {
+      "loader_01": {
+        "my": "tank_loader",
+        "enemy": "tank_loader"
+      }
+    },
+    {
+      "loader_02": {
+        "my": "tank_loader",
+        "enemy": "tank_loader"
+      }
+    },
+    {
+      "loader_03": {
+        "my": "tank_loader",
+        "enemy": "tank_loader"
+      }
+    },
+    {
+      "loader_04": {
+        "my": "tank_loader",
+        "enemy": "tank_loader"
+      }
+    },
+    {
+      "gunner": {
+        "my": "tank_gunner",
+        "enemy": "tank_gunner"
+      }
+    },
+    {
+      "gunner_01": {
+        "my": "tank_gunner",
+        "enemy": "tank_gunner"
+      }
+    },
+    {
+      "gunner_02": {
+        "my": "tank_gunner",
+        "enemy": "tank_gunner"
+      }
+    },
+    {
+      "gunner_03": {
+        "my": "tank_gunner",
+        "enemy": "tank_gunner"
+      }
+    },
+    {
+      "gunner_04": {
+        "my": "tank_gunner",
+        "enemy": "tank_gunner"
+      }
+    },
+    {
+      "driver": {
+        "my": "ship_driver",
+        "enemy": "ship_driver"
+      }
+    },
+    {
+      "machine_gunner": {
+        "my": "tank_machine_gunner",
+        "enemy": "tank_machine_gunner"
+      }
+    },
+    {
+      "machine_gunner_01": {
+        "my": "tank_machine_gunner",
+        "enemy": "tank_machine_gunner"
+      }
+    },
+    {
+      "machine_gunner_02": {
+        "my": "tank_machine_gunner",
+        "enemy": "tank_machine_gunner"
+      }
+    },
+    {
+      "operator": {
+        "my": "ship_operator",
+        "enemy": "ship_operator"
+      }
+    },
+    {
+      "motorist": {
+        "my": "ship_motorist",
+        "enemy": "ship_motorist"
+      }
+    },
+    {
+      "era": {
+        "my": "ship_motorist",
+        "enemy": "ship_motorist"
+      }
+    },
+    {
+      "era_01": {
+        "my": "ship_motorist",
+        "enemy": "ship_motorist"
+      }
+    },
+    {
+      "era_02": {
+        "my": "ship_motorist",
+        "enemy": "ship_motorist"
+      }
+    },
+    {
+      "sailor_01": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_02": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_03": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_04": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_05": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_06": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_07": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_08": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_09": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_10": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_11": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_12": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_13": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_14": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_15": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_16": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_17": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_18": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_19": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_20": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_21": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_22": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_23": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_24": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_25": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_26": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_27": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_28": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_29": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_30": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_31": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_32": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_33": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_34": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_35": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_36": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_37": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_38": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_39": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "sailor_40": {
+        "my": "ship_sailor",
+        "enemy": "ship_sailor"
+      }
+    },
+    {
+      "break_line": []
+    },
+    {
+      "drive_turret_v_01": {
+        "my": "tank_drive_turret_v",
+        "enemy": "tank_drive_turret_v"
+      }
+    },
+    {
+      "drive_turret_v_02": {
+        "my": "tank_drive_turret_v",
+        "enemy": "tank_drive_turret_v"
+      }
+    },
+    {
+      "drive_turret_v_03": {
+        "my": "tank_drive_turret_v",
+        "enemy": "tank_drive_turret_v"
+      }
+    },
+    {
+      "drive_turret_v_04": {
+        "my": "tank_drive_turret_v",
+        "enemy": "tank_drive_turret_v"
+      }
+    },
+    {
+      "drive_turret_v_05": {
+        "my": "tank_drive_turret_v",
+        "enemy": "tank_drive_turret_v"
+      }
+    },
+    {
+      "drive_turret_h_01": {
+        "my": "tank_drive_turret_h",
+        "enemy": "tank_drive_turret_h"
+      }
+    },
+    {
+      "drive_turret_h_02": {
+        "my": "tank_drive_turret_h",
+        "enemy": "tank_drive_turret_h"
+      }
+    },
+    {
+      "drive_turret_h_03": {
+        "my": "tank_drive_turret_h",
+        "enemy": "tank_drive_turret_h"
+      }
+    },
+    {
+      "drive_turret_h_04": {
+        "my": "tank_drive_turret_h",
+        "enemy": "tank_drive_turret_h"
+      }
+    },
+    {
+      "drive_turret_h_05": {
+        "my": "tank_drive_turret_h",
+        "enemy": "tank_drive_turret_h"
+      }
+    },
+    {
+      "cannon_breech": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_01": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_02": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_03": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_04": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_05": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_06": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_07": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_08": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_09": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "cannon_breech_10": {
+        "my": "tank_cannon_breech",
+        "enemy": "tank_cannon_breech"
+      }
+    },
+    {
+      "mg_01": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_02": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_03": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_04": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_05": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_l_01": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_l_02": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_r_01": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "mg_r_02": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "gun_mask_01_dm": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "gun_mask_02_dm": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "gun_mask_03_dm": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "gun_mask_04_dm": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "gun_mask_05_dm": {
+        "my": "ship_machine_gun",
+        "enemy": "ship_machine_gun"
+      }
+    },
+    {
+      "ammo_turret": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_turret_01": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_turret_02": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_turret_03": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_turret_04": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_turret_05": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_01": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_02": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_03": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_04": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_05": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_06": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_07": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_08": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_09": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_l_01": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_l_02": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_l_03": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_l_04": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_l_05": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_r_01": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_r_02": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_r_03": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_r_04": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "ammo_body_r_05": {
+        "my": "tank_ammo",
+        "enemy": "tank_ammo"
+      }
+    },
+    {
+      "tt_01": {
+        "my": "ship_torpedo_tube",
+        "enemy": "ship_torpedo_tube"
+      }
+    },
+    {
+      "tt_02": {
+        "my": "ship_torpedo_tube",
+        "enemy": "ship_torpedo_tube"
+      }
+    },
+    {
+      "tt_03": {
+        "my": "ship_torpedo_tube",
+        "enemy": "ship_torpedo_tube"
+      }
+    },
+    {
+      "tt_04": {
+        "my": "ship_torpedo_tube",
+        "enemy": "ship_torpedo_tube"
+      }
+    },
+    {
+      "torpedo_01": {
+        "my": "ship_torpedo",
+        "enemy": "ship_torpedo"
+      }
+    },
+    {
+      "torpedo_02": {
+        "my": "ship_torpedo",
+        "enemy": "ship_torpedo"
+      }
+    },
+    {
+      "torpedo_03": {
+        "my": "ship_torpedo",
+        "enemy": "ship_torpedo"
+      }
+    },
+    {
+      "torpedo_04": {
+        "my": "ship_torpedo",
+        "enemy": "ship_torpedo"
+      }
+    },
+    {
+      "depth_charge_01": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_02": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_03": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_04": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_05": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_06": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_07": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_08": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_09": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_10": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_11": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_12": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_01": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_02": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_03": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_04": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_05": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_06": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_07": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_r_08": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_01": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_02": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_03": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_04": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_05": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_06": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_07": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
+    },
+    {
+      "depth_charge_l_08": {
+        "my": "ship_depth_charge",
+        "enemy": "ship_depth_charge"
+      }
     }
-  },
+  ],
   "wodParams": {
     "gForce": 0.1,
     "angVel": 1.0,
@@ -3390,6 +4593,24 @@
         "p": "gun_mask"
       },
       {
+        "p": "bow"
+      },
+      {
+        "p": "mid"
+      },
+      {
+        "p": "stern"
+      },
+      {
+        "p": "deckhouse"
+      },
+      {
+        "p": "bulkhead_"
+      },
+      {
+        "p": "turret_h_"
+      },
+      {
         "p": "wheel_"
       },
       {
@@ -3399,6 +4620,9 @@
         "p": "track_l_"
       },
       {
+        "p": "rudder_"
+      },
+      {
         "p": "ex_armor_"
       },
       {
@@ -3406,6 +4630,9 @@
       },
       {
         "p": "gun_mask_shield_"
+      },
+      {
+        "p": "mg_"
       },
       {
         "p": "ex_decor_"
@@ -3438,6 +4665,9 @@
       },
       {
         "p": "era_"
+      },
+      {
+        "p": "operator_"
       },
       {
         "p": "optic_"
@@ -3474,6 +4704,54 @@
       },
       {
         "p": "gun_barrel_0"
+      },
+      {
+        "p": "gun_barrel_1"
+      },
+      {
+        "p": "tt_"
+      },
+      {
+        "p": "torpedo_"
+      },
+      {
+        "p": "mg_"
+      },
+      {
+        "p": {
+          "name": "gun_mask_",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_0",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_1",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_2",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_l",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_r",
+          "unit": "ship"
+        }
       }
     ],
     "body": [
@@ -3495,37 +4773,43 @@
       {
         "p": {
           "name": "bow",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "usePrefix": false
         }
       },
       {
         "p": {
           "name": "bow_l",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "layer": "top"
         }
       },
       {
         "p": {
           "name": "bow_r",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "layer": "top"
         }
       },
       {
         "p": {
           "name": "mid",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "usePrefix": false
         }
       },
       {
         "p": {
           "name": "mid_l",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "layer": "top"
         }
       },
       {
         "p": {
           "name": "mid_r",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "layer": "top"
         }
       },
       {
@@ -3543,19 +4827,22 @@
       {
         "p": {
           "name": "stern",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "usePrefix": false
         }
       },
       {
         "p": {
           "name": "stern_l",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "layer": "top"
         }
       },
       {
         "p": {
           "name": "stern_r",
-          "color_h": 0.1
+          "color_h": 0.1,
+          "layer": "top"
         }
       },
       {
@@ -3644,12 +4931,15 @@
           "name": "era_",
           "color_h": 1.0
         }
+      },
+      {
+        "p": {
+          "name": "operator_",
+          "color_h": 1.0
+        }
       }
     ],
     "outer": [
-      {
-        "p": "ex_armor_"
-      },
       {
         "p": "body_shield_"
       },
@@ -3732,6 +5022,12 @@
       },
       {
         "p": {
+          "name": "gun_barrel_1",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
           "name": "ship_hull_dm",
           "color_h": 0.1
         }
@@ -3798,6 +5094,36 @@
       },
       {
         "p": {
+          "name": "depth_charge_0",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_1",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_2",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_l",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "depth_charge_r",
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
           "name": "tt_",
           "color_h": 0.1
         }
@@ -3806,6 +5132,19 @@
         "p": {
           "name": "torpedo_",
           "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mg_",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "gun_mask_",
+          "color_h": 0.1,
+          "unit": "ship"
         }
       }
     ],
@@ -3851,6 +5190,53 @@
       },
       {
         "p": "ammo_rack_body_xray"
+      }
+    ],
+    "body_hull": [
+      {
+        "p": "bow"
+      },
+      {
+        "p": "bow_l"
+      },
+      {
+        "p": "bow_r"
+      },
+      {
+        "p": "mid"
+      },
+      {
+        "p": "mid_l"
+      },
+      {
+        "p": "mid_r"
+      },
+      {
+        "p": "mid_bottom"
+      },
+      {
+        "p": "mid_top"
+      },
+      {
+        "p": "stern"
+      },
+      {
+        "p": "stern_l"
+      },
+      {
+        "p": "stern_r"
+      },
+      {
+        "p": "stern_back"
+      },
+      {
+        "p": "bow_top"
+      },
+      {
+        "p": "stern_top"
+      },
+      {
+        "p": "stern_bottom"
       }
     ]
   },
@@ -4200,6 +5586,9 @@
     },
     {
       "ri": "concrete_fence_a_column"
+    },
+    {
+      "ri": "concrete_fence_b"
     },
     {
       "ri": "concrete_fence_b_column"
@@ -4755,6 +6144,51 @@
     },
     {
       "ri": "european_market_box_small_f"
+    },
+    {
+      "ri": "norway_cliffs_a"
+    },
+    {
+      "ri": "norway_cliffs_b"
+    },
+    {
+      "ri": "norway_cliffs_c"
+    },
+    {
+      "ri": "norway_cliffs_d"
+    },
+    {
+      "ri": "norway_cliffs_e"
+    },
+    {
+      "ri": "norway_cliffs_f"
+    },
+    {
+      "ri": "norway_rocks_small_a"
+    },
+    {
+      "ri": "norway_rocks_small_b"
+    },
+    {
+      "ri": "norway_rocks_small_c"
+    },
+    {
+      "ri": "norway_rocks_small_d"
+    },
+    {
+      "ri": "norway_rocks_small_e"
+    },
+    {
+      "ri": "small_rock_moss_a"
+    },
+    {
+      "ri": "small_rock_moss_b"
+    },
+    {
+      "ri": "concrete_fence_c"
+    },
+    {
+      "ri": "rail_crosstie"
     }
   ],
   "rendinstOpt": {
@@ -4767,6 +6201,9 @@
       },
       {
         "excRE": "factory_shop_roof"
+      },
+      {
+        "excRE": "af_ruin_roof"
       },
       {
         "excRE": "soviet_town_building_4_floors"
@@ -5600,12 +7037,13 @@
     }
   },
   "cutHoles": {
+    "fuseTolerance": 0.5,
     "decal": "explosion_patch_ship_soot_c",
     "noise": "explosion_patch_ship_metal_n",
-    "explosionMinRadius": 0.2,
-    "explosionMaxRadius": 1.5,
-    "explosionRadiusK": 1.5,
-    "explosionDepthBias": 0.2
+    "explosionMinRadius": 0.15,
+    "explosionMaxRadius": 2.5,
+    "explosionRadiusK": 1.4,
+    "woodMat": "wood"
   },
   "trackEffectsPresets": {
     "default": {
@@ -5700,6 +7138,29 @@
     "maxSeparateVboMemory": 524288000,
     "maxSeparateTexturesForRender": 1000000
   },
+  "ShipCaustics": {
+    "scale": 0.7,
+    "fade": 0.2,
+    "heightAboveWater": 1.5,
+    "scrollSpeed": 2.5
+  },
+  "hero_wetness": {
+    "drySpeed": [0.25,0.45]
+  },
+  "heroFoam": {
+    "enabled": true
+  },
+  "waterGeometryDecal": {
+    "enable": true,
+    "decalName": "wave_a"
+  },
+  "camoMicroNoise": {
+    "tex": "haze_noise",
+    "tile_ship": 3.8,
+    "amplitude_ship": 0.18,
+    "tile_tank": 7.0,
+    "amplitude_tank": 0.15
+  },
   "airplane": {
     "glowMul": 0.0,
     "starGlowMul": 1.0
@@ -5733,5 +7194,29 @@
   },
   "replay": {
     "segmentLengthSec": 90
+  },
+  "wakeFromBullet": {
+    "minCal": 0.076,
+    "maxCal": 0.38,
+    "minOfs": 5.0,
+    "maxOfs": 10.0,
+    "minStr": 50.0,
+    "maxStr": 2000.0
+  },
+  "globe": {
+    "globeMinCameraDistance": 15000.0,
+    "globeCameraViscosity": [0.4,0.2],
+    "globeMouseRotSpeed": 0.002,
+    "globeMinSunAngle": 90.0,
+    "globeSunViscosity": 0.3,
+    "globeCameraZFar": 100000.0,
+    "colorTex": "land_ocean_ice",
+    "normalsTex": "earth_bump_n",
+    "markerIconFx": "world_map_marker",
+    "markerClickFx": "world_map_click",
+    "markerHoverFx": "world_map_hover",
+    "markerFxScale": 200.0,
+    "markerFxColor": [1.0,0.5,0.0,1.0],
+    "markerHoverFxColor": [1.0,0.0,0.0,1.0]
   }
 }

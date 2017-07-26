@@ -96,6 +96,9 @@
       {
         "selector": [
           {
+            "selectStrategy": "random"
+          },
+          {
             "sequencer": {
               "reaction": {
                 "event": "regularCheck",
@@ -148,13 +151,27 @@
                   "searchForAir": true,
                   "onlyMissionTargets": false,
                   "radius": 100000.0,
-                  "velocityFilterTimeConstant": 10.0,
                   "distanceDifferenceToMaxSpeedRatio": 9.0
                 },
-                "selector": {
-                  "fighterAttackFighter": {
-                    "allowSpeedCheat": false
-                  }
+                "ifThenElse": {
+                  "or": [
+                    {
+                      "isTargetType": {
+                        "type": "fighter"
+                      }
+                    },
+                    {
+                      "isTargetType": {
+                        "type": "bomber"
+                      }
+                    }
+                  ],
+                  "selector": {
+                    "fighterAttackFighter": {
+                      "allowSpeedCheat": false
+                    }
+                  },
+                  "fighterAttackGround": []
                 }
               }
             }
@@ -337,17 +354,32 @@
         }
       },
       {
-        "sequencer": {
-          "findUnit": {
+        "parallel": {
+          "updateTarget": {
             "searchForAir": true,
-            "searchForGround": false,
             "onlyMissionTargets": false,
-            "radius": 100000.0
+            "radius": 100000.0,
+            "distanceDifferenceToMaxSpeedRatio": 9.0
           },
-          "selector": {
-            "fighterAttackFighter": {
-              "allowSpeedCheat": false
-            }
+          "ifThenElse": {
+            "or": [
+              {
+                "isTargetType": {
+                  "type": "fighter"
+                }
+              },
+              {
+                "isTargetType": {
+                  "type": "bomber"
+                }
+              }
+            ],
+            "selector": {
+              "fighterAttackFighter": {
+                "allowSpeedCheat": false
+              }
+            },
+            "fighterAttackGround": []
           }
         }
       }
@@ -1188,13 +1220,27 @@
             "searchForAir": true,
             "onlyMissionTargets": false,
             "radius": 200000.0,
-            "velocityFilterTimeConstant": 10.0,
             "distanceDifferenceToMaxSpeedRatio": 9.0
           },
-          "selector": {
-            "fighterAttackFighter": {
-              "allowSpeedCheat": false
-            }
+          "ifThenElse": {
+            "or": [
+              {
+                "isTargetType": {
+                  "type": "fighter"
+                }
+              },
+              {
+                "isTargetType": {
+                  "type": "bomber"
+                }
+              }
+            ],
+            "selector": {
+              "fighterAttackFighter": {
+                "allowSpeedCheat": false
+              }
+            },
+            "fighterAttackGround": []
           }
         }
       },
@@ -1471,8 +1517,15 @@
       "name": "tankBot",
       "selectStrategy": "ordered",
       "sequencer": {
-        "setCapturePointAsDest": {
-          "dist": 20.0
+        "selector": {
+          "selectStrategy": "ordered",
+          "selectOnSuccess": true,
+          "setCapturePointAsDest": {
+            "dist": 20.0
+          },
+          "selectExplicitDestination": {
+            "minDist": 20.0
+          }
         },
         "driveToPos": {
           "dist": 10.0
@@ -1486,14 +1539,16 @@
       "selectStrategy": "ordered",
       "cycle": {
         "sequencer": {
-          "findNextShipWaypoint": [],
           "selector": {
             "selectStrategy": "ordered",
             "selectOnSuccess": true,
-            "setShipCourse": [],
-            "startShipUTurn": []
+            "findNextShipWaypoint": [],
+            "checkIfShipHasDestination": [],
+            "findCapturePointToSail": {
+              "canCapture": true
+            },
+            "shipFollowsTarget": []
           },
-          "waitUntilShipOnCourse": [],
           "sailToPos": {
             "dist": 100.0
           }
@@ -2179,7 +2234,7 @@
                   "sequencer": {
                     "not": {
                       "ifThenElse": {
-                        "isIndependentAttacker": [],
+                        "hasDependentAttackers": [],
                         "selector": {
                           "selectStrategy": "ordered",
                           "fighterAttackGround": [],
@@ -2544,7 +2599,7 @@
                   "bombTarget": [],
                   "airDropDelivery": [],
                   "ifThenElse": {
-                    "isIndependentAttacker": [],
+                    "hasDependentAttackers": [],
                     "selector": {
                       "selectStrategy": "ordered",
                       "sequencer": {
@@ -2575,7 +2630,7 @@
                   "bombTarget": [],
                   "airDropDelivery": [],
                   "ifThenElse": {
-                    "isIndependentAttacker": [],
+                    "hasDependentAttackers": [],
                     "selector": {
                       "selectStrategy": "ordered",
                       "sequencer": {
@@ -2812,7 +2867,7 @@
                   "diveBombTarget": [],
                   "bombTarget": [],
                   "ifThenElse": {
-                    "isIndependentAttacker": [],
+                    "hasDependentAttackers": [],
                     "selector": {
                       "selectStrategy": "ordered",
                       "fighterAttackGround": [],
@@ -2835,7 +2890,7 @@
                   "diveBombTarget": [],
                   "bombTarget": [],
                   "ifThenElse": {
-                    "isIndependentAttacker": [],
+                    "hasDependentAttackers": [],
                     "selector": {
                       "selectStrategy": "ordered",
                       "fighterAttackGround": [],
@@ -3065,7 +3120,7 @@
                   "diveBombTarget": [],
                   "bombTarget": [],
                   "ifThenElse": {
-                    "isIndependentAttacker": [],
+                    "hasDependentAttackers": [],
                     "selector": {
                       "selectStrategy": "ordered",
                       "sequencer": {
@@ -3096,7 +3151,7 @@
                   "diveBombTarget": [],
                   "bombTarget": [],
                   "ifThenElse": {
-                    "isIndependentAttacker": [],
+                    "hasDependentAttackers": [],
                     "selector": {
                       "selectStrategy": "ordered",
                       "sequencer": {

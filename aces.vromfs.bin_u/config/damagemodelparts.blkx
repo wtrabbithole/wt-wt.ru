@@ -152,6 +152,15 @@
     "type": "body",
     "externalArmor": true
   },
+  "deckhouse_side": {
+    "type": "body",
+    "externalArmor": true
+  },
+  "hydrofoil_NN": {
+    "template": "hydrofoil_#10#",
+    "type": "body",
+    "externalArmor": true
+  },
   "superstructure_front": {
     "externalArmor": true
   },
@@ -241,7 +250,7 @@
     "fire": true
   },
   "fuel_tank_NN": {
-    "template": "fuel_tank_#05#",
+    "template": "fuel_tank_#06#",
     "type": "fuel",
     "hitTestType": "inner",
     "genName": "tank_fuel_tank",
@@ -284,6 +293,18 @@
   },
   "mg_NN": {
     "template": "mg_#20#",
+    "type": "gun_barrel",
+    "genName": "tank_gun_barrel",
+    "vital": true
+  },
+  "mg_l_NN": {
+    "template": "mg_l_#10#",
+    "type": "gun_barrel",
+    "genName": "tank_gun_barrel",
+    "vital": true
+  },
+  "mg_r_NN": {
+    "template": "mg_r_#10#",
     "type": "gun_barrel",
     "genName": "tank_gun_barrel",
     "vital": true
@@ -422,7 +443,7 @@
     "vital": true
   },
   "wheel_r_top_NN": {
-    "template": "wheel_r_top_#06#",
+    "template": "wheel_r_top_#07#",
     "type": "chassis",
     "type2": "wheel",
     "hitTestType": "exclude",
@@ -430,7 +451,7 @@
     "vital": true
   },
   "wheel_l_top_NN": {
-    "template": "wheel_l_top_#06#",
+    "template": "wheel_l_top_#07#",
     "type": "chassis",
     "type2": "wheel",
     "hitTestType": "exclude",
@@ -509,7 +530,7 @@
     "vital": true
   },
   "machine_gunner_NN": {
-    "template": "machine_gunner_#02#",
+    "template": "machine_gunner_#04#",
     "type": "crew",
     "type2": "machinegunner",
     "hitTestType": "inner",
@@ -518,7 +539,7 @@
   },
   "sailor_NN": {
     "type": "crew",
-    "template": "sailor_#30#"
+    "template": "sailor_#70#"
   },
   "motorist": {
     "type": "crew"
@@ -544,7 +565,7 @@
     "vital": true
   },
   "ammo_turret_NN": {
-    "template": "ammo_turret_#05#",
+    "template": "ammo_turret_#06#",
     "type": "ammo",
     "hitTestType": "inner",
     "genName": "tank_ammo",
@@ -564,14 +585,14 @@
     "vital": true
   },
   "ammo_body_l_NN": {
-    "template": "ammo_body_l_#05#",
+    "template": "ammo_body_l_#06#",
     "type": "ammo",
     "hitTestType": "inner",
     "genName": "tank_ammo",
     "vital": true
   },
   "ammo_body_r_NN": {
-    "template": "ammo_body_r_#05#",
+    "template": "ammo_body_r_#06#",
     "type": "ammo",
     "hitTestType": "inner",
     "genName": "tank_ammo",
@@ -624,6 +645,7 @@
   "armorN": {
     "template": "armor#0:30#"
   },
+  "pump": [],
   "torpedo_NN": {
     "template": "torpedo_#10#"
   },
@@ -670,13 +692,16 @@
     "template": "bulkhead_#20#"
   },
   "tt_NN": {
-    "template": "tt_#20#"
+    "template": "tt_#20#",
+    "type": "torpedo_tube"
   },
   "tt_l_NN": {
-    "template": "tt_l_#10#"
+    "template": "tt_l_#10#",
+    "type": "torpedo_tube"
   },
   "tt_r_NN": {
-    "template": "tt_r_#10#"
+    "template": "tt_r_#10#",
+    "type": "torpedo_tube"
   },
   "turret_front": {
     "externalArmor": true
@@ -718,18 +743,29 @@
     "externalArmor": true
   },
   "turret_h_NN": {
-    "template": "turret_h_#10#"
+    "template": "turret_h_#20#"
   },
   "turret_v_NN": {
-    "template": "turret_v_#10#"
+    "template": "turret_v_#20#"
   },
-  "rudder": [],
-  "rudder0": [],
-  "rudder1": [],
-  "rudder_l": [],
-  "rudder_r": [],
+  "rudder": {
+    "type": "rudder"
+  },
+  "rudder0": {
+    "type": "rudder"
+  },
+  "rudder1": {
+    "type": "rudder"
+  },
+  "rudder_l": {
+    "type": "rudder"
+  },
+  "rudder_r": {
+    "type": "rudder"
+  },
   "rudder_NN": {
-    "template": "rudder_#10#"
+    "template": "rudder_#10#",
+    "type": "rudder"
   },
   "ex_armor_NN": {
     "template": "ex_armor_#10#"
@@ -749,7 +785,9 @@
   "ex_armor_body_l_NN": {
     "template": "ex_armor_body_l_#11#"
   },
-  "ex_armor_turret_01": [],
+  "ex_armor_turret_NN": {
+    "template": "ex_armor_turret_#10#"
+  },
   "ex_armor_turret_r_NN": {
     "template": "ex_armor_turret_r_#05#"
   },
@@ -770,6 +808,10 @@
   },
   "ex_decor_l_NN": {
     "template": "ex_decor_l_#12#",
+    "externalArmor": true
+  },
+  "ex_decor_NN": {
+    "template": "ex_decor_#10#",
     "externalArmor": true
   },
   "fuse": [],

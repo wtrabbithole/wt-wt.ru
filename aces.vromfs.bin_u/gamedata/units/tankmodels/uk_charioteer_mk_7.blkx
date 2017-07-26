@@ -291,6 +291,10 @@
         "hp": 300.0,
         "gun_barrel_dm": {
           "armorThickness": 33.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0
         }
       },
       "chassis": {
@@ -1190,7 +1194,7 @@
       },
       "tracks": {
         "animationMultiplier": -0.68,
-        "height": 0.05,
+        "height": 0.055,
         "width": 0.4
       },
       "collisionProps": {
@@ -1234,7 +1238,7 @@
       },
       "suspension": {
         "suspensionOffsets": [-0.12,-0.08,0.05],
-        "defaultGearRadius": 0.38,
+        "defaultGearRadius": 0.39,
         "topGearRadius": 0.13,
         "frontBackGearRadius": 0.28,
         "defaultDampeningForce": [90000.0,90000.0],
@@ -1387,6 +1391,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1740,7 +1792,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1766,8 +1818,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 15.0,
+      "zoomInFov": 12.3,
+      "sightFov": 9.5,
       "headPos": [0.0,3.7,-8.5],
       "headPosOnShooting": [-0.7,3.4,-0.2],
       "detectionHeight": 2.52

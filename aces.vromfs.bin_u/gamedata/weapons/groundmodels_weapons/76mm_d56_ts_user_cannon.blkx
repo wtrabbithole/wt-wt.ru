@@ -10,7 +10,7 @@
   "aimMaxDist": 2000.0,
   "maxDeltaAngle": 0.07,
   "maxDeltaAngleVertical": 0.07,
-  "shotFreq": 0.11,
+  "shotFreq": 0.1166,
   "traceFreq": 4,
   "bEnablePause": false,
   "bullets": -1,
@@ -92,11 +92,11 @@
       "farHitPower": [0.1,700.0],
       "endHitPower": [0.008,1500.0],
       "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [11.0,550.0],
-      "midArmorPower": [10.5,800.0],
-      "farArmorPower": [9.0,1000.0],
+      "nearArmorPower": [2.0,150.0],
+      "midArmorPower": [1.5,600.0],
+      "farArmorPower": [1.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
-      "fuseDelayDist": 0.1,
+      "fuseDelayDist": 0.2,
       "explodeTreshold": 0.05,
       "explodeHitPower": 120.0,
       "explodeArmorPower": 13.0,
@@ -106,22 +106,27 @@
       "shutterAmount": 250,
       "shutterArmorPower": 8.0,
       "shutterHit": 15.0,
-      "groundCollisionEffect": "50_75_he_hit_ground",
       "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [1.1,1.2],
+      "groundFxScale": [1.1,1.1],
+      "groundCollisionEffect": "art_ground_splash",
       "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
         "tracer": "noColor"
       },
       "collisions": {
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.0,3.0]
+          "fxScale": [2.5,3.5]
         },
         "armor": {
           "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [2.0,3.0]
+          "fxScale": [2.5,3.5]
+        },
+        "wood": {
+          "fx": "old_ship_hit_ball"
+        },
+        "water": {
+          "fx": "big_water_splash",
+          "fxScale": [2.0,2.5]
         }
       }
     }

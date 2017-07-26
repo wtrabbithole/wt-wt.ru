@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -320,7 +320,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1093,17 +1093,13 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 1000,
           "isBulletBelt": true,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1163,12 +1159,12 @@
       "mechanics": {
         "maxBrakeForce": 75000.0,
         "driveGearRadius": 0.28,
-        "mainGearRatio": 1.36,
+        "mainGearRatio": 1.064,
         "sideGearRatio": 3.0,
         "neutralGearRatio": 12.0,
         "gearRatios": [
           {
-            "ratio": -5.75
+            "ratio": -6.39
           },
           {
             "ratio": -12.6
@@ -1189,7 +1185,13 @@
             "ratio": 3.24
           },
           {
-            "ratio": 2.5
+            "ratio": 3.0
+          },
+          {
+            "ratio": 2.8
+          },
+          {
+            "ratio": 2.4
           },
           {
             "ratio": 1.8
@@ -1201,10 +1203,10 @@
       },
       "suspension": {
         "suspensionOffsets": [-0.13,-0.1,0.05],
-        "defaultGearRadius": 0.33,
+        "defaultGearRadius": 0.35,
         "topGearRadius": 0.13,
         "defaultDampeningForce": [67000.0,67000.0],
-        "frontBackGearRadius": 0.25,
+        "frontBackGearRadius": 0.18,
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -1330,6 +1332,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1683,7 +1733,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1709,8 +1759,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 9.0,
+      "zoomOutFov": 9.2,
       "zoomInFov": 6.0,
+      "sightFov": 6.0,
       "headPos": [0.0,3.5,-8.0],
       "headPosOnShooting": [-1.0,3.3,-0.4],
       "detectionHeight": 2.5

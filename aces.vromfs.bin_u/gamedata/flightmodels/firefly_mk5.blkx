@@ -1079,9 +1079,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2236,7 +2267,7 @@
           "flash": "flare1",
           "shell": "emtr_shellrejection1",
           "dm": "cannon1_dm",
-          "bullets": 145,
+          "bullets": 175,
           "spread": 2.0,
           "counterIndex": 1
         }
@@ -2249,7 +2280,7 @@
           "flash": "flare2",
           "shell": "emtr_shellrejection2",
           "dm": "cannon2_dm",
-          "bullets": 175,
+          "bullets": 145,
           "spread": 2.0
         }
       },
@@ -2261,7 +2292,7 @@
           "flash": "flare3",
           "shell": "emtr_shellrejection3",
           "dm": "cannon3_dm",
-          "bullets": 175,
+          "bullets": 145,
           "traceOffset": 1,
           "spread": 2.0
         }
@@ -2274,7 +2305,7 @@
           "flash": "flare4",
           "shell": "emtr_shellrejection4",
           "dm": "cannon4_dm",
-          "bullets": 145,
+          "bullets": 175,
           "traceOffset": 1,
           "spread": 2.0
         }
@@ -2390,176 +2421,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "flap_l"
-        },
-        {
-          "part": "flap1_l"
-        },
-        {
-          "part": "flap2_l"
-        },
-        {
-          "part": "flap3_l"
-        },
-        {
-          "part": "flap4_l"
-        },
-        {
-          "part": "flap5_l"
-        },
-        {
-          "part": "wing_l7"
-        },
-        {
-          "part": "wing_l8"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "pylon_rocket1"
-        },
-        {
-          "part": "pylon_bomb1"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "flap_r"
-        },
-        {
-          "part": "flap1_r"
-        },
-        {
-          "part": "flap2_r"
-        },
-        {
-          "part": "flap3_r"
-        },
-        {
-          "part": "flap4_r"
-        },
-        {
-          "part": "flap5_r"
-        },
-        {
-          "part": "wing_r7"
-        },
-        {
-          "part": "wing_r8"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "pylon_rocket2"
-        },
-        {
-          "part": "pylon_bomb2"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator"
-        },
-        {
-          "part": "gear_c"
-        },
-        {
-          "part": "gear_c1"
-        },
-        {
-          "part": "gear_c2"
-        },
-        {
-          "part": "gear_c3"
-        },
-        {
-          "part": "gear_c4"
-        },
-        {
-          "part": "gear_c5"
-        },
-        {
-          "part": "gear_c6"
-        },
-        {
-          "part": "gear_c7"
-        },
-        {
-          "part": "gear_c8"
-        },
-        {
-          "part": "wheel_c"
-        },
-        {
-          "part": "antenna"
-        },
-        {
-          "part": "wing_l5"
-        },
-        {
-          "part": "wing_l6"
-        },
-        {
-          "part": "wing_r5"
-        },
-        {
-          "part": "wing_r6"
-        },
-        {
-          "part": "wing_l5"
-        },
-        {
-          "part": "hook"
-        }
-      ]
     }
   },
   {

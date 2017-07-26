@@ -21,7 +21,7 @@
     "exhaustFx": "tank_exhaust"
   },
   {
-    "support_unit_class": "structures/ussr_122mm_m30"
+    "support_unit_class": "structures/ussr_152mm_d1"
   },
   {
     "support_unit_tag": "artillery"
@@ -247,6 +247,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -257,6 +260,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -277,7 +286,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1098,97 +1107,95 @@
   },
   {
     "PhysSys": {
-      "find": "^bone_suspension_(._\\d\\d)$",
+      "find": "^bone_suspension_(\\w)_(\\d+)$",
       "points": {
-        "bone_suspension_01": {
-          "name": "bone_suspension_$1_01"
-        },
-        "suspension_01": {
-          "name": "suspension_$1_01",
-          "limitMin": [-1.0,-1000.0,0.0],
-          "limitMax": [1.0,1000.0,0.0]
-        },
-        "wheel_01_01": {
-          "searchChildren": {
-            "parent": "bone_suspension_01",
-            "find": "bone_wheel_.*",
-            "limitMin": [-1000.0,0.0,0.0],
-            "limitMax": [1000.0,0.0,0.0]
-          }
-        },
-        "wheel_01_02": {
-          "searchChildren": {
-            "parent": "bone_suspension_01",
-            "find": "bone_wheel_.*",
-            "limitMin": [-1000.0,0.0,0.0],
-            "limitMax": [1000.0,0.0,0.0],
-            "occurence": 2
-          }
-        },
-        "bone_suspension_02": {
-          "name": "bone_suspension_$1_02"
-        },
-        "suspension_02": {
-          "name": "suspension_$1_02",
-          "limitMin": [-1.0,-1000.0,0.0],
-          "limitMax": [1.0,1000.0,0.0]
-        },
-        "wheel_02_01": {
-          "searchChildren": {
-            "parent": "bone_suspension_02",
-            "find": "bone_wheel_.*",
-            "limitMin": [-1000.0,0.0,0.0],
-            "limitMax": [1000.0,0.0,0.0]
-          }
-        },
-        "wheel_02_02": {
-          "searchChildren": {
-            "parent": "bone_suspension_02",
-            "find": "bone_wheel_.*",
-            "limitMin": [-1000.0,0.0,0.0],
-            "limitMax": [1000.0,0.0,0.0],
-            "occurence": 2
-          }
-        },
         "lever": {
-          "name": "bone_suspension_$1"
+          "name": "bone_suspension_$1_$2"
+        },
+        "suspension_01_01": {
+          "name": "bone_suspension_$1_$2_01",
+          "limitMin": [-0.5,-0.5,0.0],
+          "limitMax": [0.5,0.5,0.0]
+        },
+        "suspension_01_02": {
+          "name": "bone_suspension_$1_$2_02",
+          "limitMin": [-0.5,-0.5,0.0],
+          "limitMax": [0.5,0.5,0.0]
+        },
+        "wheel_01": {
+          "searchChildren": {
+            "parent": "suspension_01_01",
+            "find": "bone_wheel_",
+            "occurence": 1,
+            "limitMin": [-1.0,-1.0,0.0],
+            "limitMax": [1.0,1.0,0.0]
+          }
+        },
+        "wheel_02": {
+          "searchChildren": {
+            "parent": "suspension_01_01",
+            "find": "bone_wheel_",
+            "occurence": 2,
+            "limitMin": [-1.0,-1.0,0.0],
+            "limitMax": [1.0,1.0,0.0]
+          }
+        },
+        "wheel_03": {
+          "searchChildren": {
+            "parent": "suspension_01_02",
+            "find": "bone_wheel_",
+            "occurence": 1,
+            "limitMin": [-1.0,-1.0,0.0],
+            "limitMax": [1.0,1.0,0.0]
+          }
+        },
+        "wheel_04": {
+          "searchChildren": {
+            "parent": "suspension_01_02",
+            "find": "bone_wheel_",
+            "occurence": 2,
+            "limitMin": [-1.0,-1.0,0.0],
+            "limitMax": [1.0,1.0,0.0]
+          }
         }
       },
       "constraints": [
         {
-          "edge": {
-            "from": "suspension_01",
-            "to": "wheel_01_01"
+          "direction": {
+            "point": "suspension_01_01",
+            "from": "wheel_01",
+            "to": "wheel_02"
           }
         },
         {
-          "edge": {
-            "from": "suspension_01",
-            "to": "wheel_01_02"
+          "projection": {
+            "point": "suspension_01_01",
+            "from": "wheel_01",
+            "to": "wheel_02",
+            "moveEdge": true
           }
         },
         {
-          "edge": {
-            "from": "suspension_02",
-            "to": "wheel_02_01"
+          "direction": {
+            "point": "suspension_01_02",
+            "from": "wheel_03",
+            "to": "wheel_04"
           }
         },
         {
-          "edge": {
-            "from": "suspension_02",
-            "to": "wheel_02_02"
+          "projection": {
+            "point": "suspension_01_02",
+            "from": "wheel_03",
+            "to": "wheel_04",
+            "moveEdge": true
           }
         },
         {
-          "edge": {
-            "from": "lever",
-            "to": "suspension_01"
-          }
-        },
-        {
-          "edge": {
-            "from": "lever",
-            "to": "suspension_02"
+          "projection": {
+            "point": "lever",
+            "from": "suspension_01_01",
+            "to": "suspension_01_02",
+            "moveEdge": true
           }
         }
       ]
@@ -1293,6 +1300,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -1646,7 +1701,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1682,6 +1737,9 @@
   {
     "modifications": {
       "tank_tool_kit": [],
+      "tank_medical_kit": {
+        "image": "#ui/gameuiskin#tank_reinforcement_ussr"
+      },
       "manual_extinguisher": [],
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -1695,9 +1753,6 @@
       "new_tank_vertical_aiming": [],
       "art_support": [],
       "tank_new_gun": [],
-      "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_ussr"
-      },
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },

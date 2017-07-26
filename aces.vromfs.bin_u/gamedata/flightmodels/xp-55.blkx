@@ -27,23 +27,17 @@
     "fightAiBehaviour": "fighter"
   },
   {
-    "DamageGen": [
-      {
-        "armor1_dm": {
-          "mat": "armor9_5"
-        }
+    "DamageGen": {
+      "armor1_dm": {
+        "mat": "armor9_5"
       },
-      {
-        "armor1_dm": {
-          "mat": "armor_glass40"
-        }
+      "armor2_dm": {
+        "mat": "armor9_5"
       },
-      {
-        "armor1_dm": {
-          "mat": "armor9_5"
-        }
+      "armor3_dm": {
+        "mat": "armor_glass40"
       }
-    ]
+    }
   },
   {
     "DamageGen": {
@@ -251,6 +245,9 @@
       "armor9_5": {
         "armor1_dm": {
           "hp": 40.0
+        },
+        "armor2_dm": {
+          "hp": 40.0
         }
       },
       "armor_engine": {
@@ -351,6 +348,11 @@
           "hp": 60.5
         }
       },
+      "glass40": {
+        "armor3_dm": {
+          "hp": 100.0
+        }
+      },
       "protected_controls": {
         "tailcontrol_dm": {
           "hp": 60.5
@@ -393,12 +395,6 @@
         }
       },
       "wood": {
-        "armor2_dm": {
-          "hp": 11.7
-        },
-        "armor3_dm": {
-          "hp": 2.0
-        },
         "fin1_dm": {
           "hp": 17.2
         },
@@ -666,14 +662,80 @@
         ]
       },
       {
-        "part": {
-          "name": "fin1_dm"
-        }
+        "part": [
+          {
+            "name": "fin1_dm"
+          },
+          {
+            "onHit": {
+              "tailcontrol_dm": 0.001
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.6
+            }
+          },
+          {
+            "onKill": {
+              "tailcontrol_dm": 1.0,
+              "nothing": 9.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 10.0,
+              "cut": 1.0,
+              "nothing": 9.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 3.0
+            }
+          }
+        ]
       },
       {
-        "part": {
-          "name": "fin2_dm"
-        }
+        "part": [
+          {
+            "name": "fin2_dm"
+          },
+          {
+            "onHit": {
+              "tailcontrol_dm": 0.001
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.6
+            }
+          },
+          {
+            "onKill": {
+              "tailcontrol_dm": 1.0,
+              "nothing": 9.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 10.0,
+              "cut": 1.0,
+              "nothing": 9.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 3.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -969,9 +1031,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1977,7 +2070,7 @@
   },
   {
     "Sound": {
-      "Engine": "engine03",
+      "Engine": "engine_xp55",
       "gun": "gun_fw"
     }
   },
@@ -2083,7 +2176,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50.blk",
+          "blk": "gameData/Weapons/gunBrowning50_M2.blk",
           "emitter": "flare3",
           "flash": "flare3",
           "dm": "mgun1_dm",
@@ -2096,7 +2189,7 @@
       {
         "Weapon": {
           "trigger": "machine gun",
-          "blk": "gameData/Weapons/gunBrowning50.blk",
+          "blk": "gameData/Weapons/gunBrowning50_M2.blk",
           "emitter": "flare4",
           "flash": "flare4",
           "dm": "mgun2_dm",
@@ -2170,110 +2263,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "rudder0"
-        },
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "aileron1_l"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "rudder1"
-        },
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "aileron1_r"
-        }
-      ],
-      "tail": [
-        {
-          "part": "mgun1"
-        },
-        {
-          "part": "mgun2"
-        },
-        {
-          "part": "cannon1"
-        },
-        {
-          "part": "cannon2"
-        },
-        {
-          "part": "tail"
-        },
-        {
-          "part": "elevator"
-        }
-      ]
     }
   },
   {

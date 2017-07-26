@@ -172,7 +172,7 @@
       },
       "suspension": {
         "suspensionOffsets": [-0.25,-0.2,0.14],
-        "defaultGearRadius": 0.26,
+        "defaultGearRadius": 0.29,
         "frontBackGearRadius": 0.27,
         "topGearRadius": 0.15,
         "defaultDampeningForce": [150000.0,150000.0],
@@ -301,6 +301,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -654,7 +702,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -679,19 +727,28 @@
     ]
   },
   {
-    "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
-      "headPos": [0.0,3.7,-7.5],
-      "headPosOnShooting": [0.0,3.5,0.0],
-      "detectionHeight": 2.4
-    }
-  },
-  {
     "user_skin": {
       "name": "isu_152",
       "replace_tex": {
         "from": "ussr_camo_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "winter",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_winter*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "forest",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_forest_01*"
       }
     }
   },
@@ -738,28 +795,31 @@
       "hp": 10000.0,
       "hull": {
         "turret_front_dm": {
-          "armorThickness": 90.0
+          "armorThickness": 65.0
+        },
+        "turret_bottom_dm": {
+          "armorThickness": 75.0
         },
         "turret_top_dm": {
-          "armorThickness": 30.0
+          "armorThickness": 65.0
         },
         "turret_back_dm": {
           "armorThickness": 60.0
+        },
+        "turret_side_dm": {
+          "armorThickness": 50.0
         },
         "body_front_dm": {
           "armorThickness": 90.0
         },
         "body_top_dm": {
-          "armorThickness": 60.0
+          "armorThickness": 30.0
         },
         "body_side_dm": {
           "armorThickness": 90.0
         },
         "superstructure_side_dm": {
           "armorThickness": 75.0
-        },
-        "superstructure_front_dm": {
-          "armorThickness": 90.0
         },
         "superstructure_back_dm": {
           "armorThickness": 60.0
@@ -771,9 +831,22 @@
           "armorThickness": 20.0
         },
         "superstructure_bottom_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 5.0,
+          "armorClass": "tank_structural_steel"
         },
         "body_back_dm": {
+          "armorThickness": 60.0
+        },
+        "superstructure_front_dm": {
+          "armorThickness": 90.0
+        },
+        "turret_commander_dm": {
+          "armorThickness": 50.0
+        },
+        "turret_01_front_dm": {
+          "armorThickness": 90.0
+        },
+        "turret_01_top_dm": {
           "armorThickness": 60.0
         }
       },
@@ -781,6 +854,10 @@
         "armorClass": "CHA_tank",
         "gun_mask_dm": {
           "armorThickness": 100.0,
+          "hp": 10000.0
+        },
+        "turret_01_back_dm": {
+          "armorThickness": 40.0,
           "hp": 10000.0
         }
       },
@@ -875,6 +952,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -885,6 +965,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -1695,16 +1781,12 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 250,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -1734,6 +1816,15 @@
     }
   },
   {
+    "cockpit": {
+      "zoomOutFov": 40.0,
+      "zoomInFov": 21.0,
+      "headPos": [0.0,3.6,-7.5],
+      "headPosOnShooting": [0.0,3.5,0.0],
+      "detectionHeight": 2.735
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -1759,24 +1850,6 @@
       },
       "122mm_APHE_ammo_pack": [],
       "122mm_ussr_HE": []
-    }
-  },
-  {
-    "skin": {
-      "name": "winter",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_winter*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "forest",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_forest_01*"
-      }
     }
   }
 ]

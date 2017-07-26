@@ -122,12 +122,15 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "gunner_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,-1.0,-0.1]
         }
       },
       {
@@ -192,12 +195,15 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "machine_gunner_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,-1.0,-0.1]
         }
       },
       {
@@ -262,12 +268,15 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "loader_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,-1.0,-0.1]
         }
       },
       {
@@ -332,12 +341,15 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "driver_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,-1.0,-0.1]
         }
       },
       {
@@ -402,12 +414,15 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
+        "dmName": "commander_dm"
+      },
+      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,-1.0,-0.1]
         }
       },
       {
@@ -579,22 +594,36 @@
           "hp": 2000.0
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "gun_barrel_dm": {
-          "armorThickness": 30.0,
-          "hp": 250.0
+      "gun": [
+        {
+          "armorClass": "tank_barrel"
         },
-        "gun_barrel_armor_dm": {
-          "armorThickness": 30.0,
-          "hp": 250.0
+        {
+          "gun_barrel_dm": {
+            "armorThickness": 30.0,
+            "hp": 250.0
+          }
         },
-        "gun_barrel_01_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "hp": 250.0
+        {
+          "gun_barrel_armor_dm": {
+            "armorThickness": 30.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "gun_barrel_01_dm": {
+            "armorThrough": 10.0,
+            "armorThickness": 5.0,
+            "hp": 250.0
+          }
+        },
+        {
+          "gun_barrel_armor_dm": {
+            "armorThickness": 30.0,
+            "hp": 250.0
+          }
         }
-      },
+      ],
       "chassis": {
         "armorClass": "tank_steel_wheels",
         "hp": 250.0,
@@ -674,10 +703,6 @@
         "optic_turret_05_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
-        },
-        "gun_barrel_armor_dm": {
-          "armorThickness": 30.0,
-          "hp": 250.0
         }
       },
       "equipment": {
@@ -697,7 +722,7 @@
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
-        "armorThickness": 15.0,
+        "armorThickness": 10.0,
         "armorThrough": 60.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
@@ -1470,7 +1495,7 @@
         {
           "fireParams": {
             "fireDamagePower": 1.0,
-            "maxTankFireTime": [30.0,35.0],
+            "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
         },
@@ -1618,27 +1643,6 @@
     }
   },
   {
-    "PhysSys": {
-      "find": "^bone_suspension_(._\\d\\d)$",
-      "points": {
-        "suspension": {
-          "name": "bone_suspension_$1"
-        },
-        "wheel": {
-          "name": "bone_wheel_$1",
-          "limitMin": [-1000.0,0.0,0.0],
-          "limitMax": [1000.0,0.0,0.0]
-        }
-      },
-      "constraints": {
-        "edge": {
-          "from": "suspension",
-          "to": "wheel"
-        }
-      }
-    }
-  },
-  {
     "ammo": {
       "combustionTime": 10.0,
       "detonateProb": 0.15,
@@ -1757,6 +1761,54 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
             }
           }
         ]
@@ -2110,7 +2162,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }

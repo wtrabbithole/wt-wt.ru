@@ -728,6 +728,54 @@
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
+            }
           }
         ]
       },
@@ -1080,7 +1128,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1284,6 +1332,8 @@
         "armorClass": "tank_structural_steel",
         "hp": 1000.0,
         "armorThickness": 4.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
         "ex_decor_r_06_dm": [],
         "ex_decor_r_08_dm": [],
         "ex_decor_l_05_dm": [],
@@ -1356,6 +1406,9 @@
         "gunner_02_dm": {
           "genericDamageMult": 3.0
         },
+        "gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
         "commander_dm": {
           "genericDamageMult": 3.0
         },
@@ -1366,6 +1419,12 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_02_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_03_dm": {
+          "genericDamageMult": 3.0
+        },
+        "machine_gunner_04_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -1506,10 +1565,10 @@
           "substitute": "machine_gunner1"
         },
         {
-          "substitute": "machine_gunner2"
+          "substitute": "loader2"
         },
         {
-          "substitute": "loader"
+          "substitute": "loader1"
         },
         {
           "substitute": "commander"
@@ -1526,16 +1585,16 @@
           "substitute": "machine_gunner1"
         },
         {
-          "substitute": "machine_gunner2"
+          "substitute": "loader2"
         },
         {
-          "substitute": "loader"
+          "substitute": "loader1"
         },
         {
           "substitute": "commander"
         }
       ],
-      "loader": [
+      "loader1": [
         {
           "dmPart": "loader_dm"
         },
@@ -1546,7 +1605,7 @@
           "substitute": "machine_gunner1"
         },
         {
-          "substitute": "machine_gunner2"
+          "substitute": "loader2"
         },
         {
           "substitute": "commander"
@@ -1563,15 +1622,15 @@
           "substitute": "machine_gunner1"
         },
         {
-          "substitute": "machine_gunner2"
+          "substitute": "loader2"
         }
       ],
       "machine_gunner1": {
         "dmPart": "machine_gunner_01_dm",
         "role": "radio_gunner"
       },
-      "machine_gunner2": {
-        "dmPart": "machine_gunner_02_dm",
+      "loader2": {
+        "dmPart": "loader_01_dm",
         "role": "radio_gunner"
       }
     }
@@ -1601,7 +1660,7 @@
           "part": "machine_gunner_02_dm"
         },
         {
-          "part": "machine_gunner_01_dm"
+          "part": "loader_01_dm"
         },
         {
           "effects": {
@@ -1773,6 +1832,11 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-5.0,60.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-6.0,-5.0,60.0],
+            "lim2": [-6.0,10.0,6.0,60.0],
+            "lim3": [10.0,180.0,-5.0,60.0]
           }
         }
       }
@@ -1800,7 +1864,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.635,
-        "height": 0.05,
+        "height": 0.045,
         "width": 0.64
       },
       "collisionProps": {

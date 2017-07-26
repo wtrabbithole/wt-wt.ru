@@ -235,6 +235,9 @@
         },
         "turret_03_side_dm": {
           "armorThickness": 60.0
+        },
+        "turret_03_top_dm": {
+          "armorThickness": 60.0
         }
       },
       "optics": {
@@ -787,16 +790,12 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 3375,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -812,7 +811,7 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-6.0,10.0]
+            "pitch": [-6.0,20.0]
           }
         }
       },
@@ -829,16 +828,12 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "fireConeAngle": 1.0,
           "bullets": 3375,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 1.0,
           "errMeasureVel": 0.0,
           "errMeasureVelFast": 0.0,
           "errMeasureVelFwdShift": 0.0,
@@ -846,6 +841,8 @@
           "errTargettingOn100kmph": 0.0,
           "errTargetting": 3.0,
           "errExplTime": 0.0,
+          "reuseYawTrigger": 11,
+          "reusePitchTrigger": 11,
           "turret": {
             "head": "bone_turret_02",
             "gun": "bone_gun_02",
@@ -854,7 +851,7 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-6.0,10.0]
+            "pitch": [-6.0,20.0]
           }
         }
       }
@@ -883,7 +880,7 @@
       },
       "tracks": {
         "animationMultiplier": 0.95,
-        "height": 0.06,
+        "height": 0.07,
         "width": 0.91
       },
       "collisionProps": {
@@ -942,7 +939,7 @@
       },
       "suspension": {
         "suspensionOffsets": [-0.07,-0.04,0.03],
-        "defaultGearRadius": 0.24,
+        "defaultGearRadius": 0.25,
         "frontBackGearRadius": 0.35,
         "topGearRadius": 0.15,
         "defaultDampeningForce": [243849.0,243839.0],
@@ -1604,6 +1601,54 @@
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
             }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_05"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_06"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_07"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_08"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_09"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_10"
+            }
           }
         ]
       },
@@ -1956,7 +2001,7 @@
         "event": {
           "name": "big_bang",
           "fx": {
-            "name": "ship_explosion",
+            "name": "tank_explosion",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -1982,8 +2027,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 26.0,
+      "zoomInFov": 24.7,
+      "sightFov": 17.5,
       "headPos": [0.0,3.7,-9.5],
       "headPosOnShooting": [0.0,3.4,0.0],
       "detectionHeight": 3.04

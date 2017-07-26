@@ -6,6 +6,9 @@
     "fmFile": "fm/canberra_bimk6.blk"
   },
   {
+    "tpsCameraOffset": [-7.0,3.0,0.0]
+  },
+  {
     "type": "typeBomber"
   },
   {
@@ -669,14 +672,118 @@
         }
       },
       {
-        "part": {
-          "name": "elevator0_dm"
-        }
+        "part": [
+          {
+            "name": "elevator0_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
-        "part": {
-          "name": "elevator1_dm"
-        }
+        "part": [
+          {
+            "name": "elevator1_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1321,9 +1428,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2595,6 +2733,67 @@
     }
   },
   {
+    "cockpit": {
+      "headPos": [5.07,0.915,0.125],
+      "headPosOnShooting": [5.07,0.915,0.125],
+      "lightPos": [5.572499,0.493945,-0.237387],
+      "lightColor": [0.62,0.3,0.21],
+      "lightAttenuation": 1.0,
+      "devices": {
+        "stick_ailerons": [-1.0,1.0],
+        "stick_elevator": [-1.0,1.0],
+        "throttle": [0.0,1.2],
+        "pedals1": [-1.0,1.0],
+        "pedals2": [-1.0,1.0],
+        "pedals3": [-1.0,1.0],
+        "pedals4": [-1.0,1.0],
+        "pedals5": [-1.0,1.0],
+        "flaps": [0.0,1.0],
+        "flaps_fixed": true,
+        "speed": [30.866,308.666],
+        "mach": [0.5,1.0],
+        "vario": [-20.32,20.32],
+        "altitude_hour": [0.0,10000.0],
+        "altitude_min": [0.0,1000.0],
+        "altitude_koef": 3.28,
+        "aviahorizon_pitch": [-45.0,45.0],
+        "aviahorizon_roll": [-180.0,180.0],
+        "bank": [-8.0,8.0],
+        "turn": [-0.23562,0.23562],
+        "compass": [0.0,360.0],
+        "compass1": [0.0,360.0],
+        "rpm_hour": [0.0,20000.0],
+        "rpm_min": [0.0,1000.0],
+        "rpm1_hour": [0.0,20000.0],
+        "rpm1_min": [0.0,1000.0],
+        "water_temperature": [400.0,750.0],
+        "water_temperature1": [400.0,750.0],
+        "oil_pressure": [0.0,120.0],
+        "oil_pressure1": [0.0,120.0],
+        "fuel1": [0.0,512.0],
+        "fuel2": [0.0,317.0],
+        "fuel3": [0.0,545.0]
+      },
+      "parts_holes_dmg": {
+        "part": "fuse"
+      },
+      "parts_oil_dmg": [
+        {
+          "part": "engine1"
+        },
+        {
+          "part": "engine2"
+        },
+        {
+          "part": "engine3"
+        },
+        {
+          "part": "engine4"
+        }
+      ]
+    }
+  },
+  {
     "Sound": {
       "Engine": "engine05",
       "gun": "gun_default"
@@ -2676,15 +2875,6 @@
     "weapon_presets": [
       {
         "preset": {
-          "name": "canberra_bimk6_default",
-          "blk": "gameData/FlightModels/weaponPresets/empty.blk",
-          "tags": {
-            "aux": true
-          }
-        }
-      },
-      {
-        "preset": {
           "name": "canberra_3x1000lbs_2x500lbs",
           "blk": "gameData/FlightModels/weaponPresets/canberra_3x1000lbs_2x500lbs.blk",
           "reqModification": "EEMBC_mark_1"
@@ -2759,116 +2949,6 @@
       "gunOverheatTime": 4.0,
       "gunCooldownTime": 2.5,
       "gunTempAfterOverheat": 0.2
-    }
-  },
-  {
-    "cut_parts": {
-      "wing2_l": [
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "wingcontrol_l"
-        }
-      ],
-      "wing2_r": [
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "wingcontrol_r"
-        }
-      ],
-      "wing_l": [
-        {
-          "part": "wing_l"
-        },
-        {
-          "part": "wing1_l"
-        },
-        {
-          "part": "wing2_l"
-        },
-        {
-          "part": "spar_l"
-        },
-        {
-          "part": "spar1_l"
-        },
-        {
-          "part": "spar2_l"
-        },
-        {
-          "part": "flap1_l"
-        },
-        {
-          "part": "aileron_l"
-        },
-        {
-          "part": "pylon_bomb1"
-        }
-      ],
-      "wing_r": [
-        {
-          "part": "wing_r"
-        },
-        {
-          "part": "wing1_r"
-        },
-        {
-          "part": "wing2_r"
-        },
-        {
-          "part": "spar_r"
-        },
-        {
-          "part": "spar1_r"
-        },
-        {
-          "part": "spar2_r"
-        },
-        {
-          "part": "flap1_r"
-        },
-        {
-          "part": "aileron_r"
-        },
-        {
-          "part": "airbrake_r"
-        },
-        {
-          "part": "airbrake_r1"
-        },
-        {
-          "part": "pylon_bomb2"
-        }
-      ],
-      "tail": [
-        {
-          "part": "tail"
-        },
-        {
-          "part": "stab"
-        },
-        {
-          "part": "fin"
-        },
-        {
-          "part": "rudder"
-        },
-        {
-          "part": "elevator0"
-        },
-        {
-          "part": "elevator1"
-        }
-      ]
     }
   },
   {

@@ -323,12 +323,47 @@
     "transitionFadeInTime": 1.12,
     "transitionFadeOutTime": 0.05,
     "viscosity": 0.05,
+    "tiltShakeMultiplierForTanks": 0.0,
+    "tiltShakeMultiplierForShips": 0.0,
     "condition": {
       "or": {
-        "hasGunners": [],
+        "and": {
+          "hasGunners": [],
+          "not": {
+            "hasFPSGunner": []
+          }
+        },
         "not": {
           "isFlightModel": []
         }
+      }
+    }
+  },
+  "gunner_fps": {
+    "fov": 55.0,
+    "zoomFov": 25.0,
+    "transitionSpeed": 4.0,
+    "cameraControlSmoothX": 0.0,
+    "cameraControlSmoothY": 0.0,
+    "cameraControlViewRadius": 14.0,
+    "subtype": "gunner_fps",
+    "horLimit": [-1.0,1.0],
+    "verLimit": [-1.0,1.0],
+    "verticalLimit": 10.0,
+    "verticalSpeed": 1.5,
+    "horizontalSpeed": 1.5,
+    "velocitySmooth": 0.0,
+    "cameraUpOffset": 4.0,
+    "cameraShakeMultiplier": 0.18,
+    "transitionFadeInTime": 1.12,
+    "transitionFadeOutTime": 0.05,
+    "viscosity": 0.05,
+    "tiltShakeMultiplierForTanks": 0.0,
+    "tiltShakeMultiplierForShips": 0.0,
+    "condition": {
+      "and": {
+        "hasFPSGunner": [],
+        "isFlightModel": []
       }
     }
   },
@@ -609,7 +644,7 @@
       "cameraShakeMultiplier": 0.1
     },
     {
-      "cameraShakeMultiplierOnShooting": 0.016
+      "cameraShakeMultiplierOnShooting": 1.0
     },
     {
       "transitionFadeInTime": 0.12
@@ -622,6 +657,12 @@
     },
     {
       "trackGunDirection": true
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
     },
     {
       "condition": {
@@ -816,6 +857,12 @@
       "trackGunDirection": true
     },
     {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
+    },
+    {
       "condition": {
         "not": {
           "isFlightModel": []
@@ -849,10 +896,10 @@
   ],
   "camera_binoculars_targeting": [
     {
-      "fov": 12.3
+      "fov": 12.0
     },
     {
-      "zoomFov": 12.3
+      "zoomFov": 12.0
     },
     {
       "gunFov": 10.0
@@ -1009,6 +1056,12 @@
     },
     {
       "trackGunDirection": true
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
     },
     {
       "condition": {
@@ -1180,6 +1233,12 @@
     },
     {
       "trackGunDirection": true
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
     },
     {
       "condition": {
@@ -1360,6 +1419,12 @@
     },
     {
       "cameraShakeMultiplierOnShooting": 0.2
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
     },
     {
       "transitionFadeInTime": 0.12
@@ -1561,6 +1626,12 @@
     },
     {
       "cameraShakeMultiplierOnShooting": 0.2
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
     },
     {
       "transitionFadeInTime": 0.12
@@ -1908,6 +1979,12 @@
     },
     {
       "trackGunDirection": true
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
     },
     {
       "condition": {
@@ -2886,6 +2963,12 @@
       "trackGunDirection": true
     },
     {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
+    },
+    {
       "condition": {
         "isTPSViewsAllowed": []
       }
@@ -2921,9 +3004,6 @@
     },
     {
       "zoomFov": 80.0
-    },
-    {
-      "defaultZoom": 1.0
     },
     {
       "gunFov": 5.0
@@ -3041,6 +3121,12 @@
     },
     {
       "cameraShakeMultiplierOnShooting": 0.2
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
     },
     {
       "transitionFadeInTime": 0.12
@@ -3238,6 +3324,12 @@
       "trackGunDirection": true
     },
     {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
+    },
+    {
       "condition": {
         "isArtilleryAvailable": []
       }
@@ -3271,6 +3363,9 @@
     "plane": [
       {
         "camName": "tps"
+      },
+      {
+        "camName": "gunner_fps"
       },
       {
         "camName": "target_turret"
@@ -3390,6 +3485,14 @@
       },
       {
         "camName": "tps_ground"
+      }
+    ],
+    "gunner_at_plane": [
+      {
+        "camName": "gunner_fps"
+      },
+      {
+        "camName": "target_turret"
       }
     ]
   },
