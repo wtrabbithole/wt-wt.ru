@@ -120,6 +120,14 @@
       }
     }
   },
+  "chat_categories": {
+    "various": {
+      "isDefault": true
+    },
+    "squad": [],
+    "squadron": [],
+    "questions": []
+  },
   "loading_bg": [
     {
       "login_layer": 1.0
@@ -305,7 +313,9 @@
     "heat_fs_tank": "heat_fs_tank",
     "hesh_tank": "hesh_tank",
     "he_frag_tank": "he_frag_tank",
-    "shrapnel_tank": "shrapnel_tank"
+    "shrapnel_tank": "shrapnel_tank",
+    "atgm_tank": "atgm",
+    "rocket_tank": "rocket_tank"
   },
   "bullets_locId_by_caliber": [
     {
@@ -528,6 +538,7 @@
       "reward_unlock": "item_unlock",
       "reward_decal": "item_decal",
       "reward_skin": "item_skin",
+      "reward_attachable": "item_attachable",
       "shop_trophy_test_warpoints": "small_wooden_box_big;",
       "shop_trophy_test_warpoints_opened": "small_wooden_box_opened_big;",
       "shop_trophy_test_warpoints_shop": "small_wooden_box;",
@@ -582,7 +593,22 @@
       "default_chest_debug": "chest_placeholder",
       "default_wager_debug": "wager",
       "default_personal_discount": "item_personal_discount",
-      "default_order_debug": "order"
+      "default_order_debug": "order",
+      "cybercafebonus_shop": "cyber_cafe_bonus",
+      "clan_medal_place1_arcade": "clan_medal_bg_diff0;clan_medal_cup_g;clan_medal_top001;clan_medal_g_diff0_txt;clan_medal_g_season_txt",
+      "clan_medal_place2_arcade": "clan_medal_bg_diff0;clan_medal_cup_g;clan_medal_top002;clan_medal_g_diff0_txt;clan_medal_g_season_txt",
+      "clan_medal_place3_arcade": "clan_medal_bg_diff0;clan_medal_cup_g;clan_medal_top003;clan_medal_g_diff0_txt;clan_medal_g_season_txt",
+      "clan_medal_top5_arcade": "clan_medal_bg_diff0;clan_medal_cup_s;clan_medal_top005;clan_medal_s_diff0_txt;clan_medal_s_season_txt",
+      "clan_medal_top10_arcade": "clan_medal_bg_diff0;clan_medal_cup_s;clan_medal_top010;clan_medal_s_diff0_txt;clan_medal_s_season_txt",
+      "clan_medal_top50_arcade": "clan_medal_bg_diff0;clan_medal_cup_c;clan_medal_top050;clan_medal_c_diff0_txt;clan_medal_c_season_txt",
+      "clan_medal_top100_arcade": "clan_medal_bg_diff0;clan_medal_cup_c;clan_medal_top100;clan_medal_c_diff0_txt;clan_medal_c_season_txt",
+      "clan_medal_place1_realistic": "clan_medal_bg_diff1;clan_medal_cup_g;clan_medal_top001;clan_medal_g_diff1_txt;clan_medal_g_season_txt",
+      "clan_medal_place2_realistic": "clan_medal_bg_diff1;clan_medal_cup_g;clan_medal_top002;clan_medal_g_diff1_txt;clan_medal_g_season_txt",
+      "clan_medal_place3_realistic": "clan_medal_bg_diff1;clan_medal_cup_g;clan_medal_top003;clan_medal_g_diff1_txt;clan_medal_g_season_txt",
+      "clan_medal_top5_realistic": "clan_medal_bg_diff1;clan_medal_cup_s;clan_medal_top005;clan_medal_s_diff1_txt;clan_medal_s_season_txt",
+      "clan_medal_top10_realistic": "clan_medal_bg_diff1;clan_medal_cup_s;clan_medal_top010;clan_medal_s_diff1_txt;clan_medal_s_season_txt",
+      "clan_medal_top50_realistic": "clan_medal_bg_diff1;clan_medal_cup_c;clan_medal_top050;clan_medal_c_diff1_txt;clan_medal_c_season_txt",
+      "clan_medal_top100_realistic": "clan_medal_bg_diff1;clan_medal_cup_c;clan_medal_top100;clan_medal_c_diff1_txt;clan_medal_c_season_txt"
     },
     "layers": {
       "default_unlocked": {
@@ -1364,6 +1390,32 @@
         "h": 0.768,
         "img": "#ui/images/chests/items_box9_small_open"
       },
+      "group_big_gold_chest_big": {
+        "x": 0.1,
+        "w": 0.934,
+        "h": 0.664,
+        "img": "#ui/images/chests/combobox_09"
+      },
+      "group_big_gold_chest": {
+        "x": 0.02,
+        "y": 0.08,
+        "w": 1.088,
+        "h": 0.768,
+        "img": "#ui/images/chests/combobox_09_small"
+      },
+      "group_big_gold_chest_opened_big": {
+        "x": 0.1,
+        "w": 0.934,
+        "h": 0.664,
+        "img": "#ui/images/chests/combobox_09_open"
+      },
+      "group_big_gold_chest_opened": {
+        "x": 0.02,
+        "y": 0.08,
+        "w": 1.088,
+        "h": 0.768,
+        "img": "#ui/images/chests/combobox_09_small_open"
+      },
       "small_green_chest_big": {
         "x": 0.12,
         "w": 0.874,
@@ -1573,6 +1625,12 @@
         "position": "relative",
         "img": "#ui/gameuiskin#item_skin"
       },
+      "item_attachable": {
+        "w": "0.4@chestRewardWidth",
+        "h": "0.4@chestRewardHeight",
+        "position": "relative",
+        "img": "#ui/gameuiskin#item_attachable"
+      },
       "item_place_single": {
         "w": "1@itemWidth",
         "h": "1@itemHeight",
@@ -1677,7 +1735,9 @@
         "type": "text",
         "color": "@activeTextColor",
         "x": "0.5pw-0.5w",
-        "y": "0.9ph-0.5h"
+        "y": "0.95ph-h",
+        "max-width": "pw",
+        "text-align": "center"
       },
       "booster_personal": {
         "w": 0.82,
@@ -2828,6 +2888,165 @@
         "w": 0.385,
         "h": 0.446,
         "img": "#ui/gameuiskin#items_orders_bomberman"
+      },
+      "cyber_cafe_bonus": {
+        "w": 0.85,
+        "h": 0.85,
+        "img": "#ui/images/cybercafe"
+      },
+      "clan_medal_bg_diff0": {
+        "img": "@!ui/images/clan_awards/ca_bg_diff0.png"
+      },
+      "clan_medal_bg_diff1": {
+        "img": "@!ui/images/clan_awards/ca_bg_diff1.png"
+      },
+      "clan_medal_cup_g": {
+        "img": "@!ui/images/clan_awards/ca_cup1.png"
+      },
+      "clan_medal_cup_s": {
+        "img": "@!ui/images/clan_awards/ca_cup2.png"
+      },
+      "clan_medal_cup_c": {
+        "img": "@!ui/images/clan_awards/ca_cup3.png"
+      },
+      "clan_medal_top001": {
+        "w": 0.25,
+        "h": 0.21,
+        "x": 0.37,
+        "y": 0.31,
+        "img": "@!ui/images/clan_awards/ca_top001.png"
+      },
+      "clan_medal_top002": {
+        "w": 0.25,
+        "h": 0.21,
+        "x": 0.37,
+        "y": 0.31,
+        "img": "@!ui/images/clan_awards/ca_top002.png"
+      },
+      "clan_medal_top003": {
+        "w": 0.25,
+        "h": 0.21,
+        "x": 0.37,
+        "y": 0.31,
+        "img": "@!ui/images/clan_awards/ca_top003.png"
+      },
+      "clan_medal_top005": {
+        "w": 0.25,
+        "h": 0.21,
+        "x": 0.37,
+        "y": 0.31,
+        "img": "@!ui/images/clan_awards/ca_top005.png"
+      },
+      "clan_medal_top010": {
+        "w": 0.25,
+        "h": 0.21,
+        "x": 0.37,
+        "y": 0.31,
+        "img": "@!ui/images/clan_awards/ca_top010.png"
+      },
+      "clan_medal_top050": {
+        "w": 0.25,
+        "h": 0.21,
+        "x": 0.37,
+        "y": 0.31,
+        "img": "@!ui/images/clan_awards/ca_top050.png"
+      },
+      "clan_medal_top100": {
+        "w": 0.25,
+        "h": 0.21,
+        "x": 0.37,
+        "y": 0.31,
+        "img": "@!ui/images/clan_awards/ca_top100.png"
+      },
+      "clan_medal_g_diff0_txt": {
+        "type": "text",
+        "x": "pw/2-w/2",
+        "y": "9%ph",
+        "color": "#ffbe61",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon",
+        "text": "#clan/shortArcadeBattle"
+      },
+      "clan_medal_s_diff0_txt": {
+        "type": "text",
+        "x": "pw/2-w/2",
+        "y": "9%ph",
+        "color": "#cecdcb",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon",
+        "text": "#clan/shortArcadeBattle"
+      },
+      "clan_medal_c_diff0_txt": {
+        "type": "text",
+        "x": "pw/2-w/2",
+        "y": "9%ph",
+        "color": "#ffa96f",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon",
+        "text": "#clan/shortArcadeBattle"
+      },
+      "clan_medal_g_diff1_txt": {
+        "type": "text",
+        "x": "pw/2-w/2",
+        "y": "9%ph",
+        "color": "#ffbe61",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon",
+        "text": "#clan/shortHistoricalBattle"
+      },
+      "clan_medal_s_diff1_txt": {
+        "type": "text",
+        "x": "pw/2-w/2",
+        "y": "9%ph",
+        "color": "#cecdcb",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon",
+        "text": "#clan/shortHistoricalBattle"
+      },
+      "clan_medal_c_diff1_txt": {
+        "type": "text",
+        "x": "pw/2-w/2",
+        "y": "9%ph",
+        "color": "#ffa96f",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon",
+        "text": "#clan/shortHistoricalBattle"
+      },
+      "clan_medal_g_season_txt": {
+        "type": "text",
+        "id": "season_title",
+        "x": "pw/2-w/2",
+        "y": "65%ph",
+        "color": "#ffbe61",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon"
+      },
+      "clan_medal_s_season_txt": {
+        "type": "text",
+        "id": "season_title",
+        "x": "pw/2-w/2",
+        "y": "65%ph",
+        "color": "#cecdcb",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon"
+      },
+      "clan_medal_c_season_txt": {
+        "type": "text",
+        "id": "season_title",
+        "x": "pw/2-w/2",
+        "y": "65%ph",
+        "color": "#ffa96f",
+        "font": "@small",
+        "font-ht": "0.19ph",
+        "shadeStyle": "textOnIcon"
       }
     }
   },
@@ -2886,19 +3105,26 @@
       "country_japan_locked": "#ui/gameuiskin#country_japan_locked",
       "country_japan_big": "#ui/gameuiskin#country_japan_big",
       "country_japan_big_locked": "#ui/gameuiskin#country_japan_big_locked",
+      "country_china": "#ui/gameuiskin#country_china",
+      "country_china_locked": "#ui/gameuiskin#country_china_locked",
+      "country_china_big": "#ui/gameuiskin#country_china_big",
+      "country_china_big_locked": "#ui/gameuiskin#country_china_big_locked",
       "countries_country_usa_aviation": "#ui/countries/country_usa",
       "countries_country_germany_aviation": "#ui/countries/country_germany",
       "countries_country_ussr_aviation": "#ui/countries/country_ussr",
       "countries_country_britain_aviation": "#ui/countries/country_britain",
       "countries_country_japan_aviation": "#ui/countries/country_japan",
+      "countries_country_china_aviation": "#ui/countries/country_china",
       "countries_country_germany_army": "#ui/countries/country_germany_army",
       "countries_country_ussr_army": "#ui/countries/country_ussr_army",
       "countries_country_usa_army": "#ui/countries/country_usa_army",
+      "countries_country_britain_army": "#ui/countries/country_britain_army",
       "bgflag_country_usa": "ui/flag_usa",
       "bgflag_country_germany": "ui/flag_germany",
       "bgflag_country_ussr": "ui/flag_ussr",
       "bgflag_country_britain": "ui/flag_britain",
       "bgflag_country_japan": "ui/flag_japan",
+      "bgflag_country_china": "ui/flag_china",
       "flag_usa": "#ui/gameuiskin#flag_usa",
       "flag_germany": "#ui/gameuiskin#flag_germany",
       "flag_ussr": "#ui/gameuiskin#flag_ussr",
@@ -2909,6 +3135,7 @@
       "decal_locked_country_ussr": "#ui/gameuiskin#decal_country_ussr_locked",
       "decal_locked_country_britain": "#ui/gameuiskin#decal_country_britain_locked",
       "decal_locked_country_japan": "#ui/gameuiskin#decal_country_japan_locked",
+      "decal_locked_country_china": "#ui/gameuiskin#decal_country_china_locked",
       "country_britain_army_first_choice": "#ui/images/first_choice/country_britain_army.jpg?P1",
       "country_britain_army_first_choice_active": "#ui/images/first_choice/country_britain_army_active.jpg?P1",
       "country_britain_aviation_first_choice": "#ui/images/first_choice/country_britain_aviation.jpg?P1",
@@ -2937,6 +3164,8 @@
       "country_ussr_tank_unit": "#ui/images/researches/ussr_ground_finishedresearch.jpg?P1",
       "country_japan_aircraft_unit": "#ui/images/researches/japan_finishedresearch.jpg?P1",
       "country_britain_aircraft_unit": "#ui/images/researches/uk_finishedresearch.jpg?P1",
+      "country_britain_tank_unit": "#ui/images/researches/uk_ground_finishedresearch.jpg?P1",
+      "country_china_aircraft_unit": "#ui/images/researches/china_finishedresearch.jpg?P1",
       "country_germany_aircraft_modification": "#ui/images/researches/ger_newmodificationresearch.jpg?P1",
       "country_germany_tank_modification": "#ui/images/researches/ger_ground_newmodificationresearch.jpg?P1",
       "country_usa_aircraft_modification": "#ui/images/researches/usa_newmodificationresearch.jpg?P1",
@@ -2944,7 +3173,9 @@
       "country_ussr_aircraft_modification": "#ui/images/researches/ussr_newmodificationresearch.jpg?P1",
       "country_ussr_tank_modification": "#ui/images/researches/ussr_ground_newmodificationresearch.jpg?P1",
       "country_japan_aircraft_modification": "#ui/images/researches/japan_newmodificationresearch.jpg?P1",
-      "country_britain_aircraft_modification": "#ui/images/researches/uk_newmodificationresearch.jpg?P1"
+      "country_britain_aircraft_modification": "#ui/images/researches/uk_newmodificationresearch.jpg?P1",
+      "country_britain_tank_modification": "#ui/images/researches/uk_ground_newmodificationresearch.jpg?P1",
+      "country_china_aircraft_modification": "#ui/images/researches/china_newmodificationresearch.jpg?P1"
     },
     "tencent": {
       "country_usa": "#ui/gameuiskin#country_usa_alt",
@@ -2967,25 +3198,33 @@
       "country_japan_locked": "#ui/gameuiskin#country_japan_alt_locked",
       "country_japan_big": "#ui/gameuiskin#country_japan_alt_big",
       "country_japan_big_locked": "#ui/gameuiskin#country_japan_alt_big_locked",
+      "country_china": "#ui/gameuiskin#country_china_alt",
+      "country_china_locked": "#ui/gameuiskin#country_china_alt_locked",
+      "country_china_big": "#ui/gameuiskin#country_china_alt_big",
+      "country_china_big_locked": "#ui/gameuiskin#country_china_alt_big_locked",
       "countries_country_usa_aviation": "#ui/countries/country_usa_alt",
       "countries_country_germany_aviation": "#ui/countries/country_germany_alt",
       "countries_country_ussr_aviation": "#ui/countries/country_ussr_alt",
       "countries_country_britain_aviation": "#ui/countries/country_britain_alt",
       "countries_country_japan_aviation": "#ui/countries/country_japan_alt",
+      "countries_country_china_aviation": "#ui/countries/country_china_alt",
       "countries_country_germany_army": "#ui/countries/country_germany_alt_army",
       "countries_country_ussr_army": "#ui/countries/country_ussr_alt_army",
       "countries_country_usa_army": "#ui/countries/country_usa_alt_army",
+      "countries_country_britain_army": "#ui/countries/country_britain_alt_army",
       "bgflag_country_usa": "ui/flag_usa_alt",
       "bgflag_country_germany": "ui/flag_germany_alt",
       "bgflag_country_ussr": "ui/flag_ussr_alt",
       "bgflag_country_britain": "ui/flag_britain_alt",
       "bgflag_country_japan": "ui/flag_japan_alt",
+      "bgflag_country_china": "ui/flag_china_alt",
       "flag_japan": "#ui/gameuiskin#flag_japan_alt",
       "decal_locked_country_usa": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_germany": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_ussr": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_britain": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_japan": "#ui/gameuiskin#decal_locked_country",
+      "decal_locked_country_china": "#ui/gameuiskin#decal_locked_country",
       "country_britain_army_first_choice": "#ui/images/first_choice/country_britain_army_alt.jpg?P1",
       "country_britain_army_first_choice_active": "#ui/images/first_choice/country_britain_army_active_alt.jpg?P1",
       "country_britain_aviation_first_choice": "#ui/images/first_choice/country_britain_aviation_alt.jpg?P1",
@@ -3041,147 +3280,7 @@
     }
   },
   "units_presets": {
-    "default": [],
-    "tencent": {
-      "a6m2": "!#ui/aircraftskin_tomoe#a6m2_group",
-      "a6m3_mod22": "!#ui/aircraftskin_tomoe#a6m3_mod22_group",
-      "a6m5_group": "!#ui/aircraftskin_tomoe#a6m3_mod22_group",
-      "n1k2": "!#ui/aircraftskin_tomoe#n1k2_group",
-      "ki-10": "!#ui/aircraftskin_tomoe#ki-10_group",
-      "ki-43": "!#ui/aircraftskin_tomoe#ki-43_group",
-      "ki-45_group": "!#ui/aircraftskin_tomoe#ki-45_group",
-      "ki_61": "!#ui/aircraftskin_tomoe#ki_61_group",
-      "ki-49_group": "!#ui/aircraftskin_tomoe#ki-49_group",
-      "ki-49a_group": "!#ui/aircraftskin_tomoe#ki-49a_group",
-      "a5m4": "!#ui/aircraftskin_tomoe#a5m4",
-      "a5m4_hagiri": "!#ui/aircraftskin_tomoe#a5m4_hagiri",
-      "a6m2_mod11": "!#ui/aircraftskin_tomoe#a6m2_mod11",
-      "a6m2_n_zero": "!#ui/aircraftskin_tomoe#a6m2_n_zero",
-      "a6m2_zero": "!#ui/aircraftskin_tomoe#a6m2_zero",
-      "a6m3_mod22_zero": "!#ui/aircraftskin_tomoe#a6m3_mod22_zero",
-      "a6m3_mod22ko_zero": "!#ui/aircraftskin_tomoe#a6m3_mod22ko_zero",
-      "a6m3_zero": "!#ui/aircraftskin_tomoe#a6m3_zero",
-      "a6m5_zero": "!#ui/aircraftskin_tomoe#a6m5_zero",
-      "a6m5ko": "!#ui/aircraftskin_tomoe#a6m5ko",
-      "a6m5otsu": "!#ui/aircraftskin_tomoe#a6m5otsu",
-      "a7he1": "!#ui/aircraftskin_tomoe#a7he1",
-      "b-17e_japan": "!#ui/aircraftskin_tomoe#b-17e_japan",
-      "b5n2": "!#ui/aircraftskin_tomoe#b5n2",
-      "b7a2": "!#ui/aircraftskin_tomoe#b7a2",
-      "bf-109e-3_japan": "!#ui/aircraftskin_tomoe#bf-109e-3_japan",
-      "d3a1": "!#ui/aircraftskin_tomoe#d3a1",
-      "f-86f-30_japan": "!#ui/aircraftskin_tomoe#f-86f-30_japan",
-      "f1m2": "!#ui/aircraftskin_tomoe#f1m2",
-      "f4u-1a_japan": "!#ui/aircraftskin_tomoe#f4u-1a_japan",
-      "fw-190a-5_japan": "!#ui/aircraftskin_tomoe#fw-190a-5_japan",
-      "g4m1": "!#ui/aircraftskin_tomoe#g4m1",
-      "g5n1": "!#ui/aircraftskin_tomoe#g5n1",
-      "g8n1": "!#ui/aircraftskin_tomoe#g8n1",
-      "h6k4": "!#ui/aircraftskin_tomoe#h6k4",
-      "j7w1": "!#ui/aircraftskin_tomoe#j7w1",
-      "j8m1": "!#ui/aircraftskin_tomoe#j8m1",
-      "ki-27_otsu": "!#ui/aircraftskin_tomoe#ki-27_otsu",
-      "ki-45_hei": "!#ui/aircraftskin_tomoe#ki-45_hei",
-      "ki-45_hei_tei": "!#ui/aircraftskin_tomoe#ki-45_hei_tei",
-      "ki-45_ko": "!#ui/aircraftskin_tomoe#ki-45_ko",
-      "ki-45_ko_tei": "!#ui/aircraftskin_tomoe#ki-45_ko_tei",
-      "ki-45_otsu": "!#ui/aircraftskin_tomoe#ki-45_otsu",
-      "ki-45_tei": "!#ui/aircraftskin_tomoe#ki-45_tei",
-      "ki-49_1": "!#ui/aircraftskin_tomoe#ki-49_1",
-      "ki-49_2a": "!#ui/aircraftskin_tomoe#ki-49_2a",
-      "ki-49_2b": "!#ui/aircraftskin_tomoe#ki-49_2b",
-      "ki-49_2b_late": "!#ui/aircraftskin_tomoe#ki-49_2b_late",
-      "ki-96": "!#ui/aircraftskin_tomoe#ki-96",
-      "ki_10_1": "!#ui/aircraftskin_tomoe#ki_10_1",
-      "ki_10_1_commander": "!#ui/aircraftskin_tomoe#ki_10_1_commander",
-      "ki_10_2": "!#ui/aircraftskin_tomoe#ki_10_2",
-      "ki_10_2_commander": "!#ui/aircraftskin_tomoe#ki_10_2_commander",
-      "ki_102_otsu": "!#ui/aircraftskin_tomoe#ki_102_otsu",
-      "ki_43_1": "!#ui/aircraftskin_tomoe#ki_43_1",
-      "ki_43_2": "!#ui/aircraftskin_tomoe#ki_43_2",
-      "ki_61_1a_hei": "!#ui/aircraftskin_tomoe#ki_61_1a_hei",
-      "ki_61_1a_ko": "!#ui/aircraftskin_tomoe#ki_61_1a_ko",
-      "ki_61_1a_otsu": "!#ui/aircraftskin_tomoe#ki_61_1a_otsu",
-      "ki_84_hei": "!#ui/aircraftskin_tomoe#ki_84_hei",
-      "ki_84_ko": "!#ui/aircraftskin_tomoe#ki_84_ko",
-      "ki_84_otsu": "!#ui/aircraftskin_tomoe#ki_84_otsu",
-      "kitsuka": "!#ui/aircraftskin_tomoe#kitsuka",
-      "n1k2_j": "!#ui/aircraftskin_tomoe#n1k2_j",
-      "n1k2_jko": "!#ui/aircraftskin_tomoe#n1k2_jko",
-      "r2y2_kai": "!#ui/aircraftskin_tomoe#r2y2_kai",
-      "r2y2_v1": "!#ui/aircraftskin_tomoe#r2y2_v1",
-      "r2y2_v2": "!#ui/aircraftskin_tomoe#r2y2_v2"
-    },
-    "vietnam": {
-      "a6m2": "!#ui/aircraftskin_tomoe#a6m2_group",
-      "a6m3_mod22": "!#ui/aircraftskin_tomoe#a6m3_mod22_group",
-      "a6m5_group": "!#ui/aircraftskin_tomoe#a6m3_mod22_group",
-      "n1k2": "!#ui/aircraftskin_tomoe#n1k2_group",
-      "ki-10": "!#ui/aircraftskin_tomoe#ki-10_group",
-      "ki-43": "!#ui/aircraftskin_tomoe#ki-43_group",
-      "ki-45_group": "!#ui/aircraftskin_tomoe#ki-45_group",
-      "ki_61": "!#ui/aircraftskin_tomoe#ki_61_group",
-      "ki-49_group": "!#ui/aircraftskin_tomoe#ki-49_group",
-      "ki-49a_group": "!#ui/aircraftskin_tomoe#ki-49a_group",
-      "a5m4": "!#ui/aircraftskin_tomoe#a5m4",
-      "a5m4_hagiri": "!#ui/aircraftskin_tomoe#a5m4_hagiri",
-      "a6m2_mod11": "!#ui/aircraftskin_tomoe#a6m2_mod11",
-      "a6m2_n_zero": "!#ui/aircraftskin_tomoe#a6m2_n_zero",
-      "a6m2_zero": "!#ui/aircraftskin_tomoe#a6m2_zero",
-      "a6m3_mod22_zero": "!#ui/aircraftskin_tomoe#a6m3_mod22_zero",
-      "a6m3_mod22ko_zero": "!#ui/aircraftskin_tomoe#a6m3_mod22ko_zero",
-      "a6m3_zero": "!#ui/aircraftskin_tomoe#a6m3_zero",
-      "a6m5_zero": "!#ui/aircraftskin_tomoe#a6m5_zero",
-      "a6m5ko": "!#ui/aircraftskin_tomoe#a6m5ko",
-      "a6m5otsu": "!#ui/aircraftskin_tomoe#a6m5otsu",
-      "a7he1": "!#ui/aircraftskin_tomoe#a7he1",
-      "b-17e_japan": "!#ui/aircraftskin_tomoe#b-17e_japan",
-      "b5n2": "!#ui/aircraftskin_tomoe#b5n2",
-      "b7a2": "!#ui/aircraftskin_tomoe#b7a2",
-      "bf-109e-3_japan": "!#ui/aircraftskin_tomoe#bf-109e-3_japan",
-      "d3a1": "!#ui/aircraftskin_tomoe#d3a1",
-      "f-86f-30_japan": "!#ui/aircraftskin_tomoe#f-86f-30_japan",
-      "f1m2": "!#ui/aircraftskin_tomoe#f1m2",
-      "f4u-1a_japan": "!#ui/aircraftskin_tomoe#f4u-1a_japan",
-      "fw-190a-5_japan": "!#ui/aircraftskin_tomoe#fw-190a-5_japan",
-      "g4m1": "!#ui/aircraftskin_tomoe#g4m1",
-      "g5n1": "!#ui/aircraftskin_tomoe#g5n1",
-      "g8n1": "!#ui/aircraftskin_tomoe#g8n1",
-      "h6k4": "!#ui/aircraftskin_tomoe#h6k4",
-      "j7w1": "!#ui/aircraftskin_tomoe#j7w1",
-      "j8m1": "!#ui/aircraftskin_tomoe#j8m1",
-      "ki-27_otsu": "!#ui/aircraftskin_tomoe#ki-27_otsu",
-      "ki-45_hei": "!#ui/aircraftskin_tomoe#ki-45_hei",
-      "ki-45_hei_tei": "!#ui/aircraftskin_tomoe#ki-45_hei_tei",
-      "ki-45_ko": "!#ui/aircraftskin_tomoe#ki-45_ko",
-      "ki-45_ko_tei": "!#ui/aircraftskin_tomoe#ki-45_ko_tei",
-      "ki-45_otsu": "!#ui/aircraftskin_tomoe#ki-45_otsu",
-      "ki-45_tei": "!#ui/aircraftskin_tomoe#ki-45_tei",
-      "ki-49_1": "!#ui/aircraftskin_tomoe#ki-49_1",
-      "ki-49_2a": "!#ui/aircraftskin_tomoe#ki-49_2a",
-      "ki-49_2b": "!#ui/aircraftskin_tomoe#ki-49_2b",
-      "ki-49_2b_late": "!#ui/aircraftskin_tomoe#ki-49_2b_late",
-      "ki-96": "!#ui/aircraftskin_tomoe#ki-96",
-      "ki_10_1": "!#ui/aircraftskin_tomoe#ki_10_1",
-      "ki_10_1_commander": "!#ui/aircraftskin_tomoe#ki_10_1_commander",
-      "ki_10_2": "!#ui/aircraftskin_tomoe#ki_10_2",
-      "ki_10_2_commander": "!#ui/aircraftskin_tomoe#ki_10_2_commander",
-      "ki_102_otsu": "!#ui/aircraftskin_tomoe#ki_102_otsu",
-      "ki_43_1": "!#ui/aircraftskin_tomoe#ki_43_1",
-      "ki_43_2": "!#ui/aircraftskin_tomoe#ki_43_2",
-      "ki_61_1a_hei": "!#ui/aircraftskin_tomoe#ki_61_1a_hei",
-      "ki_61_1a_ko": "!#ui/aircraftskin_tomoe#ki_61_1a_ko",
-      "ki_61_1a_otsu": "!#ui/aircraftskin_tomoe#ki_61_1a_otsu",
-      "ki_84_hei": "!#ui/aircraftskin_tomoe#ki_84_hei",
-      "ki_84_ko": "!#ui/aircraftskin_tomoe#ki_84_ko",
-      "ki_84_otsu": "!#ui/aircraftskin_tomoe#ki_84_otsu",
-      "kitsuka": "!#ui/aircraftskin_tomoe#kitsuka",
-      "n1k2_j": "!#ui/aircraftskin_tomoe#n1k2_j",
-      "n1k2_jko": "!#ui/aircraftskin_tomoe#n1k2_jko",
-      "r2y2_kai": "!#ui/aircraftskin_tomoe#r2y2_kai",
-      "r2y2_v1": "!#ui/aircraftskin_tomoe#r2y2_v1",
-      "r2y2_v2": "!#ui/aircraftskin_tomoe#r2y2_v2"
-    }
+    "default": []
   },
   "slides_exclude": {
     "default": [],
@@ -3369,6 +3468,17 @@
     ],
     "vietnam": []
   },
+  "newbie_slides": {
+    "AD": "newbie_aircraft_aiming",
+    "AfD": "newbie_airfield_capture",
+    "GS": "newbie_ground_strike",
+    "BfD": "newbie_ground_strike_complete",
+    "I2M": "newbie_ground_strike_complete",
+    "Dom": "newbie_ground_capture",
+    "Conq": "newbie_ground_capture",
+    "Bttl": "newbie_ground_capture",
+    "Bto": "newbie_ground_capture"
+  },
   "invites_notification_window_images": [
     {
       "600": "first_battle_a5m4"
@@ -3489,9 +3599,23 @@
           "name": "USA/air/img_usa_air_17"
         }
       ],
-      "Tank": {
-        "name": "USA/tanks/img_usa_tank_02"
-      }
+      "Tank": [
+        {
+          "name": "USA/tanks/img_usa_tank_02"
+        },
+        {
+          "name": "USA/tanks/img_usa_tank_03"
+        },
+        {
+          "name": "USA/tanks/img_usa_tank_04"
+        },
+        {
+          "name": "USA/tanks/img_usa_tank_05"
+        },
+        {
+          "name": "USA/tanks/img_usa_tank_06"
+        }
+      ]
     },
     "country_ussr": {
       "Aircraft": [
@@ -3600,6 +3724,23 @@
         {
           "name": "UK/air/img_uk_air_08"
         }
+      ],
+      "Tank": [
+        {
+          "name": "UK/tanks/img_uk_tank_01"
+        },
+        {
+          "name": "UK/tanks/img_uk_tank_02"
+        },
+        {
+          "name": "UK/tanks/img_uk_tank_03"
+        },
+        {
+          "name": "UK/tanks/img_uk_tank_04"
+        },
+        {
+          "name": "UK/tanks/img_uk_tank_05"
+        }
       ]
     },
     "country_japan": {
@@ -3678,5 +3819,29 @@
     {
       "a": "opaque"
     }
-  ]
+  ],
+  "static_promo_block": {
+    "tutorial_mainmenu_button": {
+      "color": "#331e5876",
+      "notifyNew": true,
+      "action": "tutorial"
+    },
+    "current_battle_tasks_mainmenu_button": {
+      "color": "#33fb4417",
+      "reqFeature": "BattleTasks",
+      "action": "battle_tasks",
+      "text": "#mainmenu/btnBattleTasks"
+    },
+    "recent_items_mainmenu_button": {
+      "action": "items; all; inventory",
+      "text": "#items/inventory",
+      "bottom": true
+    },
+    "invite_squad_mainmenu_button": {
+      "text": "#contacts/play_with_friends",
+      "action": "squad_contacts",
+      "bottom": true,
+      "reqFeature": "!SquadWidget"
+    }
+  }
 }

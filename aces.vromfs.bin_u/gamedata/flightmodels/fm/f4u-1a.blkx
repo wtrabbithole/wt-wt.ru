@@ -334,10 +334,9 @@
       "RPMMax": 2700.0,
       "RPMMaxAllowed": 3060.0,
       "FuelConsumptionOnIdle": 0.2,
-      "FuelConsumptionOnHalfThr": 0.33,
-      "FuelConsumptionOnFullThr": 0.49,
-      "FuelConsumptionOnWEP": 0.48,
-      "UseRealReductor": true,
+      "FuelConsumptionOnHalfThr": 0.24,
+      "FuelConsumptionOnFullThr": 0.31,
+      "FuelConsumptionOnWEP": 0.34,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -347,7 +346,6 @@
       "EngineAcceleration": 6.0,
       "RPMAmplitude0": [2550.0,0.0],
       "RPMAmplitude1": [0.0,5.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 3.6008,
       "ThrustOmegaMinCoeff": 0.011,
@@ -363,7 +361,6 @@
       "HasFeatheringControl": true,
       "UseAutoPropInertia": false,
       "Reductor": 0.5,
-      "UseAdvancedProp": true,
       "NumBlades": 3,
       "AdvancedPropRadius": 1.95,
       "PropPhi0": 30.0,
@@ -445,6 +442,7 @@
       "NitroConsumption": 0.086
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "TempChangeSpeed": 0.0108,
       "WaterMaxRPMTemp": 270.0,
@@ -518,8 +516,8 @@
     }
   },
   "Mass": {
-    "EmptyMass": 4479.0,
-    "MaxFuelMass0": 1072.0,
+    "EmptyMass": 4565.0,
+    "MaxFuelMass0": 974.6,
     "FuelAccumulatorCapacity0": 5.0,
     "FuelAccumulatorLink0": 1,
     "MinimalLoadFactor": 0.0,
@@ -536,7 +534,7 @@
     "FlapsDestructionIndSpeedP2": [1.0,240.0],
     "Parts": {
       "engine1_dm": 1122.86,
-      "tank1_capacity": 733.7,
+      "tank1_capacity": 636.0,
       "tank1_system": 0,
       "tank2_capacity": 169.3,
       "tank2_system": 0,

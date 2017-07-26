@@ -3,6 +3,9 @@
     "model": "arado_234"
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "type": "typeBomber"
   },
   {
@@ -468,7 +471,7 @@
     "MetaParts": {
       "wing_l_structure": [
         {
-          "hp": 400.0
+          "hp": 300.0
         },
         {
           "part": "wing_l_dm"
@@ -493,7 +496,7 @@
       ],
       "wing_r_structure": [
         {
-          "hp": 400.0
+          "hp": 300.0
         },
         {
           "part": "wing_r_dm"
@@ -675,6 +678,22 @@
           "name": "arado234_1x1000_2x250",
           "blk": "gameData/FlightModels/weaponPresets/Arado-234_1x1000_2x250.blk",
           "reqModification": "ar234_SC1000"
+        }
+      }
+    ]
+  },
+  {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "ar_234b_2_a*",
+          "to": "ar_234b_2_a_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "ar_234b_2_a_dmg*",
+          "to": "ar_234b_2_a_tomoe_dmg*"
         }
       }
     ]
@@ -884,7 +903,49 @@
       "climbTime": 216.0,
       "maxSpeedAlt": 6000.0,
       "climbAlt": 2000.0,
-      "climbSpeed": 45.56
+      "climbSpeed": 26.6595,
+      "wingLoading": 256.0,
+      "thrustToWeightRatio": 0.13,
+      "rollRate": 82.0
+    }
+  },
+  {
+    "wiki": {
+      "general": {
+        "length": 12.65,
+        "wingspan": 14.41,
+        "wingArea": 26.8,
+        "emptyWeight": 3760.0,
+        "normalWeight": 6851.0,
+        "maxTakeoffWeight": 9350.0,
+        "powerPlantType": 2,
+        "thrustMaxMil": 14800.0
+      },
+      "performance": {
+        "table": {
+          "rpmMil": 8700.0,
+          "airSpeedMil0": [0.0,706.0],
+          "airSpeedMil1": [6000.0,735.0],
+          "climbRateMil0": [0.0,26.7],
+          "climbTimeMil0": [2000.0,141.609],
+          "climbTimeMil1": [4000.0,311.335],
+          "climbTimeMil2": [6000.0,532.59],
+          "climbTimeMil3": [8000.0,858.725],
+          "turnTimeMil": [1000.0,30.3],
+          "ceiling": 10200.0,
+          "rollRate": 82.0,
+          "wingLoading": 256.0,
+          "thrustToWeightRatio": 0.27
+        },
+        "plot": {
+          "airSpeedMil0": [0.0,706.0],
+          "airSpeedMil1": [5500.0,735.0],
+          "airSpeedMil2": [9000.0,712.0],
+          "airSpeedMil3": [10200.0,660.0],
+          "climbRateMil0": [0.0,26.7],
+          "climbRateMil1": [10200.0,12.5]
+        }
+      }
     }
   },
   {

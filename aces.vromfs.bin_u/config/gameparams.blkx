@@ -1,5 +1,6 @@
 {
   "infantry_render_distance": 750.0,
+  "gather_sparse_freq": 0,
   "treeAOdefault": 0.8,
   "treeAOnoShadow": 0.0,
   "helipadRearmTime": 25.0,
@@ -9,8 +10,8 @@
   "relativePartHealthForVisibleDamage": 0.7,
   "relativePartHealthForCockpitHoles": 0.7,
   "relativePartHealthForCockpitOil": 0.7,
-  "loaderWoundPenalty": 1.5,
-  "loaderMaxPenalty": 3.0,
+  "loaderWoundPenalty": 1.25,
+  "loaderMaxPenalty": 2.0,
   "hmap_detail_tex_ofs": [0.0,0.0],
   "hmap_detail_tex_mul": [0.6,0.6],
   "maxIntroVideoPlayed": 7,
@@ -24,8 +25,6 @@
   "replay_key_reducing_enabled": false,
   "debug_rend_inst_loading_delay_on_pc_ms": 0,
   "collimatorSize": 0.14,
-  "cockpit_target_brightness_mul": 1.0,
-  "cockpit_adaptation_max_mul": 0.9,
   "tracer_limit_enabled": true,
   "long_flak_explosion_percent": 25,
   "groundRicochetAngle": 60.0,
@@ -33,10 +32,19 @@
   "artilleryCooldown": 120.0,
   "collisionImpulseScaleForTankBots": 5.0,
   "tank_vision_grass_displacement_rad": 10.0,
+  "bombingZoneHpToTntEquivalentTons": 0.0001,
   "maxDistForWatchXRayInSpectator": 50.0,
   "effectsZNearOffsetInCockpit": 2.0,
   "invisibleSupportUnits": true,
+  "minMassMultApexObjectsCollidedWithHero": 0.002,
+  "maxMassMultApexObjectsCollidedWithHero": 0.04,
+  "minViscosityApexObjectsCollidedWithHero": 0.95,
+  "maxViscosityApexObjectsCollidedWithHero": 1.0,
+  "multipointVisibilityAgainstTreesWithoutMarkers": true,
+  "multipointVisibilityTreeTransparencyThreshold": 0.5,
+  "multipointVisibilityForMarkersDistK": 3.5,
   "teleScale": 0.03,
+  "minSkyAmbientLighting": [0.00954,0.012756,0.026677],
   "propeller_side_angle": 0.1,
   "propeller_side_bias": 0.4,
   "cockpitShadowSphereMultiplier": 0.5,
@@ -103,7 +111,14 @@
   "rendinstExtraMaxCnt": 65536,
   "rendinstExtraSubstFaceThres": 65536,
   "maxTankInactiveTime": 10.0,
+  "cockpit_target_brightness_mul": 0.9,
+  "cockpit_adaptation_max_mul": 0.9,
   "thresholdTimeForActivateDelayTimerInBombByDrop": 4.5,
+  "supportUnitClassForTutorial": "structures/ussr_122mm_m30",
+  "supportUnitTagForTutorial": "artillery",
+  "maxContrailTemperature": -20.0,
+  "use_uav_feedback": true,
+  "cloudShadowIntensityTankMul": 0.95,
   "tracers": {
     "numHeadMeshes": 3,
     "hdrMultiplier": 1.3,
@@ -191,6 +206,14 @@
       "distScale": 2.0,
       "color1": "#ffab78b4",
       "color2": "#ff2825b4"
+    },
+    "rocketRed": {
+      "halfSize": 20.0,
+      "distScaleStart": 500.0,
+      "distScaleEnd": 2000.0,
+      "distScale": 1.0,
+      "color1": "#ff4736b4",
+      "color2": "#ff2400b4"
     },
     "7mmDarkRed": {
       "halfSize": 4.0,
@@ -944,7 +967,7 @@
       "hudShowSpeedVector": false,
       "hudMarkers": 2,
       "hudMarkerArrows": true,
-      "hudAircraftMarkersMaxDist": -1,
+      "hudAircraftMarkersMaxDist": 3,
       "hudIndicators": true,
       "hudShowTankDistance": true,
       "hudMapAircraftMarkers": 2,
@@ -969,8 +992,7 @@
       "boostersFuel": 0,
       "ctaCaptureMul": 0,
       "damageModel": 0,
-      "hudTankRangefinder": 0,
-      "bombAssaultFuseTime": 4.5
+      "hudTankRangefinder": 0
     },
     "realistic": {
       "baseDifficulty": 1,
@@ -991,7 +1013,7 @@
       "hudShowSpeedVector": false,
       "hudMarkers": 2,
       "hudMarkerArrows": true,
-      "hudAircraftMarkersMaxDist": -1,
+      "hudAircraftMarkersMaxDist": 3,
       "hudIndicators": true,
       "hudShowTankDistance": false,
       "hudMapAircraftMarkers": 2,
@@ -1016,7 +1038,10 @@
       "boostersFuel": 1,
       "ctaCaptureMul": 1,
       "damageModel": 1,
-      "hudTankRangefinder": 1
+      "hudTankRangefinder": 1,
+      "hudSendSquareTimeInterval": 45,
+      "hudSendSquareNumPlayers": 3,
+      "hudSendSquareTimeFromStart": 900
     },
     "hardcore": {
       "baseDifficulty": 2,
@@ -1071,8 +1096,6 @@
       "realGunnery": false,
       "realDamageModels": false,
       "stallsAndSpins": false,
-      "manualTrimming": false,
-      "torqueAndGyro": false,
       "noArcadeBoost": false,
       "aircraftHelpers": true,
       "flutter": false
@@ -1083,8 +1106,6 @@
       "realDamageModels": true,
       "stallsAndSpins": true,
       "redOuts": true,
-      "manualTrimming": true,
-      "torqueAndGyro": true,
       "noArcadeBoost": true,
       "hudAimPrediction": false,
       "hudMarkerArrows": false,
@@ -1110,9 +1131,9 @@
         "tankRepairSpeed": 5.0,
         "lightTankArcadeBoostInfluence": 1.0,
         "mediumTankArcadeBoostInfluence": 1.0,
-        "heavyTankArcadeBoostInfluence": 0.4,
-        "tankDestroyerArcadeBoostInfluence": 0.5,
-        "spaaArcadeBoostInfluence": 1.0,
+        "heavyTankArcadeBoostInfluence": 0.6,
+        "tankDestroyerArcadeBoostInfluence": 0.8,
+        "spaaArcadeBoostInfluence": 0.8,
         "tankRepairOnCaptureZone": true,
         "tankRearmOnCaptureZone": true,
         "tankRearmOnField": true,
@@ -1126,7 +1147,14 @@
         "canLoseControlsByStamina": true,
         "staminaIndication": true,
         "attenuationControlsByStaminaMult": 1.0,
-        "staminaUsageSpeedMult": 1.0
+        "staminaUsageSpeedMult": 1.0,
+        "bombAssaultFuseTime": 0.5,
+        "gForceBlackoutMult": 1.3,
+        "gForceRedoutMult": 1.3,
+        "tankLockShootingByAlly": true,
+        "tankFriendlyFireDamage": false,
+        "tankMainGearRatioMult": 0.9,
+        "maxBombDamageHeight": 5.0
       },
       "medium": {
         "mouseAimMaxAnglesSmoothness": 0.05,
@@ -1160,7 +1188,11 @@
         "canLoseControlsByStamina": true,
         "staminaIndication": false,
         "attenuationControlsByStaminaMult": 1.0,
-        "staminaUsageSpeedMult": 1.0
+        "staminaUsageSpeedMult": 1.0,
+        "tankLockShootingByAlly": false,
+        "tankFriendlyFireDamage": true,
+        "maxBombDamageHeight": 200.0,
+        "bombAssaultFuseTime": 1.5
       },
       "hard": {
         "mouseAimMaxAnglesSmoothness": 0.25,
@@ -1194,7 +1226,11 @@
         "staminaIndication": false,
         "attenuationControlsByStaminaMult": 1.0,
         "staminaUsageSpeedMult": 1.0,
-        "unlimitedGunnerAmmo": false
+        "unlimitedGunnerAmmo": false,
+        "tankLockShootingByAlly": false,
+        "tankFriendlyFireDamage": true,
+        "maxBombDamageHeight": 200.0,
+        "bombAssaultFuseTime": 1.5
       }
     },
     "engineControl": {
@@ -1206,6 +1242,7 @@
         "controlEngineManagement": false,
         "controlFlaps": false,
         "autoPropPitch": true,
+        "elevatorAssist": 0.3,
         "rudderAssist": 0.33,
         "aileronAssist": 1.0,
         "currentRollRateMult": 1.0,
@@ -1350,9 +1387,9 @@
         "arcadeBoost": true,
         "wepOverspeed": 1.25,
         "maxSpeedMultiplier": 1.15,
-        "arcadePowerMult": 1.3,
-        "arcadeTurretBoostHorz": 2.0,
-        "arcadeTurretBoostVert": 4.0,
+        "arcadePowerMult": 1.716,
+        "arcadeTurretBoostHorz": 1.6,
+        "arcadeTurretBoostVert": 2.8,
         "tankTurretHorzSpeedAccel": 5.0,
         "tankTurretVertSpeedAccel": 10.0,
         "modificationsEffect": 1.0,
@@ -1617,6 +1654,9 @@
       },
       "far": {
         "hudAircraftMarkersMaxDist": 10000.0
+      },
+      "maximum": {
+        "hudAircraftMarkersMaxDist": -1.0
       }
     },
     "hudMarkerArrows": {
@@ -1928,15 +1968,20 @@
         "brokenBarrelDispersionMult": 15.0,
         "brokenBarrelBulletSpeedMult": 0.5,
         "brokenBarrelPenetrationMult": 0.5,
-        "brokenHorTurretDriveSpeed": 2.0,
-        "brokenHorTurretDriveJammedTime": 5.0,
-        "brokenVerTurretDriveAngle": 1.0,
+        "brokenHorTurretDriveSpeed": 4.0,
+        "brokenHorTurretDriveJammedTime": 3.0,
+        "brokenVerTurretDriveAngle": 3.0,
         "showDestroyedParts": false,
         "gunFreqRange": [0.35,0.03],
         "misfireChance": [0.2,0.5],
-        "misfireTime": [2.0,5.0],
-        "maxMisfires": 3,
-        "destroyAircraftWithRocketHit": false
+        "misfireTime": [2.0,4.0],
+        "maxMisfires": 2,
+        "destroyAircraftWithRocketHit": false,
+        "brokenEngineRedynessMult": 0.4,
+        "brokenEngineCooldownTimer": 10.0,
+        "brokenTransmissionGearPenalty": 0.5,
+        "brokenTransmissionCooldownTimer": 10.0,
+        "bombShatterDamageScaleForAircraft": [1.0,1.0,1.0]
       },
       "realistic": {
         "brokenBarrelAllowShoot": false,
@@ -1944,7 +1989,8 @@
         "destroyAircraftWithRocketHit": false,
         "showDestroyedParts": false,
         "brokenHorTurretDriveSpeed": 0.0,
-        "brokenVerTurretDriveAngle": 0.0
+        "brokenVerTurretDriveAngle": 0.0,
+        "bombShatterDamageScaleForAircraft": [0.5,0.55,0.6]
       },
       "simulator": {
         "brokenBarrelAllowShoot": false,
@@ -1952,7 +1998,14 @@
         "destroyAircraftWithRocketHit": false,
         "showDestroyedParts": false,
         "brokenHorTurretDriveSpeed": 0.0,
-        "brokenVerTurretDriveAngle": 0.0
+        "brokenVerTurretDriveAngle": 0.0,
+        "bombShatterDamageScaleForAircraft": [0.5,0.55,0.6]
+      }
+    },
+    "bombAssaultFuseTimeOverride": {
+      "off": [],
+      "on": {
+        "bombAssaultFuseTimeOverride": 2.0
       }
     }
   },
@@ -1973,15 +2026,16 @@
     "lenseDustTex": "lense_dust"
   },
   "dynamicMirror": {
-    "dynamicMirrorTexWidth": 1024,
-    "dynamicMirrorTexHeight": 512
+    "dynamicMirrorTexWidth": 400,
+    "dynamicMirrorTexHeight": 300
   },
   "explosionPatch": {
     "traceDist": 10.0,
     "radius": 10.0,
     "bias": 0.1,
     "tessellation": 10,
-    "maxPatches": 100
+    "maxPatches": 100,
+    "landVerticalBias": 0.1
   },
   "glassScratches": {
     "texcoord_mul": 10.0,
@@ -2063,15 +2117,16 @@
     "waveDisplacementDistance": [80.0,120.0]
   },
   "shadows": {
-    "hangarShadowDist": 300.0,
+    "hangarShadowDist": 160.0,
     "hangarShadowStart": 1.0,
-    "hangarPowWeight": 0.5,
+    "hangarPowWeight": 0.9,
     "hangarCascades": 2,
     "zExpansion": 100.0,
     "depthBlend": 10000.0,
     "depthBias": 0.25,
     "depthSlopeBias": 0.7,
     "depthConstBias": 0.0,
+    "staticCascadeForcedRiExtraLod": -1,
     "ultralow": {
       "staticCascadeTexWidth": 512,
       "staticCascadeSlices": 10,
@@ -2098,7 +2153,7 @@
       "staticCascadeStarting": 0
     },
     "medium": {
-      "cascadeWidth": 1024,
+      "cascadeWidth": 768,
       "splitsW": 2,
       "splitsH": 2,
       "cascadeDepth24bit": false,
@@ -2106,8 +2161,8 @@
       "tpsPowWeight": 0.92,
       "cockpitShadowDist": 300.0,
       "cockpitPowWeight": 0.992,
-      "tanksShadowDist": 100.0,
-      "tanksPowWeight": 0.7,
+      "tanksShadowDist": 125.0,
+      "tanksPowWeight": 0.8,
       "anchorToWorldFrom": 40.0,
       "fadeOut": 80.0,
       "rotationMargin": 0.1,
@@ -2196,8 +2251,9 @@
     "targetingMaxDistanceObjectives": 5000.0,
     "targetingLooseLockDistanceObjectives": 5000.0,
     "autoSwitchTarget": false,
-    "targetingAngle": 60.0,
-    "targetingZoomAngle": 25.0,
+    "targetingFovScale": 0.9,
+    "targetingFovScaleTurret": 0.5,
+    "targetingFovScaleTankToAirplane": 0.7,
     "targetingNearDist": 150.0,
     "targetingNearDistK": 0.1,
     "targetingDistancePower": 2.0,
@@ -2317,6 +2373,17 @@
     "maxGroundModels": 1024,
     "maxInfantryTroops": 255,
     "maxMissionAIModels": 40
+  },
+  "guiLimits": {
+    "main_gui_quads": 100000,
+    "main_gui_extra": 1024,
+    "main_hud_quads": 8192,
+    "main_hud_extra": 2048,
+    "imm_gui_quads": 8192,
+    "imm_hud_quads": 8192,
+    "par_hud_quads": 8192,
+    "par_hud_extra": 2048,
+    "par_gui_quads": 4096
   },
   "clouds": {
     "mapTexWidth": 256,
@@ -2446,7 +2513,8 @@
     "distortionScale": 0.1,
     "noiseScale": 0.135,
     "offsetTexWidth": 512,
-    "offsetTexHeight": 512
+    "offsetTexHeight": 512,
+    "luminanceScale": [4.0,0.1]
   },
   "hangar": {
     "shadow_p1": [-24.5,-19.8],
@@ -2548,6 +2616,7 @@
     "AlphaRudderMin": 0.1,
     "AlphaElevatorMin": 0.2,
     "AllowStrongControlsRestrictions": true,
+    "forceAdvancedEngineThermodynamics": true,
     "stickPusher": false
   },
   "tankControls": {
@@ -3156,10 +3225,10 @@
   "wodParams": {
     "gForce": 0.1,
     "angVel": 1.0,
-    "speed": 5.0,
-    "turretYaw": 6.0,
-    "turretPitch": 7.0,
-    "omega": 0.1,
+    "speed": [7.0,25.0],
+    "turretYaw": [5.0,15.0],
+    "turretPitch": [5.0,15.0],
+    "omega": [5.0,12.0],
     "aircrafts": [
       {
         "increaseMul": 1.0
@@ -3179,42 +3248,42 @@
     ],
     "tanks": [
       {
-        "increaseMul": 0.5
+        "increaseMul": 1.0
       },
       {
-        "decreaseMul": 7.0
+        "decreaseMul": 2.0
       },
       {
         "limitationTimer": true
       },
       {
-        "dev": [2.0,1.0]
+        "dev": [0.5,0.5]
       },
       {
-        "dev": [3.0,1.5]
-      },
-      {
-        "dev": [5.0,2.0]
-      },
-      {
-        "dev": [7.0,10.0]
+        "dev": [1.0,2.0]
       }
-    ]
+    ],
+    "exp_SPAA": {
+      "increaseMul": 1.0,
+      "decreaseMul": 1.0,
+      "limitationTimer": true,
+      "dev": [1.0,0.0]
+    }
   },
   "facebook": {
     "website": "http://www.facebook.com",
     "permissions": "public_profile,user_friends"
   },
   "oculusGui": {
-    "hangarP1": [-4.0,-4.0,-7.0],
-    "hangarP2": [-4.0,7.0,7.0],
-    "cameraPos": [16.0,4.0,0.0],
-    "cursorResetTimeout": 20.0,
-    "fovScale": 1.5
+    "uiDepth": 5.0,
+    "uiVFovScale": 0.9,
+    "cursorResetTimeout": 20.0
   },
   "outline": {
     "lineWidth": 0.5,
     "lineWidthThick": 1.0,
+    "whiteCircle": "white_circle_hi",
+    "noiseTexture": "snow_noise_mask",
     "armorThicknessMax": 300.0,
     "hsvRange": [160.0,0.0],
     "damageOutlineEnabled": false,
@@ -3235,6 +3304,8 @@
     "armorPartSurfaceColorPlane": [1.0,1.0,1.0,0.15],
     "armorFixedColorCount": 16,
     "armorFixedColorThreshold": 1.0,
+    "attachObstructPartOutlineColor": [0.8,0.0,0.0,1.0],
+    "attachObstructPartSurfaceColor": [1.0,0.0,0.0,0.25],
     "minCropIconSize": 16.0,
     "minCropElementSize": 0.25,
     "cropIconFade": 0.25,
@@ -3323,6 +3394,15 @@
       },
       {
         "p": "gun_mask_shield_"
+      },
+      {
+        "p": "ex_decor_"
+      },
+      {
+        "p": {
+          "name": "cannon_breech_",
+          "useThicknessThrough": true
+        }
       }
     ],
     "viewer_xray": [
@@ -3340,6 +3420,12 @@
       },
       {
         "p": "gunner_"
+      },
+      {
+        "p": "sailor_"
+      },
+      {
+        "p": "era_"
       },
       {
         "p": "optic_"
@@ -3393,6 +3479,96 @@
       },
       {
         "p": "gun_mask"
+      },
+      {
+        "p": {
+          "name": "bow",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "bow_l",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "bow_r",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mid",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mid_l",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mid_r",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mid_bottom",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mid_top",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "stern",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "stern_l",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "stern_r",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "stern_back",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "bow_top",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "stern_top",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "stern_bottom",
+          "color_h": 0.1
+        }
       }
     ],
     "track": [
@@ -3442,6 +3618,18 @@
       {
         "p": {
           "name": "gunner_",
+          "color_h": 1.0
+        }
+      },
+      {
+        "p": {
+          "name": "sailor_",
+          "color_h": 1.0
+        }
+      },
+      {
+        "p": {
+          "name": "era_",
           "color_h": 1.0
         }
       }
@@ -3529,6 +3717,84 @@
           "name": "gun_barrel_0",
           "color_h": 0.1
         }
+      },
+      {
+        "p": {
+          "name": "ship_hull_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "foremast_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mainmast_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mizzenmast_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "foremast_coursesail_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "foremast_topsail_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "bowsprit_sail_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mainmast_coursesail_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mainmast_topsail_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "mizzenmast_sail_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "deckhouse_dm",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "tt_",
+          "color_h": 0.1
+        }
+      },
+      {
+        "p": {
+          "name": "torpedo_",
+          "color_h": 0.1
+        }
       }
     ],
     "decorators": {
@@ -3536,7 +3802,45 @@
         "name": "ex_decor_",
         "color_h": 0.8
       }
-    }
+    },
+    "destroyed_equipment": [
+      {
+        "p": "optic_"
+      },
+      {
+        "p": "drive_turret_h_"
+      },
+      {
+        "p": "fuel_tank_"
+      },
+      {
+        "p": "radiator_"
+      },
+      {
+        "p": "radio_station_"
+      },
+      {
+        "p": "engine_"
+      },
+      {
+        "p": "transmission_"
+      },
+      {
+        "p": "drive_turret_v_"
+      },
+      {
+        "p": "cannon_breech_"
+      },
+      {
+        "p": "ammo_"
+      },
+      {
+        "p": "ammo_rack_turret"
+      },
+      {
+        "p": "ammo_rack_body_xray"
+      }
+    ]
   },
   "armorPartNamesAir": {
     "viewer_armor": {
@@ -3943,10 +4247,19 @@
       "ri": "wood_fence_j"
     },
     {
+      "ri": "wood_fence_j_snow"
+    },
+    {
       "ri": "brick_fence_a"
     },
     {
+      "ri": "brick_fence_a_snow"
+    },
+    {
       "ri": "brick_fence_b"
+    },
+    {
+      "ri": "brick_fence_b_snow"
     },
     {
       "ri": "brick_fence_c"
@@ -3965,6 +4278,9 @@
     },
     {
       "ri": "concrete_fence_f_column"
+    },
+    {
+      "ri": "concrete_fence_f_column_snow"
     },
     {
       "ri": "concrete_fence_g_column"
@@ -4156,6 +4472,21 @@
       "ri": "finland_cliff_small_f"
     },
     {
+      "ri": "finland_stone_small_a"
+    },
+    {
+      "ri": "finland_stone_small_b"
+    },
+    {
+      "ri": "finland_stone_small_c"
+    },
+    {
+      "ri": "finland_stone_small_d"
+    },
+    {
+      "ri": "finland_stone_small_e"
+    },
+    {
       "ri": "icefloe_a"
     },
     {
@@ -4166,6 +4497,78 @@
     },
     {
       "ri": "icefloe_e"
+    },
+    {
+      "ri": "kv_1_zis_5_turret_rendinst"
+    },
+    {
+      "ri": "kv_1_zis_5_hull_rendinst"
+    },
+    {
+      "ri": "pzkpfw_V_ausf_a_panther_hull_rendinst"
+    },
+    {
+      "ri": "pzkpfw_V_ausf_a_panther_turret_rendinst"
+    },
+    {
+      "ri": "nvrsk_2_floors_a"
+    },
+    {
+      "ri": "nvrsk_2_floors_a_dp_01"
+    },
+    {
+      "ri": "nvrsk_2_floors_b"
+    },
+    {
+      "ri": "nvrsk_2_floors_b_dp_01"
+    },
+    {
+      "ri": "nvrsk_2_floors_c"
+    },
+    {
+      "ri": "nvrsk_2_floors_c_dp_01"
+    },
+    {
+      "ri": "nvrsk_2_floors_d"
+    },
+    {
+      "ri": "nvrsk_2_floors_d_dp_01"
+    },
+    {
+      "ri": "nvrsk_3_floors_a"
+    },
+    {
+      "ri": "nvrsk_3_floors_a_dp_01"
+    },
+    {
+      "ri": "nvrsk_3_floors_b"
+    },
+    {
+      "ri": "nvrsk_3_floors_b_dp_01"
+    },
+    {
+      "ri": "nvrsk_3_floors_c"
+    },
+    {
+      "ri": "nvrsk_3_floors_c_dp_01"
+    },
+    {
+      "ri": "nvrsk_port_authority"
+    },
+    {
+      "ri": "nvrsk_port_authority_dp_01"
+    },
+    {
+      "ri": "nvrsk_power_station"
+    },
+    {
+      "ri": "nvrsk_power_station_dp_01"
+    },
+    {
+      "ri": "nvrsk_railroad_station"
+    },
+    {
+      "ri": "nvrsk_railroad_station_dp_01"
     },
     {
       "ri": "belgian_gates"
@@ -4310,6 +4713,36 @@
     },
     {
       "ri": "hatch_g"
+    },
+    {
+      "ri": "african_jug_a"
+    },
+    {
+      "ri": "african_jug_b"
+    },
+    {
+      "ri": "african_jug_c"
+    },
+    {
+      "ri": "european_market_box_a"
+    },
+    {
+      "ri": "european_market_box_b"
+    },
+    {
+      "ri": "european_market_box_c"
+    },
+    {
+      "ri": "european_market_box_d"
+    },
+    {
+      "ri": "european_market_box_e"
+    },
+    {
+      "ri": "european_market_box_small_e"
+    },
+    {
+      "ri": "european_market_box_small_f"
     }
   ],
   "rendinstOpt": {
@@ -4325,6 +4758,9 @@
       },
       {
         "excRE": "soviet_town_building_4_floors"
+      },
+      {
+        "excRE": "factory_small_building_i"
       }
     ],
     "hideForMode1": [
@@ -4404,6 +4840,27 @@
         "ri": "european_news_board_d"
       },
       {
+        "ri": "european_market_box_a"
+      },
+      {
+        "ri": "european_market_box_b"
+      },
+      {
+        "ri": "european_market_box_c"
+      },
+      {
+        "ri": "european_market_box_d"
+      },
+      {
+        "ri": "european_market_box_e"
+      },
+      {
+        "ri": "european_market_box_small_e"
+      },
+      {
+        "ri": "european_market_box_small_f"
+      },
+      {
         "ri": "hatch_a"
       },
       {
@@ -4555,6 +5012,30 @@
       },
       {
         "ri": "egypt_arcade_stone2_03"
+      },
+      {
+        "ri": "african_jug_a"
+      },
+      {
+        "ri": "african_jug_b"
+      },
+      {
+        "ri": "african_jug_c"
+      },
+      {
+        "ri": "sandbag_a"
+      },
+      {
+        "ri": "sandbags_d"
+      },
+      {
+        "ri": "sandbags_e"
+      },
+      {
+        "ri": "sandbags_f"
+      },
+      {
+        "ri": "sandbags_j"
       }
     ],
     "hideForMode0": [
@@ -4634,6 +5115,27 @@
         "ri": "european_news_board_d"
       },
       {
+        "ri": "european_market_box_a"
+      },
+      {
+        "ri": "european_market_box_b"
+      },
+      {
+        "ri": "european_market_box_c"
+      },
+      {
+        "ri": "european_market_box_d"
+      },
+      {
+        "ri": "european_market_box_e"
+      },
+      {
+        "ri": "european_market_box_small_e"
+      },
+      {
+        "ri": "european_market_box_small_f"
+      },
+      {
         "ri": "hatch_a"
       },
       {
@@ -4785,6 +5287,30 @@
       },
       {
         "ri": "egypt_arcade_stone2_03"
+      },
+      {
+        "ri": "african_jug_a"
+      },
+      {
+        "ri": "african_jug_b"
+      },
+      {
+        "ri": "african_jug_c"
+      },
+      {
+        "ri": "sandbag_a"
+      },
+      {
+        "ri": "sandbags_d"
+      },
+      {
+        "ri": "sandbags_e"
+      },
+      {
+        "ri": "sandbags_f"
+      },
+      {
+        "ri": "sandbags_j"
       },
       {
         "ri": "european_advertising_column_a"
@@ -5042,7 +5568,7 @@
       "tdustColor": [0.09,0.065,0.05,1.0],
       "dustParams": [1.0,0.5,1.0,0.2],
       "dustParams2": [2.0,0.75,0.6,1.0],
-      "mudColor": [0.04,0.02,0.01,1.0],
+      "mudColor": [0.035,0.022,0.017,1.0],
       "dirtParams": [0.28,4.0,0.0,1.0],
       "mudParams": [0.98,1.0,0.0,0.392],
       "tankDirtMask": "mud_mask_m",
@@ -5097,6 +5623,12 @@
     "sharpness": 1.5,
     "scale": 0.5
   },
+  "TreesTopProjection": {
+    "texName": "tree_snow_d",
+    "texNameCompatibility": "tree_snow_comp_d",
+    "normalY": 0.07,
+    "sharpness": 3.5
+  },
   "apex": {
     "gravity": -9.8,
     "randomTorque": 100000.0,
@@ -5113,19 +5645,73 @@
     "explosionRadius": [2.0,8.0],
     "minRadiusExplosionStrength": [400.0,1200.0],
     "maxRadiusExplosionStrength": [80.0,400.0],
-    "fractureSpeedupKoef": 0.8,
-    "groundFxScale": [1.0,0.1,2.5],
-    "groundSoundProbability": 0.3
+    "fractureTimeCurvePower": 0.4,
+    "fractureEffectProbability": 1.0,
+    "groundEffectProbability": 1.0,
+    "groundFxScaleAccordingToSize": [1.0,0.1,2.0],
+    "chunkVelocityForFxScale": [2.0,10.0],
+    "fxScaleAccordingToVelocity": [0.7,1.5],
+    "groundFxMinMaxScale": [0.05,2.5],
+    "fractureSoundProbability": 1.0,
+    "assetSizeCategory": [0.25,0.65],
+    "groundSoundSmallNumChunks": 3,
+    "groundSoundMediumNumChunks": 5,
+    "woodAssetArea": [9.0,42.0],
+    "woodAssetHeight": [2.0,5.0],
+    "timeToSinkDelta": 10.0,
+    "timeToFractureMin": 3.0,
+    "timeToFractureMax": 20.0,
+    "maxRandomDestrTimePercent": 0.75,
+    "destructionSpeedAssetAreaInfo": [60.0,100.0],
+    "destructionSpeedAssetHeightInfo": [5.0,20.0],
+    "firstShootBuildingSize": [4.0,30.0],
+    "firstShootKineticDamageMult": [1.0,3.0],
+    "firstShootKineticDamageRadiusMult": [0.2,0.7],
+    "firstShootExplDamageMult": [0.3,0.1],
+    "firstShootExplDamageRadiusMult": [2.0,6.0],
+    "eventLogEnabled": true,
+    "eventLogMaxCriticalFrames": 10,
+    "eventLogCriticalFramerate": 10.0,
+    "eventLogMaxSendsPerSession": 3,
+    "eventLogSendInterval": 30,
+    "eventLogMaxmEvents": 20,
+    "eventLogMaxTimemarks": 20,
+    "maxSeparateVboForRender": 10000000,
+    "maxSeparateVboMemory": 524288000,
+    "maxSeparateTexturesForRender": 1000000
   },
   "airplane": {
     "glowMul": 0.0,
-    "starGlowMul": 0.33
+    "starGlowMul": 1.0
   },
   "tank": {
-    "adaptationTimeHighToNormMul": 0.5,
-    "adaptationTimeNormToHighMul": 1.5,
-    "adaptationMaxMul": 1.085,
-    "adaptationMinMul": 0.71,
-    "lumMinMul": 0.0
+    "glowMul": 1.0,
+    "starGlowMul": 1.0,
+    "adaptationMultiplierMul": 0.64
+  },
+  "scene": {
+    "z_near": 4.5,
+    "z_far": 40000.0,
+    "tank_z_near": 0.1,
+    "tank_z_far": 10000.0
+  },
+  "default_stars": {
+    "longitude": 0.0,
+    "latitude": 21.3,
+    "year": 1943,
+    "month": 7,
+    "day": 9
+  },
+  "timesOfDay": {
+    "night": [-0.01,-0.99],
+    "dawn": [0.0,0.01],
+    "morning": [0.05,0.1],
+    "day": [0.25,0.42],
+    "noon": [0.55,0.8],
+    "evening": [0.9,0.95],
+    "dusk": [0.99,1.0]
+  },
+  "replay": {
+    "segmentLengthSec": 90
   }
 }

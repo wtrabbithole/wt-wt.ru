@@ -96,11 +96,15 @@
       "armorClass": "tank_barrel",
       "hp": 250.0,
       "armorThickness": 40.0,
-      "gun_barrel_01_dm": [],
+      "gun_barrel_01_dm": {
+        "armorThrough": 10.0
+      },
       "gun_barrel_02_dm": {
+        "armorThrough": 10.0,
         "armorThickness": 20.0
       },
       "gun_barrel_03_dm": {
+        "armorThrough": 10.0,
         "armorThickness": 10.0
       }
     },
@@ -186,119 +190,62 @@
         "track_l_dm": []
       }
     },
-    "equipment_turret": {
+    "equipment": {
       "armorClass": "tank_structural_steel",
-      "hp": 250.0,
-      "armorThickness": 2.0,
-      "armorThrough": 10.0,
+      "hp": 100.0,
+      "armorThickness": 12.0,
+      "armorThrough": 12.0,
+      "fireProtectionHp": 15.0,
+      "drive_turret_v_dm": [],
+      "drive_turret_h_dm": [],
+      "drive_turret_h_01_dm": [],
+      "drive_turret_h_02_dm": [],
+      "drive_turret_h_03_dm": [],
+      "drive_turret_h_04_dm": [],
+      "drive_turret_h_05_dm": [],
+      "drive_turret_v_01_dm": [],
+      "drive_turret_v_02_dm": [],
+      "drive_turret_v_03_dm": [],
+      "drive_turret_v_04_dm": [],
+      "drive_turret_v_05_dm": [],
+      "radio_station_dm": []
+    },
+    "cannon_breech": {
+      "armorClass": "tank_structural_steel",
+      "hp": 150.0,
+      "armorThickness": 15.0,
+      "armorThrough": 60.0,
+      "fireProtectionHp": 10.0,
+      "cannon_breech_dm": [],
+      "cannon_breech_01_dm": [],
+      "cannon_breech_02_dm": [],
+      "cannon_breech_03_dm": [],
+      "cannon_breech_04_dm": [],
+      "cannon_breech_05_dm": []
+    },
+    "radiators": {
+      "armorClass": "tank_structural_steel",
+      "hp": 50.0,
+      "armorThickness": 5.0,
+      "armorThrough": 15.0,
       "fireProtectionHp": 5.0,
-      "drive_turret_v_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_h_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_h_01_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_h_02_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_h_03_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_h_04_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_h_05_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_v_01_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_v_02_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_v_03_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_v_04_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "drive_turret_v_05_dm": {
-        "hp": 40.0,
-        "armorThrough": 15.0
-      },
-      "cannon_breech_dm": {
-        "armorThickness": 5.0,
-        "armorThrough": 50.0,
-        "hp": 100.0
-      },
-      "cannon_breech_01_dm": {
-        "armorThickness": 5.0,
-        "armorThrough": 25.0,
-        "hp": 100.0
-      },
-      "cannon_breech_02_dm": {
-        "armorThickness": 5.0,
-        "armorThrough": 25.0,
-        "hp": 100.0
-      },
-      "cannon_breech_03_dm": {
-        "armorThickness": 5.0,
-        "armorThrough": 25.0,
-        "hp": 100.0
-      },
-      "cannon_breech_04_dm": {
-        "armorThickness": 5.0,
-        "armorThrough": 25.0,
-        "hp": 100.0
-      },
-      "cannon_breech_05_dm": {
-        "armorThickness": 5.0,
-        "armorThrough": 25.0,
-        "hp": 100.0
-      },
-      "radiator_dm": {
-        "hp": 40.0,
-        "armorThrough": 5.0
-      },
-      "radiator_l_dm": {
-        "hp": 40.0,
-        "armorThrough": 5.0
-      },
-      "radiator_r_dm": {
-        "hp": 40.0,
-        "armorThrough": 5.0
-      },
-      "radio_station_dm": {
-        "hp": 20.0,
-        "armorThrough": 3.0
-      },
-      "engine": {
-        "armorClass": "armor_tank_engine",
-        "hp": 100.0,
-        "armorThrough": 40.0,
-        "fireProtectionHp": 3.0,
-        "engine_dm": [],
-        "transmission_dm": []
-      }
+      "radiator_dm": [],
+      "radiator_l_dm": [],
+      "radiator_r_dm": []
+    },
+    "engine": {
+      "armorClass": "armor_tank_engine",
+      "hp": 100.0,
+      "armorThickness": 2.0,
+      "armorThrough": 40.0,
+      "fireProtectionHp": 5.0,
+      "engine_dm": [],
+      "transmission_dm": []
     },
     "ammo": {
       "armorClass": "tank_structural_steel",
-      "hp": 250.0,
-      "armorThickness": 3.0,
+      "hp": 500.0,
+      "armorThickness": 2.0,
       "armorThrough": 10.0,
       "fireProtectionHp": 20.0,
       "ammo_turret_dm": [],
@@ -608,8 +555,8 @@
         {
           "onHit": {
             "fExplosion": true,
-            "expl": 0.25,
-            "fire": 0.45,
+            "expl": 0.125,
+            "fire": 0.225,
             "damage": 25.0,
             "fHitCritical": true
           }
@@ -617,8 +564,8 @@
         {
           "onHit": {
             "fExplosion": true,
-            "expl": 0.5,
-            "fire": 0.7,
+            "expl": 0.25,
+            "fire": 0.35,
             "damage": 50.0,
             "fHitCritical": true
           }
@@ -660,6 +607,13 @@
             "fFire": true,
             "fire": 0.2
           }
+        },
+        {
+          "onKill": {
+            "fire": 0.3,
+            "nothing": 0.7,
+            "fHitCritical": true
+          }
         }
       ]
     },
@@ -695,7 +649,7 @@
         {
           "onHit": {
             "fGeneric": true,
-            "fire": 0.5,
+            "fire": 0.55,
             "damage": 300.0,
             "fHitCritical": true
           }
@@ -703,7 +657,7 @@
         {
           "onHit": {
             "fGeneric": true,
-            "fire": 0.25,
+            "fire": 0.35,
             "damage": 200.0,
             "fHitCritical": true
           }
@@ -720,6 +674,13 @@
           "onHit": {
             "fFire": true,
             "fire": 0.1
+          }
+        },
+        {
+          "onKill": {
+            "fire": 0.5,
+            "nothing": 0.5,
+            "fHitCritical": true
           }
         }
       ]
@@ -748,7 +709,7 @@
         {
           "onHit": {
             "fGeneric": true,
-            "fire": 0.02,
+            "fire": 0.05,
             "damage": 70.0,
             "fHitCritical": true
           }
@@ -756,7 +717,7 @@
         {
           "onHit": {
             "fGeneric": true,
-            "fire": 0.05,
+            "fire": 0.1,
             "damage": 200.0,
             "fHitCritical": true
           }
@@ -1243,7 +1204,7 @@
     }
   },
   "cockpit": {
-    "zoomOutFov": 30.0,
+    "zoomOutFov": 40.0,
     "zoomInFov": 21.0,
     "headPos": [0.0,6.3,-10.0],
     "headPosOnShooting": [0.0,6.9,0.0]

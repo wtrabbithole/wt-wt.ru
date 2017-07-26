@@ -103,21 +103,20 @@
       "bulletType": "he_frag_tank",
       "bulletName": "88mm_sprgr",
       "hitPowerMult": 10.0,
-      "onHitChanceMultFire": 2.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,300.0],
       "farHitPower": [0.1,700.0],
       "endHitPower": [0.008,1500.0],
       "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [3.0,150.0],
-      "midArmorPower": [3.0,600.0],
-      "farArmorPower": [3.0,10000.0],
+      "nearArmorPower": [13.0,150.0],
+      "midArmorPower": [12.0,600.0],
+      "farArmorPower": [11.0,10000.0],
       "relativeVelArmorShift": [200.0,1000.0],
       "explodeTreshold": 0.5,
       "explodeHitPower": 120.0,
       "explodeArmorPower": 16.0,
       "explodeRadius": [0.35,0.45],
-      "fuseDelayDist": 0.4,
+      "fuseDelayDist": 0.1,
       "shutterDamage": true,
       "shutterDamageRadius": 22.5,
       "shutterAmount": 170,
@@ -188,18 +187,6 @@
         "ArmorPower2500m": [2.0,2500.0],
         "ArmorPower7000m": [1.0,7000.0]
       },
-      "cumulativeDamage": {
-        "cumulativeDamage": true,
-        "cumulativeArmorPower": 110.0,
-        "cumulativeDistance": 2.5,
-        "cumulativeHit": 150.0,
-        "onHitChanceMultFire": 15.0,
-        "cumulativeFragmentsDamageRadius": 3.0,
-        "cumulativeFragmentsDamageAngle": 25.0,
-        "cumulativeFragmentsAmount": 40,
-        "cumulativeFragmentsArmorPower": 6.0,
-        "cumulativeFragmentsHit": 7.0
-      },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
@@ -215,6 +202,18 @@
           "fx": "cannon_hit_armor_cumulative",
           "fxScale": [2.0,3.0]
         }
+      },
+      "cumulativeDamage": {
+        "cumulativeDamage": true,
+        "cumulativeArmorPower": 400.0,
+        "cumulativeDistance": 2.5,
+        "cumulativeHit": 150.0,
+        "onHitChanceMultFire": 15.0,
+        "cumulativeFragmentsDamageRadius": 3.0,
+        "cumulativeFragmentsDamageAngle": 25.0,
+        "cumulativeFragmentsAmount": 40,
+        "cumulativeFragmentsArmorPower": 6.0,
+        "cumulativeFragmentsHit": 7.0
       }
     }
   },
@@ -228,7 +227,6 @@
       "bulletType": "apcr_tank",
       "bulletName": "88mm_pzrg_40_43",
       "hitPowerMult": 200.0,
-      "onHitChanceMultFire": 8.0,
       "relativeVelHitShift": [300.0,1000.0],
       "armorFragmentsDamage": true,
       "armorFragmentsDamageRadius": 2.5,
@@ -263,8 +261,8 @@
         }
       },
       "armorpower": {
-        "ArmorPower0m": [650.0,10.0],
-        "ArmorPower100m": [640.0,100.0],
+        "ArmorPower0m": [850.0,10.0],
+        "ArmorPower100m": [840.0,100.0],
         "ArmorPower250m": [630.0,250.0],
         "ArmorPower500m": [620.0,500.0],
         "ArmorPower750m": [560.0,750.0],

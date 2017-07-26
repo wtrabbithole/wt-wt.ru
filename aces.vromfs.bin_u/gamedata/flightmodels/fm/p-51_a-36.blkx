@@ -341,7 +341,6 @@
       "FuelConsumptionOnHalfThr": 0.24,
       "FuelConsumptionOnFullThr": 0.28,
       "FuelConsumptionOnWEP": 0.3,
-      "UseRealReductor": true,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -351,7 +350,6 @@
       "EngineAcceleration": 8.0,
       "RPMAmplitude0": [2750.0,0.0],
       "RPMAmplitude1": [0.0,0.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 3.9389,
       "ThrustOmegaMinCoeff": 0.008,
@@ -362,12 +360,11 @@
       }
     },
     "Propellor": {
-      "AllowAutoProp": true,
+      "AllowAutoProp": false,
       "IsControllable": true,
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 0.5,
-      "UseAdvancedProp": true,
       "NumBlades": 3,
       "AdvancedPropRadius": 1.6,
       "PropPhi0": 18.85,
@@ -448,6 +445,7 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "TempChangeSpeed": 0.012,
       "WaterMaxRPMTemp": 124.0,

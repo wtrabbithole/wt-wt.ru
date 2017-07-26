@@ -46,6 +46,7 @@
   "CriticalSpeed": 50.0,
   "ArcadeLimitWepMultiplier": 1.1,
   "ArcadeHelpersSensitivity": 1.0,
+  "AllowModsToChangeLongidutialBalance": false,
   "MomentOfInertia": [8000.0,22000.0,14000.0],
   "IgnoreErrors": true,
   "AvailableControls": {
@@ -319,7 +320,6 @@
       "FuelConsumptionOnHalfThr": 0.18,
       "FuelConsumptionOnFullThr": 0.2,
       "FuelConsumptionOnWEP": 0.22,
-      "UseRealReductor": true,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -329,7 +329,6 @@
       "EngineAcceleration": 4.0,
       "RPMAmplitude0": [2800.0,0.0],
       "RPMAmplitude1": [0.0,50.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 6.1897,
       "ThrustOmegaMinCoeff": 0.0016,
@@ -345,7 +344,6 @@
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 0.51,
-      "UseAdvancedProp": true,
       "NumBlades": 6,
       "AdvancedPropRadius": 1.7,
       "PropPhi0": 19.08,
@@ -420,6 +418,7 @@
       "NitroConsumption": 0.075
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 0,
       "TempChangeSpeed": 0.009,
       "WaterMaxRPMTemp": 115.0,

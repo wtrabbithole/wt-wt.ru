@@ -3,18 +3,19 @@
   "z_far": 75000.0,
   "mapCoord0": [-32768.0,-32768.0],
   "mapCoord1": [32768.0,32768.0],
-  "minAreaSize": [12000.0,12000.0],
+  "minAreaSize": [32768.0,32768.0],
+  "gridZeroPoint": [-28672.0,28672.0],
   "aiMapCoord0": [-32768.0,-32768.0],
   "aiMapCoord1": [32768.0,32768.0],
-  "numBorderCellsXPos": 8,
-  "numBorderCellsXNeg": 8,
-  "numBorderCellsZPos": 8,
-  "numBorderCellsZNeg": 8,
+  "numBorderCellsXPos": 16,
+  "numBorderCellsXNeg": 16,
+  "numBorderCellsZPos": 16,
+  "numBorderCellsZNeg": 16,
   "mirrorShrinkXPos": 256.0,
   "mirrorShrinkXNeg": 256.0,
   "mirrorShrinkZPos": 256.0,
   "mirrorShrinkZNeg": 256.0,
-  "gridSteps": [6400.0,6400.0],
+  "gridSteps": [8192.0,8192.0],
   "water_level": -12.0,
   "levelMapAltOffset": 11.0,
   "weatherPreset": "gameData/environments/weather_preset_1.blk",
@@ -24,13 +25,7 @@
   "windDir": [-0.4,0.2],
   "wind_scale": 0.8,
   "max_wind_strength": 3.5,
-  "weather": {
-    "cloudsOffsetBase": 100.0,
-    "cloudsOffsetFrom": 20000.0,
-    "cloudsOffsetTo": 40000.0,
-    "minCloudBaseKm": 0.4,
-    "minHazeBaseKm": -50.0
-  },
+  "average_ground_level": 16.0,
   "shader_vars": {
     "translucency_detection_hardness": 1.0,
     "smoothness_detection_hardness": 3.0,
@@ -42,6 +37,13 @@
     "ocean1": [0.56,0.54,0.28,0.0],
     "river0": [0.5,0.45,0.08,0.0],
     "river1": [0.44,0.45,0.19,0.0]
+  },
+  "stars": {
+    "latitude": 44.0,
+    "longitude": 48.0,
+    "year": 1942,
+    "month": 6,
+    "day": 1
   },
   "randomGrass": [
     {

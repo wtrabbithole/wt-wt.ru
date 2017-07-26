@@ -100,6 +100,7 @@
     "schraegeMusikCameraScreenPart": 0.25,
     "condition": {
       "and": {
+        "isFPSViewsAllowed": [],
         "isCockpit": [],
         "isFlightModel": []
       }
@@ -202,6 +203,7 @@
     "viscosity": 0.1,
     "condition": {
       "and": {
+        "isFPSViewsAllowed": [],
         "isCockpit": [],
         "isFlightModel": []
       }
@@ -232,10 +234,13 @@
     "transitionFadeOutTime": 0.2,
     "viscosity": 0.0001,
     "condition": {
-      "or": {
-        "isVirtualViewsAllowed": [],
-        "not": {
-          "isCockpit": []
+      "and": {
+        "isFPSViewsAllowed": [],
+        "or": {
+          "isVirtualViewsAllowed": [],
+          "not": {
+            "isCockpit": []
+          }
         }
       }
     }
@@ -289,10 +294,13 @@
     "transitionFadeOutTime": 0.16,
     "viscosity": 0.1,
     "condition": {
-      "or": {
-        "isVirtualViewsAllowed": [],
-        "not": {
-          "isCockpit": []
+      "and": {
+        "isFPSViewsAllowed": [],
+        "or": {
+          "isVirtualViewsAllowed": [],
+          "not": {
+            "isCockpit": []
+          }
         }
       }
     }
@@ -1021,7 +1029,7 @@
   ],
   "aim_ground_from_sight": [
     {
-      "fov": 25.0
+      "fov": 40.0
     },
     {
       "zoomFov": 21.0
@@ -1901,7 +1909,7 @@
         "shot1": {
           "points": {
             "p1": {
-              "angles": [5.0,-10.0],
+              "angles": [5.0,-20.0],
               "dist": 8.5,
               "fov": 90.0,
               "rt": 0.0,
@@ -2717,6 +2725,9 @@
       "zoomFov": 80.0
     },
     {
+      "defaultZoom": 1.0
+    },
+    {
       "gunFov": 5.0
     },
     {
@@ -3135,9 +3146,17 @@
         "camName": "aim_ground_from_sight"
       }
     ],
-    "ship": {
-      "camName": "tps_ship"
-    },
+    "ship": [
+      {
+        "camName": "tps_ship"
+      },
+      {
+        "camName": "aim_ground"
+      },
+      {
+        "camName": "aim_ground_from_sight"
+      }
+    ],
     "specialCamerasList": [
       {
         "camName": "follow_object_camera"

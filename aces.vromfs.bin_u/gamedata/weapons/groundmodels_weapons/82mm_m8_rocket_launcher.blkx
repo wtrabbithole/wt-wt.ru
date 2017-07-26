@@ -6,6 +6,7 @@
   "sound_path": "tanks/weapon_tanks/rockets",
   "sound": "82mm_m8",
   "sound_inside": "82mm_m8_interior",
+  "isBulletBelt": false,
   "helicopterGroup": 2,
   "reloadTime": 8.0,
   "allowHumanReload": true,
@@ -15,6 +16,8 @@
     "antiShipRocket": true
   },
   "rocket": {
+    "bulletType": "rocket_tank",
+    "bulletName": "82mm_m_8",
     "caliber": 0.082,
     "mass": 7.84,
     "massEnd": 3.7,
@@ -45,7 +48,7 @@
     "farArmorPower": [0.2,700.0],
     "relativeVelArmorShift": [200.0,1000.0],
     "distanceFuse": false,
-    "explodeTreshold": 0.0,
+    "explodeTreshold": 0.1,
     "explodeHitPower": 120.0,
     "explodeArmorPower": 24.0,
     "explodeRadius": [0.3,1.0],

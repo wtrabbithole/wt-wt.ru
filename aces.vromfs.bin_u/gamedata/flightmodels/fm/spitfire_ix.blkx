@@ -61,7 +61,8 @@
     "hasRudderTrimControl": true,
     "hasRudderTrimGroundControl": false,
     "hasFlapsControl": true,
-    "numFlapsPositions": 2,
+    "hasTakeoffFlapsPosition": false,
+    "hasCombatFlapsPosition": false,
     "hasAirbrake": false,
     "hasGearControl": true,
     "hasArrestorControl": false,
@@ -206,7 +207,7 @@
       "MultLimit2": 0.0
     },
     {
-      "MachCrit3": 0.1
+      "MachCrit3": 0.3
     },
     {
       "MachMax3": 0.9
@@ -221,16 +222,16 @@
       "MultLimit3": 0.25
     },
     {
-      "MachCrit4": 0.1
+      "MachCrit4": 0.3
     },
     {
       "MachMax4": 0.9
     },
     {
-      "MultMachMax4": 0.5
+      "MultMachMax4": 0.6
     },
     {
-      "MultLineCoeff4": -0.2
+      "MultLineCoeff4": -0.4
     },
     {
       "MultLimit4": 0.25
@@ -442,7 +443,6 @@
       "FuelConsumptionOnHalfThr": 0.223,
       "FuelConsumptionOnFullThr": 0.28,
       "FuelConsumptionOnWEP": 0.35,
-      "UseRealReductor": true,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -452,7 +452,6 @@
       "EngineAcceleration": 6.0,
       "RPMAmplitude0": [2750.0,0.0],
       "RPMAmplitude1": [0.0,1.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 3.9389,
       "ThrustOmegaMinCoeff": 0.008,
@@ -507,7 +506,6 @@
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 0.477,
-      "UseAdvancedProp": true,
       "NumBlades": 4,
       "AdvancedPropRadius": 1.638,
       "PropPhi0": 19.0,
@@ -581,6 +579,7 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "TempChangeSpeed": 0.013,
       "WaterMaxRPMTemp": 100.0,

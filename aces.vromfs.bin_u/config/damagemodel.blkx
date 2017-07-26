@@ -51,6 +51,12 @@
     "hitCameraShotFreqThreshold": 0.5
   },
   {
+    "showDestroyedPartTime": 2.0
+  },
+  {
+    "showHitToDestroyedPartTime": 0.0
+  },
+  {
     "penetrationTestDepth": 1.0
   },
   {
@@ -58,6 +64,12 @@
   },
   {
     "maxShatterEffectiveMult": 3.0
+  },
+  {
+    "impulseMultForChildRendinst": 0.8
+  },
+  {
+    "minCaliberForSlopeEffect": 29.0
   },
   {
     "impulseDeltaVelThresholdForDamage": 5.0
@@ -75,7 +87,7 @@
     "pierceDispersion": 0.1
   },
   {
-    "armorFragmentsPierceThreshold": 50.0
+    "armorFragmentsPierceThreshold": 90.0
   },
   {
     "cumulativeThicknessThreshold": 5.0
@@ -84,13 +96,16 @@
     "cumulativePierceThreshold": 60.0
   },
   {
-    "cumulativeAirArmor": 50.0
+    "cumulativeAirArmor": 100.0
+  },
+  {
+    "enableExplosiveTypes": true
   },
   {
     "explosionOffset": 0.01
   },
   {
-    "secondaryShatterOffset": 0.01
+    "secondaryShatterOffset": 0.0
   },
   {
     "explosionOffsetByNormal": false
@@ -328,111 +343,137 @@
     "explosiveTypeToSplashParams": {
       "explosiveMassToInnerRadius": {
         "p0": [0.01,0.1],
-        "p1": [0.2,0.2],
-        "p2": [0.6,0.3],
-        "p3": [3.0,0.4],
-        "p4": [7.0,0.5]
+        "p1": [0.2,0.1],
+        "p2": [0.6,0.15],
+        "p3": [3.0,0.2],
+        "p4": [5.0,0.5],
+        "p5": [6.0,0.75],
+        "p6": [8.0,0.9],
+        "p7": [25.0,1.5],
+        "p8": [40.0,2.0],
+        "p9": [120.0,2.5],
+        "p10": [300.0,4.0],
+        "p11": [500.0,5.0],
+        "p12": [700.0,6.0],
+        "p13": [1500.0,10.0],
+        "p14": [3500.0,15.0]
       },
       "explosiveMassToOuterRadius": {
         "p0": [0.01,0.15],
-        "p1": [0.2,0.8],
-        "p2": [0.6,1.1],
-        "p3": [3.0,1.3],
-        "p4": [7.0,1.5]
+        "p1": [0.2,0.2],
+        "p2": [0.6,0.3],
+        "p3": [3.0,0.6],
+        "p4": [5.0,1.2],
+        "p5": [6.0,1.5],
+        "p6": [8.0,2.0],
+        "p7": [25.0,3.5],
+        "p8": [40.0,5.0],
+        "p9": [120.0,8.0],
+        "p10": [300.0,20.0],
+        "p11": [500.0,25.0],
+        "p12": [700.0,30.0],
+        "p13": [1500.0,60.0],
+        "p14": [3500.0,120.0]
       },
-      "explosiveMassToPenetration": [
-        {
-          "p0": [0.005,2.0]
-        },
-        {
-          "p1": [0.1,5.0]
-        },
-        {
-          "p2": [0.2,7.0]
-        },
-        {
-          "p3": [2.0,27.0]
-        },
-        {
-          "p4": [3.0,40.0]
-        },
-        {
-          "p4": [6.0,80.0]
-        }
-      ],
+      "explosiveMassToPenetration": {
+        "p0": [0.005,2.0],
+        "p1": [0.1,4.0],
+        "p2": [0.2,5.0],
+        "p3": [2.0,25.0],
+        "p4": [3.0,35.0],
+        "p5": [5.0,40.0],
+        "p6": [6.0,50.0],
+        "p7": [8.0,60.0],
+        "p8": [25.0,80.0],
+        "p9": [40.0,90.0],
+        "p10": [120.0,100.0],
+        "p11": [300.0,120.0],
+        "p12": [500.0,150.0],
+        "p13": [700.0,200.0],
+        "p14": [1500.0,300.0],
+        "p15": [3500.0,350.0]
+      },
       "explosiveMassToDamage": {
         "p0": [0.01,20.0],
-        "p1": [0.2,150.0],
-        "p2": [0.6,300.0],
-        "p3": [3.0,500.0],
-        "p4": [7.0,1000.0]
+        "p1": [0.2,130.0],
+        "p2": [0.6,250.0],
+        "p3": [3.0,350.0],
+        "p4": [8.0,450.0],
+        "p5": [25.0,500.0],
+        "p6": [40.0,850.0],
+        "p7": [120.0,1800.0],
+        "p8": [250.0,4000.0],
+        "p9": [500.0,10000.0],
+        "p10": [700.0,12500.0],
+        "p11": [1500.0,21000.0],
+        "p12": [3500.0,30000.0]
       }
     }
   },
   {
     "explosiveTypeToShattersParams": {
       "aphe_sc": {
-        "fillingRatio": 0.005,
+        "fillingRatio": 0.0005,
         "explosiveMassToRadius": {
-          "p0": [0.01,0.5],
-          "p1": [0.2,3.0],
-          "p2": [0.6,5.0],
-          "p3": [3.0,6.0],
-          "p4": [7.0,10.0]
+          "p0": [0.01,1.5],
+          "p1": [0.2,4.0],
+          "p2": [0.6,7.0],
+          "p3": [3.0,12.0],
+          "p4": [7.0,15.0]
         },
         "explosiveMassToPenetration": {
-          "p0": [0.01,4.0],
-          "p1": [0.2,6.0],
+          "p0": [0.01,3.0],
+          "p1": [0.2,4.0],
           "p2": [0.6,7.0],
           "p3": [3.0,8.0],
-          "p4": [7.0,12.0]
+          "p4": [7.0,10.0]
         },
         "explosiveMassToDamage": {
-          "p0": [0.01,5.0],
-          "p1": [0.2,7.0],
+          "p0": [0.01,4.0],
+          "p1": [0.2,13.0],
           "p2": [0.6,20.0],
           "p3": [3.0,25.0],
-          "p4": [7.0,30.0]
+          "p4": [7.0,27.0]
         },
         "bodyMassToShattersCount": {
-          "p0": [0.05,10.0],
-          "p1": [0.5,30.0],
-          "p2": [5.0,50.0],
-          "p3": [10.0,80.0],
-          "p4": [25.0,100.0],
-          "p5": [50.0,150.0]
+          "p0": [0.05,2.0],
+          "p1": [0.5,20.0],
+          "p2": [5.0,40.0],
+          "p3": [10.0,120.0],
+          "p4": [25.0,350.0],
+          "p5": [50.0,500.0]
         }
       },
       "aphe_hc": {
         "fillingRatio": 0.02,
         "explosiveMassToRadius": {
-          "p0": [0.01,0.5],
-          "p1": [0.2,3.0],
-          "p2": [0.6,5.0],
-          "p3": [3.0,6.0],
-          "p4": [7.0,10.0]
+          "p0": [0.01,1.5],
+          "p1": [0.2,4.0],
+          "p2": [0.6,7.0],
+          "p3": [3.0,12.0],
+          "p4": [7.0,15.0]
         },
         "explosiveMassToPenetration": {
-          "p0": [0.01,4.0],
-          "p1": [0.2,6.0],
+          "p0": [0.01,3.0],
+          "p1": [0.2,4.0],
           "p2": [0.6,7.0],
           "p3": [3.0,8.0],
-          "p4": [7.0,12.0]
+          "p4": [7.0,10.0]
         },
         "explosiveMassToDamage": {
-          "p0": [0.01,5.0],
-          "p1": [0.2,7.0],
+          "p0": [0.01,4.0],
+          "p1": [0.2,10.0],
           "p2": [0.6,20.0],
           "p3": [3.0,25.0],
-          "p4": [7.0,30.0]
+          "p4": [7.0,27.0]
         },
         "bodyMassToShattersCount": {
-          "p0": [0.05,15.0],
-          "p1": [0.5,40.0],
-          "p2": [5.0,70.0],
-          "p3": [10.0,100.0],
-          "p4": [25.0,150.0],
-          "p5": [50.0,200.0]
+          "p0": [0.05,2.0],
+          "p1": [0.5,25.0],
+          "p2": [5.0,50.0],
+          "p3": [10.0,120.0],
+          "p4": [25.0,400.0],
+          "p5": [50.0,600.0]
         }
       },
       "he_frag": {
@@ -449,46 +490,52 @@
           "p1": [0.2,5.0],
           "p2": [0.6,6.0],
           "p3": [3.0,9.0],
-          "p4": [7.0,10.0]
+          "p4": [7.0,12.0]
         },
         "explosiveMassToDamage": {
-          "p0": [0.01,5.0],
-          "p1": [0.2,6.0],
-          "p2": [0.6,8.0],
+          "p0": [0.01,4.0],
+          "p1": [0.2,5.0],
+          "p2": [0.6,6.0],
           "p3": [3.0,9.0],
-          "p4": [7.0,10.0]
+          "p4": [7.0,15.0]
         },
         "bodyMassToShattersCount": {
           "p0": [0.05,15.0],
-          "p1": [0.5,40.0],
-          "p2": [5.0,120.0],
-          "p3": [10.0,200.0],
-          "p4": [25.0,500.0],
-          "p5": [50.0,1000.0]
+          "p1": [0.5,50.0],
+          "p2": [5.0,200.0],
+          "p3": [10.0,250.0],
+          "p4": [25.0,700.0],
+          "p5": [50.0,1200.0]
         }
       },
       "he_heat": {
-        "fillingRatio": 0.2,
+        "fillingRatio": 0.3,
         "explosiveMassToRadius": {
           "p0": [0.01,1.5],
           "p1": [0.2,7.0],
           "p2": [0.6,15.0],
-          "p3": [3.0,30.0],
-          "p4": [7.0,45.0]
+          "p3": [3.0,25.0],
+          "p4": [7.0,45.0],
+          "p5": [25.0,70.0],
+          "p6": [40.0,100.0]
         },
         "explosiveMassToPenetration": {
           "p0": [0.01,3.0],
           "p1": [0.2,5.0],
           "p2": [0.6,6.0],
-          "p3": [3.0,9.0],
-          "p4": [7.0,10.0]
+          "p3": [3.0,7.0],
+          "p4": [7.0,8.0],
+          "p5": [25.0,10.0],
+          "p6": [40.0,13.0]
         },
         "explosiveMassToDamage": {
-          "p0": [0.01,5.0],
-          "p1": [0.2,6.0],
-          "p2": [0.6,8.0],
-          "p3": [3.0,9.0],
-          "p4": [7.0,10.0]
+          "p0": [0.01,4.0],
+          "p1": [0.2,4.0],
+          "p2": [0.6,5.0],
+          "p3": [3.0,6.0],
+          "p4": [7.0,7.0],
+          "p5": [25.0,10.0],
+          "p6": [40.0,12.0]
         },
         "bodyMassToShattersCount": {
           "p0": [0.05,20.0],
@@ -496,7 +543,61 @@
           "p2": [5.0,250.0],
           "p3": [10.0,500.0],
           "p4": [25.0,1000.0],
-          "p5": [50.0,2000.0]
+          "p5": [50.0,2000.0],
+          "p6": [100.0,3000.0]
+        }
+      },
+      "bombs_he_frag": {
+        "fillingRatio": 0.76,
+        "explosiveMassToRadius": {
+          "p0": [0.01,1.5],
+          "p1": [0.2,7.0],
+          "p2": [0.6,15.0],
+          "p3": [3.0,25.0],
+          "p4": [7.0,45.0],
+          "p5": [25.0,70.0],
+          "p6": [40.0,100.0],
+          "p7": [120.0,120.0],
+          "p8": [300.0,150.0],
+          "p9": [500.0,200.0],
+          "p10": [2000.0,300.0]
+        },
+        "explosiveMassToPenetration": {
+          "p0": [0.01,3.0],
+          "p1": [0.2,5.0],
+          "p2": [0.6,6.0],
+          "p3": [3.0,7.0],
+          "p4": [7.0,8.0],
+          "p5": [25.0,10.0],
+          "p6": [40.0,13.0],
+          "p7": [120.0,13.0],
+          "p8": [300.0,15.0],
+          "p9": [2000.0,17.0]
+        },
+        "explosiveMassToDamage": {
+          "p0": [0.01,4.0],
+          "p1": [0.2,4.0],
+          "p2": [0.6,5.0],
+          "p3": [3.0,6.0],
+          "p4": [7.0,7.0],
+          "p5": [25.0,10.0],
+          "p6": [40.0,12.0],
+          "p7": [120.0,15.0],
+          "p8": [300.0,16.0],
+          "p9": [2000.0,20.0]
+        },
+        "bodyMassToShattersCount": {
+          "p0": [0.05,20.0],
+          "p1": [0.5,100.0],
+          "p2": [5.0,250.0],
+          "p3": [10.0,500.0],
+          "p4": [25.0,1500.0],
+          "p5": [50.0,5000.0],
+          "p6": [100.0,10000.0],
+          "p7": [250.0,20000.0],
+          "p8": [500.0,40000.0],
+          "p9": [1000.0,80000.0],
+          "p10": [2000.0,100000.0]
         }
       }
     }
@@ -562,6 +663,28 @@
     ]
   },
   {
+    "armorDegradationMult": [
+      {
+        "p1": [1.0,0.1,0.1]
+      },
+      {
+        "p1": [1.0,1.0,1.0]
+      },
+      {
+        "p1": [10.0,1.0,0.1]
+      },
+      {
+        "p1": [10.0,10.0,1.0]
+      },
+      {
+        "p1": [100.0,10.0,0.1]
+      },
+      {
+        "p1": [100.0,100.0,1.0]
+      }
+    ]
+  },
+  {
     "nodeListNotSwitchToDamagedModel": {
       "node": "bone_gun_barrel"
     }
@@ -571,13 +694,13 @@
       "repairDelayTimer": 1.5,
       "partRepairHp": 0.7,
       "engine_dm": {
-        "speed": 0.5,
+        "speed": 0.8,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.6
       },
       "transmission_dm": {
-        "speed": 0.5,
+        "speed": 0.8,
         "completely": true,
         "partRepairHp": 1.0,
         "hpForRepair": 0.6
@@ -586,26 +709,22 @@
         "completely": true
       },
       "track_l_dm": {
-        "speed": 1.5,
-        "serially": true,
+        "speed": 1.7,
         "completely": true,
         "modRequired": false
       },
       "track_r_dm": {
-        "speed": 1.5,
-        "serially": true,
+        "speed": 1.7,
         "completely": true,
         "modRequired": false
       },
       "track_l_01_dm": {
         "speed": 1.5,
-        "serially": true,
         "completely": true,
         "modRequired": false
       },
       "track_r_01_dm": {
         "speed": 1.5,
-        "serially": true,
         "completely": true,
         "modRequired": false
       },
@@ -682,51 +801,112 @@
         "hpForRepair": 0.7
       },
       "drive_turret_v_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_v_01_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_v_02_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_v_03_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_v_04_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_v_05_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_h_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_h_01_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_h_02_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_h_03_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_h_04_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
         "completely": true
       },
       "drive_turret_h_05_dm": {
-        "speed": 0.5,
+        "speed": 1.3,
+        "completely": true
+      },
+      "ammo_turret_01_dm": {
+        "speed": 3.0,
+        "completely": true,
+        "partRepairHp": 1.0,
+        "hpForRepair": 0.7
+      },
+      "ammo_turret_02_dm": {
+        "speed": 3.0,
+        "completely": true,
+        "partRepairHp": 1.0,
+        "hpForRepair": 0.7
+      }
+    }
+  },
+  {
+    "healingCrew": {
+      "partRepairHp": 0.7,
+      "gunner_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "gunner_01_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "gunner_02_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "driver_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "commander_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "loader_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "loader_01_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "loader_02_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "machine_gunner_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "machine_gunner_01_dm": {
+        "speed": 1.5,
+        "completely": true
+      },
+      "machine_gunner_02_dm": {
+        "speed": 1.5,
         "completely": true
       }
     }
@@ -1037,7 +1217,6 @@
       },
       "ap": {
         "ricochetProbability0deg": [0.0,1.0],
-        "ricochetProbability10deg": [15.0,1.0],
         "ricochetProbability25deg": [25.0,1.0],
         "ricochetProbability30deg": [30.0,0.6],
         "ricochetProbability40deg": [40.0,0.35],
@@ -1047,7 +1226,6 @@
         "t1": {
           "caliberToArmor": 1.0,
           "ricochetProbability0deg": [0.0,1.0],
-          "ricochetProbability10deg": [15.0,1.0],
           "ricochetProbability25deg": [25.0,1.0],
           "ricochetProbability30deg": [30.0,0.5],
           "ricochetProbability40deg": [40.0,0.3],
@@ -1058,7 +1236,6 @@
         "t2": {
           "caliberToArmor": 1.3,
           "ricochetProbability0deg": [0.0,1.0],
-          "ricochetProbability10deg": [15.0,1.0],
           "ricochetProbability24deg": [24.0,1.0],
           "ricochetProbability30deg": [30.0,0.4],
           "ricochetProbability40deg": [40.0,0.2],
@@ -1069,9 +1246,8 @@
         "t3": {
           "caliberToArmor": 2.0,
           "ricochetProbability0deg": [0.0,1.0],
-          "ricochetProbability10deg": [15.0,1.0],
           "ricochetProbability22deg": [22.0,1.0],
-          "ricochetProbability23deg": [23.0,0.95],
+          "ricochetProbability23deg": [23.0,0.5],
           "ricochetProbability30deg": [30.0,0.3],
           "ricochetProbability40deg": [40.0,0.1],
           "ricochetProbability41deg": [41.0,0.001],
@@ -1079,25 +1255,23 @@
           "ricochetProbability90deg": [90.0,0.0]
         },
         "t4": {
-          "caliberToArmor": 3.0,
+          "caliberToArmor": 2.5,
           "ricochetProbability0deg": [0.0,1.0],
           "ricochetProbability10deg": [15.0,1.0],
-          "ricochetProbability19deg": [19.0,1.0],
-          "ricochetProbability22deg": [22.0,0.9],
-          "ricochetProbability30deg": [30.0,0.2],
-          "ricochetProbability40deg": [35.0,0.05],
-          "ricochetProbability41deg": [36.0,0.001],
-          "ricochetProbability42deg": [37.0,0.0],
+          "ricochetProbability19deg": [17.0,0.9],
+          "ricochetProbability22deg": [22.0,0.5],
+          "ricochetProbability30deg": [23.0,0.1],
+          "ricochetProbability40deg": [24.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         },
         "t5": {
-          "caliberToArmor": 5.0,
+          "caliberToArmor": 3.0,
           "ricochetProbability0deg": [0.0,1.0],
           "ricochetProbability10deg": [10.0,1.0],
           "ricochetProbability19deg": [15.0,0.9],
-          "ricochetProbability22deg": [20.0,0.5],
-          "ricochetProbability30deg": [30.0,0.1],
-          "ricochetProbability40deg": [35.0,0.0],
+          "ricochetProbability22deg": [17.0,0.5],
+          "ricochetProbability30deg": [20.0,0.1],
+          "ricochetProbability40deg": [21.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         },
         "t6": {
@@ -1106,14 +1280,13 @@
           "ricochetProbability10deg": [8.0,1.0],
           "ricochetProbability19deg": [12.0,0.9],
           "ricochetProbability22deg": [15.0,0.5],
-          "ricochetProbability30deg": [20.0,0.1],
+          "ricochetProbability30deg": [18.0,0.1],
           "ricochetProbability40deg": [21.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         }
       },
       "apbc": {
         "ricochetProbability0deg": [0.0,1.0],
-        "ricochetProbability10deg": [10.0,1.0],
         "ricochetProbability20deg": [20.0,1.0],
         "ricochetProbability30deg": [30.0,0.5],
         "ricochetProbability40deg": [40.0,0.2],
@@ -1160,7 +1333,7 @@
           "caliberToArmor": 2.0,
           "ricochetProbability0deg": [0.0,1.0],
           "ricochetProbability19deg": [19.0,1.0],
-          "ricochetProbability23deg": [23.0,0.85],
+          "ricochetProbability23deg": [23.0,0.4],
           "ricochetProbability27deg": [27.0,0.2],
           "ricochetProbability30deg": [30.0,0.15],
           "ricochetProbability40deg": [37.0,0.02],
@@ -1169,34 +1342,30 @@
           "ricochetProbability90deg": [90.0,0.0]
         },
         "t4": {
-          "caliberToArmor": 3.0,
+          "caliberToArmor": 2.5,
           "ricochetProbability0deg": [0.0,1.0],
-          "ricochetProbability19deg": [19.0,1.0],
-          "ricochetProbability20deg": [23.0,0.85],
-          "ricochetProbability25deg": [25.0,0.15],
-          "ricochetProbability30deg": [30.0,0.1],
-          "ricochetProbability40deg": [35.0,0.01],
-          "ricochetProbability42deg": [39.0,0.0],
+          "ricochetProbability10deg": [13.0,1.0],
+          "ricochetProbability19deg": [16.0,0.5],
+          "ricochetProbability22deg": [21.0,0.1],
+          "ricochetProbability40deg": [23.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         },
         "t5": {
-          "caliberToArmor": 5.0,
+          "caliberToArmor": 3.0,
           "ricochetProbability0deg": [0.0,1.0],
           "ricochetProbability10deg": [10.0,1.0],
-          "ricochetProbability19deg": [16.0,0.9],
-          "ricochetProbability22deg": [22.0,0.5],
-          "ricochetProbability30deg": [25.0,0.1],
-          "ricochetProbability40deg": [35.0,0.0],
+          "ricochetProbability19deg": [16.0,0.5],
+          "ricochetProbability22deg": [19.0,0.1],
+          "ricochetProbability40deg": [20.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         },
         "t6": {
           "caliberToArmor": 6.0,
           "ricochetProbability0deg": [0.0,1.0],
-          "ricochetProbability10deg": [8.0,1.0],
-          "ricochetProbability19deg": [14.0,0.9],
-          "ricochetProbability22deg": [17.0,0.5],
-          "ricochetProbability30deg": [20.0,0.1],
-          "ricochetProbability40deg": [25.0,0.0],
+          "ricochetProbability10deg": [7.0,1.0],
+          "ricochetProbability19deg": [10.0,0.5],
+          "ricochetProbability22deg": [14.0,0.1],
+          "ricochetProbability40deg": [15.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         }
       },
@@ -1286,9 +1455,9 @@
         "t1": {
           "caliberToArmor": 1.0,
           "ricochetProbability0deg": [0.0,1.0],
-          "ricochetProbability09deg": [20.0,1.0],
-          "ricochetProbability10deg": [26.0,0.5],
-          "ricochetProbability11deg": [30.0,0.2],
+          "ricochetProbability09deg": [15.0,1.0],
+          "ricochetProbability10deg": [25.0,0.2],
+          "ricochetProbability11deg": [30.0,0.05],
           "ricochetProbability90deg": [32.0,0.0]
         }
       }
@@ -1776,7 +1945,7 @@
           "slopeEffect5deg": [5.0,15.0],
           "slopeEffect10deg": [10.0,12.0],
           "slopeEffect15deg": [15.0,10.0],
-          "slopeEffect20deg": [20.0,1.5],
+          "slopeEffect20deg": [20.0,1.3],
           "slopeEffect25deg": [25.0,1.1],
           "slopeEffect30deg": [30.0,1.0],
           "slopeEffect35deg": [35.0,1.0],
@@ -1807,7 +1976,7 @@
           "shatter": {
             "distance": 5.0,
             "count": 4,
-            "penetration": [20.0,17.0],
+            "penetration": [15.0,12.0],
             "damage": [30.0,25.0],
             "onHitChanceMult": 1.0,
             "onHitChanceMultFire": 1.0,
@@ -1821,7 +1990,7 @@
           "shatter": {
             "distance": 4.5,
             "count": 10,
-            "penetration": [10.0,8.0],
+            "penetration": [9.0,8.0],
             "damage": [20.0,17.0],
             "aggregateDamage": false
           }
@@ -1847,8 +2016,9 @@
             "distance": 5.0,
             "size": 0.05,
             "count": 8,
-            "penetration": [15.0,10.0],
-            "damage": [20.0,15.0]
+            "penetration": [11.0,8.0],
+            "damage": [20.0,15.0],
+            "onHitChanceMultFire": 1.3
           }
         },
         "section1": {
@@ -1857,8 +2027,9 @@
             "distance": 2.5,
             "size": 0.025,
             "count": 20,
-            "penetration": [10.0,5.0],
-            "damage": [15.0,12.0]
+            "penetration": [7.0,5.0],
+            "damage": [15.0,12.0],
+            "onHitChanceMultFire": 1.0
           }
         },
         "section2": {
@@ -1868,7 +2039,8 @@
             "distance": 1.5,
             "count": 40,
             "penetration": [4.0,3.0],
-            "damage": [8.0,6.0]
+            "damage": [8.0,6.0],
+            "onHitChanceMultFire": 1.0
           }
         }
       },
@@ -1878,69 +2050,75 @@
         "residualArmorPenetrationToShatterDamageMult": [20.0,150.0,0.75,1.0],
         "caliberToArmorToShatterCountMult": [0.5,1.0,0.6,1.0],
         "section0": {
-          "angles": [0.0,5.0],
+          "angles": [0.0,2.5],
           "shatter": {
             "distance": 5.0,
-            "size": 0.025,
-            "count": 7,
-            "penetration": [30.0,25.0],
-            "damage": [30.0,25.0]
+            "size": 0.03,
+            "count": 10,
+            "penetration": [15.0,8.0],
+            "damage": [30.0,25.0],
+            "onHitChanceMultFire": 3.2
           }
         },
         "section1": {
-          "angles": [0.0,25.0],
+          "angles": [0.0,10.0],
           "shatter": {
-            "distance": 4.5,
+            "distance": 3.5,
             "size": 0.015,
             "count": 30,
-            "penetration": [15.0,10.0],
-            "damage": [20.0,15.0]
+            "penetration": [10.0,8.0],
+            "damage": [20.0,15.0],
+            "onHitChanceMultFire": 1.0
           }
         },
         "section2": {
-          "angles": [0.0,50.0],
+          "angles": [0.0,30.0],
           "shatter": {
             "size": 0.01,
-            "distance": 2.5,
+            "distance": 1.5,
             "count": 40,
             "penetration": [4.0,3.0],
-            "damage": [13.0,10.0]
+            "damage": [13.0,10.0],
+            "onHitChanceMultFire": 1.0
           }
         }
       },
       "apcr": {
-        "residualArmorPenetrationToShatterCountMult": [20.0,150.0,0.5,1.0],
+        "residualArmorPenetrationToShatterCountMult": [20.0,100.0,0.5,1.0],
         "residualArmorPenetrationToShatterPenetrationMult": [20.0,150.0,0.5,1.0],
-        "residualArmorPenetrationToShatterDamageMult": [20.0,150.0,0.2,1.0],
-        "caliberToArmorToShatterCountMult": [0.5,1.0,0.4,1.0],
+        "residualArmorPenetrationToShatterDamageMult": [20.0,150.0,0.5,1.0],
+        "caliberToArmorToShatterCountMult": [0.5,1.0,0.5,1.0],
         "section0": {
-          "angles": [0.0,5.0],
+          "angles": [0.0,2.5],
           "shatter": {
-            "distance": 4.5,
-            "size": 0.02,
-            "count": 4,
-            "penetration": [20.0,5.0],
-            "damage": [15.0,5.0]
+            "distance": 5.0,
+            "size": 0.03,
+            "count": 9,
+            "penetration": [15.0,8.0],
+            "damage": [27.0,20.0],
+            "onHitChanceMultFire": 3.2
           }
         },
         "section1": {
-          "angles": [0.0,20.0],
+          "angles": [0.0,10.0],
           "shatter": {
             "distance": 3.5,
             "size": 0.015,
-            "count": 25,
-            "penetration": [15.0,5.0],
-            "damage": [12.0,8.0]
+            "count": 27,
+            "penetration": [10.0,8.0],
+            "damage": [20.0,15.0],
+            "onHitChanceMultFire": 1.0
           }
         },
         "section2": {
-          "angles": [0.0,50.0],
+          "angles": [0.0,30.0],
           "shatter": {
             "size": 0.01,
-            "distance": 3.0,
+            "distance": 1.5,
             "count": 35,
             "penetration": [4.0,3.0],
-            "damage": [9.0,5.0]
+            "damage": [13.0,10.0],
+            "onHitChanceMultFire": 1.0
           }
         }
       },
@@ -1948,16 +2126,17 @@
         "residualArmorPenetrationToShatterCountMult": [20.0,200.0,0.7,1.0],
         "residualArmorPenetrationToShatterPenetrationMult": [20.0,200.0,0.7,1.0],
         "residualArmorPenetrationToShatterDamageMult": [20.0,200.0,0.7,1.0],
-        "caliberToArmorToShatterCountMult": [0.5,1.0,0.7,1.0],
+        "caliberToArmorToShatterCountMult": [0.5,1.0,0.5,1.0],
         "section0": {
-          "angles": [0.0,15.0],
+          "angles": [0.0,5.0],
           "shatter": {
             "distance": 3.0,
             "size": 0.02,
-            "count": 20,
-            "penetration": [10.0,8.0],
+            "count": 12,
+            "penetration": [9.0,7.0],
             "damage": [40.0,30.0],
-            "aggregateDamage": false
+            "aggregateDamage": false,
+            "onHitChanceMultFire": 3.0
           }
         },
         "section1": {
@@ -1967,7 +2146,8 @@
             "size": 0.01,
             "count": 40,
             "penetration": [4.0,3.0],
-            "damage": [20.0,10.0]
+            "damage": [20.0,10.0],
+            "onHitChanceMultFire": 1.0
           }
         }
       },
@@ -1975,16 +2155,17 @@
         "residualArmorPenetrationToShatterCountMult": [20.0,200.0,0.7,1.0],
         "residualArmorPenetrationToShatterPenetrationMult": [20.0,200.0,0.5,1.0],
         "residualArmorPenetrationToShatterDamageMult": [20.0,200.0,0.7,1.0],
-        "caliberToArmorToShatterCountMult": [0.5,1.0,0.7,1.0],
+        "caliberToArmorToShatterCountMult": [0.5,1.0,0.5,1.0],
         "section0": {
-          "angles": [0.0,4.0],
+          "angles": [0.0,3.0],
           "shatter": {
             "distance": 5.0,
             "size": 0.01,
-            "count": 10,
-            "penetration": [12.0,10.0],
+            "count": 15,
+            "penetration": [12.0,7.0],
             "damage": [45.0,35.0],
-            "aggregateDamage": false
+            "aggregateDamage": false,
+            "onHitChanceMultFire": 3.0
           }
         },
         "section1": {
@@ -1994,7 +2175,37 @@
             "size": 0.01,
             "count": 45,
             "penetration": [4.0,3.0],
-            "damage": [25.0,15.0]
+            "damage": [20.0,10.0],
+            "onHitChanceMultFire": 1.0
+          }
+        }
+      },
+      "atgm": {
+        "residualArmorPenetrationToShatterCountMult": [20.0,200.0,0.7,1.0],
+        "residualArmorPenetrationToShatterPenetrationMult": [20.0,200.0,0.5,1.0],
+        "residualArmorPenetrationToShatterDamageMult": [20.0,200.0,0.7,1.0],
+        "caliberToArmorToShatterCountMult": [0.5,1.0,0.5,1.0],
+        "section0": {
+          "angles": [0.0,3.0],
+          "shatter": {
+            "distance": 5.0,
+            "size": 0.01,
+            "count": 15,
+            "penetration": [12.0,7.0],
+            "damage": [45.0,35.0],
+            "aggregateDamage": false,
+            "onHitChanceMultFire": 3.0
+          }
+        },
+        "section1": {
+          "angles": [0.0,45.0],
+          "shatter": {
+            "distance": 1.5,
+            "size": 0.01,
+            "count": 45,
+            "penetration": [4.0,3.0],
+            "damage": [20.0,10.0],
+            "onHitChanceMultFire": 1.0
           }
         }
       },
@@ -2008,9 +2219,10 @@
           "shatter": {
             "distance": 3.0,
             "size": 0.08,
-            "count": 25,
-            "penetration": [15.0,12.0],
-            "damage": [50.0,40.0]
+            "count": 35,
+            "penetration": [12.0,7.0],
+            "damage": [50.0,40.0],
+            "onHitChanceMultFire": 0.0
           }
         },
         "section1": {
@@ -2018,9 +2230,10 @@
           "shatter": {
             "distance": 1.5,
             "size": 0.01,
-            "count": 30,
+            "count": 40,
             "penetration": [5.0,3.0],
-            "damage": [20.0,15.0]
+            "damage": [20.0,15.0],
+            "onHitChanceMultFire": 0.0
           }
         }
       }
@@ -2077,25 +2290,22 @@
       "default": {
         "normalizationPreset": "default",
         "ricochetPreset": "default",
-        "stabilityThreshold": 0.0,
+        "stabilityThreshold": 0.05,
         "stabilityCaliberToArmorThreshold": 5.0,
-        "stabilityReductionAfterRicochet": 0.1,
-        "stabilityReductionAfterPenetration": 0.1,
+        "stabilityReductionAfterRicochet": 0.5,
+        "stabilityReductionAfterPenetration": 0.05,
         "stabilityRicochetModifier": [
           {
-            "mod1": [0.0,0.1]
+            "mod1": [0.0,0.05]
           },
           {
-            "mod2": [20.0,0.15]
+            "mod2": [20.0,0.1]
           },
           {
             "mod3": [30.0,0.2]
           },
           {
             "mod3": [45.0,0.3]
-          },
-          {
-            "mod4": [60.0,0.5]
           }
         ]
       },
@@ -2113,6 +2323,14 @@
         "ricochetPreset": "ap",
         "secondaryShattersPreset": "ap",
         "modelName": "tank_bullet_potato",
+        "fresnel": [0.23,0.1,2.0]
+      },
+      "cannon_ball": {
+        "normalizationPreset": "ap",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "ap",
+        "secondaryShattersPreset": "ap",
+        "modelName": "tank_bullet_ball",
         "fresnel": [0.23,0.1,2.0]
       },
       "tphv_tank": {
@@ -2155,12 +2373,77 @@
         "secondaryShattersPreset": "ap",
         "fresnel": [0.23,0.1,2.0]
       },
+      "he_i": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
       "he_frag_i_t": {
         "normalizationPreset": "heat",
         "slopeEffectPreset": "ap",
-        "ricochetPreset": "heat",
+        "ricochetPreset": "he",
         "modelName": "tank_bullet_he",
-        "fresnel": [0.23,0.1,2.0]
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
+      "he_i_t": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
+      "he_i_mine": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
+      "he_i_t_mine": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
+      "he_i_t_n_mine": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
+      "he_frag": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
+      "he_frag_t": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
+      },
+      "he_frag_i": {
+        "normalizationPreset": "heat",
+        "slopeEffectPreset": "ap",
+        "ricochetPreset": "he",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
       },
       "ac_shell_tank": {
         "normalizationPreset": "apbc",
@@ -2238,7 +2521,7 @@
       },
       "apc_tank": {
         "normalizationPreset": "apbc",
-        "ricochetPreset": "ap",
+        "ricochetPreset": "apbc",
         "slopeEffectPreset": "apc",
         "modelName": "tank_bullet_apc",
         "secondaryShattersPreset": "ap",
@@ -2280,57 +2563,49 @@
         "normalizationPreset": "heat",
         "ricochetPreset": "heat",
         "stabilityThreshold": 0.1,
-        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityCaliberToArmorThreshold": 100.0,
         "stabilityReductionAfterRicochet": 0.3,
-        "stabilityReductionAfterPenetration": 0.025,
+        "stabilityReductionAfterPenetration": 0.01,
         "cumulativeSecondaryShattersPreset": "heat",
+        "explodeOnRendinst": true,
         "modelName": "tank_bullet_heat",
         "fresnel": [0.23,0.1,2.0],
-        "stabilityRicochetModifier": [
-          {
-            "mod1": [0.0,0.0]
-          },
-          {
-            "mod2": [20.0,0.3]
-          },
-          {
-            "mod3": [30.0,0.5]
-          },
-          {
-            "mod3": [45.0,0.7]
-          },
-          {
-            "mod4": [60.0,1.0]
-          }
-        ]
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.0],
+          "mod2": [20.0,1.0]
+        }
       },
       "heat_fs_tank": {
         "normalizationPreset": "heat",
         "ricochetPreset": "heat_fs",
         "stabilityThreshold": 0.1,
-        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityCaliberToArmorThreshold": 100.0,
         "stabilityReductionAfterRicochet": 0.3,
-        "stabilityReductionAfterPenetration": 0.025,
-        "cumulativeSecondaryShattersPreset": "heat",
+        "stabilityReductionAfterPenetration": 0.01,
+        "cumulativeSecondaryShattersPreset": "heat_fs",
+        "explodeOnRendinst": true,
         "modelName": "tank_bullet_heat_fs",
         "fresnel": [0.23,0.1,2.0],
-        "stabilityRicochetModifier": [
-          {
-            "mod1": [0.0,0.0]
-          },
-          {
-            "mod2": [20.0,0.3]
-          },
-          {
-            "mod3": [30.0,0.5]
-          },
-          {
-            "mod3": [45.0,0.7]
-          },
-          {
-            "mod4": [60.0,1.0]
-          }
-        ]
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.0],
+          "mod2": [20.0,1.0]
+        }
+      },
+      "atgm_tank": {
+        "normalizationPreset": "heat",
+        "ricochetPreset": "heat_fs",
+        "stabilityThreshold": 0.1,
+        "stabilityCaliberToArmorThreshold": 100.0,
+        "stabilityReductionAfterRicochet": 0.3,
+        "stabilityReductionAfterPenetration": 0.01,
+        "cumulativeSecondaryShattersPreset": "heat_fs",
+        "explodeOnRendinst": true,
+        "modelName": "tank_bullet_heat_fs",
+        "fresnel": [0.23,0.1,2.0],
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.0],
+          "mod2": [20.0,1.0]
+        }
       },
       "he_frag_tank": {
         "normalizationPreset": "heat",
@@ -2339,13 +2614,32 @@
         "secondaryShattersPreset": "ap",
         "modelName": "tank_bullet_he",
         "fresnel": [0.23,0.1,2.0],
-        "stabilityThreshold": 0.5,
+        "stabilityThreshold": 0.4,
         "stabilityCaliberToArmorThreshold": 10.0,
-        "stabilityReductionAfterRicochet": 0.2,
-        "stabilityReductionAfterPenetration": 0.5,
+        "stabilityReductionAfterRicochet": 0.45,
+        "stabilityReductionAfterPenetration": 1.0,
+        "explodeOnRendinst": true,
         "stabilityRicochetModifier": {
-          "mod1": [0.0,0.4],
-          "mod2": [20.0,0.5],
+          "mod1": [0.0,0.5],
+          "mod2": [20.0,0.6],
+          "mod3": [30.0,1.0]
+        }
+      },
+      "rocket_tank": {
+        "normalizationPreset": "heat",
+        "ricochetPreset": "he",
+        "slopeEffectPreset": "ap",
+        "secondaryShattersPreset": "ap",
+        "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "stabilityThreshold": 0.4,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.45,
+        "stabilityReductionAfterPenetration": 1.0,
+        "explodeOnRendinst": true,
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.5],
+          "mod2": [20.0,0.6],
           "mod3": [30.0,1.0]
         }
       },
@@ -2358,6 +2652,7 @@
         "stabilityReductionAfterRicochet": 0.3,
         "stabilityReductionAfterPenetration": 0.9,
         "cumulativeSecondaryShattersPreset": "hesh",
+        "explodeOnRendinst": true,
         "modelName": "tank_bullet_hesh",
         "fresnel": [0.23,0.1,2.0],
         "stabilityRicochetModifier": [
@@ -2384,7 +2679,8 @@
         "slopeEffectPreset": "ap",
         "secondaryShattersPreset": "ap",
         "modelName": "tank_bullet_shrapnel",
-        "fresnel": [0.23,0.1,2.0]
+        "fresnel": [0.23,0.1,2.0],
+        "explodeOnRendinst": true
       }
     }
   },

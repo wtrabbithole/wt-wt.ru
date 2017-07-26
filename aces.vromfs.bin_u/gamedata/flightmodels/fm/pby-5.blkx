@@ -10,7 +10,7 @@
   "AlphaElevatorMin": 0.1,
   "AllowStrongControlsRestrictions": true,
   "RudderSens": 0.45,
-  "ElevatorSens": 0.6,
+  "ElevatorSens": 0.5,
   "AileronSens": 0.17,
   "GearActuatorSpeed": 0.2,
   "WingActuatorSpeed": 0.1,
@@ -42,7 +42,7 @@
   "VneMach": 0.75,
   "MaxSpeedNearGround": 304.92,
   "MaxSpeedAtAltitude": 404.0,
-  "CriticalSpeed": 50.0,
+  "CriticalSpeed": 25.0,
   "VneCockpitDoor": 700.0,
   "ArcadeLimitWepMultiplier": 1.1,
   "ArcadeHelpersSensitivity": 1.0,
@@ -92,7 +92,7 @@
     "WingRightCut": 0.25
   },
   "Focus": {
-    "FocusOffset": 0.0,
+    "FocusOffset": 0.1,
     "WingVertPos": -2.0,
     "AlphaShift": 0.0,
     "FlapsShift": 0.0,
@@ -113,9 +113,9 @@
     "SineAOSMultiplier": 1.0
   },
   "Aerodynamics": {
-    "GearCd": 0.025,
-    "RadiatorCd": 0.0052,
-    "OilRadiatorCd": 0.0,
+    "GearCd": 0.015,
+    "RadiatorCd": 0.0037,
+    "OilRadiatorCd": 0.0022,
     "FuseCd": 0.0,
     "AirbrakeCd": 0.24,
     "CockpitDoorCd": 0.007,
@@ -124,11 +124,11 @@
     "SpinClLoss": 0.03,
     "SpinCdLoss": 0.03,
     "OswaldsEfficiencyNumber": 0.7,
-    "lineClCoeff": 0.0715,
+    "lineClCoeff": 0.086,
     "AfterCritParabAngle": 3.0,
     "AfterCritDeclineCoeff": 0.01,
     "AfterCritMaxDistanceAngle": 32.0,
-    "ClAfterCrit": 1.03,
+    "ClAfterCrit": 0.95,
     "MachFactor": 3,
     "MachCrit1": 0.6,
     "MachMax1": 1.0,
@@ -164,26 +164,26 @@
     "WingFlowInertia": 0.01,
     "StabFlowInertia": 0.08,
     "VertStabFlowInertia": 0.1,
-    "DownwashType": 1,
-    "DownwashCoeff": 0.7,
+    "DownwashType": 2,
+    "DownwashCoeff": 1.0,
     "NoFlaps": {
-      "Cl0": 0.2,
-      "alphaCritHigh": 14.5,
+      "Cl0": 0.25,
+      "alphaCritHigh": 15.0,
       "alphaCritLow": -13.5,
-      "ClCritHigh": 1.01,
+      "ClCritHigh": 1.25,
       "ClCritLow": -0.72,
-      "CdMin": 0.0135
+      "CdMin": 0.011
     },
     "FullFlaps": {
-      "Cl0": 0.5,
-      "alphaCritHigh": 13.0,
+      "Cl0": 0.4,
+      "alphaCritHigh": 16.0,
       "alphaCritLow": -13.5,
-      "ClCritHigh": 1.42,
-      "ClCritLow": -0.46,
+      "ClCritHigh": 1.6,
+      "ClCritLow": -0.72,
       "CdMin": 0.08
     },
     "Fuselage": {
-      "OswaldsEfficiencyNumber": 0.7,
+      "OswaldsEfficiencyNumber": 0.07,
       "lineClCoeff": 0.026,
       "AfterCritParabAngle": 5.0,
       "AfterCritDeclineCoeff": 0.007,
@@ -226,7 +226,7 @@
       "alphaCritLow": -17.0,
       "ClCritHigh": 0.11,
       "ClCritLow": -0.11,
-      "CdMin": 0.0125
+      "CdMin": 0.01
     },
     "Stab": {
       "OswaldsEfficiencyNumber": 1.0,
@@ -341,7 +341,6 @@
       "FuelConsumptionOnHalfThr": 0.38,
       "FuelConsumptionOnFullThr": 0.44,
       "FuelConsumptionOnWEP": 0.4,
-      "UseRealReductor": true,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -351,7 +350,6 @@
       "EngineAcceleration": 4.0,
       "RPMAmplitude0": [2550.0,0.0],
       "RPMAmplitude1": [0.0,5.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 2.2197,
       "ThrustOmegaMinCoeff": 0.0604,
@@ -367,20 +365,19 @@
       "HasFeatheringControl": true,
       "UseAutoPropInertia": false,
       "Reductor": 0.5625,
-      "UseAdvancedProp": true,
       "NumBlades": 3,
       "AdvancedPropRadius": 1.8415,
-      "PropPhi0": 16.926,
-      "PropWidth0": 0.1605,
-      "PropPhi1": 7.828,
-      "PropWidth1": 0.1758,
+      "PropPhi0": 17.45,
+      "PropWidth0": 0.16,
+      "PropPhi1": 7.15,
+      "PropWidth1": 0.19,
       "PropPhi2": 0.0,
-      "PropWidth2": 0.1446,
-      "PropPhi3": -6.574,
-      "PropWidth3": 0.05,
+      "PropWidth2": 0.2,
+      "PropPhi3": -6.54,
+      "PropWidth3": 0.18,
       "InertiaMomentCoeff": 1.0,
       "Diameter": 3.683,
-      "Mass": 222.0,
+      "Mass": 140.0,
       "GovernorType": 2,
       "GovernorSpeed": 0.17,
       "GovernorMinParam": 1200.0,
@@ -404,7 +401,7 @@
         "alphaCritLow": -14.0,
         "ClCritHigh": 1.24,
         "ClCritLow": -0.8,
-        "CdMin": 0.0065,
+        "CdMin": 0.006,
         "AfterCritParabAngle": 3.0,
         "AfterCritDeclineCoeff": 0.0222,
         "AfterCritMaxDistanceAngle": 36.0,
@@ -433,9 +430,9 @@
         "MultLimit4": 0.25,
         "MachCrit5": 0.01,
         "MachMax5": 0.02,
-        "MultMachMax5": 9.7,
+        "MultMachMax5": 3.7,
         "MultLineCoeff5": 1.0,
-        "MultLimit5": 9.7,
+        "MultLimit5": 3.7,
         "MachCrit6": 0.0,
         "MachMax6": 0.0,
         "MultMachMax6": 0.0,
@@ -451,20 +448,113 @@
     "Temperature": {
       "RadiatorType": 3,
       "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.01,
-      "WaterMaxRPMTemp": 215.0,
-      "OilOutMaxRPMTemp": 80.0,
+      "TempChangeSpeed": 0.025,
+      "WaterMaxRPMTemp": 205.0,
+      "OilOutMaxRPMTemp": 70.0,
       "OverheatTime": 90.0,
       "UnderheatTime": 999.0,
-      "WaterMaxTemp": 220.0,
-      "EmptyWaterPipeMaxRPMTemp": 550.0,
+      "WaterMaxTemp": 215.0,
+      "EmptyWaterPipeMaxRPMTemp": 537.5,
       "WaterMinTemp": 60.0,
-      "OilMaxTemp": 105.0,
-      "EmptyOilPipeOutMaxRPMTemp": 136.5,
+      "OilMaxTemp": 100.0,
+      "EmptyOilPipeOutMaxRPMTemp": 130.0,
       "OilMinTemp": 50.0,
-      "EffectiveRadSpeed": 160.0,
+      "EffectiveRadSpeed": 200.0,
       "IneffectiveRadMult": 1.1,
-      "AdvancedThermodynamics": false
+      "AdvancedThermodynamics": true,
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 0.2319,
+      "WaterAirDensityPower": 0.0,
+      "WaterRadiatorEffectPower": 5.0,
+      "WaterMinRadiatorThermalConductionCoeff": 0.83,
+      "WaterMinThermostatThermalConductionCoeff": 0.3,
+      "WaterMinLevelThermalConductionCoeff": 0.2,
+      "WaterBoilingTemperature": 265.0,
+      "WaterThermostatInertia": 20.0,
+      "WaterThermostatSetPoint": 80.0,
+      "NoFlowMode": 2,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 0.67,
+      "OilRadiatorEffectPower": 5.0,
+      "OilMinRadiatorThermalConductionCoeff": 0.84,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 49.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 21.0,
+      "HalfHealthOilTemperatureToleranceDecrease": 10.0,
+      "CoolingEffectiveAirSpeed": 312.429,
+      "WaterTemperatureNoFlow": 265.302,
+      "OilTemperatureNoFlow": 100.637,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 450.0,
+        "ManifoldPressure": 0.8,
+        "WaterTemperature": 140.0,
+        "OilTemperature": 50.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 2350.0,
+        "ManifoldPressure": 1.12,
+        "WaterTemperature": 230.0,
+        "OilTemperature": 64.0
+      },
+      "Mode2": {
+        "Altitude": 1000.0,
+        "RPM": 2550.0,
+        "ManifoldPressure": 1.43,
+        "WaterTemperature": 260.0,
+        "OilTemperature": 75.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2700.0,
+        "ManifoldPressure": 1.623,
+        "WaterTemperature": 280.0,
+        "OilTemperature": 86.0
+      },
+      "Load0": {
+        "WaterTemperature": 155.0,
+        "OilTemperature": 60.0
+      },
+      "Load1": {
+        "WaterTemperature": 190.0,
+        "OilTemperature": 70.0,
+        "WorkTime": 72000.0,
+        "RecoverTime": 36000.0
+      },
+      "Load2": {
+        "WaterTemperature": 232.0,
+        "OilTemperature": 80.0,
+        "WorkTime": 36000.0,
+        "RecoverTime": 18000.0
+      },
+      "Load3": {
+        "WaterTemperature": 260.0,
+        "OilTemperature": 85.0,
+        "WorkTime": 3600.0,
+        "RecoverTime": 1800.0
+      },
+      "Load4": {
+        "WaterTemperature": 280.0,
+        "OilTemperature": 90.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "RadiatorMode0": {
+        "Throttle": 1.0,
+        "WaterTemperature": 260.0,
+        "OilTemperature": 80.5
+      },
+      "RadiatorMode1": {
+        "Throttle": 1.1,
+        "WaterTemperature": 280.0,
+        "OilTemperature": 90.5
+      }
     },
     "Compressor": {
       "IsControllable": false,
@@ -505,8 +595,8 @@
       "hasThrottleControl": true,
       "hasMagnetoControl": true,
       "hasRadiatorControl": true,
-      "hasOilRadiatorControl": false,
-      "hasCommonRadiator": true
+      "hasOilRadiatorControl": true,
+      "hasCommonRadiator": false
     }
   },
   "Engine1": {
@@ -529,7 +619,6 @@
       "FuelConsumptionOnHalfThr": 0.38,
       "FuelConsumptionOnFullThr": 0.44,
       "FuelConsumptionOnWEP": 0.4,
-      "UseRealReductor": true,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -539,7 +628,6 @@
       "EngineAcceleration": 4.0,
       "RPMAmplitude0": [2550.0,0.0],
       "RPMAmplitude1": [0.0,5.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 2.2197,
       "ThrustOmegaMinCoeff": 0.0604,
@@ -555,20 +643,19 @@
       "HasFeatheringControl": true,
       "UseAutoPropInertia": false,
       "Reductor": 0.5625,
-      "UseAdvancedProp": true,
       "NumBlades": 3,
       "AdvancedPropRadius": 1.8415,
-      "PropPhi0": 16.926,
-      "PropWidth0": 0.1605,
-      "PropPhi1": 7.828,
-      "PropWidth1": 0.1758,
+      "PropPhi0": 17.45,
+      "PropWidth0": 0.16,
+      "PropPhi1": 7.15,
+      "PropWidth1": 0.19,
       "PropPhi2": 0.0,
-      "PropWidth2": 0.1446,
-      "PropPhi3": -6.574,
-      "PropWidth3": 0.05,
+      "PropWidth2": 0.2,
+      "PropPhi3": -6.54,
+      "PropWidth3": 0.18,
       "InertiaMomentCoeff": 1.0,
       "Diameter": 3.683,
-      "Mass": 222.0,
+      "Mass": 140.0,
       "GovernorType": 2,
       "GovernorSpeed": 0.17,
       "GovernorMinParam": 1200.0,
@@ -592,7 +679,7 @@
         "alphaCritLow": -14.0,
         "ClCritHigh": 1.24,
         "ClCritLow": -0.8,
-        "CdMin": 0.0065,
+        "CdMin": 0.006,
         "AfterCritParabAngle": 3.0,
         "AfterCritDeclineCoeff": 0.0222,
         "AfterCritMaxDistanceAngle": 36.0,
@@ -621,9 +708,9 @@
         "MultLimit4": 0.25,
         "MachCrit5": 0.01,
         "MachMax5": 0.02,
-        "MultMachMax5": 9.7,
+        "MultMachMax5": 3.7,
         "MultLineCoeff5": 1.0,
-        "MultLimit5": 9.7,
+        "MultLimit5": 3.7,
         "MachCrit6": 0.0,
         "MachMax6": 0.0,
         "MultMachMax6": 0.0,
@@ -639,20 +726,113 @@
     "Temperature": {
       "RadiatorType": 3,
       "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.01,
-      "WaterMaxRPMTemp": 215.0,
-      "OilOutMaxRPMTemp": 80.0,
+      "TempChangeSpeed": 0.025,
+      "WaterMaxRPMTemp": 205.0,
+      "OilOutMaxRPMTemp": 70.0,
       "OverheatTime": 90.0,
       "UnderheatTime": 999.0,
-      "WaterMaxTemp": 220.0,
-      "EmptyWaterPipeMaxRPMTemp": 550.0,
+      "WaterMaxTemp": 215.0,
+      "EmptyWaterPipeMaxRPMTemp": 537.5,
       "WaterMinTemp": 60.0,
-      "OilMaxTemp": 105.0,
-      "EmptyOilPipeOutMaxRPMTemp": 136.5,
+      "OilMaxTemp": 100.0,
+      "EmptyOilPipeOutMaxRPMTemp": 130.0,
       "OilMinTemp": 50.0,
-      "EffectiveRadSpeed": 160.0,
+      "EffectiveRadSpeed": 200.0,
       "IneffectiveRadMult": 1.1,
-      "AdvancedThermodynamics": false
+      "AdvancedThermodynamics": true,
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 0.2319,
+      "WaterAirDensityPower": 0.0,
+      "WaterRadiatorEffectPower": 5.0,
+      "WaterMinRadiatorThermalConductionCoeff": 0.83,
+      "WaterMinThermostatThermalConductionCoeff": 0.3,
+      "WaterMinLevelThermalConductionCoeff": 0.2,
+      "WaterBoilingTemperature": 265.0,
+      "WaterThermostatInertia": 20.0,
+      "WaterThermostatSetPoint": 80.0,
+      "NoFlowMode": 2,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 0.67,
+      "OilRadiatorEffectPower": 5.0,
+      "OilMinRadiatorThermalConductionCoeff": 0.84,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 49.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 21.0,
+      "HalfHealthOilTemperatureToleranceDecrease": 10.0,
+      "CoolingEffectiveAirSpeed": 312.429,
+      "WaterTemperatureNoFlow": 265.302,
+      "OilTemperatureNoFlow": 100.637,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 450.0,
+        "ManifoldPressure": 0.8,
+        "WaterTemperature": 140.0,
+        "OilTemperature": 50.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 2350.0,
+        "ManifoldPressure": 1.12,
+        "WaterTemperature": 230.0,
+        "OilTemperature": 64.0
+      },
+      "Mode2": {
+        "Altitude": 1000.0,
+        "RPM": 2550.0,
+        "ManifoldPressure": 1.43,
+        "WaterTemperature": 260.0,
+        "OilTemperature": 75.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2700.0,
+        "ManifoldPressure": 1.623,
+        "WaterTemperature": 280.0,
+        "OilTemperature": 86.0
+      },
+      "Load0": {
+        "WaterTemperature": 155.0,
+        "OilTemperature": 60.0
+      },
+      "Load1": {
+        "WaterTemperature": 190.0,
+        "OilTemperature": 70.0,
+        "WorkTime": 72000.0,
+        "RecoverTime": 36000.0
+      },
+      "Load2": {
+        "WaterTemperature": 232.0,
+        "OilTemperature": 80.0,
+        "WorkTime": 36000.0,
+        "RecoverTime": 18000.0
+      },
+      "Load3": {
+        "WaterTemperature": 260.0,
+        "OilTemperature": 85.0,
+        "WorkTime": 3600.0,
+        "RecoverTime": 1800.0
+      },
+      "Load4": {
+        "WaterTemperature": 280.0,
+        "OilTemperature": 90.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "RadiatorMode0": {
+        "Throttle": 1.0,
+        "WaterTemperature": 260.0,
+        "OilTemperature": 80.5
+      },
+      "RadiatorMode1": {
+        "Throttle": 1.1,
+        "WaterTemperature": 280.0,
+        "OilTemperature": 90.5
+      }
     },
     "Compressor": {
       "IsControllable": false,
@@ -693,8 +873,8 @@
       "hasThrottleControl": true,
       "hasMagnetoControl": true,
       "hasRadiatorControl": true,
-      "hasOilRadiatorControl": false,
-      "hasCommonRadiator": true
+      "hasOilRadiatorControl": true,
+      "hasCommonRadiator": false
     }
   },
   "Mass": {
@@ -794,16 +974,22 @@
   },
   "Gear": [
     {
-      "SinkFactor": 150.0
+      "SinkFactor": 4000.0
     },
     {
-      "WaterFriction": 1.0
+      "SinkRateMult": 0.001
+    },
+    {
+      "WaterFriction": 0.6
+    },
+    {
+      "WaterFrictionDefault": 0.5
     },
     {
       "RetractableTailStrut": false
     },
     {
-      "UseCenterOfGravity": false
+      "UseCenterOfGravity": true
     },
     {
       "FrontalSpringsHeight": 0.3
@@ -818,22 +1004,28 @@
       "TailSpringsCoeff": 1409490.0
     },
     {
-      "HasWheels": true
+      "HasWheels": false
     },
     {
-      "LeftWheelRadius": 0.4
+      "LeftWheelRadius": 0.31
     },
     {
-      "RightWheelRadius": 0.4
+      "RightWheelRadius": 0.31
     },
     {
-      "CenterWheelRadius": 0.4
+      "CenterWheelRadius": 0.078
     },
     {
-      "Height": 0.7
+      "Height": 2.3389
     },
     {
-      "Pitch": 0.35
+      "Pitch": 5.0
+    },
+    {
+      "WaterWaveHeightForCheck": [0.0,100.0]
+    },
+    {
+      "WaterSpeedPropCheckVal": [0.1,0.1]
     },
     {
       "Floats": true
@@ -841,37 +1033,28 @@
     {
       "WaterGroup": [
         {
-          "part": 2
+          "part": 33
         },
         {
           "part": 3
         },
         {
-          "part": 4
-        },
-        {
-          "part": 5
-        },
-        {
-          "part": 6
-        },
-        {
-          "part": 7
-        },
-        {
-          "part": 8
-        },
-        {
-          "part": 9
+          "part": 11
         },
         {
           "part": 10
         },
         {
-          "part": 11
+          "part": 9
         },
         {
-          "part": 12
+          "part": 6
+        },
+        {
+          "part": 8
+        },
+        {
+          "part": 7
         }
       ]
     },
@@ -888,77 +1071,70 @@
     {
       "WaterPart1": {
         "Number": 0,
-        "SinkFactor": 8000.0,
+        "SinkFactor": 6600.0,
         "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart2": {
         "Number": 1,
-        "SinkFactor": 18000.0,
+        "SinkFactor": 6600.0,
         "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart3": {
-        "Number": 2,
-        "SinkFactor": 18000.0,
+        "Number": 33,
+        "SinkFactor": 8800.0,
         "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart4": {
         "Number": 3,
-        "SinkFactor": 19000.0,
+        "SinkFactor": 8800.0,
         "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart5": {
-        "Number": 6,
-        "SinkFactor": 18000.0,
+        "Number": 11,
+        "SinkFactor": 4800.0,
         "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart6": {
-        "Number": 7,
-        "SinkFactor": 18000.0,
-        "VerticalOffset": 0.0
-      }
-    },
-    {
-      "WaterPart7": {
-        "Number": 8,
-        "SinkFactor": 19000.0,
-        "VerticalOffset": 0.0
-      }
-    },
-    {
-      "WaterPart8": {
         "Number": 9,
-        "SinkFactor": 19000.0,
-        "VerticalOffset": 0.0
-      }
-    },
-    {
-      "WaterPart9": {
-        "Number": 10,
-        "SinkFactor": 19000.0,
+        "SinkFactor": 4800.0,
         "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart10": {
-        "Number": 11,
-        "SinkFactor": 19000.0,
+        "Number": 10,
+        "SinkFactor": 4800.0,
         "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart11": {
-        "Number": 12,
-        "SinkFactor": 19000.0,
+        "Number": 6,
+        "SinkFactor": 1800.0,
+        "VerticalOffset": 0.0
+      }
+    },
+    {
+      "WaterPart12": {
+        "Number": 7,
+        "SinkFactor": 1800.0,
+        "VerticalOffset": 0.0
+      }
+    },
+    {
+      "WaterPart13": {
+        "Number": 8,
+        "SinkFactor": 1800.0,
         "VerticalOffset": 0.0
       }
     }

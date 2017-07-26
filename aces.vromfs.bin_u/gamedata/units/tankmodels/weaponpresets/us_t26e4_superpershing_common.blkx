@@ -1,0 +1,151 @@
+[
+  {
+    "Weapon": {
+      "trigger": "gunner0",
+      "blk": "gameData/Weapons/groundModels_weapons/90mm_T15E1_user_cannon.blk",
+      "emitter": "bone_gun_barrel",
+      "flash": "emtr_gun_flame",
+      "maxAdditionalPitch": 0.0,
+      "defaultYaw": 0.0,
+      "defaultPitch": 0.0,
+      "barrelDP": "gun_barrel_dm",
+      "breechDP": "cannon_breech_dm",
+      "speedYaw": 24.0,
+      "speedPitch": 4.0,
+      "fireConeAngle": 1.0,
+      "bullets": 50,
+      "salvoAmount": 100.0,
+      "ChainfireTime": 0.0,
+      "DelayAfterShoot": 5.0,
+      "AttackMaxDistance": 1000.0,
+      "AttackMaxRadius": 1000.0,
+      "AttackMaxHeight": 1000.0,
+      "accuracyAir": 0.0,
+      "accuracyGnd": 1.5,
+      "errMeasureVel": 0.0,
+      "errMeasureVelFast": 0.0,
+      "errMeasureVelFwdShift": 0.0,
+      "errMeasureVelDir": 0.0,
+      "errTargettingOn100kmph": 0.0,
+      "errTargetting": 3.0,
+      "errExplTime": 0.0,
+      "turret": [
+        {
+          "head": "bone_turret"
+        },
+        {
+          "gun": "bone_gun"
+        },
+        {
+          "barrel": "bone_gun_barrel"
+        },
+        {
+          "gunnerDm": "gunner_dm"
+        },
+        {
+          "linkedAnimPart": {
+            "verNode": "bone_barrel",
+            "verLimits": [-2.0,4.0],
+            "verOriginLimits": [-10.0,20.0]
+          }
+        },
+        {
+          "linkedAnimPart": {
+            "verNode": "bone_barrel_mount",
+            "verLimits": [-1.5,3.0],
+            "verOriginLimits": [-10.0,20.0]
+          }
+        }
+      ],
+      "limits": {
+        "yaw": [-180.0,180.0],
+        "pitch": [-8.0,20.0]
+      },
+      "limitsTable": {
+        "lim1": [-180.0,-140.0,-5.0,20.0],
+        "lim2": [-140.0,140.0,-8.0,20.0],
+        "lim3": [140.0,180.0,-5.0,20.0]
+      }
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "gunner1",
+      "triggerGroup": "coaxial",
+      "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
+      "emitter": "bone_mg_gun_twin",
+      "flash": "emtr_mg_flame_01",
+      "defaultYaw": 0.0,
+      "defaultPitch": 0.0,
+      "speedYaw": 14.0,
+      "speedPitch": 4.0,
+      "fireConeAngle": 1.0,
+      "bullets": 4500,
+      "salvoAmount": 100.0,
+      "ChainfireTime": 0.0,
+      "DelayAfterShoot": 5.0,
+      "AttackMaxDistance": 1000.0,
+      "AttackMaxRadius": 1000.0,
+      "AttackMaxHeight": 1000.0,
+      "accuracyAir": 0.0,
+      "accuracyGnd": 1.5,
+      "errMeasureVel": 0.0,
+      "errMeasureVelFast": 0.0,
+      "errMeasureVelFwdShift": 0.0,
+      "errMeasureVelDir": 0.0,
+      "errTargettingOn100kmph": 0.0,
+      "errTargetting": 3.0,
+      "errExplTime": 0.0,
+      "turret": {
+        "head": "bone_mg_gun_twin",
+        "gun": "bone_mg_gun_twin",
+        "gunnerDm": "gunner_dm"
+      },
+      "limits": {
+        "yaw": [-0.0,0.0],
+        "pitch": [-0.0,0.0]
+      }
+    }
+  },
+  {
+    "Weapon": {
+      "trigger": "gunner2",
+      "triggerGroup": "machinegun",
+      "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk",
+      "emitter": "bone_mg_aa_v_01",
+      "flash": "emtr_mg_aa_flame_01",
+      "defaultYaw": 0.0,
+      "defaultPitch": 0.0,
+      "parkInDeadzone": false,
+      "speedYaw": 30.0,
+      "speedPitch": 20.0,
+      "fireConeAngle": 1.0,
+      "bullets": 1000,
+      "isBulletBelt": true,
+      "salvoAmount": 100.0,
+      "ChainfireTime": 0.0,
+      "DelayAfterShoot": 5.0,
+      "AttackMaxDistance": 1000.0,
+      "AttackMaxRadius": 1000.0,
+      "AttackMaxHeight": 1000.0,
+      "accuracyAir": 0.0,
+      "accuracyGnd": 1.5,
+      "errMeasureVel": 0.0,
+      "errMeasureVelFast": 0.0,
+      "errMeasureVelFwdShift": 0.0,
+      "errMeasureVelDir": 0.0,
+      "errTargettingOn100kmph": 0.0,
+      "errTargetting": 3.0,
+      "errExplTime": 0.0,
+      "turret": {
+        "head": "bone_mg_aa_h_01",
+        "gun": "bone_mg_aa_v_01",
+        "gunnerDm": "commander_dm"
+      },
+      "limits": {
+        "yaw": [-60.0,60.0],
+        "pitch": [-10.0,70.0]
+      }
+    }
+  }
+]

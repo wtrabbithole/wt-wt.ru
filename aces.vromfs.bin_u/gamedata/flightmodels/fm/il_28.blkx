@@ -2,13 +2,13 @@
   "AileronEffectiveSpeed": 500.004,
   "RudderEffectiveSpeed": 600.005,
   "ElevatorsEffectiveSpeed": 600.006,
-  "AileronPowerLoss": 3.0,
+  "AileronPowerLoss": 2.0,
   "RudderPowerLoss": 2.0,
   "ElevatorPowerLoss": 2.2,
   "AlphaAileronMin": 0.1,
   "AlphaRudderMin": 0.1,
   "AlphaElevatorMin": 0.2,
-  "AllowStrongControlsRestrictions": false,
+  "AllowStrongControlsRestrictions": true,
   "RudderSens": 0.21,
   "ElevatorSens": 0.3,
   "AileronSens": 0.12,
@@ -47,26 +47,74 @@
   "ArcadeLimitWepMultiplier": 1.8,
   "ArcadeHelpersSensitivity": 1.0,
   "MomentOfInertia": [55000.0,135000.0,80000.0],
-  "AvailableControls": {
-    "hasAileronControl": true,
-    "hasAileronTrimControl": true,
-    "hasAileronTrimGroundControl": false,
-    "hasElevatorControl": true,
-    "hasElevatorTrimControl": true,
-    "hasElevatorTrimGroundControl": false,
-    "hasRudderControl": true,
-    "hasRudderTrimControl": true,
-    "hasRudderTrimGroundControl": false,
-    "hasFlapsControl": true,
-    "numFlapsPositions": 3,
-    "hasAirbrake": false,
-    "hasGearControl": true,
-    "hasArrestorControl": false,
-    "hasWingFoldControl": false,
-    "hasCockpitDoorControl": false,
-    "hasWheelBrakeControl": true,
-    "hasLockGearControl": false
-  },
+  "AvailableControls": [
+    {
+      "hasAileronControl": true
+    },
+    {
+      "hasAileronTrimControl": true
+    },
+    {
+      "hasAileronTrimGroundControl": false
+    },
+    {
+      "hasElevatorControl": true
+    },
+    {
+      "hasElevatorTrimControl": true
+    },
+    {
+      "hasElevatorTrimGroundControl": false
+    },
+    {
+      "hasRudderControl": true
+    },
+    {
+      "hasRudderTrimControl": true
+    },
+    {
+      "hasRudderTrimGroundControl": false
+    },
+    {
+      "hasFlapsControl": true
+    },
+    {
+      "numFlapsPositions": 3
+    },
+    {
+      "hasAirbrake": false
+    },
+    {
+      "hasGearControl": true
+    },
+    {
+      "hasArrestorControl": false
+    },
+    {
+      "hasWingFoldControl": false
+    },
+    {
+      "hasCockpitDoorControl": false
+    },
+    {
+      "hasWheelBrakeControl": true
+    },
+    {
+      "hasLockGearControl": false
+    },
+    {
+      "hasFlapsControl": true
+    },
+    {
+      "hasTakeoffFlapsPosition": true
+    },
+    {
+      "hasCombatFlapsPosition": true
+    },
+    {
+      "isAirBrakeAvailableOnGround": false
+    }
+  ],
   "Areas": {
     "WingLeftIn": 10.13,
     "WingLeftMid": 10.13,
@@ -337,7 +385,6 @@
       "FuelConsumptionOnHalfThr": 0.476,
       "FuelConsumptionOnFullThr": 1.07,
       "FuelConsumptionOnWEP": 1.07,
-      "UseRealReductor": true,
       "IsAutonomous": false,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -347,7 +394,6 @@
       "EngineAcceleration": 0.15,
       "RPMAmplitude0": [11560.0,0.0],
       "RPMAmplitude1": [0.0,70.0],
-      "AdvancedJetEngine": true,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 3.5872,
       "ThrustOmegaMinCoeff": 0.0111,
@@ -402,7 +448,6 @@
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 1.0,
-      "UseAdvancedProp": false,
       "NumBlades": 2,
       "AdvancedPropRadius": 21.825,
       "PropPhi0": 0.0,
@@ -481,6 +526,7 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "TempChangeSpeed": 0.01,
       "WaterMaxRPMTemp": 760.0,
@@ -555,7 +601,6 @@
       "FuelConsumptionOnHalfThr": 0.476,
       "FuelConsumptionOnFullThr": 1.07,
       "FuelConsumptionOnWEP": 1.07,
-      "UseRealReductor": true,
       "IsAutonomous": false,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -565,7 +610,6 @@
       "EngineAcceleration": 0.15,
       "RPMAmplitude0": [11560.0,0.0],
       "RPMAmplitude1": [0.0,70.0],
-      "AdvancedJetEngine": true,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 3.5872,
       "ThrustOmegaMinCoeff": 0.0111,
@@ -620,7 +664,6 @@
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 1.0,
-      "UseAdvancedProp": false,
       "NumBlades": 2,
       "AdvancedPropRadius": 21.825,
       "PropPhi0": 0.0,
@@ -699,6 +742,7 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "TempChangeSpeed": 0.01,
       "WaterMaxRPMTemp": 760.0,

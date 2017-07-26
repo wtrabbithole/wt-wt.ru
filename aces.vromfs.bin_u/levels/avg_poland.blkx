@@ -15,22 +15,25 @@
   "tankMapCoord1": [4096.0,4096.0],
   "tankGridSteps": [410.0,410.0],
   "tankGridSize": [4096.0,4096.0],
-  "tankFogMul": 1.0,
   "numBorderCellsXPos": 8,
   "numBorderCellsXNeg": 8,
   "numBorderCellsZPos": 8,
   "numBorderCellsZNeg": 8,
-  "water_level": 0.0,
   "mirrorShrinkXPos": 256.0,
   "mirrorShrinkXNeg": 256.0,
   "mirrorShrinkZPos": 256.0,
   "mirrorShrinkZNeg": 256.0,
   "weatherPreset": "gameData/environments/weather_preset_1.blk",
   "weatherTypes": "gameData/environments/weather_types.blk",
+  "water_level": 0.0,
+  "tankFogMul": 1.0,
   "lastClip": true,
   "lastclip_horizon": true,
+  "soundAmbientPath": "sounds/ambient",
+  "soundAmbientEvent": "global_amb_europe",
   "wind_scale": 0.8,
-  "max_wind_strength": 3.5,
+  "max_wind_strength": 2.5,
+  "average_ground_level": 8.0,
   "alternativeMapCoord": {
     "aiTanksMapCoord0": [910.0,910.0],
     "aiTanksMapCoord1": [2800.0,2800.0],
@@ -38,21 +41,20 @@
     "tankGridSteps": [190.0,190.0],
     "tankGridSize": [1900.0,1900.0]
   },
+  "stars": {
+    "latitude": 52.0,
+    "longitude": 18.0,
+    "year": 1942,
+    "month": 8,
+    "day": 23
+  },
   "earth": {
     "earthWorldEnabled": true,
     "earthWorldMin": [-32768.0,-32768.0],
     "earthWorldMax": [32768.0,32768.0]
   },
-  "weather": {
-    "cloudsOffsetFrom": 25000.0,
-    "cloudsOffsetTo": 40000.0,
-    "cloudsOffsetBase": 200.0,
-    "layered_fog_density_mul": 1.0,
-    "layered_fog_height_mul": 1.0,
-    "minCloudBaseKm": -1000.0,
-    "minHazeBaseKm": -1000.0
-  },
   "shader_vars": {
+    "detail_bump_scale": 0.02,
     "land_bump_scale": -4.0,
     "land_smoothness_detect_color": [0.36,0.31,0.33,0.3],
     "translucency_detection_hardness": 1.0,
@@ -345,6 +347,40 @@
     },
     {
       "groundSkin": "default"
+    }
+  ],
+  "forceTexMQ": [
+    {
+      "tex": "singboards_tex_n*"
+    },
+    {
+      "tex": "stronghold_ruins_d*"
+    },
+    {
+      "tex": "karpaty_cliff_tex_n*"
+    },
+    {
+      "tex": "piano_a_tex_n*"
+    },
+    {
+      "tex": "roof_inside_a_tex_n*"
+    },
+    {
+      "tex": "detail_ground_tex_d*"
+    },
+    {
+      "tex": "sandbags_tex_n*"
+    }
+  ],
+  "forceTexLQ": [
+    {
+      "tex": "flak_36_set_tex_d*"
+    },
+    {
+      "tex": "studebaker_us6_bm_13h_tex_d*"
+    },
+    {
+      "tex": "studebaker_us6_bm_13h_tex_n*"
     }
   ]
 }

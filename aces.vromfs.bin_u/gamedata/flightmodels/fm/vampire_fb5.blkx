@@ -51,26 +51,80 @@
   "ArcadeHelpersSensitivity": 1.0,
   "MomentOfInertia": [14000.0,29000.0,15000.0],
   "IgnoreErrors": true,
-  "AvailableControls": {
-    "hasAileronControl": true,
-    "hasAileronTrimControl": false,
-    "hasAileronTrimGroundControl": false,
-    "hasElevatorControl": true,
-    "hasElevatorTrimControl": true,
-    "hasElevatorTrimGroundControl": false,
-    "hasRudderControl": true,
-    "hasRudderTrimControl": false,
-    "hasRudderTrimGroundControl": false,
-    "hasFlapsControl": true,
-    "numFlapsPositions": 3,
-    "hasAirbrake": true,
-    "hasGearControl": true,
-    "hasArrestorControl": false,
-    "hasWingFoldControl": false,
-    "hasCockpitDoorControl": false,
-    "hasWheelBrakeControl": true,
-    "hasLockGearControl": false
-  },
+  "ArcadeRollCorrectionMultiplier": 5.0,
+  "ArcadeMaxRollCoeff": 0.95,
+  "ArcadeYawMutilpliers": [1.0,4.0,1.1],
+  "AvailableControls": [
+    {
+      "hasAileronControl": true
+    },
+    {
+      "hasAileronTrimControl": false
+    },
+    {
+      "hasAileronTrimGroundControl": false
+    },
+    {
+      "hasElevatorControl": true
+    },
+    {
+      "hasElevatorTrimControl": true
+    },
+    {
+      "hasElevatorTrimGroundControl": false
+    },
+    {
+      "hasRudderControl": true
+    },
+    {
+      "hasRudderTrimControl": false
+    },
+    {
+      "hasRudderTrimGroundControl": false
+    },
+    {
+      "hasFlapsControl": true
+    },
+    {
+      "numFlapsPositions": 3
+    },
+    {
+      "hasTakeoffFlapsPosition": true
+    },
+    {
+      "hasCombatFlapsPosition": true
+    },
+    {
+      "isAirBrakeAvailableOnGround": true
+    },
+    {
+      "hasAirbrake": true
+    },
+    {
+      "hasGearControl": true
+    },
+    {
+      "hasArrestorControl": false
+    },
+    {
+      "hasWingFoldControl": false
+    },
+    {
+      "hasCockpitDoorControl": false
+    },
+    {
+      "hasWheelBrakeControl": true
+    },
+    {
+      "hasLockGearControl": false
+    },
+    {
+      "isAirBrakeAvailableOnGround": true
+    },
+    {
+      "hasIndependentAirbrakesAndFlaps": true
+    }
+  ],
   "Areas": {
     "WingLeftIn": 5.06,
     "WingLeftMid": 3.53,
@@ -340,7 +394,6 @@
       "FuelConsumptionOnHalfThr": 0.8,
       "FuelConsumptionOnFullThr": 1.2,
       "FuelConsumptionOnWEP": 1.5,
-      "UseRealReductor": true,
       "IsAutonomous": false,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -350,7 +403,6 @@
       "EngineAcceleration": 0.15,
       "RPMAmplitude0": [9000.0,0.0],
       "RPMAmplitude1": [0.0,0.0],
-      "AdvancedJetEngine": true,
       "ConsumptionOmegaMax": 1.5,
       "ConsumptionOmegaMinCoeff": 3.3953,
       "ThrustOmegaMinCoeff": 0.0135,
@@ -413,7 +465,6 @@
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 1.0,
-      "UseAdvancedProp": false,
       "NumBlades": 2,
       "AdvancedPropRadius": 21.825,
       "PropPhi0": 0.0,
@@ -489,6 +540,7 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "TempChangeSpeed": 0.01,
       "WaterMaxRPMTemp": 745.0,
@@ -567,18 +619,25 @@
     "Parts": {
       "tank1_capacity": 353.0,
       "tank1_system": 0,
+      "tank1_priority": 4,
       "tank2_capacity": 191.0,
       "tank2_system": 0,
+      "tank2_priority": 2,
       "tank3_capacity": 191.0,
       "tank3_system": 0,
+      "tank3_priority": 2,
       "tank4_capacity": 119.5,
       "tank4_system": 0,
+      "tank4_priority": 1,
       "tank5_capacity": 119.5,
       "tank5_system": 0,
+      "tank5_priority": 1,
       "tank6_capacity": 119.5,
       "tank6_system": 0,
+      "tank6_priority": 3,
       "tank7_capacity": 119.5,
       "tank7_system": 0,
+      "tank7_priority": 3,
       "fuse_dm": 247.885,
       "tail_dm": 323.852,
       "wing_l_dm": 255.841,
@@ -652,7 +711,8 @@
     "CenterWheelRadius": 0.303,
     "Height": 1.01,
     "Pitch": 8.39,
-    "Floats": false
+    "Floats": false,
+    "FullBrakeSlidingFrictionMult": 0.35
   },
   "Passport": {
     "mass": 0.0,

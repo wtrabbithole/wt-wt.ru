@@ -338,8 +338,8 @@
       "font": "tiny_text_hud",
       "fontForZones": "wall_text_hud",
       "playerColor": "#00ff6676",
-      "allyColor": "#145cff9e",
-      "enemyColor": "#fa28009e",
+      "allyColor": "#2897ff9e",
+      "enemyColor": "#ff4c289e",
       "colorCaptureZoneNeutral": "#ffffffff",
       "colorCaptureZoneFriend": "#235be8ff",
       "colorCaptureZoneEnemy": "#e83e23ff",
@@ -366,6 +366,16 @@
       "protect_zone": "objective_protect_zone",
       "base": "objective_base",
       "base_back": "objective_base_back",
+      "basezone": "objective_captureZone",
+      "basezone_A": "basezone_small_a",
+      "basezone_B": "basezone_small_b",
+      "basezone_C": "basezone_small_c",
+      "basezone_D": "basezone_small_d",
+      "capturezone": "waypoint_small_sec",
+      "capturezone_A": "capturezone_small_a",
+      "capturezone_B": "capturezone_small_b",
+      "capturezone_C": "capturezone_small_c",
+      "capturezone_D": "capturezone_small_d",
       "icon_sos": "chat_icon_sos",
       "icon_attack": "chat_icon_attack",
       "icon_attacking": "chat_icon_attacking",
@@ -374,6 +384,11 @@
       "icon_attention_to_point": "chat_icon_attention",
       "icon_enemy_marker": "chat_icon_attention",
       "icon_attack_enemy_marker": "chat_icon_attention",
+      "icon_artillery_attack": "chat_icon_artillery_attack",
+      "iconArtilleryAttackBlinkTime": 20.0,
+      "iconArtilleryAttackDist": 150.0,
+      "curveMaxLinesPerSegment": 25,
+      "curveMinLineLen": 10.0,
       "sizeScale": [
         {
           "scale": 0.75
@@ -436,6 +451,7 @@
       "iconTrackedTarget": "tracked_radar_target",
       "iconWheeled": "wheeled_radar",
       "iconWheeledTarget": "wheeled_radar_target",
+      "rearmZPattern": "map_pattern_c",
       "iconGradient": "circle_gradient",
       "iconGradientScale": 1.3,
       "iconGradientOpacity": 0.0,
@@ -580,6 +596,9 @@
         "pictureGunDirection": "gun_direction"
       },
       {
+        "pictureGunEndDirection": "gun_direction"
+      },
+      {
         "pictureShellProjection": "shell_projection"
       },
       {
@@ -650,6 +669,9 @@
       },
       {
         "mouseAimDisplaceDistanceStart": 2.0
+      },
+      {
+        "mouseAimOpacityInSign": [0.3,1.0]
       },
       {
         "crosshairDisabled": "sight_blocked"
@@ -764,6 +786,15 @@
       },
       {
         "colorBombSightActiveTarget": "#ff0000a0"
+      },
+      {
+        "artillerySightLock": "sight_blocked"
+      },
+      {
+        "artillerySightViewAngleOnKm": 15.0
+      },
+      {
+        "artillerySightNormalVariation": 0.5
       },
       {
         "colorArtillerySight": "#e0cc96c8"
@@ -920,6 +951,9 @@
       },
       {
         "crosshairDistHorSizeAdditional": [0.005,0.003]
+      },
+      {
+        "sight_distance_change_speed": 15.0
       },
       {
         "crosshairHorVertSize": [3.0,2.0]
@@ -1190,8 +1224,17 @@
       "iconTarget": "target_selected",
       "iconWinch": "winch_icon",
       "iconHitUnitIndicator": "hit_unit_icon",
+      "iconRearmZone": "waypoint_big_prim",
+      "iconRearmZoneSmall": "waypoint",
+      "iconExitZone": "waypoint_big_prim",
+      "iconExitZoneSmall": "waypoint",
+      "iconBreach": "icon_repair_in_progress",
+      "iconBreachLeft": "waypoint_big",
+      "iconLeakage": "leaking_icon",
       "iconBomb": "bomb_mark",
       "colorBomb": "#ff4646ff",
+      "iconTorpedo": "bomb_mark",
+      "colorTorpedo": "#ff4646ff",
       "targetFrameMaxScreenHeightPart": 0.15,
       "targetFrameMaxScale": 2.0,
       "targetFrameOpacityWithoutZ": 0.5,
@@ -1397,6 +1440,22 @@
       },
       {
         "settings": {
+          "for": "tutorial",
+          "font": "medium_text_hud",
+          "font480": "small_text_hud",
+          "pos": [640.0,520.0],
+          "size": 340.0,
+          "numLinesForRisePosY": 3,
+          "fontFxType": 2,
+          "fontFxOffset": 1,
+          "fontFxColor": "#0000009b",
+          "fontFxScale": 42,
+          "buttonFontFxType": 0,
+          "buttonTextColor": "#000000ff"
+        }
+      },
+      {
+        "settings": {
           "for": "cutscene",
           "font": "small_text_hud",
           "font480": "small_text_hud",
@@ -1429,8 +1488,88 @@
     ]
   },
   {
+    "hint_events": [
+      {
+        "color": "#ffffffff"
+      },
+      {
+        "timeFadeOut": 0.5
+      },
+      {
+        "blinkFreq": 1.0
+      },
+      {
+        "blinkTextRatio": 0.9
+      },
+      {
+        "iconSpace": 0.0
+      },
+      {
+        "btnEdge": "btnEdge"
+      },
+      {
+        "btnMiddle": "btnMiddle"
+      },
+      {
+        "btnEdgeJoystick": "btnEdgeJoystick"
+      },
+      {
+        "btnMiddleJoystick": "btnMiddleJoystick"
+      },
+      {
+        "settings": {
+          "for": "standard",
+          "font": "small_text_hud",
+          "font480": "small_text_hud",
+          "pos": [640.0,640.0],
+          "size": 340.0,
+          "numLinesForRisePosY": 1,
+          "fontFxType": 2,
+          "fontFxOffset": 1,
+          "fontFxColor": "#0000009b",
+          "fontFxScale": 42,
+          "buttonFontFxType": 0,
+          "buttonTextColor": "#000000ff",
+          "iconScaleMult": 0.6
+        }
+      },
+      {
+        "settings": {
+          "for": "cutscene",
+          "font": "small_text_hud",
+          "font480": "small_text_hud",
+          "pos": [1040.0,610.0],
+          "size": 400.0,
+          "fontFxType": 2,
+          "fontFxOffset": 1,
+          "fontFxColor": "#0000009b",
+          "fontFxScale": 42,
+          "buttonFontFxType": 0,
+          "buttonTextColor": "#000000ff"
+        }
+      },
+      {
+        "settings": {
+          "for": "spectator",
+          "font": "medium_text_hud",
+          "font480": "small_text_hud",
+          "pos": [640.0,500.0],
+          "size": 340.0,
+          "numLinesForRisePosY": 1,
+          "fontFxType": 2,
+          "fontFxOffset": 1,
+          "fontFxColor": "#0000009b",
+          "fontFxScale": 42,
+          "buttonFontFxType": 0,
+          "buttonTextColor": "#000000ff",
+          "iconScaleMult": 0.6
+        }
+      }
+    ]
+  },
+  {
     "progress": {
-      "position": [30.0,-36.0],
+      "position": [30.0,-16.0],
       "iconOffset": [106.0,0.0],
       "screenAllignHorz": "left",
       "screenAllignVert": "bottom",
@@ -1597,8 +1736,8 @@
       "patcColor": "#ffffffff",
       "patcDeathColor": "#c0c0c0ff",
       "bailoutPosition": [640.0,520.0],
-      "eventsPosition": [640.0,580.0],
-      "offsetYEventsForSpectator": -60,
+      "eventIconsPosition": [640.0,600.0],
+      "eventIconsYOffsetForSpectator": -60,
       "bailoutHintTimeLimit": 30.0,
       "drowningPosition": [640.0,480.0],
       "font": "medium_text_hud",
@@ -1671,7 +1810,7 @@
   },
   {
     "cutscene": {
-      "sizes": [70.0,80.0]
+      "sizes": [0.0,80.0]
     }
   },
   {
@@ -1818,6 +1957,7 @@
       "textHudAlpha": 0.85,
       "measuresAlpha": 0.65,
       "offsetToNextLine": 22.0,
+      "overheatMessageTimeToWork": 120.0,
       "overheatTimeToDieMax": 120.0,
       "color": "#feffffff",
       "wepColor": "#fe5037ff",
@@ -2040,7 +2180,7 @@
           "toolkit_activate": []
         },
         {
-          "medikit_activate": []
+          "medicalkit_activate": []
         }
       ]
     }
@@ -2119,6 +2259,11 @@
           }
         }
       ],
+      "tube": {
+        "mask": "bomb_sight_ocular_alpha",
+        "orient": "lookDirection",
+        "size": [0.22,0.22]
+      },
       "driver_optics": {
         "mask": "driver_mask",
         "size": [2.8,0.9],

@@ -28,31 +28,16 @@
       "errTargettingOn100kmph": 0.0,
       "errTargetting": 3.0,
       "errExplTime": 0.0,
-      "turret": [
-        {
-          "head": "bone_gun"
-        },
-        {
-          "gun": "bone_gun"
-        },
-        {
-          "barrel": "bone_gun_barrel"
-        },
-        {
-          "linkedAnimPart": {
-            "verNode": "gun_mask_top_anim",
-            "verLimits": [0.0,10.0],
-            "verOriginLimits": [0.0,21.5]
-          }
-        },
-        {
-          "linkedAnimPart": {
-            "horNode": "bone_camera_gunner",
-            "horLimits": [-180.0,180.0],
-            "horOriginLimits": [-180.0,180.0]
-          }
+      "turret": {
+        "head": "bone_turret",
+        "gun": "bone_gun",
+        "barrel": "bone_gun_barrel",
+        "linkedAnimPart": {
+          "verNode": "gun_mask_top_anim",
+          "verLimits": [0.0,10.0],
+          "verOriginLimits": [0.0,21.5]
         }
-      ],
+      },
       "limits": {
         "yaw": [-3.0,7.0],
         "pitch": [-3.0,22.0]

@@ -43,7 +43,8 @@
   "EngineWepForceMultiplier": 1.1,
   "MomentOfInertia": [6350.0,10804.0,13950.0],
   "AvailableControls": {
-    "numFlapsPositions": 3,
+    "hasTakeoffFlapsPosition": true,
+    "hasCombatFlapsPosition": false,
     "hasAileronControl": true,
     "hasAileronTrimControl": false,
     "hasAileronTrimGroundControl": true,
@@ -185,7 +186,6 @@
       "EngineAcceleration": 3.0,
       "RPMAmplitude0": [2700.0,5.0],
       "RPMAmplitude1": [0.0,48.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 4.6007,
       "ThrustOmegaMinCoeff": 0.0046,
@@ -206,7 +206,6 @@
       "FuelConsumptionOnHalfThr": 0.2,
       "FuelConsumptionOnFullThr": 0.28,
       "FuelConsumptionOnWEP": 0.3,
-      "UseRealReductor": true,
       "IsAutonomous": true,
       "MaxCarburetorThrMult": 1.0,
       "IsWaterCooled": false,
@@ -220,7 +219,6 @@
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 0.54,
-      "UseAdvancedProp": true,
       "NumBlades": 3,
       "AdvancedPropRadius": 1.65,
       "PropPhi0": 14.55,
@@ -264,6 +262,7 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 1,
       "UnderheatTime": 999.0,
       "TempChangeSpeed": 0.008,

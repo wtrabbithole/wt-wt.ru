@@ -1,9 +1,13 @@
 {
   "version": "",
   "version-specific": "",
+  "compatibilityHangarBlk": "config/hangar_airfield.blk",
   "addons": [
     {
       "folder": "content/pkg_main"
+    },
+    {
+      "folder": "content/pkg_ships"
     },
     {
       "folder": "content/pkg_dev"
@@ -22,6 +26,9 @@
     }
   ],
   "addons_no_check": [
+    {
+      "folder": "content/pkg_ships"
+    },
     {
       "folder": "content/hq_tex"
     },
@@ -54,7 +61,8 @@
     "drawDebug": false,
     "disable_backbuffer_aa": true,
     "maxTexCount": 32767,
-    "sRGBrw": true
+    "sRGBrw": true,
+    "enableHmdSupport": true
   },
   "graphics": {
     "useHdr": true,
@@ -182,7 +190,7 @@
     "goLobbyAfterStatistics": true,
     "isTextProfile": false,
     "lowQualityEnemies": true,
-    "guiStrPoolSize": 262144,
+    "guiStrPoolSize": 524288,
     "disableNetwork": false,
     "offlineConfigs": false,
     "drawTimestamp": true,
@@ -237,7 +245,8 @@
     "stubOnlineId": 1,
     "stubServerOnlineName": "Server",
     "stubServerOnlineId": 1,
-    "psnAuthRequestTimeout": 30
+    "psnAuthRequestTimeout": 30,
+    "publicConfigsUrl": "http://public-configs.warthunder.com/"
   },
   "general": {
     "environment": "day",

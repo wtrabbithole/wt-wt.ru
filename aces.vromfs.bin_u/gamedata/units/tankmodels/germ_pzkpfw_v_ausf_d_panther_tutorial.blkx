@@ -206,6 +206,7 @@
       "TrackSoundPath": "tanks/engines_tanks",
       "TrackSoundName": "tracks_heavy",
       "TrackSoundNameCockpit": "tracks_heavy_interior",
+      "turret_turn": "turret_turn_manual",
       "EngineNameAi": "engine_tank_ai_heavy",
       "TrackSoundNameAi": "tracks_ai_heavy"
     }
@@ -371,12 +372,12 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.3,-0.27,0.15],
+        "suspensionOffsets": [-0.2,-0.2,0.15],
         "defaultGearRadius": 0.41,
         "frontBackGearRadius": 0.32,
         "defaultDampeningForce": [200000.0,200000.0],
-        "dampeningRelaxationRatio": 0.45,
-        "dampeningCompressionRatio": 0.18
+        "dampeningRelaxationRatio": 0.4,
+        "dampeningCompressionRatio": 0.15
       }
     }
   },
@@ -436,7 +437,7 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 30.0,
+      "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
       "headPos": [0.0,4.0,-8.0],
       "headPosOnShooting": [-0.5,3.8,0.5],
@@ -452,13 +453,65 @@
       "new_tank_transmission": [],
       "new_tank_engine": [],
       "tank_camouflage": [],
-      "tank_additional_armor": [],
+      "tank_additional_armor": {
+        "image": "#ui/gameuiskin#tank_additional_armor",
+        "tier": 4,
+        "modClass": "protection",
+        "invertEnableLogic": true,
+        "turn_it_off": false,
+        "effects": {
+          "rcostAddParam": 1.0405,
+          "hideNodes": [
+            {
+              "node": "ex_armor_01"
+            },
+            {
+              "node": "ex_armor_02"
+            },
+            {
+              "node": "ex_armor_03"
+            },
+            {
+              "node": "ex_armor_turret_l_01"
+            },
+            {
+              "node": "ex_armor_turret_l_02"
+            },
+            {
+              "node": "ex_armor_turret_l_03"
+            },
+            {
+              "node": "ex_armor_turret_l_04"
+            },
+            {
+              "node": "ex_armor_turret_l_05"
+            },
+            {
+              "node": "ex_armor_turret_r_01"
+            },
+            {
+              "node": "ex_armor_turret_r_02"
+            },
+            {
+              "node": "ex_armor_turret_r_03"
+            },
+            {
+              "node": "ex_armor_turret_r_04"
+            },
+            {
+              "node": "ex_armor_turret_r_05"
+            }
+          ]
+        }
+      },
       "manual_extinguisher": [],
       "tank_tool_kit": [],
       "new_tank_horizontal_aiming": [],
       "new_tank_vertical_aiming": [],
       "art_support": [],
       "tank_new_gun": [],
+      "tank_medical_kit": [],
+      "tank_medical_kit_expendable": [],
       "75mm_ger_kwk42_HE": []
     }
   },
@@ -671,54 +724,51 @@
         "commander_dm": [],
         "gunner_dm": []
       },
-      "equipment_body_turret": {
+      "equipment": {
         "armorClass": "tank_structural_steel",
-        "hp": 250.0,
-        "armorThickness": 2.0,
+        "hp": 100.0,
+        "armorThickness": 12.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "drive_turret_v_dm": [],
+        "drive_turret_h_dm": [],
+        "radio_station_dm": []
+      },
+      "cannon_breech": {
+        "armorClass": "tank_structural_steel",
+        "hp": 150.0,
+        "armorThickness": 15.0,
+        "armorThrough": 60.0,
+        "fireProtectionHp": 10.0,
+        "cannon_breech_dm": [],
+        "cannon_breech_01_dm": {
+          "armorThrough": 15.0
+        }
+      },
+      "radiators": {
+        "armorClass": "tank_structural_steel",
+        "hp": 50.0,
+        "armorThickness": 5.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
-        "drive_turret_v_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "cannon_breech_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 50.0,
-          "hp": 100.0
-        },
-        "radiator_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_l_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_r_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radio_station_dm": {
-          "hp": 20.0,
-          "armorThrough": 3.0
-        },
-        "engine": {
-          "armorClass": "armor_tank_engine",
-          "hp": 100.0,
-          "fireProtectionHp": 3.0,
-          "engine_dm": [],
-          "transmission_dm": []
-        }
+        "radiator_dm": [],
+        "radiator_l_dm": [],
+        "radiator_r_dm": []
+      },
+      "engine": {
+        "armorClass": "armor_tank_engine",
+        "hp": 100.0,
+        "armorThickness": 2.0,
+        "armorThrough": 40.0,
+        "fireProtectionHp": 5.0,
+        "engine_dm": [],
+        "transmission_dm": []
       },
       "ammo": {
         "armorClass": "tank_structural_steel",
-        "hp": 250.0,
-        "armorThickness": 3.0,
-        "armorThrough": 7.0,
+        "hp": 500.0,
+        "armorThickness": 2.0,
+        "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
         "ammo_turret_dm": [],
         "ammo_turret_01_dm": [],
@@ -732,6 +782,11 @@
         "ammo_body_03_dm": [],
         "ammo_body_04_dm": [],
         "ammo_body_05_dm": [],
+        "ammo_body_06_dm": [],
+        "ammo_body_07_dm": [],
+        "ammo_body_08_dm": [],
+        "ammo_body_09_dm": [],
+        "ammo_body_10_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],

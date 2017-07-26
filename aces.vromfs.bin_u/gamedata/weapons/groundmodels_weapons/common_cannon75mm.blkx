@@ -36,11 +36,24 @@
     "explodeHitPower": 30.0,
     "explodeArmorPower": 10.0,
     "explodeRadius": [0.02,0.55],
+    "groundCollisionEffect": "art_ground_splash",
+    "ricochetEffect": "cannon_ricochet",
+    "groundFxScale": [1.5,1.6],
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "fake_rpg",
-      "trail": "black_rpg"
+      "tracer": "50mmBrightRed",
+      "trail": "black"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.0,3.0]
+      },
+      "armor": {
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.0,3.0]
+      }
     }
   }
 }

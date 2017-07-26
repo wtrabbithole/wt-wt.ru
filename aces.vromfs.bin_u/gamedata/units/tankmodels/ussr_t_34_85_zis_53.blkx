@@ -229,6 +229,7 @@
           "armorThickness": 28.0
         },
         "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
           "armorThickness": 5.0
         }
       },
@@ -258,68 +259,65 @@
           "track_l_dm": [],
           "ex_armor_01_dm": [],
           "ex_armor_02_dm": [],
-          "ex_armor_03_dm": []
+          "ex_armor_03_dm": [],
+          "ex_armor_turret_01_dm": [],
+          "ex_armor_turret_l_01_dm": [],
+          "ex_armor_turret_l_02_dm": [],
+          "ex_armor_turret_r_01_dm": [],
+          "ex_armor_turret_r_02_dm": [],
+          "ex_armor_body_r_01_dm": [],
+          "ex_armor_body_r_02_dm": [],
+          "ex_armor_body_r_03_dm": [],
+          "ex_armor_body_r_04_dm": [],
+          "ex_armor_body_l_01_dm": [],
+          "ex_armor_body_l_02_dm": [],
+          "ex_armor_body_l_03_dm": [],
+          "ex_armor_body_l_04_dm": []
         }
       },
       "equipment": {
         "armorClass": "tank_structural_steel",
-        "hp": 250.0,
-        "armorThickness": 2.0,
-        "armorThrough": 10.0,
-        "fireProtectionHp": 5.0,
-        "drive_turret_v_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_02_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_03_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "cannon_breech_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 60.0,
-          "hp": 120.0
-        },
+        "hp": 100.0,
+        "armorThickness": 12.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "drive_turret_v_dm": [],
+        "drive_turret_h_dm": [],
+        "radio_station_dm": []
+      },
+      "cannon_breech": {
+        "armorClass": "tank_structural_steel",
+        "hp": 150.0,
+        "armorThickness": 15.0,
+        "armorThrough": 60.0,
+        "fireProtectionHp": 10.0,
+        "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 60.0,
-          "hp": 120.0
-        },
-        "radiator_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_l_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_r_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radio_station_dm": {
-          "hp": 20.0,
-          "armorThrough": 3.0
-        },
-        "engine": {
-          "armorClass": "armor_tank_engine",
-          "hp": 100.0,
-          "armorThrough": 40.0,
-          "engine_dm": [],
-          "transmission_dm": []
+          "armorThrough": 15.0
         }
+      },
+      "radiators": {
+        "armorClass": "tank_structural_steel",
+        "hp": 50.0,
+        "armorThickness": 5.0,
+        "armorThrough": 15.0,
+        "fireProtectionHp": 5.0,
+        "radiator_dm": [],
+        "radiator_l_dm": [],
+        "radiator_r_dm": []
+      },
+      "engine": {
+        "armorClass": "armor_tank_engine",
+        "hp": 100.0,
+        "armorThickness": 2.0,
+        "armorThrough": 40.0,
+        "fireProtectionHp": 5.0,
+        "engine_dm": [],
+        "transmission_dm": []
       },
       "ammo": {
         "armorClass": "tank_structural_steel",
-        "hp": 250.0,
+        "hp": 500.0,
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
@@ -410,7 +408,7 @@
       "TrackSoundPath": "tanks/engines_tanks",
       "TrackSoundName": "tracks_su100",
       "TrackSoundNameCockpit": "tracks_su100_interior",
-      "turret_turn": "turret_turn_t34",
+      "turret_turn": "turret_turn_t34_manual",
       "EngineNameAi": "engine_tank_ai_middle",
       "TrackSoundNameAi": "tracks_ai_middle"
     }
@@ -488,7 +486,8 @@
           {
             "onHit": {
               "fCumulative": true,
-              "expl": 0.5,
+              "expl": 0.4,
+              "fire": 0.5,
               "damage": 75.0,
               "fHitCritical": true
             }
@@ -496,7 +495,35 @@
           {
             "onHit": {
               "fCumulative": true,
-              "expl": 0.7,
+              "expl": 0.5,
+              "fire": 0.5,
+              "damage": 200.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fExplosion": true,
+              "expl": 0.1,
+              "fire": 0.1,
+              "damage": 20.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fExplosion": true,
+              "expl": 0.15,
+              "fire": 0.15,
+              "damage": 50.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fExplosion": true,
+              "expl": 0.2,
+              "fire": 0.15,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -505,23 +532,16 @@
             "onHit": {
               "fExplosion": true,
               "expl": 0.4,
-              "damage": 30.0,
-              "fHitCritical": true
-            }
-          },
-          {
-            "onHit": {
-              "fExplosion": true,
-              "expl": 0.3,
-              "damage": 20.0,
+              "fire": 0.2,
+              "damage": 400.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fGeneric": true,
-              "expl": 0.01,
-              "fire": 0.02,
+              "expl": 0.05,
+              "fire": 0.1,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -530,7 +550,7 @@
             "onHit": {
               "fGeneric": true,
               "expl": 0.1,
-              "fire": 0.1,
+              "fire": 0.2,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -538,9 +558,33 @@
           {
             "onHit": {
               "fGeneric": true,
-              "expl": 0.4,
-              "fire": 0.3,
+              "expl": 0.1,
+              "fire": 0.4,
               "damage": 300.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fSecondaryShatter": true,
+              "fire": 0.05,
+              "damage": 50.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fSecondaryShatter": true,
+              "fire": 0.15,
+              "damage": 150.0,
+              "fHitCritical": true
+            }
+          },
+          {
+            "onHit": {
+              "fSecondaryShatter": true,
+              "fire": 0.4,
+              "damage": 200.0,
               "fHitCritical": true
             }
           },
@@ -549,6 +593,30 @@
               "fFire": true,
               "fire": 0.02,
               "expl": 0.01
+            }
+          },
+          {
+            "onKill": {
+              "fCumulative": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "fExplosion": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "fGeneric": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
             }
           }
         ]
@@ -624,8 +692,8 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.25,
-              "fire": 0.3,
+              "expl": 0.125,
+              "fire": 0.15,
               "damage": 25.0,
               "fHitCritical": true
             }
@@ -633,8 +701,8 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.4,
-              "fire": 0.5,
+              "expl": 0.2,
+              "fire": 0.2,
               "damage": 50.0,
               "fHitCritical": true
             }
@@ -666,7 +734,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.7,
+              "fire": 0.4,
               "damage": 300.0,
               "fHitCritical": true
             }
@@ -675,6 +743,13 @@
             "onHit": {
               "fFire": true,
               "fire": 0.2
+            }
+          },
+          {
+            "onKill": {
+              "fire": 0.25,
+              "nothing": 0.75,
+              "fHitCritical": true
             }
           }
         ]
@@ -719,7 +794,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.2,
+              "fire": 0.3,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -736,6 +811,13 @@
             "onHit": {
               "fFire": true,
               "fire": 0.1
+            }
+          },
+          {
+            "onKill": {
+              "fire": 0.4,
+              "nothing": 0.6,
+              "fHitCritical": true
             }
           }
         ]
@@ -764,7 +846,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.02,
+              "fire": 0.05,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -772,7 +854,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.05,
+              "fire": 0.1,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -1155,7 +1237,7 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 30.0,
+      "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
       "headPos": [0.0,4.0,-8.0],
       "headPosOnShooting": [0.0,3.3,0.0],
@@ -1171,13 +1253,56 @@
       "new_tank_transmission": [],
       "new_tank_engine": [],
       "tank_camouflage": [],
-      "tank_additional_armor": [],
+      "tank_additional_armor": {
+        "image": "#ui/gameuiskin#tank_additional_armor",
+        "tier": 4,
+        "modClass": "protection",
+        "invertEnableLogic": true,
+        "turn_it_off": false,
+        "effects": {
+          "rcostAddParam": 1.0405,
+          "hideNodes": [
+            {
+              "node": "ex_armor_body_r_01"
+            },
+            {
+              "node": "ex_armor_body_r_02"
+            },
+            {
+              "node": "ex_armor_body_r_03"
+            },
+            {
+              "node": "ex_armor_body_l_01"
+            },
+            {
+              "node": "ex_armor_body_l_02"
+            },
+            {
+              "node": "ex_armor_turret_01"
+            },
+            {
+              "node": "ex_armor_turret_r_01"
+            },
+            {
+              "node": "ex_armor_turret_r_02"
+            },
+            {
+              "node": "ex_armor_turret_l_01"
+            },
+            {
+              "node": "ex_armor_turret_l_02"
+            }
+          ]
+        }
+      },
       "new_tank_horizontal_aiming": [],
       "new_tank_vertical_aiming": [],
       "manual_extinguisher": [],
       "tank_tool_kit": [],
       "art_support": [],
       "tank_new_gun": [],
+      "tank_medical_kit": [],
+      "tank_medical_kit_expendable": [],
       "85mm_ussr_APHE": [],
       "85mm_ussr_APCR": [],
       "85mm_APHE_ammo_pack": [],
@@ -1208,6 +1333,42 @@
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_winter*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_czechoslovak_yellow_green",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_czechoslovak_yellow_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_desert_syrian_green_brown_yellow",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_desert_syrian_green_brown_yellow*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_desert_yellow_brown",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_desert_yellow_brown*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_winter_lines",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_winter_lines*"
       }
     }
   },

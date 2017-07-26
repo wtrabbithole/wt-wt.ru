@@ -161,6 +161,7 @@
           "armorThickness": 25.0
         },
         "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
           "armorThickness": 5.0
         }
       },
@@ -237,55 +238,47 @@
       },
       "equipment": {
         "armorClass": "tank_structural_steel",
-        "hp": 250.0,
-        "armorThickness": 2.0,
-        "armorThrough": 10.0,
-        "fireProtectionHp": 5.0,
-        "drive_turret_v_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "drive_turret_h_dm": {
-          "hp": 40.0,
-          "armorThrough": 15.0
-        },
-        "cannon_breech_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 60.0,
-          "hp": 120.0
-        },
+        "hp": 100.0,
+        "armorThickness": 12.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "drive_turret_v_dm": [],
+        "drive_turret_h_dm": [],
+        "radio_station_dm": []
+      },
+      "cannon_breech": {
+        "armorClass": "tank_structural_steel",
+        "hp": 150.0,
+        "armorThickness": 15.0,
+        "armorThrough": 60.0,
+        "fireProtectionHp": 10.0,
+        "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
-          "armorThickness": 5.0,
-          "armorThrough": 60.0,
-          "hp": 120.0
-        },
-        "radiator_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_l_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radiator_r_dm": {
-          "hp": 40.0,
-          "armorThrough": 5.0
-        },
-        "radio_station_dm": {
-          "hp": 20.0,
-          "armorThrough": 3.0
-        },
-        "engine": {
-          "armorClass": "armor_tank_engine",
-          "hp": 100.0,
-          "armorThrough": 40.0,
-          "engine_dm": [],
-          "transmission_dm": []
+          "armorThrough": 15.0
         }
+      },
+      "radiators": {
+        "armorClass": "tank_structural_steel",
+        "hp": 50.0,
+        "armorThickness": 5.0,
+        "armorThrough": 15.0,
+        "fireProtectionHp": 5.0,
+        "radiator_dm": [],
+        "radiator_l_dm": [],
+        "radiator_r_dm": []
+      },
+      "engine": {
+        "armorClass": "armor_tank_engine",
+        "hp": 100.0,
+        "armorThickness": 2.0,
+        "armorThrough": 40.0,
+        "fireProtectionHp": 5.0,
+        "engine_dm": [],
+        "transmission_dm": []
       },
       "ammo": {
         "armorClass": "tank_structural_steel",
-        "hp": 250.0,
+        "hp": 500.0,
         "armorThickness": 2.0,
         "armorThrough": 10.0,
         "fireProtectionHp": 20.0,
@@ -316,7 +309,7 @@
         "hp": 250.0,
         "armorThickness": 2.0,
         "armorThrough": 10.0,
-        "fireProtectionHp": 15.0,
+        "fireProtectionHp": 10.0,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -368,11 +361,11 @@
     "sound": {
       "EngineName": "engine_pt76",
       "TrackSoundPath": "tanks/engines_tanks",
-      "TrackSoundName": "tracks_su100",
-      "TrackSoundNameCockpit": "tracks_su100_interior",
-      "turret_turn": "turret_turn_t34",
-      "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundName": "tracks_pt76",
+      "TrackSoundNameCockpit": "tracks_pt76_interior",
+      "turret_turn": "turret_turn_t34_manual",
+      "EngineNameAi": "engine_tank_ai_pt76",
+      "TrackSoundNameAi": "tracks_ai_pt76"
     }
   },
   {
@@ -467,7 +460,7 @@
             "onHit": {
               "fExplosion": true,
               "expl": 0.1,
-              "fire": 0.3,
+              "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
             }
@@ -475,8 +468,8 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.3,
-              "fire": 0.5,
+              "expl": 0.15,
+              "fire": 0.15,
               "damage": 50.0,
               "fHitCritical": true
             }
@@ -484,8 +477,8 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.6,
-              "fire": 0.2,
+              "expl": 0.2,
+              "fire": 0.15,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -493,9 +486,9 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.8,
-              "fire": 0.3,
-              "damage": 250.0,
+              "expl": 0.4,
+              "fire": 0.2,
+              "damage": 400.0,
               "fHitCritical": true
             }
           },
@@ -503,7 +496,7 @@
             "onHit": {
               "fGeneric": true,
               "expl": 0.05,
-              "fire": 0.3,
+              "fire": 0.1,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -512,7 +505,7 @@
             "onHit": {
               "fGeneric": true,
               "expl": 0.1,
-              "fire": 0.5,
+              "fire": 0.2,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -521,7 +514,7 @@
             "onHit": {
               "fGeneric": true,
               "expl": 0.1,
-              "fire": 0.7,
+              "fire": 0.4,
               "damage": 300.0,
               "fHitCritical": true
             }
@@ -529,7 +522,7 @@
           {
             "onHit": {
               "fSecondaryShatter": true,
-              "fire": 0.1,
+              "fire": 0.05,
               "damage": 50.0,
               "fHitCritical": true
             }
@@ -537,15 +530,15 @@
           {
             "onHit": {
               "fSecondaryShatter": true,
-              "fire": 0.3,
-              "damage": 100.0,
+              "fire": 0.15,
+              "damage": 150.0,
               "fHitCritical": true
             }
           },
           {
             "onHit": {
               "fSecondaryShatter": true,
-              "fire": 0.7,
+              "fire": 0.4,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -555,6 +548,30 @@
               "fFire": true,
               "fire": 0.02,
               "expl": 0.01
+            }
+          },
+          {
+            "onKill": {
+              "fCumulative": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "fExplosion": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "fGeneric": true,
+              "expl": 0.25,
+              "fire": 0.25,
+              "nothing": 0.5
             }
           }
         ]
@@ -630,8 +647,8 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.25,
-              "fire": 0.3,
+              "expl": 0.125,
+              "fire": 0.15,
               "damage": 25.0,
               "fHitCritical": true
             }
@@ -639,8 +656,8 @@
           {
             "onHit": {
               "fExplosion": true,
-              "expl": 0.4,
-              "fire": 0.5,
+              "expl": 0.2,
+              "fire": 0.2,
               "damage": 50.0,
               "fHitCritical": true
             }
@@ -672,7 +689,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.7,
+              "fire": 0.4,
               "damage": 300.0,
               "fHitCritical": true
             }
@@ -681,6 +698,13 @@
             "onHit": {
               "fFire": true,
               "fire": 0.2
+            }
+          },
+          {
+            "onKill": {
+              "fire": 0.25,
+              "nothing": 0.75,
+              "fHitCritical": true
             }
           }
         ]
@@ -725,7 +749,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.2,
+              "fire": 0.3,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -742,6 +766,13 @@
             "onHit": {
               "fFire": true,
               "fire": 0.1
+            }
+          },
+          {
+            "onKill": {
+              "fire": 0.4,
+              "nothing": 0.6,
+              "fHitCritical": true
             }
           }
         ]
@@ -770,7 +801,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.02,
+              "fire": 0.05,
               "damage": 70.0,
               "fHitCritical": true
             }
@@ -778,7 +809,7 @@
           {
             "onHit": {
               "fGeneric": true,
-              "fire": 0.05,
+              "fire": 0.1,
               "damage": 200.0,
               "fHitCritical": true
             }
@@ -961,8 +992,8 @@
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_01_dm",
           "breechDP": "cannon_breech_01_dm",
-          "speedYaw": 15.0,
-          "speedPitch": 4.0,
+          "speedYaw": 17.0,
+          "speedPitch": 35.0,
           "fireConeAngle": 1.0,
           "bullets": 1000,
           "salvoAmount": 100.0,
@@ -1000,6 +1031,82 @@
         "blk": "gameData/units/tankModels/weaponPresets/ussr_pt_76b_default.blk"
       }
     }
+  },
+  {
+    "controlDevices": [
+      {
+        "device": {
+          "type": "turretTurnH",
+          "turnSpeed": 0.6,
+          "node": "bone_roll_turret_h",
+          "node_handle": "bone_roll_turret_h_handle"
+        }
+      },
+      {
+        "device": {
+          "type": "turretTurnV",
+          "turnSpeed": -1.0,
+          "node": "bone_roll_turret_v",
+          "node_handle": "bone_roll_turret_v_handle"
+        }
+      },
+      {
+        "device": {
+          "type": "steeringWheel",
+          "turnSpeed": -3.0,
+          "node": "bone_roll_driver",
+          "absoluteValue": true
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": 1.0,
+          "node": "bone_roll_engine_01"
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": 1.0,
+          "node": "bone_roll_engine_02"
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": 1.0,
+          "node": "bone_roll_engine_03"
+        }
+      },
+      {
+        "device": {
+          "type": "engineFan",
+          "turnSpeed": 1.0,
+          "node": "bone_roll_engine_04"
+        }
+      },
+      {
+        "device": {
+          "type": "waterJetShutter",
+          "turnSpeed": 1.5,
+          "maxValue": -1.7,
+          "node": "body_shutter_l",
+          "absoluteValue": true,
+          "progressive": true
+        }
+      },
+      {
+        "device": {
+          "type": "waterJetShutter",
+          "turnSpeed": 1.5,
+          "maxValue": 1.7,
+          "node": "body_shutter_r",
+          "absoluteValue": true,
+          "progressive": true
+        }
+      }
+    ]
   },
   {
     "VehiclePhys": {
@@ -1052,7 +1159,7 @@
             "ratio": 1.217
           },
           {
-            "ratio": 0.756
+            "ratio": 0.73
           }
         ]
       },
@@ -1063,7 +1170,53 @@
         "defaultDampeningForce": [50000.0,50000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
-      }
+      },
+      "floats": [
+        {
+          "volume": [2.1,1.0,1.0,0.72]
+        },
+        {
+          "volume": [2.1,1.0,-1.0,0.72]
+        },
+        {
+          "volume": [1.3,1.0,0.0,0.72]
+        },
+        {
+          "volume": [0.7,1.0,1.0,0.72]
+        },
+        {
+          "volume": [0.7,1.0,-1.0,0.72]
+        },
+        {
+          "volume": [0.0,1.0,1.0,0.72]
+        },
+        {
+          "volume": [0.0,1.0,-1.0,0.72]
+        },
+        {
+          "volume": [-1.0,1.0,0.0,0.72]
+        },
+        {
+          "volume": [-2.1,1.0,1.0,0.72]
+        },
+        {
+          "volume": [-2.1,1.0,-1.0,0.72]
+        },
+        {
+          "waterJet": {
+            "exhaustNode": "emtr_waterjet_l",
+            "intake": [-1.25,0.4,0.85],
+            "thrust": 19000.0
+          }
+        },
+        {
+          "waterJet": {
+            "exhaustNode": "emtr_waterjet_r",
+            "intake": [-1.25,0.4,-0.85],
+            "thrust": 19000.0
+          }
+        }
+      ]
     }
   },
   {
@@ -1122,7 +1275,7 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 30.0,
+      "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
       "headPos": [0.0,4.0,-8.0],
       "headPosOnShooting": [-0.5,3.3,0.0],
@@ -1148,6 +1301,42 @@
     }
   },
   {
+    "skin": {
+      "name": "ussr_camo_czechoslovak_yellow_green",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_czechoslovak_yellow_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_desert_syrian_green_brown_yellow",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_desert_syrian_green_brown_yellow*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_desert_yellow_brown",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_desert_yellow_brown*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_winter_lines",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_winter_lines*"
+      }
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -1161,6 +1350,8 @@
       "new_tank_vertical_aiming": [],
       "art_support": [],
       "tank_new_gun": [],
+      "tank_medical_kit": [],
+      "tank_medical_kit_expendable": [],
       "76mm_ussr_AP_53": [],
       "76mm_ussr_HEAT_53": [],
       "76mm_ussr_HEAT_53_ammo_pack": [],

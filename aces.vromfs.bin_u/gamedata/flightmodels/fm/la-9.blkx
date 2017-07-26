@@ -165,7 +165,7 @@
     "StabFlowInertia": 0.05,
     "VertStabFlowInertia": 0.05,
     "DownwashType": 2,
-    "DownwashCoeff": 0.7,
+    "DownwashCoeff": 1.0,
     "NoFlaps": {
       "Cl0": 0.145,
       "alphaCritHigh": 16.5,
@@ -341,7 +341,6 @@
       "FuelConsumptionOnHalfThr": 0.18,
       "FuelConsumptionOnFullThr": 0.2,
       "FuelConsumptionOnWEP": 0.22,
-      "UseRealReductor": true,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
       "MaxCarburetorThrMult": 1.0,
@@ -351,7 +350,6 @@
       "EngineAcceleration": 4.0,
       "RPMAmplitude0": [2400.0,0.0],
       "RPMAmplitude1": [0.0,50.0],
-      "AdvancedJetEngine": false,
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 6.1897,
       "ThrustOmegaMinCoeff": 0.0016,
@@ -367,7 +365,6 @@
       "HasFeatheringControl": false,
       "UseAutoPropInertia": false,
       "Reductor": 0.6875,
-      "UseAdvancedProp": true,
       "NumBlades": 3,
       "AdvancedPropRadius": 1.5,
       "PropPhi0": 18.29,
@@ -449,6 +446,7 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "OilRadiatorType": 3,
       "TempChangeSpeed": 0.012,
