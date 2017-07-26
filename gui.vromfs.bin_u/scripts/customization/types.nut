@@ -307,7 +307,8 @@
       if (::g_unlocks.isDefaultSkin(decoratorName))
         return true
 
-      return ::player_have_skin(::g_unlocks.getPlaneBySkinId(decoratorName), decoratorName)
+      return ::player_have_skin(::g_unlocks.getPlaneBySkinId(decoratorName),
+                                ::g_unlocks.getSkinNameBySkinId(decoratorName))
     }
 
     getBlk = function() { return ::get_skins_blk() }
