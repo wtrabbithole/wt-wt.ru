@@ -6,6 +6,9 @@
     "fmFile": "fm/b-17e.blk"
   },
   {
+    "noEffectsDist": 8.0
+  },
+  {
     "type": "typeBomber"
   },
   {
@@ -2446,7 +2449,7 @@
     "MetaParts": {
       "wing_l_structure": [
         {
-          "hp": 500.0
+          "hp": 400.0
         },
         {
           "part": "wing_l_dm"
@@ -2458,17 +2461,28 @@
           "part": "wing2_l_dm"
         },
         {
-          "part": "fuse1_dm"
+          "part": "fuse1_l_dm"
+        },
+        {
+          "part": "fuse2_l_dm"
         },
         {
           "effects": {
+            "cutPart": "wing_l_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 200.0,
             "cutPart": "wing_l_dm"
           }
         }
       ],
       "wing_r_structure": [
         {
-          "hp": 500.0
+          "hp": 400.0
         },
         {
           "part": "wing_r_dm"
@@ -2480,11 +2494,66 @@
           "part": "wing2_r_dm"
         },
         {
-          "part": "fuse1_dm"
+          "part": "fuse1_r_dm"
+        },
+        {
+          "part": "fuse2_r_dm"
         },
         {
           "effects": {
             "cutPart": "wing_r_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 200.0,
+            "cutPart": "wing_r_dm"
+          }
+        }
+      ],
+      "cover_structure": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "rudder_dm"
+        },
+        {
+          "part": "fuse_dm"
+        },
+        {
+          "part": "fuse1_dm"
+        },
+        {
+          "part": "tail_dm"
+        },
+        {
+          "part": "stab_dm"
+        },
+        {
+          "part": "fin_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "tail_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 400.0,
+            "killEffect": "expl"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 150.0,
+            "killEffect": "expl"
           }
         }
       ]
@@ -2751,25 +2820,6 @@
           "limits": {
             "yaw": [-50.0,50.0],
             "pitch": [-20.0,30.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner6",
-          "blk": "gameData/Weapons/gunBrowning30_turret.blk",
-          "emitter": "gun8",
-          "flash": "flare11",
-          "dm": "gunner8_dm",
-          "partsDP": "gun8_dm",
-          "bullets": 500,
-          "turret": {
-            "head": "turret8",
-            "gun": "gun8"
-          },
-          "limits": {
-            "yaw": [-30.0,30.0],
-            "pitch": [-30.0,20.0]
           }
         }
       },

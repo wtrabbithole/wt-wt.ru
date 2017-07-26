@@ -346,6 +346,8 @@
       "unitIconAlpha": 255,
       "iconScale": 1.0,
       "briefingIconScale": 0.75,
+      "exitZoneMinScale": 0.9,
+      "exitZoneMaxScale": 0.9,
       "iconMaxOverlapping": 0.5,
       "carrier": "objective_carrier",
       "destroyer": "objective_destroyer",
@@ -408,12 +410,12 @@
   },
   {
     "radar": {
-      "position": [1084.0,24.0],
+      "position": [1250.0,24.0],
       "viewDistance": 5000.0,
       "pixelRadius": 70,
       "expKoef": 0.9,
       "targetBlinkFreq": 1.0,
-      "alignAnchor": "rt",
+      "alignAnchor": "lt",
       "line": "thin_line",
       "bgd": "radar_bgd",
       "bgdMiles": "radar_bgd_miles",
@@ -924,6 +926,12 @@
         "crosshairForestallDistForTanks": 2500.0
       },
       {
+        "colorShipGunReady": "#99ff99ff"
+      },
+      {
+        "crosshairDifferentDistanceAlpha": 255
+      },
+      {
         "blinkingMouseAimScale": 1.1
       },
       {
@@ -1276,8 +1284,8 @@
       "iconHitUnitIndicator": "hit_unit_icon",
       "iconRearmZone": "waypoint_big_prim",
       "iconRearmZoneSmall": "waypoint",
-      "iconExitZone": "waypoint_big_prim",
-      "iconExitZoneSmall": "waypoint",
+      "iconExitZone": "objective_base_exit",
+      "iconExitZoneSmall": "objective_base_exit",
       "iconBreach": "icon_repair_in_progress",
       "iconBreachLeft": "waypoint_big",
       "iconLeakage": "leaking_icon",

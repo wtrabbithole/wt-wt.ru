@@ -1537,23 +1537,37 @@
     "selector": {
       "name": "shipBot",
       "selectStrategy": "ordered",
-      "cycle": {
-        "sequencer": {
-          "selector": {
-            "selectStrategy": "ordered",
-            "selectOnSuccess": true,
-            "findNextShipWaypoint": [],
-            "checkIfShipHasDestination": [],
-            "findCapturePointToSail": {
-              "canCapture": true
+      "selector": [
+        {
+          "selectStrategy": "ordered"
+        },
+        {
+          "selectOnSuccess": true
+        },
+        {
+          "sequencer": {
+            "findShipLeader": [],
+            "followShipLeader": []
+          }
+        },
+        {
+          "sequencer": {
+            "doesntHaveLeader": [],
+            "selector": {
+              "selectStrategy": "ordered",
+              "selectOnSuccess": true,
+              "transferLeader": [],
+              "findNextShipWaypoint": [],
+              "checkIfShipHasDestination": [],
+              "recalculatePathToTarget": [],
+              "findCapturePointToSail": {
+                "canCapture": true
+              }
             },
-            "shipFollowsTarget": []
-          },
-          "sailToPos": {
-            "dist": 100.0
+            "shipSail": []
           }
         }
-      },
+      ],
       "stopShipEngine": []
     }
   }

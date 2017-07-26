@@ -73,9 +73,9 @@
       "maxDistance": 2000.0,
       "groundCollisionEffect": "20_37_he_hit_ground",
       "groundFxScale": [0.1,0.15],
-      "bulletType": "i_ball",
-      "hitPowerMult": 2.5,
-      "onHitChanceMultFire": 4.0,
+      "bulletType": "i_t_ball",
+      "hitPowerMult": 0.1,
+      "onHitChanceMultFire": 5.0,
       "effectiveDistance": 400.0,
       "relativeVelHitShift": [300.0,1000.0],
       "explodeTreshold": 3.0,
@@ -102,7 +102,8 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "noColor"
+        "tracer": "7mmWhite",
+        "trail": "thin"
       }
     }
   },
@@ -183,53 +184,6 @@
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
         "tracer": "noColor"
-      }
-    }
-  },
-  {
-    "bullet": {
-      "mass": 0.0095,
-      "caliber": 0.0077,
-      "speed": 835.0,
-      "maxDistance": 2000.0,
-      "bulletType": "t_ball",
-      "hitPowerMult": 2.8,
-      "onHitChanceMultFire": 1.5,
-      "effectiveDistance": 400.0,
-      "relativeVelHitShift": [300.0,1000.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "groundFxScale": [0.15,0.2],
-      "hitpower": {
-        "HitPower10m": [1.45,10.0],
-        "HitPower100m": [1.43,100.0],
-        "HitPower200m": [1.37,300.0],
-        "HitPower400m": [0.7,400.0],
-        "HitPower600m": [0.3,600.0],
-        "HitPower1000m": [0.1,1000.0],
-        "HitPower1500m": [0.01,1500.0]
-      },
-      "armorpower": {
-        "ArmorPower0m": [5.0,5.0],
-        "ArmorPower100m": [4.0,100.0],
-        "ArmorPower500m": [2.0,500.0],
-        "ArmorPower1000m": [1.0,1000.0],
-        "ArmorPower1500m": [0.1,1500.0]
-      },
-      "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
-        "tracer": "7mmYellow",
-        "trail": "smallTrail"
-      },
-      "collisions": {
-        "steel": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [0.3,0.5]
-        },
-        "armor": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [0.3,0.5]
-        }
       }
     }
   },

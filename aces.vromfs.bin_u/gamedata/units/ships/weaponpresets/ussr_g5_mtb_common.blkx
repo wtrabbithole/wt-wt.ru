@@ -23,6 +23,9 @@
         "recoilOffset": 0.0
       },
       {
+        "barrelDP": "mg_01_dm"
+      },
+      {
         "defaultYaw": 170.0
       },
       {
@@ -39,6 +42,9 @@
       },
       {
         "bullets": 1000
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -100,8 +106,15 @@
       },
       {
         "limits": {
-          "yaw": [-170.0,170.0],
+          "yaw": [-180.0,180.0],
           "pitch": [-10.0,70.0]
+        }
+      },
+      {
+        "limitsTable": {
+          "lim1": [-180.0,-170.0,50.0,70.0],
+          "lim2": [-170.0,170.0,-10.0,70.0],
+          "lim3": [170.0,180.0,50.0,70.0]
         }
       }
     ]
@@ -118,8 +131,6 @@
       "launchAnimVar": "anim_launch_torpedo_01",
       "animLaunchTime": 3.0,
       "launchTime": 1.5,
-      "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
       "allowableDelta": 180.0,
       "breechDP": "torpedo_01_dm",
       "turret": {
@@ -144,8 +155,6 @@
       "launchAnimVar": "anim_launch_torpedo_02",
       "animLaunchTime": 3.0,
       "launchTime": 1.5,
-      "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
       "allowableDelta": 180.0,
       "breechDP": "torpedo_02_dm",
       "turret": {

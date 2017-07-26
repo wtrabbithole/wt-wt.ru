@@ -15,7 +15,7 @@
       "breechDP": "gun_barrel_dm",
       "brokenBarrelAllowShoot": false,
       "speedYaw": 25.0,
-      "speedPitch": 45.0,
+      "speedPitch": 5.0,
       "fireConeAngle": 1.0,
       "bullets": 15,
       "salvoAmount": 100.0,
@@ -46,6 +46,26 @@
       "limits": {
         "yaw": [-180.0,180.0],
         "pitch": [-9.0,17.0]
+      },
+      "gunStabilizer": {
+        "hasVerticalGunFreeMode": true,
+        "hasHorizontal": true,
+        "horizontalOmegaMult": 1.0,
+        "horizontalSpeedLimitKPH": 40.0,
+        "hasVertical": true,
+        "verticalOmegaMult": 1.0,
+        "verticalSpeedLimitKPH": 40.0,
+        "errorKPHToDegrees": [
+          {
+            "row": [5.0,0.01]
+          },
+          {
+            "row": [20.0,0.03]
+          },
+          {
+            "row": [45.0,0.1]
+          }
+        ]
       }
     }
   },

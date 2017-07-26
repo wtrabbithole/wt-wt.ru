@@ -445,6 +445,12 @@
         },
         "wingcontrol_dm": {
           "hp": 80.5
+        },
+        "wingcontrol_l_dm": {
+          "hp": 80.5
+        },
+        "wingcontrol_r_dm": {
+          "hp": 80.5
         }
       },
       "steel": {
@@ -2110,6 +2116,16 @@
         "part": {
           "name": "wingcontrol_dm"
         }
+      },
+      {
+        "part": {
+          "name": "wingcontrol_l_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "wingcontrol_r_dm"
+        }
       }
     ]
   },
@@ -2138,6 +2154,14 @@
           "effects": {
             "cutPart": "wing_l_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "cutPart": "wing_l_dm"
+          }
         }
       ],
       "wing_r_structure": [
@@ -2154,20 +2178,34 @@
           "part": "wing2_r_dm"
         },
         {
-          "part": "fuse1_l_dm"
+          "part": "fuse1_r_dm"
         },
         {
-          "part": "fuse2_l_dm"
+          "part": "fuse2_r_dm"
         },
         {
           "effects": {
             "cutPart": "wing_r_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "cutPart": "wing_r_dm"
+          }
         }
       ],
-      "tail_structure": [
+      "cover_structure": [
         {
-          "hp": 2000.0
+          "hp": 1700.0
+        },
+        {
+          "part": "rudder_dm"
+        },
+        {
+          "part": "stab_dm"
         },
         {
           "part": "fuse_dm"
@@ -2176,14 +2214,27 @@
           "part": "tail_dm"
         },
         {
-          "part": "stab_dm"
-        },
-        {
           "part": "fin_dm"
         },
         {
           "effects": {
             "cutPart": "tail_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "killEffect": "expl"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 80.0,
+            "killEffect": "expl"
           }
         }
       ]

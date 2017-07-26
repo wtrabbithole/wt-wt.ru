@@ -76,12 +76,12 @@
     "hasIndependentAirbrakesAndFlaps": true
   },
   "Areas": {
-    "WingLeftIn": 4.7,
+    "WingLeftIn": 3.7,
     "WingLeftMid": 4.08,
-    "WingLeftOut": 2.46,
-    "WingRightIn": 4.7,
+    "WingLeftOut": 3.46,
+    "WingRightIn": 2.7,
     "WingRightMid": 4.08,
-    "WingRightOut": 2.46,
+    "WingRightOut": 4.46,
     "Aileron": 0.878,
     "Stabilizer": 1.876,
     "Elevator": 1.334,
@@ -93,8 +93,8 @@
     "SmallHole": 0.0006,
     "MediumHole": 0.0016,
     "BigHole": 0.0055,
-    "WingLeftCut": 0.4,
-    "WingRightCut": 0.4
+    "WingLeftCut": 0.15,
+    "WingRightCut": 0.07
   },
   "Focus": {
     "FocusOffset": 0.045,
@@ -464,6 +464,8 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
+      "RadiatorAuto": true,
+      "OilRadiatorAuto": true,
       "RadiatorType": 1,
       "OilRadiatorType": 1,
       "NoIgnitionWaterHeatProducingFactor": 0.15,
@@ -730,9 +732,13 @@
   },
   "Gear": {
     "SinkFactor": 1000.0,
+    "SinkRateMult": 1.0,
     "WaterFriction": 1.0,
-    "RetractableTailStrut": false,
+    "WaterFrictionDefault": 2.5,
     "UseCenterOfGravity": true,
+    "RetractableCentralGear": false,
+    "SteerableWheel": false,
+    "FullBrakeSlidingFrictionMult": 0.4,
     "FrontalSpringsHeight": 0.3,
     "TailSpringsHeight": 0.1,
     "FrontalSpringsCoeff": 297753.0,
@@ -743,6 +749,8 @@
     "CenterWheelRadius": 0.1238,
     "Height": 1.6145,
     "Pitch": 11.842,
+    "WaterWaveHeightForCheck": [0.0,100.0],
+    "WaterSpeedPropCheckVal": [0.1,0.1],
     "Floats": false
   },
   "Passport": {

@@ -47,6 +47,9 @@
         "bullets": 2000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -168,6 +171,9 @@
       },
       {
         "bullets": 1000
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -294,6 +300,9 @@
         "bullets": 1000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -416,6 +425,9 @@
       },
       {
         "bullets": 1000
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -542,6 +554,9 @@
         "bullets": 1000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -661,6 +676,9 @@
       },
       {
         "bullets": 2400
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -789,6 +807,9 @@
       },
       {
         "bullets": 2400
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -920,6 +941,9 @@
         "bullets": 2000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -1033,6 +1057,9 @@
         "bullets": 2000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -1109,12 +1136,15 @@
       "launchAnimVar": "anim_launch_torpedo_01",
       "animLaunchTime": 5.0,
       "launchTime": 1.7,
+      "startFx": "start_torpedo",
+      "startFxOffset": [4.0,0.0,0.0],
       "allowableDelta": 180.0,
       "barrelDP": "tt_01_dm",
       "breechDP": "torpedo_01_dm",
       "turret": {
         "head": "bone_torpedo_01",
-        "gun": "bone_torpedo_01"
+        "gun": "bone_torpedo_01",
+        "gunnerDm": "driver_dm"
       },
       "limits": {
         "yaw": [0.0,0.0],
@@ -1133,12 +1163,15 @@
       "launchAnimVar": "anim_launch_torpedo_02",
       "animLaunchTime": 5.0,
       "launchTime": 1.9,
+      "startFx": "start_torpedo",
+      "startFxOffset": [4.0,0.0,0.0],
       "allowableDelta": 180.0,
       "barrelDP": "tt_02_dm",
       "breechDP": "torpedo_02_dm",
       "turret": {
         "head": "bone_torpedo_02",
-        "gun": "bone_torpedo_02"
+        "gun": "bone_torpedo_02",
+        "gunnerDm": "driver_dm"
       },
       "limits": {
         "yaw": [0.0,0.0],

@@ -57,6 +57,12 @@
     "tailStartOffset": 10.0
   },
   {
+    "ikPilotMaxUpdateDistance": 80.0
+  },
+  {
+    "ikPilotMaxRenderDistance": 80.0
+  },
+  {
     "useSimpleDeathConditionsAndEffects": false
   },
   {
@@ -72,7 +78,7 @@
     "hasExpl": false
   },
   {
-    "exhaustFx": "ps_exhaust"
+    "exhaustFx": "ps_exhaust_large"
   },
   {
     "explosionFx": "ship_explosion"
@@ -185,9 +191,6 @@
         },
         {
           "armorThickness": 15.0
-        },
-        {
-          "stern_top_dm": []
         },
         {
           "superstructure_top_dm": []
@@ -345,6 +348,9 @@
           "genericDamageMult": 4.0
         },
         "loader_06_dm": {
+          "genericDamageMult": 4.0
+        },
+        "loader_07_dm": {
           "genericDamageMult": 4.0
         },
         "gunner_01_dm": {
@@ -528,9 +534,9 @@
       "equipment": {
         "armorClass": "tank_structural_steel",
         "hp": 250.0,
-        "armorThickness": 2.0,
-        "armorThrough": 10.0,
-        "fireProtectionHp": 5.0,
+        "armorThickness": 20.0,
+        "armorThrough": 20.0,
+        "fireProtectionHp": 10.0,
         "drive_turret_h_01_dm": {
           "hp": 40.0,
           "armorThrough": 15.0
@@ -612,57 +618,57 @@
           "armorThrough": 15.0
         },
         "cannon_breech_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 50.0,
           "hp": 250.0
         },
         "cannon_breech_01_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_02_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_03_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_04_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_05_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_06_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_07_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_08_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_09_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_10_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
@@ -701,56 +707,44 @@
       },
       "engine": {
         "armorClass": "armor_tank_engine",
-        "hp": 30.0,
+        "hp": 300.0,
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorThickness": 3.0,
+        "armorThickness": 15.0,
         "genericDamageMult": 2.0,
         "fireParamsPreset": "ship_engine",
         "pump_dm": [],
-        "engine_dm": {
-          "armorThickness": 3.0
+        "engine_dm": [],
+        "engine_01_dm": [],
+        "engine_02_dm": [],
+        "engine_03_dm": [],
+        "engine_04_dm": [],
+        "engine_l_01_dm": [],
+        "engine_l_02_dm": [],
+        "engine_l_03_dm": [],
+        "engine_r_01_dm": [],
+        "engine_r_02_dm": [],
+        "engine_r_03_dm": [],
+        "transmission_dm": {
+          "armorThickness": 40.0
         },
-        "engine_01_dm": {
-          "armorThickness": 3.0
+        "transmission_01_dm": {
+          "armorThickness": 40.0
         },
-        "engine_02_dm": {
-          "armorThickness": 3.0
+        "transmission_02_dm": {
+          "armorThickness": 40.0
         },
-        "engine_03_dm": {
-          "armorThickness": 3.0
+        "transmission_03_dm": {
+          "armorThickness": 40.0
         },
-        "engine_04_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_l_01_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_l_02_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_l_03_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_r_01_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_r_02_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_r_03_dm": {
-          "armorThickness": 3.0
-        },
-        "transmission_dm": [],
-        "transmission_01_dm": [],
-        "transmission_02_dm": [],
-        "transmission_03_dm": [],
-        "transmission_04_dm": []
+        "transmission_04_dm": {
+          "armorThickness": 40.0
+        }
       },
       "ammo": {
         "armorClass": "tank_structural_steel",
         "hp": 100.0,
-        "armorThickness": 7.0,
+        "armorThickness": 20.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
         "ammo_turret_dm": {
@@ -859,25 +853,25 @@
         },
         "torpedo_01_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
         "torpedo_02_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
         "torpedo_03_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
         "torpedo_04_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
@@ -981,7 +975,7 @@
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
         "hp": 300.0,
-        "armorThickness": 2.0,
+        "armorThickness": 5.0,
         "armorThrough": 50.0,
         "fireProtectionHp": 5.0,
         "fireParamsPreset": "ship_fuel_tank",
@@ -1259,7 +1253,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.9,
               "damage": 350.0,
               "fHitCritical": true
@@ -1267,7 +1261,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.2,
               "damage": 200.0,
               "fHitCritical": true
@@ -1407,7 +1401,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
@@ -1416,7 +1410,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -1424,7 +1418,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.35,
               "damage": 70.0,
               "fHitCritical": true
@@ -1432,7 +1426,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03
             }
           },
@@ -1495,7 +1489,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.03,
               "damage": 13.0,
               "fHitCritical": true
@@ -1503,7 +1497,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 50.0,
               "fHitCritical": true
@@ -2161,6 +2155,25 @@
     ]
   },
   {
+    "harmflag": {
+      "harmonizationSuffix": "_tomoe",
+      "default_skin_tomoe": [
+        {
+          "replace_tex": {
+            "from": "flag_usa_01_c*",
+            "to": "flag_usa_alt_c*"
+          }
+        },
+        {
+          "replace_tex": {
+            "from": "flag_usa_02_c*",
+            "to": "flag_usa_alt_c*"
+          }
+        }
+      ]
+    }
+  },
+  {
     "ikGunner": [
       {
         "model": "usa_sailor_navy_char"
@@ -2182,6 +2195,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "1"
@@ -2254,6 +2270,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "2"
       },
       {
@@ -2322,6 +2341,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "3"
@@ -2394,6 +2416,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "4"
       },
       {
@@ -2462,6 +2487,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "5"
@@ -2534,6 +2562,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "6"
       },
       {
@@ -2604,6 +2635,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "7"
       },
       {
@@ -2672,6 +2706,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "8"
@@ -2802,52 +2839,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -2868,7 +2890,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,55.0]
+              "pitch": [-5.0,85.0]
             }
           }
         ]
@@ -2918,52 +2940,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -2977,7 +2984,7 @@
               "linkedAnimPart": {
                 "verNode": "bone_radius_pelvis_02",
                 "verLimits": [0.0,7.0],
-                "verOriginLimits": [5.0,55.0]
+                "verOriginLimits": [-5.0,85.0]
               }
             }
           },
@@ -3034,52 +3041,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -3150,52 +3142,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -3216,7 +3193,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,55.0]
+              "pitch": [-5.0,85.0]
             }
           }
         ]
@@ -3266,52 +3243,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -3332,7 +3294,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,55.0]
+              "pitch": [-5.0,85.0]
             }
           }
         ]
@@ -3382,52 +3344,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -3448,7 +3395,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,55.0]
+              "pitch": [-5.0,85.0]
             }
           }
         ]
@@ -3498,52 +3445,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -3564,7 +3496,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,55.0]
+              "pitch": [-5.0,85.0]
             }
           }
         ]
@@ -3614,52 +3546,37 @@
             "bullets": 2400
           },
           {
-            "speedYaw": 45.0
+            "fireConeAngle": 15.0
           },
           {
-            "speedPitch": 45.0
+            "ChainfireTime": 3.0
           },
           {
-            "fireConeAngle": 20.0
+            "DelayAfterShoot": 3.0
           },
           {
-            "ChainfireTime": 2.0
+            "accuracyAir": 1.5
           },
           {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 0.5
-          },
-          {
-            "accuracyGnd": 0.5
+            "accuracyGnd": 1.0
           },
           {
             "errMeasureVel": 0.0
           },
           {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
             "errTargettingOn100kmph": 0.0
           },
           {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
+            "errTargetting": 3.0
           },
           {
             "errExplTime": 0.0
@@ -3680,7 +3597,7 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,55.0]
+              "pitch": [-5.0,85.0]
             }
           }
         ]

@@ -2628,6 +2628,14 @@
           "effects": {
             "cutPart": "wing_l_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "cutPart": "wing_l_dm"
+          }
         }
       ],
       "wing_r_structure": [
@@ -2644,20 +2652,34 @@
           "part": "wing2_r_dm"
         },
         {
-          "part": "fuse1_l_dm"
+          "part": "fuse1_r_dm"
         },
         {
-          "part": "fuse2_l_dm"
+          "part": "fuse2_r_dm"
         },
         {
           "effects": {
             "cutPart": "wing_r_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "cutPart": "wing_r_dm"
+          }
         }
       ],
-      "tail_structure": [
+      "cover_structure": [
         {
-          "hp": 2000.0
+          "hp": 1700.0
+        },
+        {
+          "part": "rudder_dm"
+        },
+        {
+          "part": "stab_dm"
         },
         {
           "part": "fuse_dm"
@@ -2666,14 +2688,27 @@
           "part": "tail_dm"
         },
         {
-          "part": "stab_dm"
-        },
-        {
           "part": "fin_dm"
         },
         {
           "effects": {
             "cutPart": "tail_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "killEffect": "expl"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 80.0,
+            "killEffect": "expl"
           }
         }
       ]
@@ -2958,9 +2993,12 @@
       "textToShowInCockpit": "msg/textToShowInCockpit",
       "headPos": [1.8,0.603,0.346],
       "headPosOnShooting": [1.8,0.603,0.346],
-      "lightPos": [2.433469,0.328871,0.188845],
-      "lightColor": [0.0,0.05,0.05],
-      "lightAttenuation": 5.0,
+      "lightPos": [2.488281,0.27001,0.366632],
+      "lightColor": [0.1,0.1,0.05],
+      "lightRadius": 0.35,
+      "lightPos1": [2.510437,0.350637,0.035478],
+      "lightColor1": [0.1,0.1,0.05],
+      "lightRadius1": 0.3,
       "devices": {
         "speed": [0.0,257.222],
         "bank": [-8.0,8.0],
@@ -3107,7 +3145,7 @@
           "flash": "flare7",
           "dm": "gunner1_dm",
           "partsDP": "gun1_dm",
-          "bullets": 400,
+          "bullets": 500,
           "turret": {
             "head": "turret1",
             "gun": "gun1"
@@ -3126,7 +3164,7 @@
           "flash": "flare8",
           "dm": "gunner1_dm",
           "partsDP": "gun2_dm",
-          "bullets": 400,
+          "bullets": 500,
           "turret": {
             "head": "turret1",
             "gun": "gun1"
@@ -3145,7 +3183,7 @@
           "flash": "flare9",
           "dm": "gunner1_dm",
           "partsDP": "gun3_dm",
-          "bullets": 400,
+          "bullets": 500,
           "turret": {
             "head": "turret2",
             "gun": "gun2"
@@ -3164,7 +3202,7 @@
           "flash": "flare10",
           "dm": "gunner1_dm",
           "partsDP": "gun4_dm",
-          "bullets": 400,
+          "bullets": 500,
           "turret": {
             "head": "turret2",
             "gun": "gun2"

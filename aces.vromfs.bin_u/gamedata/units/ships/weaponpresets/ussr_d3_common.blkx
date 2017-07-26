@@ -47,6 +47,9 @@
         "bullets": 2000
       },
       {
+        "allowableDelta": 1.0
+      },
+      {
         "speedYaw": 45.0
       },
       {
@@ -108,8 +111,15 @@
       },
       {
         "limits": {
-          "yaw": [-145.0,145.0],
+          "yaw": [-180.0,180.0],
           "pitch": [-5.0,70.0]
+        }
+      },
+      {
+        "limitsTable": {
+          "lim1": [-180.0,-154.0,50.0,70.0],
+          "lim2": [-154.0,154.0,-5.0,70.0],
+          "lim3": [154.0,180.0,50.0,70.0]
         }
       }
     ]
@@ -126,7 +136,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/12_7mm_DShK_naval_user_machinegun.blk"
       },
       {
-        "emitter": "emtr_gun_flame_01"
+        "emitter": "emtr_gun_flame_02"
       },
       {
         "flash": "emtr_gun_flame_02"
@@ -160,6 +170,9 @@
       },
       {
         "bullets": 2000
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -246,10 +259,8 @@
       "animatedEmitter": "bone_torpedo_01",
       "bullets": 1,
       "launchAnimVar": "anim_launch_torpedo_01",
-      "animLaunchTime": 2.0,
-      "launchTime": 0.6,
-      "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
+      "animLaunchTime": 2.1,
+      "launchTime": 0.7,
       "barrelDP": "tt_01_dm",
       "breachDP": "torpedo_01_dm",
       "allowableDelta": 180.0,
@@ -273,10 +284,8 @@
       "animatedEmitter": "bone_torpedo_02",
       "bullets": 1,
       "launchAnimVar": "anim_launch_torpedo_02",
-      "animLaunchTime": 2.0,
-      "launchTime": 0.6,
-      "startFx": "start_torpedo",
-      "startFxOffset": [5.0,0.0,0.0],
+      "animLaunchTime": 2.1,
+      "launchTime": 0.7,
       "barrelDP": "tt_02_dm",
       "breachDP": "torpedo_02_dm",
       "allowableDelta": 180.0,

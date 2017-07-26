@@ -15,6 +15,9 @@
     "useBotForAi": true
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "moveType": "ship"
   },
   {
@@ -78,6 +81,22 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "flag_usa_01_c*",
+          "to": "flag_usa_alt_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_usa_02_c*",
+          "to": "flag_usa_alt_c*"
+        }
+      }
+    ]
+  },
+  {
     "ikGunner": [
       {
         "model": "usa_sailor_navy_char"
@@ -99,6 +118,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "1"
@@ -174,6 +196,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "2"
       },
       {
@@ -245,6 +270,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "3"
@@ -320,6 +348,9 @@
         "pelvisTargetNode": "Bip01 Pelvis_"
       },
       {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
         "suffix": "4"
       },
       {
@@ -391,6 +422,9 @@
       },
       {
         "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
       },
       {
         "suffix": "5"
@@ -790,6 +824,9 @@
         "loader_06_dm": {
           "genericDamageMult": 4.0
         },
+        "loader_07_dm": {
+          "genericDamageMult": 4.0
+        },
         "gunner_01_dm": {
           "genericDamageMult": 4.0
         },
@@ -971,9 +1008,9 @@
       "equipment": {
         "armorClass": "tank_structural_steel",
         "hp": 250.0,
-        "armorThickness": 2.0,
-        "armorThrough": 10.0,
-        "fireProtectionHp": 5.0,
+        "armorThickness": 20.0,
+        "armorThrough": 20.0,
+        "fireProtectionHp": 10.0,
         "drive_turret_h_01_dm": {
           "hp": 40.0,
           "armorThrough": 15.0
@@ -1055,57 +1092,57 @@
           "armorThrough": 15.0
         },
         "cannon_breech_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 50.0,
           "hp": 250.0
         },
         "cannon_breech_01_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_02_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_03_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_04_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_05_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_06_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_07_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_08_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_09_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
         "cannon_breech_10_dm": {
-          "armorThickness": 5.0,
+          "armorThickness": 35.0,
           "armorThrough": 25.0,
           "hp": 250.0
         },
@@ -1144,56 +1181,44 @@
       },
       "engine": {
         "armorClass": "armor_tank_engine",
-        "hp": 30.0,
+        "hp": 300.0,
         "armorThrough": 30.0,
         "fireProtectionHp": 5.0,
-        "armorThickness": 3.0,
+        "armorThickness": 15.0,
         "genericDamageMult": 2.0,
         "fireParamsPreset": "ship_engine",
         "pump_dm": [],
-        "engine_dm": {
-          "armorThickness": 3.0
+        "engine_dm": [],
+        "engine_01_dm": [],
+        "engine_02_dm": [],
+        "engine_03_dm": [],
+        "engine_04_dm": [],
+        "engine_l_01_dm": [],
+        "engine_l_02_dm": [],
+        "engine_l_03_dm": [],
+        "engine_r_01_dm": [],
+        "engine_r_02_dm": [],
+        "engine_r_03_dm": [],
+        "transmission_dm": {
+          "armorThickness": 40.0
         },
-        "engine_01_dm": {
-          "armorThickness": 3.0
+        "transmission_01_dm": {
+          "armorThickness": 40.0
         },
-        "engine_02_dm": {
-          "armorThickness": 3.0
+        "transmission_02_dm": {
+          "armorThickness": 40.0
         },
-        "engine_03_dm": {
-          "armorThickness": 3.0
+        "transmission_03_dm": {
+          "armorThickness": 40.0
         },
-        "engine_04_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_l_01_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_l_02_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_l_03_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_r_01_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_r_02_dm": {
-          "armorThickness": 3.0
-        },
-        "engine_r_03_dm": {
-          "armorThickness": 3.0
-        },
-        "transmission_dm": [],
-        "transmission_01_dm": [],
-        "transmission_02_dm": [],
-        "transmission_03_dm": [],
-        "transmission_04_dm": []
+        "transmission_04_dm": {
+          "armorThickness": 40.0
+        }
       },
       "ammo": {
         "armorClass": "tank_structural_steel",
         "hp": 100.0,
-        "armorThickness": 7.0,
+        "armorThickness": 20.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 20.0,
         "ammo_turret_dm": {
@@ -1302,25 +1327,25 @@
         },
         "torpedo_01_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
         "torpedo_02_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
         "torpedo_03_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
         "torpedo_04_dm": {
           "hp": 250.0,
-          "armorThickness": 5.0,
+          "armorThickness": 20.0,
           "genericDamageMult": 1.0,
           "secondaryShatterDamageMult": 0.0
         },
@@ -1424,7 +1449,7 @@
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
         "hp": 300.0,
-        "armorThickness": 2.0,
+        "armorThickness": 5.0,
         "armorThrough": 50.0,
         "fireProtectionHp": 5.0,
         "fireParamsPreset": "ship_fuel_tank",
@@ -1636,7 +1661,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.2,
               "damage": 300.0,
               "fHitCritical": true
@@ -1644,7 +1669,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 300.0,
               "fHitCritical": true
@@ -1652,7 +1677,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03,
               "expl": 0.01
             }
@@ -1711,7 +1736,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "expl": 0.3,
               "fire": 0.7,
               "damage": 250.0,
@@ -1720,7 +1745,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.1,
               "damage": 20.0,
               "fHitCritical": true
@@ -1728,7 +1753,7 @@
           },
           {
             "onHit": {
-              "fGeneric": true,
+              "damageType": "generic",
               "fire": 0.35,
               "damage": 70.0,
               "fHitCritical": true
@@ -1736,7 +1761,7 @@
           },
           {
             "onHit": {
-              "fFire": true,
+              "damageType": "fire",
               "fire": 0.03
             }
           },
@@ -1799,7 +1824,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.03,
               "damage": 13.0,
               "fHitCritical": true
@@ -1807,7 +1832,7 @@
           },
           {
             "onHit": {
-              "fExplosion": true,
+              "damageType": "explosion",
               "fire": 0.1,
               "damage": 50.0,
               "fHitCritical": true
@@ -1835,6 +1860,14 @@
             "kill": true,
             "killEffect": "drown"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 5000.0,
+            "kill": true,
+            "killEffect": "destruction"
+          }
         }
       ],
       "cover_right_side": [
@@ -1852,6 +1885,14 @@
             "conditionPartsDead": 3,
             "kill": true,
             "killEffect": "drown"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 5000.0,
+            "kill": true,
+            "killEffect": "destruction"
           }
         }
       ]
@@ -2261,6 +2302,9 @@
             "bullets": 2400
           },
           {
+            "allowableDelta": 1.0
+          },
+          {
             "speedYaw": 45.0
           },
           {
@@ -2381,6 +2425,9 @@
             "bullets": 2400
           },
           {
+            "allowableDelta": 1.0
+          },
+          {
             "speedYaw": 45.0
           },
           {
@@ -2497,6 +2544,9 @@
           },
           {
             "bullets": 2400
+          },
+          {
+            "allowableDelta": 1.0
           },
           {
             "speedYaw": 45.0
@@ -2619,6 +2669,9 @@
             "bullets": 2400
           },
           {
+            "allowableDelta": 1.0
+          },
+          {
             "speedYaw": 45.0
           },
           {
@@ -2700,6 +2753,8 @@
           "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_18_1.blk",
           "emitter": "bone_torpedo_01",
           "bullets": 1,
+          "startFx": "start_torpedo",
+          "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "tt_01_dm",
           "breachDP": "torpedo_01_dm",
@@ -2721,6 +2776,8 @@
           "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_18_1.blk",
           "emitter": "bone_torpedo_02",
           "bullets": 1,
+          "startFx": "start_torpedo",
+          "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "tt_02_dm",
           "breachDP": "torpedo_02_dm",
@@ -2742,6 +2799,8 @@
           "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_18_1.blk",
           "emitter": "bone_torpedo_03",
           "bullets": 1,
+          "startFx": "start_torpedo",
+          "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "tt_03_dm",
           "breachDP": "torpedo_03_dm",
@@ -2763,6 +2822,8 @@
           "blk": "gameData/Weapons/torpedoes/us_21_inch_mark_18_1.blk",
           "emitter": "bone_torpedo_04",
           "bullets": 1,
+          "startFx": "start_torpedo",
+          "startFxOffset": [2.8,0.0,0.0],
           "allowableDelta": 180.0,
           "barrelDP": "tt_04_dm",
           "breachDP": "torpedo_04_dm",

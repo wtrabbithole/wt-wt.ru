@@ -67,29 +67,45 @@
   },
   {
     "DamageParts": {
-      "armor7": {
-        "engine_dm": {
-          "hp": 30.0
-        },
-        "bodypart1_dm": {
-          "hp": 60.0
-        },
+      "formatVersion": 2,
+      "armorClass": "RHA_tank",
+      "hp": 1000.0,
+      "cover": {
+        "armorClass": "RHA_tank",
+        "hp": 480.0,
+        "armorThickness": 4.0,
         "body_dm": {
-          "hp": 60.0
-        }
-      },
-      "steel": {
-        "gun1_dm": {
-          "hp": 10.0
-        },
-        "gun2_dm": {
-          "hp": 10.0
+          "explosionDamageMult": 3.0
         },
         "gun3_dm": {
-          "hp": 10.0
+          "armorThickness": 5.0,
+          "hp": 10.0,
+          "explosionDamageMult": 3.0
+        },
+        "gun2_dm": {
+          "armorThickness": 5.0,
+          "hp": 10.0,
+          "explosionDamageMult": 3.0
+        },
+        "gun1_dm": {
+          "armorThickness": 5.0,
+          "hp": 10.0,
+          "explosionDamageMult": 3.0
         },
         "gun0_dm": {
-          "hp": 10.0
+          "armorThickness": 5.0,
+          "hp": 10.0,
+          "explosionDamageMult": 3.0
+        }
+      }
+    }
+  },
+  {
+    "DamageEffects": {
+      "part": {
+        "name": "body_dm",
+        "onKill": {
+          "expl": 1.0
         }
       }
     }
@@ -100,61 +116,6 @@
       "mediterran": true,
       "westernfront": true
     }
-  },
-  {
-    "DamageEffects": [
-      {
-        "part": {
-          "name": "body_dm",
-          "onHit": {
-            "smoke": 0.01,
-            "fire": 0.01
-          },
-          "onKill": {
-            "expl": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "engine_dm",
-          "onHit": {
-            "smoke": 0.1,
-            "fire": 0.01
-          },
-          "onKill": {
-            "body_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": [
-          {
-            "name": "bodypart1_dm"
-          },
-          {
-            "name": "bodypart1_dm"
-          },
-          {
-            "name": "bodypart1_dm"
-          },
-          {
-            "name": "bodypart1_dm"
-          },
-          {
-            "onHit": {
-              "smoke": 0.1,
-              "fire": 0.01
-            }
-          },
-          {
-            "onKill": {
-              "smoke": 1.0
-            }
-          }
-        ]
-      }
-    ]
   },
   {
     "sound": {
@@ -169,6 +130,7 @@
       "emitter": "gun0",
       "flash": "flame0",
       "shell": "emtr_shellrejection1",
+      "allowableDelta": 1.0,
       "speedYaw": 45.0,
       "speedPitch": 45.0,
       "fireConeAngle": 20.0,
@@ -218,6 +180,9 @@
       },
       {
         "shell": "emtr_shellrejection3"
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0

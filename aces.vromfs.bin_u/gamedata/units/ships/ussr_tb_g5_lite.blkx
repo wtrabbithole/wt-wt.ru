@@ -22,33 +22,37 @@
   "customUpdateDiv": 5,
   "SoundMove": "models.Ship",
   "tailStartOffset": -45.0,
-  "DamageParts": {
-    "armor7": {
-      "engine_dm": {
-        "hp": 15.0
-      },
-      "bodypart1_dm": {
-        "hp": 30.0
-      },
-      "body_dm": {
-        "hp": 30.0
+  "DamageParts": [
+    {
+      "steel": {
+        "engine_dm": {
+          "hp": 15.0
+        },
+        "bodypart1_dm": {
+          "hp": 240.0
+        },
+        "body_dm": {
+          "hp": 240.0
+        }
       }
     },
-    "steel": {
-      "gun1_dm": {
-        "hp": 10.0
-      },
-      "gun2_dm": {
-        "hp": 10.0
-      },
-      "gun3_dm": {
-        "hp": 10.0
-      },
-      "gun0_dm": {
-        "hp": 10.0
+    {
+      "steel": {
+        "gun1_dm": {
+          "hp": 10.0
+        },
+        "gun2_dm": {
+          "hp": 10.0
+        },
+        "gun3_dm": {
+          "hp": 10.0
+        },
+        "gun0_dm": {
+          "hp": 10.0
+        }
       }
     }
-  },
+  ],
   "class_tags": {
     "pacific": true,
     "mediterran": true,
@@ -117,6 +121,7 @@
     "emitter": "gun0",
     "flash": "flame0",
     "shell": "emtr_shellrejection1",
+    "allowableDelta": 1.0,
     "speedYaw": 45.0,
     "speedPitch": 45.0,
     "fireConeAngle": 20.0,

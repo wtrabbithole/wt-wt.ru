@@ -23,6 +23,9 @@
         "recoilOffset": 0.0
       },
       {
+        "breechDP": "mg_01_dm"
+      },
+      {
         "defaultYaw": 0.0
       },
       {
@@ -39,6 +42,9 @@
       },
       {
         "bullets": 2000
+      },
+      {
+        "allowableDelta": 1.0
       },
       {
         "speedYaw": 45.0
@@ -98,7 +104,7 @@
           "gunnerDm": "gunner_01_dm",
           "linkedAnimPart": {
             "verNode": "bone_radius_pelvis",
-            "verLimits": [0.0,4.0],
+            "verLimits": [0.0,5.0],
             "verOriginLimits": [30.0,70.0]
           }
         }
@@ -121,8 +127,10 @@
       "animatedEmitter": "bone_torpedo_01",
       "bullets": 1,
       "launchAnimVar": "anim_launch_torpedo_01",
-      "animLaunchTime": 4.0,
-      "launchTime": 1.2,
+      "animLaunchTime": 3.0,
+      "launchTime": 0.9,
+      "startSpeed": 2.0,
+      "useStartSpeed": true,
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_launch_torpedo_01",
@@ -144,8 +152,10 @@
       "animatedEmitter": "bone_torpedo_02",
       "bullets": 1,
       "launchAnimVar": "anim_launch_torpedo_02",
-      "animLaunchTime": 4.0,
-      "launchTime": 1.2,
+      "animLaunchTime": 3.0,
+      "launchTime": 0.9,
+      "startSpeed": 2.0,
+      "useStartSpeed": true,
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_launch_torpedo_02",

@@ -39,7 +39,7 @@
     "AileronSens": 0.18
   },
   {
-    "GearActuatorSpeed": 0.2
+    "GearActuatorSpeed": 0.3
   },
   {
     "WingActuatorSpeed": 0.1
@@ -57,13 +57,16 @@
     "CockpitDoorBlockSpeed": 450.0
   },
   {
+    "CockpitOpenedDoorBreakSpeed": 470.0
+  },
+  {
     "AirBrakeSpeed": 0.5
   },
   {
-    "dvFlapsIn": [150.0,280.0,0.15,0.19]
+    "dvFlapsIn": [190.0,380.0,0.18,0.6]
   },
   {
-    "dvFlapsOut": [150.0,280.0,0.15,0.1]
+    "dvFlapsOut": [190.0,380.0,0.99,0.7]
   },
   {
     "Wingspan": 9.74
@@ -75,7 +78,7 @@
     "StabWidth": 3.42
   },
   {
-    "FinHeight": 1.8371
+    "FinHeight": 1.34
   },
   {
     "Crew": 1
@@ -103,6 +106,9 @@
   },
   {
     "RudderInterceptor": false
+  },
+  {
+    "FlapsRadiator": 0.0
   },
   {
     "Elevon": false
@@ -213,6 +219,15 @@
       },
       {
         "isAirBrakeAvailableOnGround": false
+      },
+      {
+        "hasIndependentAirbrakesAndFlaps": true
+      },
+      {
+        "canTakeoffWithoutFlaps": true
+      },
+      {
+        "bHasBoosterSwitcher": false
       }
     ]
   },
@@ -235,28 +250,28 @@
       "SmallHole": 0.0006,
       "MediumHole": 0.0016,
       "BigHole": 0.0055,
-      "WingLeftCut": 0.45,
-      "WingRightCut": 0.3
+      "WingLeftCut": 0.15,
+      "WingRightCut": 0.05
     }
   },
   {
     "Focus": {
-      "FocusOffset": -0.02,
+      "FocusOffset": -0.05,
       "WingVertPos": 0.2,
       "AlphaShift": 0.05,
-      "FlapsShift": 0.1,
+      "FlapsShift": 0.12,
       "GearShift": -0.15,
       "WingInFocus": 0.9,
       "WingMidFocus": 1.8,
       "WingOutFocus": 3.1,
-      "WingV": 5.8,
+      "WingV": 4.0,
       "Stabilizer": 4.6,
       "Keel": 4.7,
       "Rudder": 10.05,
-      "Fuselage": [0.9,0.2,0.0],
+      "Fuselage": [1.0,0.0,0.0],
       "LeftStab": [-4.6,0.33,0.95],
       "RightStab": [-4.6,0.33,-0.95],
-      "VertStab": [-4.7,1.0,0.0],
+      "VertStab": [-4.7,0.5,0.0],
       "WingVWingFocusMultiplier": 0.0,
       "SineAOSMultiplier": 0.4
     }
@@ -321,7 +336,7 @@
         "Cl0": 0.12,
         "ClCritHigh": 1.3,
         "ClCritLow": -0.7,
-        "alphaCritHigh": 15.2,
+        "alphaCritHigh": 15.5,
         "alphaCritLow": -13.0
       },
       "FullFlaps": {
@@ -334,7 +349,7 @@
       },
       "Fuselage": {
         "OswaldsEfficiencyNumber": 0.1,
-        "lineClCoeff": 0.021,
+        "lineClCoeff": 0.012,
         "AfterCritParabAngle": 5.0,
         "AfterCritDeclineCoeff": 0.007,
         "AfterCritMaxDistanceAngle": 30.0,
@@ -425,11 +440,11 @@
       },
       "Fin": {
         "OswaldsEfficiencyNumber": 0.4,
-        "lineClCoeff": 0.08,
+        "lineClCoeff": 0.045,
         "AfterCritParabAngle": 5.0,
         "AfterCritDeclineCoeff": 0.007,
         "AfterCritMaxDistanceAngle": 30.0,
-        "ClAfterCrit": 1.0,
+        "ClAfterCrit": 0.9,
         "MachFactor": 3,
         "MachCrit1": 0.75,
         "MachMax1": 0.95,
@@ -463,10 +478,10 @@
         "MultLimit6": 0.0,
         "CombinedCl": false,
         "Cl0": 0.0,
-        "alphaCritHigh": 18.0,
-        "alphaCritLow": -18.0,
-        "ClCritHigh": 1.1,
-        "ClCritLow": -1.1,
+        "alphaCritHigh": 22.0,
+        "alphaCritLow": -22.0,
+        "ClCritHigh": 0.9,
+        "ClCritLow": -0.9,
         "CdMin": 0.01
       }
     }
@@ -599,6 +614,8 @@
       "Temperature": {
         "RadiatorType": 1,
         "OilRadiatorType": 3,
+        "RadiatorAuto": true,
+        "OilRadiatorAuto": false,
         "TempChangeSpeed": 0.02,
         "WaterMaxRPMTemp": 110.0,
         "OilOutMaxRPMTemp": 105.0,

@@ -43,6 +43,26 @@
         "lim1": [-180.0,-135.0,-2.0,20.0],
         "lim2": [-135.0,135.0,-12.0,20.0],
         "lim3": [135.0,180.0,-2.0,20.0]
+      },
+      "gunStabilizer": {
+        "hasVerticalGunFreeMode": false,
+        "hasHorizontal": false,
+        "horizontalOmegaMult": 1.0,
+        "horizontalSpeedLimitKPH": 50.0,
+        "hasVertical": true,
+        "verticalOmegaMult": 0.7,
+        "verticalSpeedLimitKPH": 16.0,
+        "errorKPHToDegrees": [
+          {
+            "row": [5.0,0.02]
+          },
+          {
+            "row": [10.0,0.05]
+          },
+          {
+            "row": [12.0,0.4]
+          }
+        ]
       }
     }
   },
@@ -63,7 +83,7 @@
       "ChainfireTime": 3.0,
       "DelayAfterShoot": 3.0,
       "accuracyAir": 1.5,
-      "accuracyGnd": 1.0,
+      "accuracyGnd": 0.0,
       "errMeasureVel": 0.0,
       "errMeasureVelFast": 0.0,
       "errMeasureVelFwdShift": 0.0,

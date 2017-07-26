@@ -2,14 +2,22 @@
   "Weapon": {
     "trigger": "bombs",
     "blk": "gameData/Weapons/BombGuns/de_sc500.blk",
-    "emitter": "bomb1",
-    "dm": "bomb1_dm",
+    "emitter": "bomb6",
     "bullets": 1,
-    "external": true
+    "external": true,
+    "launcher": true
   },
-  "hideNodes": {
-    "node": "rack_1000"
-  },
+  "hideNodes": [
+    {
+      "node": "rack_1000"
+    },
+    {
+      "node": "bomb_launcher3"
+    },
+    {
+      "node": "bomb_launcher4"
+    }
+  ],
   "hideDmParts": [
     {
       "node": "tank3_dm"

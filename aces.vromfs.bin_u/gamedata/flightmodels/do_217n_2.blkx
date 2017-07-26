@@ -18,6 +18,9 @@
     "harmonizationSuffix": "_tomoe"
   },
   {
+    "noEffectsDist": 8.0
+  },
+  {
     "type": "typeBomber"
   },
   {
@@ -45,7 +48,7 @@
     "MetaParts": {
       "wing_l_structure": [
         {
-          "hp": 300.0
+          "hp": 250.0
         },
         {
           "part": "wing_l_dm"
@@ -66,11 +69,19 @@
           "effects": {
             "cutPart": "wing_l_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "cutPart": "wing_l_dm"
+          }
         }
       ],
       "wing_r_structure": [
         {
-          "hp": 300.0
+          "hp": 250.0
         },
         {
           "part": "wing_r_dm"
@@ -82,17 +93,557 @@
           "part": "wing2_r_dm"
         },
         {
-          "part": "fuse1_l_dm"
+          "part": "fuse1_r_dm"
         },
         {
-          "part": "fuse2_l_dm"
+          "part": "fuse2_r_dm"
         },
         {
           "effects": {
             "cutPart": "wing_r_dm"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "cut": 1.0,
+            "conditionDamage": 100.0,
+            "cutPart": "wing_r_dm"
+          }
+        }
+      ],
+      "cover_structure": [
+        {
+          "hp": 1650.0
+        },
+        {
+          "part": "rudder_dm"
+        },
+        {
+          "part": "fuse_dm"
+        },
+        {
+          "part": "tail_dm"
+        },
+        {
+          "part": "stab_dm"
+        },
+        {
+          "part": "fin_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "tail_dm"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 300.0,
+            "killEffect": "expl"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 80.0,
+            "killEffect": "expl"
+          }
         }
       ]
+    }
+  },
+  {
+    "exhaustEffects": {
+      "fireFramerate": 20.0,
+      "speedMultiplier": 1.0,
+      "transitionThrottle": [0.8,0.95],
+      "transitionMixture": [0.4,0.8,1.0],
+      "startingTransitionTime": 4.0,
+      "rpmToFxSpeed": 0.01,
+      "slowdownEffectProbability": [0.001,0.1],
+      "slowdownEffectFadeInRate": 5.0,
+      "slowdownEffectFadeOutTime": 0.5,
+      "engine0": [
+        {
+          "node": "fire1_1"
+        },
+        {
+          "node": "fire1_12"
+        },
+        {
+          "node": "fire1_8"
+        },
+        {
+          "node": "fire1_11"
+        },
+        {
+          "node": "fire1_7"
+        },
+        {
+          "node": "fire1_14"
+        },
+        {
+          "node": "fire1_5"
+        },
+        {
+          "node": "fire1_16"
+        },
+        {
+          "node": "fire1_4"
+        },
+        {
+          "node": "fire1_15"
+        },
+        {
+          "node": "fire1_3"
+        },
+        {
+          "node": "fire1_10"
+        },
+        {
+          "node": "fire1_6"
+        },
+        {
+          "node": "fire1_9"
+        },
+        {
+          "node": "fire1_2"
+        },
+        {
+          "node": "fire1_13"
+        },
+        {
+          "node": "fire1_17"
+        },
+        {
+          "node": "fire1_18"
+        },
+        {
+          "node": "fire1_19"
+        },
+        {
+          "node": "fire1_20"
+        },
+        {
+          "node": "fire1_21"
+        },
+        {
+          "node": "fire1_22"
+        },
+        {
+          "node": "fire1_23"
+        },
+        {
+          "node": "fire1_24"
+        },
+        {
+          "fxNode": "prop03_1"
+        }
+      ],
+      "engine1": [
+        {
+          "node": "fire2_1"
+        },
+        {
+          "node": "fire2_12"
+        },
+        {
+          "node": "fire2_8"
+        },
+        {
+          "node": "fire2_11"
+        },
+        {
+          "node": "fire2_7"
+        },
+        {
+          "node": "fire2_14"
+        },
+        {
+          "node": "fire2_5"
+        },
+        {
+          "node": "fire2_16"
+        },
+        {
+          "node": "fire2_4"
+        },
+        {
+          "node": "fire2_15"
+        },
+        {
+          "node": "fire2_3"
+        },
+        {
+          "node": "fire2_10"
+        },
+        {
+          "node": "fire2_6"
+        },
+        {
+          "node": "fire2_9"
+        },
+        {
+          "node": "fire2_2"
+        },
+        {
+          "node": "fire2_13"
+        },
+        {
+          "node": "fire2_17"
+        },
+        {
+          "node": "fire2_18"
+        },
+        {
+          "node": "fire2_19"
+        },
+        {
+          "node": "fire2_20"
+        },
+        {
+          "node": "fire2_21"
+        },
+        {
+          "node": "fire2_22"
+        },
+        {
+          "node": "fire2_23"
+        },
+        {
+          "node": "fire2_24"
+        },
+        {
+          "fxNode": "prop03_2"
+        }
+      ],
+      "engine2": [
+        {
+          "node": "fire3_1"
+        },
+        {
+          "node": "fire3_12"
+        },
+        {
+          "node": "fire3_8"
+        },
+        {
+          "node": "fire3_11"
+        },
+        {
+          "node": "fire3_7"
+        },
+        {
+          "node": "fire3_14"
+        },
+        {
+          "node": "fire3_5"
+        },
+        {
+          "node": "fire3_16"
+        },
+        {
+          "node": "fire3_4"
+        },
+        {
+          "node": "fire3_15"
+        },
+        {
+          "node": "fire3_3"
+        },
+        {
+          "node": "fire3_10"
+        },
+        {
+          "node": "fire3_6"
+        },
+        {
+          "node": "fire3_9"
+        },
+        {
+          "node": "fire3_2"
+        },
+        {
+          "node": "fire3_13"
+        },
+        {
+          "node": "fire3_17"
+        },
+        {
+          "node": "fire3_18"
+        },
+        {
+          "node": "fire3_19"
+        },
+        {
+          "node": "fire3_20"
+        },
+        {
+          "fxNode": "prop03_3"
+        }
+      ],
+      "engine3": [
+        {
+          "node": "fire4_1"
+        },
+        {
+          "node": "fire4_12"
+        },
+        {
+          "node": "fire4_8"
+        },
+        {
+          "node": "fire4_11"
+        },
+        {
+          "node": "fire4_7"
+        },
+        {
+          "node": "fire4_14"
+        },
+        {
+          "node": "fire4_5"
+        },
+        {
+          "node": "fire4_16"
+        },
+        {
+          "node": "fire4_4"
+        },
+        {
+          "node": "fire4_15"
+        },
+        {
+          "node": "fire4_3"
+        },
+        {
+          "node": "fire4_10"
+        },
+        {
+          "node": "fire4_6"
+        },
+        {
+          "node": "fire4_9"
+        },
+        {
+          "node": "fire4_2"
+        },
+        {
+          "node": "fire4_13"
+        },
+        {
+          "node": "fire4_17"
+        },
+        {
+          "node": "fire4_18"
+        },
+        {
+          "node": "fire4_19"
+        },
+        {
+          "node": "fire4_20"
+        },
+        {
+          "fxNode": "prop03_4"
+        }
+      ],
+      "engine4": [
+        {
+          "node": "fire5_1"
+        },
+        {
+          "node": "fire5_12"
+        },
+        {
+          "node": "fire5_8"
+        },
+        {
+          "node": "fire5_11"
+        },
+        {
+          "node": "fire5_7"
+        },
+        {
+          "node": "fire5_14"
+        },
+        {
+          "node": "fire5_5"
+        },
+        {
+          "node": "fire5_16"
+        },
+        {
+          "node": "fire5_4"
+        },
+        {
+          "node": "fire5_15"
+        },
+        {
+          "node": "fire5_3"
+        },
+        {
+          "node": "fire5_10"
+        },
+        {
+          "node": "fire5_6"
+        },
+        {
+          "node": "fire5_9"
+        },
+        {
+          "node": "fire5_2"
+        },
+        {
+          "node": "fire5_13"
+        },
+        {
+          "node": "fire5_17"
+        },
+        {
+          "node": "fire5_18"
+        },
+        {
+          "node": "fire5_19"
+        },
+        {
+          "node": "fire5_20"
+        },
+        {
+          "fxNode": "prop03_5"
+        }
+      ],
+      "engine5": [
+        {
+          "node": "fire6_1"
+        },
+        {
+          "node": "fire6_12"
+        },
+        {
+          "node": "fire6_8"
+        },
+        {
+          "node": "fire6_11"
+        },
+        {
+          "node": "fire6_7"
+        },
+        {
+          "node": "fire6_14"
+        },
+        {
+          "node": "fire6_5"
+        },
+        {
+          "node": "fire6_16"
+        },
+        {
+          "node": "fire6_4"
+        },
+        {
+          "node": "fire6_15"
+        },
+        {
+          "node": "fire6_3"
+        },
+        {
+          "node": "fire6_10"
+        },
+        {
+          "node": "fire6_6"
+        },
+        {
+          "node": "fire6_9"
+        },
+        {
+          "node": "fire6_2"
+        },
+        {
+          "node": "fire6_13"
+        },
+        {
+          "node": "fire6_17"
+        },
+        {
+          "node": "fire6_18"
+        },
+        {
+          "node": "fire6_19"
+        },
+        {
+          "node": "fire6_20"
+        },
+        {
+          "fxNode": "prop03_6"
+        }
+      ],
+      "slowdownMode": {
+        "effect": {
+          "probability": 0.7,
+          "colorAlpha": [0.95,0.55,0.2,0.25],
+          "fireTimeRange": [0.01,0.02],
+          "scaleRange": [0.3,0.6]
+        }
+      },
+      "startingMode": [
+        {
+          "effect": {
+            "fxName": "part_damage",
+            "colorAlpha": [0.95,0.55,0.2,0.05],
+            "colorVariation": 0.02,
+            "alphaVariation": 0.02,
+            "probability": 0.5,
+            "fireTimeRange": [0.09,0.12],
+            "scaleRange": [0.5,1.3],
+            "maxFxRpm": 70.0
+          }
+        },
+        {
+          "effect": {
+            "fxName": "motor_exhaust_wep",
+            "colorAlpha": [0.95,0.55,0.2,0.05],
+            "colorVariation": 0.02,
+            "alphaVariation": 0.02,
+            "fireTimeRange": [0.09,0.12],
+            "scaleRange": [0.5,1.3],
+            "probability": 1.0,
+            "maxFxRpm": 20.0
+          }
+        }
+      ],
+      "normalMode": {
+        "effect": {
+          "colorAlpha": [0.23,0.6,0.8,0.015],
+          "probability": 0.2,
+          "fireTimeRange": [0.02,0.02],
+          "scaleRange": [0.35,0.4],
+          "alphaVariation": 0.01
+        }
+      },
+      "battleMode": {
+        "effect": {
+          "colorAlpha": [0.7,0.55,0.2,0.04],
+          "probability": 0.2,
+          "fireTimeRange": [0.02,0.02],
+          "scaleRange": [0.35,0.4],
+          "colorVariation": 0.02,
+          "alphaVariation": 0.02
+        }
+      },
+      "wepMode": {
+        "exhaustFx": "motor_wep",
+        "effect": {
+          "colorAlpha": [0.95,0.4,0.15,0.05],
+          "colorVariation": 0.01,
+          "probability": 0.5,
+          "fireTimeRange": [0.01,0.01],
+          "scaleRange": [0.4,0.6],
+          "alphaVariation": 0.04
+        }
+      }
     }
   },
   {
@@ -399,6 +950,361 @@
       "wingLDist": [3.92536,4.92536],
       "tailDist": [10.0,11.0],
       "color": [0.151,0.151,0.151,1.0]
+    }
+  },
+  {
+    "DamageGen": {
+      "engine1_dm": {
+        "mat": "aircooling_engine"
+      },
+      "engine2_dm": {
+        "mat": "aircooling_engine"
+      },
+      "engine3_dm": {
+        "mat": "aircooling_engine"
+      },
+      "engine4_dm": {
+        "mat": "aircooling_engine"
+      },
+      "tail_dm": {
+        "mat": "2x_e_tail_dural_b"
+      },
+      "fuse_dm": {
+        "mat": "2x_e_fuse_t_dural_b"
+      },
+      "fuse1_dm": {
+        "mat": "2x_e_fuse_dural_b"
+      },
+      "fuse2_dm": {
+        "mat": "2x_e_fuse_dural_b"
+      },
+      "wing_r_dm": {
+        "mat": "2x_e_wing_dural_b"
+      },
+      "wing1_r_dm": {
+        "mat": "2x_e_wing_dural_b"
+      },
+      "wing2_r_dm": {
+        "mat": "2x_e_wing_dural_b"
+      },
+      "wing_l_dm": {
+        "mat": "2x_e_wing_dural_b"
+      },
+      "wing1_l_dm": {
+        "mat": "2x_e_wing_dural_b"
+      },
+      "wing2_l_dm": {
+        "mat": "2x_e_wing_dural_b"
+      },
+      "pilot_dm": {
+        "mat": "pilot_steel"
+      },
+      "pilot1_dm": {
+        "mat": "pilot_steel"
+      },
+      "gunner_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner1_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner2_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner3_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner4_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner5_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner6_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner7_dm": {
+        "mat": "gunner_steel"
+      },
+      "gunner8_dm": {
+        "mat": "gunner_steel"
+      },
+      "tank1_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "tank2_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "tank3_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "tank4_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "tank5_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "tank6_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "tank7_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "tank8_dm": {
+        "mat": "2x_e_tank_protected_b"
+      },
+      "gun1_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun2_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun3_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun4_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun5_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun6_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun7_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun8_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun9_dm": {
+        "mat": "gun_armor10"
+      },
+      "gun10_dm": {
+        "mat": "gun_armor10"
+      },
+      "water1_dm": {
+        "mat": "2x_e_water_b"
+      },
+      "water2_dm": {
+        "mat": "2x_e_water_b"
+      },
+      "water3_dm": {
+        "mat": "2x_e_water_b"
+      },
+      "water4_dm": {
+        "mat": "2x_e_water_b"
+      },
+      "water5_dm": {
+        "mat": "2x_e_water_b"
+      },
+      "water6_dm": {
+        "mat": "2x_e_water_b"
+      },
+      "oil1_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "oil2_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "oil3_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "oil4_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "oil5_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "oil6_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "oil7_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "oil8_dm": {
+        "mat": "2x_e_oil_b"
+      },
+      "armor1_dm": {
+        "mat": "armor8_5"
+      },
+      "armor2_dm": {
+        "mat": "armor8_5"
+      },
+      "armor3_dm": {
+        "mat": "armor8_5"
+      },
+      "armor4_dm": {
+        "mat": "armor8_5"
+      },
+      "armor5_dm": {
+        "mat": "armor8_5"
+      },
+      "armor6_dm": {
+        "mat": "armor8_5"
+      },
+      "armor7_dm": {
+        "mat": "armor8_5"
+      },
+      "armor8_dm": {
+        "mat": "armor8_5"
+      },
+      "armor9_dm": {
+        "mat": "armor8_5"
+      },
+      "cover1_dm": {
+        "mat": "cover_dural"
+      },
+      "cover2_dm": {
+        "mat": "cover_dural"
+      },
+      "cover3_dm": {
+        "mat": "cover_dural"
+      },
+      "cover4_dm": {
+        "mat": "cover_dural"
+      },
+      "cover5_dm": {
+        "mat": "cover_dural"
+      },
+      "cover6_dm": {
+        "mat": "cover_dural"
+      },
+      "cover7_dm": {
+        "mat": "cover_dural"
+      },
+      "cover8_dm": {
+        "mat": "cover_dural"
+      },
+      "cover9_dm": {
+        "mat": "cover_dural"
+      },
+      "cannon1_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon2_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon3_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon4_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon5_dm": {
+        "mat": "gun_armor10"
+      },
+      "cannon6_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun1_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun2_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun3_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun4_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun5_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun6_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun7_dm": {
+        "mat": "gun_armor10"
+      },
+      "mgun8_dm": {
+        "mat": "gun_armor10"
+      },
+      "spar_l_dm": {
+        "mat": "2x_e_spar_dural_b"
+      },
+      "spar1_l_dm": {
+        "mat": "2x_e_spar_dural_b"
+      },
+      "spar2_l_dm": {
+        "mat": "2x_e_spar_dural_b"
+      },
+      "spar_r_dm": {
+        "mat": "2x_e_spar_dural_b"
+      },
+      "spar1_r_dm": {
+        "mat": "2x_e_spar_dural_b"
+      },
+      "spar2_r_dm": {
+        "mat": "2x_e_spar_dural_b"
+      },
+      "aileron_l_dm": {
+        "mat": "2x_e_planes_dural_b"
+      },
+      "aileron_r_dm": {
+        "mat": "2x_e_planes_dural_b"
+      },
+      "elevator_dm": {
+        "mat": "2x_e_planes_dural_b"
+      },
+      "rudder_dm": {
+        "mat": "2x_e_planes_dural_b"
+      },
+      "rudder0_dm": {
+        "mat": "2x_e_planes_dural_b"
+      },
+      "rudder1_dm": {
+        "mat": "2x_e_planes_dural_b"
+      },
+      "gear_l_dm": {
+        "mat": "2x_e_gear"
+      },
+      "gear_r_dm": {
+        "mat": "2x_e_gear"
+      },
+      "wingcontrol_dm": {
+        "mat": "2x_e_controls_b"
+      },
+      "wingcontrol_l_dm": {
+        "mat": "2x_e_controls_b"
+      },
+      "wingcontrol_r_dm": {
+        "mat": "2x_e_controls_b"
+      },
+      "tailcontrol_dm": {
+        "mat": "2x_e_controls_b"
+      },
+      "flap_l_dm": {
+        "mat": "2x_e_flap_dural_b"
+      },
+      "flap_r_dm": {
+        "mat": "2x_e_flap_dural_b"
+      },
+      "flap1_l_dm": {
+        "mat": "2x_e_flap_dural_b"
+      },
+      "flap1_r_dm": {
+        "mat": "2x_e_flap_dural_b"
+      },
+      "fin_dm": {
+        "mat": "2x_e_fin_dural_b"
+      },
+      "stab_dm": {
+        "mat": "2x_e_stab_dural_b"
+      },
+      "fin1_dm": {
+        "mat": "2x_e_fin_dural_b"
+      },
+      "stab1_dm": {
+        "mat": "2x_e_stab_dural_b"
+      },
+      "fin2_dm": {
+        "mat": "2x_e_fin_dural_b"
+      },
+      "stab2_dm": {
+        "mat": "2x_e_stab_dural_b"
+      }
     }
   },
   {
@@ -1055,25 +1961,6 @@
       "tailDist": [10.0,11.0],
       "color": [0.151,0.151,0.151,1.0]
     }
-  },
-  {
-    "DamageGen": [
-      {
-        "armor2_dm": {
-          "mat": "armor5"
-        }
-      },
-      {
-        "armor5_dm": {
-          "mat": "armor_glass50"
-        }
-      },
-      {
-        "armor5_dm": {
-          "mat": "armor8"
-        }
-      }
-    ]
   },
   {
     "DamageGen": {
@@ -1910,20 +2797,16 @@
         }
       },
       "armor8_5": {
-        "armor3_dm": {
-          "hp": 40.0
-        },
         "armor6_dm": {
           "hp": 40.0
+        }
+      },
+      "armor5": {
+        "armor10_dm": {
+          "hp": 5.6
         },
-        "armor7_dm": {
-          "hp": 40.0
-        },
-        "armor8_dm": {
-          "hp": 40.0
-        },
-        "armor9_dm": {
-          "hp": 40.0
+        "armor12_dm": {
+          "hp": 66.5
         }
       },
       "armor_engine": {
@@ -2075,7 +2958,7 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "hp": 23.5
+          "hp": 18.9
         },
         "oil2_dm": {
           "hp": 23.5
@@ -2084,7 +2967,7 @@
           "hp": 18.9
         },
         "oil4_dm": {
-          "hp": 18.9
+          "hp": 23.5
         },
         "water1_dm": {
           "hp": 21.0
@@ -2114,13 +2997,13 @@
       },
       "steel_tank_m": {
         "tank1_dm": {
-          "hp": 69.5
+          "hp": 54.5
         },
         "tank2_dm": {
           "hp": 69.5
         },
         "tank3_dm": {
-          "hp": 54.5
+          "hp": 69.5
         },
         "tank4_dm": {
           "hp": 54.5
@@ -2263,7 +3146,12 @@
       },
       {
         "part": {
-          "name": "armor3_dm"
+          "name": "armor10_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "armor12_dm"
         }
       },
       {
@@ -2274,21 +3162,6 @@
       {
         "part": {
           "name": "armor6_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "armor7_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "armor8_dm"
-        }
-      },
-      {
-        "part": {
-          "name": "armor9_dm"
         }
       },
       {
@@ -3086,40 +3959,9 @@
         ]
       },
       {
-        "part": [
-          {
-            "name": "gear_c_dm"
-          },
-          {
-            "onHit": {
-              "damage": 15.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 25.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 40.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 60.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0
-            }
-          }
-        ]
+        "part": {
+          "name": "gear_c_dm"
+        }
       },
       {
         "part": [
