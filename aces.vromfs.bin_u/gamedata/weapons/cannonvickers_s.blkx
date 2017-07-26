@@ -1,0 +1,146 @@
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 10.0,
+  "aimMaxDist": 1000.0,
+  "maxDeltaAngle": 0.32,
+  "shotFreq": 1.666,
+  "traceFreq": 1,
+  "bEnablePause": false,
+  "bullets": 32,
+  "bulletsCluster": 1,
+  "reloadSpeedK": 1.5,
+  "soundLoop": false,
+  "bullet": {
+    "mass": 1.36,
+    "caliber": 0.047,
+    "speed": 570.0,
+    "maxDistance": 3000.0,
+    "bulletType": "ap_t",
+    "hitPowerMult": 45.0,
+    "onHitChanceMultFire": 10.0,
+    "nearHitPower": [1.0,400.0],
+    "midHitPower": [0.7,600.0],
+    "farHitPower": [0.3,1500.0],
+    "endHitPower": [0.01,2000.0],
+    "nearArmorPower": [65.0,300.0],
+    "midArmorPower": [55.0,650.0],
+    "farArmorPower": [42.0,1500.0],
+    "relativeVelArmorShift": [200.0,1000.0],
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "37mmRed",
+      "trail": "black"
+    }
+  },
+  "vickersS_air_target": {
+    "bullet": {
+      "mass": 0.76,
+      "caliber": 0.047,
+      "speed": 730.0,
+      "maxDistance": 3000.0,
+      "selfDestructionInAir": true,
+      "shellExplScale": 0.7,
+      "bulletType": "he_frag_i_t",
+      "hitPowerMult": 2.0,
+      "onHitChanceMultFire": 3.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "groundCollisionEffect": "cannon_air_hit",
+      "groundFxScale": [1.5,1.8],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [3.0,600.0],
+      "farArmorPower": [3.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "fuseDelayDist": 0.4,
+      "explodeTreshold": 0.2,
+      "explodeHitPower": 33.0,
+      "explodeArmorPower": 8.6,
+      "explodeRadius": [0.105,1.05],
+      "shutterDamage": true,
+      "shutterDamageRadius": 3.5,
+      "shutterAmount": 70,
+      "shutterArmorPower": 6.0,
+      "shutterHit": 6.0,
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "37mmLightRed",
+        "trail": "black"
+      }
+    }
+  },
+  "vickersS_armor_target": {
+    "bullet": {
+      "mass": 1.36,
+      "caliber": 0.047,
+      "speed": 570.0,
+      "maxDistance": 3000.0,
+      "bulletType": "ap_t",
+      "hitPowerMult": 45.0,
+      "onHitChanceMultFire": 10.0,
+      "nearHitPower": [1.0,400.0],
+      "midHitPower": [0.7,600.0],
+      "farHitPower": [0.3,1500.0],
+      "endHitPower": [0.01,2000.0],
+      "nearArmorPower": [65.0,300.0],
+      "midArmorPower": [55.0,650.0],
+      "farArmorPower": [42.0,1500.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "37mmRed",
+        "trail": "black"
+      }
+    }
+  },
+  "gunSound": {
+    "path": "sounds/guns",
+    "outside": "vickers_s_gun_outside",
+    "cockpit": "vickers_s_gun_inside",
+    "ai": "/vickers_s_gun_ai"
+  },
+  "overheat": [
+    {
+      "overheat": [6.0,0.0]
+    },
+    {
+      "overheat": [12.0,0.5]
+    },
+    {
+      "overheat": [15.5,0.9]
+    }
+  ],
+  "deviation": [
+    {
+      "deviation": [4.0,5.0]
+    },
+    {
+      "deviation": [12.0,10.0]
+    }
+  ],
+  "vickersS_new_gun": {
+    "maxDeltaAngle": 0.66,
+    "overheat": [
+      {
+        "overheat": [4.0,0.0]
+      },
+      {
+        "overheat": [10.0,0.5]
+      },
+      {
+        "overheat": [12.0,0.9]
+      }
+    ]
+  }
+}

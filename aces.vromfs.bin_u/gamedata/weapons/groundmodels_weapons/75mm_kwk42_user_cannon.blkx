@@ -1,0 +1,203 @@
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 0.1,
+  "aimMaxDist": 2000.0,
+  "maxDeltaAngle": 0.07,
+  "maxDeltaAngleVertical": 0.07,
+  "shotFreq": 0.12,
+  "traceFreq": 4,
+  "bEnablePause": false,
+  "bullets": -1,
+  "bulletsCluster": 1,
+  "fxType": "big_gun_mb_flame",
+  "fxGroundDust": "ground_shock_wave_dust",
+  "shouldCollideWithRendinsts": true,
+  "sound_path": "tanks/weapon_tanks/cannons",
+  "sound": "75mm_kwk42",
+  "sound_inside": "75mm_kwk42_interior",
+  "sfxReloadBullet": "grd_cannon_reload",
+  "fxMultipleSpawn": true,
+  "isBulletBelt": false,
+  "bullet": {
+    "mass": 6.8,
+    "caliber": 0.075,
+    "speed": 935.0,
+    "maxDistance": 10000.0,
+    "bulletCount": 20,
+    "bulletType": "apcbc_tank",
+    "bulletName": "75mm_pzrg_39_42",
+    "onHitChanceMultFire": 2.0,
+    "hitPowerMult": 200.0,
+    "relativeVelHitShift": [300.0,1000.0],
+    "armorFragmentsDamage": true,
+    "armorFragmentsDamageRadius": 3.5,
+    "armorFragmentsDamageAngle": 25.0,
+    "armorFragmentsAmount": 55,
+    "armorFragmentsArmorPower": 5.0,
+    "armorFragmentsHit": 15.0,
+    "relativeVelArmorShift": [200.0,1000.0],
+    "fuseDelayDist": 1.2,
+    "explodeTreshold": 25.0,
+    "explodeHitPower": 70.0,
+    "explodeArmorPower": 10.0,
+    "explodeRadius": [0.3,0.45],
+    "explosionPatchRadius": 0.8,
+    "shutterDamage": true,
+    "shutterDamageRadius": 1.2,
+    "shutterAmount": 30,
+    "shutterArmorPower": 7.0,
+    "shutterHit": 8.0,
+    "groundCollisionEffect": "big_ground_splash",
+    "groundFxScale": [0.9,1.1],
+    "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "big_water_splash",
+    "hitpower": {
+      "HitPower0m": [0.85,500.0],
+      "HitPower10000m": [0.8,10000.0]
+    },
+    "armorpower": {
+      "ArmorPower0m": [187.0,10.0],
+      "ArmorPower100m": [185.0,100.0],
+      "ArmorPower250m": [179.0,250.0],
+      "ArmorPower500m": [168.0,500.0],
+      "ArmorPower750m": [158.0,750.0],
+      "ArmorPower1000m": [149.0,1000.0],
+      "ArmorPower1250m": [140.0,1250.0],
+      "ArmorPower1500m": [132.0,1500.0],
+      "ArmorPower2000m": [116.0,2000.0],
+      "ArmorPower2500m": [103.0,2500.0],
+      "ArmorPower3000m": [91.0,3000.0],
+      "ArmorPower10000m": [5.0,10000.0]
+    },
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "50mmRed",
+      "trail": "black"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_light"
+      },
+      "armor": {
+        "fx": "cannon_hit_armor"
+      }
+    }
+  },
+  "75mm_ger_kwk42_HE": {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 5.74,
+      "caliber": 0.075,
+      "speed": 570.0,
+      "maxDistance": 3000.0,
+      "bulletType": "he_frag_tank",
+      "bulletName": "75mm_sprgr_42",
+      "hitPowerMult": 2.0,
+      "onHitChanceMultFire": 2.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [40.0,150.0],
+      "midArmorPower": [3.0,600.0],
+      "farArmorPower": [3.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.5,
+      "explodeHitPower": 65.0,
+      "explodeArmorPower": 11.0,
+      "explodeRadius": [0.25,0.5],
+      "fuseDelayDist": 0.4,
+      "shutterDamage": true,
+      "shutterDamageRadius": 15.5,
+      "shutterAmount": 115,
+      "shutterArmorPower": 6.0,
+      "shutterHit": 10.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "groundFxScale": [1.4,1.5],
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "50mmBrightRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.0,3.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.0,3.0]
+        }
+      }
+    }
+  },
+  "75mm_ger_kwk42_APCR": {
+    "bullet": {
+      "mass": 4.75,
+      "caliber": 0.075,
+      "speed": 1120.0,
+      "maxDistance": 10000.0,
+      "bulletCount": 20,
+      "bulletType": "apcr_tank",
+      "bulletName": "75mm_pzrg_40_42",
+      "onHitChanceMultFire": 8.0,
+      "hitPowerMult": 170.0,
+      "relativeVelHitShift": [300.0,1000.0],
+      "armorFragmentsDamage": true,
+      "armorFragmentsDamageRadius": 2.0,
+      "armorFragmentsDamageAngle": 20.0,
+      "armorFragmentsAmount": 30,
+      "armorFragmentsArmorPower": 4.0,
+      "armorFragmentsHit": 10.0,
+      "relativeVelArmorShift": [200.0,1000.0],
+      "groundCollisionEffect": "big_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "big_water_splash",
+      "hitpower": {
+        "HitPower0m": [0.8,300.0],
+        "HitPower1000m": [0.7,1000.0],
+        "HitPower1500m": [0.6,1500.0],
+        "HitPower2500m": [0.6,2500.0],
+        "HitPower10000m": [0.5,10000.0]
+      },
+      "armorpower": {
+        "ArmorPower0m": [267.0,10.0],
+        "ArmorPower100m": [265.0,100.0],
+        "ArmorPower250m": [253.0,250.0],
+        "ArmorPower500m": [234.0,500.0],
+        "ArmorPower750m": [216.0,750.0],
+        "ArmorPower1000m": [199.0,1000.0],
+        "ArmorPower1250m": [184.0,1250.0],
+        "ArmorPower1500m": [170.0,1500.0],
+        "ArmorPower2000m": [145.0,2000.0],
+        "ArmorPower2500m": [124.0,2500.0],
+        "ArmorPower3000m": [105.0,3000.0],
+        "ArmorPower10000m": [5.0,10000.0]
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "50mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_light"
+        },
+        "armor": {
+          "fx": "cannon_hit_armor"
+        }
+      }
+    }
+  }
+}

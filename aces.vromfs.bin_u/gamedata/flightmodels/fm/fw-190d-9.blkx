@@ -1,0 +1,479 @@
+{
+  "AileronEffectiveSpeed": 420.0,
+  "RudderEffectiveSpeed": 510.0,
+  "ElevatorsEffectiveSpeed": 510.0,
+  "AileronPowerLoss": 4.1,
+  "RudderPowerLoss": 3.0,
+  "ElevatorPowerLoss": 4.5,
+  "AlphaAileronMin": 0.1,
+  "AlphaRudderMin": 0.4,
+  "AlphaElevatorMin": 0.4,
+  "AllowStrongControlsRestrictions": true,
+  "RudderSens": 0.38,
+  "ElevatorSens": 0.52,
+  "AileronSens": 0.34,
+  "GearActuatorSpeed": 0.2,
+  "WingActuatorSpeed": 0.1,
+  "CockpitDoorSpeed": 0.1,
+  "dvFlapsIn": [150.0,280.0,0.15,0.25],
+  "dvFlapsOut": [150.0,280.0,0.15,0.02],
+  "Wingspan": 10.506,
+  "Length": 10.192,
+  "StabWidth": 3.65,
+  "FinHeight": 1.75,
+  "Crew": 1,
+  "WingAngle": 0.0,
+  "StabAngle": 0.0,
+  "KeelAngle": 0.0,
+  "AileronAngles": [17.0,17.0],
+  "ElevatorAngles": [30.0,25.0],
+  "RudderAngles": [30.0,30.0],
+  "VSlats": [150.0,198.0],
+  "Vne": 920.0,
+  "VneMach": 1.1,
+  "MinimalSpeed": 198.0,
+  "MaxSpeedNearGround": 563.062,
+  "MaxSpeedAtAltitude": 660.0,
+  "MaxSpeedFlaps": 300.0,
+  "MinSpeedFlaps": 130.5,
+  "CriticalSpeed": 50.0,
+  "ArcadeLimitWepMultiplier": 1.7,
+  "ArcadeHelpersSensitivity": 1.0,
+  "EngineForceMultiplier": 1.0,
+  "EngineWepForceMultiplier": 1.1,
+  "MomentOfInertia": [6350.0,10804.0,13950.0],
+  "AvailableControls": {
+    "numFlapsPositions": 3,
+    "hasAileronControl": true,
+    "hasAileronTrimControl": false,
+    "hasAileronTrimGroundControl": true,
+    "hasElevatorControl": true,
+    "hasElevatorTrimControl": true,
+    "hasElevatorTrimGroundControl": false,
+    "hasRudderControl": true,
+    "hasRudderTrimControl": false,
+    "hasRudderTrimGroundControl": true,
+    "hasFlapsControl": true,
+    "hasAirbrake": false,
+    "hasGearControl": true,
+    "hasArrestorControl": false,
+    "hasWingFoldControl": false,
+    "hasCockpitDoorControl": false,
+    "hasWheelBrakeControl": true,
+    "hasLockGearControl": true
+  },
+  "Areas": {
+    "SmallHoleDrag": 0.01,
+    "MediumHoleDrag": 0.02,
+    "BigHoleDrag": 0.04,
+    "SmallHole": 0.0006,
+    "MediumHole": 0.0016,
+    "BigHole": 0.0055,
+    "WingLeftCut": 0.25,
+    "WingRightCut": 0.25,
+    "WingLeftIn": 3.85,
+    "WingLeftMid": 3.1,
+    "WingLeftOut": 2.2,
+    "WingRightIn": 3.85,
+    "WingRightMid": 3.1,
+    "WingRightOut": 2.2,
+    "Aileron": 1.93,
+    "Stabilizer": 1.58,
+    "Elevator": 1.15,
+    "Keel": 1.2,
+    "Rudder": 0.5
+  },
+  "Focus": {
+    "GearShift": -0.5,
+    "Rudder": 5.66,
+    "FocusOffset": -0.02,
+    "WingVertPos": 0.1,
+    "AlphaShift": 0.15,
+    "FlapsShift": 0.14,
+    "WingInFocus": 0.82,
+    "WingMidFocus": 2.7,
+    "WingOutFocus": 4.24,
+    "WingV": 5.3,
+    "Stabilizer": 5.42,
+    "Keel": 5.44,
+    "Fuselage": [-1.0,0.2,0.0],
+    "LeftStab": [-5.7,0.18,1.0],
+    "RightStab": [-5.7,0.18,-1.0],
+    "VertStab": [-5.88,0.74,0.0],
+    "WingVWingFocusMultiplier": 0.0,
+    "SineAOSMultiplier": 0.8
+  },
+  "Aerodynamics": {
+    "GearCd": 0.02,
+    "RadiatorCd": 0.0068,
+    "FuseCd": 0.0,
+    "AirbrakeCd": 0.0,
+    "ClToCmCoeff": 0.015,
+    "UseSpinLoss": true,
+    "SpinClLoss": 0.3,
+    "SpinCdLoss": 0.2,
+    "OswaldsEfficiencyNumber": 0.72,
+    "lineClCoeff": 0.08,
+    "AfterCritParabAngle": 3.0,
+    "AfterCritDeclineCoeff": 0.024,
+    "AfterCritMaxDistanceAngle": 38.0,
+    "ClAfterCrit": 0.4,
+    "NoFlaps": {
+      "Cl0": 0.171,
+      "alphaCritHigh": 16.0,
+      "alphaCritLow": -12.0,
+      "ClCritHigh": 1.45,
+      "ClCritLow": -0.789,
+      "CdMin": 0.013
+    },
+    "FullFlaps": {
+      "Cl0": 0.7,
+      "alphaCritHigh": 16.0,
+      "alphaCritLow": -12.0,
+      "ClCritHigh": 1.58,
+      "ClCritLow": -0.26,
+      "CdMin": 0.06
+    },
+    "Fuselage": {
+      "OswaldsEfficiencyNumber": 1.0,
+      "lineClCoeff": 0.0065,
+      "Cl0": 0.0,
+      "alphaCritHigh": 17.0,
+      "alphaCritLow": -17.0,
+      "ClCritHigh": 0.11,
+      "ClCritLow": -0.11,
+      "CdMin": 0.0062
+    },
+    "Stab": {
+      "OswaldsEfficiencyNumber": 1.0,
+      "lineClCoeff": 0.085,
+      "Cl0": 0.0,
+      "alphaCritHigh": 17.0,
+      "alphaCritLow": -17.0,
+      "ClCritHigh": 1.1,
+      "ClCritLow": -1.1,
+      "CdMin": 0.008,
+      "AfterCritParabAngle": 5.0,
+      "AfterCritDeclineCoeff": 0.007,
+      "AfterCritMaxDistanceAngle": 30.0,
+      "ClAfterCrit": 1.09
+    },
+    "Fin": {
+      "OswaldsEfficiencyNumber": 1.0,
+      "lineClCoeff": 0.085,
+      "Cl0": 0.0,
+      "alphaCritHigh": 17.0,
+      "alphaCritLow": -17.0,
+      "ClCritHigh": 1.1,
+      "ClCritLow": -1.1,
+      "CdMin": 0.004,
+      "AfterCritParabAngle": 5.0,
+      "AfterCritDeclineCoeff": 0.007,
+      "AfterCritMaxDistanceAngle": 30.0,
+      "ClAfterCrit": 1.09
+    }
+  },
+  "Engine0": {
+    "Position": [1.5,-0.1,0.0],
+    "Vector": [1.0,0.0,0.0],
+    "PropPos": [2.91,-0.05,0.0],
+    "Main": {
+      "FuelSystemNum": 0,
+      "Type": "Inline",
+      "Cylinders": 12,
+      "HorsePowers": 1700.0,
+      "CarbueretorType": 2,
+      "Mass": 940.0,
+      "Thrust": 10.7,
+      "ThrottleBoost": 1.01,
+      "AfterburnerBoost": 1.24,
+      "RPMMin": 500.0,
+      "RPMNom": 3000.0,
+      "RPMMax": 3250.0,
+      "RPMMaxAllowed": 3650.0,
+      "FuelConsumptionOnIdle": 0.104,
+      "FuelConsumptionOnHalfThr": 0.184,
+      "FuelConsumptionOnFullThr": 0.214,
+      "FuelConsumptionOnWEP": 0.216,
+      "UseRealReductor": true,
+      "IsAutonomous": true,
+      "ExtinguisherNum": 0,
+      "MaxCarburetorThrMult": 1.0,
+      "IsWaterCooled": true,
+      "OptimalSpeed": 340.0,
+      "EngineInertiaMoment": 1.0,
+      "EngineAcceleration": 3.0,
+      "RPMAmplitude0": [2700.0,5.0],
+      "RPMAmplitude1": [0.0,48.0],
+      "AdvancedJetEngine": false,
+      "ConsumptionOmegaMax": 1.05,
+      "ConsumptionOmegaMinCoeff": 4.9253,
+      "ThrustOmegaMinCoeff": 0.0037,
+      "TurbineTimeConstant": 3.4,
+      "ThrustMax": {
+        "ThrustMax0": 2700.0
+      }
+    },
+    "Propellor": {
+      "AllowAutoProp": false,
+      "IsControllable": true,
+      "HasFeatheringControl": false,
+      "UseAutoPropInertia": false,
+      "Reductor": 0.42,
+      "UseAdvancedProp": true,
+      "NumBlades": 3,
+      "AdvancedPropRadius": 1.75,
+      "PropPhi0": 17.63,
+      "PropWidth0": 0.16,
+      "PropPhi1": 8.67,
+      "PropWidth1": 0.17,
+      "PropPhi2": 0.0,
+      "PropWidth2": 0.16,
+      "PropPhi3": -2.0,
+      "PropWidth3": 0.11,
+      "InertiaMomentCoeff": 0.7,
+      "Diameter": 3.5,
+      "Mass": 210.0,
+      "GovernorType": 8,
+      "GovernorSpeed": 0.1,
+      "GovernorMinParam": 1700.0,
+      "GovernorMaxParam": 3000.0,
+      "GovernorAfterburnerParam": 3250.0,
+      "PhiMin": 22.0,
+      "PhiMax": 56.0,
+      "PhiAlpha0": 11.0,
+      "PhiFeather": 1.55,
+      "Direction": 1,
+      "Polar": {
+        "lineClCoeff": 0.15,
+        "Cl0": 0.025,
+        "alphaCritHigh": 17.0,
+        "alphaCritLow": -10.0,
+        "ClCritHigh": 1.15,
+        "ClCritLow": -0.4,
+        "CdMin": 0.01,
+        "AfterCritParabAngle": 2.0,
+        "AfterCritDeclineCoeff": 0.0222,
+        "AfterCritMaxDistanceAngle": 36.0,
+        "ClAfterCrit": 1.2
+      }
+    },
+    "Afterburner": {
+      "IsControllable": true,
+      "Type": 1,
+      "NitroConsumption": 0.048
+    },
+    "Temperature": {
+      "RadiatorType": 1,
+      "TempChangeSpeed": 0.008,
+      "WaterMaxRPMTemp": 118.0,
+      "OilInMaxRPMTemp": 70.0,
+      "OilOutMaxRPMTemp": 110.0,
+      "OverheatTime": 300.0,
+      "UnderheatTime": 999.0,
+      "WaterMaxTemp": 120.0,
+      "WaterMinTemp": 60.0,
+      "OilMaxTemp": 110.0,
+      "OilMinTemp": 40.0,
+      "EffectiveRadSpeed": 280.0,
+      "IneffectiveRadMult": 1.0
+    },
+    "Compressor": {
+      "IsControllable": false,
+      "Type": 2,
+      "NumSteps": 2,
+      "RPM0": 500.0,
+      "ATA0": 0.45,
+      "RPM1": 3000.0,
+      "ATA1": 1.6,
+      "RPM2": 3200.0,
+      "ATA2": 1.8,
+      "Altitude0": 2700.0,
+      "Multiplier0": 1.04,
+      "Altitude1": 6000.0,
+      "Multiplier1": 0.97,
+      "AfterburnerCompressionFactor": 1.22,
+      "SpeedManifoldMultiplier": 0.45,
+      "CompressorTurboExtMult": 0.99,
+      "CompressorTurboCompMult": 0.1,
+      "CompressorPressureAtRPM0": 0.55
+    },
+    "Mixer": {
+      "IsControllable": false,
+      "Type": 0,
+      "AltitudePressureToP0": 0.4352
+    },
+    "Controls": {
+      "hasThrottleControl": true,
+      "hasMagnetoControl": true,
+      "hasRadiatorControl": true
+    }
+  },
+  "Mass": {
+    "EmptyMass": 3584.0,
+    "MaxFuelMass0": 370.0,
+    "MaxNitro": 87.0,
+    "OilMass": 49.0,
+    "AdvancedMass": false,
+    "Takeoff": 4840.0,
+    "CenterOfGravity": [0.0,0.0,0.0],
+    "WingCritOverload": [-291357.0,291357.0],
+    "Parts": {
+      "fuse_dm": 172.742,
+      "tail_dm": 85.8237,
+      "wing_l_dm": 164.51,
+      "wing_r_dm": 164.51,
+      "tailcontrol_dm": 12.7307,
+      "stab_dm": 82.0648,
+      "elevator_dm": 45.1222,
+      "wingcontrol_l_dm": 7.2345,
+      "cover2_dm": 56.3031,
+      "wingcontrol_r_dm": 7.0477,
+      "fuse1_dm": 229.74,
+      "flap_r_dm": 48.7668,
+      "flap_l_dm": 48.7668,
+      "spar_l_dm": 28.3435,
+      "spar_r_dm": 28.3435,
+      "wing1_l_dm": 117.578,
+      "wing1_r_dm": 117.578,
+      "cover1_dm": 122.649,
+      "aileron_r_dm": 43.2243,
+      "aileron_l_dm": 43.2243,
+      "wing2_l_dm": 93.0686,
+      "wing2_r_dm": 93.0686,
+      "cannon2_dm": 35.4058,
+      "cannon1_dm": 14.8299,
+      "spar1_l_dm": 15.1355,
+      "spar1_r_dm": 15.1355,
+      "gear_r_dm": 29.1034,
+      "gear_l_dm": 29.1034,
+      "rudder_dm": 36.5048,
+      "fin_dm": 39.9195,
+      "spar2_r_dm": 10.5511,
+      "spar2_l_dm": 10.5511,
+      "armor5_dm": 46.5106,
+      "mgun2_dm": 20.4352,
+      "mgun1_dm": 20.4352,
+      "pilot_dm": 50.5275,
+      "water1_dm": 44.1653,
+      "armor2_dm": 24.5525,
+      "armor4_dm": 64.4628,
+      "armor1_dm": 27.6912,
+      "oil1_dm": 17.0957,
+      "armor3_dm": 8.6141
+    },
+    "PartsWithSurface": {
+      "armor6_dm": 44.8604,
+      "cover4_dm": 4.3593,
+      "cover3_dm": 4.3593,
+      "armor7_dm": 6.3549
+    }
+  },
+  "SelfSealingTanks": {
+    "tank1_dm": true,
+    "tank2_dm": true,
+    "tank3_dm": true,
+    "tank4_dm": true,
+    "tank5_dm": true,
+    "tank6_dm": true,
+    "tank7_dm": true,
+    "tank8_dm": true
+  },
+  "Gear": {
+    "SinkFactor": 1200.0,
+    "WaterFriction": 1.0,
+    "FrontalSpringsHeight": 0.3,
+    "TailSpringsHeight": 0.1,
+    "FrontalSpringsCoeff": 429857.0,
+    "TailSpringsCoeff": 429857.0,
+    "HasWheels": true,
+    "LeftWheelRadius": 0.35,
+    "RightWheelRadius": 0.35,
+    "CenterWheelRadius": 0.167,
+    "Height": 1.8,
+    "Pitch": 13.0,
+    "Floats": false
+  },
+  "Passport": {
+    "unitSystem": "Metric",
+    "mass": 4270.0,
+    "Alt": [
+      {
+        "stallSpeed": [1000.0,179.0]
+      },
+      {
+        "maxSpeedNom": [0.0,568.0]
+      },
+      {
+        "maxSpeedNom": [1000.0,588.0]
+      },
+      {
+        "maxSpeedNom": [2000.0,608.0]
+      },
+      {
+        "maxSpeedNom": [3300.0,635.0]
+      },
+      {
+        "maxSpeedNom": [3800.0,635.0]
+      },
+      {
+        "maxSpeedNom": [6700.0,689.0]
+      },
+      {
+        "maxSpeedNom": [8000.0,674.0]
+      },
+      {
+        "maxSpeedNom": [10000.0,640.0]
+      },
+      {
+        "maxSpeedWep": [0.0,621.0]
+      },
+      {
+        "maxSpeedWep": [500.0,630.0]
+      },
+      {
+        "maxSpeedWep": [1000.0,640.0]
+      },
+      {
+        "maxSpeedWep": [2200.0,660.0]
+      },
+      {
+        "maxSpeedWep": [2700.0,660.0]
+      },
+      {
+        "maxSpeedWep": [5500.0,710.0]
+      },
+      {
+        "maxSpeedWep": [8000.0,680.0]
+      },
+      {
+        "maxSpeedWep": [10000.0,648.0]
+      },
+      {
+        "minClimbTimeNom": [2000.0,114.0]
+      },
+      {
+        "minClimbTimeNom": [4000.0,240.0]
+      },
+      {
+        "minClimbTimeNom": [6000.0,378.0]
+      },
+      {
+        "minClimbTimeNom": [8000.0,558.0]
+      },
+      {
+        "minClimbTimeWep": [2000.0,90.0]
+      },
+      {
+        "minClimbTimeWep": [4000.0,192.0]
+      },
+      {
+        "minClimbTimeWep": [6000.0,297.0]
+      },
+      {
+        "minClimbTimeWep": [8000.0,430.0]
+      }
+    ],
+    "IAS": []
+  }
+}

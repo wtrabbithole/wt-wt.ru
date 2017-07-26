@@ -1,0 +1,408 @@
+{
+  "tank_common_1x": {
+    "hpMin": 30.0,
+    "hpMax": 40.0,
+    "hpPerSq": 40.0,
+    "armor_type": "steel_tank_s",
+    "effects": {
+      "onHit": {
+        "leak": 0.05,
+        "fire": 0.025
+      },
+      "onKill": {
+        "expl": 0.1,
+        "fire": 0.9,
+        "leak": 2.0,
+        "nothing": 3.0
+      }
+    }
+  },
+  "tank_common_2-4x": {
+    "hpMin": 50.0,
+    "hpMax": 60.0,
+    "hpPerSq": 40.0,
+    "armor_type": "steel_tank_m",
+    "effects": {
+      "onHit": {
+        "leak": 0.05,
+        "fire": 0.025
+      },
+      "onKill": {
+        "expl": 0.1,
+        "fire": 0.9,
+        "leak": 2.0,
+        "nothing": 3.0
+      }
+    }
+  },
+  "1x_e_tank_protected_l_f": {
+    "hpMin": 24.5,
+    "hpMax": 55.5,
+    "hpPerSq": 19.1,
+    "armor_type": "steel_tank_light",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_tank_l_f.blk"
+    }
+  },
+  "1x_e_tank_unprotected_l_f": {
+    "hpMin": 214.5,
+    "hpMax": 55.5,
+    "hpPerSq": 19.1,
+    "armor_type": "steel_tank_light",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_tank_l_f.blk"
+    }
+  },
+  "1x_e_tank_armored_f": {
+    "hpMin": 39.5,
+    "hpMax": 70.5,
+    "hpPerSq": 19.1,
+    "armor_type": "steel_tank_armor",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_tank_f.blk"
+    }
+  },
+  "1x_e_tank_protected_boost_f": {
+    "hpMin": 39.5,
+    "hpMax": 70.5,
+    "hpPerSq": 19.1,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_boost_tank_f.blk"
+    }
+  },
+  "1x_e_tank_protected_f": {
+    "hpMin": 39.5,
+    "hpMax": 70.5,
+    "hpPerSq": 19.1,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_tank_f.blk"
+    }
+  },
+  "1x_e_main_tank_protected_f": {
+    "hpMin": 39.5,
+    "hpMax": 70.5,
+    "hpPerSq": 19.1,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_tank_f.blk"
+    }
+  },
+  "1x_e_tank_unprotected_f": {
+    "hpMin": 39.5,
+    "hpMax": 70.5,
+    "hpPerSq": 19.1,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_unprotected_tank_f.blk"
+    }
+  },
+  "1x_e_tank_protected_boost_a": {
+    "hpMin": 39.5,
+    "hpMax": 75.5,
+    "hpPerSq": 19.18,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_boost_tank_a.blk"
+    }
+  },
+  "1x_e_tank_protected_a": {
+    "hpMin": 39.5,
+    "hpMax": 75.5,
+    "hpPerSq": 19.18,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_tank_a.blk"
+    }
+  },
+  "1x_e_tank_unprotected_a": {
+    "hpMin": 39.5,
+    "hpMax": 75.5,
+    "hpPerSq": 19.18,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_unprotected_tank_a.blk"
+    }
+  },
+  "1x_e_tank_protected_boost_b": {
+    "hpMin": 39.5,
+    "hpMax": 80.5,
+    "hpPerSq": 16.1,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_boost_tank_b.blk"
+    }
+  },
+  "1x_e_tank_protected_b": {
+    "hpMin": 39.5,
+    "hpMax": 80.5,
+    "hpPerSq": 16.1,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_protected_tank_b.blk"
+    }
+  },
+  "1x_e_tank_unprotected_b": {
+    "hpMin": 39.5,
+    "hpMax": 80.5,
+    "hpPerSq": 16.1,
+    "armor_type": "steel_tank_s",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/1x_e_unprotected_tank_b.blk"
+    }
+  },
+  "2x_e_tank_protected_boost_f": {
+    "hpMin": 44.5,
+    "hpMax": 75.5,
+    "hpPerSq": 16.3,
+    "armor_type": "steel_tank_m",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/2x_e_protected_boost_tank_f.blk"
+    }
+  },
+  "2x_e_tank_protected_f": {
+    "hpMin": 44.5,
+    "hpMax": 75.5,
+    "hpPerSq": 16.3,
+    "armor_type": "steel_tank_m",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/2x_e_protected_tank_f.blk"
+    }
+  },
+  "2x_e_tank_unprotected_f": {
+    "hpMin": 44.5,
+    "hpMax": 75.5,
+    "hpPerSq": 16.3,
+    "armor_type": "steel_tank_m",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/2x_e_unprotected_tank_f.blk"
+    }
+  },
+  "2x_e_tank_protected_boost_a": [
+    {
+      "hpMin": 54.5
+    },
+    {
+      "hpMin": 80.5
+    },
+    {
+      "hpPerSq": 14.6
+    },
+    {
+      "armor_type": "steel_tank_m"
+    },
+    {
+      "collisionDamageMult": 0.0
+    },
+    {
+      "explosionDamageMult": 0.3
+    },
+    {
+      "effects": {
+        "inclink": "../dm_effects/tank/2x_e_protected_boost_tank_a.blk"
+      }
+    }
+  ],
+  "2x_e_tank_protected_a": [
+    {
+      "hpMin": 54.5
+    },
+    {
+      "hpMin": 80.5
+    },
+    {
+      "hpPerSq": 14.6
+    },
+    {
+      "armor_type": "steel_tank_m"
+    },
+    {
+      "collisionDamageMult": 0.0
+    },
+    {
+      "explosionDamageMult": 0.3
+    },
+    {
+      "effects": {
+        "inclink": "../dm_effects/tank/2x_e_protected_tank_a.blk"
+      }
+    }
+  ],
+  "2x_e_tank_unprotected_a": [
+    {
+      "hpMin": 54.5
+    },
+    {
+      "hpMin": 80.5
+    },
+    {
+      "hpPerSq": 14.6
+    },
+    {
+      "armor_type": "steel_tank_m"
+    },
+    {
+      "collisionDamageMult": 0.0
+    },
+    {
+      "explosionDamageMult": 0.3
+    },
+    {
+      "effects": {
+        "inclink": "../dm_effects/tank/2x_e_unprotected_tank_a.blk"
+      }
+    }
+  ],
+  "2x_e_tank_protected_boost_b": [
+    {
+      "hpMin": 54.5
+    },
+    {
+      "hpMin": 95.5
+    },
+    {
+      "hpPerSq": 9.3
+    },
+    {
+      "armor_type": "steel_tank_m"
+    },
+    {
+      "collisionDamageMult": 0.0
+    },
+    {
+      "explosionDamageMult": 0.3
+    },
+    {
+      "effects": {
+        "inclink": "../dm_effects/tank/2x_e_protected_boost_tank_b.blk"
+      }
+    }
+  ],
+  "2x_e_tank_protected_b": [
+    {
+      "hpMin": 54.5
+    },
+    {
+      "hpMin": 95.5
+    },
+    {
+      "hpPerSq": 9.3
+    },
+    {
+      "armor_type": "steel_tank_m"
+    },
+    {
+      "collisionDamageMult": 0.0
+    },
+    {
+      "explosionDamageMult": 0.3
+    },
+    {
+      "effects": {
+        "inclink": "../dm_effects/tank/2x_e_protected_tank_b.blk"
+      }
+    }
+  ],
+  "2x_e_tank_unprotected_b": [
+    {
+      "hpMin": 54.5
+    },
+    {
+      "hpMin": 95.5
+    },
+    {
+      "hpPerSq": 9.3
+    },
+    {
+      "armor_type": "steel_tank_m"
+    },
+    {
+      "collisionDamageMult": 0.0
+    },
+    {
+      "explosionDamageMult": 0.3
+    },
+    {
+      "effects": {
+        "inclink": "../dm_effects/tank/2x_e_unprotected_tank_b.blk"
+      }
+    }
+  ],
+  "4x_e_tank_protected_boost_b": {
+    "hpMin": 69.5,
+    "hpMax": 120.5,
+    "hpPerSq": 8.4,
+    "armor_type": "steel_tank_l",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/4x_e_protected_boost_tank_b.blk"
+    }
+  },
+  "4x_e_tank_protected_b": {
+    "hpMin": 69.5,
+    "hpMax": 120.5,
+    "hpPerSq": 8.4,
+    "armor_type": "steel_tank_l",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/4x_e_protected_tank_b.blk"
+    }
+  },
+  "4x_e_tank_unprotected_b": {
+    "hpMin": 69.5,
+    "hpMax": 120.5,
+    "hpPerSq": 8.4,
+    "armor_type": "steel_tank_l",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/4x_e_unprotected_tank_b.blk"
+    }
+  },
+  "jet_protected_tank": {
+    "hpMin": 39.5,
+    "hpMax": 120.5,
+    "hpPerSq": 16.1,
+    "armor_type": "steel_tank_armor",
+    "collisionDamageMult": 0.0,
+    "explosionDamageMult": 0.3,
+    "effects": {
+      "inclink": "../dm_effects/tank/_jet_protected_tank.blk"
+    }
+  }
+}

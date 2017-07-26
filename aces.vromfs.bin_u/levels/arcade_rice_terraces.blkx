@@ -1,0 +1,164 @@
+{
+  "mapCoord0": [-16384.0,-16384.0],
+  "mapCoord1": [16384.0,16384.0],
+  "minAreaSize": [6000.0,6000.0],
+  "aiMapCoord0": [-16384.0,-16384.0],
+  "aiMapCoord1": [16384.0,16384.0],
+  "water_level": 0.0,
+  "numBorderCellsXPos": 4,
+  "numBorderCellsXNeg": 4,
+  "numBorderCellsZPos": 0,
+  "numBorderCellsZNeg": 4,
+  "mirrorShrinkXPos": 64.0,
+  "mirrorShrinkXNeg": 64.0,
+  "mirrorShrinkZPos": 64.0,
+  "mirrorShrinkZNeg": 64.0,
+  "gridSteps": [3250.0,3250.0],
+  "weatherPreset": "gameData/environments/weather_preset_1.blk",
+  "weatherTypes": "gameData/environments/weather_types.blk",
+  "lastclip_horizon": true,
+  "earth": {
+    "earthWorldEnabled": true,
+    "earthWorldMin": [-16384.0,-16384.0],
+    "earthWorldMax": [16384.0,98304.0]
+  },
+  "weather": {
+    "cloudsOffsetBase": 300.0,
+    "cloudsOffsetFrom": 20000.0,
+    "cloudsOffsetTo": 40000.0,
+    "minCloudBaseKm": 0.9,
+    "minHazeBaseKm": -50.0,
+    "layered_fog_density_mul": 1.0,
+    "layered_fog_height_mul": 3.0
+  },
+  "shader_vars": {
+    "water": {
+      "water_sparkles_fade_from": 1000.0,
+      "water_sparkles_fade_to": 24000.0,
+      "water3d_min_fresnel": 0.12,
+      "water_reflection_color": "#e8efff00",
+      "water_color_tex_scale_x": 8000.0,
+      "water_color_tex_scale_y": 12000.0,
+      "water_shore_blending_min_height": 2.0,
+      "water_depth_to_opacity_exp_base": 0.989,
+      "water_color": [0.18,0.2,0.21,1.0],
+      "water_color_light_loss": [0.915,0.96,0.95,1.0],
+      "shore_start_wave_depth": 50.0,
+      "shore_waves_count": 4.0
+    }
+  },
+  "water_3d": {
+    "magnitude1": 2.0,
+    "heightmapStep1": 2.0,
+    "speed1": [-20.0,0.0],
+    "magnitude2": 1.0,
+    "heightmapStep2": 1.0,
+    "speed2": [-5.0,5.0],
+    "LODCoefficient": 17.0,
+    "LODAddedTerm": 0.0,
+    "morphStart": 0.7,
+    "heightmap": "water_hm_a",
+    "colorTex": "underocean_honolulu",
+    "color": [0.5,0.5,0.5],
+    "scaleTex": "underocean_scale",
+    "scaleTexCoord0": [-18656.0,-33600.0],
+    "scaleTexCoord1": [46880.0,31936.0]
+  },
+  "randomGrass": [
+    {
+      "rice_terraces_fields_a": "alps_fields_a_tex_m"
+    },
+    {
+      "rice_terraces_fields_c": "rice_terraces_fields_b_tex_m"
+    },
+    {
+      "rice_terraces_fields_b": "alps_fields_a_tex_m"
+    },
+    {
+      "rice_terraces_jungle_a": "florida_island_jungle_b_tex_m"
+    },
+    {
+      "layer": {
+        "maskChannel": [0.0,0.0,1.0,0.0],
+        "res": "grass_scatter_a_3",
+        "density": 0.3,
+        "horScale": 7.0,
+        "verScale": 10.0,
+        "windMul": 0.05,
+        "color_mask_r_from": "#63671b7f",
+        "color_mask_r_to": "#c286547f",
+        "color_mask_b_from": "#e2bf347f",
+        "color_mask_b_to": "#c8a64d7f",
+        "color_mask_g_from": "#021836ff",
+        "color_mask_g_to": "#f7f2baff"
+      }
+    },
+    {
+      "layer": {
+        "maskChannel": [0.0,0.0,1.0,0.0],
+        "res": "grass_scatter_a_2",
+        "density": 0.55,
+        "horScale": 6.0,
+        "verScale": 8.0,
+        "windMul": 0.05,
+        "color_mask_r_from": "#ffc01c7f",
+        "color_mask_r_to": "#cb94217f",
+        "color_mask_b_from": "#6a792d7f",
+        "color_mask_b_to": "#977e3e7f",
+        "color_mask_g_from": "#021836ff",
+        "color_mask_g_to": "#f7f2baff"
+      }
+    },
+    {
+      "layer": {
+        "maskChannel": [1.0,0.0,0.0,0.0],
+        "res": "grass_scatter_b_2",
+        "density": 1.0,
+        "horScale": 3.0,
+        "verScale": 3.0,
+        "windMul": 0.05,
+        "color_mask_r_from": "#ffc01c7f",
+        "color_mask_r_to": "#cb94217f",
+        "color_mask_b_from": "#6a792d7f",
+        "color_mask_b_to": "#977e3e7f",
+        "color_mask_g_from": "#021836ff",
+        "color_mask_g_to": "#f7f2baff"
+      }
+    },
+    {
+      "layer": {
+        "maskChannel": [0.0,1.0,0.0,0.0],
+        "res": "grass_scatter_b_1",
+        "density": 2.0,
+        "horScale": 1.0,
+        "verScale": 3.0,
+        "windMul": 0.05,
+        "color_mask_r_from": "#ffecbb7f",
+        "color_mask_r_to": "#ffdc177f",
+        "color_mask_b_from": "#6a792d7f",
+        "color_mask_b_to": "#344b127f",
+        "color_mask_g_from": "#021836ff",
+        "color_mask_g_to": "#f7f2baff"
+      }
+    },
+    {
+      "layer": {
+        "maskChannel": [1.0,1.0,1.0,0.0],
+        "res": "grass_scatter_a_3",
+        "density": 5.0,
+        "horScale": 2.0,
+        "verScale": 3.0,
+        "windMul": 0.05,
+        "color_mask_r_from": "#63671b7f",
+        "color_mask_r_to": "#c286547f",
+        "color_mask_b_from": "#e2bf347f",
+        "color_mask_b_to": "#c8a64d7f",
+        "color_mask_g_from": "#021836ff",
+        "color_mask_g_to": "#f7f2baff"
+      }
+    }
+  ],
+  "technicsSkins": {
+    "groundSkin": "sand"
+  }
+}

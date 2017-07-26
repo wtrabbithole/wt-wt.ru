@@ -1,0 +1,692 @@
+{
+  "__scheme": "../../../../skyquake/tools/weather_scheme.nut",
+  "common": {
+    "condensation_type": "rain",
+    "water": {
+      "layered_fog_min_height": -10.0,
+      "layered_fog_max_height": 400.0,
+      "layered_fog_density": 0.01,
+      "cloud_shadow_intensity": 0.8,
+      "water_sparkles_fade_from": 5000.0,
+      "water_sparkles_fade_to": 24000.0,
+      "water3d_min_fresnel": 0.18,
+      "water_reflection_color": "#d7f5ff00",
+      "water_surface_refraction_color": "#01190800",
+      "water_color_tex_scale_x": 8000.0,
+      "water_color_tex_scale_y": 12000.0,
+      "water_color_tex_offset_x": 0.0,
+      "water_color_tex_offset_y": 0.0,
+      "water_foam_tiling_scale_bank": 3.0,
+      "water_foam_tiling_scale_wash": 10.0,
+      "water_level": 0.0
+    },
+    "hdr": {
+      "useAdaptation": true,
+      "adaptationTimeHighToNorm": 0.2,
+      "adaptationTimeNormToHigh": 1.3
+    },
+    "DemonPostFx": {
+      "use": true,
+      "showAlpha": false,
+      "glowPower": 100.0,
+      "glowRadius": 0.05,
+      "darkThreshold": 1.0,
+      "darkCurve": 1.0,
+      "darkMultiplier": 0.0,
+      "useBetterGlow": true,
+      "glowFadeK": 2.0,
+      "glowEdgeK": 0.0,
+      "glowAngleU": 44.0,
+      "glowAngleV": 144.0,
+      "useRawSkyMask": true,
+      "starGlow": {
+        "numRays": 3,
+        "alphaThreshold": 0.99,
+        "defaultRayParams": {
+          "radius": 0.2,
+          "power": 1.0,
+          "fadeK": [5.0,1.5,0.0],
+          "color": "#ffd296ff"
+        },
+        "ray01": {
+          "angle": 99.0,
+          "useCustom": false,
+          "radius": 0.05,
+          "power": 2.0,
+          "fadeK": [2.0,2.0,1.0],
+          "color": "#ffffffff"
+        },
+        "ray02": {
+          "angle": 39.0,
+          "useCustom": false,
+          "radius": 0.1,
+          "power": 4.0,
+          "fadeK": [2.0,2.0,1.0],
+          "color": "#ffffffff"
+        },
+        "ray03": {
+          "angle": -21.0,
+          "useCustom": false,
+          "radius": 0.1,
+          "power": 4.0,
+          "fadeK": [2.0,2.0,1.0],
+          "color": "#ffffffff"
+        },
+        "ray04": {
+          "angle": 0.0,
+          "useCustom": true,
+          "radius": 0.15,
+          "power": 1.0,
+          "fadeK": [2.0,2.0,1.0],
+          "color": "#ffffffff"
+        }
+      }
+    }
+  },
+  "simul": {
+    "dawn": [0.697,0.697],
+    "morning": [0.733,0.733],
+    "day": [0.825,0.825],
+    "noon": [0.96,0.96],
+    "evening": [0.221,0.221],
+    "dusk": [0.236,0.236],
+    "night": [0.475,0.475],
+    "mieAsymmetry": 0.55,
+    "sequence": {
+      "name": "gameData/environments/pacific_summer_d.seq"
+    }
+  },
+  "timed": {
+    "collimator_lighting_intensity": [
+      {
+        "type": "curve"
+      },
+      {
+        "point": [0.2,1.0]
+      },
+      {
+        "point": [0.22,0.5]
+      },
+      {
+        "point": [0.47,0.25]
+      },
+      {
+        "point": [0.71,1.0]
+      },
+      {
+        "point": [0.8,1.0]
+      }
+    ],
+    "cockpit_lighting_color": [
+      {
+        "type": "gradient"
+      },
+      {
+        "value": {
+          "x": 0.2,
+          "color": "#0f0f07ff"
+        }
+      },
+      {
+        "value": {
+          "x": 0.22,
+          "color": "#00000000"
+        }
+      },
+      {
+        "value": {
+          "x": 0.47,
+          "color": "#000000ff"
+        }
+      },
+      {
+        "value": {
+          "x": 0.71,
+          "color": "#0e0e0bff"
+        }
+      },
+      {
+        "value": {
+          "x": 0.8,
+          "color": "#0f0f07ff"
+        }
+      }
+    ],
+    "simul": {
+      "ground_fake_fog_dist_mul": [
+        {
+          "type": "curve_p2"
+        },
+        {
+          "point": [0.2,1.0,1.0]
+        },
+        {
+          "point": [0.22,1.0,1.0]
+        },
+        {
+          "point": [0.47,1.0,1.0]
+        },
+        {
+          "point": [0.71,1.3,1.5]
+        },
+        {
+          "point": [0.2,1.0,1.0]
+        }
+      ],
+      "rayleigh": [
+        {
+          "type": "gradient_p4"
+        },
+        {
+          "value": {
+            "x": 0.2,
+            "val": [0.00695,0.0118,0.0244,0.0]
+          }
+        },
+        {
+          "value": {
+            "x": 0.22,
+            "val": [0.00795,0.0128,0.0244,0.0]
+          }
+        },
+        {
+          "value": {
+            "x": 0.47,
+            "val": [0.00695,0.0118,0.0244,0.0]
+          }
+        },
+        {
+          "value": {
+            "x": 0.71,
+            "val": [0.00605,0.0108,0.0244,0.0]
+          }
+        },
+        {
+          "value": {
+            "x": 0.2,
+            "val": [0.00695,0.0118,0.0244,0.0]
+          }
+        }
+      ],
+      "sun_reflection_power": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.2,400.0]
+        },
+        {
+          "point": [0.22,60.0]
+        },
+        {
+          "point": [0.47,60.0]
+        },
+        {
+          "point": [0.71,70.0]
+        },
+        {
+          "point": [0.2,400.0]
+        }
+      ],
+      "water_sun_reflection_brightness": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.2,1.0]
+        },
+        {
+          "point": [0.22,3.0]
+        },
+        {
+          "point": [0.47,1.0]
+        },
+        {
+          "point": [0.71,3.0]
+        },
+        {
+          "point": [0.2,1.0]
+        }
+      ],
+      "sunMul": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.2,0.08]
+        },
+        {
+          "point": [0.22,0.08]
+        },
+        {
+          "point": [0.47,0.005]
+        },
+        {
+          "point": [0.71,0.08]
+        },
+        {
+          "point": [0.2,0.08]
+        }
+      ],
+      "skyMul": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.2,1.0]
+        },
+        {
+          "point": [0.22,1.0]
+        },
+        {
+          "point": [0.47,0.5]
+        },
+        {
+          "point": [0.71,1.0]
+        },
+        {
+          "point": [0.2,1.0]
+        }
+      ],
+      "directLight": {
+        "type": "curve",
+        "point": [0.2,1.1]
+      },
+      "indirectLight": {
+        "type": "curve",
+        "point": [0.2,1.4]
+      },
+      "ambientLight": {
+        "type": "curve",
+        "point": [0.2,1.0]
+      },
+      "skyExtinction": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.2,1.0]
+        },
+        {
+          "point": [0.22,1.2]
+        },
+        {
+          "point": [0.47,4.2]
+        },
+        {
+          "point": [0.71,1.2]
+        },
+        {
+          "point": [0.2,1.0]
+        }
+      ],
+      "integrateSkyDistanceKm": {
+        "type": "curve",
+        "point": [0.2,1000.0]
+      },
+      "sun_brightness": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.2,0.005]
+        },
+        {
+          "point": [0.22,0.005]
+        },
+        {
+          "point": [0.47,0.005]
+        },
+        {
+          "point": [0.71,0.005]
+        },
+        {
+          "point": [0.2,0.005]
+        }
+      ],
+      "sun_color": [
+        {
+          "type": "gradient"
+        },
+        {
+          "value": {
+            "x": 0.22,
+            "color": "#8c5a0aff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.47,
+            "color": "#ffffffff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.71,
+            "color": "#ffffffff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.82,
+            "color": "#ffffffff"
+          }
+        }
+      ]
+    },
+    "enable_cockpit_illumination": [
+      {
+        "type": "curve"
+      },
+      {
+        "point": [0.0,0.0]
+      },
+      {
+        "point": [0.22,0.51]
+      },
+      {
+        "point": [0.47,1.0]
+      },
+      {
+        "point": [0.71,0.51]
+      },
+      {
+        "point": [0.8,0.0]
+      }
+    ],
+    "L_inv_white": [
+      {
+        "type": "curve"
+      },
+      {
+        "point": [0.2,0.3]
+      },
+      {
+        "point": [0.22,0.3]
+      },
+      {
+        "point": [0.47,0.1]
+      },
+      {
+        "point": [0.71,0.3]
+      },
+      {
+        "point": [0.8,0.3]
+      }
+    ],
+    "sun_radius": [
+      {
+        "type": "curve"
+      },
+      {
+        "point": [0.2,0.01]
+      },
+      {
+        "point": [0.22,0.02]
+      },
+      {
+        "point": [0.47,0.001]
+      },
+      {
+        "point": [0.71,0.02]
+      },
+      {
+        "point": [0.2,0.01]
+      }
+    ],
+    "fog_color_sky": [
+      {
+        "type": "gradient_srgb_2x"
+      },
+      {
+        "value": {
+          "x": 0.2,
+          "val": [0.2353,0.6275,1.0,0.118]
+        }
+      },
+      {
+        "value": {
+          "x": 0.22,
+          "val": [0.2353,0.6275,1.0,0.4314]
+        }
+      },
+      {
+        "value": {
+          "x": 0.47,
+          "val": [0.2353,0.6275,1.0,0.118]
+        }
+      },
+      {
+        "value": {
+          "x": 0.71,
+          "val": [0.2353,0.6275,1.0,0.4314]
+        }
+      },
+      {
+        "value": {
+          "x": 0.8,
+          "val": [0.2353,0.6275,1.0,0.118]
+        }
+      }
+    ],
+    "specular_detect_power": {
+      "type": "curve",
+      "point": [0.0,1.0]
+    },
+    "rendinst_specular_power": {
+      "type": "curve",
+      "point": [0.0,10.0]
+    },
+    "aircraft_specular_power": {
+      "type": "curve",
+      "point": [0.0,200.0]
+    },
+    "aircraft_specular_color_mul": {
+      "type": "curve",
+      "point": [0.0,6.0]
+    },
+    "propeller_specular_power": {
+      "type": "curve",
+      "point": [0.0,30.0]
+    },
+    "propeller_specular_color_mul": {
+      "type": "curve",
+      "point": [0.0,10.0]
+    },
+    "glass_specular_power": {
+      "type": "curve",
+      "point": [0.0,200.0]
+    },
+    "glass_specular_color_mul": {
+      "type": "curve",
+      "point": [0.0,10.0]
+    },
+    "lmesh_specular_power": [
+      {
+        "type": "curve"
+      },
+      {
+        "point": [0.2,30.0]
+      },
+      {
+        "point": [0.22,4.0]
+      },
+      {
+        "point": [0.47,5.0]
+      },
+      {
+        "point": [0.71,6.0]
+      },
+      {
+        "point": [0.2,30.0]
+      }
+    ],
+    "specular_detect_land_color": {
+      "type": "gradient",
+      "value": {
+        "x": 0.1,
+        "color": "#32c80a00"
+      }
+    },
+    "hdr": {
+      "adaptationMultiplier": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.1,0.55]
+        },
+        {
+          "point": [0.22,0.55]
+        },
+        {
+          "point": [0.47,0.55]
+        },
+        {
+          "point": [0.71,0.55]
+        },
+        {
+          "point": [0.8,0.55]
+        }
+      ],
+      "fake": {
+        "adaptationMax": {
+          "type": "curve",
+          "point": [0.0,1.2]
+        },
+        "adaptationMin": {
+          "type": "curve",
+          "point": [0.0,0.85]
+        },
+        "lumMin": {
+          "type": "curve",
+          "point": [0.0,0.05]
+        },
+        "lumAvg": {
+          "type": "curve",
+          "point": [0.1,0.5]
+        },
+        "lowBrightScale": {
+          "type": "curve",
+          "point": [0.0,0.1]
+        }
+      }
+    },
+    "DemonPostFx": {
+      "hdrStarThreshold": {
+        "type": "curve",
+        "point": [0.0,1.9]
+      },
+      "hdrStarPowerMul": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.1,0.8]
+        },
+        {
+          "point": [0.22,0.8]
+        },
+        {
+          "point": [0.47,0.5]
+        },
+        {
+          "point": [0.71,0.8]
+        },
+        {
+          "point": [0.8,0.8]
+        }
+      ],
+      "hdrDarkThreshold": {
+        "type": "curve",
+        "point": [0.1,0.1]
+      },
+      "hdrGlowPower": {
+        "type": "curve",
+        "point": [0.1,0.5]
+      },
+      "volfogFade": {
+        "type": "curve",
+        "point": [0.0,0.005]
+      },
+      "volfogRange": {
+        "type": "curve",
+        "point": [0.0,10.0]
+      },
+      "volfogMul": [
+        {
+          "type": "curve"
+        },
+        {
+          "point": [0.0,0.1]
+        },
+        {
+          "point": [0.1,0.15]
+        },
+        {
+          "point": [0.22,0.4]
+        },
+        {
+          "point": [0.47,0.03]
+        },
+        {
+          "point": [0.71,0.3]
+        },
+        {
+          "point": [0.8,0.1]
+        }
+      ],
+      "volfogColor": [
+        {
+          "type": "gradient"
+        },
+        {
+          "value": {
+            "x": 0.0,
+            "color": "#e8f3ffff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.1,
+            "color": "#e8f3ffff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.22,
+            "color": "#ff9650ff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.47,
+            "color": "#00628fff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.69,
+            "color": "#d2321eff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.71,
+            "color": "#d2b450ff"
+          }
+        },
+        {
+          "value": {
+            "x": 0.8,
+            "color": "#e8f3ffff"
+          }
+        }
+      ],
+      "volfogMaxAngle": {
+        "type": "curve",
+        "point": [0.0,40.0]
+      }
+    }
+  }
+}

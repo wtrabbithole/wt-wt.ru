@@ -1,0 +1,98 @@
+{
+  "PhysSys": {
+    "find": "^bone_suspension_(._\\d\\d)$",
+    "points": {
+      "bone_suspension_01": {
+        "name": "bone_suspension_$1_01"
+      },
+      "suspension_01": {
+        "name": "suspension_$1_01",
+        "limitMin": [-1.0,-1000.0,0.0],
+        "limitMax": [1.0,1000.0,0.0]
+      },
+      "wheel_01_01": {
+        "searchChildren": {
+          "parent": "bone_suspension_01",
+          "find": "bone_wheel_.*",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0]
+        }
+      },
+      "wheel_01_02": {
+        "searchChildren": {
+          "parent": "bone_suspension_01",
+          "find": "bone_wheel_.*",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0],
+          "occurence": 2
+        }
+      },
+      "bone_suspension_02": {
+        "name": "bone_suspension_$1_02"
+      },
+      "suspension_02": {
+        "name": "suspension_$1_02",
+        "limitMin": [-1.0,-1000.0,0.0],
+        "limitMax": [1.0,1000.0,0.0]
+      },
+      "wheel_02_01": {
+        "searchChildren": {
+          "parent": "bone_suspension_02",
+          "find": "bone_wheel_.*",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0]
+        }
+      },
+      "wheel_02_02": {
+        "searchChildren": {
+          "parent": "bone_suspension_02",
+          "find": "bone_wheel_.*",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0],
+          "occurence": 2
+        }
+      },
+      "lever": {
+        "name": "bone_suspension_$1"
+      }
+    },
+    "constraints": [
+      {
+        "edge": {
+          "from": "suspension_01",
+          "to": "wheel_01_01"
+        }
+      },
+      {
+        "edge": {
+          "from": "suspension_01",
+          "to": "wheel_01_02"
+        }
+      },
+      {
+        "edge": {
+          "from": "suspension_02",
+          "to": "wheel_02_01"
+        }
+      },
+      {
+        "edge": {
+          "from": "suspension_02",
+          "to": "wheel_02_02"
+        }
+      },
+      {
+        "edge": {
+          "from": "lever",
+          "to": "suspension_01"
+        }
+      },
+      {
+        "edge": {
+          "from": "lever",
+          "to": "suspension_02"
+        }
+      }
+    ]
+  }
+}

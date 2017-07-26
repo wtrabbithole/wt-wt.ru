@@ -1,0 +1,151 @@
+{
+  "model": "light_t60_a",
+  "hasExpl": true,
+  "hasDmg2": true,
+  "collisionSphere0": [0.0,-1.5,0.0,5.0],
+  "collisionSphere1": [5.0,2.0,0.0,1.0],
+  "timeToFire": 180.0,
+  "averageArmor": 17.0,
+  "subclass": "heavyVehicle",
+  "onRadarAs": "tracked",
+  "moveType": "vehicle",
+  "maxFwdSpeed": 60.0,
+  "maxRevSpeed": 10.0,
+  "maxAngSpeed": 30.0,
+  "maxAccel": 4.0,
+  "maxDecel": 8.0,
+  "maxAngAccel0": 20.0,
+  "maxAngAccelV": 0.0,
+  "maxAngAccel": 40.0,
+  "groundNormSmoothViscosity": 0.1,
+  "minDistBetween": 10.0,
+  "expClass": "exp_ai_tank",
+  "mass": 3500.0,
+  "bulletHitFx": "ground_model_hit",
+  "partDamageFx": "part_damage",
+  "explosionFx": "ground_model_expl",
+  "fireFx": "ground_model_fire",
+  "destroysRendInstances": true,
+  "destroysTrees": true,
+  "DamageParts": [
+    {
+      "armor20_tanks": {
+        "armor1_dm": {
+          "hp": 99999.0
+        }
+      }
+    },
+    {
+      "armor10_tanks": {
+        "armor2_dm": {
+          "hp": 99999.0
+        }
+      }
+    },
+    {
+      "armor20_tanks": {
+        "armor3_dm": {
+          "hp": 99999.0
+        }
+      }
+    },
+    {
+      "steel": {
+        "engine_dm": {
+          "hp": 15.0
+        },
+        "body_dm": {
+          "hp": 25.0
+        }
+      }
+    }
+  ],
+  "DamageEffects": [
+    {
+      "part": {
+        "name": "body_dm",
+        "onHit": [],
+        "onKill": {
+          "fire": 2.0,
+          "smoke": 5.0,
+          "expl": 5.0
+        }
+      }
+    },
+    {
+      "part": {
+        "name": "engine_dm",
+        "onHit": {
+          "smoke": 0.1
+        },
+        "onKill": {
+          "body_dm": 1.0
+        }
+      }
+    }
+  ],
+  "sound": {
+    "path": "sounds/engines",
+    "engine": "tank"
+  },
+  "class_tags": {
+    "westernfront": true,
+    "easternfront": true,
+    "country_ussr": true,
+    "heavy_vehicles": true,
+    "year1942": true,
+    "year1943": true,
+    "max_ratio": 0.35
+  },
+  "weapon": {
+    "trigger": "gunner0",
+    "blk": "gameData/Weapons/groundModels_weapons/common_AAgun20mm.blk",
+    "emitter": "gun1",
+    "flash": "flame1",
+    "defaultYaw": 0.0,
+    "defaultPitch": 0.0,
+    "speedYaw": 24.0,
+    "speedPitch": 24.0,
+    "fireConeAngle": 4.0,
+    "salvoAmount": 100.0,
+    "ChainfireTime": 3.0,
+    "DelayAfterShoot": 3.0,
+    "AttackMaxDistance": 1000.0,
+    "AttackMaxRadius": 1000.0,
+    "AttackMaxHeight": 1000.0,
+    "accuracyAir": 0.0,
+    "accuracyGnd": 0.7,
+    "errMeasureVel": 20.0,
+    "errMeasureVelFast": 40.0,
+    "errMeasureVelFwdShift": 0.7,
+    "errMeasureVelDir": 3.0,
+    "errTargettingOn100kmph": 0.0,
+    "errTargetting": 0.0,
+    "errExplTime": 0.0,
+    "turret": {
+      "head": "turret1",
+      "gun": "gun1"
+    },
+    "limits": {
+      "yaw": [-180.0,180.0],
+      "pitch": [-10.0,40.0]
+    }
+  },
+  "skin": [
+    {
+      "name": "snow"
+    },
+    {
+      "replace_tex": {
+        "from": "light_t60_main_olive_c*",
+        "to": "light_t60_main_snow_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "light_t60_alpha_olive_c*",
+        "to": "light_t60_alpha_snow_c*"
+      }
+    }
+  ]
+}

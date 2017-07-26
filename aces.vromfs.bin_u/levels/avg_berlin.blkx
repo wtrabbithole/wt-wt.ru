@@ -1,0 +1,90 @@
+{
+  "mandatoryLandquality": 1,
+  "z_far": 50000.0,
+  "alpha_cov_remap_range": 0.5,
+  "customLevelMap": "berlin_map*",
+  "mapCoord0": [-32768.0,-32768.0],
+  "mapCoord1": [32768.0,32768.0],
+  "minAreaSize": [12000.0,12000.0],
+  "aiMapCoord0": [-32768.0,-32768.0],
+  "aiMapCoord1": [32768.0,32768.0],
+  "aiTanksMapCoord0": [1889.0,390.95],
+  "aiTanksMapCoord1": [3088.7,1591.35],
+  "tankMapCoord0": [1024.0,0.0],
+  "tankMapCoord1": [3072.0,2048.0],
+  "tankGridSteps": [204.0,204.0],
+  "tankGridSize": [2048.0,2048.0],
+  "dirtMapCoord0": [1889.0,390.95],
+  "dirtMapCoord1": [3088.7,1591.35],
+  "tankFogMul": 12.0,
+  "numBorderCellsXPos": 8,
+  "numBorderCellsXNeg": 8,
+  "numBorderCellsZPos": 8,
+  "numBorderCellsZNeg": 8,
+  "water_level": 35.0,
+  "mirrorShrinkXPos": 256.0,
+  "mirrorShrinkXNeg": 256.0,
+  "mirrorShrinkZPos": 256.0,
+  "mirrorShrinkZNeg": 256.0,
+  "gridSteps": [3250.0,3250.0],
+  "vsmAngleThreshold": 9.0,
+  "weatherPreset": "gameData/environments/weather_preset_bright_night_fog.blk",
+  "weatherTypes": "gameData/environments/weather_types.blk",
+  "lastclip_horizon": true,
+  "alternativeMapCoord": {
+    "aiTanksMapCoord0": [1845.0,490.0],
+    "aiTanksMapCoord1": [3085.0,1730.0],
+    "tankGridZeroPoint": [1815.0,1760.0],
+    "tankGridSteps": [130.0,130.0],
+    "tankGridSize": [1300.0,1300.0]
+  },
+  "shader_vars": {
+    "parallax_shadow_strength": 7.0,
+    "parallax_shadow_length": 4.0,
+    "land_bump_scale": -4.0,
+    "water": {
+      "water_sparkles_fade_from": 10.0,
+      "water_sparkles_fade_to": 100.0,
+      "water_bump_scale_near": 0.06,
+      "water3d_bump_texcoord_multiplier": 2.0,
+      "shore_wave_bump_scale": 0.0,
+      "shore_waves_count": 2.0,
+      "shore_start_wave_depth": 0.1,
+      "foam_mul": 0.0,
+      "water_reflection_color": [0.1,0.1,0.1,0.0],
+      "water_surface_refraction_color": [0.2,0.2,0.2,0.0],
+      "sun_reflection_power": 196.0,
+      "water_color": [0.25,0.23,0.13,1.0],
+      "water_color_light_loss": [0.471,0.373,0.294,0.0],
+      "water3d_min_fresnel": 0.05,
+      "water_shore_blending_min_height": 0.01,
+      "water_depth_to_opacity_exp_base": 0.1
+    }
+  },
+  "water_3d": {
+    "magnitude1": 0.001,
+    "heightmapStep1": 0.05,
+    "speed1": [-2.0,0.0],
+    "magnitude2": 0.001,
+    "heightmapStep2": 0.025,
+    "speed2": [-1.0,1.0],
+    "LODCoefficient": 17.0,
+    "LODAddedTerm": 0.0,
+    "morphStart": 0.7,
+    "heightmap": "water_hm_a",
+    "colorTex": "amazon_underwater",
+    "scaleTex": "underocean_scale",
+    "scaleTexCoord0": [-32768.0,-32768.0],
+    "scaleTexCoord1": [32768.0,32768.0],
+    "color": [0.5,0.5,0.5],
+    "farWaterBumpScale": 0.15
+  },
+  "technicsSkins": [
+    {
+      "groundSkin": "urban"
+    },
+    {
+      "groundSkin": "default"
+    }
+  ]
+}

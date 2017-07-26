@@ -1,0 +1,58 @@
+{
+  "PhysSys": {
+    "find": "^bone_suspension_(._\\d\\d)$",
+    "points": {
+      "suspension": {
+        "name": "bone_suspension_$1"
+      },
+      "wheel": {
+        "name": "bone_wheel_$1",
+        "limitMin": [-1000.0,0.0,0.0],
+        "limitMax": [1000.0,0.0,0.0]
+      },
+      "damper_piston": {
+        "name": "bone_suspension_$1_02",
+        "limitMin": [-1000.0,-1000.0,0.0],
+        "limitMax": [1000.0,1000.0,0.0],
+        "optional": true
+      },
+      "damper_body": {
+        "name": "bone_suspension_$1_01",
+        "limitMin": [-1000.0,-1000.0,0.0],
+        "limitMax": [1000.0,1000.0,0.0],
+        "optional": true
+      }
+    },
+    "constraints": [
+      {
+        "edge": {
+          "from": "suspension",
+          "to": "wheel"
+        }
+      },
+      {
+        "edge": {
+          "from": "damper_piston",
+          "to": "damper_body",
+          "moveNodes": false,
+          "rotateSecond": true,
+          "optional": true
+        }
+      },
+      {
+        "edge": {
+          "from": "damper_piston",
+          "to": "suspension",
+          "optional": true
+        }
+      },
+      {
+        "edge": {
+          "from": "damper_piston",
+          "to": "wheel",
+          "optional": true
+        }
+      }
+    ]
+  }
+}

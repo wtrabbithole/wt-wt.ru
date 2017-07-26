@@ -1,0 +1,407 @@
+{
+  "curCircuit": "production",
+  "baseP2PPort": 20010,
+  "maxP2PConnections": 200,
+  "voiceMinPort": 20400,
+  "voiceMaxPort": 20500,
+  "timeouts": {
+    "dedicated": {
+      "loadLimitTime": 35000,
+      "loadWaitTime": 4000,
+      "saveLimitTime": 65000,
+      "saveWaitTime": 4000,
+      "curlConnectionTimeout": 10,
+      "curlProcessingTimeout": 60
+    },
+    "client": {
+      "loadLimitTime": 35000,
+      "loadWaitTime": 4000,
+      "saveLimitTime": 35000,
+      "saveWaitTime": 4000,
+      "curlConnectionTimeout": 10,
+      "curlProcessingTimeout": 20
+    }
+  },
+  "_common": {
+    "vivoxServerURL": "https://www.wtp.vivox.com/api2",
+    "vivoxEcho": "sip:confctl-2@wtp.vivox.com",
+    "eventLog": {
+      "host": "client-logs.warthunder.com"
+    },
+    "additionalDNS": [
+      {
+        "dns": "8.8.8.8"
+      },
+      {
+        "dns": "1.2.4.8"
+      }
+    ]
+  },
+  "production": [
+    {
+      "matchServer": "mgate01am-ge.warthunder.com:443"
+    },
+    {
+      "matchServer": "54.171.101.147:7853"
+    },
+    {
+      "matchServer": "54.154.186.184:7853"
+    },
+    {
+      "ircServer": "chat02sl-nl.warthunder.com:443"
+    },
+    {
+      "ircServer": "chat03sl-nl.warthunder.com:443"
+    },
+    {
+      "charServer": "https://char14sl-nl.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char15sl-nl.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char17sl-nl.warthunder.com/char"
+    },
+    {
+      "enableSslCertCheck": true
+    }
+  ],
+  "production_scee": [
+    {
+      "matchServer": "mgate01am-ge.warthunder.com:443"
+    },
+    {
+      "matchServer": "54.171.101.147:7853"
+    },
+    {
+      "matchServer": "54.154.186.184:7853"
+    },
+    {
+      "ircServer": "chat02sl-nl.warthunder.com:443"
+    },
+    {
+      "ircServer": "chat03sl-nl.warthunder.com:443"
+    },
+    {
+      "charServer": "https://char14sl-nl.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char15sl-nl.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char17sl-nl.warthunder.com/char"
+    },
+    {
+      "enableSslCertCheck": true
+    }
+  ],
+  "production_scea": [
+    {
+      "matchServer": "match01lw-nl.warthunder.com:7853"
+    },
+    {
+      "matchServer": "match02lw-nl.warthunder.com:7853"
+    },
+    {
+      "matchServer": "mgate01am-ge.warthunder.com:443"
+    },
+    {
+      "matchServer": "54.171.101.147:7853"
+    },
+    {
+      "matchServer": "54.154.186.184:7853"
+    },
+    {
+      "ircServer": "chat02sl-nl.warthunder.com:443"
+    },
+    {
+      "ircServer": "chat03sl-nl.warthunder.com:443"
+    },
+    {
+      "charServer": "https://char14sl-nl.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char15sl-nl.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char17sl-nl.warthunder.com/char"
+    },
+    {
+      "enableSslCertCheck": true
+    }
+  ],
+  "dev-stable": [
+    {
+      "matchServer": "dev01lw-nl.warthunder.com:7853"
+    },
+    {
+      "ircServer": "dev01lw-nl.warthunder.com:6667"
+    },
+    {
+      "charServer": "https://char4ge.warthunder.com:10443/char"
+    },
+    {
+      "charServer": "https://char3ge.warthunder.com:10443/char"
+    },
+    {
+      "disableScaleWPByPlayers": true
+    },
+    {
+      "enableSslCertCheck": true
+    }
+  ],
+  "dev": [
+    {
+      "matchServer": "dev01lw-nl.warthunder.com:7852"
+    },
+    {
+      "ircServer": "dev01lw-nl.warthunder.com:6668"
+    },
+    {
+      "charServer": "https://char3ge.warthunder.com:443/char"
+    },
+    {
+      "charServer": "https://char4ge.warthunder.com:443/char"
+    },
+    {
+      "circuitPostfix": "-dev"
+    },
+    {
+      "disableScaleWPByPlayers": true
+    },
+    {
+      "enableSslCertCheck": true
+    }
+  ],
+  "nightly": [
+    {
+      "matchServer": "dev01lw-nl.warthunder.com:7854"
+    },
+    {
+      "ircServer": "test01os-ru.warthunder.com:6668"
+    },
+    {
+      "charServer": "https://test01os-ru.warthunder.com:443/char"
+    },
+    {
+      "charServer": "https://test01os-ru.warthunder.com:10443/char"
+    },
+    {
+      "circuitPostfix": "-test"
+    },
+    {
+      "queryTimeoutMs": 180000
+    },
+    {
+      "disableScaleWPByPlayers": true
+    }
+  ],
+  "ps4submission": {
+    "matchServer": "dev01lw-nl.warthunder.com:7870",
+    "ircServer": "test01os-ru.warthunder.com:6667",
+    "charServer": "https://test01os-ru.warthunder.com:2443/char",
+    "circuitPostfix": "-test",
+    "queryTimeoutMs": 180000,
+    "disableScaleWPByPlayers": true
+  },
+  "test": [
+    {
+      "matchServer": "jenkins.gaijin.lan:7852"
+    },
+    {
+      "ircServer": "warthunder.gaijin.lan:6668"
+    },
+    {
+      "charServer": "https://warthunder.gaijin.lan:443/char"
+    },
+    {
+      "charServer": "https://warthunder.gaijin.lan:10443/char"
+    },
+    {
+      "circuitPostfix": "-test"
+    },
+    {
+      "queryTimeoutMs": 180000
+    },
+    {
+      "disableScaleWPByPlayers": true
+    }
+  ],
+  "experimental": [
+    {
+      "matchServer": "jenkins.gaijin.lan:7870"
+    },
+    {
+      "ircServer": "warthunder.gaijin.lan:7001"
+    },
+    {
+      "charServer": "https://wtdb.gaijin.lan:2443/char"
+    },
+    {
+      "charServer": "https://wtdb.gaijin.lan:12443/char"
+    },
+    {
+      "circuitPostfix": "-test"
+    },
+    {
+      "queryTimeoutMs": 180000
+    },
+    {
+      "disableScaleWPByPlayers": true
+    }
+  ],
+  "china-test": [
+    {
+      "matchServer": "mgate-cn-01.gaijin.lan:7852"
+    },
+    {
+      "matchServer": "mgate-cn-02.gaijin.lan:7852"
+    },
+    {
+      "ircServer": "chat-cn-01.gaijin.lan:6668"
+    },
+    {
+      "charServer": "https://char-cn-01.gaijin.lan:10443/char"
+    },
+    {
+      "charServer": "https://char-cn-02.gaijin.lan:10443/char"
+    },
+    {
+      "yuplay": {
+        "loginURL": "https://auth-cn-01.gaijin.lan/login.php"
+      }
+    }
+  ],
+  "china-coop": [
+    {
+      "matchServer": "183.60.118.35:7852"
+    },
+    {
+      "matchServer": "183.60.118.78:7852"
+    },
+    {
+      "ircServer": "183.60.118.67:6669"
+    },
+    {
+      "ircServer": "183.60.118.78:6669"
+    },
+    {
+      "charServer": "https://183.60.118.68:1443/char"
+    },
+    {
+      "charServer": "https://183.60.118.66:1443/char"
+    },
+    {
+      "yuplay": {
+        "loginURL": "https://183.60.118.35:2001/login.php"
+      }
+    }
+  ],
+  "china-gov": {
+    "yuplay": []
+  },
+  "china-antibot": {
+    "matchServer": "119.147.117.147:7852",
+    "ircServer": "119.147.117.147:6669",
+    "charServer": "https://119.147.117.147:1443/char",
+    "yuplay": {
+      "loginURL": "https://119.147.109.80:2001/login.php"
+    }
+  },
+  "china-formal": {
+    "yuplay": []
+  },
+  "china-exp": {
+    "yuplay": []
+  },
+  "china-test-1": {
+    "matchServer": "183.61.232.32:7852",
+    "ircServer": "183.61.232.32:6669",
+    "charServer": "https://183.61.232.32:1443/char",
+    "yuplay": {
+      "loginURL": "https://183.61.227.42/login.php"
+    }
+  },
+  "china-test-2": {
+    "matchServer": "183.61.227.42:7852",
+    "ircServer": "183.61.227.32:6668",
+    "charServer": "https://183.61.227.32:10443/char",
+    "yuplay": {
+      "loginURL": "https://183.61.227.42/login.php"
+    }
+  },
+  "viet-test": [
+    {
+      "matchServer": "mgate-vn-01.gaijin.lan:7852"
+    },
+    {
+      "matchServer": "mgate-vn-02.gaijin.lan:7852"
+    },
+    {
+      "ircServer": "chat-vn-01.gaijin.lan:6669"
+    },
+    {
+      "charServer": "https://char-vn-01.gaijin.lan/char"
+    },
+    {
+      "charServer": "https://char-vn-02.gaijin.lan/char"
+    },
+    {
+      "yuplay": {
+        "fptLoginURL": "https://auth-vn-01.gaijin.lan/login.php"
+      }
+    }
+  ],
+  "viet-coop": [
+    {
+      "matchServer": "mgate-01.test.wt.gate.vn:7852"
+    },
+    {
+      "matchServer": "mgate-02.test.wt.gate.vn:7852"
+    },
+    {
+      "ircServer": "chat-01.test.wt.gate.vn:6669"
+    },
+    {
+      "charServer": "https://char-01.test.wt.gate.vn/char"
+    },
+    {
+      "charServer": "https://char-02.test.wt.gate.vn/char"
+    },
+    {
+      "yuplay": {
+        "fptLoginURL": "https://auth.test.wt.gate.vn/login.php"
+      }
+    }
+  ],
+  "viet-prod": [
+    {
+      "matchServer": "mgate-01.wt.gate.vn:7852"
+    },
+    {
+      "matchServer": "mgate-02.wt.gate.vn:7852"
+    },
+    {
+      "ircServer": "chat-01.wt.gate.vn:6669"
+    },
+    {
+      "charServer": "https://char-01.wt.gate.vn/char"
+    },
+    {
+      "charServer": "https://char-02.wt.gate.vn/char"
+    },
+    {
+      "yuplay": {
+        "fptLoginURL": "https://auth.wt.gate.vn/login.php"
+      }
+    }
+  ],
+  "curCircuitRemap": {
+    "client": {
+      "ps4": {
+        "production_scea": "production",
+        "production_scee": "production"
+      }
+    }
+  }
+}
