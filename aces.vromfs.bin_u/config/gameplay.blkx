@@ -824,9 +824,6 @@
       "time": [0.13,6.0]
     },
     {
-      "time": [0.132,12.0]
-    },
-    {
       "time": [0.128,7.0]
     },
     {
@@ -871,6 +868,7 @@
   },
   "bombingDefaults": {
     "bomberviewBomber": {
+      "maxDelay": 2.0,
       "canBeDropped": {
         "altitude": [-100.0,20000.0],
         "tangage": [-50.0,50.0],
@@ -900,9 +898,20 @@
         "altitude": [20.0,15000.0],
         "tangage": [-70.0,70.0],
         "roll": 60.0
+      },
+      "maxDelayAt": {
+        "altitude": [-20000.0,20000.0],
+        "tangage": [-45.0,45.0],
+        "roll": 45.0
+      },
+      "noDelayAt": {
+        "altitude": [-19999.0,19999.0],
+        "tangage": [-10.0,10.0],
+        "roll": 10.0
       }
     },
     "noBomberviewBomber": {
+      "maxDelay": 0.0,
       "canBeDropped": {
         "altitude": [-100.0,10000.0],
         "tangage": [-270.0,90.0],
@@ -932,11 +941,22 @@
         "altitude": [20.0,15000.0],
         "tangage": [-120.0,-10.0],
         "roll": 180.0
+      },
+      "maxDelayAt": {
+        "altitude": [-20000.0,20000.0],
+        "tangage": [-180.0,180.0],
+        "roll": 180.0
+      },
+      "noDelayAt": {
+        "altitude": [-19999.0,19999.0],
+        "tangage": [-179.0,179.0],
+        "roll": 179.0
       }
     }
   },
   "bombingDefaults_3": {
     "bomberviewBomber": {
+      "maxDelay": 2.0,
       "canBeDropped": {
         "altitude": [-100.0,20000.0],
         "tangage": [-50.0,50.0],
@@ -966,9 +986,20 @@
         "altitude": [20.0,15000.0],
         "tangage": [-70.0,70.0],
         "roll": 60.0
+      },
+      "maxDelayAt": {
+        "altitude": [-20000.0,20000.0],
+        "tangage": [-45.0,45.0],
+        "roll": 45.0
+      },
+      "noDelayAt": {
+        "altitude": [-19999.0,19999.0],
+        "tangage": [-10.0,10.0],
+        "roll": 10.0
       }
     },
     "noBomberviewBomber": {
+      "maxDelay": 0.0,
       "canBeDropped": {
         "altitude": [-100.0,10000.0],
         "tangage": [-270.0,90.0],
@@ -998,6 +1029,16 @@
         "altitude": [20.0,15000.0],
         "tangage": [-120.0,-10.0],
         "roll": 180.0
+      },
+      "maxDelayAt": {
+        "altitude": [-20000.0,20000.0],
+        "tangage": [-180.0,180.0],
+        "roll": 180.0
+      },
+      "noDelayAt": {
+        "altitude": [-19999.0,19999.0],
+        "tangage": [-179.0,179.0],
+        "roll": 179.0
       }
     }
   },
@@ -1153,6 +1194,15 @@
       "allowNode": "turret_04_bottom_dm"
     },
     {
+      "allowNode": "turret_06_front_dm"
+    },
+    {
+      "allowNode": "turret_06_bottom_dm"
+    },
+    {
+      "allowNode": "turret_06_back_dm"
+    },
+    {
       "allowNode": "ex_armor_body_l_01_dm"
     },
     {
@@ -1205,6 +1255,26 @@
     },
     {
       "allowNode": "ex_armor_05_dm"
+    }
+  ],
+  "torpedoCourseCorrection": [
+    {
+      "row": [0.05,0.05]
+    },
+    {
+      "row": [0.1,0.5]
+    },
+    {
+      "row": [0.2,1.15]
+    },
+    {
+      "row": [0.5,2.2]
+    },
+    {
+      "row": [1.0,3.25]
+    },
+    {
+      "row": [5.0,5.5]
     }
   ]
 }
