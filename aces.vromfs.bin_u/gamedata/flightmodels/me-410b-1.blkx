@@ -18,10 +18,10 @@
     "isCapableOfAttackTurn": false
   },
   {
-    "fightAiBehaviour": "assault"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_ruhr"
+    "fightAiBehaviour": "assault"
   },
   {
     "DamageGen": {
@@ -192,6 +192,9 @@
       },
       "armor9_dm": {
         "mat": "armor5"
+      },
+      "armor10_dm": {
+        "mat": "armor_glass60"
       },
       "cover1_dm": {
         "mat": "cover_dural"
@@ -373,18 +376,23 @@
           "hp": 15.0
         }
       },
+      "armor12": {
+        "armor1_dm": {
+          "hp": 40.0
+        }
+      },
       "armor5": {
         "armor7_dm": {
           "hp": 35.0
         },
         "armor8_dm": {
           "hp": 35.0
+        },
+        "armor9_dm": {
+          "hp": 35.0
         }
       },
       "armor8": {
-        "armor1_dm": {
-          "hp": 40.0
-        },
         "armor2_dm": {
           "hp": 40.0
         },
@@ -519,6 +527,11 @@
         },
         "spar_r_dm": {
           "hp": 71.6
+        }
+      },
+      "glass60": {
+        "armor10_dm": {
+          "hp": 100.0
         }
       },
       "protected_controls": {
@@ -679,6 +692,11 @@
       },
       {
         "part": {
+          "name": "armor10_dm"
+        }
+      },
+      {
+        "part": {
           "name": "armor1_dm"
         }
       },
@@ -715,6 +733,11 @@
       {
         "part": {
           "name": "armor8_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "armor9_dm"
         }
       },
       {
@@ -812,7 +835,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -856,7 +879,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2731,74 +2754,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_fighter": true,
-      "type_interceptor": true,
-      "type_heavy_fighter": true,
-      "type_strike_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "mediterranean": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1945": {
-        "britain": 0.3,
-        "bulge": 0.3,
-        "malta": 0.3,
-        "ruhr": 0.3,
-        "sicily": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1095.0
     }
@@ -2937,6 +2892,24 @@
         },
         {
           "aviahorizon_roll": [-180.0,180.0]
+        },
+        {
+          "flaps": [0.0,1.0]
+        },
+        {
+          "flaps_fixed": false
+        },
+        {
+          "gears": [0.0,1.0]
+        },
+        {
+          "gear_fixed": false
+        },
+        {
+          "airbrake_lever": [0.0,1.0]
+        },
+        {
+          "airbrake_fixed": false
         },
         {
           "ammo_counter1": [1000.0,0.0]
@@ -3241,6 +3214,7 @@
           "climbTimeMil2": [6000.0,513.321],
           "climbTimeMil3": [8000.0,801.581],
           "turnTimeMil": [1000.0,31.8],
+          "takeoffDistance": 904.044,
           "ceiling": 11200.0,
           "rollRate": 65.0,
           "wingLoading": 269.0,
@@ -3305,21 +3279,6 @@
     ]
   },
   {
-    "Shop": {
-      "maxAltitude": 10450.0,
-      "maxSpeed": 177.5,
-      "turnTime": 30.0,
-      "airfieldLen": 500.0,
-      "climbTime": 570.0,
-      "maxSpeedAlt": 6900.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 10.52,
-      "wingLoading": 277.0,
-      "powerToWeightRatio": 0.19,
-      "rollRate": 69.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.15,
@@ -3356,6 +3315,7 @@
           "climbTimeMil2": [6000.0,534.635],
           "climbTimeMil3": [8000.0,832.529],
           "turnTimeMil": [1000.0,31.2],
+          "takeoffDistance": 1053.7,
           "ceiling": 10700.0,
           "rollRate": 65.0,
           "wingLoading": 277.0,
@@ -3510,9 +3470,14 @@
         ]
       },
       {
-        "hideDmParts": {
-          "node": "armor8_dm"
-        }
+        "hideDmParts": [
+          {
+            "node": "armor8_dm"
+          },
+          {
+            "node": "armor9_dm"
+          }
+        ]
       }
     ]
   },

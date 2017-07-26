@@ -27,13 +27,13 @@
     "isCapableOfAttackTurn": false
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_stalingrad"
   },
   {
     "SelfSealingTanks": {
@@ -598,40 +598,6 @@
     }
   },
   {
-    "years_active": {
-      "year1939": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1940": {
-        "khalkin_gol": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1941": {
-        "khalkin_gol": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2350.0
     }
@@ -919,21 +885,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9560.0,
-      "maxSpeed": 117.5,
-      "turnTime": 24.2289,
-      "airfieldLen": 366.454,
-      "climbTime": 534.0,
-      "maxSpeedAlt": 4000.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 8.9,
-      "wingLoading": 87.0,
-      "powerToWeightRatio": 0.1,
-      "rollRate": 51.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.27,
@@ -957,6 +908,7 @@
           "climbTimeMil1": [4000.0,415.161],
           "climbTimeMil2": [6000.0,717.248],
           "turnTimeMil": [1000.0,24.2],
+          "takeoffDistance": 357.547,
           "ceiling": 6800.0,
           "rollRate": 51.0,
           "wingLoading": 87.0,
@@ -3350,13 +3302,11 @@
       "new_radiator": [],
       "new_compressor": [],
       "sb-2_der-25": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 3.0
       },
       "sb-2_der-19": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 6.0,
@@ -3370,72 +3320,6 @@
       "wingRDist": [-5.64059,-4.64059],
       "tailDist": [10.0,11.0],
       "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 12.27,
-        "wingspan": 20.33,
-        "wingArea": 56.7,
-        "emptyWeight": 4060.0,
-        "normalWeight": 4920.0,
-        "maxTakeoffWeight": 6392.0,
-        "powerPlantType": 0,
-        "powerMaxMil": 660.0
-      },
-      "performance": {
-        "table": {
-          "rpmMil": 2700.0,
-          "manifoldPressureMil": 1.16,
-          "airSpeedMil0": [0.0,361.0],
-          "airSpeedMil1": [4800.0,429.0],
-          "climbRateMil0": [0.0,5.2],
-          "climbRateMil1": [3700.0,8.9],
-          "climbTimeMil0": [2000.0,229.667],
-          "climbTimeMil1": [4000.0,415.161],
-          "climbTimeMil2": [6000.0,717.248],
-          "turnTimeMil": [1000.0,24.2],
-          "ceiling": 6800.0,
-          "rollRate": 51.0,
-          "wingLoading": 87.0,
-          "powerToWeightRatio": 0.1
-        },
-        "plot": {
-          "airSpeedMil0": [0.0,361.0],
-          "airSpeedMil1": [3500.0,418.0],
-          "airSpeedMil2": [4600.0,429.0],
-          "airSpeedMil3": [5900.0,404.0],
-          "airSpeedMil4": [6800.0,371.0],
-          "climbRateMil0": [0.0,5.2],
-          "climbRateMil1": [2500.0,8.0],
-          "climbRateMil2": [3800.0,8.9],
-          "climbRateMil3": [4200.0,8.1],
-          "climbRateMil4": [5300.0,3.4],
-          "climbRateMil5": [6800.0,-1.5]
-        }
-      }
-    }
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_china": true,
-      "type_bomber": true,
-      "type_light_bomber": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "bomber": true,
-      "soviet": true,
-      "bomberview": true,
-      "eastern_front": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
     }
   },
   {
@@ -3489,60 +3373,15 @@
       {
         "replace_tex": {
           "from": "sb_2m_103u_n*",
-          "to": "sb_2m_103u_china_n*"
+          "to": "sb_2m_103u_china_tomoe_n*"
         }
       },
       {
         "replace_tex": {
           "from": "sb_2m_103u_n_dmg*",
-          "to": "sb_2m_103u_china_n_dmg*"
+          "to": "sb_2m_103u_china_tomoe_n_dmg*"
         }
       }
     ]
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 12.27,
-        "wingspan": 20.33,
-        "wingArea": 56.7,
-        "emptyWeight": 4060.0,
-        "normalWeight": 4920.0,
-        "maxTakeoffWeight": 6392.0,
-        "powerPlantType": 0,
-        "powerMaxMil": 660.0
-      },
-      "performance": {
-        "table": {
-          "rpmMil": 2700.0,
-          "manifoldPressureMil": 1.16,
-          "airSpeedMil0": [0.0,361.0],
-          "airSpeedMil1": [4800.0,429.0],
-          "climbRateMil0": [0.0,5.2],
-          "climbRateMil1": [3700.0,8.9],
-          "climbTimeMil0": [2000.0,229.667],
-          "climbTimeMil1": [4000.0,415.161],
-          "climbTimeMil2": [6000.0,717.248],
-          "turnTimeMil": [1000.0,24.2],
-          "ceiling": 6800.0,
-          "rollRate": 51.0,
-          "wingLoading": 87.0,
-          "powerToWeightRatio": 0.1
-        },
-        "plot": {
-          "airSpeedMil0": [0.0,361.0],
-          "airSpeedMil1": [3500.0,418.0],
-          "airSpeedMil2": [4600.0,429.0],
-          "airSpeedMil3": [5900.0,404.0],
-          "airSpeedMil4": [6800.0,371.0],
-          "climbRateMil0": [0.0,5.2],
-          "climbRateMil1": [2500.0,8.0],
-          "climbRateMil2": [3800.0,8.9],
-          "climbRateMil3": [4200.0,8.1],
-          "climbRateMil4": [5300.0,3.4],
-          "climbRateMil5": [6800.0,-1.5]
-        }
-      }
-    }
   }
 ]

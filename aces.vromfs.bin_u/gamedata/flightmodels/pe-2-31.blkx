@@ -15,10 +15,10 @@
     "paratrooper": "ally"
   },
   {
-    "fightAiBehaviour": "diveBomber"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_stalingrad"
+    "fightAiBehaviour": "diveBomber"
   },
   {
     "DamageGen": {
@@ -2819,62 +2819,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_dive_bomber": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "bomber": true,
-      "soviet": true,
-      "bomberview": true,
-      "eastern_front": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1941": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1942": {
-        "khalkin_gol": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1943": {
-        "khalkin_gol": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1160.0
     }
@@ -2939,7 +2883,9 @@
         "flaps": [0.0,1.0],
         "flaps_fixed": false,
         "gears": [0.0,1.0],
-        "gear_fixed": true
+        "gear_fixed": true,
+        "airbrake_lever": [0.0,1.0],
+        "airbrake_fixed": false
       },
       "parts_holes_dmg": {
         "part": "fuse"
@@ -3481,21 +3427,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 8400.0,
-      "maxSpeed": 147.2222,
-      "turnTime": 28.0,
-      "airfieldLen": 326.172,
-      "climbTime": 588.235,
-      "maxSpeedAlt": 5100.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 9.6,
-      "wingLoading": 196.0,
-      "powerToWeightRatio": 0.13,
-      "rollRate": 90.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.241,
@@ -3536,6 +3467,7 @@
           "climbTimeMil2": [6000.0,613.582],
           "climbTimeMil3": [8000.0,1076.46],
           "turnTimeMil": [1000.0,28.7],
+          "takeoffDistance": 740.579,
           "ceiling": 8800.0,
           "rollRate": 90.0,
           "wingLoading": 196.0,
@@ -3623,13 +3555,11 @@
       "shkas_turret_ap": [],
       "shkas_turret_apit": [],
       "pe-2_dz-40": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 3.0
       },
       "pe-2_ro-132": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 11.0,

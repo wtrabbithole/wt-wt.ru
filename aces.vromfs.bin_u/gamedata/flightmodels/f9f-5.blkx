@@ -18,10 +18,10 @@
     "arcadeHP": 10000.0
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "1000kph"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2401,38 +2401,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_fighter": true,
-      "type_naval_fighter": true,
-      "type_jet_fighter": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korean_front": true,
-      "not_in_dynamic_campaign": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 882.0
     }
@@ -3066,21 +3034,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12500.0,
-      "maxSpeed": 270.0,
-      "turnTime": 27.0,
-      "airfieldLen": 800.0,
-      "climbTime": 350.0,
-      "maxSpeedAlt": 0.0,
-      "climbAlt": 6096.0,
-      "climbSpeed": 24.4,
-      "wingLoading": 352.0,
-      "thrustToWeightRatio": 0.36,
-      "rollRate": 139.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.46,
@@ -3111,6 +3064,7 @@
           "climbTimeMil2": [6000.0,332.09],
           "climbTimeMil3": [8000.0,526.736],
           "turnTimeMil": [1000.0,32.1],
+          "takeoffDistance": 1219.97,
           "ceiling": 8900.0,
           "rollRate": 139.0,
           "wingLoading": 352.0,
@@ -3226,13 +3180,11 @@
         "reqModification": "anm2_belt_pack"
       },
       "frc_mk2": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 9.0,
         "tier": 1,
         "modClass": "weapon"
       },
       "flbc_mk2": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "reqModLevel": 8.0,
         "tier": 3,
         "modClass": "weapon",

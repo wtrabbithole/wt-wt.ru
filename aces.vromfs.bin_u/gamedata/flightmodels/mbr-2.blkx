@@ -24,13 +24,13 @@
     "isCapableOfAttackTurn": false
   },
   {
+    "fireParamsPreset": "300kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_stalingrad_hydrobase"
   },
   {
     "hangar_undercarriage_model_name": "low_mbr_2_undercarriage"
@@ -656,64 +656,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_bomber": true,
-      "type_flying_boat": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "bomber": true,
-      "soviet": true,
-      "bomberview": true,
-      "eastern_front": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1941": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "port_moresby": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1942": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "port_moresby": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7
-      },
-      "year1943": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "port_moresby": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 4939.0
     }
@@ -740,7 +682,7 @@
           },
           "limits": {
             "yaw": [-160.0,160.0],
-            "pitch": [-10.0,50.0]
+            "pitch": [-30.0,50.0]
           }
         }
       },
@@ -759,6 +701,13 @@
           "limits": {
             "yaw": [-130.0,130.0],
             "pitch": [-30.0,60.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-130.0,0.0,60.0],
+            "lim2": [-130.0,-40.0,-30.0,60.0],
+            "lim3": [-40.0,40.0,0.0,60.0],
+            "lim4": [40.0,130.0,-30.0,60.0],
+            "lim5": [130.0,180.0,0.0,60.0]
           }
         }
       }
@@ -991,21 +940,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 5000.0,
-      "maxSpeed": 76.38,
-      "turnTime": 18.0,
-      "airfieldLen": 450.0,
-      "climbTime": 1320.0,
-      "maxSpeedAlt": 5000.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 3.78,
-      "wingLoading": 78.0,
-      "powerToWeightRatio": 0.17,
-      "rollRate": 47.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 13.5,
@@ -1030,6 +964,7 @@
           "climbTimeMil2": [6000.0,1442.02],
           "climbTimeMil3": [8000.0,2540.29],
           "turnTimeMil": [1000.0,18.0],
+          "takeoffDistance": 693.974,
           "ceiling": 7900.0,
           "rollRate": 47.0,
           "wingLoading": 78.0,
@@ -1065,7 +1000,6 @@
       "hp_105": {
         "prevModification": ""
       },
-      "new_engine_throttle": [],
       "shkas_turret_ap": [],
       "shkas_turret_apit": [],
       "shkas_turret_belt_pack": [],
@@ -1073,7 +1007,6 @@
         "reqModification": "shkas_turret_belt_pack"
       },
       "sb-2_der-25": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2
       }
@@ -1086,5 +1019,51 @@
       "tailDist": [10.0,11.0],
       "color": [0.151,0.151,0.151,1.0]
     }
+  },
+  {
+    "skin": [
+      {
+        "name": "winter"
+      },
+      {
+        "replace_tex": {
+          "from": "mbr_2_c*",
+          "to": "mbr_2_white_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "mbr_2_c_dmg*",
+          "to": "mbr_2_white_c_dmg*"
+        }
+      }
+    ]
+  },
+  {
+    "user_skin": [
+      {
+        "name": "mbr_2"
+      },
+      {
+        "replace_tex": {
+          "from": "mbr_2_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "mbr_2_c_dmg*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "mbr_2_n*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "mbr_2_n_dmg*"
+        }
+      }
+    ]
   }
 ]

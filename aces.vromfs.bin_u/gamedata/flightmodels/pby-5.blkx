@@ -15,13 +15,13 @@
     "paratrooper": "usa_para"
   },
   {
+    "fireParamsPreset": "300kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_honolulu_hydrobase"
   },
   {
     "hangar_undercarriage_model_name": "low_pby_5_undercarriage"
@@ -763,7 +763,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -807,7 +807,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2406,67 +2406,6 @@
     }
   },
   {
-    "tags": {
-      "bomberview": true,
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_flying_boat": true,
-      "type_medium_bomber": true,
-      "type_torpedo": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "country_usa": true,
-      "bomber": true,
-      "guadalcanal": true,
-      "midway": true,
-      "water": true,
-      "honolulu": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "type_hydroplane": true
-    }
-  },
-  {
-    "years_active": {
-      "year1940": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1941": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7
-      },
-      "year1942": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 4457.8799
     }
@@ -2838,21 +2777,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 4480.0,
-      "maxSpeed": 80.0,
-      "turnTime": 28.0,
-      "airfieldLen": 535.0,
-      "climbTime": 1212.0,
-      "maxSpeedAlt": 2135.0,
-      "climbAlt": 3048.0,
-      "climbSpeed": 4.8423,
-      "wingLoading": 104.0,
-      "powerToWeightRatio": 0.11,
-      "rollRate": 30.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 19.4824,
@@ -2886,6 +2810,7 @@
           "climbTimeMil0": [2000.0,471.044],
           "climbTimeMil1": [4000.0,1139.74],
           "turnTimeMil": [1000.0,32.4],
+          "takeoffDistance": 489.995,
           "ceiling": 6200.0,
           "rollRate": 30.0,
           "wingLoading": 104.0,
@@ -2943,24 +2868,20 @@
       "50cal_turret_api": [],
       "30cal_turret_ap": [],
       "pby5_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "pby5_ltc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 2,
         "reqModification": "pby5_mbc"
       },
       "improved_torpedo_mod": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 3,
         "reqModification": "pby5_ltc"
       },
       "pby5_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "improved_torpedo_mod"

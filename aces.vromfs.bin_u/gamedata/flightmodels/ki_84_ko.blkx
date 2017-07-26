@@ -15,10 +15,10 @@
     "paratrooper": "japan_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "700kph"
   },
   {
-    "testFlight": "testFlight_peleliu"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -788,7 +788,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2294,57 +2294,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_japan": true,
-      "type_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "pacific": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "khalkin_gol": 1.0,
-        "guadalcanal": 1.0,
-        "honolulu": 1.0,
-        "midway": 1.0,
-        "wake_island": 1.0,
-        "port_moresby": 1.0,
-        "guam": 1.0,
-        "saipan": 1.0
-      },
-      "year1944": {
-        "khalkin_gol": 0.7,
-        "guadalcanal": 0.7,
-        "honolulu": 0.7,
-        "midway": 0.7,
-        "wake_island": 0.7,
-        "port_moresby": 0.7,
-        "guam": 0.0,
-        "saipan": 0.7
-      },
-      "year1945": {
-        "khalkin_gol": 0.3,
-        "guadalcanal": 0.3,
-        "honolulu": 0.3,
-        "midway": 0.3,
-        "wake_island": 0.3,
-        "port_moresby": 0.3,
-        "guam": 0.3,
-        "saipan": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1900.0
     }
@@ -2898,21 +2847,6 @@
     }
   },
   {
-    "Shop": {
-      "maxSpeed": 192.3,
-      "maxSpeedAlt": 6000.0,
-      "maxAltitude": 13000.0,
-      "turnTime": 19.4,
-      "airfieldLen": 420.576,
-      "climbTime": 279.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 17.9,
-      "wingLoading": 181.0,
-      "powerToWeightRatio": 0.56,
-      "rollRate": 115.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.74,
@@ -2953,6 +2887,7 @@
           "climbTimeMil2": [6000.0,319.998],
           "climbTimeMil3": [8000.0,482.478],
           "turnTimeMil": [1000.0,20.2],
+          "takeoffDistance": 468.454,
           "ceiling": 11800.0,
           "rollRate": 115.0,
           "wingLoading": 181.0,
@@ -3022,12 +2957,10 @@
       "ho5_all_tracers": [],
       "ho5_stealth": [],
       "ki84_9in_mod23": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "ki84_12in_mod27": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModification": "ki84_9in_mod23"

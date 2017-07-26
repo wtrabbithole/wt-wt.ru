@@ -18,10 +18,10 @@
     "advancedMouseAim": true
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "1100kph"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2054,40 +2054,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_fighter": true,
-      "type_jet_fighter": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korean_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 882.0
     }
@@ -2497,21 +2463,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 14000.0,
-      "maxSpeed": 303.61,
-      "turnTime": 24.0,
-      "airfieldLen": 700.0,
-      "climbTime": 210.0,
-      "maxSpeedAlt": 0.0,
-      "climbAlt": 6096.0,
-      "climbSpeed": 38.1,
-      "wingLoading": 241.0,
-      "thrustToWeightRatio": 0.35,
-      "rollRate": 215.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.42,
@@ -2533,6 +2484,7 @@
           "climbTimeMil2": [6000.0,207.763],
           "climbTimeMil3": [8000.0,309.07],
           "turnTimeMil": [1000.0,24.0],
+          "takeoffDistance": 1643.95,
           "ceiling": 10700.0,
           "rollRate": 264.0,
           "wingLoading": 241.0,
@@ -2716,12 +2668,10 @@
         "tier": 3
       },
       "frc_mk2": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "tier": 2,
         "modClass": "weapon"
       },
       "flbc_mk2": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 4,
         "modClass": "weapon",
         "reqModification": "frc_mk2"

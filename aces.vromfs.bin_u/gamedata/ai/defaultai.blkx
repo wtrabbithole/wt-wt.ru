@@ -133,9 +133,25 @@
                 "from": "specialTarget",
                 "to": "currentTarget"
               },
-              "getTargetFromList": {
-                "listName": "targets",
-                "varName": "currentTarget"
+              "ifThenElse": {
+                "isIndependentAttacker": [],
+                "getTargetFromList": {
+                  "listName": "targets",
+                  "varName": "currentTarget"
+                },
+                "parallel": {
+                  "cycle": {
+                    "findLeader": []
+                  },
+                  "getTargetFromListAfterLeader": {
+                    "listName": "targets",
+                    "varName": "currentTarget"
+                  },
+                  "followTarget": {
+                    "offsetFromBot": true,
+                    "useTarget": false
+                  }
+                }
               }
             }
           },
@@ -175,7 +191,20 @@
                   "diveBombTarget": [],
                   "sequencer": {
                     "not": {
-                      "fighterAttackGround": []
+                      "ifThenElse": {
+                        "isIndependentAttacker": [],
+                        "selector": {
+                          "selectStrategy": "ordered",
+                          "fighterAttackGround": [],
+                          "parallel": {
+                            "cycle": {
+                              "hasGroupWeaponForTarget": []
+                            },
+                            "attackGroundFake": []
+                          }
+                        },
+                        "fighterAttackGround": []
+                      }
                     },
                     "selector": {
                       "spiralUp": {
@@ -191,6 +220,9 @@
             ]
           }
         ]
+      },
+      {
+        "resetTarget": []
       },
       {
         "sequencer": {
@@ -455,25 +487,41 @@
           "clearTargetList": {
             "listName": "targets"
           },
-          "ifThenElse": [
-            {
-              "isRandomTargets": []
-            },
-            {
-              "getFromListBTB": {
-                "listName": "targets",
-                "varName": "currentTarget",
-                "indexType": "random"
+          "ifThenElse": {
+            "isIndependentAttacker": [],
+            "ifThenElse": [
+              {
+                "isRandomTargets": []
+              },
+              {
+                "getFromListBTB": {
+                  "listName": "targets",
+                  "varName": "currentTarget",
+                  "indexType": "random"
+                }
+              },
+              {
+                "getFromListBTB": {
+                  "listName": "targets",
+                  "varName": "currentTarget",
+                  "indexType": "first"
+                }
               }
-            },
-            {
-              "getFromListBTB": {
+            ],
+            "parallel": {
+              "cycle": {
+                "findLeader": []
+              },
+              "getFromListBTBAfterLeader": {
                 "listName": "targets",
-                "varName": "currentTarget",
-                "indexType": "first"
+                "varName": "currentTarget"
+              },
+              "followTarget": {
+                "offsetFromBot": true,
+                "useTarget": false
               }
             }
-          ],
+          },
           "setAsTarget": {
             "varName": "currentTarget"
           },
@@ -508,9 +556,27 @@
                   "torpedoTarget": [],
                   "bombTarget": [],
                   "airDropDelivery": [],
-                  "sequencer": {
-                    "isAuxWeaponAllowed": [],
-                    "fighterAttackGround": []
+                  "ifThenElse": {
+                    "isIndependentAttacker": [],
+                    "selector": {
+                      "selectStrategy": "ordered",
+                      "sequencer": {
+                        "isAuxWeaponAllowed": [],
+                        "fighterAttackGround": []
+                      },
+                      "parallel": {
+                        "cycle": {
+                          "hasGroupWeaponForTarget": {
+                            "checkAuxWeapon": true
+                          }
+                        },
+                        "attackGroundFake": []
+                      }
+                    },
+                    "sequencer": {
+                      "isAuxWeaponAllowed": [],
+                      "fighterAttackGround": []
+                    }
                   }
                 }
               }
@@ -521,15 +587,36 @@
                   "selectStrategy": "ordered",
                   "bombTarget": [],
                   "airDropDelivery": [],
-                  "sequencer": {
-                    "isAuxWeaponAllowed": [],
-                    "fighterAttackGround": []
+                  "ifThenElse": {
+                    "isIndependentAttacker": [],
+                    "selector": {
+                      "selectStrategy": "ordered",
+                      "sequencer": {
+                        "isAuxWeaponAllowed": [],
+                        "fighterAttackGround": []
+                      },
+                      "parallel": {
+                        "cycle": {
+                          "hasGroupWeaponForTarget": {
+                            "checkAuxWeapon": true
+                          }
+                        },
+                        "attackGroundFake": []
+                      }
+                    },
+                    "sequencer": {
+                      "isAuxWeaponAllowed": [],
+                      "fighterAttackGround": []
+                    }
                   }
                 }
               }
             }
           ]
         }
+      },
+      {
+        "resetTarget": []
       },
       {
         "sequencer": {
@@ -669,25 +756,41 @@
           "clearTargetList": {
             "listName": "targets"
           },
-          "ifThenElse": [
-            {
-              "isRandomTargets": []
-            },
-            {
-              "getFromListBTB": {
-                "listName": "targets",
-                "varName": "currentTarget",
-                "indexType": "random"
+          "ifThenElse": {
+            "isIndependentAttacker": [],
+            "ifThenElse": [
+              {
+                "isRandomTargets": []
+              },
+              {
+                "getFromListBTB": {
+                  "listName": "targets",
+                  "varName": "currentTarget",
+                  "indexType": "random"
+                }
+              },
+              {
+                "getFromListBTB": {
+                  "listName": "targets",
+                  "varName": "currentTarget",
+                  "indexType": "first"
+                }
               }
-            },
-            {
-              "getFromListBTB": {
+            ],
+            "parallel": {
+              "cycle": {
+                "findLeader": []
+              },
+              "getFromListBTBAfterLeader": {
                 "listName": "targets",
-                "varName": "currentTarget",
-                "indexType": "first"
+                "varName": "currentTarget"
+              },
+              "followTarget": {
+                "offsetFromBot": true,
+                "useTarget": false
               }
             }
-          ],
+          },
           "setAsTarget": {
             "varName": "currentTarget"
           },
@@ -721,8 +824,20 @@
                   "torpedoTarget": [],
                   "diveBombTarget": [],
                   "bombTarget": [],
-                  "fighterAttackGround": [],
-                  "spiralUp": []
+                  "ifThenElse": {
+                    "isIndependentAttacker": [],
+                    "selector": {
+                      "selectStrategy": "ordered",
+                      "fighterAttackGround": [],
+                      "parallel": {
+                        "cycle": {
+                          "hasGroupWeaponForTarget": []
+                        },
+                        "attackGroundFake": []
+                      }
+                    },
+                    "fighterAttackGround": []
+                  }
                 }
               }
             },
@@ -732,13 +847,28 @@
                   "selectStrategy": "ordered",
                   "diveBombTarget": [],
                   "bombTarget": [],
-                  "fighterAttackGround": [],
-                  "spiralUp": []
+                  "ifThenElse": {
+                    "isIndependentAttacker": [],
+                    "selector": {
+                      "selectStrategy": "ordered",
+                      "fighterAttackGround": [],
+                      "parallel": {
+                        "cycle": {
+                          "hasGroupWeaponForTarget": []
+                        },
+                        "attackGroundFake": []
+                      }
+                    },
+                    "fighterAttackGround": []
+                  }
                 }
               }
             }
           ]
         }
+      },
+      {
+        "resetTarget": []
       },
       {
         "sequencer": {
@@ -878,25 +1008,41 @@
           "clearTargetList": {
             "listName": "targets"
           },
-          "ifThenElse": [
-            {
-              "isRandomTargets": []
-            },
-            {
-              "getFromListBTB": {
-                "listName": "targets",
-                "varName": "currentTarget",
-                "indexType": "random"
+          "ifThenElse": {
+            "isIndependentAttacker": [],
+            "ifThenElse": [
+              {
+                "isRandomTargets": []
+              },
+              {
+                "getFromListBTB": {
+                  "listName": "targets",
+                  "varName": "currentTarget",
+                  "indexType": "random"
+                }
+              },
+              {
+                "getFromListBTB": {
+                  "listName": "targets",
+                  "varName": "currentTarget",
+                  "indexType": "first"
+                }
               }
-            },
-            {
-              "getFromListBTB": {
+            ],
+            "parallel": {
+              "cycle": {
+                "findLeader": []
+              },
+              "getFromListBTBAfterLeader": {
                 "listName": "targets",
-                "varName": "currentTarget",
-                "indexType": "first"
+                "varName": "currentTarget"
+              },
+              "followTarget": {
+                "offsetFromBot": true,
+                "useTarget": false
               }
             }
-          ],
+          },
           "setAsTarget": {
             "varName": "currentTarget"
           },
@@ -931,9 +1077,27 @@
                   "torpedoTarget": [],
                   "diveBombTarget": [],
                   "bombTarget": [],
-                  "sequencer": {
-                    "isAuxWeaponAllowed": [],
-                    "fighterAttackGround": []
+                  "ifThenElse": {
+                    "isIndependentAttacker": [],
+                    "selector": {
+                      "selectStrategy": "ordered",
+                      "sequencer": {
+                        "isAuxWeaponAllowed": [],
+                        "fighterAttackGround": []
+                      },
+                      "parallel": {
+                        "cycle": {
+                          "hasGroupWeaponForTarget": {
+                            "checkAuxWeapon": true
+                          }
+                        },
+                        "attackGroundFake": []
+                      }
+                    },
+                    "sequencer": {
+                      "isAuxWeaponAllowed": [],
+                      "fighterAttackGround": []
+                    }
                   }
                 }
               }
@@ -944,15 +1108,36 @@
                   "selectStrategy": "ordered",
                   "diveBombTarget": [],
                   "bombTarget": [],
-                  "sequencer": {
-                    "isAuxWeaponAllowed": [],
-                    "fighterAttackGround": []
+                  "ifThenElse": {
+                    "isIndependentAttacker": [],
+                    "selector": {
+                      "selectStrategy": "ordered",
+                      "sequencer": {
+                        "isAuxWeaponAllowed": [],
+                        "fighterAttackGround": []
+                      },
+                      "parallel": {
+                        "cycle": {
+                          "hasGroupWeaponForTarget": {
+                            "checkAuxWeapon": true
+                          }
+                        },
+                        "attackGroundFake": []
+                      }
+                    },
+                    "sequencer": {
+                      "isAuxWeaponAllowed": [],
+                      "fighterAttackGround": []
+                    }
                   }
                 }
               }
             }
           ]
         }
+      },
+      {
+        "resetTarget": []
       },
       {
         "sequencer": {

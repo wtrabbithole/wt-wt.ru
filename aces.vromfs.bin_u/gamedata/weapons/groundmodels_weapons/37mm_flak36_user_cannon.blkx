@@ -327,5 +327,58 @@
         }
       }
     }
+  },
+  {
+    "37mm_ger_mgr_HE": {
+      "bullet": {
+        "bulletCount": 40,
+        "mass": 0.55,
+        "explosiveType": "hta",
+        "explosiveMass": 0.09,
+        "caliber": 0.037,
+        "speed": 914.0,
+        "maxDistance": 3000.0,
+        "bulletType": "frag_i_t",
+        "bulletName": "37mm_mgr_18",
+        "hitPowerMult": 2.0,
+        "nearHitPower": [1.0,50.0],
+        "midHitPower": [0.9,300.0],
+        "farHitPower": [0.1,700.0],
+        "endHitPower": [0.008,1500.0],
+        "relativeVelHitShift": [300.0,1000.0],
+        "nearArmorPower": [3.0,150.0],
+        "midArmorPower": [2.0,600.0],
+        "farArmorPower": [2.0,1000.0],
+        "relativeVelArmorShift": [200.0,1000.0],
+        "explodeTreshold": 0.1,
+        "explodeHitPower": 45.0,
+        "explodeArmorPower": 5.0,
+        "explodeRadius": [0.3,1.2],
+        "fuseDelayDist": 0.3,
+        "shutterDamage": true,
+        "shutterDamageRadius": 5.5,
+        "shutterAmount": 70,
+        "shutterArmorPower": 6.0,
+        "shutterHit": 8.0,
+        "groundCollisionEffect": "37_50_he_hit_ground",
+        "ricochetEffect": "cannon_ricochet",
+        "visual": {
+          "range_percent_of_ammo": [100.0,0.0],
+          "traceFreq": 1,
+          "tracer": "50mmBrightRed",
+          "trail": "black"
+        },
+        "collisions": {
+          "steel": {
+            "fx": "cannon_hit_armor_cumulative",
+            "fxScale": [1.5,2.0]
+          },
+          "armor": {
+            "fx": "cannon_hit_armor_cumulative",
+            "fxScale": [1.5,2.0]
+          }
+        }
+      }
+    }
   }
 ]

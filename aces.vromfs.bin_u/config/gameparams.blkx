@@ -1154,7 +1154,11 @@
         "tankLockShootingByAlly": true,
         "tankFriendlyFireDamage": false,
         "tankMainGearRatioMult": 0.9,
-        "maxBombDamageHeight": 5.0
+        "maxBombDamageHeight": 5.0,
+        "allowCrewHealing": true,
+        "allowAutoCrewHealing": true,
+        "crewHealingOnlyOnCaptureZone": false,
+        "allowMovingAtCrewHealing": false
       },
       "medium": {
         "mouseAimMaxAnglesSmoothness": 0.05,
@@ -1192,7 +1196,11 @@
         "tankLockShootingByAlly": false,
         "tankFriendlyFireDamage": true,
         "maxBombDamageHeight": 200.0,
-        "bombAssaultFuseTime": 1.5
+        "bombAssaultFuseTime": 1.5,
+        "allowCrewHealing": true,
+        "allowAutoCrewHealing": false,
+        "crewHealingOnlyOnCaptureZone": true,
+        "allowMovingAtCrewHealing": false
       },
       "hard": {
         "mouseAimMaxAnglesSmoothness": 0.25,
@@ -1230,7 +1238,11 @@
         "tankLockShootingByAlly": false,
         "tankFriendlyFireDamage": true,
         "maxBombDamageHeight": 200.0,
-        "bombAssaultFuseTime": 1.5
+        "bombAssaultFuseTime": 1.5,
+        "allowCrewHealing": true,
+        "allowAutoCrewHealing": false,
+        "crewHealingOnlyOnCaptureZone": true,
+        "allowMovingAtCrewHealing": false
       }
     },
     "engineControl": {
@@ -2520,7 +2532,7 @@
     "shadow_p1": [-24.5,-19.8],
     "shadow_p2": [15.5,20.2]
   },
-  "gui-settings": {
+  "guiSettings": {
     "KeyRepeater": {
       "useKeyRepeater": true,
       "keyRepeaterRepeatKeyboard": false,
@@ -5586,6 +5598,14 @@
       "tankDirtNoise": "snow_noise_mask",
       "dirtMaskScale": 6.0
     }
+  },
+  "cutHoles": {
+    "decal": "explosion_patch_ship_soot_c",
+    "noise": "explosion_patch_ship_metal_n",
+    "explosionMinRadius": 0.2,
+    "explosionMaxRadius": 1.5,
+    "explosionRadiusK": 1.5,
+    "explosionDepthBias": 0.2
   },
   "trackEffectsPresets": {
     "default": {

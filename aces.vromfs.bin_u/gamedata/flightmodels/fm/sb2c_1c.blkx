@@ -449,23 +449,119 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
-      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.008,
-      "WaterMaxRPMTemp": 230.0,
-      "OilOutMaxRPMTemp": 80.0,
-      "OverheatTime": 300.0,
-      "UnderheatTime": 999.0,
-      "WaterMaxTemp": 448.0,
-      "EmptyWaterPipeMaxRPMTemp": 264.0,
-      "WaterMinTemp": 110.0,
-      "OilMaxTemp": 200.0,
-      "EmptyOilPipeOutMaxRPMTemp": 130.0,
-      "OilMinTemp": 40.0,
-      "EffectiveRadSpeed": 250.0,
-      "IneffectiveRadMult": 0.8,
-      "AdvancedThermodynamics": false
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 0.6033,
+      "WaterAirDensityPower": 0.0,
+      "WaterRadiatorEffectPower": 5.0,
+      "WaterMinRadiatorThermalConductionCoeff": 0.8056,
+      "WaterMinThermostatThermalConductionCoeff": 0.3,
+      "WaterMinLevelThermalConductionCoeff": 0.2,
+      "WaterBoilingTemperature": 498.0,
+      "WaterThermostatInertia": 20.0,
+      "WaterThermostatSetPoint": 80.0,
+      "NoFlowMode": 2,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 2.1065,
+      "OilRadiatorEffectPower": 5.0,
+      "OilMinRadiatorThermalConductionCoeff": 0.6642,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 60.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 44.0,
+      "HalfHealthOilTemperatureToleranceDecrease": 19.5,
+      "CoolingEffectiveAirSpeed": 313.089,
+      "WaterTemperatureNoFlow": 301.916,
+      "OilTemperatureNoFlow": 109.744,
+      "AdvancedThermodynamics": true,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 800.0,
+        "ManifoldPressure": 0.7943,
+        "WaterTemperature": 118.0,
+        "OilTemperature": 53.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.0937,
+        "WaterTemperature": 197.688,
+        "OilTemperature": 68.0
+      },
+      "Mode2": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.2867,
+        "WaterTemperature": 222.688,
+        "OilTemperature": 74.8487
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2600.0,
+        "ManifoldPressure": 1.505,
+        "WaterTemperature": 247.688,
+        "OilTemperature": 89.8487
+      },
+      "Load0": {
+        "WaterTemperature": 189.688,
+        "OilTemperature": 60.0
+      },
+      "Load1": {
+        "WaterTemperature": 199.688,
+        "OilTemperature": 70.0,
+        "WorkTime": 7200.0,
+        "RecoverTime": 3600.0
+      },
+      "Load2": {
+        "WaterTemperature": 224.688,
+        "OilTemperature": 76.8487,
+        "WorkTime": 3600.0,
+        "RecoverTime": 1800.0
+      },
+      "Load3": {
+        "WaterTemperature": 249.688,
+        "OilTemperature": 91.8487,
+        "WorkTime": 1800.0,
+        "RecoverTime": 900.0
+      },
+      "Load4": {
+        "WaterTemperature": 259.688,
+        "OilTemperature": 101.849,
+        "WorkTime": 600.0,
+        "RecoverTime": 300.0
+      },
+      "Load5": {
+        "WaterTemperature": 264.688,
+        "OilTemperature": 106.849,
+        "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "Load6": {
+        "WaterTemperature": 269.688,
+        "OilTemperature": 111.849,
+        "WorkTime": 120.0,
+        "RecoverTime": 60.0
+      },
+      "RadiatorMode0": {
+        "Throttle": 0.874,
+        "WaterTemperature": 224.688,
+        "OilTemperature": 76.8487
+      },
+      "RadiatorMode1": {
+        "Throttle": 1.0,
+        "WaterTemperature": 249.688,
+        "OilTemperature": 91.8487
+      },
+      "RadiatorMode2": {
+        "Throttle": 1.1,
+        "WaterTemperature": 259.688,
+        "OilTemperature": 101.849
+      }
     },
     "Compressor": {
       "IsControllable": true,

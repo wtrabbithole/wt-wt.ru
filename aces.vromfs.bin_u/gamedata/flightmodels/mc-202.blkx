@@ -3,16 +3,19 @@
     "model": "mc_202"
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "type": "typeFighter"
   },
   {
     "paratrooper": "german"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_sicily"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2246,43 +2249,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_italy": true,
-      "type_fighter": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "malta": true,
-      "sicily": true,
-      "water": true,
-      "mediterranean": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1941": {
-        "malta": 1.0,
-        "sicily": 1.0
-      },
-      "year1942": {
-        "malta": 0.7,
-        "sicily": 0.7
-      },
-      "year1943": {
-        "malta": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 765.0
     }
@@ -2419,6 +2385,22 @@
       "maxPower": 6.0,
       "maxSegments": 50
     }
+  },
+  {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "mc_202_a*",
+          "to": "mc_202_a*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "mc_202_a_dmg*",
+          "to": "mc_202_a_dmg*"
+        }
+      }
+    ]
   },
   {
     "skin": [
@@ -2628,21 +2610,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11500.0,
-      "maxSpeed": 166.66,
-      "turnTime": 21.4374,
-      "airfieldLen": 368.301,
-      "climbTime": 333.2,
-      "maxSpeedAlt": 6000.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 25.6,
-      "wingLoading": 172.0,
-      "powerToWeightRatio": 0.39,
-      "rollRate": 136.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 8.85,
@@ -2679,6 +2646,7 @@
           "climbTimeMil2": [6000.0,357.515],
           "climbTimeMil3": [8000.0,538.75],
           "turnTimeMil": [1000.0,22.4],
+          "takeoffDistance": 639.337,
           "ceiling": 12200.0,
           "rollRate": 136.0,
           "wingLoading": 172.0,

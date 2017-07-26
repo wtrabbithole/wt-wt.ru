@@ -21,13 +21,13 @@
     "ignoreArcadeWep": true
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_peleliu"
   },
   {
     "DamageGen": {
@@ -795,7 +795,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -839,7 +839,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -883,7 +883,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -927,7 +927,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -3616,55 +3616,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_japan": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "type_longrange_bomber": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "bomberview": true,
-      "pacific": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1944": {
-        "khalkin_gol": 1.0,
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "port_moresby": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1945": {
-        "khalkin_gol": 0.7,
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "port_moresby": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2280.0
     }
@@ -4316,21 +4267,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11156.0,
-      "maxSpeed": 142.22,
-      "turnTime": 24.3811,
-      "airfieldLen": 488.925,
-      "climbTime": 420.0,
-      "maxSpeedAlt": 7620.0,
-      "climbAlt": 1500.0,
-      "climbSpeed": 7.2,
-      "wingLoading": 262.0,
-      "powerToWeightRatio": 0.07,
-      "rollRate": 28.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 22.935,
@@ -4367,6 +4303,7 @@
           "climbTimeMil2": [6000.0,624.55],
           "climbTimeMil3": [8000.0,857.483],
           "turnTimeMil": [1000.0,25.6],
+          "takeoffDistance": 798.794,
           "ceiling": 10800.0,
           "rollRate": 28.0,
           "wingLoading": 262.0,
@@ -4423,7 +4360,6 @@
       "type99mk1_turret_ap": [],
       "type99mk1_turret_he": [],
       "g8n_14in_mod35": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 2.0

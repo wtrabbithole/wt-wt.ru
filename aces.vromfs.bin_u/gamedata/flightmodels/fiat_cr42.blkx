@@ -2,8 +2,8 @@
   "model": "fiat_cr42",
   "type": "typeFighter",
   "paratrooper": "raf_para",
+  "fireParamsPreset": "400kph",
   "fightAiBehaviour": "fighter",
-  "testFlight": "testFlight_sicily",
   "DamageGen": {
     "engine1_dm": {
       "mat": "aircooling_engine_light"
@@ -536,7 +536,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -1805,38 +1805,6 @@
   "attach": {
     "pilot1": "pilot_raf_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "axis": true,
-    "axis_achievement": true,
-    "country_italy": true,
-    "type_fighter": true,
-    "type_light_fighter": true,
-    "type_biplane": true,
-    "year1939": true,
-    "year1940": true,
-    "year1942": true,
-    "mediterranean": true,
-    "western_front": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1939": {
-      "malta": 1.0,
-      "sicily": 1.0
-    },
-    "year1940": {
-      "malta": 0.7,
-      "sicily": 0.7
-    },
-    "year1941": {
-      "malta": 0.3,
-      "sicily": 0.3
-    }
-  },
   "Params": {
     "Range": 775.0
   },
@@ -2187,19 +2155,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 8500.0,
-    "maxSpeed": 119.222,
-    "turnTime": 19.2354,
-    "airfieldLen": 294.31,
-    "climbTime": 189.959,
-    "maxSpeedAlt": 5200.0,
-    "climbAlt": 3000.0,
-    "climbSpeed": 17.1581,
-    "wingLoading": 106.0,
-    "powerToWeightRatio": 0.38,
-    "rollRate": 154.0
-  },
   "wiki": {
     "general": {
       "length": 8.257,
@@ -2236,6 +2191,7 @@
         "climbTimeMil2": [6000.0,472.495],
         "climbTimeMil3": [8000.0,730.884],
         "turnTimeMil": [1000.0,20.2],
+        "takeoffDistance": 585.837,
         "ceiling": 11400.0,
         "rollRate": 154.0,
         "wingLoading": 106.0,

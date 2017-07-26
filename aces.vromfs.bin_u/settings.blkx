@@ -48,14 +48,6 @@
       "folder": "content/pkg_local"
     }
   ],
-  "game_start": {
-    "scene": "levels/water.bin",
-    "missionFile": "gameData\\missions\\test\\for_video\\video_pearl_harbor.blk",
-    "environment": "morning",
-    "weather": "cloudy",
-    "language": "English",
-    "ignoreMetaInfo": true
-  },
   "video": {
     "safeArea": false,
     "drawDebug": false,
@@ -92,28 +84,8 @@
       "max_ib": 5120
     }
   },
-  "simul": {
+  "skies": {
     "common": {
-      "numCloudLayers": 80,
-      "cloudFarPlane": 35000.0,
-      "numSkyDistances": 32,
-      "numSkyAltitudes": 16,
-      "skyFadeDistance": 300000.0,
-      "zFarDistance": 60000.0,
-      "geom_table_part": 0.8,
-      "cloudsOffsetFrom": 25000.0,
-      "cloudsOffsetTo": 40000.0,
-      "cloudsOffset": 1800.0,
-      "cloudGridSize": 128,
-      "cloudGridHeight": 16
-    },
-    "ps4": {
-      "numCloudLayers": 120,
-      "cloudFarPlane": 35000.0,
-      "numSkyDistances": 32,
-      "numSkyAltitudes": 16,
-      "skyFadeDistance": 300000.0,
-      "zFarDistance": 60000.0,
       "geom_table_part": 0.8,
       "cloudsOffsetFrom": 25000.0,
       "cloudsOffsetTo": 40000.0,
@@ -149,7 +121,7 @@
     "enableApex": true,
     "disableFmSyncDumps": true,
     "mpBulletDiagnostics": false,
-    "trackSimulChanges": false,
+    "trackEnvChanges": false,
     "gamepadInBackground": true,
     "useDpadDiagonals": false,
     "helicopterGame": true,
@@ -251,5 +223,8 @@
   "general": {
     "environment": "day",
     "weather": "clear"
+  },
+  "texStreaming": {
+    "enableStreaming": false
   }
 }

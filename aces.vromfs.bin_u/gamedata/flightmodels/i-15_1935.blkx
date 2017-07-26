@@ -12,17 +12,10 @@
     "paratrooper": "ally"
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "fighter"
-  },
-  {
-    "testFlight": "testFlight_stalingrad"
-  },
-  {
-    "DamageGen": {
-      "armor1_dm": {
-        "mat": "armor8_5"
-      }
-    }
   },
   {
     "DamageParts": {
@@ -387,7 +380,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1489,6 +1482,13 @@
   },
   {
     "DamageGen": {
+      "armor1_dm": {
+        "mat": "armor8"
+      }
+    }
+  },
+  {
+    "DamageGen": {
       "engine1_dm": {
         "mat": "aircooling_engine_light"
       },
@@ -1756,61 +1756,6 @@
   {
     "attach": {
       "pilot1": "pilot_su_500"
-    }
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_fighter": true,
-      "type_light_fighter": true,
-      "type_biplane": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "soviet": true,
-      "eastern_front": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1939": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1940": {
-        "khalkin_gol": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1941": {
-        "khalkin_gol": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
     }
   },
   {
@@ -2194,20 +2139,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 8600.0,
-      "maxSpeed": 102.2,
-      "turnTime": 8.0,
-      "airfieldLen": 125.0,
-      "maxSpeedAlt": 3000.0,
-      "climbTime": 372.0,
-      "climbAlt": 5000.0,
-      "wingLoading": 53.0,
-      "powerToWeightRatio": 0.45,
-      "rollRate": 136.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 6.1,
@@ -2230,6 +2161,7 @@
           "climbTimeMil0": [2000.0,107.316],
           "climbTimeMil1": [4000.0,318.204],
           "turnTimeMil": [1000.0,8.0],
+          "takeoffDistance": 162.989,
           "ceiling": 4600.0,
           "rollRate": 136.0,
           "wingLoading": 53.0,
@@ -2277,7 +2209,6 @@
         "reqModification": "shkas_belt_pack"
       },
       "LaGG_dz-40": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 10.0

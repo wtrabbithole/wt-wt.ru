@@ -27,10 +27,10 @@
     "ignoreArcadeWep": true
   },
   {
-    "fightAiBehaviour": "bomber"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fightAiBehaviour": "bomber"
   },
   {
     "DamageGen": {
@@ -571,6 +571,9 @@
         "gunner4_dm": {
           "hp": 20.0
         },
+        "gunner5_dm": {
+          "hp": 20.0
+        },
         "pilot1_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -851,7 +854,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -895,7 +898,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -939,7 +942,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -983,7 +986,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1619,6 +1622,11 @@
       {
         "part": {
           "name": "gunner4_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "gunner5_dm"
         }
       },
       {
@@ -2864,6 +2872,70 @@
     ]
   },
   {
+    "ikGunner": [
+      {
+        "model": "pilot_usaf_b17_1_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "suffix": "5"
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "throttle_lhand_",
+          "flexionDir": [0.0,-1.0,0.1]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "stick_rhand_",
+          "flexionDir": [0.0,-1.0,-0.1]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [0.0,1.0,-0.2]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [0.0,1.0,0.2]
+        }
+      }
+    ]
+  },
+  {
     "Aircraft": {
       "gunnersCount": 4
     }
@@ -2872,75 +2944,6 @@
     "attach": {
       "pilot1": "pilot_us_500",
       "pilot2": "pilot_us_500"
-    }
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "type_longrange_bomber": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": true,
-      "berlin": true,
-      "bulge": true,
-      "ruhr": true,
-      "guadalcanal": true,
-      "port_moresby": true,
-      "iwo_jima": true,
-      "guam": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "berlin": 0.3,
-        "bulge": 0.3,
-        "ruhr": 0.3
-      },
-      "year1944": {
-        "britain": 0.1,
-        "berlin": 0.3,
-        "bulge": 0.3,
-        "ruhr": 0.3,
-        "guadalcanal": 0.7,
-        "port_moresby": 0.7,
-        "iwo_jima": 0.9,
-        "guam": 0.5
-      },
-      "year1945": {
-        "berlin": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
     }
   },
   {
@@ -2986,6 +2989,42 @@
           "blk": "gameData/Weapons/gunBrowning50_turret.blk",
           "emitter": "flare2",
           "flash": "flare2",
+          "dm": "gunner1_dm",
+          "bullets": 400,
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1"
+          },
+          "limits": {
+            "yaw": [-180.0,180.0],
+            "pitch": [-0.0,60.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner0",
+          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "emitter": "flare11",
+          "flash": "flare11",
+          "dm": "gunner1_dm",
+          "bullets": 400,
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1"
+          },
+          "limits": {
+            "yaw": [-180.0,180.0],
+            "pitch": [-0.0,60.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner0",
+          "blk": "gameData/Weapons/gunBrowning50_turret.blk",
+          "emitter": "flare12",
+          "flash": "flare12",
           "dm": "gunner1_dm",
           "bullets": 400,
           "turret": {
@@ -3362,21 +3401,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12000.0,
-      "maxSpeed": 178.0,
-      "turnTime": 32.0,
-      "airfieldLen": 1800.0,
-      "climbTime": 984.0,
-      "maxSpeedAlt": 9100.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 6.5113,
-      "wingLoading": 283.0,
-      "powerToWeightRatio": 0.05,
-      "rollRate": 15.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 30.172,
@@ -3413,6 +3437,7 @@
           "climbTimeMil2": [6000.0,891.645],
           "climbTimeMil3": [8000.0,1225.77],
           "turnTimeMil": [1000.0,33.4],
+          "takeoffDistance": 1213.13,
           "ceiling": 11500.0,
           "rollRate": 15.0,
           "wingLoading": 283.0,
@@ -3462,20 +3487,17 @@
       "50cal_turret_ap": [],
       "50cal_turret_api": [],
       "b-29_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 1.0
       },
       "b-29_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 6.0,
         "reqModification": "b-29_sbc"
       },
       "b-29_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 11.0,

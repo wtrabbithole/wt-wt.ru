@@ -15,10 +15,10 @@
     "isCapableOfAttackTurn": false
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_ruhr"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -418,7 +418,7 @@
           "genericDamageMult": 0.3,
           "hp": 29.5
         },
-        "rudder_dm": {
+        "rudder0_dm": {
           "genericDamageMult": 0.3,
           "hp": 29.5
         },
@@ -728,7 +728,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -772,7 +772,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1448,7 +1448,7 @@
       {
         "part": [
           {
-            "name": "rudder_dm"
+            "name": "rudder0_dm"
           },
           {
             "onHit": {
@@ -2342,6 +2342,82 @@
     ]
   },
   {
+    "MetaParts": {
+      "wing_l_structure": [
+        {
+          "hp": 150.0
+        },
+        {
+          "part": "wing_l_dm"
+        },
+        {
+          "part": "wing1_l_dm"
+        },
+        {
+          "part": "wing2_l_dm"
+        },
+        {
+          "part": "fuse1_l_dm"
+        },
+        {
+          "part": "fuse2_l_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "wing_l_dm"
+          }
+        }
+      ],
+      "wing_r_structure": [
+        {
+          "hp": 150.0
+        },
+        {
+          "part": "wing_r_dm"
+        },
+        {
+          "part": "wing1_r_dm"
+        },
+        {
+          "part": "wing2_r_dm"
+        },
+        {
+          "part": "fuse1_l_dm"
+        },
+        {
+          "part": "fuse2_l_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "wing_r_dm"
+          }
+        }
+      ],
+      "tail_structure": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "fuse_dm"
+        },
+        {
+          "part": "tail_dm"
+        },
+        {
+          "part": "stab_dm"
+        },
+        {
+          "part": "fin_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "tail_dm"
+          }
+        }
+      ]
+    }
+  },
+  {
     "ikPilot": [
       {
         "model": "pilot_german_char"
@@ -2510,74 +2586,6 @@
     "attach": {
       "pilot1": "pilot_lw_500",
       "gunner1": "gunner_sit_lw_500"
-    }
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_fighter": true,
-      "type_interceptor": true,
-      "type_heavy_fighter": true,
-      "type_strike_fighter": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "mediterranean": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1940": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 0.5,
-        "ruhr": 1.0,
-        "sicily": 0.5,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1941": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.3,
-        "ruhr": 0.7,
-        "sicily": 0.3,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1942": {
-        "britain": 0.3,
-        "bulge": 0.3,
-        "malta": 0.1,
-        "ruhr": 0.3,
-        "sicily": 0.1,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
     }
   },
   {
@@ -3132,21 +3140,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10000.0,
-      "maxSpeed": 149.444,
-      "turnTime": 30.7329,
-      "airfieldLen": 444.184,
-      "climbTime": 600.0,
-      "maxSpeedAlt": 5000.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 11.0,
-      "wingLoading": 168.0,
-      "powerToWeightRatio": 0.17,
-      "rollRate": 58.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.07,
@@ -3183,6 +3176,7 @@
           "climbTimeMil2": [6000.0,581.084],
           "climbTimeMil3": [8000.0,1019.01],
           "turnTimeMil": [1000.0,31.7],
+          "takeoffDistance": 640.271,
           "ceiling": 9200.0,
           "rollRate": 58.0,
           "wingLoading": 168.0,
@@ -3253,18 +3247,15 @@
       "mg_turret_ap": [],
       "mg_turret_api_apt": [],
       "Bf-110C-4_8xSC50": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3
       },
       "Bf-110C-4_2xSC250": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "Bf-110C-4_8xSC50"
       },
       "Bf-110C-4_SC500": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "Bf-110C-4_2xSC250"

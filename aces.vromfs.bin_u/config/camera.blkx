@@ -847,6 +847,201 @@
       }
     }
   ],
+  "camera_binoculars_targeting": [
+    {
+      "fov": 12.3
+    },
+    {
+      "zoomFov": 12.3
+    },
+    {
+      "gunFov": 10.0
+    },
+    {
+      "transitionSpeed": 4.0
+    },
+    {
+      "targetOffset": [500.0,2.0,0.0]
+    },
+    {
+      "cameraOffsetNeutral": [-17.0,2.0,0.0]
+    },
+    {
+      "cameraUpNeutral": [0.0,1.0,0.0]
+    },
+    {
+      "cameraOffsetSmoothing": 0.04
+    },
+    {
+      "cameraUpSmoothing": 0.0
+    },
+    {
+      "cameraFovSmoothing": 0.005
+    },
+    {
+      "startDofDist": 0.1
+    },
+    {
+      "maxDofDist": 10.0
+    },
+    {
+      "maxDofEffect": 1.0
+    },
+    {
+      "useDof": true
+    },
+    {
+      "allowHeadControl": false
+    },
+    {
+      "allowViewControl": false
+    },
+    {
+      "cameraOffsetElevatorUp": [-14.0,3.0,0.0]
+    },
+    {
+      "cameraOffsetElevatorDown": [-14.0,3.0,0.0]
+    },
+    {
+      "sensitivityElevatorDown": 1.0
+    },
+    {
+      "sensitivityElevatorUp": 1.0
+    },
+    {
+      "cameraOffsetRudderLeft": [-14.0,3.0,-1.0]
+    },
+    {
+      "cameraOffsetRudderRight": [-14.0,3.0,1.0]
+    },
+    {
+      "sensitivityRudder": 10.0
+    },
+    {
+      "cameraUpAileronsLeft": [0.0,1.0,0.7]
+    },
+    {
+      "cameraUpAileronsRight": [0.0,1.0,-0.7]
+    },
+    {
+      "sensitivityAilerons": 0.3
+    },
+    {
+      "subtype": "binoculars_targeting"
+    },
+    {
+      "cameraOffset": [0.0,3.0,-8.0]
+    },
+    {
+      "cameraOffsetZoomed": [1.5,2.3,-5.0]
+    },
+    {
+      "targetOffset": [10.0,4.0,0.0]
+    },
+    {
+      "useOffset": true
+    },
+    {
+      "clipType": "trace"
+    },
+    {
+      "zoomToGun": false
+    },
+    {
+      "useCockpitOffsets": true
+    },
+    {
+      "fovVertAnglesOffsetPart": 0.0
+    },
+    {
+      "isMouseView": true
+    },
+    {
+      "isAimCamera": true
+    },
+    {
+      "cockpitOffsetsRange": [1.0,1.0]
+    },
+    {
+      "cameraControlViewRadius": 5.0
+    },
+    {
+      "cameraUpOffset": 1.0
+    },
+    {
+      "cameraFovAccelerationPositive": 1.0
+    },
+    {
+      "cameraFovAccelerationNegative": 2.0
+    },
+    {
+      "sensitivityAcceleration": 10.0
+    },
+    {
+      "cameraTpsSmoothing": 0.001
+    },
+    {
+      "maxCameraSlowAngle": 9.0
+    },
+    {
+      "cameraTpsAngleAccelaration": 2.0
+    },
+    {
+      "minimumDistanceMultiplier": 1.2
+    },
+    {
+      "targOffsMult": 0.0
+    },
+    {
+      "cameraShakeMultiplier": 0.1
+    },
+    {
+      "cameraShakeMultiplierOnShooting": 0.0
+    },
+    {
+      "transitionFadeInTime": 0.12
+    },
+    {
+      "transitionFadeOutTime": 0.05
+    },
+    {
+      "viscosity": 0.0
+    },
+    {
+      "trackGunDirection": true
+    },
+    {
+      "condition": {
+        "not": {
+          "isFlightModel": []
+        }
+      }
+    },
+    {
+      "up": {
+        "angle": [0.0,-90.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "down": {
+        "angle": [180.0,0.0],
+        "dist": 40.0
+      }
+    },
+    {
+      "left": {
+        "angle": [-110.0,0.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "right": {
+        "angle": [110.0,0.0],
+        "dist": 20.0
+      }
+    }
+  ],
   "aim_ground": [
     {
       "fov": 30.0
@@ -1063,6 +1258,9 @@
     },
     {
       "isOrientationLocked": true
+    },
+    {
+      "isOrientationLockedToNode": false
     },
     {
       "subtype": "targeting_view"
@@ -3169,6 +3367,9 @@
       },
       {
         "camName": "driver_ground"
+      },
+      {
+        "camName": "camera_binoculars_targeting"
       }
     ],
     "spectator": [

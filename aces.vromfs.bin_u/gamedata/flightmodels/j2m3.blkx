@@ -18,10 +18,13 @@
     "paratrooper": "japan_para"
   },
   {
+    "fireParamsPreset": "600kph"
+  },
+  {
     "fightAiBehaviour": "fighter"
   },
   {
-    "testFlight": "testFlight_peleliu"
+    "fireParamsPreset": "700kph"
   },
   {
     "DamageGen": {
@@ -322,6 +325,100 @@
     }
   },
   {
+    "MetaParts": {
+      "wing_l_structure": [
+        {
+          "hp": 75.0
+        },
+        {
+          "part": "wing_l_dm"
+        },
+        {
+          "part": "wing1_l_dm"
+        },
+        {
+          "part": "wing2_l_dm"
+        },
+        {
+          "part": "spar1_l_dm"
+        },
+        {
+          "part": "spar2_l_dm"
+        },
+        {
+          "part": "spar_l_dm"
+        },
+        {
+          "part": "fuse1_l_dm"
+        },
+        {
+          "part": "fuse2_l_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "wing_l_dm"
+          }
+        }
+      ],
+      "wing_r_structure": [
+        {
+          "hp": 75.0
+        },
+        {
+          "part": "wing_r_dm"
+        },
+        {
+          "part": "wing1_r_dm"
+        },
+        {
+          "part": "wing2_r_dm"
+        },
+        {
+          "part": "spar1_r_dm"
+        },
+        {
+          "part": "spar2_r_dm"
+        },
+        {
+          "part": "spar_r_dm"
+        },
+        {
+          "part": "fuse1_l_dm"
+        },
+        {
+          "part": "fuse2_l_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "wing_r_dm"
+          }
+        }
+      ],
+      "tail_structure": [
+        {
+          "hp": 1650.0
+        },
+        {
+          "part": "fuse_dm"
+        },
+        {
+          "part": "tail_dm"
+        },
+        {
+          "part": "stab_dm"
+        },
+        {
+          "part": "fin_dm"
+        },
+        {
+          "effects": {
+            "cutPart": "tail_dm"
+          }
+        }
+      ]
+    }
+  },
+  {
     "ikPilot": [
       {
         "model": "pilot_japan_char"
@@ -385,46 +482,6 @@
   {
     "attach": {
       "pilot1": "pilot_japan_500"
-    }
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_japan": true,
-      "type_fighter": true,
-      "year1944": true,
-      "year1945": true,
-      "pacific": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1944": {
-        "khalkin_gol": 1.0,
-        "guadalcanal": 1.0,
-        "honolulu": 1.0,
-        "midway": 1.0,
-        "wake_island": 1.0,
-        "port_moresby": 1.0,
-        "guam": 1.0,
-        "saipan": 1.0
-      },
-      "year1945": {
-        "khalkin_gol": 0.7,
-        "guadalcanal": 0.7,
-        "honolulu": 0.7,
-        "midway": 0.7,
-        "wake_island": 0.7,
-        "port_moresby": 0.7,
-        "guam": 0.0,
-        "saipan": 0.7
-      }
     }
   },
   {
@@ -692,6 +749,7 @@
           "climbTimeMil2": [6000.0,322.724],
           "climbTimeMil3": [8000.0,480.32],
           "turnTimeMil": [1000.0,19.8],
+          "takeoffDistance": 581.773,
           "ceiling": 13100.0,
           "rollRate": 98.0,
           "wingLoading": 165.0,
@@ -1301,7 +1359,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2690,21 +2748,6 @@
     ]
   },
   {
-    "Shop": {
-      "maxAltitude": 12000.0,
-      "maxSpeed": 186.1,
-      "turnTime": 19.0,
-      "airfieldLen": 300.0,
-      "climbTime": 44.0,
-      "maxSpeedAlt": 5300.0,
-      "climbAlt": 1000.0,
-      "climbSpeed": 22.7,
-      "wingLoading": 163.0,
-      "powerToWeightRatio": 0.57,
-      "rollRate": 162.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.695,
@@ -2745,6 +2788,7 @@
           "climbTimeMil2": [6000.0,284.968],
           "climbTimeMil3": [8000.0,414.756],
           "turnTimeMil": [1000.0,20.3],
+          "takeoffDistance": 575.943,
           "ceiling": 12600.0,
           "rollRate": 162.0,
           "wingLoading": 163.0,
@@ -2756,7 +2800,7 @@
           "airSpeedWep2": [3000.0,618.0],
           "airSpeedWep3": [5100.0,674.0],
           "airSpeedWep4": [7600.0,658.0],
-          "airSpeedWep5": [10100.0,620.0],
+          "airSpeedWep5": [10600.0,610.0],
           "airSpeedWep6": [12600.0,539.0],
           "climbRateWep0": [0.0,22.3],
           "climbRateWep1": [1000.0,22.7],
@@ -2769,7 +2813,7 @@
           "airSpeedMil2": [4100.0,610.0],
           "airSpeedMil3": [6300.0,669.0],
           "airSpeedMil4": [9000.0,637.0],
-          "airSpeedMil5": [10700.0,605.0],
+          "airSpeedMil5": [10800.0,602.0],
           "airSpeedMil6": [12600.0,536.0],
           "climbRateMil0": [0.0,17.6],
           "climbRateMil1": [2400.0,18.2],

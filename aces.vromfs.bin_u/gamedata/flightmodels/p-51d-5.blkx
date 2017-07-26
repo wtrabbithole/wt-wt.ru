@@ -12,10 +12,10 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "700kph"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2121,51 +2121,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_fighter": true,
-      "year1944": true,
-      "year1945": true,
-      "ally_west": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1944": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1945": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7,
-        "bulge": 0.7,
-        "ruhr": 0.7
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 805.0
     }
@@ -2252,7 +2207,8 @@
           "dm": "mgun1_dm",
           "bullets": 270,
           "light": true,
-          "spread": 1.2
+          "spread": 1.2,
+          "recoilMultiplier": 1.7
         }
       },
       {
@@ -2265,7 +2221,8 @@
           "bullets": 270,
           "light": false,
           "spread": 1.2,
-          "traceOffset": 1
+          "traceOffset": 1,
+          "recoilMultiplier": 1.7
         }
       },
       {
@@ -2278,7 +2235,8 @@
           "bullets": 500,
           "light": true,
           "spread": 1.2,
-          "traceOffset": 2
+          "traceOffset": 2,
+          "recoilMultiplier": 1.7
         }
       },
       {
@@ -2291,7 +2249,8 @@
           "bullets": 500,
           "light": true,
           "spread": 1.2,
-          "traceOffset": 1
+          "traceOffset": 1,
+          "recoilMultiplier": 1.7
         }
       },
       {
@@ -2304,7 +2263,8 @@
           "bullets": 270,
           "light": false,
           "spread": 1.2,
-          "traceOffset": 2
+          "traceOffset": 2,
+          "recoilMultiplier": 1.7
         }
       },
       {
@@ -2318,7 +2278,8 @@
           "bullets": 270,
           "light": true,
           "spread": 1.2,
-          "traceOffset": 3
+          "traceOffset": 3,
+          "recoilMultiplier": 1.7
         }
       }
     ]
@@ -2693,21 +2654,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12700.0,
-      "maxSpeed": 194.0,
-      "turnTime": 23.0,
-      "airfieldLen": 396.462,
-      "climbTime": 420.0,
-      "maxSpeedAlt": 7620.0,
-      "climbAlt": 6098.0,
-      "climbSpeed": 18.0,
-      "wingLoading": 217.0,
-      "powerToWeightRatio": 0.36,
-      "rollRate": 95.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.838,
@@ -2724,8 +2670,8 @@
         "table": {
           "rpmWep": 3000.0,
           "manifoldPressureWep": 2.24,
-          "airSpeedWep0": [0.0,591.0],
-          "airSpeedWep1": [3100.0,672.0],
+          "airSpeedWep0": [0.0,586.0],
+          "airSpeedWep1": [3200.0,674.0],
           "airSpeedWep2": [7100.0,703.0],
           "climbRateWep0": [0.0,17.2],
           "climbRateWep1": [2100.0,18.0],
@@ -2739,7 +2685,7 @@
           "manifoldPressureMil": 2.04,
           "airSpeedMil0": [0.0,570.0],
           "airSpeedMil1": [3900.0,671.0],
-          "airSpeedMil2": [7800.0,694.0],
+          "airSpeedMil2": [7800.0,695.0],
           "climbRateMil0": [0.0,15.3],
           "climbRateMil1": [2900.0,16.2],
           "climbRateMil2": [6800.0,11.8],
@@ -2748,19 +2694,20 @@
           "climbTimeMil2": [6000.0,406.798],
           "climbTimeMil3": [8000.0,579.647],
           "turnTimeMil": [1000.0,23.8],
+          "takeoffDistance": 525.177,
           "ceiling": 11900.0,
           "rollRate": 95.0,
           "wingLoading": 217.0,
           "powerToWeightRatio": 0.36
         },
         "plot": {
-          "airSpeedWep0": [0.0,591.0],
-          "airSpeedWep1": [3100.0,672.0],
-          "airSpeedWep2": [4900.0,656.0],
-          "airSpeedWep3": [6100.0,690.0],
-          "airSpeedWep4": [7200.0,703.0],
-          "airSpeedWep5": [10500.0,661.0],
-          "airSpeedWep6": [11900.0,616.0],
+          "airSpeedWep0": [0.0,586.0],
+          "airSpeedWep1": [3200.0,674.0],
+          "airSpeedWep2": [4700.0,655.0],
+          "airSpeedWep3": [6100.0,691.0],
+          "airSpeedWep4": [7100.0,703.0],
+          "airSpeedWep5": [9300.0,681.0],
+          "airSpeedWep6": [11900.0,617.0],
           "climbRateWep0": [0.0,17.2],
           "climbRateWep1": [2100.0,18.0],
           "climbRateWep2": [3800.0,13.7],
@@ -2768,11 +2715,11 @@
           "climbRateWep4": [11900.0,1.9],
           "airSpeedMil0": [0.0,570.0],
           "airSpeedMil1": [3900.0,671.0],
-          "airSpeedMil2": [5400.0,648.0],
+          "airSpeedMil2": [5400.0,649.0],
           "airSpeedMil3": [6900.0,686.0],
           "airSpeedMil4": [8100.0,693.0],
-          "airSpeedMil5": [10700.0,653.0],
-          "airSpeedMil6": [11900.0,609.0],
+          "airSpeedMil5": [10600.0,657.0],
+          "airSpeedMil6": [11900.0,610.0],
           "climbRateMil0": [0.0,15.3],
           "climbRateMil1": [2800.0,16.3],
           "climbRateMil2": [4500.0,12.0],
@@ -2813,35 +2760,29 @@
         "tier": 3
       },
       "frc_mk2": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "tier": 2,
         "modClass": "weapon"
       },
       "bazooka_pylon": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "tier": 4,
         "modClass": "weapon",
         "reqModification": "frc_mk2"
       },
       "fsbc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 1,
         "modClass": "weapon"
       },
       "fsbc_mk5": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 2,
         "modClass": "weapon",
         "reqModification": "fsbc_mk1"
       },
       "fmbc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 3,
         "modClass": "weapon",
         "reqModification": "fsbc_mk5"
       },
       "flbc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 4,
         "modClass": "weapon",
         "reqModification": "fmbc_mk1"

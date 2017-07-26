@@ -12,10 +12,10 @@
     "paratrooper": "raf_para"
   },
   {
-    "fightAiBehaviour": "bomber"
+    "fireParamsPreset": "200kph"
   },
   {
-    "testFlight": "testFlight_britain_navy"
+    "fightAiBehaviour": "bomber"
   },
   {
     "DamageGen": {
@@ -543,7 +543,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1957,53 +1957,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_bomber": true,
-      "type_biplane": true,
-      "type_torpedo": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "bomber": true,
-      "bomberview": true,
-      "mediterranean": true,
-      "western_front": true,
-      "not_in_dynamic_campaign": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "carrier_take_off": true
-    }
-  },
-  {
-    "years_active": {
-      "year1940": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "sicily": 0.5
-      },
-      "year1941": {
-        "britain": 0.8,
-        "malta": 0.8,
-        "sicily": 0.8
-      },
-      "year1942": {
-        "britain": 0.4,
-        "malta": 0.4,
-        "sicily": 0.8
-      },
-      "year1943": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "sicily": 0.5
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 880.0
     }
@@ -2348,21 +2301,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 3300.0,
-      "maxSpeed": 62.7,
-      "turnTime": 50.237,
-      "airfieldLen": 296.924,
-      "maxSpeedAlt": 1400.0,
-      "climbSpeed": 9.2,
-      "climbTime": 600.0,
-      "climbAlt": 1524.0,
-      "wingLoading": 58.0,
-      "powerToWeightRatio": 0.2,
-      "rollRate": 67.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.0716,
@@ -2386,6 +2324,7 @@
           "climbTimeMil1": [4000.0,721.022],
           "climbTimeMil2": [6000.0,1497.21],
           "turnTimeMil": [1000.0,50.2],
+          "takeoffDistance": 388.638,
           "ceiling": 6400.0,
           "rollRate": 67.0,
           "wingLoading": 58.0,
@@ -2439,7 +2378,6 @@
         "reqModification": "bmg303_belt_pack"
       },
       "fairey_tc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 2
       }

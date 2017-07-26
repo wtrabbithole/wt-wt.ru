@@ -12,10 +12,10 @@
     "paratrooper": "raf_para"
   },
   {
-    "fightAiBehaviour": "bomber"
+    "fireParamsPreset": "900kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "bomber"
   },
   {
     "DamageGen": {
@@ -643,7 +643,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -687,7 +687,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2424,42 +2424,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_bomber": true,
-      "type_jet_bomber": true,
-      "bomberview": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korea": true,
-      "not_in_dynamic_campaign": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1050.0
     }
@@ -2776,21 +2740,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12192.0,
-      "maxSpeed": 244.444,
-      "turnTime": 26.0,
-      "airfieldLen": 750.0,
-      "climbTime": 282.0,
-      "maxSpeedAlt": 3000.0,
-      "climbAlt": 6096.0,
-      "climbSpeed": 20.0,
-      "wingLoading": 173.0,
-      "thrustToWeightRatio": 0.19,
-      "rollRate": 69.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 19.96,
@@ -2813,6 +2762,7 @@
           "climbTimeMil2": [6000.0,231.172],
           "climbTimeMil3": [8000.0,339.877],
           "turnTimeMil": [1000.0,26.0],
+          "takeoffDistance": 648.446,
           "ceiling": 12400.0,
           "rollRate": 69.0,
           "wingLoading": 173.0,
@@ -2822,7 +2772,7 @@
           "airSpeedMil0": [0.0,854.0],
           "airSpeedMil1": [1400.0,878.0],
           "airSpeedMil2": [5700.0,866.0],
-          "airSpeedMil3": [12400.0,790.0],
+          "airSpeedMil3": [12400.0,791.0],
           "climbRateMil0": [0.0,20.0],
           "climbRateMil1": [3000.0,18.0],
           "climbRateMil2": [6100.0,13.8],
@@ -2851,12 +2801,10 @@
       },
       "new_compressor_jet": [],
       "EEMBC_mark_1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "EELBC_mark_4": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "reqModification": "EEMBC_mark_1",
         "modClass": "weapon",
         "tier": 3

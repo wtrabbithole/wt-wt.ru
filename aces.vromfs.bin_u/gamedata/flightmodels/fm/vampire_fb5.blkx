@@ -540,21 +540,58 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
-      "ConvertThermodynamics": true,
       "RadiatorType": 3,
-      "TempChangeSpeed": 0.01,
-      "WaterMaxRPMTemp": 745.0,
-      "OilOutMaxRPMTemp": 90.0,
-      "OverheatTime": 300.0,
-      "UnderheatTime": 999.0,
-      "WaterMaxTemp": 745.0,
-      "EmptyWaterPipeMaxRPMTemp": 1862.5,
-      "WaterMinTemp": 0.0,
-      "OilMaxTemp": 100.0,
-      "EmptyOilPipeOutMaxRPMTemp": 130.0,
-      "OilMinTemp": 0.0,
-      "EffectiveRadSpeed": 50.0,
-      "IneffectiveRadMult": 0.99
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 5.4795,
+      "WaterAirDensityPower": 0.0,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 350.63,
+      "OilRadiatorEffectPower": 0.0,
+      "OilMinRadiatorThermalConductionCoeff": 1.0,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 60.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 176.0,
+      "HalfHealthOilTemperatureToleranceDecrease": 10.0,
+      "AdvancedThermodynamics": true,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 5000.0,
+        "WaterTemperature": 460.0,
+        "OilTemperature": 50.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 10200.0,
+        "WaterTemperature": 745.0,
+        "OilTemperature": 100.0
+      },
+      "Load0": {
+        "WaterTemperature": 664.0,
+        "OilTemperature": 73.0
+      },
+      "Load1": {
+        "WaterTemperature": 691.0,
+        "OilTemperature": 81.0,
+        "WorkTime": 7200.0,
+        "RecoverTime": 3600.0
+      },
+      "Load2": {
+        "WaterTemperature": 718.0,
+        "OilTemperature": 90.0,
+        "WorkTime": 3600.0,
+        "RecoverTime": 1800.0
+      },
+      "Load3": {
+        "WaterTemperature": 745.0,
+        "OilTemperature": 100.0,
+        "WorkTime": 600.0,
+        "RecoverTime": 300.0
+      }
     },
     "Compressor": {
       "IsControllable": false,

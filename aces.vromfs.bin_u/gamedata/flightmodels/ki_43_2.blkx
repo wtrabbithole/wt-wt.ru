@@ -18,7 +18,7 @@
     "fightAiBehaviour": "fighter"
   },
   {
-    "testFlight": "testFlight_peleliu"
+    "fireParamsPreset": "500kph"
   },
   {
     "DamageGen": {
@@ -580,7 +580,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2058,58 +2058,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_japan": true,
-      "type_fighter": true,
-      "type_light_fighter": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "pacific": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1940": {
-        "khalkin_gol": 1.0,
-        "guadalcanal": 1.0,
-        "honolulu": 1.0,
-        "midway": 1.0,
-        "wake_island": 1.0,
-        "port_moresby": 0.8,
-        "guam": 0.8,
-        "saipan": 0.8
-      },
-      "year1941": {
-        "khalkin_gol": 0.7,
-        "guadalcanal": 0.7,
-        "honolulu": 0.7,
-        "midway": 0.7,
-        "wake_island": 0.7,
-        "port_moresby": 0.7,
-        "guam": 0.0,
-        "saipan": 0.7
-      },
-      "year1942": {
-        "khalkin_gol": 0.3,
-        "guadalcanal": 0.3,
-        "honolulu": 0.3,
-        "midway": 0.3,
-        "wake_island": 0.3,
-        "port_moresby": 0.3,
-        "guam": 0.3,
-        "saipan": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1700.0
     }
@@ -2438,21 +2386,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9800.0,
-      "maxSpeed": 155.0,
-      "turnTime": 15.0,
-      "airfieldLen": 190.0,
-      "climbTime": 390.0,
-      "maxSpeedAlt": 6000.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 15.3,
-      "wingLoading": 122.0,
-      "powerToWeightRatio": 0.43,
-      "rollRate": 136.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 8.92,
@@ -2493,6 +2426,7 @@
           "climbTimeMil2": [6000.0,368.424],
           "climbTimeMil3": [8000.0,541.447],
           "turnTimeMil": [1000.0,15.7],
+          "takeoffDistance": 334.304,
           "ceiling": 12200.0,
           "rollRate": 136.0,
           "wingLoading": 122.0,
@@ -2555,20 +2489,17 @@
         "reqModification": "safat12_belt_pack"
       },
       "ki_7in_mod20": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 4.0
       },
       "ki_10in_mod24": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 7.0,
         "reqModification": "ki_7in_mod20"
       },
       "ki_12in_mod30": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 13.0,

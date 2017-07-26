@@ -27,13 +27,13 @@
     "isCapableOfAttackTurn": false
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_stalingrad"
   },
   {
     "SelfSealingTanks": {
@@ -598,61 +598,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_bomber": true,
-      "type_light_bomber": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "bomber": true,
-      "soviet": true,
-      "bomberview": true,
-      "eastern_front": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1939": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1940": {
-        "khalkin_gol": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1941": {
-        "khalkin_gol": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2350.0
     }
@@ -864,21 +809,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9560.0,
-      "maxSpeed": 117.5,
-      "turnTime": 24.2289,
-      "airfieldLen": 366.454,
-      "climbTime": 534.0,
-      "maxSpeedAlt": 4000.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 8.9,
-      "wingLoading": 87.0,
-      "powerToWeightRatio": 0.1,
-      "rollRate": 51.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.27,
@@ -902,6 +832,7 @@
           "climbTimeMil1": [4000.0,415.161],
           "climbTimeMil2": [6000.0,717.248],
           "turnTimeMil": [1000.0,24.2],
+          "takeoffDistance": 357.547,
           "ceiling": 6800.0,
           "rollRate": 51.0,
           "wingLoading": 87.0,
@@ -3393,14 +3324,13 @@
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
+      "new_engine_injection": [],
       "sb-2_der-25": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 3.0
       },
       "sb-2_der-19": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 6.0,
@@ -3414,55 +3344,6 @@
       "wingRDist": [-5.64059,-4.64059],
       "tailDist": [10.0,11.0],
       "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 12.78,
-        "wingspan": 18.0,
-        "wingArea": 48.2,
-        "emptyWeight": 4810.0,
-        "normalWeight": 5830.0,
-        "maxTakeoffWeight": 8268.0,
-        "powerPlantType": 0,
-        "powerMaxMil": 1090.0
-      },
-      "performance": {
-        "table": {
-          "rpmMil": 2700.0,
-          "manifoldPressureMil": 1.5,
-          "airSpeedMil0": [0.0,374.0],
-          "airSpeedMil1": [1700.0,406.0],
-          "airSpeedMil2": [3800.0,426.0],
-          "climbRateMil0": [0.0,8.2],
-          "climbRateMil1": [800.0,8.9],
-          "climbRateMil2": [3100.0,8.5],
-          "climbRateMil3": [5100.0,-1.0],
-          "climbTimeMil0": [2000.0,165.388],
-          "climbTimeMil1": [4000.0,334.348],
-          "turnTimeMil": [1000.0,24.2],
-          "ceiling": 5600.0,
-          "rollRate": 51.0,
-          "wingLoading": 121.0,
-          "powerToWeightRatio": 0.16
-        },
-        "plot": {
-          "airSpeedMil0": [0.0,374.0],
-          "airSpeedMil1": [1700.0,406.0],
-          "airSpeedMil2": [2600.0,401.0],
-          "airSpeedMil3": [3700.0,426.0],
-          "airSpeedMil4": [5600.0,398.0],
-          "climbRateMil0": [0.0,8.2],
-          "climbRateMil1": [700.0,8.9],
-          "climbRateMil2": [1900.0,6.9],
-          "climbRateMil3": [3100.0,8.5],
-          "climbRateMil4": [3800.0,7.7],
-          "climbRateMil5": [5000.0,2.0],
-          "climbRateMil6": [5100.0,-1.0],
-          "climbRateMil7": [5600.0,-2.9]
-        }
-      }
     }
   }
 ]

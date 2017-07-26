@@ -7,9 +7,9 @@
   "arcadeHP": 200.0,
   "ignoreArcadeWep": true,
   "isCapableOfAttackTurn": false,
+  "fireParamsPreset": "700kph",
   "fightAiBehaviour": "bomber",
   "hasQualityModels": true,
-  "testFlight": "testFlight_ruhr",
   "DamageGen": {
     "armor1_dm": {
       "mat": "armor8"
@@ -2369,72 +2369,6 @@
   "attach": {
     "pilot1": "pilot_lw_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "axis": true,
-    "axis_achievement": true,
-    "country_germany": true,
-    "type_fighter": true,
-    "type_aa_fighter": true,
-    "type_heavy_fighter": true,
-    "year1940": true,
-    "year1941": true,
-    "year1942": true,
-    "bomber": true,
-    "bomberview": true,
-    "britain": true,
-    "mediterranean": true,
-    "western_front": true,
-    "eastern_front": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1940": {
-      "britain": 1.0,
-      "bulge": 1.0,
-      "malta": 1.0,
-      "ruhr": 1.0,
-      "sicily": 1.0,
-      "berlin": 1.0,
-      "korsun": 1.0,
-      "krymsk": 1.0,
-      "mozdok": 1.0,
-      "stalingrad": 1.0,
-      "stalingrad_w": 1.0,
-      "kursk": 1.0
-    },
-    "year1941": {
-      "britain": 0.7,
-      "bulge": 0.7,
-      "malta": 0.7,
-      "ruhr": 0.7,
-      "sicily": 0.7,
-      "berlin": 0.7,
-      "korsun": 0.7,
-      "krymsk": 0.7,
-      "mozdok": 0.7,
-      "stalingrad": 0.7,
-      "stalingrad_w": 0.7,
-      "kursk": 0.7
-    },
-    "year1942": {
-      "britain": 0.3,
-      "bulge": 0.3,
-      "malta": 0.3,
-      "ruhr": 0.3,
-      "sicily": 0.3,
-      "berlin": 0.3,
-      "korsun": 0.3,
-      "krymsk": 0.3,
-      "mozdok": 0.3,
-      "stalingrad": 0.3,
-      "stalingrad_w": 0.3,
-      "kursk": 0.3
-    }
-  },
   "Params": {
     "Range": 2059.96
   },
@@ -2845,19 +2779,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 11000.0,
-    "maxSpeed": 208.3,
-    "turnTime": 29.0,
-    "airfieldLen": 500.0,
-    "climbTime": 600.0,
-    "maxSpeedAlt": 9500.0,
-    "climbAlt": 6000.0,
-    "climbSpeed": 11.0,
-    "wingLoading": 283.0,
-    "powerToWeightRatio": 0.17,
-    "rollRate": 145.0
-  },
   "wiki": {
     "general": {
       "length": 13.85,
@@ -2882,10 +2803,10 @@
         "climbRateWep1": [6900.0,6.6],
         "climbRateWep2": [8300.0,4.9],
         "climbRateWep3": [9200.0,3.8],
-        "climbTimeWep0": [2000.0,142.75],
-        "climbTimeWep1": [4000.0,293.692],
-        "climbTimeWep2": [6000.0,469.078],
-        "climbTimeWep3": [8000.0,681.771],
+        "climbTimeWep0": [2000.0,142.816],
+        "climbTimeWep1": [4000.0,293.841],
+        "climbTimeWep2": [6000.0,469.343],
+        "climbTimeWep3": [8000.0,682.22],
         "turnTimeWep": [1000.0,29.0],
         "rpmMil": 2500.0,
         "manifoldPressureMil": 1.35,
@@ -2896,20 +2817,21 @@
         "climbRateMil1": [7500.0,3.5],
         "climbRateMil2": [8800.0,2.2],
         "climbRateMil3": [9800.0,1.0],
-        "climbTimeMil0": [2000.0,177.063],
-        "climbTimeMil1": [4000.0,367.62],
-        "climbTimeMil2": [6000.0,595.831],
-        "climbTimeMil3": [8000.0,879.457],
+        "climbTimeMil0": [2000.0,177.157],
+        "climbTimeMil1": [4000.0,367.84],
+        "climbTimeMil2": [6000.0,596.233],
+        "climbTimeMil3": [8000.0,880.174],
         "turnTimeMil": [1000.0,31.5],
+        "takeoffDistance": 850.745,
         "ceiling": 10800.0,
-        "rollRate": 145.0,
+        "rollRate": 170.0,
         "wingLoading": 283.0,
         "powerToWeightRatio": 0.17
       },
       "plot": {
         "airSpeedWep0": [0.0,582.0],
         "airSpeedWep1": [3400.0,669.0],
-        "airSpeedWep2": [8000.0,739.0],
+        "airSpeedWep2": [8300.0,743.0],
         "airSpeedWep3": [10800.0,753.0],
         "climbRateWep0": [0.0,10.6],
         "climbRateWep1": [2100.0,11.0],
@@ -2964,12 +2886,10 @@
       "tier": 3
     },
     "etc250_2_mod": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "tier": 2,
       "modClass": "weapon"
     },
     "etc500_3_mod": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "tier": 4,
       "modClass": "weapon",
       "reqModification": "etc250_2_mod"

@@ -20,10 +20,6 @@
   "aircraftExhaustFlameTime": [1.0,2.0],
   "timeForSmokingWrecks": 2.0,
   "shipWaterSplashEnabled": true,
-  "splashEffectsHorzVel": [2.0,10.0],
-  "splashEffectsVertVel": [0.5,5.0],
-  "splashEffectsVelSq": [0.0,25.0],
-  "splashEffectsVelSqScale": [0.5,1.0],
   "dirtTopSpawnRateMinSpd": 1.0,
   "dirtTopSpawnRateMaxSpd": 5.0,
   "dirtTopSpawnRateSpdMult": 0.1,
@@ -33,6 +29,30 @@
   "dirtBackSpawnRateMinSpd": 0.0,
   "dirtBackSpawnRateMaxSpd": 3.0,
   "dirtBackSpawnRateSpdMult": 0.8,
+  "splashEffects": {
+    "name": "ship_water_splashes",
+    "horzVel": [1.0,5.0],
+    "horzVelScale": [0.0,1.0],
+    "vertVel": [0.0,1.0],
+    "velSq": [2.0,10.0],
+    "velSqScale": [0.0,1.0]
+  },
+  "backSplashEffects": {
+    "name": "ship_rear_water_splashes",
+    "horzVel": [1.0,5.0],
+    "horzVelScale": [0.0,1.0],
+    "vertVel": [0.0,1.0],
+    "velSq": [2.0,10.0],
+    "velSqScale": [0.0,1.0]
+  },
+  "propSplashEffects": {
+    "name": "ship_propeller_water_splashes",
+    "horzVel": [0.2,1.0],
+    "horzVelScale": [0.5,1.0],
+    "vertVel": [0.1,6.0],
+    "velSq": [0.2,2.0],
+    "velSqScale": [0.6,1.0]
+  },
   "platform_instance_k": {
     "win32": 1.0,
     "win64": 2.0,
@@ -467,7 +487,9 @@
     "fx": "bomb_ground_explosion_fx",
     "softnessDepth": 5.0,
     "numInstances": 5,
-    "numReserved": 1
+    "numReserved": 1,
+    "sfxPath": "sounds/explosions",
+    "sfxEvent": "explosion_water"
   },
   "torpedo_broken": {
     "fx": "bigsplashexplosion_fx",
@@ -1246,6 +1268,14 @@
     "numInstances": 50,
     "numReserved": 1
   },
+  "400m_gun_flame": {
+    "fx": "ps_gun_flame_400mm_fire_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 50,
+    "numReserved": 1
+  },
   "gunpowder_gun_flame": {
     "fx": "pv_gunpowder_flame_composite_fx",
     "lifeTime": 10.0,
@@ -1510,6 +1540,14 @@
     "numReserved": 1,
     "sfxPath": "sounds/explosions",
     "sfxEvent": "explosion_old_ship_cr"
+  },
+  "ship_explosion": {
+    "fx": "ps_fire_composite_fx",
+    "numInstances": 50,
+    "numReserved": 8,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "destroy",
+    "lightColor": [10.0,2.0,2.0,100.0]
   },
   "trail_water": {
     "fx": "trail_water_fx",
@@ -2198,6 +2236,17 @@
     "sfxPath": "tanks/object_crash",
     "sfxEvent": "building_big"
   },
+  "ad_buildings_straw_destructions_big": {
+    "fx": "ad_buildings_straw_big_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "building_big"
+  },
   "ad_buildings_destructions_part": {
     "fx": "ad_buildings_part_composite_fx",
     "numInstances": 20,
@@ -2247,13 +2296,34 @@
     "maxScale": 1.2
   },
   "ship_water_splashes": {
-    "fx": "ps_water_splash",
+    "fx": "ps_water_splash_composite",
     "lifeTime": 2.0,
     "numInstances": 200,
     "numReserved": 50,
     "softnessDepth": 0.5,
     "onePointNumber": 20,
-    "granularity": 8
+    "granularity": 8,
+    "group": "water_proj"
+  },
+  "ship_rear_water_splashes": {
+    "fx": "ps_rear_water_splash_composite",
+    "lifeTime": 2.0,
+    "numInstances": 200,
+    "numReserved": 50,
+    "softnessDepth": 0.5,
+    "onePointNumber": 20,
+    "granularity": 8,
+    "group": "water_proj"
+  },
+  "ship_propeller_water_splashes": {
+    "fx": "ps_propeller_water_splash_composite",
+    "lifeTime": 2.0,
+    "numInstances": 200,
+    "numReserved": 50,
+    "softnessDepth": 0.5,
+    "onePointNumber": 20,
+    "granularity": 8,
+    "group": "water_proj"
   },
   "golden_light_area_fx": {
     "fx": "golden_trails_composite_fx",
@@ -2291,5 +2361,23 @@
     "softnessDepth": 0.5,
     "onePointNumber": 20,
     "granularity": 8
+  },
+  "location_sand_wind_dense_composite_fx": {
+    "fx": "location_sand_wind_dense_composite_fx",
+    "lifeTime": 2.0,
+    "numInstances": 500,
+    "numReserved": 500,
+    "softnessDepth": 5.0,
+    "onePointNumber": 20,
+    "granularity": 8
+  },
+  "ad_hydrant_destruction": {
+    "fx": "pv_water_jet_small_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "projector"
   }
 }

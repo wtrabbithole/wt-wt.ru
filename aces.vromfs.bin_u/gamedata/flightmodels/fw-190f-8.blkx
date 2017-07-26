@@ -15,10 +15,10 @@
     "paratrooper": "german"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_ruhr"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -772,7 +772,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2159,59 +2159,6 @@
     ]
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_fighter": true,
-      "type_interceptor": true,
-      "type_strike_fighter": true,
-      "year1944": true,
-      "year1945": true,
-      "fw_190_series": true,
-      "mediterranean": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1944": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1945": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 610.0
     }
@@ -2263,6 +2210,10 @@
         "weapon3": [0.0,1.0],
         "aviahorizon_pitch": [-45.0,45.0],
         "aviahorizon_roll": [-180.0,180.0],
+        "flaps": [0.0,1.0],
+        "flaps_fixed": false,
+        "gears": [0.0,1.0],
+        "gear_fixed": false,
         "gears_lamp": [0.0,0.0],
         "ammo_counter1": [1000.0,0.0],
         "ammo_counter2": [500.0,0.0],
@@ -2452,34 +2403,29 @@
         "reqModification": "mg15120_belt_pack"
       },
       "Fw-190F-8_SC500": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 1.0
       },
       "Fw-190F-8_SC500_4xSC50": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 2.0,
         "reqModification": "Fw-190F-8_SC500"
       },
       "Fw-190F-8_SC1000": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 6.0,
         "reqModification": "Fw-190F-8_SC500_4xSC50"
       },
       "Fw-190F-8_SC1000_4xSC50": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 7.0,
         "reqModification": "Fw-190F-8_SC1000"
       },
       "Fw-190F-8_R3": {
-        "image": "#ui/gameuiskin#gunpods",
         "deactivationIsAllowed": false,
         "modClass": "weapon",
         "tier": 4,
@@ -2864,21 +2810,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11100.0,
-      "maxSpeed": 176.389,
-      "turnTime": 23.2,
-      "airfieldLen": 452.528,
-      "climbTime": 576.0,
-      "maxSpeedAlt": 5400.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 15.8238,
-      "wingLoading": 241.0,
-      "powerToWeightRatio": 0.43,
-      "rollRate": 193.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.0,
@@ -2919,6 +2850,7 @@
           "climbTimeMil2": [6000.0,540.726],
           "climbTimeMil3": [8000.0,861.197],
           "turnTimeMil": [1000.0,26.0],
+          "takeoffDistance": 1004.34,
           "ceiling": 10500.0,
           "rollRate": 193.0,
           "wingLoading": 241.0,

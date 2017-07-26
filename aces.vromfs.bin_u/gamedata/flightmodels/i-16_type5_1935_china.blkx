@@ -18,10 +18,10 @@
     "paratrooper": "ally"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_stalingrad"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -503,7 +503,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1690,40 +1690,6 @@
     }
   },
   {
-    "years_active": {
-      "year1940": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1941": {
-        "khalkin_gol": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1942": {
-        "khalkin_gol": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 440.0
     }
@@ -2206,21 +2172,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9100.0,
-      "maxSpeed": 123.611,
-      "maxSpeedAlt": 2700.0,
-      "turnTime": 15.0,
-      "airfieldLen": 210.0,
-      "climbSpeed": 18.5,
-      "climbTime": 462.0,
-      "climbAlt": 5400.0,
-      "wingLoading": 103.0,
-      "powerToWeightRatio": 0.41,
-      "rollRate": 286.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 6.04,
@@ -2255,6 +2206,7 @@
           "climbTimeMil1": [4000.0,297.159],
           "climbTimeMil2": [6000.0,726.362],
           "turnTimeMil": [1000.0,16.2],
+          "takeoffDistance": 671.075,
           "ceiling": 6400.0,
           "rollRate": 286.0,
           "wingLoading": 103.0,
@@ -2345,20 +2297,6 @@
     ]
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_china": true,
-      "type_fighter": true,
-      "type_light_fighter": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "not_in_dynamic_campaign": true
-    }
-  },
-  {
     "default_skin": [
       {
         "name": "kmtaf"
@@ -2395,73 +2333,5 @@
         }
       }
     ]
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 6.04,
-        "wingspan": 9.0,
-        "wingArea": 14.54,
-        "emptyWeight": 1223.9,
-        "normalWeight": 1498.9,
-        "maxTakeoffWeight": 1711.0,
-        "powerPlantType": 1,
-        "powerMaxWep": 800.0,
-        "powerMaxMil": 730.0
-      },
-      "performance": {
-        "table": {
-          "rpmWep": 2200.0,
-          "manifoldPressureWep": 1.28,
-          "airSpeedWep0": [0.0,390.0],
-          "airSpeedWep1": [2400.0,451.0],
-          "climbRateWep0": [0.0,14.1],
-          "climbRateWep1": [1200.0,18.5],
-          "climbTimeWep0": [2000.0,120.413],
-          "climbTimeWep1": [4000.0,266.781],
-          "climbTimeWep2": [6000.0,654.695],
-          "turnTimeWep": [1000.0,15.0],
-          "rpmMil": 2100.0,
-          "manifoldPressureMil": 1.19,
-          "airSpeedMil0": [0.0,378.0],
-          "airSpeedMil1": [2900.0,438.0],
-          "climbRateMil0": [0.0,12.0],
-          "climbRateMil1": [1700.0,16.2],
-          "climbTimeMil0": [2000.0,142.04],
-          "climbTimeMil1": [4000.0,297.159],
-          "climbTimeMil2": [6000.0,726.362],
-          "turnTimeMil": [1000.0,16.2],
-          "ceiling": 6400.0,
-          "rollRate": 286.0,
-          "wingLoading": 103.0,
-          "powerToWeightRatio": 0.41
-        },
-        "plot": {
-          "airSpeedWep0": [0.0,390.0],
-          "airSpeedWep1": [1900.0,441.0],
-          "airSpeedWep2": [2400.0,451.0],
-          "airSpeedWep3": [4000.0,442.0],
-          "airSpeedWep4": [5400.0,388.0],
-          "airSpeedWep5": [6400.0,331.0],
-          "climbRateWep0": [0.0,14.1],
-          "climbRateWep1": [1100.0,18.4],
-          "climbRateWep2": [3700.0,12.3],
-          "climbRateWep3": [5000.0,6.0],
-          "climbRateWep4": [6400.0,1.2],
-          "airSpeedMil0": [0.0,378.0],
-          "airSpeedMil1": [2200.0,431.0],
-          "airSpeedMil2": [3200.0,441.0],
-          "airSpeedMil3": [3800.0,438.0],
-          "airSpeedMil4": [4900.0,404.0],
-          "airSpeedMil5": [6100.0,345.0],
-          "airSpeedMil6": [6300.0,321.0],
-          "climbRateMil0": [0.0,12.0],
-          "climbRateMil1": [1600.0,16.1],
-          "climbRateMil2": [3700.0,11.6],
-          "climbRateMil3": [5000.0,5.5],
-          "climbRateMil4": [6300.0,1.2]
-        }
-      }
-    }
   }
 ]

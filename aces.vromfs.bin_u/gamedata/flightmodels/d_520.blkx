@@ -12,10 +12,10 @@
     "paratrooper": "ally"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -732,7 +732,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2046,35 +2046,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_fighter": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "country_britain": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1940": {
-        "britain": 1.0
-      },
-      "year1941": {
-        "britain": 0.7
-      },
-      "year1942": {
-        "britain": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1000.0
     }
@@ -2103,7 +2074,6 @@
         "stick_elevator": [-2.2,1.8],
         "throttle": [0.0,1.8],
         "trimmer": [-1.0,1.0],
-        "flaps": [0.0,1.0],
         "compass1": [0.0,360.0],
         "compass2": [0.0,360.0],
         "vario": [-10.0,10.0],
@@ -2123,8 +2093,11 @@
         "fuel_pressure": [0.0,20.0],
         "aviahorizon_pitch": [-30.0,30.0],
         "aviahorizon_roll": [-180.0,180.0],
-        "gears_lamp": [0.0,0.0],
-        "flaps_fixed": true
+        "flaps": [0.0,1.0],
+        "flaps_fixed": true,
+        "gears": [0.0,1.0],
+        "gear_fixed": true,
+        "gears_lamp": [0.0,0.0]
       },
       "parts_holes_dmg": {
         "part": "fuse"
@@ -2443,21 +2416,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11200.0,
-      "maxSpeed": 152.77,
-      "turnTime": 20.0,
-      "airfieldLen": 300.0,
-      "climbTime": 402.0,
-      "maxSpeedAlt": 5000.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 10.0,
-      "wingLoading": 166.0,
-      "powerToWeightRatio": 0.36,
-      "rollRate": 130.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 8.6,
@@ -2494,6 +2452,7 @@
           "climbTimeMil2": [6000.0,453.977],
           "climbTimeMil3": [8000.0,741.329],
           "turnTimeMil": [1000.0,20.6],
+          "takeoffDistance": 523.915,
           "ceiling": 10000.0,
           "rollRate": 130.0,
           "wingLoading": 166.0,

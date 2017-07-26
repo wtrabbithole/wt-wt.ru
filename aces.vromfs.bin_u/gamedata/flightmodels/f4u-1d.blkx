@@ -3,7 +3,7 @@
   "fmFile": "fm/f4u-1d.blk",
   "type": "typeFighter",
   "paratrooper": "usa_para",
-  "testFlight": "testFlight_midway_usa",
+  "fireParamsPreset": "700kph",
   "hookParentNode": "gear_c6",
   "DamageGen": {
     "engine1_dm": {
@@ -631,7 +631,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -2113,54 +2113,6 @@
   "attach": {
     "pilot1": "pilot_us_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "ally": true,
-    "type_fighter": true,
-    "type_naval_fighter": true,
-    "year1943": true,
-    "year1944": true,
-    "year1945": true,
-    "country_usa": true,
-    "pacific": true,
-    "carrier_take_off": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1943": {
-      "guadalcanal": 1.0,
-      "guam": 1.0,
-      "honolulu": 1.0,
-      "iwo_jima": 1.0,
-      "midway": 1.0,
-      "peleliu": 1.0,
-      "saipan": 1.0,
-      "wake_island": 1.0
-    },
-    "year1944": {
-      "guadalcanal": 0.7,
-      "guam": 0.7,
-      "honolulu": 0.7,
-      "iwo_jima": 0.7,
-      "midway": 0.7,
-      "peleliu": 0.7,
-      "saipan": 0.7,
-      "wake_island": 0.7
-    },
-    "year1945": {
-      "guadalcanal": 0.3,
-      "guam": 0.3,
-      "honolulu": 0.3,
-      "iwo_jima": 0.3,
-      "midway": 0.3,
-      "peleliu": 0.3,
-      "saipan": 0.3,
-      "wake_island": 0.3
-    }
-  },
   "Params": {
     "Range": 1148.0
   },
@@ -2592,19 +2544,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 11247.0,
-    "maxSpeed": 186.4157,
-    "turnTime": 22.0,
-    "airfieldLen": 250.0,
-    "climbTime": 198.0,
-    "maxSpeedAlt": 6096.0,
-    "climbAlt": 3048.0,
-    "climbSpeed": 15.1529,
-    "wingLoading": 184.0,
-    "powerToWeightRatio": 0.4,
-    "rollRate": 103.0
-  },
   "wiki": {
     "general": {
       "length": 10.26,
@@ -2647,6 +2586,7 @@
         "climbTimeMil2": [6000.0,444.48],
         "climbTimeMil3": [8000.0,647.386],
         "turnTimeMil": [1000.0,22.4],
+        "takeoffDistance": 463.012,
         "ceiling": 10900.0,
         "rollRate": 103.0,
         "wingLoading": 184.0,
@@ -2711,13 +2651,11 @@
       "tier": 3
     },
     "frc_mk2": {
-      "image": "#ui/gameuiskin#pilon_rocket",
       "reqModLevel": 8.0,
       "tier": 2,
       "modClass": "weapon"
     },
     "flbc_mk1": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "reqModLevel": 16.0,
       "tier": 4,
       "modClass": "weapon",

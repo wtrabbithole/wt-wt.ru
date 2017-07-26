@@ -24,10 +24,10 @@
     "advancedMouseAim": true
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "1100kph"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -488,42 +488,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_fighter": true,
-      "type_jet_fighter": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korean_front": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 882.0
     }
@@ -780,21 +744,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 14700.0,
-      "maxSpeed": 307.22,
-      "turnTime": 24.0,
-      "airfieldLen": 750.0,
-      "climbTime": 165.0,
-      "maxSpeedAlt": 0.0,
-      "climbAlt": 6096.0,
-      "climbSpeed": 46.7,
-      "wingLoading": 248.0,
-      "thrustToWeightRatio": 0.38,
-      "rollRate": 215.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.42,
@@ -816,6 +765,7 @@
           "climbTimeMil2": [6000.0,167.267],
           "climbTimeMil3": [8000.0,249.623],
           "turnTimeMil": [1000.0,24.0],
+          "takeoffDistance": 1506.87,
           "ceiling": 9400.0,
           "rollRate": 264.0,
           "wingLoading": 248.0,
@@ -2980,12 +2930,10 @@
         "tier": 3
       },
       "frc_mk2": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "tier": 2,
         "modClass": "weapon"
       },
       "flbc_mk2": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 4,
         "reqModification": "frc_mk2",
         "modClass": "weapon"
@@ -3018,41 +2966,5 @@
         }
       }
     ]
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 11.42,
-        "wingspan": 11.97,
-        "wingArea": 28.2,
-        "emptyWeight": 5430.0,
-        "normalWeight": 6815.5,
-        "maxTakeoffWeight": 9530.0,
-        "powerPlantType": 2,
-        "thrustMaxMil": 26500.0
-      },
-      "performance": {
-        "table": {
-          "rpmMil": 8000.0,
-          "airSpeedMil0": [0.0,1106.0],
-          "climbRateMil0": [0.0,46.7],
-          "climbTimeMil0": [2000.0,45.7706],
-          "climbTimeMil1": [4000.0,98.9865],
-          "climbTimeMil2": [6000.0,162.63],
-          "climbTimeMil3": [8000.0,242.426],
-          "turnTimeMil": [1000.0,24.0],
-          "ceiling": 9600.0,
-          "rollRate": 264.0,
-          "wingLoading": 242.0,
-          "thrustToWeightRatio": 0.39
-        },
-        "plot": {
-          "airSpeedMil0": [0.0,1106.0],
-          "airSpeedMil1": [9600.0,997.0],
-          "climbRateMil0": [0.0,46.7],
-          "climbRateMil1": [9600.0,16.6]
-        }
-      }
-    }
   }
 ]

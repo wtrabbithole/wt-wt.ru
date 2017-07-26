@@ -9,7 +9,7 @@
     "paratrooper": "usa_para"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fireParamsPreset": "500kph"
   },
   {
     "DamageGen": {
@@ -672,7 +672,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2204,59 +2204,6 @@
     }
   },
   {
-    "tags": {
-      "dm_test": true,
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_fighter": true,
-      "type_naval_fighter": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "country_usa": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "pacific": true,
-      "carrier_take_off": true
-    }
-  },
-  {
-    "years_active": {
-      "year1941": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1942": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7
-      },
-      "year1943": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1335.0
     }
@@ -2696,21 +2643,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 8500.0,
-      "maxSpeed": 143.611,
-      "turnTime": 19.9,
-      "airfieldLen": 257.908,
-      "climbTime": 191.01,
-      "maxSpeedAlt": 5600.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 14.0169,
-      "wingLoading": 144.0,
-      "powerToWeightRatio": 0.33,
-      "rollRate": 76.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 8.8138,
@@ -2747,6 +2679,7 @@
           "climbTimeMil2": [6000.0,675.997],
           "climbTimeMil3": [8000.0,1059.91],
           "turnTimeMil": [1000.0,20.0],
+          "takeoffDistance": 565.648,
           "ceiling": 9700.0,
           "rollRate": 76.0,
           "wingLoading": 144.0,
@@ -2806,7 +2739,6 @@
         "tier": 3
       },
       "mk41_mod": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 7.0

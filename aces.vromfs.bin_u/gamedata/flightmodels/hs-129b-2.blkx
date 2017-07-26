@@ -18,10 +18,10 @@
     "paratrooper": "german"
   },
   {
-    "fightAiBehaviour": "assault"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_ruhr"
+    "fightAiBehaviour": "assault"
   },
   {
     "DamageGen": {
@@ -845,7 +845,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -889,7 +889,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2281,72 +2281,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_germany": true,
-      "type_assault": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "stalingrad": true,
-      "stalingrad_w": true,
-      "mediterranean": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1943": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1944": {
-        "britain": 0.3,
-        "bulge": 0.3,
-        "malta": 0.3,
-        "ruhr": 0.3,
-        "sicily": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 688.0
     }
@@ -2707,21 +2641,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 7500.0,
-      "maxSpeed": 122.0,
-      "turnTime": 27.8845,
-      "airfieldLen": 330.605,
-      "climbTime": 393.56,
-      "maxSpeedAlt": 3550.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 8.25,
-      "wingLoading": 162.0,
-      "powerToWeightRatio": 0.15,
-      "rollRate": 62.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.75,
@@ -2756,6 +2675,7 @@
           "climbTimeMil1": [4000.0,479.118],
           "climbTimeMil2": [6000.0,887.185],
           "turnTimeMil": [1000.0,31.0],
+          "takeoffDistance": 646.988,
           "ceiling": 7300.0,
           "rollRate": 62.0,
           "wingLoading": 162.0,
@@ -2831,7 +2751,6 @@
         "reqModification": "bk37_belt_pack"
       },
       "hs129_r2": {
-        "image": "#ui/gameuiskin#gunpods",
         "deactivationIsAllowed": false,
         "modClass": "weapon",
         "tier": 2,
@@ -2839,7 +2758,6 @@
         "reqModification": "Bf-109F-4_4xSC50"
       },
       "hs129_bk37": {
-        "image": "#ui/gameuiskin#gunpods",
         "deactivationIsAllowed": false,
         "modClass": "weapon",
         "tier": 3,
@@ -2847,7 +2765,6 @@
         "reqModification": "hs129_r2"
       },
       "Bf-109F-4_4xSC50": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 1.0

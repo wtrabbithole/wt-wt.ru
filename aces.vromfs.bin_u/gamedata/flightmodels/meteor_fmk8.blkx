@@ -4,8 +4,8 @@
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "advancedInstructor": true,
+  "fireParamsPreset": "1000kph",
   "fightAiBehaviour": "fighter",
-  "testFlight": "testFlight_britain",
   "DamageGen": {
     "engine1_dm": {
       "mat": "jet_engine"
@@ -2316,40 +2316,6 @@
   "attach": {
     "pilot1": "pilot_raf_500"
   },
-  "tags": {
-    "jet_engine": true,
-    "training": true,
-    "all": true,
-    "ally": true,
-    "country_britain": true,
-    "type_fighter": true,
-    "type_jet_fighter": true,
-    "year1949": true,
-    "year1950": true,
-    "year1951": true,
-    "year1952": true,
-    "year1953": true,
-    "year1954": true,
-    "year1955": true,
-    "korea": true,
-    "not_in_dynamic_campaign": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1950": {
-      "korea": 1.0
-    },
-    "year1951": {
-      "korea": 1.0
-    },
-    "year1952": {
-      "korea": 1.0
-    },
-    "year1953": {
-      "korea": 1.0
-    }
-  },
   "Params": {
     "Range": 882.0
   },
@@ -2800,19 +2766,6 @@
     "maxSpeedMultiplier": 1.01,
     "wepOverspeed": 1.05
   },
-  "Shop": {
-    "maxAltitude": 12500.0,
-    "maxSpeed": 267.22,
-    "turnTime": 23.0,
-    "airfieldLen": 325.0,
-    "climbTime": 180.0,
-    "maxSpeedAlt": 100.0,
-    "climbAlt": 6096.0,
-    "climbSpeed": 40.2,
-    "wingLoading": 216.0,
-    "thrustToWeightRatio": 0.22,
-    "rollRate": 137.0
-  },
   "wiki": {
     "general": {
       "length": 12.62,
@@ -2834,6 +2787,7 @@
         "climbTimeMil2": [6000.0,178.27],
         "climbTimeMil3": [8000.0,278.663],
         "turnTimeMil": [1000.0,23.0],
+        "takeoffDistance": 678.83,
         "ceiling": 12000.0,
         "rollRate": 137.0,
         "wingLoading": 216.0,
@@ -2877,19 +2831,16 @@
       "tier": 3
     },
     "gloster_lbc": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "tier": 2,
       "reqModLevel": 6.0
     },
     "gloster_src": {
-      "image": "#ui/gameuiskin#pilon_rocket",
       "modClass": "weapon",
       "tier": 3,
       "reqModification": "gloster_lbc"
     },
     "gloster_rc": {
-      "image": "#ui/gameuiskin#pilon_rocket",
       "modClass": "weapon",
       "tier": 4,
       "reqModification": "gloster_src"

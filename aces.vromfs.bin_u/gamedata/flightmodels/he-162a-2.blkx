@@ -6,8 +6,8 @@
   "advancedInstructor": true,
   "ignoreArcadeWep": true,
   "isCapableOfAttackTurn": false,
+  "fireParamsPreset": "900kph",
   "fightAiBehaviour": "fighter",
-  "testFlight": "testFlight_ruhr",
   "DamageGen": {
     "engine1_dm": {
       "mat": "aircooling_engine"
@@ -613,7 +613,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -2168,38 +2168,6 @@
   "attach": {
     "pilot1": "pilot_lw_500"
   },
-  "tags": {
-    "jet_engine": true,
-    "training": true,
-    "all": true,
-    "axis": true,
-    "axis_achievement": true,
-    "country_germany": true,
-    "type_fighter": true,
-    "type_jet_fighter": true,
-    "year1945": true,
-    "berlin": true,
-    "western_front": true,
-    "eastern_front": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1945": {
-      "britain": 1.0,
-      "bulge": 1.0,
-      "malta": 1.0,
-      "ruhr": 1.0,
-      "sicily": 1.0,
-      "berlin": 1.0,
-      "korsun": 1.0,
-      "krymsk": 1.0,
-      "mozdok": 1.0,
-      "stalingrad": 1.0,
-      "stalingrad_w": 1.0,
-      "kursk": 1.0
-    }
-  },
   "Params": {
     "Range": 620.0
   },
@@ -2608,19 +2576,6 @@
     "maxSpeedMultiplier": 1.01,
     "wepOverspeed": 1.05
   },
-  "Shop": {
-    "maxAltitude": 12000.0,
-    "maxSpeed": 233.3333,
-    "turnTime": 30.0,
-    "airfieldLen": 750.0,
-    "climbTime": 396.0,
-    "maxSpeedAlt": 6000.0,
-    "climbAlt": 6000.0,
-    "climbSpeed": 23.4,
-    "wingLoading": 228.0,
-    "thrustToWeightRatio": 0.34,
-    "rollRate": 180.0
-  },
   "wiki": {
     "general": {
       "length": 9.05,
@@ -2653,6 +2608,7 @@
         "climbTimeMil2": [6000.0,455.208],
         "climbTimeMil3": [8000.0,708.892],
         "turnTimeMil": [1000.0,33.6],
+        "takeoffDistance": 1148.41,
         "ceiling": 10800.0,
         "rollRate": 180.0,
         "wingLoading": 228.0,

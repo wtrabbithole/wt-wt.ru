@@ -12,13 +12,13 @@
     "paratrooper": "raf_para"
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_moresby"
   },
   {
     "DamageGen": {
@@ -790,7 +790,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -834,7 +834,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2643,53 +2643,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_australia": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "bomber": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_light_bomber": true,
-      "type_torpedo": true,
-      "bomberview": true,
-      "ally_west": true,
-      "mediterranean": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1943": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1944": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1706.0
     }
@@ -3014,21 +2967,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 5029.0,
-      "maxSpeed": 121.38,
-      "turnTime": 39.6381,
-      "airfieldLen": 413.726,
-      "climbTime": 600.0,
-      "maxSpeedAlt": 1981.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 6.1,
-      "wingLoading": 186.0,
-      "powerToWeightRatio": 0.14,
-      "rollRate": 40.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 13.462,
@@ -3063,6 +3001,7 @@
           "climbTimeMil1": [4000.0,507.97],
           "climbTimeMil2": [6000.0,941.681],
           "turnTimeMil": [1000.0,40.7],
+          "takeoffDistance": 646.841,
           "ceiling": 7800.0,
           "rollRate": 40.0,
           "wingLoading": 186.0,
@@ -3125,14 +3064,12 @@
       "303_turret_ap": [],
       "303_turret_api": [],
       "beaufort_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 6.0,
         "reqModification": "beaufort_tbc"
       },
       "beaufort_tbc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 2.0

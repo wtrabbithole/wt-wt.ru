@@ -12,10 +12,10 @@
     "paratrooper": "raf_para"
   },
   {
-    "fightAiBehaviour": "bomber"
+    "fireParamsPreset": "900kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "bomber"
   },
   {
     "DamageGen": {
@@ -691,7 +691,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -735,7 +735,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2590,42 +2590,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_bomber": true,
-      "type_jet_bomber": true,
-      "bomberview": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korea": true,
-      "not_in_dynamic_campaign": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1050.0
     }
@@ -2940,21 +2904,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12192.0,
-      "maxSpeed": 244.444,
-      "turnTime": 26.0,
-      "airfieldLen": 750.0,
-      "climbTime": 282.0,
-      "maxSpeedAlt": 3000.0,
-      "climbAlt": 6096.0,
-      "climbSpeed": 20.0,
-      "wingLoading": 197.0,
-      "thrustToWeightRatio": 0.19,
-      "rollRate": 69.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 19.96,
@@ -2976,6 +2925,7 @@
           "climbTimeMil2": [6000.0,213.801],
           "climbTimeMil3": [8000.0,314.365],
           "turnTimeMil": [1000.0,26.0],
+          "takeoffDistance": 771.577,
           "ceiling": 11300.0,
           "rollRate": 69.0,
           "wingLoading": 197.0,
@@ -3022,7 +2972,6 @@
         "reqModification": "hispano_belt_pack"
       },
       "EEMBC_mark_1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       }

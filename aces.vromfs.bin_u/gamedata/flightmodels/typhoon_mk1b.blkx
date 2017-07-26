@@ -12,10 +12,10 @@
     "paratrooper": "ally"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2358,50 +2358,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_medium_fighter": true,
-      "type_strike_fighter": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "ally_west": true,
-      "britain": true,
-      "malta": true,
-      "western_front": true,
-      "mediterranean": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1943": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1944": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 772.0
     }
@@ -2841,21 +2797,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10500.0,
-      "maxSpeed": 178.8161,
-      "turnTime": 20.6,
-      "airfieldLen": 580.0,
-      "maxSpeedAlt": 6339.8301,
-      "climbSpeed": 17.3,
-      "climbTime": 359.0,
-      "climbAlt": 4573.0,
-      "wingLoading": 192.0,
-      "powerToWeightRatio": 0.4,
-      "rollRate": 60.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.7,
@@ -2874,7 +2815,7 @@
           "manifoldPressureWep": 1.47,
           "airSpeedWep0": [0.0,565.0],
           "airSpeedWep1": [2400.0,621.0],
-          "airSpeedWep2": [6000.0,643.0],
+          "airSpeedWep2": [6000.0,648.0],
           "climbRateWep0": [0.0,16.9],
           "climbRateWep1": [1600.0,17.3],
           "climbRateWep2": [5200.0,12.4],
@@ -2887,7 +2828,7 @@
           "manifoldPressureMil": 1.41,
           "airSpeedMil0": [0.0,549.0],
           "airSpeedMil1": [2400.0,609.0],
-          "airSpeedMil2": [6000.0,636.0],
+          "airSpeedMil2": [6000.0,637.0],
           "climbRateMil0": [0.0,15.4],
           "climbRateMil1": [1600.0,15.7],
           "climbRateMil2": [5300.0,11.0],
@@ -2896,6 +2837,7 @@
           "climbTimeMil2": [6000.0,429.586],
           "climbTimeMil3": [8000.0,684.675],
           "turnTimeMil": [1000.0,21.2],
+          "takeoffDistance": 542.612,
           "ceiling": 10900.0,
           "rollRate": 60.0,
           "wingLoading": 192.0,
@@ -2905,9 +2847,8 @@
           "airSpeedWep0": [0.0,565.0],
           "airSpeedWep1": [2400.0,621.0],
           "airSpeedWep2": [4300.0,608.0],
-          "airSpeedWep3": [6100.0,649.0],
-          "airSpeedWep4": [8000.0,617.0],
-          "airSpeedWep5": [10900.0,536.0],
+          "airSpeedWep3": [6100.0,650.0],
+          "airSpeedWep4": [10900.0,543.0],
           "climbRateWep0": [0.0,16.9],
           "climbRateWep1": [1600.0,17.3],
           "climbRateWep2": [3600.0,12.8],
@@ -2916,10 +2857,10 @@
           "climbRateWep5": [10900.0,0.0],
           "airSpeedMil0": [0.0,549.0],
           "airSpeedMil1": [1900.0,601.0],
-          "airSpeedMil2": [4400.0,601.0],
-          "airSpeedMil3": [6000.0,636.0],
-          "airSpeedMil4": [8000.0,606.0],
-          "airSpeedMil5": [10500.0,537.0],
+          "airSpeedMil2": [4300.0,598.0],
+          "airSpeedMil3": [6000.0,637.0],
+          "airSpeedMil4": [8600.0,592.0],
+          "airSpeedMil5": [10500.0,531.0],
           "climbRateMil0": [0.0,15.4],
           "climbRateMil1": [1700.0,15.6],
           "climbRateMil2": [3600.0,11.5],
@@ -2961,18 +2902,15 @@
         "tier": 4
       },
       "halker_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "halker_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModification": "halker_sbc"
       },
       "halker_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "halker_mbc"

@@ -21,16 +21,44 @@
     "ignoreArcadeWep": true
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
   },
   {
-    "testFlight": "testFlight_peleliu"
+    "harmonizationSuffix": "_tomoe"
   },
   {
-    "harmonizationSuffix": "_tomoe"
+    "DamageGen": {
+      "armor1_dm": {
+        "mat": "armor6_35"
+      },
+      "armor2_dm": {
+        "mat": "armor6_35"
+      },
+      "armor3_dm": {
+        "mat": "armor6_35"
+      },
+      "armor4_dm": {
+        "mat": "armor6_35"
+      },
+      "armor5_dm": {
+        "mat": "armor6_35"
+      },
+      "armor6_dm": {
+        "mat": "armor6_35"
+      },
+      "armor7_dm": {
+        "mat": "armor_glass38"
+      },
+      "armor8_dm": {
+        "mat": "armor6_35"
+      }
+    }
   },
   {
     "DamageGen": {
@@ -763,7 +791,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -807,7 +835,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -851,7 +879,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -895,7 +923,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2333,46 +2361,6 @@
     }
   },
   {
-    "years_active": {
-      "year1942": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1943": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7,
-        "bulge": 0.7,
-        "ruhr": 0.7
-      },
-      "year1944": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3,
-        "bulge": 0.3,
-        "ruhr": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2280.0
     }
@@ -2816,21 +2804,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11156.0,
-      "maxSpeed": 141.7,
-      "turnTime": 36.0,
-      "airfieldLen": 600.0,
-      "climbTime": 1680.0,
-      "maxSpeedAlt": 7680.0,
-      "climbAlt": 7620.0,
-      "climbSpeed": 7.2,
-      "wingLoading": 174.0,
-      "powerToWeightRatio": 0.06,
-      "rollRate": 25.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 22.78,
@@ -2867,6 +2840,7 @@
           "climbTimeMil2": [6000.0,945.569],
           "climbTimeMil3": [8000.0,1325.51],
           "turnTimeMil": [1000.0,39.5],
+          "takeoffDistance": 845.877,
           "ceiling": 10100.0,
           "rollRate": 25.0,
           "wingLoading": 174.0,
@@ -2927,24 +2901,6 @@
         }
       }
     ]
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_japan": true,
-      "type_longrange_bomber": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "not_in_dynamic_campaign": true
-    }
   },
   {
     "default_skin": [
@@ -3612,7 +3568,6 @@
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
-      "new_engine_injection": [],
       "bmg30_turret_belt_pack": {
         "tier": 1
       },
@@ -3631,77 +3586,13 @@
       "50cal_turret_ap": [],
       "50cal_turret_api": [],
       "b-17_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2
       },
       "b-17_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "b-17_sbc"
-      }
-    }
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 22.78,
-        "wingspan": 31.63,
-        "wingArea": 118.684,
-        "emptyWeight": 15201.5,
-        "normalWeight": 20634.1992,
-        "maxTakeoffWeight": 24041.0,
-        "powerPlantType": 1,
-        "powerMaxWep": 1200.0,
-        "powerMaxMil": 1000.0
-      },
-      "performance": {
-        "table": {
-          "rpmWep": 2500.0,
-          "manifoldPressureWep": 1.59,
-          "airSpeedWep0": [0.0,405.0],
-          "airSpeedWep1": [7400.0,512.0],
-          "climbRateWep0": [0.0,7.2],
-          "climbRateWep1": [6800.0,5.7],
-          "climbTimeWep0": [2000.0,223.61],
-          "climbTimeWep1": [4000.0,456.164],
-          "climbTimeWep2": [6000.0,701.772],
-          "climbTimeWep3": [8000.0,990.672],
-          "turnTimeWep": [1000.0,36.0],
-          "rpmMil": 2300.0,
-          "manifoldPressureMil": 1.3,
-          "airSpeedMil0": [0.0,379.0],
-          "airSpeedMil1": [8400.0,487.0],
-          "climbRateMil0": [0.0,5.1],
-          "climbRateMil1": [7900.0,3.0],
-          "climbTimeMil0": [2000.0,294.229],
-          "climbTimeMil1": [4000.0,606.588],
-          "climbTimeMil2": [6000.0,945.569],
-          "climbTimeMil3": [8000.0,1325.51],
-          "turnTimeMil": [1000.0,39.5],
-          "ceiling": 10100.0,
-          "rollRate": 25.0,
-          "wingLoading": 174.0,
-          "powerToWeightRatio": 0.06
-        },
-        "plot": {
-          "airSpeedWep0": [0.0,405.0],
-          "airSpeedWep1": [7500.0,513.0],
-          "airSpeedWep2": [10100.0,444.0],
-          "climbRateWep0": [0.0,7.2],
-          "climbRateWep1": [5800.0,6.0],
-          "climbRateWep2": [6800.0,5.7],
-          "climbRateWep3": [10100.0,-0.8],
-          "airSpeedMil0": [0.0,379.0],
-          "airSpeedMil1": [8100.0,485.0],
-          "airSpeedMil2": [8500.0,488.0],
-          "airSpeedMil3": [9900.0,443.0],
-          "climbRateMil0": [0.0,5.1],
-          "climbRateMil1": [4800.0,4.1],
-          "climbRateMil2": [7900.0,3.0],
-          "climbRateMil3": [9900.0,-0.7]
-        }
       }
     }
   }

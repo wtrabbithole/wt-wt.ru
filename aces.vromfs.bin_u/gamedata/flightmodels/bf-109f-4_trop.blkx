@@ -5,8 +5,8 @@
   "type": "typeFighter",
   "paratrooper": "german",
   "isCapableOfAttackTurn": false,
+  "fireParamsPreset": "700kph",
   "fightAiBehaviour": "fighter",
-  "testFlight": "testFlight_ruhr",
   "DamageGen": {
     "engine1_dm": {
       "mat": "liquidcooling_engine"
@@ -2195,47 +2195,6 @@
   "attach": {
     "pilot1": "pilot_lw_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "axis": true,
-    "axis_achievement": true,
-    "country_germany": true,
-    "type_fighter": true,
-    "type_medium_fighter": true,
-    "year1942": true,
-    "year1943": true,
-    "year1944": true,
-    "bf_109_series": true,
-    "mediterranean": true,
-    "western_front": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1942": {
-      "britain": 0.7,
-      "bulge": 0.7,
-      "malta": 1.0,
-      "ruhr": 0.7,
-      "sicily": 1.0
-    },
-    "year1943": {
-      "britain": 0.3,
-      "bulge": 0.3,
-      "malta": 0.8,
-      "ruhr": 0.3,
-      "sicily": 0.8
-    },
-    "year1944": {
-      "britain": 0.1,
-      "bulge": 0.1,
-      "malta": 0.5,
-      "ruhr": 0.1,
-      "sicily": 0.5
-    }
-  },
   "Params": {
     "Range": 570.0
   },
@@ -2589,19 +2548,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 11600.0,
-    "maxSpeed": 182.777,
-    "maxSpeedAlt": 5800.0,
-    "turnTime": 19.0,
-    "airfieldLen": 363.242,
-    "climbTime": 166.319,
-    "climbAlt": 3000.0,
-    "climbSpeed": 20.0,
-    "wingLoading": 184.0,
-    "powerToWeightRatio": 0.44,
-    "rollRate": 107.0
-  },
   "wiki": {
     "general": {
       "length": 9.16,
@@ -2709,25 +2655,21 @@
       "tier": 4
     },
     "Bf-109F-4_4xSC50": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "reqModLevel": 1.0,
       "modClass": "weapon",
       "tier": 1
     },
     "Bf-109F-4_SC250": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "tier": 2,
       "reqModification": "Bf-109F-4_4xSC50"
     },
     "Bf-109F-4_SC500": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "tier": 3,
       "reqModification": "Bf-109F-4_SC250"
     },
     "Bf-109F-4_R1": {
-      "image": "#ui/gameuiskin#gunpods",
       "deactivationIsAllowed": false,
       "modClass": "weapon",
       "tier": 2

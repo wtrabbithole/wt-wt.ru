@@ -15,13 +15,13 @@
     "paratrooper": "usa_para"
   },
   {
+    "fireParamsPreset": "300kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_britain"
   },
   {
     "DamageGen": {
@@ -779,7 +779,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -823,7 +823,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2049,40 +2049,6 @@
     }
   },
   {
-    "years_active": {
-      "year1940": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1941": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7
-      },
-      "year1942": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 4630.0
     }
@@ -2468,21 +2434,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 4420.0,
-      "maxSpeed": 78.23,
-      "turnTime": 30.0,
-      "airfieldLen": 364.0,
-      "climbTime": 1182.0,
-      "maxSpeedAlt": 2135.0,
-      "climbAlt": 3048.0,
-      "climbSpeed": 5.1,
-      "wingLoading": 104.0,
-      "powerToWeightRatio": 0.11,
-      "rollRate": 30.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 19.4824,
@@ -2516,6 +2467,7 @@
           "climbTimeMil0": [2000.0,492.675],
           "climbTimeMil1": [4000.0,1209.69],
           "turnTimeMil": [1000.0,34.9],
+          "takeoffDistance": 609.942,
           "ceiling": 6100.0,
           "rollRate": 30.0,
           "wingLoading": 104.0,
@@ -2573,60 +2525,27 @@
       "50cal_turret_api": [],
       "30cal_turret_ap": [],
       "pby5_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 6.0
       },
       "pby5_ltc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 2.0,
         "reqModification": "pby5_mbc"
       },
       "improved_torpedo_mod": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 3,
         "reqModification": "pby5_ltc"
       },
       "pby5_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 11.0,
         "reqModification": "improved_torpedo_mod"
       }
-    }
-  },
-  {
-    "tags": {
-      "bomberview": true,
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_flying_boat": true,
-      "type_medium_bomber": true,
-      "type_torpedo": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "country_britain": true,
-      "bomber": true,
-      "mediterranean": true,
-      "western_front": true,
-      "water": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "not_in_dynamic_campaign": true
     }
   },
   {
@@ -3025,63 +2944,5 @@
         }
       }
     ]
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 19.4824,
-        "wingspan": 31.72,
-        "wingArea": 130.064,
-        "emptyWeight": 8522.0,
-        "normalWeight": 13533.0,
-        "maxTakeoffWeight": 15582.0,
-        "powerPlantType": 1,
-        "powerMaxWep": 1500.0,
-        "powerMaxMil": 1050.0
-      },
-      "performance": {
-        "table": {
-          "rpmWep": 2700.0,
-          "manifoldPressureWep": 1.62,
-          "airSpeedWep0": [0.0,269.0],
-          "airSpeedWep1": [1600.0,284.0],
-          "climbRateWep0": [0.0,5.1],
-          "climbRateWep1": [1300.0,4.7],
-          "climbTimeWep0": [2000.0,308.949],
-          "climbTimeWep1": [4000.0,762.421],
-          "climbTimeWep2": [6000.0,1702.6],
-          "turnTimeWep": [1000.0,30.0],
-          "rpmMil": 2500.0,
-          "manifoldPressureMil": 1.43,
-          "airSpeedMil0": [0.0,232.0],
-          "airSpeedMil1": [2200.0,248.0],
-          "climbRateMil0": [0.0,2.5],
-          "climbRateMil1": [2000.0,2.1],
-          "climbTimeMil0": [2000.0,492.675],
-          "climbTimeMil1": [4000.0,1209.69],
-          "turnTimeMil": [1000.0,34.9],
-          "ceiling": 6100.0,
-          "rollRate": 30.0,
-          "wingLoading": 104.0,
-          "powerToWeightRatio": 0.11
-        },
-        "plot": {
-          "airSpeedWep0": [0.0,269.0],
-          "airSpeedWep1": [1600.0,284.0],
-          "airSpeedWep2": [4100.0,266.0],
-          "airSpeedWep3": [6100.0,237.0],
-          "climbRateWep0": [0.0,5.1],
-          "climbRateWep1": [1300.0,4.7],
-          "climbRateWep2": [6100.0,-0.7],
-          "airSpeedMil0": [0.0,232.0],
-          "airSpeedMil1": [2200.0,248.0],
-          "airSpeedMil2": [4800.0,219.0],
-          "climbRateMil0": [0.0,2.5],
-          "climbRateMil1": [1800.0,2.2],
-          "climbRateMil2": [2000.0,2.1],
-          "climbRateMil3": [4800.0,-0.7]
-        }
-      }
-    }
   }
 ]

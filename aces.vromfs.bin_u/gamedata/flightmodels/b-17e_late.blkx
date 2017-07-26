@@ -3,7 +3,7 @@
     "model": "b_17e_late"
   },
   {
-    "fmFile": "fm/b-17e.blk"
+    "fmFile": "fm/b-17e_late.blk"
   },
   {
     "type": "typeBomber"
@@ -21,10 +21,41 @@
     "ignoreArcadeWep": true
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
-    "testFlight": "testFlight_guadalcanal"
+    "DamageGen": {
+      "armor1_dm": {
+        "mat": "armor6_35"
+      },
+      "armor2_dm": {
+        "mat": "armor6_35"
+      },
+      "armor3_dm": {
+        "mat": "armor6_35"
+      },
+      "armor4_dm": {
+        "mat": "armor6_35"
+      },
+      "armor5_dm": {
+        "mat": "armor6_35"
+      },
+      "armor6_dm": {
+        "mat": "armor6_35"
+      },
+      "armor7_dm": {
+        "mat": "armor_glass38"
+      },
+      "armor8_dm": {
+        "mat": "armor6_35"
+      },
+      "armor9_dm": {
+        "mat": "armor_glass38"
+      }
+    }
   },
   {
     "DamageGen": {
@@ -765,7 +796,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -809,7 +840,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -853,7 +884,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -897,7 +928,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2921,68 +2952,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_bomber": true,
-      "type_longrange_bomber": true,
-      "type_heavy_bomber": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1943": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7,
-        "bulge": 0.7,
-        "ruhr": 0.7
-      },
-      "year1944": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3,
-        "bulge": 0.3,
-        "ruhr": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2280.0
     }
@@ -3472,21 +3441,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11156.0,
-      "maxSpeed": 141.7,
-      "turnTime": 36.0,
-      "airfieldLen": 600.0,
-      "climbTime": 1680.0,
-      "maxSpeedAlt": 7680.0,
-      "climbAlt": 7620.0,
-      "climbSpeed": 7.16,
-      "wingLoading": 174.0,
-      "powerToWeightRatio": 0.06,
-      "rollRate": 25.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 22.78,
@@ -3523,6 +3477,7 @@
           "climbTimeMil2": [6000.0,945.569],
           "climbTimeMil3": [8000.0,1325.51],
           "turnTimeMil": [1000.0,39.5],
+          "takeoffDistance": 845.877,
           "ceiling": 10100.0,
           "rollRate": 25.0,
           "wingLoading": 174.0,
@@ -3566,7 +3521,6 @@
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
-      "new_engine_injection": [],
       "bmg30_turret_belt_pack": {
         "tier": 1
       },
@@ -3585,7 +3539,6 @@
       "50cal_turret_ap": [],
       "50cal_turret_api": [],
       "b17e_flak_vest": {
-        "image": "#ui/gameuiskin#bulletproof_vest",
         "reqModLevel": 4.0,
         "modClass": "armor",
         "tier": 1,
@@ -3663,20 +3616,17 @@
         }
       },
       "b-17_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 1.0
       },
       "b-17_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 6.0,
         "reqModification": "b-17_lbc"
       },
       "b-17_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 11.0,

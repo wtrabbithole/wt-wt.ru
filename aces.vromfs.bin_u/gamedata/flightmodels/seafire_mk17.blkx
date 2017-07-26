@@ -12,10 +12,10 @@
     "paratrooper": "raf_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_britain_navy"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2545,50 +2545,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_naval_fighter": true,
-      "type_strike_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "ally_west": true,
-      "mediterranean": true,
-      "pacific": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "carrier_take_off": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1945": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1190.92
     }
@@ -3014,21 +2970,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10900.0,
-      "maxSpeed": 176.5,
-      "turnTime": 17.0,
-      "airfieldLen": 480.0,
-      "maxSpeedAlt": 3962.0,
-      "climbSpeed": 24.2,
-      "climbTime": 316.2,
-      "climbAlt": 6096.0,
-      "wingLoading": 163.0,
-      "powerToWeightRatio": 0.5,
-      "rollRate": 103.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.7,
@@ -3069,6 +3010,7 @@
           "climbTimeMil2": [6000.0,363.356],
           "climbTimeMil3": [8000.0,558.205],
           "turnTimeMil": [1000.0,18.6],
+          "takeoffDistance": 532.182,
           "ceiling": 12300.0,
           "rollRate": 103.0,
           "wingLoading": 163.0,
@@ -3080,7 +3022,7 @@
           "airSpeedWep2": [2900.0,607.0],
           "airSpeedWep3": [3700.0,633.0],
           "airSpeedWep4": [5800.0,632.0],
-          "airSpeedWep5": [9900.0,579.0],
+          "airSpeedWep5": [9400.0,588.0],
           "airSpeedWep6": [12300.0,505.0],
           "climbRateWep0": [0.0,23.6],
           "climbRateWep1": [600.0,24.2],
@@ -3093,7 +3035,7 @@
           "airSpeedMil3": [5200.0,619.0],
           "airSpeedMil4": [8800.0,577.0],
           "airSpeedMil5": [10800.0,533.0],
-          "airSpeedMil6": [11800.0,489.0],
+          "airSpeedMil6": [11800.0,490.0],
           "climbRateMil0": [0.0,17.4],
           "climbRateMil1": [2000.0,18.7],
           "climbRateMil2": [3300.0,15.7],
@@ -3139,18 +3081,15 @@
         "reqModification": "hispano_belt_pack"
       },
       "spitfire_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "spitfire_sbc_additional": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModification": "spitfire_sbc"
       },
       "spitfire_mbc_additional": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "spitfire_sbc_additional"

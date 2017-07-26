@@ -15,13 +15,13 @@
     "paratrooper": "usa_para"
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "assault"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_honolulu"
   },
   {
     "DamageGen": {
@@ -780,7 +780,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -824,7 +824,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2589,42 +2589,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_assault": true,
-      "type_common_assault": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": false,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1944": {
-        "bulge": 0.7,
-        "ruhr": 0.7
-      },
-      "year1945": {
-        "bulge": 0.3,
-        "ruhr": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1649.58
     }
@@ -3081,21 +3045,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 7224.0,
-      "maxSpeed": 141.71,
-      "turnTime": 34.0,
-      "airfieldLen": 603.588,
-      "climbTime": 528.0,
-      "maxSpeedAlt": 3048.0,
-      "climbAlt": 3050.0,
-      "climbSpeed": 10.1,
-      "wingLoading": 207.0,
-      "powerToWeightRatio": 0.18,
-      "rollRate": 59.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 14.63,
@@ -3135,6 +3084,7 @@
           "climbTimeMil2": [6000.0,628.092],
           "climbTimeMil3": [8000.0,1257.32],
           "turnTimeMil": [1000.0,35.8],
+          "takeoffDistance": 598.313,
           "ceiling": 8600.0,
           "rollRate": 59.0,
           "wingLoading": 207.0,
@@ -3198,7 +3148,6 @@
       "50cal_turret_ap": [],
       "50cal_turret_api": [],
       "bazooka_pylon": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 7.0,
         "tier": 3,
         "modClass": "weapon"

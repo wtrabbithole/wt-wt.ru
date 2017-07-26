@@ -2,7 +2,7 @@
   "model": "f2a_1",
   "type": "typeFighter",
   "paratrooper": "usa_para",
-  "testFlight": "testFlight_midway_usa",
+  "fireParamsPreset": "500kph",
   "DamageGen": {
     "engine1_dm": {
       "mat": "aircooling_engine_light"
@@ -507,7 +507,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -1896,55 +1896,6 @@
   "attach": {
     "pilot1": "pilot_us_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "ally": true,
-    "type_fighter": true,
-    "type_naval_fighter": true,
-    "year1940": true,
-    "year1941": true,
-    "year1942": true,
-    "country_usa": true,
-    "midway": true,
-    "pacific": true,
-    "hangar": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "carrier_take_off": true
-  },
-  "years_active": {
-    "year1940": {
-      "guadalcanal": 1.0,
-      "guam": 1.0,
-      "honolulu": 1.0,
-      "iwo_jima": 1.0,
-      "midway": 1.0,
-      "peleliu": 1.0,
-      "saipan": 1.0,
-      "wake_island": 1.0
-    },
-    "year1941": {
-      "guadalcanal": 0.7,
-      "guam": 0.7,
-      "honolulu": 0.7,
-      "iwo_jima": 0.7,
-      "midway": 0.7,
-      "peleliu": 0.7,
-      "saipan": 0.7,
-      "wake_island": 0.7
-    },
-    "year1942": {
-      "guadalcanal": 0.3,
-      "guam": 0.3,
-      "honolulu": 0.3,
-      "iwo_jima": 0.3,
-      "midway": 0.3,
-      "peleliu": 0.3,
-      "saipan": 0.3,
-      "wake_island": 0.3
-    }
-  },
   "Params": {
     "Range": 1553.02
   },
@@ -2252,19 +2203,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 8000.0,
-    "maxSpeed": 139.92,
-    "turnTime": 18.2,
-    "airfieldLen": 250.0,
-    "climbTime": 343.0,
-    "maxSpeedAlt": 4600.0,
-    "climbAlt": 4572.0,
-    "climbSpeed": 10.88,
-    "wingLoading": 115.0,
-    "powerToWeightRatio": 0.42,
-    "rollRate": 112.0
-  },
   "wiki": {
     "general": {
       "length": 7.833,
@@ -2305,6 +2243,7 @@
         "climbTimeMil2": [6000.0,441.899],
         "climbTimeMil3": [8000.0,694.26],
         "turnTimeMil": [1000.0,18.9],
+        "takeoffDistance": 449.511,
         "ceiling": 11000.0,
         "rollRate": 112.0,
         "wingLoading": 115.0,

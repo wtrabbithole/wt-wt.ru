@@ -1479,5 +1479,27 @@
         }
       }
     }
+  },
+  {
+    "selector": {
+      "name": "shipBot",
+      "selectStrategy": "ordered",
+      "cycle": {
+        "sequencer": {
+          "findNextShipWaypoint": [],
+          "selector": {
+            "selectStrategy": "ordered",
+            "selectOnSuccess": true,
+            "setShipCourse": [],
+            "startShipUTurn": []
+          },
+          "waitUntilShipOnCourse": [],
+          "sailToPos": {
+            "dist": 100.0
+          }
+        }
+      },
+      "stopShipEngine": []
+    }
   }
 ]

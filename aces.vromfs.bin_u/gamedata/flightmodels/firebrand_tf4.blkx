@@ -12,10 +12,10 @@
     "paratrooper": "raf_para"
   },
   {
-    "fightAiBehaviour": "assault"
+    "fireParamsPreset": "700kph"
   },
   {
-    "testFlight": "testFlight_britain_navy"
+    "fightAiBehaviour": "assault"
   },
   {
     "DamageGen": {
@@ -2076,51 +2076,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_interceptor": true,
-      "type_naval_fighter": true,
-      "type_strike_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "ally_west": true,
-      "mediterranean": true,
-      "pacific": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "carrier_take_off": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1945": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1190.92
     }
@@ -2570,21 +2525,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9143.0,
-      "maxSpeed": 184.0,
-      "turnTime": 24.0,
-      "airfieldLen": 310.0,
-      "maxSpeedAlt": 4500.0,
-      "climbSpeed": 15.1,
-      "climbTime": 342.0,
-      "climbAlt": 6096.0,
-      "wingLoading": 196.0,
-      "powerToWeightRatio": 0.36,
-      "rollRate": 45.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.91,
@@ -2625,6 +2565,7 @@
           "climbTimeMil2": [6000.0,568.909],
           "climbTimeMil3": [8000.0,953.544],
           "turnTimeMil": [1000.0,25.9],
+          "takeoffDistance": 477.529,
           "ceiling": 10100.0,
           "rollRate": 45.0,
           "wingLoading": 196.0,
@@ -2693,30 +2634,25 @@
         "reqModification": "hispano_belt_pack"
       },
       "blackburn_tc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 1
       },
       "halker_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModification": "blackburn_tc"
       },
       "halker_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModification": "halker_sbc"
       },
       "halker_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModification": "halker_mbc"
       },
       "halker_rc": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "halker_lbc"

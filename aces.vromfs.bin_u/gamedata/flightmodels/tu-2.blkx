@@ -15,13 +15,13 @@
     "paratrooper": "ally"
   },
   {
+    "fireParamsPreset": "600kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_stalingrad"
   },
   {
     "DamageGen": {
@@ -730,7 +730,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -774,7 +774,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2870,62 +2870,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_medium_bomber": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "soviet": true,
-      "bomberview": true,
-      "eastern_front": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1944": {
-        "khalkin_gol": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1945": {
-        "khalkin_gol": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2150.0
     }
@@ -3366,21 +3310,6 @@
     ]
   },
   {
-    "Shop": {
-      "maxAltitude": 9500.0,
-      "maxSpeed": 152.0,
-      "turnTime": 30.8471,
-      "airfieldLen": 326.172,
-      "climbTime": 366.268,
-      "maxSpeedAlt": 7300.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 8.1,
-      "wingLoading": 211.0,
-      "powerToWeightRatio": 0.18,
-      "rollRate": 65.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 13.8,
@@ -3397,9 +3326,9 @@
         "table": {
           "rpmWep": 2500.0,
           "manifoldPressureWep": 1.55,
-          "airSpeedWep0": [0.0,508.0],
+          "airSpeedWep0": [0.0,507.0],
           "airSpeedWep1": [1800.0,552.0],
-          "airSpeedWep2": [5800.0,563.0],
+          "airSpeedWep2": [5800.0,564.0],
           "climbRateWep0": [0.0,7.4],
           "climbRateWep1": [900.0,8.1],
           "climbRateWep2": [5000.0,1.6],
@@ -3421,17 +3350,18 @@
           "climbTimeMil2": [6000.0,491.786],
           "climbTimeMil3": [8000.0,789.802],
           "turnTimeMil": [1000.0,32.6],
+          "takeoffDistance": 596.441,
           "ceiling": 9400.0,
           "rollRate": 65.0,
           "wingLoading": 211.0,
           "powerToWeightRatio": 0.18
         },
         "plot": {
-          "airSpeedWep0": [0.0,508.0],
+          "airSpeedWep0": [0.0,507.0],
           "airSpeedWep1": [1800.0,552.0],
-          "airSpeedWep2": [4500.0,537.0],
-          "airSpeedWep3": [5900.0,566.0],
-          "airSpeedWep4": [9400.0,501.0],
+          "airSpeedWep2": [4600.0,536.0],
+          "airSpeedWep3": [5800.0,564.0],
+          "airSpeedWep4": [9400.0,502.0],
           "climbRateWep0": [0.0,7.4],
           "climbRateWep1": [900.0,8.1],
           "climbRateWep2": [1800.0,6.5],
@@ -3440,8 +3370,8 @@
           "climbRateWep5": [9400.0,-7.3],
           "airSpeedMil0": [0.0,476.0],
           "airSpeedMil1": [2500.0,538.0],
-          "airSpeedMil2": [4100.0,528.0],
-          "airSpeedMil3": [5800.0,563.0],
+          "airSpeedMil2": [4100.0,527.0],
+          "airSpeedMil3": [5900.0,566.0],
           "airSpeedMil4": [9400.0,500.0],
           "climbRateMil0": [0.0,4.2],
           "climbRateMil1": [1700.0,5.2],
@@ -3471,7 +3401,6 @@
       "new_compressor": [],
       "new_engine_injection": [],
       "tu-2_pkd-2": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 5.0

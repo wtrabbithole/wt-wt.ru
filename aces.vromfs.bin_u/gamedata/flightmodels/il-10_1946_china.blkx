@@ -18,10 +18,10 @@
     "paratrooper": "ally"
   },
   {
-    "fightAiBehaviour": "assault"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_stalingrad"
+    "fightAiBehaviour": "assault"
   },
   {
     "DamageGen": [
@@ -2267,30 +2267,6 @@
     }
   },
   {
-    "years_active": {
-      "year1944": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1945": {
-        "khalkin_gol": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 800.0
     }
@@ -2803,21 +2779,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 7600.0,
-      "maxSpeed": 146.6,
-      "turnTime": 24.0,
-      "airfieldLen": 550.0,
-      "climbTime": 384.0,
-      "maxSpeedAlt": 2650.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 10.41,
-      "wingLoading": 208.0,
-      "powerToWeightRatio": 0.32,
-      "rollRate": 99.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.12,
@@ -2852,6 +2813,7 @@
           "climbTimeMil1": [4000.0,425.24],
           "climbTimeMil2": [6000.0,853.815],
           "turnTimeMil": [1000.0,25.4],
+          "takeoffDistance": 841.432,
           "ceiling": 7400.0,
           "rollRate": 99.0,
           "wingLoading": 208.0,
@@ -2914,13 +2876,11 @@
       "shvak_turret_apit": [],
       "shvak_turret_het": [],
       "ro_82_mod": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 11.0,
         "tier": 3,
         "modClass": "weapon"
       },
       "ro_132_mod": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 14.0,
         "tier": 4,
         "modClass": "weapon",
@@ -2965,66 +2925,5 @@
         }
       }
     ]
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 11.12,
-        "wingspan": 13.4,
-        "wingArea": 30.0,
-        "emptyWeight": 5453.0,
-        "normalWeight": 6228.0,
-        "maxTakeoffWeight": 6876.0,
-        "powerPlantType": 0,
-        "powerMaxWep": 2010.0,
-        "powerMaxMil": 1770.0
-      },
-      "performance": {
-        "table": {
-          "rpmWep": 2500.0,
-          "manifoldPressureWep": 2.26,
-          "airSpeedWep0": [0.0,513.0],
-          "airSpeedWep1": [1500.0,537.0],
-          "climbRateWep0": [0.0,10.4],
-          "climbRateWep1": [700.0,10.3],
-          "climbTimeWep0": [2000.0,163.018],
-          "climbTimeWep1": [4000.0,398.962],
-          "climbTimeWep2": [6000.0,816.657],
-          "turnTimeWep": [1000.0,24.0],
-          "rpmMil": 2300.0,
-          "manifoldPressureMil": 1.9,
-          "airSpeedMil0": [0.0,489.0],
-          "airSpeedMil1": [2500.0,530.0],
-          "climbRateMil0": [0.0,8.2],
-          "climbRateMil1": [1800.0,7.9],
-          "climbTimeMil0": [2000.0,184.814],
-          "climbTimeMil1": [4000.0,425.24],
-          "climbTimeMil2": [6000.0,853.815],
-          "turnTimeMil": [1000.0,25.4],
-          "ceiling": 7400.0,
-          "rollRate": 99.0,
-          "wingLoading": 208.0,
-          "powerToWeightRatio": 0.32
-        },
-        "plot": {
-          "airSpeedWep0": [0.0,513.0],
-          "airSpeedWep1": [1200.0,536.0],
-          "airSpeedWep2": [2200.0,537.0],
-          "airSpeedWep3": [4700.0,512.0],
-          "airSpeedWep4": [7400.0,445.0],
-          "climbRateWep0": [0.0,10.4],
-          "climbRateWep1": [700.0,10.3],
-          "climbRateWep2": [3800.0,4.2],
-          "climbRateWep3": [7400.0,-1.8],
-          "airSpeedMil0": [0.0,489.0],
-          "airSpeedMil1": [2100.0,526.0],
-          "airSpeedMil2": [3900.0,519.0],
-          "airSpeedMil3": [7300.0,453.0],
-          "climbRateMil0": [0.0,8.2],
-          "climbRateMil1": [1800.0,7.9],
-          "climbRateMil2": [7300.0,-1.7]
-        }
-      }
-    }
   }
 ]

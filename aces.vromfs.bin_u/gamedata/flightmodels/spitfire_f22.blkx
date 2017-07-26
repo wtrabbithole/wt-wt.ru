@@ -15,10 +15,13 @@
     "paratrooper": "ally"
   },
   {
+    "fireParamsPreset": "700kph"
+  },
+  {
     "fightAiBehaviour": "fighter"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fireParamsPreset": "700kph"
   },
   {
     "DamageGen": {
@@ -443,54 +446,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_medium_fighter": true,
-      "type_strike_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "ally_west": true,
-      "britain": true,
-      "bulge": true,
-      "ruhr": true,
-      "sicily": true,
-      "malta": true,
-      "berlin": true,
-      "mediterranean": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1945": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 772.0
     }
@@ -585,9 +540,9 @@
         "table": {
           "rpmWep": 3700.0,
           "manifoldPressureWep": 1.61,
-          "airSpeedWep0": [0.0,607.0],
-          "airSpeedWep1": [1800.0,649.0],
-          "airSpeedWep2": [5500.0,680.0],
+          "airSpeedWep0": [0.0,596.0],
+          "airSpeedWep1": [1800.0,645.0],
+          "airSpeedWep2": [5500.0,678.0],
           "climbRateWep0": [0.0,19.2],
           "climbRateWep1": [900.0,19.5],
           "climbRateWep2": [4500.0,14.6],
@@ -598,9 +553,9 @@
           "turnTimeWep": [1000.0,19.5],
           "rpmMil": 3700.0,
           "manifoldPressureMil": 1.47,
-          "airSpeedMil0": [0.0,586.0],
-          "airSpeedMil1": [2500.0,641.0],
-          "airSpeedMil2": [6100.0,672.0],
+          "airSpeedMil0": [0.0,581.0],
+          "airSpeedMil1": [2500.0,634.0],
+          "airSpeedMil2": [6100.0,664.0],
           "climbRateMil0": [0.0,16.9],
           "climbRateMil1": [1600.0,17.4],
           "climbRateMil2": [5200.0,12.6],
@@ -609,30 +564,31 @@
           "climbTimeMil2": [6000.0,368.247],
           "climbTimeMil3": [8000.0,572.239],
           "turnTimeMil": [1000.0,20.3],
+          "takeoffDistance": 390.783,
           "ceiling": 10800.0,
           "rollRate": 60.0,
           "wingLoading": 192.0,
           "powerToWeightRatio": 0.44
         },
         "plot": {
-          "airSpeedWep0": [0.0,607.0],
-          "airSpeedWep1": [1800.0,649.0],
-          "airSpeedWep2": [3200.0,634.0],
-          "airSpeedWep3": [5400.0,681.0],
-          "airSpeedWep4": [7800.0,653.0],
-          "airSpeedWep5": [9900.0,603.0],
-          "airSpeedWep6": [10800.0,557.0],
+          "airSpeedWep0": [0.0,596.0],
+          "airSpeedWep1": [1800.0,645.0],
+          "airSpeedWep2": [3400.0,627.0],
+          "airSpeedWep3": [5500.0,678.0],
+          "airSpeedWep4": [8400.0,637.0],
+          "airSpeedWep5": [10300.0,585.0],
+          "airSpeedWep6": [10800.0,559.0],
           "climbRateWep0": [0.0,19.2],
           "climbRateWep1": [900.0,19.5],
           "climbRateWep2": [2600.0,14.8],
           "climbRateWep3": [4600.0,14.6],
           "climbRateWep4": [10800.0,-0.9],
-          "airSpeedMil0": [0.0,586.0],
-          "airSpeedMil1": [2200.0,638.0],
-          "airSpeedMil2": [4300.0,627.0],
-          "airSpeedMil3": [6000.0,672.0],
-          "airSpeedMil4": [8900.0,629.0],
-          "airSpeedMil5": [10800.0,561.0],
+          "airSpeedMil0": [0.0,581.0],
+          "airSpeedMil1": [2400.0,636.0],
+          "airSpeedMil2": [4300.0,623.0],
+          "airSpeedMil3": [6000.0,668.0],
+          "airSpeedMil4": [9200.0,617.0],
+          "airSpeedMil5": [10800.0,552.0],
           "climbRateMil0": [0.0,16.9],
           "climbRateMil1": [1600.0,17.4],
           "climbRateMil2": [3300.0,12.8],
@@ -656,21 +612,6 @@
       "engineExtinguishFireSpeedChance": [0.01,0.1],
       "fireDamagePowerRel": 0.05,
       "nonExtinguishFireTime": 5.0
-    }
-  },
-  {
-    "Shop": {
-      "maxAltitude": 11800.0,
-      "maxSpeed": 205.5,
-      "turnTime": 18.2,
-      "airfieldLen": 420.0,
-      "maxSpeedAlt": 8232.0,
-      "climbSpeed": 23.7,
-      "climbTime": 425.0,
-      "climbAlt": 6096.0,
-      "wingLoading": 179.0,
-      "powerToWeightRatio": 0.5,
-      "rollRate": 155.0
     }
   },
   {
@@ -714,6 +655,7 @@
           "climbTimeMil2": [6000.0,377.45],
           "climbTimeMil3": [8000.0,529.615],
           "turnTimeMil": [1000.0,21.1],
+          "takeoffDistance": 482.347,
           "ceiling": 13900.0,
           "rollRate": 155.0,
           "wingLoading": 179.0,
@@ -724,7 +666,7 @@
           "airSpeedWep1": [3500.0,675.0],
           "airSpeedWep2": [5200.0,673.0],
           "airSpeedWep3": [8000.0,742.0],
-          "airSpeedWep4": [10200.0,733.0],
+          "airSpeedWep4": [11100.0,723.0],
           "airSpeedWep5": [13900.0,667.0],
           "climbRateWep0": [0.0,22.8],
           "climbRateWep1": [2600.0,23.7],
@@ -735,7 +677,7 @@
           "airSpeedMil1": [5600.0,640.0],
           "airSpeedMil2": [6900.0,628.0],
           "airSpeedMil3": [9800.0,699.0],
-          "airSpeedMil4": [12400.0,654.0],
+          "airSpeedMil4": [11400.0,677.0],
           "airSpeedMil5": [13900.0,597.0],
           "climbRateMil0": [0.0,14.3],
           "climbRateMil1": [4800.0,15.0],
@@ -3517,30 +3459,25 @@
         "reqModification": "hispano_belt_pack"
       },
       "spitfire_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "spitfire_sbc_additional": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModification": "spitfire_sbc"
       },
       "spitfire_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModification": "spitfire_sbc"
       },
       "spitfire_mbc_additional": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModification": "spitfire_mbc"
       },
       "spitfire_rc": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "modClass": "weapon",
         "tier": 3,
         "reqModification": "spitfire_mbc_additional"

@@ -18,10 +18,10 @@
     "isCapableOfAttackTurn": false
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "700kph"
   },
   {
-    "testFlight": "testFlight_ruhr"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -817,7 +817,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2309,59 +2309,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_fighter": true,
-      "year1944": true,
-      "year1945": true,
-      "bf_109_series": true,
-      "type_medium_fighter": true,
-      "bulge": true,
-      "mediterranean": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1944": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1945": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 330.0
     }
@@ -2861,21 +2808,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11500.0,
-      "maxSpeed": 188.8,
-      "turnTime": 20.0,
-      "airfieldLen": 325.0,
-      "climbTime": 420.0,
-      "maxSpeedAlt": 7500.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 21.75,
-      "wingLoading": 205.0,
-      "powerToWeightRatio": 0.54,
-      "rollRate": 107.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.16,
@@ -2895,23 +2827,24 @@
           "airSpeedWep0": [0.0,550.0],
           "airSpeedWep1": [7300.0,679.0],
           "climbRateWep0": [0.0,21.4],
-          "climbRateWep1": [6500.0,15.8],
-          "climbTimeWep0": [2000.0,88.8139],
-          "climbTimeWep1": [4000.0,184.096],
-          "climbTimeWep2": [6000.0,289.813],
-          "climbTimeWep3": [8000.0,419.342],
+          "climbRateWep1": [6500.0,15.7],
+          "climbTimeWep0": [2000.0,89.3265],
+          "climbTimeWep1": [4000.0,185.301],
+          "climbTimeWep2": [6000.0,291.971],
+          "climbTimeWep3": [8000.0,423.126],
           "turnTimeWep": [1000.0,20.0],
           "rpmMil": 2600.0,
           "manifoldPressureMil": 1.3,
           "airSpeedMil0": [0.0,491.0],
           "airSpeedMil1": [8900.0,627.0],
           "climbRateMil0": [0.0,13.7],
-          "climbRateMil1": [8200.0,8.4],
-          "climbTimeMil0": [2000.0,135.743],
-          "climbTimeMil1": [4000.0,282.724],
-          "climbTimeMil2": [6000.0,444.769],
-          "climbTimeMil3": [8000.0,631.004],
+          "climbRateMil1": [8200.0,8.3],
+          "climbTimeMil0": [2000.0,136.657],
+          "climbTimeMil1": [4000.0,284.765],
+          "climbTimeMil2": [6000.0,448.316],
+          "climbTimeMil3": [8000.0,636.861],
           "turnTimeMil": [1000.0,23.2],
+          "takeoffDistance": 653.982,
           "ceiling": 13400.0,
           "rollRate": 95.0,
           "wingLoading": 205.0,
@@ -2923,17 +2856,17 @@
           "airSpeedWep2": [11800.0,646.0],
           "airSpeedWep3": [13400.0,615.0],
           "climbRateWep0": [0.0,21.4],
-          "climbRateWep1": [2200.0,20.6],
-          "climbRateWep2": [5800.0,16.8],
+          "climbRateWep1": [2600.0,20.2],
+          "climbRateWep2": [6200.0,16.2],
           "climbRateWep3": [13400.0,0.1],
           "airSpeedMil0": [0.0,491.0],
           "airSpeedMil1": [9000.0,628.0],
-          "airSpeedMil2": [12400.0,570.0],
+          "airSpeedMil2": [12300.0,571.0],
           "climbRateMil0": [0.0,13.7],
           "climbRateMil1": [800.0,13.9],
           "climbRateMil2": [6000.0,10.5],
-          "climbRateMil3": [8200.0,8.4],
-          "climbRateMil4": [12400.0,0.0]
+          "climbRateMil3": [8200.0,8.3],
+          "climbRateMil4": [12300.0,0.2]
         }
       }
     }
@@ -2983,7 +2916,6 @@
         "reqModification": "mk108_belt_pack"
       },
       "Bf-109G-14_MK108_mod": {
-        "image": "#ui/gameuiskin#cannon",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 11.0,
@@ -3033,13 +2965,11 @@
         }
       },
       "Bf-109G-14_SC250": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 3.0
       },
       "Bf-109G-14_R5": {
-        "image": "#ui/gameuiskin#gunpods",
         "deactivationIsAllowed": false,
         "modClass": "weapon",
         "tier": 4,
@@ -3047,7 +2977,6 @@
         "reqModification": "Bf-109G-14_R6"
       },
       "Bf-109G-14_R6": {
-        "image": "#ui/gameuiskin#gunpods",
         "deactivationIsAllowed": false,
         "modClass": "weapon",
         "tier": 3,

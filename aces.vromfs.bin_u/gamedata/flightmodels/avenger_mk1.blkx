@@ -12,10 +12,10 @@
     "paratrooper": "raf_para"
   },
   {
-    "fightAiBehaviour": "bomber"
+    "fireParamsPreset": "400kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "bomber"
   },
   {
     "DamageGen": {
@@ -687,7 +687,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2465,63 +2465,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_naval_bomber": true,
-      "type_torpedo": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "country_britain": true,
-      "bomber": true,
-      "bomberview": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "carrier_take_off": true,
-      "not_in_dynamic_campaign": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1943": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7
-      },
-      "year1944": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3
-      }
-    }
-  },
-  {
     "hook": {
       "coeffHookJ": 0.03,
       "hookDeflectionAngles": [-40.0,10.0],
@@ -2542,8 +2485,8 @@
   },
   {
     "cockpit": {
-      "headPos": [0.1,1.535,0.0],
-      "headPosOnShooting": [0.1,1.535,0.0],
+      "headPos": [0.1,1.35,0.0],
+      "headPosOnShooting": [0.1,1.35,0.0],
       "collimatorSize": 0.13,
       "lightPos": [0.623556,1.145119,0.53652],
       "lightColor": [0.62,0.3,0.21],
@@ -2936,21 +2879,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 7100.0,
-      "maxSpeed": 120.0,
-      "turnTime": 30.0,
-      "airfieldLen": 306.894,
-      "maxSpeedAlt": 3650.0,
-      "climbSpeed": 5.08,
-      "climbTime": 720.0,
-      "climbAlt": 3659.0,
-      "wingLoading": 140.0,
-      "powerToWeightRatio": 0.27,
-      "rollRate": 84.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.192,
@@ -2988,6 +2916,7 @@
           "climbTimeMil0": [2000.0,307.063],
           "climbTimeMil1": [4000.0,710.309],
           "turnTimeMil": [1000.0,30.9],
+          "takeoffDistance": 521.047,
           "ceiling": 6100.0,
           "rollRate": 84.0,
           "wingLoading": 140.0,
@@ -3065,12 +2994,10 @@
       "50cal_turret_api": [],
       "30cal_turret_ap": [],
       "tbf_itc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 1
       },
       "improved_torpedo_mod": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 3,
         "reqModification": "tbf_itc"

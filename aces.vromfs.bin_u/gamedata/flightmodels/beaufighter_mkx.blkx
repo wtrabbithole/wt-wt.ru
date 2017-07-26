@@ -12,13 +12,13 @@
     "paratrooper": "raf_para"
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "assault"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_britain"
   },
   {
     "DamageGen": {
@@ -800,7 +800,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -844,7 +844,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2703,52 +2703,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_interceptor": true,
-      "type_heavy_fighter": true,
-      "type_strike_fighter": true,
-      "type_torpedo": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "ally_west": true,
-      "mediterranean": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1945": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2366.0
     }
@@ -3195,21 +3149,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 4575.0,
-      "maxSpeed": 136.11,
-      "turnTime": 28.54,
-      "airfieldLen": 443.353,
-      "climbTime": 326.08,
-      "maxSpeedAlt": 2600.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 10.0,
-      "wingLoading": 239.0,
-      "powerToWeightRatio": 0.17,
-      "rollRate": 59.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.7,
@@ -3246,6 +3185,7 @@
           "climbTimeMil2": [6000.0,903.238],
           "climbTimeMil3": [8000.0,1838.25],
           "turnTimeMil": [1000.0,31.7],
+          "takeoffDistance": 920.799,
           "ceiling": 9300.0,
           "rollRate": 59.0,
           "wingLoading": 239.0,
@@ -3325,12 +3265,10 @@
       "new_compressor": [],
       "new_engine_injection": [],
       "beaufighter_tsc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 3
       },
       "beaufighter_rsc": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "beaufighter_tsc"

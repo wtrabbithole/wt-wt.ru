@@ -27,13 +27,13 @@
     "isCapableOfAttackTurn": false
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_ruhr"
   },
   {
     "DamageGen": {
@@ -763,7 +763,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -807,7 +807,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -851,7 +851,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -895,7 +895,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -3047,73 +3047,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "type_longrange_bomber": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "bomber": true,
-      "bomberview": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1941": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1942": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1943": {
-        "britain": 0.3,
-        "bulge": 0.3,
-        "malta": 0.3,
-        "ruhr": 0.3,
-        "sicily": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2280.0
     }
@@ -3495,21 +3428,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 6000.0,
-      "maxSpeed": 105.0,
-      "turnTime": 30.0,
-      "airfieldLen": 700.0,
-      "climbTime": 642.0,
-      "maxSpeedAlt": 1500.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 4.0,
-      "wingLoading": 172.0,
-      "powerToWeightRatio": 0.04,
-      "rollRate": 19.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 23.85,
@@ -3542,6 +3460,7 @@
           "climbTimeMil0": [2000.0,382.826],
           "climbTimeMil1": [4000.0,934.747],
           "turnTimeMil": [1000.0,33.1],
+          "takeoffDistance": 1252.0601,
           "ceiling": 5600.0,
           "rollRate": 19.0,
           "wingLoading": 172.0,
@@ -3595,12 +3514,10 @@
       "mg_turret_ap": [],
       "mg_turret_api_apt": [],
       "itc_500": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 1,
         "modClass": "weapon"
       },
       "itc_1000": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 3,
         "modClass": "weapon",
         "reqModification": "itc_500"

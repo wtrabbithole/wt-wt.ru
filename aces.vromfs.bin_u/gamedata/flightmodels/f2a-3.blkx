@@ -2,7 +2,7 @@
   "model": "f2a_3",
   "type": "typeFighter",
   "paratrooper": "usa_para",
-  "testFlight": "testFlight_midway_usa",
+  "fireParamsPreset": "500kph",
   "DamageParts": {
     "wood": {
       "aileron_l_dm": {
@@ -507,54 +507,6 @@
   "attach": {
     "pilot1": "pilot_us_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "ally": true,
-    "type_fighter": true,
-    "type_naval_fighter": true,
-    "year1940": true,
-    "year1941": true,
-    "year1942": true,
-    "country_usa": true,
-    "pacific": true,
-    "hangar": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "carrier_take_off": true
-  },
-  "years_active": {
-    "year1940": {
-      "guadalcanal": 1.0,
-      "guam": 1.0,
-      "honolulu": 1.0,
-      "iwo_jima": 1.0,
-      "midway": 1.0,
-      "peleliu": 1.0,
-      "saipan": 1.0,
-      "wake_island": 1.0
-    },
-    "year1941": {
-      "guadalcanal": 0.7,
-      "guam": 0.7,
-      "honolulu": 0.7,
-      "iwo_jima": 0.7,
-      "midway": 0.7,
-      "peleliu": 0.7,
-      "saipan": 0.7,
-      "wake_island": 0.7
-    },
-    "year1942": {
-      "guadalcanal": 0.3,
-      "guam": 0.3,
-      "honolulu": 0.3,
-      "iwo_jima": 0.3,
-      "midway": 0.3,
-      "peleliu": 0.3,
-      "saipan": 0.3,
-      "wake_island": 0.3
-    }
-  },
   "Params": {
     "Range": 1553.02
   },
@@ -892,19 +844,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 10424.1602,
-    "maxSpeed": 143.946,
-    "turnTime": 17.6,
-    "airfieldLen": 200.0,
-    "climbTime": 246.0,
-    "maxSpeedAlt": 4491.6001,
-    "climbAlt": 3048.0,
-    "climbSpeed": 16.4245,
-    "wingLoading": 167.0,
-    "powerToWeightRatio": 0.37,
-    "rollRate": 129.0
-  },
   "wiki": {
     "general": {
       "length": 7.833,
@@ -945,6 +884,7 @@
         "climbTimeMil2": [6000.0,572.465],
         "climbTimeMil3": [8000.0,908.193],
         "turnTimeMil": [1000.0,19.0],
+        "takeoffDistance": 493.874,
         "ceiling": 11900.0,
         "rollRate": 129.0,
         "wingLoading": 167.0,
@@ -999,7 +939,6 @@
       "reqModification": "bmg50_belt_pack"
     },
     "f2a3_2x100lb": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "tier": 3,
       "reqModLevel": 12.0

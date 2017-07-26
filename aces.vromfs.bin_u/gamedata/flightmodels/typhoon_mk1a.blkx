@@ -12,10 +12,10 @@
     "paratrooper": "ally"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2422,50 +2422,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_medium_fighter": true,
-      "type_strike_fighter": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "ally_west": true,
-      "britain": true,
-      "malta": true,
-      "western_front": true,
-      "mediterranean": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1941": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1942": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1943": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 772.0
     }
@@ -2991,21 +2947,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10500.0,
-      "maxSpeed": 176.113,
-      "turnTime": 21.0,
-      "airfieldLen": 580.0,
-      "maxSpeedAlt": 6156.8999,
-      "climbSpeed": 17.1,
-      "climbTime": 365.0,
-      "climbAlt": 4573.0,
-      "wingLoading": 192.0,
-      "powerToWeightRatio": 0.4,
-      "rollRate": 60.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.7,
@@ -3022,9 +2963,9 @@
         "table": {
           "rpmWep": 3700.0,
           "manifoldPressureWep": 1.47,
-          "airSpeedWep0": [0.0,552.0],
+          "airSpeedWep0": [0.0,548.0],
           "airSpeedWep1": [2300.0,602.0],
-          "airSpeedWep2": [6000.0,635.0],
+          "airSpeedWep2": [6000.0,632.0],
           "climbRateWep0": [0.0,16.8],
           "climbRateWep1": [1600.0,17.1],
           "climbRateWep2": [5200.0,12.2],
@@ -3035,8 +2976,8 @@
           "turnTimeWep": [1000.0,21.0],
           "rpmMil": 3500.0,
           "manifoldPressureMil": 1.41,
-          "airSpeedMil0": [0.0,544.0],
-          "airSpeedMil1": [2400.0,599.0],
+          "airSpeedMil0": [0.0,539.0],
+          "airSpeedMil1": [2400.0,598.0],
           "airSpeedMil2": [6000.0,626.0],
           "climbRateMil0": [0.0,15.2],
           "climbRateMil1": [1600.0,15.5],
@@ -3046,30 +2987,31 @@
           "climbTimeMil2": [6000.0,438.625],
           "climbTimeMil3": [8000.0,703.044],
           "turnTimeMil": [1000.0,21.7],
+          "takeoffDistance": 542.28,
           "ceiling": 10800.0,
           "rollRate": 60.0,
           "wingLoading": 192.0,
           "powerToWeightRatio": 0.4
         },
         "plot": {
-          "airSpeedWep0": [0.0,552.0],
-          "airSpeedWep1": [2000.0,600.0],
-          "airSpeedWep2": [4400.0,598.0],
-          "airSpeedWep3": [6000.0,635.0],
-          "airSpeedWep4": [8700.0,585.0],
-          "airSpeedWep5": [10800.0,530.0],
+          "airSpeedWep0": [0.0,548.0],
+          "airSpeedWep1": [2100.0,602.0],
+          "airSpeedWep2": [4300.0,596.0],
+          "airSpeedWep3": [5900.0,633.0],
+          "airSpeedWep4": [7300.0,617.0],
+          "airSpeedWep5": [10800.0,524.0],
           "climbRateWep0": [0.0,16.8],
           "climbRateWep1": [1600.0,17.1],
           "climbRateWep2": [3600.0,12.7],
           "climbRateWep3": [5200.0,12.2],
           "climbRateWep4": [8800.0,3.3],
           "climbRateWep5": [10800.0,0.0],
-          "airSpeedMil0": [0.0,544.0],
-          "airSpeedMil1": [2400.0,599.0],
+          "airSpeedMil0": [0.0,539.0],
+          "airSpeedMil1": [2400.0,598.0],
           "airSpeedMil2": [4100.0,587.0],
           "airSpeedMil3": [6000.0,626.0],
-          "airSpeedMil4": [8500.0,580.0],
-          "airSpeedMil5": [10400.0,525.0],
+          "airSpeedMil4": [8300.0,585.0],
+          "airSpeedMil5": [10400.0,524.0],
           "climbRateMil0": [0.0,15.2],
           "climbRateMil1": [1600.0,15.5],
           "climbRateMil2": [3600.0,11.4],
@@ -3106,13 +3048,11 @@
       "303_all_tracers": [],
       "303_stealth": [],
       "halker_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 7.0
       },
       "halker_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 11.0,

@@ -18,10 +18,10 @@
     "isCapableOfAttackTurn": false
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_ruhr"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2106,74 +2106,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_fighter": true,
-      "type_medium_fighter": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "bf_109_series": true,
-      "mediterranean": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "carrier_take_off": false
-    }
-  },
-  {
-    "years_active": {
-      "year1940": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 0.5,
-        "ruhr": 1.0,
-        "sicily": 0.5,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1941": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.3,
-        "ruhr": 0.7,
-        "sicily": 0.3,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1942": {
-        "britain": 0.3,
-        "bulge": 0.3,
-        "malta": 0.1,
-        "ruhr": 0.3,
-        "sicily": 0.1,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 650.0
     }
@@ -2296,6 +2228,9 @@
         },
         {
           "flaps_fixed": true
+        },
+        {
+          "pitch_fixed": false
         },
         {
           "ammo_counter1": [100.0,0.0]
@@ -2720,21 +2655,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11000.0,
-      "maxSpeed": 158.3,
-      "turnTime": 20.0,
-      "airfieldLen": 376.146,
-      "climbTime": 378.0,
-      "maxSpeedAlt": 5000.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 17.8331,
-      "wingLoading": 153.0,
-      "powerToWeightRatio": 0.44,
-      "rollRate": 133.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 8.738,
@@ -2771,6 +2691,7 @@
           "climbTimeMil2": [6000.0,375.834],
           "climbTimeMil3": [8000.0,564.814],
           "turnTimeMil": [1000.0,21.4],
+          "takeoffDistance": 463.619,
           "ceiling": 13600.0,
           "rollRate": 111.0,
           "wingLoading": 153.0,
@@ -2788,7 +2709,7 @@
           "climbRateWep4": [13600.0,-2.4],
           "airSpeedMil0": [0.0,471.0],
           "airSpeedMil1": [5500.0,547.0],
-          "airSpeedMil2": [10500.0,530.0],
+          "airSpeedMil2": [10200.0,532.0],
           "airSpeedMil3": [12800.0,501.0],
           "climbRateMil0": [0.0,13.6],
           "climbRateMil1": [2100.0,13.3],
@@ -2833,13 +2754,11 @@
         "reqModification": "mgff_belt_pack"
       },
       "Bf-109E-3_4xSC50": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 1.0
       },
       "Bf-109E-3_SC250": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 6.0,

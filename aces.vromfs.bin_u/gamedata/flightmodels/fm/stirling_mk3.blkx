@@ -48,6 +48,9 @@
   "ArcadeHelpersSensitivity": 1.0,
   "AllowModsToChangeLongidutialBalance": true,
   "MomentOfInertia": [800000.0,1400000.0,600000.0],
+  "ArcadeRollCorrectionMultiplier": 2.0,
+  "ArcadeMaxRollCoeff": 1.0,
+  "ArcadeYawMutilpliers": [6.0,4.0,0.8],
   "AvailableControls": {
     "hasAileronControl": true,
     "hasAileronTrimControl": false,
@@ -63,7 +66,11 @@
     "dvRudderTrim": 0.125,
     "hasFlapsControl": true,
     "numFlapsPositions": 3,
+    "hasTakeoffFlapsPosition": true,
+    "hasCombatFlapsPosition": true,
     "hasAirbrake": false,
+    "isAirBrakeAvailableOnGround": false,
+    "hasIndependentAirbrakesAndFlaps": false,
     "hasGearControl": true,
     "hasArrestorControl": false,
     "hasWingFoldControl": false,
@@ -345,7 +352,8 @@
       "FuelConsumptionOnWEP": 0.28,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
-      "MaxCarburetorThrMult": 1.0,
+      "MinThrMult": 0.15,
+      "MaxThrMult": 1.0,
       "IsWaterCooled": false,
       "OptimalSpeed": 360.0,
       "EngineInertiaMoment": 1.0,
@@ -440,23 +448,107 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
-      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.01,
-      "WaterMaxRPMTemp": 300.0,
-      "OilOutMaxRPMTemp": 85.0,
-      "OverheatTime": 300.0,
-      "UnderheatTime": 999.0,
-      "WaterMaxTemp": 300.0,
-      "EmptyWaterPipeMaxRPMTemp": 275.0,
-      "WaterMinTemp": 40.0,
-      "OilMaxTemp": 105.0,
-      "EmptyOilPipeOutMaxRPMTemp": 136.5,
-      "OilMinTemp": 15.0,
-      "EffectiveRadSpeed": 270.0,
-      "IneffectiveRadMult": 1.1,
-      "AdvancedThermodynamics": false
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 0.3884,
+      "WaterAirDensityPower": 0.0,
+      "WaterRadiatorEffectPower": 5.0,
+      "WaterMinRadiatorThermalConductionCoeff": 0.8374,
+      "WaterMinThermostatThermalConductionCoeff": 0.3,
+      "WaterMinLevelThermalConductionCoeff": 0.2,
+      "WaterBoilingTemperature": 350.0,
+      "WaterThermostatInertia": 20.0,
+      "WaterThermostatSetPoint": 80.0,
+      "NoFlowMode": 2,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 1.3795,
+      "OilRadiatorEffectPower": 5.0,
+      "OilMinRadiatorThermalConductionCoeff": 0.7073,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 60.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 29.5,
+      "HalfHealthOilTemperatureToleranceDecrease": 10.5,
+      "CoolingEffectiveAirSpeed": 308.21,
+      "WaterTemperatureNoFlow": 358.703,
+      "OilTemperatureNoFlow": 106.988,
+      "AdvancedThermodynamics": true,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 600.0,
+        "ManifoldPressure": 0.9288,
+        "WaterTemperature": 118.0,
+        "OilTemperature": 53.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.19,
+        "WaterTemperature": 248.0,
+        "OilTemperature": 68.0
+      },
+      "Mode2": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.4,
+        "WaterTemperature": 273.0,
+        "OilTemperature": 88.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2800.0,
+        "ManifoldPressure": 1.591,
+        "WaterTemperature": 298.0,
+        "OilTemperature": 103.0
+      },
+      "Load0": {
+        "WaterTemperature": 240.0,
+        "OilTemperature": 60.0
+      },
+      "Load1": {
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0,
+        "WorkTime": 7200.0,
+        "RecoverTime": 3600.0
+      },
+      "Load2": {
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0,
+        "WorkTime": 1800.0,
+        "RecoverTime": 900.0
+      },
+      "Load3": {
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "Load4": {
+        "WaterTemperature": 325.0,
+        "OilTemperature": 120.0,
+        "WorkTime": 120.0,
+        "RecoverTime": 60.0
+      },
+      "RadiatorMode0": {
+        "Throttle": 0.8057,
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0
+      },
+      "RadiatorMode1": {
+        "Throttle": 1.0,
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0
+      },
+      "RadiatorMode2": {
+        "Throttle": 1.1,
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0
+      }
     },
     "Compressor": {
       "IsControllable": true,
@@ -518,7 +610,8 @@
       "FuelConsumptionOnWEP": 0.28,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
-      "MaxCarburetorThrMult": 1.0,
+      "MinThrMult": 0.15,
+      "MaxThrMult": 1.0,
       "IsWaterCooled": false,
       "OptimalSpeed": 360.0,
       "EngineInertiaMoment": 1.0,
@@ -613,23 +706,107 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
-      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.01,
-      "WaterMaxRPMTemp": 300.0,
-      "OilOutMaxRPMTemp": 85.0,
-      "OverheatTime": 300.0,
-      "UnderheatTime": 999.0,
-      "WaterMaxTemp": 300.0,
-      "EmptyWaterPipeMaxRPMTemp": 275.0,
-      "WaterMinTemp": 40.0,
-      "OilMaxTemp": 105.0,
-      "EmptyOilPipeOutMaxRPMTemp": 136.5,
-      "OilMinTemp": 15.0,
-      "EffectiveRadSpeed": 270.0,
-      "IneffectiveRadMult": 1.1,
-      "AdvancedThermodynamics": false
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 0.3884,
+      "WaterAirDensityPower": 0.0,
+      "WaterRadiatorEffectPower": 5.0,
+      "WaterMinRadiatorThermalConductionCoeff": 0.8374,
+      "WaterMinThermostatThermalConductionCoeff": 0.3,
+      "WaterMinLevelThermalConductionCoeff": 0.2,
+      "WaterBoilingTemperature": 350.0,
+      "WaterThermostatInertia": 20.0,
+      "WaterThermostatSetPoint": 80.0,
+      "NoFlowMode": 2,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 1.3795,
+      "OilRadiatorEffectPower": 5.0,
+      "OilMinRadiatorThermalConductionCoeff": 0.7073,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 60.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 29.5,
+      "HalfHealthOilTemperatureToleranceDecrease": 10.5,
+      "CoolingEffectiveAirSpeed": 308.21,
+      "WaterTemperatureNoFlow": 358.703,
+      "OilTemperatureNoFlow": 106.988,
+      "AdvancedThermodynamics": true,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 600.0,
+        "ManifoldPressure": 0.9288,
+        "WaterTemperature": 118.0,
+        "OilTemperature": 53.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.19,
+        "WaterTemperature": 248.0,
+        "OilTemperature": 68.0
+      },
+      "Mode2": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.4,
+        "WaterTemperature": 273.0,
+        "OilTemperature": 88.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2800.0,
+        "ManifoldPressure": 1.591,
+        "WaterTemperature": 298.0,
+        "OilTemperature": 103.0
+      },
+      "Load0": {
+        "WaterTemperature": 240.0,
+        "OilTemperature": 60.0
+      },
+      "Load1": {
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0,
+        "WorkTime": 7200.0,
+        "RecoverTime": 3600.0
+      },
+      "Load2": {
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0,
+        "WorkTime": 1800.0,
+        "RecoverTime": 900.0
+      },
+      "Load3": {
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "Load4": {
+        "WaterTemperature": 325.0,
+        "OilTemperature": 120.0,
+        "WorkTime": 120.0,
+        "RecoverTime": 60.0
+      },
+      "RadiatorMode0": {
+        "Throttle": 0.8057,
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0
+      },
+      "RadiatorMode1": {
+        "Throttle": 1.0,
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0
+      },
+      "RadiatorMode2": {
+        "Throttle": 1.1,
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0
+      }
     },
     "Compressor": {
       "IsControllable": true,
@@ -691,7 +868,8 @@
       "FuelConsumptionOnWEP": 0.28,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
-      "MaxCarburetorThrMult": 1.0,
+      "MinThrMult": 0.15,
+      "MaxThrMult": 1.0,
       "IsWaterCooled": false,
       "OptimalSpeed": 360.0,
       "EngineInertiaMoment": 1.0,
@@ -786,23 +964,107 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
-      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.01,
-      "WaterMaxRPMTemp": 300.0,
-      "OilOutMaxRPMTemp": 85.0,
-      "OverheatTime": 300.0,
-      "UnderheatTime": 999.0,
-      "WaterMaxTemp": 300.0,
-      "EmptyWaterPipeMaxRPMTemp": 275.0,
-      "WaterMinTemp": 40.0,
-      "OilMaxTemp": 105.0,
-      "EmptyOilPipeOutMaxRPMTemp": 136.5,
-      "OilMinTemp": 15.0,
-      "EffectiveRadSpeed": 270.0,
-      "IneffectiveRadMult": 1.1,
-      "AdvancedThermodynamics": false
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 0.3884,
+      "WaterAirDensityPower": 0.0,
+      "WaterRadiatorEffectPower": 5.0,
+      "WaterMinRadiatorThermalConductionCoeff": 0.8374,
+      "WaterMinThermostatThermalConductionCoeff": 0.3,
+      "WaterMinLevelThermalConductionCoeff": 0.2,
+      "WaterBoilingTemperature": 350.0,
+      "WaterThermostatInertia": 20.0,
+      "WaterThermostatSetPoint": 80.0,
+      "NoFlowMode": 2,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 1.3795,
+      "OilRadiatorEffectPower": 5.0,
+      "OilMinRadiatorThermalConductionCoeff": 0.7073,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 60.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 29.5,
+      "HalfHealthOilTemperatureToleranceDecrease": 10.5,
+      "CoolingEffectiveAirSpeed": 308.21,
+      "WaterTemperatureNoFlow": 358.703,
+      "OilTemperatureNoFlow": 106.988,
+      "AdvancedThermodynamics": true,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 600.0,
+        "ManifoldPressure": 0.9288,
+        "WaterTemperature": 118.0,
+        "OilTemperature": 53.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.19,
+        "WaterTemperature": 248.0,
+        "OilTemperature": 68.0
+      },
+      "Mode2": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.4,
+        "WaterTemperature": 273.0,
+        "OilTemperature": 88.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2800.0,
+        "ManifoldPressure": 1.591,
+        "WaterTemperature": 298.0,
+        "OilTemperature": 103.0
+      },
+      "Load0": {
+        "WaterTemperature": 240.0,
+        "OilTemperature": 60.0
+      },
+      "Load1": {
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0,
+        "WorkTime": 7200.0,
+        "RecoverTime": 3600.0
+      },
+      "Load2": {
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0,
+        "WorkTime": 1800.0,
+        "RecoverTime": 900.0
+      },
+      "Load3": {
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "Load4": {
+        "WaterTemperature": 325.0,
+        "OilTemperature": 120.0,
+        "WorkTime": 120.0,
+        "RecoverTime": 60.0
+      },
+      "RadiatorMode0": {
+        "Throttle": 0.8057,
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0
+      },
+      "RadiatorMode1": {
+        "Throttle": 1.0,
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0
+      },
+      "RadiatorMode2": {
+        "Throttle": 1.1,
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0
+      }
     },
     "Compressor": {
       "IsControllable": true,
@@ -864,7 +1126,8 @@
       "FuelConsumptionOnWEP": 0.28,
       "IsAutonomous": true,
       "ExtinguisherNum": 0,
-      "MaxCarburetorThrMult": 1.0,
+      "MinThrMult": 0.15,
+      "MaxThrMult": 1.0,
       "IsWaterCooled": false,
       "OptimalSpeed": 360.0,
       "EngineInertiaMoment": 1.0,
@@ -959,23 +1222,107 @@
       "NitroConsumption": 0.0
     },
     "Temperature": {
-      "ConvertThermodynamics": true,
       "RadiatorType": 3,
       "OilRadiatorType": 3,
-      "TempChangeSpeed": 0.01,
-      "WaterMaxRPMTemp": 300.0,
-      "OilOutMaxRPMTemp": 85.0,
-      "OverheatTime": 300.0,
-      "UnderheatTime": 999.0,
-      "WaterMaxTemp": 300.0,
-      "EmptyWaterPipeMaxRPMTemp": 275.0,
-      "WaterMinTemp": 40.0,
-      "OilMaxTemp": 105.0,
-      "EmptyOilPipeOutMaxRPMTemp": 136.5,
-      "OilMinTemp": 15.0,
-      "EffectiveRadSpeed": 270.0,
-      "IneffectiveRadMult": 1.1,
-      "AdvancedThermodynamics": false
+      "NoIgnitionWaterHeatProducingFactor": 0.15,
+      "WaterTemperatureInertia": 0.3884,
+      "WaterAirDensityPower": 0.0,
+      "WaterRadiatorEffectPower": 5.0,
+      "WaterMinRadiatorThermalConductionCoeff": 0.8374,
+      "WaterMinThermostatThermalConductionCoeff": 0.3,
+      "WaterMinLevelThermalConductionCoeff": 0.2,
+      "WaterBoilingTemperature": 350.0,
+      "WaterThermostatInertia": 20.0,
+      "WaterThermostatSetPoint": 80.0,
+      "NoFlowMode": 2,
+      "NoIgnitionOilHeatProducingFactor": 0.15,
+      "OilTemperatureInertia": 1.3795,
+      "OilRadiatorEffectPower": 5.0,
+      "OilMinRadiatorThermalConductionCoeff": 0.7073,
+      "OilMinThermostatThermalConductionCoeff": 0.3,
+      "OilMinLevelThermalConductionCoeff": 0.2,
+      "OilAirDensityPower": 0.0,
+      "OilBoilingTemperature": 360.0,
+      "OilThermostatInertia": 20.0,
+      "OilThermostatSetPoint": 60.0,
+      "DegradationTime_10_5": [180.0,171.0],
+      "HalfHealthWaterTemperatureToleranceDecrease": 29.5,
+      "HalfHealthOilTemperatureToleranceDecrease": 10.5,
+      "CoolingEffectiveAirSpeed": 308.21,
+      "WaterTemperatureNoFlow": 358.703,
+      "OilTemperatureNoFlow": 106.988,
+      "AdvancedThermodynamics": true,
+      "Mode0": {
+        "Altitude": 1000.0,
+        "RPM": 600.0,
+        "ManifoldPressure": 0.9288,
+        "WaterTemperature": 118.0,
+        "OilTemperature": 53.0
+      },
+      "Mode1": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.19,
+        "WaterTemperature": 248.0,
+        "OilTemperature": 68.0
+      },
+      "Mode2": {
+        "Altitude": 1000.0,
+        "RPM": 2400.0,
+        "ManifoldPressure": 1.4,
+        "WaterTemperature": 273.0,
+        "OilTemperature": 88.0
+      },
+      "Mode3": {
+        "Altitude": 1000.0,
+        "RPM": 2800.0,
+        "ManifoldPressure": 1.591,
+        "WaterTemperature": 298.0,
+        "OilTemperature": 103.0
+      },
+      "Load0": {
+        "WaterTemperature": 240.0,
+        "OilTemperature": 60.0
+      },
+      "Load1": {
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0,
+        "WorkTime": 7200.0,
+        "RecoverTime": 3600.0
+      },
+      "Load2": {
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0,
+        "WorkTime": 1800.0,
+        "RecoverTime": 900.0
+      },
+      "Load3": {
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0,
+        "WorkTime": 300.0,
+        "RecoverTime": 150.0
+      },
+      "Load4": {
+        "WaterTemperature": 325.0,
+        "OilTemperature": 120.0,
+        "WorkTime": 120.0,
+        "RecoverTime": 60.0
+      },
+      "RadiatorMode0": {
+        "Throttle": 0.8057,
+        "WaterTemperature": 250.0,
+        "OilTemperature": 70.0
+      },
+      "RadiatorMode1": {
+        "Throttle": 1.0,
+        "WaterTemperature": 275.0,
+        "OilTemperature": 90.0
+      },
+      "RadiatorMode2": {
+        "Throttle": 1.1,
+        "WaterTemperature": 300.0,
+        "OilTemperature": 105.0
+      }
     },
     "Compressor": {
       "IsControllable": true,

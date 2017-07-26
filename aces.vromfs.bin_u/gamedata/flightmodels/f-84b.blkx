@@ -21,10 +21,10 @@
     "arcadeHP": 10000.0
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "1000kph"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2556,41 +2556,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "cannot_takeoff": true,
-      "type_fighter": true,
-      "type_jet_fighter": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korean_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 882.0
     }
@@ -3150,21 +3115,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12500.0,
-      "maxSpeed": 263.33,
-      "turnTime": 31.0,
-      "airfieldLen": 1040.0,
-      "climbTime": 372.0,
-      "maxSpeedAlt": 1524.0,
-      "climbAlt": 6096.0,
-      "climbSpeed": 22.0,
-      "wingLoading": 263.0,
-      "thrustToWeightRatio": 0.25,
-      "rollRate": 184.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.3,
@@ -3186,6 +3136,7 @@
           "climbTimeMil2": [6000.0,358.922],
           "climbTimeMil3": [8000.0,552.068],
           "turnTimeMil": [1000.0,31.0],
+          "takeoffDistance": 20000.0,
           "ceiling": 9500.0,
           "rollRate": 184.0,
           "wingLoading": 263.0,
@@ -3235,42 +3186,35 @@
         "tier": 3
       },
       "frc_mk7": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "tier": 1,
         "modClass": "weapon"
       },
       "frc_mk7_additional": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "tier": 2,
         "modClass": "weapon",
         "reqModification": "frc_mk7"
       },
       "frc_mk3": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 8.0,
         "tier": 4,
         "modClass": "weapon",
         "reqModification": "frc_mk7_additional"
       },
       "fsbc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 1,
         "modClass": "weapon"
       },
       "fsbc_mk5": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 2,
         "modClass": "weapon",
         "reqModification": "fsbc_mk1"
       },
       "fmbc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 3,
         "modClass": "weapon",
         "reqModification": "fsbc_mk5"
       },
       "flbc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 4,
         "modClass": "weapon",
         "reqModification": "fmbc_mk1"

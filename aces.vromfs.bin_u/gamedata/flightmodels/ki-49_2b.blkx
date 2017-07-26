@@ -24,10 +24,10 @@
     "bayDoorTextureCtrl": true
   },
   {
-    "fightAiBehaviour": "bomber"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_peleliu"
+    "fightAiBehaviour": "bomber"
   },
   {
     "DamageGen": {
@@ -906,7 +906,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -950,7 +950,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2893,7 +2893,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.1]
         }
       },
       {
@@ -2902,7 +2902,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [0.0,1.0,-0.1]
         }
       }
     ]
@@ -2957,7 +2957,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.1]
         }
       },
       {
@@ -2966,7 +2966,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [0.0,1.0,-0.1]
         }
       }
     ]
@@ -3024,7 +3024,7 @@
           "midNode": "Bip01 L Calf",
           "upNode": "Bip01 L Thigh",
           "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
+          "flexionDir": [0.0,1.0,0.1]
         }
       },
       {
@@ -3033,7 +3033,7 @@
           "midNode": "Bip01 R Calf",
           "upNode": "Bip01 R Thigh",
           "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
+          "flexionDir": [0.0,1.0,-0.1]
         }
       }
     ]
@@ -3180,61 +3180,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_japan": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "type_medium_bomber": true,
-      "bomberview": true,
-      "far_eastern_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "khalkin_gol": 1.0,
-        "guadalcanal": 1.0,
-        "honolulu": 1.0,
-        "midway": 1.0,
-        "wake_island": 1.0,
-        "port_moresby": 0.8,
-        "guam": 0.8,
-        "saipan": 0.8
-      },
-      "year1943": {
-        "khalkin_gol": 0.7,
-        "guadalcanal": 0.7,
-        "honolulu": 0.7,
-        "midway": 0.7,
-        "wake_island": 0.7,
-        "port_moresby": 0.7,
-        "guam": 0.0,
-        "saipan": 0.7
-      },
-      "year1944": {
-        "khalkin_gol": 0.3,
-        "guadalcanal": 0.3,
-        "honolulu": 0.3,
-        "midway": 0.3,
-        "wake_island": 0.3,
-        "port_moresby": 0.3,
-        "guam": 0.3,
-        "saipan": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2000.0
     }
@@ -3355,14 +3300,14 @@
           "emitter": "gun2",
           "flash": "flare2",
           "dm": "gunner2_dm",
-          "bullets": 450,
+          "bullets": 180,
           "traceOffset": 1,
           "turret": {
             "head": "turret2",
             "gun": "gun2"
           },
           "limits": {
-            "yaw": [-30.0,30.0],
+            "yaw": [-45.0,45.0],
             "pitch": [-25.0,25.0]
           }
         }
@@ -3410,7 +3355,7 @@
           "emitter": "gun5",
           "flash": "flare5",
           "dm": "gunner5_dm",
-          "bullets": 1000,
+          "bullets": 414,
           "traceOffset": 1,
           "turret": {
             "head": "turret5",
@@ -3430,7 +3375,7 @@
           "emitter": "gun6",
           "flash": "flare6",
           "dm": "gunner6_dm",
-          "bullets": 1000,
+          "bullets": 414,
           "traceOffset": 1,
           "turret": {
             "head": "turret6",
@@ -3733,21 +3678,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9300.0,
-      "maxSpeed": 139.4,
-      "turnTime": 30.0,
-      "airfieldLen": 650.0,
-      "climbTime": 912.0,
-      "maxSpeedAlt": 5150.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 12.4702,
-      "wingLoading": 154.0,
-      "powerToWeightRatio": 0.15,
-      "rollRate": 33.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 16.808,
@@ -3788,6 +3718,7 @@
           "climbTimeMil2": [6000.0,725.373],
           "climbTimeMil3": [8000.0,1221.88],
           "turnTimeMil": [1000.0,31.0],
+          "takeoffDistance": 476.164,
           "ceiling": 8900.0,
           "rollRate": 33.0,
           "wingLoading": 154.0,
@@ -3859,13 +3790,11 @@
       "new_compressor": [],
       "new_engine_injection": [],
       "ki49_12in_mod30": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 2.0
       },
       "ki49_14in_mod35": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 6.0,

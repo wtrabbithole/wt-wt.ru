@@ -1,0 +1,226 @@
+{
+  "cannon": true,
+  "weaponType": -1,
+  "bUseHookAsRel": true,
+  "emitColor": [1.0,1.0,0.0],
+  "emitI": 10.0,
+  "emitR": 3.0,
+  "emitTime": 0.03,
+  "aimMinDist": 0.1,
+  "aimMaxDist": 2000.0,
+  "maxDeltaAngle": 0.06,
+  "maxDeltaAngleVertical": 0.08,
+  "shotFreq": 0.12,
+  "traceFreq": 4,
+  "bEnablePause": false,
+  "bullets": -1,
+  "bulletsCluster": 1,
+  "fxType": "big_gun_flame",
+  "fxGroundDust": "ground_shock_wave_dust",
+  "shouldCollideWithRendinsts": true,
+  "sound_path": "tanks/weapon_tanks/cannons",
+  "sound": "105mm_l7",
+  "sound_inside": "105mm_l7_interior",
+  "sfxReloadBullet": "grd_cannon_reload",
+  "fxMultipleSpawn": true,
+  "isBulletBelt": false,
+  "bullet": {
+    "bulletCount": 40,
+    "mass": 6.48,
+    "caliber": 0.105,
+    "damageCaliber": 0.061,
+    "ballisticCaliber": 0.08,
+    "speed": 1426.0,
+    "maxDistance": 10000.0,
+    "bulletType": "apds_tank",
+    "bulletName": "105mm_m728",
+    "hitPowerMult": 300.0,
+    "relativeVelHitShift": [300.0,1000.0],
+    "relativeVelArmorShift": [200.0,1000.0],
+    "armorFragmentsDamage": true,
+    "armorFragmentsDamageRadius": 4.4,
+    "armorFragmentsDamageAngle": 22.0,
+    "armorFragmentsAmount": 45,
+    "armorFragmentsArmorPower": 4.0,
+    "armorFragmentsHit": 10.0,
+    "groundCollisionEffect": "big_ground_splash",
+    "groundFxScale": [0.9,1.1],
+    "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "big_water_splash",
+    "hitpower": {
+      "HitPower0m": [0.85,500.0],
+      "HitPower10000m": [0.8,10000.0]
+    },
+    "armorpower": {
+      "ArmorPower0m": [321.0,10.0],
+      "ArmorPower100m": [320.0,100.0],
+      "ArmorPower500m": [300.0,500.0],
+      "ArmorPower1000m": [280.0,1000.0],
+      "ArmorPower1500m": [263.0,1500.0],
+      "ArmorPower2000m": [258.0,2000.0],
+      "ArmorPower2500m": [250.0,2500.0],
+      "ArmorPower3000m": [234.0,3000.0],
+      "ArmorPower3500m": [222.0,3500.0],
+      "ArmorPower4000m": [180.0,4000.0],
+      "ArmorPower4500m": [158.0,4500.0],
+      "ArmorPower10000m": [15.0,10000.0]
+    },
+    "visual": {
+      "range_percent_of_ammo": [100.0,0.0],
+      "traceFreq": 1,
+      "tracer": "30mmRed",
+      "trail": "black"
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_light"
+      },
+      "armor": {
+        "fx": "cannon_hit_armor"
+      }
+    }
+  },
+  "105mm_usa_HESH": {
+    "bullet": {
+      "bulletCount": 25,
+      "mass": 14.85,
+      "explosiveType": "comp_a",
+      "explosiveMass": 2.99,
+      "caliber": 0.105,
+      "speed": 730.0,
+      "maxDistance": 10000.0,
+      "bulletType": "hesh_tank",
+      "bulletName": "105mm_m393a2",
+      "hitPowerMult": 20.0,
+      "relativeVelHitShift": [300.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "fuseDelayDist": 0.4,
+      "explodeTreshold": 0.1,
+      "explodeHitPower": 200.0,
+      "explodeArmorPower": 12.0,
+      "explodeRadius": [0.3,1.0],
+      "explosionPatchRadius": 1.1,
+      "shutterDamage": true,
+      "shutterDamageRadius": 15.4,
+      "shutterAmount": 200,
+      "shutterArmorPower": 8.0,
+      "shutterHit": 20.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "defFxScale": [1.9,2.0],
+      "hitpower": {
+        "HitPower0m": [1.0,500.0],
+        "HitPower1000m": [0.9,1000.0],
+        "HitPower1500m": [0.65,1500.0],
+        "HitPower2500m": [0.5,2500.0],
+        "HitPower10000m": [0.0,10000.0]
+      },
+      "armorpower": {
+        "ArmorPower0m": [5.0,10.0],
+        "ArmorPower100m": [5.0,100.0],
+        "ArmorPower500m": [5.0,500.0],
+        "ArmorPower1000m": [5.0,1000.0],
+        "ArmorPower1500m": [5.0,1500.0],
+        "ArmorPower2500m": [2.0,2500.0],
+        "ArmorPower10000m": [1.0,10000.0]
+      },
+      "cumulativeDamage": {
+        "armorPower": 145.0,
+        "distance": 0.05,
+        "damage": 5.0
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "50mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [3.0,4.0]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [3.0,4.0]
+        },
+        "buildings": {
+          "fx": "122_he_stone_splash",
+          "fxScale": [0.8,1.2]
+        }
+      }
+    }
+  },
+  "105mm_usa_HEAT_FS": {
+    "bullet": {
+      "bulletCount": 25,
+      "mass": 10.5,
+      "explosiveType": "comp_b",
+      "explosiveMass": 0.97,
+      "caliber": 0.105,
+      "speed": 1173.0,
+      "maxDistance": 7000.0,
+      "bulletType": "heat_fs_tank",
+      "bulletName": "105mm_m456",
+      "hitPowerMult": 20.0,
+      "onHitChanceMultExplFuel": 0.3,
+      "relativeVelHitShift": [300.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.1,
+      "explodeHitPower": 200.0,
+      "explodeArmorPower": 12.0,
+      "explodeRadius": [0.3,1.0],
+      "explosionPatchRadius": 1.1,
+      "shutterDamage": true,
+      "shutterDamageRadius": 15.4,
+      "shutterAmount": 200,
+      "shutterArmorPower": 8.0,
+      "shutterHit": 20.0,
+      "groundCollisionEffect": "art_ground_splash",
+      "ricochetEffect": "cannon_ricochet",
+      "groundFxScale": [1.4,1.5],
+      "hitpower": {
+        "HitPower0m": [1.0,500.0],
+        "HitPower1000m": [0.9,1000.0],
+        "HitPower1500m": [0.65,1500.0],
+        "HitPower2500m": [0.5,2500.0],
+        "HitPower7000m": [0.0,7000.0]
+      },
+      "armorpower": {
+        "ArmorPower0m": [2.0,10.0],
+        "ArmorPower7000m": [1.0,7000.0]
+      },
+      "cumulativeDamage": {
+        "armorPower": 400.0,
+        "distance": 4.5,
+        "damage": 250.0,
+        "onHitChanceMultFire": 35.0,
+        "cumulativeFragmentsDamageRadius": 4.5,
+        "cumulativeFragmentsDamageAngle": 14.0,
+        "cumulativeFragmentsAmount": 120,
+        "cumulativeFragmentsArmorPower": 5.0,
+        "cumulativeFragmentsHit": 12.0
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "50mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,3.5]
+        },
+        "armor": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [2.5,3.5]
+        },
+        "buildings": {
+          "fx": "122_ap_stone_splash",
+          "fxScale": [0.8,1.2]
+        }
+      }
+    }
+  }
+}

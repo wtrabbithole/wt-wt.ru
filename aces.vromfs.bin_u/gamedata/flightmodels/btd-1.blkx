@@ -12,10 +12,10 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "bomber"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_midway_usa"
+    "fightAiBehaviour": "bomber"
   },
   {
     "DamageGen": {
@@ -690,7 +690,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2484,51 +2484,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_bomber": true,
-      "type_naval_bomber": true,
-      "type_torpedo": true,
-      "year1944": true,
-      "year1945": true,
-      "country_usa": true,
-      "bomber": true,
-      "bomberview": false,
-      "water": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "carrier_take_off": true
-    }
-  },
-  {
-    "years_active": {
-      "year1944": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1945": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      }
-    }
-  },
-  {
     "hook": {
       "coeffHookJ": 0.03,
       "hookDeflectionAngles": [-40.0,10.0],
@@ -2766,21 +2721,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 7190.0,
-      "maxSpeed": 153.7,
-      "turnTime": 27.0,
-      "airfieldLen": 306.894,
-      "maxSpeedAlt": 4907.0,
-      "climbSpeed": 9.1166,
-      "climbTime": 450.0,
-      "climbAlt": 3048.0,
-      "wingLoading": 223.0,
-      "powerToWeightRatio": 0.28,
-      "rollRate": 92.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 11.7526,
@@ -2819,6 +2759,7 @@
           "climbTimeMil1": [4000.0,528.132],
           "climbTimeMil2": [6000.0,929.511],
           "turnTimeMil": [1000.0,27.6],
+          "takeoffDistance": 601.845,
           "ceiling": 7000.0,
           "rollRate": 92.0,
           "wingLoading": 223.0,
@@ -2878,27 +2819,23 @@
         "reqModification": "anm2_belt_pack"
       },
       "btd_tc": {
-        "image": "#ui/gameuiskin#pilon_torpedo",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 5.0,
         "reqModification": "btd_sbc"
       },
       "btd_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 16.0,
         "reqModification": "btd_mbc"
       },
       "btd_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 3.0
       },
       "btd_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 12.0,

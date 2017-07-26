@@ -24,13 +24,13 @@
     "bayDoorTextureCtrl": true
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_honolulu"
   },
   {
     "DamageGen": {
@@ -47,9 +47,6 @@
         "mat": "armor6_35"
       },
       "armor5_dm": {
-        "mat": "armor9_5"
-      },
-      "armor6_dm": {
         "mat": "armor9_5"
       },
       "armor7_dm": {
@@ -898,7 +895,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -942,7 +939,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -3121,42 +3118,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_medium_bomber": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1944": {
-        "bulge": 0.8,
-        "ruhr": 0.7
-      },
-      "year1945": {
-        "bulge": 0.5,
-        "ruhr": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1649.58
     }
@@ -3683,21 +3644,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 7500.0,
-      "maxSpeed": 123.38,
-      "turnTime": 31.0,
-      "airfieldLen": 750.0,
-      "climbTime": 450.0,
-      "maxSpeedAlt": 3049.0,
-      "climbAlt": 3049.0,
-      "climbSpeed": 7.7356,
-      "wingLoading": 257.0,
-      "powerToWeightRatio": 0.12,
-      "rollRate": 34.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 16.28,
@@ -3736,6 +3682,7 @@
           "climbTimeMil1": [4000.0,816.224],
           "climbTimeMil2": [6000.0,1536.79],
           "turnTimeMil": [1000.0,33.4],
+          "takeoffDistance": 963.732,
           "ceiling": 7600.0,
           "rollRate": 34.0,
           "wingLoading": 257.0,
@@ -3802,20 +3749,17 @@
       "b-25_sbc": {
         "modClass": "weapon",
         "tier": 1,
-        "image": "#ui/gameuiskin#pilon_bomb",
         "reqModLevel": 1.0
       },
       "b-25_mbc": {
         "modClass": "weapon",
         "tier": 2,
-        "image": "#ui/gameuiskin#pilon_bomb",
         "reqModLevel": 3.0,
         "reqModification": "b-25_sbc"
       },
       "b-25_flak_vest": {
         "modClass": "armor",
         "tier": 1,
-        "image": "#ui/gameuiskin#bulletproof_vest",
         "reqModLevel": 6.0,
         "effects": {
           "DamageParts": {
@@ -3877,7 +3821,6 @@
       "b-25_lbc": {
         "modClass": "weapon",
         "tier": 4,
-        "image": "#ui/gameuiskin#pilon_bomb",
         "reqModLevel": 11.0,
         "reqModification": "b-25_mbc"
       }

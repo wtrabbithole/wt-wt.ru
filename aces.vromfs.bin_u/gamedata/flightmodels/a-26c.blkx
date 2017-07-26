@@ -21,6 +21,9 @@
     "ignoreArcadeWep": true
   },
   {
+    "fireParamsPreset": "600kph"
+  },
+  {
     "bayDoorTextureCtrl": true
   },
   {
@@ -30,7 +33,56 @@
     "hasQualityModels": true
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "DamageGen": {
+      "armor1_dm": {
+        "mat": "armor12_7"
+      },
+      "armor2_dm": {
+        "mat": "armor12_7"
+      },
+      "armor3_dm": {
+        "mat": "armor_glass60"
+      },
+      "armor4_dm": {
+        "mat": "armor12_7"
+      },
+      "armor5_dm": {
+        "mat": "armor12_7"
+      },
+      "armor6_dm": {
+        "mat": "armor12_7"
+      },
+      "armor7_dm": {
+        "mat": "armor12_7"
+      },
+      "armor8_dm": {
+        "mat": "armor12_7"
+      },
+      "armor9_dm": {
+        "mat": "armor9"
+      },
+      "armor10_dm": {
+        "mat": "armor8"
+      },
+      "armor11_dm": {
+        "mat": "armor8"
+      },
+      "armor12_dm": {
+        "mat": "armor8"
+      },
+      "armor13_dm": {
+        "mat": "armor8"
+      },
+      "armor14_dm": {
+        "mat": "armor9_5"
+      },
+      "armor15_dm": {
+        "mat": "armor8_5"
+      },
+      "armor16_dm": {
+        "mat": "armor9"
+      }
+    }
   },
   {
     "DamageGen": {
@@ -890,7 +942,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -934,7 +986,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2782,39 +2834,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_frontline_bomber": true,
-      "type_bomber": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": true,
-      "korean_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1649.58
     }
@@ -3242,21 +3261,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 8000.0,
-      "maxSpeed": 158.0,
-      "turnTime": 28.0,
-      "airfieldLen": 700.0,
-      "climbTime": 640.0,
-      "maxSpeedAlt": 4573.0,
-      "climbAlt": 1524.0,
-      "climbSpeed": 11.41,
-      "wingLoading": 283.0,
-      "powerToWeightRatio": 0.18,
-      "rollRate": 49.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 15.621,
@@ -3296,6 +3300,7 @@
           "climbTimeMil2": [6000.0,725.611],
           "climbTimeMil3": [8000.0,1549.07],
           "turnTimeMil": [1000.0,29.5],
+          "takeoffDistance": 835.093,
           "ceiling": 8700.0,
           "rollRate": 49.0,
           "wingLoading": 283.0,
@@ -3362,20 +3367,17 @@
       "50cal_turret_ap": [],
       "50cal_turret_api": [],
       "btd_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 16.0,
         "reqModification": "btd_mbc"
       },
       "btd_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 3.0
       },
       "btd_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 12.0,

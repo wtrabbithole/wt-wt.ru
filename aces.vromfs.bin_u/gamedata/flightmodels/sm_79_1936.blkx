@@ -15,13 +15,13 @@
     "paratrooper": "raf_para"
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_sicily"
   },
   {
     "DamageGen": {
@@ -800,7 +800,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -844,7 +844,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -888,7 +888,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2872,43 +2872,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_italy": true,
-      "bomber": true,
-      "type_frontline_bomber": true,
-      "bomberview": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "type_bomber": true,
-      "type_medium_bomber": true,
-      "mediterranean": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1939": {
-        "malta": 1.0,
-        "sicily": 1.0
-      },
-      "year1940": {
-        "malta": 0.7,
-        "sicily": 0.7
-      },
-      "year1941": {
-        "malta": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1931.22
     }
@@ -3311,21 +3274,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 6800.0,
-      "maxSpeed": 119.444,
-      "turnTime": 31.6356,
-      "airfieldLen": 450.0,
-      "climbTime": 1200.0,
-      "maxSpeedAlt": 4000.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 5.9,
-      "wingLoading": 151.0,
-      "powerToWeightRatio": 0.08,
-      "rollRate": 31.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 15.625,
@@ -3360,6 +3308,7 @@
           "climbTimeMil1": [4000.0,579.532],
           "climbTimeMil2": [6000.0,1086.12],
           "turnTimeMil": [1000.0,34.3],
+          "takeoffDistance": 566.992,
           "ceiling": 6600.0,
           "rollRate": 31.0,
           "wingLoading": 151.0,
@@ -3431,12 +3380,10 @@
         "tier": 4
       },
       "s79a_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "s79a_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModification": "s79a_mbc"

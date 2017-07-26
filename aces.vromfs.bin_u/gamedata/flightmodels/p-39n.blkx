@@ -12,10 +12,10 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2092,64 +2092,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_fighter": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "country_usa": true,
-      "mediterranean": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1943": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7,
-        "bulge": 0.7,
-        "ruhr": 0.7
-      },
-      "year1944": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3,
-        "bulge": 0.3,
-        "ruhr": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 651.78
     }
@@ -2197,6 +2139,10 @@
         "fuel_pressure": [0.0,30.0],
         "aviahorizon_pitch": [-30.0,30.0],
         "aviahorizon_roll": [-180.0,180.0],
+        "flaps": [0.0,1.0],
+        "flaps_fixed": false,
+        "gears": [0.0,1.0],
+        "gear_fixed": false,
         "gears_lamp": [0.0,0.0],
         "trimmer": [-1.0,1.0]
       },
@@ -2587,21 +2533,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11000.0,
-      "maxSpeed": 173.45,
-      "turnTime": 20.0,
-      "airfieldLen": 300.0,
-      "climbTime": 66.0,
-      "maxSpeedAlt": 4450.0,
-      "climbAlt": 1000.0,
-      "climbSpeed": 17.1326,
-      "wingLoading": 163.0,
-      "powerToWeightRatio": 0.44,
-      "rollRate": 102.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.194,
@@ -2638,6 +2569,7 @@
           "climbTimeMil2": [6000.0,387.814],
           "climbTimeMil3": [8000.0,612.217],
           "turnTimeMil": [1000.0,22.7],
+          "takeoffDistance": 513.863,
           "ceiling": 11000.0,
           "rollRate": 102.0,
           "wingLoading": 163.0,
@@ -2711,7 +2643,6 @@
         "tier": 3
       },
       "bazooka_pylon": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 15.0,
         "tier": 4,
         "modClass": "weapon"

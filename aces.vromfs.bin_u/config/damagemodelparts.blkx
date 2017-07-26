@@ -13,7 +13,8 @@
     "externalArmor": false
   },
   "body": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "body_front": {
     "type": "body",
@@ -36,91 +37,120 @@
     "externalArmor": true
   },
   "ship_hull": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_l": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_r": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_back": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_bottom": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_front": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_side": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_shield": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "bow_top": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_l": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_r": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_back": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_bottom": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_front": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_side": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_shield": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "mid_top": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_l": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_r": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_back": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_bottom": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_front": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_side": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_shield": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "stern_top": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "deckhouse": {
-    "type": "body"
+    "type": "body",
+    "externalArmor": true
   },
   "superstructure_front": {
     "externalArmor": true
@@ -175,22 +205,6 @@
   "engine_r_NN": {
     "template": "engine_r_#10#",
     "type": "engine",
-    "hitTestType": "inner",
-    "genName": "tank_engine",
-    "vital": true,
-    "movement": true,
-    "fire": true
-  },
-  "engine_l": {
-    "type": "engine_ship",
-    "hitTestType": "inner",
-    "genName": "tank_engine",
-    "vital": true,
-    "movement": true,
-    "fire": true
-  },
-  "engine_r": {
-    "type": "engine_ship",
     "hitTestType": "inner",
     "genName": "tank_engine",
     "vital": true,
@@ -281,7 +295,7 @@
     "vital": true
   },
   "cannon_breech_NN": {
-    "template": "cannon_breech_#05#",
+    "template": "cannon_breech_#10#",
     "type": "cannon_breech",
     "hitTestType": "inner",
     "genName": "tank_cannon_breech",
@@ -294,7 +308,7 @@
     "vital": true
   },
   "drive_turret_h_NN": {
-    "template": "drive_turret_h_#05#",
+    "template": "drive_turret_h_#10#",
     "type": "drive_turret_h",
     "hitTestType": "inner",
     "genName": "tank_drive_turret_h",
@@ -307,7 +321,7 @@
     "vital": true
   },
   "drive_turret_v_NN": {
-    "template": "drive_turret_v_#05#",
+    "template": "drive_turret_v_#10#",
     "type": "drive_turret_v",
     "hitTestType": "inner",
     "genName": "tank_drive_turret_v",
@@ -619,15 +633,6 @@
   "torpedo_r_NN": {
     "template": "torpedo_r_#10#"
   },
-  "ta_NN": {
-    "template": "ta_#10#"
-  },
-  "ta_l_NN": {
-    "template": "ta_l_#10#"
-  },
-  "ta_r_NN": {
-    "template": "ta_r_#10#"
-  },
   "mast_NN": {
     "template": "mast_#10#"
   },
@@ -666,6 +671,12 @@
   },
   "tt_NN": {
     "template": "tt_#20#"
+  },
+  "tt_l_NN": {
+    "template": "tt_l_#10#"
+  },
+  "tt_r_NN": {
+    "template": "tt_r_#10#"
   },
   "turret_front": {
     "externalArmor": true

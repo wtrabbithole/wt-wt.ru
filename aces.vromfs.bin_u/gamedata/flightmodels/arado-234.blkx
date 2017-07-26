@@ -18,13 +18,13 @@
     "arcadeHP": 100.0
   },
   {
+    "fireParamsPreset": "800kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_ruhr"
   },
   {
     "DamageGen": {
@@ -609,7 +609,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -653,7 +653,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2161,58 +2161,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_bomber": true,
-      "type_jet_bomber": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "bomberview": true,
-      "western_front": true,
-      "eastern_front": true,
-      "mediterranean": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "cannot_takeoff": true
-    }
-  },
-  {
-    "years_active": {
-      "year1944": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0
-      },
-      "year1945": {
-        "britain": 0.8,
-        "bulge": 0.8,
-        "malta": 1.0,
-        "ruhr": 0.8,
-        "sicily": 0.8,
-        "berlin": 0.8,
-        "korsun": 0.8,
-        "krymsk": 0.8,
-        "mozdok": 0.8,
-        "stalingrad": 0.8,
-        "stalingrad_w": 0.8
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1620.0
     }
@@ -2483,21 +2431,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11000.0,
-      "maxSpeed": 206.11,
-      "turnTime": 28.5,
-      "airfieldLen": 1610.0,
-      "maxSpeedAlt": 6000.0,
-      "climbSpeed": 28.5,
-      "climbTime": 630.0,
-      "climbAlt": 6000.0,
-      "wingLoading": 256.0,
-      "thrustToWeightRatio": 0.13,
-      "rollRate": 82.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 12.65,
@@ -2520,6 +2453,7 @@
           "climbTimeMil2": [6000.0,532.59],
           "climbTimeMil3": [8000.0,858.725],
           "turnTimeMil": [1000.0,28.5],
+          "takeoffDistance": 20000.0,
           "ceiling": 10200.0,
           "rollRate": 82.0,
           "wingLoading": 256.0,
@@ -2552,7 +2486,6 @@
       "structure_str": [],
       "hp_105_jet": [],
       "ar234_SC1000": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2
       },

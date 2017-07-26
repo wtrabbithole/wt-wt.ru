@@ -12,10 +12,10 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "600kph"
   },
   {
-    "testFlight": "testFlight_stalingrad"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2060,53 +2060,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_fighter": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "country_ussr": true,
-      "berlin": true,
-      "korsun": true,
-      "water": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0
-      },
-      "year1943": {
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7
-      },
-      "year1944": {
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 651.78
     }
@@ -2154,6 +2107,10 @@
         "fuel_pressure": [0.0,30.0],
         "aviahorizon_pitch": [-30.0,30.0],
         "aviahorizon_roll": [-180.0,180.0],
+        "flaps": [0.0,1.0],
+        "flaps_fixed": false,
+        "gears": [0.0,1.0],
+        "gear_fixed": false,
         "gears_lamp": [0.0,0.0],
         "trimmer": [-1.0,1.0]
       },
@@ -2645,21 +2602,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11000.0,
-      "maxSpeed": 183.0,
-      "turnTime": 18.0,
-      "airfieldLen": 280.0,
-      "climbTime": 284.0,
-      "maxSpeedAlt": 3352.0,
-      "climbAlt": 4572.0,
-      "climbSpeed": 21.26,
-      "wingLoading": 159.0,
-      "powerToWeightRatio": 0.45,
-      "rollRate": 102.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.194,
@@ -2696,6 +2638,7 @@
           "climbTimeMil2": [6000.0,373.542],
           "climbTimeMil3": [8000.0,586.454],
           "turnTimeMil": [1000.0,20.7],
+          "takeoffDistance": 505.514,
           "ceiling": 11400.0,
           "rollRate": 102.0,
           "wingLoading": 159.0,

@@ -15,10 +15,10 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_britain_navy"
+    "fightAiBehaviour": "fighter"
   },
   {
     "MetaParts": {
@@ -178,28 +178,6 @@
   {
     "attach": {
       "pilot1": "pilot_raf_500"
-    }
-  },
-  {
-    "years_active": {
-      "year1939": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1940": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1941": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
     }
   },
   {
@@ -596,6 +574,7 @@
           "climbTimeMil2": [6000.0,397.618],
           "climbTimeMil3": [8000.0,581.463],
           "turnTimeMil": [1000.0,17.0],
+          "takeoffDistance": 293.708,
           "ceiling": 11900.0,
           "rollRate": 78.0,
           "wingLoading": 119.0,
@@ -659,21 +638,6 @@
     ]
   },
   {
-    "Shop": {
-      "maxAltitude": 11000.0,
-      "maxSpeed": 142.15,
-      "turnTime": 19.0,
-      "airfieldLen": 300.0,
-      "climbTime": 705.0,
-      "maxSpeedAlt": 6000.0,
-      "climbAlt": 6000.0,
-      "climbSpeed": 8.5,
-      "wingLoading": 141.0,
-      "powerToWeightRatio": 0.27,
-      "rollRate": 78.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.58,
@@ -698,6 +662,7 @@
           "climbTimeMil2": [6000.0,510.496],
           "climbTimeMil3": [8000.0,764.53],
           "turnTimeMil": [1000.0,19.0],
+          "takeoffDistance": 407.121,
           "ceiling": 10600.0,
           "rollRate": 78.0,
           "wingLoading": 141.0,
@@ -818,6 +783,18 @@
         },
         {
           "mixture": [0.0,1.0]
+        },
+        {
+          "flaps": [0.0,1.0]
+        },
+        {
+          "flaps_fixed": false
+        },
+        {
+          "gears": [0.0,1.0]
+        },
+        {
+          "gear_fixed": false
         },
         {
           "gears_lamp": [0.0,0.0]
@@ -1568,7 +1545,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2969,26 +2946,6 @@
         }
       }
     ]
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_naval_fighter": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "ally_west": true,
-      "mediterranean": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true,
-      "carrier_take_off": true
-    }
   },
   {
     "modifications": {

@@ -5,8 +5,8 @@
   "paratrooper": "usa_para",
   "bombingDelay": 2.2,
   "bayDoorSpeedCoef": 0.5,
+  "fireParamsPreset": "1000kph",
   "fightAiBehaviour": "bomber",
-  "testFlight": "testFlight_honolulu",
   "DamageGen": {
     "engine1_dm": {
       "mat": "aircooling_engine"
@@ -659,7 +659,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -703,7 +703,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -2518,38 +2518,6 @@
     "pilot1": "pilot_us_500",
     "gunner1": "gunner_sit_us_500"
   },
-  "tags": {
-    "jet_engine": true,
-    "training": true,
-    "all": true,
-    "ally": true,
-    "country_usa": true,
-    "type_bomber": true,
-    "type_jet_bomber": true,
-    "bomberview": true,
-    "year1950": true,
-    "year1951": true,
-    "year1952": true,
-    "year1953": true,
-    "korea": true,
-    "not_in_dynamic_campaign": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1950": {
-      "korea": 1.0
-    },
-    "year1951": {
-      "korea": 1.0
-    },
-    "year1952": {
-      "korea": 1.0
-    },
-    "year1953": {
-      "korea": 1.0
-    }
-  },
   "Params": {
     "Range": 1050.0
   },
@@ -3049,19 +3017,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 12192.0,
-    "maxSpeed": 267.5,
-    "turnTime": 55.0,
-    "airfieldLen": 1050.0,
-    "climbTime": 282.0,
-    "maxSpeedAlt": 762.0,
-    "climbAlt": 6096.0,
-    "climbSpeed": 28.5,
-    "wingLoading": 230.0,
-    "thrustToWeightRatio": 0.16,
-    "rollRate": 66.0
-  },
   "wiki": {
     "general": {
       "length": 19.96,
@@ -3084,6 +3039,7 @@
         "climbTimeMil2": [6000.0,265.367],
         "climbTimeMil3": [8000.0,397.271],
         "turnTimeMil": [1000.0,55.0],
+        "takeoffDistance": 1229.61,
         "ceiling": 8200.0,
         "rollRate": 66.0,
         "wingLoading": 230.0,
@@ -3124,24 +3080,20 @@
       "tier": 3
     },
     "EEMBC_mark_2": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "tier": 1
     },
     "EELBC_mark_3": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "tier": 2,
       "reqModification": "EEMBC_mark_2"
     },
     "EERC_mark_1": {
-      "image": "#ui/gameuiskin#pilon_rocket",
       "modClass": "weapon",
       "tier": 3,
       "reqModification": "EELBC_mark_3"
     },
     "EERC_mark_2": {
-      "image": "#ui/gameuiskin#pilon_rocket",
       "modClass": "weapon",
       "tier": 4,
       "reqModification": "EERC_mark_1"

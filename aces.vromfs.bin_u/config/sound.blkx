@@ -27,6 +27,7 @@
   "misc_effects": {
     "path": "sounds/effects",
     "pathTanks": "tanks/effects_tanks",
+    "pathShips": "ships/effects_ships",
     "eventBulletHitGround": "bullethit_ground",
     "eventBulletHitWater": "bullethit_water",
     "eventBulletPassBy": "bullet_passby",
@@ -129,15 +130,56 @@
     "eventPlayerWind": "wind",
     "eventStuntPerformed": "bonus",
     "eventToogleSwitch": "light_switch",
+    "eventTorpedoLaunch": "torpedo_launch",
+    "eventTorpedoSplash": "torpedo_splash",
+    "eventJumpOutParachute": "jump_out_parachute",
     "lowGroundEffect": "low_ground",
     "eventMetalImpact": "rattle05/metalimpact",
     "eventCutDecor": "part_bounced",
     "bulletPassByRadius": 80.0,
     "aircraftPassByTreshold": 90.0,
+    "eventBulletHitShipMgun": "hit_mgun",
+    "eventBulletHitShipSmall": "hit_small",
+    "eventBulletHitShipMid": "hit_mid",
+    "eventBulletHitShipBig": "hit_big",
+    "eventShipCollisionUnit": "collision_ship",
+    "eventShipWaterSplashes": "collision_water",
     "windAcelerateSpeed": 0.1,
     "windTransitionSpeed": 0.1,
     "windBackSpeed": 0.3,
-    "windSpeedTreshold": 100.0
+    "windSpeedTreshold": 100.0,
+    "tinnitusDuration": 1.0,
+    "tinnitusDSPDuration": 5.0
+  },
+  "explosions": {
+    "path": "sounds/explosions",
+    "explosion_ground": "explosion_ground",
+    "explosion_water": "explosion_water",
+    "explosion_air": "explosion_air",
+    "explosion_building": "explosion_building",
+    "explosion_unit": "explosion_unit",
+    "explosion_ship": "explosion_unit",
+    "heavy_explosion_ground": "heavy_explosion_ground",
+    "heavy_explosion_water": "heavy_explosion_water",
+    "heavy_explosion_air": "heavy_explosion_air",
+    "heavy_explosion_building": "heavy_explosion_building",
+    "heavy_explosion_unit": "heavy_explosion_unit",
+    "heavy_explosion_ship": "heavy_explosion_unit",
+    "bomb_explosion_ground": "bomb_explosion_ground",
+    "bomb_explosion_water": "bomb_explosion_water",
+    "bomb_explosion_air": "heavy_explosion_air",
+    "bomb_explosion_building": "heavy_explosion_building",
+    "bomb_explosion_unit": "heavy_explosion_unit",
+    "bomb_explosion_ship": "heavy_explosion_unit",
+    "torpedo_explosion_ground": "torpedo_explosion_unit",
+    "torpedo_explosion_water": "torpedo_explosion_unit",
+    "torpedo_explosion_air": "torpedo_explosion_unit",
+    "torpedo_explosion_building": "torpedo_explosion_unit",
+    "torpedo_explosion_unit": "torpedo_explosion_unit",
+    "torpedo_explosion_ship": "torpedo_explosion_unit",
+    "plane_explosion_air": "parts_explosion",
+    "plane_explosion_water": "plane_explosion_water",
+    "explosion_big_ship": "explosion_naval"
   },
   "hud": {
     "path": "sounds/gui",
@@ -211,6 +253,11 @@
   "dsp_overload": {
     "cutoff": 3000.0,
     "resonance": 1.0
+  },
+  "dsp_tinnitus": {
+    "cutoff": 3000.0,
+    "resonance": 1.0,
+    "speed": 0.75
   },
   "reverb": {
     "field": "field",
@@ -475,6 +522,40 @@
     },
     "outside": {
       "path": "tanks/engines_tanks/ai_heavy",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_ctr_ai": {
+    "effects": {
+      "path": "ships/engines_ships/ai_ctr",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ships/engines_ships/ai_ctr",
+      "eventBack": "engine",
+      "rpmScale": 0.88,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 1.0
+    }
+  },
+  "engine_shiplight_ai": {
+    "effects": {
+      "path": "ships/engines_ships/ai_light",
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": {
+      "path": "ships/engines_ships/ai_light",
       "eventBack": "engine",
       "rpmScale": 0.88,
       "rpmSmooth": 0.02,
@@ -1427,6 +1508,51 @@
       "leftPos": [0.5,1.0,1.0],
       "rightPos": [0.5,1.0,-1.0],
       "rpmScale": 1.0,
+      "rpmSmooth": 0.02,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9
+    }
+  },
+  "engine_j7w1": {
+    "effects": {
+      "path": "sounds/engines",
+      "wep": "engine_wep",
+      "overheatOutside": "engine_overheat_camera",
+      "overheatCockpit": "engine_overheat_cockpit",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 1.0,
+      "eventStart": "engine_j7w1_start",
+      "eventStop": "engine_j7w1_stop",
+      "eventProp": "engine_j7w1_prop"
+    },
+    "outside": {
+      "path": "sounds/engines",
+      "eventFront": "",
+      "eventBack": "engine_j7w1",
+      "eventSurround": "",
+      "eventLod1": "engine_j7w1",
+      "rpmScale": 1.1,
+      "rpmSmooth": 0.01,
+      "loadScale": 6.0,
+      "loadSmooth": 0.05,
+      "distSmooth": 0.9,
+      "distScaleOnNotHero": 0.8
+    },
+    "cockpit": {
+      "path": "sounds/engines",
+      "event_cockpit_l": "engine_j7w1_cockpit_l",
+      "event_cockpit_r": "engine_j7w1_cockpit_r",
+      "event_start_cockpit_l": "engine_j7w1_start_cockpit_l",
+      "event_start_cockpit_r": "engine_j7w1_start_cockpit_r",
+      "event_stop_cockpit_l": "engine_j7w1_stop_cockpit_l",
+      "event_stop_cockpit_r": "engine_j7w1_stop_cockpit_r",
+      "event_prop_cockpit_l": "engine_j7w1_prop_cockpit_l",
+      "event_prop_cockpit_r": "engine_j7w1_prop_cockpit_r",
+      "leftPos": [-3.0,1.0,3.0],
+      "rightPos": [-3.0,1.0,-3.0],
+      "rpmScale": 1.1,
       "rpmSmooth": 0.02,
       "loadScale": 6.0,
       "loadSmooth": 0.05,
@@ -2519,6 +2645,16 @@
       "path": "sounds/effects",
       "event": "old_ship_reload",
       "time": 3.0
+    },
+    "ship_cannon_reload": {
+      "path": "ships/effects_ships",
+      "event": "reload_cannon",
+      "time": 2.5
+    },
+    "ship_gun_reload": {
+      "path": "ships/effects_ships",
+      "event": "reload_gun",
+      "time": 1.5
     }
   },
   "gun_default": {
@@ -2846,7 +2982,9 @@
     "eventTargetHit": {
       "event": "voice_message_direct_hit",
       "player": 3,
-      "delayTime": 0.8
+      "delayTime": 0.8,
+      "minSpeechInterval": 1.0,
+      "eventsChancePlay": 0.8
     },
     "eventArmorNotPierced": {
       "event": "voice_message_armor_not_pierce",
@@ -2856,12 +2994,16 @@
     "eventTargetDestroyed": {
       "event": "voice_message_target_destroyed",
       "player": 3,
-      "delayTime": 0.5
+      "delayTime": 0.5,
+      "minSpeechInterval": 1.0,
+      "eventsChancePlay": 1.0
     },
     "eventTargetDestroyedAircraft": {
       "event": "voice_message_target_destroyed_aircraft",
       "player": 3,
-      "delayTime": 0.5
+      "delayTime": 0.5,
+      "minSpeechInterval": 1.0,
+      "eventsChancePlay": 1.0
     },
     "eventTargetLock": {
       "event": "voice_message_target_lock",
@@ -3089,6 +3231,7 @@
     "heat_fs_tank": "eventLoadBulletCumulative",
     "apcr_tank": "eventLoadBulletSubCaliber",
     "apds_tank": "eventLoadBulletSubCaliber",
+    "apds_fs_tank": "eventLoadBulletSubCaliber",
     "tphv_tank": "eventLoadBulletSubCaliber"
   },
   "airDefenceSiren": {

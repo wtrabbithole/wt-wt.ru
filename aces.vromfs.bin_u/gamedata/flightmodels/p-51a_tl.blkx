@@ -12,16 +12,16 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "fighter"
-  },
-  {
-    "testFlight": "testFlight_honolulu"
+    "fireParamsPreset": "600kph"
   },
   {
     "fightAiBehaviour": "fighter"
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "fireParamsPreset": "700kph"
+  },
+  {
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -396,28 +396,6 @@
     }
   },
   {
-    "years_active": {
-      "year1942": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1943": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1944": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 805.0
     }
@@ -466,6 +444,10 @@
         "fuel_pressure": [0.0,30.0],
         "aviahorizon_pitch": [-45.0,45.0],
         "aviahorizon_roll": [-180.0,180.0],
+        "flaps": [0.0,1.0],
+        "flaps_fixed": true,
+        "gears": [0.0,1.0],
+        "gear_fixed": true,
         "gears_lamp": [0.0,0.0]
       },
       "parts_holes_dmg": {
@@ -745,8 +727,8 @@
         "table": {
           "rpmWep": 3000.0,
           "manifoldPressureWep": 1.87,
-          "airSpeedWep0": [0.0,598.0],
-          "airSpeedWep1": [2500.0,654.0],
+          "airSpeedWep0": [0.0,599.0],
+          "airSpeedWep1": [2500.0,657.0],
           "climbRateWep0": [0.0,12.5],
           "climbRateWep1": [2100.0,13.1],
           "climbTimeWep0": [2000.0,103.41],
@@ -765,17 +747,19 @@
           "climbTimeMil2": [6000.0,499.104],
           "climbTimeMil3": [8000.0,830.663],
           "turnTimeMil": [1000.0,23.1],
+          "takeoffDistance": 699.078,
           "ceiling": 10300.0,
           "rollRate": 114.0,
           "wingLoading": 183.0,
           "powerToWeightRatio": 0.38
         },
         "plot": {
-          "airSpeedWep0": [0.0,598.0],
-          "airSpeedWep1": [2600.0,660.0],
-          "airSpeedWep2": [5900.0,626.0],
-          "airSpeedWep3": [8200.0,582.0],
-          "airSpeedWep4": [10300.0,496.0],
+          "airSpeedWep0": [0.0,599.0],
+          "airSpeedWep1": [2600.0,659.0],
+          "airSpeedWep2": [5800.0,627.0],
+          "airSpeedWep3": [7800.0,591.0],
+          "airSpeedWep4": [9100.0,554.0],
+          "airSpeedWep5": [10300.0,489.0],
           "climbRateWep0": [0.0,12.5],
           "climbRateWep1": [2100.0,13.1],
           "climbRateWep2": [5700.0,3.8],
@@ -783,8 +767,8 @@
           "airSpeedMil0": [0.0,527.0],
           "airSpeedMil1": [4100.0,620.0],
           "airSpeedMil2": [6800.0,584.0],
-          "airSpeedMil3": [8700.0,536.0],
-          "airSpeedMil4": [9800.0,485.0],
+          "airSpeedMil3": [8700.0,535.0],
+          "airSpeedMil4": [9800.0,478.0],
           "climbRateMil0": [0.0,6.2],
           "climbRateMil1": [3700.0,6.8],
           "climbRateMil2": [5800.0,2.0],
@@ -2672,21 +2656,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9500.0,
-      "maxSpeed": 185.5,
-      "turnTime": 20.0,
-      "airfieldLen": 370.0,
-      "climbTime": 97.0,
-      "maxSpeedAlt": 3169.9199,
-      "climbAlt": 1524.0,
-      "climbSpeed": 15.7,
-      "wingLoading": 190.0,
-      "powerToWeightRatio": 0.38,
-      "rollRate": 100.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.8207,
@@ -2703,8 +2672,8 @@
         "table": {
           "rpmWep": 3000.0,
           "manifoldPressureWep": 1.82,
-          "airSpeedWep0": [0.0,614.0],
-          "airSpeedWep1": [2900.0,670.0],
+          "airSpeedWep0": [0.0,607.0],
+          "airSpeedWep1": [2900.0,667.0],
           "climbRateWep0": [0.0,15.7],
           "climbRateWep1": [2200.0,15.3],
           "climbTimeWep0": [2000.0,104.643],
@@ -2714,8 +2683,8 @@
           "turnTimeWep": [1000.0,20.0],
           "rpmMil": 3000.0,
           "manifoldPressureMil": 1.28,
-          "airSpeedMil0": [0.0,551.0],
-          "airSpeedMil1": [5700.0,663.0],
+          "airSpeedMil0": [0.0,544.0],
+          "airSpeedMil1": [5700.0,657.0],
           "climbRateMil0": [0.0,10.2],
           "climbRateMil1": [4900.0,9.2],
           "climbTimeMil0": [2000.0,147.027],
@@ -2723,25 +2692,27 @@
           "climbTimeMil2": [6000.0,461.426],
           "climbTimeMil3": [8000.0,699.921],
           "turnTimeMil": [1000.0,22.6],
+          "takeoffDistance": 706.405,
           "ceiling": 11300.0,
           "rollRate": 100.0,
           "wingLoading": 190.0,
           "powerToWeightRatio": 0.38
         },
         "plot": {
-          "airSpeedWep0": [0.0,614.0],
-          "airSpeedWep1": [3000.0,674.0],
-          "airSpeedWep2": [6500.0,653.0],
-          "airSpeedWep3": [9500.0,614.0],
-          "airSpeedWep4": [11300.0,563.0],
+          "airSpeedWep0": [0.0,607.0],
+          "airSpeedWep1": [2900.0,667.0],
+          "airSpeedWep2": [6600.0,645.0],
+          "airSpeedWep3": [9400.0,610.0],
+          "airSpeedWep4": [11300.0,555.0],
           "climbRateWep0": [0.0,15.7],
           "climbRateWep1": [2200.0,15.3],
           "climbRateWep2": [5100.0,8.4],
           "climbRateWep3": [11300.0,-2.5],
-          "airSpeedMil0": [0.0,551.0],
-          "airSpeedMil1": [5400.0,660.0],
-          "airSpeedMil2": [7700.0,644.0],
-          "airSpeedMil3": [11200.0,563.0],
+          "airSpeedMil0": [0.0,544.0],
+          "airSpeedMil1": [5300.0,652.0],
+          "airSpeedMil2": [6500.0,652.0],
+          "airSpeedMil3": [9000.0,619.0],
+          "airSpeedMil4": [11200.0,557.0],
           "climbRateMil0": [0.0,10.2],
           "climbRateMil1": [4900.0,9.2],
           "climbRateMil2": [7900.0,3.1],
@@ -2756,23 +2727,6 @@
       "climbSpeed": 15.7,
       "maxSpeed": 185.5216,
       "turnTime": 20.0
-    }
-  },
-  {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "ally_west": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
     }
   },
   {

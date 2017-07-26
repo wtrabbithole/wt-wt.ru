@@ -33,13 +33,13 @@
     "isCapableOfAttackTurn": false
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "assault"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_ruhr"
   },
   {
     "MetaParts": {
@@ -430,6 +430,7 @@
           "climbTimeMil1": [4000.0,581.382],
           "climbTimeMil2": [6000.0,1005.94],
           "turnTimeMil": [1000.0,39.6],
+          "takeoffDistance": 1012.18,
           "ceiling": 7600.0,
           "rollRate": 30.0,
           "wingLoading": 230.0,
@@ -516,6 +517,7 @@
           "climbTimeMil1": [4000.0,822.876],
           "climbTimeMil2": [6000.0,1487.77],
           "turnTimeMil": [1000.0,29.8],
+          "takeoffDistance": 1471.62,
           "ceiling": 6700.0,
           "rollRate": 30.0,
           "wingLoading": 231.0,
@@ -1092,6 +1094,7 @@
           "climbTimeMil1": [4000.0,822.876],
           "climbTimeMil2": [6000.0,1487.77],
           "turnTimeMil": [1000.0,29.8],
+          "takeoffDistance": 1471.62,
           "ceiling": 6700.0,
           "rollRate": 30.0,
           "wingLoading": 231.0,
@@ -1505,44 +1508,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_germany": true,
-      "type_fighter": true,
-      "type_aa_fighter": true,
-      "type_heavy_fighter": true,
-      "type_strike_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "bomberview": true,
-      "eastern_front": true,
-      "western_front": true,
-      "mediterranean": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "Shop": {
-      "maxAltitude": 9000.0,
-      "maxSpeed": 143.05,
-      "turnTime": 27.7,
-      "airfieldLen": 800.0,
-      "climbTime": 540.0,
-      "maxSpeedAlt": 5500.0,
-      "climbAlt": 4000.0,
-      "climbSpeed": 7.4,
-      "wingLoading": 222.0,
-      "powerToWeightRatio": 0.14,
-      "rollRate": 38.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 18.2,
@@ -1578,6 +1543,7 @@
           "climbTimeMil1": [4000.0,533.131],
           "climbTimeMil2": [6000.0,904.984],
           "turnTimeMil": [1000.0,29.6],
+          "takeoffDistance": 708.463,
           "ceiling": 7900.0,
           "rollRate": 38.0,
           "wingLoading": 222.0,
@@ -1601,52 +1567,6 @@
           "climbRateMil2": [5300.0,2.9],
           "climbRateMil3": [7600.0,-1.2]
         }
-      }
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1945": {
-        "britain": 0.4,
-        "bulge": 0.4,
-        "malta": 0.4,
-        "ruhr": 0.4,
-        "sicily": 0.4,
-        "berlin": 0.4,
-        "korsun": 0.4,
-        "krymsk": 0.4,
-        "mozdok": 0.4,
-        "stalingrad": 0.4,
-        "stalingrad_w": 0.4,
-        "kursk": 0.4
       }
     }
   },
@@ -2568,7 +2488,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2612,7 +2532,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -4636,68 +4556,6 @@
       "wingLDist": [3.92536,4.92536],
       "tailDist": [10.0,11.0],
       "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 18.2,
-        "wingspan": 19.0,
-        "wingArea": 56.6,
-        "emptyWeight": 10561.0,
-        "normalWeight": 12906.5996,
-        "maxTakeoffWeight": 12319.5996,
-        "powerPlantType": 1,
-        "powerMaxWep": 1890.0,
-        "powerMaxMil": 1670.0
-      },
-      "performance": {
-        "table": {
-          "rpmWep": 2700.0,
-          "manifoldPressureWep": 1.4,
-          "airSpeedWep0": [0.0,442.0],
-          "airSpeedWep1": [5700.0,517.0],
-          "climbRateWep0": [0.0,6.9],
-          "climbRateWep1": [5000.0,4.6],
-          "climbTimeWep0": [2000.0,220.431],
-          "climbTimeWep1": [4000.0,467.079],
-          "climbTimeWep2": [6000.0,792.946],
-          "turnTimeWep": [1000.0,27.7],
-          "rpmMil": 2500.0,
-          "manifoldPressureMil": 1.3,
-          "airSpeedMil0": [0.0,427.0],
-          "airSpeedMil1": [5900.0,496.0],
-          "climbRateMil0": [0.0,5.5],
-          "climbRateMil1": [5300.0,3.0],
-          "climbTimeMil0": [2000.0,262.414],
-          "climbTimeMil1": [4000.0,565.145],
-          "climbTimeMil2": [6000.0,967.235],
-          "turnTimeMil": [1000.0,30.1],
-          "ceiling": 7700.0,
-          "rollRate": 38.0,
-          "wingLoading": 228.0,
-          "powerToWeightRatio": 0.14
-        },
-        "plot": {
-          "airSpeedWep0": [0.0,442.0],
-          "airSpeedWep1": [2000.0,489.0],
-          "airSpeedWep2": [5700.0,517.0],
-          "airSpeedWep3": [7700.0,458.0],
-          "climbRateWep0": [0.0,6.9],
-          "climbRateWep1": [1300.0,7.4],
-          "climbRateWep2": [5000.0,4.6],
-          "climbRateWep3": [7700.0,-0.7],
-          "airSpeedMil0": [0.0,427.0],
-          "airSpeedMil1": [1800.0,468.0],
-          "airSpeedMil2": [5500.0,495.0],
-          "airSpeedMil3": [6100.0,494.0],
-          "airSpeedMil4": [7500.0,447.0],
-          "climbRateMil0": [0.0,5.5],
-          "climbRateMil1": [1300.0,5.9],
-          "climbRateMil2": [5300.0,3.0],
-          "climbRateMil3": [7500.0,-0.9]
-        }
-      }
     }
   }
 ]

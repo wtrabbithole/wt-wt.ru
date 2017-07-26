@@ -3,6 +3,15 @@
     "defaultCaliberToArmorForGuiPenetrationTable": 1.25
   },
   {
+    "penetrationTestLowerScale": [10000.0,10000.0]
+  },
+  {
+    "penetrationTestUpperScale": [10000.0,10000.0]
+  },
+  {
+    "penetrationTestExplScale": [10000.0,10000.0]
+  },
+  {
     "fuelExplosionRangeK": [0.2,0.4]
   },
   {
@@ -864,7 +873,7 @@
   },
   {
     "healingCrew": {
-      "partRepairHp": 0.7,
+      "partRepairHp": 1.0,
       "gunner_dm": {
         "speed": 1.5,
         "completely": true
@@ -2491,6 +2500,35 @@
         "ricochetPreset": "apcr",
         "slopeEffectPreset": "apds",
         "modelName": "tank_bullet_apdc",
+        "fresnel": [0.23,0.1,2.0],
+        "secondaryShattersPreset": "apds",
+        "stabilityRicochetModifier": [
+          {
+            "mod1": [0.0,0.25]
+          },
+          {
+            "mod2": [20.0,0.3]
+          },
+          {
+            "mod3": [30.0,0.45]
+          },
+          {
+            "mod3": [45.0,0.5]
+          },
+          {
+            "mod4": [50.0,0.7]
+          }
+        ]
+      },
+      "apds_fs_tank": {
+        "stabilityThreshold": 0.0,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.15,
+        "stabilityReductionAfterPenetration": 0.3,
+        "normalizationPreset": "apcr",
+        "ricochetPreset": "apcr",
+        "slopeEffectPreset": "apds",
+        "modelName": "tank_bullet_apdsfs",
         "fresnel": [0.23,0.1,2.0],
         "secondaryShattersPreset": "apds",
         "stabilityRicochetModifier": [

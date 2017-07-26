@@ -15,10 +15,10 @@
     "advancedInstructor": true
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "1100kph"
   },
   {
-    "testFlight": "testFlight_stalingrad"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2032,43 +2032,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_fighter": true,
-      "type_jet_fighter": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korea": true,
-      "western_front": true,
-      "eastern_front": true,
-      "not_in_dynamic_campaign": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1200.0
     }
@@ -2403,21 +2366,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 15500.0,
-      "maxSpeed": 298.8888,
-      "turnTime": 20.7,
-      "airfieldLen": 475.0,
-      "climbTime": 117.0,
-      "maxSpeedAlt": 0.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 50.0,
-      "wingLoading": 238.0,
-      "thrustToWeightRatio": 0.5,
-      "rollRate": 89.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 10.1,
@@ -2434,15 +2382,22 @@
           "rpmMil": 11600.0,
           "airSpeedMil0": [0.0,1076.0],
           "climbRateMil0": [0.0,50.0],
-          "climbTimeMil0": [2000.0,42.3407],
-          "climbTimeMil1": [4000.0,90.6944],
+          "climbTimeMil0": [2000.0,42.3401],
+          "climbTimeMil1": [4000.0,90.6939],
           "climbTimeMil2": [6000.0,146.047],
-          "climbTimeMil3": [8000.0,212.533],
+          "climbTimeMil3": [8000.0,212.536],
           "turnTimeMil": [1000.0,20.7],
+          "takeoffDistance": 658.276,
           "ceiling": 11000.0,
           "rollRate": 89.0,
           "wingLoading": 238.0,
           "thrustToWeightRatio": 0.5
+        },
+        "plot": {
+          "airSpeedMil0": [0.0,1076.0],
+          "airSpeedMil1": [11000.0,975.0],
+          "climbRateMil0": [0.0,50.0],
+          "climbRateMil1": [11000.0,18.0]
         }
       }
     }
@@ -2664,45 +2619,8 @@
       "ns37_air_target": [],
       "ns37_armor_target": [],
       "bd-2-48": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3
-      }
-    }
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 10.1,
-        "wingspan": 10.08,
-        "wingArea": 20.6,
-        "emptyWeight": 3648.0,
-        "normalWeight": 4900.0,
-        "maxTakeoffWeight": 5485.0,
-        "powerPlantType": 2,
-        "thrustMaxMil": 22200.0
-      },
-      "performance": {
-        "table": {
-          "rpmMil": 11600.0,
-          "airSpeedMil0": [0.0,1076.0],
-          "climbRateMil0": [0.0,50.0],
-          "climbTimeMil0": [2000.0,42.3401],
-          "climbTimeMil1": [4000.0,90.6939],
-          "climbTimeMil2": [6000.0,146.047],
-          "climbTimeMil3": [8000.0,212.536],
-          "turnTimeMil": [1000.0,20.7],
-          "ceiling": 11000.0,
-          "rollRate": 89.0,
-          "wingLoading": 238.0,
-          "thrustToWeightRatio": 0.5
-        },
-        "plot": {
-          "airSpeedMil0": [0.0,1076.0],
-          "airSpeedMil1": [11000.0,975.0],
-          "climbRateMil0": [0.0,50.0],
-          "climbRateMil1": [11000.0,18.0]
-        }
       }
     }
   },
@@ -2772,41 +2690,5 @@
         }
       }
     ]
-  },
-  {
-    "wiki": {
-      "general": {
-        "length": 10.1,
-        "wingspan": 10.08,
-        "wingArea": 20.6,
-        "emptyWeight": 3648.0,
-        "normalWeight": 4900.0,
-        "maxTakeoffWeight": 5485.0,
-        "powerPlantType": 2,
-        "thrustMaxMil": 22200.0
-      },
-      "performance": {
-        "table": {
-          "rpmMil": 11600.0,
-          "airSpeedMil0": [0.0,1076.0],
-          "climbRateMil0": [0.0,50.0],
-          "climbTimeMil0": [2000.0,42.3401],
-          "climbTimeMil1": [4000.0,90.6939],
-          "climbTimeMil2": [6000.0,146.047],
-          "climbTimeMil3": [8000.0,212.536],
-          "turnTimeMil": [1000.0,20.7],
-          "ceiling": 11000.0,
-          "rollRate": 89.0,
-          "wingLoading": 238.0,
-          "thrustToWeightRatio": 0.5
-        },
-        "plot": {
-          "airSpeedMil0": [0.0,1076.0],
-          "airSpeedMil1": [11000.0,975.0],
-          "climbRateMil0": [0.0,50.0],
-          "climbRateMil1": [11000.0,18.0]
-        }
-      }
-    }
   }
 ]

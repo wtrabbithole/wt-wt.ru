@@ -21,13 +21,13 @@
     "ignoreArcadeWep": true
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_britain"
   },
   {
     "DamageGen": {
@@ -891,7 +891,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -935,7 +935,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -979,7 +979,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1023,7 +1023,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -3178,50 +3178,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "type_longrange_bomber": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": true,
-      "mediterranean": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1945": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2623.5801
     }
@@ -3662,21 +3618,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 6098.0,
-      "maxSpeed": 110.0,
-      "turnTime": 50.0,
-      "airfieldLen": 1170.0,
-      "climbTime": 1050.0,
-      "maxSpeedAlt": 4268.0,
-      "climbAlt": 3048.0,
-      "climbSpeed": 3.7,
-      "wingLoading": 210.0,
-      "powerToWeightRatio": 0.05,
-      "rollRate": 36.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 26.6,
@@ -3712,6 +3653,7 @@
           "climbTimeMil0": [2000.0,426.019],
           "climbTimeMil1": [4000.0,979.851],
           "turnTimeMil": [1000.0,51.0],
+          "takeoffDistance": 852.153,
           "ceiling": 6100.0,
           "rollRate": 36.0,
           "wingLoading": 210.0,
@@ -3772,13 +3714,11 @@
       "303_turret_ap": [],
       "303_turret_api": [],
       "subc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 16.0
       },
       "subc_mk3": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 7.0,

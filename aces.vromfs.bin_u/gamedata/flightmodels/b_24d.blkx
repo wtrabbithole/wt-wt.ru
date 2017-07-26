@@ -24,6 +24,9 @@
     "ignoreArcadeWep": true
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "bayDoorTextureCtrl": true
   },
   {
@@ -33,7 +36,29 @@
     "hasQualityModels": true
   },
   {
-    "testFlight": "testFlight_honolulu"
+    "DamageGen": {
+      "armor1_dm": {
+        "mat": "armor9_5"
+      },
+      "armor2_dm": {
+        "mat": "armor9_5"
+      },
+      "armor3_dm": {
+        "mat": "armor9_5"
+      },
+      "armor4_dm": {
+        "mat": "armor9_5"
+      },
+      "armor5_dm": {
+        "mat": "armor9_5"
+      },
+      "armor6_dm": {
+        "mat": "armor9_5"
+      },
+      "armor7_dm": {
+        "mat": "armor9_5"
+      }
+    }
   },
   {
     "DamageGen": {
@@ -334,24 +359,27 @@
           "hp": 15.0
         }
       },
-      "armor12_7": {
+      "armor20": {
         "armor1_dm": {
-          "hp": 40.0
+          "hp": 50.0
         },
         "armor2_dm": {
-          "hp": 40.0
+          "hp": 50.0
         },
         "armor3_dm": {
-          "hp": 40.0
+          "hp": 50.0
         },
         "armor4_dm": {
-          "hp": 40.0
+          "hp": 50.0
         },
         "armor5_dm": {
-          "hp": 40.0
+          "hp": 50.0
         },
         "armor6_dm": {
-          "hp": 40.0
+          "hp": 50.0
+        },
+        "armor7_dm": {
+          "hp": 50.0
         }
       },
       "armor_engine": {
@@ -748,6 +776,11 @@
       },
       {
         "part": {
+          "name": "armor7_dm"
+        }
+      },
+      {
+        "part": {
           "name": "cover10_dm"
         }
       },
@@ -876,7 +909,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -920,7 +953,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -964,7 +997,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1008,7 +1041,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -3113,68 +3146,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_usa": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "type_longrange_bomber": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "bomber": true,
-      "ally_west": true,
-      "bomberview": true,
-      "western_front": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1944": {
-        "guadalcanal": 0.8,
-        "guam": 0.8,
-        "honolulu": 0.8,
-        "iwo_jima": 0.8,
-        "midway": 0.8,
-        "peleliu": 0.8,
-        "saipan": 0.8,
-        "wake_island": 0.8,
-        "bulge": 0.8,
-        "ruhr": 0.8
-      },
-      "year1945": {
-        "guadalcanal": 0.5,
-        "guam": 0.5,
-        "honolulu": 0.5,
-        "iwo_jima": 0.5,
-        "midway": 0.5,
-        "peleliu": 0.5,
-        "saipan": 0.5,
-        "wake_island": 0.5,
-        "bulge": 0.5,
-        "ruhr": 0.5
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 3163.05
     }
@@ -3673,21 +3644,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 9754.0,
-      "maxSpeed": 137.22,
-      "turnTime": 38.0,
-      "airfieldLen": 820.0,
-      "climbTime": 774.0,
-      "maxSpeedAlt": 7620.0,
-      "climbAlt": 3048.0,
-      "climbSpeed": 4.61,
-      "wingLoading": 183.0,
-      "powerToWeightRatio": 0.07,
-      "rollRate": 18.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 20.4724,
@@ -3724,6 +3680,7 @@
           "climbTimeMil2": [6000.0,719.549],
           "climbTimeMil3": [8000.0,1053.74],
           "turnTimeMil": [1000.0,39.2],
+          "takeoffDistance": 1138.13,
           "ceiling": 11400.0,
           "rollRate": 18.0,
           "wingLoading": 183.0,
@@ -3799,20 +3756,17 @@
       "new_compressor": [],
       "new_engine_injection": [],
       "b-24_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 1.0
       },
       "b-24_mbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 6.0,
         "reqModification": "b-24_sbc"
       },
       "b-24_flak_vest": {
-        "image": "#ui/gameuiskin#bulletproof_vest",
         "modClass": "armor",
         "tier": 1,
         "reqModLevel": 4.0,
@@ -3882,7 +3836,6 @@
         }
       },
       "b-24_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 11.0,

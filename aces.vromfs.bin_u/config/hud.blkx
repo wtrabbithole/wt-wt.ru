@@ -608,6 +608,9 @@
         "pictureGunReady": "gun_ready"
       },
       {
+        "drawGunDirectionWithBallistics": false
+      },
+      {
         "targetingSight": "bomb_sight_ocular_alpha"
       },
       {
@@ -1235,6 +1238,8 @@
       "colorBomb": "#ff4646ff",
       "iconTorpedo": "bomb_mark",
       "colorTorpedo": "#ff4646ff",
+      "iconDiveBomb": "bomb_mark",
+      "colorDiveBomb": "#4646ffff",
       "targetFrameMaxScreenHeightPart": 0.15,
       "targetFrameMaxScale": 2.0,
       "targetFrameOpacityWithoutZ": 0.5,
@@ -1966,7 +1971,27 @@
       "overheatWarningThreshold": 5.0,
       "overheatColor": "#b4b4b4ff",
       "passiveInstructorColor": "#b4b4b4ff",
-      "activeInstructorColor": "#ff5037ff"
+      "activeInstructorColor": "#ff5037ff",
+      "overheat0": {
+        "timeToOverheat": 60.0,
+        "temperatureColor": "#ee1606ff",
+        "temperatureBlinkFrequency": 1.0
+      },
+      "overheat1": {
+        "timeToOverheat": 120.0,
+        "temperatureColor": "#ee1606ff",
+        "temperatureBlinkFrequency": 0.0
+      },
+      "overheat2": {
+        "timeToOverheat": 300.0,
+        "temperatureColor": "#eda918ff",
+        "temperatureBlinkFrequency": 0.0
+      },
+      "overheat3": {
+        "timeToOverheat": 900.0,
+        "temperatureColor": "#f6e69fff",
+        "temperatureBlinkFrequency": 0.0
+      }
     }
   },
   {

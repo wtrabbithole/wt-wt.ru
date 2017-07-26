@@ -4,8 +4,8 @@
   "harmonizationSuffix": "_tomoe",
   "type": "typeFighter",
   "paratrooper": "japan_para",
+  "fireParamsPreset": "400kph",
   "fightAiBehaviour": "fighter",
-  "testFlight": "testFlight_peleliu_hydrobase",
   "hangar_undercarriage_model_name": "low_a6m2_n_undercarriage",
   "SelfSealingTanks": {
     "tank1_dm": false,
@@ -590,7 +590,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -2073,59 +2073,6 @@
   "attach": {
     "pilot1": "pilot_japan_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "axis": true,
-    "country_japan": true,
-    "type_medium_fighter": true,
-    "type_fighter": true,
-    "type_hydroplane": true,
-    "year1942": true,
-    "year1943": true,
-    "year1944": true,
-    "water": true,
-    "pacific": true,
-    "far_eastern_front": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1941": {
-      "guadalcanal": 1.0,
-      "guam": 1.0,
-      "honolulu": 1.0,
-      "iwo_jima": 1.0,
-      "midway": 1.0,
-      "peleliu": 1.0,
-      "port_moresby": 1.0,
-      "saipan": 1.0,
-      "wake_island": 1.0
-    },
-    "year1942": {
-      "guadalcanal": 0.7,
-      "guam": 0.7,
-      "honolulu": 1.0,
-      "iwo_jima": 0.7,
-      "midway": 0.7,
-      "peleliu": 0.7,
-      "port_moresby": 0.7,
-      "saipan": 0.7,
-      "wake_island": 0.7
-    },
-    "year1943": {
-      "guadalcanal": 0.3,
-      "guam": 0.3,
-      "honolulu": 1.0,
-      "iwo_jima": 0.3,
-      "midway": 0.3,
-      "peleliu": 0.3,
-      "port_moresby": 0.3,
-      "saipan": 0.3,
-      "wake_island": 0.3
-    }
-  },
   "Params": {
     "Range": 1781.54
   },
@@ -2522,19 +2469,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 9100.0,
-    "maxSpeed": 120.0,
-    "turnTime": 20.0,
-    "airfieldLen": 500.0,
-    "climbTime": 403.1,
-    "maxSpeedAlt": 4300.0,
-    "climbAlt": 5000.0,
-    "climbSpeed": 12.3,
-    "wingLoading": 108.0,
-    "powerToWeightRatio": 0.38,
-    "rollRate": 66.0
-  },
   "wiki": {
     "general": {
       "length": 9.05,
@@ -2571,6 +2505,7 @@
         "climbTimeMil2": [6000.0,482.125],
         "climbTimeMil3": [8000.0,780.348],
         "turnTimeMil": [1000.0,20.8],
+        "takeoffDistance": 348.036,
         "ceiling": 10500.0,
         "rollRate": 66.0,
         "wingLoading": 108.0,
@@ -2631,7 +2566,6 @@
       "reqModification": "type99mk1_belt_pack"
     },
     "a6m_9in_mod30": {
-      "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
       "tier": 2,
       "reqModLevel": 6.0

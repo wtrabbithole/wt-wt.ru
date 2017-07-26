@@ -15,10 +15,10 @@
     "paratrooper": "german"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "700kph"
   },
   {
-    "testFlight": "testFlight_ruhr"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -788,7 +788,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2175,74 +2175,6 @@
     ]
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_germany": true,
-      "type_fighter": true,
-      "type_medium_fighter": true,
-      "type_strike_fighter": true,
-      "year1943": true,
-      "year1944": true,
-      "year1945": true,
-      "fw_190_series": true,
-      "mediterranean": true,
-      "western_front": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1943": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "malta": 1.0,
-        "ruhr": 1.0,
-        "sicily": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1944": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "malta": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.7,
-        "berlin": 0.7,
-        "korsun": 0.7,
-        "krymsk": 0.7,
-        "mozdok": 0.7,
-        "stalingrad": 0.7,
-        "stalingrad_w": 0.7,
-        "kursk": 0.7
-      },
-      "year1945": {
-        "britain": 0.3,
-        "bulge": 0.3,
-        "malta": 0.3,
-        "ruhr": 0.3,
-        "sicily": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 610.0
     }
@@ -2295,6 +2227,10 @@
         "weapon2": [0.0,1.0],
         "aviahorizon_pitch": [-45.0,45.0],
         "aviahorizon_roll": [-180.0,180.0],
+        "flaps": [0.0,1.0],
+        "flaps_fixed": false,
+        "gears": [0.0,1.0],
+        "gear_fixed": false,
         "gears_lamp": [0.0,0.0],
         "ammo_counter1": [500.0,0.0],
         "ammo_counter2": [1000.0,0.0],
@@ -2484,34 +2420,29 @@
         "reqModification": "mg15120_belt_pack"
       },
       "Fw-190A-5_4xSC50": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1,
         "reqModLevel": 1.0
       },
       "Fw-190A-5_SC250": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 6.0,
         "reqModification": "Fw-190A-5_4xSC50"
       },
       "Fw-190A-5_SC500": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 11.0,
         "reqModification": "Fw-190A-5_SC250"
       },
       "Fw-190A-5_R1": {
-        "image": "#ui/gameuiskin#gunpods",
         "deactivationIsAllowed": false,
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 11.0
       },
       "Fw-190A-5_R6": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "deactivationIsAllowed": false,
         "modClass": "weapon",
         "tier": 3,
@@ -3010,21 +2941,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10200.0,
-      "maxSpeed": 185.0,
-      "turnTime": 20.6,
-      "airfieldLen": 390.678,
-      "climbTime": 397.0,
-      "maxSpeedAlt": 6000.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 14.1,
-      "wingLoading": 223.0,
-      "powerToWeightRatio": 0.43,
-      "rollRate": 193.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.0,
@@ -3065,6 +2981,7 @@
           "climbTimeMil2": [6000.0,458.408],
           "climbTimeMil3": [8000.0,703.356],
           "turnTimeMil": [1000.0,22.6],
+          "takeoffDistance": 818.992,
           "ceiling": 11100.0,
           "rollRate": 193.0,
           "wingLoading": 223.0,

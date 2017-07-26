@@ -2,9 +2,9 @@
   "model": "po_2",
   "type": "typeBomber",
   "paratrooper": "ally",
+  "fireParamsPreset": "100kph",
   "fightAiBehaviour": "bomber",
   "hasQualityModels": true,
-  "testFlight": "testFlight_stalingrad",
   "DamageGen": {
     "engine1_dm": {
       "mat": "aircooling_engine_light"
@@ -476,7 +476,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -1687,28 +1687,6 @@
     "pilot1": "pilot_su_500",
     "gunner1": "gunner_sit_su_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "ally": true,
-    "country_ussr": true,
-    "type_bomber": true,
-    "type_light_bomber": true,
-    "type_biplane": true,
-    "year1939": true,
-    "year1940": true,
-    "year1941": true,
-    "bomber": true,
-    "bomberview": true,
-    "soviet": true,
-    "not_in_dynamic_campaign": true,
-    "korsun": true,
-    "stalingrad": true,
-    "stalingrad_w": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
   "Params": {
     "Range": 430.0
   },
@@ -1967,19 +1945,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 1500.0,
-    "maxSpeed": 37.2222,
-    "turnTime": 30.0,
-    "airfieldLen": 258.055,
-    "maxSpeedAlt": 0.0,
-    "climbSpeed": 1.0,
-    "climbTime": 162.873,
-    "climbAlt": 400.0,
-    "wingLoading": 32.0,
-    "powerToWeightRatio": 0.12,
-    "rollRate": 58.0
-  },
   "wiki": {
     "general": {
       "length": 8.17,
@@ -2001,6 +1966,7 @@
         "climbRateMil1": [700.0,0.5],
         "climbTimeMil0": [2000.0,976.523],
         "turnTimeMil": [1000.0,30.0],
+        "takeoffDistance": 20000.0,
         "ceiling": 2400.0,
         "rollRate": 58.0,
         "wingLoading": 32.0,

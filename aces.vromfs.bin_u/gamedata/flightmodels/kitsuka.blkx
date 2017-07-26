@@ -18,24 +18,24 @@
     "advancedMouseAim": true
   },
   {
+    "fireParamsPreset": "800kph"
+  },
+  {
     "fightAiBehaviour": "fighter"
   },
   {
-    "testFlight": "testFlight_peleliu"
-  },
-  {
     "DamageGen": {
-      "armor1_dm": {
-        "mat": "armor12"
-      },
       "armor2_dm": {
-        "mat": "armor_glass50"
+        "mat": "armor_glass70"
       },
       "armor3_dm": {
-        "mat": "armor12"
+        "mat": "armor12_7"
       },
       "armor4_dm": {
-        "mat": "armor12"
+        "mat": "armor12_7"
+      },
+      "armor5_dm": {
+        "mat": "armor12_7"
       }
     }
   },
@@ -2318,35 +2318,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "axis_achievement": true,
-      "country_japan": true,
-      "type_fighter": true,
-      "type_jet_fighter": true,
-      "year1945": true,
-      "pacific": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1945": {
-        "guadalcanal": 1.0,
-        "honolulu": 1.0,
-        "midway": 1.0,
-        "wake_island": 1.0,
-        "port_moresby": 0.8,
-        "guam": 0.8,
-        "saipan": 0.8
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1050.0
     }
@@ -2692,21 +2663,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 12500.0,
-      "maxSpeed": 222.7777,
-      "turnTime": 26.0,
-      "airfieldLen": 750.0,
-      "climbTime": 285.0,
-      "maxSpeedAlt": 3000.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 20.0,
-      "wingLoading": 235.0,
-      "thrustToWeightRatio": 0.16,
-      "rollRate": 166.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.25,
@@ -2729,6 +2685,7 @@
           "climbTimeMil2": [6000.0,327.04],
           "climbTimeMil3": [8000.0,493.738],
           "turnTimeMil": [1000.0,26.0],
+          "takeoffDistance": 20000.0,
           "ceiling": 10800.0,
           "rollRate": 166.0,
           "wingLoading": 235.0,
@@ -2774,12 +2731,10 @@
         "tier": 4
       },
       "kitsuka_14in_mod41": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 1
       },
       "kitsuka_fighter": {
-        "image": "#ui/gameuiskin#cannon",
         "reqModification": "kitsuka_14in_mod41",
         "tier": 3,
         "modClass": "weapon",

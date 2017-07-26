@@ -12,7 +12,7 @@
     "paratrooper": "usa_para"
   },
   {
-    "testFlight": "testFlight_midway_usa"
+    "fireParamsPreset": "700kph"
   },
   {
     "DamageGen": {
@@ -563,7 +563,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -1913,52 +1913,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "type_fighter": true,
-      "type_naval_fighter": true,
-      "year1945": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "country_usa": true,
-      "pacific": true,
-      "carrier_take_off": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1945": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0
-      },
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1148.0
     }
@@ -2410,21 +2364,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10900.0,
-      "maxSpeed": 190.556,
-      "turnTime": 20.0,
-      "airfieldLen": 220.0,
-      "maxSpeedAlt": 6098.0,
-      "climbSpeed": 22.6,
-      "climbTime": 343.0,
-      "climbAlt": 6098.0,
-      "wingLoading": 178.0,
-      "powerToWeightRatio": 0.48,
-      "rollRate": 145.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 8.53,
@@ -2451,6 +2390,7 @@
           "climbTimeMil2": [6000.0,320.306],
           "climbTimeMil3": [8000.0,499.972],
           "turnTimeMil": [1000.0,20.0],
+          "takeoffDistance": 366.08,
           "ceiling": 10800.0,
           "rollRate": 145.0,
           "wingLoading": 178.0,
@@ -2503,20 +2443,17 @@
         "tier": 3
       },
       "frc_mk2": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 8.0,
         "tier": 2,
         "modClass": "weapon"
       },
       "frc_mk3": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "reqModLevel": 8.0,
         "tier": 3,
         "modClass": "weapon",
         "reqModification": "frc_mk2"
       },
       "flbc_mk1": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "reqModLevel": 16.0,
         "tier": 4,
         "modClass": "weapon",

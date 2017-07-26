@@ -12,10 +12,10 @@
     "paratrooper": "usa_para"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "500kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -755,7 +755,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2318,47 +2318,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "ally_west": true,
-      "britain": true,
-      "mediterranean": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1940": {
-        "britain": 1.0,
-        "malta": 1.0,
-        "port_moresby": 1.0,
-        "sicily": 1.0
-      },
-      "year1941": {
-        "britain": 0.7,
-        "malta": 0.7,
-        "port_moresby": 0.7,
-        "sicily": 0.7
-      },
-      "year1942": {
-        "britain": 0.3,
-        "malta": 0.3,
-        "port_moresby": 0.3,
-        "sicily": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 772.0
     }
@@ -2469,6 +2428,18 @@
         },
         {
           "mixture": [0.0,1.0]
+        },
+        {
+          "flaps": [0.0,1.0]
+        },
+        {
+          "flaps_fixed": false
+        },
+        {
+          "gears": [0.0,1.0]
+        },
+        {
+          "gear_fixed": false
         },
         {
           "gears_lamp": [0.0,0.0]
@@ -3115,21 +3086,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 11500.0,
-      "maxSpeed": 137.244,
-      "turnTime": 23.6781,
-      "airfieldLen": 359.862,
-      "climbTime": 217.13,
-      "maxSpeedAlt": 5500.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 13.2524,
-      "wingLoading": 139.0,
-      "powerToWeightRatio": 0.42,
-      "rollRate": 78.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 9.83,
@@ -3170,6 +3126,7 @@
           "climbTimeMil2": [6000.0,400.254],
           "climbTimeMil3": [8000.0,583.461],
           "turnTimeMil": [1000.0,25.2],
+          "takeoffDistance": 402.626,
           "ceiling": 12400.0,
           "rollRate": 78.0,
           "wingLoading": 139.0,
@@ -3182,7 +3139,7 @@
           "airSpeedWep3": [5800.0,501.0],
           "airSpeedWep4": [9000.0,472.0],
           "airSpeedWep5": [11100.0,434.0],
-          "airSpeedWep6": [12400.0,386.0],
+          "airSpeedWep6": [12400.0,387.0],
           "climbRateWep0": [0.0,12.6],
           "climbRateWep1": [2500.0,13.3],
           "climbRateWep2": [3100.0,11.8],
@@ -3231,13 +3188,11 @@
         "reqModification": "bmg303_belt_pack"
       },
       "halker_sbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 1.0
       },
       "halker_rc": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 1.0

@@ -21,13 +21,13 @@
     "ignoreArcadeWep": true
   },
   {
+    "fireParamsPreset": "400kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_stalingrad"
   },
   {
     "DamageGen": {
@@ -807,7 +807,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -851,7 +851,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -895,7 +895,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -939,7 +939,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2956,66 +2956,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "year1942": true,
-      "year1943": true,
-      "year1944": true,
-      "bomber": true,
-      "bomberview": true,
-      "soviet": true,
-      "eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1942": {
-        "guadalcanal": 1.0,
-        "guam": 1.0,
-        "honolulu": 1.0,
-        "iwo_jima": 1.0,
-        "midway": 1.0,
-        "peleliu": 1.0,
-        "saipan": 1.0,
-        "wake_island": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0
-      },
-      "year1943": {
-        "guadalcanal": 0.7,
-        "guam": 0.7,
-        "honolulu": 0.7,
-        "iwo_jima": 0.7,
-        "midway": 0.7,
-        "peleliu": 0.7,
-        "saipan": 0.7,
-        "wake_island": 0.7,
-        "bulge": 0.7,
-        "ruhr": 0.7
-      },
-      "year1944": {
-        "guadalcanal": 0.3,
-        "guam": 0.3,
-        "honolulu": 0.3,
-        "iwo_jima": 0.3,
-        "midway": 0.3,
-        "peleliu": 0.3,
-        "saipan": 0.3,
-        "wake_island": 0.3,
-        "bulge": 0.3,
-        "ruhr": 0.3
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2280.0
     }
@@ -3434,21 +3374,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10500.0,
-      "maxSpeed": 117.22,
-      "turnTime": 36.0,
-      "airfieldLen": 1500.0,
-      "climbTime": 1070.0,
-      "maxSpeedAlt": 5900.0,
-      "climbAlt": 5000.0,
-      "climbSpeed": 7.2,
-      "wingLoading": 138.0,
-      "powerToWeightRatio": 0.06,
-      "rollRate": 25.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 23.05,
@@ -3489,6 +3414,7 @@
           "climbTimeMil2": [6000.0,963.777],
           "climbTimeMil3": [8000.0,1664.77],
           "turnTimeMil": [1000.0,37.4],
+          "takeoffDistance": 540.976,
           "ceiling": 8400.0,
           "rollRate": 25.0,
           "wingLoading": 138.0,
@@ -3561,24 +3487,20 @@
       "shvak_turret_apit": [],
       "shvak_turret_het": [],
       "der-13p": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 1,
         "modClass": "weapon"
       },
       "der-19p": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 2,
         "modClass": "weapon",
         "reqModification": "der-13p"
       },
       "der-20p": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 3,
         "modClass": "weapon",
         "reqModification": "der-19p"
       },
       "der-20u": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "tier": 4,
         "modClass": "weapon",
         "reqModification": "der-20p"

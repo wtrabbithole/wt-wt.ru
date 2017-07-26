@@ -24,10 +24,10 @@
     "fightAiBehaviour": "bomber"
   },
   {
-    "hasQualityModels": true
+    "fireParamsPreset": "200kph"
   },
   {
-    "testFlight": "testFlight_stalingrad"
+    "hasQualityModels": true
   },
   {
     "SelfSealingTanks": {
@@ -2661,86 +2661,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_ussr": true,
-      "type_bomber": true,
-      "type_heavy_bomber": true,
-      "year1939": true,
-      "year1940": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "bomber": true,
-      "soviet": true,
-      "bomberview": true,
-      "berlin": true,
-      "stalingrad": true,
-      "stalingrad_w": true,
-      "eastern_front": true,
-      "far_eastern_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1939": {
-        "khalkin_gol": 1.0,
-        "berlin": 1.0,
-        "korsun": 1.0,
-        "krymsk": 1.0,
-        "mozdok": 1.0,
-        "stalingrad": 1.0,
-        "stalingrad_w": 1.0,
-        "kursk": 1.0
-      },
-      "year1940": {
-        "khalkin_gol": 0.8,
-        "berlin": 0.8,
-        "korsun": 0.8,
-        "krymsk": 0.8,
-        "mozdok": 0.8,
-        "stalingrad": 0.8,
-        "stalingrad_w": 0.8,
-        "kursk": 0.8
-      },
-      "year1941": {
-        "khalkin_gol": 0.5,
-        "berlin": 0.5,
-        "korsun": 0.5,
-        "krymsk": 0.5,
-        "mozdok": 0.5,
-        "stalingrad": 0.5,
-        "stalingrad_w": 0.5,
-        "kursk": 0.5
-      },
-      "year1942": {
-        "khalkin_gol": 0.3,
-        "berlin": 0.3,
-        "korsun": 0.3,
-        "krymsk": 0.3,
-        "mozdok": 0.3,
-        "stalingrad": 0.3,
-        "stalingrad_w": 0.3,
-        "kursk": 0.3
-      },
-      "year1943": {
-        "khalkin_gol": 0.1,
-        "berlin": 0.1,
-        "korsun": 0.1,
-        "krymsk": 0.1,
-        "mozdok": 0.1,
-        "stalingrad": 0.1,
-        "stalingrad_w": 0.1,
-        "kursk": 0.1
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2280.0
     }
@@ -3223,21 +3143,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 3800.0,
-      "maxSpeed": 51.4,
-      "turnTime": 58.0,
-      "airfieldLen": 680.0,
-      "climbTime": 2580.0,
-      "maxSpeedAlt": 1000.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 7.2,
-      "wingLoading": 77.0,
-      "powerToWeightRatio": 0.04,
-      "rollRate": 15.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 24.4,
@@ -3257,6 +3162,7 @@
           "climbRateMil0": [0.0,7.2],
           "climbTimeMil0": [2000.0,1085.08],
           "turnTimeMil": [1000.0,58.0],
+          "takeoffDistance": 404.372,
           "ceiling": 2600.0,
           "rollRate": 15.0,
           "wingLoading": 77.0,
@@ -3264,7 +3170,7 @@
         },
         "plot": {
           "airSpeedMil0": [0.0,184.0],
-          "airSpeedMil1": [2600.0,181.0],
+          "airSpeedMil1": [2600.0,182.0],
           "climbRateMil0": [0.0,7.2],
           "climbRateMil1": [2600.0,5.9]
         }
@@ -3295,13 +3201,11 @@
       "shkas_turret_ap": [],
       "shkas_turret_apit": [],
       "der-13": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2,
         "reqModLevel": 2.0
       },
       "der-15": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 2.0

@@ -21,13 +21,13 @@
     "isCapableOfAttackTurn": false
   },
   {
+    "fireParamsPreset": "500kph"
+  },
+  {
     "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
-  },
-  {
-    "testFlight": "testFlight_ruhr"
   },
   {
     "DamageGen": {
@@ -856,7 +856,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -900,7 +900,7 @@
           },
           {
             "onHit": {
-              "damage": 2.0,
+              "damage": 2.7,
               "expl": 0.01,
               "fire": 0.01,
               "leak_oil": 0.5
@@ -2960,49 +2960,6 @@
     }
   },
   {
-    "tags": {
-      "piston_engine": true,
-      "training": true,
-      "all": true,
-      "axis": true,
-      "country_germany": true,
-      "type_bomber": true,
-      "type_frontline_bomber": true,
-      "type_medium_bomber": true,
-      "year1941": true,
-      "year1942": true,
-      "year1943": true,
-      "bomber": true,
-      "bomberview": true,
-      "britain": true,
-      "western_front": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1941": {
-        "britain": 1.0,
-        "bulge": 1.0,
-        "ruhr": 1.0,
-        "sicily": 0.5
-      },
-      "year1942": {
-        "britain": 0.7,
-        "bulge": 0.7,
-        "ruhr": 0.7,
-        "sicily": 0.3
-      },
-      "year1943": {
-        "britain": 0.5,
-        "bulge": 0.5,
-        "ruhr": 0.5,
-        "sicily": 0.2
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 2430.0
     }
@@ -3458,21 +3415,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 7500.0,
-      "maxSpeed": 134.16,
-      "turnTime": 38.3593,
-      "airfieldLen": 850.0,
-      "climbTime": 540.0,
-      "maxSpeedAlt": 5100.0,
-      "climbAlt": 3000.0,
-      "climbSpeed": 6.8176,
-      "wingLoading": 230.0,
-      "powerToWeightRatio": 0.12,
-      "rollRate": 30.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 18.2,
@@ -3511,6 +3453,7 @@
           "climbTimeMil1": [4000.0,581.382],
           "climbTimeMil2": [6000.0,1005.94],
           "turnTimeMil": [1000.0,39.6],
+          "takeoffDistance": 1012.18,
           "ceiling": 7600.0,
           "rollRate": 30.0,
           "wingLoading": 230.0,
@@ -3581,20 +3524,17 @@
       "mg_turret_api_apt": [],
       "mg131_turret_apt": [],
       "do217_2x1000kg_pylon": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModLevel": 2.0,
         "reqModification": "do217_250-500kg_pylon"
       },
       "do217_250-500kg_pylon": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 3,
         "reqModLevel": 6.0
       },
       "do217_etc2000": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "do217_2x1000kg_pylon"

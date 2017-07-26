@@ -18,10 +18,10 @@
     "advancedMouseAim": true
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fireParamsPreset": "900kph"
   },
   {
-    "testFlight": "testFlight_britain"
+    "fightAiBehaviour": "fighter"
   },
   {
     "DamageGen": {
@@ -2603,41 +2603,6 @@
     }
   },
   {
-    "tags": {
-      "jet_engine": true,
-      "training": true,
-      "all": true,
-      "ally": true,
-      "country_britain": true,
-      "type_fighter": true,
-      "type_jet_fighter": true,
-      "year1950": true,
-      "year1951": true,
-      "year1952": true,
-      "year1953": true,
-      "korea": true,
-      "not_in_dynamic_campaign": true,
-      "can_be_played_with_cockpit_view_only": true,
-      "hangar": true
-    }
-  },
-  {
-    "years_active": {
-      "year1950": {
-        "korea": 1.0
-      },
-      "year1951": {
-        "korea": 1.0
-      },
-      "year1952": {
-        "korea": 1.0
-      },
-      "year1953": {
-        "korea": 1.0
-      }
-    }
-  },
-  {
     "Params": {
       "Range": 1200.0
     }
@@ -3074,21 +3039,6 @@
     }
   },
   {
-    "Shop": {
-      "maxAltitude": 10668.0,
-      "maxSpeed": 237.5,
-      "turnTime": 24.0,
-      "airfieldLen": 650.0,
-      "climbTime": 360.0,
-      "maxSpeedAlt": 4572.0,
-      "climbAlt": 6096.0,
-      "climbSpeed": 20.0,
-      "wingLoading": 194.0,
-      "thrustToWeightRatio": 0.27,
-      "rollRate": 106.0
-    }
-  },
-  {
     "wiki": {
       "general": {
         "length": 10.1,
@@ -3103,22 +3053,23 @@
       "performance": {
         "table": {
           "rpmMil": 10200.0,
-          "airSpeedMil0": [0.0,827.0],
-          "airSpeedMil1": [4572.0,855.0],
+          "airSpeedMil0": [0.0,828.0],
+          "airSpeedMil1": [4572.0,856.0],
           "climbRateMil0": [0.0,20.0],
           "climbTimeMil0": [2000.0,100.844],
           "climbTimeMil1": [4000.0,223.841],
           "climbTimeMil2": [6000.0,374.466],
           "climbTimeMil3": [8000.0,560.188],
           "turnTimeMil": [1000.0,24.0],
+          "takeoffDistance": 1327.66,
           "ceiling": 13100.0,
           "rollRate": 106.0,
           "wingLoading": 194.0,
           "thrustToWeightRatio": 0.27
         },
         "plot": {
-          "airSpeedMil0": [0.0,827.0],
-          "airSpeedMil1": [3700.0,855.0],
+          "airSpeedMil0": [0.0,828.0],
+          "airSpeedMil1": [3600.0,855.0],
           "airSpeedMil2": [13100.0,822.0],
           "climbRateMil0": [0.0,20.0],
           "climbRateMil1": [3500.0,13.7],
@@ -3330,12 +3281,10 @@
         "tier": 3
       },
       "gloster_lbc": {
-        "image": "#ui/gameuiskin#pilon_bomb",
         "modClass": "weapon",
         "tier": 2
       },
       "gloster_rc": {
-        "image": "#ui/gameuiskin#pilon_rocket",
         "modClass": "weapon",
         "tier": 4,
         "reqModification": "gloster_lbc"

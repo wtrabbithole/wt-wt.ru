@@ -2,8 +2,8 @@
   "model": "gladiator_mk2",
   "type": "typeFighter",
   "paratrooper": "raf_para",
+  "fireParamsPreset": "400kph",
   "fightAiBehaviour": "fighter",
-  "testFlight": "testFlight_britain",
   "SelfSealingTanks": {
     "tank1_dm": false,
     "tank2_dm": false,
@@ -579,7 +579,7 @@
         },
         {
           "onHit": {
-            "damage": 2.0,
+            "damage": 2.7,
             "expl": 0.01,
             "fire": 0.01,
             "leak_oil": 0.5
@@ -2057,42 +2057,6 @@
   "attach": {
     "pilot1": "pilot_raf_500"
   },
-  "tags": {
-    "piston_engine": true,
-    "training": true,
-    "all": true,
-    "ally": true,
-    "country_britain": true,
-    "type_fighter": true,
-    "type_biplane": true,
-    "year1939": true,
-    "year1940": true,
-    "year1941": true,
-    "mediterranean": true,
-    "western_front": true,
-    "can_be_played_with_cockpit_view_only": true,
-    "hangar": true
-  },
-  "years_active": {
-    "year1939": {
-      "britain": 1.0,
-      "malta": 1.0,
-      "port_moresby": 1.0,
-      "sicily": 1.0
-    },
-    "year1940": {
-      "britain": 0.7,
-      "malta": 0.7,
-      "port_moresby": 0.7,
-      "sicily": 0.7
-    },
-    "year1941": {
-      "britain": 0.3,
-      "malta": 0.3,
-      "port_moresby": 0.3,
-      "sicily": 0.3
-    }
-  },
   "Params": {
     "Range": 708.0
   },
@@ -2386,19 +2350,6 @@
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
   },
-  "Shop": {
-    "maxAltitude": 10211.0,
-    "maxSpeed": 115.0,
-    "turnTime": 15.9607,
-    "airfieldLen": 231.802,
-    "climbTime": 250.0,
-    "maxSpeedAlt": 4420.0,
-    "climbAlt": 3000.0,
-    "climbSpeed": 15.6546,
-    "wingLoading": 69.0,
-    "powerToWeightRatio": 0.31,
-    "rollRate": 80.0
-  },
   "wiki": {
     "general": {
       "length": 8.36,
@@ -2422,6 +2373,7 @@
         "climbTimeMil1": [4000.0,330.604],
         "climbTimeMil2": [6000.0,854.298],
         "turnTimeMil": [1000.0,16.0],
+        "takeoffDistance": 259.925,
         "ceiling": 6000.0,
         "rollRate": 80.0,
         "wingLoading": 69.0,
