@@ -794,7 +794,11 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
     { id="ship_steering", type = CONTROL_TYPE.AXIS, autobind=["gm_steering"], checkGroup = ctrlGroups.SHIP }
-
+    {
+      id = "ID_SHIP_FULL_STOP",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
   { id = "ID_SHIP_FIRE_HEADER", type = CONTROL_TYPE.SECTION }
     {
       id = "ID_SHIP_WEAPON_ALL",

@@ -741,9 +741,9 @@
       },
       {
         "turrets_main_caliber": {
-          "armorClass": "tank_barrel",
-          "armorThickness": 10.0,
-          "hp": 500.0,
+          "armorClass": "RHA_tank",
+          "armorThickness": 4.0,
+          "hp": 100.0,
           "turret_h_01_dm": [],
           "turret_h_02_dm": []
         }
@@ -816,7 +816,7 @@
       {
         "engine": {
           "armorClass": "armor_tank_engine",
-          "hp": 3000.0,
+          "hp": 1500.0,
           "armorThrough": 30.0,
           "fireProtectionHp": 5.0,
           "armorThickness": 15.0,
@@ -2070,7 +2070,7 @@
       "minCrewMemberAliveCount": 3,
       "sailor1": {
         "dmPart": "superstructure_dm",
-        "role": "commander",
+        "role": "sailor",
         "crew": 4
       },
       "sailor2": {
@@ -2394,7 +2394,7 @@
               "head": "turret_h_01",
               "gun": "main_caliber_gun_01",
               "barrel": "mg_barrel_01",
-              "gunnerDm": "turret_h_01_dm"
+              "gunnerDm": "main_caliber_turret_01_dm"
             }
           },
           {
@@ -2550,7 +2550,7 @@
               "head": "turret_h_01",
               "gun": "main_caliber_gun_02",
               "barrel": "mg_barrel_02",
-              "gunnerDm": "turret_h_01_dm"
+              "gunnerDm": "main_caliber_turret_01_dm"
             }
           },
           {
@@ -2706,7 +2706,7 @@
               "head": "turret_h_02",
               "gun": "main_caliber_gun_03",
               "barrel": "mg_barrel_03",
-              "gunnerDm": "turret_h_02_dm"
+              "gunnerDm": "main_caliber_turret_02_dm"
             }
           },
           {
@@ -3103,8 +3103,8 @@
   },
   {
     "breaches": {
-      "repairSpeed": 20.0,
-      "waterMassVel": -100.0,
+      "repairSpeed": 30.0,
+      "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
       "additionalWaterDeathThreshold": 300000.0,
@@ -3118,21 +3118,21 @@
         "cover": {
           "part": "compartment_01_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.35
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.35
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.35
         }
       }
     ]

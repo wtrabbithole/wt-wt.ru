@@ -37,6 +37,7 @@
   "maxDistForWatchXRayInSpectator": 50.0,
   "effectsZNearOffsetInCockpit": 2.0,
   "invisibleSupportUnits": true,
+  "unitDefaultVisibilityDistance": 2000.0,
   "minMassMultApexObjectsCollidedWithHero": 0.002,
   "maxMassMultApexObjectsCollidedWithHero": 0.04,
   "minViscosityApexObjectsCollidedWithHero": 0.95,
@@ -108,6 +109,8 @@
   "readyToDieRepairTimeMult": 3.0,
   "bailoutReadyToDieTime": 15.0,
   "airfieldRepairDamageLimit": 0.5,
+  "bailoutHoldTime": 3.0,
+  "bailoutHoldTimeAtExitZone": 1.5,
   "rocketShakeCamera": 1.0,
   "gunShakeCamera": 0.02,
   "cannonShakeCamera": 0.4,
@@ -8377,9 +8380,15 @@
     "appearanceMaxAngle": 25.0
   },
   "camoFires": {
-    "octaveUVscale": [0.1,0.4],
-    "octavesAmplitude": [0.2,0.05],
-    "fadeSharpness": 3.0
+    "octaveUVscale": [0.2,0.5],
+    "octavesAmplitude": [0.3,0.1],
+    "fadeSharpness": 3.0,
+    "camoFireSize": 2.2
+  },
+  "camoDeath": {
+    "deathTransformationTime": 5.0,
+    "deathCamoGammaMul": 16.0,
+    "deathCamoAppearanceMul": 0.7
   },
   "landDetailBumpScale": {
     "sun_angle": [5.0,40.0],
@@ -8442,5 +8451,8 @@
     "markerFxScale": 200.0,
     "markerFxColor": [1.0,1.0,1.0,1.0],
     "markerHoverFxColor": [0.9,0.6,0.1,1.0]
+  },
+  "shipCommonSettings": {
+    "shipSpawnThrottle": 0.5
   }
 }

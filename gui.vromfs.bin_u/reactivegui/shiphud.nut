@@ -79,16 +79,16 @@ local speed = function () {
     margin = [0,0,0,sh(0.5)]
   }
 
-  local machine = function (port, sideboard) {
+  local machine = function (port, sideboard, stopping) {
     return function () {
       local averegeSpeed = clamp((port.value + sideboard.value) / 2, 0, machineSpeedLoc.len())
       return {
         size = SIZE_TO_CONTENT
-        watch = [port, sideboard]
+        watch = [port, sideboard, stopping]
         children = {
           rendObj = ROBJ_TEXT
           font = font
-          color = Color(200, 200, 200)
+          color = stopping.value ? Color(255, 100, 100) : Color(200, 200, 200)
           fontFx = fontFx
           fontFxColor = fontFxColor
           text = machineSpeedLoc[averegeSpeed] + " " + machineDirectionLoc[averegeSpeed]
@@ -107,7 +107,7 @@ local speed = function () {
     children = [
       {
         size = [flex(3), SIZE_TO_CONTENT]
-        children = machine(shipState.portSideMachine, shipState.sideboardSideMachine)
+        children = machine(shipState.portSideMachine, shipState.sideboardSideMachine, shipState.stopping)
         halign = HALIGN_RIGHT
       }
       {

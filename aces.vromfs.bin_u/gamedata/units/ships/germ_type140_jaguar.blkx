@@ -1168,27 +1168,25 @@
       },
       {
         "turrets_armor": {
-          "hp": 5000.0,
+          "hp": 500.0,
           "armorClass": "RHA_tank",
           "armorThickness": 5.0,
           "ex_armor_02_dm": [],
           "ex_armor_turret_02_dm": [],
           "ex_armor_01_dm": [],
-          "ex_armor_turret_01_dm": [],
-          "turret_01_dm": [],
-          "turret_02_dm": []
+          "ex_armor_turret_01_dm": []
         }
       },
       {
         "turrets_main_caliber": {
-          "armorClass": "tank_barrel",
-          "armorThickness": 10.0,
-          "hp": 500.0,
+          "armorClass": "ship_structural_steel",
+          "armorThickness": 1.0,
+          "hp": 100.0,
           "main_caliber_turret_01_dm": {
-            "armorThickness": 15.0
+            "armorThickness": 1.0
           },
           "main_caliber_turret_02_dm": {
-            "armorThickness": 15.0
+            "armorThickness": 1.0
           }
         }
       },
@@ -1266,43 +1264,37 @@
       {
         "cover": {
           "armorClass": "ship_wood",
-          "hp": 300.0,
+          "hp": 200.0,
           "fireParamsPreset": "ship_cover",
           "compartment_01_dm": {
             "armorThickness": 57.0,
-            "genericDamageMult": 0.05,
-            "secondaryShatterDamageMult": 0.0,
-            "shatterDamageMult": 0.0
+            "genericDamageMult": 0.1,
+            "secondaryShatterDamageMult": 0.0
           },
           "compartment_02_dm": {
             "armorThickness": 57.0,
-            "genericDamageMult": 0.05,
-            "secondaryShatterDamageMult": 0.0,
-            "shatterDamageMult": 0.0
+            "genericDamageMult": 0.1,
+            "secondaryShatterDamageMult": 0.0
           },
           "compartment_03_dm": {
             "armorThickness": 57.0,
-            "genericDamageMult": 0.05,
-            "secondaryShatterDamageMult": 0.0,
-            "shatterDamageMult": 0.0
+            "genericDamageMult": 0.1,
+            "secondaryShatterDamageMult": 0.0
           },
           "compartment_04_dm": {
             "armorThickness": 57.0,
-            "genericDamageMult": 0.05,
-            "secondaryShatterDamageMult": 0.0,
-            "shatterDamageMult": 0.0
+            "genericDamageMult": 0.1,
+            "secondaryShatterDamageMult": 0.0
           },
           "compartment_05_dm": {
             "armorThickness": 57.0,
-            "genericDamageMult": 0.05,
-            "secondaryShatterDamageMult": 0.0,
-            "shatterDamageMult": 0.0
+            "genericDamageMult": 0.1,
+            "secondaryShatterDamageMult": 0.0
           },
           "compartment_06_dm": {
             "armorThickness": 57.0,
-            "genericDamageMult": 0.05,
-            "secondaryShatterDamageMult": 0.0,
-            "shatterDamageMult": 0.0
+            "genericDamageMult": 0.1,
+            "secondaryShatterDamageMult": 0.0
           },
           "bridge_dm": {
             "armorThickness": 15.0,
@@ -1372,7 +1364,7 @@
       {
         "engine": {
           "armorClass": "armor_tank_engine",
-          "hp": 3000.0,
+          "hp": 1500.0,
           "armorThrough": 30.0,
           "fireProtectionHp": 5.0,
           "armorThickness": 15.0,
@@ -2659,55 +2651,30 @@
   },
   {
     "MetaParts": {
-      "cover_left_side": [
+      "cover": [
         {
-          "part": "bow_l_dm"
+          "part": "compartment_01_dm"
         },
         {
-          "part": "mid_l_dm"
+          "part": "compartment_02_dm"
         },
         {
-          "part": "stern_l_dm"
+          "part": "compartment_03_dm"
         },
         {
-          "effect": {
-            "conditionPartsDead": 3,
-            "kill": true,
-            "killEffect": "drown"
-          }
+          "part": "compartment_04_dm"
         },
         {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "conditionDamage": 5000.0,
-            "kill": true,
-            "killEffect": "destruction"
-          }
-        }
-      ],
-      "cover_right_side": [
-        {
-          "part": "bow_r_dm"
+          "part": "compartment_05_dm"
         },
         {
-          "part": "mid_r_dm"
-        },
-        {
-          "part": "stern_r_dm"
+          "part": "compartment_06_dm"
         },
         {
           "effect": {
             "conditionPartsDead": 3,
             "kill": true,
             "killEffect": "drown"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "conditionDamage": 5000.0,
-            "kill": true,
-            "killEffect": "destruction"
           }
         }
       ]
@@ -2755,8 +2722,8 @@
   },
   {
     "breaches": {
-      "repairSpeed": 0.75,
-      "waterMassVel": -200.0,
+      "repairSpeed": 30.0,
+      "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
       "additionalWaterDeathThreshold": 800000.0,
@@ -2768,44 +2735,44 @@
     "shipCover": [
       {
         "cover": {
-          "part": "bow_l_dm",
+          "part": "compartment_01_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.4
         }
       },
       {
         "cover": {
-          "part": "bow_r_dm",
+          "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.4
         }
       },
       {
         "cover": {
-          "part": "mid_l_dm",
+          "part": "compartment_03_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.4
         }
       },
       {
         "cover": {
-          "part": "mid_r_dm",
+          "part": "compartment_04_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.4
         }
       },
       {
         "cover": {
-          "part": "stern_l_dm",
+          "part": "compartment_05_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.4
         }
       },
       {
         "cover": {
-          "part": "stern_r_dm",
+          "part": "compartment_06_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.3
+          "maxWaterAlive": 0.4
         }
       }
     ]

@@ -7,6 +7,7 @@ local shipState = {
   fire = Watched(false)
   portSideMachine = Watched(-1)
   sideboardSideMachine = Watched(-1)
+  stopping = Watched(false)
 
   fwdAngle = Watched(0)
   sightAngle = Watched(0)
