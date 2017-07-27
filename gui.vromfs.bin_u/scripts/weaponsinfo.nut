@@ -255,7 +255,7 @@ function is_weapon_params_equal(item1, item2)
 {
   if (typeof(item1) != "table" || typeof(item2) != "table" || !item1.len() || !item2.len())
     return false
-  local skipParams = [ "num", "ammo" ]
+  local skipParams = [ "num", "ammo", "turret" ]
   foreach (idx, val in item1)
     if (!::isInArray(idx, skipParams) && val != item2[idx])
       return false
@@ -411,9 +411,9 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
           {
             if (isShortDesc)
             {
-              if (weapon.ammo > 1)
-                tText += ::format(::loc("weapons/counter/left/short"), weapon.ammo)
               tText += ::loc("weapons" + weaponName + "/short")
+              if (weapon.ammo > 1)
+                tText += " " + ::format(::loc("weapons/counter/right/short"), weapon.ammo)
             }
             else
             {

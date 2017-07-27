@@ -216,7 +216,7 @@ function g_squad_manager::canLeaveSquad()
 
 function g_squad_manager::canManageSquad()
 {
-  return ::has_feature("Squad") && !::is_in_flight() && !::is_in_loading_screen() && !::is_multiplayer()
+  return ::has_feature("Squad") && ::isInMenu()
 }
 
 function g_squad_manager::getSquadSize(includeInvites = false)
@@ -963,13 +963,13 @@ function g_squad_manager::onEventUpdateEsFromHost(p)
 
 function g_squad_manager::onEventNewSceneLoaded(p)
 {
-  if (::isInMenu() && !::is_multiplayer())
+  if (::isInMenu())
     checkUpdateStatus(squadStatusUpdateState.MENU)
 }
 
 function g_squad_manager::onEventBattleEnded(p)
 {
-  if (::isInMenu() && !::is_multiplayer())
+  if (::isInMenu())
     checkUpdateStatus(squadStatusUpdateState.MENU)
 }
 

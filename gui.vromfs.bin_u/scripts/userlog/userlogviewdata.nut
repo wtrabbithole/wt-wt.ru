@@ -1306,6 +1306,14 @@ function get_userlog_view_data(log)
     res.name = ::loc("worldWar/userlog/createOperation",
                     { clan = name, opId = opId, mapName = ::loc("worldWar/map/" + mapName)})
   }
+  else if (log.type == ::EULT_WW_END_OPERATION)
+  {
+    local mapName = ::getTblValue("mapName", log)
+    local opId = ::getTblValue("operationId", log)
+    local textLocId = ::getTblValue("winner", log) ?
+      "worldWar/userlog/endOperationWin" : "worldWar/userlog/endOperationLose"
+    res.name = ::loc(textLocId, { opId = opId, mapName = ::loc("worldWar/map/" + mapName)})
+  }
 
 
   if (::getTblValue("description", res, "") != "")

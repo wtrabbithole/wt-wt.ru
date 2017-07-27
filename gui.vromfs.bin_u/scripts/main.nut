@@ -320,6 +320,7 @@ function load_scripts_after_login()
 
     "viewUtils/hintTags.nut"
     "viewUtils/hints.nut"
+    "viewUtils/bhvHint.nut"
     "timeBar.nut"
 
     "money.nut"

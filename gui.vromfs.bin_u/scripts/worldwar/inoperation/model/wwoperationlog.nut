@@ -162,6 +162,7 @@ function g_ww_logs::saveLoadedLogs(loadedLogsBlk, useLogMark, handler)
   local firstLogId = ::g_ww_logs.loaded.len() ?
     ::g_ww_logs.loaded[::g_ww_logs.loaded.len() - 1].id : ""
 
+  local isStrengthUpdateNeeded = false
   local unknownLogType = ::g_ww_log_type.getLogTypeByName(WW_LOG_TYPES.UNKNOWN)
   for (local i = 0; i < loadedLogsBlk.blockCount(); i++)
   {
@@ -186,8 +187,15 @@ function g_ww_logs::saveLoadedLogs(loadedLogsBlk, useLogMark, handler)
     ::g_ww_logs.saveLogArmies(logTable.blk, logTable.id)
     ::g_ww_logs.saveLogView(logTable)
 
-    if (!useLogMark) // on some fresh logs - we need to play sound
+    // on some fresh logs - we need to play sound or update strength
+    if (!useLogMark)
+    {
+      isStrengthUpdateNeeded = logBlk.type == WW_LOG_TYPES.ARTILLERY_STRIKE_DAMAGE ||
+                               logBlk.type == WW_LOG_TYPES.BATTLE_FINISHED ||
+                               logBlk.type == WW_LOG_TYPES.REINFORCEMENT ||
+                               isStrengthUpdateNeeded
       playLogSound(logBlk)
+    }
 
     addedLogsNumber++
     if (useLogMark)
@@ -215,7 +223,9 @@ function g_ww_logs::saveLoadedLogs(loadedLogsBlk, useLogMark, handler)
   }
 
   applyLogsFilter()
-  ::ww_event("NewLogsAdded", { isLogMarkUsed = useLogMark })
+  ::ww_event("NewLogsAdded", {
+    isLogMarkUsed = useLogMark
+    isStrengthUpdateNeeded = isStrengthUpdateNeeded })
   ::ww_event("NewLogsDisplayed", { amount = getUnreadedNumber() })
 }
 

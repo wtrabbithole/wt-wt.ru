@@ -120,14 +120,6 @@ class WwOperationsGroup
     ::u.chooseRandom(opList).join(country)
   }
 
-  function openOperationsList()
-  {
-    if (!hasActiveOperations())
-      return ::showInfoMsgBox(::loc("worldwar/msg/noActiveOperations"))
-
-    ::handlersManager.loadHandler(::gui_handlers.WwOperationsListModal, { mapId = mapId })
-  }
-
   function getPriority()
   {
     local res = 0

@@ -16,6 +16,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   objectiveHandler = null
   timerDescriptionHandler = null
   highlightZonesTimer = null
+  operationPauseTimer = null
   updateLogsTimer = null
   checkJoinEnabledTimer = null
 
@@ -809,26 +810,38 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     local isFinished = ::g_world_war.isCurrentOperationFinished()
     local isPaused = ::ww_is_operation_paused()
-    local statusTextId = ""
+    local statusText = ""
     objStartBox.show(isFinished || isPaused)
 
     if (isFinished)
     {
       local isVictory = ::ww_get_operation_winner() == ::ww_get_player_side()
-      statusTextId = isVictory ? "debriefing/victory" : "debriefing/defeat"
+      statusText = ::loc(isVictory ? "debriefing/victory" : "debriefing/defeat")
       ::play_gui_sound(isVictory ? "ww_oper_end_win" : "ww_oper_end_fail")
     }
     else if (isPaused)
-      statusTextId = ::loc("debriefing/pause")
+    {
+      local activationTime = ::ww_get_operation_activation_time()
+      if (activationTime)
+      {
+        if (operationPauseTimer && operationPauseTimer.isValid())
+          operationPauseTimer.destroy()
+
+        statusText = getTimeToStartOperationText(activationTime)
+        operationPauseTimer = ::Timer(scene, 1,
+          @() fullTimeToStartOperation(), this, true)
+      }
+      else
+        statusText = ::loc("debriefing/pause")
+    }
     else
     {
       objTarget.show(false)
       return
     }
-    objTarget.setValue("")
-    objTarget.show(true)
+    objTarget.setValue(statusText)
+    objTarget.show(false)
 
-    local statusText = ::loc(statusTextId)
     local copyObjTarget = scene.findObject("operation_status_hidden_copy")
     if (::check_obj(copyObjTarget))
       copyObjTarget.setValue(statusText)
@@ -846,7 +859,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     ::Timer(scene, 2, (@(scene, objStart, objTarget, objStartBox, statusText) function() {
         objTarget.needAnim = "yes"
-        objTarget.setValue(statusText)
+        objTarget.show(true)
 
         objStartBox.animation = "hide"
 
@@ -856,6 +869,33 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     if (sendEvent)
       ::ww_event("OperationFinished")
+  }
+
+  function fullTimeToStartOperation()
+  {
+    local activationTime = ::ww_get_operation_activation_time()
+    if (activationTime)
+      foreach (objName in ["operation_status", "wwmap_operation_status_text"])
+      {
+        local obj = scene.findObject(objName)
+        if (::check_obj(obj))
+          obj.setValue(getTimeToStartOperationText(activationTime))
+      }
+    else
+      operationPauseTimer.destroy()
+  }
+
+  function getTimeToStartOperationText(activationTime)
+  {
+    local activationMillis = activationTime - get_charserver_time_millisec()
+    local activationSec = activationMillis / TIME_SECOND_IN_MSEC
+    if (activationSec <= 0)
+      return ""
+
+    local timeToActivation = ::loc("worldwar/activationTime",
+      {text = ::hoursToString(::seconds_to_hours(activationSec), false, true)})
+    return ::loc("debriefing/pause") + ::loc("ui/parentheses/space",
+      {text = timeToActivation})
   }
 
   function onEventWWChangedDebugMode(params)
@@ -1052,6 +1092,13 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local battleId = params.battleId
     checkJoinEnabledTimer = ::Timer(scene, 1,
       @() onCheckJoinEnabled(battleId), this, true)
+  }
+
+  function onEventWWNewLogsAdded(params)
+  {
+    if (currentSelectedObject == mapObjectSelect.NONE &&
+        params.isStrengthUpdateNeeded)
+      updateArmyStrenght()
   }
 
   function onEventLobbyStatusChange(params)

@@ -9,6 +9,11 @@ hint {
 
   <<#rows>>
   hintRow {
+    <<#isWrapInRowAllowed>>
+    width:t='p.p.w'
+    flow:t='h-flow'
+    <</isWrapInRowAllowed>>
+    flow-align:t='<<flowAlign>>'
     <<#slices>>
     <<#shortcut>>
     <<@shortcut>>

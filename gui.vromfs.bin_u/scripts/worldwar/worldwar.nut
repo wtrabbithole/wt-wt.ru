@@ -289,13 +289,8 @@ function g_world_war::onJoinOperationSuccess(operationId, country, isSilence)
 
   if (!sideSelectSuccess)
   {
-    local errorMsg = "Error: WWar: Unable to select country after load. operationId = " + operationId + ", country = " + country
-    dagor.debug("operation data for " + operationId + ", try to choose country " + country)
-    debugTableData(operation.data)
-    ::script_net_assert_once(operationId + "/" + country, errorMsg)
-
-    ::showInfoMsgBox(::loc("orderUseResult/result/unknown")) //unknown error.
     stopWar()
+    openOperationsOrQueues()
     return
   }
 

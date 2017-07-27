@@ -183,10 +183,16 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene) || !hoveredBattle)
       return
 
+    local durationContainerObj = scene.findObject("battle_duration")
+    if (!::check_obj(durationContainerObj))
+      return
+    local durationTimerObj = durationContainerObj.findObject("battle_duration_text")
+    if (!::check_obj(durationTimerObj))
+      return
+
     local battleView = hoveredBattle.getView()
-    local durationTimerObj = scene.findObject("battle_duration")
-    if (::check_obj(durationTimerObj))
-      durationTimerObj.setValue(battleView.getBattleDurationTime())
+    durationTimerObj.setValue(battleView.getBattleDurationTime())
+    durationContainerObj.show(battleView.hasBattleDurationTime())
   }
 
   function getWWMapIdHoveredObjectId()

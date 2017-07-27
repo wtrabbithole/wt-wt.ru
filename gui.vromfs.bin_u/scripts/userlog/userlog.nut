@@ -91,7 +91,7 @@
   }
   {
     id="worldWar"
-    show = [::EULT_WW_START_OPERATION, ::EULT_WW_CREATE_OPERATION]
+    show = [::EULT_WW_START_OPERATION, ::EULT_WW_CREATE_OPERATION, ::EULT_WW_END_OPERATION]
   }
 ]
 

@@ -1978,6 +1978,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     setOrdersEnabled(isSpectate)
     updateSpectatorRotationForced()
 
+    if (!isSpectate)
+      ::switch_spectator_target_by_id(-1)
+
     if (is_spectator)
     {
       scene.findObject("btn_spectator").setValue(canChangeAircraft? ::loc("multiplayer/changeAircraft") : ::loc("multiplayer/backToMap"))

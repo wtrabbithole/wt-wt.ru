@@ -57,19 +57,21 @@ tdiv {
         }
         <</showBattleStatus>>
 
-        <<#hasBattleDurationTime>>
         tdiv {
+          id:t='battle_duration'
           width:t='pw'
+          <<^hasBattleDurationTime>>
+          display:t='hide'
+          <</hasBattleDurationTime>>
           activeText {
             text:t='<<?debriefing/BattleTime>><<?ui/colon>>'
             commonTextColor:t='yes'
           }
           activeText {
-            id:t='battle_duration'
+            id:t='battle_duration_text'
             text:t='<<getBattleDurationTime>>'
           }
         }
-        <</hasBattleDurationTime>>
       }
     }
 

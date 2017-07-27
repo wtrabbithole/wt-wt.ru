@@ -177,6 +177,7 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   DM_HIT_RESULT_CREW     = 10
   DM_HIT_RESULT_TORPEDO  = 11
   EULT_WW_START_OPERATION = 52
+  EULT_WW_END_OPERATION = 53
   EULT_WW_CREATE_OPERATION = 54
   is_nvidia_ansel_allowed = function() { return false }
 

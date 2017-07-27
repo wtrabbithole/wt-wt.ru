@@ -436,6 +436,14 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     registerSubHandler(handler)
   }
 
+  function isClanQueueAvaliable()
+  {
+    return mode == WW_OM_WND_MODE.PLAYER &&
+           ::has_feature("WorldWarClansQueue") &&
+           ::has_feature("Clans") &&
+           ::is_in_clan()
+  }
+
   function updateButtons()
   {
     local isModePlayer = mode == WW_OM_WND_MODE.PLAYER
@@ -444,7 +452,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local hasMap = selMap != null
     local isInQueue = ::g_ww_global_status.isMyClanInQueue()
 
-    showSceneBtn("btn_clans_queue", isModePlayer && ::has_feature("WorldWarClansQueue") && ::has_feature("Clans") && ::is_in_clan())
+    showSceneBtn("btn_clans_queue", isClanQueueAvaliable())
     local joinOpBtn = showSceneBtn("btn_join_operation", isModePlayer && hasMap)
     joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
 
@@ -643,8 +651,28 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onJoinOperation()
   {
-    if (selMap && mode == WW_OM_WND_MODE.PLAYER)
-      selMap.getOpGroup().openOperationsList()
+    if (!selMap || mode != WW_OM_WND_MODE.PLAYER)
+      return
+
+    local operationGroup = selMap.getOpGroup()
+    if (operationGroup.hasActiveOperations())
+      ::handlersManager.loadHandler(::gui_handlers.WwOperationsListModal,
+        { mapId = operationGroup.mapId })
+    else
+    {
+      if (isClanQueueAvaliable())
+        msgBox("no_active_operations",
+          ::loc("worldwar/msg/noActiveOperations") + "\n" +
+          ::loc("worldwar/msg/createOperationQuestion"),
+          [
+            ["yes", onClansQueue],
+            ["no", function() {}]
+          ], "yes", { cancel_fn = function() {}})
+      else
+        ::showInfoMsgBox(
+          ::loc("worldwar/msg/noActiveOperations") + "\n" +
+          ::loc("worldwar/msg/cantJoinNewOperation"))
+    }
   }
 
   function goBack()
