@@ -650,4 +650,5 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onLeaveEvent() {}
   function onStart() {}
   function onDownloadPack() {}
+  function onQueueOptions() {}
 }

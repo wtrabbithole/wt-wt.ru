@@ -155,6 +155,11 @@ function g_clans::prepareCreateRequest(clanType, name, tag, slogan, description,
   return requestData
 }
 
+function g_clans::getMyClanMembersCount()
+{
+  return ::getTblValue("members", ::my_clan_info, []).len()
+}
+
 function g_clans::getMyClanCandidates()
 {
   return ::getTblValue("candidates", ::my_clan_info, [])

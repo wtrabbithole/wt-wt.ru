@@ -58,6 +58,16 @@ enum WW_BATTLE_ACCESS
   SUPREME  = 0xFFFF
 }
 
+enum WW_UNIT_CLASS
+{
+  FIGHTER  = 0x0001
+  BOMBER   = 0x0002
+  UNKNOWN  = 0x0004
+
+  NONE   = 0x0000
+  COMBINED = 0x0003
+}
+
 enum WW_BATTLE_CANT_JOIN_REASON
 {
   CAN_JOIN
@@ -127,6 +137,8 @@ strength_unit_expclass_group <- {
 
 foreach (fn in [
                  "services/wwService.nut"
+                 "externalServices/worldWarTopMenuButtons.nut"
+                 "externalServices/worldWarTopMenuSectionsConfigs.nut"
                  "bhvWorldWarMap.nut"
                  "model/wwUnitType.nut"
                  "inOperation/wwOperations.nut"

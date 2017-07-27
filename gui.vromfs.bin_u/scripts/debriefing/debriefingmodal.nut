@@ -1,3 +1,5 @@
+const DEBR_LEADERBOARD_LIST_COLUMNS = 3
+
 function gui_start_debriefingFull(params = {})
 {
   ::handlersManager.loadHandler(::gui_handlers.DebriefingModal, params)
@@ -1235,21 +1237,32 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!("tournamentResult" in logs[0]))
       return
 
+    local gap = guiScene.calcString("@tablePad", null)
+    local gapsPerRow = gap * (DEBR_LEADERBOARD_LIST_COLUMNS + 1)
+
+    local itemParams = {
+      width  = ::format("(pw - %d) / %d", gapsPerRow, DEBR_LEADERBOARD_LIST_COLUMNS)
+      pos    = ::format("%d, %d", gap, gap)
+      margin = "0"
+    }
+
     local now = ::getTblValue("newStat", logs[0].tournamentResult)
     local was = ::getTblValue("oldStat", logs[0].tournamentResult)
 
-    local blk = ""
     local lbDiff = ::leaderboarsdHelpers.getLbDiff(now, was)
-    local lbStatsBlk = ""
+    local items = []
     foreach (lbFieldsConfig in ::events.eventsTableConfig)
     {
       if (!(lbFieldsConfig.field in now))
         continue
-      blk += ::getLeaderboardItemWidget(lbFieldsConfig,
+
+      items.append(::getLeaderboardItemView(lbFieldsConfig,
         now[lbFieldsConfig.field],
         ::getTblValue(lbFieldsConfig.field, lbDiff, null),
-        "0.24@scrn_tgt")
+        itemParams))
     }
+
+    local blk = ::getLeaderboardItemWidgets({ items = items })
     guiScene.replaceContentFromText(lbWindgetsNestObj, blk, blk.len() this)
     lbWindgetsNestObj.scrollToView()
   }

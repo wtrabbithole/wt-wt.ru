@@ -137,6 +137,9 @@ function g_clan_type::_getMembersUpgradeStep()
   /** Returns name clan type (not some clan name). */
   getTypeName = ::g_clan_type._getTypeName
 
+  /** Returns localized clan type name. */
+  getTypeNameLoc = @() ::loc("clan/clan_type/" + ::clan_type_to_string(code))
+
   /** If clan type creation is allowed. */
   isEnabled = ::g_clan_type._isEnabled
 

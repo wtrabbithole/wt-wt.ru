@@ -330,7 +330,7 @@ function gui_modal_event_leaderboards(eventId = null)
 }
 
 /**
- * Generates widget for leaderbord item
+ * Generates view for leaderbord item
  *
  * @param field_config  - item of ::leaderboards_list
  *                        or ::events.eventsTableConfig
@@ -338,14 +338,17 @@ function gui_modal_event_leaderboards(eventId = null)
  * @param lb_value_diff - optional, diff data, generated
  *                        with ::leaderboarsdHelpers.getLbDiff(...)
  *
- * @return redy for insertion to scene markup
+ * @return view for getLeaderboardItemWidgets(...)
  */
-function getLeaderboardItemWidget(lbCategory, lb_value, lb_value_diff = null, width = "0.27@scrn_tgt")
+function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, params = null)
 {
   local view = lbCategory.getItemCell(lb_value)
   view.name <- lbCategory.headerTooltip
   view.icon <- lbCategory.headerImage
-  view.width <- width
+
+  view.width  <- ::getTblValue("width",  params)
+  view.pos    <- ::getTblValue("pos",    params)
+  view.margin <- ::getTblValue("margin", params)
 
   if (lb_value_diff)
   {
@@ -354,6 +357,17 @@ function getLeaderboardItemWidget(lbCategory, lb_value, lb_value_diff = null, wi
       diff = lbCategory.getItemCell(lb_value, null, true)
     }
   }
+
+  return view
+}
+
+/**
+ * Generates view for leaderbord items array
+ * @param view  - { items = array of ::getLeaderboardItemView(...) }
+ * @return markup ready for insertion into scene
+ */
+function getLeaderboardItemWidgets(view)
+{
   return ::handyman.renderCached("gui/leaderboardItemWidget", view)
 }
 

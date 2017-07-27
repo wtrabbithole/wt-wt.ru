@@ -748,7 +748,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
+          "conditionsType": "ANY",
           "enableAfterComplete": false
         },
         "events": {
@@ -756,17 +756,30 @@
             "time": 0.1
           }
         },
-        "conditions": {
-          "unitWhenStatus": {
-            "object_type": "isMarked",
-            "check_objects": "any",
-            "object_marking": 1,
-            "target_type": "isAlive",
-            "check_period": 1.0,
-            "object": "all_players_squad",
-            "unit_type_ex": "isKilled"
+        "conditions": [
+          {
+            "unitWhenStatus": {
+              "object_type": "isMarked",
+              "check_objects": "any",
+              "object_marking": 1,
+              "target_type": "isAlive",
+              "check_period": 1.0,
+              "object": "all_players_squad",
+              "unit_type_ex": "isKilled"
+            }
+          },
+          {
+            "unitWhenStatus": {
+              "object_type": "isMarked",
+              "check_objects": "any",
+              "object_marking": 1,
+              "target_type": "isAlive",
+              "check_period": 1.0,
+              "object": "all_players_squad",
+              "unit_type_ex": "isOffline"
+            }
           }
-        },
+        ],
         "actions": [
           {
             "unitPlayEffect": {

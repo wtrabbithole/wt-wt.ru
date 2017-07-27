@@ -504,7 +504,6 @@
 
   function onTrainCrewTasksSuccess(idx, countryIdx, countryId, selCrewIdx, selUnitId, skipGameModeSelect, preset)
   {
-    isLoading = false
     selected[countryId] = idx
 
     ::crews_list = ::get_crew_info() //slotbar updates suspended, so no one to refresh this list.
@@ -538,7 +537,9 @@
         ::game_mode_manager.setCurrentGameModeById(gameMode.id)
     }
 
+    isLoading = false
     save(countryId)
+
     ::broadcastEvent("SlotbarPresetLoaded", { crewsChanged = true })
   }
 

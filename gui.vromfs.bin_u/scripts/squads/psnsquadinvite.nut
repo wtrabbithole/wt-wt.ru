@@ -149,8 +149,6 @@ function on_ps4_squad_room_joined()
   if (!::is_platform_ps4)
      return
 
-   local roomId = ::g_chat.getMySquadRoomId()
-  ::broadcastEvent("PS4JoinSquadViaInvite", { roomId = roomId })
   ::PS4_BACK_UP_INVITATION_STRING = ""
 }
 

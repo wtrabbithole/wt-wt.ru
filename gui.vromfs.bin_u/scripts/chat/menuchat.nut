@@ -2927,15 +2927,6 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateControlsAllowMaskDelayed()
   }
 
-  function onEventPS4JoinSquadViaInvite(params = {})
-  {
-    if (::isMenuChatActive())
-      return
-
-    if (::g_chat.isRoomSquad(params.roomId))
-      openChatRoom(params.roomId)
-  }
-
   function onEventInviteReceived(params)
   {
     local invite = ::getTblValue("invite", params)

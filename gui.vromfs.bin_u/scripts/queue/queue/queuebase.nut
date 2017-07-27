@@ -73,7 +73,7 @@ class ::queue_classes.Base
     if (!::u.search(queueUidsList, @(q) q.cluster == cluster))
     {
       local idx = params.clusters.find(cluster)
-      if (idx != -1)
+      if (idx >= 0)
         params.clusters.remove(idx)
     }
     return true
@@ -105,6 +105,6 @@ class ::queue_classes.Base
   //when custom mode switched on, it will be queued automatically
   function isCustomModeSwitchedOn() { return false }
   function switchCustomMode(shouldQueue) {}
-  function isAllowedToSwitchCustomMode()
+  static function isAllowedToSwitchCustomMode()
     { return !::g_squad_manager.isInSquad() || ::g_squad_manager.isSquadLeader() }
 }

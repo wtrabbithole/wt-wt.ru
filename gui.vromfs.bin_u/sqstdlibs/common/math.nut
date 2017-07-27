@@ -23,8 +23,12 @@ function is_bit_set(bitMask, bitIdx)
   return (bitMask & 1 << bitIdx) > 0
 }
 
-
 function change_bit(bitMask, bitIdx, value)
 {
   return (bitMask & ~(1 << bitIdx)) | (value? (1 << bitIdx) : 0)
+}
+
+function change_bit_mask(bitMask, bitMaskToSet, value)
+{
+  return (bitMask & ~bitMaskToSet) | (value? bitMaskToSet : 0)
 }

@@ -158,6 +158,7 @@ class ::WwBattleView
       columns = [{unitString = wwUnits}]
       multipleColumns = false
       reflect = isReflected
+      isShowTotalCount = true
       hasSpaceBetweenUnits = hasLineSpacing
     }
     return ::handyman.renderCached("gui/worldWar/worldWarMapArmyInfoUnitsList", view)

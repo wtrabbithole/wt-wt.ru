@@ -1,15 +1,16 @@
+<<#items>>
 tdiv {
   id:t='<<id>>';
-  width:t='<<width>>';
+  width:t='<<#width>><<width>><</width>><<^width>>0.27@scrn_tgt<</width>>';
+  pos:t='<<#pos>><<pos>><</pos>><<^pos>>0, 0<</pos>>';
+  position:t='relative';
+  margin:t='<<#margin>><<margin>><</margin>><<^margin>>0, 0.014@scrn_tgt, 0.021@scrn_tgt, 0<</margin>>';
   flow:t='vertical';
   re-type:t='9rect';
   background-image:t='#ui/gameuiskin#block_bg_rounded_flat_black';
   background-position:t='4';
   background-repeat:t='expand';
   background-color:t='@white';
-
-  margin-bottom:t='0.014@scrn_tgt';
-  margin-right:t='0.021@scrn_tgt';
 
   tdiv {
     id:t='header'
@@ -91,3 +92,4 @@ tdiv {
     }
   }
 }
+<</items>>

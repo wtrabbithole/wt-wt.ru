@@ -9,7 +9,44 @@ class ::queue_classes.Event extends ::queue_classes.Base
   function init()
   {
     name = ::getTblValue("mode", params, "")
-    shouldQueueCustomMode = ::load_local_account_settings(getCustomModeSaveId(), false)
+    shouldQueueCustomMode = getShouldQueueCustomMode(name)
+  }
+
+  static function getCustomModeSaveId(eventName) { return "queue/customEvent/" + eventName }
+  static function getShouldQueueCustomMode(eventName)
+  {
+    return ::load_local_account_settings(::queue_classes.Event.getCustomModeSaveId(eventName), false)
+  }
+  static function setShouldQueueCustomMode(eventName, shouldSave)
+  {
+    return ::save_local_account_settings(::queue_classes.Event.getCustomModeSaveId(eventName), shouldSave)
+  }
+
+  static function getCustomMgm(eventName)
+  {
+    return ::events.getCustomGameMode(::events.getEvent(eventName))
+  }
+
+  static function hasCustomModeByEventName(eventName)
+  {
+    return ::has_feature("QueueCustomEventRoom") && !!::queue_classes.Event.getCustomMgm(eventName)
+  }
+
+  static function hasOptions(eventName)
+  {
+    return ::queue_classes.Event.hasCustomModeByEventName(eventName)
+      && ::queue_classes.Event.isAllowedToSwitchCustomMode()
+      && !::queues.findQueueByName(eventName, true)
+  }
+
+  static function getOptions(eventName)
+  {
+    if (!::queue_classes.Event.hasOptions(eventName))
+      return null
+    return {
+      options = [[::USEROPT_QUEUE_EVENT_CUSTOM_MODE]]
+      context = { eventName = eventName }
+    }
   }
 
   function join(successCallback, errorCallback)
@@ -121,18 +158,14 @@ class ::queue_classes.Event extends ::queue_classes.Base
     return res
   }
 
-  function getCustomModeSaveId() { return "queue/customEvent/" + name }
-
-  function getCustomMgm()
+  function hasCustomMode()
   {
-    return ::events.getCustomGameMode(::events.getEvent(name))
+    return hasCustomModeByEventName(name)
   }
-
-  function hasCustomMode() { return ::has_feature("QueueCustomEventRoom") && !!getCustomMgm() }
 
   function isCustomModeQUeued()
   {
-    local customMgm = getCustomMgm()
+    local customMgm = getCustomMgm(name)
     if (!customMgm)
       return false
     return !!::u.search(queueUidsList, @(q) q.gameModeId == customMgm.gameModeId )
@@ -150,7 +183,7 @@ class ::queue_classes.Event extends ::queue_classes.Base
       return
 
     shouldQueueCustomMode = shouldQueue
-    ::save_local_account_settings(getCustomModeSaveId(), shouldQueueCustomMode)
+    setShouldQueueCustomMode(name, shouldQueueCustomMode)
 
     if (isCustomModeInTransition)
       return
@@ -163,9 +196,9 @@ class ::queue_classes.Event extends ::queue_classes.Base
     }
     isCustomModeInTransition = true
     if (shouldQueueCustomMode)
-      _joinQueueImpl(getQueryParams(true, getCustomMgm()), cb, cb, false)
+      _joinQueueImpl(getQueryParams(true, getCustomMgm(name)), cb, cb, false)
     else
-      _leaveQueueImpl(getQueryParams(false, getCustomMgm()), cb, cb, false)
+      _leaveQueueImpl(getQueryParams(false, getCustomMgm(name)), cb, cb, false)
   }
 
   function afterCustomModeQueueChanged(wasShouldQueue)

@@ -1539,6 +1539,9 @@ function SessionLobby::afterLeaveRoom(p)
 {
   roomId = ""
   switchStatus(lobbyStates.NOT_IN_ROOM)
+  local guiScene = ::get_main_gui_scene()
+  if (guiScene)
+    guiScene.performDelayed(this, checkSessionReconnect) //notify room leave will be received soon
 }
 
 function SessionLobby::sendJoinRoomRequest(join_params, cb = function(...) {})
@@ -1584,9 +1587,12 @@ function SessionLobby::joinRoom(_roomId, senderId = "", _password = null,
   if (roomId == _roomId && isInRoom())
     return
 
-  if (!::g_login.isLoggedIn())
+  if (!::g_login.isLoggedIn() || isInRoom())
   {
     delayedJoinRoomFunc = (@(_roomId, senderId, _password, cb) function() { joinRoom(_roomId, senderId, _password, cb) })(_roomId, senderId, _password, cb)
+
+    if (isInRoom())
+      leaveRoom()
     return
   }
 

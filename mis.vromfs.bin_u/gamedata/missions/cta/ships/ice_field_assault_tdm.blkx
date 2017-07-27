@@ -159,7 +159,83 @@
         "_Conq5": false,
         "_Conq6": false
       },
+      "customSpawnScore": {
+        "exp_torpedo_boat": 0.0,
+        "exp_gun_boat": 0.0,
+        "exp_torpedo_gun_boat": 0.0,
+        "exp_submarine_chaser": 0.0,
+        "exp_destroyer": 1.0,
+        "exp_naval_ferry_barge": 1.0,
+        "base_respawn_points_coef": 3000,
+        "br_diff_mul_Air": 0.0,
+        "br_diff_mul_Tank": 0.0,
+        "max_br_diff": 0.0,
+        "spawn_pow": 0.0,
+        "exp_fighter": 0.5,
+        "exp_bomber": 1.2,
+        "exp_assault": 1.2,
+        "exp_tank": 0.0,
+        "exp_heavy_tank": 0.0,
+        "exp_tank_destroyer": 0.0,
+        "exp_SPAA": 0.0,
+        "exp_ship": 0.0
+      },
       "tags": [],
+      "editSlotbar": {
+        "keepOwnUnits": false,
+        "country_ussr": {
+          "ussr_pr_183": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          },
+          "ussr_destroyer_7y": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          },
+          "il-4": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          },
+          "yak-9t": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          }
+        },
+        "country_britain": {
+          "uk_dark_class_mtb": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          },
+          "uk_destroyer_tribal": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          },
+          "beaufort_mkviii": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          },
+          "typhoon_mk1b_late": {
+            "crewSkillsPercent": 100,
+            "crewSpecialization": 2,
+            "allWeapons": true,
+            "allModifications": true
+          }
+        }
+      },
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
@@ -192,6 +268,20 @@
           },
           {
             "showAirMap": false
+          },
+          {
+            "icon": {
+              "icontype": "destroyer",
+              "side": "enemy",
+              "target": "briefing_t2_boatspawn"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "destroyer",
+              "side": "ally",
+              "target": "briefing_t1_boatspawn"
+            }
           },
           {
             "icon": {
@@ -2584,7 +2674,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [-4402.52,0.0,3162.65]
+        [-3436.72,0.0,3162.65]
       ],
       "objLayer": 3,
       "props": []
@@ -2595,7 +2685,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [-4451.72,0.0,-3673.25]
+        [-3485.92,0.0,-3673.25]
       ],
       "objLayer": 3,
       "props": []
@@ -2606,7 +2696,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [2661.35,0.0,3451.7]
+        [3627.15,0.0,3451.7]
       ],
       "objLayer": 3,
       "props": []
@@ -2617,7 +2707,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [2738.1,0.0,-3661.9]
+        [3703.9,0.0,-3661.9]
       ],
       "objLayer": 3,
       "props": []
@@ -3332,7 +3422,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [-3397.3,0.0,-1289.75]
+        [-2853.8,0.0,-1289.75]
       ],
       "objLayer": 3,
       "props": []
@@ -3343,7 +3433,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [2467.5,0.0,1203.85]
+        [3433.3,0.0,1203.85]
       ],
       "objLayer": 3,
       "props": []
@@ -3399,6 +3489,28 @@
         [0.0,800.0,0.0],
         [0.000183105,0.0,-800.0],
         [7300.95,1500.0,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t2_boatspawn": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [754.451,0.0,-1092.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t1_boatspawn": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-709.5,0.0,648.5]
       ],
       "objLayer": 0,
       "props": []

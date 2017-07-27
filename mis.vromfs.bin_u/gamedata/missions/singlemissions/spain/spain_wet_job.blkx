@@ -81,7 +81,8 @@
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": ""
+            "picture": "",
+            "showAirMap": false
           }
         },
         {
@@ -89,6 +90,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "arrow": [
               {
                 "width": 1
@@ -205,6 +207,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "usr_aaa_sq",
             "targetableByAi": false,
             "stealthRadius": 10.0,
@@ -253,6 +256,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "ussr_atack_sq",
             "accuracy": 0.4,
             "effShootingRate": 0.0,
@@ -262,6 +266,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "ussr_aaa01"
             },
@@ -539,7 +546,8 @@
           "delay": [1.0,1.0],
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
-          "target": "germ_sparviero"
+          "target": "germ_sparviero",
+          "partName": "engine1_dm"
         },
         "moSetObjectiveStatus": {
           "target": "spain_wet_job_fly_in_formation",
@@ -567,7 +575,7 @@
       },
       "conditions": {
         "unitDistanceBetween": {
-          "value": 500.0,
+          "value": 1000.0,
           "math": "2D",
           "object_type": "isAlive",
           "object_marking": 0,
@@ -582,8 +590,11 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "germ_sparviero",
             "useForTriggerFiltered": true,
+            "speed": 270.0,
+            "lockSpeed": true,
             "aiEnabled": false,
             "disableFallUndergroundAtDestroyed": true
           }
@@ -774,20 +785,27 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "ussr_atack_sq"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "ussr_atack_sq",
             "stealthRadius": 50000.0,
             "speed": 27.0
           }
         },
         {
-          "triggerEnable": {
-            "target": "updatable_indicator"
-          }
+          "triggerEnable": [
+            {
+              "target": "updatable_indicator"
+            },
+            {
+              "target": "updatable_indicator_aaa"
+            }
+          ]
         },
         {
           "unitAttackTarget": {
@@ -840,30 +858,44 @@
         }
       },
       "conditions": [],
-      "actions": [
-        {
-          "missionSetTargetsIndicator": {
-            "target_type": "isAlive",
-            "target_marking": 0,
-            "delta": 0,
-            "icon": "tank",
-            "icon army": 2,
-            "set": true,
-            "target": "ussr_atack_sq"
-          }
-        },
-        {
-          "missionSetTargetsIndicator": {
-            "target_type": "isAlive",
-            "target_marking": 0,
-            "delta": 0,
-            "icon": "aa",
-            "icon army": 2,
-            "set": true,
-            "target": "base_aaa_sq"
-          }
+      "actions": {
+        "missionSetTargetsIndicator": {
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "delta": 0,
+          "icon": "tank",
+          "icon army": 2,
+          "set": true,
+          "target": "ussr_atack_sq"
         }
-      ],
+      },
+      "else_actions": []
+    },
+    "updatable_indicator_aaa": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "missionSetTargetsIndicator": {
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "delta": 0,
+          "icon": "aa",
+          "icon army": 2,
+          "set": true,
+          "target": "base_aaa_sq"
+        }
+      },
       "else_actions": []
     },
     "crashsite_captured_by_ussr": {
@@ -948,9 +980,6 @@
             },
             {
               "target": "updatable_indicator"
-            },
-            {
-              "target": "destroy_aaa"
             }
           ]
         },
@@ -967,6 +996,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "boats_sq",
             "army": 1,
             "stealthRadius": 50000.0
@@ -1007,6 +1037,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "boats_sq",
             "stealthRadius": 128000.0
           }
@@ -1014,11 +1045,13 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "boats_sq"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "ussr_fighter_sq",
             "accuracy": 0.4,
             "effShootingRate": 0.4
@@ -1038,6 +1071,8 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_type": "isAlive",
+            "target_marking": 0,
             "team": "A"
           }
         },
@@ -1104,6 +1139,8 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_type": "isAlive",
+            "target_marking": 0,
             "team": "A"
           }
         }
@@ -1270,6 +1307,8 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_type": "isAlive",
+            "target_marking": 0,
             "team": "A"
           }
         },
@@ -1287,6 +1326,8 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_type": "isAlive",
+            "target_marking": 0,
             "team": "A"
           }
         }
@@ -1636,6 +1677,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "ussr_fighter_sq",
           "attack_type": "dont_aim"
         },

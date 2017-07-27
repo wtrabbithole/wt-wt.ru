@@ -398,7 +398,7 @@ function u::removeFrom(data, value)
   if (isArray(data))
   {
     local idx = data.find(value)
-    if (idx != -1)
+    if (idx >= 0)
     {
       data.remove(idx)
       return true
@@ -513,6 +513,6 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
 
 function append_once(v, arr, skipNull = false)
 {
-  if ((!skipNull || v != null) && arr.find(v) == -1)
+  if ((!skipNull || v != null) && arr.find(v) < 0)
     arr.append(v)
 }

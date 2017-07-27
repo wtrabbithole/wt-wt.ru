@@ -112,18 +112,13 @@ class WwQueue
 
   function getCantJoinQueueReasonData(country = null)
   {
-    local res = {
-      canJoin = false
-      reasonText = ""
-    }
-
-    updateCantJoinQueueByClanRequirements(res)
-    if (!::u.isEmpty(res.reasonText))
+    local res = getCantJoinAnyQueuesReasonData()
+    if (! res.canJoin)
       return res
 
-    if (::g_ww_global_status.getMyClanOperation())
-      res.reasonText = ::loc("worldwar/squadronAlreadyInOperation")
-    else if (country && !map.canJoinByCountry(country))
+    res.canJoin = false
+
+    if (country && !map.canJoinByCountry(country))
       res.reasonText = ::loc("worldWar/chooseAvailableCountry")
     else
       res.canJoin = true
@@ -131,25 +126,29 @@ class WwQueue
     return res
   }
 
-  function updateCantJoinQueueByClanRequirements(res)
+  static function getCantJoinAnyQueuesReasonData()
   {
-    if (!::g_clans.hasRightsToQueueWWar())
-    {
+    local res = {
+      canJoin = false
+      reasonText = ""
+    }
+
+    if (::g_ww_global_status.getMyClanOperation())
+      res.reasonText = ::loc("worldwar/squadronAlreadyInOperation")
+    else if (::g_ww_global_status.isMyClanInQueue())
+      res.reasonText = ::loc("worldwar/mapStatus/yourClanInQueue")
+    else if (!::g_clans.hasRightsToQueueWWar())
       res.reasonText = ::loc("worldWar/onlyLeaderCanQueue")
+    else if (::g_clans.getMyClanMembersCount() < ::g_clans.getMyClanType().minMemberCountToWWar)
+    {
+      local myClanType = ::g_clans.getMyClanType()
+      res.reasonText = ::loc("clan/wwar/lacksMembers", {
+        clanType = myClanType.getTypeNameLoc()
+        count = myClanType.minMemberCountToWWar
+      })
     }
     else
-    {
-      if (::my_clan_info == null)
-        res.reasonText = ::loc("clan/myClanDataNotLoaded")
-      else if (::my_clan_info.memberCount() < ::my_clan_info.type.minMemberCountToWWar)
-        res.reasonText = ::loc(
-            "clan/wwar/lacksMembers",
-            {
-              clanType = ::loc(::format("clan/clan_type/%s", ::my_clan_info.type.getTypeName()))
-              count = ::my_clan_info.type.minMemberCountToWWar
-            }
-          )
-    }
+      res.canJoin = true
 
     return res
   }

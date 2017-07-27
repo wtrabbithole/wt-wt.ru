@@ -363,8 +363,101 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 })
 
 //----------------------------wop_1_69_2_X---------------------------------//
+{
+  local unitTypesCache = {}
+  local aiUnitTypes = {
+    warShip         = ::ES_UNIT_TYPE_SHIP
+    fortification   = ::ES_UNIT_TYPE_TANK
+    heavyVehicle    = ::ES_UNIT_TYPE_TANK
+    lightVehicle    = ::ES_UNIT_TYPE_TANK
+    infantry        = ::ES_UNIT_TYPE_TANK
+    radar           = ::ES_UNIT_TYPE_TANK
+    walker          = ::ES_UNIT_TYPE_TANK
+    barrageBalloon  = ::ES_UNIT_TYPE_AIRCRAFT
+  }
+
+  local aiUnitBlkPaths = [
+    "ships"
+    "air_defence"
+    "structures"
+    "tankModels"
+    "tracked_vehicles"
+    "wheeled_vehicles"
+    "infantry"
+    "radars"
+    "walkerVehicle"
+  ]
+
+  local getAiUnitBlk = function(unitId)
+  {
+    if (unitId == "")
+      return ::DataBlock()
+
+    local fn = ::get_unit_file_name(unitId)
+    local blk = ::DataBlock(fn)
+    if (!::u.isEqual(blk, ::DataBlock()))
+      return blk
+
+    foreach (path in aiUnitBlkPaths)
+    {
+      blk = ::DataBlock(::format("gameData/units/%s/%s.blk", path, unitId))
+      if (!::u.isEqual(blk, ::DataBlock()))
+        return blk
+    }
+
+    return ::DataBlock()
+  }
+
+  ::find_unit_type <- function(name) //really slow function, so only for compatibility here.
+  {
+    if (name == "")
+      return ::ES_UNIT_TYPE_TANK
+
+    local unit = ::getAircraftByName(name)
+    if (unit)
+      return unit.esUnitType
+
+    if (!(name in unitTypesCache))
+    {
+      local blk = getAiUnitBlk(name)
+      local unitType = blk.subclass ? ::getTblValue(blk.subclass, aiUnitTypes, null) : null
+
+      if (unitType == null)
+        foreach (utype in blk % "type")
+        {
+          local unitClass = ::getTblValue(utype, ::unlock_condition_unitclasses, ::ES_UNIT_TYPE_INVALID)
+          if (unitClass != ::ES_UNIT_TYPE_INVALID)
+          {
+            unitType = unitClass
+            break
+          }
+        }
+
+      if (unitType == null)
+        unitType = ::ES_UNIT_TYPE_TANK
+      unitTypesCache[name] <- unitType
+    }
+
+    return unitTypesCache[name]
+  }
+}
+
 ::apply_compatibilities({
   INVALID_USER_ID = -1
+
+  UT_Airplane      = 0
+  UT_Balloon       = 1
+  UT_Artillery     = 2
+  UT_HeavyVehicle  = 3
+  UT_LightVehicle  = 4
+  UT_Ship          = 5
+  UT_WarObj        = 6
+  UT_InfTroop      = 7
+  UT_Fortification = 8
+  UT_AirWing       = 9
+  UT_AirSquadron   = 10
+  UT_WalkerVehicle = 11
+  UT_Helicopter    = 12
   
   warbond_get_shop_levels = function(wbName, stageName)
   {

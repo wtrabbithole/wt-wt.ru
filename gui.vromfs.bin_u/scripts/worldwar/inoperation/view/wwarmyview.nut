@@ -52,7 +52,7 @@ class ::WwArmyView
   {
     local view = { columns = [], multipleColumns = false, hasSpaceBetweenUnits = true}
     local wwUnits = ::u.reduce(formation.getUnits(), function (unit, memo) {
-      if (unit.count)
+      if (unit.getActiveCount())
         memo.append(unit)
       return memo
     }, [])
@@ -76,7 +76,7 @@ class ::WwArmyView
   {
     local unitsCount = 0
     foreach (unit in formation.getUnits(excludeInfantry))
-      unitsCount += (!onlyArtillery || unit.isArtillery()) ? unit.count : 0
+      unitsCount += (!onlyArtillery || unit.isArtillery()) ? unit.getActiveCount() : 0
 
     return unitsCount
   }

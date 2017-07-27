@@ -5,12 +5,12 @@ tdiv {
 
   tdiv {
     width:t='pw'
-    padding:t='1@debriefingBgPad'
+    padding:t='1@debrPad'
     background-color:t='@shadeBackgroundColor4'
 
     tdiv {
       size:t='pw, 26*@sf/@pf'
-      pos:t='0, 1@debriefingBgPad'
+      pos:t='0, 1@debrPad'
       position:t='absolute'
 
       textareaNoTab {
@@ -94,25 +94,25 @@ tdiv {
 
   tdiv {
     size:t='pw, fh'
-    pos:t='0, 1@debriefingBgPad'
+    pos:t='0, 1@debrPad'
     position:t='relative'
     overflow-y:t='auto'
 
     <<#teamBlock>>
     <<#statistics>>
     tdiv {
-      width:t='(pw -1@debriefingBgPad)/2'
+      width:t='(pw -1@debrPad)/2'
       min-height:t='ph'
       <<^invert>>pos:t='0, 0'<</invert>>
-      <<#invert>>pos:t='1@debriefingBgPad, 0'<</invert>>
+      <<#invert>>pos:t='1@debrPad, 0'<</invert>>
       position:t='relative'
-      padding:t='1@debriefingBgPad'
+      padding:t='1@debrPad'
       background-color:t='@shadeBackgroundColor4'
       flow:t='vertical'
 
       tdiv {
         width:t='pw'
-        padding:t='1@debriefingBgPad, 0, 0, 0'
+        padding:t='1@debrPad, 0, 0, 0'
 
         textareaNoTab {
           width:t='0.3pw+@tableIcoSize'
@@ -142,7 +142,7 @@ tdiv {
       <<#unitTypes>>
       tdiv {
         width:t='pw'
-        padding:t='1@debriefingBgPad, 0, 0, 0'
+        padding:t='1@debrPad, 0, 0, 0'
 
         textareaNoTab {
           width:t='0.3pw + @tableIcoSize'
@@ -174,7 +174,7 @@ tdiv {
       <<#units>>
       tdiv {
         width:t='pw'
-        padding:t='1@debriefingBgPad, 0, 0, 0'
+        padding:t='1@debrPad, 0, 0, 0'
 
         tdiv {
           width:t='0.3pw + @tableIcoSize'

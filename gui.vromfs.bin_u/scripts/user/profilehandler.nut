@@ -105,11 +105,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     //prepare options
     mainOptionsMode = ::get_gui_options_mode()
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)
-//    local container = create_options_container("options_profile", profileOptions, true, true, true)
-//    local profileObj = scene.findObject("profile-optionsbox")
-//    guiScene.replaceContentFromText(profileObj, container.tbl, container.tbl.len(), this)
-//    profileObj.scrollType = "center"
-//    optionsContainers.push(container.descr)
 
     initStatsParams()
     initSheetsList()
@@ -1195,30 +1190,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     return obj.getChild(sheetIdx).id
   }
-  /*
-//Stats page
-  function fillStats()
-  {
-//    curDifficulty = "any"
-    local statsObj = scene.findObject("stats_options")
-    if (!statsInited || !statsObj)
-    {
-      local optionItems = []
 
-      optionItems.append([::USEROPT_SEARCH_DIFFICULTY, "spinner"])
-      optionItems.append([::USEROPT_SEARCH_PLAYERMODE, "spinner"])
-
-      local container = create_options_container("stats_options", optionItems, true, false, true)
-      local optList = scene.findObject("optionslist")
-      guiScene.replaceContentFromText(optList, container.tbl, container.tbl.len(), this)
-      if (optionItems.len()>0) optList.show(true)
-      statsInited = true
-    } else
-      ::selectOptionsNavigatorObj(statsObj)
-
-    updateStats()
-  }
-  */
   function calcStat(func, diff, mode, fm_idx = null) {
     local value = 0
 

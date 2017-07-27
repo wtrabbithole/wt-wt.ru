@@ -408,8 +408,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (crewsSpawnScoreMask != newSpawnScoreMask)
     {
       crewsSpawnScoreMask = newSpawnScoreMask
-      if (!isOnInit)
+      if (!isOnInit && isRespawn)
         return reinitScreen({})
+      else
+        updateAllCrewSlotTexts()
     }
 
     updateCurSpawnScoreText()
