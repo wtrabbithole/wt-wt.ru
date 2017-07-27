@@ -96,6 +96,8 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
           printFn(prefix+addStr+idText+" = " + data + (data % 1 ? "" : ".0"))
         else if (type=="int64")
           printFn(prefix+addStr+idText+" = " + data + "L")
+        else if (type=="null")
+          printFn(prefix+addStr+idText+" = null")
         else
           printFn(prefix+addStr+idText+" = " + data)
       }
@@ -110,6 +112,8 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
         printFn(prefix + addStr + data + (data % 1 ? "" : ".0"))
       else if (type=="int64")
         printFn(prefix + addStr + data + "L")
+      else if (type=="null")
+        printFn(prefix + addStr + "null")
       else
         printFn(prefix + addStr + data)
     }
@@ -166,7 +170,7 @@ function toString(val, recursion = 1, addStr = "")
           //or it make harder to read debugtableData result in log, also arrays in one string generate too long strings
           if (typeof(v) != "function")
           {
-            local index = ::isInArray(type(idx), [ "float", "int64" ]) ? ::toString(idx) : idx
+            local index = ::isInArray(type(idx), [ "float", "int64", "null" ]) ? ::toString(idx) : idx
             ret += "\n" + addStr + "  " + index + " = " + ::toString(v, recursion - 1, addStr + "  ")
           }
         }
@@ -191,7 +195,7 @@ function toString(val, recursion = 1, addStr = "")
     local iv = []
     foreach (i,v in val)
     {
-      local index = !isArray && ::isInArray(type(i), [ "float", "int64" ]) ? ::toString(i) : i
+      local index = !isArray && ::isInArray(type(i), [ "float", "int64", "null" ]) ? ::toString(i) : i
       iv.append("" + (isArray ? "[" + index + "]" : index) + " = " + ::toString(v, recursion - 1, ""))
     }
     str = ::implode(iv, ", ")

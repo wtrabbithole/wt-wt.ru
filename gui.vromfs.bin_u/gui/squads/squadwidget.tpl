@@ -83,14 +83,12 @@ Button_text {
         squadMemberStatus {
           id:t='member_ready_<<id>>'
           margin-top:t='2*@sf/@pf'
-          isLeader:t='no'
         }
 
         squadMemberVoipStatus {
           id:t='member_voip_<<id>>'
           margin-left:t='3*@sf/@pf'
           isVoipActive:t='no'
-          isLeader:t='no'
         }
       }
 

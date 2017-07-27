@@ -23,6 +23,13 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
   sceneBlkName = null
   sceneTplName = "gui/squads/squadWidget"
 
+  squadStateToString = {
+    [SquadState.SQUAD_LEADER] = "leader",
+    [SquadState.SQUAD_MEMBER] = "notReady",
+    [SquadState.SQUAD_MEMBER_READY] = "ready",
+    [SquadState.SQUAD_MEMBER_OFFLINE] = "offline",
+  }
+
   parentHandlerWeak = null
 
   function getSceneTplView()
@@ -91,22 +98,15 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
       if (checkCountry(member.country, "squad member data ( uid = " + member.uid + ")", true))
         countryIcon = ::get_country_icon(member.country)
 
-      local isLeader = ::g_squad_manager.isMySquadLeader(member.uid)
-      local status = !member.online ? "offline"
-                                     : member.isReady ? "ready"
-                                                      : "notReady"
-
-      memberObj["status"] = status
+      local status = ::g_squad_manager.getPlayerStatusInMySquad(member.uid)
+      memberObj["status"] = ::getTblValue(status, squadStateToString, "")
       memberObj.findObject("member_country_" + indexStr)["background-image"] = countryIcon
-      memberObj.findObject("member_ready_" + indexStr)["isLeader"] = isLeader ? "yes" : "no"
 
       local memberVoipObj = memberObj.findObject("member_voip_" + indexStr)
       memberVoipObj["isVoipActive"] = contact.voiceStatus == voiceChatStats.talking ? "yes" : "no"
 
       local speakingMemberNickTextObj = memberObj.findObject("speaking_member_nick_text_" + indexStr)
       speakingMemberNickTextObj.setValue(member.name)
-
-      memberVoipObj["isLeader"] = isLeader ? "yes" : "no"
     }
   }
 

@@ -74,9 +74,9 @@ enum chatRoomTabOrder {
     needSave = function() { return true }
     canInviteToRoom = true
     getTooltip = function(roomId) { return roomId.slice(1) }
-    canCreateRoom = function() { return true }
     isVisibleInSearch = function() { return true }
-    isAllowed = @() ::ps4_is_ugc_enabled()
+    isAllowed = ::ps4_is_ugc_enabled
+    canCreateRoom = @() isAllowed()
   }
 
   PRIVATE = {

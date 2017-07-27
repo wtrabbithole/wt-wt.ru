@@ -16,9 +16,10 @@ enum squadStatusUpdateState {
 enum SquadState
 {
   NOT_IN_SQUAD
-  SQUAD_LEADER
+  SQUAD_LEADER //leader cant be offline or not ready.
   SQUAD_MEMBER
-  SQUAD_MEMBER_READY //for presences
+  SQUAD_MEMBER_READY
+  SQUAD_MEMBER_OFFLINE
 }
 
 const DEFAULT_SQUADS_VERSION = 1
@@ -253,10 +254,11 @@ function g_squad_manager::getPlayerStatusInMySquad(uid)
   if (memberData == null)
     return SquadState.NOT_IN_SQUAD
 
+  if (!memberData.online)
+    return SquadState.SQUAD_MEMBER_OFFLINE
   if (memberData.isReady)
     return SquadState.SQUAD_MEMBER_READY
-  else
-    return SquadState.SQUAD_MEMBER
+  return SquadState.SQUAD_MEMBER
 }
 
 function g_squad_manager::readyCheck(considerInvitedPlayers = false)
@@ -351,10 +353,7 @@ function g_squad_manager::createSquad(callback)
 
 function g_squad_manager::joinSquadChatRoom()
 {
-  if (!isInSquad())
-    return
-
-  if ( squadData.members.len() < 2 )
+  if (!isNotAloneOnline())
     return
 
   if (!::gchat_is_connected())
@@ -674,6 +673,8 @@ function g_squad_manager::requestMemberData(uid)
                         if (::SessionLobby.canInviteIntoSession() && memberData.canJoinSessionRoom())
                           ::SessionLobby.invitePlayer(memberData.uid)
                       }
+
+                      ::g_squad_manager.joinSquadChatRoom()
 
                       ::broadcastEvent(squadEvent.DATA_UPDATED)
 

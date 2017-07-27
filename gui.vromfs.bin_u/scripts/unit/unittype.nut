@@ -33,6 +33,7 @@ enum UNIT_TYPE_ORDER
   testFlightIcon = ""
   testFlightName = ""
   canChangeViewType = false
+  hudTypeCode = ::HUD_TYPE_UNKNOWN
 
   firstChosenTypeUnlockName = null
 
@@ -66,6 +67,7 @@ enum UNIT_TYPE_ORDER
     fontIcon = ::loc("icon/unittype/aircraft")
     testFlightIcon = "#ui/gameuiskin#slot_testflight"
     testFlightName = "TestFlight"
+    hudTypeCode = ::HUD_TYPE_AIRPLANE
     firstChosenTypeUnlockName = "chosen_unit_type_air"
     isAvailable = function() { return true }
     isAvailableForFirstChoice = function(country = null)
@@ -90,6 +92,7 @@ enum UNIT_TYPE_ORDER
     fontIcon = ::loc("icon/unittype/tank")
     testFlightIcon = "#ui/gameuiskin#slot_testdrive"
     testFlightName = "TestDrive"
+    hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_tank"
     isAvailable = function() { return ::has_feature("Tanks") }
     isAvailableForFirstChoice = function(country = null)
@@ -118,6 +121,7 @@ enum UNIT_TYPE_ORDER
     fontIcon = ::loc("icon/unittype/ship")
     testFlightIcon = "#ui/gameuiskin#slot_test_out_to_sea"
     testFlightName = "TestSail"
+    hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_ship"
     isAvailable = function() { return ::has_feature("Ships") }
     isVisibleInShop = function() { return isAvailable() && ::has_feature("ShipsVisibleInShop") }

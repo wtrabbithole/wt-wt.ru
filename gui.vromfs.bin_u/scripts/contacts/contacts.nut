@@ -57,7 +57,7 @@ function g_contacts::onEventUserInfoManagerDataUpdated(params)
 
 function sortContacts(a, b)
 {
-  return b.presence.presenceCode <=> a.presence.presenceCode
+  return b.presence.sortOrder <=> a.presence.sortOrder
     || ::english_russian_to_lower_case(a.name) <=> ::english_russian_to_lower_case(b.name)
 }
 
@@ -1962,18 +1962,20 @@ function updateContact(config)
     presence = ::g_contact_presence.OFFLINE
 
   local squadStatus = ::g_squad_manager.getPlayerStatusInMySquad(uid)
-  if (squadStatus != SquadState.NOT_IN_SQUAD)
+  if (squadStatus == SquadState.NOT_IN_SQUAD)
   {
-    if (squadStatus == SquadState.SQUAD_LEADER)
-      presence = ::g_contact_presence.SQUAD_LEADER
-    else if (squadStatus == SquadState.SQUAD_MEMBER_READY)
-      presence = ::g_contact_presence.SQUAD_READY
-    else
-      presence = ::g_contact_presence.SQUAD_NOT_READY
+    if (contact.online && contact.gameStatus)
+      presence = contact.gameStatus == "in_queue"
+        ? ::g_contact_presence.IN_QUEUE : ::g_contact_presence.IN_GAME
   }
-  else if (contact.online && contact.gameStatus)
-    presence = contact.gameStatus == "in_queue"
-               ? ::g_contact_presence.IN_QUEUE : ::g_contact_presence.IN_GAME
+  else if (squadStatus == SquadState.SQUAD_LEADER)
+    presence = ::g_contact_presence.SQUAD_LEADER
+  else if (squadStatus == SquadState.SQUAD_MEMBER_READY)
+    presence = ::g_contact_presence.SQUAD_READY
+  else if (squadStatus == SquadState.SQUAD_MEMBER_OFFLINE)
+    presence = ::g_contact_presence.SQUAD_OFFLINE
+  else
+    presence = ::g_contact_presence.SQUAD_NOT_READY
 
   contact.presence = presence
 
@@ -2054,7 +2056,7 @@ function fillContactTooltip(obj, contact, handler)
   }
 
   local squadStatus = ::g_squad_manager.getPlayerStatusInMySquad(contact.uid)
-  if (squadStatus != SquadState.NOT_IN_SQUAD)
+  if (squadStatus != SquadState.NOT_IN_SQUAD && squadStatus != SquadState.SQUAD_MEMBER_OFFLINE)
   {
     local memberData = ::g_squad_manager.getMemberData(contact.uid)
     if (memberData)

@@ -311,6 +311,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     setOrdersEnabled(show && isSpectate)
     updateSpectatorRotationForced(show)
+    updateTacticalMapUnitType(show ? null : false)
     base.onSceneActivate(show)
   }
 
@@ -1195,14 +1196,31 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     {
       ::cur_aircraft_name = unit.name //used in some options
       ::aircraft_for_weapons = unit.name
-      ::set_tactical_map_type_without_unit(
-        (isTank(unit) || isShip(unit)) ? ::HUD_TYPE_TANK : ::HUD_TYPE_AIRPLANE)
     }
+    updateTacticalMapUnitType()
+
     updateWeaponsSelector()
     checkRocketDisctanceFuseRow()
     updateOtherOptions()
     updateSkin()
     updateUserSkins()
+  }
+
+  function updateTacticalMapUnitType(isMapForSelectedUnit = null)
+  {
+    if (isMapForSelectedUnit == null)
+      isMapForSelectedUnit = !isSpectate
+
+    local hudType = ::HUD_TYPE_UNKNOWN
+    local unit = isMapForSelectedUnit ? getSlotAircraft(curSlotCountryId, curSlotIdInCountry) : null
+    if (unit)
+      hudType = unit.unitType.hudTypeCode
+    ::set_tactical_map_hud_type(hudType)
+  }
+
+  function onDestroy()
+  {
+    updateTacticalMapUnitType(false)
   }
 
   function onAircraftUpdate(obj)
@@ -1978,8 +1996,12 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     setOrdersEnabled(isSpectate)
     updateSpectatorRotationForced()
 
-    if (!isSpectate)
-      ::switch_spectator_target_by_id(-1)
+    updateTacticalMapUnitType()
+    if ("set_tactical_map_type_without_unit" in ::getroottable()) //compatibility with wop_1_69_1_X
+      if (isSpectate)
+        ::switch_spectator_target(true) //at second openng local player is selected
+      else
+        ::switch_spectator_target_by_id(::getTblValue("id", ::get_local_mplayer(), 0))
 
     if (is_spectator)
     {

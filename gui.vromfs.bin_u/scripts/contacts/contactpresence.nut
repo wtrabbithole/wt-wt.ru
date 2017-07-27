@@ -1,10 +1,23 @@
+enum PRESENCE_SORT
+{
+  UNKNOWN
+  OFFLINE
+  ONLINE
+  IN_QUEUE
+  IN_GAME
+  SQUAD_OFFLINE
+  SQUAD_NOT_READY
+  SQUAD_READY
+  SQUAD_LEADER
+}
+
 ::g_contact_presence <- {
   types = []
 }
 
 
 ::g_contact_presence.template <- {
-  presenceCode = -1
+  sortOrder = PRESENCE_SORT.UNKNOWN
   iconName = ""
   iconColor = "white"
   presenceTooltip = ""
@@ -20,73 +33,63 @@
 
 ::g_enum_utils.addTypesByGlobalName("g_contact_presence", {
   UNKNOWN = {
-    presenceCode = 0
+    sortOrder = PRESENCE_SORT.UNKNOWN
     iconName = "player_unknown"
     iconColor = "contactUnknownColor"
     presenceTooltip = "status/unknown"
   }
 
   OFFLINE = {
-    presenceCode = 1
+    sortOrder = PRESENCE_SORT.OFFLINE
     iconName = "player_offline"
     iconColor = "contactOfflineColor"
     presenceTooltip = "status/offline"
   }
 
   ONLINE = {
-    presenceCode = 2
+    sortOrder = PRESENCE_SORT.ONLINE
     iconName = "player_online"
     iconColor = "contactOnlineColor"
     presenceTooltip = "status/online"
   }
 
   IN_QUEUE = {
-    presenceCode = 3
+    sortOrder = PRESENCE_SORT.IN_QUEUE
     iconName = "player_in_queue"
     presenceTooltip = "status/in_queue"
   }
 
   IN_GAME = {
-    presenceCode = 4
+    sortOrder = PRESENCE_SORT.IN_GAME
     iconName = "player_in_game"
     presenceTooltip = "status/in_game"
   }
 
+  SQUAD_OFFLINE = {
+    sortOrder = PRESENCE_SORT.SQUAD_OFFLINE
+    iconName = "squad_not_ready"
+    iconColor = "contactOfflineColor"
+    presenceTooltip = "status/offline"
+  }
+
   SQUAD_NOT_READY = {
-    presenceCode = 5
+    sortOrder = PRESENCE_SORT.SQUAD_NOT_READY
     iconName = "squad_not_ready"
     presenceTooltip = "status/squad_not_ready"
     textColor = "@userlogColoredText"
   }
 
   SQUAD_READY = {
-    presenceCode = 6
+    sortOrder = PRESENCE_SORT.SQUAD_READY
     iconName = "squad_ready"
     presenceTooltip = "status/squad_ready"
     textColor = "@userlogColoredText"
   }
 
   SQUAD_LEADER = {
-    presenceCode = 7
+    sortOrder = PRESENCE_SORT.SQUAD_LEADER
     iconName = "squad_leader"
     presenceTooltip = "status/squad_leader"
     textColor = "@userlogColoredText"
   }
 })
-
-
-function g_contact_presence::getPresenceByCode(code)
-{
-  return ::g_enum_utils.getCachedType(
-    "presenceCode",
-    code,
-    ::g_contact_presence_cache.byCode,
-    ::g_contact_presence,
-    ::g_contact_presence.UNKNOWN
-  )
-}
-
-
-::g_contact_presence_cache <- {
-  byCode = {}
-}

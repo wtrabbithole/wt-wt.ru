@@ -341,3 +341,10 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   }
 })
 
+
+//----------------------------wop_1_69_1_X---------------------------------//
+::apply_compatibilities({
+  HUD_TYPE_UNKNOWN = -1
+
+  set_tactical_map_hud_type = @(hudType) set_tactical_map_type_without_unit(hudType)
+})
