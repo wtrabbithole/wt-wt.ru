@@ -36,6 +36,10 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   watchAxis = []
   stuckAxis = {}
   prevMousePos = [-1, -1]
+  isSuperArtillery = false
+  superStrikeRadius = 0.0
+  iconSuperArtilleryZone = ""
+  iconSuperArtilleryTarget = ""
 
   function initScreen()
   {
@@ -46,11 +50,17 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       mapSize = objMap.getSize()
     }
 
-    objTarget = scene.findObject("artillery_target")
+    objTarget = scene.findObject(isSuperArtillery ? "super_artillery_target" : "artillery_target")
     if (::checkObj(objTarget))
     {
+      if (isSuperArtillery)
+      {
+        objTarget["background-image"] = iconSuperArtilleryZone
+        local objTargetCenter = scene.findObject("super_artillery_target_center")
+        objTargetCenter["background-image"] = iconSuperArtilleryTarget
+      }
       local targetHalfsizePxMin = round(mapSize[0] * minDispersionRadiusMeters.tofloat() / mapSizeMeters * pointerSizeToRadiusScale)
-      pointerRadiusToHalfsizePx = (targetHalfsizePxMin - targetHalfsizePxMin / pointerSizeToRadiusScale)
+      pointerRadiusToHalfsizePx = isSuperArtillery ? 0.0 : (targetHalfsizePxMin - targetHalfsizePxMin / pointerSizeToRadiusScale)
 
       for (local i = 0; i < objTarget.childrenCount(); i++)
         objTarget.getChild(i).size = ::format("%d, %d", targetHalfsizePxMin, targetHalfsizePxMin)
@@ -120,7 +130,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     local show = mapCoords != null
     local disp = mapCoords ? ::artillery_dispersion(mapCoords[0], mapCoords[1]) : -1
     local valid = show && disp >= 0 && artilleryEnabled
-    local dispersionRadius = valid ? disp : invalidTargetDispersionRadius
+    local dispersionRadius = valid ? (isSuperArtillery ? ::world_to_map(superStrikeRadius) : disp) : invalidTargetDispersionRadius
     valid = valid && artilleryReady
 
     objTarget.show(show)
@@ -131,8 +141,9 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       local posY = 1.0 * mapSize[1] * mapCoords[1] - halfSize
       objTarget.size = ::format("%d, %d", (halfSize * 2), (halfSize * 2))
       objTarget.pos = ::format("%d, %d", posX, posY)
-      for (local i = 0; i < objTarget.childrenCount(); i++)
-        objTarget.getChild(i)["background-color"] = valid ? "#20F020" : "#FF4B38"
+      if (!isSuperArtillery)
+        for (local i = 0; i < objTarget.childrenCount(); i++)
+          objTarget.getChild(i)["background-color"] = valid ? "#20F020" : "#FF4B38"
     }
 
     ::enableBtnTable(scene, {
@@ -156,7 +167,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   {
     local avatarPos = ::get_map_relative_player_pos()
     avatarPos = avatarPos.len() == 2 ? avatarPos : [ 0.5, 0.5 ]
-    local diameter  = ::is_in_flight() ? ::artillery_range() * 2 : 1.0
+    local diameter  = isSuperArtillery ? 3.0 : (::is_in_flight() ? ::artillery_range() * 2 : 1.0)
     local rangeSize = [ round(mapSize[0] * diameter), round(mapSize[1] * diameter) ]
     local rangePos  = [ round(mapSize[0] * avatarPos[0] - rangeSize[0] / 2), round(mapSize[1] * avatarPos[1] - rangeSize[1] / 2) ]
 
@@ -229,7 +240,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       {
         title = "hotkeys/ID_CHANGE_ARTILLERY_TARGETING_MODE"
         shortcuts = ["ID_CHANGE_ARTILLERY_TARGETING_MODE"]
-        show = ::get_mission_difficulty_int() != ::DIFFICULTY_HARDCORE
+        show = ::get_mission_difficulty_int() != ::DIFFICULTY_HARDCORE && !isSuperArtillery
       },
       {
         title = "mainmenu/btnCancel"
@@ -350,9 +361,16 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function gui_start_artillery_map()
+function gui_start_artillery_map(params = {})
 {
-  ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap)
+   ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap,
+   {
+     isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false),
+     superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
+     iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
+     iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
+     mapSizeMeters = getTblValue("mapSizeMeters", params, 1400.0),
+   })
 }
 
 function close_artillery_map() // called from client
@@ -362,9 +380,8 @@ function close_artillery_map() // called from client
     handler.goBack()
 }
 
-function on_artillery_targeting() // called from client
+function on_artillery_targeting(params = {}) // called from client
 {
-  ::close_artillery_map()
   if(::is_in_flight())
-    ::gui_start_artillery_map()
+    ::gui_start_artillery_map(params)
 }

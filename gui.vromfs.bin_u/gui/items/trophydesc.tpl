@@ -28,7 +28,7 @@ tdiv {
   <<#icon>>
   img {
     size:t='1@dIco, 1@dIco'
-    pos:t='0, 0.012@scrn_tgt_font - h/2'; position:t='absolute'
+    pos:t='0, 0.012@sf - h/2'; position:t='absolute'
     position:t='relative'
     background-image:t='<<icon>>'
   }
@@ -36,7 +36,7 @@ tdiv {
   <<#icon2>>
   img {
     size:t='1@dIco, 1@dIco'
-    pos:t='0, 0.012@scrn_tgt_font - h/2'; position:t='absolute'
+    pos:t='0, 0.012@sf - h/2'; position:t='absolute'
     position:t='relative'
     background-image:t='<<icon2>>'
   }

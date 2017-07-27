@@ -66,21 +66,11 @@ class EventChapter
     local event2 = ::events.getEvent(eventId2)
     if (event1 == null && event2 == null)
       return 0
-    if ((event1 == null) != (event2 == null))
-      return event1 == null ? -1 : 1
-    local event1UiSortPriority = ::events.getEventUiSortPriority(event1)
-    local event2UiSortPriority = ::events.getEventUiSortPriority(event2)
-    if (event1UiSortPriority <=> event2UiSortPriority)
-      return event1UiSortPriority <=> event2UiSortPriority
-    local diffCode1 = ::events.getEventDiffCode(event1)
-    local diffCode2 = ::events.getEventDiffCode(event2)
-    if (diffCode1 != diffCode2)
-      return diffCode1 > diffCode2 ? 1 : -1
-    local eventName1 = ::english_russian_to_lower_case(::events.getEventNameText(event1))
-    local eventName2 = ::english_russian_to_lower_case(::events.getEventNameText(event2))
-    if (eventName1 != eventName2)
-      return eventName1 > eventName2 ? 1 : -1
-    return 0
+    return (!!event1 <=> !!event2)
+        || (::events.getEventUiSortPriority(event2) <=> ::events.getEventUiSortPriority(event1))
+        || (::events.getEventDiffCode(event1) <=> ::events.getEventDiffCode(event2))
+        || (::english_russian_to_lower_case(::events.getEventNameText(event1))
+          <=> ::english_russian_to_lower_case(::events.getEventNameText(event2)))
   }
 }
 

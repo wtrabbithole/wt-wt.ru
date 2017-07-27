@@ -5,8 +5,11 @@ class ::WwBattleResults
   time = 0
   updateAppliedOnHost = -1
   locName = ""
+  ordinalNumber = 0
   zoneName = ""
+  isBattleResultsIgnored = false
   teams = null
+  sessionId = ""
 
   view = null
 
@@ -37,7 +40,9 @@ class ::WwBattleResults
     time = blk.time || 0
     updateAppliedOnHost = battleBlk.updateAppliedOnHost || -1
     locName = ::getTblValue("locName", battleBlk.desc, "")
+    ordinalNumber = battleBlk.ordinalNumber || 0
     zoneName = ::getTblValueByPath("zoneInfo.zoneName", blk, "")
+    sessionId = ::getTblValue("sessionId", battleBlk.desc, "")
 
     local wwArmies = getArmies(armiesBlk)
     updateTeamsInfo(battleBlk, armyStatesBlk, wwArmies)
@@ -63,6 +68,11 @@ class ::WwBattleResults
     foreach (armyBlk in armiesBlk)
       wwArmies[armyBlk.name] <- ::WwArmy(armyBlk.name, armyBlk)
     return wwArmies
+  }
+
+  function getSessionId()
+  {
+    return sessionId
   }
 
   function updateTeamsInfo(battleBlk, armyStatesBlk, wwArmies)
@@ -192,12 +202,13 @@ class ::WwBattleResults
   Fills WwBattleResults with data from mission result Userlog.
   Such userlog contains most data in sub tables wwSharedPool and wwBattleResult,
   and some data in userlog root table.
+  It operation was finished during the battle, there will be no wwBattleResult block.
   */
   function updateFromUserlog(userlog)
   {
     local wwSharedPool = ::getTblValue("wwSharedPool", userlog)
-    local wwBattleResult = ::getTblValue("wwBattleResult", userlog)
-    if (!wwSharedPool || !wwBattleResult)
+    local wwBattleResult = ::getTblValue("wwBattleResult", userlog, {})
+    if (!wwSharedPool)
       return this
 
     local initialArmies = ::getTblValue("initialArmies", wwSharedPool, [])
@@ -253,6 +264,7 @@ class ::WwBattleResults
     id = ::getTblValue("battleId", wwSharedPool, "")
     winner = winnerSide
     locName = ::getTblValue("locName", userlog, "")
+    isBattleResultsIgnored = ::g_world_war.isCurrentOperationFinished()
 
     teams = {}
     foreach (side in sidesOrder)

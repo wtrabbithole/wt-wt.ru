@@ -1,0 +1,452 @@
+listbox,
+listboxNoScroll {
+  behaviour:select;
+  re-type:select;
+  shortcutUp:'@shortcutUpGamepad | Up';
+  shortcutDown:'@shortcutDownGamepad | Down';
+  shortcutRight:'';
+  shortcutLeft:'';
+  shortcutActivate:'';
+  snd_select:choose;
+  snd_set_focus:focus;
+  snd_dbl_click:click;
+  scrollBox-dontResendShortcut:yes;
+}
+
+listbox {
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+HorizontalListBox, VerticalListBox{
+  re-type:9rect;
+  background-position:6,6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#selectbox_bg;
+  background-color:@white;
+  snd_select:choose;
+  snd_set_focus:focus;
+  snd_dbl_click:click;
+  need_flow:yes;
+  _has_navigator:no;
+}
+
+HorizontalListBox[navigator=posNavigator] {
+  behaviour:posNavigator;
+  _has_navigator:yes;
+}
+
+HorizontalListBox[_has_navigator=no],
+VerticalListBox[_has_navigator=no] {
+  behaviour:select;
+}
+
+HorizontalListBox[flow] {
+  need_flow:no;
+}
+
+HorizontalListBox[need_flow=yes] {
+  flow:horizontal;
+}
+
+VerticalListBox {
+  flow:vertical;
+  background-color:@transparent;
+}
+
+VerticalListBox.options {
+  height:0.05@scrn_tgt;
+  width:pw;
+}
+
+HorizontalListBox.tabs {
+  background-position:5,6;
+  background-image:#ui/gameuiskin#tab_line;
+}
+
+HorizontalListBox.tabs[invertImages=yes],
+HorizontalListBox.header {
+  background-color:@transparent;
+}
+
+HorizontalListBox.options {
+  height:0.7ph-6*@sf/@pf_outdated;
+}
+
+HorizontalListBox.choice3 {
+  background-color:@transparent;
+}
+
+HorizontalListBox.hflow {
+  flow:h-flow;
+  min-height:@shopFilterHFlowHeight;
+}
+
+shopFilter, shopFilterText {
+  font:@small;
+  color:@commonTextColor;
+  text-align:center;
+}
+
+shopFilter {
+  re-type:9rect;
+  min-width:20%sw;
+  padding:0.02@scrn_tgt, 0;
+  css-hier-invalidate:yes;
+  color:#999999;
+  background-position:6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#selectbox_select;
+  background-color:@transparent;
+}
+
+shopFilter > img {
+  background-color:#999999;
+}
+
+shopFilterText {
+  re-type:textarea;
+  behavior:textArea;
+  input-transparent:yes;
+  pos:0, 50%ph-50%h;
+  position:relative;
+}
+shopFilter:disabled > shopFilterText, shopFilter[inactive=yes] > shopFilterText {
+  color:@disabledTextColor;
+}
+
+HorizontalListBox > shopFilter {
+  min-width:1*@sf/@pf_outdated;
+  padding:0.015@scrn_tgt, 0;
+}
+
+[onlyImages=yes] > shopFilter {
+  width:ph;
+  flow:vertical;
+}
+.countries > shopFilter {
+  width:1.5ph;
+  flow:vertical;
+}
+
+.countries_battle > shopFilter {
+ padding:0,0;
+}
+
+.countryChoice > shopFilter {
+  padding:4*@sf/@pf_outdated;
+}
+
+.hflow > shopFilter {
+  height:1@shopFilterHFlowHeight;
+  color:@hoverTextColor;
+}
+
+shopFilter:hover {
+  background-color:@commonMenuButtonColor;
+  color:@hoverTextColor;
+}
+
+shopFilter[selected=yes] {
+  background-color:@white;
+  color:@white;
+}
+
+shopFilter[selected=yes] > img {
+  background-color:@white;
+}
+
+.choice3 > shopFilter {
+  width:30*@scrn_tgt/100.0;
+  flow:vertical;
+}
+
+.options > shopFilter {
+  width:29*@scrn_tgt/100.0;
+  height:ph;
+}
+
+.tabs > shopFilter {
+  background-position:3,6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#tab_;
+  background-color:@white;
+  padding:1*@scrn_tgt/100.0, 2*@sf/@pf_outdated, 1*@scrn_tgt/100.0, 0;
+  margin-right:2*@sf/@pf_outdated;
+}
+.tabs > shopFilter:hover          { background-image:#ui/gameuiskin#tab_hover; }
+.tabs > shopFilter:pushed         { background-image:#ui/gameuiskin#tab_press; }
+.tabs > shopFilter[selected=yes]  { background-image:#ui/gameuiskin#tab_active; }
+.tabs > shopFilter:disabled       { background-image:#ui/gameuiskin#tab_disabled; }
+
+.header > shopFilter {
+  background-position:6;
+  background-image:#ui/gameuiskin#header_tab_;
+  background-repeat:expand;
+  background-color:@white;
+  height:ph;
+  css-hier-invalidate:yes;
+}
+.header > shopFilter:hover         { background-image:#ui/gameuiskin#header_tab_hover;}
+.header > shopFilter:pushed        { background-image:#ui/gameuiskin#header_tab_press;}
+.header > shopFilter[selected=yes] { background-image:#ui/gameuiskin#header_tab_active;}
+
+[type=instant_action] > shopFilter {
+  min-height:0.05@scrn_tgt;
+}
+
+.tabs[tinyFont=yes] > shopFilter {
+  height:3.5*@scrn_tgt/100.0 + 2*@sf/@pf_outdated;
+}
+
+.tabs[invertImages=yes] > shopFilter {
+  re-type:rotation;
+  background-rotation:180;
+}
+
+.tabs[smallFont=yes] > shopFilter {
+  padding:0.5*@scrn_tgt/100.0, 0;
+}
+.tabs[smallFont=yes][invertImages=yes] > shopFilter {
+  padding:0.5*@scrn_tgt/100.0, -2*@sf/@pf_outdated, 0.5*@scrn_tgt/100.0, 4*@sf/@pf_outdated;
+}
+.tabs[tinyFont=yes] > shopFilter {
+  padding:@scrn_tgt/100.0, 2*@sf/@pf_outdated+0.5*@scrn_tgt/100.0, @scrn_tgt/100.0, 0.5*@scrn_tgt/100.0;
+}
+.tabs[tinyFont=yes] > shopFilter[canClose=yes] {
+  padding:@scrn_tgt/100.0, 2*@sf/@pf_outdated+0.5*@scrn_tgt/100.0, 3*@scrn_tgt/100.0, 0.5*@scrn_tgt/100.0;
+}
+
+.countries > shopFilter > textAreaCentered {
+  width:pw-1*@scrn_tgt/100.0;
+  pos:50%pw-50%w, ph;
+  position:absolute;
+  overflow-y:show;
+}
+
+.countries > shopFilter > discount {
+  pos:pw-w, -50%h;
+  position:absolute;
+  rotation:-10;
+}
+
+[onlyImages=yes] > shopFilter > shopFilterText,
+.countries > shopFilter > shopFilterText {
+  font:@normal;
+  pos:50%pw-50%w, 0;
+  position:relative;
+  color:@transparent;
+}
+
+.choice3 > shopFilter > shopFilterText {
+  font:@normal;
+  pos:50%pw-50%w, ph-h;
+  position:absolute;
+}
+
+.options > shopFilter > shopFilterText {
+  behaviour:textArea;
+  re-type:textarea;
+  font:@small;
+  width:pw;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:relative;
+  css-hier-invalidate:yes;
+}
+
+VerticalListBox.options > shopFilter > shopFilterText {
+  text-align:left;
+}
+
+[coloredTexts=yes] > shopFilter > shopFilterText {
+  behaviour:textArea;
+  re-type:textarea;
+}
+
+[tinyFont=yes] > shopFilter > shopFilterText,
+shopFilterText[tinyFont=yes] {
+  font:@tiny;
+}
+
+shopFilter:hover, shopFilter:hover > shopFilterText {
+  color:@hoverTextColor;
+}
+.countries > shopFilter:hover > shopFilterText {
+  color:@transparent;
+}
+
+[onlyImages=yes] > shopFilter > shopFilterText {
+  color:@transparent;
+}
+shopFilter[selected=yes], shopFilter[selected=yes] > shopFilterText {
+  color:@activeTextColor;
+}
+shopFilter:disabled[selected=yes] > shopFilterText {
+  color:@disabledActiveTextColor;
+}
+
+[type=header] > shopFilter > shopFilterText {
+  color:@hoverTextColor;
+}
+
+shopFilterText[colorTag=squad]                   { color:@mChatSenderMySquadColorDark; }
+:hover > shopFilterText[colorTag=squad],
+[selected=yes] > shopFilterText[colorTag=squad]  { color:@mChatSenderMySquadColor; }
+
+shopFilterText[colorTag=friend]                  { color:@mChatSenderFriendColorDark;}
+::hover > shopFilterText[colorTag=friend],
+[selected=yes] > shopFilterText[colorTag=friend] { color:@mChatSenderFriendColor;}
+
+shopFilterImg {
+  height:1@shopFilterHFlowHeight;
+  width:h;
+  pos:50%pw-50%w, 4.2*@scrn_tgt/100.0-60%h;
+  position:relative;
+  color:@commonTextColor;
+  background-repeat:expand;
+  background-color:@imageNotSelectedColor;
+  margin:3*@scrn_tgt/100.0, 0;
+  input-transparent:yes;
+}
+
+:hover > shopFilterImg {
+  background-color:@imageHoverColor;
+}
+
+.countries shopFilterImg {
+  width:1.923h;
+  pos:50%pw-50%w, 50%ph-50%h;
+  background-color:@imageNotSelCountryColor;
+  border:yes;
+  border-color:@black;
+}
+
+.countries_battle shopFilterImg {
+  pos:50%pw-50%w, 50%ph-50%h;
+  size:@cIco, @cIco;
+  margin:0.5(ph-h), 0;
+  background-color:@imageNotSelCountryColor;
+}
+
+.countryChoice :hover shopFilterImg,
+.countries :hover shopFilterImg,
+.countries_battle :hover shopFilterImg {
+  background-color:@imageHoverCountryColor;
+}
+
+.countries > shopFilter[selected=yes] > shopFilterImg {
+  pos:50%pw-50%w, 4.2*@scrn_tgt/100.0-60%h;
+}
+
+.choice3 > shopFilter > shopFilterImg {
+  pos:50%pw-50%w, 1.0*@scrn_tgt/100.0;
+  height:7.32*@scrn_tgt/100.0;
+  width:1.893h;
+}
+
+shopFilter[selected=yes] > shopFilterImg {
+  height:5*@scrn_tgt/100.0;
+  background-color:@white;
+}
+
+.countryChoice shopFilter[selected=yes] > shopFilterImg {
+  height:128*@sf/@pf_outdated;
+}
+
+.choice3 > shopFilter > shopFilterImg {
+  height:8.0*@scrn_tgt/100.0;
+}
+
+shopFilterImg:disabled {
+  background-color:#80808080;
+}
+
+cornerImg {
+  height:0.035@scrn_tgt;
+  width:h;
+  left:pw-0.9h;
+  top:-0.45h;
+  position:absolute;
+  background-repeat:aspect-ratio;
+  input-transparent:yes;
+}
+
+cornerImg[imgSmall=yes] {
+  height:1@cIco;
+}
+
+cornerImg[background-image] {
+  _needColor:yes;
+}
+
+cornerImg[background-color] {
+  _needColor:no;
+}
+
+cornerImg[_needColor=yes] {
+  background-color:@white;
+}
+
+[show_console_buttons:yes] [selected=yes][navImgStyle=all] > cornerImg,
+[show_console_buttons:yes] [selected=yes][navImgStyle=right] > cornerImg {
+  left:pw -0.9h -ph;
+}
+
+.tabs[tinyFont=yes] cornerImg {
+  height:30*@sf/@pf_outdated;
+  pos:pw-0.5w-20, -0.5h;
+}
+
+navigationImage {
+  re-type:9rect;
+  size:ph,ph;
+  pos:0.005@scrn_tgt, 50%ph-50%h;
+  position:absolute;
+  padding:3*@sf/@pf_outdated, 0;
+  background-color:@white;
+  background-repeat:expand;
+  background-position:0;
+  background-image:#ui/controlskin#r_stick_left;
+  input-transparent:yes;
+  display:hide;
+}
+navigationImage[type=right] {
+  pos:pw-w-0.005@scrn_tgt, 50%ph-50%h;
+  background-image:#ui/controlskin#r_stick_right;
+}
+
+[show_console_buttons:yes] shopFilter[selected=yes][navImgStyle] > navigationImage {
+  display:show;
+}
+shopFilter[selected=yes][navImgStyle=left] > navigationImage[type=right],
+shopFilter[selected=yes][navImgStyle=right] > navigationImage[type=left] {
+  display:hide;
+}
+
+[show_console_buttons:yes] shopFilter[selected=yes][navImgStyle=left],
+[show_console_buttons:yes] shopFilter[selected=yes][navImgStyle=all] {
+  padding-left:1@scrn_tgt/100.0 + h;
+}
+[show_console_buttons:yes] shopFilter[selected=yes][navImgStyle=right],
+[show_console_buttons:yes] shopFilter[selected=yes][navImgStyle=all] {
+  padding-right:1@scrn_tgt/100.0 + h;
+}
+
+.tabs[withImages=yes] > shopFilter > shopFilterImg,
+.header[withImages=yes] > shopFilter > shopFilterImg,
+HorizontalListBox[withImages=yes] > shopFilter > shopFilterImg {
+  height:ph - 10*@sf/@pf_outdated;
+  pos:3*@sf/@pf_outdated, 50%ph-50%h;
+  position:relative;
+  margin:0;
+  margin-right:3*@sf/@pf_outdated;
+}
+
+.tabs[withImages=yes] > shopFilter {
+  padding-left:0.5*@scrn_tgt/100.0+0.5*h;
+}
+
+VerticalListBox.options > shopFilter {
+  width:pw;
+  min-width:1*@sf/@pf_outdated;
+}

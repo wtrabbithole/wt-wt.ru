@@ -84,7 +84,7 @@ root {
 
               animated_wait_icon {
                 pos:t='0, 50%ph-50%h'; position:t='relative'
-                margin-left:t='10*@sf/@pf'
+                margin-left:t='10*@sf/@pf_outdated'
                 background-rotation:t='0'
                 display:t='show'
 
@@ -135,13 +135,21 @@ root {
           refuseOpenHoverMenu:t='no'
           ButtonImg {}
         }
+        Button_text {
+          id:t='replay_button'
+          text:t = '#mainmenu/btnViewServerReplay'
+          btnName:t='Y'
+          tooltip:t=''
+          _on_click:t='onViewServerReplay'
+          ButtonImg {}
+        }
       }
 
       navRight {
         activeText {
           id:t='cant_join_reason_txt'
           pos:t='0, 50%ph-50%h'; position:t='relative'
-          padding-right:t='5*@sf/@pf'
+          padding-right:t='5*@sf/@pf_outdated'
           text:t=''
         }
         Button_text {

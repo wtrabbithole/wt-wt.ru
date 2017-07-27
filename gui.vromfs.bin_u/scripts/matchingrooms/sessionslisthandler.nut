@@ -4,6 +4,8 @@
 ::session_list_handler <- null
 ::back_sessions_func <- ::gui_start_mainmenu
 
+::g_script_reloader.registerPersistentData("SessionsList", ::getroottable(), ["match_search_gm", "match_search_diff"])
+
 function gui_start_session_list(prev_scene_func=null)
 {
   if (prev_scene_func)

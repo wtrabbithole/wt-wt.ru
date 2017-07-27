@@ -153,14 +153,6 @@ class WwOperation
       res.reasonText = ::loc("worldWar/cantPlayByThisSide")
     else if (!canJoinByCountry(country))
       res.reasonText = ::loc("worldWar/chooseAvailableCountry")
-    else if (::g_squad_manager.isInSquad())
-    {
-      if (::g_squad_manager.getWwOperationId() != id || ::g_squad_manager.getWwOperationCountry() != country)
-        if (!::g_squad_manager.isSquadLeader())
-          res.reasonText = ::loc("worldWar/squad/onlyLeaderCanJoinOperation")
-        else if (!::g_squad_utils.canJoinByMySquad(id))
-          res.reasonText = ::loc("worldWar/squad/membersHasDifferentSide")
-    }
 
     if (!res.reasonText.len())
       res.canJoin = true

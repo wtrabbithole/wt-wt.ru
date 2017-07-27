@@ -60,7 +60,7 @@ frame {
         id:t='warning_text'
         position:t='relative'
         text:t='#msgbox/item_bought'
-        padding-right:t='10@sf/@pf'
+        padding-right:t='10@sf/@pf_outdated'
         overlayTextColor:t='warning'
       }
       Button_text {

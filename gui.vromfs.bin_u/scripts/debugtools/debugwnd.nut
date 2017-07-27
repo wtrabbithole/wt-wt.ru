@@ -54,7 +54,7 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
       local txt = (blkName == null ? "No file specified." :
         ("File not found: \"" + ::colorize("userlogColoredText", blkName) + "\""))
         + "~nUsage examples:"
-        + "~ndebug_wnd(\"gui/statistics/debriefing.blk\")"
+        + "~ndebug_wnd(\"gui/debriefing/debriefing.blk\")"
         + "~ndebug_wnd(\"gui/menuButton.tpl\", {buttonText=\"Test\"})"
       local data = "textAreaCentered { pos:t='pw/2-w/2, ph/2-h/2' position:t='absolute' text='" + txt + "' }"
       return guiScene.replaceContentFromText(obj, data, data.len(), callbacksContext)

@@ -125,7 +125,7 @@ class ::gui_handlers.QiHandlerByTeams extends ::gui_handlers.QiHandlerBase
     {
       local headerData = [{
         text = ::loc("multiplayer/playersInYourClan")
-        width = "0.1@scrn_tgt_font"
+        width = "0.1@sf"
       }]
       res += ::buildTableRow("", headerData, null, rowParams, "0")
 
@@ -135,7 +135,7 @@ class ::gui_handlers.QiHandlerByTeams extends ::gui_handlers.QiHandlerBase
 
     local headerData = [{
       text = ::loc("multiplayer/clansInQueue")
-      width = "0.1@scrn_tgt_font"
+      width = "0.1@sf"
     }]
     res += ::buildTableRow("", headerData, null, rowParams, "0")
 

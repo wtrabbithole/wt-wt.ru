@@ -278,13 +278,13 @@
 
     newRequest.economicName <- events.getEventEconomicName(event)
     newRequest.tournament <- ::getTblValue("tournament", event, false)
-    newRequest.tournament_mode <- ::getTblValue("tournament_mode", event, GAME_EVENT_TYPE.TM_NONE)
+    newRequest.tournament_mode <- ::events.getEventTournamentMode(event)
     newRequest.forClans <- isClanLeaderboard(event)
 
     local sortLeaderboard = ::getTblValue("sort_leaderboard", event, null)
     local shortRow = (sortLeaderboard != null)
                       ? ::g_lb_category.getTypeByField(sortLeaderboard)
-                      : ::events.getTableConfigShortRowByEventType(newRequest.tournament_mode)
+                      : ::events.getTableConfigShortRowByEvent(event)
     newRequest.inverse = shortRow.inverse
     newRequest.lbField = shortRow.field
 
@@ -341,11 +341,17 @@
 
   function getLbDataFromBlk(blk, requestData)
   {
-    local res = {}
     local lbRows = lbBlkToArray(blk)
     if (isClanLbRequest(requestData))
       foreach(lbRow in lbRows)
         postProcessClanLbRow(lbRow)
+
+    local superiorityBattlesThreshold = blk.getInt("superiorityBattlesThreshold", 0)
+    if (superiorityBattlesThreshold > 0)
+      foreach(lbRow in lbRows)
+        lbRow["superiorityBattlesThreshold"] <- superiorityBattlesThreshold
+
+    local res = {}
     res["rows"] <- lbRows
     res["updateTime"] <- blk.getStr("lastUpdateTime", "0").tointeger()
     return res
@@ -377,7 +383,7 @@
   {
     if (!::getTblValue("tournament", event, false))
       return ::events.isEventForClan(event)
-    return ::getTblValue("tournament_mode", event, GAME_EVENT_TYPE.TM_NONE) == GAME_EVENT_TYPE.TM_ELO_GROUP
+    return ::events.getEventTournamentMode(event) == GAME_EVENT_TYPE.TM_ELO_GROUP
   }
 
   function postProcessClanLbRow(lbRow)

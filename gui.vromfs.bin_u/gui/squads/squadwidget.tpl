@@ -72,7 +72,7 @@ Button_text {
     memberIcon {
       id:t='member_icon_<<id>>'
       size:t='@cIco, @cIco'
-      pos:t='0, 2*@sf/@pf'; position:t='relative'
+      pos:t='0, 2*@sf/@pf_outdated'; position:t='relative'
       bgcolor:t='#FFFFFF'
       background-image:t=''
       border:t='yes'
@@ -82,30 +82,30 @@ Button_text {
     tdiv {
       id:t='member_state_block_<<id>>'
       height:t='ph'
-      margin-left:t='2*@sf/@pf'
-      margin-right:t='2*@sf/@pf'
+      margin-left:t='2*@sf/@pf_outdated'
+      margin-right:t='2*@sf/@pf_outdated'
       flow:t='vertical'
       css-hier-invalidate:t='yes'
 
       tdiv {
-        margin-left:t='1*@sf/@pf'
+        margin-left:t='1*@sf/@pf_outdated'
         css-hier-invalidate:t='yes'
 
         squadMemberStatus {
           id:t='member_ready_<<id>>'
-          margin-top:t='2*@sf/@pf'
+          margin-top:t='2*@sf/@pf_outdated'
         }
 
         squadMemberVoipStatus {
           id:t='member_voip_<<id>>'
-          margin-left:t='3*@sf/@pf'
+          margin-left:t='3*@sf/@pf_outdated'
           isVoipActive:t='no'
         }
       }
 
       tdiv {
         id:t='member_country_<<id>>'
-        pos:t='0, -1*@sf/@pf'; position:t='relative'
+        pos:t='0, -1*@sf/@pf_outdated'; position:t='relative'
         size:t='@sIco, @sIco'
         bgcolor:t='#FFFFFF'
         background-image:t=''

@@ -84,7 +84,7 @@ modIcon text {
 
 modIcon > warningIcon{
   size:@cIco, @cIco;
-  pos:pw-w-2@sf/@pf, 3@sf/@pf;
+  pos:pw-w-2@sf/@pf_outdated, 3@sf/@pf_outdated;
   position:absolute;
   background-image:#ui/gameuiskin#new_icon;
   background-color:@white;
@@ -167,7 +167,7 @@ weaponry_item[status=disabled] > weaponBody text {
 }
 
 .researchesTable > tr > td > .unitItem selImg {
-  size:pw+10*@sf/@pf, ph+8*@sf/@pf;
+  size:pw+10*@sf/@pf_outdated, ph+8*@sf/@pf_outdated;
   pos:50%pw-50%w, 50%ph-50%h;
   position:absolute;
   re-type:9rect;
@@ -265,7 +265,7 @@ modBlockHeader {
   background-image:#ui/gameuiskin#item_table_column_header_bg;
   background-position:3;
   background-repeat:expand;
-  padding:5*@sf/@pf, 0;
+  padding:5*@sf/@pf_outdated, 0;
 }
 
 modBlockHeaderRow {
@@ -368,7 +368,7 @@ upgradeImg[upgradeStatus = mod]{
 modResearchProgress {
   behaviour:progress;
   re-type:progress;
-  height:3;
+  height:1@progressHeightSlot;
   width: 1@modItemWidth - 1@modIcoSize - 4@dp;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;

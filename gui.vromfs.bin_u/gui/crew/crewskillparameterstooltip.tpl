@@ -3,15 +3,15 @@ skillParametersTooltip {
 
   <<#skillName>>
   textareaNoTab {
-    padding-top:t='12*@sf/@pf'
-    padding-left:t='12*@sf/@pf'
+    padding-top:t='12*@sf/@pf_outdated'
+    padding-left:t='12*@sf/@pf_outdated'
     text:t='<<skillName>>'
     max-width:t='pw'
   }
   <</skillName>>
 
   tdiv {
-    pos:t='13*@sf/@pf, @referenceProgressOffset'
+    pos:t='13*@sf/@pf_outdated, @referenceProgressOffset'
     position:t='relative'
 
     <<#progressBarSelectedValue>>
@@ -36,16 +36,16 @@ skillParametersTooltip {
   }
 
   textareaNoTab {
-    padding-top:t='12*@sf/@pf'
-    padding-left:t='12*@sf/@pf'
+    padding-top:t='12*@sf/@pf_outdated'
+    padding-left:t='12*@sf/@pf_outdated'
     text:t='<<tooltipText>>'
-    min-width:t='0.3@scrn_tgt_font'
-    max-width:t='0.7@scrn_tgt_font'
+    min-width:t='0.3@sf'
+    max-width:t='0.7@sf'
   }
 
   <<#hasSkillRows>>
   table {
-    padding:t='12*@sf/@pf, 12*@sf/@pf'
+    padding:t='12*@sf/@pf_outdated, 12*@sf/@pf_outdated'
     width:t='pw'
 
     <<#skillRows>>
@@ -105,30 +105,30 @@ skillParametersTooltip {
   <</hasSkillRows>>
 
   table {
-    padding:t='12*@sf/@pf, 12*@sf/@pf'
+    padding:t='12*@sf/@pf_outdated, 12*@sf/@pf_outdated'
 
     <<#parameterRows>>
     tr {
 
       // Parameter description
       td {
-        padding-top:t='15*@sf/@pf'
+        padding-top:t='15*@sf/@pf_outdated'
         textarea {
           pos:t='0, 0.5(ph-h)'
           position:t='relative'
           text:t='<<descriptionLabel>>'
-          max-width:t='0.3@scrn_tgt_font'
+          max-width:t='0.3@sf'
         }
       }
 
       <<#valueItems>>
       td {
-        padding-top:t='15*@sf/@pf'
+        padding-top:t='15*@sf/@pf_outdated'
         flow:t='horizontal'
 
         <<#itemDummy>>
         tdiv {
-          size:t='30*@sf/@pf, 1*@sf/@pf'
+          size:t='30*@sf/@pf_outdated, 1*@sf/@pf_outdated'
         }
         <</itemDummy>>
 
@@ -137,7 +137,7 @@ skillParametersTooltip {
           pos:t='0.5(pw-w), 0.5(ph-h)'
           position:t='relative'
           background-image:t='<<itemImage>>'
-          size:t='<<imageSize>>*@sf/@pf, <<imageSize>>*@sf/@pf'
+          size:t='<<imageSize>>*@sf/@pf_outdated, <<imageSize>>*@sf/@pf_outdated'
           background-repeat:t='aspect-ratio'
           bgcolor:t='#FFFFFF'
         }
@@ -157,7 +157,7 @@ skillParametersTooltip {
   }
 
   tdiv {
-    pos:t='12*@sf/@pf, 15*@sf/@pf'
+    pos:t='12*@sf/@pf_outdated, 15*@sf/@pf_outdated'
     position:t='relative'
     flow:t='vertical'
 
@@ -168,7 +168,7 @@ skillParametersTooltip {
         pos:t='0, 0.5(ph-h)'
         position:t='relative'
         background-image:t='<<itemImage>>'
-        size:t='<<imageSize>>*@sf/@pf, <<imageSize>>*@sf/@pf'
+        size:t='<<imageSize>>*@sf/@pf_outdated, <<imageSize>>*@sf/@pf_outdated'
         background-repeat:t='aspect-ratio'
         bgcolor:t='#FFFFFF'
       }

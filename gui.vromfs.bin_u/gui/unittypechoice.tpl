@@ -33,8 +33,8 @@ div {
       img {
         size:t='@cIco, @cIco';
         background-image:t='<<countryImg>>';
-        margin-top:t='0.01@scrn_tgt_font';
-        margin-left:t='0.01@scrn_tgt_font';
+        margin-top:t='0.01@sf';
+        margin-left:t='0.01@sf';
       }
       <</countryItems>>
     }

@@ -110,7 +110,7 @@ function dbg_dump::save(filename, list)
     local subject = (id in rootTable) ? rootTable[id] : null
     local isFunction = ::u.isFunction(subject)
     local args = ::getTblValue("args", item, [])
-    local value = (isFunction && !("value" in item)) ? getFuncResult(subject, args) : ::getTblValue("value", item, null)
+    local value = (isFunction && !("value" in item)) ? getFuncResult(subject, args) : ::getTblValue("value", item, subject)
     if (::u.isFunction(value))
       value = value()
     if (isFunction)

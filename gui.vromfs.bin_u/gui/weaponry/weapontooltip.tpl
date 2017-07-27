@@ -16,7 +16,7 @@ tdiv {
     <<#bulletActions>>
     tr {
       td {
-        padding-right:t='0.005@scrn_tgt_font'
+        padding-right:t='0.005@sf'
         modIcon{
           size:t='@modIcoSize, @modIcoSize'
           ignoreStatus:t='yes'
@@ -27,7 +27,7 @@ tdiv {
             pattern{type:t='bright_texture';}
           }
           tdiv{
-            size:t='pw-6*@sf/@pf,ph-6*@sf/@pf'
+            size:t='pw-6*@sf/@pf_outdated,ph-6*@sf/@pf_outdated'
             pos:t='50%pw-50%w, 50%ph-50%h'
             position:t='absolute'
             <<@visual>>
@@ -44,12 +44,12 @@ tdiv {
 
   <<#bulletParams>>
     textareaNoTab {
-      pos:t='0, 0.015@scrn_tgt_font'
+      pos:t='0, 0.015@sf'
       position:t='relative'
       text:t='<<header>>'
     }
     table {
-      //pos:t='0, 0.01@scrn_tgt_font'
+      //pos:t='0, 0.01@sf'
       //position:t='relative'
       allAlignLeft:t="yes"
       class:t='noPad'
@@ -71,7 +71,7 @@ tdiv {
 
   <<#bulletsDesc>>
   tooltipDesc {
-    pos:t='0, 0.015@scrn_tgt_font'
+    pos:t='0, 0.015@sf'
     position:t='relative'
     text:t='<<bulletsDesc>>'
   }
@@ -89,7 +89,7 @@ tdiv {
       background-color:t='@white'
     }
     textareaNoTab {
-      pos:t='2@sf/@pf, ph/2-h/2'
+      pos:t='2@sf/@pf_outdated, ph/2-h/2'
       position:t='relative'
       tinyFont:t='yes'
       overlayTextColor:t='warning'

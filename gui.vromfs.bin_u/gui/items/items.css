@@ -1,4 +1,4 @@
-@const itemPadding:        5/720@scrn_tgt_font;
+@const itemPadding:        5/720@sf;
 @const itemSpacing:        0.5@tinyButtonHeight;
 @const itemIconWidth:      1@itemIconHeight;
 @const itemHeight:         1@itemIconHeight + 2@itemPadding;
@@ -8,10 +8,10 @@
 @const periodRewardProgressBarIconWidth: 36;
 @const periodRewardProgressBarIconHeight: 30;
 
-@const itemInfoWidth:  0.5@scrn_tgt_font;
+@const itemInfoWidth:  0.5@sf;
 
-@const rewardItemDesc: 0.15@scrn_tgt_font;
-@const rewardItemWidth: 1@itemWidth + 0.4@scrn_tgt_font;
+@const rewardItemDesc: 0.15@sf;
+@const rewardItemWidth: 1@itemWidth + 0.4@sf;
 
 
 @const itemNumWidth: 0.13@itemIconWidth;
@@ -21,11 +21,16 @@
 @const wagerTypeIconWidth: 0.17@itemIconWidth;
 @const wagerTypeIconHeight: 0.204@itemIconHeight;
 
-@const loopProgressHeight: 0.03@scrn_tgt_font;
+@const loopProgressHeight: 0.03@sf;
 
 @const trophiesGroupAvailableWidth: 1@maxWindowWidth - 1@trophiesGroupItemsInfoBlockWidth;
 @const trophiesGroupItemsInfoBlockWidth: 1@itemInfoWidth + 2@framePadding + 2@itemSpacing + 1@scrollBarSize + 1@blockInterval;
 @const requiredItemsInColumnInPixels: 1@rh - 1@titleLogoPlateHeight - 1@frameFooterHeight - 1@frameHeaderHeight - 2@framePadding - 1@itemSpacing - 1@gamercardHeight;
+
+@const warbondShopLevelProgressHeight: 0.025@sf;
+@const warbondShopLevelItemHeight: 1@warbondShopLevelProgressHeight + 0.02@sf;
+
+@const battleTasksHardMedalWidth: 0.055@sf;
 
 itemDiv {
   re-type:9rect;
@@ -287,7 +292,7 @@ itemIconBlock[doubleSize=no] {
 }
 
 itemIconBlock[debriefingSize=yes] {
-  size:0.8@itemWidth-1.6@itemPadding, 0.8@itemHeight-1.6@itemPadding;
+  size:1@debrWagerHeight, 1@debrWagerHeight;
 }
 
 openAnim {
@@ -360,8 +365,6 @@ everyDayRewardProgress {
   min:0;
   max:10000;
 
-  height:1@loopProgressHeight;
-
   padding:2;
 }
 
@@ -388,4 +391,44 @@ everyDayRewardProgress > progressBoxFraming[background-image=""] {
 
 everyDayRewardProgress > progressBoxFraming[type=right] {
   background-position:w,0;
+}
+
+warbondShopLevel {
+  re-type:9rect;
+  background-position:4;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#level_icon;
+  background-color:@white;
+  foreground-image:#ui/gameuiskin#level_icon_overlay;
+  foreground-repeat:expand;
+  foreground-position:6;
+  foreground-color:@transparent;
+
+  height:1@warbondShopLevelItemHeight;
+  width:h;
+}
+
+warbondShopLevel[status=locked] {
+  background-color:@gray60;
+}
+
+warbondShopLevel[status=locked] > textareaNoTab {
+  color:@minorTextColor;
+}
+
+warbondShopLevel[status=received] {
+  background-color:@gray;
+}
+
+warbondShopLevel[status=received] > textareaNoTab {
+  color:@commonTextColor;
+}
+
+warbondShopLevel[status=next] {
+  background-color:@white;
+  foreground-color:@white;
+}
+
+warbondShopLevel[status=next] > textareaNoTab {
+  color:@userlogColoredText;
 }

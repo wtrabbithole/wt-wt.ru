@@ -105,10 +105,14 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
       foreach(idx, option in container.data)
       {
+        if(option.controlType == optionControlType.HEADER)
+          continue
+
         local obj = getObj(option.id)
         if (!::checkObj(obj))
         {
-          ::dagor.assertf(false, "Error: not found obj for option " + option.id + ", type = " + option.type)
+          ::script_net_assert_once("Bad option",
+            "Error: not found obj for option " + option.id + ", type = " + option.type)
           continue
         }
 
@@ -646,11 +650,158 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
 
   applyAtClose = true
 
+  navigationHandlerWeak = null
+  currentContainerName = ""
+  headersToOptionsList = {}
+
   function initScreen()
   {
     base.initScreen()
 
     updateButtons()
+    initNavigation()
+  }
+
+  function initNavigation()
+  {
+    local handler = ::handlersManager.loadHandler(
+      ::gui_handlers.navigationPanel,
+      { scene = scene.findObject("control_navigation")
+        onSelectCb = ::Callback(doNavigateToSection, this)
+        panelWidth        = "0.35@sf, ph"
+        // Align to helpers_mode and table first row
+        headerHeight      = "0.05@sf + @sf/@pf"
+        headerOffsetX     = "0.015@sf"
+        headerOffsetY     = "0.015@sf"
+        collapseShortcut  = "LB"
+        navShortcutGroup  = "RS"
+      })
+    registerSubHandler(navigationHandlerWeak)
+    navigationHandlerWeak = handler.weakref()
+  }
+
+  function doNavigateToSection(navItem)
+  {
+    local objTbl = scene.findObject(currentContainerName)
+    if ( ! ::check_obj(objTbl))
+      return
+
+    local trId = ""
+    local index = 0
+    foreach(idx, option in getCurrentOptionsList())
+    {
+      if(option.controlType == optionControlType.HEADER
+        && option.id == navItem.id)
+      {
+        trId = option.getTrId()
+        index = idx
+        break
+      }
+    }
+    if(::u.isEmpty(trId))
+      return
+
+    local rowObj = objTbl.findObject(trId)
+    if ( ! ::check_obj(rowObj))
+      return
+
+    objTbl.setValue(index)
+
+    // It scrolls correctly only when using two frame delays
+    guiScene.performDelayed(this, (@(rowObj) function() {
+      guiScene.performDelayed(this, (@(rowObj) function() {
+        if (::checkObj(rowObj))
+          rowObj.scrollToView(true)
+      })(rowObj))
+    })(rowObj))
+  }
+
+  function resetNavigation()
+  {
+    if(navigationHandlerWeak)
+      navigationHandlerWeak.setNavItems([])
+  }
+
+  function onTblSelect(obj)
+  {
+    checkCurrentNavigationSection()
+  }
+
+  function checkCurrentNavigationSection()
+  {
+    local navItems = navigationHandlerWeak.getNavItems()
+    if(navItems.len() < 2)
+      return
+
+    local currentOption = getSelectedOption()
+    if( ! currentOption)
+      return
+
+    local currentHeader = getOptionHeader(currentOption)
+    if( ! currentHeader)
+      return
+
+    foreach(navItem in navItems)
+    {
+      if(navItem.id == currentHeader.id)
+      {
+        navigationHandlerWeak.setCurrentItem(navItem)
+        return
+      }
+    }
+  }
+
+  function getSelectedOption()
+  {
+    local objTbl = scene.findObject(currentContainerName)
+    if (!::check_obj(objTbl))
+      return null
+
+    local idx = objTbl.getValue()
+    if (idx < 0 || objTbl.childrenCount() <= idx)
+      return null
+
+    local trId = objTbl.getChild(idx).id
+    return ::u.search(getCurrentOptionsList(), @(option) option.getTrId() == trId)
+  }
+
+  function getOptionHeader(option)
+  {
+    foreach(header, optionsArray in headersToOptionsList)
+      if(optionsArray.find(option) != null)
+        return header
+    return null
+  }
+
+  function getCurrentOptionsList()
+  {
+    local containerName = currentContainerName
+    local container = ::u.search(optionsContainers, @(c) c.name == containerName)
+    return ::getTblValue("data", container, [])
+  }
+
+  function setNavigationItems()
+  {
+    headersToOptionsList.clear();
+    local headersItems = []
+    local lastHeader = null
+    foreach(option in getCurrentOptionsList())
+    {
+      if(option.controlType == optionControlType.HEADER)
+      {
+        lastHeader = option
+        headersToOptionsList[lastHeader] <- []
+        headersItems.push({id = option.id, text = option.getTitle()})
+      }
+      else if (lastHeader != null)
+        headersToOptionsList[lastHeader].push(option)
+    }
+
+    if (navigationHandlerWeak)
+    {
+      navigationHandlerWeak.setNavItems(headersItems)
+      checkCurrentNavigationSection()
+    }
   }
 
   function updateButtons()
@@ -724,6 +875,8 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     if (curGroup==newGroup && !(newGroup in optGroups))
       return
 
+    resetNavigation()
+
     if (curGroup>=0)
     {
       applyFunc = (@(newGroup) function() {
@@ -772,6 +925,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
       checkFacebookLoginStatus()
     }
   }
+
 
   function onFacebookLogin()
   {
@@ -1025,13 +1179,19 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     curGroup = group
     local config = optGroups[group]
 
-    local container = ::create_options_container("options_" + config.name, config.options, true, true, columnsRatio,
+    if( ! optionsConfig)
+        optionsConfig = {}
+    optionsConfig.onTblClick <- "onTblSelect"
+
+    currentContainerName = "options_" + config.name
+    local container = ::create_options_container(currentContainerName, config.options, true, true, columnsRatio,
                         true, true, optionsConfig)
     optionsContainers = [container.descr]
 
     guiScene.setUpdatesEnabled(false, false)
     guiScene.replaceContentFromText(scene.findObject(objName), container.tbl, container.tbl.len(), this)
     onHintUpdate()
+    setNavigationItems()
     guiScene.setUpdatesEnabled(true, true)
   }
 

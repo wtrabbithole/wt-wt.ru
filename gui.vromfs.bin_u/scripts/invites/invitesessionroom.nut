@@ -119,6 +119,10 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
 
   function accept()
   {
+    local room = ::g_mroom_info.get(roomId).getFullRoomData()
+    if (!::check_gamemode_pkg(::SessionLobby.getGameMode(room)))
+      return
+
     implAccept()
   }
 

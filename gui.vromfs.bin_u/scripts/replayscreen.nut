@@ -1,3 +1,5 @@
+const REPLAY_SESSION_ID_MIN_LENGHT = 16
+
 ::autosave_replay_max_count <- 100
 ::autosave_replay_prefix <- "#"
 ::replays_per_page <- 20
@@ -17,6 +19,26 @@ function gui_start_menuReplays()
 {
   ::gui_start_mainmenu()
   ::gui_start_replays()
+}
+
+function gui_start_worldWar()
+{
+  ::g_world_war.openMainWnd()
+}
+
+function gui_start_replay_battle(sessionId, backFunc)
+{
+  ::back_from_replays = backFunc
+  ::req_unlock_by_client("view_replay", false)
+  ::current_replay = ::get_replay_url_by_session_id(sessionId)
+  ::current_replay_author = null
+  ::on_view_replay(::current_replay)
+}
+
+function get_replay_url_by_session_id(sessionId)
+{
+  local sessionIdText = ::format("%0" + REPLAY_SESSION_ID_MIN_LENGHT + "s", sessionId.tostring())
+  return ::loc("url/server_wt_game_replay", {sessionId = sessionIdText})
 }
 
 function gui_modal_rename_replay(base_name, base_path, func_owner, after_rename_func, after_func = null)

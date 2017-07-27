@@ -16,11 +16,12 @@
    * In present design this field is true for
    * artillery and special unit.
    */
-  isForWheelMenu = false
+  isForWheelMenu = @() false
 
   _name = ""
   _icon = ""
   _title = ""
+  needAnimOnIncrementCount = false
 
   getName        = @(killStreakTag = null) _name
   getIcon        = @(killStreakTag = null) _icon
@@ -46,7 +47,7 @@
 
   getVisualShortcut = function(actionItem, unit = null)
   {
-    if (!isForWheelMenu || !::is_xinput_device())
+    if (!isForWheelMenu() || !::is_xinput_device())
       return getShortcut(actionItem, unit)
 
     if (!unit)
@@ -65,6 +66,7 @@
   BULLET = {
     code = ::EII_BULLET
     _name = "bullet"
+    needAnimOnIncrementCount = true
   }
 
   TORPEDO = {
@@ -107,31 +109,41 @@
   ARTILLERY_TARGET = {
     code = ::EII_ARTILLERY_TARGET
     _name = "artillery_target"
-    isForWheelMenu = true
+    isForWheelMenu = @() true
     _icon = "#ui/gameuiskin#artillery_fire"
     _title = ::loc("hotkeys/ID_ACTION_BAR_ITEM_5")
+    needAnimOnIncrementCount = true
+    getIcon = function (killStreakTag = null)
+    {
+      local mis = ::get_current_mission_info_cached()
+      return mis && mis.useCustomSuperArtillery ? "#ui/gameuiskin#artillery_fire_on_target" : "#ui/gameuiskin#artillery_fire"
+    }
   }
 
   EXTINGUISHER = {
     code = ::EII_EXTINGUISHER
+    isForWheelMenu = @() ::isShip(::get_player_cur_unit())
     _name = "extinguisher"
     _icon = "#ui/gameuiskin#extinguisher"
     _title = ::loc("hotkeys/ID_ACTION_BAR_ITEM_6")
+    needAnimOnIncrementCount = true
   }
 
   TOOLKIT = {
     code = ::EII_TOOLKIT
+    isForWheelMenu = @() ::isShip(::get_player_cur_unit())
     _name = "toolkit"
     _icon = "#ui/gameuiskin#tank_tool_kit"
-    _title = ::loc("hints/toolkit")
+    _title = ::loc("hotkeys/ID_SHIP_ACTION_BAR_ITEM_11")
   }
 
   MEDICALKIT = {
     code = ::EII_MEDICALKIT
-    isForWheelMenu = true
+    isForWheelMenu = @() true
     _name = "medicalkit"
     _icon = "#ui/gameuiskin#tank_medkit"
     _title = ::loc("hints/tank_medkit")
+    needAnimOnIncrementCount = true
 
     getIcon = function (killStreakTag = null)
     {
@@ -152,7 +164,7 @@
   SPECIAL_UNIT = {
     code = ::EII_SPECIAL_UNIT
     _name = "special_unit"
-    isForWheelMenu = true
+    isForWheelMenu = @() true
 
     getName = function (killStreakTag = null)
     {
@@ -184,7 +196,7 @@
   WINCH = {
     code = ::EII_WINCH
     backgroundImage = "#ui/gameuiskin#winch_request"
-    isForWheelMenu = true
+    isForWheelMenu = @() true
     _name = "winch"
     _icon = "#ui/gameuiskin#winch_request"
     _title = ::loc("hints/winch_request")
@@ -193,7 +205,7 @@
   WINCH_DETACH = {
     code = ::EII_WINCH_DETACH
     backgroundImage = "#ui/gameuiskin#winch_request_off"
-    isForWheelMenu = true
+    isForWheelMenu = @() true
     _name = "winch_detach"
     _icon = "#ui/gameuiskin#winch_request_off"
     _title = ::loc("hints/winch_detach")
@@ -202,7 +214,7 @@
   WINCH_ATTACH = {
     code = ::EII_WINCH_ATTACH
     backgroundImage = "#ui/gameuiskin#winch_request_deploy"
-    isForWheelMenu = true
+    isForWheelMenu = @() true
     _name = "winch_attach"
     _icon = "#ui/gameuiskin#winch_request_deploy"
     _title = ::loc("hints/winch_use")
@@ -210,8 +222,10 @@
 
   REPAIR_BREACHES = {
     code = ::EII_REPAIR_BREACHES
+    isForWheelMenu = @() true
     _name = "repair_breaches"
     _icon = "#ui/gameuiskin#unwatering"
+    _title = ::loc("hotkeys/ID_REPAIR_BREACHES")
     getShortcut = @(actionItem, unit = null) "ID_REPAIR_BREACHES"
   }
 })

@@ -1,90 +1,218 @@
-const PX_FONTS_CSS    = "gui/const/const_pxFonts.css"
-const SCALE_FONTS_CSS = "gui/const/const_fonts.css"
-
 const FONTS_SAVE_PATH = "fonts_css"
+const FONTS_SAVE_PATH_CONFIG = "video/fonts"
 
-function get_fixed_fonts() //return null if can change fonts
+enum FONT_SAVE_ID {
+  SMALL = "small"
+  MEDIUM = "medium"
+  BIG = "big"
+
+  //wop_1_69_3_x fonts
+  PX = "px"
+  SCALE = "scale"
+
+  //wop_1_69_3_X
+  PX_COMPATIBILITY = "gui/const/const_pxFonts.css"
+  SCALE_COMPATIBILITY = "gui/const/const_fonts.css"
+}
+
+enum FONT_SIZE_ORDER {
+  PX    //wop_1_69_3_X
+  SMALL
+  MEDIUM
+  BIG
+  SCALE  //wop_1_69_3_X
+}
+
+::g_font <- {
+  types = []
+  cache = { bySaveId = {} }
+}
+
+::g_font.template <- {
+  id = ""  //by type name
+  fontGenId = ""
+  saveId = ""
+  saveIdCompatibility = null //array of ids. need to easy switch between fonts by feature
+  isScaleable = true
+  sizeMultiplier = 1.0
+  sizeOrder = 0 //FONT_SIZE_ORDER
+
+  isAvailable = @(sWidth, sHeight) true
+  getFontSizePx = @(sWidth, sHeight) ::min(sHeight, sWidth * 0.75) * sizeMultiplier
+  getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) 800 //!!TODO: remove this together with old fonts
+  isLowWidthScreen = function(sWidth, sHeight)
+  {
+    if (sWidth > 3 * sHeight) //tripple screen
+      sWidth = sWidth / 3
+    local sf = getFontSizePx(sWidth, sHeight)
+    return 10.0 / 16 * sWidth / sf < 0.99
+  }
+
+  genCssString = function()
+  {
+    local sWidth = ::screen_width()
+    local sHeight = ::screen_height()
+    local config = {
+      set = fontGenId
+      scrnTgt = getFontSizePx(sWidth, sHeight)
+      pxFontTgtOutdated = getPixelToPixelFontSizeOutdatedPx(sWidth, sHeight)
+    }
+    return ::handyman.renderCached("gui/const/const_fonts_css", config)
+  }
+}
+
+::g_enum_utils.addTypesByGlobalName("g_font",
 {
-  if (::use_touchscreen || ::is_platform_android || ::is_platform_shield_tv())
-    return SCALE_FONTS_CSS
-  if (::screen_height() <= 800 && ::is_low_width_screen())
-    return PX_FONTS_CSS
+  PX = {
+    fontGenId = ""
+    saveId = FONT_SAVE_ID.PX
+    saveIdCompatibility = [FONT_SAVE_ID.PX_COMPATIBILITY]
+    isScaleable = false
+    sizeOrder = FONT_SIZE_ORDER.PX
+
+    isAvailable = @(sWidth, sHeight)
+      ::has_feature("oldFontsSizes") && !::use_touchscreen && !::is_platform_android && !::is_platform_shield_tv()
+    getFontSizePx = @(sWidth, sHeight) 720
+    getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) 720
+  }
+
+  SCALE = {
+    fontGenId = "_hud"
+    saveId = FONT_SAVE_ID.SCALE
+    saveIdCompatibility = [FONT_SAVE_ID.SCALE_COMPATIBILITY]
+    sizeOrder = FONT_SIZE_ORDER.SCALE
+
+    isAvailable = @(sWidth, sHeight)
+      ::has_feature("oldFontsSizes")
+      && (sHeight > 800 || !isLowWidthScreen(sWidth, sHeight)
+          || ::use_touchscreen || ::is_platform_android || ::is_platform_shield_tv())
+    getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) ::min(900, getFontSizePx(sWidth, sHeight))
+  }
+
+  SMALL = {
+    fontGenId = "_set_small"
+    saveId = FONT_SAVE_ID.SMALL
+    sizeMultiplier = 0.667
+    sizeOrder = FONT_SIZE_ORDER.SMALL
+
+    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 1080
+  }
+
+  MEDIUM = {
+    fontGenId = "_set_medium"
+    saveId = FONT_SAVE_ID.MEDIUM
+    sizeMultiplier = 0.834
+    sizeOrder = FONT_SIZE_ORDER.MEDIUM
+
+    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 900
+  }
+
+  BIG = {
+    fontGenId = "_hud" //better to rename it closer to major
+    saveId = FONT_SAVE_ID.BIG
+    sizeMultiplier = 1.0
+    sizeOrder = FONT_SIZE_ORDER.BIG
+
+    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes")
+  }
+},
+null,
+"id")
+
+::g_font.types.sort(@(a, b) a.sizeOrder <=> b.sizeOrder)
+
+function g_font::getAvailableFontBySaveId(saveId)
+{
+  local res = ::g_enum_utils.getCachedType("saveId", saveId, cache.bySaveId, this, null)
+  if (res)
+    return res.isAvailable(::screen_width(), ::screen_height()) ? res : null
+
+  foreach(font in types)
+    if (font.saveIdCompatibility
+      && ::isInArray(saveId, font.saveIdCompatibility)
+      && font.isAvailable(::screen_width(), ::screen_height()))
+      return font
+
   return null
 }
 
-function can_change_fonts()
+function g_font::getAvailableFonts()
 {
-  return ::get_fixed_fonts() == null
+  local sWidth = ::screen_width()
+  local sHeight = ::screen_height()
+  return ::u.filter(types, @(f) f.isAvailable(sWidth, sHeight))
 }
 
-function get_default_fonts_css()
+function g_font::getFixedFont() //return null if can change fonts
 {
-  local fixedFonts = ::get_fixed_fonts()
-  if (fixedFonts)
-    return fixedFonts
+  local availableFonts = getAvailableFonts()
+  return availableFonts.len() == 1 ? availableFonts[0] : null
+}
+
+function g_font::canChange()
+{
+  return getFixedFont() == null
+}
+
+function g_font::getDefault()
+{
+  local fixedFont = getFixedFont()
+  if (fixedFont)
+    return fixedFont
 
   if (::is_platform_ps4 || ::is_steam_big_picture())
-    return SCALE_FONTS_CSS
+    return SCALE
 
   if (::screen_height() * ::display_scale() <= 1200)
-    return PX_FONTS_CSS
-  return SCALE_FONTS_CSS
+    return PX
+  return SCALE
 }
 
-function get_current_fonts_css()
+function g_font::getCurrent()
 {
-  if (!::can_change_fonts())
-    return ::get_default_fonts_css()
+  if (!canChange())
+    return getDefault()
 
   if (!::g_login.isAuthorized())
   {
+    local fontSaveId = ::getSystemConfigOption(FONTS_SAVE_PATH_CONFIG)
+    if (fontSaveId)
+      return getAvailableFontBySaveId(fontSaveId) || getDefault()
+
+    //compatibility with old save format (wop_1_69_3_X)
     local isPxFonts = ::getSystemConfigOption("video/pxFonts")
-    return isPxFonts == null ? ::get_default_fonts_css()
-      : isPxFonts ? PX_FONTS_CSS
-      : SCALE_FONTS_CSS
+    return isPxFonts == null ? getDefault()
+      : isPxFonts ? PX
+      : SCALE
   }
 
-  local fontsCss = ::loadLocalByScreenSize(FONTS_SAVE_PATH)
-  if (::isInArray(fontsCss, [PX_FONTS_CSS, SCALE_FONTS_CSS]))
-    return fontsCss
-
-  //compatibility with old fonts save data
-  fontsCss = ::get_gui_option_in_mode(::USEROPT_FONTS_CSS, ::OPTIONS_MODE_GAMEPLAY)
-  if (fontsCss)
-  {
-    ::set_gui_option_in_mode(::USEROPT_FONTS_CSS, false, ::OPTIONS_MODE_GAMEPLAY) //load compatibility only once
-    if (::set_current_fonts_css(fontsCss))
-      return fontsCss
-  }
-
-  return ::get_default_fonts_css()
+  local fontSaveId = ::loadLocalByScreenSize(FONTS_SAVE_PATH)
+  return getAvailableFontBySaveId(fontSaveId) || getDefault()
 }
 
 //return isChanged
-function set_current_fonts_css(fontsCss)
+function g_font::setCurrent(font)
 {
-  if (!::isInArray(fontsCss, [PX_FONTS_CSS, SCALE_FONTS_CSS])
-      || !::can_change_fonts())
+  if (!canChange())
     return false
 
-  local curFontsCss = ::loadLocalByScreenSize(FONTS_SAVE_PATH)
-  local isChanged = fontsCss != curFontsCss
+  local fontSaveId = ::loadLocalByScreenSize(FONTS_SAVE_PATH)
+  local isChanged = font.saveId != fontSaveId
   if (isChanged)
-    ::saveLocalByScreenSize(FONTS_SAVE_PATH, fontsCss)
+    ::saveLocalByScreenSize(FONTS_SAVE_PATH, font.saveId)
 
-  ::save_config_fonts(fontsCss)
+  saveFontToConfig(font)
   return isChanged
 }
 
-function save_config_fonts(fontsCss)
+function g_font::saveFontToConfig(font)
 {
-  local isPxFonts = fontsCss == PX_FONTS_CSS
-  if (::getSystemConfigOption("video/pxFonts") != isPxFonts)
-    ::setSystemConfigOption("video/pxFonts", isPxFonts)
+  if (::getSystemConfigOption(FONTS_SAVE_PATH_CONFIG) != font.saveId)
+    ::setSystemConfigOption(FONTS_SAVE_PATH_CONFIG, font.saveId)
 }
 
-function validate_saved_config_fonts()
+function g_font::validateSavedConfigFonts()
 {
-  if (::can_change_fonts())
-    ::save_config_fonts(::get_current_fonts_css())
+  if (canChange())
+    saveFontToConfig(getCurrent())
 }

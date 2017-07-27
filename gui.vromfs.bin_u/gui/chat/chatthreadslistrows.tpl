@@ -81,10 +81,10 @@ expandable {
       textareaNoTab {
         id:t='thread_title'
         width:t='fw'
-        max-height:t='0.09@scrn_tgt_font'
+        max-height:t='0.09@sf'
         pos:t='0, ph-h'
         position:t='relative'
-        padding-right:t='4*@sf/@pf'
+        padding-right:t='4*@sf/@pf_outdated'
         tinyFont:t='yes'
         overlayTextColor:t='active'
         overflow-y:t='auto'

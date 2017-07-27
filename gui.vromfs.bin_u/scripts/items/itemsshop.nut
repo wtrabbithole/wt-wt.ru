@@ -484,6 +484,19 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       {
         local item = itemsList[i]
         local itemObj = listObj.getChild(i - pageStartIndex)
+        if (!::check_obj(itemObj))
+        {
+          local itemViewData = item.getViewData({
+            itemIndex = i.tostring(),
+            showSellAmount = curTab == itemsTab.SHOP,
+            isItemLocked = isItemLocked(item)
+          })
+          local itemsListText = ::toString(::u.map(itemsList, @(it) it.id))
+          local msg = "Error: failed to load items list:\nitemViewData =\n" + ::toString(itemViewData) + "\nfullList = \n" + itemsListText
+          ::script_net_assert_once("failed to load items list", msg)
+          continue
+        }
+
         local newIconWidgetObj = itemObj.findObject("item_new_icon_widget")
         if (::checkObj(newIconWidgetObj))
         {

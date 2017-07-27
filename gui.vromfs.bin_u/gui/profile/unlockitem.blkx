@@ -1,7 +1,8 @@
 {
   "selImg": {
+    "id": "unlock_block",
     "mainDescWrap": {
-      "padding": "1.5*@scrn_tgt_font/100.0",
+      "padding": "1.5*@sf/100.0",
       "width": "pw",
       "layeredIconContainer": {
         "id": "achivment_ico",
@@ -11,9 +12,9 @@
         "decal_locked": "no",
         "achievement_locked": "no"
       },
-      "achivmentTitle": [
+      "achievementTitle": [
         {
-          "margin-left": "1.5*@scrn_tgt_font/100.0"
+          "margin-left": "0.015@sf"
         },
         {
           "min-height": "@profileUnlockIconSize"
@@ -34,12 +35,11 @@
           }
         },
         {
-          "textarea": {
+          "textareaNoTab": {
             "id": "description",
             "width": "pw",
             "overflow": "hidden",
             "tinyFont": "yes",
-            "style": "wrap-indent: 0; paragraph-indent: 0;",
             "text": ""
           }
         },
@@ -51,12 +51,11 @@
           }
         },
         {
-          "textarea": {
+          "textareaNoTab": {
             "id": "reward",
             "text": "",
             "tinyFont": "yes",
-            "margin-top": "0.5*@scrn_tgt_font/100.0",
-            "style": "wrap-indent: 0; paragraph-indent: 0;",
+            "margin-top": "0.005@sf",
             "title": "$tooltipObj",
             "max-width": "pw",
             "pare-text": "yes",
@@ -71,17 +70,39 @@
           }
         }
       ],
+      "tdiv": {
+        "pos": "pw-w, 0.005@sf",
+        "position": "absolute",
+        "height": "1@buttonHeight",
+        "Button_text": {
+          "id": "purchase_button",
+          "hideText": "yes",
+          "visualStyle": "purchase",
+          "enableOn": "hoverOrSelect",
+          "on_click": "onBuyUnlock",
+          "unlockId": "",
+          "btnName": "Y",
+          "buttonWink": [],
+          "ButtonImg": {
+            "showOnSelect": "yes"
+          },
+          "textarea": {
+            "id": "purchase_button_text",
+            "class": "buttonText"
+          }
+        }
+      },
       "unlockStages": {
         "id": "stages",
-        "margin-left": "5*@scrn_tgt_font/100.0",
-        "pos": "0, ph/2 - h/2",
+        "margin-left": "0.05@sf",
+        "pos": "0, 50%ph-50%h",
         "position": "relative",
         "flow": "horizontal"
       },
       "CheckBox": {
         "id": "checkbox-favorites",
+        "pos": "pw-w, ph-h",
         "position": "absolute",
-        "pos": "100%pw-100%w, 100%ph-100%h",
         "text": "#mainmenu/UnlockAchievementsToFavorite",
         "tinyFont": "yes",
         "tooltip": "",
@@ -94,7 +115,7 @@
       "id": "expandImg",
       "height": "1*@scrn_tgt/100.0",
       "width": "2h",
-      "pos": "50%pw-50%w, ph-h-0.7*@scrn_tgt_font/100.0",
+      "pos": "50%pw-50%w, ph-h-0.7*@sf/100.0",
       "position": "absolute",
       "background-image": "#ui/gameuiskin#expand_info",
       "background-color": "@premiumColor",

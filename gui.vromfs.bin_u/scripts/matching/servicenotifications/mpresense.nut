@@ -1,4 +1,3 @@
-/**[DEPRECATED] this notification callbacks call by mathing forced**/
 function on_presences_update(params)
 {
   local contactsDataList = []
@@ -129,6 +128,17 @@ function on_presences_update(params)
   ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = null})
 
   update_gamercards()
+}
+
+function reload_contact_list()
+{
+  matching_api_func("mpresence.reload_contact_list",
+                    function(...){})
+}
+
+function set_presence(presence)
+{
+  matching_api_func("mpresence.set_presence", function(...) {}, presence)
 }
 
 foreach (notificationName, callback in

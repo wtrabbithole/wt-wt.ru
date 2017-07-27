@@ -348,7 +348,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     {
       local headerData = [{
         text = ::loc("multiplayer/playersInYourClan")
-        width = "0.1@scrn_tgt_font"
+        width = "0.1@sf"
       }]
       res += ::buildTableRow("", headerData, null, rowParams, "0")
 
@@ -358,7 +358,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 
     local headerData = [{
       text = ::loc("multiplayer/clansInQueue")
-      width = "0.1@scrn_tgt_font"
+      width = "0.1@sf"
     }]
     res += ::buildTableRow("", headerData, null, rowParams, "0")
 

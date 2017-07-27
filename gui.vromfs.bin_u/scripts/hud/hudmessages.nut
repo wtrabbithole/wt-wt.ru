@@ -552,6 +552,80 @@
     }
   }
 
+  RACE_SEGMENT_UPDATE = {
+    nestId = "hud_messages_race_messages"
+    eventName = "RaceSegmentUpdate"
+    messageEvent = "RaceSegmentUpdate"
+
+    onMessage = function (eventData)
+    {
+      if (!::checkObj(nest) || !(::get_game_type() & ::GT_RACE))
+        return
+
+      if (!::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.RACE_INFO))
+        return
+
+      local statusObj = nest.findObject("race_status")
+      if (::check_obj(statusObj))
+      {
+        local text = ::loc("HUD_RACE_FINISH")
+        if (!eventData.isRaceFinishedByPlayer)
+        {
+          text = ::loc("HUD_RACE_CHECKPOINT") + " "
+          text += eventData.passedCheckpointsInLap + ::loc("ui/slash")
+          text += eventData.checkpointsPerLap + "  "
+          text += ::loc("HUD_RACE_LAP") + " "
+          text += eventData.currentLap + ::loc("ui/slash") + eventData.totalLaps
+        }
+        statusObj.setValue(text)
+      }
+
+      local playerTime = ::getTblValue("time", ::getTblValue("player", eventData, {}), 0.0)
+
+      foreach (blockName in ["beforePlayer", "leader", "afterPlayer", "player"])
+      {
+        local textBlockObj = nest.findObject(blockName)
+        if (!::check_obj(textBlockObj))
+          continue
+
+        local data = ::getTblValue(blockName, eventData)
+        local showBlock = data != null
+        textBlockObj.show(showBlock)
+        if (showBlock)
+        {
+          foreach (param, value in data)
+          {
+            if (param == "isPlayer")
+              textBlockObj.isPlayer = value? "yes" : "no"
+            else
+            {
+              local textObj = textBlockObj.findObject(param)
+              if (!::check_obj(textObj))
+                continue
+
+              local text = value
+              if (param == "time")
+              {
+                local prefix = ""
+                local isPlayerBlock = blockName != "player"
+                if (isPlayerBlock)
+                {
+                  value -= playerTime
+                  if (value > 0)
+                    prefix = ::loc("keysPlus")
+                }
+                text = prefix + ::preciseSecondsToString(value, isPlayerBlock)
+              }
+              else if (param == "place")
+                text = value > 0? value.tostring() : ""
+              textObj.setValue(text)
+            }
+          }
+        }
+      }
+    }
+  }
+
   MISSION_RESULT = {
     nestId = "hud_message_center_mission_result"
     messageEvent = "MissionResult"

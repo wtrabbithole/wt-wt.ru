@@ -145,6 +145,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     { id = "get_local_team_for_mpstats", value = ::getTblValue("localTeam", ::debriefing_result, 1) }
     { id = "get_player_army_for_hud", value = ::getTblValue("localTeam", ::debriefing_result, 1) }
     { id = "_fake_sessionlobby_settings", value = ::SessionLobby.settings }
+    "LAST_SESSION_DEBUG_INFO"
     "get_mission_mode"
     "get_mission_difficulty_int"
     "get_premium_reward_wp"
@@ -153,6 +154,9 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     "is_replay_present"
     "is_replay_saved"
     "is_worldwar_enabled"
+    "ww_is_operation_loaded"
+    "ww_get_operation_id"
+    "ww_get_operation_winner"
     "ww_get_player_side"
     "havePremium"
     "get_gamechat_log_text"
@@ -241,6 +245,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::is_in_flight = _is_in_flight
 
   ::gui_start_debriefingFull()
+  ::go_debriefing_next_func = function() { ::dbg_dump.unload(); ::gui_start_mainmenu() }
   return "Debriefing result loaded from " + filename
 }
 
@@ -456,4 +461,14 @@ function debug_show_unit(unitId)
   ::show_aircraft = unit
   ::gui_start_decals()
   return "Done"
+}
+
+function debug_change_font_size(shouldIncrease = true)
+{
+  local availableFonts = ::g_font.getAvailableFonts()
+  local idx = ::find_in_array(availableFonts, ::g_font.getCurrent(), 0)
+  idx = ::clamp(idx + (shouldIncrease ? 1 : -1), 0, availableFonts.len() - 1)
+  if (::g_font.setCurrent(availableFonts[idx]))
+    ::handlersManager.getActiveBaseHandler().fullReloadScene()
+  dlog("Loaded fonts: " + availableFonts[idx].id)
 }

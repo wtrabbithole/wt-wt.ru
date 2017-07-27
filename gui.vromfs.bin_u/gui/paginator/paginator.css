@@ -1,6 +1,6 @@
 paginator{
   id:paginator_container;
-  min-width: 0.27*@scrn_tgt_font;
+  min-width: 0.27*@sf;
   padding:0,7, 0, 3;
   height:ph;
 }
@@ -21,7 +21,7 @@ paginator > pages > button {
 }
 
 paginator > pages > button > underline {
-  size: pw - @textPaddingBugWorkaround + 1, (@sf/@pf*0.75) $max 1;
+  size: pw - @textPaddingBugWorkaround + 1, (@sf/@pf_outdated*0.75) $max 1;
 }
 
 paginator > pages > activeText{

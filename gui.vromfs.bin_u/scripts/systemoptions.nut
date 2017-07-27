@@ -775,15 +775,7 @@ function sysopt::fillGuiOptions(containerObj, handler)
           option = ::create_option_switchbox(config)
           break
         case "slider":
-          local raw = mCfgCurrent[id]
-          option = ::handyman.renderCached("gui/options/invisSlider", {
-            desc = desc.widgetId
-            id = id
-            min = desc.min
-            max = desc.max
-            value = raw
-            cb = cb
-          })
+          option = ::create_option_slider(desc.widgetId, mCfgCurrent[id], cb, true, "slider", desc)
           break
         case "list":
           local raw = ::find_in_array(desc.values, mCfgCurrent[id])
@@ -978,18 +970,6 @@ function sysopt::onGuiOptionChanged(obj)
   local curValue = ::getTblValue(id, mCfgCurrent)
   if (curValue == null)  //not inited or already cleared?
     return
-
-  if (desc.widgetType == "slider")
-  {
-    local value = obj.getValue()
-    obj.setValue(value)
-    local progressObj = obj.findObject(id + "_progress")
-    if (::checkObj(progressObj))
-      progressObj.setValue(value)
-    local thumbObj = obj.findObject(id + "_thumb")
-    if (::checkObj(thumbObj))
-      thumbObj.setValue(value)
-  }
 
   if (desc.ignoreNextUiCallback)
   {

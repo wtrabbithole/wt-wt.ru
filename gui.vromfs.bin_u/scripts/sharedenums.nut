@@ -3,14 +3,14 @@
 //This enums is shared between squirrel and C++ code
 //any change requires version.nut update
 //
-enum EMouseAxis
+enum MouseAxis
 {
-    MouseAileronsAxis,
-    MouseElevatorAxis,
-    MouseThrottleAxis,
-    MouseZoomAxis,
-    MouseShipEngineAxis,
-    EMouseAxisNumTotal
+  MOUSE_X,
+  MOUSE_Y,
+  MOUSE_SCROLL,
+  MOUSE_SCROLL_TANK,
+  MOUSE_SCROLL_SHIP,
+  NUM_MOUSE_AXIS_TOTAL
 };
 
 enum CtrlsInGui

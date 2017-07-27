@@ -45,6 +45,7 @@ class ::gui_handlers.WwObjectivesInfo extends ::gui_handlers.BaseGuiHandlerWT
       side = side,
       needShowOperationDesc = false,
       reqFullMissionObjectsButton = false
+      hasObjectiveDesc = true
     })
 
     if (!objectiveHandler)

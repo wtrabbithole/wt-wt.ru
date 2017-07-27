@@ -403,7 +403,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       rowIdx++
       clanByRow[rowIdx.tostring()] <- myClanLbData._id.tostring()
     }
-    local headerRow = [{text = "#multiplayer/place", width = "0.1@scrn_tgt_font"}, {text = ""}, { text = "#clan/clan_name", tdAlign = "left",  width = "@clanNameTableWidth"}]
+    local headerRow = [{text = "#multiplayer/place", width = "0.1@sf"}, {text = ""}, { text = "#clan/clan_name", tdAlign = "left",  width = "@clanNameTableWidth"}]
     foreach(item in ::clan_leaderboards_list)
     {
       if (!isColForDisplay(item))
@@ -445,8 +445,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     local slogan = rowBlk.slogan == "" ? "" : rowBlk.slogan == " " ? "" : rowBlk.slogan
     local desc = rowBlk.desc == "" ? "" : rowBlk.desc == " " ? "" : rowBlk.desc
     local rowName = "row_" + rowIdx
-    desc = getFilteredChatMessage(desc, false)
-    slogan = getFilteredChatMessage(slogan, false)
+    desc = ::g_chat.filterMessageText(desc, false)
+    slogan = ::g_chat.filterMessageText(slogan, false)
     local tooltipText = ::ps4CheckAndReplaceContentDisabledText(slogan + (slogan != "" && desc != ""? "\n" : "") + desc)
     local clanType = ::g_clan_type.getTypeByName(::getTblValue("type", rowBlk, ""))
     local highlightRow = myClanLbData != null && myClanLbData._id == rowBlk._id ? true : false

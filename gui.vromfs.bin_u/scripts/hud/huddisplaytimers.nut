@@ -51,6 +51,12 @@
       needTimeText = true
     },
     {
+      id = "cancel_repair_breaches_status"
+      color = "#787878"
+      icon = "#ui/gameuiskin#icon_repair_in_progress"
+      needTimeText = true
+    },
+    {
       id = "unwatering_status"
       color = "#787878"
       icon = "#ui/gameuiskin#unwatering_in_progress"
@@ -58,6 +64,12 @@
     },
     {
       id = "extinguish_status"
+      color = "#DD1111"
+      icon = "#ui/gameuiskin#fire_indicator"
+      needTimeText = true
+    },
+    {
+      id = "cancel_extinguish_status"
       color = "#DD1111"
       icon = "#ui/gameuiskin#fire_indicator"
       needTimeText = true
@@ -88,6 +100,8 @@
     ::g_hud_event_manager.subscribe("ShipDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:RepairBreaches", onRepairBreaches, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Extinguish", onExtinguish, this)
+    ::g_hud_event_manager.subscribe("ShipDebuffs:CancelRepairBreaches", onCancelRepairBreaches, this)
+    ::g_hud_event_manager.subscribe("ShipDebuffs:CancelExtinguish", onCancelExtinguish, this)
 
     ::g_hud_event_manager.subscribe("CrewState:CrewState", onCrewState, this)
     ::g_hud_event_manager.subscribe("CrewState:DriverState", onDriverState, this)
@@ -277,6 +291,24 @@
     placeObj.findObject("icon").wink = "no"
   }
 
+  function onCancelAction(debuffs_data, placeObj)
+  {
+    placeObj.animation = debuffs_data.time > 0 ? "show" : "hide"
+    placeObj.show(true)
+
+    local timebarObj = placeObj.findObject("timer")
+    local iconObj = placeObj.findObject("icon")
+    iconObj.wink = "no"
+    local timeTextObj = placeObj.findObject("time_text")
+    timeTextObj.show(false)
+
+    if (debuffs_data.time > 0)
+      ::g_time_bar.setDirectionBackward(timebarObj)
+
+    ::g_time_bar.setPeriod(timebarObj, debuffs_data.time)
+    ::g_time_bar.setCurrentTime(timebarObj, 0)
+  }
+
   function onRepairBreaches(debuffs_data)
   {
     if (debuffs_data.state == "notInRepair")
@@ -323,6 +355,15 @@
     ::g_time_bar.setCurrentTime(timebarObj, 0)
   }
 
+  function onCancelRepairBreaches(debuffs_data)
+  {
+    local placeObj = scene.findObject("cancel_repair_breaches_status")
+    if (!::checkObj(placeObj))
+      return
+
+    onCancelAction(debuffs_data, placeObj)
+  }
+
   function onExtinguish(debuffs_data)
   {
     local placeObj = scene.findObject("extinguish_status")
@@ -365,6 +406,15 @@
 
     ::g_time_bar.setPeriod(timebarObj, debuffs_data.time)
     ::g_time_bar.setCurrentTime(timebarObj, 0)
+  }
+
+  function onCancelExtinguish(debuffs_data)
+  {
+    local placeObj = scene.findObject("cancel_extinguish_status")
+    if (!::checkObj(placeObj))
+      return
+
+    onCancelAction(debuffs_data, placeObj)
   }
 
   function destoyRepairUpdater()

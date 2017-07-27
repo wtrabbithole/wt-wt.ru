@@ -45,7 +45,7 @@ tdiv {
 
       textareaNoTab {
         width:t='pw'
-        text:t='<<#getOrdinalNumberText>><<getOrdinalNumberText>> <</getOrdinalNumberText>><<name>>'
+        text:t='<<#getBattleName>><<getBattleName>> <</getBattleName>><<getMissionName>>'
         text-align:t='center'
         fontNormal:t='yes'
       }

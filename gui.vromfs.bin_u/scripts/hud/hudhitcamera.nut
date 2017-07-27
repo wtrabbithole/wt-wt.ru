@@ -1,9 +1,9 @@
-function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE, info = null) // called from client
+function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE, info = {}) // called from client
 {
-  ::g_hud_hitcamera.onHitCameraEvent(mode, result)
+  ::g_hud_hitcamera.onHitCameraEvent(mode, result, info)
 
-  if (result >= ::DM_HIT_RESULT_KILL)
-    ::broadcastEvent("CurrentTargetKilled")
+  if (::g_hud_hitcamera.isKillingHitResult(result))
+    ::g_hud_event_manager.onHudEvent("HitcamTargetKilled", info)
 }
 
 function get_hit_camera_aabb() // called from client
@@ -14,10 +14,25 @@ function get_hit_camera_aabb() // called from client
 ::g_hud_hitcamera <- {
   scene     = null
   titleObj  = null
+  infoObj   = null
 
-  enabled = true
-  needShow = false //need to show, but show only when enabled
+  isEnabled = true
+
+  isVisible = false
   hitResult = ::DM_HIT_RESULT_NONE
+  unitId = -1
+  unitVersion = -1
+  unitType = ::ES_UNIT_TYPE_INVALID
+
+  camInfo   = {}
+  unitsInfo = {}
+
+  debuffTemplates = {
+    [::ES_UNIT_TYPE_TANK] = "gui/hud/hudEnemyDebuffsTank.blk",
+    [::ES_UNIT_TYPE_SHIP] = "gui/hud/hudEnemyDebuffsShip.blk",
+  }
+  debuffsListsByUnitType = {}
+  trackedPartNamesByUnitType = {}
 
   styles = {
     [::DM_HIT_RESULT_NONE]      = "none",
@@ -45,20 +60,41 @@ function g_hud_hitcamera::init(_nest)
 
   scene = _nest
   titleObj = scene.findObject("title")
+  infoObj  = scene.findObject("info")
 
+  if (!::has_feature("HitCameraTargetStateIconsTank") && (::ES_UNIT_TYPE_TANK in debuffTemplates))
+    delete debuffTemplates[::ES_UNIT_TYPE_TANK]
+
+  foreach (unitType, fn in debuffTemplates)
+  {
+    debuffsListsByUnitType[unitType] <- ::g_hud_enemy_debuffs.getTypesArrayByUnitType(unitType)
+    trackedPartNamesByUnitType[unitType] <- ::g_hud_enemy_debuffs.getTrackedPartNamesByUnitType(unitType)
+  }
+
+  ::g_hud_event_manager.subscribe("EnemyPartDamage", function (params) {
+      onEnemyPartDamage(params)
+    }, this)
+
+  reset()
   reinit()
 }
 
 function g_hud_hitcamera::reinit()
 {
-  enabled = ::get_option_xray_kill()
+  isEnabled = ::get_option_xray_kill()
   update()
 }
 
 function g_hud_hitcamera::reset()
 {
-  needShow = false
+  isVisible = false
   hitResult = ::DM_HIT_RESULT_NONE
+  unitId = -1
+  unitVersion = -1
+  unitType = ::ES_UNIT_TYPE_INVALID
+
+  camInfo   = {}
+  unitsInfo = {}
 }
 
 function g_hud_hitcamera::update()
@@ -66,16 +102,17 @@ function g_hud_hitcamera::update()
   if (!::checkObj(scene))
     return
 
-  local isVisible = enabled && needShow
   scene.show(isVisible)
-
-  if (!isVisible || !::checkObj(titleObj))
+  if (!isVisible)
     return
 
-  local style = ::getTblValue(hitResult, styles, "none")
-  titleObj.show(hitResult != ::DM_HIT_RESULT_NONE)
-  titleObj.setValue(::loc("hitcamera/result/" + style))
-  scene.result = style
+  if (::check_obj(titleObj))
+  {
+    local style = ::getTblValue(hitResult, styles, "none")
+    titleObj.show(hitResult != ::DM_HIT_RESULT_NONE)
+    titleObj.setValue(::loc("hitcamera/result/" + style))
+    scene.result = style
+  }
 }
 
 function g_hud_hitcamera::getAABB()
@@ -83,11 +120,152 @@ function g_hud_hitcamera::getAABB()
   return ::get_dagui_obj_aabb(scene)
 }
 
-function g_hud_hitcamera::onHitCameraEvent(mode, result = ::DM_HIT_RESULT_NONE)
+function g_hud_hitcamera::isKillingHitResult(result)
 {
-  hitResult = result
-  needShow = mode == ::HIT_CAMERA_START
+  return result >= ::DM_HIT_RESULT_KILL
+}
+
+function g_hud_hitcamera::onHitCameraEvent(mode, result, info)
+{
+  local _isVisible   = isEnabled && mode == ::HIT_CAMERA_START
+  local _unitId      = ::getTblValue("unitId", info, unitId)
+  local _unitVersion = ::getTblValue("unitVersion", info, unitVersion)
+  local _unitType    = ::getTblValue("unitType", info, unitType)
+
+  local needResetUnitType = _unitType != unitType
+
+  isVisible     = _isVisible
+  hitResult   = result
+  unitId      = _unitId
+  unitVersion = _unitVersion
+  unitType    = _unitType
+  camInfo     = info
+
+  if (needResetUnitType && ::check_obj(infoObj))
+  {
+    local guiScene = infoObj.getScene()
+    local markupFilename = ::getTblValue(unitType, debuffTemplates)
+    if (markupFilename)
+      guiScene.replaceContent(infoObj, markupFilename, this)
+    else
+      guiScene.replaceContentFromText(infoObj, "", 0, this)
+  }
+
+  if (isVisible)
+  {
+    local unitInfo = getTargetInfo(unitId, unitVersion, unitType, isKillingHitResult(hitResult))
+    foreach (item in ::getTblValue(unitType, debuffsListsByUnitType, []))
+      updateDebuffItem(item, camInfo, unitInfo)
+
+    if (unitInfo.isKilled)
+      unitInfo.isKillProcessed = true
+  }
+  else
+    cleanupUnitsInfo()
+
   update()
+}
+
+function g_hud_hitcamera::getTargetInfo(unitId, unitVersion, unitType, isUnitKilled)
+{
+  if (!(unitId in unitsInfo) || unitsInfo[unitId].unitVersion != unitVersion)
+    unitsInfo[unitId] <- {
+      unitId = unitId
+      unitVersion = unitVersion
+      unitType = unitType
+      parts = {}
+      trackedPartNames = ::getTblValue(unitType, trackedPartNamesByUnitType, [])
+      isKilled = isUnitKilled
+      isKillProcessed = false
+      time = 0
+    }
+
+  local info = unitsInfo[unitId]
+  info.time = ::get_usefull_total_time()
+  info.isKilled = info.isKilled || isUnitKilled
+
+  return info
+}
+
+function g_hud_hitcamera::cleanupUnitsInfo()
+{
+  local old = ::get_usefull_total_time() - 5.0
+  foreach (unitId, info in unitsInfo)
+    if (info.isKilled && info.time < old)
+      delete unitsInfo[unitId]
+}
+
+function g_hud_hitcamera::updateDebuffItem(item, camInfo, unitInfo, partName = null, dmgParams = null)
+{
+  local data = item.getInfo(camInfo, unitInfo, partName, dmgParams)
+  local isShow = data != null
+
+  local obj = ::check_obj(infoObj) ? infoObj.findObject(item.id) : null
+  if (!::check_obj(obj))
+    return
+  obj.show(isShow)
+  if (!isShow)
+    return
+
+  obj.state = data.state
+  local labelObj = obj.findObject("label")
+  if (::check_obj(labelObj))
+    labelObj.setValue(data.label)
+}
+
+function g_hud_hitcamera::onEnemyPartDamage(data)
+{
+  if (!isEnabled)
+    return
+
+  local unitInfo = getTargetInfo(
+    ::getTblValue("unitId", data, -1),
+    ::getTblValue("unitVersion", data, -1),
+    ::getTblValue("unitType", data, ::ES_UNIT_TYPE_INVALID),
+    ::getTblValue("unitKilled", data, false)
+    )
+
+  local partName = null
+  local partDmName = null
+  local isPartKilled = ::getTblValue("partKilled", data, false)
+
+  if (!unitInfo.isKilled)
+  {
+    partName = ::getTblValue("partName", data)
+    if (!partName || !::isInArray(partName, unitInfo.trackedPartNames))
+      return
+
+    local parts = unitInfo.parts
+    if (!(partName in parts))
+      parts[partName] <- { dmParts = {} }
+
+    partDmName = ::getTblValue("partDmName", data)
+    if (!(partDmName in parts[partName].dmParts))
+      parts[partName].dmParts[partDmName] <- { partKilled = isPartKilled }
+    local dmPart = parts[partName].dmParts[partDmName]
+
+    isPartKilled = isPartKilled ||  dmPart.partKilled
+    dmPart.partKilled = isPartKilled
+
+    foreach (k, v in data)
+      dmPart[k] <- v
+
+    local isPartDead   = ::getTblValue("partDead", dmPart, false)
+    local partHpCur  = ::getTblValue("partHpCur", dmPart, 1.0)
+    dmPart._hp <- (isPartKilled || isPartDead) ? 0.0 : partHpCur
+  }
+
+  if (isVisible && unitInfo.unitId == unitId)
+  {
+    local isKill = isPartKilled || unitInfo.isKilled && !unitInfo.isKillProcessed
+
+    foreach (item in ::getTblValue(unitInfo.unitType, debuffsListsByUnitType, []))
+      if (!item.isUpdateOnKnownPartKillsOnly || isKill && ::isInArray(partName, item.parts))
+        updateDebuffItem(item, camInfo, unitInfo, partName, data)
+
+    if (unitInfo.isKilled)
+      unitInfo.isKillProcessed = true
+  }
 }
 
 function g_hud_hitcamera::onEventLoadingStateChange(params)

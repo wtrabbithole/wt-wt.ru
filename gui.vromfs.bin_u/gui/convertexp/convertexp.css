@@ -4,7 +4,7 @@ switch_unit_button {
   font:@nav_button_font;
   color:@commonMenuButtonColor;
   width: fw;
-  height: 0.05@scrn_tgt_font;
+  height: 0.05@sf;
   margin: 0;
   padding: 0;
   padding-left: 0;
@@ -15,7 +15,7 @@ switch_unit_button {
 
 switch_unit_button > ButtonImg {
   position:absolute;
-  pos:5*@sf/@pf, 50%ph-50%h;
+  pos:5*@sf/@pf_outdated, 50%ph-50%h;
   size:1@buttonHeight, 1@buttonHeight;
 }
 
@@ -33,8 +33,8 @@ switch_unit_button:hover {
 }
 
 switch_unit_button:pushed {
-  padding-top:5*@sf/@pf;
-  padding-bottom:3*@sf/@pf;
+  padding-top:5*@sf/@pf_outdated;
+  padding-bottom:3*@sf/@pf_outdated;
 }
 
 switch_unit_button[selected=yes] {

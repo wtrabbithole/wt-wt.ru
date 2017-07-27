@@ -2134,55 +2134,42 @@
   },
   {
     "MetaParts": {
-      "cover_left_side": [
+      "cover": [
         {
-          "part": "bow_l_dm"
+          "part": "compartment_01_dm"
         },
         {
-          "part": "mid_l_dm"
+          "part": "compartment_02_dm"
         },
         {
-          "part": "stern_l_dm"
+          "part": "compartment_03_dm"
+        },
+        {
+          "part": "compartment_04_dm"
+        },
+        {
+          "part": "compartment_05_dm"
+        },
+        {
+          "part": "compartment_06_dm"
+        },
+        {
+          "part": "compartment_07_dm"
+        },
+        {
+          "part": "compartment_08_dm"
+        },
+        {
+          "part": "compartment_09_dm"
+        },
+        {
+          "part": "compartment_10_dm"
         },
         {
           "effect": {
-            "conditionPartsDead": 3,
+            "conditionPartsDead": 2,
             "kill": true,
             "killEffect": "drown"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "conditionDamage": 5000.0,
-            "kill": true,
-            "killEffect": "destruction"
-          }
-        }
-      ],
-      "cover_right_side": [
-        {
-          "part": "bow_r_dm"
-        },
-        {
-          "part": "mid_r_dm"
-        },
-        {
-          "part": "stern_r_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 3,
-            "kill": true,
-            "killEffect": "drown"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "conditionDamage": 5000.0,
-            "kill": true,
-            "killEffect": "destruction"
           }
         }
       ]
@@ -2219,8 +2206,8 @@
         "Empty": 70000.0,
         "Fuel": 2000.0,
         "TakeOff": 72000.0,
-        "momentOfInertia": [16.0,32.0,18.0],
-        "CenterOfGravity": [0.0,-0.3,0.0],
+        "momentOfInertia": [13.0,36.0,19.0],
+        "CenterOfGravity": [0.0,-0.1,0.0],
         "AdvancedMass": false
       },
       "engines": [
@@ -2358,7 +2345,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -2487,7 +2474,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -2603,7 +2590,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -2728,7 +2715,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -2858,7 +2845,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -2983,7 +2970,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3113,7 +3100,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3229,7 +3216,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3345,7 +3332,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3461,7 +3448,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3570,12 +3557,12 @@
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
@@ -4174,6 +4161,11 @@
       "part": "stern_back_dm",
       "weight": 1.0,
       "maxWaterAlive": 0.3
+    }
+  },
+  {
+    "winch": {
+      "length": 50.0
     }
   }
 ]

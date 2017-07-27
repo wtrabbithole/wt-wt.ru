@@ -14,7 +14,7 @@ controlsHelpFrame {
       pos:t='0, 50%ph-50%h'
       position:t='relative'
       min-width:t='@kbh'
-      margin-right:t='0.01@scrn_tgt_font';
+      margin-right:t='0.01@sf';
       <<@shortcutMarkup>>
     }
 

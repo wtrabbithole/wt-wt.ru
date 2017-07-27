@@ -90,6 +90,12 @@
     "type": "typeHeavyTank"
   },
   {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
     "ammoLoadDistribution": {
       "primaryShells": {
         "ammo_body_l_03_dm": {
@@ -972,12 +978,6 @@
             "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
           }
-        },
-        {
-          "effect": {
-            "conditionHp": 0.5,
-            "fire": true
-          }
         }
       ],
       "turret": [
@@ -1019,12 +1019,6 @@
             "fireDamagePower": 1.0,
             "maxTankFireTime": [20.0,30.0],
             "firePart": "transmission_dm"
-          }
-        },
-        {
-          "effect": {
-            "conditionHp": 0.5,
-            "fire": true
           }
         }
       ],

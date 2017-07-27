@@ -6,18 +6,18 @@
     "type": "big",
     "frame": {
       "width": "1@srw",
-      "height": "0.70@scrn_tgt_font",
+      "height": "0.70@sf",
       "pos": "50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)",
       "position": "absolute",
-      "padding": "0.05@scrn_tgt_font, 0",
+      "padding": "0.05@sf, 0",
       "class": "leaderboard",
       "type": "big",
       "frame_header": {
         "ComboBox": {
           "id": "modes_list",
           "position": "relative",
-          "pos": "20*@sf/@pf, 50%ph-50%h",
-          "width": "0.3@scrn_tgt_font",
+          "pos": "20*@sf/@pf_outdated, 50%ph-50%h",
+          "width": "0.3@sf",
           "display": "hide",
           "enable": "no",
           "btnName": "X",
@@ -61,7 +61,7 @@
         },
         "table": {
           "id": "lb_table",
-          "pos": "0, 3*@sf/@pf",
+          "pos": "0, 3*@sf/@pf_outdated",
           "position": "relative",
           "width": "pw",
           "behavior": "TableNavigator",
@@ -339,11 +339,11 @@
                             "shadeDiv": {
                               "id": "gc_clanAlert",
                               "display": "hide",
-                              "padding-right": "2/720@scrn_tgt_font",
+                              "padding-right": "2/720@sf",
                               "tdiv": {
                                 "position": "relative",
-                                "pos": "6/720@scrn_tgt_font, 50%ph-50%h",
-                                "size": "22/720@scrn_tgt_font, 22/720@scrn_tgt_font",
+                                "pos": "6/720@sf, 50%ph-50%h",
+                                "size": "22/720@sf, 22/720@sf",
                                 "background-color": "@white",
                                 "background-image": "#ui/gameuiskin#new_icon"
                               }
@@ -392,7 +392,7 @@
                                 "expProgress": {
                                   "id": "gc_rankProgress",
                                   "small": "yes",
-                                  "style": "width:20+0.02@scrn_tgt_font;",
+                                  "style": "width:20+0.02@sf;",
                                   "position": "relative",
                                   "pos": "1, -1"
                                 }
@@ -482,7 +482,7 @@
                               "showBonusCommon": ""
                             },
                             {
-                              "width": "@cIco + 0.08@scrn_tgt_font + 9*@sf/@pf"
+                              "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                             },
                             {
                               "shadeDiv": {
@@ -507,7 +507,7 @@
                                 "position": "relative",
                                 "pos": "0, 50%ph-50%h",
                                 "talign": "left",
-                                "min-width": "0.05@scrn_tgt_font"
+                                "min-width": "0.05@sf"
                               }
                             },
                             {
@@ -537,7 +537,7 @@
                               "tooltip": "#mainmenu/warpoints"
                             },
                             {
-                              "width": "@cIco + 0.08@scrn_tgt_font + 9*@sf/@pf"
+                              "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                             },
                             {
                               "showBonusPersonal": ""
@@ -568,7 +568,7 @@
                                 "position": "relative",
                                 "id": "gc_balance",
                                 "talign": "left",
-                                "min-width": "0.05@scrn_tgt_font"
+                                "min-width": "0.05@sf"
                               }
                             }
                           ]
@@ -590,7 +590,7 @@
                               "position": "relative",
                               "id": "gc_gold",
                               "talign": "left",
-                              "min-width": "0.07@scrn_tgt_font"
+                              "min-width": "0.07@sf"
                             }
                           }
                         },
@@ -646,7 +646,7 @@
                 {
                   "tdiv": {
                     "id": "gamercard_tobattle",
-                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@scrn_tgt_font",
+                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
                     "pos": "0, 1@bh",
                     "position": "relative",
                     "allowDecreaseFont": "yes"
@@ -689,7 +689,7 @@
             {
               "tdiv": {
                 "id": "chatPopupNest",
-                "size": "0.4@scrn_tgt_font+10, 0.075*@scrn_tgt_font+10",
+                "size": "0.4@sf+10, 0.075*@sf+10",
                 "position": "absolute",
                 "pos": "0.5@rw-w-0.55@titleLogoPlateWidth-0.019@scrn_tgt, @topBarHeight",
                 "flow": "vertical"

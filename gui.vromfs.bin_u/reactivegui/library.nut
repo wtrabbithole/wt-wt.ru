@@ -1,17 +1,4 @@
-function max(a,b) {
-  return a>b ? a : b
-}
-
-
-function min(a,b) {
-  return a<b ? a : b
-}
-
-function clamp(v, minv, maxv) {
-  return (v < minv) ? minv : (v > maxv) ? maxv : v;
-}
-
-::get_value <- @(key, source, defValue = null) (key in source) ? source[key] : defValue
+::ROBJ_TEXT <- ROBJ_DTEXT // For smooth migration
 
 enum Layers {
   Default
@@ -41,20 +28,3 @@ enum Layers {
     return result
   }
 }()
-
-
-//////////////////////////////compatibility////////////////////////////////////
-
-
-function apply_compatibilities(comp_table)
-{
-  local rootTable = getroottable()
-  local constTable = getconsttable()
-  foreach(key, value in comp_table)
-    if (!(key in rootTable) && !(key in constTable))
-      rootTable[key] <- value
-}
-
-::apply_compatibilities({
-  perform_cross_call = function (...) { return null }
-})

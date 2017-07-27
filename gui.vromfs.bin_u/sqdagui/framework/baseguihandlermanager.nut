@@ -20,8 +20,6 @@
   needFullReload = false
   needCheckPostLoadCss = false
   isFullReloadInProgress = false
-  loaded_postLoadCss = ""
-  isPxFontsInScene = false
   isInLoading = true
   restoreDataByTriggerHandler = {}
   lastBaseHandlerStartFunc = null //function to start backScene or to reload current base handler
@@ -723,6 +721,19 @@ function handlersManager::setLastBaseHandlerStartFuncByHandler(handlerClass, par
                                local hClass = ::getTblValue(handlerClassName, ::gui_handlers, handlerClass)
                                ::handlersManager.loadHandler(hClass, params)
                              })(handlerClassName, handlerClass, params)
+}
+
+function handlersManager::destroyPrevHandlerAndLoadNew(handlerClass, params, needDestroyIfAlreadyOnTop = false)
+{
+  local prevHandler = findHandlerClassInScene(handlerClass)
+  if (prevHandler)
+    if (!needDestroyIfAlreadyOnTop && prevHandler.scene.getModalCounter() == 0)
+      return false
+    else
+      destroyModal(prevHandler)
+
+  loadHandler(handlerClass, params)
+  return true
 }
 
 //=======================  global functions  ==============================

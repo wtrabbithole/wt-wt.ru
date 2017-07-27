@@ -2161,8 +2161,11 @@
             "reaction": {
               "event": "regularCheck",
               "sequencer": {
-                "not": {
-                  "isInOuterFightArea": []
+                "or": {
+                  "not": {
+                    "isInOuterFightArea": []
+                  },
+                  "hasTargetAnchors": []
                 },
                 "recalculateTree": []
               }

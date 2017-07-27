@@ -311,7 +311,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
 
       icon       = "#ui/gameuiskin#slot_repair"
       haveWarning = true
-      showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name)>0
+      showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name) > 0 && ::SessionLobby.canChangeCrewUnits()
       actionFunc = (@(unit, handler) function () {
         handler.showMsgBoxRepair.call(handler, unit, (@(unit) function () {::check_and_repair_unit(unit)})(unit))
       })(unit, handler)
@@ -2051,7 +2051,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local resultText = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(result)
       resultText = ::colorize("activeTextColor", resultText) + ::loc(f.currency)
 
-      local formula = ::handyman.renderCached("gui/statistics/rewardSources", {
+      local formula = ::handyman.renderCached("gui/debriefing/rewardSources", {
         multiplier = f.multText
         noBonus    = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(f.noBonus)
         premAcc    = f.premAccBonus  > 0 ? ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(f.premAccBonus)  : null

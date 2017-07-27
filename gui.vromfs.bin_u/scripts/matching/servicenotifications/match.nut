@@ -46,6 +46,35 @@ function notify_queue_leave(params)
   ::queues.afterLeaveQueues(params)
 }
 
+function fetch_clusters_list(params, cb)
+{
+  matching_api_func("match.fetch_clusters_list", cb, params)
+}
+
+function fetch_game_modes_info(params, cb)
+{
+  matching_api_func("match.fetch_game_modes_info", cb, params)
+}
+
+function fetch_game_modes_digest(params, cb)
+{
+  matching_api_func("match.fetch_game_modes_digest", cb, params)
+}
+
+function leave_session_queue(params, cb)
+{
+  matching_api_func("match.leave_queue", cb, params)
+}
+
+function enqueue_in_session(params, cb)
+{
+  local missionName = get_forced_network_mission()
+  if (missionName.len() > 0)
+    params["forced_network_mission"] <- missionName
+
+  matching_api_func("match.enqueue", cb, params)
+}
+
 foreach (notificationName, callback in
           {
             ["match.notify_clusters_changed"] = notify_clusters_changed,

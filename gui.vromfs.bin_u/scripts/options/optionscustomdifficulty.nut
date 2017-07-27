@@ -71,6 +71,7 @@ class ::gui_handlers.OptionsCustomDifficultyModal extends ::gui_handlers.Generic
           funcName = "onApply"
           isToBattle = true
           button = true
+          delayed = true
         },
       ]
     }

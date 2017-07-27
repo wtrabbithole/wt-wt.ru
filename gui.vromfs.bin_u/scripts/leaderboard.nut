@@ -726,7 +726,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
     if (showHeader)
     {
-      local headerRow = [{ text = "#multiplayer/place", width = "0.1@scrn_tgt_font"},
+      local headerRow = [{ text = "#multiplayer/place", width = "0.1@sf"},
                          { text = forClans ? "#clan/clan_name" : "#multiplayer/name", tdAlign = "center" }
                         ]
       foreach(lbCategory in lb_presets)
@@ -861,7 +861,7 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
     local sortLeaderboard = ::getTblValue("sort_leaderboard", eventData, null)
     curLbCategory = (sortLeaderboard != null)
       ? ::g_lb_category.getTypeByField(sortLeaderboard)
-      : ::events.getTableConfigShortRowByEventType(request.tournament_mode)
+      : ::events.getTableConfigShortRowByEvent(eventData)
 
     initTopItems()
 

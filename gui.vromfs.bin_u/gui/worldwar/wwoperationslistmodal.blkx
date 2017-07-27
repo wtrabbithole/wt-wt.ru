@@ -121,7 +121,7 @@
                   {
                     "tdiv": [
                       {
-                        "size": "pw, 0.4*fh"
+                        "size": "pw, 35%fh"
                       },
                       {
                         "min-height": "@wwOperationClanListMinHeight"
@@ -131,7 +131,7 @@
                       },
                       {
                         "tdiv": {
-                          "size": "35%pw, ph",
+                          "size": "25%pw, ph",
                           "flow": "vertical",
                           "tdiv": {
                             "id": "team_SIDE_1_countryes_info",
@@ -147,7 +147,7 @@
                       },
                       {
                         "tdiv": {
-                          "size": "35%pw, ph",
+                          "size": "25%pw, ph",
                           "pos": "pw-w, 0",
                           "position": "absolute",
                           "flow": "vertical",
@@ -170,18 +170,18 @@
                   {
                     "tdiv": [
                       {
-                        "size": "pw, 0.6*fh"
+                        "size": "pw, 65%fh"
                       },
                       {
                         "min-height": "1@wwOperationDescSideStrenghtHeight"
                       },
                       {
-                        "margin-bottom": "1@sf/@pf"
+                        "margin-bottom": "1@sf/@pf_outdated"
                       },
                       {
                         "wwWindowListBackground": {
                           "id": "team_SIDE_1_unit_info",
-                          "size": "35%pw, ph",
+                          "size": "25%pw, ph",
                           "padding": "@wwWindowListBackgroundPadding",
                           "type": "left"
                         }
@@ -189,7 +189,7 @@
                       {
                         "wwWindowListBackground": {
                           "id": "team_SIDE_2_unit_info",
-                          "size": "35%pw, ph",
+                          "size": "25%pw, ph",
                           "pos": "pw-2w, 0",
                           "position": "relative",
                           "padding": "@wwWindowListBackgroundPadding",
@@ -577,11 +577,11 @@
                             "shadeDiv": {
                               "id": "gc_clanAlert",
                               "display": "hide",
-                              "padding-right": "2/720@scrn_tgt_font",
+                              "padding-right": "2/720@sf",
                               "tdiv": {
                                 "position": "relative",
-                                "pos": "6/720@scrn_tgt_font, 50%ph-50%h",
-                                "size": "22/720@scrn_tgt_font, 22/720@scrn_tgt_font",
+                                "pos": "6/720@sf, 50%ph-50%h",
+                                "size": "22/720@sf, 22/720@sf",
                                 "background-color": "@white",
                                 "background-image": "#ui/gameuiskin#new_icon"
                               }
@@ -630,7 +630,7 @@
                                 "expProgress": {
                                   "id": "gc_rankProgress",
                                   "small": "yes",
-                                  "style": "width:20+0.02@scrn_tgt_font;",
+                                  "style": "width:20+0.02@sf;",
                                   "position": "relative",
                                   "pos": "1, -1"
                                 }
@@ -720,7 +720,7 @@
                               "showBonusCommon": ""
                             },
                             {
-                              "width": "@cIco + 0.08@scrn_tgt_font + 9*@sf/@pf"
+                              "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                             },
                             {
                               "shadeDiv": {
@@ -745,7 +745,7 @@
                                 "position": "relative",
                                 "pos": "0, 50%ph-50%h",
                                 "talign": "left",
-                                "min-width": "0.05@scrn_tgt_font"
+                                "min-width": "0.05@sf"
                               }
                             },
                             {
@@ -775,7 +775,7 @@
                               "tooltip": "#mainmenu/warpoints"
                             },
                             {
-                              "width": "@cIco + 0.08@scrn_tgt_font + 9*@sf/@pf"
+                              "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                             },
                             {
                               "showBonusPersonal": ""
@@ -806,7 +806,7 @@
                                 "position": "relative",
                                 "id": "gc_balance",
                                 "talign": "left",
-                                "min-width": "0.05@scrn_tgt_font"
+                                "min-width": "0.05@sf"
                               }
                             }
                           ]
@@ -828,7 +828,7 @@
                               "position": "relative",
                               "id": "gc_gold",
                               "talign": "left",
-                              "min-width": "0.07@scrn_tgt_font"
+                              "min-width": "0.07@sf"
                             }
                           }
                         },
@@ -884,7 +884,7 @@
                 {
                   "tdiv": {
                     "id": "gamercard_tobattle",
-                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@scrn_tgt_font",
+                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
                     "pos": "0, 1@bh",
                     "position": "relative",
                     "allowDecreaseFont": "yes"
@@ -927,7 +927,7 @@
             {
               "tdiv": {
                 "id": "chatPopupNest",
-                "size": "0.4@scrn_tgt_font+10, 0.075*@scrn_tgt_font+10",
+                "size": "0.4@sf+10, 0.075*@sf+10",
                 "position": "absolute",
                 "pos": "0.5@rw-w-0.55@titleLogoPlateWidth-0.019@scrn_tgt, @topBarHeight",
                 "flow": "vertical"

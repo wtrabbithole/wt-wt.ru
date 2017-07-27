@@ -283,7 +283,7 @@ function get_userlog_view_data(log)
       {
         if (!("descriptionBlk" in res))
           res.descriptionBlk <- ""
-        res.descriptionBlk += ::get_link_markup(::loc("mainmenu/btnViewServReplay"),
+        res.descriptionBlk += ::get_link_markup(::loc("mainmenu/btnViewServerReplay"),
                                                 ::loc("url/serv_replay", {roomId = log.roomId}), "Y")
       }
   }
@@ -627,7 +627,7 @@ function get_userlog_view_data(log)
 
     if ("comment" in log && log.comment!="")
     {
-      res.description <- ::loc("clan/userlogComment") + "\n" + ::ps4CheckAndReplaceContentDisabledText(::getFilteredChatMessage(log.comment, false))
+      res.description <- ::loc("clan/userlogComment") + "\n" + ::ps4CheckAndReplaceContentDisabledText(::g_chat.filterMessageText(log.comment, false))
       res.tooltip = res.description
     }
   } else

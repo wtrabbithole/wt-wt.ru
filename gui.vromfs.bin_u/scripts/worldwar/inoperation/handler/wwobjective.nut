@@ -15,6 +15,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
   needShowOperationDesc = true
   reqFullMissionObjectsButton = true
   restrictShownObjectives = false
+  hasObjectiveDesc = false
 
   function getSceneTplView()
   {
@@ -47,11 +48,12 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
     updateObjectivesData()
 
-    local objectivesList = getObjectivesList(staticBlk.blockCount())
+    local objectivesList = getObjectivesList(getObjectivesCount(false))
     local view = {
       objectiveBlock = getObjectiveBlocksArray()
       reqFullMissionObjectsButton = reqFullMissionObjectsButton
-      hiddenObjectives = ::max(objectivesList.primary.len() - getShowMaxObjectivesCount(), 0)
+      hiddenObjectives = ::max(objectivesList.primary.len() - getShowMaxObjectivesCount().x, 0)
+      hasObjectiveDesc = hasObjectiveDesc
     }
     local data = ::handyman.renderCached(objectiveItemTpl, view)
     guiScene.replaceContentFromText(placeObj, data, data.len(), this)
@@ -106,23 +108,14 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
   function getShowMaxObjectivesCount()
   {
+    local winner = ::ww_get_operation_winner()
+    if (restrictShownObjectives && winner != ::SIDE_NONE)
+      return ::Point2(1, 0)
+
+    local objectivesCount = getObjectivesCount()
+
     if (!restrictShownObjectives || ::g_world_war.isDebugModeEnabled())
-      return staticBlk.blockCount()
-
-    if (::get_current_fonts_css() == SCALE_FONTS_CSS)
-    {
-      if (::g_option_menu_safearea.isEnabled())
-        return 1
-
-      local winner = ::ww_get_operation_winner()
-      if (winner != ::SIDE_NONE)
-        return 1
-    }
-
-    local objAmount = 0
-    foreach (block in staticBlk)
-      if (canShowObjective(block))
-        objAmount++
+      return objectivesCount
 
     local guiScene = scene.getScene()
 
@@ -135,16 +128,38 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       - guiScene.calcString("1@content2BlockHeight + 1@content3BlockHeight + 2@framePadding", null)
     local blockHeight = content1BlockHeight - busyHeight
 
-    local reservedHeight = guiScene.calcString("1@frameSmallHeaderHeight + 1@objectiveBlockHeaderHeight", null)
+    local headers = 0
+    if (objectivesCount.x > 0) headers++
+    if (objectivesCount.y > 0) headers++
+    local reservedHeight = guiScene.calcString("1@frameSmallHeaderHeight + " + headers + "@objectiveBlockHeaderHeight", null)
+
     local availObjectivesHeight = blockHeight - reservedHeight
 
     local singleObjectiveHeight = guiScene.calcString("1@objectiveHeight", null)
     local allowObjectives = availObjectivesHeight / singleObjectiveHeight
-
-    return ::max(1, ::min(objAmount, allowObjectives))
+    local res = ::Point2(0, 0)
+    res.x = ::max(1, ::min(objectivesCount.x, allowObjectives))
+    if (allowObjectives > res.x)
+      res.y = ::max(1, ::min(objectivesCount.y, allowObjectives))
+    return res
   }
 
-  function setTopPosition(objectivesAmount = 1)
+  function getObjectivesCount(checkType = true)
+  {
+    local objectivesCount = ::Point2(0,0)
+    foreach (block in staticBlk)
+      if (canShowObjective(block, checkType))
+      {
+        if (block.mainObjective)
+          objectivesCount.x++
+        else
+          objectivesCount.y++
+      }
+
+    return objectivesCount
+  }
+
+  function setTopPosition(objectivesCount)
   {
     if (!restrictShownObjectives)
       return
@@ -155,8 +170,12 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
     local busyHeight = guiScene["operation_info"].getSize()[1]
 
-    local reservedHeight = guiScene.calcString("1@frameSmallHeaderHeight + 1@objectiveBlockHeaderHeight", null)
-    local objectivesHeight = guiScene.calcString(objectivesAmount + "@objectiveHeight", null)
+    local headers = 0
+    if (objectivesCount.x > 0) headers++
+    if (objectivesCount.y > 0) headers++
+
+    local reservedHeight = guiScene.calcString("1@frameSmallHeaderHeight + " + headers + "@objectiveBlockHeaderHeight", null)
+    local objectivesHeight = guiScene.calcString((objectivesCount.x + objectivesCount.y) + "@objectiveHeight", null)
 
     local panelObj = guiScene["content_block_1"]
     panelObj.top = content1BlockHeight - busyHeight - reservedHeight - objectivesHeight
@@ -165,7 +184,6 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
   function getObjectiveBlocksArray()
   {
     local availableObjectiveSlots = getShowMaxObjectivesCount()
-
     setTopPosition(availableObjectiveSlots)
 
     local objectivesList = getObjectivesList(availableObjectiveSlots)
@@ -197,29 +215,34 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       secondary = []
     }
 
-    local usedObjectiveSlots = 0
+    local usedObjectiveSlots = ::Point2(0,0)
 
     for (local i = 0; i < staticBlk.blockCount(); i++)
     {
-      if (usedObjectiveSlots >= availableObjectiveSlots)
+      if (usedObjectiveSlots.x >= availableObjectiveSlots.x
+        && usedObjectiveSlots.y >= availableObjectiveSlots.y)
         continue
 
       local objBlock = staticBlk.getBlock(i)
       if (!canShowObjective(objBlock, checkType))
         continue
 
-      usedObjectiveSlots++
-
       objBlock.id <- objBlock.getBlockName()
 
-      if (objBlock.mainObjective)
+      if (objBlock.mainObjective && usedObjectiveSlots.x < availableObjectiveSlots.x)
+      {
+        usedObjectiveSlots.x++
         list.primary.append(objBlock)
-      else
+      }
+      else if (usedObjectiveSlots.y < availableObjectiveSlots.y)
+      {
+        usedObjectiveSlots.y++
         list.secondary.append(objBlock)
+      }
     }
 
     if (::u.isEmpty(list.primary) && checkType)
-      list = getObjectivesList(1, false)
+      list = getObjectivesList(::Point2(1,0), false)
 
     return list
   }
@@ -333,7 +356,6 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
   function onOpenFullMissionObjects()
   {
-    ::ww_clear_outlined_zones()
     ::gui_handlers.WwObjectivesInfo.open()
   }
 

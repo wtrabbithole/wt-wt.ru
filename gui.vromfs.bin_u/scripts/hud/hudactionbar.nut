@@ -238,8 +238,9 @@ class ActionBar
    */
   function handleIncrementCount(currentItem, prewItemsArray, itemObj)
   {
-    if (currentItem.type != ::EII_BULLET)
-      return
+    local actionBarType = ::g_hud_action_bar_type.getByActionItem(currentItem)
+     if (!actionBarType.needAnimOnIncrementCount)
+       return
 
     local prewItem = ::u.search(prewItemsArray, (@(currentItem) function (searchItem) {
       return currentItem.id == searchItem.id
@@ -251,7 +252,8 @@ class ActionBar
     if ((prewItem.countEx == currentItem.countEx && prewItem.count < currentItem.count) ||
         (prewItem.countEx < currentItem.countEx))
     {
-      local blk = ::handyman.renderCached("gui/hud/actionBarIncrement", {})
+      local add = currentItem.count - prewItem.count
+      local blk = ::handyman.renderCached("gui/hud/actionBarIncrement", {inc_amount = add})
       guiScene.appendWithBlk(itemObj, blk, this)
     }
   }
@@ -287,7 +289,7 @@ class ActionBar
     for (local i = rawActionBarItem.len() - 1; i >= 0; i--)
     {
       local actionBarType = ::g_hud_action_bar_type.getByActionItem(rawActionBarItem[i])
-      if (actionBarType.isForWheelMenu)
+      if (actionBarType.isForWheelMenu())
         killStreaksActions.insert(0, rawActionBarItem[i])
     }
 

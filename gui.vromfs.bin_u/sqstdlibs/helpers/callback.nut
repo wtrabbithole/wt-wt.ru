@@ -196,3 +196,5 @@ class Callback
     return true
   }
 }
+
+::u.registerClass("Callback", ::Callback)

@@ -57,6 +57,53 @@ g_chat <- {
   }
 }
 
+
+//to test filters - use console "chat_filter_for_myself=true"
+::chat_filter_for_myself <- ::is_vendor_tencent()
+function g_chat::filterMessageText(text, isMyMessage)
+{
+  if (::get_option(::USEROPT_CHAT_FILTER).value &&
+    (!isMyMessage || ::chat_filter_for_myself))
+    return ::dirty_words_filter.checkPhrase(text)
+  return text
+}
+
+
+function g_chat::makeBlockedMsg(msg)
+{
+  //space work as close link. but non-breakable space - work as other symbols.
+  msg = ::stringReplace(msg, " ", " ")
+
+  //rnd for duplicate blocked messages
+  return ::format("<Link=BL_%d_%s>%s</Link>",
+    ::math.rnd() % 99, msg, ::loc("chat/blocked_message"))
+}
+
+
+function g_chat::checkBlockedLink(link)
+{
+  return (link.len() > 6 && link.slice(0, 3) == "BL_")
+}
+
+
+function g_chat::revertBlockedMsg(text, link)
+{
+  local start = text.find("<Link=" + link)
+  if (start == null)
+    return
+
+  local end = text.find("</Link>", start)
+  if (end == null)
+    return
+
+  end += "</Link>".len()
+
+  local msg = ::stringReplace(link.slice(6), " ", " ")
+  text = text.slice(0, start) + msg + text.slice(end)
+  return text
+}
+
+
 function g_chat::onCharConfigsLoaded()
 {
   isThreadsView = ::has_feature("ChatThreadsView")

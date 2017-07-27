@@ -19,8 +19,11 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     if (!wbList.len())
       return goBack()
 
+    scene.findObject("filter_block").show(false)
     curPageAwards = []
+    curWb = wbList[0]
 
+    initItemsProgress()
     initItemsListSize()
     fillTabs()
     updateBalance()
@@ -30,12 +33,11 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillTabs()
   {
-    local view = {
-      tabs = []
-    }
+    local view = { tabs = [] }
     foreach(i, wb in wbList)
       view.tabs.append({
         id = getTabId(i)
+        object = wb.haveAnyOrdinaryRequirements()? ::g_warbonds_view.getCurrentLevelItemMarkUp(wb) : null
         navImagesText = ::get_navigation_images_text(i, wbList.len())
       })
 
@@ -45,7 +47,6 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     tabsObj.setValue(0)
 
     updateTabsTexts()
-    onTabChange(tabsObj)
   }
 
   function getTabId(idx)
@@ -71,6 +72,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     local value = obj.getValue()
     curWb = ::getTblValue(value, wbList, wbList[0])
     curPage = 0
+    initItemsProgress()
     fillPage()
     updateBalance()
     updateTabsTexts() //to reccount tabs textarea colors
@@ -187,9 +189,16 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function updateBalance()
   {
     local text = ""
+    local tooltip = ""
     if (curWb)
-      text = ::loc("warbonds/currentAmount", { warbonds = ::colorize("activeTextColor", curWb.getBalanceText()) })
-    scene.findObject("balance_text").setValue(text)
+    {
+      text = ::loc("warbonds/currentAmount", { warbonds = curWb.getBalanceText() })
+      if (::has_feature("Warbonds_2_0"))
+        tooltip = ::loc("warbonds/maxAmount", { warbonds = ::g_warbonds.getLimit() })
+    }
+    local textObj = scene.findObject("balance_text")
+    textObj.setValue(text)
+    textObj.tooltip = tooltip
   }
 
   function updateAwardPrices()
@@ -244,6 +253,27 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function onTimer(obj, dt)
   {
     updateTabsTexts()
+  }
+
+  function initItemsProgress()
+  {
+    local obj = scene.findObject("warbond_shop_progress_block")
+    if (!::check_obj(obj))
+      return
+
+    obj.show(::g_warbonds_view.showSpecialProgress(curWb) || ::g_warbonds_view.showOrdinaryProgress(curWb))
+
+    ::g_warbonds_view.createProgressBox(curWb, obj, this)
+
+    ::g_warbonds_view.createSpecialMedalsProgress(curWb, obj, this)
+    updateMedalsText()
+  }
+
+  function updateMedalsText()
+  {
+    local obj = scene.findObject("medals_text")
+    if (::check_obj(obj))
+      obj.setValue(::g_warbonds_view.getSpecialText(curWb))
   }
 
   function onItemAction(buttonObj)

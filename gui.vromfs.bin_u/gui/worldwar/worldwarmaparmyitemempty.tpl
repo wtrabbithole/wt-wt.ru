@@ -7,6 +7,7 @@
     battleDescription:t='yes'
     armyName:t=''
     clanId:t=''
+    canBeHovered:t='yes'
     on_click:t='onClickArmy'
     on_hover:t='onHoverArmyItem'
     on_unhover:t='onHoverLostArmyItem'

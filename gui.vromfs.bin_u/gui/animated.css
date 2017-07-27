@@ -189,8 +189,8 @@ popupWrap > textAreaNoScroll {
 }
 
 awardPlace {
-  width:@debriefingUnlockIconSize + 2*@sf/@pf;
-  padding:1*@sf/@pf;
+  width:@debriefingUnlockIconSize;
+  padding:1*@sf/@pf_outdated;
   position:relative;
 
   move:yes;
@@ -201,18 +201,12 @@ awardPlace {
   size-func:square;
   css-hier-invalidate:yes;
 }
-[fullSizeUnlocks=yes] > awardPlace {
-  width:@profileUnlockIconSize + 2*@sf/@pf;
-}
 [awardsAbsolute=yes] > awardPlace {
   position:absolute;
 }
 awardPlace[_size-timer=1] {
-  height:@debriefingUnlockIconSize+2*@sf/@pf;
+  height:@debriefingUnlockIconSize;
   move:no;
-}
-[fullSizeUnlocks=yes] > awardPlace[_size-timer=1] {
-  height:@profileUnlockIconSize + 2*@sf/@pf;
 }
 awardPlace[move=yes] {
   behaviour:basicSize;
@@ -246,15 +240,7 @@ animShow[animation=show][_transp-timer=1][color-factor=255] {
 animShow[needAnim=yes] {
   behaviour:basicTransparency;
 }
-.debriefing_tabs > animShow {
-  size:pw, ph;
-  position:absolute;
-  background-image:#ui/gameuiskin#frame_opaq;
-  background-color:@white;
-  background-position:6,6;
-  background-repeat:expand;
-  padding:5*@sf/@pf;
-}
+
 
 [anim_transparency=yes]{
   behaviour: basicTransparency;

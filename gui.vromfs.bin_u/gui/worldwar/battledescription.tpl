@@ -9,7 +9,7 @@ tdiv {
   textareaNoTab {
     width:t='pw'
     padding:t='1@framePadding, 0, 1@framePadding, 1@framePadding'
-    text:t='<<#getOrdinalNumberText>><<getOrdinalNumberText>> <</getOrdinalNumberText>><<name>>'
+    text:t='<<#getBattleName>><<getBattleName>> <</getBattleName>><<getMissionName>>'
     text-align:t='center'
     fontNormal:t='yes'
   }
@@ -98,13 +98,7 @@ tdiv {
             margin-right:t='2@framePadding'
           }
           <</armies>>
-          <<#maxPlayers>>
-          activeText { text:t='#events/handicap' }
-          activeText { text:t='<<maxPlayers>>' }
-          <</maxPlayers>>
-          <<^maxPlayers>>
-          activeText { text:t='#worldWar/unavailable_for_team' }
-          <</maxPlayers>>
+          activeText { text:t='<<teamSizeText>>' }
         }
 
         <<#armies>>
@@ -132,7 +126,7 @@ tdiv {
         <<#haveAIUnitsList>>
         tdiv {
           flow:t='vertical'
-          margin-top:t='0.01@scrn_tgt_font'
+          margin-top:t='0.01@sf'
 
           textareaNoTab {
             text:t='#worldwar/unit/controlledByAI'

@@ -1,7 +1,7 @@
 <<#awards>>
 div{
   size:t='0.06@shHud, 0.06@shHud'
-  margin:t='8*@sf/@pf'
+  margin:t='8*@sf/@pf_outdated'
 
   <<#iconLayers>>
   layeredIconContainer {

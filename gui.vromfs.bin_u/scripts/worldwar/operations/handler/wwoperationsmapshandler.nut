@@ -687,11 +687,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (p.changedListsMask & (WW_GLOBAL_STATUS_TYPE.MAPS | WW_GLOBAL_STATUS_TYPE.ACTIVE_OPERATIONS))
       reinitScreen()
     else if (p.changedListsMask & WW_GLOBAL_STATUS_TYPE.QUEUE)
-    {
-      if (::g_ww_global_status.isMyClanInQueue())
-        ::g_world_war.startLatentQueueRefresh()
       updateWindow()
-    }
     else
       updateButtons()
 

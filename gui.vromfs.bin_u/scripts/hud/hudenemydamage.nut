@@ -96,10 +96,11 @@
 
     minAliveCrewCount = getMinAliveCrewCount()
 
-    ::subscribe_events_from_handler(this, [ "CurrentTargetKilled" ])
-
     ::g_hud_event_manager.subscribe("EnemyPartDamage", function (damageData) {
         onEnemyPartDamage(damageData)
+      }, this)
+    ::g_hud_event_manager.subscribe("HitcamTargetKilled", function (hitcamData) {
+        onHitcamTargetKilled(hitcamData)
       }, this)
 
     rebuildWidgets()
@@ -241,11 +242,13 @@
         showPart(partName, color, !showHp)
       }
 
+      minAliveCrewCount = ::getTblValue("crewAliveMin", data, minAliveCrewCount)
       local crewCount = ::getTblValue("crewAliveCount", data, -1)
       local crewCountTotal = ::getTblValue("crewTotalCount", data, -1)
       local isCrewChanged = crewCount != -1 && lastTargetCrew != crewCount
-      local isShowCrew = !lastTargetKilled && isCrewChanged &&
-        (lastTargetType == ::ES_UNIT_TYPE_SHIP  || cfg.section == "crew" && cfg.show && partKilled)
+      local isShowCrew = (lastTargetType == ::ES_UNIT_TYPE_SHIP
+        || !::has_feature("HitCameraTargetStateIconsTank") && cfg.section == "crew" && cfg.show && partKilled)
+        && !lastTargetKilled && isCrewChanged
 
       if (isShowCrew)
       {
@@ -256,7 +259,7 @@
         if (::check_obj(obj))
         {
           local text = ::colorize("commonTextColor", ::loc("mainmenu/btnCrew") + ::loc("ui/colon")) +
-            ::colorize(crewCount <= minAliveCrewCount ? "badTextColor" : "activeTextColor", crewCount)
+            ::colorize(crewCount <= minAliveCrewCount ? "warningTextColor" : "activeTextColor", crewCount)
           if (crewCountTotal > 0)
             text += ::colorize("commonTextColor", ::loc("ui/slash")) + ::colorize("activeTextColor", crewCountTotal)
           obj.setValue(text)
@@ -268,13 +271,20 @@
       hidePart("crew_count")
   }
 
-  function onEventCurrentTargetKilled(params)
+  function onHitcamTargetKilled(params)
   {
     if (::is_multiplayer() || lastTargetKilled)
       return
-    ::g_hud_event_manager.onHudEvent("EnemyPartDamage", {
+
+    local unitId      = ::getTblValue("unitId", params)
+    local unitVersion = ::getTblValue("unitVersion", params)
+    if (unitId == null || unitId != lastTargetId || unitVersion != lastTargetVersion)
+      return
+
+    onEnemyPartDamage({
       unitId      = lastTargetId
       unitVersion = lastTargetVersion
+      unitType    = lastTargetType
       unitKilled  = true
     })
   }

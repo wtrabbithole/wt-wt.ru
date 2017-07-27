@@ -1,0 +1,45 @@
+@const debrPad: 25@sf/@pf;
+@const debrWndPad: 2@dp;
+@const debrMyPlaceBlockOffset: 0.5@debrPad;
+@const debrBonusHeight: 85@sf/@pf;
+@const debrBonusWidth: 42/64@debrBonusHeight;
+@const debrWagerHeight: 100@sf/@pf;
+@const debrResearchPanelWidth: 2@slot_width +2@debrPad +1@scrollBarSize;
+@const debrSepWidth: 2@dp;
+
+debrBlock {
+  input-transparent:yes;
+}
+
+debrWndSeparator {
+  size:pw -2@debrWndPad, 1@dp;
+  left:pw/2-w/2;
+  position:absolute;
+  background-color:@debrWndSepColor;
+}
+
+debrSeparator {
+  position:absolute;
+  background-color:@debrSepColor;
+  input-transparent:yes;
+}
+debrSeparator.alignByMyPlaceBlock {
+  width:1@debrSepWidth;
+  height:ph-1@debrMyPlaceBlockOffset-1@debrPad;
+  top:1@debrMyPlaceBlockOffset;
+  left:pw-w;
+}
+debrSeparator.left, debrSeparator.right {
+  width:1@debrSepWidth;
+  height:ph-2@debrPad;
+  top:ph/2-h/2;
+}
+debrSeparator.top, debrSeparator.bottom {
+  width:pw-2@debrPad;
+  height:1@debrSepWidth;
+  left:pw/2-w/2;
+}
+debrSeparator.left { left:-w/2; }
+debrSeparator.right { left:pw-w/2; }
+debrSeparator.top { top:-h/2; }
+debrSeparator.bottom { top:ph-h/2; }

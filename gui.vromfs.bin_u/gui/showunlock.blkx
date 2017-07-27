@@ -5,7 +5,7 @@
       "pos": "50%pw-50%w, 50%ph-50%h",
       "position": "absolute",
       "width": "80%sh",
-      "max-width": "800*@sf/@pf + 2@framePadding",
+      "max-width": "800*@sf/@pf_outdated + 2@framePadding",
       "max-height": "sh",
       "class": "wndNav",
       "frame_header": {
@@ -24,8 +24,8 @@
         "id": "award_image",
         "width": "pw",
         "height": "0.75w",
-        "max-width": "800*@sf/@pf",
-        "max-height": "600*@sf/@pf",
+        "max-width": "800*@sf/@pf_outdated",
+        "max-height": "600*@sf/@pf_outdated",
         "pos": "50%pw-50%w, 0",
         "position": "relative",
         "background-image": "#ui/images/login_reward.jpg?P1",
@@ -94,7 +94,7 @@
           "textAreaCentered": {
             "id": "next_award",
             "max-width": "pw",
-            "pos": "50%pw-50%w, 0.03@scrn_tgt_font",
+            "pos": "50%pw-50%w, 0.03@sf",
             "position": "relative",
             "textHide": "yes",
             "text": ""

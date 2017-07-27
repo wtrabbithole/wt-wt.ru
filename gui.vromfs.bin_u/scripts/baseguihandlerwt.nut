@@ -328,8 +328,11 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return rootHandlerWeak.onShowHud(show)
 
     guiScene.showCursor(show);
-    if (::checkObj(scene))
-      scene.show(show)
+    if (!::check_obj(scene))
+      return
+
+    scene.show(show)
+    guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
   }
 
   function startOnlineShop(type=null, afterCloseShop = null)
@@ -1150,7 +1153,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local imgObj = obj.findObject("image")
     imgObj["background-image"] = img
     local picDiv = imgObj.getParent()
-    picDiv["size"] = "128*@sf/@pf, 128*@sf/@pf"
+    picDiv["size"] = "128*@sf/@pf_outdated, 128*@sf/@pf_outdated"
     picDiv.show(true)
   }
 

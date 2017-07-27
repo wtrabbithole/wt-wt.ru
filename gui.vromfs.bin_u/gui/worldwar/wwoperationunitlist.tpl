@@ -11,7 +11,7 @@ tdiv {
         width:t='50%pw'
         padding:t='1@framePadding'
         flow:t='vertical'
-        pos:t='0.01@scrn_tgt_font, 0'
+        pos:t='0.01@sf, 0'
         position:t='relative'
 
         activeText {
@@ -29,7 +29,7 @@ tdiv {
         tdiv {
           id:t='allowed_unit_types'
           flow:t='vertical'
-          margin-bottom:t='0.01@scrn_tgt_font'
+          margin-bottom:t='0.01@sf'
 
           activeText {
             id:t='allowed_unit_types_text'

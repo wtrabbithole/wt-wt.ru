@@ -21,6 +21,8 @@ SessionLobby API
 
 */
 
+local ingame_chat = require("scripts/chat/mpChatModel.nut")
+
 const NET_SERVER_LOST = 0x82220002  //for hostCb
 const NET_SERVER_QUIT_FROM_GAME = 0x82220003
 
@@ -124,7 +126,7 @@ function notify_room_invite(params)
   if (!senderId) //querry room
     ::SessionLobby.joinRoom(params.roomId, senderId, password)
   else
-    ::g_invites.addSessionRoomInvite(params.roomId, senderId, params.senderName, password)
+    ::g_invites.addSessionRoomInvite(params.roomId, senderId.tostring(), params.senderName, password)
   return true
 }
 
@@ -169,7 +171,7 @@ function notify_room_attribs_changed(params)
   ::SessionLobby.onSettingsChanged(params)
 }
 
-function notify_session_start(params)
+function notify_session_start()
 {
   local sessionId = ::get_mp_session_id()
   if (sessionId != "")
@@ -182,7 +184,7 @@ function notify_session_start(params)
 ::SessionLobby <- {
   [PERSISTENT_DATA_PARAMS] = [
     "roomId", "settings", "uploadedMissionId", "status",
-    "roomInSession", "isRoomOwner", "isRoomByQueue", "isEventRoom",
+    "isRoomInSession", "isRoomOwner", "isRoomByQueue", "isEventRoom",
     "roomUpdated", "password", "members", "memberHostId",
     "spectator", "isReady", "isInLobbySession", "team", "countryData", "myState",
     "isSpectatorSelectLocked", "crsSetTeamTo", "curEdiff",
@@ -193,7 +195,7 @@ function notify_session_start(params)
   settings = {}
   uploadedMissionId = ""
   status = lobbyStates.NOT_IN_ROOM
-  roomInSession = false
+  isRoomInSession = false
   isRoomOwner = false
   isRoomByQueue = false
   isEventRoom = false
@@ -543,7 +545,7 @@ function SessionLobby::checkDynamicSettings(silent = false, _settings = null)
   local changed = false
   local wasHidden = ::getTblValue("hidden", _settings, false)
   _settings.hidden <- ::getTblValue("coop", _settings, false)
-                      || (roomInSession && !::getTblValue("allowJIP", _settings, true))
+                      || (isRoomInSession && !::getTblValue("allowJIP", _settings, true))
   changed = changed || (wasHidden != _settings.hidden)
 
   local wasPassword = ::getTblValue("hasPassword", _settings, false)
@@ -579,14 +581,16 @@ function SessionLobby::onSettingsChanged(p)
       newSet[k] <- v
 
   setSettings(newSet, true)
+
+  setRoomInSession(isSessionStartedInRoom())
 }
 
-function setRoomInSession(_inSession)
+function SessionLobby::setRoomInSession(newIsInSession)
 {
-  if (_inSession==roomInSession)
+  if (newIsInSession==isRoomInSession)
     return
 
-  roomInSession = _inSession
+  isRoomInSession = newIsInSession
   if (!isInRoom())
     return
 
@@ -941,16 +945,7 @@ function SessionLobby::mergeTblChanges(tblBase, tblNew)
 
 function updateMemberHostParams(member = null) //null = host leave
 {
-  if (!member)
-  {
-    memberHostId = -1
-    setRoomInSession(false)
-    return
-  }
-
-  memberHostId = member.memberId
-  if (("public" in member) && ("in_session" in member.public))
-    setRoomInSession(member.public.in_session)
+  memberHostId = member ? member.memberId : -1
 }
 
 
@@ -1399,7 +1394,7 @@ function SessionLobby::canStartSession()
 
 function SessionLobby::canChangeCrewUnits()
 {
-  return !isEventRoom || !roomInSession
+  return !isEventRoom || !isRoomInSession
 }
 
 function SessionLobby::canChangeCountry()
@@ -1469,7 +1464,7 @@ function SessionLobby::createEventRoom(mGameMode, lobbyParams)
   }
 
   isEventRoom = true
-  ::matching_api_func("mrooms.create_room", function(p) { ::SessionLobby.afterRoomCreation(p) }, params)
+  ::create_room(params, function(p) { ::SessionLobby.afterRoomCreation(p) })
   switchStatus(lobbyStates.CREATING_ROOM)
   return true
 }
@@ -1486,7 +1481,8 @@ function SessionLobby::afterRoomCreation(params)
     return switchStatus(lobbyStates.NOT_IN_ROOM)
 
   isRoomOwner = true
-  joinRoom(params.roomId, ::my_user_id_str)
+  isRoomByQueue = false
+  afterRoomJoining(params)
 }
 
 function SessionLobby::destroyRoom()
@@ -1559,7 +1555,6 @@ function SessionLobby::sendJoinRoomRequest(join_params, cb = function(...) {})
     members = []
   }
 
-  ::g_squad_utils.updateMyCountryData()
   roomId = ::getTblValue("roomId", join_params, roomId)
 
   ::LAST_SESSION_DEBUG_INFO =
@@ -1598,13 +1593,14 @@ function SessionLobby::joinRoom(_roomId, senderId = "", _password = null,
     return
   }
 
-  if (senderId)
-    ::queues.leaveAllQueuesSilent()
-  else
-    ::notify_queue_leave({})
-
   isRoomOwner = senderId == ::my_user_id_str
   isRoomByQueue = senderId == null
+
+  if (isRoomByQueue)
+    ::notify_queue_leave({})
+  else
+    ::queues.leaveAllQueuesSilent()
+
   if (_password && _password.len())
     changePassword(_password)
 
@@ -1656,18 +1652,20 @@ function SessionLobby::afterRoomJoining(params)
 
   roomId = params.roomId
   roomUpdated = true
-  members = params.members
+  members = ::getTblValue("members", params, [])
   initMyParamsByMemberInfo()
-  ::clear_game_chat()
+  ingame_chat.clearLog()
+  ::g_squad_utils.updateMyCountryData()
 
+  local public = ::getTblValue("public", params, settings)
   if (!isRoomOwner || ::u.isEmpty(settings))
   {
-    setSettings(params.public)
+    setSettings(public)
 
     local mGameMode = getMGameMode()
     if (mGameMode)
     {
-      setIngamePresence(params.public, roomId)
+      setIngamePresence(public, roomId)
       isEventRoom = ::events.isEventWithLobby(mGameMode)
     }
     dagor.debug("Joined room: isEventRoom " + isEventRoom)
@@ -1692,7 +1690,6 @@ function SessionLobby::afterRoomJoining(params)
 
   checkSquadAutoInvite()
 
-  local pub = params.public
   local event = ::SessionLobby.getRoomEvent()
   if (event)
   {
@@ -1720,7 +1717,8 @@ function SessionLobby::afterRoomJoining(params)
     checkAutoStart()
   ::SquadIcon.initListLabelsSquad()
 
-  last_round = ::getTblValue("last_round", pub, true)
+  last_round = ::getTblValue("last_round", public, true)
+  setRoomInSession(isSessionStartedInRoom())
   ::broadcastEvent("RoomJoined", params)
 }
 
@@ -2510,7 +2508,7 @@ function SessionLobby::canJoinSession()
 {
   if (hasSessionInLobby())
     return !isLeavingLobbySession
-  return roomInSession
+  return isRoomInSession
 }
 
 function SessionLobby::tryJoinSession(needLeaveRoomOnError = false)
@@ -2523,7 +2521,7 @@ function SessionLobby::tryJoinSession(needLeaveRoomOnError = false)
      joinEventSession(needLeaveRoomOnError)
      return true
    }
-   if (roomInSession)
+   if (isRoomInSession)
    {
      setReady(true)
      return true

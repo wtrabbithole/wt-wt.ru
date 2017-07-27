@@ -510,7 +510,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         continue
 
       local decorator = ::g_decorator.getDecorator(skinName, ::g_decorator_type.SKINS)
-      if (!decorator.isVisible())
+      if (!decorator || !decorator.isVisible())
         continue
 
       local unitType = ::get_es_unit_type(unit)
@@ -635,7 +635,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (unlocksObj.childrenCount() > 0)
       unlocksObj.setValue(0)
 
-    onUnlockSelect(unlocksObj)
+    onUnlockSelect(null)
     collapse()
   }
 
@@ -819,7 +819,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         if(listItemId == id.slice(4))
         {
           listBoxObj.setValue(i)
-          onUnlockSelect(obj)
           break
         }
       }
@@ -957,7 +956,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       text.append(decoratorType.getLocDesc(name))
 
       text = ::locOrStrip(::implode(text, "\n"))
-      local textBlock = "textareaNoTab {tinyFont:t='yes'; max-width:t='0.5@scrn_tgt_font'; text:t='%s';}"
+      local textBlock = "textareaNoTab {tinyFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
       guiScene.appendWithBlk(obj, ::format(textBlock, text), this)
     }
   }
@@ -1068,8 +1067,37 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (::u.isEmpty(unlockId))
       return
     obj.tooltip = obj.getValue() ?
-     ::g_unlocks.addUnlockToFavorites(unlockId) : ::g_unlocks.removeUnlockFromFavorites(unlockId)
-    ::g_unlock_view.fillUnlockFavCheckbox(obj)
+      ::g_unlocks.addUnlockToFavorites(unlockId) : ::g_unlocks.removeUnlockFromFavorites(unlockId)
+      ::g_unlock_view.fillUnlockFavCheckbox(obj)
+  }
+
+  function onBuyUnlock(obj)
+  {
+    local unlockId = ::getTblValue("unlockId", obj)
+    if (::u.isEmpty(unlockId))
+      return
+
+    msgBox("question_buy_unlock", ::loc("onlineShop/needMoneyQuestion", {
+                                      purchase = ::colorize("unlockHeaderColor", ::get_unlock_name_text(-1, unlockId)),
+                                      cost = ::get_unlock_cost(unlockId)}),
+      [
+        ["ok", @() ::g_unlocks.buyUnlock(unlockId,
+            ::Callback(@() updateUnlockBlock(unlockId), this),
+            ::Callback(@() onUnlockSelect(null), this))
+        ],
+        ["cancel", @() null]
+      ], "cancel")
+  }
+
+  function updateUnlockBlock(unlockData)
+  {
+    local unlock = unlockData
+    if (::u.isString(unlockData))
+      unlock = ::g_unlocks.getUnlockById(unlockData)
+
+    local unlockObj = scene.findObject(getUnlockBlockId(unlock))
+    if (::check_obj(unlockObj))
+      fillUnlockInfo(unlock, unlockObj)
   }
 
   function fillUnlockInfo(unlockBlk, unlockObj)
@@ -1087,6 +1115,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     ::g_unlock_view.fillStages(itemData, unlockObj, this)
     ::g_unlock_view.fillUnlockTitle(itemData, unlockObj)
     ::g_unlock_view.fillUnlockFav(itemData.id, unlockObj)
+    ::g_unlock_view.fillUnlockPurchaseButton(itemData, unlockObj)
   }
 
   function printUnlocksList(unlocksList)
@@ -1119,13 +1148,20 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (!::isInArray(unlock.id, unlocksList))
         continue
 
-      fillUnlockInfo(unlock, unlocksListObj.getChild(currentItemNum))
+      local unlockObj = unlocksListObj.getChild(currentItemNum)
+      unlockObj.id = getUnlockBlockId(unlock)
+      fillUnlockInfo(unlock, unlockObj)
       currentItemNum++
     }
 
     if (unlocksListObj.childrenCount() > 0)
       unlocksListObj.getChild(0).scrollToView();
     guiScene.setUpdatesEnabled(true, true)
+  }
+
+  function getUnlockBlockId(unlock)
+  {
+    return unlock.id + "_block"
   }
 
   function fillSkinDescr(name)

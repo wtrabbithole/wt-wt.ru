@@ -486,7 +486,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     {
       ::statsd_counter("gameStart.request_login.steam")
       ::dagor.debug("Steam Login: check_login_pass")
-      result = ::check_login_pass("", "", "steam", "steam", false)
+      result = ::check_login_pass("", "", "steam", "steam", false, false)
     }
     else
       result = requestLogin(::get_object_value(scene, "loginbox_username", ""))

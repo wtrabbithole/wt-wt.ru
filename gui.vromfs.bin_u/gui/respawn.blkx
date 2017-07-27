@@ -166,7 +166,7 @@
                 "width": "@respawnOptListContainerWidth"
               },
               {
-                "max-width": "(3@modCellWidth +1@scrollBarSize) + (0.12@scrn_tgt * 1@isWide) + (8*@sf/@pf +h)"
+                "max-width": "(3@modCellWidth +1@scrollBarSize) + (0.12@scrn_tgt * 1@isWide) + (8*@sf/@pf_outdated +h)"
               },
               {
                 "pos": "50%pw-50%w, 1*@scrn_tgt/100.0"
@@ -194,7 +194,7 @@
                         "size": "pw, 2.6@modCellHeight +4*(@tinyRowHeight + 1@baseTrHeight - 2@dp) + 2@posOptionCellPadding"
                       },
                       {
-                        "max-height": "ph - 1@minChatMisObjHeight - 8*@sf/@pf"
+                        "max-height": "ph - 1@minChatMisObjHeight - 8*@sf/@pf_outdated"
                       },
                       {
                         "tdiv": {
@@ -283,7 +283,7 @@
                         "size": "pw, fh"
                       },
                       {
-                        "pos": "0, 8*@sf/@pf"
+                        "pos": "0, 8*@sf/@pf_outdated"
                       },
                       {
                         "position": "relative"
@@ -400,7 +400,7 @@
                 "tdiv": {
                   "id": "right-panel",
                   "size": "fw, ph",
-                  "pos": "8*@sf/@pf, 0",
+                  "pos": "8*@sf/@pf_outdated, 0",
                   "position": "relative",
                   "flow": "vertical",
                   "tdiv": {
@@ -471,7 +471,7 @@
                             "id": "autostart_countdown_text",
                             "pos": "0.5*(pw-w), 0",
                             "position": "relative",
-                            "margin-right": "8*@sf/@pf"
+                            "margin-right": "8*@sf/@pf_outdated"
                           }
                         }
                       },
@@ -483,7 +483,7 @@
                     },
                     "tdiv": {
                       "id": "chatPopupNest",
-                      "size": "0.4@scrn_tgt_font+10, 0.075*@scrn_tgt_font+10",
+                      "size": "0.4@sf+10, 0.075*@sf+10",
                       "position": "absolute",
                       "flow": "vertical"
                     }
@@ -510,7 +510,7 @@
         "tdiv": {
           "id": "spectator_controls",
           "width": "@rw",
-          "pos": "pw/2-w/2, sh -1@bh -(1@bottomBarHeight+3*@sf/@pf) -h -@sIco",
+          "pos": "pw/2-w/2, sh -1@bh -(1@bottomBarHeight+3*@sf/@pf_outdated) -h -@sIco",
           "position": "absolute",
           "flow": "vertical",
           "activeText": {
@@ -568,7 +568,7 @@
         "tdiv": {
           "id": "mpChatInSpectator",
           "size": "0.33sw, 0.25@scrn_tgt",
-          "pos": "@bw, sh -1@bh -(1@bottomBarHeight+3*@sf/@pf) -h",
+          "pos": "@bw, sh -1@bh -(1@bottomBarHeight+3*@sf/@pf_outdated) -h",
           "position": "root"
         }
       },

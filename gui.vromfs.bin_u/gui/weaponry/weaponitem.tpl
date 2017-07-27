@@ -12,7 +12,7 @@ weaponry_item {
   selImg{}
   tdiv {
     id:t='modItem_discount';
-    pos:t='pw-w, -1@discountBoxDownHeight + 8*@sf/@pf';
+    pos:t='pw-w, -1@discountBoxDownHeight + 8*@sf/@pf_outdated';
     position:t='absolute';
   }
   Button_text{
@@ -65,7 +65,7 @@ weaponry_item {
           tinyFont:t='yes'
           text:t='';
           hideEmptyText:t='yes'
-          padding-right:t='2*@sf/@pf'
+          padding-right:t='2*@sf/@pf_outdated'
         }
         tdiv{
           id:t='modItem_statusBlock';
@@ -110,7 +110,7 @@ weaponry_item {
           size:t='pw, 2*@scrn_tgt/100.0'
           <</needSliderButtons>>
           <<#needSliderButtons>>
-          size:t='pw - 0.05@scrn_tgt - 8@sf/@pf, 2*@scrn_tgt/100.0'
+          size:t='pw - 0.05@scrn_tgt - 8@sf/@pf_outdated, 2*@scrn_tgt/100.0'
           <</needSliderButtons>>
           pos:t='50%pw-50%w, 0'
           position:t='relative'
@@ -209,10 +209,10 @@ weaponry_item {
           id:t='price';
           tinyFont:t='yes'
           text:t='';
-          pos:t='0, ph-h-3*@sf/@pf';
+          pos:t='0, ph-h-3*@sf/@pf_outdated';
           position:t='relative'
           hideEmptyText:t='yes'
-          padding-right:t='2*@sf/@pf'
+          padding-right:t='2*@sf/@pf_outdated'
         }
         tdiv{
           id:t='modItem_statusBlock';
@@ -253,8 +253,8 @@ weaponry_item {
       background-color:t='@white';
 
       tdiv{
-        size:t='11*@sf/@pf, 8*@sf/@pf'
-        pos:t='50%pw-50%w, -1*@sf/@pf'
+        size:t='11*@sf/@pf_outdated, 8*@sf/@pf_outdated'
+        pos:t='50%pw-50%w, -1*@sf/@pf_outdated'
         position:t='absolute'
         background-repeat:t='expand'
         background-image:t='#ui/gameuiskin#drop_menu_icon';

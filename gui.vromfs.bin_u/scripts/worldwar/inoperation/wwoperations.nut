@@ -4,14 +4,20 @@
   UPDATE_REFRESH_DELAY = 1000
 
   lastUpdateTime = 0
-  updateRequested = false
+  isUpdateRequired = false
 }
 
 /******************* Public ********************/
 
+function g_operations::forcedFullUpdate()
+{
+  isUpdateRequired = true
+  fullUpdate()
+}
+
 function g_operations::fullUpdate()
 {
-  if (!updateRequested)
+  if (!isUpdateRequired)
     return
 
   local curTime = ::dagor.getCurTime()
@@ -21,7 +27,7 @@ function g_operations::fullUpdate()
   getCurrentOperation().update()
 
   lastUpdateTime = curTime
-  updateRequested = false
+  isUpdateRequired = false
 }
 
 function g_operations::getArmiesByStatus(status)
@@ -49,13 +55,12 @@ function g_operations::getCurrentOperation()
 
 function g_operations::onEventWWFirstLoadOperation(params)
 {
-  updateRequested = true
+  isUpdateRequired = true
 }
 
 function g_operations::onEventWWLoadOperation(params)
 {
-  updateRequested = true
-  fullUpdate()
+  forcedFullUpdate()
 }
 
 function g_operations::onEventWWArmyPathTrackerStatus(params)

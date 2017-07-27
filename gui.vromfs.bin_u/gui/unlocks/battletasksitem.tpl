@@ -62,11 +62,11 @@ expandable {
         <</showAsUsualPromoButton>>
 
         <<#isPromo>>
-          margin:t='5@sf/@pf,0,0,0'
+          margin:t='5@sf/@pf_outdated,0,0,0'
         <</isPromo>>
         <<^isPromo>>
           width:t='fw'
-          margin:t='5@sf/@pf, 0'
+          margin:t='5@sf/@pf_outdated, 0'
         <</isPromo>>
       }
 
@@ -128,7 +128,14 @@ expandable {
             descImg {
               background-image:t='#ui/gameuiskin#sound_on'
             }
-            animated_wait_icon { wait_icon_cock {} }
+            animated_wait_icon {
+              background-rotation:t = '0'
+              behavior:t='increment'
+              inc-target:t='background-rotation'
+              inc-factor:t='120'
+
+              wait_icon_cock {}
+            }
             playbackImg{}
           }
         }

@@ -1,5 +1,5 @@
 message {
-  height:t='0.0666@scrn_tgt_font'
+  height:t='0.0666@sf'
   width:t='10h'
   pos:t='50%pw-50%w, 50%ph-50%h';
   position:t='absolute'

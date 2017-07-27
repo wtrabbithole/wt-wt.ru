@@ -102,7 +102,7 @@ invisSlider {
   Button_text {
     id:t = 'btn_max'
     position:t = 'relative'
-    top:t = '50%ph-50%h-1*@sf/@pf'
+    top:t = '50%ph-50%h-1*@sf/@pf_outdated'
     text:t = '#profile/maximumExp'
     on_click:t='<<btnOnMax>>'
     inactiveColor:t='no'

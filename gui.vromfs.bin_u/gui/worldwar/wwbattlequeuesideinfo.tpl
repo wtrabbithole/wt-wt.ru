@@ -5,7 +5,7 @@ tdiv {
   <<#armies>>
   img {
     pos:t='0, 50%(ph-h)'; position:t='relative'
-    size:t='50*@sf/@pf, 26*@sf/@pf'
+    size:t='50*@sf/@pf_outdated, 26*@sf/@pf_outdated'
     margin-bottom:t='0.01@scrn_tgt'
     background-image:t='<<countryIconBig>>'
   }

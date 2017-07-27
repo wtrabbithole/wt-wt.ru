@@ -1,3 +1,4 @@
+local ingame_chat = require("scripts/chat/mpChatModel.nut")
 enum SPECTATOR_MODE {
   RESPAWN     // Common multiplayer battle participant between respawns or after death.
   SKIRMISH    // Anyone entered as a Referee into any Skirmish session.
@@ -114,8 +115,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     canSeeOppositeTeam  = mode != SPECTATOR_MODE.RESPAWN
     canSendChatMessages = mode != SPECTATOR_MODE.REPLAY
 
-    if (mode == SPECTATOR_MODE.REPLAY)
-      ::clear_game_chat()
     historyLog = []
 
     loadGameChat()

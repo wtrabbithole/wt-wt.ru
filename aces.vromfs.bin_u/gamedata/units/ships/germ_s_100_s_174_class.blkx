@@ -359,7 +359,7 @@
       },
       {
         "ammo": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 500.0,
           "armorThickness": 20.0,
           "armorThrough": 15.0,
@@ -424,7 +424,7 @@
       },
       {
         "fuel_tanks": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 3000.0,
           "armorThickness": 20.0,
           "armorThrough": 200.0,
@@ -1665,78 +1665,46 @@
   },
   {
     "MetaParts": {
-      "cover_left_side": [
+      "cover": [
         {
-          "part": "bow_l_dm"
+          "part": "compartment_01_dm"
         },
         {
-          "part": "mid_l_dm"
+          "part": "compartment_02_dm"
         },
         {
-          "part": "stern_l_dm"
+          "part": "compartment_03_dm"
+        },
+        {
+          "part": "compartment_04_dm"
+        },
+        {
+          "part": "compartment_05_dm"
+        },
+        {
+          "part": "compartment_06_dm"
+        },
+        {
+          "part": "compartment_07_dm"
+        },
+        {
+          "part": "compartment_08_dm"
+        },
+        {
+          "part": "compartment_09_dm"
+        },
+        {
+          "part": "compartment_10_dm"
         },
         {
           "effect": {
-            "conditionPartsDead": 3,
+            "conditionPartsDead": 2,
             "kill": true,
             "killEffect": "drown"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "conditionDamage": 5000.0,
-            "kill": true,
-            "killEffect": "destruction"
-          }
-        }
-      ],
-      "cover_right_side": [
-        {
-          "part": "bow_r_dm"
-        },
-        {
-          "part": "mid_r_dm"
-        },
-        {
-          "part": "stern_r_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 3,
-            "kill": true,
-            "killEffect": "drown"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "conditionDamage": 5000.0,
-            "kill": true,
-            "killEffect": "destruction"
           }
         }
       ]
     }
-  },
-  {
-    "propellers": [
-      {
-        "engine": {
-          "propeller_l": "propeller_01"
-        }
-      },
-      {
-        "engine": {
-          "propeller_l": "propeller_02"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_03"
-        }
-      }
-    ]
   },
   {
     "class_tags": {
@@ -1759,8 +1727,8 @@
         "Empty": 103700.0,
         "Fuel": 13300.0,
         "TakeOff": 117000.0,
-        "momentOfInertia": [9.0,35.0,10.0],
-        "CenterOfGravity": [-1.5,-0.8,0.0]
+        "momentOfInertia": [16.0,44.0,31.0],
+        "CenterOfGravity": [-1.5,-0.6,0.0]
       },
       "engines": [
         {
@@ -1869,17 +1837,18 @@
   {
     "cockpit": {
       "headPos": [0.0,6.0,-31.0],
-      "headPosOnShooting": [3.5,6.2,0.0]
+      "headPosOnShooting": [3.5,6.2,0.0],
+      "detectionHeight": 3.6
     }
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
@@ -2415,7 +2384,7 @@
       "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 400000.0,
+      "additionalWaterDeathThreshold": 360000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0
     }
@@ -2426,24 +2395,78 @@
         "cover": {
           "part": "compartment_01_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.15
+          "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.15
+          "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.15
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_04_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_05_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_06_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_07_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_08_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_09_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_10_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 0.3
         }
       }
     ]
+  },
+  {
+    "winch": {
+      "length": 50.0
+    }
   },
   {
     "ikGunner": [
@@ -3065,9 +3088,6 @@
         "deadHeadAttitudeMax": -40.0
       },
       {
-        "dmName": "gunner_05_dm"
-      },
-      {
         "ikNode": {
           "downNode": "Bip01 L Hand",
           "midNode": "Bip01 L Forearm",
@@ -3268,7 +3288,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3331,7 +3351,7 @@
             "triggerGroup": "secondary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_07"
@@ -3359,6 +3379,9 @@
           },
           {
             "reloadTime": 15.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 40.0
@@ -3400,7 +3423,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3464,7 +3487,7 @@
             "triggerGroup": "secondary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "gun_barrel_08"
@@ -3492,6 +3515,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 40.0
@@ -3533,7 +3559,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3597,7 +3623,7 @@
             "triggerGroup": "secondary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "gun_barrel_05"
@@ -3625,6 +3651,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 40.0
@@ -3666,7 +3695,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3730,7 +3759,7 @@
             "triggerGroup": "secondary"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/20mm_MG_C38.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_naval_user_cannon.blk"
           },
           {
             "emitter": "gun_barrel_07"
@@ -3758,6 +3787,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 40.0
@@ -3799,7 +3831,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3890,6 +3922,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -3929,7 +3964,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -4027,6 +4062,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -4066,7 +4104,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -4159,6 +4197,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -4198,7 +4239,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -4275,6 +4316,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -4314,7 +4358,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -4487,11 +4531,41 @@
   },
   {
     "tank_crew": {
-      "minCrewMemberAliveCount": 5,
-      "default": {
+      "minCrewMemberAliveCount": 6,
+      "sailor1": {
+        "dmPart": "bridge_dm",
+        "role": "sailor",
+        "crew": 4
+      },
+      "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 31
+        "crew": 6
+      },
+      "sailor3": {
+        "dmPart": "compartment_02_dm",
+        "role": "sailor",
+        "crew": 10
+      },
+      "sailor4": {
+        "dmPart": "compartment_03_dm",
+        "role": "sailor",
+        "crew": 5
+      },
+      "sailor5": {
+        "dmPart": "main_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor6": {
+        "dmPart": "main_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 1
+      },
+      "sailor7": {
+        "dmPart": "main_caliber_turret_03_dm",
+        "role": "sailor",
+        "crew": 3
       }
     }
   },
@@ -4499,8 +4573,15 @@
     "modifications": {
       "30mm_PzBrGr_API": [],
       "30mm_MGr_L_Spur_HE": [],
-      "20mm_ger_c38_universal": [],
-      "7_92mm_mg15_universal": []
+      "manual_extinguisher": {
+        "effects": {
+          "extinguisherActivationCount": -1,
+          "extinguisherMinTime": 10.0,
+          "extinguisherMaxTime": 10.0,
+          "extinguisherCrewBusyTime": -1.0
+        }
+      },
+      "tank_tool_kit": []
     }
   }
 ]

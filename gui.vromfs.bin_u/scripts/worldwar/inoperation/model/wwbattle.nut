@@ -13,6 +13,7 @@ class ::WwBattle
   missionInfo = null
   battleStartMillisec = 0
   ordinalNumber = 0
+  sessionId = ""
 
   queueInfo = null
 
@@ -28,6 +29,7 @@ class ::WwBattle
     opponentsType = blk.opponentsType || -1
     updateAppliedOnHost = blk.updateAppliedOnHost || -1
     missionName = blk.desc ? blk.desc.missionName : ""
+    sessionId = blk.desc ? blk.desc.sessionId : ""
     missionInfo = ::get_mission_meta_info(missionName)
 
     createLocalizeConfig(blk.desc)
@@ -97,6 +99,12 @@ class ::WwBattle
     return id.len() > 0
   }
 
+  function isWaiting()
+  {
+    return status == ::EBS_WAITING ||
+           status == ::EBS_STALE
+  }
+
   function isActive()
   {
     return status == ::EBS_ACTIVE_STARTING ||
@@ -147,6 +155,11 @@ class ::WwBattle
     return ::WwBattleView(this)
   }
 
+  function getSessionId()
+  {
+    return sessionId
+  }
+
   function createLocalizeConfig(descBlk)
   {
     localizeConfig = {
@@ -162,7 +175,7 @@ class ::WwBattle
     local teamsBlk = blk.getBlockByName("teams")
     local descBlk = blk.getBlockByName("desc")
     local waitingTeamsBlk = descBlk ? descBlk.getBlockByName("teamsInfo") : null
-    if (!teamsBlk || status == ::EBS_WAITING && !waitingTeamsBlk)
+    if (!teamsBlk || isWaiting() && !waitingTeamsBlk)
       return
 
     for (local i = 0; i < teamsBlk.blockCount(); ++i)
@@ -212,7 +225,7 @@ class ::WwBattle
       }
 
       local teamUnitsRemain = []
-      if (status != ::EBS_WAITING)
+      if (!isWaiting())
       {
         local unitsRemainBlk = teamBlk.getBlockByName("unitsRemain")
         local aiUnitsBlk = teamBlk.getBlockByName("aiUnits")
@@ -368,7 +381,7 @@ class ::WwBattle
       return reasonData
     }
 
-    if ((team.players + ::g_squad_manager.getSquadSize()) > team.maxPlayers)
+    if ((team.players + ::g_squad_manager.getOnlineMembersCount()) > team.maxPlayers)
     {
       reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_TEAM_FULL
       reasonData.reasonText = ::loc("worldwar/squad/army_full")
@@ -541,7 +554,7 @@ class ::WwBattle
   {
     local availableUnits = {}
     foreach(unit in team.unitsRemain)
-      if (unit.count > 0)
+      if (unit.count > 0 && !unit.isForceControlledByAI)
         availableUnits[unit.name] <- unit.count
 
     return availableUnits

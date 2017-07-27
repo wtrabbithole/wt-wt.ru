@@ -295,3 +295,22 @@ function g_string::utf8ToLower(str)
 {
   return utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
 }
+
+function g_string::hexStringToInt(hexString)
+{
+  // Does the string start with '0x'? If so, remove it
+  if (hexString.len() >= 2 && hexString.slice(0, 2) == "0x")
+    hexString = hexString.slice(2)
+
+  // Get the integer value of the remaining string
+  local res = 0
+  foreach (character in hexString)
+  {
+    local nibble = character - '0'
+    if (nibble > 9)
+      nibble = ((nibble & 0x1F) - 7)
+    res = (res << 4) + nibble
+  }
+
+  return res
+}

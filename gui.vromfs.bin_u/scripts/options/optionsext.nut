@@ -329,7 +329,7 @@ function create_option_combobox(id, items, value, cb, isFull)
 
 function create_option_editbox(id, value="", password = false, maxlength = 16)
 {
-  local data = "EditBox { id:t = '" + id + "'; text:t='" + ::locOrStrip(value) + "'; width:t = '0.2@scrn_tgt_font'; max-len:t = '" + maxlength + "'; class:t='showAlways'" + (password ? " type:t = 'password' " : "") + "}" //type:t = 'password'
+  local data = "EditBox { id:t = '" + id + "'; text:t='" + ::locOrStrip(value) + "'; width:t = '0.2@sf'; max-len:t = '" + maxlength + "'; class:t='showAlways'" + (password ? " type:t = 'password' " : "") + "}" //type:t = 'password'
   return data
 }
 
@@ -439,17 +439,20 @@ function create_option_vlistbox(id, items, value, cb, isFull)
   return data
 }
 
-function create_option_slider(id, items, value, cb, isFull, sliderType, params = {})
+function create_option_slider(id, value, cb, isFull, sliderType, params = {})
 {
   if (!option_check_arg(id, value, "integer"))
     return ""
 
-  local data = format("id:t = '%s'; min:t='%s'; max:t='%s'; step:t = '%s'; value:t = '%d';",
+  local minVal = ::getTblValue("min", params, 0)
+  local maxVal = ::getTblValue("max", params, 100)
+  local data = format("id:t = '%s'; min:t='%d'; max:t='%d'; step:t = '%s'; value:t = '%d'; clicks-by-points:t='%s'; ",
                   id,
-                  ::getTblValue("min", params, 0).tostring(),
-                  ::getTblValue("max", params, 100).tostring(),
+                  minVal,
+                  maxVal,
                   ::getTblValue("step", params, 5).tostring(),
-                  value
+                  value,
+                  ::abs(maxVal - minVal) == 1 ? "yes" : "no"
                )
   if (cb != null)
     data += "on_change_value:t = '" +  cb + "';"
@@ -681,6 +684,11 @@ function create_option()
     items = null
     values = null
 
+    getTrId = function()
+    {
+      return id + "_tr"
+    }
+
     getTitle = function()
     {
       return ::stripTags(title || ::loc("options/" + id))
@@ -729,6 +737,16 @@ function get_option(type, context = null)
   local descr = create_option()
   descr.type = type
   descr.context = context
+
+  if(::u.isString(type))
+  {
+    descr.controlType = optionControlType.HEADER
+    descr.controlName <- ""
+    descr.id = "header_" + ::gen_rnd_password(10)
+    descr.getTitle = function() { return descr.type }
+    return descr
+  }
+
   if ("onChangeCb" in context)
     descr.onChangeCb = context.onChangeCb
 
@@ -959,10 +977,31 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_FONTS_CSS:
-      descr.id = "big_fonts_type"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      descr.value = ::get_current_fonts_css() == SCALE_FONTS_CSS
+      descr.fontsMap <- null
+      local availableFonts = ::g_font.getAvailableFonts()
+      if (!::has_feature("newFontsSizes"))
+      {
+        descr.id = "big_fonts_type"
+        descr.controlType = optionControlType.CHECKBOX
+        descr.controlName <- "switchbox"
+        descr.value = ::g_font.getCurrent() == availableFonts[1]
+        descr.fontsMap = {
+          [false] = availableFonts[0],
+          [true] = availableFonts[1]
+        }
+      }
+      else
+      {
+        descr.id = "fonts_type"
+        descr.controlType = optionControlType.SLIDER
+        descr.controlName <- "slider"
+        descr.value = ::find_in_array(availableFonts, ::g_font.getCurrent(), 0)
+        descr.min <- 0
+        descr.max <- availableFonts.len() - 1
+        descr.step <- 1
+        descr.fontsMap = availableFonts
+        descr.enabled <- availableFonts.len() > 1
+      }
       break
 
     case ::USEROPT_ENABLE_CONSOLE_MODE:
@@ -3223,7 +3262,7 @@ function get_option(type, context = null)
         local config = crosshair_colors[nc]
         local item = { text = "#crosshairColor/" + config.name }
         if (config.color)
-          item.hueColor <- ::color4_to_dagui_string(config.color)
+          item.hueColor <- ::g_dagui_utils.color4ToDaguiString(config.color)
         descr.items.append(item)
         if (c == nc)
           descr.value = descr.values.len() - 1
@@ -4192,7 +4231,8 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_FONTS_CSS:
-      if (::set_current_fonts_css(value ? SCALE_FONTS_CSS : PX_FONTS_CSS))
+      local selFont = ::getTblValue(value, descr.fontsMap)
+      if (selFont && ::g_font.setCurrent(selFont))
         ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
@@ -4763,17 +4803,30 @@ function create_options_container(name, options, is_focused, is_centered, column
   local wLeft  = ::format("%.2fpw", columnsRatio)
   local wRight = ::format("%.2fpw", 1.0 - columnsRatio)
 
-  foreach (opt in options)
+  local headerHaveContent = false
+  for(local i = options.len() - 1; i >= 0; i--)
   {
+    local opt = options[i]
     if (!::getTblValue(2, opt, true))
       continue
 
-    local rowData = ""
     local optionData = get_option(opt[0], context)
     if (optionData == null)
       continue
-    local trId = optionData.id + "_tr"
-    local elemTxt = ""
+
+    if(optionData.controlType == optionControlType.HEADER)
+    {
+      if( ! headerHaveContent)
+        continue
+      else
+        headerHaveContent = false
+    } else
+      headerHaveContent = true
+
+    if( ! ::getTblValue("controlName", optionData))
+      optionData.controlName <- ::getTblValue(1, opt) || "spinner"
+
+    local rowData = ""
     local isVlist = false
     local haveOptText = true
 
@@ -4783,8 +4836,7 @@ function create_options_container(name, options, is_focused, is_centered, column
     if (!::u.isEmpty(optionData.hint))
       rowData += "tooltip:t='" + ::stripTags(optionData.hint) + "'; "
 
-    local optionControl = ::getTblValue("controlName", optionData, ::getTblValue(1, opt)) || "spinner"
-    if (optionControl == "listbox")
+    if (optionData.controlName == "listbox")
     {
       if ("trListParams" in optionData)
         rowData += optionData.trListParams
@@ -4792,7 +4844,8 @@ function create_options_container(name, options, is_focused, is_centered, column
     if ("trParams" in optionData)
       rowData += optionData.trParams
 
-    switch (optionControl)
+    local elemTxt = ""
+    switch (optionData.controlName)
     {
       case "list":
       case "spinner":
@@ -4829,11 +4882,7 @@ function create_options_container(name, options, is_focused, is_centered, column
         break
 
       case "slider":
-        elemTxt = create_option_slider(optionData.id, optionData.items, optionData.value, optionData.cb, true, "Slider", optionData)
-        break
-
-      case "sliderProgress":
-        elemTxt = create_option_slider(optionData.id, optionData.items, optionData.value, optionData.cb, true, "sliderProgress", optionData)
+        elemTxt = create_option_slider(optionData.id, optionData.value, optionData.cb, true, "slider", optionData)
         break
 
       case "vlist":
@@ -4842,7 +4891,11 @@ function create_options_container(name, options, is_focused, is_centered, column
         break
     }
 
-    if (elemTxt != null && elemTxt.len() > 0)
+    local optionTitleStyle = "optiontext";
+    if(optionData.controlType == optionControlType.HEADER)
+      optionTitleStyle = "optionBlockHeader"
+
+    if (elemTxt != null)
     {
       if (isVlist)
       {
@@ -4854,20 +4907,21 @@ function create_options_container(name, options, is_focused, is_centered, column
         local tdText = ""
         if (haveOptText)
           tdText = optionData.getTitle()
-        rowData += "td { cellType:t='left'; width:t='" + wLeft + "'; overflow:t='hidden'; optiontext { id:t = 'lbl_" + optionData.id + "'; text:t ='" + tdText + "'; } }"
+        rowData += "td { overflow:t='hidden'; cellType:t='left'; width:t='" + wLeft + "'; " + optionTitleStyle + " { id:t = 'lbl_" + optionData.id + "'; text:t ='" + tdText + "'; } }"
         rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemTxt + " }"
       }
 
-      data += "tr { css-hier-invalidate:t='all'; width:t='pw'; id:t = '" + trId + "'; " + rowData + " }"
+      data = "tr { css-hier-invalidate:t='all'; width:t='pw'; id:t = '" + optionData.getTrId() + "'; " + rowData + " }" + data
 
       if (iRow == 0)
         selectedRow = iRow
       ++iRow
     }
 
-    resDescr.data.append(optionData)
+    resDescr.data.insert(0, optionData)
   }
 
+  local onTblClick = ::getTblValue("onTblClick", context)
   if (fullTable)
     data = format("flow:t='vertical' table {" +
                     "id:t='%s'; " +
@@ -4879,12 +4933,14 @@ function create_options_container(name, options, is_focused, is_centered, column
                     "cur_col:t='0'; cur_row:t='%d'; num_rows:t='-1'; " +
                     "on_wrap_up:t='onWrapUp';" +
                     "on_wrap_down:t='onWrapDown';" +
+                    "%s" +
                     "\n%s\n" +
                   "}",
                   name,
                   is_centered? "(ph-h)/2":"0", absolutePos? "absolute":"relative",
                   is_focused? "yes":"no",
                   selectedRow,
+                  onTblClick ? "on_click:t=" + onTblClick : "",
                   data
                  )
 

@@ -279,7 +279,7 @@ function g_clans::hasRightsToQueueWWar()
   if (!::has_feature("WorldWarClansQueue"))
     return false
   local myRights = clan_get_role_rights(clan_get_my_role())
-  return ::isInArray("LEADER", myRights)
+  return ::isInArray("WW_REGISTER", myRights)
 }
 
 function g_clans::isNonLatinCharsAllowedInClanName()

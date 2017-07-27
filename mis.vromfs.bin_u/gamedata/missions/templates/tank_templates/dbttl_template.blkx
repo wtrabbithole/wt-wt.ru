@@ -131,9 +131,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "dbttl_a_start"
-          }
+          "triggerEnable": [
+            {
+              "target": "dbttl_a_start"
+            },
+            {
+              "target": "dbttl_check_random_spawn"
+            }
+          ]
         },
         {
           "wait": {
@@ -251,9 +256,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "dbttl_b_start"
-          }
+          "triggerEnable": [
+            {
+              "target": "dbttl_b_start"
+            },
+            {
+              "target": "dbttl_check_random_spawn"
+            }
+          ]
         },
         {
           "wait": {
@@ -317,92 +327,19 @@
         "initMission": []
       },
       "conditions": [],
-      "actions": [
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/spawn_01",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": true,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "target": "@t1_spawn_01_name",
-            "team": "A",
-            "tags": {
-              "tank": true
-            }
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/spawn_01",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": true,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "target": "@t2_spawn_01_name",
-            "team": "B",
-            "tags": {
-              "tank": true
-            }
-          }
-        },
-        {
-          "missionMarkAsCaptureZone": {
-            "army": 1,
-            "timeMultiplier": 3.0,
-            "disableZone": false,
-            "name_for_respawn_base": "",
-            "target": "@zone_name",
-            "canCaptureOnGround": false,
-            "canCaptureInAir": false,
-            "canCaptureByGM": true,
-            "captureNoPenalty": true
-          }
-        },
-        {
-          "unitWakeUp": {
-            "target": "@circle_name"
-          }
-        },
-        {
-          "unitPlayEffect": {
-            "effect_type": "specify",
-            "effect": "pv_point_smoke_blue",
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [0.0,0.0],
-            "show": true,
-            "attach": true,
-            "scale": 1.0,
-            "loopSpawn": true,
-            "delay": [1.0,1.0],
-            "target": "@effect_name"
-          }
-        },
-        {
-          "triggerEnable": [
-            {
-              "target": "dbttl_check_battle_area_exist"
-            },
-            {
-              "target": "dbttl_check_second_spawn_exist"
-            }
-          ]
+      "actions": {
+        "missionMarkAsCaptureZone": {
+          "army": 1,
+          "timeMultiplier": 3.0,
+          "disableZone": false,
+          "name_for_respawn_base": "",
+          "target": "@zone_name",
+          "canCaptureOnGround": false,
+          "canCaptureInAir": false,
+          "canCaptureByGM": true,
+          "captureNoPenalty": true
         }
-      ],
+      },
       "else_actions": []
     },
     "dbttl_b_start": {
@@ -417,95 +354,22 @@
         "initMission": []
       },
       "conditions": [],
-      "actions": [
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/spawn_01",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": true,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "target": "@t1_spawn_01_name",
-            "team": "A",
-            "tags": {
-              "tank": true
-            }
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/spawn_01",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": true,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "target": "@t2_spawn_01_name",
-            "team": "B",
-            "tags": {
-              "tank": true
-            }
-          }
-        },
-        {
-          "missionMarkAsCaptureZone": {
-            "army": 2,
-            "timeMultiplier": 3.0,
-            "disableZone": false,
-            "name_for_respawn_base": "",
-            "target": "@zone_name",
-            "canCaptureOnGround": false,
-            "canCaptureInAir": false,
-            "canCaptureByGM": true,
-            "captureNoPenalty": true
-          }
-        },
-        {
-          "unitWakeUp": {
-            "target": "@circle_name"
-          }
-        },
-        {
-          "unitPlayEffect": {
-            "effect_type": "specify",
-            "effect": "pv_point_smoke_blue",
-            "offset": [0.0,0.0,0.0],
-            "radiusOffset": [0.0,0.0],
-            "show": true,
-            "attach": true,
-            "scale": 1.0,
-            "loopSpawn": true,
-            "delay": [1.0,1.0],
-            "target": "@effect_name"
-          }
-        },
-        {
-          "triggerEnable": [
-            {
-              "target": "dbttl_check_battle_area_exist"
-            },
-            {
-              "target": "dbttl_check_second_spawn_exist"
-            }
-          ]
+      "actions": {
+        "missionMarkAsCaptureZone": {
+          "army": 2,
+          "timeMultiplier": 3.0,
+          "disableZone": false,
+          "name_for_respawn_base": "",
+          "target": "@zone_name",
+          "canCaptureOnGround": false,
+          "canCaptureInAir": false,
+          "canCaptureByGM": true,
+          "captureNoPenalty": true
         }
-      ],
+      },
       "else_actions": []
     },
-    "dbttl_check_second_spawn_exist": {
+    "dbttl_check_random_spawn": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -519,7 +383,19 @@
       "conditions": [
         {
           "objectExists": {
+            "target": "@t1_spawn_01_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
             "target": "@t1_spawn_02_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_spawn_01_name",
             "type": "squad"
           }
         },
@@ -531,48 +407,6 @@
         }
       ],
       "actions": [
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/spawn_02",
-            "spawnEffect": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "isStrictSpawn": false,
-            "useExisting": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "isIndividual": true,
-            "target": "@t1_spawn_02_name",
-            "team": "A",
-            "tags": {
-              "tank": true
-            }
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/spawn_02",
-            "spawnEffect": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "offset": [0.0,0.0,0.0],
-            "radius": -1.0,
-            "isStrictSpawn": false,
-            "useExisting": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "isIndividual": true,
-            "target": "@t2_spawn_02_name",
-            "team": "B",
-            "tags": {
-              "tank": true
-            }
-          }
-        },
         {
           "missionMarkAsRespawnPoint": [
             {
@@ -680,6 +514,173 @@
               }
             }
           ]
+        },
+        {
+          "triggerEnable": {
+            "target": "dbttl_start"
+          }
+        }
+      ],
+      "else_actions": {
+        "triggerEnable": {
+          "target": "dbttl_start"
+        }
+      }
+    },
+    "dbttl_start": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_01",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "target": "@t1_spawn_01_name",
+            "team": "A",
+            "tags": {
+              "tank": true
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_01",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "target": "@t2_spawn_01_name",
+            "team": "B",
+            "tags": {
+              "tank": true
+            }
+          }
+        },
+        {
+          "unitWakeUp": {
+            "target": "@circle_name"
+          }
+        },
+        {
+          "unitPlayEffect": {
+            "effect_type": "specify",
+            "effect": "pv_point_smoke_blue",
+            "offset": [0.0,0.0,0.0],
+            "radiusOffset": [0.0,0.0],
+            "show": true,
+            "attach": true,
+            "scale": 1.0,
+            "loopSpawn": true,
+            "delay": [1.0,1.0],
+            "target": "@effect_name"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "dbttl_check_battle_area_exist"
+            },
+            {
+              "target": "dbttl_check_second_spawn_exist"
+            }
+          ]
+        }
+      ],
+      "else_actions": []
+    },
+    "dbttl_check_second_spawn_exist": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t1_spawn_02_name",
+            "type": "squad"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_spawn_02_name",
+            "type": "squad"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_02",
+            "spawnEffect": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "isStrictSpawn": false,
+            "useExisting": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "isIndividual": true,
+            "target": "@t1_spawn_02_name",
+            "team": "A",
+            "tags": {
+              "tank": true
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_02",
+            "spawnEffect": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "isStrictSpawn": false,
+            "useExisting": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "isIndividual": true,
+            "target": "@t2_spawn_02_name",
+            "team": "B",
+            "tags": {
+              "tank": true
+            }
+          }
         }
       ],
       "else_actions": []
@@ -708,6 +709,7 @@
           "mapArea": true,
           "killOutOfBattleArea": true,
           "target": "@battle_area_name",
+          "newGridHorizontalCellCount": 0,
           "area": "@battle_area_name"
         }
       },

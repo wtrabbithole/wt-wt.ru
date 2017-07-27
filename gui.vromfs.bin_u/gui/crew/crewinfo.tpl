@@ -34,9 +34,9 @@ tdiv {
     }
     img {
       size:t='1@cIco, 1@cIco'
-      pos:t='-6@sf/@pf, 0'
+      pos:t='-6@sf/@pf_outdated, 0'
       position:t='relative'
-      margin-right:t='2@sf/@pf'
+      margin-right:t='2@sf/@pf_outdated'
       background-image:t='<<crewSpecializationIcon>>'
     }
     activeText {
@@ -64,7 +64,7 @@ tdiv {
   <</needCurPoints>>
 
   table {
-    padding:t='0, 12*@sf/@pf'
+    padding:t='0, 12*@sf/@pf_outdated'
     width:t='pw'
 
     <<#categoryRows>>
@@ -79,7 +79,7 @@ tdiv {
           display:t='hide'
         }
         <</categoryTooltip>>
-        padding-right:t='12*@sf/@pf'
+        padding-right:t='12*@sf/@pf_outdated'
 
         textarea {
           pos:t='0, 0.5(ph-h)'
@@ -103,7 +103,7 @@ tdiv {
 
         // This fixes strange bug with text
         // area repositioning when mouse moves.
-        width:t='0.1@scrn_tgt_font'
+        width:t='0.1@sf'
 
         textarea {
           pos:t='0.5(pw-w), 0'

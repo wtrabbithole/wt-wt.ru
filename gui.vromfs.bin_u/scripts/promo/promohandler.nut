@@ -304,7 +304,11 @@ class Promo
     if (currentGameModeId == null)
       return
 
-    local searchedTask = ::g_battle_tasks.getTasksArrayByGameModeDiffCode(null, currentGameModeId)
+    local tasksArray = ::g_battle_tasks.getTasksArrayByDifficultyTypesArray([
+      ::g_battle_task_difficulty.EASY,
+      ::g_battle_task_difficulty.MEDIUM
+    ])
+    local searchedTask = ::g_battle_tasks.getTasksArrayByGameModeDiffCode(tasksArray, currentGameModeId)
     foreach(task in searchedTask)
     {
       if (::g_battle_tasks.isTaskDone(task))

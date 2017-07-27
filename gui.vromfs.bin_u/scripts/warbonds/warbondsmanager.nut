@@ -1,3 +1,5 @@
+const MAX_ALLOWED_WARBONDS_BALANCE = 0x7fffffff
+
 ::g_warbonds <- {
   FULL_ID_SEPARATOR = "."
 
@@ -7,6 +9,8 @@
   fontIcons = {}
   isFontIconsValid = false
   defaultWbFontIcon = "currency/warbond"
+
+  maxAllowedWarbondsBalance = MAX_ALLOWED_WARBONDS_BALANCE //default value as on server side, MAX_ALLOWED_WARBONDS_BALANCE
 }
 
 function g_warbonds::getList(filterFunc = null)
@@ -40,6 +44,7 @@ function g_warbonds::validateList()
   if (!wBlk)
     return
 
+  maxAllowedWarbondsBalance = wBlk.maxAllowedWarbondsBalance || maxAllowedWarbondsBalance
   for(local i = 0; i < wBlk.blockCount(); i++)
   {
     local warbondBlk = wBlk.getBlock(i)
@@ -58,26 +63,12 @@ function g_warbonds::validateList()
   })
 }
 
-function g_warbonds::isWarbondsRecounted()
+function g_warbonds::getBalanceText()
 {
-  local hasCurrent = false
-  local timersValid = true
-  foreach(wb in getList())
-  {
-    hasCurrent = hasCurrent || wb.isCurrent()
-    timersValid = timersValid && wb.getChangeStateTimeLeft() >= 0
-  }
-  return hasCurrent && timersValid
-}
+  local wbList = getVisibleList()
+  local textList = ::u.map(wbList, @(wb) wb.getBalanceText())
 
-function g_warbonds::getBalanceText(wbId = null, wbListId = null, showNextTime = true)
-{
-  local wbList = getVisibleList((@(wbId, wbListId) function(wb) {
-                                  return (!wbId || wbId == wb.id) && (!wbListId || wbListId == wb.listId)
-                                })(wbId, wbListId))
-  local textList = ::u.map(wbList, function (wb) { return ::colorize("activeTextColor", wb.getBalanceText()) })
-
-  if (showNextTime)
+  if (!::has_feature("Warbonds_2_0"))
   {
     local nextTime = 0
     local nextTimeIdx = -1
@@ -101,6 +92,18 @@ function g_warbonds::getBalanceText(wbId = null, wbListId = null, showNextTime =
   return ::implode(textList, ", ")
 }
 
+function g_warbonds::isWarbondsRecounted()
+{
+  local hasCurrent = false
+  local timersValid = true
+  foreach(wb in getList())
+  {
+    hasCurrent = hasCurrent || wb.isCurrent()
+    timersValid = timersValid && wb.getChangeStateTimeLeft() >= 0
+  }
+  return hasCurrent && timersValid
+}
+
 function g_warbonds::getInfoText()
 {
   if (!::g_warbonds.isWarbondsRecounted())
@@ -116,6 +119,11 @@ function g_warbonds::findWarbond(wbId, wbListId = null)
                     (@(wbId, wbListId) function(wb) {
                       return wbId == wb.id && wbListId == wb.listId
                     })(wbId, wbListId))
+}
+
+function g_warbonds::getCurrentWarbond()
+{
+  return findWarbond("WarBond")
 }
 
 function g_warbonds::getWarbondByFullId(wbFullId)
@@ -148,14 +156,14 @@ function g_warbonds::checkLoadWarbondsIcons()
   if (!::u.isDataBlock(iconsBlk))
     return
 
-  for(local i = 0; i < iconsBlk.blockCount(); i++)
+  for (local i = 0; i < iconsBlk.blockCount(); i++)
   {
     local wbBlk = iconsBlk.getBlock(i)
     local wbName = wbBlk.getBlockName()
     if (!(wbName in fontIcons))
       fontIcons[wbName] <- {}
 
-    for(local j = 0; j < wbBlk.paramCount(); j++)
+    for (local j = 0; j < wbBlk.paramCount(); j++)
     {
       local value = wbBlk.getParamValue(j)
       if (!::u.isString(value))
@@ -195,6 +203,11 @@ function g_warbonds::isShopAvailable()
 function g_warbonds::isShopButtonVisible()
 {
   return ::has_feature("Warbonds")
+}
+
+function g_warbonds::getLimit()
+{
+  return maxAllowedWarbondsBalance
 }
 
 function g_warbonds::onEventPriceUpdated(p)

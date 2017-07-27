@@ -36,7 +36,7 @@ imgButton {
 
     <<#onDeleteClick>>
       closeBtn {
-        pos:t='pw - w + 2*@sf/@pf, 0'
+        pos:t='pw - w + 2*@sf/@pf_outdated, 0'
         tooltip:t='#msgbox/btn_delete'
         on_click:t='<<onDeleteClick>>'
         img {}
@@ -107,7 +107,7 @@ imgButton {
       tooltipId:t='<<tooltipId>>'
       on_tooltip_open:t='onGenericTooltipOpen'
       on_tooltip_close:t='onTooltipObjClose'
-      max-width:t='8*@decalIconHeight+10*@sf/@pf'
+      max-width:t='8*@decalIconHeight+10*@sf/@pf_outdated'
       tinyFont:t='yes';
       display:t='hide';
     }

@@ -17,7 +17,8 @@ class ::gui_handlers.LoginWndHandlerDMM extends ::BaseGuiHandler
     ::dagor.debug("DMM Login: dmm_user_id " + ::dgs_get_argv("dmm_user_id"))
     ::dagor.debug("DMM Login: dmm_token " + ::dgs_get_argv("dmm_token"))
     ::statsd_counter("gameStart.request_login.dmm")
-    local ret = ::check_login_pass(::dgs_get_argv("dmm_user_id"), ::dgs_get_argv("dmm_token"), "749130", "dmm", false)
+    local ret = ::check_login_pass(::dgs_get_argv("dmm_user_id"),
+      ::dgs_get_argv("dmm_token"), "749130", "dmm", false, false)
     proceedAuthorizationResult(ret)
   }
 

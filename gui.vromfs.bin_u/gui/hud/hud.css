@@ -15,6 +15,7 @@
 @const hitCamRenderAspectRatio: 2.0;
 @const hitCameraWidth: 0.4*@shHud;
 @const hitCameraHeight: @hitCameraWidth / @hitCamRenderAspectRatio;
+@const hitCamFadedColor: #a0a0a0;
 
 hud_touch_shortcut {
   behavior:touchArea;
@@ -325,6 +326,30 @@ rewardMessageText[view_class=penalty] {
 
 
 
+hudMessages[message_style=race_notification] textareaNoTab {
+  textShade:no;
+  text-shade:"blur:24";
+  text-shade-x:1;
+  text-shade-y:1;
+  text-shade-color:#80000000;
+}
+
+hudMessages[message_style=race_notification] > [isPlayer=no] textareaNoTab {
+  overlayTextColor:silver;
+}
+
+hudMessages[message_style=race_notification] > [isPlayer=no][isLeader=yes] textareaNoTab {
+  overlayTextColor:userlog;
+}
+
+hudMessages[message_style=race_notification] >[isPlayer=yes] textareaNoTab {
+  overlayTextColor:mainPlayer;
+}
+
+
+
+
+
 hudEnemyDamage > damagePart {
   behaviour:textArea;
   re-type:textarea;
@@ -438,8 +463,32 @@ hitCamera[result=fuel] hitCameraTitle, hitCamera[result=crew] hitCameraTitle, hi
   text-shade-color:#32000000;
 }
 
+hitCamDebuff {
+  css-hier-invalidate:yes;
+}
+
+hitCamDebuffIcon {
+  background-color:#64646464;
+}
+
+hitCamDebuffLabel {
+  behaviour:textArea;
+  re-type:textarea;
+  font:@small;
+}
+
+hitCamDebuff[state=off]       > hitCamDebuffIcon { background-color:#500C0E11; }
+hitCamDebuff[state=killed]    > hitCamDebuffIcon { background-color:#ff4040;   }
+
+hitCamDebuff[state=off]       > hitCamDebuffLabel { color:#500C0E11; }
+hitCamDebuff[state=healthy]   > hitCamDebuffLabel { color:#A0A0A0;   }
+hitCamDebuff[state=good]      > hitCamDebuffLabel { color:#FFFFFF;   }
+hitCamDebuff[state=critical]  > hitCamDebuffLabel { color:#FFC000;   }
+hitCamDebuff[state=killed]    > hitCamDebuffLabel { color:#ff4040;   }
 
 
+
+textareaCentered[shadeStyle=HudHeader3D],
 textareaNoTab[shadeStyle=HudHeader3D],
 [shadeStyle=HudHeader3D] > textareaNoTab,
 msgText[shadeStyle=HudHeader3D] {

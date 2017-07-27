@@ -1187,6 +1187,12 @@
           },
           "main_caliber_turret_02_dm": {
             "armorThickness": 1.0
+          },
+          "turret_01_dm": {
+            "armorThickness": 25.0
+          },
+          "turret_02_dm": {
+            "armorThickness": 25.0
           }
         }
       },
@@ -2312,6 +2318,49 @@
     ]
   },
   {
+    "MetaParts": {
+      "cover": [
+        {
+          "part": "compartment_01_dm"
+        },
+        {
+          "part": "compartment_02_dm"
+        },
+        {
+          "part": "compartment_03_dm"
+        },
+        {
+          "part": "compartment_04_dm"
+        },
+        {
+          "part": "compartment_05_dm"
+        },
+        {
+          "part": "compartment_06_dm"
+        },
+        {
+          "part": "compartment_07_dm"
+        },
+        {
+          "part": "compartment_08_dm"
+        },
+        {
+          "part": "compartment_09_dm"
+        },
+        {
+          "part": "compartment_10_dm"
+        },
+        {
+          "effect": {
+            "conditionPartsDead": 2,
+            "kill": true,
+            "killEffect": "drown"
+          }
+        }
+      ]
+    }
+  },
+  {
     "DamageEffects": [
       {
         "part": [
@@ -2650,48 +2699,17 @@
     ]
   },
   {
-    "MetaParts": {
-      "cover": [
-        {
-          "part": "compartment_01_dm"
-        },
-        {
-          "part": "compartment_02_dm"
-        },
-        {
-          "part": "compartment_03_dm"
-        },
-        {
-          "part": "compartment_04_dm"
-        },
-        {
-          "part": "compartment_05_dm"
-        },
-        {
-          "part": "compartment_06_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 3,
-            "kill": true,
-            "killEffect": "drown"
-          }
-        }
-      ]
-    }
-  },
-  {
     "tank_crew": {
       "minCrewMemberAliveCount": 8,
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 7
+        "crew": 6
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 4
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
@@ -2701,12 +2719,12 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 9
+        "crew": 8
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 8
+        "crew": 7
       },
       "sailor6": {
         "dmPart": "compartment_05_dm",
@@ -2715,6 +2733,16 @@
       },
       "sailor7": {
         "dmPart": "compartment_06_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor8": {
+        "dmPart": "main_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor9": {
+        "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
         "crew": 2
       }
@@ -2726,7 +2754,7 @@
       "waterMassVel": -3000.0,
       "waterMassMult": 25.0,
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 800000.0,
+      "additionalWaterDeathThreshold": 635000.0,
       "additionalWaterShouldDiePercent": 0.51,
       "fatalBreachDrownTime": 25.0
     }
@@ -2743,8 +2771,8 @@
       {
         "cover": {
           "part": "compartment_02_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.4
+          "weight": 0.5,
+          "maxWaterAlive": 0.2
         }
       },
       {
@@ -2764,39 +2792,15 @@
       {
         "cover": {
           "part": "compartment_05_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.4
+          "weight": 0.8,
+          "maxWaterAlive": 0.3
         }
       },
       {
         "cover": {
           "part": "compartment_06_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.4
-        }
-      }
-    ]
-  },
-  {
-    "propellers": [
-      {
-        "engine": {
-          "propeller_l": "propeller_01"
-        }
-      },
-      {
-        "engine": {
-          "propeller_l": "propeller_02"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_03"
-        }
-      },
-      {
-        "engine": {
-          "propeller_r": "propeller_04"
+          "weight": 0.5,
+          "maxWaterAlive": 0.2
         }
       }
     ]
@@ -2822,7 +2826,7 @@
         "Empty": 206000.0,
         "Fuel": 4000.0,
         "TakeOff": 210000.0,
-        "momentOfInertia": [13.0,54.0,44.0],
+        "momentOfInertia": [19.0,52.0,38.0],
         "CenterOfGravity": [-4.5,0.1,0.0],
         "AdvancedMass": false,
         "cls_body": 0.75,
@@ -2835,7 +2839,7 @@
         {
           "engine": {
             "pos": [-18.0,-1.5,2.0],
-            "maxThrust": 155000.0,
+            "maxThrust": 149000.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_room_01_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -2845,7 +2849,7 @@
         {
           "engine": {
             "pos": [-18.0,-1.5,-2.0],
-            "maxThrust": 155000.0,
+            "maxThrust": 149000.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_room_02_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -2855,7 +2859,7 @@
         {
           "engine": {
             "pos": [-18.0,-1.5,1.0],
-            "maxThrust": 155000.0,
+            "maxThrust": 149000.0,
             "outputParam": "propeller_rotate_03:CRS",
             "engineDmPart": "engine_room_02_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -2865,7 +2869,7 @@
         {
           "engine": {
             "pos": [-18.0,-1.5,-1.0],
-            "maxThrust": 155000.0,
+            "maxThrust": 149000.0,
             "outputParam": "propeller_rotate_04:CRS",
             "engineDmPart": "engine_room_01_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -2882,30 +2886,21 @@
       },
       "hydrodynamics": [
         {
-          "keelArea": 4.0
-        },
-        {
           "bodyArea": 0.0
-        },
-        {
-          "keelArm": [-25.0,-1.2,0.0]
-        },
-        {
-          "bodyArm": [-1.0,0.0,0.0]
         },
         {
           "rudder": {
             "pos": [-20.0,-1.2,1.5],
-            "area": 3.0,
-            "deflection": 45.0,
+            "area": 2.2,
+            "deflection": 40.0,
             "dmPart": "steering_gear_01_dm"
           }
         },
         {
           "rudder": {
             "pos": [-20.0,-1.2,-1.5],
-            "area": 3.0,
-            "deflection": 45.0,
+            "area": 2.2,
+            "deflection": 40.0,
             "dmPart": "steering_gear_01_dm"
           }
         }
@@ -2989,7 +2984,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3132,7 +3127,7 @@
             "randomAngle": 0.0
           },
           {
-            "accuracyAir": 0.5
+            "accuracyAir": 1.0
           },
           {
             "accuracyGnd": 0.5
@@ -3298,9 +3293,9 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,8.0,-38.0],
-      "headPosOnShooting": [4.5,6.0,0.0],
-      "detectionHeight": 5.0
+      "headPos": [0.0,8.0,-36.0],
+      "headPosOnShooting": [4.7,8.1,0.0],
+      "detectionHeight": 8.5
     }
   },
   {
@@ -3852,6 +3847,11 @@
   {
     "optics": {
       "binoculars": "navy_binoculars"
+    }
+  },
+  {
+    "winch": {
+      "length": 50.0
     }
   }
 ]

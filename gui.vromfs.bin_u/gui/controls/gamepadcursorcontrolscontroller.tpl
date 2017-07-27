@@ -33,7 +33,7 @@ tdiv {
   <<#rightTrigger>>
   tdiv {
     pos:t='<<contactPointX>>/1288pw-h, <<contactPointY>>/880ph-0.5h'
-    size:t='173/1288pw, 1*@sf/@pf'
+    size:t='173/1288pw, 1*@sf/@pf_outdated'
     position:t='absolute'
     background-color:t='@white'
   }
@@ -53,7 +53,7 @@ tdiv {
   <<#leftStick>>
   tdiv {
     pos:t='(<<contactPointX>> - 239)/1288pw, <<contactPointY>>/880ph-0.5h'
-    size:t='239/1288pw, 1*@sf/@pf'
+    size:t='239/1288pw, 1*@sf/@pf_outdated'
     position:t='absolute'
     background-color:t='@white'
   }
@@ -73,7 +73,7 @@ tdiv {
   <<#rightStick>>
   tdiv {
     pos:t='<<contactPointX>>/1288pw-0.5w, <<contactPointY>>/880ph'
-    size:t='1*@sf/@pf, 150/880ph'
+    size:t='1*@sf/@pf_outdated, 150/880ph'
     position:t='absolute'
     background-color:t='@white'
   }

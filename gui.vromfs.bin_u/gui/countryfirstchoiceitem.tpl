@@ -1,5 +1,6 @@
 VerticalListBox {
   id:t='country_choice_list_box';
+  navigatorShortcuts:t='yes'
   on_select:t='onSelectCountry';
 
   <<#countries>>

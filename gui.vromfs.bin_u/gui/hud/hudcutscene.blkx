@@ -7,14 +7,16 @@
   {
     "tdiv": {
       "id": "hud_hints_nest",
-      "width": "pw",
+      "size": "pw, ph",
+      "position": "absolute",
       "css-hier-invalidate": "yes",
       "tdiv": {
         "id": "mission_hints",
         "width": "(2/3) * sw",
-        "position": "root",
-        "pos": "pw/2 - w/2, @shHud - 0.2@scrn_tgt",
-        "flow": "vertical"
+        "pos": "pw-w, 0.9ph",
+        "position": "relative",
+        "flow": "vertical",
+        "flow-align": "right"
       }
     }
   }

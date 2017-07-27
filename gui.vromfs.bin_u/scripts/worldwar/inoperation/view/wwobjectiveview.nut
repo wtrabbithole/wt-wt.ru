@@ -38,7 +38,7 @@ class ::WwObjectiveView
 
   function getDesc()
   {
-    return type.getDesc(staticBlk, side)
+    return type.getDesc(staticBlk, dynamicBlk, side)
   }
 
   function getParamsArray()

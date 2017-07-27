@@ -13,7 +13,7 @@ frame {
     id:t='game_mode_select';
     position:t='relative';
     max-width:t='0.762@scrn_tgt';
-    max-height:t='p.p.h-0.045@scrn_tgt_font - 2@framePadding';
+    max-height:t='p.p.h-0.045@sf - 2@framePadding';
     overflow-y:t='auto';
     flow:t='h-flow';
     total-input-transparent:t='yes';
@@ -215,7 +215,7 @@ frame {
           img {
             size:t='@cIco, @cIco';
             background-image:t='<<img>>';
-            margin-left:t='0.01@scrn_tgt_font';
+            margin-left:t='0.01@sf';
           }
           <</countries>>
         }
@@ -239,9 +239,9 @@ frame {
   div {
     id:t='cluster_select_button_container';
     width:t='0.759@scrn_tgt';
-    height:t='0.045@scrn_tgt_font';
+    height:t='0.045@sf';
     padding-top:t='0.3@sIco';
-    padding:t='0.005@scrn_tgt_font';
+    padding:t='0.005@sf';
     cluster_select_button_container:t='yes';
     behavior:t='posNavigator';
     navigatorShortcuts:t='active';
@@ -255,7 +255,7 @@ frame {
 
     button {
       id:t='cluster_select_button';
-      height:t='0.035@scrn_tgt_font';
+      height:t='0.035@sf';
       position:t='relative';
       padding-left:t='1.2@sIco';
       on_click:t='onOpenClusterSelect';
@@ -263,8 +263,8 @@ frame {
 
       img {
         position:t='absolute';
-        pos:t='12*@sf/@pf, ph/2 - h/2';
-        size:t='5*@sf/@pf, ph';
+        pos:t='12*@sf/@pf_outdated, ph/2 - h/2';
+        size:t='5*@sf/@pf_outdated, ph';
         rotation:t='0';
         background-image:t='#ui/gameuiskin#drop_menu_separator';
         bgcolor:t='#FFFFFF';
@@ -274,7 +274,7 @@ frame {
       img {
         position:t='absolute';
         pos:t='0, ph/2 - h/2';
-        size:t='11*@sf/@pf, 8*@sf/@pf';
+        size:t='11*@sf/@pf_outdated, 8*@sf/@pf_outdated';
         rotation:t='0';
         background-image:t='#ui/gameuiskin#drop_menu_icon';
         bgcolor:t='#FFFFFF';

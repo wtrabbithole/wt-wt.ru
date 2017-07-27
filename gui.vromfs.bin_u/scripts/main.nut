@@ -1,6 +1,7 @@
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
 ::dagor.runScript("sqStdLibs/scriptReloader/scriptReloader.nut")
+::g_script_reloader.loadOnce("sqStdLibs/helpers/backCompatibility.nut")
 ::g_script_reloader.loadOnce("scripts/compatibility.nut")
 
 ::nda_version <- -1
@@ -290,6 +291,13 @@ if (::g_script_reloader.isInReloading)
 
 foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   ::add_script_gui_behaviour(bhvName, bhvClass)
+
+::u.registerClass(
+  "DaGuiObject",
+  ::DaGuiObject,
+  @(obj1, obj2) obj1.isValid() && obj2.isValid() && obj1.isEqual(obj2),
+  @(obj) !obj.isValid()
+)
 
 //------- ^^^ files before login ^^^ ----------
 
@@ -614,6 +622,7 @@ function load_scripts_after_login()
     "items/orderUseResult.nut"
     "items/orders.nut"
     "items/orderActivationWindow.nut"
+    "inventory/inventory.nut"
 
     "crew/crewShortCache.nut"
     "crew/skillParametersRequestType.nut"
@@ -653,6 +662,7 @@ function load_scripts_after_login()
     "hud/hudShipDebuffs.nut"
     "hud/hudDisplayTimers.nut"
     "hud/hudCrewState.nut"
+    "hud/hudEnemyDebuffsType.nut"
     "hud/hudEnemyDamage.nut"
     "hud/hudRewardMessage.nut"
     "hud/hudMessages.nut"
@@ -672,14 +682,8 @@ function load_scripts_after_login()
     "warbonds/warbondAward.nut"
     "warbonds/warbond.nut"
     "warbonds/warbondsManager.nut"
+    "warbonds/warbondsView.nut"
     "warbonds/warbondShop.nut"
-
-    "matching/serviceNotifications/mlogin.nut"
-    "matching/serviceNotifications/mrpc.nut"
-    "matching/serviceNotifications/mpresense.nut"
-    "matching/serviceNotifications/match.nut"
-    "matching/serviceNotifications/msquad.nut"
-    "matching/serviceNotifications/worldwar.nut"
 
     "statsd/missionStats.nut"
     "debugTools/dbgCheckContent.nut"
@@ -692,6 +696,14 @@ function load_scripts_after_login()
     "utils/popupMessages.nut"
     "utils/fileDialog.nut"
     "utils/soundManager.nut"
+
+    "matching/serviceNotifications/match.nut"
+    "matching/serviceNotifications/mlogin.nut"
+    "matching/serviceNotifications/mrpc.nut"
+    "matching/serviceNotifications/mpresense.nut"
+    "matching/serviceNotifications/msquad.nut"
+    "matching/serviceNotifications/worldwar.nut"
+    "matching/serviceNotifications/mrooms.nut"
 
     "webpoll.nut"
   ])

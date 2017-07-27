@@ -8,6 +8,7 @@ function gui_start_battle_tasks_wnd(taskId = null)
 
 enum BattleTasksWndTab {
   BATTLE_TASKS,
+  BATTLE_TASKS_HARD,
   PERSONAL_UNLOCKS,
   HISTORY
 }
@@ -22,8 +23,20 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   currentTasksArray = null
   personalUnlocksArray = null
-  buildedBattleTasksArray = null
-  buildedPersonalUnlocksArray = null
+
+  configsArrayByTabType = {
+    [BattleTasksWndTab.BATTLE_TASKS] = null,
+    [BattleTasksWndTab.BATTLE_TASKS_HARD] = null,
+    [BattleTasksWndTab.PERSONAL_UNLOCKS] = null,
+  }
+
+  difficultiesByTabType = {
+    [BattleTasksWndTab.BATTLE_TASKS] = (::has_feature("Warbonds_2_0")
+      ? [::g_battle_task_difficulty.EASY, ::g_battle_task_difficulty.MEDIUM]
+      : [::g_battle_task_difficulty.EASY, ::g_battle_task_difficulty.MEDIUM, ::g_battle_task_difficulty.HARD]),
+    [BattleTasksWndTab.BATTLE_TASKS_HARD] = [::g_battle_task_difficulty.HARD]
+  }
+
   newIconWidgetByTaskId = null
 
   finishedTaskIdx = -1
@@ -40,13 +53,19 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   tabsList = [
     {
       tabType = BattleTasksWndTab.BATTLE_TASKS
-      isVisible = function(){ return ::has_feature("BattleTasks")}
+      isVisible = @() ::has_feature("BattleTasks")
       text = "#mainmenu/btnBattleTasks"
       fillFunc = "fillBattleTasksList"
     },
     {
+      tabType = BattleTasksWndTab.BATTLE_TASKS_HARD
+      isVisible = @() ::has_feature("BattleTasks") && ::has_feature("Warbonds_2_0")
+      text = "#mainmenu/btnBattleTasksHard"
+      fillFunc = "fillBattleTasksList"
+    },
+    {
       tabType = BattleTasksWndTab.PERSONAL_UNLOCKS
-      isVisible = function() { return ::has_feature("PersonalUnlocks")}
+      isVisible = @() ::has_feature("PersonalUnlocks")
       text = "#mainmenu/btnPersonalUnlocks"
       fillFunc = "fillPersonalUnlocksList"
     },
@@ -65,6 +84,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     initFocusArray()
 
     initWarbonds()
+    updateWarbondsBalance()
   }
 
   function getAvailablePageIndex()
@@ -88,13 +108,13 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     return scene.findObject("root-box")
   }
 
-  function buildBattleTasksArray()
+  function buildBattleTasksArray(tabType)
   {
-    buildedBattleTasksArray = []
+    configsArrayByTabType[tabType] = []
 
     local filteredByDiffArray = []
     local haveRewards = false
-    foreach(type in ::g_battle_task_difficulty.types)
+    foreach(type in difficultiesByTabType[tabType])
     {
       local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type.name, currentTasksArray)
       if (array.len() == 0)
@@ -111,7 +131,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local resultArray = filteredByDiffArray
-    if (!haveRewards)
+    if (!haveRewards && filteredByDiffArray.len())
     {
       local obj = getDifficultySwitchObj()
       local val = obj.getValue()
@@ -126,14 +146,14 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     foreach(task in resultArray)
-      buildedBattleTasksArray.append(generateTaskConfig(task))
+      configsArrayByTabType[tabType].append(generateTaskConfig(task))
   }
 
-  function buildPersonalUnlocksArray()
+  function buildPersonalUnlocksArray(tabType)
   {
-    buildedPersonalUnlocksArray = []
+    configsArrayByTabType[tabType] = []
     foreach(unlockBlk in personalUnlocksArray)
-      buildedPersonalUnlocksArray.append(generateTaskConfig(unlockBlk))
+      configsArrayByTabType[tabType].append(generateTaskConfig(unlockBlk))
   }
 
   function generateTaskConfig(task)
@@ -151,7 +171,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local view = {items = []}
-    foreach (idx, config in buildedBattleTasksArray)
+    foreach (idx, config in configsArrayByTabType[currentTabType])
     {
       view.items.append(::g_battle_tasks.generateItemView(config))
       if (::g_battle_tasks.canGetReward(::g_battle_tasks.getTaskById(config)))
@@ -160,19 +180,27 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
         finishedTaskIdx = idx
     }
 
+    scene.findObject("battle_tasks_no_tasks_text").show(view.items.len() == 0)
     local data = ::handyman.renderCached(battleTaskItemTpl, view)
     guiScene.replaceContentFromText(listBoxObj, data, data.len(), this)
 
-    foreach(config in buildedBattleTasksArray)
+    foreach(config in configsArrayByTabType[currentTabType])
     {
       local task = config.originTask
       ::g_battle_tasks.setUpdateTimer(task, scene.findObject(task.id))
     }
 
     updateWidgetsVisibility()
-    if (finishedTaskIdx < 0 || finishedTaskIdx >= buildedBattleTasksArray.len())
+    if (finishedTaskIdx < 0 || finishedTaskIdx >= configsArrayByTabType[currentTabType].len())
       finishedTaskIdx = 0
     listBoxObj.setValue(finishedTaskIdx)
+
+    local obj = scene.findObject("warbond_shop_progress_block")
+    local curWb = ::g_warbonds.getCurrentWarbond()
+    if (currentTabType == BattleTasksWndTab.BATTLE_TASKS)
+      ::g_warbonds_view.createProgressBox(curWb, obj, this)
+    else if (currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD)
+      ::g_warbonds_view.createSpecialMedalsProgress(curWb, obj, this)
   }
 
   function fillPersonalUnlocksList()
@@ -182,9 +210,10 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local view = {items = []}
-    foreach (idx, config in buildedPersonalUnlocksArray)
+    foreach (idx, config in configsArrayByTabType[BattleTasksWndTab.PERSONAL_UNLOCKS])
       view.items.append(::g_battle_tasks.generateItemView(config))
 
+    scene.findObject("battle_tasks_no_tasks_text").show(false)
     local data = ::handyman.renderCached(battleTaskItemTpl, view)
     guiScene.replaceContentFromText(listBoxObj, data, data.len(), this)
     listBoxObj.setValue(0)
@@ -213,8 +242,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     currentTasksArray = ::g_battle_tasks.getTasksArray()
     newIconWidgetByTaskId = ::g_battle_tasks.getWidgetsTable()
     personalUnlocksArray = ::g_personal_unlocks.getUnlocksArray()
-    buildBattleTasksArray()
-    buildPersonalUnlocksArray()
+    buildBattleTasksArray(BattleTasksWndTab.BATTLE_TASKS)
+    buildBattleTasksArray(BattleTasksWndTab.BATTLE_TASKS_HARD)
+    buildPersonalUnlocksArray(BattleTasksWndTab.PERSONAL_UNLOCKS)
   }
 
   function fillTasksHistory()
@@ -327,10 +357,16 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     ::g_sound.stop()
 
     local config = getConfigByValue(val)
-    ::g_sound.preparePlayback(config.playback, config.id)
+    preparePlaybackForConfig(config)
 
     updateButtons(config)
     hideTaskWidget(config)
+  }
+
+  function preparePlaybackForConfig(config, useDefault = false)
+  {
+    if (::getTblValue("playback", config))
+      ::g_sound.preparePlayback(::g_battle_tasks.getPlaybackPath(config.playback, useDefault), config.id)
   }
 
   function hideTaskWidget(config)
@@ -381,7 +417,34 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function updateTabButtons()
   {
     showSceneBtn("show_all_tasks", ::has_feature("ShowAllBattleTasks") && currentTabType != BattleTasksWndTab.HISTORY)
-    showSceneBtn("battle_tasks_modes_radiobuttons", currentTabType == BattleTasksWndTab.BATTLE_TASKS)
+    showSceneBtn("battle_tasks_modes_radiobuttons", isBattleTasksTab())
+    showSceneBtn("warbond_shop_progress_block", isBattleTasksTab())
+    showSceneBtn("progress_box_place", currentTabType == BattleTasksWndTab.BATTLE_TASKS)
+    showSceneBtn("medals_block", currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD)
+    updateProgressText()
+  }
+
+  function isBattleTasksTab()
+  {
+    return currentTabType == BattleTasksWndTab.BATTLE_TASKS
+    || currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD
+  }
+
+  function updateProgressText()
+  {
+    local textObj = scene.findObject("progress_text")
+    if (!::check_obj(textObj))
+      return
+
+    local curWb = ::g_warbonds.getCurrentWarbond()
+    local text = ""
+    if (curWb)
+      if (currentTabType == BattleTasksWndTab.BATTLE_TASKS)
+        text = ::g_warbonds_view.getOrdinaryText(curWb)
+      else if (currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD)
+        text = ::g_warbonds_view.getSpecialText(curWb)
+
+    textObj.setValue(text)
   }
 
   function getCurrentTaskObj()
@@ -447,26 +510,14 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurrentSelectedTask()
   {
-    local listBoxObj = getConfigsListObj()
-    if (!::checkObj(listBoxObj))
-      return null
-
-    local config = getConfigByValue(listBoxObj.getValue())
+    local config = getCurrentConfig()
     return ::g_battle_tasks.getTaskById(config)
   }
 
   function getConfigByValue(value)
   {
-    local checkArray = []
-    if (currentTabType == BattleTasksWndTab.BATTLE_TASKS)
-      checkArray = buildedBattleTasksArray
-    if (currentTabType == BattleTasksWndTab.PERSONAL_UNLOCKS)
-      checkArray = buildedPersonalUnlocksArray
-
-    if (!(value in checkArray))
-      return null
-
-    return checkArray[value]
+    local checkArray = ::getTblValue(currentTabType, configsArrayByTabType, [])
+    return ::getTblValue(value, checkArray)
   }
 
   function onGetRewardForTask(obj)
@@ -581,7 +632,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function initWarbonds()
   {
-    if (!::has_feature("Warbonds"))
+    if (!::has_feature("Warbonds") || ::has_feature("Warbonds_2_0"))
       return
 
     local warbondsObj = scene.findObject("warbonds_balance")
@@ -595,15 +646,26 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateWarbonds()
   {
-    if (!::has_feature("Warbonds"))
+    if (!::has_feature("Warbonds") || ::has_feature("Warbonds_2_0"))
       return
 
     updateWarbondsText(scene.findObject("warbonds_balance"))
   }
 
+  function updateWarbondsBalance()
+  {
+    if (::has_feature("Warbonds") && !::has_feature("Warbonds_2_0"))
+      return
+
+    local warbondsObj = scene.findObject("warbonds_balance")
+    warbondsObj.setValue(::g_warbonds.getBalanceText())
+    warbondsObj.tooltip = ::loc("warbonds/maxAmount", {warbonds = ::g_warbonds.getLimit()})
+  }
+
   function onEventWarbondAwardBought(p)
   {
     updateWarbonds()
+    updateWarbondsBalance()
   }
 
   function onEventPlaybackDownloaded(p)
@@ -617,6 +679,13 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     pbObj.enable(p.success)
     pbObj.downloading = p.success? "no" : "yes"
+
+    if (p.success)
+      return
+
+    local config = getConfigByValue(finishedTaskIdx)
+    if (config)
+      preparePlaybackForConfig(config, true)
   }
 
   function onEventFinishedPlayback(p)
@@ -636,13 +705,18 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     ::g_warbonds.openShop()
   }
 
-  function onViewUnlocks()
+  function getCurrentConfig()
   {
     local listBoxObj = getConfigsListObj()
     if (!::checkObj(listBoxObj))
       return null
 
-    local config = getConfigByValue(listBoxObj.getValue())
+    return getConfigByValue(listBoxObj.getValue())
+  }
+
+  function onViewUnlocks()
+  {
+    local config = getCurrentConfig()
     if (::getTblValue("names", config, []).len() == 0)
       return []
 

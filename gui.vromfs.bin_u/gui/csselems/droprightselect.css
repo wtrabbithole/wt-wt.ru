@@ -20,8 +20,8 @@ dropright > button {
   re-type:9rect;
   width:0.032@scrn_tgt;
   height:0.0375@scrn_tgt;  
-  max-width:23*@sf/@pf;
-  max-height:27*@sf/@pf;
+  max-width:23*@sf/@pf_outdated;
+  max-height:27*@sf/@pf_outdated;
   pos:-w, 50%ph-50%h; position:absolute;
   background-position:0;
   background-repeat:expand;
@@ -68,7 +68,7 @@ dropright > fadePlane > area > SlideListBox {
   flow:vertical;
 
   height:ph;
-  pos:-1*@sf/@pf, 50%ph-50%h;
+  pos:-1*@sf/@pf_outdated, 50%ph-50%h;
   position:absolute;
   width:p.p.p.w + 1@optPad;
   padding:0,0;
@@ -109,7 +109,7 @@ dropright > fadePlane {
   top:50%sh-50%h;
   position:root;
   background-color:@shadeBackgroundColor2;
-  background-position:2*@sf/@pf,2*@sf/@pf,0,2*@sf/@pf;
+  background-position:2*@sf/@pf_outdated,2*@sf/@pf_outdated,0,2*@sf/@pf_outdated;
 
 }
 
@@ -169,7 +169,7 @@ dropright:expanded option:current > optiontext {
 dropright > fadePlane > area > SlideListBox option {
   text-align:left;
   height:p.p.p.p.p.h;
-  padding-left:1@dropPad-1*@sf/@pf;
+  padding-left:1@dropPad-1*@sf/@pf_outdated;
 }
 
 dropright > fadePlane > area > SlideListBox option:current > optiontext,
@@ -253,9 +253,9 @@ dropright.complaint > button {
   pos:-3*@scrn_tgt/100.0, 50%ph-50%h;
 }
 
-[cellType=bottom] > dropright > fadePlane {    width:pw+1*@scrn_tgt/100.0+2*@sf/@pf;
+[cellType=bottom] > dropright > fadePlane {    width:pw+1*@scrn_tgt/100.0+2*@sf/@pf_outdated;
   height:75%sh;
-  left:50%sw-w-4*@sf/@pf;
+  left:50%sw-w-4*@sf/@pf_outdated;
 }
 
 optionsBox.frameRight dropright > fadePlane {
@@ -269,7 +269,7 @@ optionsBox.framePostFX dropright > fadePlane {
 }
 
 dropright.moveleft  > fadePlane {
-  pos:50%sw + 0.5@slotbarWidthFull - w, sh-h-1@shopBottomOffset + 2*@sf/@pf;
+  pos:50%sw + 0.5@slotbarWidthFull - w, sh-h-1@shopBottomOffset + 2*@sf/@pf_outdated;
   width:pw;
 }
 
@@ -306,7 +306,7 @@ dropright.dropRightNavBar:hover > button {
 .dropRightNavBar > fadePlane {
   size: pw + 1@optPad - 1@dropPad + 1@bw, sh;
   position: root;
-  pos: 1@sbw + pw + 0.01@scrn_tgt_font, 0;
+  pos: 1@sbw + pw + 0.01@sf, 0;
 }
 
 table[optionsParallellTable=0] > tr > td > dropright > fadePlane {
@@ -320,7 +320,7 @@ table[optionsParallellTable=2] > tr > td > dropright > fadePlane {
 }
 
 .circuitDropright dropright > fadePlane {
-  width:0.35@scrn_tgt_font;
+  width:0.35@sf;
   height:65%sh;
   pos:10%sw, sh-h;
 }
@@ -346,5 +346,5 @@ table[optionsParallellTable=2] > tr > td > dropright > fadePlane {
 }
 
 dropright[fadePlaneParam=leaderboard] > fadePlane {
-  left:50%sw-50%p.p.w + 20*@sf/@pf;
+  left:50%sw-50%p.p.w + 20*@sf/@pf_outdated;
 }

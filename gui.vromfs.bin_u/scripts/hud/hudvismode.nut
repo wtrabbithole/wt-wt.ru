@@ -9,6 +9,7 @@ enum HUD_VIS_PART //bit enum
   STREAKS             = 0x0040
   REWARDS_MSG         = 0x0080
   ORDERS              = 0x0100
+  RACE_INFO           = 0x0200
 
   //masks
   ALL                 = 0xFFFF
@@ -48,7 +49,7 @@ enum HUD_VIS_PART //bit enum
     hudGm = ::HUD_GAME_MODE_MINIMAL
     locId = "options/hudNecessary"
     parts = HUD_VIS_PART.DMG_PANEL | HUD_VIS_PART.MAP | HUD_VIS_PART.CAPTURE_ZONE_INFO
-            | HUD_VIS_PART.CHAT | HUD_VIS_PART.KILLCAMERA | HUD_VIS_PART.KILLLOG
+            | HUD_VIS_PART.CHAT | HUD_VIS_PART.KILLCAMERA | HUD_VIS_PART.KILLLOG | HUD_VIS_PART.RACE_INFO
   }
 
   DISABLED = {

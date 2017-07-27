@@ -109,7 +109,7 @@ function g_anim_bg::load(animBgBlk = "", obj = null)
 
 function g_anim_bg::getLastBgFileName()
 {
-  return lastBg.len() ? "config/loadingBg/" + lastBg + ".blk" : ""
+  return lastBg.len() ? "config/loadingbg/" + lastBg + ".blk" : ""
 }
 
 function g_anim_bg::getCurBgList()

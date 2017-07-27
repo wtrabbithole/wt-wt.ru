@@ -13,7 +13,7 @@ tr {
 
   td {
     cellType:t='left';
-    padding-left:t='5*@scrn_tgt_font/100.0'
+    padding-left:t='5*@sf/100.0'
     optiontext { text:t='<<unitName>>' }
     cardImg { id:t='name_icon'; display:t='hide'; background-image:t='#ui/gameuiskin#crew_skill_points' }
   }
@@ -23,8 +23,8 @@ tr {
     crewSpecProgressBar {
       id:t='crew_spec_progress_bar'
       height:t='@referenceProgressHeight'
-      width:t='pw - 4*@sf/@pf'
-      pos:t='0, ph-6*@sf/@pf'
+      width:t='pw - 4*@sf/@pf_outdated'
+      pos:t='0, ph-6*@sf/@pf_outdated'
       position:t='absolute'
       min:t='0'
       max:t='1000'
@@ -78,9 +78,9 @@ tr {
   }
   td {
     id:t='<<holderId>>'
-    padding-right:t='5*@scrn_tgt_font/100.0'
-    min-width:t='0.15@scrn_tgt_font'
-    max-width:t='0.45@scrn_tgt_font'
+    padding-right:t='5*@sf/100.0'
+    min-width:t='0.15@sf'
+    max-width:t='0.45@sf'
 
     Button_text {
       id:t='buttonRowApply';
@@ -109,7 +109,7 @@ tr {
     discount {
       id:t='buy-discount'
       text:t=''
-      pos:t='pw-15%w-5*@scrn_tgt_font/100.0, 50%ph-60%h'; position:t='absolute'
+      pos:t='pw-15%w-5*@sf/100.0, 50%ph-60%h'; position:t='absolute'
       rotation:t='-10'
     }
   }

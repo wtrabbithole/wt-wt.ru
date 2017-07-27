@@ -2,6 +2,7 @@
   "cameraHeightOnGround": 3.5,
   "globalCameraShakeLimit": 0.2,
   "tps": {
+    "type": "TpsFlightCamera",
     "fov": 90.0,
     "zoomFov": 30.0,
     "transitionSpeed": 4.0,
@@ -65,6 +66,7 @@
     }
   },
   "fps": {
+    "type": "FpsFlightCamera",
     "fov": 90.0,
     "zoomFov": 30.0,
     "targetOffset": [500.0,0.0,0.0],
@@ -121,6 +123,7 @@
     "viscosity": 0.01
   },
   "loose": {
+    "type": "LooseFlightCamera",
     "fov": 55.0,
     "transitionSpeed": 4.0,
     "viewDistanceAir": 250.0,
@@ -140,6 +143,7 @@
     }
   },
   "killer": {
+    "type": "KillerFlightCamera",
     "fov": 30.0,
     "transitionSpeed": 4.0,
     "viewDistanceAir": 35.0,
@@ -156,6 +160,7 @@
     }
   },
   "camera_cutscene": {
+    "type": "TpsTargetFlightCameraReplayCutscene",
     "fov": 30.0,
     "transitionSpeed": 4.0,
     "viewDistanceAir": 35.0,
@@ -169,6 +174,7 @@
     "viscosity": 0.01
   },
   "target_tps": {
+    "type": "TpsTargetFlightCamera",
     "fov": 40.0,
     "zoomFov": 20.0,
     "transitionSpeedToTarget": 0.7,
@@ -187,6 +193,7 @@
     "useEllipsoidOffset": false
   },
   "target_fps": {
+    "type": "FpsTargetFlightCamera",
     "fov": 60.0,
     "zoomFov": 30.0,
     "targetOffset": [500.0,0.0,0.0],
@@ -213,6 +220,7 @@
     }
   },
   "virtual_fps": {
+    "type": "VirtualCockpitCamera",
     "fov": 85.0,
     "zoomFov": 30.0,
     "targetOffset": [500.0,0.0,0.0],
@@ -249,6 +257,7 @@
     }
   },
   "flight_camera_target_view": {
+    "type": "FpsFlightCamera",
     "subtype": "targeting_view",
     "isAimCamera": false,
     "fov": 85.0,
@@ -279,6 +288,7 @@
     }
   },
   "virtual_target_fps": {
+    "type": "VirtualCockpitTargetingCamera",
     "fov": 60.0,
     "zoomFov": 30.0,
     "targetOffset": [500.0,0.0,0.0],
@@ -308,41 +318,91 @@
       }
     }
   },
-  "target_turret": {
-    "fov": 55.0,
-    "zoomFov": 25.0,
-    "transitionSpeed": 4.0,
-    "cameraControlSmoothX": 0.0,
-    "cameraControlSmoothY": 0.0,
-    "cameraControlViewRadius": 14.0,
-    "verticalLimit": 10.0,
-    "verticalSpeed": 1.5,
-    "horizontalSpeed": 1.5,
-    "velocitySmooth": 0.0,
-    "cameraUpOffset": 4.0,
-    "cameraEllipsoidUpOffset": 1.0,
-    "useEllipsoidOffset": true,
-    "cameraShakeMultiplier": 0.18,
-    "transitionFadeInTime": 1.12,
-    "transitionFadeOutTime": 0.05,
-    "viscosity": 0.05,
-    "tiltShakeMultiplierForTanks": 0.0,
-    "tiltShakeMultiplierForShips": 0.0,
-    "condition": {
-      "or": {
-        "and": {
-          "hasGunners": [],
+  "target_turret": [
+    {
+      "type": "TurretCamera"
+    },
+    {
+      "type": "TurretFpsCamera"
+    },
+    {
+      "type": "TurretVirtualFpsCamera"
+    },
+    {
+      "fov": 55.0
+    },
+    {
+      "zoomFov": 25.0
+    },
+    {
+      "transitionSpeed": 4.0
+    },
+    {
+      "cameraControlSmoothX": 0.0
+    },
+    {
+      "cameraControlSmoothY": 0.0
+    },
+    {
+      "cameraControlViewRadius": 14.0
+    },
+    {
+      "verticalLimit": 10.0
+    },
+    {
+      "verticalSpeed": 1.5
+    },
+    {
+      "horizontalSpeed": 1.5
+    },
+    {
+      "velocitySmooth": 0.0
+    },
+    {
+      "cameraUpOffset": 4.0
+    },
+    {
+      "cameraEllipsoidUpOffset": 1.0
+    },
+    {
+      "useEllipsoidOffset": true
+    },
+    {
+      "cameraShakeMultiplier": 0.18
+    },
+    {
+      "transitionFadeInTime": 1.12
+    },
+    {
+      "transitionFadeOutTime": 0.05
+    },
+    {
+      "viscosity": 0.05
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
+    },
+    {
+      "condition": {
+        "or": {
+          "and": {
+            "hasGunners": [],
+            "not": {
+              "hasFPSGunner": []
+            }
+          },
           "not": {
-            "hasFPSGunner": []
+            "isFlightModel": []
           }
-        },
-        "not": {
-          "isFlightModel": []
         }
       }
     }
-  },
+  ],
   "gunner_fps": {
+    "type": "TurretFpsCamera",
     "fov": 55.0,
     "zoomFov": 25.0,
     "transitionSpeed": 4.0,
@@ -371,6 +431,7 @@
     }
   },
   "spectator": {
+    "type": "SpectatorCamera",
     "fov": 80.0,
     "transitionSpeed": 4.0,
     "cameraControlSmoothX": 0.0,
@@ -398,6 +459,7 @@
     "maxHoverDist": 250.0
   },
   "bomber_view": {
+    "type": "BomberViewCamera",
     "fov": 80.0,
     "zoomFov": 40.0,
     "transitionSpeed": 4.0,
@@ -417,6 +479,7 @@
     }
   },
   "tps_const_angles": {
+    "type": "TpsFlightCamera",
     "fov": 90.0,
     "zoomFov": 30.0,
     "transitionSpeed": 4.0,
@@ -468,6 +531,7 @@
     }
   },
   "tps_const_pos": {
+    "type": "TpsFlightCamera",
     "fov": 90.0,
     "zoomFov": 30.0,
     "transitionSpeed": 4.0,
@@ -526,6 +590,9 @@
     "fov": 45.0
   },
   "tps_ground": [
+    {
+      "type": "TurretCamera"
+    },
     {
       "fov": 80.0
     },
@@ -700,6 +767,7 @@
     }
   ],
   "tps_helicopter": {
+    "type": "HelicopterCamera",
     "fov": 90.0,
     "zoomFov": 30.0,
     "incFovMinSpeed": 15.0,
@@ -739,6 +807,9 @@
     "verticalLimit": 7.0
   },
   "camera_binoculars": [
+    {
+      "type": "TurretCamera"
+    },
     {
       "fov": 12.3
     },
@@ -937,6 +1008,9 @@
     }
   ],
   "camera_binoculars_targeting": [
+    {
+      "type": "TurretCamera"
+    },
     {
       "fov": 10.0
     },
@@ -1139,6 +1213,9 @@
   ],
   "aim_ground": [
     {
+      "type": "TurretVirtualFpsCamera"
+    },
+    {
       "fov": 30.0
     },
     {
@@ -1324,6 +1401,9 @@
     }
   ],
   "aim_ground_from_sight": [
+    {
+      "type": "TurretVirtualFpsCamera"
+    },
     {
       "fov": 40.0
     },
@@ -1516,6 +1596,9 @@
     }
   ],
   "driver_ground": [
+    {
+      "type": "DriverMechanicViewCamera"
+    },
     {
       "fov": 80.0
     },
@@ -1714,6 +1797,9 @@
   ],
   "camera_ground_death": [
     {
+      "type": "TurretCamera"
+    },
+    {
       "fov": 90.0
     },
     {
@@ -1883,7 +1969,185 @@
       }
     }
   ],
+  "camera_ship_death": [
+    {
+      "type": "TurretCamera"
+    },
+    {
+      "fov": 90.0
+    },
+    {
+      "zoomFov": 90.0
+    },
+    {
+      "gunFov": 5.0
+    },
+    {
+      "transitionSpeed": 4.0
+    },
+    {
+      "targetOffset": [500.0,2.0,0.0]
+    },
+    {
+      "cameraOffsetNeutral": [-17.0,2.0,0.0]
+    },
+    {
+      "cameraUpNeutral": [0.0,1.0,0.0]
+    },
+    {
+      "cameraOffsetSmoothing": 0.04
+    },
+    {
+      "cameraUpSmoothing": 0.0
+    },
+    {
+      "cameraFovSmoothing": 0.005
+    },
+    {
+      "cameraOffsetElevatorUp": [-14.0,3.0,0.0]
+    },
+    {
+      "cameraOffsetElevatorDown": [-14.0,3.0,0.0]
+    },
+    {
+      "sensitivityElevatorDown": 1.0
+    },
+    {
+      "sensitivityElevatorUp": 1.0
+    },
+    {
+      "cameraOffsetRudderLeft": [-14.0,3.0,-1.0]
+    },
+    {
+      "cameraOffsetRudderRight": [-14.0,3.0,1.0]
+    },
+    {
+      "sensitivityRudder": 10.0
+    },
+    {
+      "cameraUpAileronsLeft": [0.0,1.0,0.7]
+    },
+    {
+      "cameraUpAileronsRight": [0.0,1.0,-0.7]
+    },
+    {
+      "sensitivityAilerons": 0.3
+    },
+    {
+      "cameraOffset": [0.0,12.0,-48.0]
+    },
+    {
+      "cameraOffsetZoomed": [0.0,12.0,-48.0]
+    },
+    {
+      "targetOffset": [10.0,4.0,0.0]
+    },
+    {
+      "useOffset": true
+    },
+    {
+      "clipType": "trace"
+    },
+    {
+      "zoomToGun": false
+    },
+    {
+      "useCockpitOffsets": false
+    },
+    {
+      "fovVertAnglesOffsetPart": 0.0
+    },
+    {
+      "isMouseView": true
+    },
+    {
+      "cameraControlViewRadius": 5.0
+    },
+    {
+      "cameraUpOffset": 1.0
+    },
+    {
+      "cameraFovAccelerationPositive": 1.0
+    },
+    {
+      "cameraFovAccelerationNegative": 2.0
+    },
+    {
+      "sensitivityAcceleration": 10.0
+    },
+    {
+      "cameraTpsSmoothing": 0.001
+    },
+    {
+      "maxCameraSlowAngle": 9.0
+    },
+    {
+      "cameraTpsAngleAccelaration": 2.0
+    },
+    {
+      "minimumDistanceMultiplier": 1.2
+    },
+    {
+      "targOffsMult": 0.0
+    },
+    {
+      "cameraShakeMultiplier": 0.8
+    },
+    {
+      "cameraShakeMultiplierOnShooting": 0.2
+    },
+    {
+      "transitionFadeInTime": 0.12
+    },
+    {
+      "transitionFadeOutTime": 0.2
+    },
+    {
+      "viscosity": 0.2
+    },
+    {
+      "trackGunDirection": true
+    },
+    {
+      "requestDmEvents": true
+    },
+    {
+      "type": "TurretCamera"
+    },
+    {
+      "up": {
+        "angle": [0.0,-90.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "down": {
+        "angle": [180.0,0.0],
+        "dist": 40.0
+      }
+    },
+    {
+      "left": {
+        "angle": [-110.0,0.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "right": {
+        "angle": [110.0,0.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "condition": {
+        "isShip": []
+      }
+    }
+  ],
   "camera_ground_killer": [
+    {
+      "type": "TurretCamera"
+    },
     {
       "fov": 90.0
     },
@@ -2060,7 +2324,191 @@
       }
     }
   ],
+  "camera_ship_killer": [
+    {
+      "type": "TurretCamera"
+    },
+    {
+      "fov": 90.0
+    },
+    {
+      "zoomFov": 90.0
+    },
+    {
+      "gunFov": 5.0
+    },
+    {
+      "transitionSpeed": 4.0
+    },
+    {
+      "targetOffset": [500.0,2.0,0.0]
+    },
+    {
+      "cameraOffsetNeutral": [-17.0,2.0,0.0]
+    },
+    {
+      "cameraUpNeutral": [0.0,1.0,0.0]
+    },
+    {
+      "cameraOffsetSmoothing": 0.04
+    },
+    {
+      "cameraUpSmoothing": 0.0
+    },
+    {
+      "cameraFovSmoothing": 0.005
+    },
+    {
+      "cameraOffsetElevatorUp": [-14.0,3.0,0.0]
+    },
+    {
+      "cameraOffsetElevatorDown": [-14.0,3.0,0.0]
+    },
+    {
+      "sensitivityElevatorDown": 1.0
+    },
+    {
+      "sensitivityElevatorUp": 1.0
+    },
+    {
+      "cameraOffsetRudderLeft": [-14.0,3.0,-1.0]
+    },
+    {
+      "cameraOffsetRudderRight": [-14.0,3.0,1.0]
+    },
+    {
+      "sensitivityRudder": 10.0
+    },
+    {
+      "cameraUpAileronsLeft": [0.0,1.0,0.7]
+    },
+    {
+      "cameraUpAileronsRight": [0.0,1.0,-0.7]
+    },
+    {
+      "sensitivityAilerons": 0.3
+    },
+    {
+      "cameraOffset": [0.0,12.0,-48.0]
+    },
+    {
+      "cameraOffsetZoomed": [0.0,12.0,-48.0]
+    },
+    {
+      "targetOffset": [10.0,4.0,0.0]
+    },
+    {
+      "useOffset": true
+    },
+    {
+      "clipType": "trace"
+    },
+    {
+      "zoomToGun": false
+    },
+    {
+      "useCockpitOffsets": false
+    },
+    {
+      "fovVertAnglesOffsetPart": 0.0
+    },
+    {
+      "isMouseView": true
+    },
+    {
+      "allowKiller": true
+    },
+    {
+      "cameraControlViewRadius": 5.0
+    },
+    {
+      "cameraUpOffset": 1.0
+    },
+    {
+      "cameraFovAccelerationPositive": 1.0
+    },
+    {
+      "cameraFovAccelerationNegative": 2.0
+    },
+    {
+      "sensitivityAcceleration": 10.0
+    },
+    {
+      "cameraTpsSmoothing": 0.001
+    },
+    {
+      "maxCameraSlowAngle": 9.0
+    },
+    {
+      "cameraTpsAngleAccelaration": 2.0
+    },
+    {
+      "minimumDistanceMultiplier": 1.2
+    },
+    {
+      "targOffsMult": 0.0
+    },
+    {
+      "cameraShakeMultiplier": 0.8
+    },
+    {
+      "cameraShakeMultiplierOnShooting": 0.2
+    },
+    {
+      "transitionFadeInTime": 0.12
+    },
+    {
+      "transitionFadeOutTime": 0.2
+    },
+    {
+      "viscosity": 0.2
+    },
+    {
+      "trackGunDirection": true
+    },
+    {
+      "tiltShakeMultiplierForTanks": 0.0
+    },
+    {
+      "tiltShakeMultiplierForShips": 0.0
+    },
+    {
+      "type": "TurretCamera"
+    },
+    {
+      "up": {
+        "angle": [0.0,-90.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "down": {
+        "angle": [180.0,0.0],
+        "dist": 40.0
+      }
+    },
+    {
+      "left": {
+        "angle": [-110.0,0.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "right": {
+        "angle": [110.0,0.0],
+        "dist": 20.0
+      }
+    },
+    {
+      "condition": {
+        "isKillerShip": []
+      }
+    }
+  ],
   "camera_xray_shot": [
+    {
+      "type": "XrayShotCamera"
+    },
     {
       "fov": 90.0
     },
@@ -2888,6 +3336,9 @@
   ],
   "camera_fps_ground_turret": [
     {
+      "type": "TurretVirtualFpsCamera"
+    },
+    {
       "fov": 45.0
     },
     {
@@ -3041,6 +3492,9 @@
     }
   ],
   "tps_ship": [
+    {
+      "type": "TurretCamera"
+    },
     {
       "fov": 80.0
     },
@@ -3215,6 +3669,7 @@
     }
   ],
   "follow_object_camera": {
+    "type": "FollowObjectCamera",
     "bombDistance": 25.0,
     "torpedoDistance": 55.0,
     "rocketDistance": 120.0,
@@ -3222,11 +3677,15 @@
     "cameraShakeMultiplier": 2.0
   },
   "target_fps_shake": {
+    "type": "TpsTargetFlightCameraReplay",
     "freeCamOrientInert": 0.5,
     "freeCamPosInert": 1.2,
     "freeCamOrientMaxSpeed": 0.5
   },
   "artillery_crosshair": [
+    {
+      "type": "ArtilleryViewCamera"
+    },
     {
       "fov": 80.0
     },
@@ -3456,6 +3915,9 @@
         "camName": "loose"
       },
       {
+        "camName": "camera_ship_death"
+      },
+      {
         "camName": "camera_ground_death"
       }
     ],
@@ -3465,6 +3927,9 @@
       },
       {
         "camName": "camera_xray_shot"
+      },
+      {
+        "camName": "camera_ship_killer"
       },
       {
         "camName": "camera_ground_killer"

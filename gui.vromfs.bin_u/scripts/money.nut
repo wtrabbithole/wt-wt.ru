@@ -252,3 +252,5 @@ class Cost extends Money
 }
 
 ::zero_money = ::Money(money_type.none)
+
+::u.registerClass("Money", ::Money, @(m1, m2) m1 <= m2 && m1 >= m2, @(m) m.isZero())

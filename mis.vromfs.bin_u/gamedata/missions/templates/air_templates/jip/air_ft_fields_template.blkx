@@ -40,7 +40,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       }
     },
     "spectator_points": [],
@@ -2930,6 +2936,18 @@
             "triggerEnable": {
               "target": "ft_destroy_t1_reward"
             }
+          },
+          {
+            "comment": {
+              "value": "увеличиваем число уничтоженных филдов"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ft_t1_num_destroyed_fields"
+            }
           }
         ],
         "else_actions": {
@@ -3457,6 +3475,18 @@
             "triggerEnable": {
               "target": "ft_destroy_t2_reward"
             }
+          },
+          {
+            "comment": {
+              "value": "увеличиваем число уничтоженных филдов"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "ft_t2_num_destroyed_fields"
+            }
           }
         ],
         "else_actions": {
@@ -3534,6 +3564,70 @@
             }
           }
         ]
+      },
+      "ft_t1_all_fields_destroyed": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ft_t1_num_destroyed_fields",
+            "value": 2,
+            "comparasion_func": "more"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "все аэродромы уничтожены"
+          },
+          "gameMPChangeScore": {
+            "value": -10,
+            "valueSystem": "percentage",
+            "team": "A"
+          }
+        },
+        "else_actions": []
+      },
+      "ft_t2_all_fields_destroyed": {
+        "is_enabled": true,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "ft_t2_num_destroyed_fields",
+            "value": 2,
+            "comparasion_func": "more"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "все аэродромы уничтожены"
+          },
+          "gameMPChangeScore": {
+            "value": -10,
+            "valueSystem": "percentage",
+            "team": "B"
+          }
+        },
+        "else_actions": []
       }
     },
     "ft_detect_airfield_routine": {
@@ -6152,15 +6246,19 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "all_bomb_targets_squad",
-            "stealthRadius": 0.0,
-            "calmDetection": true,
             "targetableByAi": false,
-            "isImmortal": true
+            "isImmortal": true,
+            "stealthRadius": 0.0,
+            "calmDetection": true
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "ft_t1_small_aaa_squad"
             },
@@ -6180,6 +6278,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "ft_t1_big_aaa_squad"
             },

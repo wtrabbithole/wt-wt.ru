@@ -187,7 +187,7 @@ function LayersIcon::getTextDataFromLayer(layerCfg)
 {
   local props = ::format("color:t='%s';", ::getTblValue("color", layerCfg, "@commonTextColor"))
   props += ::format("font:t='%s';", ::getTblValue("font", layerCfg, "@small"))
-  foreach(id in ["font-ht", "max-width", "text-align", "text", "shadeStyle"])
+  foreach(id in ["font-ht", "max-width", "text-align", "shadeStyle"])
     if (id in layerCfg)
       props += ::format("%s:t='%s';", id, layerCfg[id])
 

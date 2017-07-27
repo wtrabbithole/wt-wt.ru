@@ -5,7 +5,7 @@ CheckBox {
   color:@commonMenuButtonColor;
   font:@small;
   text-align:left;
-  padding-left:h+4*@sf/@pf;
+  padding-left:h+4*@sf/@pf_outdated;
   css-hier-invalidate:yes;
   snd_change_value:check;
 }
@@ -55,7 +55,7 @@ CheckBox.empty {
 
 CheckBox.with_image {
   padding-left:0;
-  padding-right:h+2*@sf/@pf;
+  padding-right:h+2*@sf/@pf_outdated;
 }
 CheckBox.with_image > CheckBoxImg {
   pos:pw-w,0;
@@ -66,7 +66,7 @@ CheckBox.with_image > infoImg {
 }
 
 CheckBox.with_image[text] {
-  padding-left:2h+2*@sf/@pf;
+  padding-left:2h+2*@sf/@pf_outdated;
   padding-right:0;
 }
 CheckBox.with_image[text] > CheckBoxImg {
@@ -95,14 +95,14 @@ CheckBox[tinyFont=yes] {
 
 [show_console_buttons=yes] CheckBox[btnName]
 {
-  padding-left:h + 1@cIco + 0.005*@scrn_tgt_font;
+  padding-left:h + 1@cIco + 0.005*@sf;
 }
 
 [show_console_buttons=yes] CheckBox[btnName=RB],
 [show_console_buttons=yes] CheckBox[btnName=LB]
 {
   fullSizeIcons:yes;
-  padding-left:h + 1@buttonIconHeight + 0.01*@scrn_tgt_font;
+  padding-left:h + 1@buttonIconHeight + 0.01*@sf;
 }
 
 .checkBoxRow > CheckBox {
@@ -135,7 +135,7 @@ HorizontalListBox > shopFilter[selected=yes] > CheckBoxImg {
 }
 
 tdiv.mistypes > CheckBox {
-  width:50%pw - 1*@sf/@pf;
+  width:50%pw - 1*@sf/@pf_outdated;
   font:@tiny;
 }
 

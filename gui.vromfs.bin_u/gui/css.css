@@ -1,3 +1,4 @@
+@import "const\colors.css"
 @import "const\_const.css"
 
 @import "cssElems\buttons.css"
@@ -100,14 +101,14 @@ cardImg > activeText {
   position:relative;
 }
 .flowRow > curCountryAir {
-  margin-right:0.01@scrn_tgt_font;
+  margin-right:0.01@sf;
 }
 .flowRow[flow=h-flow] > curCountryAir {
-  width:50%pw - 0.01@scrn_tgt_font;
+  width:50%pw - 0.01@sf;
 }
 .flowRow[flow=h-flow] > curCountryAir > text.air_name {
   pare-text:yes;
-  width:pw - 50*@sf/@pf;
+  width:pw - 50*@sf/@pf_outdated;
 }
 
 movie {
@@ -123,10 +124,10 @@ airRow > activeText, airRow > text {
   talign:left;
 }
 airRow > cardImg {
-  margin-left:0.02@scrn_tgt_font;
+  margin-left:0.02@sf;
 }
 
-titletext,menutitle,dyncampresult
+titletext, menutitle, dyncampresult, debriefingTitle
 {
   re-type:text;
   font:@times_big;
@@ -138,13 +139,10 @@ titletext,menutitle,dyncampresult
 }
 
 debriefingTitle {
-  behaviour:textArea;
-  re-type:textarea;
-  font:@title_big;
-  text-shade-x:0;
-  text-shade-y:0;
-  text-shade-color:@mainTitleStrokeColor;
-  color:@mainTitleTextColor;
+  text-shade:smooth;
+  text-shade-x:1;
+  text-shade-y:1;
+  text-shade-color:#CC000000;
 }
 
 titletext {  
@@ -289,7 +287,7 @@ awardText {
 }
 
 awardText > awardImg {
-  height:40*@sf/@pf;
+  height:40*@sf/@pf_outdated;
   width:h;
   pos:4*@scrn_tgt/100.0-50%w,50%ph-50%h;
   position:absolute;
@@ -383,16 +381,16 @@ discount[type=new] {
   color:@white;
   background-image:#ui/gameuiskin#discount_box_bg;
   background-color:@discountBGColor;
-  pos:pw-w, ph-2*@sf/@pf;
+  pos:pw-w, ph-2*@sf/@pf_outdated;
   position:absolute;
   font:@tiny;
-  padding:10*@sf/@pf, 1*@sf/@pf, 3*@sf/@pf, 1*@sf/@pf;
+  padding:10*@sf/@pf_outdated, 1*@sf/@pf_outdated, 3*@sf/@pf_outdated, 1*@sf/@pf_outdated;
   background-repeat:expand;
   background-position:6,2,2,2;
 }
 
 discount[type=inTab] {
-  pos:0.005@scrn_tgt_font, 50%ph-50%h-1;
+  pos:0.005@sf, 50%ph-50%h-1;
   position:relative;
   rotation:0;
 }
@@ -425,7 +423,7 @@ HorizontalListBox > shopFilter[selected=yes] > discount_notification {
 
 discount_notification[type=down] {
   background-image:#ui/gameuiskin#discount_icon_down;
-  size:24*@sf/@pf, 27*@sf/@pf;
+  size:24*@sf/@pf_outdated, 27*@sf/@pf_outdated;
   pos:10%ph, -h;
   position:absolute;
   tooltip:"#discount/notification";
@@ -433,7 +431,7 @@ discount_notification[type=down] {
 
 discount_notification[type=up] {
   background-image:#ui/gameuiskin#discount_icon_up;
-  size:24*@sf/@pf, 27*@sf/@pf;
+  size:24*@sf/@pf_outdated, 27*@sf/@pf_outdated;
   pos:10%ph, ph;
   position:absolute;
   tooltip:"#discount/notification";
@@ -445,7 +443,7 @@ discount[type=weaponryItem] {
   background-color:@discountBGColor;
   background-repeat:expand;
   background-position:21,2,2,6;
-  padding:0, 3*@sf/@pf, 0, 8*@sf/@pf;
+  padding:0, 3*@sf/@pf_outdated, 0, 8*@sf/@pf_outdated;
   height:1@discountBoxDownHeight;
   font:@tiny;
   color:@discountTextColor;
@@ -479,10 +477,10 @@ discount_notification[type=box_down] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_down_bg;
   background-position:21,2,2,6;
-  padding:0, 3*@sf/@pf, 0, 8*@sf/@pf;
+  padding:0, 3*@sf/@pf_outdated, 0, 8*@sf/@pf_outdated;
   height:1@discountBoxDownHeight;
-  left:pw-w-5*@sf/@pf;
-  top:-16*@sf/@pf;
+  left:pw-w-5*@sf/@pf_outdated;
+  top:-16*@sf/@pf_outdated;
   position:absolute;
 }
 
@@ -492,8 +490,8 @@ discount_notification[type=box_left] {
   background-position:7,7,3,3;
   padding:4,2,0,0;
   height:1@discountBoxHeight;
-  right:pw-w-16*@sf/@pf;
-  top:16*@sf/@pf;
+  right:pw-w-16*@sf/@pf_outdated;
+  top:16*@sf/@pf_outdated;
   position:absolute;
 }
 
@@ -502,27 +500,27 @@ discount_notification[type=box_down][noShift] {
 }
 
 discount_notification[place=unit] {
-  pos:pw-w, -16*@sf/@pf;
+  pos:pw-w, -16*@sf/@pf_outdated;
 }
 
 discount_notification[place=unitGroup] {
-  pos:pw-w, -12*@sf/@pf;
+  pos:pw-w, -12*@sf/@pf_outdated;
 }
 
 discount_notification[type=box_up] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_up_bg;
   background-position:21,6,2,2;
-  padding:0, 13*@sf/@pf, 0, 2*@sf/@pf;
-  height:26*@sf/@pf;
-  pos:pw-w-5*@sf/@pf, ph - 6*@sf/@pf;
+  padding:0, 13*@sf/@pf_outdated, 0, 2*@sf/@pf_outdated;
+  height:26*@sf/@pf_outdated;
+  pos:pw-w-5*@sf/@pf_outdated, ph - 6*@sf/@pf_outdated;
   position:absolute;
 }
 
 bonus {
   pos:0,0;
   position:absolute;
-  size:28*@sf/@pf, 28*@sf/@pf;
+  size:28*@sf/@pf_outdated, 28*@sf/@pf_outdated;
   re-type:9rect;
   padding:0,0;
   background-color:@transparent;
@@ -532,7 +530,7 @@ bonus {
 bonusNoFrame {
   pos:50%pw-50%w, 0.5ph - 0.5(h - 1@cIco); 
   position:relative;
-  size:1@slot_hdr_width, 41@sf/@pf;
+  size:1@slot_hdr_width, 41@sf/@pf_outdated;
   background-color:@transparent;
   background-repeat:expand;
 }
@@ -555,7 +553,7 @@ subtitles, subtitles_slow {
 
   background-color:@transparent;
   tabStop:no;
-  margin:2*@sf/@pf, 0;
+  margin:2*@sf/@pf_outdated, 0;
 
   behaviour:basicTransparency;
   transp-base:0;
@@ -694,9 +692,19 @@ optiontext {
   padding:0, 0, 0, 0;
 }
 
+optionBlockHeader {
+  behaviour:textArea;
+  re-type:textarea;
+  min-width:pw-1*@scrn_tgt/100.0;
+  text-align:left;
+  font:@mis_chapter_font;
+  color:@chapterUnlockedColor;
+  padding-left:0.08@sf;
+}
+
 dropright[tankBullet=yes] optiontext{
   min-width:0;
-  max-width:pw-0.2@scrn_tgt_font;
+  max-width:pw-0.2@sf;
   pare-text:yes;
 }
 
@@ -799,7 +807,7 @@ td {
 
 tdIcon34x30, tdIcon45x25, sideLogIcon {
   background-color:@controlColor;
-    size:34*@sf/@pf, 30*@sf/@pf;
+    size:34*@sf/@pf_outdated, 30*@sf/@pf_outdated;
   max-height:ph;
   max-width:1.14ph;
   pos:50%pw-50%w,50%ph-50%h;
@@ -811,7 +819,7 @@ tdIcon34x30[align=left] {
 }
 
 tdIcon45x25 {
-  size:45*@sf/@pf, 25*@sf/@pf;
+  size:45*@sf/@pf_outdated, 25*@sf/@pf_outdated;
   max-height:ph;
   max-width:45/25h;
 }
@@ -924,14 +932,14 @@ verticalCellsOptions[baseRow=yes] > tr {
   padding:0.005@scrn_tgt, 0;
 }
 .lbTable > tr > td {
-  min-width:0.06@scrn_tgt_font;
+  min-width:0.06@sf;
 }
 .lbTable > tr > td[cellType=splitRight] {
-  min-width:10*@sf/@pf;
+  min-width:10*@sf/@pf_outdated;
   padding-right:0.25*@scrn_tgt/100.0;
 }
 .lbTable > tr > td[cellType=splitLeft] {
-  min-width:10*@sf/@pf;
+  min-width:10*@sf/@pf_outdated;
   padding-left:0.25*@scrn_tgt/100.0;
 }
 
@@ -943,25 +951,25 @@ tr[totalRowStyle], tr[totalRowStyle] > td {
   css-hier-invalidate:yes;
 }
 [baseRow=rows16] > tr[totalRowStyle=yes] {
-  size:pw, @rows16height + 0.03@scrn_tgt_font;
+  size:pw, @rows16height + 0.03@sf;
 }
 [baseRow=rows16] > tr[totalRowStyle=first] {
-  size:pw, @rows16height + 0.01@scrn_tgt_font;
+  size:pw, @rows16height + 0.01@sf;
 }
 [baseRow=rows16] > tr[totalRowStyle=last] {
-  size:pw, @rows16height + 0.02@scrn_tgt_font;
+  size:pw, @rows16height + 0.02@sf;
 }
 tr[totalRowStyle=yes] > td, tr[totalRowStyle=first] > td {
-  padding-top:0.01@scrn_tgt_font;
+  padding-top:0.01@sf;
 }
 tr[totalRowStyle=yes] > td, tr[totalRowStyle=last] > td {
-  padding-bottom:0.02@scrn_tgt_font;
+  padding-bottom:0.02@sf;
 }
 [baseRow=rows16] > tr[buttonRow=yes] {
-  size:pw, @rows16height + 1@buttonHeight + 2*@sf/@pf;
+  size:pw, @rows16height + 1@buttonHeight + 2*@sf/@pf_outdated;
 }
 [baseRow=rows16] > tr[buttonRow=yes] > td {
-  padding-bottom:1@buttonHeight + 2*@sf/@pf;
+  padding-bottom:1@buttonHeight + 2*@sf/@pf_outdated;
 }
 
 tr[iconType] {
@@ -973,7 +981,7 @@ tr[iconType=pilot] {
 }
 
 tr[iconType=aircraft] {
-  size:pw,@shopAirHeight + 6*@sf/@pf;
+  size:pw,@shopAirHeight + 6*@sf/@pf_outdated;
 }
 
 tr[iconType=country] {
@@ -996,12 +1004,12 @@ tr[queueTableIconRow=yes] > td > img {
 }
 
 tr[queueTableIconRow=yes] > td {
-  min-width:0.05*@scrn_tgt_font;
+  min-width:0.05*@sf;
 }
 
 tr[queueTableTitleRow=yes] {
   background-color:@evenQueueTableTrColor;
-  height:0.03@scrn_tgt_font;
+  height:0.03@sf;
 }
 
 tr[queueTableTitleRow=yes] text {
@@ -1229,7 +1237,7 @@ tr[inactive=yes] {
 }
 
 .tooltipTable td {
-  padding:0.5*@scrn_tgt/100.0, 2*@sf/@pf;
+  padding:0.5*@scrn_tgt/100.0, 2*@sf/@pf_outdated;
 }
 
 activeText[caption=yes], textarea[caption=yes], textAreaCentered[caption=yes] {
@@ -1297,7 +1305,7 @@ teamImg > activeText {
 [team=blue] > teamImg[iconSquad=squad] {
   background-image:#ui/gameuiskin#icon_squad;
   background-color:@white;
-  size:0.033@scrn_tgt_font, 0.033@scrn_tgt_font;
+  size:0.033@sf, 0.033@sf;
 }
 [team=blue] > teamImg[iconSquad=squad][topSquad=yes] {
   background-image:#ui/gameuiskin#icon_best_squad;
@@ -1305,23 +1313,23 @@ teamImg > activeText {
 [team=red] > teamImg[iconSquad=squad] {
   background-image:#ui/gameuiskin#icon_squad_enemy;
   background-color:@white;
-  size:0.033@scrn_tgt_font, 0.033@scrn_tgt_font;
+  size:0.033@sf, 0.033@sf;
 }
 [team=red] > teamImg[iconSquad=squad][topSquad=yes] {
   background-image:#ui/gameuiskin#icon_best_squad_enemy;
 }
 teamImg[iconSquad=squad] > activeText {
-  margin-top:0.01@scrn_tgt_font;
+  margin-top:0.01@sf;
 }
 teamImg[iconSquad=autosquad] {
   background-image:#ui/gameuiskin#table_autosquad_background;
-  size:0.025@scrn_tgt_font, 0.025@scrn_tgt_font;
+  size:0.025@sf, 0.025@sf;
 }
 teamImg[iconSquad=autosquad][topSquad=yes] {
   background-image:#ui/gameuiskin#table_best_autosquad_background;
 }
 teamImg[iconSquad=autosquad] > activeText {
-  margin-top:0.004@scrn_tgt_font;
+  margin-top:0.004@sf;
 }
 
 playerStateIcon {
@@ -1341,10 +1349,10 @@ playerStateIcon[background-image=""] {
 }
 
 trSeparator {
-  size:40%p.p.w, 2*@sf/@pf;
+  size:40%p.p.w, 2*@sf/@pf_outdated;
   background-color:@white;
   background-image:#ui/gameuiskin#double_line;
-  pos:-50%w, -2*@sf/@pf;
+  pos:-50%w, -2*@sf/@pf_outdated;
   position:absolute;
 }
 
@@ -1359,7 +1367,7 @@ chapterSeparator {
 }
 
 chapterSeparator.notFull {
-  height:ph-0.04@scrn_tgt_font;
+  height:ph-0.04@sf;
 }
 
 tdiv > chapterSeparator.inTheMiddle {
@@ -1398,6 +1406,7 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 
 @import "cssElems\spinnerListBox.css"
 @import "missionlist.css"
+@import "cssElems\listbox.css"
 @import "cssElems\radiobutton.css"
 @import "expandable.css"
 @import "cssElems\slideListBox.css"
@@ -1412,6 +1421,7 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 @import "cssElems\shortcutImages.css"
 @import "cssElems\hint.css"
 @import "cssElems\combobox.css"
+@import "cssElems\slider.css"
 
 
 @import "help/help.css"
@@ -1422,6 +1432,7 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 @import "hud/hud.css"
 @import "hud/actionBar.css"
 @import "spectator.css"
+@import "debriefing/debriefing.css"
 @import "wndWidgets/navigationPanel.css"
 @import "hud/tankState.css"
 @import "wheelMenu/wheelmenu.css"
@@ -1437,95 +1448,12 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 @import "fileDialog/fileDialog.css"
 @import "animated.css"
 
-
-slider, sliderProgress {
-  behaviour:slider;
-  re-type:9rect;
-  background-image:#ui/gameuiskin#subtitles_backgr_middle;
-  background-color:@white;
-  background-position:10;
-  background-repeat:expand;
-  background-color:@controlColor;
-  selected-border:none;
-  css-hier-invalidate:yes;
-  snd_change_value:choose;
-  disable_wheel:yes;
-}
-
-slider:disabled {
-  background-color:@controlDisabledColor;
-}
-
-EditSlider, input[buddy] {
-  re-type:slider;
-  behaviour:edit+slider;
-  tabStop:yes;
-}
-
-sliderButton {
-  size:16*@sf/@pf, 16*@sf/@pf;
-  background-repeat:no-repeat;
-  background-color:@white;
-  selected-border:none;
-}
-
-sliderButton:disabled {
-
-  background-color:#80808080;
-}
-
-slider[flow=vertical] {
-  background-color:@white;
-}
-
-slider:focus sliderButton {
-
-}
-
-invisSlider {
-  behaviour:slider;
-  behaviour:accesskey;
-  css-hier-invalidate:yes;
-  disable_wheel:yes;
-}
-invisSlider > sliderButton {
-  size:0.3ph,ph;
-}
-invisSlider > sliderButton[type=various] {
-  size: @sliderThumbWidth, @sliderThumbHeight;
-  css-hier-invalidate:yes;
-}
-
-sliderButton[type=various] > img {
-  id:"slider_button";
-  size:12@sf/@pf, 27@sf/@pf;
-  pos:50%pw-50%w, 50%ph-50%h;
-  position:absolute;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#slider_thumb;
-  background-color:@commonTextColor;
-}
-
-sliderButton[type=various]:hover > img {
-  background-image:#ui/gameuiskin#slider_thumb_hover;
-  background-color:@activeTextColor;
-}
-
-tr[selected=no] > td > tdiv > invisSlider > sliderButton[type=various] > img[showWhenSelected=yes] {
-  display:hide;
-}
-
-tr[selected=yes] > td > tdiv > invisSlider > sliderButton[type=various] > img[showWhenSelected=yes],
-tr[selected=no]:hover > td > tdiv > invisSlider > sliderButton[type=various] > img[showWhenSelected=yes] {
-  display:show;
-}
-
 animated_wait_icon
 {
   re-type:rotation;
   background-color:@white;
   background-image:ui/loadinganim;
-  size:32*@sf/@pf, 32*@sf/@pf;
+  size:32*@sf/@pf_outdated, 32*@sf/@pf_outdated;
   behavior:increment;
   inc-target:background-rotation;
   inc-factor:120;
@@ -1534,19 +1462,19 @@ animated_wait_icon
 }
 
 animated_wait_icon.inTextRow {
-  size:12@sf/@pf,12@sf/@pf;
-  pos:2@sf/@pf,50%ph-50%h;
+  size:12@sf/@pf_outdated,12@sf/@pf_outdated;
+  pos:2@sf/@pf_outdated,50%ph-50%h;
   position:relative;
 }
 
 animated_wait_icon.missionBox {
-  size:16*@sf/@pf, 16*@sf/@pf;
+  size:16*@sf/@pf_outdated, 16*@sf/@pf_outdated;
   position:absolute;
-  pos:12*@sf/@pf-50%w, 50%ph-50%h;
+  pos:12*@sf/@pf_outdated-50%w, 50%ph-50%h;
 }
 
 Button_text > animated_wait_icon, animated_wait_icon.byParent {
-  size:ph - 4*@sf/@pf, ph - 4*@sf/@pf;
+  size:ph - 4*@sf/@pf_outdated, ph - 4*@sf/@pf_outdated;
 }
 
 Button_text.squadWidgetMember > animated_wait_icon {
@@ -1570,7 +1498,7 @@ animated_wait_icon[circle=both] > animated_wait_icon {
 animated_wait_icon[circle] {
   pos:50%pw-50%w, 0;
   position:relative;
-  size:130*@sf/@pf, 130*@sf/@pf;
+  size:130*@sf/@pf_outdated, 130*@sf/@pf_outdated;
   background-color:@transparent;
   css-hier-invalidate:yes;
 }
@@ -1588,64 +1516,6 @@ animated_wait_icon[circle=both] {
   inc-factor:56;
 }
 
-sliderProgress {
-  re-type:progress;
-  background-image:#ui/gameuiskin#volumeBg;
-  background-color:@progressColor;
-  background-position:0;
-  top:50%ph-50%h;
-  position:relative;
-  width:1@sliderProgress_720p_width;
-  height:1@sliderProgress_720p_height;
-  foreground-image:#ui/gameuiskin#volumeFg;
-  foreground-color:@progressColor;
-}
-
-[sliderParentWidth=yes] sliderProgress {
-  width:pw;
-}
-
-sliderProgress > sliderButton {
-  size:6/720*@scrn_tgt, ph;
-}
-
-tr:hover > td > sliderProgress {
-  background-color:@progressHoverColor;
-  foreground-color:@progressHoverColor;
-}
-sliderProgress:focus {
-  background-color:@progressActiveColor;
-  foreground-color:@progressActiveColor;
-}
-
-sliderProgress > sliderButton {
-  background-color:@transparent;
-}
-
-sliderProgress:disabled, sliderProgress[inactiveColor=yes] {
-  input-transparent:yes;
-}
-
-[enable=no] sliderProgress {
-  foreground-color:@controlDisabledColor; }
-
-conQualityProgress {
-  behaviour:progress;
-  re-type:progress;
-  background-color:@transparent;
-  foreground-image:#ui/gameuiskin#latencyBg;
-  foreground-color:@conQuality1;
-  pos:50%pw-50%w,50%ph-50%h;
-  position:relative;
-  min:0;
-  max:5;
-}
-
-conQualityProgress[value=2] { foreground-color:@conQuality2; }
-conQualityProgress[value=3] { foreground-color:@conQuality3; }
-conQualityProgress[value=4] { foreground-color:@conQuality4; }
-conQualityProgress[value=5] { foreground-color:@conQuality5; }
-
 expProgress, referenceProgress, crewSpecProgressBar {
   behaviour:progress;
   re-type:progress;
@@ -1656,7 +1526,7 @@ expProgress, referenceProgress, crewSpecProgressBar {
 }
 
 expProgress {
-  height:1@sliderHeight;
+  height:1@progressHeight;
   min:0;
   needMax:yes;
 }
@@ -1667,7 +1537,7 @@ expProgress[needMax=yes] {
   max:1000;
 }
 expProgress[small=yes] {
-  height:1@sliderHeightSmall;
+  height:1@progressHeightSmall;
 }
 expProgress[type=old], crewSpecProgressBar[type=old] {
   background-color:@transparent;
@@ -1697,9 +1567,9 @@ expProgress.slider sliderButton {
 challengeDescriptionProgress {
   behaviour:progress;
   re-type:progress;
-  height:5*@sf/@pf;
-  width:200*@sf/@pf;
-  margin-top:0.01@scrn_tgt_font;
+  height:5*@sf/@pf_outdated;
+  width:200*@sf/@pf_outdated;
+  margin-top:0.01@sf;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
   border:yes;
@@ -1714,7 +1584,7 @@ framedMessage {
   background-color:@white;
   background-image:#ui/gameuiskin#frame_opaq;
   input-transparent:yes;
-  padding:10*@sf/@pf, 0, 10*@sf/@pf, 2*@sf/@pf;
+  padding:10*@sf/@pf_outdated, 0, 10*@sf/@pf_outdated, 2*@sf/@pf_outdated;
 }
 
 advertDiv {
@@ -1758,7 +1628,7 @@ tooltipObj, tooltip {
   background-color:#FF888888;
   background-position:4;
   background-image:#ui/gameuiskin#tooltip_bubble;
-  padding:5*@sf/@pf;
+  padding:5*@sf/@pf_outdated;
   tooltip-screen-offset:1@bw, 1@bh;
 }
 
@@ -1774,13 +1644,13 @@ frame, tooltipObj {
 }
 
 tooltip {
-  padding:11*@sf/@pf, 9*@sf/@pf, 11*@sf/@pf, 7*@sf/@pf;
+  padding:11*@sf/@pf_outdated, 9*@sf/@pf_outdated, 11*@sf/@pf_outdated, 7*@sf/@pf_outdated;
   color:@commonTextColor;
   border:no;
   font:@tiny;
   font-bold:@small;
   position:absolute;
-  pos:25*@sf/@pf, 25*@sf/@pf;
+  pos:25*@sf/@pf_outdated, 25*@sf/@pf_outdated;
   timeout:250;
   max-width:70*@scrn_tgt/100.0;
 }
@@ -1790,8 +1660,8 @@ tooltipObj {
 }
 
 @const imgFrameSize: 1.45*@profileMedalSize;
-@const imgFramePad: 3*@sf/@pf;
-@const hoverFrameMargin: 4*@sf/@pf;
+@const imgFramePad: 3*@sf/@pf_outdated;
+@const hoverFrameMargin: 4*@sf/@pf_outdated;
 imgFrame {
   re-type:9rect;
   background-repeat:expand;
@@ -1812,7 +1682,7 @@ imgFrame[noMargin=yes] {
   background-color:@transparent;
   background-position:6;
   background-repeat:expand;
-  padding:5*@sf/@pf;
+  padding:5*@sf/@pf_outdated;
 }
 
 awardDiv > layeredIconContainer {
@@ -1846,7 +1716,7 @@ imgButton {
   total-input-transparent:yes;
 }
 .hoverFrame > imgButton {
-  size:110*@sf/@pf, 110*@sf/@pf;
+  size:110*@sf/@pf_outdated, 110*@sf/@pf_outdated;
 }
 .hoverFrame > imgButton > img , .hoverFrame > imgFrame > img{
   pos:50%pw-50%w, 50%ph-50%h;
@@ -1915,12 +1785,12 @@ LockedImg[statusLock=limit] {
 }
 
 LockedImg[statusLock=noPremium_1] {
-  size:pw-6*@sf/@pf, ph-6*@sf/@pf;
+  size:pw-6*@sf/@pf_outdated, ph-6*@sf/@pf_outdated;
   background-color:@white;
   background-image:#ui/images/decalslot_nopremium_vertical;
 }
 LockedImg[statusLock=noPremium_2] {
-  size:pw-6*@sf/@pf, ph-6*@sf/@pf;
+  size:pw-6*@sf/@pf_outdated, ph-6*@sf/@pf_outdated;
   background-color:@white;
   background-image:#ui/images/decalslot_nopremium_horizontal;
 }
@@ -1949,13 +1819,13 @@ frame.wndNav[largeNavBarHeight=yes] {
   padding:1@framePadding, 1@frameHeaderHeight, 1@framePadding, 1@frameFooterHeightLarge;
 }
 frame.wndNav[padByLine] {
-  padding:2*@sf/@pf, 2*@sf/@pf, 2*@sf/@pf, 1@buttonHeight+10*@sf/@pf;
+  padding:2*@sf/@pf_outdated, 2*@sf/@pf_outdated, 2*@sf/@pf_outdated, 1@buttonHeight+10*@sf/@pf_outdated;
 }
 frame.leaderboard {
-  padding:0.025@scrn_tgt, 1@frameHeaderHeight, 0.025@scrn_tgt, 1@buttonHeight+10*@sf/@pf;
+  padding:0.025@scrn_tgt, 1@frameHeaderHeight, 0.025@scrn_tgt, 1@buttonHeight+10*@sf/@pf_outdated;
 }
 frame.small {
-  padding:1@framePadding, 1@framePadding, 1@framePadding, 1@buttonHeight+10*@sf/@pf;
+  padding:1@framePadding, 1@framePadding, 1@framePadding, 1@buttonHeight+10*@sf/@pf_outdated;
 }
 frame.wnd {
   padding:1@framePadding, 1@frameHeaderHeight + 1@framePadding, 1@framePadding, 1@framePadding;
@@ -1966,7 +1836,7 @@ frame_header {
   width:pw;
   height:1@frameHeaderHeight;
   position:absolute;
-  padding-left:10*@sf/@pf;
+  padding-left:10*@sf/@pf_outdated;
   background-repeat:expand;
   background-position:5;
   background-image:#ui/gameuiskin#window_header;
@@ -1981,7 +1851,7 @@ frame_header[smallIcon=yes] {
 }
 
 frame > activeText[caption=yes] {
-  pos:0, -2*@sf/@pf;
+  pos:0, -2*@sf/@pf_outdated;
   position:relative;
 }
 
@@ -2003,14 +1873,14 @@ moveElem {
 }
 
 frame.scaleable > moveElem {
-  size:pw-10*@sf/@pf, ph-5*@sf/@pf;
+  size:pw-10*@sf/@pf_outdated, ph-5*@sf/@pf_outdated;
   pos:50%pw-50%w, 50%ph-50%h;
   position:absolute;
 }
 
 frame_inner {
   input-transparent: yes;
-  padding:0,2*@sf/@pf;
+  padding:0,2*@sf/@pf_outdated;
   re-type:9rect;
   background-repeat:expand;
   overflow-y:auto;
@@ -2071,7 +1941,7 @@ rootScene {
 
 navBar {
   id:'nav-help';
-  size:1@rw, 2*@buttonHeight+4*@sf/@pf;
+  size:1@rw, 2*@buttonHeight+4*@sf/@pf_outdated;
   pos:50%sw-50%w, 83.5%sh;
   position:absolute;
   input-transparent: yes;
@@ -2120,8 +1990,8 @@ collapsableBlock[type=decoratorsList] > content {
   background-color:@white;
   background-position:4;
   background-repeat:expand;
-  width:@countDecalsInWidth*@decalIconHeight+8*@sf/@pf;
-  padding:1*@sf/@pf, 0;
+  width:@countDecalsInWidth*@decalIconHeight+8*@sf/@pf_outdated;
+  padding:1*@sf/@pf_outdated, 0;
 }
 
 navLeft {
@@ -2202,7 +2072,7 @@ fieldReq{
   width: 25*@scrn_tgt/100.0;
   pos: p.p.w, ph/1.55-h/2;
   position: absolute;
-  padding: 10*@sf/@pf;
+  padding: 10*@sf/@pf_outdated;
   background-position: 4;
   background-repeat: expand;
   background-color: @white;
@@ -2260,8 +2130,8 @@ navUnderTitle {
 }
 
 slotbarBg {
-  size:@slotbarWidth5+4*@sf/@pf, @shopBottomOffset+5*@sf/@pf;
-  pos:50%sw-50%w, sh-h+1*@sf/@pf;
+  size:@slotbarWidth5+4*@sf/@pf_outdated, @shopBottomOffset+5*@sf/@pf_outdated;
+  pos:50%sw-50%w, sh-h+1*@sf/@pf_outdated;
   position:root;
   input-transparent:yes;
 }
@@ -2308,7 +2178,7 @@ frame > navBar > hintDiv[modalPos=left] > hintText {
 
 navBar.embedded{
   pos:50%pw-50%w, ph;
-  size:p.p.w, @buttonHeight+10*@sf/@pf;
+  size:p.p.w, @buttonHeight+10*@sf/@pf_outdated;
 }
 
 EditBox
@@ -2326,8 +2196,8 @@ EditBox
   tabStop:yes;
   color:@commonTextColor;
   cursor-color:@activeTextColor;
-  height:@buttonHeight;   padding:5*@sf/@pf, 3*@sf/@pf;
-  margin-bottom:5*@sf/@pf;
+  height:@buttonHeight;   padding:5*@sf/@pf_outdated, 3*@sf/@pf_outdated;
+  margin-bottom:5*@sf/@pf_outdated;
   multiShortcuts:no;
 
   edit-hint-back-color:@transparent;
@@ -2351,7 +2221,7 @@ EditBox[multiline] {
   _needOverflowHidden:no;
   auto-scroll:yes;
   multiShortcuts:yes;
-  padding:5*@sf/@pf, 0.8*@scrn_tgt/100.0;
+  padding:5*@sf/@pf_outdated, 0.8*@scrn_tgt/100.0;
 }
 
 EditBox[_needOverflowHidden=yes] {
@@ -2427,19 +2297,6 @@ optionlist_container[mislist=yes] {
   color:@fadedTextColor;
 }
 
-[class=optionsTable] > tr:disabled sliderProgress,
-[class=optionsTable] > tr[inactiveColor=yes] sliderProgress,
-sliderProgress[inactiveColor=yes] {
-  foreground-color:@fadedTextColor;
-  background-color:@fadedTextColor;
-}
-
-[class=optionsTable] > tr:disabled invisSlider > sliderButton > img,
-[class=optionsTable] > tr[inactiveColor=yes] invisSlider > sliderButton > img,
-invisSlider:disabled > sliderButton > img {
-  background-color:@fadedTextColor;
-}
-
 [class=optionsTable] > tr:disabled expProgress,
 [class=optionsTable] > tr[inactiveColor=yes] expProgress,
 expProgress[inactiveColor=yes] {
@@ -2448,18 +2305,18 @@ expProgress[inactiveColor=yes] {
 }
 
 chapterListPlace {
-  width:0.32@scrn_tgt_font;
+  width:0.32@sf;
 }
 
 chapterListPlace[increaseWidthForWide=yes] {
-  width:0.32@scrn_tgt_font + 0.08@scrn_tgt_font*1@isWide;
+  width:0.32@sf + 0.08@sf*1@isWide;
 }
 
 [mislist=yes] chapterListPlace {
-  width:0.5@scrn_tgt_font;
+  width:0.5@sf;
 }
 [mislist=events] chapterListPlace {
-  width:0.38@scrn_tgt_font;
+  width:0.05@sf * (1.3 + 1@slotbarCountries);
 }
 textarea[wrapRight=yes] {
   wrap-indent:2;
@@ -2556,27 +2413,27 @@ country_exp_div, exp_div {
 }
 
 country_exp_div {
-  min-height:3@scrn_tgt_font/100.0;
+  min-height:3@sf/100.0;
   flow:horizontal;
 }
 
 [countryExpType=vertical] country_exp_div {
   flow:vertical;
-  width:30*@scrn_tgt_font/100.0;
+  width:30*@sf/100.0;
 }
 [countryExpType=centered] country_exp_div, [countryExpType=noNames] country_exp_div {
-  width:41*@scrn_tgt_font/100.0;
+  width:41*@sf/100.0;
   pos:50%pw-50%w,0;
   position:relative;
 }
 [countryExpType=noNames] country_exp_div {
-  width:33*@scrn_tgt_font/100.0;
+  width:33*@sf/100.0;
 }
 exp_div {
-  width:20*@scrn_tgt_font/100.0;
+  width:20*@sf/100.0;
 }
 .short > exp_div, .short > exp_div > expProgress {
-  width:15*@scrn_tgt_font/100.0;
+  width:15*@sf/100.0;
 }
 
 country_exp_div[flow=vertical] > exp_div {
@@ -2616,10 +2473,10 @@ text[overlayTextColor=active], textareaNoTab[overlayTextColor=active], textarea[
 textAreaCentered[overlayTextColor=active] {
   color:@activeTextColor;
 }
-text[overlayTextColor=minor], extareaNoTab[overlayTextColor=minor] {
+text[overlayTextColor=minor], textareaNoTab[overlayTextColor=minor] {
   color:@minorTextColor;
 }
-text[overlayTextColor=mainPlayer] {
+text[overlayTextColor=mainPlayer], textareaNoTab[overlayTextColor=mainPlayer] {
   color:@mainPlayerColor;
 }
 text[overlayTextColor=faded], textarea[overlayTextColor=faded], textareaNoTab[overlayTextColor=faded] {
@@ -2689,12 +2546,12 @@ textareaNoTab[overlayTextColor=hotkey] {
 }
 
 text.decalsTitle {
-  size:pw, @decalIconHeight-2*@sf/@pf;
+  size:pw, @decalIconHeight-2*@sf/@pf_outdated;
 }
 
 referenceProgress{
   height:@referenceProgressHeight;
-  width:8*@scrn_tgt_font/100;
+  width:8*@sf/100;
   pos:0, ph+@referenceProgressOffset;
   position:absolute;
   min:0;
@@ -2706,9 +2563,9 @@ referenceProgress{
 }
 
 referenceMarker{
-  width: 1.3%@scrn_tgt_font;
-  height: ph + 8*@sf/@pf;
-  top: -4*@sf/@pf;
+  height: 0.02@sf;
+  width: 9/22*h;
+  top: 0.5ph - 0.5h;
   background-repeat:expand;
   background-color:@white;
   background-image: #ui/gameuiskin#slider_thumb;
@@ -2745,7 +2602,7 @@ slotbarBottom {
   re-type:9rect;
   pos:50%pw-50%w,0;
   position:absolute;
-  size:pw-2*@sf/@pf, ph;
+  size:pw-2*@sf/@pf_outdated, ph;
   background-image:#ui/gameuiskin#slotbar_bottom_bar;
   background-position:1;
   background-repeat:expand;
@@ -2776,7 +2633,7 @@ ProjectAwardsPanel {
 }
 
 ProjectAwardsPanel > img {
-  size:48*@sf/@pf, 48*@sf/@pf;
+  size:48*@sf/@pf_outdated, 48*@sf/@pf_outdated;
   color-factor:145;
   input-transparent:yes;
 }
@@ -2798,10 +2655,10 @@ TopMenuPanel {
 }
 BottomMenuPanel {
   re-type:9rect;
-  pos:0, sh-h+3*@sf/@pf;
+  pos:0, sh-h+3*@sf/@pf_outdated;
   position:root;
   size:sw, 1@bottomBarHeight;
-  padding-top:2*@sf/@pf;
+  padding-top:2*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#bottom_bar;
   background-color:@barColor;
   background-position:6,8;
@@ -2817,7 +2674,7 @@ airItemNavigation {
   re-type:9rect;
   pos:6,50%ph-50%h;
   position:absolute;
-  padding-left:3*@sf/@pf;
+  padding-left:3*@sf/@pf_outdated;
   height:1@slotbarTop;
   background-color:@transparent;
   background-image:#ui/gameuiskin#block_bg_rounded_flat;
@@ -2844,7 +2701,7 @@ copyright {
   color:@commonTextColor;
   text:"#mainmenu/legal_text";
   font:@small;
-  padding-right:0.04@scrn_tgt_font;
+  padding-right:0.04@sf;
   text-align:center;
   input-transparent:yes;
 }
@@ -2872,7 +2729,7 @@ GameLogoPlate > Shadow {
   re-type:9rect;
   pos:50%pw-50%w, 0;
   position:absolute;
-  size:pw+6*@sf/@pf, ph+5*@sf/@pf;
+  size:pw+6*@sf/@pf_outdated, ph+5*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#window_body_shadow;
   background-color:@white;
   background-position:6;
@@ -2882,7 +2739,7 @@ GameLogoPlate > Shadow {
 GameLogoPlate redPlate {
   re-type:9rect;
   size:pw, ph;
-  padding:3*@sf/@pf, 2*@sf/@pf;
+  padding:3*@sf/@pf_outdated, 2*@sf/@pf_outdated;
   background-image:#ui/gameuiskin#red_plate;
   background-color:@white;
   background-position:6;
@@ -2901,19 +2758,19 @@ GameLogoPlate GameLogoImg {
 }
 
 GameLogoPlate > infoBlock {
-  height:0.02@scrn_tgt_font;
+  height:0.02@sf;
 }
 
 GameLogoPlate > infoBlock[type=left] {
   pos:-w, 1@topBarHeight+4@dp;
   position:absolute;
-  padding-right:10*@sf/@pf;
+  padding-right:10*@sf/@pf_outdated;
 }
 
 GameLogoPlate > infoBlock[type=right] {
   pos:pw, 1@topBarHeight;
   position:absolute;
-  padding-left:10*@sf/@pf;
+  padding-left:10*@sf/@pf_outdated;
 }
 
 CentralPlate {
@@ -2930,7 +2787,7 @@ TopMenuPanel > infoBlock {
 }
 
 gamercard_div[type=wwMap] > gamercard > TopMenuPanel > infoBlock {
-  pos:sw - w - 1@wwMapPanelInfoWidth - 3@framePadding, 1@topBarHeight + 3*@sf/@pf;
+  pos:sw - w - 1@wwMapPanelInfoWidth - 3@framePadding, 1@topBarHeight + 3*@sf/@pf_outdated;
   position:absolute;
 }
 
@@ -2955,13 +2812,13 @@ LineLock[type=right] {
 }
 
 slotbarTop > tdiv[offset=yes] {
-  padding-left:1@offsetFromEdge + 1@shopWidthMax + 10@sf/@pf;
+  padding-left:1@offsetFromEdge + 1@shopWidthMax + 10@sf/@pf_outdated;
 }
 
 bottomButtonsDiv {
   id:"air_item_bottom_buttons";
   left:0.5pw - 0.5w;
-  top:ph -7*@sf/@pf;
+  top:ph -7*@sf/@pf_outdated;
   position:absolute;
   width:pw;
   css-hier-invalidate:yes;
@@ -2969,18 +2826,7 @@ bottomButtonsDiv {
 }
 
 .slotbarTable bottomButtonsDiv {
-  top:ph -1*@sf/@pf;
-}
-
-topMenuDiv {
-  css-hier-invalidate:yes;
-  re-type:9rect;
-  min-height:1@mainMenuDivHeight;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#hovermenu_bg;
-  background-color:@white;
-  background-position:6;
-  padding:2*@sf/@pf, 7*@sf/@pf;
+  top:ph -1*@sf/@pf_outdated;
 }
 
 activeText[airBought=yes] {
@@ -3087,7 +2933,7 @@ shopItem[group=yes] > focus_border {
 }
 
 focus_border.fontRow {
-  size: pw+2, 0.03@scrn_tgt_font+2;
+  size: pw+2, 0.03@sf+2;
 }
 
 focusConsoleDiv {
@@ -3112,7 +2958,7 @@ airInfoBlock {
   flow:vertical;
   pos:-4px, @infoPanelVertPosition;
   position:absolute;
-  padding:0.01@scrn_tgt_font;
+  padding:0.01@sf;
   padding-left:1@offsetBetweenScreenAndAirinfo;
   min-height:2@sIco;
   css-hier-invalidate:yes;
@@ -3120,7 +2966,7 @@ airInfoBlock {
 }
 
 airInfoBlock[toggled=no] {
-  padding-left:0.5sw - 0.5@slotbarWidthFull + 4px - 6*@sf/@pf + @mIco;
+  padding-left:0.5sw - 0.5@slotbarWidthFull + 4px - 6*@sf/@pf_outdated + @mIco;
   background-color:@transparent;
 }
 
@@ -3142,7 +2988,7 @@ airInfoBlock textarea[crew_data=yes], airInfoBlock text[crew_data=yes] {
 }
 
 airInfoBlock td {
-  padding:0, @referenceProgressHeight, 4*@sf/@pf, @referenceProgressHeight + @referenceProgressOffset;
+  padding:0, @referenceProgressHeight, 4*@sf/@pf_outdated, @referenceProgressHeight + @referenceProgressOffset;
 }
 
 navConsoleBlock > directionImage {
@@ -3263,7 +3109,7 @@ paymentItem {
   background-repeat:expand;
   background-image:#ui/gameuiskin#item;
   background-color:@white;
-  padding:3*@sf/@pf;
+  padding:3*@sf/@pf_outdated;
   css-hier-invalidate:yes;
   total-input-transparent:yes;
 }
@@ -3298,7 +3144,7 @@ topMenuButtons {
   background-image:#ui/gameuiskin#hovermenu_bg;
   background-color:@white;
   background-position:6;
-  padding:2*@sf/@pf, 7*@sf/@pf;
+  padding:2*@sf/@pf_outdated, 7*@sf/@pf_outdated;
 }
 
 rightClickMenu {
@@ -3328,11 +3174,20 @@ ShadowPlate {
   background-repeat:expand;
 }
 
+debriefingTab {
+  size:pw, ph;
+  position:absolute;
+}
+
+moveObjSizeDiv activeText[animateFontSize=yes] {
+  font-ht:ph;
+}
+
 frame[side=left] {
-  pos:-((w-(@slot_width-(25*@sf/@pf)))-2*@sf/@pf), -h-1*@scrn_tgt/100.0;
+  pos:-((w-(@slot_width-(25*@sf/@pf_outdated)))-2*@sf/@pf_outdated), -h-1*@scrn_tgt/100.0;
 }
 frame[side=right] {
-  pos:2*@sf/@pf, -h-1*@scrn_tgt/100.0;
+  pos:2*@sf/@pf_outdated, -h-1*@scrn_tgt/100.0;
 }
 
 activeText[text-align=center] {

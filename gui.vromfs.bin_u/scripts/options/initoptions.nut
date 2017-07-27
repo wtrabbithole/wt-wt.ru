@@ -223,6 +223,8 @@ function countUsageAmountOnce()
     ::tribunal.init()
     ::game_mode_maps.clear() //to refreash maps on demand
     ::dynamic_layouts.clear()
+    ::crosshair_icons.clear()
+    ::crosshair_colors.clear()
   }
 
   function()

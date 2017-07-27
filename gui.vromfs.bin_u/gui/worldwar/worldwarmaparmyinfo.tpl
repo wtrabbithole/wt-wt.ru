@@ -6,49 +6,63 @@ tdiv {
     size:t='pw, 1@ownerPanelHeight'
     margin:t='0, 1@framePadding'
 
-    cardImg {
-      pos:t='1@armyGroupTablePadding, 50%ph-50%h'
-      position:t='relative'
-      background-image:t='<<getCountryIcon>>'
+    tdiv {
+      size:t='pw/3, ph'
+      cardImg {
+        pos:t='50%pw-50%w, 50%ph-50%h'
+        position:t='relative'
+        background-image:t='<<getCountryIcon>>'
+      }
     }
 
-    armyIcon {
-      pos:t='1@armyGroupTablePadding, 50%ph-50%h'
-      position:t='relative'
-      team:t='<<getTeamColor>>'
-      <<#isBelongsToMyClan>>
-        isBelongsToMyClan:t='yes'
-      <</isBelongsToMyClan>>
-      background {
-        background-image:t='#ui/gameuiskin#ww_army'
-        foreground-image:t='#ui/gameuiskin#ww_select_army'
-        pos:t='50%pw-50%w, 50%ph-50%h'
-        position:t='absolute'
+    tdiv {
+      size:t='pw/3, ph'
+      tdiv {
+        pos:t='50%pw-50%w, 0'
+        position:t='relative'
+        height:t='ph'
+        armyIcon {
+          pos:t='0, 50%ph-50%h'
+          position:t='relative'
+          team:t='<<getTeamColor>>'
+          <<#isBelongsToMyClan>>
+            isBelongsToMyClan:t='yes'
+          <</isBelongsToMyClan>>
+          background {
+            background-image:t='#ui/gameuiskin#ww_army'
+            foreground-image:t='#ui/gameuiskin#ww_select_army'
+            pos:t='50%pw-50%w, 50%ph-50%h'
+            position:t='absolute'
+          }
+          armyUnitType {
+            text:t='<<getUnitTypeCustomText>>'
+            pos:t='50%pw-50%w, 50%ph-50%h'
+            position:t='absolute'
+          }
+          <<#showArmyGroupText>>
+          armyGroupText {
+            text:t='<<getArmyGroupIdx>>'
+            pos:t='50%pw-50%w, 50%ph-50%h'
+            position:t='absolute'
+          }
+          <</showArmyGroupText>>
+        }
+        activeText {
+          text:t='#worldwar/<<getMapObjectName>>'
+          pos:t='3@sf/@pf_outdated, 50%ph-50%h'
+          position:t='relative'
+        }
       }
-      armyUnitType {
-        text:t='<<getUnitTypeCustomText>>'
-        pos:t='50%pw-50%w, 50%ph-50%h'
-        position:t='absolute'
-      }
-      <<#showArmyGroupText>>
-      armyGroupText {
-        text:t='<<getArmyGroupIdx>>'
-        pos:t='50%pw-50%w, 50%ph-50%h'
-        position:t='absolute'
-      }
-      <</showArmyGroupText>>
-    }
-    activeText {
-      text:t='#worldwar/<<getMapObjectName>>'
-      pos:t='3@sf/@pf, 50%ph-50%h'
-      position:t='relative'
     }
 
-    clanTag {
-      pos:t='1@armyGroupTablePadding, 50%ph-50%h'
-      position:t='relative'
-      hideEmptyText:t='yes'
-      text:t='<<clanTag>>'
+    tdiv {
+      size:t='pw/3, ph'
+      clanTag {
+        pos:t='50%pw-50%w, 50%ph-50%h'
+        position:t='relative'
+        hideEmptyText:t='yes'
+        text:t='<<clanTag>>'
+      }
     }
   }
 
@@ -129,7 +143,7 @@ tdiv {
   }
 
   armyAlertPanel {
-    size:t='pw, 0.03@scrn_tgt_font'
+    size:t='pw, 0.03@sf'
     margin-top:t='1'
     isAlert:t='no'
     <<^getArmyInfoText>>
@@ -148,7 +162,7 @@ tdiv {
   }
 
   armyAlertPanel {
-    size:t='pw, 0.03@scrn_tgt_font'
+    size:t='pw, 0.03@sf'
     margin-top:t='1'
     isAlert:t='<<isAlert>>'
     <<^getArmyAlertText>>

@@ -43,6 +43,14 @@ function get_ingame_multiplayer_score_progress_bar_aabb()
   return handler && ::get_dagui_obj_aabb(handler.getMultiplayerScoreObj())
 }
 
+function on_show_hud(show = true) //called from native code
+{
+  local handler = ::handlersManager.getActiveBaseHandler()
+  if (handler && ("onShowHud" in handler))
+    handler.onShowHud(show)
+  ::broadcastEvent("ShowHud", { show = show })
+}
+
 class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName         = "gui/hud/hud.blk"
@@ -67,6 +75,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   delayOnCheckAfkTimeToKick = 0.0
 
   curHudVisMode = null
+  isReinitDelayed = false
 
   objectsTable = {
     [::USEROPT_DAMAGE_INDICATOR_SIZE] = {
@@ -77,7 +86,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       }
       onChangedFunc = function(obj) {
         local offset = 0
-        if (::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.MAP))
+        if (::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.DMG_PANEL))
           offset = obj.getPosRC()[0] + obj.getSize()[0]
         ::hud_set_progress_left_margin(offset)
       }
@@ -137,6 +146,10 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 
   function reinitScreen(params = {})
   {
+    isReinitDelayed = !scene.isVisible() //hud not visible. we just wait for show_hud event
+    if (isReinitDelayed)
+      return
+
     setParams(params)
     if (switchHud(getHudType()))
       loadGameChat()
@@ -177,6 +190,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     if (currentHud && ("onShowHud" in currentHud))
       currentHud.onShowHud(show)
     base.onShowHud(show)
+    if (show && isReinitDelayed)
+      reinitScreen()
   }
 
   function switchHud(newHudType)

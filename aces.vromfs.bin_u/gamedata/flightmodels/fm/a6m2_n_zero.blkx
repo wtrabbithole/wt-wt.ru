@@ -19,6 +19,7 @@
   "CockpitDoorBlockSpeed": 450.0,
   "AirBrakeSpeed": 0.5,
   "BayDoorSpeed": 1.0,
+  "BombLauncherSpeed": 2.0,
   "dvFlapsIn": [150.0,280.0,0.15,0.18],
   "dvFlapsOut": [150.0,280.0,0.15,0.12],
   "Wingspan": 11.8,
@@ -41,7 +42,7 @@
   "VSlats": [125.0,150.0],
   "Vne": 650.0,
   "VneMach": 0.83,
-  "MaxSpeedNearGround": 510.012,
+  "MaxSpeedNearGround": 432.0,
   "MaxSpeedAtAltitude": 555.0,
   "CriticalSpeed": 50.0,
   "ArcadeLimitWepMultiplier": 1.1,
@@ -119,11 +120,15 @@
   "Aerodynamics": {
     "AileronCd": [0.015,0.0027],
     "GearCd": 0.0122,
+    "GearCentralCd": 0.0,
     "RadiatorCd": 0.0015,
     "OilRadiatorCd": 0.001,
+    "BombBayCd": 0.0,
     "FuseCd": 0.0,
     "AirbrakeCd": 0.0,
     "CockpitDoorCd": 0.007,
+    "FlapsPolarBlending1": [0.0,0.0],
+    "FlapsPolarBlending2": [1.0,1.0],
     "ClToCmCoeff": -0.15,
     "UseSpinLoss": false,
     "SpinClLoss": -1.0,
@@ -326,7 +331,7 @@
     }
   },
   "Engine0": {
-    "Position": [1.85,0.0,0.0],
+    "Position": [1.55,0.0,0.0],
     "Direction": [-0.0,0.0],
     "PropPos": [2.044,0.0,0.0],
     "Main": {
@@ -452,6 +457,13 @@
       "Type": 6,
       "NitroConsumption": 0.0
     },
+    "Controls": {
+      "hasThrottleControl": true,
+      "hasMagnetoControl": true,
+      "hasRadiatorControl": true,
+      "hasOilRadiatorControl": true,
+      "hasCommonRadiator": false
+    },
     "Temperature": {
       "RadiatorAuto": false,
       "OilRadiatorAuto": false,
@@ -479,6 +491,10 @@
       "HalfHealthOilTemperatureToleranceDecrease": 10.5,
       "WaterAirDensityPower": 0.0,
       "OilAirDensityPower": 0.0,
+      "WaterFlowEffectPower": 1.0,
+      "OilFlowEffectPower": 1.0,
+      "WaterPropFlowSpeedCoeff": 1.0,
+      "OilPropFlowSpeedCoeff": 1.0,
       "CoolingEffectiveAirSpeed": 324.474,
       "WaterTemperatureNoFlow": 321.146,
       "OilTemperatureNoFlow": 169.83,
@@ -597,13 +613,6 @@
       "Type": 1,
       "AltitudePressureToP0": 0.466
     },
-    "Controls": {
-      "hasThrottleControl": true,
-      "hasMagnetoControl": true,
-      "hasRadiatorControl": true,
-      "hasOilRadiatorControl": true,
-      "hasCommonRadiator": false
-    },
     "Stages": {
       "Stage1": {
         "minTime": 0.5,
@@ -657,20 +666,20 @@
     "Parts": {
       "tank1_capacity": 146.25,
       "tank1_system": 0,
-      "tank0_external": false,
-      "tank0_priority": 0,
-      "tank2_capacity": 146.25,
-      "tank2_system": 0,
       "tank1_external": false,
       "tank1_priority": 0,
-      "tank3_capacity": 108.75,
-      "tank3_system": 0,
+      "tank2_capacity": 146.25,
+      "tank2_system": 0,
       "tank2_external": false,
       "tank2_priority": 0,
-      "tank4_capacity": 79.0,
-      "tank4_system": 0,
+      "tank3_capacity": 108.75,
+      "tank3_system": 0,
       "tank3_external": false,
       "tank3_priority": 0,
+      "tank4_capacity": 79.0,
+      "tank4_system": 0,
+      "tank4_external": false,
+      "tank4_priority": 0,
       "wing_r_dm": 108.748,
       "wing1_r_dm": 62.1157,
       "wing2_r_dm": 60.2903,
@@ -690,11 +699,11 @@
       "tail_dm": 68.1994,
       "gear_r_dm": 8.3871,
       "gear_l_dm": 8.3871,
+      "engine1_dm": 630.0,
       "fuse1_dm": 104.639,
       "wingcontrol_l_dm": 3.1702,
       "cover2_dm": 37.9063,
       "fuse_dm": 101.516,
-      "engine1_dm": 630.0,
       "wingcontrol_r_dm": 3.1702,
       "stab_dm": 77.1552,
       "aileron_r_dm": 26.6489,
@@ -788,9 +797,6 @@
       "WaterSpeedPropCheckVal": [0.1,2.5]
     },
     {
-      "Floats": true
-    },
-    {
       "WaterGroup": [
         {
           "part": 3
@@ -819,49 +825,49 @@
     {
       "WaterPart1": {
         "Number": 0,
-        "SinkFactor": 13000.0,
-        "VerticalOffset": -0.02,
-        "Breakable": true
+        "Name": "_ClipLGear",
+        "SinkFactor": 2000.0,
+        "VerticalOffset": -0.02
       }
     },
     {
       "WaterPart2": {
         "Number": 1,
-        "SinkFactor": 13000.0,
-        "VerticalOffset": 0.0,
-        "Breakable": true
+        "Name": "_ClipRGear",
+        "SinkFactor": 2000.0,
+        "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart3": {
         "Number": 2,
-        "SinkFactor": 8000.0,
-        "VerticalOffset": 0.0,
-        "Breakable": true
+        "Name": "_ClipCGear",
+        "SinkFactor": 1000.0,
+        "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart4": {
         "Number": 3,
-        "SinkFactor": 8000.0,
-        "VerticalOffset": 0.0,
-        "Breakable": true
+        "Name": "_ClipCGear_00",
+        "SinkFactor": 1000.0,
+        "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart5": {
-        "Number": 25,
-        "SinkFactor": 4000.0,
-        "VerticalOffset": 0.0,
-        "Breakable": true
+        "Number": 4,
+        "Name": "_ClipCGear_01",
+        "SinkFactor": 1000.0,
+        "VerticalOffset": 0.0
       }
     },
     {
       "WaterPart6": {
-        "Number": 26,
-        "SinkFactor": 4000.0,
-        "VerticalOffset": 0.0,
-        "Breakable": true
+        "Number": 5,
+        "Name": "_ClipCGear_02",
+        "SinkFactor": 1000.0,
+        "VerticalOffset": 0.0
       }
     }
   ],
@@ -1243,6 +1249,9 @@
       },
       {
         "optClimbSpeedNom": [10670.7,199.553]
+      },
+      {
+        "maxClimbRateNom": [0.0,17.3]
       },
       {
         "minClimbTimeNom": [0.0,0.0]

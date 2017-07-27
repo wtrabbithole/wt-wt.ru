@@ -279,3 +279,6 @@ class DirtyWords
     return res
   }
 }
+
+
+::dirty_words_filter <- DirtyWords()

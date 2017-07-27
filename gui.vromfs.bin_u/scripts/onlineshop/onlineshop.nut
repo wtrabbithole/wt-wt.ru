@@ -153,14 +153,14 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
              "} " +
              "dummy { id:t='btn_apply'; on_click:t = 'onApply'; behaviour:t='accesskey'; accessKey:t = 'J:A | J:Start | Space | Enter | NumEnter' }"
 
-      data = "textarea { id:t = 'item_desc_text'; width:t = '@onlineShopWidth'; wrapRight:t='yes'; font-bold:t='@normal'; padding-left:t='0.02@scrn_tgt_font';}" + data
+      data = "textarea { id:t = 'item_desc_text'; width:t = '@onlineShopWidth'; wrapRight:t='yes'; font-bold:t='@normal'; padding-left:t='0.02@sf';}" + data
 
       if (chapter in chImages)
         data = format("img { size:t='0.9@onlineShopWidth, 0.125w'; halign:t='center' background-image:t='%s' }", "#ui/onlineShop/" + chImages[chapter]) + data
 
       local rootObj = scene.findObject("wnd_frame")
       rootObj["class"] = "wnd"
-      rootObj.width = "@onlineShopWidth + 2*5*@sf/@pf"
+      rootObj.width = "@onlineShopWidth + 2*5*@sf/@pf_outdated"
       local contentObj = scene.findObject("wnd_content")
       contentObj.flow = "vertical"
       guiScene.replaceContentFromText(contentObj, data, data.len(), this)

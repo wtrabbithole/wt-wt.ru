@@ -44,42 +44,6 @@ function sortChatUsers(a, b)
   return 0;
 }
 
-::dirty_words_filter <- DirtyWords();
-::chat_filter_for_myself <- ::is_vendor_tencent(); //to test filters - use console "chat_filter_for_myself=true"
-
-function getFilteredChatMessage(source, myself)
-{
-  if (::get_option(::USEROPT_CHAT_FILTER).value &&
-    (!myself || ::chat_filter_for_myself))
-    return ::dirty_words_filter.checkPhrase(source)
-  return source
-}
-
-function makeBlockedMsg(msg)
-{
-  msg = ::stringReplace(msg, " ", " ") //space work as close link. but non-breakable space - work as other symbols.
-  msg = "<Link=BL_"+ (::math.rnd() % 99) +"_" + msg + ">" + ::loc("chat/blocked_message") + "</Link>"
-  //rnd for duplicate blocked messages
-  return msg
-}
-
-function checkBlockedLink(link)
-{
-  return (link.len() > 6 && link.slice(0, 3) == "BL_")
-}
-
-function revertBlockedMsg(text, link)
-{
-  local start = text.find("<Link=" + link)
-  if (start==null) return
-  local end = text.find("</Link>", start)
-  if (end==null) return
-  end+=7
-
-  local msg = ::stringReplace(link.slice(6), " ", " ")
-  text = text.slice(0, start) + msg + text.slice(end)
-  return text
-}
 
 function getGlobalRoomsListByLang(lang, roomsList = null)
 {
@@ -1279,7 +1243,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function filterSystemUserMsg(msg)
   {
-    msg = ::getFilteredChatMessage(msg, false)
+    msg = ::g_chat.filterMessageText(msg, false)
     local localized = false
     foreach(ending in ["is set READONLY", "is set BANNED"])
     {
@@ -1336,7 +1300,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local userColor = ::g_chat.getSenderColor(messageAuthor, true, privateMsg)
       if (!::g_chat.isRoomSquad(roomId))
-        msg = ::getFilteredChatMessage(msg, myself || myPrivate)
+        msg = ::g_chat.filterMessageText(msg, myself || myPrivate)
 
       local msgColor = privateMsg? privateColor : ""
       if (overlaySystemColor)
@@ -1348,7 +1312,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (privateMsg) return
         userColor = blockedColor
         msgColor = blockedColor
-        msg = ::makeBlockedMsg(msg)
+        msg = ::g_chat.makeBlockedMsg(msg)
       } else
         msg = colorMyNameInText(msg)
 
@@ -2384,13 +2348,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       else
         ::g_chat.showPlayerRClickMenu(name, sceneData.room, contact)
     }
-    else if (::checkBlockedLink(link))
+    else if (::g_chat.checkBlockedLink(link))
     {
       local roomData = ::g_chat.getRoomById(sceneData.room)
       if (!roomData)
         return
 
-      roomData.chatText = ::revertBlockedMsg(roomData.chatText, link)
+      roomData.chatText = ::g_chat.revertBlockedMsg(roomData.chatText, link)
       updateChatText()
     }
     else

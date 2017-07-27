@@ -3,5 +3,5 @@ increaseAmount {
   behaviour:t='basicTransparency'
   increase_amount:t='yes'
 
-  text:t='+1'
+  text:t='+<<inc_amount>>'
 }

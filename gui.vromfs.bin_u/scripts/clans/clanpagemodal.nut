@@ -119,7 +119,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     if (!::u.isEmpty(feature) && !::has_feature(feature))
       text = ""
-    text = ::getFilteredChatMessage(text, false)
+    text = ::g_chat.filterMessageText(text, false)
 
     obj.setValue(text)
   }
@@ -590,7 +590,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local markUp = ""
     local rowIdx = 0
 
-    local headerRow = [{text = "#clan/number", width = "0.1@scrn_tgt_font"}]
+    local headerRow = [{text = "#clan/number", width = "0.1@sf"}]
     foreach(column in ::clan_member_list)
     {
       if (::getTblValue("myClanOnly", column, false) && !isMyClan)
@@ -611,7 +611,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       // all rows if column has fixed width.
       // Next two lines fix table layout issue.
       if (::getTblValue("iconStyle", column, false))
-        rowData.width <- "0.01@scrn_tgt_font"
+        rowData.width <- "0.01@sf"
       headerRow.append(rowData)
     }
     markUp = ::buildTableRowNoPad("row_header", headerRow, null,
@@ -686,7 +686,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       res.image    <- ""
       if (!("tooltip" in res))
         res.tooltip <- ""
-      res.width    <- "0.01@scrn_tgt_font"
+      res.width    <- "0.01@sf"
     }
 
     res.text = column.type.getShortTextByValue(member[id])
