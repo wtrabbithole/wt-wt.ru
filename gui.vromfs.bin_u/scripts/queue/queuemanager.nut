@@ -17,7 +17,13 @@ enum QUEUE_TYPE_BIT //bit values for easy multi-type search
   UNKNOWN    = 0
 }
 
+::queue_classes <- {}
+
 foreach (fn in [
+                 "queueType.nut"
+                 "queue/queueBase.nut"
+                 "queue/queueEvent.nut"
+                 "queue/queueWwBattle.nut" //FIX ME: must be in WW folder also with ww queue type
                  "statsSummator.nut"
                  "queueStatsBase.nut"
                  "queueStatsVer1.nut"
@@ -26,6 +32,7 @@ foreach (fn in [
                  "queueInfo/qiHandlerByTeams.nut"
                  "queueInfo/qiHandlerByCountries.nut"
                  "queueInfo/qiViewUtils.nut"
+                 "queueTable.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/queue/" + fn) // no need to includeOnce to correct reload this scripts pack runtime
 
@@ -65,7 +72,8 @@ class QueueManager {
     local queue = findQueue(params)
     if (queue && queueType.useClusters)
     {
-      ::g_queue_type.addClusterToQueueByParams(queue, params, true)
+      if (queue.addClusterByParams(params))
+        ::broadcastEvent("QueueClustersChanged", queue)
       return queue
     }
 
@@ -293,17 +301,15 @@ class QueueManager {
     ::queues.showProgressBox(true)
     local queue = createQueue(params, true)
 
-    queue.queueType.join(
-      queue,
-      params,
-      (@(queue) function(response) {
+    queue.join(
+      function(response) {
         ::queues.showProgressBox(false)
         ::queues.afterJoinQueue(queue)
-      })(queue),
-      (@(queue) function(response) {
+      },
+      function(response) {
         ::queues.showProgressBox(false)
         ::queues.removeQueue(queue)
-      })(queue)
+      }
     )
 
     changeState(queue, queueStates.JOINING_QUEUE)
@@ -332,7 +338,7 @@ class QueueManager {
 
     local callback = _getOnLeaveQueueErrorCallback(postAction, postCancelAction, silent)
     foreach(queueType in getActiveQueueTypes())
-      queueType.leave(null, callback, callback, false)
+      queueType.leaveAllQueues(callback, callback, false)
 
     foreach(q in queuesList)
       if (q.state != queueStates.NOT_IN_QUEUE)
@@ -385,8 +391,7 @@ class QueueManager {
 
     ::queues.showProgressBox(true)
 
-    queue.queueType.leave(
-      queue,
+    queue.leave(
       getOnLeaveQueueErrorCallback(queue, msg, cancelAction),
       getOnLeaveQueueSuccessCallback(queue, msg)
     )

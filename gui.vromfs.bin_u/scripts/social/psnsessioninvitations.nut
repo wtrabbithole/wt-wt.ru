@@ -1,10 +1,11 @@
 ::g_psn_session_invitations <- {
   existingSession = {}
   curSessionParams = {}
+  lastUpdateTable = {}
   existingSessionSkirmish = "skirmish"
+  existingSessionSquad = "squad"
 
   updateTimerLimit = 60000
-  lastUpdate = 0
 }
 
 function g_psn_session_invitations::saveSessionId(key, sessionId)
@@ -47,20 +48,8 @@ function g_psn_session_invitations::isSessionParamsEqual(key, checkData)
   return ::u.isEqual(::getTblValue(key, curSessionParams, {}), checkData)
 }
 
-function g_psn_session_invitations::sendCreateSession()
+function g_psn_session_invitations::sendCreateSession(key, sessionInfo, image, sessionData = "")
 {
-  if (!::is_platform_ps4 || !::SessionLobby.isRoomOwner)
-    return
-
-  if (getSessionId(existingSessionSkirmish) != "")
-  {
-    ::dagor.debug("psnSessionInvitations: Cannot create new session for " + existingSessionSkirmish)
-    ::dagor.debug("psnSessionInvitations: because of existing session = " + existingSession[existingSessionSkirmish])
-    ::dagor.debug("psnSessionInvitations: update info instead")
-    updateExistedSessionInfo()
-    return
-  }
-
   local headers = ::DataBlock()
   local content = ::DataBlock()
   local jsonBlockPart = ::DataBlock()
@@ -89,7 +78,7 @@ function g_psn_session_invitations::sendCreateSession()
 //----------- </Content-Description: session-request> --------------
 
   jsonBlockPart.reqHeaders = headers
-  jsonBlockPart.data = getJsonRequestForSession()
+  jsonBlockPart.data = sessionInfo
   blk.part <- jsonBlockPart
 //********************* </Block Request>*******************************/
 
@@ -122,7 +111,7 @@ function g_psn_session_invitations::sendCreateSession()
 //------------- </Content-Disposition: attachment> -----------------
 
   jsonBlockPart.reqHeaders <- headers
-  jsonBlockPart.filePath <- "ui/images/reward27.jpg" //JPEG image binary data up to 160 KiB
+  jsonBlockPart.filePath <- image //JPEG image binary data up to 160 KiB
   blk.part <- jsonBlockPart
 //********************* </Block Image>********************************/
 
@@ -155,8 +144,7 @@ function g_psn_session_invitations::sendCreateSession()
 //------------- </Content-Disposition: attachment> -----------------
 
   jsonBlockPart.reqHeaders <- headers
-  local hex = ::str_to_hex(::SessionLobby.getMissionName(true))
-  jsonBlockPart.data <- !::u.isEmpty(hex)? hex : "00010001000003a8"
+  jsonBlockPart.data <- sessionData
   blk.part <- jsonBlockPart
 //********************* </Block Data>********************************/
 
@@ -169,32 +157,33 @@ function g_psn_session_invitations::sendCreateSession()
   else if ("response" in ret)
   {
     ::dagor.debug("Response: " + ret.response)
-    saveSessionId(existingSessionSkirmish, ::parse_json(ret.response).sessionId)
+    saveSessionId(key, ::parse_json(ret.response).sessionId)
   }
 }
 
-function g_psn_session_invitations::updateExistedSessionInfo()
+function g_psn_session_invitations::updateExistedSessionInfo(key, sessionInfo)
 {
   if (!::is_platform_ps4)
     return
 
-  local sessionId = getSessionId(existingSessionSkirmish)
+  local sessionId = getSessionId(key)
   if (sessionId == "")
     return
 
+  local lastUpdate = ::getTblValue(sessionId, lastUpdateTable, 0)
   if (::dagor.getCurTime() - lastUpdate < updateTimerLimit)
   {
     ::dagor.debug("psnSessionInvitations: Too often update call")
     return
   }
 
-  lastUpdate = ::dagor.getCurTime()
+  lastUpdateTable[sessionId] <- ::dagor.getCurTime()
 
   local blk = ::DataBlock()
   blk.apiGroup = "sessionInvitation"
   blk.method = ::HTTP_METHOD_PUT
   blk.path = "/v1/sessions/" + sessionId
-  blk.request = getJsonRequestForSession(true)
+  blk.request = getJsonRequestForSession(key, sessionInfo, true)
 
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
@@ -220,6 +209,48 @@ function g_psn_session_invitations::sendDestroySession(key)
   blk.path = "/v1/sessions/" + sessionId
 
   deleteSavedSessionData(key)
+  local ret = ::ps4_web_api_request(blk)
+  if ("error" in ret)
+  {
+    ::dagor.debug("Error: " + ret.error)
+    ::dagor.debug("Error text: " + ret.errorStr)
+  }
+  else if ("response" in ret)
+  {
+    ::dagor.debug("Response: " + ret.response)
+  }
+}
+
+function g_psn_session_invitations::getSessionData(sessionId)
+{
+  local blk = ::DataBlock()
+  blk.apiGroup = "sessionInvitation"
+  blk.method = ::HTTP_METHOD_GET
+  blk.path = "/v1/sessions/" + sessionId + "/sessionData"
+
+  local ret = ::ps4_web_api_request(blk)
+  if ("error" in ret)
+  {
+    ::dagor.debug("Error: " + ret.error)
+    ::dagor.debug("Error text: " + ret.errorStr)
+  }
+  else if ("response" in ret)
+  {
+    ::dagor.debug("Response: " + ret.response)
+    return ::parse_json(ret.response)
+  }
+
+  return null
+}
+
+function g_psn_session_invitations::setInvitationUsed(invitationId)
+{
+  local blk = ::DataBlock()
+  blk.apiGroup = "sessionInvitation"
+  blk.method = ::HTTP_METHOD_PUT
+  blk.path = "/v1/users/me/invitations/" + invitationId
+  blk.request = "{\r\n\"usedFlag\":true\r\n}"
+
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)
   {
@@ -266,12 +297,12 @@ function g_psn_session_invitations::sendInvitation(onlineId)
   headers.content <- content
 //------------- </Content-Type: application/json> ------------------
 //
-//----------- <Content-Description: session-request> ---------------
+//----------- <Content-Description: invitation-request> ---------------
   content.clearData()
   content.name = "Content-Description"
   content.value = "invitation-request"
   headers.content <- content
-//----------- </Content-Description: session-request> --------------
+//----------- </Content-Description: invitation-request> --------------
 
   local jsonBlockPart = ::DataBlock()
   jsonBlockPart.reqHeaders = headers
@@ -310,11 +341,23 @@ function g_psn_session_invitations::getCurrentSessionInfo()
   }
 }
 
-function g_psn_session_invitations::getJsonRequestForSession(isForUpdate = false)
+function g_psn_session_invitations::getCurrentSquadInfo()
 {
-  saveSessionData(existingSessionSkirmish, getCurrentSessionInfo())
+  if (!::g_squad_manager.isInSquad())
+    return {}
 
-  local data = getSavedSessionData(existingSessionSkirmish)
+  return {
+    locIdsArray = ["ps4/session/squad"]
+    isFriendsOnly = false
+    maxUsers = ::g_squad_manager.maxSquadSize
+  }
+}
+
+function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, isForUpdate = false)
+{
+  saveSessionData(key, sessionInfo)
+
+  local data = getSavedSessionData(key)
 
   local sessionName = ::u.map(data.locIdsArray, @(locId) ::loc(locId, ""))
   local feedTextsArray = ::g_localization.getFilledFeedTextByLang(data.locIdsArray)
@@ -343,12 +386,25 @@ function g_psn_session_invitations::onEventLobbyStatusChange(params)
       || ::get_game_mode() != ::GM_SKIRMISH)
     return
 
-  if (::SessionLobby.isInRoom())
+  if (::SessionLobby.isInRoom()) //because roomId is existed
   {
-    if (getSessionId(existingSessionSkirmish) != "")
+    if (getSessionId(existingSessionSkirmish) != "" || ::SessionLobby.roomId == "")
       return
 
-    sendCreateSession()
+    if (::SessionLobby.isRoomOwner)
+    {
+      sendCreateSession(existingSessionSkirmish,
+                        getJsonRequestForSession(existingSessionSkirmish,
+                                                 getCurrentSessionInfo()),
+                        "ui/images/reward27.jpg",
+                        ::save_to_json({
+                          roomId = ::SessionLobby.roomId,
+                          inviterUid = ::my_user_id_str,
+                          inviterName = ::my_user_name
+                          password = ::SessionLobby.password
+                        })
+                       )
+    }
   }
   else
     sendDestroySession(existingSessionSkirmish)
@@ -362,7 +418,54 @@ function g_psn_session_invitations::onEventLobbySettingsChange(params)
   if (isSessionParamsEqual(existingSessionSkirmish, getCurrentSessionInfo()))
     return
 
-  updateExistedSessionInfo()
+  updateExistedSessionInfo(existingSessionSkirmish, getCurrentSessionInfo())
+}
+
+function g_psn_session_invitations::onEventSquadStatusChanged(params)
+{
+  if (!::is_platform_ps4)
+    return
+
+  if (::g_squad_manager.isInSquad() && ::g_squad_manager.canInviteMember())
+  {
+    if (getSessionId(existingSessionSquad) != "")
+      return
+
+    sendCreateSession(existingSessionSquad,
+                      getJsonRequestForSession(existingSessionSquad,
+                                               getCurrentSquadInfo()),
+                      "ui/images/reward05.jpg",
+                      ::save_to_json({
+                        squadId = ::g_squad_manager.getLeaderUid()
+                      }))
+  }
+  else if (!::g_squad_manager.isInSquad())
+    sendDestroySession(existingSessionSquad)
+}
+
+function g_psn_session_invitations::onReceiveInvite(invitationData = null)
+{
+  if (!::getTblValue("accepted", invitationData, false))
+    return
+
+  local sessionId = ::getTblValue("sessionId", invitationData, "")
+  if (sessionId == "")
+    return
+
+  local sessionData = getSessionData(sessionId)
+  if (!sessionData)
+  {
+    ::dagor.debug("PSN SessionInvitation: Could not receive data by sessionId " + sessionId)
+    return
+  }
+
+  setInvitationUsed(invitationData.invitationId)
+
+  sessionData = ::u.extend(sessionData, invitationData)
+  ::g_invites.addPsnSessionRoomInvite(sessionData)
 }
 
 ::subscribe_handler(::g_psn_session_invitations, ::g_listener_priority.DEFAULT_HANDLER)
+
+//Called from C++
+::on_ps4_session_invitation <- ::g_psn_session_invitations.onReceiveInvite.bindenv(::g_psn_session_invitations)

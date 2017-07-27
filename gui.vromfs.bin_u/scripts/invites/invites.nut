@@ -61,6 +61,11 @@ function g_invites::addSessionRoomInvite(roomId, inviterUid, inviterName, passwo
                    })
 }
 
+function g_invites::addPsnSessionRoomInvite(params)
+{
+  return addInvite(::g_invites_classes.PsnSessionRoom, params)
+}
+
 function g_invites::addTournamentBattleInvite(battleId, inviteTime, startTime, endTime)
 {
   return addInvite(::g_invites_classes.TournamentBattle,

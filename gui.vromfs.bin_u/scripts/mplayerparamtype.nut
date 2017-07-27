@@ -49,10 +49,12 @@ function g_mplayer_param_type::_newer(old, new) {
     return res
   }
 
-  isVisible = function(objectivesMask)
+  isVisible = function(objectivesMask, gameType)
   {
-    return (missionObjective == MISSION_OBJECTIVE.ANY) || (missionObjective & objectivesMask) != 0
+    return ((missionObjective == MISSION_OBJECTIVE.ANY) || (missionObjective & objectivesMask) != 0)
+      && isVisibleByGameType(gameType)
   }
+  isVisibleByGameType = @(gt) true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_mplayer_param_type", {
@@ -165,6 +167,7 @@ function g_mplayer_param_type::_newer(old, new) {
     id = "assists"
     fontIcon = "#icon/mpstats/assists"
     tooltip = "#multiplayer/assists"
+    isVisibleByGameType = @(gt) ::is_mode_with_teams(gt)
   }
 
   DEATHS = {

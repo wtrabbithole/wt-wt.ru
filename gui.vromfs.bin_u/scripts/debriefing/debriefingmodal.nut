@@ -1265,16 +1265,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     skipAnim = true
   }
 
-  function onNext()
-  {
-    if (state != debrState.done && !skipAnim)
-    {
-      skipAnim = true
-      return
-    }
-    goBack()
-  }
-
   function checkShowTooltip(obj)
   {
     local showTooltip = skipAnim || state==debrState.done
@@ -1633,18 +1623,36 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (needPlayersTbl)
     {
-      if (isTeamplay)
-        foreach (tbl in [ tblSave1, tblSave2 ])
-          if (tbl)
-            sortTable(tbl)
+      foreach (tbl in [ tblSave1, tblSave2 ])
+        if (tbl)
+           sortTable(tbl)
       selectLocalPlayer()
 
       if (gameType & ::GT_VERSUS)
       {
-        curPlayersTbl = [[], []]
         playersTbl = []
-        appendPlayersTbl(playersTbl, tblSave1)
-        appendPlayersTbl(playersTbl, tblSave2)
+        curPlayersTbl = [[], []]
+        if (!isTeamplay)
+        {
+          local copy_plTable = clone ::debriefing_result.mplayers_list
+          local globalHalfOfTable = ::global_max_players_versus / 2
+          local mplayersTable = []
+          for(local i = 0; i < copy_plTable.len(); ++i)
+            if (i in copy_plTable)
+            {
+              local arrayElement = i >= globalHalfOfTable? 1 : 0
+              if(!(arrayElement in mplayersTable))
+                mplayersTable.append([])
+
+              mplayersTable[arrayElement].append(clone copy_plTable[i])
+            }
+
+          for(local t = 0; t < 2; ++t)
+            appendPlayersTbl(playersTbl, (t in mplayersTable? mplayersTable[t] : []))
+        }
+        else
+          for(local t = 0; t < 2; t++)
+            appendPlayersTbl(playersTbl, getMplayersListByTeam(t+1))
       }
     }
     updatePlayersTable(0.0)
@@ -1703,6 +1711,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         if (("isLocal" in player) && player.isLocal)
         {
           place = i + 1
+          if (!isTeamplay && t)
+            place += playersTbl[0].len()
           break
         }
     if (place==0)
@@ -2092,6 +2102,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function goBack()
   {
+    if (state != debrState.done && !skipAnim)
+    {
+      onSkip()
+      return
+    }
+
     if (isInProgress)
       return
 

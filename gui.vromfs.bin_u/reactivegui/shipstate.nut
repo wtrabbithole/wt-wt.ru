@@ -30,6 +30,9 @@ local shipState = {
 
   ruddersCount = Watched(0)
   brokenRuddersCount = Watched(0)
+
+  aiGunnersState = Watched(0)
+  hasAiGunners = Watched(true)
 }
 
 

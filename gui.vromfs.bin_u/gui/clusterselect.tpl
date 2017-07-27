@@ -40,7 +40,7 @@ popup_menu {
       }
     <</clusters>>
   }
-  popoup_menu_arrow{}
+  popup_menu_arrow{}
 }
 
 dummy {

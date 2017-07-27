@@ -1,6 +1,6 @@
 local style = {}
 
-style.helicopterHudText <- {
+style.helicopterHudText <- class {
   color = Color(255, 255, 255, 150)
   font = Fonts.hud
   fontFxColor = Color(0, 0, 0, 80)
@@ -240,7 +240,7 @@ local HelicopterVertSpeed = function(elemStyle) {
         valign = VALIGN_BOTTOM
         halign = HALIGN_RIGHT
         size = [scaleWidth, height]
-        children = { 
+        children = class extends elemStyle {
           rendObj = ROBJ_9RECT
           screenOffs = 4
           texOffs = 4
@@ -250,25 +250,21 @@ local HelicopterVertSpeed = function(elemStyle) {
             isHidden = ::interop.state.distanceToGround > 50.0
             size = @() [LINE_WIDTH, (height+LINE_WIDTH) * ::clamp(::interop.state.distanceToGround * 2, 0, 100)/100]
           }
-          style = elemStyle
         }
       }
       {
         halign = HALIGN_RIGHT
         valign = VALIGN_MIDDLE
         size = [-scaleWidth-sh(0.5),height]
-        children = [
-          {
-            valign = VALIGN_MIDDLE
-            rendObj = ROBJ_TEXT
-            behavior = Behaviors.RtPropUpdate
-            update = @() {
-              isHidden = ::interop.state.distanceToGround > 350.0
-              text = ::math.floor(::interop.state.distanceToGround).tostring()
-            }
-            style = style.helicopterHudText
+        children = class extends style.helicopterHudText {
+          valign = VALIGN_MIDDLE
+          rendObj = ROBJ_TEXT
+          behavior = Behaviors.RtPropUpdate
+          update = @() {
+            isHidden = ::interop.state.distanceToGround > 350.0
+            text = ::math.floor(::interop.state.distanceToGround).tostring()
           }
-        ]
+        }
       }
       {
         behavior = Behaviors.RtPropUpdate

@@ -53,13 +53,13 @@
     {
       id = "unwatering_status"
       color = "#787878"
-      icon = "#ui/gameuiskin#ship_crew_driver"
+      icon = "#ui/gameuiskin#unwatering_in_progress"
       needTimeText = true
     },
     {
       id = "extinguish_status"
-      color = "#787878"
-      icon = "#ui/gameuiskin#icon_repair_in_progress"
+      color = "#DD1111"
+      icon = "#ui/gameuiskin#fire_indicator"
       needTimeText = true
     }
   ]
@@ -268,25 +268,35 @@
     ::g_time_bar.setCurrentTime(timebarObj, 0)
   }
 
+  function hideAnimTimer(objId)
+  {
+    local placeObj = scene.findObject(objId)
+    if (!::checkObj(placeObj))
+      return
+    placeObj.animation = "hide"
+    placeObj.findObject("icon").wink = "no"
+  }
+
   function onRepairBreaches(debuffs_data)
   {
+    if (debuffs_data.state == "notInRepair")
+    {
+      destoyRepairBreachesUpdater()
+      hideAnimTimer("unwatering_status")
+      hideAnimTimer("repair_breaches_status")
+      return
+    }
+
     local objId = debuffs_data.state == "unwatering" ? "unwatering_status" : "repair_breaches_status"
     local placeObj = scene.findObject(objId)
     if (!::checkObj(placeObj))
       return
 
-    local showTimer = debuffs_data.state != "notInRepair"
-    placeObj.animation = showTimer ? "show" : "hide"
+
+    placeObj.animation = "show"
 
     destoyRepairBreachesUpdater()
     local iconObj = placeObj.findObject("icon")
-
-    if (!showTimer)
-    {
-      iconObj.wink = "no"
-      return
-    }
-
     local timebarObj = placeObj.findObject("timer")
     local timeTextObj = placeObj.findObject("time_text")
     timeTextObj.setValue("")

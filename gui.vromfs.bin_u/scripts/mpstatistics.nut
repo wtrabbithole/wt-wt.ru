@@ -1165,7 +1165,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local sourceHeaders = gameType & ::GT_RACE ? raceRowHeaders : defaultRowHeaders
     local tblData = []
     foreach (id in sourceHeaders)
-      if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives))
+      if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType))
         tblData.append(id)
 
     if (!showAircrafts)
@@ -1267,6 +1267,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
             minRow = 0
 
           local lastRow = minRow + ::global_max_players_versus / 2 - 1
+
+          if (objTbl.id == "table_kills_team2")
+            lastRow = commonTbl.len()
+
           tbl = []
           for(local i = lastRow; i >= minRow; --i)
           {
@@ -1350,7 +1354,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     if (!isTeamplay)
     {
       local tbl1 = ::get_mplayers_list(::GET_MPLAYERS_LIST, true)
-      sortTable(tbl1)
+      tbl1.sort(::mpstat_sort_rowNo)
 
       local tbl2 = []
       numRows1 = tbl1.len()

@@ -113,6 +113,6 @@ popup_menu {
   }
 
   <<#hasPopupMenuArrow>>
-  popoup_menu_arrow{}
+  popup_menu_arrow{}
   <</hasPopupMenuArrow>>
 }

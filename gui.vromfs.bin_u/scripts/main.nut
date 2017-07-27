@@ -348,10 +348,7 @@ function load_scripts_after_login()
     "leaderboardCategoryType.nut"
     "leaderboard.nut"
 
-    "queue/queueUtils.nut"
     "queue/queueManager.nut"
-    "queue/queueType.nut"
-    "queue/queueTable.nut"
 
     "events/eventDisplayType.nut"
     "events/eventsChapter.nut"
@@ -419,6 +416,7 @@ function load_scripts_after_login()
     "invites/inviteBase.nut"
     "invites/inviteChatRoom.nut"
     "invites/inviteSessionRoom.nut"
+    "invites/invitePsnSessionRoom.nut"
     "invites/inviteTournamentBattle.nut"
     "invites/inviteSquad.nut"
     "invites/inviteFriend.nut"
@@ -710,7 +708,8 @@ if (::g_login.isLoggedIn() //scripts reload
     || ::should_disable_menu())
 {
   ::load_scripts_after_login()
-  ::run_reactive_gui()
+  if (!::g_script_reloader.isInReloading)
+    ::run_reactive_gui()
 }
 
 //------- ^^^ files after login ^^^ ----------

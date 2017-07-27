@@ -234,6 +234,27 @@
     "aircraftToAircraftCollisionDamageType": "collision"
   },
   {
+    "waterArmorThicknessEquivalent": 5.0
+  },
+  {
+    "waterToAirDistanceEquivalent": 50.0
+  },
+  {
+    "weaponReloadWhileRepairBreachesMult": 0.25
+  },
+  {
+    "weaponReloadWhileUnwateringMult": 0.25
+  },
+  {
+    "weaponReloadWhileRepairMult": 0.25
+  },
+  {
+    "weaponReloadWhileExtinguishMult": 0.25
+  },
+  {
+    "shipboardDamageControlWeight": [1.0,2.0,3.0]
+  },
+  {
     "explosiveTypes": {
       "comp_a": {
         "strengthEquivalent": 1.44,
@@ -1163,98 +1184,132 @@
       "engine_l_01_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_l_02_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_r_01_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_r_02_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_01_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_02_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_03_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_04_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_05_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_06_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_07_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "engine_08_dm": {
         "speed": 2.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
+      },
+      "funnel_01_dm": {
+        "speed": 12.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "funnel_02_dm": {
+        "speed": 12.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "funnel_03_dm": {
+        "speed": 12.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "funnel_04_dm": {
+        "speed": 12.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "steering_gear_01_dm": {
+        "speed": 2.5,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "steering_gear_02_dm": {
+        "speed": 2.5,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "engine_room_01_dm": {
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "engine_room_02_dm": {
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "engine_room_03_dm": {
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
+      },
+      "engine_room_04_dm": {
+        "speed": 10.0,
+        "partRepairHp": 1.0,
+        "completely": true
       },
       "transmission_01_dm": {
-        "speed": 2.5,
+        "speed": 6.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "transmission_02_dm": {
-        "speed": 2.5,
+        "speed": 6.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "transmission_03_dm": {
-        "speed": 2.5,
+        "speed": 6.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "transmission_04_dm": {
-        "speed": 2.5,
+        "speed": 6.5,
         "partRepairHp": 1.0,
-        "completely": true,
-        "modRequired": false
+        "completely": true
       },
       "rudder_01_dm": {
         "speed": 2.0,
@@ -1276,31 +1331,327 @@
         "completely": true,
         "modRequired": false
       },
+      "main_caliber_gun_01_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_02_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_03_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_04_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_05_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_06_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_07_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_08_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_09_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_gun_10_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_01_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_02_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_03_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_04_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_05_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_06_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_07_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_08_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_09_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "main_caliber_turret_10_dm": {
+        "speed": 3.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_01_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_02_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_03_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_04_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_05_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_06_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_07_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_08_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_09_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_gun_10_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_01_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_02_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_03_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_04_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_05_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_06_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_07_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_08_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_09_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "auxiliary_caliber_turret_10_dm": {
+        "speed": 5.0,
+        "completely": true
+      },
+      "aa_gun_01_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_02_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_03_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_04_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_05_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_06_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_07_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_08_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_09_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_10_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_11_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_12_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_13_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_gun_14_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_01_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_02_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_03_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_04_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_05_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_06_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_07_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_08_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_09_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_10_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_11_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_12_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_13_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
+      "aa_turret_14_dm": {
+        "speed": 5.0,
+        "completely": true,
+        "modRequired": false
+      },
       "torpedo_01_dm": {
         "speed": 1.5,
         "completely": true,
-        "modRequired": false,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "torpedo_02_dm": {
         "speed": 1.5,
         "completely": true,
-        "modRequired": false,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "torpedo_03_dm": {
         "speed": 1.5,
         "completely": true,
-        "modRequired": false,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
       "torpedo_04_dm": {
         "speed": 1.5,
         "completely": true,
-        "modRequired": false,
         "partRepairHp": 1.0,
         "hpForRepair": 0.7
       },
@@ -1357,29 +1708,25 @@
         "speed": 3.0,
         "completely": true,
         "partRepairHp": 1.0,
-        "hpForRepair": 0.7,
-        "modRequired": false
+        "hpForRepair": 0.7
       },
       "tt_02_dm": {
         "speed": 3.0,
         "completely": true,
         "partRepairHp": 1.0,
-        "hpForRepair": 0.7,
-        "modRequired": false
+        "hpForRepair": 0.7
       },
       "tt_03_dm": {
         "speed": 3.0,
         "completely": true,
         "partRepairHp": 1.0,
-        "hpForRepair": 0.7,
-        "modRequired": false
+        "hpForRepair": 0.7
       },
       "tt_04_dm": {
         "speed": 3.0,
         "completely": true,
         "partRepairHp": 1.0,
-        "hpForRepair": 0.7,
-        "modRequired": false
+        "hpForRepair": 0.7
       },
       "mg_01_dm": {
         "speed": 1.0,
@@ -4336,7 +4683,8 @@
         "bullets": "hesh_tank, he_frag_tank, rocket_tank",
         "pierce": "pr_splash",
         "stop": "st_splash",
-        "ricochet": "st_gen"
+        "ricochet": "st_gen",
+        "splash": true
       },
       "smoke": {
         "bullets": "smoke_tank, smoke_grenade_tank",
@@ -4417,5 +4765,15 @@
         "p2": [0.6,250.0]
       }
     }
+  },
+  {
+    "caliberToDistanceInWater": [
+      {
+        "row": [0.05,20.0]
+      },
+      {
+        "row": [0.13,100.0]
+      }
+    ]
   }
 ]

@@ -475,7 +475,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     foreach(id in columnsOrder)
     {
       local paramType = ::g_mplayer_param_type.getTypeById(id)
-      if (!paramType.isVisible(missionObjectivesMask))
+      if (!paramType.isVisible(missionObjectivesMask, gameType))
         continue
 
       headerArray.append(id)
