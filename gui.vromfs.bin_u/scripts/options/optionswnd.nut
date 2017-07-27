@@ -90,7 +90,6 @@ function gui_start_gameplay(owner = null, curOption = null)
         [::USEROPT_GUN_VERTICAL_TARGETING, "spinner"],
         [::USEROPT_BOMB_ACTIVATION_TIME, "spinner"],
         [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner"],
-        [::USEROPT_ROCKET_FUSE_DIST, "spinner"],
         [::USEROPT_AEROBATICS_SMOKE_TYPE, "spinner"],
         [::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR, "spinner", tripleColorAerobaticsSmoke],
         [::USEROPT_AEROBATICS_SMOKE_RIGHT_COLOR, "spinner", tripleColorAerobaticsSmoke],

@@ -50,6 +50,7 @@ root {
         font-bold:t='@normal';
         text:t='<<mainText>>';
         padding-left:t='0.02@scrn_tgt_font';
+        on_link_click:t='proccessLinkFromText'
       }
     }
 

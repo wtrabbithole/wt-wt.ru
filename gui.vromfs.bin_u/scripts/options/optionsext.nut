@@ -879,7 +879,10 @@ function get_option(type, context = null)
       descr.id = "rocket_fuse_dist"
       descr.items = ["#options/rocketFuseImpact", "200", "300", "400", "500", "600", "700", "800", "900", "1000"]
       descr.values = [0, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-      descr.value = find_in_array(descr.values, ::get_option_rocket_fuse_dist())
+      if(::aircraft_for_weapons)
+        descr.value = ::find_in_array(descr.values, ::get_unit_option(::aircraft_for_weapons, ::USEROPT_ROCKET_FUSE_DIST), null)
+      if (!::is_numeric(descr.value))
+        descr.value = ::find_in_array(descr.values, ::get_option_rocket_fuse_dist(), null)
       defaultValue = 0
       break
 
@@ -3728,11 +3731,18 @@ function set_option(type, value, descr = null)
       ::set_option_bomb_activation_type(isBombActivationAssault ? 1 : 0)
       ::set_option_bomb_activation_time(bombActivationDelay)
       break
+    case ::USEROPT_LOAD_FUEL_AMOUNT:
+      ::set_gui_option(type, descr.values[value])
+      if (::aircraft_for_weapons)
+       ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
+      break
     case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
       ::set_option_depthcharge_activation_time(descr.values[value])
       break
     case ::USEROPT_ROCKET_FUSE_DIST:
       ::set_option_rocket_fuse_dist(descr.values[value])
+      if (::aircraft_for_weapons)
+        ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
       break
     case ::USEROPT_AEROBATICS_SMOKE_TYPE:
       ::set_option_aerobatics_smoke_type(descr.values[value])
@@ -4403,7 +4413,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_NUM_ENEMIES:
     case ::USEROPT_NUM_ATTEMPTS:
     case ::USEROPT_OPTIONAL_TAKEOFF:
-    case ::USEROPT_LOAD_FUEL_AMOUNT:
     case ::USEROPT_TIME_BETWEEN_RESPAWNS:
     case ::USEROPT_LB_TYPE:
     case ::USEROPT_LB_MODE:
@@ -4441,11 +4450,6 @@ function set_option(type, value, descr = null)
           break
 
         ::set_gui_option(type, descr.values[value])
-
-        if (type == USEROPT_LOAD_FUEL_AMOUNT)
-          dagor.debug("set USEROPT_LOAD_FUEL_AMOUNT to "+descr.values[value]);
-        if (type == USEROPT_LOAD_FUEL_AMOUNT && ::aircraft_for_weapons)
-          ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
       }
       else if (descr.controlType == optionControlType.CHECKBOX)
       {

@@ -94,7 +94,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitTag = null
       pageBlkName = "gui/help/controlsAircraft.blk"
       imagePattern = "#ui/images/country_%s_controls_help.jpg?P1"
-      hasImageByCountries = [ "ussr", "usa", "britain", "germany", "japan" ]
+      hasImageByCountries = [ "ussr", "usa", "britain", "germany", "japan", "italy" ]
       linkLines = {
         obstacles = ["ID_LOCK_TARGET_not_default_0"]
         links = [

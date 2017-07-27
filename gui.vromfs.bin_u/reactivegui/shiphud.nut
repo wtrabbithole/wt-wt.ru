@@ -44,12 +44,13 @@ local images = {
 
 local fontFxColor = Color(80, 80, 80)
 local fontFx = FFT_GLOW
+local font = Fonts.medium_text_hud
 
 local speed = function () {
   local speedValue = @() {
     rendObj = ROBJ_TEXT
     text = shipState.speed.value.tostring()
-    font = Fonts.medium_text_hud
+    font = font
     fontFx = fontFx
     fontFxColor = fontFxColor
     margin = [0, sh(2)]
@@ -59,7 +60,7 @@ local speed = function () {
     local averegeSpeed = clamp((port + sideboard) / 2, 0, machineSpeedLoc.len())
     return {
       rendObj = ROBJ_TEXT
-      font = Fonts.medium_text_hud
+      font = font
       color = Color(200, 200, 200)
       fontFx = fontFx
       fontFxColor = fontFxColor
@@ -333,12 +334,11 @@ local rightBlock = {
   ]
 }
 
-return {
-  vplace = VALIGN_BOTTOM
+
+local shipStateDisplay = {
+  size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
-  margin = [sh(1), sh(5)]
   children = [
-    speed
     {
       flow = FLOW_HORIZONTAL
       size = SIZE_TO_CONTENT
@@ -350,5 +350,15 @@ return {
     }
     steering
   ]
+}
+
+return {
+  vplace = VALIGN_BOTTOM
   size = SIZE_TO_CONTENT
+  flow = FLOW_VERTICAL
+  margin = [sh(1), sh(5)]
+  children = [
+    speed
+    shipStateDisplay
+  ]
 }

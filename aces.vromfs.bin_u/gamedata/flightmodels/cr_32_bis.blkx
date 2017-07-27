@@ -316,11 +316,11 @@
       "oil1_dm": {
         "hp": 11.0
       },
+      "oil2_dm": {
+        "hp": 11.7
+      },
       "water1_dm": {
         "hp": 14.0
-      },
-      "water2_dm": {
-        "hp": 19.0
       }
     },
     "steel_pilot": {
@@ -970,6 +970,17 @@
     },
     {
       "part": {
+        "name": "oil2_dm",
+        "onHit": {
+          "leak_oil": 0.95
+        },
+        "onKill": {
+          "leak_oil": 1.0
+        }
+      }
+    },
+    {
+      "part": {
         "name": "pilot_dm"
       }
     },
@@ -1256,17 +1267,6 @@
     {
       "part": {
         "name": "water1_dm",
-        "onHit": {
-          "leak_water": 0.5
-        },
-        "onKill": {
-          "leak_water": 1.0
-        }
-      }
-    },
-    {
-      "part": {
-        "name": "water2_dm",
         "onHit": {
           "leak_water": 0.5
         },
@@ -2493,6 +2493,12 @@
     "lightPos": [-1.282679,0.486075,-0.230338],
     "lightColor": [0.62,0.3,0.21],
     "lightAttenuation": 20.0,
+    "telescope": true,
+    "teleScreenCapture": 0.038,
+    "teleSightFov": 8.0,
+    "teleReticleTex": "tipo_cheritien_tele",
+    "teleReticleTexScale": 0.8,
+    "teleBorderTexScale": 1.1,
     "devices": {
       "stick_ailerons": [-1.0,1.0],
       "stick_elevator": [-2.0,1.0],

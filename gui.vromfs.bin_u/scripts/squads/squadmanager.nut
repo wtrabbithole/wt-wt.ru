@@ -47,6 +47,7 @@ g_squad_manager <- {
 
   meReady = false
   lastUpdateStatus = squadStatusUpdateState.NONE
+  roomCreateInProgress = false
 }
 
 function g_squad_manager::updateMyMemberData(data = null)
@@ -359,6 +360,9 @@ function g_squad_manager::joinSquadChatRoom()
   if (::g_chat.isSquadRoomJoined())
     return
 
+  if (roomCreateInProgress)
+    return
+
   local name = getSquadRoomName()
   local password = getSquadRoomPassword()
   local callback = null
@@ -370,8 +374,10 @@ function g_squad_manager::joinSquadChatRoom()
   {
     password = squadData.chatInfo.password = ::gen_rnd_password(15)
 
+    roomCreateInProgress = true
     callback = function() {
                  ::g_squad_manager.updateSquadData()
+                 ::g_squad_manager.roomCreateInProgress = false
                }
   }
 

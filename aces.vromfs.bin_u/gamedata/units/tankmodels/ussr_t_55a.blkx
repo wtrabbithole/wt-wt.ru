@@ -135,6 +135,14 @@
           "armorThickness": 20.0
         }
       },
+      "anti_fragmentation_screen": {
+        "armorClass": "tank_structural_steel",
+        "hp": 1000.0,
+        "armorThickness": 8.0,
+        "createSecondaryShatters": false,
+        "ex_armor_05_dm": [],
+        "ex_armor_04_dm": []
+      },
       "turret": {
         "turret_top_dm": {
           "armorThickness": 30.0
@@ -184,7 +192,7 @@
           "armorThickness": 100.0
         },
         "gun_mask_dm": {
-          "armorThickness": 100.0,
+          "armorThickness": 200.0,
           "hp": 10000.0
         },
         "turret_02_back_dm": {
@@ -314,7 +322,9 @@
           "track_l_dm": [],
           "ex_armor_01_dm": {
             "armorClass": "tank_structural_steel",
-            "armorThickness": 18.0
+            "armorThickness": 18.0,
+            "armorEffectiveThicknessMax": 20.0,
+            "createSecondaryShatters": false
           }
         }
       },

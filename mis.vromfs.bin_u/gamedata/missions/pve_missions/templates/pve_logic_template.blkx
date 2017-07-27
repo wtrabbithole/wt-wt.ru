@@ -3186,7 +3186,7 @@
             "object": "all_enemy_units",
             "useForTriggerFiltered": true,
             "speed": 100.0,
-            "lockSpeed": false
+            "lockSpeed": true
           }
         },
         "else_actions": []
@@ -3447,6 +3447,7 @@
               "object": "enemy_air_assaults",
               "object_type": "isInactive",
               "target": "enemy_airspawn",
+              "useForTriggerFiltered": true,
               "resetFormation": true,
               "randomObjectsCountVar": "airunits_in_wave_int",
               "setObjectMarking": 21
@@ -3457,7 +3458,15 @@
               "object_marking": 0,
               "object": "enemy_air_assaults",
               "calmDetection": true,
+              "forceVisibleOnMap": true,
               "attack_type": "fire_at_will_gnd"
+            }
+          },
+          {
+            "unitSetIndication": {
+              "target_marking": 0,
+              "set": true,
+              "target": "enemy_air_assaults"
             }
           },
           {

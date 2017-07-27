@@ -106,10 +106,10 @@ function loadLocalByAccount(path, defValue=null)
 }
 
 // Deprecated, for storing new data use save_local_account_settings() instead.
-function saveLocalByAccount(path, value, forceSave = false)
+function saveLocalByAccount(path, value, forceSave = false, shouldSaveProfile = true)
 {
   local cdb = ::get_local_custom_settings_blk()
   local id = ::my_user_id_str + "." + (::isProductionCircuit() ? "production" : ::get_cur_circuit_name())
-  if (::set_blk_value_by_path(cdb, "accounts/" + id + "/" + path, value))
+  if (::set_blk_value_by_path(cdb, "accounts/" + id + "/" + path, value) && shouldSaveProfile)
     ::save_profile_offline_limited(forceSave)
 }

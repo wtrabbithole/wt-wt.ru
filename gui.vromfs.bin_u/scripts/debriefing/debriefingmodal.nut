@@ -455,11 +455,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local trophyItemReached =  ::ItemsManager.findItemById(pveRewardInfo.reachedTrophyName)
     local trophyItemReceived = ::ItemsManager.findItemById(pveRewardInfo.receivedTrophyName)
-    local isReachedButNotReceived = trophyItemReached != null && trophyItemReceived == null
 
     fillPveRewardProgressBar()
     fillPveRewardTrophyChest(trophyItemReached)
-    fillPveRewardTrophyContent(trophyItemReceived, isReachedButNotReceived)
+    fillPveRewardTrophyContent(trophyItemReceived, pveRewardInfo.isRewardReceivedEarlier)
   }
 
   function fillPveRewardProgressBar()
@@ -472,6 +471,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local receivedTrophyName = pveRewardInfo.receivedTrophyName
     local rewardTrophyStages = pveRewardInfo.stagesTime
+    local showTrophiesOnBar  = ! pveRewardInfo.isRewardReceivedEarlier
     local maxValue = pveRewardInfo.victoryStageTime
     local stage = rewardTrophyStages.len()? [] : null
     foreach (stageIndex, val in rewardTrophyStages)
@@ -486,7 +486,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       local trophyName = ::get_pve_trophy_name(val, isVictoryStage)
       local isReceivedInLastBattle = trophyName && trophyName == receivedTrophyName
-      local trophy = trophyName && (isReceivedInLastBattle || ::can_receive_pve_trophy(-1, trophyName)) ?
+      local trophy = showTrophiesOnBar && trophyName ?
         ::ItemsManager.findItemById(trophyName, itemType.TROPHY) : null
 
       stage.append({
@@ -518,11 +518,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     guiScene.replaceContentFromText(trophyPlaceObj, imageData, imageData.len(), this)
   }
 
-  function fillPveRewardTrophyContent(trophyItem, isReachedButNotReceived)
+  function fillPveRewardTrophyContent(trophyItem, isRewardReceivedEarlier)
   {
     local obj = scene.findObject("pve_award_already_received")
     if(::check_obj(obj))
-      obj.show(isReachedButNotReceived)
+      obj.show(isRewardReceivedEarlier)
     if (!trophyItem)
       return
 

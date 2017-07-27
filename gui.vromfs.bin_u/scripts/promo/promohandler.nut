@@ -564,11 +564,9 @@ class Promo
       return
     }
 
-    local token = ::g_webpoll.getPollToken(pollId)
-    if(token.len() == 0)
-      return // will be back here by WebPollAuthResult event
-
-    local link = ::g_webpoll.generatePollUrl(pollId, token)
+    local link = ::g_webpoll.generatePollUrl(pollId)
+    if(link.len() == 0)
+      return
     ::set_blk_value_by_path(sourceDataBlock, objectId + "/link", link)
     ::g_promo.generateBlockView(sourceDataBlock[objectId])
     local obj = scene.findObject(::g_promo.getActionParamsKey(objectId))

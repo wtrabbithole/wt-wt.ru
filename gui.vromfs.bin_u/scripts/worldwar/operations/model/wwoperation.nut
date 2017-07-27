@@ -1,7 +1,15 @@
+enum WW_OPERATION_STATUSES
+{
+  UNKNOWN = -1
+  ES_ACTIVE = 1
+  ES_PAUSED = 7
+}
+
 class WwOperation
 {
   id = -1
   data = null
+  status = WW_OPERATION_STATUSES.UNKNOWN
 
   isArmyGroupsDataGathered = false
   _myClanGroup = null
@@ -11,11 +19,18 @@ class WwOperation
   {
     data = _data
     id = ::getTblValue("_id", data, -1)
+    status = ::getTblValue("st", data, WW_OPERATION_STATUSES.UNKNOWN)
   }
 
   function isValid()
   {
     return id >= 0
+  }
+
+  function isAvailableToJoin()
+  {
+    return status == WW_OPERATION_STATUSES.ES_ACTIVE ||
+           status == WW_OPERATION_STATUSES.ES_PAUSED
   }
 
   function isEqual(operation)
@@ -239,7 +254,7 @@ class WwOperation
 
   function isMyClanParticipate()
   {
-    return getMyClanGroup() != null
+    return isAvailableToJoin() && getMyClanGroup() != null
   }
 
   function canJoinByMyClan()

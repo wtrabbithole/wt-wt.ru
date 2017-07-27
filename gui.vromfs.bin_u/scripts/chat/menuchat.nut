@@ -1472,7 +1472,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   function checkLastActionRoom()
   {
     if (lastActionRoom=="" || !::g_chat.getRoomById(lastActionRoom))
-      lastActionRoom = curRoom.id
+      lastActionRoom = ::getTblValue("id", curRoom, "")
   }
 
   function onMessage(db)

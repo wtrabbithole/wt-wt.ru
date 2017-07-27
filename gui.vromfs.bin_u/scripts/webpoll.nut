@@ -66,19 +66,22 @@ function g_webpoll::invalidateTokensCache()
 function g_webpoll::getPollToken(pollId)
 {
   checkTokensCacheTimeout()
-  local baseUrl = getPollBaseUrl(pollId)
-  if(cachedToken.len() == 0 && baseUrl != null)
-    ::webpoll_authorize_with_url(baseUrl, pollId.tointeger())
   return cachedToken
 }
 
-function g_webpoll::generatePollUrl(pollId, token)
+function g_webpoll::generatePollUrl(pollId, needAuthorization = true)
 {
   local pollBaseUrl = getPollBaseUrl(pollId)
   if(pollBaseUrl == null)
     return ""
+  if(cachedToken.len() == 0)
+  {
+    if(needAuthorization)
+      ::webpoll_authorize_with_url(pollBaseUrl, pollId.tointeger())
+    return ""
+  }
   return ::loc("url/webpoll_url",
-    { base_url = pollBaseUrl, survey_id = pollId, disposable_token = token })
+    { base_url = pollBaseUrl, survey_id = pollId, disposable_token = cachedToken })
 }
 
 function g_webpoll::isPollVoted(pollId)

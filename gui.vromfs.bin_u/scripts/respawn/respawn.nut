@@ -1194,6 +1194,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (unit)
     {
       ::cur_aircraft_name = unit.name //used in some options
+      ::aircraft_for_weapons = unit.name
       ::set_tactical_map_type_without_unit(
         (isTank(unit) || isShip(unit)) ? ::HUD_TYPE_TANK : ::HUD_TYPE_AIRPLANE)
     }

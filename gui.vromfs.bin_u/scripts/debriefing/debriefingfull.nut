@@ -972,7 +972,8 @@ function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)
     warnLowActivity = ! isEnoughActivity
     reachedTrophyName  = reachedTrophyName
     receivedTrophyName = receivedTrophyName
-    sessionTime = sessionTime.tointeger()
+    isRewardReceivedEarlier = reachedTrophyName != null && ! receivedTrophyName
+    sessionTime = isSuccess ? victoryStageTime : sessionTime.tointeger()
     victoryStageTime = victoryStageTime
     stagesTime = stagesTime
   }

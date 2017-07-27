@@ -87,7 +87,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function initScreen()
   {
     if (!curAirName.len())
-      curAirName = ::hangar_get_current_unit_name()
+    {
+      curCountry = ::get_profile_info().country
+      local unit = ::getAircraftByName(::hangar_get_current_unit_name())
+      if (unit && unit.shopCountry == curCountry)
+        curAirName = unit.name
+    }
 
     skipOpenGroup = true
 

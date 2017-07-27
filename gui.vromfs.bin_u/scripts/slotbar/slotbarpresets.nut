@@ -265,6 +265,8 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
   {
     foreach(country in ::shopCountriesList)
       initCountry(country)
+
+    saveAllCountries() // maintenance
   }
 
   function newbieInit(newbiePresetsData)
@@ -310,8 +312,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
       selected[country] <- ::getTblValue("presetIndex", presetDataItem, 0)
     }
 
-    foreach(countryId in ::shopCountriesList)
-      save(countryId)
+    saveAllCountries()
   }
 
   function getPresetDataByCountryAndUnitType(presetsData, country, unitType)
@@ -329,7 +330,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
     presets[countryId] <- getPresetsList(countryId)
     local selPresetId = ::loadLocalByAccount("slotbar_presets/" + countryId + "/selected", null)
 
-    if (selPresetId && (selPresetId in presets[countryId]))
+    if (selPresetId != null && (selPresetId in presets[countryId]))
       updatePresetFromSlotbar(presets[countryId][selPresetId], countryId)
     else
     {
@@ -344,7 +345,6 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     selected[countryId] <- selPresetId
-    save(countryId) // maintenance
   }
 
   function list(countryId = null)
@@ -570,7 +570,16 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
     ::broadcastEvent("SlotbarPresetsChanged", { showPreset = idx})
   }
 
-  function save(countryId = null)
+  function saveAllCountries()
+  {
+    local hasChanges = false
+    foreach(countryId in ::shopCountriesList)
+      hasChanges = save(countryId, false) || hasChanges
+    if (hasChanges)
+      ::save_profile_offline_limited(true)
+  }
+
+  function save(countryId = null, shouldSaveProfile = true)
   {
     if (!countryId)
       countryId = ::get_profile_info().country
@@ -600,7 +609,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
     local cfgBlk = ::loadLocalByAccount("slotbar_presets/" + countryId)
     if (::u.isEqual(blk, cfgBlk) || blk == null && cfgBlk == null)
       return false
-    ::saveLocalByAccount("slotbar_presets/" + countryId, blk, true)
+    ::saveLocalByAccount("slotbar_presets/" + countryId, blk, true, shouldSaveProfile)
     return true
   }
 

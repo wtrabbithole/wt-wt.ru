@@ -483,7 +483,7 @@
       },
       "steel_cooling_sys": {
         "oil1_dm": {
-          "hp": 19.5
+          "hp": 21.1
         },
         "oil2_dm": {
           "hp": 19.5
@@ -492,12 +492,18 @@
           "hp": 21.1
         },
         "oil4_dm": {
-          "hp": 21.2
-        },
-        "oil5_dm": {
           "hp": 19.5
         },
+        "oil5_dm": {
+          "hp": 21.1
+        },
         "oil6_dm": {
+          "hp": 19.5
+        },
+        "oil7_dm": {
+          "hp": 21.1
+        },
+        "oil8_dm": {
           "hp": 19.5
         }
       },
@@ -1697,6 +1703,28 @@
       {
         "part": {
           "name": "oil6_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "oil7_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "oil8_dm",
           "onHit": {
             "leak_oil": 0.95
           },

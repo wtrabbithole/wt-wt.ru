@@ -3,18 +3,23 @@
     {
       id = "repair_status"
       color = "@white"
-      icon = "#ui/gameuiskin#repair_status_indicator"
+      icon = "#ui/gameuiskin#icon_repair_in_progress"
       needTimeText = true
     },
     {
       id = "rearm_status"
       color = "@white"
-      icon = "#ui/gameuiskin#slot_weapons"
+      icon = "#ui/gameuiskin#icon_weapons_in_progress"
     },
     {
       id = "rearm_rocket_status"
-      color = "@red"
-      icon = "#ui/gameuiskin#slot_weapons"
+      color = "@white"
+      icon = "#ui/gameuiskin#icon_rocket_in_progress"
+    },
+    {
+      id = "rearm_smoke_status"
+      color = "@white"
+      icon = "#ui/gameuiskin#icon_smoke_screen_in_progress"
     },
     {
       id = "driver_status"
@@ -59,7 +64,6 @@
     guiScene.replaceContentFromText(scene, blk, blk.len(), this)
 
     ::g_hud_event_manager.subscribe("TankDebuffs:Rearm", onRearm, this)
-    ::g_hud_event_manager.subscribe("TankDebuffs:RearmRocket", onRearm, this)
     ::g_hud_event_manager.subscribe("TankDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Repair", onRepair, this)
 

@@ -867,6 +867,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
 
   local selectedIdsData = {
     countryId = -1
+    countryVisibleIdx = -1
     idInCountry = -1
     cellId = -1
     selectable = false
@@ -945,12 +946,14 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
   if (!slotbarActions)
     slotbarActions = ::defaultSlotbarActions
 */
+  local countryVisibleIdx = -1
   for(local c=0; c<::crews_list.len(); c++)
     if (country==null || country==::crews_list[c].country)
     {
       if (!::is_country_visible(::crews_list[c].country))
         continue
 
+      countryVisibleIdx++
       local itemName = "slotbar-country"+c
       local itemText = format("slotsOption { id:t='%s' _on_deactivate:t='restoreFocus'} ", itemName)
       guiScene.appendWithBlk(countriesObj, itemText, handler)
@@ -1054,6 +1057,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
               if (curCrewId == crew.id)
               {
                 selectedIdsData.countryId = c
+                selectedIdsData.countryVisibleIdx = countryVisibleIdx
                 selectedIdsData.idInCountry = i
                 selectedIdsData.cellId = filledSlots
                 selectedIdsData.selectable = selectable
@@ -1063,6 +1067,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
             else if (curAircraft==airName)
             {
               selectedIdsData.countryId = c
+              selectedIdsData.countryVisibleIdx = countryVisibleIdx
               selectedIdsData.idInCountry = i
               selectedIdsData.cellId = filledSlots
               selectedIdsData.selectable = selectable
@@ -1094,10 +1099,11 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
           }
         }
       }
-      if ((country || airShopCountry == ::crews_list[c].country)
+      if ((country || airShopCountry == ::crews_list[c].country || curPlayerCountry == ::crews_list[c].country)
           && (!foundCurAir || (firstAvailableIdsData.selectable && !selectedIdsData.selectable)))
       {
         selectedIdsData.countryId = c
+        selectedIdsData.countryVisibleIdx = countryVisibleIdx
         selectedIdsData.idInCountry = firstAvailableIdsData.idInCountry
         selectedIdsData.cellId = firstAvailableIdsData.cellId
         selectedIdsData.selectable = true
@@ -1151,12 +1157,13 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
           ::showAirExpWpBonus(tblObj.findObject(::get_slot_obj_id(c, i, true)), crew.aircraft)
 
       if (country==::crews_list[c].country)
-      selectedIdsData.countryId=c
-      if (selectedIdsData.countryId==c)
+        selectedIdsData.countryId = c
+      if (selectedIdsData.countryId == c)
       {
         if (selectedIdsData.idInCountry < 0)
         {
           selectedIdsData.countryId = c
+          selectedIdsData.countryVisibleIdx = countryVisibleIdx
           selectedIdsData.idInCountry = firstAvailableIdsData.idInCountry
           selectedIdsData.cellId = firstAvailableIdsData.cellId
         }
@@ -1169,18 +1176,18 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
           ::gui_bhv.columnNavigator.selectCell(tblObj, 0, firstAvailableIdsData.cellId, false)
     }
 
-  if (country || selectedIdsData.countryId<0)
+  if (country || selectedIdsData.countryId < 0)
   {
     countriesObj.setValue(0)
-    if (selectedIdsData.countryId<0)
+    if (selectedIdsData.countryId < 0)
     {
       selectedIdsData.countryId = 0
       selectedIdsData.idInCountry = 0
       selectedIdsData.cellId = 0
     }
   } else
-    if (selectedIdsData.countryId < ::crews_list.len())
-      countriesObj.setValue(selectedIdsData.countryId)
+    if (selectedIdsData.countryVisibleIdx >= 0)
+      countriesObj.setValue(selectedIdsData.countryVisibleIdx)
 
   if (selectedIdsData.countryId in ::crews_list)
     ::switch_profile_country(::crews_list[selectedIdsData.countryId].country)
