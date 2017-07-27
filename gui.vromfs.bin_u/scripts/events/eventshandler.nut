@@ -456,7 +456,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
       packBtn.setValue(::loc("msgbox/btn_download") + " " + ::get_pkg_loc_name(pack, true))
     }
 
-    showSceneBtn("btn_queue_options", ::queue_classes.Event.hasOptions(event.name))
+    showSceneBtn("btn_queue_options", !!event && ::queue_classes.Event.hasOptions(event.name))
   }
 
   function fillEventsList()

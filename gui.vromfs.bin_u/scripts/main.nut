@@ -31,6 +31,8 @@
 ::ps4_is_client_full_downloaded <- !::is_platform_ps4
 ::ps4_vsync_enabled <- true
 
+::cross_call_api <- {}
+
 if (::is_platform_ps4) ::exit_game <- function() {::gui_start_logout()}
 
 ::FORCE_UPDATE <- true

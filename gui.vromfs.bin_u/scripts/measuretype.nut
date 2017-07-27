@@ -187,3 +187,6 @@ function g_measure_type::getTypeByName(name, createIfNotFound = false)
 ::g_measure_type_cache <- {
   byName = {}
 }
+
+
+::cross_call_api.measureTypes <- ::g_measure_type

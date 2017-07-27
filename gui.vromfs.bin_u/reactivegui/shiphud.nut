@@ -61,6 +61,7 @@ local font = Fonts.small_text_hud
 
 local speed = function () {
   local speedValue = @() {
+    watch = shipState.speed
     rendObj = ROBJ_TEXT
     text = shipState.speed.value.tostring()
     font = font
@@ -69,17 +70,29 @@ local speed = function () {
     margin = [0,0,0,sh(2)]
   }
 
+  local speedUnits = @() {
+    rendObj = ROBJ_TEXT
+    text = ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
+    font = font
+    fontFx = fontFx
+    fontFxColor = fontFxColor
+    margin = [0,0,0,sh(0.5)]
+  }
+
   local machine = function (port, sideboard) {
-    local averegeSpeed = clamp((port + sideboard) / 2, 0, machineSpeedLoc.len())
-    return {
-      size = SIZE_TO_CONTENT
-      children = {
-        rendObj = ROBJ_TEXT
-        font = font
-        color = Color(200, 200, 200)
-        fontFx = fontFx
-        fontFxColor = fontFxColor
-        text = machineSpeedLoc[averegeSpeed] + " " + machineDirectionLoc[averegeSpeed]
+    return function () {
+      local averegeSpeed = clamp((port.value + sideboard.value) / 2, 0, machineSpeedLoc.len())
+      return {
+        size = SIZE_TO_CONTENT
+        watch = [port, sideboard]
+        children = {
+          rendObj = ROBJ_TEXT
+          font = font
+          color = Color(200, 200, 200)
+          fontFx = fontFx
+          fontFxColor = fontFxColor
+          text = machineSpeedLoc[averegeSpeed] + " " + machineDirectionLoc[averegeSpeed]
+        }
       }
     }
   }
@@ -91,16 +104,20 @@ local speed = function () {
     halign = HALIGN_RIGHT
 //    padding = [0, sh(3)]
 
-    watch = [
-      shipState.speed
-      shipState.portSideMachine
-      shipState.sideboardSideMachine
-    ]
-
     children = [
-      
-      {size = [flex(3),SIZE_TO_CONTENT] children = machine(shipState.portSideMachine.value, shipState.sideboardSideMachine.value) halign=HALIGN_RIGHT}
-      {size = [flex(2),SIZE_TO_CONTENT] children = speedValue}
+      {
+        size = [flex(3), SIZE_TO_CONTENT]
+        children = machine(shipState.portSideMachine, shipState.sideboardSideMachine)
+        halign = HALIGN_RIGHT
+      }
+      {
+        size = [flex(2), SIZE_TO_CONTENT]
+        flow = FLOW_HORIZONTAL
+        children = [
+          speedValue
+          speedUnits
+        ]
+      }
     ]
   }
 }
@@ -123,11 +140,30 @@ local dmModule = function (icon, count_total_state, count_broken_state) {
       color = Color(221, 17, 17)
     else if (count_broken_state.value > 0)
       color = Color(255, 176, 37)
+    ::start_anim(count_broken_state)
     local image = {
       rendObj = ROBJ_IMAGE
       color =  color
       image = icon
       size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
+
+      transform = {}
+      animations = [
+        {
+          prop = AnimProp.color
+          from = Color(255, 255, 255)
+          easing = Linear
+          duration = 0.15
+          trigger = count_broken_state
+        }
+        {
+          prop = AnimProp.scale
+          from = [1.3, 1.3]
+          easing = InOutCubic
+          duration = 0.15
+          trigger = count_broken_state
+        }
+      ]
     }
 
     local dotAlive = @(totalDotsCount) {
@@ -143,6 +179,16 @@ local dmModule = function (icon, count_total_state, count_broken_state) {
       color = Color(255, 50, 0)
       size = [sh(1), sh(1)]
       margin = [sh(0.2), sh(0.2)]
+      transform = {}
+      animations = [
+        {
+          prop = AnimProp.scale
+          from = [1.3, 1.3]
+          easing = InOutCubic
+          play = true
+          duration = 0.25
+        }
+      ]
     }
 
     local dots = function () {
@@ -425,10 +471,13 @@ local shipStateDisplay = {
 }
 
 return {
+  rendObj = ROBJ_SOLID
+  color = Color(0, 0, 0, 96)
   vplace = VALIGN_BOTTOM
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   margin = [sh(5), sh(1)] //keep gap for counters
+  padding = sh(1)
   children = [
     speed
     {size=[flex(),sh(0.5)]}
