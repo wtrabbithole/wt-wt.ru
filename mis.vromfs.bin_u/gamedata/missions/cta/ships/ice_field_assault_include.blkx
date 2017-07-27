@@ -59,8 +59,29 @@
   "triggers": {
     "isCategory": true,
     "is_enabled": true,
-    "assemble_var": {
+    "init_draw": {
       "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 15.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "triggerEnable": {
+          "target": "assemble_var"
+        }
+      },
+      "else_actions": []
+    },
+    "assemble_var": {
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -114,28 +135,324 @@
           "type": "objectGroup"
         }
       },
-      "actions": {
-        "missionShowMapIcon": {
-          "areaName": "@objectGroups",
-          "show": true,
-          "team": "Both",
-          "iconName": "ui/gameuiskin#ps4_controls_help_point",
-          "colorCode": "White",
-          "scale": 0.5
+      "actions": [
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
         },
-        "varModify": {
-          "operator": "add",
-          "value": 1.0,
-          "var": "num_var"
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
         },
-        "triggerEnable": {
-          "target": "assemble_var"
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "objectGroups_",
+            "var": "objectGroups"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@num_var",
+            "digits": 2,
+            "var": "objectGroups"
+          }
+        },
+        {
+          "missionShowMapIcon": {
+            "objectGroup": false,
+            "objectGroupName ": "@objectGroups",
+            "show": true,
+            "team": "Both",
+            "iconName": "ui/gameuiskin#ps4_controls_help_point",
+            "objectGroupName": "@objectGroups",
+            "colorCode": "White",
+            "scale": 0.5
+          }
+        },
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "num_var"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "assemble_var"
+          }
         }
-      },
+      ],
       "else_actions": {
         "varModify": {
           "operator": "add",
-          "value": 1.0,
+          "value": 10.0,
           "var": "num_var"
         },
         "triggerEnable": {
@@ -4371,16 +4688,773 @@
           "active": true
         }
       }
+    },
+    {
+      "squad": {
+        "name": "obj_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-182.65,-478.5,604.15]
+        ],
+        "props": [
+          {
+            "squad_members": "objectGroups_02"
+          },
+          {
+            "squad_members": "objectGroups_04"
+          },
+          {
+            "squad_members": "objectGroups_08"
+          },
+          {
+            "squad_members": "objectGroups_07"
+          },
+          {
+            "squad_members": "objectGroups_16"
+          },
+          {
+            "squad_members": "objectGroups_17"
+          },
+          {
+            "squad_members": "objectGroups_12"
+          },
+          {
+            "squad_members": "objectGroups_22"
+          },
+          {
+            "squad_members": "objectGroups_21"
+          },
+          {
+            "squad_members": "objectGroups_25"
+          },
+          {
+            "squad_members": "objectGroups_24"
+          },
+          {
+            "squad_members": "objectGroups_29"
+          },
+          {
+            "squad_members": "objectGroups_30"
+          },
+          {
+            "squad_members": "objectGroups_31"
+          },
+          {
+            "squad_members": "objectGroups_28"
+          },
+          {
+            "squad_members": "objectGroups_36"
+          },
+          {
+            "squad_members": "objectGroups_37"
+          },
+          {
+            "squad_members": "objectGroups_38"
+          },
+          {
+            "squad_members": "objectGroups_35"
+          },
+          {
+            "squad_members": "objectGroups_33"
+          },
+          {
+            "squad_members": "objectGroups_34"
+          },
+          {
+            "squad_members": "objectGroups_39"
+          },
+          {
+            "squad_members": "objectGroups_32"
+          },
+          {
+            "squad_members": "objectGroups_03"
+          },
+          {
+            "squad_members": "objectGroups_06"
+          },
+          {
+            "squad_members": "objectGroups_11"
+          },
+          {
+            "squad_members": "objectGroups_10"
+          },
+          {
+            "squad_members": "objectGroups_27"
+          },
+          {
+            "squad_members": "objectGroups_26"
+          },
+          {
+            "squad_members": "objectGroups_42"
+          },
+          {
+            "squad_members": "objectGroups_41"
+          },
+          {
+            "squad_members": "objectGroups_45"
+          },
+          {
+            "squad_members": "objectGroups_44"
+          },
+          {
+            "squad_members": "objectGroups_48"
+          },
+          {
+            "squad_members": "objectGroups_47"
+          },
+          {
+            "squad_members": "objectGroups_49"
+          },
+          {
+            "squad_members": "objectGroups_50"
+          },
+          {
+            "squad_members": "objectGroups_51"
+          },
+          {
+            "squad_members": "objectGroups_52"
+          },
+          {
+            "squad_members": "objectGroups_53"
+          },
+          {
+            "squad_members": "objectGroups_54"
+          },
+          {
+            "squad_members": "objectGroups_55"
+          },
+          {
+            "squad_members": "objectGroups_56"
+          },
+          {
+            "squad_members": "objectGroups_57"
+          },
+          {
+            "squad_members": "objectGroups_58"
+          },
+          {
+            "squad_members": "objectGroups_59"
+          },
+          {
+            "squad_members": "objectGroups_60"
+          },
+          {
+            "squad_members": "objectGroups_61"
+          },
+          {
+            "squad_members": "objectGroups_62"
+          },
+          {
+            "squad_members": "objectGroups_63"
+          },
+          {
+            "squad_members": "objectGroups_64"
+          },
+          {
+            "squad_members": "objectGroups_65"
+          },
+          {
+            "squad_members": "objectGroups_66"
+          },
+          {
+            "squad_members": "objectGroups_67"
+          },
+          {
+            "squad_members": "objectGroups_68"
+          },
+          {
+            "squad_members": "objectGroups_69"
+          },
+          {
+            "squad_members": "objectGroups_70"
+          },
+          {
+            "squad_members": "objectGroups_40"
+          },
+          {
+            "squad_members": "objectGroups_71"
+          },
+          {
+            "squad_members": "objectGroups_73"
+          },
+          {
+            "squad_members": "objectGroups_72"
+          },
+          {
+            "squad_members": "objectGroups_76"
+          },
+          {
+            "squad_members": "objectGroups_75"
+          },
+          {
+            "squad_members": "objectGroups_78"
+          },
+          {
+            "squad_members": "objectGroups_77"
+          },
+          {
+            "squad_members": "objectGroups_81"
+          },
+          {
+            "squad_members": "objectGroups_80"
+          },
+          {
+            "squad_members": "objectGroups_84"
+          },
+          {
+            "squad_members": "objectGroups_83"
+          },
+          {
+            "squad_members": "objectGroups_87"
+          },
+          {
+            "squad_members": "objectGroups_86"
+          },
+          {
+            "squad_members": "objectGroups_90"
+          },
+          {
+            "squad_members": "objectGroups_89"
+          },
+          {
+            "squad_members": "objectGroups_93"
+          },
+          {
+            "squad_members": "objectGroups_92"
+          },
+          {
+            "squad_members": "objectGroups_74"
+          },
+          {
+            "squad_members": "objectGroups_79"
+          },
+          {
+            "squad_members": "objectGroups_82"
+          },
+          {
+            "squad_members": "objectGroups_85"
+          },
+          {
+            "squad_members": "objectGroups_88"
+          },
+          {
+            "squad_members": "objectGroups_91"
+          },
+          {
+            "squad_members": "objectGroups_94"
+          },
+          {
+            "squad_members": "objectGroups_98"
+          },
+          {
+            "squad_members": "objectGroups_99"
+          },
+          {
+            "squad_members": "objectGroups_97"
+          },
+          {
+            "squad_members": "objectGroups_103"
+          },
+          {
+            "squad_members": "objectGroups_104"
+          },
+          {
+            "squad_members": "objectGroups_102"
+          },
+          {
+            "squad_members": "objectGroups_108"
+          },
+          {
+            "squad_members": "objectGroups_109"
+          },
+          {
+            "squad_members": "objectGroups_107"
+          },
+          {
+            "squad_members": "objectGroups_110"
+          },
+          {
+            "squad_members": "objectGroups_111"
+          },
+          {
+            "squad_members": "objectGroups_112"
+          },
+          {
+            "squad_members": "objectGroups_113"
+          },
+          {
+            "squad_members": "objectGroups_114"
+          },
+          {
+            "squad_members": "objectGroups_106"
+          },
+          {
+            "squad_members": "objectGroups_121"
+          },
+          {
+            "squad_members": "objectGroups_122"
+          },
+          {
+            "squad_members": "objectGroups_123"
+          },
+          {
+            "squad_members": "objectGroups_124"
+          },
+          {
+            "squad_members": "objectGroups_125"
+          },
+          {
+            "squad_members": "objectGroups_120"
+          },
+          {
+            "squad_members": "objectGroups_130"
+          },
+          {
+            "squad_members": "objectGroups_131"
+          },
+          {
+            "squad_members": "objectGroups_132"
+          },
+          {
+            "squad_members": "objectGroups_133"
+          },
+          {
+            "squad_members": "objectGroups_134"
+          },
+          {
+            "squad_members": "objectGroups_135"
+          },
+          {
+            "squad_members": "objectGroups_136"
+          },
+          {
+            "squad_members": "objectGroups_137"
+          },
+          {
+            "squad_members": "objectGroups_138"
+          },
+          {
+            "squad_members": "objectGroups_139"
+          },
+          {
+            "squad_members": "objectGroups_140"
+          },
+          {
+            "squad_members": "objectGroups_141"
+          },
+          {
+            "squad_members": "objectGroups_142"
+          },
+          {
+            "squad_members": "objectGroups_143"
+          },
+          {
+            "squad_members": "objectGroups_144"
+          },
+          {
+            "squad_members": "objectGroups_129"
+          },
+          {
+            "squad_members": "objectGroups_43"
+          },
+          {
+            "squad_members": "objectGroups_46"
+          },
+          {
+            "squad_members": "objectGroups_95"
+          },
+          {
+            "squad_members": "objectGroups_96"
+          },
+          {
+            "squad_members": "objectGroups_100"
+          },
+          {
+            "squad_members": "objectGroups_101"
+          },
+          {
+            "squad_members": "objectGroups_105"
+          },
+          {
+            "squad_members": "objectGroups_115"
+          },
+          {
+            "squad_members": "objectGroups_116"
+          },
+          {
+            "squad_members": "objectGroups_117"
+          },
+          {
+            "squad_members": "objectGroups_128"
+          },
+          {
+            "squad_members": "objectGroups_126"
+          },
+          {
+            "squad_members": "objectGroups_127"
+          },
+          {
+            "squad_members": "objectGroups_145"
+          },
+          {
+            "squad_members": "objectGroups_146"
+          },
+          {
+            "squad_members": "objectGroups_119"
+          },
+          {
+            "squad_members": "objectGroups_149"
+          },
+          {
+            "squad_members": "objectGroups_150"
+          },
+          {
+            "squad_members": "objectGroups_151"
+          },
+          {
+            "squad_members": "objectGroups_148"
+          },
+          {
+            "squad_members": "objectGroups_168"
+          },
+          {
+            "squad_members": "objectGroups_169"
+          },
+          {
+            "squad_members": "objectGroups_170"
+          },
+          {
+            "squad_members": "objectGroups_171"
+          },
+          {
+            "squad_members": "objectGroups_172"
+          },
+          {
+            "squad_members": "objectGroups_173"
+          },
+          {
+            "squad_members": "objectGroups_174"
+          },
+          {
+            "squad_members": "objectGroups_175"
+          },
+          {
+            "squad_members": "objectGroups_176"
+          },
+          {
+            "squad_members": "objectGroups_177"
+          },
+          {
+            "squad_members": "objectGroups_178"
+          },
+          {
+            "squad_members": "objectGroups_179"
+          },
+          {
+            "squad_members": "objectGroups_180"
+          },
+          {
+            "squad_members": "objectGroups_181"
+          },
+          {
+            "squad_members": "objectGroups_182"
+          },
+          {
+            "squad_members": "objectGroups_183"
+          },
+          {
+            "squad_members": "objectGroups_184"
+          },
+          {
+            "squad_members": "objectGroups_167"
+          },
+          {
+            "squad_members": "objectGroups_154"
+          },
+          {
+            "squad_members": "objectGroups_155"
+          },
+          {
+            "squad_members": "objectGroups_156"
+          },
+          {
+            "squad_members": "objectGroups_153"
+          },
+          {
+            "squad_members": "objectGroups_161"
+          },
+          {
+            "squad_members": "objectGroups_162"
+          },
+          {
+            "squad_members": "objectGroups_163"
+          },
+          {
+            "squad_members": "objectGroups_160"
+          },
+          {
+            "squad_members": "objectGroups_187"
+          },
+          {
+            "squad_members": "objectGroups_188"
+          },
+          {
+            "squad_members": "objectGroups_189"
+          },
+          {
+            "squad_members": "objectGroups_166"
+          },
+          {
+            "squad_members": "objectGroups_190"
+          },
+          {
+            "squad_members": "objectGroups_165"
+          },
+          {
+            "squad_members": "objectGroups_191"
+          },
+          {
+            "squad_members": "objectGroups_192"
+          },
+          {
+            "squad_members": "objectGroups_193"
+          },
+          {
+            "squad_members": "objectGroups_194"
+          },
+          {
+            "squad_members": "objectGroups_195"
+          },
+          {
+            "squad_members": "objectGroups_196"
+          },
+          {
+            "squad_members": "objectGroups_164"
+          },
+          {
+            "squad_members": "objectGroups_200"
+          },
+          {
+            "squad_members": "objectGroups_201"
+          },
+          {
+            "squad_members": "objectGroups_202"
+          },
+          {
+            "squad_members": "objectGroups_203"
+          },
+          {
+            "squad_members": "objectGroups_204"
+          },
+          {
+            "squad_members": "objectGroups_09"
+          },
+          {
+            "squad_members": "objectGroups_05"
+          },
+          {
+            "squad_members": "objectGroups_207"
+          },
+          {
+            "squad_members": "objectGroups_208"
+          },
+          {
+            "squad_members": "objectGroups_199"
+          },
+          {
+            "squad_members": "objectGroups_186"
+          },
+          {
+            "squad_members": "objectGroups_185"
+          },
+          {
+            "squad_members": "objectGroups_209"
+          },
+          {
+            "squad_members": "objectGroups_198"
+          },
+          {
+            "squad_members": "objectGroups_232"
+          },
+          {
+            "squad_members": "objectGroups_233"
+          },
+          {
+            "squad_members": "objectGroups_234"
+          },
+          {
+            "squad_members": "objectGroups_235"
+          },
+          {
+            "squad_members": "objectGroups_236"
+          },
+          {
+            "squad_members": "objectGroups_237"
+          },
+          {
+            "squad_members": "objectGroups_238"
+          },
+          {
+            "squad_members": "objectGroups_239"
+          },
+          {
+            "squad_members": "objectGroups_240"
+          },
+          {
+            "squad_members": "objectGroups_241"
+          },
+          {
+            "squad_members": "objectGroups_242"
+          },
+          {
+            "squad_members": "objectGroups_243"
+          },
+          {
+            "squad_members": "objectGroups_244"
+          },
+          {
+            "squad_members": "objectGroups_245"
+          },
+          {
+            "squad_members": "objectGroups_246"
+          },
+          {
+            "squad_members": "objectGroups_247"
+          },
+          {
+            "squad_members": "objectGroups_248"
+          },
+          {
+            "squad_members": "objectGroups_249"
+          },
+          {
+            "squad_members": "objectGroups_250"
+          },
+          {
+            "squad_members": "objectGroups_251"
+          },
+          {
+            "squad_members": "objectGroups_252"
+          },
+          {
+            "squad_members": "objectGroups_253"
+          },
+          {
+            "squad_members": "objectGroups_254"
+          },
+          {
+            "squad_members": "objectGroups_255"
+          },
+          {
+            "squad_members": "objectGroups_256"
+          },
+          {
+            "squad_members": "objectGroups_231"
+          },
+          {
+            "squad_members": "objectGroups_118"
+          },
+          {
+            "squad_members": "objectGroups_159"
+          },
+          {
+            "squad_members": "objectGroups_197"
+          },
+          {
+            "squad_members": "objectGroups_210"
+          },
+          {
+            "squad_members": "objectGroups_158"
+          },
+          {
+            "squad_members": "objectGroups_219"
+          },
+          {
+            "squad_members": "objectGroups_220"
+          },
+          {
+            "squad_members": "objectGroups_221"
+          },
+          {
+            "squad_members": "objectGroups_222"
+          },
+          {
+            "squad_members": "objectGroups_223"
+          },
+          {
+            "squad_members": "objectGroups_224"
+          },
+          {
+            "squad_members": "objectGroups_225"
+          },
+          {
+            "squad_members": "objectGroups_218"
+          },
+          {
+            "squad_members": "objectGroups_228"
+          },
+          {
+            "squad_members": "objectGroups_229"
+          },
+          {
+            "squad_members": "objectGroups_230"
+          },
+          {
+            "squad_members": "objectGroups_257"
+          },
+          {
+            "squad_members": "objectGroups_258"
+          },
+          {
+            "squad_members": "objectGroups_259"
+          },
+          {
+            "squad_members": "objectGroups_260"
+          },
+          {
+            "squad_members": "objectGroups_261"
+          },
+          {
+            "squad_members": "objectGroups_262"
+          },
+          {
+            "squad_members": "objectGroups_263"
+          },
+          {
+            "squad_members": "objectGroups_264"
+          },
+          {
+            "squad_members": "objectGroups_227"
+          },
+          {
+            "squad_members": "objectGroups_226"
+          },
+          {
+            "squad_members": "objectGroups_265"
+          },
+          {
+            "squad_members": "objectGroups_266"
+          },
+          {
+            "squad_members": "objectGroups_267"
+          },
+          {
+            "squad_members": "objectGroups_215"
+          }
+        ]
+      }
     }
   ],
   "areas": {
     "battlearea": {
       "type": "Box",
       "tm": [
-        [10000.0,0.0,0.0],
+        [8500.0,0.0,0.0],
         [0.0,679.15,0.0],
-        [0.0,0.0,10000.0],
-        [-881.25,0.0,-422.55]
+        [0.0,0.0,8500.0],
+        [-797.309,0.0,-422.55]
       ],
       "objLayer": 3,
       "props": []
@@ -4391,7 +5465,7 @@
         [774.7,0.0,0.0],
         [0.0,774.7,0.0],
         [0.0,0.0,774.7],
-        [-4961.37,0.0,-3668.36]
+        [-4668.22,0.0,-3668.36]
       ],
       "objLayer": 3,
       "props": []
@@ -4402,7 +5476,7 @@
         [774.7,0.0,0.0],
         [0.0,774.7,0.0],
         [0.0,0.0,774.7],
-        [-5021.9,0.0,3103.05]
+        [-4728.75,0.0,3103.05]
       ],
       "objLayer": 3,
       "props": []
@@ -4413,7 +5487,7 @@
         [774.7,0.0,0.0],
         [0.0,774.7,0.0],
         [0.0,0.0,774.7],
-        [3337.3,0.0,3449.3]
+        [2807.1,0.0,3449.3]
       ],
       "objLayer": 3,
       "props": []
@@ -4424,7 +5498,7 @@
         [774.7,0.0,0.0],
         [0.0,774.7,0.0],
         [0.0,0.0,774.7],
-        [3488.84,-0.000976563,-3682.91]
+        [2958.64,-0.000976563,-3682.91]
       ],
       "objLayer": 3,
       "props": []

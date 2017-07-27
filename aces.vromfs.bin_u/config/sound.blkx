@@ -304,6 +304,18 @@
       }
     }
   },
+  "water_splashes": {
+    "lods": {
+      "lod_0": {
+        "radius": 50.0,
+        "maxSounds": 1
+      },
+      "lod_1": {
+        "radius": 200.0,
+        "maxSounds": 2
+      }
+    }
+  },
   "guns": {
     "lods": {
       "lod_0": {
@@ -3310,6 +3322,12 @@
           "player": 1,
           "eventsChancePlay": 1.0
         },
+        "loadBulletSmoke": {
+          "event": "voice_message_load_S",
+          "playerRole": "commander",
+          "player": 1,
+          "eventsChancePlay": 1.0
+        },
         "reloading": {
           "event": "voice_message_reloading",
           "playerRole": "commander",
@@ -3621,7 +3639,7 @@
         "he_frag_tank": "loadBulletHighExpl",
         "he_frag_fs_tank": "loadBulletHighExpl",
         "hesh_tank": "loadBulletHighExpl",
-        "smoke_tank": "loadBulletHighExpl",
+        "smoke_tank": "loadBulletSmoke",
         "heat_tank": "loadBulletCumulative",
         "heat_fs_tank": "loadBulletCumulative",
         "apcr_tank": "loadBulletSubCaliber",

@@ -173,6 +173,15 @@ playbackCheckbox > playbackImg {
   input-transparent:yes;
 }
 
+playbackCheckbox > animated_wait_icon {
+  position: relative;
+  display:hide;
+}
+
+playbackCheckbox[downloading=yes] > animated_wait_icon {
+  display:show;
+}
+
 playbackCheckbox:checked > playbackImg {
   background-image:#ui/gameuiskin#replay_stop;
 }
@@ -185,6 +194,11 @@ playbackCheckbox:hover > descImg {
 playbackCheckbox:pushed > playbackImg,
 playbackCheckbox:pushed > descImg {
   background-color:@playbackButtonPushedColor;
+}
+
+playbackCheckbox:disabled > playbackImg,
+playbackCheckbox:disabled > descImg {
+  background-color:@playbackButtonDisabledColor;
 }
 
 playbackCheckbox[btnName] > ButtonImg

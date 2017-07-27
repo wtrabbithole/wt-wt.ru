@@ -52,22 +52,6 @@ function get_in_battle_time_to_kick_show_alert()
   return ::in_battle_time_to_kick_show_alert
 }
 
-function mpstat_sort_alive(a, b)
-{
-  if (("ingame" in a) && ("ingame" in b) && a.ingame != b.ingame)
-    return a.ingame ? -1 : 1
-  if (a.isBot != b.isBot)
-    return b.isBot ? -1 : 1
-  //if (a.isDead != b.isDead)
-  //  return b.isDead ? -1 : 1
-  return ::mpstat_sort_rowNo(a, b)
-}
-
-function mpstat_sort_rowNo(a, b)
-{
-  return (a.rowNo > b.rowNo)? 1 : (a.rowNo < b.rowNo ? -1 : 0)
-}
-
 function get_local_team_for_mpstats()
 {
   return ::get_mp_local_team() != Team.B ? Team.A : Team.B

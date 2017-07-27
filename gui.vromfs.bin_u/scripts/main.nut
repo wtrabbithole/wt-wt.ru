@@ -687,6 +687,7 @@ function load_scripts_after_login()
 
     "utils/popupMessages.nut"
     "utils/fileDialog.nut"
+    "utils/soundManager.nut"
 
     "webpoll.nut"
   ])

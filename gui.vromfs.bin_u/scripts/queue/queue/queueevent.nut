@@ -127,7 +127,7 @@ class ::queue_classes.Event extends ::queue_classes.Base
     return ::events.getCustomGameMode(::events.getEvent(name))
   }
 
-  function hasCustomMode() { return !!getCustomMgm() }
+  function hasCustomMode() { return ::has_feature("QueueCustomEventRoom") && !!getCustomMgm() }
 
   function isCustomModeQUeued()
   {

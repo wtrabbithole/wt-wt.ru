@@ -43,8 +43,8 @@ function g_psn_mapper::updateAccountIdsList(forceUpdate = false)
 
   local names = []
   foreach (name, block in ::ps4_console_friends)
-    if (!(block.onlineId in cache))
-      names.append(block.onlineId)
+    if (!(name in cache))
+      names.append(name)
 
   if (!names.len())
     return
@@ -54,7 +54,7 @@ function g_psn_mapper::updateAccountIdsList(forceUpdate = false)
   blk.method = ::HTTP_METHOD_POST
   blk.path = "/v2/accounts/map/onlineId2accountId"
 
-  local prepStrings = ::u.map(names, @(name) ::format("\"%s\"", name))
+  local prepStrings = ::u.map(names, @(name) ::format("\"%s\"", ::cut_prefix(name, "*", name)))
   blk.request = "[\r\n" + ::implode(prepStrings, ",\r\n") + "\r\n]"
 
   local ret = ::ps4_web_api_request(blk)

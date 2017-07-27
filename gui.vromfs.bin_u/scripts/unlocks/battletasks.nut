@@ -678,12 +678,15 @@ function BattleTasks::generateItemView(config, isPromo = false)
                     : null)
               : null
 
+  local id = isBattleTask? task.id : config.id
+
   return {
-    id = isBattleTask? task.id : config.id
+    id = id
     title = title
     taskStatus = getTaskStatus(task)
     taskImage = ::getTblValue("image", task) || ::getTblValue("image", config)
     taskPlayback = ::getTblValue("playback", task) || ::getTblValue("playback", config)
+    isPlaybackDownloading = !::g_sound.canPlay(id)
     taskDifficultyImage = ::getTblValue("image", ::g_battle_task_difficulty.getDifficultyTypeByTask(task))
     taskRankValue = rankVal? ::loc("ui/parentheses/space", {text = rankVal}) : null
     description = isBattleTask || isUnlock ? getTaskDescription(config, isPromo) : null

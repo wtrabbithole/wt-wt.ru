@@ -1231,65 +1231,21 @@ class Events
     if (!::g_squad_manager.isSquadLeader())
       return null
 
-    local bestTeamsData = null
-    if (room)
-      bestTeamsData = getMembersFlyoutEventDataImpl(event, room, teams)
-    else
-    {
-      local myCountry = ::get_profile_info().country
-      foreach(countrySet in getAllCountriesSets(event))
-      {
-        local mgmTeams = []
-        foreach(idx, countries in countrySet.countries)
-          if (::isInArray(myCountry, countries))
-            mgmTeams.append(idx + 1) //idx to Team enum
-        if (!mgmTeams.len())
-          continue
-
-        foreach(gameModeId in countrySet.gameModeIds)
-        {
-          local mgm = ::g_matching_game_modes.getModeById(gameModeId)
-          if (!mgm)
-            continue
-          local teamsData = getMembersFlyoutEventDataImpl(mgm, null, mgmTeams)
-          if (!bestTeamsData || bestTeamsData.cantFlyData.len() > teamsData.cantFlyData.len())
-          {
-            bestTeamsData = teamsData
-            if (bestTeamsData.canFlyout)
-              break
-          }
-        }
-        if (bestTeamsData && bestTeamsData.canFlyout)
-          break
-      }
-    }
-
-    if (bestTeamsData && !bestTeamsData.canFlyout)
-      showCantFlyMembersMsgBox(bestTeamsData.cantFlyData)
-    return bestTeamsData && bestTeamsData.teamsData
-  }
-
-  function getMembersFlyoutEventDataImpl(roomMgm, room, teams)
-  {
-    local res = {
-      teamsData = []
-      cantFlyData = []
-      canFlyout = false
-    }
+    local teamsData = []
+    local cantFlyData = []
     foreach(team in teams)
     {
-      local data = getMembersFlyoutEventData(roomMgm, room, team)
+      local data = getMembersFlyoutEventData(event, room, team)
       data.team <- team
 
       if (data.canFlyout)
-      {
-        res.teamsData.append(data)
-        res.canFlyout = true
-      }
+        teamsData.append(data)
       else
-        res.cantFlyData.append(data)
+        cantFlyData.append(data)
     }
-    return res
+    if (!teamsData.len())
+      showCantFlyMembersMsgBox(cantFlyData)
+    return teamsData
   }
 
   function getMembersFlyoutEventData(event, room, team)

@@ -122,11 +122,13 @@ expandable {
             id:t='<<id>>_sound'
             on_change_value:t='switchPlaybackMode'
             playback:t='<<taskPlayback>>'
+            downloading:t='<<#isPlaybackDownloading>>yes<</isPlaybackDownloading>><<^isPlaybackDownloading>>no<</isPlaybackDownloading>>'
             btnName:t='LB'
             ButtonImg{}
             descImg {
               background-image:t='#ui/gameuiskin#sound_on'
             }
+            animated_wait_icon { wait_icon_cock {} }
             playbackImg{}
           }
         }

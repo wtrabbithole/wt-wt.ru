@@ -17,6 +17,7 @@
     FacebookScreenshots = true
     Events = true
     CreateEventRoom = false
+    QueueCustomEventRoom = false
     Invites = true
     Credits = true
     EmbeddedBrowser = false

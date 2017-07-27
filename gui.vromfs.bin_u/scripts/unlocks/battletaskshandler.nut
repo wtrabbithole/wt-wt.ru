@@ -32,9 +32,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   currentTaskId = null
   currentTabType = null
 
-  static UNLOCK_PLAYBACK_KEY = "personal"
-  isCurrentPlaybackPlayed = false
-
   userglogFinishedTasksFilter = {
     show = [::EULT_NEW_UNLOCK]
     checkFunc = function(userlog) { return ::g_battle_tasks.isBattleTask(userlog.body.unlockId) }
@@ -260,7 +257,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
-    resetPlayback()
+    ::g_sound.stop()
     local curTabData = getSelectedTabData(obj)
     currentTabType = curTabData.tabType
     changeFrameVisibility()
@@ -327,20 +324,13 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     local val = obj.getValue()
     finishedTaskIdx = val
 
-    resetPlayback()
+    ::g_sound.stop()
 
     local config = getConfigByValue(val)
+    ::g_sound.preparePlayback(config.playback, config.id)
+
     updateButtons(config)
-
-    if (config.playback)
-      ::set_cached_music(::CACHED_MUSIC_MISSION, config.playback, UNLOCK_PLAYBACK_KEY)
     hideTaskWidget(config)
-  }
-
-  function resetPlayback()
-  {
-    isCurrentPlaybackPlayed = false
-    ::play_cached_music("")
   }
 
   function hideTaskWidget(config)
@@ -385,7 +375,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
     showSceneBtn("btn_requirements_list", ::show_console_buttons && ::getTblValue("names", config, []).len() != 0)
 
-    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config)] = !::u.isEmpty(::getTblValue("playback", config))}, true)
+    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config.id)] = ::g_sound.canPlay(config.id)}, true)
   }
 
   function updateTabButtons()
@@ -554,9 +544,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
      ["cancel", function() {}]], "cancel")
   }
 
-  function getConfigPlaybackButtonId(config)
+  function getConfigPlaybackButtonId(btnId)
   {
-    return ::getTblValue("id", config, "") + "_sound"
+    return btnId + "_sound"
   }
 
   function getConfigsListObj()
@@ -585,7 +575,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     ::g_battle_tasks.markAllTasksSeen()
     ::g_battle_tasks.saveSeenTasksData()
-    resetPlayback()
+    ::g_sound.stop()
     base.goBack()
   }
 
@@ -616,6 +606,31 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     updateWarbonds()
   }
 
+  function onEventPlaybackDownloaded(p)
+  {
+    if (!::check_obj(scene))
+      return
+
+    local pbObj = scene.findObject(getConfigPlaybackButtonId(p.id))
+    if (!::check_obj(pbObj))
+      return
+
+    pbObj.enable(p.success)
+    pbObj.downloading = p.success? "no" : "yes"
+  }
+
+  function onEventFinishedPlayback(p)
+  {
+    local config = getConfigByValue(finishedTaskIdx)
+    if (!config)
+      return
+
+    local pbObjId = getConfigPlaybackButtonId(config.id)
+    local pbObj = scene.findObject(pbObjId)
+    if (::check_obj(pbObj))
+      pbObj.setValue(false)
+  }
+
   function onWarbondsShop()
   {
     ::g_warbonds.openShop()
@@ -643,20 +658,18 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function switchPlaybackMode(obj)
   {
-    if (obj.getValue())
-    {
-      if (isCurrentPlaybackPlayed)
-        ::pause_cached_music(false)
-      else
-        ::play_cached_music(UNLOCK_PLAYBACK_KEY)
-    }
+    local config = getConfigByValue(finishedTaskIdx)
+    if (!config)
+      return
+
+    if (!obj.getValue())
+      ::g_sound.stop()
     else
-      ::pause_cached_music(true)
-    isCurrentPlaybackPlayed = obj.getValue()
+      ::g_sound.play(config.id)
   }
 
   function onDestroy()
   {
-    resetPlayback()
+    ::g_sound.stop()
   }
 }
