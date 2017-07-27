@@ -1396,6 +1396,7 @@
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
           "shotFreq": 0.1166,
+          "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -1448,6 +1449,11 @@
             "yaw": [-180.0,180.0],
             "pitch": [-5.0,18.0]
           },
+          "limitsTable": {
+            "lim1": [-180.0,-150.0,-4.0,18.0],
+            "lim2": [-150.0,150.0,-5.0,18.0],
+            "lim3": [150.0,180.0,-4.0,18.0]
+          },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
             "hasHorizontal": true,
@@ -1461,13 +1467,13 @@
             "speedPitch": 4.5,
             "errorKPHToDegrees": [
               {
-                "row": [5.0,0.01]
+                "row": [5.0,0.0]
               },
               {
-                "row": [25.0,0.03]
+                "row": [25.0,0.015]
               },
               {
-                "row": [35.0,0.05]
+                "row": [35.0,0.02]
               },
               {
                 "row": [45.0,0.1]
@@ -1601,6 +1607,13 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-10.0,60.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-95.0,-10.0,60.0],
+            "lim2": [-95.0,-77.0,6.0,60.0],
+            "lim3": [-77.0,-5.0,-10.0,60.0],
+            "lim4": [-5.0,15.0,-3.0,60.0],
+            "lim5": [15.0,180.0,-10.0,60.0]
           }
         }
       }
