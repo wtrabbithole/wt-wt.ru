@@ -127,9 +127,9 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "tournament",
-      "scoreLimit": 10000,
+      "scoreLimit": 8000,
       "timeLimit": 60,
-      "deathPenaltyMul": 1.0,
+      "deathPenaltyMul": 0.0,
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
       "useAlternativeMapCoord": false,
       "allowedKillStreaks": true,
@@ -410,6 +410,7 @@
             "team": "A",
             "tags": {
               "air": true,
+              "type_bomber": false,
               "tank": false,
               "ship": false
             }
@@ -433,8 +434,77 @@
             "team": "B",
             "tags": {
               "air": true,
+              "type_bomber": false,
               "tank": false,
               "ship": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "target": "t2_bomber_spawn",
+            "team": "B",
+            "tags": {
+              "air": true,
+              "type_bomber": true,
+              "tank": false,
+              "ship": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "target": "t1_bomber_spawn",
+            "team": "A",
+            "tags": {
+              "air": true,
+              "type_bomber": true,
+              "tank": false,
+              "ship": false
+            }
+          }
+        },
+        {
+          "missionMarkAsExitZone": {
+            "army": 1,
+            "area_name": "t1_air_restore",
+            "enabled": true,
+            "tags": {
+              "air": true
+            }
+          }
+        },
+        {
+          "missionMarkAsExitZone": {
+            "army": 2,
+            "area_name": "t2_air_restore",
+            "enabled": true,
+            "tags": {
+              "air": true
             }
           }
         },
@@ -453,76 +523,6 @@
             "target": "t1_ai_ships_squad",
             "team": "B"
           }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "t1_briefing_spawnpoint_left",
-            "colorCode": "Team A"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "t1_briefing_spawnpoint_right",
-            "colorCode": "Team A"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "t2_briefing_spawnpoint_left",
-            "colorCode": "Team B"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "t2_briefing_spawnpoint_right",
-            "colorCode": "Team B"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "t1_shipspawn01",
-            "colorCode": "Team A"
-          }
-        },
-        {
-          "missionShowMapIcon": {
-            "show": true,
-            "iconName": "ui/gameuiskin#objective_destroyer",
-            "areaName": "t2_shipspawn01",
-            "colorCode": "Team B"
-          }
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t2_ai_ship07"
-            },
-            {
-              "object": "t2_ai_ship08"
-            },
-            {
-              "object": "t1_ai_ship08"
-            },
-            {
-              "object": "t1_ai_ship07"
-            },
-            {
-              "speed": 0.0
-            }
-          ]
         },
         {
           "unitSetProperties": [
@@ -561,7 +561,7 @@
       ],
       "else_actions": []
     },
-    "ai_ship_count": {
+    "t1_ai_ship_count": {
       "is_enabled": true,
       "comments": "",
       "props": {
@@ -571,7 +571,81 @@
       },
       "events": {
         "periodicEvent": {
-          "time": 1.0
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "t1_ai_ships_squad",
+          "var": "t1_ship_counter"
+        }
+      },
+      "actions": {
+        "gameMPChangeScore": {
+          "value": -1000,
+          "valueSystem": "amount",
+          "team": "A"
+        },
+        "varModify": {
+          "operator": "add",
+          "value": -1.0,
+          "var": "t1_ship_counter"
+        }
+      },
+      "else_actions": []
+    },
+    "t2_ai_ship_count": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "t2_ai_ships_squad",
+          "var": "t2_ship_counter"
+        }
+      },
+      "actions": {
+        "gameMPChangeScore": {
+          "value": -1000,
+          "valueSystem": "amount",
+          "team": "Both"
+        },
+        "varModify": {
+          "operator": "add",
+          "value": -1.0,
+          "var": "t2_ship_counter"
+        }
+      },
+      "else_actions": []
+    },
+    "ai_ship_indication": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.1
         }
       },
       "conditions": [],
@@ -599,68 +673,6 @@
           }
         }
       ],
-      "else_actions": []
-    },
-    "t1_win": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 5.0
-        }
-      },
-      "conditions": {
-        "unitWhenCountMatches": {
-          "object_type": "isActive",
-          "object_marking": 0,
-          "func": "less",
-          "value": 1,
-          "object": "t2_ai_ships_squad"
-        }
-      },
-      "actions": {
-        "gameMPChangeScore": {
-          "value": -10,
-          "valueSystem": "percentage",
-          "team": "B"
-        }
-      },
-      "else_actions": []
-    },
-    "t2_win": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 5.0
-        }
-      },
-      "conditions": {
-        "unitWhenCountMatches": {
-          "object_type": "isActive",
-          "object_marking": 0,
-          "func": "less",
-          "value": 1,
-          "object": "t1_ai_ships_squad"
-        }
-      },
-      "actions": {
-        "gameMPChangeScore": {
-          "value": -10,
-          "valueSystem": "percentage",
-          "team": "A"
-        }
-      },
       "else_actions": []
     }
   },
@@ -693,12 +705,8 @@
     }
   },
   "variables": {
-    "t1_kill_counter": 0,
-    "t1_kill_counter2": 0,
-    "t2_kill_counter": 0,
-    "t2_kill_counter2": 0,
-    "t1_score_ticket": 50,
-    "t2_score_ticket": 50
+    "t1_ship_counter": 8,
+    "t2_ship_counter": 8
   },
   "dialogs": [],
   "airfields": [],
@@ -2554,7 +2562,7 @@
         [800.0,0.0,0.0],
         [0.0,800.0,0.0],
         [0.0,0.0,800.0],
-        [-8000.0,1500.0,0.0]
+        [-8699.05,750.0,0.0]
       ],
       "objLayer": 0,
       "props": []
@@ -2565,7 +2573,7 @@
         [-800.0,0.0,-0.000183105],
         [0.0,800.0,0.0],
         [0.000183105,0.0,-800.0],
-        [8000.0,1500.0,0.0]
+        [7300.95,750.0,0.0]
       ],
       "objLayer": 0,
       "props": []
@@ -3338,6 +3346,61 @@
         [2467.5,0.0,1203.85]
       ],
       "objLayer": 3,
+      "props": []
+    },
+    "area_13": {
+      "type": "Sphere",
+      "tm": [
+        [20000.0,0.0,0.0],
+        [0.0,20000.0,0.0],
+        [0.0,0.0,20000.0],
+        [-720.2,11.1,-213.65]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "t1_air_restore": {
+      "type": "Cylinder",
+      "tm": [
+        [1500.0,0.0,0.0],
+        [0.0,6000.0,0.0],
+        [0.0,0.0,1500.0],
+        [-10718.6,0.0,-214.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_air_restore": {
+      "type": "Cylinder",
+      "tm": [
+        [1500.0,0.0,0.0],
+        [0.0,6000.0,0.0],
+        [0.0,0.0,1500.0],
+        [9272.7,0.0,-214.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_bomber_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [800.0,0.0,0.0],
+        [0.0,800.0,0.0],
+        [0.0,0.0,800.0],
+        [-8699.05,1500.0,0.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_bomber_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-800.0,0.0,-0.000183105],
+        [0.0,800.0,0.0],
+        [0.000183105,0.0,-800.0],
+        [7300.95,1500.0,0.0]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },

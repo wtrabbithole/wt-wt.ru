@@ -726,7 +726,14 @@
           "armorClass": "RHA_tank",
           "armorThickness": 5.0,
           "turret_02_dm": [],
-          "turret_01_dm": [],
+          "turret_01_dm": []
+        }
+      },
+      {
+        "turrets_main_caliber": {
+          "armorClass": "tank_barrel",
+          "armorThickness": 10.0,
+          "hp": 500.0,
           "main_caliber_turret_01_dm": [],
           "main_caliber_turret_02_dm": []
         }
@@ -879,14 +886,17 @@
           "armorThrough": 30.0,
           "fireProtectionHp": 5.0,
           "armorThickness": 15.0,
-          "genericDamageMult": 2.0,
+          "genericDamageMult": 15.0,
           "fireParamsPreset": "ship_engine",
           "pump_dm": [],
           "engine_01_dm": [],
           "engine_02_dm": [],
           "engine_03_dm": [],
           "transmission_01_dm": [],
-          "steering_gear_01_dm": []
+          "steering_gear_01_dm": {
+            "hp": 400.0,
+            "genericDamageMult": 1.0
+          }
         }
       },
       {
@@ -2556,7 +2566,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 1559
+            "bullets": 2000
           },
           {
             "allowableDelta": 1.0
@@ -2621,6 +2631,25 @@
             }
           },
           {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
+          },
+          {
             "limits": {
               "yaw": [-180.0,180.0],
               "pitch": [-5.0,90.0]
@@ -2680,7 +2709,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 1559
+            "bullets": 2000
           },
           {
             "allowableDelta": 1.0
@@ -2742,6 +2771,25 @@
               "gun": "main_caliber_gun_02",
               "barrel": "gun_barrel_02",
               "gunnerDm": "main_caliber_turret_02_dm"
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           },
           {

@@ -121,6 +121,32 @@
       ::broadcastEvent("ControlsMappingChanged", realMapping)
   }
 
+  cachedShortcutGroupMap = null
+  function getShortcutGroupMap()
+  {
+    if (!cachedShortcutGroupMap)
+    {
+      if (!("shortcutsList" in ::getroottable()))
+        return {}
+
+      local axisShortcutSuffixesList = []
+      foreach (axisShortcut in ::shortcutsAxisList)
+        if (axisShortcut.type == CONTROL_TYPE.AXIS_SHORTCUT)
+          axisShortcutSuffixesList.append(axisShortcut.id)
+
+      cachedShortcutGroupMap = {}
+      foreach (shortcut in ::shortcutsList)
+      {
+        if (shortcut.type == CONTROL_TYPE.SHORTCUT || shortcut.type == CONTROL_TYPE.AXIS)
+          cachedShortcutGroupMap[shortcut.id] <- shortcut.checkGroup
+        if (shortcut.type == CONTROL_TYPE.AXIS)
+          foreach (suffix in axisShortcutSuffixesList)
+            cachedShortcutGroupMap[shortcut.id + "_" + suffix] <- shortcut.checkGroup
+      }
+    }
+    return cachedShortcutGroupMap
+  }
+
   /* Commit controls to game client */
   function commitControls(fixMappingIfRequired = true)
   {
@@ -148,6 +174,8 @@
       params      = curPreset.params
       squarePairs = curPreset.squarePairs
     })
+
+    ::set_shortcuts_groups(::g_controls_manager.getShortcutGroupMap())
 
     isControlsCommitPerformed = false
   }

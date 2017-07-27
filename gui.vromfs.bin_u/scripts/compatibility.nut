@@ -358,9 +358,16 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   EII_REPAIR_BREACHES = 14
 
   run_reactive_gui = function () {}
+
+  set_shortcuts_groups = function(groupData) {}
 })
 
 //----------------------------wop_1_69_2_X---------------------------------//
 ::apply_compatibilities({
   INVALID_USER_ID = -1
+  
+  warbond_get_shop_levels = function(wbName, stageName)
+  {
+    return {"Original" : 0, "Special" : 0}
+  }
 })

@@ -1176,7 +1176,14 @@
           "ex_armor_01_dm": [],
           "ex_armor_turret_01_dm": [],
           "turret_01_dm": [],
-          "turret_02_dm": [],
+          "turret_02_dm": []
+        }
+      },
+      {
+        "turrets_main_caliber": {
+          "armorClass": "tank_barrel",
+          "armorThickness": 10.0,
+          "hp": 500.0,
           "main_caliber_turret_01_dm": {
             "armorThickness": 15.0
           },
@@ -1328,10 +1335,12 @@
         "gun": {
           "armorClass": "tank_barrel",
           "main_caliber_gun_01_dm": {
-            "armorThickness": 15.0
+            "armorThickness": 15.0,
+            "hp": 150.0
           },
           "main_caliber_gun_02_dm": {
-            "armorThickness": 15.0
+            "armorThickness": 15.0,
+            "hp": 150.0
           }
         }
       },
@@ -1367,13 +1376,16 @@
           "armorThrough": 30.0,
           "fireProtectionHp": 5.0,
           "armorThickness": 15.0,
-          "genericDamageMult": 2.0,
+          "genericDamageMult": 15.0,
           "fireParamsPreset": "ship_engine",
           "pump_dm": [],
           "engine_room_01_dm": [],
           "engine_room_02_dm": [],
           "transmission_01_dm": [],
-          "steering_gear_01_dm": []
+          "steering_gear_01_dm": {
+            "hp": 400.0,
+            "genericDamageMult": 1.0
+          }
         }
       },
       {
@@ -2730,7 +2742,7 @@
       "minCrewMemberAliveCount": 8,
       "sailor1": {
         "dmPart": "bridge_dm",
-        "role": "commander",
+        "role": "sailor",
         "crew": 7
       },
       "sailor2": {
@@ -3004,7 +3016,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 1559
+            "bullets": 2000
           },
           {
             "allowableDelta": 1.0
@@ -3147,7 +3159,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 1559
+            "bullets": 2000
           },
           {
             "allowableDelta": 1.0
@@ -3349,12 +3361,12 @@
   },
   {
     "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
+      "EngineName": "engine_shiplight01",
+      "EngineNameAi": "engine_shiplight_ai",
       "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
