@@ -2,7 +2,7 @@
   timersList = [
     {
       id = "repair_status"
-      color = "@white"
+      color = "#787878"
       icon = "#ui/gameuiskin#icon_repair_in_progress"
       needTimeText = true
     },

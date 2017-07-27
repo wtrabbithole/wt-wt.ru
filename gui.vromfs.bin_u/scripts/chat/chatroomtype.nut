@@ -18,7 +18,7 @@ enum chatRoomTabOrder {
 }
 
 ::g_chat_room_type.template <- {
-  typeName = ""
+  typeName = "" //Generic from type.
   roomPrefix = "#"
   checkOrder = chatRoomCheckOrder.CUSTOM
   tabOrder = chatRoomTabOrder.REGULAR
@@ -65,6 +65,7 @@ enum chatRoomTabOrder {
   hasChatHeader = false
   fillChatHeader = function(obj, roomData) {}
   updateChatHeader = function(obj, roomData) {}
+  isAllowed = @() true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_chat_room_type", {
@@ -75,6 +76,7 @@ enum chatRoomTabOrder {
     getTooltip = function(roomId) { return roomId.slice(1) }
     canCreateRoom = function() { return true }
     isVisibleInSearch = function() { return true }
+    isAllowed = @() ::ps4_is_ugc_enabled()
   }
 
   PRIVATE = {
@@ -253,7 +255,7 @@ enum chatRoomTabOrder {
       return ::handlersManager.loadHandler(::gui_handlers.ChatThreadsListView, { scene = scene, roomId = roomId })
     }
   }
-}, null, "_typeName")
+}, null, "typeName")
 
 ::g_chat_room_type.types.sort(function(a, b) {
   if (a.checkOrder != b.checkOrder)

@@ -435,6 +435,9 @@
         },
         "cover5_dm": {
           "hp": 19.5
+        },
+        "cover6_dm": {
+          "hp": 19.5
         }
       },
       "dural40": {
@@ -466,14 +469,14 @@
         "tailcontrol_dm": {
           "hp": 60.5
         },
+        "wingcontrol_dm": {
+          "hp": 39.5
+        },
         "wingcontrol_l_dm": {
-          "hp": 60.5
+          "hp": 60.4
         },
         "wingcontrol_r_dm": {
-          "hp": 60.5
-        },
-        "wingcontrol_dm": {
-          "hp": 60.5
+          "hp": 60.4
         }
       },
       "steel": {
@@ -489,6 +492,9 @@
           "hp": 11.5
         },
         "water1_dm": {
+          "hp": 17.5
+        },
+        "water2_dm": {
           "hp": 17.5
         }
       },
@@ -690,6 +696,11 @@
       {
         "part": {
           "name": "cover5_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover6_dm"
         }
       },
       {
@@ -1859,6 +1870,17 @@
       {
         "part": {
           "name": "water1_dm",
+          "onHit": {
+            "leak_water": 0.5
+          },
+          "onKill": {
+            "leak_water": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "water2_dm",
           "onHit": {
             "leak_water": 0.5
           },

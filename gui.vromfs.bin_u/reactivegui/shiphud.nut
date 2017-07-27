@@ -1,6 +1,8 @@
 local shipState = require("shipState.nut")
 local crewState = require("crewState.nut")
 
+const max_dost = 5
+
 local machineDirectionLoc = [
   ::loc("HUD/ENGINE_REV_BACK_SHORT")
   ::loc("HUD/ENGINE_REV_BACK_SHORT")
@@ -41,6 +43,7 @@ local images = {
   gunner = Picture("!ui/gameuiskin#ship_crew_gunner")
   driver = Picture("!ui/gameuiskin#ship_crew_driver")
 }
+
 
 local fontFxColor = Color(80, 80, 80)
 local fontFx = FFT_GLOW
@@ -91,6 +94,12 @@ local speed = function () {
 ///
 local dmModule = function (icon, count_total_state, count_broken_state) {
   return function () {
+    if (count_total_state.value == 0) {
+      return {
+        watch = count_total_state
+      }
+    }
+
     local color = Color(37, 46, 53, 80)
     if (count_total_state.value == count_broken_state.value)
       color = Color(221, 17, 17)
@@ -132,14 +141,30 @@ local dmModule = function (icon, count_total_state, count_broken_state) {
       }
     }
 
+
+    local text = @() {
+      rendObj = ROBJ_TEXT
+      color = count_broken_state.value > 0 ? Color(255, 255, 255) : Color(37, 46, 53, 80)
+      fontFx = fontFx
+      fontFxColor = fontFxColor
+      halign = HALIGN_CENTER
+      text = (count_total_state.value - count_broken_state.value) + "/" + count_total_state.value
+    }
+
     local children = [image]
-    if (count_total_state.value > 1)
-      children.append(dots)
+    if (count_total_state.value > 1) {
+      if (count_total_state.value < max_dost) {
+        children.append(dots)
+      } else {
+        children.append(text)
+      }
+    }
 
     return {
       size = SIZE_TO_CONTENT
       flow = FLOW_VERTICAL
       margin = [sh(0.7), 0]
+      halign = HALIGN_CENTER
       watch = [
         count_total_state
         count_broken_state

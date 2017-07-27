@@ -354,6 +354,9 @@ function g_squad_manager::joinSquadChatRoom()
   if (!isInSquad())
     return
 
+  if ( squadData.members.len() < 2 )
+    return
+
   if (!::gchat_is_connected())
     return
 

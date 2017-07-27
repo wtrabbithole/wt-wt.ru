@@ -155,6 +155,8 @@ function toString(val, recursion = 1, addStr = "")
         ret = ::format("BaseGuiHandler(sceneBlkName = %s)", ::toString(val.sceneBlkName))
       else if (("tostring" in val) && type(val.tostring) == "function")
         ret += ::format("instance: \"%s\"", val.tostring())
+      else
+        ret += "instance"
 
       if (recursion > 0)
         foreach (idx, v in val)

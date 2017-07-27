@@ -26,8 +26,7 @@ class WwMap
 
   function isVisible()
   {
-    return (getOpGroup().hasActiveOperations() || ::is_in_clan()) &&
-      (getChapterId() != "" || ::has_feature("worldWarShowTestMaps"))
+    return (getChapterId() != "" || ::has_feature("worldWarShowTestMaps"))
   }
 
   function getChapterId()
@@ -99,7 +98,7 @@ class WwMap
       local t = (c.deg - d) * 60
       local m  = t.tointeger()
       local s = (t - m) * 60
-      coords.append(::format("%d%s%02d%s%05.2f%s%s", d, ud, m, um, s, us, c.hem))
+      coords.append(::format("%d%s%02d%s%02d%s%s", d, ud, m, um, s, us, c.hem))
     }
     return ::implode(coords, ::loc("ui/comma"))
   }

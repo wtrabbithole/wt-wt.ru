@@ -1,10 +1,3 @@
-function Picture(name) {
-  local p = ::PictureHolder()
-  p.init(name)
-  return p
-}
-
-
 function max(a,b) {
   return a>b ? a : b
 }

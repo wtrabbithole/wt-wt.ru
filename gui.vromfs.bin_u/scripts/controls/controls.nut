@@ -906,6 +906,11 @@ function get_favorite_voice_message_option(index)
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
+    {
+      id="ID_SHIP_TOGGLE_GUNNERS"
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP, autobind = ["ID_TOGGLE_VIEW_GM"] }

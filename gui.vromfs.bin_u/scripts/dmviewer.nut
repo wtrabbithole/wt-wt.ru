@@ -645,6 +645,11 @@
             desc.push(::loc("bullet_properties/maxSpeedInWater") + ::loc("ui/colon") +
               ::g_measure_type.SPEED.getMeasureUnitsText(maxSpeedInWater))
 
+          local distanceToLive = ::getTblValue("distToLive", weaponBlk.torpedo)
+          if (distanceToLive)
+            desc.push(::loc("torpedo/distanceToLive") + ::loc("ui/colon") +
+              ::g_measure_type.DISTANCE.getMeasureUnitsText(distanceToLive))
+
           local diveDepth = getTblValueByPath("diveDepth", weaponBlk.torpedo)
           if(diveDepth)
             desc.push(::loc("bullet_properties/diveDepth") + ::loc("ui/colon") +

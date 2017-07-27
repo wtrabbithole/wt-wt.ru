@@ -15,16 +15,7 @@
       }, this)
 
     foreach (hudMessage in ::g_hud_messages.types)
-    {
-      ::g_hud_event_manager.subscribe(hudMessage.messageEvent, (@(hudMessage) function (eventData) {
-        hudMessage.onMessage(eventData)
-      })(hudMessage), this)
-
-      if (hudMessage.destroyEvent)
-        ::g_hud_event_manager.subscribe(hudMessage.destroyEvent, (@(hudMessage) function (eventData) {
-          hudMessage.onDestroy(eventData)
-        })(hudMessage), this)
-    }
+      hudMessage.subscribeHudEvents()
 
     initMessageNests()
   }
@@ -39,7 +30,7 @@
     timersNest = scene.findObject("hud_message_timers")
 
     foreach (hudMessage in ::g_hud_messages.types)
-      hudMessage.init(scene, guiScene, timersNest)
+      hudMessage.reinit(scene, guiScene, timersNest)
   }
 
   function clearMessageStacks()

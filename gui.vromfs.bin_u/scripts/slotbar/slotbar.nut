@@ -845,7 +845,7 @@ function get_slotbar_obj(handler=null, scene=null, canCreateObj = false)
   return slotbarObj
 }
 
-::defaultSlotbarActions <- [ "autorefill", "aircraft", "weapons", "crew","showroom", "rankinfo", "testflight", "info", "repair" ]
+::defaultSlotbarActions <- [ "autorefill", "aircraft", "weapons", "showroom", "rankinfo", "testflight", "crew", "info", "repair" ]
 
 function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCountry = null, params = {})
 {

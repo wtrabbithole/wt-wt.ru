@@ -419,13 +419,18 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (isItemTypeUnit(item.type))
       return updateUnitItem(item, itemObj)
 
-    ::weaponVisual.updateItem(air, item, itemObj, true, this, {canShowResearch = availableFlushExp == 0 && setResearchManually,
-                                                               flushExp = availableFlushExp,
-                                                               researchMode = researchMode})
-
+    local isVisualDisabled = false
     local visualItem = item
     if (item.type == weaponsItem.bundle)
       visualItem = ::weaponVisual.getBundleCurItem(air, item) || visualItem
+    if (::weaponVisual.isBullets(visualItem))
+      isVisualDisabled = !::is_bullets_group_active_by_mod(air, visualItem)
+
+    ::weaponVisual.updateItem(air, item, itemObj, true, this, {canShowResearch = availableFlushExp == 0 && setResearchManually,
+                                                               flushExp = availableFlushExp,
+                                                               researchMode = researchMode
+                                                               visualDisabled = isVisualDisabled
+                                                              })
 
     local upgradeImgNest = itemObj.findObject("image")
     if (upgradeImgNest && (visualItem.type == weaponsItem.weapon || visualItem.type == weaponsItem.primaryWeapon))

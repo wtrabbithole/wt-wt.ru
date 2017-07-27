@@ -64,8 +64,8 @@ local RocketAimLines = function(line_style) {
   ]
 }
 
-local HelicopterRocketAim = function(fg) {
-  local lines = fg ? RocketAimLines(style.lineForeground) : RocketAimLines(style.lineBackground)
+local HelicopterRocketAim = function(line_style) {
+  local lines = RocketAimLines(line_style)
 
   return {
     halign = HALIGN_CENTER
@@ -94,8 +94,8 @@ local FlightDirLines = function(line_style) {
 }
 
 
-local HelicopterFlightDirection = function(fg) {
-  local lines = fg ? FlightDirLines(style.lineForeground) : FlightDirLines(style.lineBackground)
+local HelicopterFlightDirection = function(line_style) {
+  local lines = FlightDirLines(line_style)
   return @(){
     size = [0, 0]
     behavior = Behaviors.RtPropUpdate
@@ -123,8 +123,8 @@ local GunDirLines = function(line_style) {
 }
 
 
-local HelicopterGunDirection = function(fg) {
-  local lines = fg ? GunDirLines(style.lineForeground) : GunDirLines(style.lineBackground)
+local HelicopterGunDirection = function(line_style) {
+  local lines = GunDirLines(line_style)
   return @() {
     size = [0, 0]
     halign = HALIGN_CENTER
@@ -267,7 +267,6 @@ local HelicopterVertSpeed = function(elemStyle) {
               text = ::math.floor(::interop.state.distanceToGround).tostring()
             }
             style = style.helicopterHudText
-            font = Fonts.hud // TODO: temporary fix, remove after getting font from style fixed
           }
         ]
       }

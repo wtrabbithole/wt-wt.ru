@@ -601,7 +601,11 @@ function is_unit_visible_in_shop(unit)
     if (langs)
       showOnlyBought = langs.find(::g_language.getLanguageName()) >= 0
   }
-  return !showOnlyBought || unit.isUsable()
+
+  local showOnlyWhenResearch = getTblValue("showOnlyWhenResearch", unit, false)
+  return unit.isUsable() ||
+    (!showOnlyBought &&
+    (!showOnlyWhenResearch || isUnitInResearch(unit) || getUnitExp(unit) > 0))
 }
 
 function can_crew_take_unit(unit)
@@ -1308,6 +1312,8 @@ function generate_unit_shop_info_common(air, air_blk, prev_air)
     && !::has_platform_from_blk_str(air_blk, "hideByPlatform", false)
 
   air.showOnlyWhenBought <- !isVisibleUnbought
+
+  air.showOnlyWhenResearch <- air_blk.showOnlyWhenResearch
 
   if (isVisibleUnbought && ::u.isString(air_blk.hideForLangs))
     air.hideForLangs <- ::split(air_blk.hideForLangs, "; ")

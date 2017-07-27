@@ -47,7 +47,10 @@ foreach (notificationName, callback in
               {
                 local userId = ::getTblValue("userId", params, "")
                 if (userId.tostring() != ::my_user_id_str)
+                {
                   ::g_squad_manager.addMember(userId.tostring())
+                  ::g_squad_manager.joinSquadChatRoom()
+                }
               },
 
             ["msquad.notify_member_leaved"] = function(params)

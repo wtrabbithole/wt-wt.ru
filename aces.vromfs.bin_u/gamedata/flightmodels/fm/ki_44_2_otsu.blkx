@@ -120,8 +120,8 @@
   "Aerodynamics": {
     "AileronCd": [0.015,0.0027],
     "GearCd": 0.035,
-    "RadiatorCd": 0.005,
-    "OilRadiatorCd": 0.005,
+    "RadiatorCd": 0.003,
+    "OilRadiatorCd": 0.002,
     "FuseCd": 0.0,
     "AirbrakeCd": 0.0,
     "CockpitDoorCd": 0.007,
@@ -129,7 +129,7 @@
     "UseSpinLoss": true,
     "SpinClLoss": 0.2,
     "SpinCdLoss": 0.04,
-    "OswaldsEfficiencyNumber": 0.54,
+    "OswaldsEfficiencyNumber": 0.8,
     "lineClCoeff": 0.078,
     "AfterCritParabAngle": 3.0,
     "AfterCritDeclineCoeff": 0.03,
@@ -177,7 +177,7 @@
       "alphaCritLow": -17.7,
       "ClCritHigh": 1.41,
       "ClCritLow": -0.528,
-      "CdMin": 0.012
+      "CdMin": 0.0113
     },
     "FullFlaps": {
       "Cl0": 0.6,
@@ -372,9 +372,9 @@
       "PropPhi0": 19.04,
       "PropWidth0": 0.12,
       "PropPhi1": 8.84,
-      "PropWidth1": 0.2,
+      "PropWidth1": 0.22,
       "PropPhi2": 0.0,
-      "PropWidth2": 0.16,
+      "PropWidth2": 0.19,
       "PropPhi3": -8.41,
       "PropWidth3": 0.1,
       "InertiaMomentCoeff": 1.0,
@@ -431,9 +431,9 @@
         "MultLimit4": 0.25,
         "MachCrit5": 0.01,
         "MachMax5": 0.02,
-        "MultMachMax5": 2.5,
+        "MultMachMax5": 6.4,
         "MultLineCoeff5": 1.0,
-        "MultLimit5": 2.5,
+        "MultLimit5": 6.4,
         "MachCrit6": 0.0,
         "MachMax6": 0.0,
         "MultMachMax6": 0.0,
@@ -630,16 +630,16 @@
     }
   },
   "Mass": {
-    "EmptyMass": 2238.0,
+    "EmptyMass": 2015.0,
     "MaxFuelMass0": 378.75,
-    "FuelAccumulatorCapacity0": 1.9,
+    "FuelAccumulatorCapacity0": 0.3,
     "MinimalLoadFactor": 0.0,
     "FuelAccumulatorFlowRate": 0.38,
     "MaxNitro": 110.0,
     "OilMass": 50.0,
     "AdvancedMass": false,
     "SeparateFuelTanks": false,
-    "Takeoff": 3024.0,
+    "Takeoff": 3000.0,
     "CenterOfGravity": [-0.15,0.0,0.0],
     "WingCritOverload": [-105822.0,158733.0],
     "GearDestructionIndSpeed": 300.0,
@@ -648,7 +648,6 @@
     "FlapsDestructionIndSpeedP2": [0.4,400.0],
     "FlapsDestructionIndSpeedP3": [1.0,250.0],
     "Parts": {
-      "cover2_dm": 18.2441,
       "tail_dm": 34.7169,
       "aileron_l_dm": 32.9683,
       "wing_l_dm": 105.973,
@@ -675,6 +674,7 @@
       "fin_dm": 20.9314,
       "elevator_dm": 29.2235,
       "stab_dm": 69.6305,
+      "cover2_dm": 18.2441,
       "pilot_dm": 16.9592,
       "mgun2_dm": 5.5202,
       "oil2_dm": 2.8737,
@@ -687,13 +687,11 @@
     },
     "PartsWithSurface": {
       "gear_c_dm": 2.0124,
-      "cover5_dm": 4.5086,
-      "cover4_dm": 4.5086,
-      "cover3_dm": 6.5166,
-      "armor2_dm": 1.6912,
-      "armor1_dm": 15.0402,
-      "cannon2_dm": 31.0517,
-      "cannon1_dm": 31.2794,
+      "mgun4_dm": 9.272,
+      "mgun3_dm": 9.272,
+      "cover3_dm": 3.7047,
+      "armor2_dm": 0.9614,
+      "armor1_dm": 8.5504,
       "wingcontrol_dm": 1.1241
     }
   },
@@ -709,7 +707,7 @@
   },
   "Gear": {
     "SinkFactor": 800.0,
-    "SinkRateMult": 1.0104,
+    "SinkRateMult": 1.0106,
     "WaterFriction": 1.0,
     "WaterFrictionDefault": 10.0,
     "UseCenterOfGravity": false,
@@ -794,6 +792,63 @@
         "maxSpeedWep": [7000.0,551.88]
       },
       {
+        "optClimbSpeedNom": [0.0,278.409]
+      },
+      {
+        "optClimbSpeedNom": [304.878,278.409]
+      },
+      {
+        "optClimbSpeedNom": [609.756,278.409]
+      },
+      {
+        "optClimbSpeedNom": [914.634,276.799]
+      },
+      {
+        "optClimbSpeedNom": [1524.39,273.581]
+      },
+      {
+        "optClimbSpeedNom": [1981.71,270.362]
+      },
+      {
+        "optClimbSpeedNom": [3048.78,262.316]
+      },
+      {
+        "optClimbSpeedNom": [3658.54,259.097]
+      },
+      {
+        "optClimbSpeedNom": [4268.29,254.269]
+      },
+      {
+        "optClimbSpeedNom": [4573.17,252.66]
+      },
+      {
+        "optClimbSpeedNom": [5030.49,249.441]
+      },
+      {
+        "optClimbSpeedNom": [5487.81,246.223]
+      },
+      {
+        "optClimbSpeedNom": [6097.56,243.004]
+      },
+      {
+        "optClimbSpeedNom": [7012.2,233.348]
+      },
+      {
+        "optClimbSpeedNom": [7926.83,223.692]
+      },
+      {
+        "optClimbSpeedNom": [8536.59,217.255]
+      },
+      {
+        "optClimbSpeedNom": [9146.34,210.818]
+      },
+      {
+        "optClimbSpeedNom": [10061.0,202.772]
+      },
+      {
+        "optClimbSpeedNom": [10670.7,199.553]
+      },
+      {
         "minClimbTimeNom": [0.0,0.0]
       },
       {
@@ -858,6 +913,6 @@
     ]
   },
   "Test": {
-    "mass": 3024.0
+    "mass": 3000.0
   }
 }

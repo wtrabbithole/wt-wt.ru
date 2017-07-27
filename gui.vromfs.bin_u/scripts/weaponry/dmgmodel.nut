@@ -198,7 +198,8 @@ function g_dmg_model::initRicochetDataOnce()
   for (local i = 0; i < typesList.blockCount(); i++)
   {
     local presetBlk = typesList.getBlock(i)
-    ricochetDataByBulletType[presetBlk.getBlockName()] <- getRicochetDataByPreset(presetBlk, ricBlk, normBlk, defaultData)
+    local bulletType = presetBlk.getBlockName()
+    ricochetDataByBulletType[bulletType] <- getRicochetDataByPreset(presetBlk, ricBlk, normBlk, defaultData)
   }
 }
 

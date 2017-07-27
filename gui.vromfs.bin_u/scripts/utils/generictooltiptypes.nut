@@ -285,14 +285,7 @@
         return false
 
       local modName = ::getTblValue("modName", params, "")
-      local mod = ::getModificationByName(unit, modName)
-      if (!mod)
-      {
-        // Attempt to get modification from group index (e.g. default modification).
-        local groupIndex = ::get_bullet_group_index(unit.name, modName)
-        if (groupIndex >= 0)
-          mod = { name = modName, isDefaultForGroup = groupIndex }
-      }
+      local mod = ::getModificationByName(unit, modName, true)
       if (!mod)
         return false
 

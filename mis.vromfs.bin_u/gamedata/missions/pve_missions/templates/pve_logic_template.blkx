@@ -799,33 +799,13 @@
           "time": 0.01
         }
       },
-      "conditions": [
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isActive",
-            "object_marking": 0,
-            "func": "more",
-            "value": 0,
-            "object": "artillery_squad"
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "equal",
-            "value": 0,
-            "object": "all_enemy_units"
-          }
-        },
-        {
-          "varCompareInt": {
-            "var_value": "wave_number_overall_counter",
-            "value": 0,
-            "comparasion_func": "equal"
-          }
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "wave_number_overall_counter",
+          "value": 0,
+          "comparasion_func": "notMore"
         }
-      ],
+      },
       "actions": [
         {
           "triggerDisable": {
@@ -2567,6 +2547,14 @@
             }
           },
           {
+            "varSetRandomInt": {
+              "var": "random_int",
+              "from": 1,
+              "to_not_including": 10,
+              "var_to_not_including": "route_counter_int"
+            }
+          },
+          {
             "triggerEnable": [
               {
                 "target": "random_spawns_counter"
@@ -2618,14 +2606,6 @@
               "operator": "add",
               "value": 1.0,
               "var": "num_of_direction_counter_int"
-            }
-          },
-          {
-            "varSetRandomInt": {
-              "var": "random_int",
-              "from": 1,
-              "to_not_including": 10,
-              "var_to_not_including": "route_counter_int"
             }
           },
           {
@@ -2723,15 +2703,7 @@
           },
           "triggerEnable": {
             "target": "previous_wave_type_is_dead"
-          },
-          "triggerDisable": [
-            {
-              "target": "random_spawns_counter"
-            },
-            {
-              "target": "random_spawns_counter_continuation"
-            }
-          ]
+          }
         }
       },
       "random_spawns_counter_continuation": {
@@ -2892,7 +2864,7 @@
           },
           {
             "triggerEnable": {
-              "target": "random_spawns_counter"
+              "target": "generate_new_direction"
             }
           }
         ],
@@ -2967,10 +2939,91 @@
           },
           {
             "triggerEnable": {
-              "target": "random_spawns_counter"
+              "target": "generate_new_direction"
             }
           }
         ]
+      },
+      "generate_new_direction": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.01
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varSetRandomInt": {
+            "var": "random_int_add",
+            "from": 1,
+            "to_not_including": 4
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 0.0,
+            "var": "random_int",
+            "use_variable": true,
+            "var_value": "random_int_add"
+          },
+          "triggerEnable": {
+            "target": "generate_new_direction_check"
+          }
+        },
+        "else_actions": []
+      },
+      "generate_new_direction_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.01
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "random_int",
+            "value": 0,
+            "comparasion_func": "notLess",
+            "var_value_other": "route_counter_int"
+          }
+        },
+        "actions": [
+          {
+            "varModify": {
+              "operator": "subAB",
+              "value": 0.0,
+              "var": "random_int",
+              "use_variable": true,
+              "var_value": "route_counter_int"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "random_int"
+            }
+          }
+        ],
+        "else_actions": {
+          "triggerEnable": {
+            "target": "random_spawns_counter"
+          },
+          "triggerDisable": {
+            "target": "generate_new_direction_check"
+          }
+        }
       },
       "route_giver_trigger": {
         "is_enabled": true,
@@ -3544,7 +3597,8 @@
             "object": "enemy_air_assaults",
             "target": "players_squad",
             "fireRandom": true,
-            "weaponType": "auto"
+            "weaponType": "auto",
+            "keepDeadUnitsInTargetList": true
           }
         },
         "else_actions": []
@@ -3618,7 +3672,8 @@
     "airunits_in_wave_int": 0,
     "airUnitCountDiv": 10,
     "wave_number_overall_counter": 0,
-    "airUnitAdd": 1
+    "airUnitAdd": 1,
+    "random_int_add": 0
   },
   "dialogs": [],
   "airfields": [],

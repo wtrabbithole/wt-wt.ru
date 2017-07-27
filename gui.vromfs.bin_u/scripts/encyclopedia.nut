@@ -91,6 +91,8 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
     {
       local w = article.imgSize[0]
       local h = article.imgSize[1]
+      local maxWidth = guiScene.calcString("1@rw", null).tointeger()
+      local maxHeight = (maxWidth * (h.tofloat()/w)).tointeger()
       local sizeText = (w >= h)? ["0.333p.p.p.w - 8@imgFramePad", h + "/" + w + "w"] : [w + "/" + h + "h", "0.333p.p.p.w - 8@imgFramePad"]
       foreach(imageName in article.images)
       {
@@ -98,7 +100,7 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
         if (::check_image_exist(image, "Error: not found encyclopedia image %s"))
           data += format("imgFrame { img { width:t='%s'; height:t='%s'; max-width:t='%d'; max-height:t='%d'; " +
                          " background-image:t='%s'; click_to_resize:t='yes' }} ",
-                         sizeText[0], sizeText[1], w, h,
+                         sizeText[0], sizeText[1], maxWidth, maxHeight,
                          image)
       }
     }

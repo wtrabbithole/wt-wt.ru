@@ -625,6 +625,7 @@ function load_scripts_after_login()
     "crew/crewTakeUnitProcess.nut"
 
     "slotbar/slotbarPresets.nut"
+    "slotbar/slotbarPresetsWnd.nut"
     "vehicleRequireFeatureWindow.nut"
     "slotbar/slotbarPresetsTutorial.nut"
     "slotInfoPanel.nut"
@@ -633,6 +634,7 @@ function load_scripts_after_login()
     "unit/unitInfoType.nut"
     "unit/unitInfoExporter.nut"
 
+    "hud/hudEventManager.nut"
     "hud/hudVisMode.nut"
     "hud/baseUnitHud.nut"
     "hud/hud.nut"
