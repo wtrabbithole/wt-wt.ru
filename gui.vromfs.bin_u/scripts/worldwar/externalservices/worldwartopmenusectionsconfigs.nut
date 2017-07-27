@@ -17,7 +17,7 @@
     buttons = [
       [
         ::g_top_menu_buttons.WW_OPERATIONS
-        ::g_top_menu_buttons.HANGAR
+        ::g_top_menu_buttons.WW_HANGAR
       ]
     ]
   }

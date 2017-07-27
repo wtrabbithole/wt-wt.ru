@@ -36,6 +36,11 @@ frame {
     flow:t='vertical'
 
     <<#unitString>>
+      <<#unitClassText>>
+        textareaNoTab {
+          text:t='#worldwar/airfield/<<unitClassText>>'
+        }
+      <</unitClassText>>
       frameBlock {
         id:t='<<unitName>>_<<armyGroupIdx>>'
         margin-top:t='1@framePadding'
@@ -73,21 +78,17 @@ frame {
     <</unitString>>
   }
 
-  tdiv {
-    width:t='pw'
-    padding:t='1@framePadding, 1@framePadding, 1@framePadding, 0'
-    flow:t='vertical'
+  textareaNoTab {
+    id:t='unit_fly_conditions_title'
+    tinyFont:t='yes'
+    margin-top:t='1@framePadding'
+    text:t='#worldwar/airfield/unit_fly_conditions'
+  }
 
-    textareaNoTab {
-      id:t='unit_fly_conditions_title'
-      tinyFont:t='yes'
-      text:t='#worldwar/airfield/unit_fly_conditions'
-    }
-    textareaNoTab {
-      id:t='unit_fly_conditions_text'
-      tinyFont:t='yes'
-      text:t=''
-    }
+  textareaNoTab {
+    id:t='unit_fly_conditions_text'
+    tinyFont:t='yes'
+    text:t=''
   }
 
   navBar{}

@@ -1,20 +1,39 @@
 tdiv {
   width:t='pw'
-  margin-top:t='0.02@scrn_tgt'
+  margin:t='1@wwWindowListBackgroundPadding'
+  flow:t='vertical'
 
   <<#haveUnitsList>>
+  textareaNoTab {
+    <<#invert>>
+      left:t='pw-w'; position:t='relative'
+    <</invert>>
+    text:t='#worldwar/available_crafts'
+  }
   tdiv {
     flow:t='vertical'
-
-    activeText { text:t='#worldwar/available_crafts' }
-
     <<#invert>>
-      pos:t='pw-w-1.5@wwWindowListBackgroundPadding, 0'; position:t='relative'
-    <</invert>>
-    <<^invert>>
-      pos:t='1.5@wwWindowListBackgroundPadding, 0'; position:t='relative'
+      left:t='pw-w'; position:t='relative'
     <</invert>>
     <<@unitsList>>
   }
   <</haveUnitsList>>
+
+  <<#haveAIUnitsList>>
+  textareaNoTab {
+    <<#invert>>
+      left:t='pw-w'; position:t='relative'
+    <</invert>>
+    margin-top:t='1@wwWindowListBackgroundPadding'
+    text:t='#worldwar/unit/controlledByAI'
+    overlayTextColor:t='disabled'
+  }
+  tdiv {
+    flow:t='vertical'
+    <<#invert>>
+      left:t='pw-w'; position:t='relative'
+    <</invert>>
+    <<@aiUnitsList>>
+  }
+  <</haveAIUnitsList>>
 }

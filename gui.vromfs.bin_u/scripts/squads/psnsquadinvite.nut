@@ -82,7 +82,7 @@ function checkSquadInvitesFromPS4Friends(checkNewPS4Invitation = true, contProce
     return
   }
 
-  ::broadcastEvent("PS4AvailableNewInvite", {itemId = itemId})
+  ::broadcastEvent("PS4AvailableNewInvite")
 
   if (::is_in_loading_screen() || !::g_login.isLoggedIn() || !::gchat_is_connected())
     return

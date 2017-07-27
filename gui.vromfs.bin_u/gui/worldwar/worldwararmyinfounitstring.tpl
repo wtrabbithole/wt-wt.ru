@@ -1,9 +1,14 @@
 <<#unitString>>
+<<#isShow>>
 tdiv {
   width:t='pw'
   <<#hasSpaceBetweenUnits>>
   height:t='1@unitStringHeight'
   <</hasSpaceBetweenUnits>>
+
+  <<#isControlledByAI>>
+  includeTextColor:t='disabled'
+  <</isControlledByAI>>
 
   <<^reflect>>
     padding-left:t='3@dp'
@@ -32,7 +37,6 @@ tdiv {
       <</icon>>
 
       textareaNoTab {
-        width:t='fw'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
         pare-text:t='yes'
@@ -80,7 +84,6 @@ tdiv {
 
     <<#isShow>>
       textareaNoTab {
-        width:t='fw'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
         pare-text:t='yes'
@@ -123,4 +126,5 @@ tdiv {
   }
   <</tooltipId>>
 }
+<</isShow>>
 <</unitString>>

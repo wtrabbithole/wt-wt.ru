@@ -321,10 +321,10 @@ class Events
   /**
    * Returns list of events for game mode select menu
    */
-  function getRandomBattlesEvents()
+  function getEventsForGcDrawer()
   {
     return getEventsList(EVENT_TYPE.ANY & (~EVENT_TYPE.NEWBIE_BATTLES),
-                         function(event) { return isEventRandomBattles(event) && isEventActive(event) })
+      @(event) getEventDisplayType(event).showInGamercardDrawer && isEventActive(event))
   }
 
   function getEventType(event)
@@ -1524,6 +1524,11 @@ class Events
     return ("endTime" in event)? countEventTime(event.endTime) : 0
   }
 
+  function getEventUiSortPriority(event)
+  {
+    return ::getTblValue("uiSortPriority", event, 0)
+  }
+
   function hasEventEndTime(event)
   {
     return "endTime" in event
@@ -1719,8 +1724,7 @@ class Events
       return false
     if (::isInArray(event.name, ::event_ids_for_main_game_mode_list))
       return true
-    local displayType = ::events.getEventDisplayType(event)
-    return displayType.showInGamercardDrawer
+    return getEventDisplayType(event).canBeSelectedInGcDrawer()
   }
 
   function isEventRandomBattlesById(eventId)

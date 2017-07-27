@@ -73,12 +73,42 @@
         },
         {
           "textareaNoTab": {
+            "id": "clans_condition_text",
+            "pos": "(pw-w)/2, 5*@sf/@pf",
+            "position": "relative",
+            "hideEmptyText": "yes",
+            "tinyFont": "yes",
+            "overlayTextColor": "active",
+            "text": ""
+          }
+        },
+        {
+          "textareaNoTab": {
             "id": "item_status_text",
             "pos": "(pw-w)/2, 5*@sf/@pf",
             "position": "relative",
             "hideEmptyText": "yes",
             "tinyFont": "yes",
             "text": ""
+          }
+        },
+        {
+          "textareaNoTab": {
+            "id": "available_text",
+            "pos": "(pw-w)/2, 5*@sf/@pf",
+            "position": "relative",
+            "margin-top": "2@framePadding",
+            "hideEmptyText": "yes",
+            "tinyFont": "yes",
+            "text": ""
+          }
+        },
+        {
+          "dummy": {
+            "id": "ww_map_description_timer",
+            "behavior": "Timer",
+            "timer_handler_func": "onTimerDescriptionUpdate",
+            "timer_interval_msec": "1000"
           }
         }
       ]

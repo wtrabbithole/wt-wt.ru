@@ -119,13 +119,14 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     foreach (mapId, map in mapsTbl)
     {
       local chapterId = map.getChapterId()
+      local chapterObjId = getChapterObjId(map)
 
       if (!(chapterId in mapsByChapter))
       {
         local title = map.getChapterText()
         local weight = chapterId == "" ? 0 : 1
         local view = {
-          id = "chapter_" + chapterId
+          id = chapterObjId
           itemTag = "ww_map_item"
           itemText = title
           itemClass = "header"
@@ -133,7 +134,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         }
 
         if (map.isDebugChapter())
-          collapsedChapters.append("chapter_" + chapterId)
+          collapsedChapters.append(chapterObjId)
 
         local mapsList = []
         chaptersList.append({ weight = weight, title = title, view = view, mapsList = mapsList })
@@ -146,7 +147,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
           id = ::format(formatCheckboxMapCountry, mapId, countryId)
           useImage = ::get_country_icon(countryId)
           value = map.getQueue().isMyClanJoined(countryId)
-          onChangeValue = "onMapCountrySelect"
+          funcName = "onMapCountrySelect"
         })
 
       local title = map.getNameText()
@@ -158,6 +159,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         itemText = title
         hasWaitAnim = true
         checkbox = countries
+        isActive = map.isActive()
       }
       mapsByChapter[chapterId].append({ weight = weight, title = title, view = view, map = map })
     }
@@ -203,7 +205,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     onItemSelect()
 
     foreach (id in collapsedChapters)
-      onCollapse(mapsListObj.findObject("btn_" + id))
+      if (!selMap || getChapterObjId(selMap) != id)
+        onCollapse(mapsListObj.findObject("btn_" + id))
 
     isFillingList = false
   }
@@ -346,7 +349,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
           id = objIdPrefixSelectAllCountry + countryId
           useImage = ::get_country_icon(countryId)
           value = countryData[countryId].selected
-          onChangeValue = "onCountrySelectAll"
+          funcName = "onCountrySelectAll"
         })
 
     local view = { checkbox = countries }
@@ -390,7 +393,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       local objChk = scene.findObject(::format(formatCheckboxMapCountry, mapId, countryId))
       if (::checkObj(objChk))
       {
-        if (objChk.getValue() != newValue)
+        if (objChk.getValue() != newValue && map.isActive())
           objChk.setValue(newValue)
         if (newValue)
           selected++
@@ -441,7 +444,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     return mode == WW_OM_WND_MODE.PLAYER &&
            ::has_feature("WorldWarClansQueue") &&
            ::has_feature("Clans") &&
-           ::is_in_clan()
+           ::is_in_clan() && selMap && selMap.isActive()
   }
 
   function updateButtons()
@@ -513,7 +516,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     foreach (mapId, map in mapsTbl)
     {
-      local canJoin = map.getQueue().getCantJoinQueueReasonData().canJoin
+      local canJoin = map.isActive() && map.getQueue().getCantJoinQueueReasonData().canJoin
       local obj = ::showBtn(objIdPrefixCountriesOfMap + mapId, show, mapsListObj)
       if (obj)
         obj.enable(isQueueJoiningEnabled && canJoin)
@@ -581,6 +584,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     }
 
     return ""
+  }
+
+  function getChapterObjId(map)
+  {
+    return "chapter_" + map.getChapterId()
   }
 
   function onClansQueue()

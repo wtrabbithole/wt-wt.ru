@@ -356,11 +356,18 @@ ww_map_item mission_item_text {
   color:@commonTextColor;
   font:@small;
 }
+ww_map_item mission_item_text[overlayTextColor=disabled] {
+  color:@disabledTextColor;
+}
 ww_map_item.header mission_item_text {
   font:@normal;
 }
 ww_map_item[selected=yes] mission_item_text, ww_map_item:hover mission_item_text {
   color:@activeTextColor;
+}
+ww_map_item[selected=yes] mission_item_text[overlayTextColor=disabled],
+ww_map_item:hover mission_item_text[overlayTextColor=disabled] {
+  color:@disabledTextColor;
 }
 
 ww_map_item.header mission_item_text {

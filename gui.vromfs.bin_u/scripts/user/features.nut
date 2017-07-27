@@ -3,6 +3,7 @@
                // not in this list are false
     SpendGold = true
     CrewSkills = true
+    CrewBuyAllSkills = false
     UserLog = true
     Voice = true
     Friends = true

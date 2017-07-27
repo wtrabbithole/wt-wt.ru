@@ -210,4 +210,14 @@ class WwQueue
     requestBlk.mapName = map.name
     ::g_ww_global_status.actionRequest("cln_ww_unregister_army_group", requestBlk, { showProgressBox = true })
   }
+
+  function getChangeStateTimeText()
+  {
+    return map.getChangeStateTimeText()
+  }
+
+  function getClansConditionText()
+  {
+    return map.getClansConditionText()
+  }
 }

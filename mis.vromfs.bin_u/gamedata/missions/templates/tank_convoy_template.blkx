@@ -128,9 +128,9 @@
         },
         {
           "missionShowMapIcon": {
-            "areaName": "@current_waypoint_str",
             "show": true,
-            "iconName": "ui/gameuiskin#radar_object_waypoint"
+            "iconName": "ui/gameuiskin#radar_object_waypoint",
+            "areaName": "@current_waypoint_str"
           }
         },
         {
@@ -200,9 +200,9 @@
           "fromDescriptor": "aiTargetCount_teamA"
         },
         "missionShowMapIcon": {
-          "areaName": "@last_waypoint",
           "show": true,
-          "iconName": "ui/gameuiskin#radar_object_waypoint"
+          "iconName": "ui/gameuiskin#radar_object_waypoint",
+          "areaName": "@last_waypoint"
         },
         "triggerEnable": [
           {
@@ -220,9 +220,9 @@
           "fromDescriptor": "aiTargetCount_teamB"
         },
         "missionShowMapIcon": {
-          "areaName": "@last_waypoint",
           "show": true,
-          "iconName": "ui/gameuiskin#radar_object_waypoint"
+          "iconName": "ui/gameuiskin#radar_object_waypoint",
+          "areaName": "@last_waypoint"
         },
         "triggerEnable": [
           {
@@ -412,9 +412,9 @@
         },
         {
           "missionShowMapIcon": {
-            "areaName": "@linPointStr_next",
             "show": true,
-            "iconName": "ui/gameuiskin#radar_object_waypoint"
+            "iconName": "ui/gameuiskin#radar_object_waypoint",
+            "areaName": "@linPointStr_next"
           }
         }
       ],
@@ -488,9 +488,9 @@
         },
         {
           "missionShowMapIcon": {
-            "areaName": "@linPointStr_next",
             "show": true,
-            "iconName": "ui/gameuiskin#radar_object_waypoint"
+            "iconName": "ui/gameuiskin#radar_object_waypoint",
+            "areaName": "@linPointStr_next"
           }
         }
       ],
@@ -615,9 +615,9 @@
         },
         {
           "missionShowMapIcon": {
-            "areaName": "@prev_waypoint_str",
             "show": false,
-            "iconName": "ui/gameuiskin#radar_object_waypoint"
+            "iconName": "ui/gameuiskin#radar_object_waypoint",
+            "areaName": "@prev_waypoint_str"
           }
         }
       ],
@@ -642,64 +642,120 @@
           "equal": true
         }
       },
-      "actions": {
-        "gameMPChangeScore": {
-          "value": 0,
-          "valueSystem": "amount",
-          "var": "waypoint_reached_penalty",
-          "team": "B"
+      "actions": [
+        {
+          "gameMPChangeScore": {
+            "value": 0,
+            "valueSystem": "amount",
+            "var": "waypoint_reached_penalty",
+            "team": "B"
+          }
         },
-        "missionMarkAsRespawnPoint": {
-          "loc_name": "missions/spawn",
-          "spawnEffect": false,
-          "isStrictSpawn": false,
-          "isAirfield": false,
-          "isUnit": false,
-          "useExisting": false,
-          "isIndividual": false,
-          "removeAreas": false,
-          "canSpawnOnNeutral": false,
-          "showOnMap": true,
-          "offset": [0.0,0.0,100.0],
-          "radius": 50.0,
-          "target": "@current_waypoint_str",
-          "team": "A",
-          "tags": {
-            "type_bomber": false,
-            "type_fighter": false,
-            "type_assault": false
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,100.0],
+            "radius": 50.0,
+            "target": "@prev_waypoint_str",
+            "team": "A",
+            "disableAfter": 0,
+            "tags": {
+              "type_bomber": false,
+              "type_fighter": false,
+              "type_assault": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,100.0],
+            "radius": 50.0,
+            "target": "@current_waypoint_str",
+            "team": "A",
+            "tags": {
+              "type_bomber": false,
+              "type_fighter": false,
+              "type_assault": false
+            }
           }
         }
-      },
-      "else_actions": {
-        "gameMPChangeScore": {
-          "value": 0,
-          "valueSystem": "amount",
-          "var": "waypoint_reached_penalty",
-          "team": "A"
+      ],
+      "else_actions": [
+        {
+          "gameMPChangeScore": {
+            "value": 0,
+            "valueSystem": "amount",
+            "var": "waypoint_reached_penalty",
+            "team": "A"
+          }
         },
-        "missionMarkAsRespawnPoint": {
-          "loc_name": "missions/spawn",
-          "spawnEffect": false,
-          "isStrictSpawn": false,
-          "isAirfield": false,
-          "isUnit": false,
-          "useExisting": false,
-          "isIndividual": false,
-          "removeAreas": false,
-          "canSpawnOnNeutral": false,
-          "showOnMap": true,
-          "offset": [0.0,0.0,0.0],
-          "radius": -1.0,
-          "target": "@current_waypoint_str",
-          "team": "B",
-          "tags": {
-            "type_bomber": false,
-            "type_fighter": false,
-            "type_assault": false
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "target": "@prev_waypoint_str",
+            "team": "B",
+            "disableAfter": 0,
+            "tags": {
+              "type_bomber": false,
+              "type_fighter": false,
+              "type_assault": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "target": "@current_waypoint_str",
+            "team": "B",
+            "tags": {
+              "type_bomber": false,
+              "type_fighter": false,
+              "type_assault": false
+            }
           }
         }
-      }
+      ]
     },
     "convoy_unit_killed": {
       "is_enabled": false,

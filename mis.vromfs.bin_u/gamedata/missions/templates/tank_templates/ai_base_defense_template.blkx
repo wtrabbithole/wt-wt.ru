@@ -95,6 +95,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_zoneDef_sq"
             },
             {
@@ -185,6 +188,9 @@
       },
       "actions": {
         "unitSetProperties": [
+          {
+            "object_marking": 0
+          },
           {
             "object": "t1_zoneDef_sq"
           },
@@ -319,6 +325,9 @@
               "set": true
             },
             {
+              "target_marking": 0
+            },
+            {
               "target": "t1_zoneDef_sq"
             },
             {
@@ -415,6 +424,9 @@
       "actions": [
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_artillery_sq"
             },
@@ -570,6 +582,9 @@
               "set": true
             },
             {
+              "target_marking": 0
+            },
+            {
               "target": "t1_artillery_sq"
             },
             {
@@ -666,6 +681,9 @@
       "actions": [
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_ai_tank_sq"
             },
@@ -822,6 +840,9 @@
           "unitSetIndication": [
             {
               "set": true
+            },
+            {
+              "target_marking": 0
             },
             {
               "target": "t1_ai_tank_sq"
@@ -1170,6 +1191,7 @@
           "func": "less",
           "value": 1,
           "object": "t1_allActive_ai_zoneDef_sq",
+          "unit_type_ex": "isActive",
           "var": "teamA_totalAICount"
         }
       },
@@ -1208,6 +1230,7 @@
           "func": "less",
           "value": 1,
           "object": "t2_allActive_ai_zoneDef_sq",
+          "unit_type_ex": "isActive",
           "var": "teamB_totalAICount"
         }
       },

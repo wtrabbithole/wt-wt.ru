@@ -66,11 +66,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       key = "devItems"
       typeMask = itemType.ALL
       devItemsTab = true
-      tabEnable = function () {
-        return ::has_feature("devItemShop")
-          ? [itemsTab.INVENTORY, itemsTab.SHOP]
-          : []
-      }
+      tabEnable = @() ::has_feature("devItemShop") ? [itemsTab.SHOP] : []
     }
     /*
     { typeMask = itemType.WARPOINTS

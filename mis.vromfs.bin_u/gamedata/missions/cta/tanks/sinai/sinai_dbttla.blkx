@@ -223,23 +223,19 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_ground_DBttlA",
+      "locName": "missions/_DBttlA;sinai/name",
+      "locDesc": "sinai/desc;missions/_DBttl/desc",
       "scoreLimit": 6000,
       "timeLimit": 25,
       "deathPenaltyMul": 0.0,
+      "postfix": "_DBttlA",
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
+      "useAlternativeMapCoord": false,
+      "allowedKillStreaks": true,
+      "randomSpawnTeams": false,
       "remapAiTankModels": true,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedKillStreaks": true,
-      "useAlternativeMapCoord": false,
-      "randomSpawnTeams": false,
-      "locName": "missions/_DBttlA;sinai/name",
-      "locDesc": "sinai/desc;missions/_DBttl/desc",
-      "postfix": "_DBttlA",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -258,7 +254,16 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false
       }
     },
     "spectator_points": [],
@@ -284,6 +289,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -384,14 +392,16 @@
     "isCategory": true,
     "is_enabled": true
   },
-  "variables": [],
+  "variables": {
+    "defenseMissionTeam": "teamA"
+  },
   "dialogs": [],
   "airfields": [],
   "effects": [],
   "units": [],
   "areas": {
     "briefing_t1_tankSpawn_Rb_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -402,7 +412,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_Rb_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -413,7 +423,7 @@
       "props": []
     },
     "briefing_dbttl_t1_capture_area": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-39.9421,0.0,10.1536],
         [0.0,75.0,0.0],
@@ -424,7 +434,7 @@
       "props": []
     },
     "briefing_dbttl_t1_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.113948,0.0,0.993487],
         [0.0,1.0,0.0],
@@ -435,7 +445,7 @@
       "props": []
     },
     "briefing_dbttl_t2_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-0.996709,0.0,0.0810665],
         [0.0,1.0,0.0],

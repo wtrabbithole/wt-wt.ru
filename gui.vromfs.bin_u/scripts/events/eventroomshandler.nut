@@ -1,15 +1,21 @@
 enum eRoomFlags { //bit enum. sorted by priority
-  HAS_PLACES            = 0x0001
-  HAS_PLACES_IN_MY_TEAM = 0x0002
+  CAN_JOIN              = 0x8000 //set by CAN_JOIN_MASK, used for sorting
 
-  HAS_COUNTRY           = 0x0010
-  HAS_UNIT_MATCH_RULES  = 0x0020
-  HAS_AVAILABLE_UNITS   = 0x0040 //has available unis by game mode without checking room rules
-  HAS_REQUIRED_UNIT     = 0x0080
-  IS_ALLOWED_BY_BALANCE = 0x0100
+  ROOM_TIER             = 0x4000 //5 bits to room tier. used only to sort rooms
+
+  //                    = 0x0100
+  HAS_PLACES            = 0x0080
+  HAS_PLACES_IN_MY_TEAM = 0x0040
+
+  HAS_COUNTRY           = 0x0020
+  HAS_UNIT_MATCH_RULES  = 0x0010
+  HAS_AVAILABLE_UNITS   = 0x0008 //has available unis by game mode without checking room rules
+  HAS_REQUIRED_UNIT     = 0x0004
+  IS_ALLOWED_BY_BALANCE = 0x0002
 
   //masks
   NONE                  = 0x0000
+  CAN_JOIN_MASK         = 0x00FE
   ALL                   = 0xFFFF
 }
 
@@ -297,8 +303,23 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
           flags = flags | eRoomFlags.HAS_PLACES_IN_MY_TEAM
       }
 
+      local reqUnits = ::SessionLobby.getRequiredCratfs(Team.A, room)
+      if (reqUnits)
+        foreach(rule in reqUnits)
+        {
+          local tier = ::events.getTierNumByRule(rule)
+          if (tier > 0)
+          {
+            flags = flags | (eRoomFlags.ROOM_TIER >> (::min(tier, 5) - 1))
+            break
+          }
+        }
+
       if (needCheckAvailable)
         flags = flags | getMGameModeFlags(mGameMode, room, isMultiSlot)
+
+      if ((flags & eRoomFlags.CAN_JOIN_MASK) == eRoomFlags.CAN_JOIN_MASK)
+        flags = flags | eRoomFlags.CAN_JOIN
 
       room[EROOM_FLAGS_KEY_NAME] <- flags
       hasChanges = hasChanges || wasFlags != flags
@@ -393,16 +414,9 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    chaptersTree.sort(function(a, b)
-    {
-      return b[EROOM_FLAGS_KEY_NAME] - a[EROOM_FLAGS_KEY_NAME]
-    })
-
+    chaptersTree.sort(@(a, b) b[EROOM_FLAGS_KEY_NAME] <=> a[EROOM_FLAGS_KEY_NAME])
     foreach (idx, chapter in chaptersTree)
-      chapter.rooms.sort(function(a, b)
-      {
-        return b[EROOM_FLAGS_KEY_NAME] - a[EROOM_FLAGS_KEY_NAME]
-      })
+      chapter.rooms.sort(@(a, b) b[EROOM_FLAGS_KEY_NAME] <=> a[EROOM_FLAGS_KEY_NAME])
 
     return chaptersTree
   }

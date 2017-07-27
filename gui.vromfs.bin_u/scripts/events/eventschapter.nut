@@ -3,6 +3,7 @@ class EventChapter
   name = ""
   eventIds = []
   sortValid = true
+  sortPriority = -1
 
   constructor(chapter_id)
   {
@@ -26,16 +27,22 @@ class EventChapter
     return eventIds
   }
 
-  function getEventsSortPrioritySumm()
+  function getSortPriority()
   {
-    local result = 0
+    if(sortPriority == -1)
+      updateSortPriority()
+    return sortPriority
+  }
+
+  function updateSortPriority()
+  {
+    sortPriority = 0
     foreach (eventName in getEvents())
     {
       local event = ::events.getEvent(eventName)
-      if(event)
-        result += ::getTblValue("uiSortPriority", event, 0)
+      if (event)
+        sortPriority = ::max(sortPriority, ::events.getEventUiSortPriority(event))
     }
-    return result
   }
 
   function isEmpty()
@@ -50,6 +57,7 @@ class EventChapter
              && ::events.isEventVisibleInEventsWindow(event)
     })(name))
     sortValid = false
+    sortPriority = -1
   }
 
   function sortChapterEvents(eventId1, eventId2)
@@ -60,6 +68,10 @@ class EventChapter
       return 0
     if ((event1 == null) != (event2 == null))
       return event1 == null ? -1 : 1
+    local event1UiSortPriority = ::events.getEventUiSortPriority(event1)
+    local event2UiSortPriority = ::events.getEventUiSortPriority(event2)
+    if (event1UiSortPriority <=> event2UiSortPriority)
+      return event1UiSortPriority <=> event2UiSortPriority
     local diffCode1 = ::events.getEventDiffCode(event1)
     local diffCode2 = ::events.getEventDiffCode(event2)
     if (diffCode1 != diffCode2)
@@ -75,12 +87,12 @@ class EventChapter
 class EventChaptersManager
 {
   chapters = []
-  chapterDict = {}
+  chapterIndexByName = {}
 
   constructor()
   {
     chapters = []
-    chapterDict = {}
+    chapterIndexByName = {}
 
     ::add_event_listener("GameLocalizationChanged", onEventGameLocalizationChanged, this)
   }
@@ -109,31 +121,39 @@ class EventChaptersManager
     for (local i = chapters.len() - 1; i >= 0; i--)
       if (chapters[i].getEvents().len() == 0)
         deleteChapter(chapters[i].name)
+
+    sortChapters()
   }
 
   function getChapter(chapter_name)
   {
-    local chapterIndex = ::getTblValue(chapter_name, chapterDict, -1)
+    local chapterIndex = ::getTblValue(chapter_name, chapterIndexByName, -1)
     return chapterIndex < 0 ? null : chapters[chapterIndex]
+  }
+
+  function sortChapters()
+  {
+    chapters.sort(@(a, b) b.getSortPriority() <=> a.getSortPriority())
+    reindexChapters()
   }
 
   function addChapter(chapter_name)
   {
     chapters.append(EventChapter(chapter_name))
-    chapterDict[chapter_name] <- chapters.len() - 1
+    sortChapters()
   }
 
   function deleteChapter(chapter_name)
   {
-    chapters.remove(chapterDict[chapter_name])
-    chapterDict.rawdelete(chapter_name)
-    updateChapterDict()
+    chapters.remove(chapterIndexByName[chapter_name])
+    sortChapters()
   }
 
-  function updateChapterDict()
+  function reindexChapters()
   {
-    foreach (idx, event in chapters)
-      chapterDict[event.name] = idx
+    chapterIndexByName.clear()
+    foreach (idx, chapter in chapters)
+      chapterIndexByName[chapter.name] <- idx
   }
 
   function getChapters()

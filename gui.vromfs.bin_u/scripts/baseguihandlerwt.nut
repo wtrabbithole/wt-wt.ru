@@ -398,11 +398,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       notAvailableYetMsgBox()
   }
 
-  function onEncyclopedia(obj)
-  {
-    goForward(::gui_start_encyclopedia())
-  }
-
   function onProfile(obj)
   {
     ::gui_start_profile()

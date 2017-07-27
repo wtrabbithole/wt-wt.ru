@@ -28,8 +28,8 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
         function (p) {
           if (::SessionLobby.isInRoom() && ::SessionLobby.roomId == roomId)
           {
-            isAccepted = true
             remove()
+            onSuccessfulAccept()
           }
         },
         this)
@@ -106,6 +106,15 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
     if (haveRestrictions())
       return ::loc("invite/session/cant_apply_in_flight")
     return ""
+  }
+
+  function onSuccessfulReject() {}
+  function onSuccessfulAccept() {}
+
+  function reject()
+  {
+    base.reject()
+    onSuccessfulReject()
   }
 
   function accept()

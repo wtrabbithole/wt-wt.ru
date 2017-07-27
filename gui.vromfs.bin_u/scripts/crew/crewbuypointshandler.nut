@@ -8,7 +8,7 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function initScreen()
   {
-    buyPointsPacks = createBuyPointsPacks()
+    buyPointsPacks = ::g_crew_points.getSkillPointsPacks(::g_crew.getCrewCountry(crew))
     scene.findObject("wnd_title").setValue(::loc("mainmenu/btnBuySkillPoints")+::loc("ui/colon"))
 
     local rootObj = scene.findObject("wnd_frame")
@@ -23,7 +23,7 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
     foreach(idx, pack in buyPointsPacks)
     {
       local skills = pack.skills || 1
-      local bonusDiscount = price ? floor(100.5 - 100.0 * pack.cost / skills / price) : 0
+      local bonusDiscount = price ? floor(100.5 - 100.0 * pack.cost.gold / skills / price) : 0
       local bonusText = bonusDiscount ? format(::loc("charServer/entitlement/discount"), bonusDiscount) : ""
 
       rows.append({
@@ -32,7 +32,7 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
         even = idx % 2 == 0
         skills = ::get_crew_sp_text(skills)
         bonusText = bonusText
-        cost = ::getPriceText(0, pack.cost)
+        cost = pack.cost.tostring()
       })
     }
 
@@ -59,8 +59,8 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
   function getBasePrice()
   {
     foreach(idx, pack in buyPointsPacks)
-      if (pack.cost)
-        return pack.cost.tofloat() / (pack.skills || 1)
+      if (pack.cost.gold)
+        return pack.cost.gold.tofloat() / (pack.skills || 1)
     return 0
   }
 
@@ -85,55 +85,9 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
   function doBuyPoints(obj)
   {
     local row = ::g_crew.getButtonRow(obj, scene, scene.findObject("buy_table"))
-    if (!(row in buyPointsPacks) || progressBox)
+    if (!(row in buyPointsPacks))
       return
 
-    local pack = buyPointsPacks[row]
-    local locParams = {
-      amount = ::getCrewSpText(pack.skills)
-      cost = ::getPriceText(0, pack.cost)
-    }
-    local msgText = ::loc("shop/needMoneyQuestion_buySkillPoints", locParams)
-    msgBox("purchase_ask", msgText,
-      [["yes", (@(pack) function() {
-          if (!::old_check_balance_msgBox(0, pack.cost))
-            return
-
-          taskId = shop_purchase_skillpoints(crew.id, pack.name)
-          if (taskId < 0)
-            return
-
-          ::set_char_cb(this, slotOpCb)
-          showTaskProgressBox()
-          afterSlotOp = function() {
-            ::broadcastEvent("CrewSkillsChanged", { crew = crew })
-
-            if (!::checkObj(scene))
-              return
-
-            goBack()
-          }
-        })(pack)
-      ], ["no", function(){}]], "yes", { cancel_fn = function(){}})
-  }
-
-  function createBuyPointsPacks()
-  {
-    local blk = ::get_warpoints_blk()
-    if (!blk.crewSkillPointsCost)
-      return []
-
-    local country = ::crews_list[crew.idCountry].country
-    local result = []
-    foreach(block in blk.crewSkillPointsCost)
-    {
-      local blkName = block.getBlockName()
-      result.append({
-        name = blkName
-        cost = ::wp_get_skill_points_cost_gold(blkName, country)
-        skills = block.crewExp || 1
-      })
-    }
-    return result
+    ::g_crew_points.buyPack(crew, buyPointsPacks[row], ::Callback(goBack, this))
   }
 }

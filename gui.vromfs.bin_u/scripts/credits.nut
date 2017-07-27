@@ -13,6 +13,7 @@ class ::gui_handlers.CreditsMenu extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName = "gui/credits.blk"
   rootHandlerClass = ::gui_handlers.TopMenu
   static hasTopMenuResearch = false
+  static hasGameModeSelect = false
 
   function initScreen()
   {

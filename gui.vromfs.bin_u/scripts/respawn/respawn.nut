@@ -580,6 +580,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       active = false
       missionRules = missionRules
       hasExtraInfoBlock = true
+      shouldSelectAvailableUnit = isRespawn
     }
   }
 

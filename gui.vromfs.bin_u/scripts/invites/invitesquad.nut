@@ -75,6 +75,9 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     return "#ui/gameuiskin#lb_each_player_session"
   }
 
+  function onSuccessfulReject() {}
+  function onSuccessfulAccept() {}
+
   function accept()
   {
     local acceptCallback = ::Callback(_implAccept, this)
@@ -96,6 +99,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
     ::g_squad_manager.rejectSquadInvite(squadId)
     remove()
+    onSuccessfulReject()
   }
 
   function _implAccept()
@@ -108,5 +112,6 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     ::g_squad_manager.acceptSquadInvite(squadId)
     isAccepted = true
     remove()
+    onSuccessfulAccept()
   }
 }

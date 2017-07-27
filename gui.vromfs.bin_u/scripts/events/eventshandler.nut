@@ -464,10 +464,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local totalRows = 0
     local selIdx = -1
 
-    local chapters = ::u.copy(::events.getChapters())
-    chapters.sort(function(a, b) {
-      return b.getEventsSortPrioritySumm() - a.getEventsSortPrioritySumm()
-    })
+    local chapters = ::events.getChapters()
 
     local view = { items = [] }
     foreach(chapter in chapters)

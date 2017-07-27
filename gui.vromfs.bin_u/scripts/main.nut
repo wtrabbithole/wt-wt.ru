@@ -261,7 +261,6 @@ foreach (fn in [
   "scripts/matching/api.nut"
   "scripts/matching/client.nut"
   "scripts/matching/matchingConnect.nut"
-  "scripts/squads/psnSquadInvite.nut" //used before ps4Login
 
   "scripts/wndLib/editBoxHandler.nut"
   "scripts/wndLib/rightClickMenu.nut"
@@ -275,6 +274,11 @@ foreach (fn in [
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"
   "scripts/controls/controlsManager.nut"
+
+  //used before ps4Login
+  "scripts/squads/psnSquadInvite.nut"
+  "scripts/social/psnPlayTogether.nut"
+  "scripts/social/psnSessionInvitations.nut"
 ])
 {
   ::g_script_reloader.loadOnce(fn)
@@ -585,8 +589,6 @@ function load_scripts_after_login()
     "social/friends.nut"
     "social/activityFeed.nut"
     "social/facebook.nut"
-    "social/psnPlayTogether.nut"
-    "social/psnSessionInvitations.nut"
     "social/psnMapper.nut"
 
     "gamercardDrawer.nut"
@@ -618,6 +620,7 @@ function load_scripts_after_login()
     "crew/skillParametersColumnType.nut"
     "crew/crewModalHandler.nut"
     "crew/skillsPageStatus.nut"
+    "crew/crewPoints.nut"
     "crew/crewBuyPointsHandler.nut"
     "crew/crewUnitSpecHandler.nut"
     "crew/crewSkillsPageHandler.nut"

@@ -45,6 +45,9 @@
 
       mission_item_text {
         id:t = 'txt_<<id>>'
+        <<^isActive>>
+        overlayTextColor:t='disabled'
+        <</isActive>>
         text:t = '<<itemText>>'
       }
     }

@@ -6,6 +6,7 @@
   existingSessionSquad = "squad"
 
   updateTimerLimit = 60000
+  suspendedInvitationData = null
 }
 
 function g_psn_session_invitations::saveSessionId(key, sessionId)
@@ -248,6 +249,9 @@ function g_psn_session_invitations::getSessionData(sessionId)
 
 function g_psn_session_invitations::setInvitationUsed(invitationId)
 {
+  if (!::is_platform_ps4 || invitationId == "")
+    return
+
   local blk = ::DataBlock()
   blk.apiGroup = "sessionInvitation"
   blk.method = ::HTTP_METHOD_PUT
@@ -475,8 +479,22 @@ function g_psn_session_invitations::onEventSquadStatusChanged(params)
     sendDestroySession(existingSessionSquad)
 }
 
+function g_psn_session_invitations::checkReceievedInvitation()
+{
+  if (suspendedInvitationData)
+    onReceiveInvite(suspendedInvitationData)
+  suspendedInvitationData = null
+}
+
 function g_psn_session_invitations::onReceiveInvite(invitationData = null)
 {
+  if (::is_in_loading_screen() || !::g_login.isLoggedIn())
+  {
+    suspendedInvitationData = invitationData
+    ::broadcastEvent("PS4AvailableNewInvite")
+    return
+  }
+
   if (!::getTblValue("accepted", invitationData, false))
     return
 
@@ -490,8 +508,6 @@ function g_psn_session_invitations::onReceiveInvite(invitationData = null)
     ::dagor.debug("PSN SessionInvitation: Could not receive data by sessionId " + sessionId)
     return
   }
-
-  setInvitationUsed(invitationData.invitationId)
 
   sessionData = ::u.extend(sessionData, invitationData)
 

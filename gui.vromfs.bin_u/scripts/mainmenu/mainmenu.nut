@@ -101,7 +101,8 @@ function on_mainmenu_return(handler, isAfterLogin)
   if (isAllowPopups)
   {
     handler.doWhenActive(function() { checkSquadInvitesFromPS4Friends(false) })
-    handler.doWhenActive(::g_play_together.checkAfterFlight)
+    handler.doWhenActive(@() ::g_psn_session_invitations.checkReceievedInvitation() )
+    handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
   }
 
   if(isAllowPopups && ::has_feature("Invites") && !guiScene.hasModalObject())
@@ -138,7 +139,7 @@ function on_mainmenu_return(handler, isAfterLogin)
 
       if((cdb.viralAcquisition.lastLoginDay - cdb.viralAcquisition.lastShowTime) > 10)
       {
-        ::show_viral_acquisition_wnd(handler)
+        ::show_viral_acquisition_wnd()
         cdb.viralAcquisition.lastShowTime = days
         ::save_profile_offline_limited()
       }

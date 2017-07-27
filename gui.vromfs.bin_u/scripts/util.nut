@@ -3368,3 +3368,8 @@ function destroy_session_scripted()
   if (needEvent)
     ::broadcastEvent("SessionDestroyed")
 }
+
+function show_not_available_msg_box()
+{
+  ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"), "not_available", true)
+}

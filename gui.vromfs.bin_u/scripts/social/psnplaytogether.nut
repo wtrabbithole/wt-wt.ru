@@ -41,9 +41,9 @@ function g_play_together::onNewInviteesDataIncome(inviteesArray)
 
 function g_play_together::checkAfterFlight()
 {
-  if (!::u.isEmpty(::g_play_together.suspendedInviteesData))
-    ::g_play_together.requestUsersList(::g_play_together.suspendedInviteesData)
-  ::g_play_together.suspendedInviteesData = null
+  if (!::u.isEmpty(suspendedInviteesData))
+    requestUsersList(suspendedInviteesData)
+  suspendedInviteesData = null
 }
 
 function g_play_together::requestUsersList(inviteesArray)

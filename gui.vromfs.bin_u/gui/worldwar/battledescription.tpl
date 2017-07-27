@@ -118,9 +118,7 @@ tdiv {
 
         <<#haveUnitsList>>
         tdiv {
-          id:t='allowed_unit_types'
           flow:t='vertical'
-          margin-bottom:t='0.01@scrn_tgt_font'
 
           activeText {
             id:t='allowed_unit_types_text'
@@ -130,6 +128,20 @@ tdiv {
           <<@unitsList>>
         }
         <</haveUnitsList>>
+
+        <<#haveAIUnitsList>>
+        tdiv {
+          flow:t='vertical'
+          margin-top:t='0.01@scrn_tgt_font'
+
+          textareaNoTab {
+            text:t='#worldwar/unit/controlledByAI'
+            overlayTextColor:t='disabled'
+          }
+
+          <<@aiUnitsList>>
+        }
+        <</haveAIUnitsList>>
       }
       <</teamBlock>>
 

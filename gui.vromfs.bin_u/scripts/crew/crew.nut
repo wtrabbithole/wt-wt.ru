@@ -285,6 +285,39 @@ function g_crew::getMaxAvailbleStepValue(skillItem, curValue, skillPoints)
   return resValue
 }
 
+//esUnitType == -1 - all unitTypes
+//action = function(page, skillItem)
+function g_crew::doWithAllSkills(crew, esUnitType, action)
+{
+  local country = getCrewCountry(crew)
+  foreach(page in ::crew_skills)
+  {
+    if (esUnitType >= 0 && !page.isVisible(esUnitType))
+      continue
+
+    foreach(skillItem in page.items)
+      if ((esUnitType < 0 || skillItem.isVisible(esUnitType))
+          && ::is_country_has_any_es_unit_type(country, skillItem.unitTypeMask))
+        action(page, skillItem)
+  }
+}
+
+//esUnitType == -1 - all unitTypes
+function g_crew::getSkillPointsToMaxAllSkills(crew, esUnitType = -1)
+{
+  local res = 0
+  doWithAllSkills(crew, esUnitType,
+    function(page, skillItem)
+    {
+      local maxValue = getMaxSkillValue(skillItem)
+      local curValue = getSkillValue(crew.id, page.id, skillItem.name)
+      if (curValue < maxValue)
+        res += getSkillCost(skillItem, maxValue, curValue)
+    }
+  )
+  return res
+}
+
 function g_crew::getCrewName(crew)
 {
   local number =  ::getTblValue("idInCountry", crew, -1) + 1
@@ -297,6 +330,12 @@ function g_crew::getCrewUnit(crew)
   if (!unitName || unitName == "")
     return null
   return ::getAircraftByName(unitName)
+}
+
+function g_crew::getCrewCountry(crew)
+{
+  local countryData = ::getTblValue(crew.idCountry, ::crews_list)
+  return countryData ? countryData.country : ""
 }
 
 function g_crew::getCrewTrainCost(crew, unit)
@@ -483,6 +522,51 @@ function g_crew::purchaseNewSlot(country, onTaskSuccess, onTaskFail = null)
 {
   local taskId = ::purchase_crew_slot(country)
   return ::g_tasker.addTask(taskId, { showProgressBox = true }, onTaskSuccess, onTaskFail)
+}
+
+function g_crew::buyAllSkills(crew, esUnitType)
+{
+  local totalPointsToMax = getSkillPointsToMaxAllSkills(crew, esUnitType)
+  if (totalPointsToMax <= 0)
+    return
+
+  local curPoints = ::getTblValue("skillPoints", crew, 0)
+  if (curPoints >= totalPointsToMax)
+    return maximazeAllSkillsImpl(crew, esUnitType)
+
+  local packs = ::g_crew_points.getPacksToBuyAmount(getCrewCountry(crew), totalPointsToMax)
+  if (!packs.len())
+    return
+
+  ::g_crew_points.buyPack(crew, packs, ::Callback(@() maximazeAllSkillsImpl(crew, esUnitType), this))
+}
+
+function g_crew::maximazeAllSkillsImpl(crew, esUnitType)
+{
+  local blk = ::DataBlock()
+  doWithAllSkills(crew, esUnitType,
+    function(page, skillItem)
+    {
+      local maxValue = getMaxSkillValue(skillItem)
+      local curValue = getSkillValue(crew.id, page.id, skillItem.name)
+      if (maxValue > curValue)
+        blk.addBlock(page.id)[skillItem.name] = maxValue - curValue
+    }
+  )
+
+  local isTaskCreated = ::g_tasker.addTask(
+    ::shop_upgrade_crew(crew.id, blk),
+    { showProgressBox = true },
+    function()
+    {
+      ::broadcastEvent("CrewSkillsChanged", { crew = crew })
+      ::g_crews_list.flushSlotbarUpdate()
+    },
+    @(err) ::g_crews_list.flushSlotbarUpdate()
+  )
+
+  if (isTaskCreated)
+    ::g_crews_list.suspendSlotbarUpdates()
 }
 
 ::subscribe_handler(::g_crew, ::g_listener_priority.UNIT_CREW_CACHE_UPDATE)

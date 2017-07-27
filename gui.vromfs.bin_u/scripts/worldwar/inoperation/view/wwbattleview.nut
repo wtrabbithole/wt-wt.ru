@@ -65,35 +65,38 @@ class ::WwBattleView
     return null
   }
 
-  function getTeamBlockByIconSize(iconSize, isInBattlePanel = false)
+  function getTeamBlockByIconSize(iconSize, isInBattlePanel = false, param = null)
   {
     if (iconSize == WW_ARMY_GROUP_ICON_SIZE.MEDIUM)
     {
       if (largeArmyGroupIconTeamBlock == null)
-        largeArmyGroupIconTeamBlock = getTeamsData(iconSize, isInBattlePanel)
+        largeArmyGroupIconTeamBlock = getTeamsData(iconSize, isInBattlePanel, param)
 
       return largeArmyGroupIconTeamBlock
     }
     else if (iconSize == WW_ARMY_GROUP_ICON_SIZE.SMALL)
     {
       if (mediumArmyGroupIconTeamBlock == null)
-        mediumArmyGroupIconTeamBlock = getTeamsData(iconSize, isInBattlePanel)
+        mediumArmyGroupIconTeamBlock = getTeamsData(iconSize, isInBattlePanel, param)
 
       return mediumArmyGroupIconTeamBlock
     }
     else
     {
       if (teamBlock == null)
-        teamBlock = getTeamsData(WW_ARMY_GROUP_ICON_SIZE.BASE, isInBattlePanel)
+        teamBlock = getTeamsData(WW_ARMY_GROUP_ICON_SIZE.BASE, isInBattlePanel, param)
 
       return teamBlock
     }
   }
 
-  function getTeamsData(iconSize, isInBattlePanel)
+  function getTeamsData(iconSize, isInBattlePanel, param)
   {
     local teams = []
     local maxSideArmiesNumber = 0
+    local isVersusTextAdded = false
+    local hasArmyInfo = ::getTblValue("hasArmyInfo", param, true)
+    local hasVersusText = ::getTblValue("hasVersusText", param)
     foreach(sideIdx, side in ::g_world_war.getSidesOrder())
     {
       local team = battle.getTeamBySide(side)
@@ -115,21 +118,40 @@ class ::WwBattleView
         foreach(army in armiesArray)
           armyViews.append(army.getView())
       }
+
+      if (hasVersusText && !isVersusTextAdded)
+      {
+        armyViews.top().setHasVersusText(true)
+        isVersusTextAdded = true
+      }
+      else
+        armyViews.top().setHasVersusText(false)
+
       maxSideArmiesNumber = ::max(maxSideArmiesNumber, armyViews.len())
 
       local view = {
         army = armyViews
-        delimetrRightPadding = "8*@sf/@pf"
+        delimetrRightPadding = hasArmyInfo ? "8*@sf/@pf" : 0
         reqUnitTypeIcon = true
         hideArrivalTime = true
         showArmyGroupText = false
         hasTextAfterIcon = true
         battleDescriptionIconSize = iconSize
         showVehiclesAmountText = true
+        showVehiclesAmountText = hasArmyInfo
+        hasTextAfterIcon = hasArmyInfo
       }
 
       armies.armyViews = ::handyman.renderCached(sceneTplArmyViewsName, view)
       local invert = sideIdx != 0
+
+      local avaliableUnits = []
+      local aiUnits = []
+      foreach (unit in team.unitsRemain)
+        if (unit.isControlledByAI())
+          aiUnits.append(unit)
+        else
+          avaliableUnits.append(unit)
 
       teams.append({
         invert = invert
@@ -138,8 +160,10 @@ class ::WwBattleView
         hasTeamSize = team.minPlayers && team.maxPlayers
         maxPlayers = team.maxPlayers
         minPlayers = team.minPlayers
-        haveUnitsList = team.unitsRemain.len()
-        unitsList = unitsList(team.unitsRemain, invert && isInBattlePanel, isInBattlePanel)
+        haveUnitsList = avaliableUnits.len()
+        unitsList = unitsList(avaliableUnits, invert && isInBattlePanel, isInBattlePanel)
+        haveAIUnitsList = aiUnits.len()
+        aiUnitsList = unitsList(aiUnits, invert && isInBattlePanel, isInBattlePanel)
       })
     }
 

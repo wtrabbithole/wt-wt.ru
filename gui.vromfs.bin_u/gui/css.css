@@ -2628,7 +2628,8 @@ text[overlayTextColor=faded], textarea[overlayTextColor=faded], textareaNoTab[ov
 text[overlayTextColor=silver], textareaNoTab[overlayTextColor=silver] {
   color:@silver;
 }
-text[overlayTextColor=disabled], textarea[overlayTextColor=disabled], textareaNoTab[overlayTextColor=disabled] {
+text[overlayTextColor=disabled], textarea[overlayTextColor=disabled],
+textareaNoTab[overlayTextColor=disabled], tdiv[includeTextColor=disabled] > textareaNoTab {
   color:@disabledTextColor;
 }
 activeText[overlayTextColor=good], textarea[overlayTextColor=good], textareaNoTab[overlayTextColor=good] {

@@ -6,9 +6,9 @@ CheckBox {
   value:t='<<#value>>yes<</value>><<^value>>no<</value>>'
   text:t='<<text>>'
   tooltip:t='<<tooltip>>'
-  <<#onChangeValue>>
-    on_change_value:t='<<onChangeValue>>'
-  <</onChangeValue>>
+  <<#funcName>>
+    on_change_value:t='<<funcName>>'
+  <</funcName>>
 
   <<#useImage>>
     class:t='with_image'
