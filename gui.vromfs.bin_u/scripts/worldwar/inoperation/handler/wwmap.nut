@@ -282,7 +282,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local isOperationContinue = !::g_world_war.isCurrentOperationFinished()
-    local isInQueue = isOperationContinue && ::queues.isAnyQueuesActive(queueType.WW_BATTLE)
+    local isInQueue = isOperationContinue && ::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE)
     local isSquadMember = isOperationContinue && ::g_squad_manager.isSquadMember()
 
     local txt = ::loc("mainmenu/toBattle")
@@ -322,7 +322,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     if (isSquadMember)
       return ::g_squad_manager.setReadyFlag()
 
-    local isInOperationQueue = ::queues.isAnyQueuesActive(queueType.WW_BATTLE)
+    local isInOperationQueue = ::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE)
     if (isInOperationQueue)
       return ::g_world_war.leaveWWBattleQueues()
 
@@ -356,7 +356,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function goBackToHangar()
   {
-    ::queues.leaveQueueByType(queueType.WW_BATTLE)
+    ::queues.leaveQueueByType(QUEUE_TYPE_BIT.WW_BATTLE)
     ::ww_service.unsubscribeOperation(::ww_get_operation_id())
     ::g_world_war.stopWar()
     base.goBack()

@@ -37,7 +37,9 @@ class ::g_unit_limit_classes.LimitByUnitName extends ::g_unit_limit_classes.Limi
   function getText()
   {
     local res = ::getUnitName(name) + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
-    local weaponPresetIconsText = ::get_weapon_icons_text(name, ::getTblValue("weaponPresetId", presetInfo))
+    local weaponPresetIconsText = ::get_weapon_icons_text(
+      name, ::getTblValue("weaponPresetId", presetInfo)
+    )
 
     if (!::u.isEmpty(weaponPresetIconsText))
       res += ::loc("ui/parentheses/space", {

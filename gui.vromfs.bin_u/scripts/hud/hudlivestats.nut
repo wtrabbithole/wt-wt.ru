@@ -66,7 +66,7 @@ function g_hud_live_stats::init(_parentObj, _nestObjId, _isSelfTogglable)
   isSelfTogglable = _isSelfTogglable
   gameType = ::get_game_type()
   missionMode = (gameType & ::GT_RACE) ? ::GT_RACE : ::GT_VERSUS
-  isMissionTeamplay = !(gameType & (::GT_RACE | ::GT_FREE_FOR_ALL))
+  isMissionTeamplay = ::is_mode_with_teams(gameType)
   isMissionRace = !!(gameType & ::GT_RACE)
   isMissionFinished = false
   missionObjectives = ::g_mission_type.getCurrentObjectives()

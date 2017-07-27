@@ -91,6 +91,7 @@ function update_ps4_friends()
   {
     ::last_update_ps4_friends = ::dagor.getCurTime()
     ::getPS4FriendsFromIndex(0)
+    ::g_psn_mapper.updateAccountIdsList()
   }
 }
 

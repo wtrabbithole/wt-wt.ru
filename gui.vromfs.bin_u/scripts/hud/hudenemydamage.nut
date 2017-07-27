@@ -25,24 +25,29 @@
         "tank_gunner"
         "tank_loader"
         "tank_machine_gunner"
-        "ship_era"
         "ship_driver"
         "ship_operator"
         "ship_motorist"
         "ship_sailor"
+        "ship_bridge"
+        "ship_compartment"
       ]
     },
     {
       id = "movement"
       parts = [
         "tank_engine"
-        "ship_pump"
-        "ship_rudder"
         "tank_transmission"
         "tank_track"
         "tank_radiator"
         //"tank_suspension"
         "tank_fuel_tank"
+        "ship_engine_room"
+        "ship_pump"
+        "ship_rudder"
+        "ship_steering_gear"
+        "ship_funnel"
+        "ship_hydrofoil"
       ]
     },
     {
@@ -53,10 +58,16 @@
         "tank_drive_turret_h"
         "tank_drive_turret_v"
         "tank_ammo"
+        "ship_main_caliber_gun"
+        "ship_auxiliary_caliber_gun"
+        "ship_main_caliber_turret"
+        "ship_auxiliary_caliber_turret"
+        "ship_aa_gun"
         "ship_machine_gun"
         "ship_torpedo_tube"
         "ship_torpedo"
         "ship_depth_charge"
+        "ship_ammunition_storage"
       ]
     },
   ]
@@ -67,6 +78,7 @@
   enabled = true
   lastTargetId = null
   lastTargetVersion = null
+  lastTargetType = ::ES_UNIT_TYPE_INVALID
   lastTargetKilled = false
   lastTargetCrew = -1
   partsConfig = {}
@@ -107,6 +119,7 @@
   {
     lastTargetId = null
     lastTargetVersion = null
+    lastTargetType = ::ES_UNIT_TYPE_INVALID
     lastTargetKilled = false
     lastTargetCrew = -1
 
@@ -153,6 +166,7 @@
     data {
       unitId - unique unit number
       unitVersion - unit respawn counter
+      unitType - unit economic type
       partNo - decimal index of part
       partDmName - string with dm name
       partName - string with localization name
@@ -166,6 +180,7 @@
     data {
       unitId - unique unit number
       unitVersion - unit respawn counter
+      unitType - unit economic type
       unitKilled - bool, true if target has been killed by the current player
     }
     */
@@ -180,6 +195,7 @@
       resetTargetData()
       lastTargetId = targetId
       lastTargetVersion = targetVersion
+      lastTargetType = ::getTblValue("unitType", data, ::ES_UNIT_TYPE_INVALID)
       lastTargetKilled = ::getTblValue("unitKilled", data, false)
     }
     else
@@ -224,22 +240,22 @@
         showPart(partName, color, !showHp)
       }
 
-      if (cfg.section == "crew")
-      {
-        if (cfg.show && partKilled && !lastTargetKilled)
-          showPart("crew_count", "#FFFFFF", true)
+      local crewCount = ::getTblValue("crewAliveCount", data, -1)
+      local isCrewChanged = crewCount != -1 && lastTargetCrew != crewCount
+      local isShowCrew = !lastTargetKilled && isCrewChanged &&
+        (lastTargetType == ::ES_UNIT_TYPE_SHIP  || cfg.section == "crew" && cfg.show && partKilled)
 
-        local crew = ::getTblValue("crewAliveCount", data, -1)
-        if (crew != -1 && lastTargetCrew != crew)
+      if (isShowCrew)
+      {
+        lastTargetCrew = crewCount
+
+        showPart("crew_count", "#FFFFFF", true)
+        local obj = listObj.findObject("crew_count")
+        if (::check_obj(obj))
         {
-          lastTargetCrew = crew
-          local obj = listObj.findObject("crew_count")
-          if (::checkObj(obj))
-          {
-            local text = ::colorize("commonTextColor", ::loc("mainmenu/btnCrew") + ::loc("ui/colon")) +
-              ::colorize(crew <= minAliveCrewCount ? "badTextColor" : "activeTextColor", crew)
-            obj.setValue(text)
-          }
+          local text = ::colorize("commonTextColor", ::loc("mainmenu/btnCrew") + ::loc("ui/colon")) +
+            ::colorize(crewCount <= minAliveCrewCount ? "badTextColor" : "activeTextColor", crewCount)
+          obj.setValue(text)
         }
       }
     }

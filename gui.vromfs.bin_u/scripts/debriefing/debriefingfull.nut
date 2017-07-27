@@ -967,13 +967,21 @@ function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)
   }
   stagesTime.append(victoryStageTime)
 
+  local visSessionTime = isSuccess ? victoryStageTime : sessionTime.tointeger()
+  if (!isSuccess)
+  {
+    local preVictoryStageTime = stagesTime.len() > 1 ? stagesTime[stagesTime.len() - 2] : 0
+    local maxTime = preVictoryStageTime + (victoryStageTime - preVictoryStageTime) / 2
+    visSessionTime = ::min(visSessionTime, maxTime)
+  }
+
   return {
     isVisible = isEnoughActivity && reachedTrophyName != null
     warnLowActivity = ! isEnoughActivity
     reachedTrophyName  = reachedTrophyName
     receivedTrophyName = receivedTrophyName
     isRewardReceivedEarlier = reachedTrophyName != null && ! receivedTrophyName
-    sessionTime = isSuccess ? victoryStageTime : sessionTime.tointeger()
+    sessionTime = visSessionTime
     victoryStageTime = victoryStageTime
     stagesTime = stagesTime
   }

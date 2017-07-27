@@ -932,7 +932,12 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         text = ::loc("multiplayer/invite_to_session")
         show = ::SessionLobby.canInvitePlayer(curPlayer.uid)
-        action = (@(curPlayer) function () {::SessionLobby.invitePlayer(curPlayer.uid)})(curPlayer)
+        action = function () {
+          if (::isPlayerPS4Friend(curPlayer.name))
+            ::g_psn_session_invitations.sendInvitation(curPlayer.name)
+          else
+            ::SessionLobby.invitePlayer(curPlayer.uid)
+        }
       }
       {
         text = ::loc("contacts/message")

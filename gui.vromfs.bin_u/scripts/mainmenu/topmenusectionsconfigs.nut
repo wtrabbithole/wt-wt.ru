@@ -140,6 +140,7 @@ Params - can be whole section ('help', 'pve') or single button.
 ::g_enum_utils.addTypesByGlobalName("g_ww_top_menu_left_side_sections", [
   {
     name = "ww_menu"
+    btnName = "ww_menu"
     getText = function(totalSections = 0) { return "#worldWar/menu" }
     buttons = [
       [

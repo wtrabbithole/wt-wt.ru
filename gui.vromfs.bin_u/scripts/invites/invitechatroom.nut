@@ -19,15 +19,14 @@ class ::g_invites_classes.ChatRoom extends ::BaseInvite
       local threadInfo = ::g_chat.addThreadInfoById(roomId)
       threadInfo.checkRefreshThread()
       if (threadInfo.lastUpdateTime < 0)
-      {
         setDelayed(true)
+      if (initial)
         ::add_event_listener("ChatThreadInfoChanged",
                              function (data) {
                                if (::getTblValue("roomId", data) == roomId)
                                  setDelayed(false)
                              },
                              this)
-      }
     }
     else if (roomType == ::g_chat_room_type.SQUAD
              && inviterName == ::g_squad_manager.getLeaderNick())

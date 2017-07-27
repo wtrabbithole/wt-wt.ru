@@ -1,3 +1,11 @@
+textareaNoTab {
+  id:t='no_active_battles_full_text'
+  width:t='pw'
+  margin-top:t='0.01@scrn_tgt'
+  text-align:t='center'
+  text:t='#worldwar/operation/noActiveBattlesFullText'
+}
+
 tdiv {
   id:t='battle_desc'
   size:t='pw, ph'
@@ -37,7 +45,7 @@ tdiv {
 
       textareaNoTab {
         width:t='pw'
-        text:t='<<getOrdinalNumberText>> <<name>>'
+        text:t='<<#getOrdinalNumberText>><<getOrdinalNumberText>> <</getOrdinalNumberText>><<name>>'
         text-align:t='center'
         fontNormal:t='yes'
       }

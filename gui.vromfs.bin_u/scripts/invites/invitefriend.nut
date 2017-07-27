@@ -11,12 +11,13 @@ class ::g_invites_classes.Friend extends ::BaseInvite
     inviterUid = ::getTblValue("inviterUid", params, inviterUid)
     isAutoAccepted = isAlreadyAccepted()
 
-    ::add_event_listener("ContactsGroupUpdate",
-                             function (p) {
-                               if (isAlreadyAccepted())
-                                 remove()
-                             },
-                             this)
+    if (initial)
+      ::add_event_listener("ContactsGroupUpdate",
+                           function (p) {
+                             if (isAlreadyAccepted())
+                               remove()
+                           },
+                           this)
   }
 
   function isValid()

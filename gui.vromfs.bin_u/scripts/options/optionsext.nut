@@ -4540,7 +4540,7 @@ function set_option(type, value, descr = null)
           if (optValue.len())
             ::mission_settings.postfix = optValue
           else
-            ::mission_settings.postfix = values[rand() % values.len()]
+            ::mission_settings.postfix = values[::math.rnd() % values.len()]
           ::set_gui_option(type, optValue)
         }
       }

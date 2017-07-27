@@ -70,19 +70,23 @@
         ::g_hud_event_manager.subscribe(hint.showEvent, (@(hint) function (eventData) {
           local hintData = findActiveHintFromSameGroup(hint)
 
+          if (hintData)
+            if (!hint.hintType.isReplaceable(hint, eventData, hintData.hint, hintData.eventData))
+              return
+            else if (hint == hintData.hint)
+            {
+              hideHint(hintData)
+              updateHintInList(hintData, eventData)
+            }
+            else
+            {
+              removeHint(hintData)
+              hintData = null
+            }
+
           if (!hintData)
-          {
             hintData = addToList(hint, eventData)
-            showHint(hintData)
-          }
-          else if (hint.hintType.isReplaceable(hint, eventData, hintData.hint, hintData.eventData))
-          {
-            hideHint(hintData)
-            hintData.eventData = eventData
-            showHint(hintData)
-          }
-          else if (hint == hintData.hint)
-            updateHintInList(hintData, eventData)
+          showHint(hintData)
 
           updateHint(hintData)
         })(hint), this)
@@ -92,10 +96,7 @@
           local hintData = findActiveHintFromSameGroup(hint)
           if (!hintData)
             return
-          hideHint(hintData)
-          if (hintData.hint.selfRemove && hintData.removeTimer)
-            hintData.removeTimer.destroy()
-          removeFromList(hintData)
+          removeHint(hintData)
         })(hint), this)
 
       if (hint.updateCbs)
@@ -207,6 +208,14 @@
       return
 
     guiScene.destroyElement(hintObject)
+  }
+
+  function removeHint(hintData)
+  {
+    hideHint(hintData)
+    if (hintData.hint.selfRemove && hintData.removeTimer)
+      hintData.removeTimer.destroy()
+    removeFromList(hintData)
   }
 
   function updateHint(hintData)

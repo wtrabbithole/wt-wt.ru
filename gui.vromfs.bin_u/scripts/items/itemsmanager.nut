@@ -935,6 +935,21 @@ function ItemsManager::saveSeenItemsData(forInventoryItems)
   ::saveLocalByAccount(seenItemsInfo.name, seenItemsData)
 }
 
+function ItemsManager::resetSeenItemsData(forInventoryItems)
+{
+  local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
+  if (seenItemsInfo.seenItemsData != null)
+    seenItemsInfo.seenItemsData = null
+  if (::g_login.isProfileReceived()) // Account isn't loaded yet.
+    ::saveLocalByAccount(seenItemsInfo.name, null)
+}
+
+function ItemsManager::onEventAccountReset(p)
+{
+  resetSeenItemsData(false)
+  resetSeenItemsData(true)
+}
+
 function ItemsManager::updateGamercardIcons(forInventoryItems = null)
 {
   _checkUpdateList()
@@ -975,7 +990,7 @@ function ItemsManager::isItemUnseen(item)
 function ItemsManager::isEnabled()
 {
   local checkNewbie = !::my_stats.isMeNewbie()
-    || ItemsManager.hasSeenItems(true)
+    || hasSeenItems(true)
     || inventory.len() > 0
   return ::has_feature("Items") && checkNewbie && ::isInMenu()
 }

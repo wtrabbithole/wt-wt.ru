@@ -12,6 +12,7 @@ enum MISSION_OBJECTIVE
 
   ZONE_CAPTURE        = 0x0200
   ZONE_BOMBING        = 0x0400
+  ALIVE_TIME          = 0x0800
 
   //masks
   NONE                = 0x0000
@@ -117,6 +118,11 @@ enum MISSION_OBJECTIVE
     objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.ZONE_CAPTURE
     objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
     helpBlkPath = "gui/help/missionGroundCapture.blk"
+  }
+
+  G_BR = {  // Ground: Battle Royalle
+    reMisName = ::regexp2(@"_BR(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.ALIVE_TIME
   }
 
   NA = {

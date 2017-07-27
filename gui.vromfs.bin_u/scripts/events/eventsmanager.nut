@@ -582,7 +582,8 @@ class Events
       return
 
     local sides = []
-    local isSymmetric = ::getTblValue("isSymmetric", event)
+    local isFreeForAll = ::getTblValue("ffa", event)
+    local isSymmetric = isFreeForAll || ::getTblValue("isSymmetric", event, false)
 
     foreach(team in fullTeamsList)
       if (isTeamDataPlayable(getTeamData(event, team)))
@@ -596,6 +597,7 @@ class Events
 
     event.sidesList <- sides
     event.isSymmetric <- isSymmetric
+    event.isFreeForAll <- isFreeForAll
   }
 
   function getSidesList(event = null)
@@ -610,6 +612,12 @@ class Events
   {
     initSidesOnce(event)
     return event.isSymmetric
+  }
+
+  function isEventFreeForAll(event)
+  {
+    initSidesOnce(event)
+    return event.isFreeForAll
   }
 
   function getTeamName(teamCode)

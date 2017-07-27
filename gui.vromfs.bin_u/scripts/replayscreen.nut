@@ -106,7 +106,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
   isReplayPressed = false
   curPage = 0
 
-  statsColumnsOrderPvp  = [ "team", "name", "score", "kills", "groundKills", "navalKills", "aiKills", "aiGroundKills",
+  statsColumnsOrderPvp  = [ "team", "name", "missionAliveTime", "score", "kills", "groundKills", "navalKills", "aiKills", "aiGroundKills",
                             "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths" ]
   statsColumnsOrderRace = [ "team", "rowNo", "name", "raceFinishTime", "raceLap", "raceLastCheckpoint", "raceBestLapTime", "deaths" ]
 

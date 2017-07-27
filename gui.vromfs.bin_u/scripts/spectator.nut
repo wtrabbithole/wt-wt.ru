@@ -754,7 +754,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     local gameType = ::get_game_type()
     local isMpMode = !!(gameType & ::GT_VERSUS) || !!(gameType & ::GT_COOPERATIVE)
     local isPvP = !!(gameType & ::GT_VERSUS)
-    local isFFA = isPvP && !!(gameType & ::GT_FREE_FOR_ALL)
+    local isFFA = isPvP && !::is_mode_with_teams(gameType)
 
     if (isPvP && !isFFA || !canSeeOppositeTeam)
     {

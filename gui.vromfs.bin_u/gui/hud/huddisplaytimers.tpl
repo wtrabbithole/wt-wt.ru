@@ -18,7 +18,7 @@ animSizeObj { //place div
 
     tdiv {
       id:t='icon';
-      size:t='0.85pw, 0.85ph';
+      size:t='0.6pw, 0.6ph';
       position:t='absolute';
       pos:t='pw/2 - w/2, ph/2 - h/2';
       background-color:t='<<color>>';

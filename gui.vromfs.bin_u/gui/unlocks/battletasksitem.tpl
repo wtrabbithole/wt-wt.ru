@@ -114,14 +114,21 @@ expandable {
         border-color:t='@black' //Not a forgotten string, by design.
 
         <<#taskPlayback>>
-        hoverBgButton {
-          id:t='<<id>>_sound'
-          foreground-image:t=''
-          on_click:t='switchPlaybackVolume'
-          playback:t='<<taskPlayback>>'
-          size:t='1@mIco, 1@mIco'
-          pos:t='pw-w-1@framePadding, ph-h - 1@framePadding'
+        ShadowPlate {
+          pos:t='pw-w, ph-h'
           position:t='absolute'
+          padding:t='1@framePadding'
+          playbackCheckbox {
+            id:t='<<id>>_sound'
+            on_change_value:t='switchPlaybackMode'
+            playback:t='<<taskPlayback>>'
+            btnName:t='LB'
+            ButtonImg{}
+            descImg {
+              background-image:t='#ui/gameuiskin#sound_on'
+            }
+            playbackImg{}
+          }
         }
         <</taskPlayback>>
       }

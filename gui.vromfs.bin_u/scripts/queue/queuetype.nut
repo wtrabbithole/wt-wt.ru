@@ -1,3 +1,9 @@
+enum qTypeCheckOrder {
+  COMMON
+  ANY_EVENT
+  UNKNOWN
+}
+
 ::g_queue_type <- {
   types = []
 }
@@ -21,6 +27,9 @@ function g_queue_type::addClusterToQueueByParams(queue, params, needEvent = true
 }
 
 ::g_queue_type.template <- {
+  typeName = "" //filled automatically by typeName
+  bit = QUEUE_TYPE_BIT.UNKNOWN
+  checkOrder = qTypeCheckOrder.COMMON
   useSlots = true
   useClusters = true
 
@@ -50,9 +59,7 @@ function g_queue_type::addClusterToQueueByParams(queue, params, needEvent = true
     return newQueue
   }
 
-  getDefaultQueue = function(queueId, params) {
-    return getBaseQueue(queueId, params)
-  }
+  getDefaultQueue = @(queueId, params) getBaseQueue(queueId, params)
 
   /**
     queue params, cant be null at least table (overrides in createQueue func)
@@ -62,8 +69,8 @@ function g_queue_type::addClusterToQueueByParams(queue, params, needEvent = true
   getBaseQueue = function(queueId, params) {
     return {
       id = queueId
-      type = queueType.UNKNOWN
-      enumType = this
+      typeBit = bit
+      queueType = this
       name = ::getTblValue("mode", params, "")
       state = queueStates.NOT_IN_QUEUE
       activateTime = -1
@@ -102,54 +109,45 @@ function g_queue_type::addClusterToQueueByParams(queue, params, needEvent = true
   }
 
   updateInfo = function(successCallback, errorCallback, showError = false) {}
+  isParamsCorresponds = @(params) true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_queue_type",
   {
-    EVENT = {
-      getDefaultQueue = function(queueId, params) {
-        local newQueue = getBaseQueue(queueId, params)
-        newQueue.type = queueType.EVENT
-        newQueue.msquad <- true
+    UNKNOWN = {
+      checkOrder = qTypeCheckOrder.UNKNOWN
+    }
 
-        return newQueue
-      }
+    EVENT = {
+      bit = QUEUE_TYPE_BIT.EVENT
+      checkOrder = qTypeCheckOrder.ANY_EVENT
+      isParamsCorresponds = @(params) !::u.isEmpty(::getTblValue("mode", params))
     }
 
     NEWBIE = {
-      getDefaultQueue = function(queueId, params) {
-        local newQueue = getBaseQueue(queueId, params)
-        newQueue.type = queueType.NEWBIE
-        newQueue.msquad <- true
-
-        return newQueue
-      }
+      bit = QUEUE_TYPE_BIT.NEWBIE
+      isParamsCorresponds = @(params) ("mode" in params) && ::my_stats.isNewbieEventId(params.mode)
     }
 
     DOMINATION = {
-      getDefaultQueue = function(queueId, params) {
-        local newQueue = getBaseQueue(queueId, params)
-        newQueue.type = queueType.DOMINATION
-        newQueue.msquad <- true
-
-        return newQueue
-      }
+      bit = QUEUE_TYPE_BIT.DOMINATION
+      isParamsCorresponds = @(params) ("mode" in params) && ::events.isEventRandomBattlesById(params.mode)
     }
 
     WW_BATTLE = {
+      bit = QUEUE_TYPE_BIT.WW_BATTLE
       useSlots = false
       useClusters = false
 
+      isParamsCorresponds = @(params) "battleId" in params
       prepareQueueParams = function(params) {
         return params
       }
 
       getDefaultQueue = function(queueId, params) {
         local newQueue = getBaseQueue(queueId, params)
-        newQueue.type = queueType.WW_BATTLE
         newQueue.name = ::getTblValue("operationId", params, "") + "_"
                         + ::getTblValue("battleId", params, "")
-
         return newQueue
       }
 
@@ -190,27 +188,19 @@ function g_queue_type::addClusterToQueueByParams(queue, params, needEvent = true
         )
       }
     }
-
-    UNKNOWN = {}
-  }
+  },
+  null,
+  "typeName"
 )
+
+::g_queue_type.types.sort(@(a, b) a.checkOrder <=> b.checkOrder)
 
 function g_queue_type::getQueueTypeByParams(params)
 {
   if (!params)
     return UNKNOWN
-
-  if (("mode" in params) && params.mode != "")
-  {
-    if (::my_stats.isNewbieEventId(params.mode))
-      return NEWBIE
-    else if (::events.isEventRandomBattlesById(params.mode))
-      return DOMINATION
-    else
-      return EVENT
-  }
-  else if (::getTblValue("battle_id", params, ""))
-    return WW_BATTLE
-
+  foreach(qType in types)
+    if (qType.isParamsCorresponds(params))
+      return qType
   return UNKNOWN
 }

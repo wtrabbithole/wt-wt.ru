@@ -75,10 +75,9 @@ function g_script_reloader::reload(scriptPath = "scripts/main.nut")
   saveAllDataToStorages()
   loadedScripts.clear()
   loadOnce(scriptPath)
-  isInReloading = false
-
   if ("broadcastEvent" in ::getroottable())
     ::broadcastEvent("ScriptsReloaded", { scriptPath = scriptPath })
+  isInReloading = false
   return "Reload success" //for feedbek on console command
 }
 

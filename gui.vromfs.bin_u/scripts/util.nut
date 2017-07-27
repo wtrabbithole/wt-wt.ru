@@ -3323,9 +3323,18 @@ function char_convert_blueprints(type)
   return ::char_send_blk("cln_convert_blueprints", blk)
 }
 
-function is_mode_with_teams()
+function is_mode_with_friendly_units(gt = null)
 {
-  return !(::get_game_type() & ::GT_FREE_FOR_ALL)
+  if (gt == null)
+    gt = ::get_game_type()
+  return !!(gt & ::GT_RACE) || !(gt & (::GT_FFA_DEATHMATCH | ::GT_FFA))
+}
+
+function is_mode_with_teams(gt = null)
+{
+  if (gt == null)
+    gt = ::get_game_type()
+  return !(gt & (::GT_FFA_DEATHMATCH | ::GT_FFA))
 }
 
 function is_team_friendly(teamId)

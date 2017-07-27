@@ -26,6 +26,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   curRoomId = ""
   curChapterId = ""
+  roomIdToSelect = null
   roomsListData = null
   isSelectedRoomDataChanged = false
   roomsListObj  = null
@@ -44,11 +45,15 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   static CHAPTER_REGEXP = regexp2(":.*$")
   static ROOM_REGEXP = regexp2(".*(:)")
 
-  function open(event, hasBackToEventsButton = false)
+  function open(event, hasBackToEventsButton = false, roomIdToSelect = null)
   {
     if (event)
       ::handlersManager.loadHandler(::gui_handlers.EventRoomsHandler,
-                                    { event = event, hasBackToEventsButton = hasBackToEventsButton })
+      {
+        event = event
+        hasBackToEventsButton = hasBackToEventsButton
+        roomIdToSelect = roomIdToSelect
+      })
   }
 
   function initScreen()
@@ -434,8 +439,12 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       foreach (roomIdx, room in chapter.rooms)
       {
         local roomId = room.roomId
-        if (roomId == curRoomId)
+        if (roomId == curRoomId || roomId == roomIdToSelect)
+        {
           selectedIndex = view.items.len()
+          if (roomId == roomIdToSelect)
+            curRoomId = roomIdToSelect
+        }
 
         view.items.append({
           id = chapter.name + ROOM_ID_SPLIT + roomId
@@ -449,7 +458,11 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(roomsListObj, data, data.len(), this)
 
     if (roomsList.len())
+    {
       roomsListObj.setValue(selectedIndex)
+      if (roomIdToSelect == curRoomId)
+        roomIdToSelect = null
+    }
     else
     {
       curRoomId = ""

@@ -1,5 +1,6 @@
 <<#invites>>
 expandable {
+  id:t='invite_<<uid>>'
   inviteUid:t='<<uid>>'
   class:t='simple'
 
@@ -33,11 +34,14 @@ expandable {
       }
 
       tdiv {
+        width:t='pw'
+
         cardImg {
           background-image:t='<<getIcon>>'
         }
 
         textareaNoTab {
+          id:t='text'
           width:t='fw'
           pos:t='0.01@scrn_tgt, 0'
           position:t='relative'
@@ -47,6 +51,7 @@ expandable {
       }
 
       textareaNoTab {
+        id:t='restrictions'
         width:t='pw'
         padding-left:t='1@cIco + 0.01@scrn_tgt'
         overlayTextColor:t='warning'
@@ -60,6 +65,7 @@ expandable {
       position:t='relative'
 
       Button_text {
+        id:t='accept'
         inviteUid:t='<<uid>>'
         class:t="double"
         tooltip:t = '#invite/accept'

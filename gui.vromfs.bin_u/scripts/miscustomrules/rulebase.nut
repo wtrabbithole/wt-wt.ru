@@ -71,6 +71,24 @@ class ::mission_rules.Base
     return getUnitLeftRespawnsByTeamDataBlk(unit, teamDataBlk || getMyTeamDataBlk())
   }
 
+  function getUnitLeftWeaponShortText(unit)
+  {
+    local weaponsLimits = getWeaponsLimitsBlk()
+    local unitWeaponLimit = ::getTblValue(unit.name, weaponsLimits, null)
+    if (!unitWeaponLimit)
+      return ""
+
+    local presetNumber = unitWeaponLimit.respawnsLeft
+    if (!presetNumber)
+      return ""
+
+    local presetIconsText = ::get_weapon_icons_text(unit.name, unitWeaponLimit.name)
+    if (::u.isEmpty(presetIconsText))
+      return ""
+
+    return presetNumber + presetIconsText
+  }
+
   function getRespawnInfoTextForUnit(unit)
   {
     local unitLeftRespawns = getUnitLeftRespawns(unit)

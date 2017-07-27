@@ -169,7 +169,12 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
 
       local titleObj = teamObj.findObject("team_title")
       if(::checkObj(titleObj))
-        titleObj.show(!::events.isEventSymmetricTeams(roomMGM))
+      {
+        local isEventFreeForAll = ::events.isEventFreeForAll(roomMGM)
+        titleObj.show( ! ::events.isEventSymmetricTeams(roomMGM) || isEventFreeForAll)
+        titleObj.setValue(isEventFreeForAll ? ::loc("events/ffa")
+          : ::g_team.getTeamByCode(team).getName())
+      }
 
       local teamData = ::events.getTeamDataWithRoom(roomMGM, team, room)
       local playersCountObj = getObject("players_count", teamObj)

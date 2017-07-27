@@ -36,8 +36,6 @@
       "forceSimulInitialRandomSeed": true,
       "simulInitialRandomSeed": 7,
       "chapter": "tutorial",
-      "difficulty": "arcade",
-      "tutorialObjectsFile": "config/tutorial_hud_elements/tutorial_tank_part2_hud_elements.blk",
       "gt_mp_tickets": true,
       "gt_mp_capture": true,
       "isLimitedFuel": false,
@@ -45,6 +43,8 @@
       "openDiffLevels": false,
       "scoreLimit": 10000,
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
+      "difficulty": "arcade",
+      "tutorialObjectsFile": "config/tutorial_hud_elements/tutorial_tank_part2_hud_elements.blk",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -133,6 +133,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "tank",
               "side": "player",
@@ -184,6 +187,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "target_tanks_squad"
             },
             {
@@ -205,6 +211,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "background_tanks12"
             },
@@ -256,6 +265,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "isImmortal": true
           }
@@ -293,6 +303,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "target_tanks_squad"
             },
@@ -371,6 +384,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "background_tanks12"
             },
@@ -475,6 +491,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "isImmortal": true
           }
@@ -656,7 +673,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -684,6 +701,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank03",
             "stealthRadius": 1000.0
           }
@@ -691,6 +709,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank03"
           }
         },
@@ -848,6 +867,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank03",
             "isImmortal": false
           }
@@ -1553,6 +1573,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank03"
           }
         },
@@ -1567,6 +1588,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank03",
             "stealthRadius": 0.0
           }
@@ -1665,6 +1687,7 @@
       "actions": [
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank04",
             "stealthRadius": 1000.0
           }
@@ -1672,6 +1695,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "target_tank04"
           }
         },
@@ -1811,6 +1835,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank04",
             "isImmortal": false
           }
@@ -1979,7 +2004,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2065,7 +2090,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2183,7 +2208,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2281,7 +2306,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2372,7 +2397,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2470,7 +2495,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2926,6 +2951,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank04",
             "stealthRadius": 0.0
           }
@@ -2933,6 +2959,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank04"
           }
         },
@@ -2960,7 +2987,7 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0,
+            "priority": 100,
             "isOverFade": false,
             "shouldBlink": false
           }
@@ -2998,7 +3025,7 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0,
+            "priority": 100,
             "isOverFade": false,
             "shouldBlink": false
           }
@@ -3026,7 +3053,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3065,7 +3092,7 @@
         {
           "playHint": {
             "hintType": "custom",
-            "name": "hints/tutorialB_continue",
+            "name": "hints/tutorial_press_id_continue",
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
@@ -3097,7 +3124,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3272,6 +3299,9 @@
         },
         "unitSetProperties": [
           {
+            "object_marking": 0
+          },
+          {
             "object": "target_tank05"
           },
           {
@@ -3284,6 +3314,9 @@
         "unitSetIndication": [
           {
             "set": true
+          },
+          {
+            "target_marking": 0
           },
           {
             "target": "target_tank05"
@@ -3487,7 +3520,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3599,7 +3632,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3728,7 +3761,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -4151,7 +4184,6 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "item": "ID_CONTINUE",
             "shouldBlink": false
           }
         },
@@ -4271,6 +4303,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "target_tank05"
             },
             {
@@ -4343,7 +4378,6 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
-            "item": "ID_CONTINUE",
             "shouldBlink": false
           }
         },
@@ -4614,6 +4648,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "target_tank05"
             },
             {
@@ -4861,6 +4898,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank05"
           }
         },
@@ -5009,6 +5047,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank07"
           }
         }
@@ -5447,6 +5486,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "player",
           "isImmortal": false
         },
@@ -5481,6 +5521,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "player",
           "isImmortal": true
         },

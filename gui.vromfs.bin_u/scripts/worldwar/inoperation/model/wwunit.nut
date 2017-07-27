@@ -64,6 +64,7 @@ class ::WwUnit
       status = canUse ? "owned" : "locked"
       inactive = true
       isPriceForcedHidden = true
+      tooltipParams = { showLocalState = false }
     })
   }
 
@@ -91,7 +92,7 @@ class ::WwUnit
       hasAdditionalGuns = presetData.additionalGuns.len() > 0
       hasPresetWeapon = (presetText.len() > 0) && (weaponCount > 0)
       presetCount = addPreset && weaponCount < count ? weaponCount : null
-      tooltipId = ::g_tooltip.getIdUnit(name)
+      tooltipId = ::g_tooltip.getIdUnit(name, { showLocalState = false })
     }
 
     if (addIcon)

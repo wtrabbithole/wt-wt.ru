@@ -138,6 +138,8 @@ function addWeaponsFromBlk(weapons, block, unitType)
     else if (weaponBlk.fuelTankGun || weaponBlk.boosterGun || weaponBlk.airDropGun)
       continue
 
+    local isTurret = currentTypeName == "turrets"
+
     local bullets = weapon.bullets
     if (bullets <= 0)
     {
@@ -147,6 +149,7 @@ function addWeaponsFromBlk(weapons, block, unitType)
     }
 
     local item = {
+      turret = null
       ammo = 0
       num = 0
       caliber = 0
@@ -181,14 +184,10 @@ function addWeaponsFromBlk(weapons, block, unitType)
       }
     }
 
-    if(weapon.turret)
+    if(isTurret && weapon.turret)
     {
       local turretInfo = weapon.turret
-      if(::u.isDataBlock(turretInfo))
-        if(turretInfo.head)
-          item.turret <- turretInfo.head
-      else
-        item.turret <- turretInfo
+      item.turret = ::u.isDataBlock(turretInfo) ? turretInfo.head : turretInfo
     }
 
     if (!(currentTypeName in weapons))
@@ -197,12 +196,38 @@ function addWeaponsFromBlk(weapons, block, unitType)
     local trIdx = -1
     foreach(idx, t in weapons[currentTypeName])
       if (weapon.trigger == t.trigger ||
-        unitType == ::ES_UNIT_TYPE_TANK && (weaponName in t) && ::is_weapon_params_equal(item, t[weaponName]) ||
-        ::getTblValue("turret", item) == ::getTblValueByPath(weaponName + ".turret", t, true))
+        (weaponName in t) && ::is_weapon_params_equal(item, t[weaponName]))
       {
         trIdx = idx
         break
       }
+
+    // Merging duplicating weapons with different weaponName
+    // (except guns, because there exists different guns with equal params)
+    if (trIdx >= 0 && !(weaponName in weapons[currentTypeName][trIdx]) && unitName != "bullet")
+      foreach (name, existingItem in weapons[currentTypeName][trIdx])
+        if (::is_weapon_params_equal(item, existingItem))
+        {
+          weaponName = name
+          break
+        }
+
+    // Merging duplicating weapons with different trigger (except turrets)
+    if (trIdx < 0 && !isTurret)
+    {
+      foreach(idx, t in weapons[currentTypeName])
+      {
+        foreach (name, existingItem in t)
+          if (::is_weapon_params_equal(item, existingItem))
+          {
+            weaponName = name
+            trIdx = idx
+            break
+          }
+        if (trIdx >= 0)
+          break
+      }
+    }
 
     if (trIdx < 0)
     {
@@ -211,15 +236,6 @@ function addWeaponsFromBlk(weapons, block, unitType)
     }
 
     local currentType = weapons[currentTypeName][trIdx]
-
-    //merging duplicating weapons with different ids
-    if (!(weaponName in currentType) && bullets <= 1)
-      foreach (name, existingItem in currentType)
-        if (::is_weapon_params_equal(item, existingItem))
-        {
-          weaponName = name
-          break
-        }
 
     if (!(weaponName in currentType))
     {
@@ -255,9 +271,9 @@ function is_weapon_params_equal(item1, item2)
 {
   if (typeof(item1) != "table" || typeof(item2) != "table" || !item1.len() || !item2.len())
     return false
-  local skipParams = [ "num", "ammo", "turret" ]
+  local skipParams = [ "num", "ammo" ]
   foreach (idx, val in item1)
-    if (!::isInArray(idx, skipParams) && val != item2[idx])
+    if (!::isInArray(idx, skipParams) && !::u.isEqual(val, item2[idx]))
       return false
   return true
 }
@@ -347,19 +363,14 @@ function getWeaponInfoText(air, isPrimary = null, weaponPresetNo=-1, newLine="\n
 
   local weaponTypeList = ["cannons", "rockets", "guns", "turrets", "torpedoes", "bombs"]
   local consumableWeapons = ["rockets", "torpedoes", "bombs"]
-  local stackableWeapons = ["turrets", "torpedoes"]
+  local stackableWeapons = ["turrets"]
   foreach (index, weaponType in weaponTypeList)
   {
     if (!(weaponType in weapons))
       continue
 
     local triggers = weapons[weaponType]
-    triggers.sort(function(a,b)
-      {
-        if (a.caliber != b.caliber)
-          return (a.caliber > b.caliber) ? -1 : 1
-        return 0
-      })
+    triggers.sort(@(a, b) b.caliber <=> a.caliber)
 
     if (::isInArray(weaponType, stackableWeapons))
     {  //merge stackable in one

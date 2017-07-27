@@ -125,7 +125,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     EASAB_DEAD = "dead"
   }
 
-  ffa = false
+  isTeamplay = false
   isSpectator = false
   gameType = null
 
@@ -136,7 +136,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function initScreen()
   {
     gameType = ::get_game_type()
-    ffa = !(gameType & ::GT_RACE) && !!(gameType & ::GT_FREE_FOR_ALL)
+    isTeamplay = ::is_mode_with_teams(gameType)
 
     if (::disable_network()) //for correct work in disable_menu mode
       ::update_gamercards()
@@ -181,20 +181,27 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       if (isSpectator
            && (gameType & ::GT_VERSUS)
-           && !ffa
            && (mpResult == ::STATS_RESULT_SUCCESS
                 || mpResult == ::STATS_RESULT_FAIL))
       {
-        local myTeam = Team.A
-        foreach(player in ::debriefing_result.mplayers_list)
-          if (::getTblValue("isLocal", player, false))
-          {
-            myTeam = player.team
-            break
-          }
-        local winner = ((myTeam == Team.A) == ::debriefing_result.isSucceed) ? "A" : "B"
-        resTitle = ::loc("multiplayer/team_won") + ::loc("ui/colon") + ::loc("multiplayer/team" + winner)
-        headerImgTag = "win"
+        if (isTeamplay)
+        {
+          local myTeam = Team.A
+          foreach(player in ::debriefing_result.mplayers_list)
+            if (::getTblValue("isLocal", player, false))
+            {
+              myTeam = player.team
+              break
+            }
+          local winner = ((myTeam == Team.A) == ::debriefing_result.isSucceed) ? "A" : "B"
+          resTitle = ::loc("multiplayer/team_won") + ::loc("ui/colon") + ::loc("multiplayer/team" + winner)
+          headerImgTag = "win"
+        }
+        else
+        {
+          resTitle = ::loc("MISSION_FINISHED")
+          headerImgTag = "win"
+        }
       }
       else if (mpResult == ::STATS_RESULT_SUCCESS)
       {
@@ -1626,36 +1633,18 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (needPlayersTbl)
     {
-      foreach (tbl in [ tblSave1, tblSave2 ])
-        if (tbl)
-           sortTable(tbl)
+      if (isTeamplay)
+        foreach (tbl in [ tblSave1, tblSave2 ])
+          if (tbl)
+            sortTable(tbl)
       selectLocalPlayer()
 
       if (gameType & ::GT_VERSUS)
       {
-        playersTbl = []
         curPlayersTbl = [[], []]
-        if (ffa || (gameType & ::GT_RACE))
-        {
-          local copy_plTable = clone ::debriefing_result.mplayers_list
-          local globalHalfOfTable = ::global_max_players_versus / 2
-          local mplayersTable = []
-          for(local i = 0; i < copy_plTable.len(); ++i)
-            if (i in copy_plTable)
-            {
-              local arrayElement = i >= globalHalfOfTable? 1 : 0
-              if(!(arrayElement in mplayersTable))
-                mplayersTable.append([])
-
-              mplayersTable[arrayElement].append(clone copy_plTable[i])
-            }
-
-          for(local t = 0; t < 2; ++t)
-            appendPlayersTbl(playersTbl, (t in mplayersTable? mplayersTable[t] : []))
-        }
-        else
-          for(local t = 0; t < 2; t++)
-            appendPlayersTbl(playersTbl, getMplayersListByTeam(t+1))
+        playersTbl = []
+        appendPlayersTbl(playersTbl, tblSave1)
+        appendPlayersTbl(playersTbl, tblSave2)
       }
     }
     updatePlayersTable(0.0)
@@ -1705,8 +1694,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     if (!playersTbl
         || isSpectator
-        || pveRewardInfo && pveRewardInfo.isVisible
-        || ffa)
+        || pveRewardInfo && pveRewardInfo.isVisible)
       return
 
     local place = 0
@@ -1720,8 +1708,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (place==0)
       return
 
+    local label = isTeamplay ? ::loc("debriefing/placeInMyTeam")
+      : (::loc("mainmenu/btnMyPlace") + ::loc("ui/colon"))
+
     local objTarget = scene.findObject("my_place_move_box")
     objTarget.show(true)
+    scene.findObject("my_place_label").setValue(label)
     scene.findObject("my_place_in_mptable").setValue(place.tostring())
 
     if (!skipAnim)

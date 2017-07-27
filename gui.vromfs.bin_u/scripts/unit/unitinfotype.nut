@@ -116,7 +116,7 @@ const COMPARE_NO_COMPARE = "no"
       if (diff.egdCode != ::EGD_NONE)
       {
         local mode = diff.getEgdName()
-        local characteristicArr = ::getCharacteristicActualValue(unit, [item.id, item.id2], function(value){return ""}, diff.crewSkillName)
+        local characteristicArr = ::getCharacteristicActualValue(unit, [item.id, item.id2], function(value){return ""}, diff.crewSkillName, false)
         blk.value[mode] = characteristicArr[2]
         blk.valueText[mode] = item.prepareTextFunc(characteristicArr[2])
       }
@@ -342,7 +342,7 @@ const COMPARE_NO_COMPARE = "no"
     id = "full_repair_time_crew"
     order = UNIT_INFO_ORDER.FULL_REPAIR_TIME_CREW
     compare = COMPARE_LESS_BETTER
-    headerLocId = "shop/full_repair_time_crew"
+    headerLocId = "shop/full_repair_time"
     addToExportDataBlock = function(blk, unit)
     {
       blk.value = ::DataBlock()

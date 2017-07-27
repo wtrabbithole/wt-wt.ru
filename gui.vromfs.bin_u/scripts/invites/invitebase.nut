@@ -21,10 +21,12 @@ class ::BaseInvite
   timedShowStamp = -1   //  invite must be hidden till this timestamp
   timedExpireStamp = -1 //  invite must autoexpire after this timestamp
 
+  reloadParams = null //params to reload invite on script reload
+
   constructor(params)
   {
     uid = getUidByParams(params)
-    updateParams(params)
+    updateParams(params, true)
   }
 
   static function getUidByParams(params) //must be uniq between invites classes
@@ -34,6 +36,7 @@ class ::BaseInvite
 
   function updateParams(params, initial = false)
   {
+    reloadParams = params
     receivedTime = ::dagor.getCurTime()
     inviterName = ::getTblValue("inviterName", params, inviterName)
     inviterUid = ::getTblValue("inviterUid", params, inviterUid)
@@ -41,6 +44,11 @@ class ::BaseInvite
     updateCustomParams(params, initial)
 
     showInvitePopup() //we are show popup on repeat the same invite.
+  }
+
+  function afterScriptsReload(inviteBeforeReload)
+  {
+    receivedTime = inviteBeforeReload.receivedTime
   }
 
   function updateCustomParams(params, initial = false) {}
@@ -142,7 +150,7 @@ class ::BaseInvite
 
   function showInvitePopup()
   {
-    if (!isVisible())
+    if (!isVisible() || ::g_script_reloader.isInReloading)
       return
     local msg = getPopupText()
     if (!msg.len())

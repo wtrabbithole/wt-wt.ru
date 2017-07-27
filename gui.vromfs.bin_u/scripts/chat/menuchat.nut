@@ -1246,7 +1246,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         local isSquad = ::g_chat.isRoomSquad(room.id)
         local msgId = isSquad ? "squad/leaveChannel" : "chat/leaveChannel"
         if (isSquad)
+        {
           ::updateVoicechatDisplay(null)
+          room.canBeClosed = true
+          updateRoomTabById(room.id)
+        }
         addRoomMsg(room.id, "", format(::loc(msgId), room.getRoomName()))
         sceneChanged = true
         onRoomChanged()
@@ -2044,9 +2048,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       room.joined = false //becoase can be disconnected from chat, but this info is still important.
       room.canBeClosed = true
       room.users.clear()
-      local roomIdx = getRoomIdxById(room.id)
-      if (roomIdx >= 0)
-        updateRoomTabByIdx(roomIdx, room)
+      updateRoomTabById(room.id)
 
       if(curRoom == room)
         updateUsersList()

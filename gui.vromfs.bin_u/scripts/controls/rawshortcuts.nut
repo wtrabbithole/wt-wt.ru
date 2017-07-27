@@ -19,6 +19,7 @@
   KEY_F         = {dev = [2], btn = [33]}
   KEY_G         = {dev = [2], btn = [34]}
   KEY_V         = {dev = [2], btn = [47]}
+  KEY_B         = {dev = [2], btn = [48]}
 
   KEY_LCTRL     = {dev = [2], btn = [29]}
   KEY_LSHIFT    = {dev = [2], btn = [42]}

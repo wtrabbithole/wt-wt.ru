@@ -276,6 +276,15 @@ function g_mplayer_param_type::_newer(old, new) {
       markupTbl.hideImage <- true
     }
   }
+
+  ALIVE_TIME = {
+    id = "missionAliveTime"
+    tooltip = "#multiplayer/lifetime"
+    fontIcon = "#icon/timer"
+    relWidth = 15
+    missionObjective = MISSION_OBJECTIVE.ALIVE_TIME
+    printFunc = @(val, player) ::secondsToString(val, false)
+  }
 })
 
 function g_mplayer_param_type::getTypeById(id)

@@ -36,8 +36,6 @@
       "forceSimulInitialRandomSeed": true,
       "simulInitialRandomSeed": 12,
       "chapter": "tutorial",
-      "difficulty": "arcade",
-      "tutorialObjectsFile": "config/tutorial_hud_elements/tutorial_tank_part1_hud_elements.blk",
       "gt_mp_tickets": true,
       "gt_mp_capture": true,
       "isLimitedFuel": false,
@@ -45,6 +43,8 @@
       "openDiffLevels": false,
       "scoreLimit": 10000,
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
+      "difficulty": "arcade",
+      "tutorialObjectsFile": "config/tutorial_hud_elements/tutorial_tank_part1_hud_elements.blk",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -133,6 +133,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "tank",
               "side": "player",
@@ -184,6 +187,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "target_tanks_squad"
             },
             {
@@ -206,11 +212,26 @@
             },
             {
               "lockSpeed": true
+            },
+            {
+              "advancedCollisionAvoidance": false
+            },
+            {
+              "ignoreCollisions": true
+            },
+            {
+              "aiEnabled": false
+            },
+            {
+              "enginesEnabled": false
             }
           ]
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "background_tanks12"
             },
@@ -232,7 +253,7 @@
         },
         {
           "unitMoveTo": {
-            "target": "waypoint04",
+            "target": "waypoint03",
             "follow_target": false,
             "teleportHeightType": "target",
             "useUnitHeightForTele": false,
@@ -244,7 +265,8 @@
             "object_marking": 0,
             "target_marking": 0,
             "object": "player",
-            "move_type": "teleport"
+            "move_type": "teleport",
+            "lookat": "waypoint04"
           }
         },
         {
@@ -279,13 +301,14 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "isImmortal": true
           }
         },
         {
           "triggerEnable": {
-            "target": "targetCamera_skip"
+            "target": "shootingVideo_correct_shooting"
           }
         },
         {
@@ -331,10 +354,22 @@
           }
         },
         {
-          "__hudElementShow": {
-            "element": "hud_tutorial_tank_tickets_all_texts",
+          "hudElementShow": {
+            "element": "hud_tutorial_tank_press_to_continue_map",
             "show": true,
             "time": -1
+          }
+        },
+        {
+          "__playHint": {
+            "hintType": "custom",
+            "name": "hints/tutorial_press_id_continue",
+            "action": "show",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "shouldBlink": false
           }
         }
       ],
@@ -355,7 +390,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -398,6 +433,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "target_tanks_squad"
             },
@@ -512,6 +550,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "background_tanks12"
             },
             {
@@ -598,6 +639,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "player",
             "isImmortal": true
           }
@@ -639,7 +681,7 @@
         },
         {
           "playerShortcutPressed": {
-            "control": "ANY"
+            "control": "ID_CONTINUE"
           }
         }
       ],
@@ -803,7 +845,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1447,6 +1489,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "target_tank01"
             },
             {
@@ -1460,11 +1505,13 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "target_tank01"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank01",
             "isImmortal": false
           }
@@ -1549,7 +1596,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1656,7 +1703,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1715,6 +1762,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "background_tanks27",
             "stealthRadius": 0.0
           }
@@ -1833,7 +1881,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -1989,7 +2037,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2051,7 +2099,17 @@
         },
         {
           "wait": {
-            "time": 11.0
+            "time": 1.0
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "shootingP1_player_teleport"
+          }
+        },
+        {
+          "wait": {
+            "time": 10.0
           }
         },
         {
@@ -2094,6 +2152,57 @@
       ],
       "else_actions": []
     },
+    "shootingP1_player_teleport": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "missionSetTimeSpeed": {
+            "speed": 1.0,
+            "realtimeTriggers": true
+          }
+        },
+        {
+          "unitRespawn": {
+            "delay": 1.0,
+            "offset": [0.0,0.0,0.0],
+            "object": "player",
+            "target": "caponier_spawn_area"
+          }
+        },
+        {
+          "wait": {
+            "time": 0.1
+          }
+        },
+        {
+          "playerCenterMouseAim": []
+        },
+        {
+          "wait": {
+            "time": 0.1
+          }
+        },
+        {
+          "missionSetTimeSpeed": {
+            "speed": 0.0,
+            "realtimeTriggers": true
+          }
+        }
+      ],
+      "else_actions": []
+    },
     "shootingP1_spot_your_target": {
       "is_enabled": false,
       "comments": "",
@@ -2109,7 +2218,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2207,6 +2316,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank01",
             "stealthRadius": 1000.0
           }
@@ -2214,6 +2324,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "target_tank01"
           }
         },
@@ -2284,6 +2395,73 @@
         }
       ],
       "else_actions": []
+    },
+    "shootingP1_player_sees_unit": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "playerSeesUnit": {
+          "target_type": "isAlive",
+          "check_targets": "any",
+          "target": "target_tank01",
+          "viewAngle": 10.0,
+          "distance": 500.0
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "shootingP1_wait_for_turret"
+        }
+      },
+      "else_actions": [
+        {
+          "missionSetTimeSpeed": {
+            "speed": 1.0,
+            "realtimeTriggers": true
+          }
+        },
+        {
+          "playerControls": [
+            {
+              "setStatus": "enable"
+            },
+            {
+              "control": "AXIS_CAMX"
+            },
+            {
+              "control": "AXIS_CAMY"
+            }
+          ]
+        },
+        {
+          "playerControls": [
+            {
+              "setStatus": "disable"
+            },
+            {
+              "control": "AXIS_GM_MOUSE_AIM_X"
+            },
+            {
+              "control": "AXIS_GM_MOUSE_AIM_Y"
+            }
+          ]
+        },
+        {
+          "triggerEnable": {
+            "target": "shootingP1_wait_for_turret"
+          }
+        }
+      ]
     },
     "shootingP1_wait_for_turret": {
       "is_enabled": false,
@@ -2423,7 +2601,7 @@
           "element": "curTarget"
         },
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2828,7 +3006,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -2914,7 +3092,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3023,7 +3201,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3224,6 +3402,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank01",
             "isImmortal": false
           }
@@ -3459,7 +3638,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -3561,7 +3740,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -4183,9 +4362,11 @@
         ],
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "target_tank01"
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "target_tank01",
           "stealthRadius": 0.0
         },
@@ -4364,6 +4545,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank02",
             "stealthRadius": 1000.0
           }
@@ -4371,6 +4553,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank02"
           }
         },
@@ -4612,6 +4795,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank02",
             "isImmortal": false
           }
@@ -4682,11 +4866,13 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank02"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank02",
             "stealthRadius": 0.0
           }
@@ -4807,7 +4993,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -4879,11 +5065,13 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "target_tank02"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank02",
             "stealthRadius": 0.0
           }
@@ -5116,6 +5304,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank03",
             "stealthRadius": 1000.0,
             "speed": 30.0,
@@ -5195,7 +5384,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -5412,6 +5601,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank04",
             "isImmortal": true,
             "stealthRadius": 1000.0,
@@ -5513,6 +5703,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank04",
             "isImmortal": true,
             "stealthRadius": 1000.0,
@@ -5547,6 +5738,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank04",
             "speed": 30.0,
             "lockSpeed": true
@@ -5609,7 +5801,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -5756,6 +5948,9 @@
         },
         "unitSetProperties": [
           {
+            "object_marking": 0
+          },
+          {
             "object": "target_tank07"
           },
           {
@@ -5897,7 +6092,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6001,7 +6196,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -6130,7 +6325,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -7094,7 +7289,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -7185,7 +7380,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -7383,6 +7578,9 @@
         },
         {
           "__unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "target_tank07"
             },
@@ -7717,6 +7915,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "target_tank06",
             "isImmortal": false
           }
@@ -7724,6 +7923,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "target_tank06"
           }
         },
@@ -8557,7 +8757,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -8643,7 +8843,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -8755,7 +8955,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -8846,7 +9046,7 @@
       },
       "conditions": {
         "playerShortcutPressed": {
-          "control": "ANY"
+          "control": "ID_CONTINUE"
         }
       },
       "actions": [
@@ -9196,6 +9396,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "player",
           "isImmortal": false
         },
@@ -9230,6 +9431,7 @@
       },
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "player",
           "isImmortal": true
         },
@@ -16767,9 +16969,9 @@
       "squad": {
         "name": "artillery_tutorial_squad",
         "tm": [
-          [-25234900000.0,4.590233e-41,-25234900000.0],
-          [4.590233e-41,1.401298e-45,0.0],
-          [1.923129e-39,0.0,-1129330.0],
+          [-25234900000.0,0.0,-25234900000.0],
+          [0.0,0.0,0.0],
+          [0.0,0.0,-1129330.0],
           [1884.98,218.952,1559.03]
         ],
         "props": [
@@ -17184,6 +17386,19 @@
       ],
       "objLayer": 0,
       "props": []
+    },
+    "caponier_spawn_area": {
+      "type": "Sphere",
+      "tm": [
+        [10.0,0.0,0.0],
+        [0.0,10.0,0.0],
+        [0.0,0.0,10.0],
+        [1782.96,217.419,1611.15]
+      ],
+      "objLayer": 0,
+      "props": {
+        "forceReplication": true
+      }
     }
   },
   "objLayers": [

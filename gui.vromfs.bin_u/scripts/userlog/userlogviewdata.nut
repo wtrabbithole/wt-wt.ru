@@ -1308,11 +1308,20 @@ function get_userlog_view_data(log)
   }
   else if (log.type == ::EULT_WW_END_OPERATION)
   {
+    local textLocId = "worldWar/userlog/endOperation/"
+    textLocId += ::getTblValue("winner", log) ? "win" : "lose"
     local mapName = ::getTblValue("mapName", log)
     local opId = ::getTblValue("operationId", log)
-    local textLocId = ::getTblValue("winner", log) ?
-      "worldWar/userlog/endOperationWin" : "worldWar/userlog/endOperationLose"
-    res.name = ::loc(textLocId, { opId = opId, mapName = ::loc("worldWar/map/" + mapName)})
+    local earnedText = ::getPriceText(::getTblValue("wp", log, 0), 0, true, true)
+    res.name = ::loc(textLocId, {
+      opId = opId, mapName = ::loc("worldWar/map/" + mapName), reward = earnedText })
+
+    local poolWpText = ::getPriceText(::getTblValue("wpPool", log, 0), 0, true, true)
+    local statsWpText = ::getPriceText(::getTblValue("wpStats", log, 0), 0, true, true)
+    local statsTotalWpText = ::getPriceText(::getTblValue("wpStatsTotal", log, 0), 0, true, true)
+    res.description <- ::loc("worldWar/userlog/endOperation/pool", { reward = poolWpText }) + "\n" +
+                       ::loc("worldWar/userlog/endOperation/stats", { reward = statsWpText }) + "\n" +
+                       ::loc("worldWar/userlog/endOperation/statsTotal", { reward = statsTotalWpText })
   }
 
 

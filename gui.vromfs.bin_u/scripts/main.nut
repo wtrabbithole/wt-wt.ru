@@ -186,7 +186,6 @@ const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
 function randomize()
 {
   local tm = ::get_local_time()
-  srand(tm.sec + tm.min + tm.hour)
   ::math.init_rnd(tm.sec + tm.min + tm.hour)
 }
 randomize()
@@ -234,8 +233,10 @@ foreach (fn in [
 
   "scripts/baseGuiHandlerManagerWT.nut"
 
+  "scripts/langUtils/localization.nut"
+  "scripts/langUtils/language.nut"
+
   "scripts/user/features.nut"
-  "scripts/language.nut"
   "scripts/clientState/keyboardState.nut"
   "scripts/clientState/contentPacks.nut"
   "scripts/utils/errorMsgBox.nut"
@@ -584,6 +585,8 @@ function load_scripts_after_login()
     "social/activityFeed.nut"
     "social/facebook.nut"
     "social/psnPlayTogether.nut"
+    "social/psnSessionInvitations.nut"
+    "social/psnMapper.nut"
 
     "gamercardDrawer.nut"
 
@@ -705,7 +708,10 @@ function should_disable_menu()
 
 if (::g_login.isLoggedIn() //scripts reload
     || ::should_disable_menu())
+{
   ::load_scripts_after_login()
+  ::run_reactive_gui()
+}
 
 //------- ^^^ files after login ^^^ ----------
 ::use_touchscreen <- ::init_use_touchscreen()

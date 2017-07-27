@@ -811,7 +811,7 @@ class ::gui_handlers.MissionBuilderOptions extends ::gui_handlers.GenericOptions
   {
     local desc = ::get_option(optName)
     local obj = scene.findObject(desc.id)
-    if (obj) obj.setValue(rand() % desc.values.len())
+    if (obj) obj.setValue(::math.rnd() % desc.values.len())
   }
 
   function randomize_builder_options()

@@ -32,6 +32,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   currentTaskId = null
   currentTabType = null
 
+  static UNLOCK_PLAYBACK_KEY = "personal"
+  isCurrentPlaybackPlayed = false
+
   userglogFinishedTasksFilter = {
     show = [::EULT_NEW_UNLOCK]
     checkFunc = function(userlog) { return ::g_battle_tasks.isBattleTask(userlog.body.unlockId) }
@@ -257,6 +260,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
+    resetPlayback()
     local curTabData = getSelectedTabData(obj)
     currentTabType = curTabData.tabType
     changeFrameVisibility()
@@ -321,12 +325,22 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onSelectTask(obj)
   {
     local val = obj.getValue()
-
     finishedTaskIdx = val
+
+    resetPlayback()
+
     local config = getConfigByValue(val)
     updateButtons(config)
-    updatePlaybackVolumeButton(getObj(getConfigPlaybackButtonId(config)), true)
+
+    if (config.playback)
+      ::set_cached_music(::CACHED_MUSIC_MISSION, config.playback, UNLOCK_PLAYBACK_KEY)
     hideTaskWidget(config)
+  }
+
+  function resetPlayback()
+  {
+    isCurrentPlaybackPlayed = false
+    ::play_cached_music("")
   }
 
   function hideTaskWidget(config)
@@ -453,10 +467,16 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function getConfigByValue(value)
   {
-    if (!(value in buildedBattleTasksArray))
+    local checkArray = []
+    if (currentTabType == BattleTasksWndTab.BATTLE_TASKS)
+      checkArray = buildedBattleTasksArray
+    if (currentTabType == BattleTasksWndTab.PERSONAL_UNLOCKS)
+      checkArray = buildedPersonalUnlocksArray
+
+    if (!(value in checkArray))
       return null
 
-    return buildedBattleTasksArray[value]
+    return checkArray[value]
   }
 
   function onGetRewardForTask(obj)
@@ -565,6 +585,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     ::g_battle_tasks.markAllTasksSeen()
     ::g_battle_tasks.saveSeenTasksData()
+    resetPlayback()
     base.goBack()
   }
 
@@ -620,26 +641,22 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     }])
   }
 
-  function switchPlaybackVolume(obj)
+  function switchPlaybackMode(obj)
   {
-    updatePlaybackVolumeButton(obj, false)
+    if (obj.getValue())
+    {
+      if (isCurrentPlaybackPlayed)
+        ::pause_cached_music(false)
+      else
+        ::play_cached_music(UNLOCK_PLAYBACK_KEY)
+    }
+    else
+      ::pause_cached_music(true)
+    isCurrentPlaybackPlayed = obj.getValue()
   }
 
-  function updatePlaybackVolumeButton(obj, turnOff)
+  function onDestroy()
   {
-    if (!::checkObj(obj))
-      return
-
-    obj["foreground-image"] = "#ui/gameuiskin#" + (turnOff? "sound_off" : "sound_on")
-
-    local step = "ui/empty"
-    if (!::u.isEmpty(obj.playback))
-    {
-      if (turnOff)
-        step = "mainmenu/turnOn"
-      else
-        step = "mainmenu/turnOff"
-    }
-    obj.tooltip = ::loc("sound") + ::loc("ui/parentheses/space", {text = ::loc(step)})
+    resetPlayback()
   }
 }

@@ -40,6 +40,17 @@ class ::gui_handlers.InvitesWnd extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("now_new_invites").show(list.len() == 0)
   }
 
+  function updateSingleInvite(invite)
+  {
+    local inviteObj = scene.findObject("invite_" + invite.uid)
+    if (!::check_obj(inviteObj))
+      return
+
+    inviteObj.findObject("text").setValue(invite.getInviteText())
+    inviteObj.findObject("restrictions").setValue(invite.getRestrictionText())
+    inviteObj.findObject("accept").inactiveColor = invite.haveRestrictions() ? "yes" : "no"
+  }
+
   function getInviteByObj(obj = null)
   {
     local uid = obj && obj.inviteUid
@@ -132,6 +143,11 @@ class ::gui_handlers.InvitesWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onEventInviteRemoved(p)
   {
     updateList()
+  }
+
+  function onEventInviteUpdated(p)
+  {
+    updateSingleInvite(p.invite)
   }
 
   function onEventChatOpenPrivateRoom(p)

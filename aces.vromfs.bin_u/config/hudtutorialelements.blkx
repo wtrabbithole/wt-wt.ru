@@ -338,15 +338,12 @@
           "position": "absolute"
         },
         {
-          "width": "0.3pw"
-        },
-        {
           "textareaNoTab": {
             "shadeStyle": "HudHeader3D",
             "width": "1pw",
             "id": "hud_tutorial_tank_minimap_itself",
             "position": "absolute",
-            "pos": "100%pw-100%w, 0%ph-130%h",
+            "pos": "100%pw-100%w, 0%ph-140%h",
             "display": "hide",
             "style": "font:@hud_normal; text-align:center; color:#ffffff;",
             "text": "#hud_tutorial_tank_minimap_itself"
@@ -358,7 +355,7 @@
             "width": "1pw",
             "id": "hud_tutorial_tank_about_minimap_markers",
             "position": "absolute",
-            "pos": "100%pw-100%w, 0%ph-130%h",
+            "pos": "100%pw-100%w, 0%ph-140%h",
             "display": "hide",
             "style": "font:@hud_normal; text-align:center; color:#ffffff;",
             "text": "#hints/tutorial_tank_about_minimap_markers"
@@ -371,14 +368,16 @@
         "id": "hud_tutorial_tank_press_to_continue_map",
         "_set_aabb_by_object": "map",
         "position": "absolute",
-        "width": "0.3pw",
-        "textareaNoTab": {
-          "shadeStyle": "HudHeader3D",
+        "tdiv": {
+          "hintStyle": "hudHintYellow",
+          "behaviour": "bhvHint",
+          "isWrapInRowAllowed": "yes",
+          "width": "0.3sw",
+          "flow-align": "right",
           "position": "absolute",
-          "pos": "98%pw-100%w, 0%ph-110%h",
+          "pos": "pw-w, 0-110%h",
           "display": "show",
-          "style": "font:@hud_normal; text-align:center; color:#ebeb22;",
-          "text": "#hints/tutorialB_continue"
+          "value": "hints/tutorial_press_id_continue"
         }
       }
     },
@@ -683,14 +682,18 @@
       }
     },
     {
-      "textareaNoTab": {
+      "tdiv": {
         "shadeStyle": "HudHeader3D",
         "id": "hud_tutorial_tank_press_to_continue_cross",
+        "hintStyle": "hudHintYellow",
+        "behaviour": "bhvHint",
+        "width": "pw",
+        "isWrapInRowAllowed": "yes",
+        "flow-align": "right",
         "position": "absolute",
         "pos": "100%pw-100%w, 45%ph-50%h",
         "display": "show",
-        "style": "font:@hud_normal; text-align:right; color:#ebeb22;",
-        "text": "#hints/tutorialB_continue"
+        "value": "hints/tutorial_press_id_continue"
       }
     },
     {
@@ -760,14 +763,19 @@
       ]
     },
     {
-      "textareaNoTab": {
+      "tdiv": {
         "shadeStyle": "HudHeader3D",
         "id": "hud_tutorial_tank_press_to_continue_xray",
+        "hintStyle": "hudHintYellow",
+        "behaviour": "bhvHint",
+        "width": "pw",
+        "isWrapInRowAllowed": "yes",
+        "flow-align": "right",
         "position": "absolute",
         "pos": "98%pw-100%w, 30%ph-50%h",
         "display": "show",
         "style": "font:@hud_normal; text-align:right; color:#ebeb22;",
-        "text": "#hints/tutorialB_continue"
+        "value": "hints/tutorial_press_id_continue"
       }
     },
     {
@@ -1597,7 +1605,7 @@
       "frame": {
         "id": "tutorial_tank_advanced_shooting_in_short",
         "position": "absolute",
-        "pos": "0, 0",
+        "pos": "0, 50%h",
         "size": "400/720@shHud, 200/720@shHud",
         "img": {
           "size": "pw,ph",

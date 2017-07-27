@@ -26,7 +26,6 @@ const NET_SERVER_QUIT_FROM_GAME = 0x82220003
 
 const CUSTOM_GAMEMODE_KEY = "_customGameMode"
 
-::GM_INVITATION_AVAIL <- [::GM_SKIRMISH]
 ::INVITE_LIFE_TIME    <- 3600000
 
 ::LAST_SESSION_DEBUG_INFO <- ""
@@ -788,6 +787,7 @@ function SessionLobby::switchStatus(_status)
   if (status == _status)
     return
 
+  local wasInRoom = isInRoom()
   status = _status  //for easy notify other handlers about change status
   //dlog("GP: status changed to " + ::getEnumValName("lobbyStates", status))
   if (needJoiningWnd())
@@ -810,7 +810,10 @@ function SessionLobby::switchStatus(_status)
   if (status == lobbyStates.JOINING_SESSION)
     ::add_squad_to_contacts()
   updateMyState()
+
   ::broadcastEvent("LobbyStatusChange")
+  if (wasInRoom != isInRoom())
+    ::broadcastEvent("LobbyIsInRoomChanged")
 }
 
 function SessionLobby::resetParams()
@@ -2057,7 +2060,7 @@ function SessionLobby::getMembersReadyStatus()
     res.statusText = ::loc("multiplayer/not_all_ready")
 
   local gt = getGameType()
-  local checkTeams = !(gt & ::GT_RACE) && !(gt & ::GT_FREE_FOR_ALL)
+  local checkTeams = ::is_mode_with_teams(gt)
   if (!checkTeams)
     return res
 
@@ -2090,7 +2093,7 @@ function SessionLobby::getMembersReadyStatus()
 
 function SessionLobby::canInvitePlayer(uid)
 {
-  return isInRoom() && ::my_user_id_str != uid && ::isInArray(getGameMode(), ::GM_INVITATION_AVAIL)
+  return isInRoom() && ::my_user_id_str != uid && haveLobby()
 }
 
 function SessionLobby::needAutoInviteSquad()

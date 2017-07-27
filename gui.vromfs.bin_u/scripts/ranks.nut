@@ -356,7 +356,9 @@ function update_aircraft_warpoints(maxCallTimeMsec = 0)
       if (ac.costGold != null)
         air.costGold <- ac.costGold
       air.repairCost <- ac.repairCost
-      air.repairTimeHrs <- ac.repairTimeHrs
+      air.repairTimeHrsArcade     <- ac.repairTimeHrsArcade     || 0
+      air.repairTimeHrsHistorical <- ac.repairTimeHrsHistorical || 0
+      air.repairTimeHrsSimulation <- ac.repairTimeHrsSimulation || 0
       air.freeRepairs <- (ac.freeRepairs!=null)? ac.freeRepairs : freeRepairs
       if (ac.gift!=null) air.gift <- ac.gift
       if (ac.giftParam!=null) air.giftParam <- ac.giftParam
@@ -420,7 +422,9 @@ function update_aircraft_warpoints(maxCallTimeMsec = 0)
     {
       air.cost <- 0
       air.repairCost <- 0
-      air.repairTimeHrs <- 0
+      air.repairTimeHrsArcade     <- 0
+      air.repairTimeHrsHistorical <- 0
+      air.repairTimeHrsSimulation <- 0
     }
 
     air[UNIT_PARAMS_INITED_KEY] <- true

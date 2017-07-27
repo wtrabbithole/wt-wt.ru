@@ -375,7 +375,7 @@ my_stats API
     return ::getTblValue(eventId, _unitTypeByNewbieEventId, ::ES_UNIT_TYPE_INVALID)
   }
 
-  function afterAccountReset()
+  function onEventAccountReset(p)
   {
     ::saveLocalByAccount("tutor", null)
     ::save_local_account_settings("tutor", null)

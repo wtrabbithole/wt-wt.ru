@@ -302,6 +302,8 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   get_option_depthcharge_activation_time = @() get_option_dive_bomb_activation_time()
   set_option_depthcharge_activation_time = @(value) set_option_dive_bomb_activation_time(value)
+
+  str_to_hex = function(str) { return "" }
 })
 
 //----------------------------wop_1_67_3_X---------------------------------//
@@ -339,6 +341,9 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
       return text
     return ::replaceParamsInLocalizedText(text, locParams)
   }
+
+  GT_FFA_DEATHMATCH = 524288
+
 })
 
 
@@ -347,4 +352,10 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   HUD_TYPE_UNKNOWN = -1
 
   set_tactical_map_hud_type = @(hudType) set_tactical_map_type_without_unit(hudType)
+  get_respawn_base_time_left_by_id = @(id) ::get_mp_zone_countdown()
+
+  GT_FFA = 16777216
+  EII_REPAIR_BREACHES = 14
+
+  run_reactive_gui = function () {}
 })

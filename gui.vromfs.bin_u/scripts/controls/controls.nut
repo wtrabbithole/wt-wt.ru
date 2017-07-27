@@ -973,10 +973,33 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
 
+    {
+      id = "ID_SHIP_ACTION_BAR_ITEM_6",
+      autobind = ["ID_ACTION_BAR_ITEM_6"]
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+
+    { id="ID_SHIP_ACTION_BAR_ITEM_11",
+      autobind = ["ID_REPAIR_TANK"]
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+    }
+
     { id="ID_SHIP_KILLSTREAK_WHEEL_MENU"
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
       autobind = ["ID_KILLSTREAK_WHEEL_MENU"]
+    }
+
+    { id="ID_REPAIR_BREACHES"
+      checkGroup = ctrlGroups.SHIP
+      autobind_sc = function() {
+        return ::is_xinput_device()
+          ? null
+          : [SHORTCUT.KEY_B]
+      }
+      checkAssign = false
     }
 
     //{ // Disable, because not supported in code now
@@ -1406,6 +1429,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_ACTION_BAR_ITEM_2",
   "ID_SHIP_ACTION_BAR_ITEM_3",
   "ID_SHIP_ACTION_BAR_ITEM_4",
+  "ID_SHIP_ACTION_BAR_ITEM_11",
   "ID_LOCK_TARGET",
   "ID_SHOW_HERO_MODULES",
 

@@ -9,7 +9,6 @@ function g_queue_utils::getQueryParams(queue, needPlayers, params = null)
     mode = ::queues.getQueueMode(queue)
     clusters = ::queues.getQueueClusters(queue)
     team = ::queues.getQueueTeam(queue)
-    msquad = ::getTblValue("msquad", queue, false)
   }
   if (!needPlayers)
     return qp

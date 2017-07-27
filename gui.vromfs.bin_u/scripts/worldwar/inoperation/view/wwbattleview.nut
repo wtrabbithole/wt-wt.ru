@@ -41,7 +41,7 @@ class ::WwBattleView
   function getOrdinalNumberText()
   {
     if (!battle.isValid())
-      return ::loc("worldWar/battleNotSelected")
+      return null
 
     return ::loc("worldWar/battleNumb", {numb = battle.getOrdinalNumber()})
   }
