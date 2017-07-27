@@ -51,8 +51,6 @@ class ::gui_handlers.MultiSelectMenu extends ::gui_handlers.BaseGuiHandlerWT
     return {
       list = list || []
       value = currentBitMask
-      align = align
-      position = ::getPositionToDraw(alignObj, align)
       sndSwitchOn = sndSwitchOn
       sndSwitchOff = sndSwitchOff
     }
@@ -63,9 +61,7 @@ class ::gui_handlers.MultiSelectMenu extends ::gui_handlers.BaseGuiHandlerWT
     if (!list)
       return goBack()
 
-    local frameObj = scene.findObject("main_frame")
-    ::g_dagui_utils.setObjPosition(frameObj, frameObj.getPosRC(), ["@bw", "@bh"])
-
+    align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame"))
     scene.findObject("multi_select").select()
   }
 

@@ -678,11 +678,11 @@ function set_mp_table(obj_tbl, table, params)
       else if (hdr == "squad")
       {
         local squadInfo = (!isEmpty && ::SquadIcon.isShowSquad()) ? ::SquadIcon.getSquadInfoByMemberName(::getTblValue("name", table[i], "")) : null
-        local squadId = ::getTblValue("squadId", squadInfo, ::INVALID_SQUAD_ID)
+        local squadId = ::getTblValue("squadId", squadInfo, INVALID_SQUAD_ID)
         local labelSquad = squadInfo ? squadInfo.label.tostring() : ""
         local needSquadIcon = labelSquad != ""
         local squadScore = needSquadIcon ? ::getTblValue("squadScore", table[i], 0) : 0
-        local isTopSquad = needSquadIcon && squadScore && squadId != ::INVALID_SQUAD_ID && squadId == ::SquadIcon.getTopSquadId(squadInfo.teamId)
+        local isTopSquad = needSquadIcon && squadScore && squadId != INVALID_SQUAD_ID && squadId == ::SquadIcon.getTopSquadId(squadInfo.teamId)
 
         local cellText = objTd.findObject("txt_"+hdr)
         if (::checkObj(cellText))
@@ -2170,7 +2170,7 @@ function SquadIcon::updateListLabelsSquad()
       continue
 
     local squadId = member.squad
-    if (squadId == ::INVALID_SQUAD_ID)
+    if (squadId == INVALID_SQUAD_ID)
       continue
     if (squadId in listLabelsSquad)
     {
@@ -2197,7 +2197,7 @@ function SquadIcon::updateListLabelsSquad()
 
 function SquadIcon::getSquadInfo(idSquad)
 {
-  if (idSquad == ::INVALID_SQUAD_ID)
+  if (idSquad == INVALID_SQUAD_ID)
     return null
   local squad = (idSquad in listLabelsSquad) ? listLabelsSquad[idSquad] : null
   if (squad == null)
@@ -2235,8 +2235,8 @@ function SquadIcon::updateTopSquadScore(mplayers)
     if (!squadScore || squadScore < topSquadScore)
       continue
     local name = ::getTblValue("name", player, "")
-    local squadId = ::getTblValue("squadId", getSquadInfoByMemberName(name), ::INVALID_SQUAD_ID)
-    if (squadId == ::INVALID_SQUAD_ID)
+    local squadId = ::getTblValue("squadId", getSquadInfoByMemberName(name), INVALID_SQUAD_ID)
+    if (squadId == INVALID_SQUAD_ID)
       continue
     if (squadScore > topSquadScore)
     {

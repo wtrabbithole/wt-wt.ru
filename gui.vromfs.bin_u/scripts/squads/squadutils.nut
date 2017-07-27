@@ -133,7 +133,11 @@ function g_squad_utils::updateMyCountryData()
 
 function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canChangeMemberCountry = true)
 {
-  local res = { canFlyout = true, members = [] }
+  local res = {
+    canFlyout = true,
+    members = []
+    countriesChanged = 0
+  }
 
   if (!::g_squad_manager.isInSquad() || !teamData)
     return res
@@ -154,6 +158,7 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
             countries = []
             selAirs = memberData.selAirs
             selSlots = memberData.selSlots
+            isSelfCountry = false
           }
 
     local haveAvailCountries = false
@@ -161,6 +166,11 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
 
     local checkOnlyMemberCountry = !canChangeMemberCountry
                                    || ::isInArray(memberData.country, teamData.countries)
+    if (checkOnlyMemberCountry)
+      mData.isSelfCountry = true
+    else
+      res.countriesChanged++
+
     local needCheckRequired = ::events.getRequiredCrafts(teamData).len() > 0
     foreach(country in teamData.countries)
     {

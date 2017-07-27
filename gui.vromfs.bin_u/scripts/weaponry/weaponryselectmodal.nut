@@ -98,7 +98,7 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
   align = "bottom"
   alignObj = null
 
-  maxWeaponsInColumn = 6
+  rowsToClumnsProportion = 3
 
   wasSelIdx = 0
   selIdx = 0
@@ -108,13 +108,12 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!unit || !list)
       return null
 
-    local weaponryListMarkup = ""
-    local rowsTotal = calcMaxRows()
-    local columnsTotal = ::ceil(list.len().tofloat() / rowsTotal).tointeger()
-    rowsTotal = ::ceil(list.len().tofloat() / columnsTotal).tointeger()
+    local cols = ::ceil(::sqrt(list.len().tofloat() / rowsToClumnsProportion)).tointeger()
+    local rows = cols ? ::ceil(list.len().tofloat() / cols).tointeger() : 0
 
     wasSelIdx = -1
     local params = { posX = 0, posY = 0, useGenericTooltip = true }
+    local weaponryListMarkup = ""
     foreach(idx, config in list)
     {
       local weaponryItem = ::getTblValue("weaponryItem", config)
@@ -129,19 +128,17 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
       if (::getTblValue("selected", config))
         wasSelIdx = idx
 
-      params.posX = idx / rowsTotal
-      params.posY = idx % rowsTotal
+      params.posX = rows ? (idx / rows) : 0
+      params.posY = rows ? (idx % rows) : 0
       weaponryListMarkup += ::weaponVisual.createItemLayout(idx, weaponryItem, weaponryItem.type, params)
     }
 
     selIdx = ::max(wasSelIdx, 0)
     local res = {
       weaponryList = weaponryListMarkup
-      columns = columnsTotal
-      rows = rowsTotal
+      columns = cols
+      rows = rows
       value = selIdx
-      align = align
-      position = ::getPositionToDraw(alignObj, align, { width = columnsTotal + "@modCellWidth"})
     }
     return res
   }
@@ -151,20 +148,10 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!list || !unit)
       return goBack()
 
+    align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame"))
     scene.findObject("weapons_list").select()
     updateItems()
     updateOpenAnimParams()
-  }
-
-  function calcMaxRows()
-  {
-    if (!::checkObj(alignObj))
-      return maxWeaponsInColumn
-
-    local top = alignObj.getPosRC()[1] + alignObj.getSize()[1]
-    local bottom = guiScene.calcString("sh-1@bh", null)
-    local itemHeight =  guiScene.calcString("@modCellHeight", null)
-    return ::min(maxWeaponsInColumn, (bottom - top) / itemHeight)
   }
 
   function updateItems()

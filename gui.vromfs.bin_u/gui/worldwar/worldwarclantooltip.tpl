@@ -12,12 +12,12 @@ frame {
   }
 
   textareaNoTab {
-    text:t='<<?clan/creationDate>> <<getCreationData>>'
+    text:t='<<?clan/creationDate>> <<getCreationDateText>>'
     tinyFont:t='yes'
   }
 
   textareaNoTab {
-    text:t='<<?clan/memberListTitle>> (<<getMembersCount>>)'
+    text:t='<<?clan/memberListTitle>> (<<getMembersCountText>>)'
     tinyFont:t='yes'
   }
 

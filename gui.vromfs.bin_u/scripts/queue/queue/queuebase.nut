@@ -53,6 +53,37 @@ class ::queue_classes.Base
     return true
   }
 
+  //return true if queue changed
+  function onLeaveQueue(leaveData)
+  {
+    local queueUid = ::getTblValue("queueId", leaveData)
+    if (queueUid == null || (queueUid in queueUidsList && queueUidsList.len() == 1)) //leave all queues
+    {
+      queueUidsList.clear()
+      params.clusters.clear()
+      return true
+    }
+
+    if (!(queueUid in queueUidsList))
+      return false
+
+    local cluster = queueUidsList[queueUid].cluster
+    delete queueUidsList[queueUid]
+
+    if (!::u.search(queueUidsList, @(q) q.cluster == cluster))
+    {
+      local idx = params.clusters.find(cluster)
+      if (idx != -1)
+        params.clusters.remove(idx)
+    }
+    return true
+  }
+
+  function isActive()
+  {
+    return queueUidsList.len() > 0
+  }
+
   function getQueueData(qParams)
   {
     return { cluster = qParams.cluster }

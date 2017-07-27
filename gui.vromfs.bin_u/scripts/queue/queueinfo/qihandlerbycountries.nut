@@ -103,6 +103,12 @@ class ::gui_handlers.QiHandlerByCountries extends ::gui_handlers.QiHandlerBase
       queue.switchCustomMode(obj.getValue())
   }
 
+  function onEventQueueChanged(q)
+  {
+    if (q == queue)
+      updateCustomModeCheckbox()
+  }
+
   function createClustersList()
   {
     local clustersObj = scene.findObject("clusters_list")

@@ -136,11 +136,13 @@ tdiv {
       blockSeparator {}
     }
 
+    <<^isAutoBattle>>
     textareaNoTab {
       width:t='pw'
       text:t='#worldwar/battle_open_info'
       text-align:t='center'
       tinyFont:t='yes'
     }
+    <</isAutoBattle>>
   }
 }

@@ -57,32 +57,33 @@ class ::queue_classes.Event extends ::queue_classes.Base
 
   static function _leaveQueueImpl(queryParams, successCallback, errorCallback, needShowError = false)
   {
-    ::leave_session_queue(
-      queryParams,
+    ::matching_api_func(
+      "match.leave_queue"
       function(response) {
         if (::checkMatchingError(response, needShowError))
           successCallback(response)
         else
           errorCallback(response)
       }
+      queryParams
     )
   }
 
-  function getQueryParams(needPlayers, customMgm = null)
+  function getQueryParams(isForJoining, customMgm = null)
   {
-    local qp = {
-      team = getTeamCode()
-    }
+    local qp = {}
     if (customMgm)
       qp.game_mode_id <- customMgm.gameModeId
     else
       qp.mode <- name
 
+    if (!isForJoining)
+      return qp
+
+    qp.team <- getTeamCode()
+
     if (queueType.useClusters)
       qp.clusters <- params.clusters
-
-    if (!needPlayers)
-      return qp
 
     qp.players <- {
       [::my_user_id_str] = {
@@ -162,9 +163,9 @@ class ::queue_classes.Event extends ::queue_classes.Base
     }
     isCustomModeInTransition = true
     if (shouldQueueCustomMode)
-      _joinQueueImpl(getQueryParams(true, getCustomMgm()), cb, cb, true)
+      _joinQueueImpl(getQueryParams(true, getCustomMgm()), cb, cb, false)
     else
-      _leaveQueueImpl(getQueryParams(false, getCustomMgm()), cb, cb, true)
+      _leaveQueueImpl(getQueryParams(false, getCustomMgm()), cb, cb, false)
   }
 
   function afterCustomModeQueueChanged(wasShouldQueue)

@@ -1149,7 +1149,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
 
       local cImg = ::get_country_icon(::crews_list[c].country, false, !cUnlocked)
       itemObj.findObject("hdr_image")["background-image"] = cImg
-      if (!::is_first_win_reward_earned(::crews_list[c].country, ::INVALID_USER_ID))
+      if (!::is_first_win_reward_earned(::crews_list[c].country, INVALID_USER_ID))
       {
         local mObj = itemObj.findObject("hdr_bonus")
         showCountryBonus(mObj, ::crews_list[c].country)

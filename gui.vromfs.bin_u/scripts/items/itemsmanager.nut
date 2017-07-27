@@ -542,11 +542,11 @@ function ItemsManager::fillItemTable(item, holderObj)
 function ItemsManager::getActiveBoostersArray(effectType = null)
 {
   local array = []
-  local total = ::get_current_booster_count(::INVALID_USER_ID)
+  local total = ::get_current_booster_count(INVALID_USER_ID)
   local bonusType = effectType ? effectType.name : null
   for (local i = 0; i < total; i++)
   {
-    local uid = ::get_current_booster_uid(::INVALID_USER_ID, i)
+    local uid = ::get_current_booster_uid(INVALID_USER_ID, i)
     local item = ::ItemsManager.findItemByUid(uid, itemType.BOOSTER)
     if (!item || bonusType && item[bonusType] == 0 || !item.isActive(true))
       continue

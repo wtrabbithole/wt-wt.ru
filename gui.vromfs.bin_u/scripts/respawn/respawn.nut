@@ -55,6 +55,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   slotsCostSum = 0 //refreash slotbar when unit costs sum will changed after initslotbar.
 
   isFirstInit = true
+  isFirstUnitOptionsInSession = false
   weaponsSelectorWeak = null
   teamUnitsLeftWeak = null
 
@@ -253,6 +254,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!isFirstInit)
       return
     isFirstInit = false
+
+    isFirstUnitOptionsInSession = ::before_first_flight_in_session
 
     scene.findObject("stat_update").setUserData(this)
 
@@ -1213,11 +1216,16 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function updateUnitOptions()
   {
     local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+    local isUnitChanged = false
     if (unit)
     {
+      isUnitChanged = ::aircraft_for_weapons != unit.name
       ::cur_aircraft_name = unit.name //used in some options
       ::aircraft_for_weapons = unit.name
     }
+    if (isUnitChanged || isFirstUnitOptionsInSession)
+      preselectUnitWeapon(unit)
+
     updateTacticalMapUnitType()
 
     updateWeaponsSelector()
@@ -1225,6 +1233,22 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateOtherOptions()
     updateSkin()
     updateUserSkins()
+    isFirstUnitOptionsInSession = false
+  }
+
+  function preselectUnitWeapon(unit)
+  {
+    if (!missionRules.hasWeaponLimits())
+      return
+
+    foreach(weapon in unit.weapons)
+      if (::is_weapon_visible(unit, weapon)
+          && ::is_weapon_enabled(unit, weapon)
+          && missionRules.getUnitWeaponRespawnsLeft(unit, weapon) > 0) //limited and available
+     {
+       ::set_last_weapon(unit.name, weapon.name)
+       break
+     }
   }
 
   function updateTacticalMapUnitType(isMapForSelectedUnit = null)

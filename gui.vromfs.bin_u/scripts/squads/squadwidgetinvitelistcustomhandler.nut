@@ -72,7 +72,7 @@ class ::gui_handlers.SquadWidgetInviteListCustomHandler extends ::gui_handlers.B
   {
     local nestObj = scene.findObject(NEST_OBJ_ID)
     if (::checkObj(nestObj))
-      nestObj.pos = ::getPositionToDraw(alignObj, align)
+      align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, nestObj)
   }
 
   function updateSelectedItem()

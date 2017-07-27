@@ -83,24 +83,6 @@ class QueueManager {
     return queue
   }
 
-  //Removes cluster from queue
-  //Removes queue if there is no more clusters in queue automaticly
-  function removeClustersFromQueue(queue, clusters)
-  {
-    if (clusters.len() <= 0)
-      return
-
-    foreach (cluster in clusters)
-    {
-      local idx = ::find_in_array(queue.params.clusters, cluster)
-      if (idx < 0)
-        continue
-      queue.params.clusters.remove(idx)
-    }
-    if (queue.params.clusters.len() <= 0)
-      removeQueue(queue)
-  }
-
   function removeQueue(queue)
   {
     changeState(queue, queueStates.NOT_IN_QUEUE)
@@ -349,7 +331,7 @@ class QueueManager {
   {
     return (@(postAction, postCancelAction, silent) function(response) {
         ::queues.showProgressBox(false)
-        if (response.error == ::SERVER_ERROR_REQUEST_REJECTED)
+        if (response.error == SERVER_ERROR_REQUEST_REJECTED)
         {
           if (postCancelAction)
             postCancelAction()
@@ -403,7 +385,7 @@ class QueueManager {
   {
     return (@(queue, msg, cancelAction) function(response) {
         ::queues.showProgressBox(false)
-        if (response.error == ::SERVER_ERROR_REQUEST_REJECTED)
+        if (response.error == SERVER_ERROR_REQUEST_REJECTED)
         {
           if (cancelAction)
             cancelAction()
@@ -435,17 +417,14 @@ class QueueManager {
   function afterLeaveQueues(params)
   {
     local list = findAllQueues(params)
-    local clusters = []
-    if ("cluster" in params)
-      clusters = typeof params.cluster == "array" ? params.cluster : [params.cluster]
-
     foreach(q in list)
-    {
-      if (clusters.len() <= 0)
-        removeQueue(q)
-      else
-        removeClustersFromQueue(q, clusters)
-    }
+      if (q.onLeaveQueue(params))
+      {
+        if (!q.isActive())
+          removeQueue(q)
+        else
+          ::broadcastEvent("QueueChanged", q)
+      }
   }
 
   function leaveAllQueuesAndDo(action, cancelAction = null)

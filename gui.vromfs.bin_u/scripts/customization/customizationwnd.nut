@@ -1575,8 +1575,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     ::update_gamercards()
-    updateSlotsBlockByType()
-    updateSkinSliders()
+    updateMainGuiElements()
   }
 
   function afterReplenishCurrency()

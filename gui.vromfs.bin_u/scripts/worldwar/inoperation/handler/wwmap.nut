@@ -359,6 +359,20 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     ::queues.leaveQueueByType(QUEUE_TYPE_BIT.WW_BATTLE)
     ::ww_service.unsubscribeOperation(::ww_get_operation_id())
     ::g_world_war.stopWar()
+    goBack()
+  }
+
+  function onEventWWStopWorldWar(p)
+  {
+    goBack()
+  }
+
+  _isGoBackInProgress = false
+  function goBack()
+  {
+    if (_isGoBackInProgress)
+      return
+    _isGoBackInProgress = true
     base.goBack()
   }
 

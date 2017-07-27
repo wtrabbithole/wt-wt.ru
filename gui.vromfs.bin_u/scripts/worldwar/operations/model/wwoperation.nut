@@ -50,8 +50,15 @@ class WwOperation
 
   function getNameText(full = true)
   {
-    local name = ::loc("ui/number_sign") + id
-    return full ? (getMapText() + " " + name) : name
+    return getNameTextByIdAndMapName(id, full ? getMapText() : null)
+  }
+
+  static function getNameTextByIdAndMapName(operationId, mapName = null)
+  {
+    local res = ::loc("ui/number_sign") + operationId
+    if (mapName)
+      res = mapName + " " + res
+    return res
   }
 
   function getMapText()

@@ -1634,7 +1634,7 @@ function SessionLobby::joinRoomWithPassword(joinRoomId, prevPass = "", wasEntere
 
 function SessionLobby::afterRoomJoining(params)
 {
-  if (params.error == ::SERVER_ERROR_ROOM_PASSWORD_MISMATCH)
+  if (params.error == SERVER_ERROR_ROOM_PASSWORD_MISMATCH)
   {
     local joinRoomId = roomId //not_in_room status will clear room Id
     local oldPass = password
@@ -2141,7 +2141,7 @@ function SessionLobby::isMemberInMySquadByName(name)
   local myInfo = getMemberPlayerInfo(::my_user_id_int64)
   if (myInfo != null)
   {
-    if (myInfo.squad == ::INVALID_SQUAD_ID)
+    if (myInfo.squad == INVALID_SQUAD_ID)
       return false
     if (myInfo.name == name)
       return false
@@ -2185,7 +2185,7 @@ function SessionLobby::getBattleRatingParamById(uid)
       return a.rating > b.rating ? -1 : 1
     return 0
   })
-  local squad = ::getTblValue("squad", member, ::INVALID_SQUAD_ID)
+  local squad = ::getTblValue("squad", member, INVALID_SQUAD_ID)
   return { rank = member.mrank, squad = squad, units = units }
 }
 

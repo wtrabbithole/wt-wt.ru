@@ -50,6 +50,11 @@ class WwMap
     return ::loc(getNameLocId())
   }
 
+  static function getNameTextByMapName(mapName)
+  {
+    return ::loc("worldWar/map/" + mapName)
+  }
+
   function getNameLocId()
   {
     return "worldWar/map/" + name

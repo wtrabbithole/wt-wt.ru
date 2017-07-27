@@ -58,7 +58,9 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
     if (!::checkObj(obj))
       return
 
-    ::g_dagui_utils.setObjPosition(obj, pos || getDefaultPos(), ["1@bw", "1@bottomBarHeight"])
+    align = ::g_dagui_utils.setPopupMenuPosAndAlign(pos || getDefaultPos(), align, obj {
+      screenBorders = [ "1@bw", "1@bottomBarHeight" ]
+    })
     obj.animation = "show"
 
     local buttonsObj = scene.findObject("framed_message_box_buttons_place")
@@ -75,8 +77,7 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
     if (!::check_obj(buttonsObj))
       return ::array(2, 0)
 
-    local pos = ::getPositionToDraw(null, align)
-    return ::split(pos, ",")
+    return ::get_dagui_mouse_cursor_pos_RC()
   }
 
   function onButtonClick(obj)

@@ -1,7 +1,7 @@
 class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/emptyScene.blk"
+  sceneBlkName = "gui/emptySceneWithGamercard.blk"
   sceneTplName = "gui/worldWar/airfieldFlyOut"
 
   position = null //receives as Point2()
@@ -264,16 +264,19 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(topTextObj))
       return
 
-    local text = ::loc("worldwar/airfield/unit_limits", {
-      min = airfield.createArmyUnitCountMin,
-      max = airfield.createArmyUnitCountMax}) + "\n" +
-      ::loc("worldwar/airfield/unit_various_limit")
+    local totalCountText = airfield.createArmyUnitCountMin != airfield.createArmyUnitCountMax ?
+        airfield.createArmyUnitCountMin + ::loc("ui/mdash") + airfield.createArmyUnitCountMax
+      : airfield.createArmyUnitCountMax.tostring()
+    totalCountText = ::colorize("activeTextColor", totalCountText)
 
-    if (hasUnitsToFly)
-      topTextObj.setValue(text)
-    else
-      topTextObj.setValue(::colorize("warningTextColor",
-        ::loc("worldwar/airfield/not_enough_units_to_send")) + "\n" + text)
+    local texts = [
+      ::loc("worldwar/airfield/unit_limits", { units = totalCountText })
+      ::loc("worldwar/airfield/unit_various_limit", { types = airfield.maxUniqueUnitsOnFlyout })
+    ]
+    if (!hasUnitsToFly)
+      texts.insert(0, ::colorize("warningTextColor", ::loc("worldwar/airfield/not_enough_units_to_send")))
+
+    topTextObj.setValue(::implode(texts, "\n"))
   }
 
   function hasEnoughUnitsToFlyOut()
@@ -542,7 +545,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
     if (errorLocId != "")
     {
-      ::g_popups.add("", ::loc(errorLocId))
+      ::g_popups.add("", ::loc(errorLocId), null, null, null, "WwFlyoutError")
       return
     }
 

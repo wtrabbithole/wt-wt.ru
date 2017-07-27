@@ -259,8 +259,8 @@ class ::WwBattleView
   {
     if (!battle.isStillInOperation())
       return "Finished"
-    if (battle.isBattleStatusActive())
-      return battle.isPlayerTeamFull() ? "Full" : "Active"
+    if (battle.status == ::EBS_ACTIVE_STARTING || battle.status == ::EBS_ACTIVE_MATCHING)
+      return "Active"
     if (battle.status == ::EBS_ACTIVE_FAKE)
       return "Fake"
     if (battle.status == ::EBS_ACTIVE_CONFIRMED)
@@ -298,5 +298,10 @@ class ::WwBattleView
       return ::loc("worldwar/battle_open_info")
 
     return getBattleStatusText()
+  }
+
+  function isAutoBattle()
+  {
+    return battle.isAutoBattle()
   }
 }
