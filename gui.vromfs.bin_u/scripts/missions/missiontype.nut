@@ -120,7 +120,7 @@ enum MISSION_OBJECTIVE
     helpBlkPath = "gui/help/missionGroundCapture.blk"
   }
 
-  G_BR = {  // Ground: Battle Royalle
+  G_BR = {  // Ground: Battle Royale
     reMisName = ::regexp2(@"_BR(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.ALIVE_TIME
   }

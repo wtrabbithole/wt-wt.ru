@@ -210,6 +210,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local playerTeam = battle.getTeamBySide(::ww_get_player_side())
+    ::switch_profile_country(playerTeam.country)
     local availableUnits = battle.getTeamRemainUnits(playerTeam)
     ::init_slotbar(
       this,

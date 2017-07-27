@@ -435,14 +435,13 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   }
   function onGC_contacts(obj)
   {
-    if (::has_feature("Friends"))
-    {
-      if (!::isContactsWindowActive() && ::isInMenu())
-        ::update_ps4_friends()
-      onSwitchContacts()
-    }
-    else
-      notAvailableYetMsgBox()
+    if (!::has_feature("Friends"))
+      return notAvailableYetMsgBox()
+
+    if (!::isContactsWindowActive())
+      ::update_ps4_friends()
+
+    onSwitchContacts()
   }
   function onGC_invites(obj)
   {

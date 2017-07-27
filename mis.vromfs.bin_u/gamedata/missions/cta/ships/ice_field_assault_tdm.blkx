@@ -547,12 +547,12 @@
         },
         {
           "moAddMissionObjective": {
-            "target": "t1_dover_defend_ships"
+            "target": "assault_defend_ships"
           }
         },
         {
           "moAddMissionObjective": {
-            "target": "t2_dover_kill_ships"
+            "target": "assault_kill_ships"
           }
         }
       ],
@@ -630,15 +630,15 @@
         },
         {
           "moSetObjectiveStatus": {
-            "target": "t2_dover_kill_ships",
-            "status": 3,
+            "target": "assault_kill_ships",
+            "status": 2,
             "team": "A"
           }
         },
         {
           "moSetObjectiveStatus": {
-            "target": "t1_dover_defend_ships",
-            "status": 1,
+            "target": "assault_defend_ships",
+            "status": 3,
             "team": "B"
           }
         }
@@ -677,15 +677,15 @@
         },
         {
           "moSetObjectiveStatus": {
-            "target": "t2_dover_kill_ships",
-            "status": 3,
+            "target": "assault_kill_ships",
+            "status": 2,
             "team": "B"
           }
         },
         {
           "moSetObjectiveStatus": {
-            "target": "t1_dover_defend_ships",
-            "status": 1,
+            "target": "assault_defend_ships",
+            "status": 3,
             "team": "A"
           }
         }
@@ -696,7 +696,7 @@
   "mission_objectives": {
     "isCategory": true,
     "is_enabled": true,
-    "t1_dover_defend_ships": {
+    "assault_defend_ships": {
       "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
@@ -708,7 +708,7 @@
       "onSuccess": [],
       "onFailed": []
     },
-    "t2_dover_kill_ships": {
+    "assault_kill_ships": {
       "is_enabled": false,
       "comments": "",
       "type": "abstractMissionObjective",
@@ -1238,7 +1238,7 @@
           [0.906308,0.0,0.422618],
           [2453.76,0.0,-512.632]
         ],
-        "unit_class": "ussr_destroyer_7y",
+        "unit_class": "ussr_cargo_ship_liberty",
         "objLayer": 1,
         "closed_waypoints": true,
         "isShipSpline": false,
@@ -1419,7 +1419,7 @@
           [-1.0,0.0,4.47035e-08],
           [2623.07,0.0,576.526]
         ],
-        "unit_class": "uk_destroyer_tribal",
+        "unit_class": "ussr_cargo_ship_liberty",
         "objLayer": 1,
         "closed_waypoints": true,
         "isShipSpline": false,
@@ -1853,7 +1853,7 @@
           [-0.984808,0.0,0.173648],
           [-4338.83,0.000488281,42.4839]
         ],
-        "unit_class": "ussr_destroyer_7y",
+        "unit_class": "ussr_cargo_ship_liberty",
         "objLayer": 1,
         "closed_waypoints": true,
         "isShipSpline": false,
@@ -2002,7 +2002,7 @@
           [0.984808,0.0,0.173648],
           [-4269.87,0.000488281,-963.32]
         ],
-        "unit_class": "uk_destroyer_tribal",
+        "unit_class": "uk_cargo_ship_liberty",
         "objLayer": 1,
         "closed_waypoints": true,
         "isShipSpline": false,

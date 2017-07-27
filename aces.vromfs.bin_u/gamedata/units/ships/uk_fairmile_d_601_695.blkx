@@ -2553,7 +2553,7 @@
             "blk": "gameData/Weapons/groundModels_weapons/40mm_QF_2pdr_mk_XV_user_cannon.blk"
           },
           {
-            "emitter": "gun_barrel_01"
+            "emitter": "emtr_gun_flame_01"
           },
           {
             "flash": "emtr_gun_flame_01"
@@ -2565,7 +2565,10 @@
             "recoilOffset": 0.15
           },
           {
-            "breechDP": "cannon_breech_01_dm"
+            "barrelDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_01_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2645,11 +2648,9 @@
           {
             "turret": {
               "head": "turret_h_01",
-              "gun": "cannon_breech_01",
+              "gun": "main_caliber_gun_01",
               "barrel": "gun_barrel_01",
-              "gunnerDm": "gunner_01_dm",
-              "verDriveDm": "drive_turret_v_01_dm",
-              "horDriveDm": "drive_turret_h_01_dm",
+              "gunnerDm": "main_caliber_turret_01_dm",
               "linkedAnimPart": {
                 "verNode": "sight_01",
                 "verLimits": [0.0,70.0],
@@ -2686,7 +2687,7 @@
             "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
           },
           {
-            "emitter": "gun_barrel_02"
+            "emitter": "emtr_gun_flame_07"
           },
           {
             "flash": "emtr_gun_flame_07"
@@ -2698,7 +2699,10 @@
             "recoilOffset": 0.1
           },
           {
-            "breechDP": "cannon_breech_02_dm"
+            "barrelDP": "auxiliary_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_01_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2784,11 +2788,9 @@
           {
             "turret": {
               "head": "turret_h_02",
-              "gun": "cannon_breech_02",
+              "gun": "auxiliary_caliber_gun_01",
               "barrel": "gun_barrel_02",
-              "gunnerDm": "gunner_04_dm",
-              "verDriveDm": "drive_turret_v_02_dm",
-              "horDriveDm": "drive_turret_h_02_dm"
+              "gunnerDm": "auxiliary_caliber_turret_01_dm"
             }
           },
           {
@@ -2818,7 +2820,7 @@
             "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_mk_v_twin_mount.blk"
           },
           {
-            "emitter": "gun_barrel_03"
+            "emitter": "emtr_gun_flame_08"
           },
           {
             "flash": "emtr_gun_flame_08"
@@ -2830,7 +2832,10 @@
             "recoilOffset": 0.1
           },
           {
-            "breechDP": "cannon_breech_02_dm"
+            "barrelDP": "auxiliary_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_01_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2916,11 +2921,9 @@
           {
             "turret": {
               "head": "turret_h_02",
-              "gun": "cannon_breech_02",
+              "gun": "auxiliary_caliber_gun_01",
               "barrel": "gun_barrel_03",
-              "gunnerDm": "gunner_04_dm",
-              "verDriveDm": "drive_turret_v_02_dm",
-              "horDriveDm": "drive_turret_h_02_dm"
+              "gunnerDm": "auxiliary_caliber_turret_01_dm"
             }
           },
           {
@@ -2962,13 +2965,19 @@
             "recoilOffset": 0.0
           },
           {
-            "breechDP": "mg_03_dm"
+            "barrelDP": "auxiliary_caliber_gun_02_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_02_dm"
           },
           {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3047,9 +3056,9 @@
           },
           {
             "turret": {
-              "head": "turret_03",
-              "gun": "mg_03",
-              "gunnerDm": "gunner_03_dm",
+              "head": "auxiliary_caliber_turret_02",
+              "gun": "auxiliary_caliber_gun_02",
+              "gunnerDm": "auxiliary_caliber_turret_02_dm",
               "linkedAnimPart": {
                 "verNode": "sight_03",
                 "verLimits": [-5.0,60.0],
@@ -3096,13 +3105,19 @@
             "recoilOffset": 0.0
           },
           {
-            "breechDP": "mg_03_dm"
+            "barrelDP": "auxiliary_caliber_gun_02_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_02_dm"
           },
           {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3181,9 +3196,9 @@
           },
           {
             "turret": {
-              "head": "turret_03",
-              "gun": "mg_03",
-              "gunnerDm": "gunner_03_dm"
+              "head": "auxiliary_caliber_turret_02",
+              "gun": "auxiliary_caliber_gun_02",
+              "gunnerDm": "auxiliary_caliber_turret_02_dm"
             }
           },
           {
@@ -3225,13 +3240,19 @@
             "recoilOffset": 0.0
           },
           {
-            "breechDP": "mg_04_dm"
+            "barrelDP": "auxiliary_caliber_gun_03_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_03_dm"
           },
           {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3310,9 +3331,9 @@
           },
           {
             "turret": {
-              "head": "turret_04",
-              "gun": "mg_04",
-              "gunnerDm": "gunner_02_dm",
+              "head": "auxiliary_caliber_turret_03",
+              "gun": "auxiliary_caliber_gun_03",
+              "gunnerDm": "auxiliary_caliber_turret_03_dm",
               "linkedAnimPart": {
                 "verNode": "sight_04",
                 "verLimits": [-5.0,60.0],
@@ -3359,13 +3380,19 @@
             "recoilOffset": 0.0
           },
           {
-            "breechDP": "mg_04_dm"
+            "barrelDP": "auxiliary_caliber_gun_03_dm"
+          },
+          {
+            "breechDP": "auxiliary_caliber_gun_03_dm"
           },
           {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3444,9 +3471,9 @@
           },
           {
             "turret": {
-              "head": "turret_04",
-              "gun": "mg_04",
-              "gunnerDm": "gunner_02_dm"
+              "head": "auxiliary_caliber_turret_03",
+              "gun": "auxiliary_caliber_gun_03",
+              "gunnerDm": "auxiliary_caliber_turret_03_dm"
             }
           },
           {
@@ -3488,10 +3515,19 @@
             "recoilOffset": 0.0
           },
           {
+            "barrelDP": "aa_turret_01_dm"
+          },
+          {
+            "breechDP": "aa_turret_01_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3567,9 +3603,9 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_01",
-              "gun": "mg_01",
-              "gunnerDm": "gunner_06_dm"
+              "head": "aa_turret_01",
+              "gun": "aa_gun_01",
+              "gunnerDm": "aa_turret_01_dm"
             }
           },
           {
@@ -3604,10 +3640,19 @@
             "recoilOffset": 0.0
           },
           {
+            "barrelDP": "aa_turret_01_dm"
+          },
+          {
+            "breechDP": "aa_turret_01_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3683,9 +3728,9 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_01",
-              "gun": "mg_01",
-              "gunnerDm": "gunner_06_dm"
+              "head": "aa_turret_01",
+              "gun": "aa_gun_01",
+              "gunnerDm": "aa_turret_01_dm"
             }
           },
           {
@@ -3720,10 +3765,19 @@
             "recoilOffset": 0.0
           },
           {
+            "barrelDP": "aa_turret_02_dm"
+          },
+          {
+            "breechDP": "aa_turret_02_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3799,9 +3853,9 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_02",
-              "gun": "mg_02",
-              "gunnerDm": "gunner_05_dm"
+              "head": "aa_turret_02",
+              "gun": "aa_gun_02",
+              "gunnerDm": "aa_turret_02_dm"
             }
           },
           {
@@ -3836,10 +3890,19 @@
             "recoilOffset": 0.0
           },
           {
+            "barrelDP": "aa_turret_02_dm"
+          },
+          {
+            "breechDP": "aa_turret_02_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
           },
           {
             "speedYaw": 60.0
@@ -3915,9 +3978,9 @@
           },
           {
             "turret": {
-              "head": "mg_mount_h_02",
-              "gun": "mg_02",
-              "gunnerDm": "gunner_05_dm"
+              "head": "aa_turret_02",
+              "gun": "aa_gun_02",
+              "gunnerDm": "aa_turret_02_dm"
             }
           },
           {
@@ -4498,10 +4561,8 @@
   },
   {
     "modifications": {
-      "7_7mm_vickers_navy_universal": [],
       "40mm_qf_mkxv_he": [],
-      "20mm_oerlikon_universal": [],
-      "12mm_vickers_mk5_API": []
+      "20mm_oerlikon_universal": []
     }
   },
   {

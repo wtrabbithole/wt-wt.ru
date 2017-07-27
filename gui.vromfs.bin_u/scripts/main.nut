@@ -419,6 +419,7 @@ function load_scripts_after_login()
     "invites/invitePsnSessionRoom.nut"
     "invites/inviteTournamentBattle.nut"
     "invites/inviteSquad.nut"
+    "invites/invitePsnSquad.nut"
     "invites/inviteFriend.nut"
     "invites/invitesWnd.nut"
 

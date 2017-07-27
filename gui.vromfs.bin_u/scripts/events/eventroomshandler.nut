@@ -428,12 +428,15 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
         isCollapsable = true
       }
       local mGameMode = chapter.chapterGameMode
-      foreach(side in ::events.getSidesList(mGameMode))
-        listRow[::g_team.getTeamByCode(side).name + "Countries"] <-
-        {
-          country = getFlagsArrayByCountriesArray(
-                      ::events.getCountries(::events.getTeamData(mGameMode, side)))
-        }
+      if (::events.isCustomGameMode(mGameMode))
+        listRow.itemText <- ::colorize("activeTextColor", ::loc("events/playersRooms"))
+      else
+        foreach(side in ::events.getSidesList(mGameMode))
+          listRow[::g_team.getTeamByCode(side).name + "Countries"] <-
+          {
+            country = getFlagsArrayByCountriesArray(
+                        ::events.getCountries(::events.getTeamData(mGameMode, side)))
+          }
       view.items.append(listRow)
 
       foreach (roomIdx, room in chapter.rooms)

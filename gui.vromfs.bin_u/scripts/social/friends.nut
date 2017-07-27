@@ -87,11 +87,15 @@ function addPsnFriends()
 
 function update_ps4_friends()
 {
+  if (!::isInMenu())
+    return
+
   if (::is_platform_ps4 && ::dagor.getCurTime() - ::last_update_ps4_friends > ::PS4_UPDATE_TIMER_LIMIT)
   {
     ::last_update_ps4_friends = ::dagor.getCurTime()
     ::getPS4FriendsFromIndex(0)
     ::g_psn_mapper.updateAccountIdsList()
+    ::broadcastEvent(contactEvent.CONTACTS_UPDATED)
   }
 }
 

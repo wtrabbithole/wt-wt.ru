@@ -1,3 +1,5 @@
+const PLAYERS_IN_FIRST_TABLE_IN_FFA = 16
+
 ::team_aircraft_list <- null
 
 
@@ -1261,15 +1263,12 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         sortTable(commonTbl)
         if (commonTbl.len() > 0)
         {
+          local lastRow = PLAYERS_IN_FIRST_TABLE_IN_FFA - 1
           if (objTbl.id == "table_kills_team2")
-            minRow = commonTbl.len() <= (::global_max_players_versus / 2)? 0 : ::global_max_players_versus / 2
-          else
-            minRow = 0
-
-          local lastRow = minRow + ::global_max_players_versus / 2 - 1
-
-          if (objTbl.id == "table_kills_team2")
+          {
+            minRow = commonTbl.len() <= PLAYERS_IN_FIRST_TABLE_IN_FFA ? 0 : PLAYERS_IN_FIRST_TABLE_IN_FFA
             lastRow = commonTbl.len()
+          }
 
           tbl = []
           for(local i = lastRow; i >= minRow; --i)
@@ -1284,13 +1283,13 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
           tbl.reverse()
         }
         if (objTbl.id == "table_kills_team2")
-          showSecondTable = commonTbl.len() >= ::global_max_players_versus / 2
+          showSecondTable = commonTbl.len() >= PLAYERS_IN_FIRST_TABLE_IN_FFA
       }
       else
         tbl = ::get_mplayers_list(team, true)
     }
     else if (!isTeamplay && customTbl && objTbl.id == "table_kills_team2")
-      minRow = ::global_max_players_versus / 2
+      minRow = PLAYERS_IN_FIRST_TABLE_IN_FFA
 
     local secondTblObj = scene.findObject("team2-root")
     if (::checkObj(secondTblObj))
@@ -1354,16 +1353,16 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     if (!isTeamplay)
     {
       local tbl1 = ::get_mplayers_list(::GET_MPLAYERS_LIST, true)
-      tbl1.sort(::mpstat_sort_rowNo)
+      sortTable(tbl1)
 
       local tbl2 = []
       numRows1 = tbl1.len()
       numRows2 = 0
-      if (tbl1.len() >= ::global_max_players_versus / 2)
+      if (tbl1.len() >= PLAYERS_IN_FIRST_TABLE_IN_FFA)
       {
-        numRows1 = numRows2 = ::global_max_players_versus / 2
+        numRows1 = numRows2 = PLAYERS_IN_FIRST_TABLE_IN_FFA
 
-        for(local i = tbl1.len()-1; i >= ::global_max_players_versus / 2; --i)
+        for(local i = tbl1.len()-1; i >= PLAYERS_IN_FIRST_TABLE_IN_FFA; --i)
         {
           if (!(i in tbl1))
             continue

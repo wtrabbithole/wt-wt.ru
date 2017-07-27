@@ -685,7 +685,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
       if (!skipAnim)
         ::play_gui_sound("deb_players_on")
-      buildPlayersTable()
+      initPlayersTable()
       loadBattleLog()
       loadChatHistory()
       loadCasualtiesHistory()
@@ -1604,57 +1604,46 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }])
   }
 
-  function appendPlayersTbl(playersTbl, mplayersList)
+  function buildPlayersTable()
   {
-    if (mplayersList.len() > 0)
-      sortTable(mplayersList)
-
-    foreach(pData in mplayersList)
+    playersTbl = []
+    curPlayersTbl = [[], []]
+    if (isTeamplay)
     {
-      pData.state = ::PLAYER_IN_FLIGHT //dont need to show laast player state in debriefing.
-      pData.isDead = false
+      for(local t = 0; t < 2; t++)
+      {
+        local tbl = getMplayersListByTeam(t+1)
+        sortTable(tbl)
+        playersTbl.append(tbl)
+      }
     }
-    playersTbl.append(mplayersList)
+    else
+    {
+      sortTable(::debriefing_result.mplayers_list)
+      playersTbl.append([])
+      playersTbl.append([])
+      foreach(i, player in ::debriefing_result.mplayers_list)
+      {
+        local tblIdx = i >= PLAYERS_IN_FIRST_TABLE_IN_FFA ? 1 : 0
+        playersTbl[tblIdx].append(player)
+      }
+    }
+
+    foreach(tbl in playersTbl)
+      foreach(player in tbl)
+      {
+        player.state = ::PLAYER_IN_FLIGHT //dont need to show laast player state in debriefing.
+        player.isDead = false
+      }
   }
 
-  function buildPlayersTable()
+  function initPlayersTable()
   {
     initStats()
 
     if (needPlayersTbl)
-    {
-      foreach (tbl in [ tblSave1, tblSave2 ])
-        if (tbl)
-           sortTable(tbl)
-      selectLocalPlayer()
+      buildPlayersTable()
 
-      if (gameType & ::GT_VERSUS)
-      {
-        playersTbl = []
-        curPlayersTbl = [[], []]
-        if (!isTeamplay)
-        {
-          local copy_plTable = clone ::debriefing_result.mplayers_list
-          local globalHalfOfTable = ::global_max_players_versus / 2
-          local mplayersTable = []
-          for(local i = 0; i < copy_plTable.len(); ++i)
-            if (i in copy_plTable)
-            {
-              local arrayElement = i >= globalHalfOfTable? 1 : 0
-              if(!(arrayElement in mplayersTable))
-                mplayersTable.append([])
-
-              mplayersTable[arrayElement].append(clone copy_plTable[i])
-            }
-
-          for(local t = 0; t < 2; ++t)
-            appendPlayersTbl(playersTbl, (t in mplayersTable? mplayersTable[t] : []))
-        }
-        else
-          for(local t = 0; t < 2; t++)
-            appendPlayersTbl(playersTbl, getMplayersListByTeam(t+1))
-      }
-    }
     updatePlayersTable(0.0)
     showMyPlaceInTable()
   }
@@ -1694,6 +1683,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
       updateStats(curPlayersTbl, ::debriefing_result.mpTblTeams)
       statsTimer += playersRowTime
+      if (playersTblDone)
+        selectLocalPlayer()
     }
     return true
   }

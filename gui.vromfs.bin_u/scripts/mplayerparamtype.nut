@@ -287,6 +287,7 @@ function g_mplayer_param_type::_newer(old, new) {
     relWidth = 15
     missionObjective = MISSION_OBJECTIVE.ALIVE_TIME
     printFunc = @(val, player) ::secondsToString(val, false)
+    isVisibleByGameType = @(gt) !!(gt & ::GT_LAST_MAN_STANDING)
   }
 })
 

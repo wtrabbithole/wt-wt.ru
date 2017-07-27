@@ -20,7 +20,7 @@ enum LIVE_STATS_MODE {
   missionObjectives = MISSION_OBJECTIVE.NONE
   isMissionTeamplay = false
   isMissionRace = false
-  isMissionLifetimeSurvival = false
+  isMissionLastManStanding = false
   isAwaitingSpawn = false
   spawnStartState = null
   isMissionFinished = false
@@ -71,7 +71,7 @@ function g_hud_live_stats::init(_parentObj, _nestObjId, _isSelfTogglable)
   isMissionRace = !!(gameType & ::GT_RACE)
   isMissionFinished = false
   missionObjectives = ::g_mission_type.getCurrentObjectives()
-  isMissionLifetimeSurvival = ::g_mplayer_param_type.ALIVE_TIME.isVisible(missionObjectives, gameType)
+  isMissionLastManStanding = !!(gameType & ::GT_LAST_MAN_STANDING)
 
   isActive = false
 
@@ -200,13 +200,13 @@ function g_hud_live_stats::fill()
   local title = ""
   if (curViewMode == LIVE_STATS_MODE.WATCH)
     title = ""
-  else if (curViewMode == LIVE_STATS_MODE.SPAWN && !isMissionLifetimeSurvival)
+  else if (curViewMode == LIVE_STATS_MODE.SPAWN && !isMissionLastManStanding)
   {
     local txtUnitName = ::getUnitName(::getTblValue("aircraftName", state.player, ""))
     local txtLifetime = ::secondsToString(state.lifetime, true)
     title = ::loc("multiplayer/lifetime") + ::loc("ui/parentheses/space", { text = txtUnitName }) + ::loc("ui/colon") + txtLifetime
   }
-  else if (curViewMode == LIVE_STATS_MODE.FINAL || isMissionLifetimeSurvival)
+  else if (curViewMode == LIVE_STATS_MODE.FINAL || isMissionLastManStanding)
   {
     title = isMissionTeamplay ? ::loc("debriefing/placeInMyTeam") :
       (::loc("mainmenu/btnMyPlace") + ::loc("ui/colon"))
@@ -219,7 +219,7 @@ function g_hud_live_stats::fill()
     title = title
     isHeader = isHeader
     player = []
-    lifetime = isCompareStates && !isMissionLifetimeSurvival
+    lifetime = isCompareStates && !isMissionLastManStanding
   }
 
   foreach (id in curColumnsOrder)
@@ -284,7 +284,7 @@ function g_hud_live_stats::update(obj = null, dt = 0.0)
       txtObj.setValue(text)
   }
 
-  if (isCompareStates && (!visState || visState.lifetime != state.lifetime) && !isMissionLifetimeSurvival)
+  if (isCompareStates && (!visState || visState.lifetime != state.lifetime) && !isMissionLastManStanding)
   {
     local text = ::secondsToString(state.lifetime, true)
     local obj = scene.findObject("txt_lifetime")

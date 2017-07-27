@@ -2286,7 +2286,7 @@
       },
       "compartments": {
         "armorClass": "ship_structural_steel",
-        "hp": 2000.0,
+        "hp": 1500.0,
         "armorThickness": 20.0,
         "fireParamsPreset": "ship_cover",
         "compartment_01_dm": {
@@ -2360,7 +2360,7 @@
       "bulkheads": {
         "armorClass": "ship_structural_steel",
         "hp": 2000.0,
-        "armorThickness": 30.0,
+        "armorThickness": 20.0,
         "bulkhead_01_dm": {
           "genericDamageMult": 0.1
         },
@@ -2658,9 +2658,9 @@
         },
         {
           "effect": {
-            "conditionPartsDead": 2,
+            "conditionPartsDead": 3,
             "kill": true,
-            "killEffect": "expl"
+            "killEffect": "drown"
           }
         }
       ],
@@ -2668,7 +2668,7 @@
         "part": "engine_room_01_dm",
         "effect": {
           "conditionDamageType": "explosion",
-          "conditionDamage": 2000.0,
+          "conditionDamage": 4000.0,
           "kill": true,
           "killEffect": "expl"
         }
@@ -2677,7 +2677,7 @@
         "part": "engine_room_02_dm",
         "effect": {
           "conditionDamageType": "explosion",
-          "conditionDamage": 2000.0,
+          "conditionDamage": 4000.0,
           "kill": true,
           "killEffect": "expl"
         }

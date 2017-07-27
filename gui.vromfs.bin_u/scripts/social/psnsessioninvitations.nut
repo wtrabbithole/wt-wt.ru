@@ -263,12 +263,12 @@ function g_psn_session_invitations::setInvitationUsed(invitationId)
   }
 }
 
-function g_psn_session_invitations::sendInvitation(onlineId)
+function g_psn_session_invitations::sendInvitation(key, onlineId)
 {
-  local sessionId = getSessionId(existingSessionSkirmish)
+  local sessionId = getSessionId(key)
   if (sessionId == "")
   {
-    ::dagor.debug("PSN Invitation: Error: empty sessionId")
+    ::dagor.debug("PSN Invitation: Error: empty sessionId for " + key)
     return
   }
 
@@ -380,6 +380,28 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
   return "{\r\n" + ::implode(jsonRequest, ",\r\n") + "\r\n}\r\n"
 }
 
+function g_psn_session_invitations::sendSkirmishInvitation(userName)
+{
+  return sendInvitation(existingSessionSkirmish, userName)
+}
+
+function g_psn_session_invitations::sendSquadInvitation(userName)
+{
+  if (!::g_squad_manager.isInSquad())
+    return ::g_squad_manager.createSquad(@() ::g_psn_session_invitations.sendSquadInvitation(userName))
+
+  if (!::g_squad_manager.isSquadLeader())
+    return
+
+  if (::g_squad_manager.isSquadFull())
+    return ::g_popups.add(null, ::loc("matching/SQUAD_FULL"))
+
+  if (::g_squad_manager.isInvitedMaxPlayers())
+    return ::g_popups.add(null, ::loc("squad/maximum_intitations_sent"))
+
+  return sendInvitation(existingSessionSquad, userName)
+}
+
 function g_psn_session_invitations::onEventLobbyStatusChange(params)
 {
   if (!::is_platform_ps4
@@ -402,6 +424,7 @@ function g_psn_session_invitations::onEventLobbyStatusChange(params)
                           inviterUid = ::my_user_id_str,
                           inviterName = ::my_user_name
                           password = ::SessionLobby.password
+                          key = existingSessionSkirmish
                         })
                        )
     }
@@ -437,6 +460,7 @@ function g_psn_session_invitations::onEventSquadStatusChanged(params)
                       "ui/images/reward05.jpg",
                       ::save_to_json({
                         squadId = ::g_squad_manager.getLeaderUid()
+                        key = existingSessionSquad
                       }))
   }
   else if (!::g_squad_manager.isInSquad())
@@ -462,7 +486,11 @@ function g_psn_session_invitations::onReceiveInvite(invitationData = null)
   setInvitationUsed(invitationData.invitationId)
 
   sessionData = ::u.extend(sessionData, invitationData)
-  ::g_invites.addPsnSessionRoomInvite(sessionData)
+
+  if (sessionData.key == existingSessionSkirmish)
+    ::g_invites.addPsnSessionRoomInvite(sessionData)
+  else if (sessionData.key == existingSessionSquad)
+    ::g_invites.addPsnSquadInvite(sessionData)
 }
 
 ::subscribe_handler(::g_psn_session_invitations, ::g_listener_priority.DEFAULT_HANDLER)

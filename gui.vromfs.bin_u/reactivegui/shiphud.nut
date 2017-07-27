@@ -291,7 +291,7 @@ local crewBlock = {
         hplace = HALIGN_RIGHT
         rendObj = ROBJ_TEXT
         text = crewState.aliveCrewMembersCount.value.tostring()
-        font = Fonts.small_text_hud
+//        font = Fonts.small_text_hud //better show bigger and brighter (red probably)
         fontFx = fontFx
         fontFxColor = fontFxColor
         watch = crewState.aliveCrewMembersCount
@@ -356,26 +356,38 @@ local fov = function (pivot) {
       shipState.fov
     ]
     pos = @() [pivot[0] - w(50), pivot[1] - h(50)]
-    rendObj = ROBJ_IMAGE
-    image = images.sightCone
-    color = Color(255, 200, 0)
     size = [sh(30), sh(30)]
     transform = {
       pivot = [0.5, 0.5]
       rotate = shipState.sightAngle.value - shipState.fwdAngle.value
       scale = [::math.sin(shipState.fov.value), 1.0]
     }
+    children = [
+      {    
+        size = [flex(),flex()]
+        rendObj = ROBJ_IMAGE
+        image = images.sightCone
+        color = Color(155, 255, 0, 120)
+      }
+      {
+        size = [flex(),flex()]
+        rendObj = ROBJ_IMAGE
+        image = images.sightCone
+        color = Color(155, 255, 0)
+      }
+    ]
+
   }
 }
 
 
 local doll = {
   color = Color(0, 255, 0)
-  size = [sh(15), sh(40)]
+  size = [sh(12), sh(30)]
   rendObj = ROBJ_XRAYDOLL
   rotateWithCamera = false
 
-  children = fov([sh(15)/2, sh(40)/2])
+  children = fov([sh(12)/2, sh(30+4)/2])
 }
 
 
@@ -416,7 +428,7 @@ return {
   vplace = VALIGN_BOTTOM
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
-  margin = [sh(1), sh(5)]
+  margin = [sh(5), sh(1)] //keep gap for counters
   children = [
     speed
     {size=[flex(),sh(0.5)]}

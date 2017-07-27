@@ -861,13 +861,13 @@ function get_favorite_voice_message_option(index)
     }
 
     {
-      id = "ID_SHIP_WEAPON_MACHINEGUN",
+      id = "ID_SHIP_WEAPON_SECONDARY",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
     {
-      id = "ID_SHIP_WEAPON_SECONDARY",
+      id = "ID_SHIP_WEAPON_MACHINEGUN",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
@@ -902,13 +902,19 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
     {
-      id = "ID_SHIP_TORPEDO_SIGHT",
-      checkGroup = ctrlGroups.SHIP,
+      id = "ID_SHIP_TORPEDO_SIGHT"
+      checkGroup = ctrlGroups.SHIP
+      autobind_sc = function() {
+        return ::is_xinput_device() ? null : [SHORTCUT.KEY_Q]
+      }
       checkAssign = false
     }
     {
       id="ID_SHIP_TOGGLE_GUNNERS"
       checkGroup = ctrlGroups.SHIP
+      autobind_sc = function() {
+        return ::is_xinput_device() ? null : [SHORTCUT.KEY_E]
+      }
       checkAssign = false
     }
 
@@ -967,10 +973,11 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
 
-    { id="ID_SHIP_ACTION_BAR_ITEM_10",
-      autobind = ["ID_ACTION_BAR_ITEM_10"]
-      checkGroup = ctrlGroups.SHIP,
+    { id="ID_SHIP_KILLSTREAK_WHEEL_MENU"
+      checkGroup = ctrlGroups.SHIP
       checkAssign = false
+      autobind = ["ID_KILLSTREAK_WHEEL_MENU"]
+      showFunc = function() { return !(::is_platform_pc && !::is_xinput_device()) }
     }
 
     {
@@ -980,16 +987,16 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
 
-    { id="ID_SHIP_ACTION_BAR_ITEM_11",
-      autobind = ["ID_REPAIR_TANK"]
+    { id="ID_SHIP_ACTION_BAR_ITEM_10",
+      autobind = ["ID_ACTION_BAR_ITEM_10"]
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
 
-    { id="ID_SHIP_KILLSTREAK_WHEEL_MENU"
-      checkGroup = ctrlGroups.SHIP
+    { id="ID_SHIP_ACTION_BAR_ITEM_11",
+      autobind = ["ID_REPAIR_TANK"]
+      checkGroup = ctrlGroups.SHIP,
       checkAssign = false
-      autobind = ["ID_KILLSTREAK_WHEEL_MENU"]
     }
 
     { id="ID_REPAIR_BREACHES"

@@ -355,6 +355,7 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   get_respawn_base_time_left_by_id = @(id) ::get_mp_zone_countdown()
 
   GT_FFA = 16777216
+  GT_LAST_MAN_STANDING = 33554432
   EII_REPAIR_BREACHES = 14
 
   run_reactive_gui = function () {}
