@@ -830,6 +830,7 @@ function SessionLobby::resetParams()
   _syncedMyInfo = null
   needJoinSessionAfterMyInfoApply = false
   isLeavingLobbySession = false
+  playersInfo.clear()
   ::g_user_presence.setPresence({in_game_ex = null})
 }
 

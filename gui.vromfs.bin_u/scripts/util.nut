@@ -52,11 +52,6 @@ const NOTIFY_EXPIRE_PREMIUM_ACCOUNT = 15
 foreach (i, v in ::cssColorsMapDark)
     ::cssColorsMapLigth[v] <- i
 
-function can_play_cached()
-{
-  return;
-}
-
 ::global_max_players_versus <- 32
 ::global_max_players_coop <- 4
 
@@ -531,38 +526,6 @@ function gui_msg_okbox(key, ptr)
   [
     ["ok", (@(ptr) function() {::ps3_mb_cb(0, ptr); })(ptr)],
   ], "ok")
-}
-
-::gui_msg_background_enabled <- false;
-
-function gui_msg_background(enable)
-{
-  dagor.debug("called gui_msg_background("+enable+")")
-  local guiScene = ::get_gui_scene()
-  if (!guiScene)
-  {
-    dagor.debug("no gui scene");
-    return
-  }
-  if (enable)
-  {
-    if (::gui_msg_background_enabled)
-    {
-      dagor.debug("already enabled")
-      return;
-    }
-    local blkText = "tdiv { id:t='back_for_system'; position:t='root'; size:t='sw, sh'; background-color:t='#FF000000'; }";
-    guiScene.appendWithBlk(guiScene.getRoot(), blkText, null);
-    dagor.debug("bbox appended")
-    ::gui_msg_background_enabled = true;
-  } else
-  {
-    if (!::gui_msg_background_enabled)
-      return;
-    guiScene.destroyElement(guiScene["back_for_system"]);
-    ::gui_msg_background_enabled = false;
-    dagor.debug("bbox destroyed")
-  }
 }
 
 function preload_ingame_scenes()

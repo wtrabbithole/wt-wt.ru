@@ -175,7 +175,7 @@ enum voiceChatStats
   talking
 }
 
-::INVALID_USER_ID <- make_invalid_user_id()
+::INVALID_USER_ID <- (-1)
 
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
 
@@ -273,6 +273,7 @@ foreach (fn in [
   "scripts/debugTools/dbgUtils.nut"
 
   //probably used before login on ps4
+  "scripts/controls/controlsConsts.nut"
   "scripts/controls/controlsManager.nut"
 ])
 {

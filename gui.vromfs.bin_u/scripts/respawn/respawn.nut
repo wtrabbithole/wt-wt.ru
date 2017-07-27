@@ -1229,13 +1229,15 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateTacticalMapUnitType(isMapForSelectedUnit = null)
   {
-    if (isMapForSelectedUnit == null)
-      isMapForSelectedUnit = !isSpectate
-
     local hudType = ::HUD_TYPE_UNKNOWN
-    local unit = isMapForSelectedUnit ? getSlotAircraft(curSlotCountryId, curSlotIdInCountry) : null
-    if (unit)
-      hudType = unit.unitType.hudTypeCode
+    if (isRespawn)
+    {
+      if (isMapForSelectedUnit == null)
+        isMapForSelectedUnit = !isSpectate
+      local unit = isMapForSelectedUnit ? getSlotAircraft(curSlotCountryId, curSlotIdInCountry) : null
+      if (unit)
+        hudType = unit.unitType.hudTypeCode
+    }
     ::set_tactical_map_hud_type(hudType)
   }
 

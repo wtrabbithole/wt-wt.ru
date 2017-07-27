@@ -457,6 +457,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     bgImage.set_prop_latent("color-factor", isVisible ? 153 : 255)
     bgImage.updateRendElem()
 
+    showSceneBtn("pve_reward_block", isVisible)
     if (! isVisible)
       return
 
@@ -470,11 +471,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function fillPveRewardProgressBar()
   {
-    local pveTrophyPlaceObj = scene.findObject("pve_trophy_progress")
-    if (!::check_obj(pveTrophyPlaceObj))
+    local pveTrophyPlaceObj = showSceneBtn("pve_trophy_progress", true)
+    if (!pveTrophyPlaceObj)
       return
-
-    pveTrophyPlaceObj.show(true)
 
     local receivedTrophyName = pveRewardInfo.receivedTrophyName
     local rewardTrophyStages = pveRewardInfo.stagesTime
@@ -516,25 +515,20 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function fillPveRewardTrophyChest(trophyItem)
   {
-    local trophyPlaceObj = scene.findObject("pve_trophy_chest")
-    if (!trophyItem || !::check_obj(trophyPlaceObj))
+    local isVisible = !!trophyItem
+    local trophyPlaceObj = showSceneBtn("pve_trophy_chest", isVisible)
+    if (!isVisible || !trophyPlaceObj)
       return
 
-    trophyPlaceObj.show(true)
     local imageData = trophyItem.getOpenedBigIcon()
     guiScene.replaceContentFromText(trophyPlaceObj, imageData, imageData.len(), this)
   }
 
   function fillPveRewardTrophyContent(trophyItem, isRewardReceivedEarlier)
   {
-    local obj = scene.findObject("pve_award_already_received")
-    if(::check_obj(obj))
-      obj.show(isRewardReceivedEarlier)
-    if (!trophyItem)
-      return
-
-    local trophyContentPlaceObj = scene.findObject("pve_trophy_content")
-    if (!::check_obj(trophyContentPlaceObj))
+    showSceneBtn("pve_award_already_received", isRewardReceivedEarlier)
+    local trophyContentPlaceObj = showSceneBtn("pve_trophy_content", !!trophyItem)
+    if (!trophyItem || !trophyContentPlaceObj)
       return
 
     local layersData = ""

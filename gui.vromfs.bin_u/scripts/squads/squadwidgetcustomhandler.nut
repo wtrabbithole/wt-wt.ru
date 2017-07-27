@@ -127,8 +127,8 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
     showSceneBtn("btn_squadInvites", ::g_squad_manager.getInvitedPlayers().len() > 0)
 
-    local btnSquadDisband = showSceneBtn("btn_squadDisband", ::g_squad_manager.canLeaveSquad())
-    btnSquadDisband.tooltip = ::g_squad_manager.isSquadLeader() ? ::loc("squadAction/disband") : ::loc("squadAction/leave")
+    local btnSquadLeave = showSceneBtn("btn_squadLeave", ::g_squad_manager.canLeaveSquad())
+    btnSquadLeave.tooltip = ::loc("squadAction/leave")
 
     scene.show(isInTransition || canInvite || ::g_squad_manager.isInSquad())
   }
@@ -160,12 +160,12 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     ::g_squad_utils.showSquadInvitesWidget(nestObj)
   }
 
-  function onSquadDisband()
+  function onSquadLeave()
   {
     if (!::g_squad_manager.isInSquad())
       return
 
-    msgBox("leave_squad", ::g_squad_manager.isSquadLeader() ? ::loc("squad/ask/disband") : ::loc("squad/ask/leave"),
+    msgBox("leave_squad", ::loc("squad/ask/leave"),
       [
         ["yes", function() {
           ::g_squad_manager.leaveSquad()

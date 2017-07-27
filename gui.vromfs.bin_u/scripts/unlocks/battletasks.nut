@@ -548,11 +548,12 @@ function BattleTasks::getTaskDescription(config = null, isPromo = false)
     {
       taskUnlocksListPrefix = ::UnlockConditions.getMainConditionListPrefix(config.conditions)
 
+      local isBitMode = ::UnlockConditions.isBitModeType(config.type)
       local namesLoc = ::UnlockConditions.getLocForBitValues(config.type, config.names, config.hasCustomUnlockableList)
       local typeOR = ::getTblValue("compareOR", config, false)
       for (local i = 0; i < namesLoc.len(); i++)
       {
-        local isUnlocked = config.curVal & 1 << i
+        local isUnlocked = !isBitMode || (config.curVal & 1 << i)
         taskUnlocksList.append(getUnlockConditionBlock(namesLoc[i],
                                  config.names[i],
                                  config.type,
@@ -560,7 +561,7 @@ function BattleTasks::getTaskDescription(config = null, isPromo = false)
                                  i == namesLoc.len() - 1,
                                  config.hasCustomUnlockableList,
                                  i > 0 && typeOR,
-                                 config.unlockType == ::UNLOCKABLE_STREAK))
+                                 isBitMode))
       }
     }
 
@@ -624,7 +625,7 @@ function BattleTasks::setUpdateTimer(task, taskBlockObj)
     })
 }
 
-function BattleTasks::getUnlockConditionBlock(text, id, type, is_unlocked, isFinal, hasCustomUnlockableList, typeOR = false, isStreak = false)
+function BattleTasks::getUnlockConditionBlock(text, id, type, isUnlocked, isFinal, hasCustomUnlockableList, typeOR = false, isBitMode = true)
 {
   local unlockDesc = typeOR ? ::loc("hints/shortcut_separator") + "\n" : ""
   unlockDesc += text
@@ -632,7 +633,9 @@ function BattleTasks::getUnlockConditionBlock(text, id, type, is_unlocked, isFin
 
   return {
     tooltipId = ::UnlockConditions.getTooltipIdByModeType(type, id, hasCustomUnlockableList)
-    overlayTextColor = (is_unlocked && !isStreak)? "active" : "disabled"
+    overlayTextColor = !isBitMode ? ""
+                     : isUnlocked ? "active"
+                     : "disabled"
     text = unlockDesc
   }
 }

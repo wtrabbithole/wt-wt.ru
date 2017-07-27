@@ -58,13 +58,100 @@
   "imports": [],
   "triggers": {
     "isCategory": true,
-    "is_enabled": true
+    "is_enabled": true,
+    "assemble_var": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "num_var",
+          "value": 400,
+          "comparasion_func": "less"
+        }
+      },
+      "actions": {
+        "varSetString": {
+          "value": "objectGroups_",
+          "var": "objectGroups"
+        },
+        "varAddString": {
+          "value": "@num_var",
+          "digits": 2,
+          "var": "objectGroups"
+        },
+        "triggerEnable": {
+          "target": "set_map_icon"
+        }
+      },
+      "else_actions": []
+    },
+    "set_map_icon": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "@objectGroups",
+          "type": "objectGroup"
+        }
+      },
+      "actions": {
+        "missionShowMapIcon": {
+          "areaName": "@objectGroups",
+          "show": true,
+          "team": "Both",
+          "iconName": "ui/gameuiskin#ps4_controls_help_point",
+          "colorCode": "White",
+          "scale": 0.5
+        },
+        "varModify": {
+          "operator": "add",
+          "value": 1.0,
+          "var": "num_var"
+        },
+        "triggerEnable": {
+          "target": "assemble_var"
+        }
+      },
+      "else_actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 1.0,
+          "var": "num_var"
+        },
+        "triggerEnable": {
+          "target": "assemble_var"
+        }
+      }
+    }
   },
   "mission_objectives": {
     "isCategory": true,
     "is_enabled": true
   },
-  "variables": [],
+  "variables": {
+    "objectGroups": "objectGroups_",
+    "num_var": 1
+  },
   "dialogs": [],
   "airfields": [],
   "effects": [],
@@ -76,7 +163,7 @@
           [1.14739,-0.0511553,0.231075],
           [0.0,1.14385,0.253225],
           [-0.23667,-0.248004,1.12027],
-          [3038.95,-41.1529,-558.65]
+          [1809.75,-41.1528,-1161.21]
         ],
         "unit_class": "det_iceberg_a",
         "objLayer": 2,
@@ -93,7 +180,7 @@
           [-0.619599,0.0,1.22241],
           [0.0,1.37047,0.0],
           [-1.22241,0.0,-0.619599],
-          [3173.58,-31.9567,1016.6]
+          [2053.94,-31.957,909.845]
         ],
         "unit_class": "det_iceberg_b",
         "objLayer": 2,
@@ -110,7 +197,7 @@
           [-0.999851,0.00420496,-0.016728],
           [0.0,0.969829,0.243788],
           [0.0172484,0.243752,-0.969684],
-          [3231.45,-24.9,64.7]
+          [1782.22,-24.8999,538.718]
         ],
         "unit_class": "det_iceberg_a",
         "objLayer": 2,
@@ -127,26 +214,9 @@
           [-0.416405,0.30646,-0.855973],
           [0.217652,0.947704,0.233421],
           [0.882742,-0.0891068,-0.46133],
-          [3256.71,-21.25,179.66]
+          [1807.48,-21.2499,653.678]
         ],
         "unit_class": "det_iceberg_b",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "objectGroups_14",
-        "tm": [
-          [1.22388,-0.0336173,0.250199],
-          [0.0,1.23852,0.16641],
-          [-0.252448,-0.162979,1.21298],
-          [-4522.75,-41.65,-1090.1]
-        ],
-        "unit_class": "det_iceberg_a",
         "objLayer": 2,
         "props": {
           "army": 2,
@@ -161,7 +231,7 @@
           [-0.452107,0.0,0.891964],
           [0.0,1.0,0.0],
           [-0.891964,0.0,-0.452107],
-          [-4709.3,-21.25,108.4]
+          [-3093.85,-21.25,621.263]
         ],
         "unit_class": "det_iceberg_b",
         "objLayer": 2,
@@ -178,7 +248,7 @@
           [-0.999851,-0.000949591,-0.0172223],
           [0.0,0.998484,-0.0550542],
           [0.0172484,-0.0550456,-0.998335],
-          [-4553.95,-24.9,-448.15]
+          [-3241.96,-24.8999,-577.446]
         ],
         "unit_class": "det_iceberg_a",
         "objLayer": 2,
@@ -195,41 +265,7 @@
           [-0.540031,0.532452,-1.05204],
           [0.28227,1.18186,0.453263],
           [1.14482,-0.0402373,-0.608022],
-          [-4528.7,-35.0,-333.2]
-        ],
-        "unit_class": "det_iceberg_b",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "objectGroups_20",
-        "tm": [
-          [0.562677,0.00420496,-0.826666],
-          [-0.203799,0.969829,-0.133785],
-          [0.801162,0.243752,0.546557],
-          [-4620.9,-24.9,-1270.6]
-        ],
-        "unit_class": "det_iceberg_a",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "objectGroups_19",
-        "tm": [
-          [0.94408,0.30646,0.121633],
-          [-0.314575,0.947704,0.0538557],
-          [-0.0987677,-0.0891068,0.991113],
-          [-4730.87,-21.25,-1312.57]
+          [-3216.71,-34.9999,-462.496]
         ],
         "unit_class": "det_iceberg_b",
         "objLayer": 2,
@@ -518,7 +554,7 @@
           [-1.11983,0.0,3.49934],
           [0.0,4.55634,0.0],
           [-3.49934,0.0,-1.11983],
-          [-4739.98,-1.36729,121.237]
+          [-3124.53,-1.36729,634.1]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -535,7 +571,7 @@
           [0.319041,0.0,-3.66027],
           [0.0,4.55634,0.0],
           [3.66027,0.0,0.319041],
-          [-4682.98,-0.745056,63.5305]
+          [-3067.53,-0.745056,576.394]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -552,7 +588,7 @@
           [-3.47423,0.0,-2.75449],
           [0.0,4.55634,0.0],
           [2.75449,0.0,-3.47423],
-          [-4545.96,-0.745056,-458.323]
+          [-3233.97,-0.744959,-587.619]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -569,75 +605,7 @@
           [2.30362,0.0,2.86229],
           [0.0,4.55634,0.0],
           [-2.86229,0.0,2.30362],
-          [-4522.2,-0.0,-271.903]
-        ],
-        "unit_class": "det_icefloe_a",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "objectGroups_15",
-        "tm": [
-          [-3.6701,0.0,-0.172453],
-          [0.0,4.55634,0.0],
-          [0.172453,0.0,-3.6701],
-          [-4757.4,-2.35739,-1317.24]
-        ],
-        "unit_class": "det_icefloe_a",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "objectGroups_13",
-        "tm": [
-          [3.61751,0.0,-0.642649],
-          [0.0,4.55634,0.0],
-          [0.642649,0.0,3.61751],
-          [-4599.08,-2.3573,-1262.88]
-        ],
-        "unit_class": "det_icefloe_a",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "objectGroups_18",
-        "tm": [
-          [3.61751,0.0,-0.642649],
-          [0.0,4.55634,0.0],
-          [0.642649,0.0,3.61751],
-          [-4523.39,-2.3573,-1046.24]
-        ],
-        "unit_class": "det_icefloe_a",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "objectGroups_23",
-        "tm": [
-          [2.31559,0.0,-2.85262],
-          [0.0,4.55634,0.0],
-          [2.85262,0.0,2.31559],
-          [-4535.57,-1.02394,-1133.09]
+          [-3210.21,9.72748e-05,-401.199]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -1062,7 +1030,7 @@
           [-0.567256,0.0,-3.6301],
           [0.0,4.55634,0.0],
           [3.6301,0.0,-0.567256],
-          [3038.39,-0.744934,-535.291]
+          [1809.19,-0.744865,-1137.85]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -1079,7 +1047,7 @@
           [0.370512,0.0,-3.65542],
           [0.0,4.55634,0.0],
           [3.65542,0.0,0.370512],
-          [3037.24,-1.53659,-599.791]
+          [1808.04,-1.53652,-1202.35]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -1096,7 +1064,7 @@
           [-0.567256,0.0,-3.6301],
           [0.0,4.55634,0.0],
           [3.6301,0.0,-0.567256],
-          [3227.22,-0.744934,44.1545]
+          [1777.99,-0.744837,518.172]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -1113,7 +1081,7 @@
           [1.38978,0.0,3.40116],
           [0.0,4.55634,0.0],
           [-3.40116,0.0,1.38978],
-          [3266.34,-0.744766,202.797]
+          [1817.11,-0.744669,676.815]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -1130,7 +1098,7 @@
           [1.38978,0.0,3.40116],
           [0.0,4.55634,0.0],
           [-3.40116,0.0,1.38978],
-          [3198.12,-0.744553,977.13]
+          [2078.48,-0.744885,870.375]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -1147,7 +1115,7 @@
           [-2.13047,0.0,2.9934],
           [0.0,4.55634,0.0],
           [-2.9934,0.0,-2.13047],
-          [3146.5,-0.744537,1055.53]
+          [2026.86,-0.744869,948.775]
         ],
         "unit_class": "det_icefloe_a",
         "objLayer": 2,
@@ -2431,6 +2399,1978 @@
           "active": true
         }
       }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_145",
+        "tm": [
+          [-1.30122,0.0,-0.430134],
+          [0.0,1.37047,0.0],
+          [0.430134,0.0,-1.30122],
+          [2154.92,-31.957,-1282.48]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_146",
+        "tm": [
+          [-3.15552,0.0,1.88203],
+          [0.0,4.55634,0.0],
+          [-1.88203,0.0,-3.15552],
+          [2197.61,-0.744884,-1264.11]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_119",
+        "tm": [
+          [-3.27795,0.0,-1.65964],
+          [0.0,4.55634,0.0],
+          [1.65964,0.0,-3.27795],
+          [2112.38,-0.744865,-1303.44]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_149",
+        "tm": [
+          [-0.999851,0.00420496,-0.016728],
+          [0.0,0.969829,0.243788],
+          [0.0172484,0.243752,-0.969684],
+          [1758.58,-24.8999,-612.593]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_150",
+        "tm": [
+          [-0.416405,0.30646,-0.855973],
+          [0.217652,0.947704,0.233421],
+          [0.882742,-0.0891068,-0.46133],
+          [1783.84,-21.2499,-497.633]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_151",
+        "tm": [
+          [-0.567256,0.0,-3.6301],
+          [0.0,4.55634,0.0],
+          [3.6301,0.0,-0.567256],
+          [1754.35,-0.744837,-633.138]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_148",
+        "tm": [
+          [1.38978,0.0,3.40116],
+          [0.0,4.55634,0.0],
+          [-3.40116,0.0,1.38978],
+          [1793.47,-0.744669,-474.496]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_168",
+        "tm": [
+          [0.36371,0.00420496,0.931503],
+          [0.225576,0.969829,-0.0924553],
+          [-0.903787,0.243752,0.351788],
+          [-2343.72,-38.1499,1061.32]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_169",
+        "tm": [
+          [-0.634109,0.30646,0.709921],
+          [0.13344,0.947704,-0.289917],
+          [-0.761643,-0.0891068,-0.641842],
+          [-2246.94,-26.75,994.331]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_170",
+        "tm": [
+          [-0.441033,0.00420496,0.89748],
+          [0.220565,0.969829,0.103845],
+          [-0.869966,0.243752,-0.428654],
+          [-2166.33,-24.8999,966.896]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_171",
+        "tm": [
+          [-1.35522,0.666169,0.0177796],
+          [0.661413,1.34951,-0.148547],
+          [-0.0814132,-0.125516,-1.50277],
+          [-2028.47,-33.5999,945.52]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_172",
+        "tm": [
+          [0.836917,0.0,-3.57757],
+          [0.0,4.55634,0.0],
+          [3.57757,0.0,0.836917],
+          [-2286.21,-0.744904,1020.14]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_173",
+        "tm": [
+          [-1.60663,0.0,3.30426],
+          [0.0,4.55634,0.0],
+          [-3.30426,0.0,-1.60663],
+          [-2350.84,-1.7421,1069.14]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_174",
+        "tm": [
+          [3.14959,0.0,-1.89196],
+          [0.0,4.55634,0.0],
+          [1.89196,0.0,3.14959],
+          [-1958.93,-0.7449,943.807]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_175",
+        "tm": [
+          [-1.09214,0.0,-3.50808],
+          [0.0,4.55634,0.0],
+          [3.50808,0.0,-1.09214],
+          [-2176.31,0.240665,966.101]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_176",
+        "tm": [
+          [3.11385,0.0,-1.95022],
+          [0.0,4.55634,0.0],
+          [1.95022,0.0,3.11385],
+          [-2067.07,-0.744923,918.79]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_177",
+        "tm": [
+          [3.11385,0.0,-1.95022],
+          [0.0,4.55634,0.0],
+          [1.95022,0.0,3.11385],
+          [-2072.11,-0.744934,982.834]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_178",
+        "tm": [
+          [-2.25751,0.0,4.46244],
+          [0.0,4.55634,0.0],
+          [-4.46244,0.0,-2.25751],
+          [-2890.95,-0.745079,1074.41]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_179",
+        "tm": [
+          [2.45002,0.0,-4.35972],
+          [0.0,4.55634,0.0],
+          [4.35972,0.0,2.45002],
+          [-2713.52,-0.745083,927.883]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_180",
+        "tm": [
+          [4.00264,0.0,2.99812],
+          [0.0,4.55634,0.0],
+          [-2.99812,0.0,4.00264],
+          [-2782.02,0.365177,1043.75]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_181",
+        "tm": [
+          [1.85973,-0.0319774,-4.64222],
+          [0.0770827,4.55569,-0.000501185],
+          [4.64156,-0.078331,1.86],
+          [-2471.45,-0.744957,870.998]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_182",
+        "tm": [
+          [-2.06073,0.0,4.55666],
+          [0.0,4.55634,0.0],
+          [-4.55666,0.0,-2.06073],
+          [-2635.43,-0.744961,1032.44]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_183",
+        "tm": [
+          [-4.24871,0.0,-2.63785],
+          [0.0,4.55634,0.0],
+          [2.63785,0.0,-4.24871],
+          [-2577.3,-2.3065,911.027]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_184",
+        "tm": [
+          [-0.784262,0.0023232,0.620425],
+          [0.166806,0.963964,0.207244],
+          [-0.597585,0.266025,-0.756388],
+          [-2741.7,-30.4223,1018.54]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_167",
+        "tm": [
+          [-0.784262,0.0023232,0.620425],
+          [0.166806,0.963964,0.207244],
+          [-0.597585,0.266025,-0.756388],
+          [-2612.53,-30.4224,933.327]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_154",
+        "tm": [
+          [0.507809,-0.0625099,-0.859199],
+          [-0.083594,0.989082,-0.121365],
+          [0.857404,0.133455,0.497039],
+          [-2329.27,-22.4028,375.332]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_155",
+        "tm": [
+          [1.52339,0.0,-3.34345],
+          [0.0,4.55634,0.0],
+          [3.34345,0.0,1.52339],
+          [-2329.72,-0.745576,370.184]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_156",
+        "tm": [
+          [-0.618808,0.30646,-0.723297],
+          [0.269483,0.947704,0.170988],
+          [0.737872,-0.0891068,-0.669032],
+          [-2348.97,-27.1366,641.133]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_153",
+        "tm": [
+          [3.59108,0.0,0.776882],
+          [0.0,4.55634,0.0],
+          [-0.776882,0.0,3.59108],
+          [-2349.43,-0.745576,635.985]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_161",
+        "tm": [
+          [0.594995,-0.0625099,0.801295],
+          [0.144287,0.989082,-0.0299802],
+          [-0.790672,0.133455,0.597518],
+          [-2610.64,-22.4028,503.071]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_162",
+        "tm": [
+          [2.49091,0.0,2.70088],
+          [0.0,4.55634,0.0],
+          [-2.70088,0.0,2.49091],
+          [-2605.72,-0.745605,504.647]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_163",
+        "tm": [
+          [0.906682,0.30646,-0.289845],
+          [-0.262121,0.947704,0.182073],
+          [0.330485,-0.0891068,0.939595],
+          [-2847.99,-27.1366,381.819]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_160",
+        "tm": [
+          [-2.10885,0.0,3.00868],
+          [0.0,4.55634,0.0],
+          [-3.00868,0.0,-2.10885],
+          [-2843.07,-0.745605,383.394]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_187",
+        "tm": [
+          [-0.618808,0.30646,-0.723297],
+          [0.269483,0.947704,0.170988],
+          [0.737872,-0.0891068,-0.669032],
+          [-2370.48,-27.1371,-1012.79]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_188",
+        "tm": [
+          [3.59108,0.0,0.776882],
+          [0.0,4.55634,0.0],
+          [-0.776882,0.0,3.59108],
+          [-2370.94,-0.746065,-1017.94]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_189",
+        "tm": [
+          [0.594995,-0.0625099,0.801295],
+          [0.144287,0.989082,-0.0299802],
+          [-0.790672,0.133455,0.597518],
+          [-2632.15,-22.4033,-1150.86]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_166",
+        "tm": [
+          [2.49091,0.0,2.70088],
+          [0.0,4.55634,0.0],
+          [-2.70088,0.0,2.49091],
+          [-2627.23,-0.746094,-1149.28]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_190",
+        "tm": [
+          [0.906682,0.30646,-0.289845],
+          [-0.262121,0.947704,0.182073],
+          [0.330485,-0.0891068,0.939595],
+          [-2089.62,-27.137,-504.039]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_165",
+        "tm": [
+          [-2.10885,0.0,3.00868],
+          [0.0,4.55634,0.0],
+          [-3.00868,0.0,-2.10885],
+          [-2084.7,-0.745977,-502.464]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_191",
+        "tm": [
+          [2.28648,0.0,-4.44767],
+          [0.0,4.55634,0.0],
+          [4.44767,0.0,2.28648],
+          [-1897.66,-0.745117,-1548.36]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_192",
+        "tm": [
+          [-2.47831,0.0,4.3437],
+          [0.0,4.55634,0.0],
+          [-4.3437,0.0,-2.47831],
+          [-2076.04,-0.745117,-1402.99]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_193",
+        "tm": [
+          [-3.98306,0.0,-3.02408],
+          [0.0,4.55634,0.0],
+          [3.02408,0.0,-3.98306],
+          [-2006.79,1.3712,-1518.42]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_194",
+        "tm": [
+          [-1.89014,0.0,4.63003],
+          [0.0,4.55634,0.0],
+          [-4.63003,0.0,-1.89014],
+          [-2318.48,-0.744995,-1347.68]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_195",
+        "tm": [
+          [2.09031,0.0,-4.54317],
+          [0.0,4.55634,0.0],
+          [4.54317,0.0,2.09031],
+          [-2153.45,-0.744995,-1508.05]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_196",
+        "tm": [
+          [4.23147,0.0,2.66542],
+          [0.0,4.55634,0.0],
+          [-2.66542,0.0,4.23147],
+          [-2212.38,0.828278,-1387.02]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_164",
+        "tm": [
+          [-0.357646,0.00420496,-0.933848],
+          [-0.226172,0.969829,0.0909867],
+          [0.906055,0.243752,-0.345904],
+          [-2115.38,-38.1499,-1455.17]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_200",
+        "tm": [
+          [2.11464,0.0,-3.00461],
+          [0.0,4.55634,0.0],
+          [3.00461,0.0,2.11464],
+          [-2610.74,-0.744873,-1430.98]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_201",
+        "tm": [
+          [0.709532,0.00420496,0.704661],
+          [0.168871,0.969829,-0.175826],
+          [-0.68414,0.243752,0.687414],
+          [-2915.08,-38.1499,-1167.81]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_202",
+        "tm": [
+          [-0.29261,0.30646,0.905793],
+          [0.0047138,0.947704,-0.319117],
+          [-0.956221,-0.0891068,-0.278752],
+          [-2853.67,-26.7498,-1268.24]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_203",
+        "tm": [
+          [-0.0401519,0.00420496,0.999184],
+          [0.243721,0.969829,0.00571311],
+          [-0.969014,0.243752,-0.0399648],
+          [-2791.07,-24.8998,-1325.94]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_204",
+        "tm": [
+          [-1.23212,0.666169,0.564644],
+          [0.544736,1.34951,-0.40348],
+          [-0.68254,-0.125516,-1.3413],
+          [-2673.64,-33.5998,-1401.27]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_09",
+        "tm": [
+          [-0.682307,0.0,-3.61025],
+          [0.0,4.55634,0.0],
+          [3.61025,0.0,-0.682307],
+          [-2879.15,-0.744873,-1228.74]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_05",
+        "tm": [
+          [-0.13217,0.0,3.67177],
+          [0.0,4.55634,0.0],
+          [-3.67177,0.0,-0.13217],
+          [-2918.42,-1.74208,-1157.78]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_207",
+        "tm": [
+          [-2.41826,0.0,-2.76612],
+          [0.0,4.55634,0.0],
+          [2.76612,0.0,-2.41826],
+          [-2800.51,0.2407,-1322.63]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_208",
+        "tm": [
+          [2.05838,0.0,-3.04343],
+          [0.0,4.55634,0.0],
+          [3.04343,0.0,2.05838],
+          [-2719.76,-0.744892,-1410.1]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_199",
+        "tm": [
+          [2.05838,0.0,-3.04343],
+          [0.0,4.55634,0.0],
+          [3.04343,0.0,2.05838],
+          [-2698.45,-0.744903,-1349.49]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_186",
+        "tm": [
+          [0.906682,0.30646,-0.289845],
+          [-0.262121,0.947704,0.182073],
+          [0.330485,-0.0891068,0.939595],
+          [-3012.31,-27.137,-812.15]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_185",
+        "tm": [
+          [-2.10885,0.0,3.00868],
+          [0.0,4.55634,0.0],
+          [-3.00868,0.0,-2.10885],
+          [-3007.39,-0.745977,-810.574]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_209",
+        "tm": [
+          [-0.278798,-0.0625099,-0.958313],
+          [-0.145697,0.989082,-0.0221293],
+          [0.949233,0.133455,-0.284861],
+          [-2584.58,-22.4034,-415.115]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_198",
+        "tm": [
+          [-1.39475,0.0,-3.39912],
+          [0.0,4.55634,0.0],
+          [3.39912,0.0,-1.39475],
+          [-2588.65,-0.746201,-418.306]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_232",
+        "tm": [
+          [-0.148271,0.00420496,-0.988938],
+          [-0.240454,0.969829,0.040175],
+          [0.959269,0.243752,-0.142786],
+          [1028.91,-38.1497,-1585.94]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_233",
+        "tm": [
+          [0.775648,0.30646,-0.551771],
+          [-0.194361,0.947704,0.253143],
+          [0.600495,-0.0891068,0.794649],
+          [919.685,-26.7496,-1542.06]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_234",
+        "tm": [
+          [0.62893,0.00420496,-0.77745],
+          [-0.192073,0.969829,-0.150136],
+          [0.753362,0.243752,0.610762],
+          [835.006,-24.8997,-1533.17]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_235",
+        "tm": [
+          [1.32548,0.666169,0.282947],
+          [-0.677887,1.34951,-0.00169912],
+          [-0.253589,-0.125516,1.48346],
+          [695.833,-33.5995,-1542.87]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_236",
+        "tm": [
+          [-1.60882,0.0,3.3032],
+          [0.0,4.55634,0.0],
+          [-3.3032,0.0,-1.60882],
+          [963.7,-0.744659,-1558.52]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_237",
+        "tm": [
+          [2.29884,0.0,-2.86613],
+          [0.0,4.55634,0.0],
+          [2.86613,0.0,2.29884],
+          [1037.58,-1.74186,-1591.98]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_238",
+        "tm": [
+          [0.287688,0.0,3.66288],
+          [0.0,4.55634,0.0],
+          [-3.66288,0.0,0.287688],
+          [844.557,0.24091,-1530.18]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_239",
+        "tm": [
+          [-3.46857,0.0,1.21179],
+          [0.0,4.55634,0.0],
+          [-1.21179,0.0,-3.46857],
+          [727.555,-0.744682,-1508.25]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_240",
+        "tm": [
+          [-3.46857,0.0,1.21179],
+          [0.0,4.55634,0.0],
+          [-1.21179,0.0,-3.46857],
+          [746.654,-0.744694,-1569.58]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_241",
+        "tm": [
+          [3.19017,0.0,-3.85131],
+          [0.0,4.55634,0.0],
+          [3.85131,0.0,3.19017],
+          [1565.43,-0.744831,-1477.45]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_242",
+        "tm": [
+          [-3.35513,0.0,3.70849],
+          [0.0,4.55634,0.0],
+          [-3.70849,0.0,-3.35513],
+          [1359.95,-0.744839,-1373.88]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_243",
+        "tm": [
+          [-3.23883,0.0,-3.81048],
+          [0.0,4.55634,0.0],
+          [3.81048,0.0,-3.23883],
+          [1452.42,0.365417,-1471.69]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_244",
+        "tm": [
+          [-2.8421,-0.0319774,4.11476],
+          [-0.0752777,4.55569,-0.0165909],
+          [-4.11406,-0.078331,-2.84223],
+          [1111.29,-0.744698,-1372.04]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_245",
+        "tm": [
+          [3.01915,0.0,-3.98679],
+          [0.0,4.55634,0.0],
+          [3.98679,0.0,3.01915],
+          [1306.97,-0.744713,-1493.14]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_246",
+        "tm": [
+          [3.55862,0.0,3.51369],
+          [0.0,4.55634,0.0],
+          [-3.51369,0.0,3.55862],
+          [1223.37,-2.30625,-1387.63]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_247",
+        "tm": [
+          [0.902239,0.0023232,-0.43123],
+          [-0.116739,0.963964,-0.239053],
+          [0.415134,0.266025,0.869997],
+          [1407.52,-30.4221,-1456.04]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_248",
+        "tm": [
+          [0.902239,0.0023232,-0.43123],
+          [-0.116739,0.963964,-0.239053],
+          [0.415134,0.266025,0.869997],
+          [1262.67,-30.4222,-1401.56]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_249",
+        "tm": [
+          [-0.685564,-0.0625099,0.725324],
+          [0.0546246,0.989082,0.136871],
+          [-0.72596,0.133455,-0.674664],
+          [862.812,-22.4026,-920.203]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_250",
+        "tm": [
+          [-2.22635,0.0,2.9228],
+          [0.0,4.55634,0.0],
+          [-2.9228,0.0,-2.22635],
+          [862.115,-0.745331,-915.082]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_251",
+        "tm": [
+          [0.443161,0.30646,0.842431],
+          [-0.224898,0.947704,-0.226449],
+          [-0.867772,-0.0891068,0.488907],
+          [940.922,-27.1364,-1175.03]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_252",
+        "tm": [
+          [-3.32968,0.0,-1.55327],
+          [0.0,4.55634,0.0],
+          [1.55327,0.0,-3.32968],
+          [940.226,-0.745335,-1169.91]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_253",
+        "tm": [
+          [-0.402658,-0.0625099,-0.913214],
+          [-0.147343,0.989082,-0.00273548],
+          [0.903414,0.133455,-0.407472],
+          [1165.49,-22.4026,-982.421]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_254",
+        "tm": [
+          [-1.83054,0.0,-3.18567],
+          [0.0,4.55634,0.0],
+          [3.18567,0.0,-1.83054],
+          [1161.04,-0.745361,-985.049]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_255",
+        "tm": [
+          [-0.948367,0.30646,0.0817419],
+          [0.295948,0.947704,-0.119467],
+          [-0.114079,-0.0891068,-0.989467],
+          [1370.08,-27.1362,-811.591]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_256",
+        "tm": [
+          [2.72308,0.0,-2.46663],
+          [0.0,4.55634,0.0],
+          [2.46663,0.0,2.72308],
+          [1365.63,-0.745365,-814.219]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_231",
+        "tm": [
+          [-3.49051,0.0,1.14706],
+          [0.0,4.55634,0.0],
+          [-1.14706,0.0,-3.49051],
+          [627.641,-0.744659,-1556.61]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_118",
+        "tm": [
+          [-1.90902,0.0,6.16436],
+          [0.0,4.55634,0.0],
+          [-6.16436,0.0,-1.90902],
+          [738.08,-0.744873,-215.003]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_159",
+        "tm": [
+          [-3.77505,0.0,3.28006],
+          [0.0,4.55634,0.0],
+          [-3.28006,0.0,-3.77505],
+          [505.555,-0.744995,-199.398]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_197",
+        "tm": [
+          [-3.77505,0.0,3.28006],
+          [0.0,4.55634,0.0],
+          [-3.28006,0.0,-3.77505],
+          [244.61,-0.744995,-251.427]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_210",
+        "tm": [
+          [2.57437,0.0959761,4.28639],
+          [-0.0314053,4.55547,-0.0831391],
+          [-4.28733,0.0174296,2.57454],
+          [357.048,1.19022,-238.69]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_158",
+        "tm": [
+          [0.527345,0.0302441,-0.849113],
+          [0.0531523,0.996235,0.068495],
+          [0.847986,-0.081252,0.523753],
+          [445.576,-38.1499,-245.505]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_219",
+        "tm": [
+          [-0.618808,0.30646,-0.723297],
+          [0.269483,0.947704,0.170988],
+          [0.737872,-0.0891068,-0.669032],
+          [1498.08,-27.1365,334.986]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_220",
+        "tm": [
+          [3.59108,0.0,0.776882],
+          [0.0,4.55634,0.0],
+          [-0.776882,0.0,3.59108],
+          [1497.62,-0.745418,329.838]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_221",
+        "tm": [
+          [0.906682,0.30646,-0.289845],
+          [-0.262121,0.947704,0.182073],
+          [0.330485,-0.0891068,0.939595],
+          [856.245,-27.1363,535.629]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_222",
+        "tm": [
+          [-2.10885,0.0,3.00868],
+          [0.0,4.55634,0.0],
+          [-3.00868,0.0,-2.10885],
+          [861.168,-0.745331,537.205]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_223",
+        "tm": [
+          [-0.278798,-0.0625099,-0.958313],
+          [-0.145697,0.989082,-0.0221293],
+          [0.949233,0.133455,-0.284861],
+          [1283.98,-22.4028,932.664]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_224",
+        "tm": [
+          [-1.39475,0.0,-3.39912],
+          [0.0,4.55634,0.0],
+          [3.39912,0.0,-1.39475],
+          [1279.91,-0.745554,929.473]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_225",
+        "tm": [
+          [0.594995,-0.0625099,0.801295],
+          [0.144287,0.989082,-0.0299802],
+          [-0.790672,0.133455,0.597518],
+          [1236.41,-22.4027,196.923]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_218",
+        "tm": [
+          [2.49091,0.0,2.70088],
+          [0.0,4.55634,0.0],
+          [-2.70088,0.0,2.49091],
+          [1241.33,-0.745447,198.5]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_228",
+        "tm": [
+          [-1.31169,0.460139,0.552162],
+          [0.246204,0.947374,-0.204616],
+          [-0.617255,-0.132447,-1.35595],
+          [1278.86,-14.3005,650.417]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_229",
+        "tm": [
+          [0.491758,-0.31541,1.3403],
+          [0.333623,1.4081,0.208959],
+          [-1.33589,0.235551,0.545569],
+          [1029.06,-52.9505,858.517]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_230",
+        "tm": [
+          [-0.109819,0.30646,0.945527],
+          [-0.0577848,0.947704,-0.313877],
+          [-0.992271,-0.0891068,-0.0863673],
+          [1123.76,-21.2505,795.327]
+        ],
+        "unit_class": "det_iceberg_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_257",
+        "tm": [
+          [0.156027,0.00420496,0.987744],
+          [0.240132,0.969829,-0.0420607],
+          [-0.958119,0.243752,0.15031],
+          [1173.86,-33.3505,726.477]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_258",
+        "tm": [
+          [0.0597886,0.0,3.67366],
+          [0.0,4.55634,0.0],
+          [-3.67366,0.0,0.0597886],
+          [977.981,-0.745532,884.547]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_259",
+        "tm": [
+          [0.0597886,0.0,3.67366],
+          [0.0,4.55634,0.0],
+          [-3.67366,0.0,0.0597886],
+          [1057.13,-0.745532,816.487]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_260",
+        "tm": [
+          [2.14792,0.0,-2.98091],
+          [0.0,4.55634,0.0],
+          [2.98091,0.0,2.14792],
+          [1146.86,2.675,725.917]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_261",
+        "tm": [
+          [-2.10747,0.0,3.00965],
+          [0.0,4.55634,0.0],
+          [-3.00965,0.0,-2.10747],
+          [1232.65,-0.745456,640.867]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_262",
+        "tm": [
+          [3.48913,0.0,1.15124],
+          [0.0,4.55634,0.0],
+          [-1.15124,0.0,3.48913],
+          [1337.26,-0.745441,630.347]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_263",
+        "tm": [
+          [1.54172,0.0,-3.33504],
+          [0.0,4.55634,0.0],
+          [3.33504,0.0,1.54172],
+          [1261.84,-0.745441,695.807]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_264",
+        "tm": [
+          [-0.470904,0.0,-3.64385],
+          [0.0,4.55634,0.0],
+          [3.64385,0.0,-0.470904],
+          [1135.22,-2.64536,816.117]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_227",
+        "tm": [
+          [-0.470904,0.0,-3.64385],
+          [0.0,4.55634,0.0],
+          [3.64385,0.0,-0.470904],
+          [1043.31,-0.745441,900.127]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_226",
+        "tm": [
+          [-4.96509,0.0,0.598089],
+          [0.0,4.55634,0.0],
+          [-0.598089,0.0,-4.96509],
+          [803.882,1.84837,1098.51]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_265",
+        "tm": [
+          [-4.96509,0.0,0.598089],
+          [0.0,4.55634,0.0],
+          [-0.598089,0.0,-4.96509],
+          [617.032,-1.79729,909.071]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_266",
+        "tm": [
+          [4.98645,0.0,-0.380949],
+          [0.0,4.55634,0.0],
+          [0.380949,0.0,4.98645],
+          [837.386,-1.43495,975.372]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_267",
+        "tm": [
+          [-0.27317,0.0,4.99351],
+          [0.0,4.55634,0.0],
+          [-4.99351,0.0,-0.27317],
+          [702.973,-0.744596,982.682]
+        ],
+        "unit_class": "det_icefloe_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_215",
+        "tm": [
+          [0.481012,0.0023232,-0.876711],
+          [-0.234305,0.963964,-0.125998],
+          [0.844825,0.266025,0.464222],
+          [773.988,-38.1494,1007.08]
+        ],
+        "unit_class": "det_iceberg_a",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
     }
   ],
   "areas": {
@@ -2517,7 +4457,7 @@
         [729.05,0.0,0.0],
         [0.0,470.65,0.0],
         [0.0,0.0,2273.07],
-        [3490.85,-0.0,-147.85]
+        [2142.8,0.0,-147.85]
       ],
       "objLayer": 3,
       "props": []
@@ -2525,10 +4465,10 @@
     "area_10": {
       "type": "Sphere",
       "tm": [
-        [8041.8,0.0,0.0],
-        [0.0,8041.8,0.0],
-        [0.0,0.0,8041.8],
-        [-726.5,-0.0,-213.65]
+        [5000.0,0.0,0.0],
+        [0.0,5000.0,0.0],
+        [0.0,0.0,5000.0],
+        [-726.5,0.0,-213.65]
       ],
       "objLayer": 3,
       "props": []
@@ -2550,7 +4490,7 @@
         [729.05,0.0,0.0],
         [0.0,470.65,0.0],
         [0.0,0.0,2273.07],
-        [-4873.15,0.0,-147.85]
+        [-3588.96,0.0,-147.85]
       ],
       "objLayer": 3,
       "props": []
@@ -2564,6 +4504,17 @@
         [-726.5,0.0,-213.65]
       ],
       "objLayer": 3,
+      "props": []
+    },
+    "area_01": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-1918.4,-478.5,2465.6]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },

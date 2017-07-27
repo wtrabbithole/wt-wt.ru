@@ -5,13 +5,13 @@
         "trigger": "gunner0"
       },
       {
-        "triggerGroup": "secondary"
+        "triggerGroup": "primary"
       },
       {
         "blk": "gameData/Weapons/groundModels_weapons/37mm_AN_M4_naval_user_cannon.blk"
       },
       {
-        "emitter": "gun_barrel_01"
+        "emitter": "emtr_gun_flame_01"
       },
       {
         "flash": "emtr_gun_flame_01"
@@ -23,10 +23,10 @@
         "recoilOffset": 0.2
       },
       {
-        "barrelDP": "gun_barrel_01_dm"
+        "barrelDP": "main_caliber_gun_02_dm"
       },
       {
-        "breechDP": "cannon_breech_01_dm"
+        "breechDP": "main_caliber_gun_02_dm"
       },
       {
         "defaultYaw": 0.0
@@ -103,16 +103,16 @@
       {
         "turret": [
           {
-            "head": "turret_h_01"
+            "head": "main_caliber_turret_02"
           },
           {
-            "gun": "cannon_breech_01"
+            "gun": "main_caliber_gun_02"
           },
           {
             "barrel": "gun_barrel_01"
           },
           {
-            "gunnerDm": "gunner_01_dm"
+            "gunnerDm": "main_caliber_turret_02_dm"
           },
           {
             "linkedAnimPart": {
@@ -144,7 +144,7 @@
         "trigger": "gunner1"
       },
       {
-        "triggerGroup": "machinegun"
+        "triggerGroup": "secondary"
       },
       {
         "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
@@ -162,7 +162,10 @@
         "recoilOffset": 0.0
       },
       {
-        "barrelDP": "mg_06_dm"
+        "barrelDP": "auxiliary_caliber_gun_02_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_02_dm"
       },
       {
         "defaultYaw": 0.0
@@ -246,7 +249,7 @@
         "turret": {
           "head": "bone_mg_mount_h_02",
           "gun": "bone_mg_mount_v_02",
-          "gunnerDm": "gunner_04_dm",
+          "gunnerDm": "auxiliary_caliber_turret_02_dm",
           "linkedAnimPart": {
             "verNode": "Bip01 Pelvis_5",
             "verLimits": [0.0,30.0],
@@ -278,7 +281,7 @@
         "trigger": "gunner1"
       },
       {
-        "triggerGroup": "machinegun"
+        "triggerGroup": "secondary"
       },
       {
         "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
@@ -296,7 +299,10 @@
         "recoilOffset": 0.0
       },
       {
-        "barrelDP": "mg_05_dm"
+        "barrelDP": "auxiliary_caliber_gun_02_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_02_dm"
       },
       {
         "defaultYaw": 0.0
@@ -380,7 +386,7 @@
         "turret": {
           "head": "bone_mg_mount_h_02",
           "gun": "bone_mg_mount_v_02",
-          "gunnerDm": "gunner_04_dm",
+          "gunnerDm": "auxiliary_caliber_turret_02_dm",
           "linkedAnimPart": {
             "verNode": "bone_radius_hands_02",
             "verLimits": [0.0,-20.0],
@@ -412,7 +418,7 @@
         "trigger": "gunner2"
       },
       {
-        "triggerGroup": "machinegun"
+        "triggerGroup": "secondary"
       },
       {
         "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
@@ -430,7 +436,10 @@
         "recoilOffset": 0.0
       },
       {
-        "barrelDP": "mg_03_dm"
+        "barrelDP": "auxiliary_caliber_gun_01_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -514,7 +523,7 @@
         "turret": {
           "head": "bone_mg_mount_h_01",
           "gun": "bone_mg_mount_v_01",
-          "gunnerDm": "gunner_03_dm",
+          "gunnerDm": "auxiliary_caliber_turret_01_dm",
           "linkedAnimPart": {
             "verNode": "Bip01 Pelvis_4",
             "verLimits": [0.0,30.0],
@@ -546,7 +555,7 @@
         "trigger": "gunner2"
       },
       {
-        "triggerGroup": "machinegun"
+        "triggerGroup": "secondary"
       },
       {
         "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_navy_user_machinegun.blk"
@@ -564,7 +573,10 @@
         "recoilOffset": 0.0
       },
       {
-        "barrelDP": "mg_04_dm"
+        "barrelDP": "auxiliary_caliber_gun_01_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -648,7 +660,7 @@
         "turret": {
           "head": "bone_mg_mount_h_01",
           "gun": "bone_mg_mount_v_01",
-          "gunnerDm": "gunner_03_dm",
+          "gunnerDm": "auxiliary_caliber_turret_01_dm",
           "linkedAnimPart": {
             "verNode": "bone_radius_hands_01",
             "verLimits": [0.0,-20.0],
@@ -686,7 +698,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/20mm_Oerlikon_naval_user_cannon.blk"
       },
       {
-        "emitter": "gun_barrel_02"
+        "emitter": "emtr_gun_flame_02"
       },
       {
         "flash": "emtr_gun_flame_02"
@@ -698,7 +710,10 @@
         "recoilOffset": 0.1
       },
       {
-        "barrelDP": "mg_02_dm"
+        "barrelDP": "auxiliary_caliber_gun_03_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_03_dm"
       },
       {
         "defaultYaw": 0.0
@@ -774,10 +789,10 @@
       },
       {
         "turret": {
-          "head": "turret_h_02",
-          "gun": "mg_02",
+          "head": "auxiliary_caliber_turret_03",
+          "gun": "auxiliary_caliber_gun_03",
           "barrel": "gun_barrel_02",
-          "gunnerDm": "gunner_02_dm",
+          "gunnerDm": "auxiliary_caliber_turret_03_dm",
           "linkedAnimPart": {
             "verNode": "bone_radius_foot",
             "verLimits": [0.0,12.0],
@@ -814,7 +829,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/40mm_L60_Bofors_user_cannon.blk"
       },
       {
-        "emitter": "gun_barrel_06"
+        "emitter": "emtr_gun_flame_07"
       },
       {
         "flash": "emtr_gun_flame_07"
@@ -829,10 +844,10 @@
         "allowableDelta": 10.0
       },
       {
-        "barrelDP": "gun_barrel_06_dm"
+        "barrelDP": "main_caliber_gun_01_dm"
       },
       {
-        "breechDP": "cannon_breech_06_dm"
+        "breechDP": "main_caliber_gun_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -908,12 +923,10 @@
       },
       {
         "turret": {
-          "head": "turret_h_06",
-          "gun": "cannon_breech_06",
+          "head": "main_caliber_turret_01",
+          "gun": "main_caliber_gun_01",
           "barrel": "gun_barrel_06",
-          "gunnerDm": "gunner_05_dm",
-          "verDriveDm": "drive_turret_v_06_dm",
-          "horDriveDm": "drive_turret_h_06_dm"
+          "gunnerDm": "main_caliber_turret_01_06_dm"
         }
       },
       {
@@ -925,8 +938,8 @@
       {
         "limitsTable": {
           "lim1": [-180.0,-120.0,35.0,90.0],
-          "lim2": [-120.0,135.0,-6.0,90.0],
-          "lim3": [135.0,180.0,35.0,90.0]
+          "lim2": [-120.0,129.0,-6.0,90.0],
+          "lim3": [129.0,180.0,35.0,90.0]
         }
       }
     ]

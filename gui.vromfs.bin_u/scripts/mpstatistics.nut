@@ -947,7 +947,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   checkRaceDataOnStart = true
   numberOfWinningPlaces = -1
 
-  defaultRowHeaders         = ["squad", "name", "missionAliveTime", "aircraft", "score", "kills", "groundKills", "navalKills", "aiKills",
+  defaultRowHeaders         = ["squad", "name", "aircraft", "missionAliveTime", "score", "kills", "groundKills", "navalKills", "aiKills",
                                "aiGroundKills", "aiNavalKills", "aiTotalKills", "assists", "captureZone", "damageZone", "deaths"]
   raceRowHeaders            = ["rowNo", "name", "aircraft", "raceFinishTime", "raceLap", "raceLastCheckpoint",
                                "raceLastCheckpointTime", "deaths"]
@@ -1329,8 +1329,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       ::update_team_css_label(objTbl)
       objTbl.num_rows = tbl.len()
 
-      if (isTeamplay && friendlyTeam > 0 && team > 0)
-        objTbl["team"] = (friendlyTeam==team)? "blue" : "red"
+      if (friendlyTeam > 0 && team > 0)
+        objTbl["team"] = (isTeamplay && friendlyTeam == team)? "blue" : "red"
     }
     updateCountryFlags()
     guiScene.setUpdatesEnabled(true, true)

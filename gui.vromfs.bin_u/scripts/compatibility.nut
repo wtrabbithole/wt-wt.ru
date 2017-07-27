@@ -1,8 +1,9 @@
 function apply_compatibilities(comp_table)
 {
   local rootTable = getroottable()
+  local constTable = getconsttable()
   foreach(key, value in comp_table)
-    if (!(key in rootTable))
+    if (!(key in rootTable) && !(key in constTable))
       rootTable[key] <- value
 }
 
@@ -55,8 +56,6 @@ function get_version_int_from_string(versionText)
 
   script_net_assert = function(error) { dagor.debug("Exception:" + error) }
   is_gui_webcache_enabled = function() { return false }
-
-  make_invalid_user_id = function() { return -1 }
 
   is_option_free_camera_inertia_exist = ("OPTION_FREE_CAMERA_INERTIA" in getroottable())
   is_option_replay_camera_wiggle_exist = ("OPTION_REPLAY_CAMERA_WIGGLE" in getroottable())

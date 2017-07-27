@@ -84,7 +84,7 @@ function g_squad_utils::showLeaveSquadMsgBox(msgId, okFunc = null, cancelFunc = 
     "cant_join",
     ::loc(msgId),
     [
-      [ isSquadLeader ? "disbandSquad" : "leaveSquad",
+      [ "leaveSquad",
         function() { ::g_squad_manager.leaveSquad(okFunc) }
       ],
       ["cancel", cancelFunc]

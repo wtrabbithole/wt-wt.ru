@@ -23,10 +23,10 @@
         "recoilOffset": 0.4
       },
       {
-        "barrelDP": "gun_barrel_01_dm"
+        "barrelDP": "main_caliber_gun_01_dm"
       },
       {
-        "breechDP": "cannon_breech_01_dm"
+        "breechDP": "main_caliber_gun_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -102,9 +102,10 @@
       },
       {
         "turret": {
-          "head": "turret_h_01",
-          "gun": "cannon_breech_01",
+          "head": "main_caliber_turret_01",
+          "gun": "main_caliber_gun_01",
           "barrel": "gun_barrel_01",
+          "gunnerDm": "main_caliber_turret_01_dm",
           "linkedAnimPart": {
             "verNode": "sight_01",
             "verLimits": [-1.0,30.0],
@@ -120,9 +121,9 @@
       },
       {
         "limitsTable": {
-          "lim1": [-180.0,-170.0,20.0,60.0],
-          "lim2": [-170.0,170.0,-1.0,60.0],
-          "lim3": [170.0,180.0,20.0,60.0]
+          "lim1": [-180.0,-140.0,20.0,60.0],
+          "lim2": [-140.0,140.0,-1.0,60.0],
+          "lim3": [140.0,180.0,20.0,60.0]
         }
       }
     ]
@@ -151,10 +152,10 @@
         "recoilOffset": 0.4
       },
       {
-        "barrelDP": "gun_barrel_04_dm"
+        "barrelDP": "main_caliber_gun_03_dm"
       },
       {
-        "breechDP": "cannon_breech_04_dm"
+        "breechDP": "main_caliber_gun_03_dm"
       },
       {
         "defaultYaw": 0.0
@@ -230,10 +231,10 @@
       },
       {
         "turret": {
-          "head": "turret_h_03",
+          "head": "main_caliber_turret_03",
           "gun": "turret_v_03",
           "barrel": "gun_barrel_04",
-          "gunnerDm": "gunner_05_dm"
+          "gunnerDm": "main_caliber_turret_03_dm"
         }
       },
       {
@@ -275,7 +276,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/20mm_zwilling_MG_C38.blk"
       },
       {
-        "emitter": "mg_04"
+        "emitter": "emtr_gun_flame_05"
       },
       {
         "flash": "emtr_gun_flame_05"
@@ -287,10 +288,10 @@
         "recoilOffset": 0.4
       },
       {
-        "barrelDP": "gun_barrel_02_dm"
+        "barrelDP": "main_caliber_gun_02_dm"
       },
       {
-        "breechDP": "mg_04_dm"
+        "breechDP": "main_caliber_gun_02_dm"
       },
       {
         "defaultYaw": 0.0
@@ -373,9 +374,9 @@
       {
         "turret": {
           "head": "turret_h_02",
-          "gun": "turret_v_02",
+          "gun": "main_caliber_gun_02",
           "barrel": "gun_barrel_02",
-          "gunnerDm": "gunner_04_dm",
+          "gunnerDm": "main_caliber_turret_02_dm",
           "linkedAnimPart": {
             "verNode": "bone_radius_foot",
             "verLimits": [0.0,19.0],
@@ -391,11 +392,11 @@
       },
       {
         "limitsTable": {
-          "lim1": [-180.0,-135.0,28.0,60.0],
+          "lim1": [-180.0,-135.0,20.0,60.0],
           "lim2": [-135.0,-25.0,-5.0,60.0],
-          "lim3": [-25.0,25.0,15.0,60.0],
+          "lim3": [-25.0,25.0,20.0,60.0],
           "lim4": [25.0,135.0,-5.0,60.0],
-          "lim5": [135.0,180.0,28.0,60.0]
+          "lim5": [135.0,180.0,20.0,60.0]
         }
       }
     ]
@@ -412,7 +413,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/20mm_zwilling_MG_C38.blk"
       },
       {
-        "emitter": "mg_03"
+        "emitter": "emtr_gun_flame_06"
       },
       {
         "flash": "emtr_gun_flame_06"
@@ -424,10 +425,10 @@
         "recoilOffset": 0.4
       },
       {
-        "barrelDP": "gun_barrel_03_dm"
+        "barrelDP": "main_caliber_gun_02_dm"
       },
       {
-        "breechDP": "mg_03_dm"
+        "breechDP": "main_caliber_gun_02_dm"
       },
       {
         "defaultYaw": 0.0
@@ -510,9 +511,9 @@
       {
         "turret": {
           "head": "turret_h_02",
-          "gun": "turret_v_02",
-          "barrel": "gun_barrel_03",
-          "gunnerDm": "gunner_04_dm"
+          "gun": "main_caliber_gun_02",
+          "barrel": "gun_barrel_02",
+          "gunnerDm": "main_caliber_turret_02_dm"
         }
       },
       {
@@ -523,11 +524,11 @@
       },
       {
         "limitsTable": {
-          "lim1": [-180.0,-135.0,28.0,60.0],
+          "lim1": [-180.0,-135.0,20.0,60.0],
           "lim2": [-135.0,-25.0,-5.0,60.0],
-          "lim3": [-25.0,25.0,15.0,60.0],
+          "lim3": [-25.0,25.0,20.0,60.0],
           "lim4": [25.0,135.0,-5.0,60.0],
-          "lim5": [135.0,180.0,28.0,60.0]
+          "lim5": [135.0,180.0,20.0,60.0]
         }
       }
     ]
@@ -554,6 +555,12 @@
       },
       {
         "recoilOffset": 0.0
+      },
+      {
+        "barrelDP": "auxiliary_caliber_gun_01_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_01_dm"
       },
       {
         "defaultYaw": 0.0
@@ -629,9 +636,9 @@
       },
       {
         "turret": {
-          "head": "mg_mount_h_01",
-          "gun": "mg_01",
-          "gunnerDm": "gunner_02_dm"
+          "head": "auxiliary_caliber_turret_01",
+          "gun": "auxiliary_caliber_gun_01",
+          "gunnerDm": "auxiliary_caliber_turret_01_dm"
         }
       },
       {
@@ -666,6 +673,12 @@
         "recoilOffset": 0.0
       },
       {
+        "barrelDP": "auxiliary_caliber_gun_02_dm"
+      },
+      {
+        "breechDP": "auxiliary_caliber_gun_02_dm"
+      },
+      {
         "defaultYaw": 0.0
       },
       {
@@ -739,9 +752,9 @@
       },
       {
         "turret": {
-          "head": "mg_mount_h_02",
-          "gun": "mg_02",
-          "gunnerDm": "gunner_03_dm"
+          "head": "auxiliary_caliber_turret_02",
+          "gun": "auxiliary_caliber_gun_02",
+          "gunnerDm": "auxiliary_caliber_turret_02_dm"
         }
       },
       {
@@ -764,7 +777,7 @@
       "animLaunchTime": 5.0,
       "launchTime": 1.7,
       "startFx": "start_torpedo",
-      "startFxOffset": [4.0,0.0,0.0],
+      "startFxOffset": [4.5,0.0,0.0],
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_torpedo_02",
@@ -782,13 +795,13 @@
       "triggerGroup": "torpedoes",
       "external": true,
       "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
-      "emitter": "bone_torpedo_02",
+      "emitter": "bone_torpedo_01",
       "bullets": 1,
       "launchAnimVar": "anim_launch_torpedo_01",
       "animLaunchTime": 5.0,
       "launchTime": 1.9,
       "startFx": "start_torpedo",
-      "startFxOffset": [4.0,0.0,0.0],
+      "startFxOffset": [4.5,0.0,0.0],
       "allowableDelta": 180.0,
       "turret": {
         "head": "bone_torpedo_01",

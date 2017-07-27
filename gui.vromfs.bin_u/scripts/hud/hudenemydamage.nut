@@ -175,6 +175,7 @@
       partDead - bool flag indicating that part was dead before the shot occured
       partKilled - bool flag, true if part was kiled by current shot
       crewAliveCount - integer, alive crew members count
+      crewTotalCount - integer, total crew members count
     }
 
     data {
@@ -241,6 +242,7 @@
       }
 
       local crewCount = ::getTblValue("crewAliveCount", data, -1)
+      local crewCountTotal = ::getTblValue("crewTotalCount", data, -1)
       local isCrewChanged = crewCount != -1 && lastTargetCrew != crewCount
       local isShowCrew = !lastTargetKilled && isCrewChanged &&
         (lastTargetType == ::ES_UNIT_TYPE_SHIP  || cfg.section == "crew" && cfg.show && partKilled)
@@ -255,6 +257,8 @@
         {
           local text = ::colorize("commonTextColor", ::loc("mainmenu/btnCrew") + ::loc("ui/colon")) +
             ::colorize(crewCount <= minAliveCrewCount ? "badTextColor" : "activeTextColor", crewCount)
+          if (crewCountTotal > 0)
+            text += ::colorize("commonTextColor", ::loc("ui/slash")) + ::colorize("activeTextColor", crewCountTotal)
           obj.setValue(text)
         }
       }
