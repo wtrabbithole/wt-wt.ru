@@ -133,9 +133,6 @@
       "deathPenaltyMul": 0.4,
       "country_axis": "germany",
       "country_allies": "britain",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -159,6 +156,11 @@
         "_ArtDB": false,
         "_DBttlA": false,
         "_DBttlB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false
       }
     },
     "cover_points": [],
@@ -205,14 +207,16 @@
             "slide": {
               "map": false,
               "minTime": 6,
-              "picture": "versus/airfield_domination_01"
+              "picture": "versus/airfield_domination_01",
+              "showAirMap": false
             }
           },
           {
             "slide": {
               "map": false,
               "minTime": 6,
-              "picture": "versus/airfield_domination_02"
+              "picture": "versus/airfield_domination_02",
+              "showAirMap": false
             }
           }
         ]
@@ -230,6 +234,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -370,6 +377,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -377,6 +385,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -508,6 +517,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -630,6 +642,8 @@
         ],
         "unit_class": "a5m4",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -675,6 +689,8 @@
         "unit_class": "germ_pzIIIj",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -742,6 +758,8 @@
         "unit_class": "germ_pzIIIj",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -768,7 +786,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [24896.1,70.7,23024.2]
+              [25136.2,70.7,22975.5]
             ],
             "props": {
               "speed": 30.0,
@@ -784,7 +802,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [25001.5,70.7,23126.4]
+              [25241.6,70.7,23077.7]
             ],
             "props": {
               "speed": 30.0,
@@ -809,6 +827,8 @@
         "unit_class": "germ_sdkfz71_20mm",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -876,6 +896,8 @@
         "unit_class": "germ_sdkfz71_20mm",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -902,7 +924,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [24896.1,70.7,23024.2]
+              [25136.2,70.7,22975.5]
             ],
             "props": {
               "speed": 30.0,
@@ -918,7 +940,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [25001.5,70.7,23126.4]
+              [25241.6,70.7,23077.7]
             ],
             "props": {
               "speed": 30.0,
@@ -1151,6 +1173,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1216,6 +1240,8 @@
         "unit_class": "germ_pzIIIj",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1283,6 +1309,8 @@
         "unit_class": "germ_sdkfz71_20mm",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1350,6 +1378,8 @@
         "unit_class": "germ_sdkfz71_20mm",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1417,6 +1447,8 @@
         "unit_class": "germ_pzIIIj",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1443,7 +1475,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [24896.1,70.7,23024.2]
+              [25136.2,70.7,22975.5]
             ],
             "props": {
               "speed": 30.0,
@@ -1459,7 +1491,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [25001.5,70.7,23126.4]
+              [25241.6,70.7,23077.7]
             ],
             "props": {
               "speed": 30.0,
@@ -1484,6 +1516,8 @@
         "unit_class": "germ_sdkfz71_20mm",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1510,7 +1544,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [24896.1,70.7,23024.2]
+              [25136.2,70.7,22975.5]
             ],
             "props": {
               "speed": 30.0,
@@ -1526,7 +1560,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [25001.5,70.7,23126.4]
+              [25241.6,70.7,23077.7]
             ],
             "props": {
               "speed": 30.0,
@@ -1564,9 +1598,9 @@
     "airfield_end": {
       "type": "Sphere",
       "tm": [
-        [390.518,0.0,-86.576],
+        [390.518,0.0,-86.5761],
         [0.0,400.0,0.0],
-        [86.576,0.0,390.518],
+        [86.5761,0.0,390.518],
         [26737.4,72.85,22890.0]
       ],
       "props": []
@@ -1574,9 +1608,9 @@
     "airfield_start": {
       "type": "Sphere",
       "tm": [
-        [488.148,0.0,-108.22],
-        [0.0,500.0,0.0],
-        [108.22,0.0,488.148],
+        [390.518,0.0,-86.576],
+        [0.0,400.0,0.0],
+        [86.576,0.0,390.518],
         [23214.3,80.15,23606.2]
       ],
       "props": []
@@ -1855,17 +1889,6 @@
       ],
       "props": []
     },
-    "area_02": {
-      "type": "Sphere",
-      "tm": [
-        [4107.81,0.0,3764.12],
-        [0.0,5571.6,0.0],
-        [-3764.12,0.0,4107.81],
-        [24970.8,71.45,23241.5]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "area_03": {
       "type": "Sphere",
       "tm": [
@@ -2027,6 +2050,17 @@
         [-243.037,0.0,5566.3],
         [0.0,5571.6,0.0],
         [-5566.3,0.0,-243.037],
+        [24970.8,71.45,23241.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "area_02": {
+      "type": "Sphere",
+      "tm": [
+        [4107.81,0.0,3764.12],
+        [0.0,5571.6,0.0],
+        [-3764.12,0.0,4107.81],
         [24970.8,71.45,23241.5]
       ],
       "objLayer": 0,
