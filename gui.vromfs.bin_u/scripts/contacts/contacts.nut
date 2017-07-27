@@ -1962,24 +1962,24 @@ function updateContact(config)
     presence = ::g_contact_presence.OFFLINE
 
   local squadStatus = ::g_squad_manager.getPlayerStatusInMySquad(uid)
-  if (squadStatus == SquadState.NOT_IN_SQUAD)
+  if (squadStatus == squadMemberState.NOT_IN_SQUAD)
   {
     if (contact.online && contact.gameStatus)
       presence = contact.gameStatus == "in_queue"
         ? ::g_contact_presence.IN_QUEUE : ::g_contact_presence.IN_GAME
   }
-  else if (squadStatus == SquadState.SQUAD_LEADER)
+  else if (squadStatus == squadMemberState.SQUAD_LEADER)
     presence = ::g_contact_presence.SQUAD_LEADER
-  else if (squadStatus == SquadState.SQUAD_MEMBER_READY)
+  else if (squadStatus == squadMemberState.SQUAD_MEMBER_READY)
     presence = ::g_contact_presence.SQUAD_READY
-  else if (squadStatus == SquadState.SQUAD_MEMBER_OFFLINE)
+  else if (squadStatus == squadMemberState.SQUAD_MEMBER_OFFLINE)
     presence = ::g_contact_presence.SQUAD_OFFLINE
   else
     presence = ::g_contact_presence.SQUAD_NOT_READY
 
   contact.presence = presence
 
-  if (squadStatus != SquadState.NOT_IN_SQUAD || is_in_my_clan(null, uid))
+  if (squadStatus != squadMemberState.NOT_IN_SQUAD || is_in_my_clan(null, uid))
     chatUpdatePresence(contact)
 
   return contact
@@ -2056,7 +2056,7 @@ function fillContactTooltip(obj, contact, handler)
   }
 
   local squadStatus = ::g_squad_manager.getPlayerStatusInMySquad(contact.uid)
-  if (squadStatus != SquadState.NOT_IN_SQUAD && squadStatus != SquadState.SQUAD_MEMBER_OFFLINE)
+  if (squadStatus != squadMemberState.NOT_IN_SQUAD && squadStatus != squadMemberState.SQUAD_MEMBER_OFFLINE)
   {
     local memberData = ::g_squad_manager.getMemberData(contact.uid)
     if (memberData)

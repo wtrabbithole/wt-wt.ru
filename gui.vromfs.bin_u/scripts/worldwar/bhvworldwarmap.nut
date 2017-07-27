@@ -490,6 +490,9 @@ class ::ww_gui_bhv.worldWarMapControls
 
 function ww_is_append_path_mode_active()
 {
+  if (!::g_world_war.haveManagementAccessForSelectedArmies())
+    return false
+
   return ::is_keyboard_btn_down(::DKEY_LSHIFT) || ::is_keyboard_btn_down(::DKEY_RSHIFT)
 }
 

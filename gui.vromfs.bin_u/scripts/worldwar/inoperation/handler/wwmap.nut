@@ -300,11 +300,17 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       isCancel = true
     }
 
-    local enable = isOperationContinue && ::g_world_war.getBattles().len() > 0
+    local enable = isOperationContinue && hasBattlesToPlay()
     toBattleButtonObj.inactiveColor = enable? "no" : "yes"
     toBattleButtonObj.setValue(txt)
     toBattleButtonObj.findObject("to_battle_button_text").setValue(txt)
     toBattleButtonObj.isCancel = isCancel ? "yes" : "no"
+  }
+
+  function hasBattlesToPlay()
+  {
+    return ::u.search(::g_world_war.getBattles(),
+      ::g_world_war.isBattleAvailableToPlay)
   }
 
   function onStart()
@@ -325,9 +331,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       return ::showInfoMsgBox(::loc("msgbox/internal_error_header"))
 
     local allBattles = ::g_world_war.getBattles()
-    if (allBattles.len() == 0)
-      return ::showInfoMsgBox(::loc("worldwar/no_battles_now"))
-
     local availableBattles = ::g_world_war.getAvailableBattles(playerSide)
     if (availableBattles.len() > 0)
     {
@@ -338,7 +341,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    ::gui_handlers.WwBattleDescription.open(allBattles[0])
+    ::gui_handlers.WwBattleDescription.open(allBattles.len() ?
+      allBattles[0] : ::WwBattle())
   }
 
   function goBackToOperations()
@@ -972,7 +976,18 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventWWMapSelectedBattle(params)
   {
-    ::gui_handlers.WwBattleDescription.open(::getTblValue("battle", params))
+    local wwBattle = ::getTblValue("battle", params, ::WwBattle())
+    if (wwBattle.isValid())
+    {
+      if (!wwBattle.isStillInOperation())
+        return ::g_popups.add("", ::loc("worldwar/battle_finished"),
+          null, null, null, "battle_finished")
+      if (wwBattle.isAutoBattle())
+        return ::g_popups.add("", ::loc("worldwar/battleIsInAutoMode"),
+          null, null, null, "battle_in_auto_mode")
+    }
+
+    ::gui_handlers.WwBattleDescription.open(wwBattle)
   }
 
   function onEventWWSelectedReinforcement(params)
@@ -1099,6 +1114,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     if (currentSelectedObject == mapObjectSelect.NONE &&
         params.isStrengthUpdateNeeded)
       updateArmyStrenght()
+    if (params.isToBattleUpdateNeeded)
+      updateToBattleButton()
   }
 
   function onEventLobbyStatusChange(params)

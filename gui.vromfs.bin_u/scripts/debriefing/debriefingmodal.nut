@@ -1965,7 +1965,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     {
       ::go_debriefing_next_func = function() {
         ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mainmenu) //do not need to back to debriefing
-        ::g_world_war.openWarMap()
+        ::g_world_war.openMainWnd()
       }
       return
     }

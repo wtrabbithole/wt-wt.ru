@@ -15,6 +15,7 @@ tdiv {
       max-height:t='ph'
 
       background-image:t='#ui/images/worldwar_window_bg_image.jpg?P1'
+      background-position:t='6,6'
 
       wwBattleBackgroundShadow { type:t='left'   }
       wwBattleBackgroundShadow { type:t='right'  }
@@ -29,19 +30,37 @@ tdiv {
     flow:t='vertical'
 
     div {
-      size:t='pw, 8%ph'
+      size:t='pw, 0.14@scrn_tgt'
       position:t='absolute'
+      margin-top:t='0.01@scrn_tgt+0.03@wwBattleInfoScreenIncHeight'
+      flow:t='vertical'
 
       textareaNoTab {
-        pos:t='50%pw-50%w, 50%ph-50%h'
-        position:t='relative'
-        text:t='<<name>>'
+        width:t='pw'
+        text:t='<<getOrdinalNumberText>> <<name>>'
+        text-align:t='center'
         fontNormal:t='yes'
+      }
+
+      activeText {
+        id:t='battle_status_text'
+        left:t='50%pw-50%w'
+        position:t='relative'
+        margin-top:t='1@framePadding'
+        text:t='<<getBattleStatusWithCanJoinText>>'
+      }
+
+      textareaNoTab {
+        position:t='relative'
+        width:t='pw'
+        padding:t='10%pw, 0'
+        text:t='<<getBattleStatusDescText>>'
+        text-align:t='center'
       }
     }
 
     tdiv {
-      size:t='pw, 94%ph-0.15@wwBattleInfoScreenIncHeight'
+      size:t='pw, 75%ph'
       top:t='ph-h'
       position:t='relative'
       flow:t='vertical'
@@ -101,8 +120,8 @@ tdiv {
 
     <<#isStarted>>
     tdiv {
-      width:t='30%pw'
-      pos:t='50%pw-50%w, ph-h-0.05@scrn_tgt-0.15@wwBattleInfoScreenIncHeight'
+      width:t='25%pw'
+      pos:t='50%pw-50%w, ph-h-0.02@scrn_tgt-0.15@wwBattleInfoScreenIncHeight'
       position:t='absolute'
       flow:t='vertical'
 
@@ -119,13 +138,7 @@ tdiv {
       }
 
       textareaNoTab {
-        id:t='battle_status_text'
-        pos:t='50%pw-50%w, 0'; position:t='relative'
-        text:t='<<getBattleStatusWithTimeText>>'
-      }
-
-      textareaNoTab {
-        id:t='battle_can_join_state'
+        id:t='battle_time_text'
         pos:t='50%pw-50%w, 0'; position:t='relative'
         text:t=''
       }

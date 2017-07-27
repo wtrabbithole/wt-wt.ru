@@ -24,10 +24,10 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
   sceneTplName = "gui/squads/squadWidget"
 
   squadStateToString = {
-    [SquadState.SQUAD_LEADER] = "leader",
-    [SquadState.SQUAD_MEMBER] = "notReady",
-    [SquadState.SQUAD_MEMBER_READY] = "ready",
-    [SquadState.SQUAD_MEMBER_OFFLINE] = "offline",
+    [squadMemberState.SQUAD_LEADER] = "leader",
+    [squadMemberState.SQUAD_MEMBER] = "notReady",
+    [squadMemberState.SQUAD_MEMBER_READY] = "ready",
+    [squadMemberState.SQUAD_MEMBER_OFFLINE] = "offline",
   }
 
   parentHandlerWeak = null
@@ -112,10 +112,14 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
   function updateVisibles()
   {
-    local isVisible = ::g_squad_manager.canInviteMember()
-    local plusButtonObj = showSceneBtn("btn_squadPlus", isVisible)
-    if (plusButtonObj && isVisible)
+    local canInvite = ::g_squad_manager.canInviteMember()
+    local isInTransition = ::g_squad_manager.isStateInTransition()
+
+    local plusButtonObj = showSceneBtn("btn_squadPlus", canInvite)
+    if (plusButtonObj && canInvite)
       plusButtonObj.enable(::ps4_is_ugc_enabled() && ::ps4_is_chat_enabled())
+
+    showSceneBtn("wait_icon", isInTransition)
 
     showSceneBtn("txt_squad_title", ::g_squad_manager.canManageSquad())
     local btnSquadReady = showSceneBtn("btn_squad_ready", ::g_squad_manager.canSwitchReadyness())
@@ -126,7 +130,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     local btnSquadDisband = showSceneBtn("btn_squadDisband", ::g_squad_manager.canLeaveSquad())
     btnSquadDisband.tooltip = ::g_squad_manager.isSquadLeader() ? ::loc("squadAction/disband") : ::loc("squadAction/leave")
 
-    scene.show(::g_squad_manager.isInSquad() || ::g_squad_manager.canInviteMember())
+    scene.show(isInTransition || canInvite || ::g_squad_manager.isInSquad())
   }
 
   function canShowContactTooltip(contact)
@@ -212,6 +216,11 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
   function onEventMyStatsUpdated(params)
   {
     doWhenActiveOnce("updateView")
+  }
+
+  function onEventSquadStatusChanged(params)
+  {
+    doWhenActiveOnce("updateVisibles")
   }
 
   function onEventQueueChangeState(params)

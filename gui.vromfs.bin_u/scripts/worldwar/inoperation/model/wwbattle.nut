@@ -12,6 +12,7 @@ class ::WwBattle
   localizeConfig = null
   missionInfo = null
   battleStartMillisec = 0
+  ordinalNumber = 0
 
   queueInfo = null
 
@@ -23,6 +24,7 @@ class ::WwBattle
     maxPlayersPerArmy = blk.maxPlayersPerArmy || 0
     minPlayersPerArmy = blk.minTeamSize || 0
     battleStartMillisec = blk.battleStartTimestamp || 0
+    ordinalNumber = blk.ordinalNumber || 0
     opponentsType = blk.opponentsType || -1
     updateAppliedOnHost = blk.updateAppliedOnHost || -1
     missionName = blk.desc ? blk.desc.missionName : ""
@@ -123,6 +125,11 @@ class ::WwBattle
   function getLocName()
   {
     return localizeConfig ? ::get_locId_name(localizeConfig, "locName") : id
+  }
+
+  function getOrdinalNumber()
+  {
+    return ordinalNumber
   }
 
   function getLocDesc()
@@ -240,6 +247,13 @@ class ::WwBattle
       canJoin = false
       reasonText = ""
       shortReasonText = ""
+    }
+
+    if (!isValid())
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.NOT_ACTIVE
+      res.reasonText = ::loc("worldWar/battleNotSelected")
+      return res
     }
 
     if (!isActive())

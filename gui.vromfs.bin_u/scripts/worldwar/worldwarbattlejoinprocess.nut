@@ -108,6 +108,7 @@ class WwBattleJoinProcess
       battleId    = wwBattle.id
       country     = wwBattle.getCountryNameBySide()
       team        = wwBattle.getTeamNameBySide()
+      clusters    = ::get_current_clusters()
     }
 
     ::queues.joinQueue(params)

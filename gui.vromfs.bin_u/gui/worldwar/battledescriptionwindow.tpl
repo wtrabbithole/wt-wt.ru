@@ -26,7 +26,16 @@ root {
       chapterListPlace {
         id:t='chapter_place'
         height:t='ph'
+        flow:t = 'vertical'
         increaseWidthForWide:t='yes'
+
+        textareaNoTab {
+          id:t='no_active_battles_text'
+          width:t='pw'
+          margin-top:t='0.01@scrn_tgt'
+          text-align:t='center'
+          text:t='#worldwar/operation/noActiveBattles'
+        }
 
         listbox {
           id:t='items_list'
@@ -109,6 +118,25 @@ root {
     }
 
     navBar {
+      navLeft{
+        Button_text {
+          id:t='cluster_select_button'
+          width:t='1@bigButtonWidth'
+          textareaNoTab {
+            id:t='cluster_select_button_text'
+            text:t='#options/cluster'
+            height:t='ph'
+            width:t='pw'
+            pare-text:t='yes'
+            input-transparent:t='yes'
+          }
+          on_click:t='onOpenClusterSelect'
+          btnName:t='X'
+          refuseOpenHoverMenu:t='no'
+          ButtonImg {}
+        }
+      }
+
       navRight {
         activeText {
           id:t='cant_join_reason_txt'

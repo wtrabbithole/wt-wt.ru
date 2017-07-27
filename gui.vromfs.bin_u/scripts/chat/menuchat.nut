@@ -2034,21 +2034,21 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function leaveSquadRoom()
   {
-    local roomId = ::g_chat.getMySquadRoomId()
-    if (!roomId) return
-
-    local squadRoom = ::g_chat.getRoomById(roomId)
-    if (squadRoom && squadRoom.joined)
+    //squad room can be only one joined at once, but at moment we want to leave it cur squad room id can be missed.
+    foreach(room in ::g_chat.rooms)
     {
-      ::gchat_raw_command("part " + roomId)
-      squadRoom.joined = false //becoase can be disconnected from chat, but this info is still important.
-      squadRoom.canBeClosed = true
-      squadRoom.users = []
-      local squadRoomIdx = getRoomIdxById(roomId)
-      if (squadRoomIdx >= 0)
-        updateRoomTabByIdx(squadRoomIdx, squadRoom)
+      if (room.type != ::g_chat_room_type.SQUAD || !room.joined)
+        continue
 
-      if(curRoom && curRoom.id == roomId)
+      ::gchat_raw_command("part " + room.id)
+      room.joined = false //becoase can be disconnected from chat, but this info is still important.
+      room.canBeClosed = true
+      room.users.clear()
+      local roomIdx = getRoomIdxById(room.id)
+      if (roomIdx >= 0)
+        updateRoomTabByIdx(roomIdx, room)
+
+      if(curRoom == room)
         updateUsersList()
     }
   }

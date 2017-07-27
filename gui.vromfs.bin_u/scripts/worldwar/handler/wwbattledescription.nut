@@ -21,14 +21,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   static function open(battle)
   {
-    if (!::checkObj(battle) || !battle.isValid())
-      return ::g_popups.add("", ::loc("worldwar/battle_not_found"), null, null, null, "battle_not_found")
-
-    if (!battle.isStillInOperation())
-      return ::g_popups.add("", ::loc("worldwar/battle_finished"))
-
-    if (battle.isAutoBattle())
-      return ::g_popups.add("", ::loc("worldwar/battleIsInAutoMode"))
+    if (battle.isValid())
+      if (!battle.isStillInOperation() || battle.isAutoBattle())
+        battle = ::WwBattle()
 
     ::handlersManager.loadHandler(::gui_handlers.WwBattleDescription, {battle = battle})
   }
@@ -74,12 +69,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateWindow()
   {
-    if (!isAvailableToPlay(battle))
-    {
-      goBack()
-      return ::showInfoMsgBox(::loc("worldwar/operation/noActiveBattles"))
-    }
-
     updateDescription()
     updateQueueInfoPanel()
     updateSlotbar()
@@ -129,8 +118,13 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
+    local sectorWidth = maxSectorNameWidth + guiScene.calcString("1@framePadding", null)
     foreach(sectorNameTextObj in sectorNameTextObjs)
-      sectorNameTextObj.width = maxSectorNameWidth
+      sectorNameTextObj.width = sectorWidth
+
+    local noBattlesTextObj = scene.findObject("no_active_battles_text")
+    if (::check_obj(noBattlesTextObj))
+      noBattlesTextObj.show(!lastBattleListMap.len())
   }
 
   function _createBattleListGroupViewData(groupId, groupData, items)
@@ -165,10 +159,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function _createBattleListItemView(battleData)
   {
     local battleView = battleData.getView()
+    local battleNumbText = ::colorize("newTextColor", battleView.getShortOrdinalNumberText())
     local view = {
       id = battleData.id.tostring()
       itemTag = "mission_item_unlocked"
-      itemPrefixText = battleData.getSectorName()
+      itemPrefixText = battleNumbText + " " + battleData.getSectorName()
       itemIcon = battleView.getIconImage()
       iconColor = battleView.getIconColor()
       isSelected = battle != null && battle.isValid() && battleData.id == battle.id
@@ -234,6 +229,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateQueueInfoPanel()
   {
+    if (!battle.isValid())
+      return
+
     local mySide = ::ww_get_player_side()
     local battleView = battle.getView()
 
@@ -260,6 +258,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     guiScene.replaceContentFromText(descrObj, blk, blk.len(), this)
 
+    if (!battle.isValid())
+      return
+
     local mySide = ::ww_get_player_side()
 
     foreach(idx, side in ::g_world_war.getSidesOrder())
@@ -280,6 +281,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     loadMap()
+    updateBattleStatus(battleView)
   }
 
   function loadMap()
@@ -429,11 +431,23 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function updateBattleStatus(battleView)
   {
     local statusObj = scene.findObject("battle_status_text")
-    if (!::check_obj(statusObj))
-      return
+    if (::check_obj(statusObj))
+      statusObj.setValue(battleView.getBattleStatusWithCanJoinText())
 
-    if (battleView)
-      statusObj.setValue(battleView.getBattleStatusWithTimeText())
+    local battleTimeObj = scene.findObject("battle_time_text")
+    if (::check_obj(battleTimeObj) && battleView)
+    {
+      local battleTimeText = ::loc("worldwar/battleNotActive")
+      if (battleView.hasBattleDurationTime())
+        battleTimeText = ::loc("debriefing/BattleTime") + ::loc("ui/colon") + battleView.getBattleDurationTime()
+      battleTimeObj.setValue(battleTimeText)
+    }
+  }
+
+  function onOpenClusterSelect(obj)
+  {
+    checkedModifyQueue(queueType.WW_BATTLE,
+      @() ::gui_handlers.ClusterSelect.open(obj, "bottom"))
   }
 
   function onJoinBattle()
@@ -526,14 +540,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(true, true)
   }
 
-  function isAvailableToPlay(wwBattle)
-  {
-    return wwBattle && wwBattle.isValid() && !wwBattle.isAutoBattle()
-  }
-
   function _getFirstBattleInListMap()
   {
-    return ::u.search(::g_world_war.getBattles(), isAvailableToPlay) || ::WwBattle()
+    return ::u.search(::g_world_war.getBattles(),
+      ::g_world_war.isBattleAvailableToPlay) || ::WwBattle()
   }
 
   function _createBattleListMap()
@@ -543,7 +553,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     foreach (idx, battleData in battles)
     {
-      if (!isAvailableToPlay(battleData))
+      if (!::g_world_war.isBattleAvailableToPlay(battleData))
         continue
 
       local armyUnitTypesData = _getBattleArmyUnitTypesData(battleData)

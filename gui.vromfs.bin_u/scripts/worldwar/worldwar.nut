@@ -707,6 +707,11 @@ function g_world_war::getBattleForArmy(army, playerSide = ::SIDE_NONE)
   )
 }
 
+function g_world_war::isBattleAvailableToPlay(wwBattle)
+{
+  return wwBattle && wwBattle.isValid() && !wwBattle.isAutoBattle()
+}
+
 
 function g_world_war::updateBattles(forced = false)
 {
@@ -1135,7 +1140,7 @@ function g_world_war::requestLogs(loadAmount, useLogMark, cb)
   if (taskId < 0) // taskId == -1 means request result is ready
     cb()
   else
-    ::g_tasker.addTask(taskId, {showProgressBox = true}, cb)
+    ::g_tasker.addTask(taskId, {showProgressBox = useLogMark}, cb)
 }
 
 function g_world_war::getSidesOrder()

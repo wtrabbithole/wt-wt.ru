@@ -29,6 +29,17 @@ Button_text {
   }
 }
 
+animated_wait_icon
+{
+  id:t='wait_icon'
+  pos:t='0, 50%(ph-h)'
+  position:t="relative"
+  class:t='byParent'
+  background-rotation:t = '0'
+
+  wait_icon_cock {}
+}
+
 <<#items>>
 Button_text {
   id:t='member_<<id>>'

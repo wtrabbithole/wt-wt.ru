@@ -246,6 +246,12 @@
         "chapter": "air_ground_Dom"
       },
       {
+        "locName": "missions/_Dom;volokolamsk/name"
+      },
+      {
+        "locDesc": "volokolamsk/desc;missions/_Dom/desc"
+      },
+      {
         "scoreLimit": 14000
       },
       {
@@ -255,16 +261,13 @@
         "deathPenaltyMul": 1.0
       },
       {
-        "country_axis": "germany"
-      },
-      {
-        "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
+        "postfix": "_Dom"
       },
       {
         "useAlternativeMapCoord": true
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -273,19 +276,10 @@
         "remapAiTankModels": true
       },
       {
-        "locName": "missions/_Dom;volokolamsk/name"
+        "country_axis": "germany"
       },
       {
-        "locDesc": "volokolamsk/desc;missions/_Dom/desc"
-      },
-      {
-        "postfix": "_Dom"
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
+        "country_allies": "ussr"
       },
       {
         "tags": []
@@ -308,20 +302,36 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
-          "scoreLimit": 18000
+          "useAlternativeMapCoord": false,
+          "scoreLimit": 18000,
+          "randomSpawnTeams": false,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
           "useAlternativeMapCoord": false,
-          "scoreLimit": 26000
+          "scoreLimit": 26000,
+          "randomSpawnTeams": false,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -356,6 +366,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -409,6 +422,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -458,6 +474,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -564,7 +583,7 @@
   "units": [],
   "areas": {
     "briefing_dom_capture_area_01_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.0424,0.0,0.0],
         [0.0,50.844,0.0],
@@ -575,18 +594,18 @@
       "props": []
     },
     "briefing_dom_capture_area_02_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.2128,0.0,0.0],
         [0.0,51.0531,0.0],
         [0.0,0.0,40.2128],
-        [-1581.2,66.9055,410.578]
+        [-864.954,66.9053,500.739]
       ],
       "objLayer": 0,
       "props": []
     },
     "briefing_dom_capture_area_03_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [39.8064,0.0,0.0],
         [0.0,50.5371,0.0],
@@ -597,7 +616,7 @@
       "props": []
     },
     "briefing_dom_t1_tank_spawn_01_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-1.57527,0.0,17.9309],
         [0.0,18.0,0.0],
@@ -608,7 +627,7 @@
       "props": []
     },
     "briefing_dom_t2_tank_spawn_01_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-0.353212,0.0,0.935543],
         [0.0,1.0,0.0],
@@ -619,7 +638,7 @@
       "props": []
     },
     "briefing_dom_t1_tank_spawn_01_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.822334,0.0,-0.569004],
         [0.0,1.0,0.0],
@@ -630,7 +649,7 @@
       "props": []
     },
     "briefing_dom_t2_tank_spawn_01_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.734523,0.0,-0.678584],
         [0.0,1.0,0.0],
@@ -641,7 +660,7 @@
       "props": []
     },
     "briefing_dom_capture_area_01_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.0424,0.0,0.0],
         [0.0,50.844,0.0],
@@ -652,7 +671,7 @@
       "props": []
     },
     "briefing_dom_capture_area_02_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.2128,0.0,0.0],
         [0.0,51.0531,0.0],
@@ -663,7 +682,7 @@
       "props": []
     },
     "briefing_dom_capture_area_03_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [39.8064,0.0,0.0],
         [0.0,50.5371,0.0],

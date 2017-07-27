@@ -282,6 +282,9 @@ function _debug_export_unit_weapons_descriptions_impl(resBlk, idx = 0)
         local rowsList = ::split(::getWeaponInfoText(unit, false, weapon.name, "\n", INFO_DETAIL.EXTENDED), "\n")
         foreach(row in rowsList)
           blk[weapon.name + "_extended"] <- row
+        local rowsList = ::split(::getWeaponInfoText(unit, null, weapon.name, "\n", INFO_DETAIL.FULL), "\n")
+        foreach(row in rowsList)
+          blk[weapon.name + "_full"] <- row
       }
 
     resBlk[unit.name] <- blk

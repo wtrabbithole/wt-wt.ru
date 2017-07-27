@@ -98,7 +98,7 @@ function g_play_together::filterUsers()
     local uid = user.getBlockName()
 
     local playerStatus = ::g_squad_manager.getPlayerStatusInMySquad(uid)
-    if (playerStatus == SquadState.NOT_IN_SQUAD)
+    if (playerStatus == squadMemberState.NOT_IN_SQUAD)
       cachedInviteeUids.append(uid)
   }
 }

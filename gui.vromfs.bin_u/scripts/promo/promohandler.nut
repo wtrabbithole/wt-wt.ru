@@ -569,10 +569,6 @@ class Promo
       return
     ::set_blk_value_by_path(sourceDataBlock, objectId + "/link", link)
     ::g_promo.generateBlockView(sourceDataBlock[objectId])
-    local obj = scene.findObject(::g_promo.getActionParamsKey(objectId))
-    if(::checkObj(obj))
-      obj.link = link
-
     ::showBtn(objectId, true, scene)
   }
 

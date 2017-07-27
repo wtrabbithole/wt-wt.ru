@@ -130,7 +130,8 @@ function webpoll_event(id, token, voted)
 
 function g_webpoll::setPollBaseUrl(pollId, pollUrl)
 {
-  pollBaseUrlById[pollId] <- pollUrl
+  if( ! (pollId in pollBaseUrlById))
+    pollBaseUrlById[pollId] <- pollUrl
 }
 
 function g_webpoll::getPollBaseUrl(pollId)

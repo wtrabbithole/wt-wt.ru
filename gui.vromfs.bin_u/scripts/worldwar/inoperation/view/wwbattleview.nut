@@ -23,7 +23,7 @@ class ::WwBattleView
     battle = _battle || ::WwBattle()
 
     missionName = battle.getMissionName()
-    name = battle.isStarted() ? battle.getLocName() : getBattleStatusText()
+    name = battle.isStarted() ? battle.getLocName() : ""
     desc = battle.getLocDesc()
     maxPlayersPerArmy = battle.maxPlayersPerArmy
   }
@@ -31,6 +31,19 @@ class ::WwBattleView
   function getId()
   {
     return battle.id
+  }
+
+  function getShortOrdinalNumberText()
+  {
+    return ::loc("worldWar/shortBattleNumb", {numb = battle.getOrdinalNumber()})
+  }
+
+  function getOrdinalNumberText()
+  {
+    if (!battle.isValid())
+      return ::loc("worldWar/battleNotSelected")
+
+    return ::loc("worldWar/battleNumb", {numb = battle.getOrdinalNumber()})
   }
 
   function defineTeamBlock()
@@ -169,42 +182,54 @@ class ::WwBattleView
     return ""
   }
 
-  function getBattleStatusText()
+  function getBattleStatusTextLocId()
   {
     if (!battle.isStillInOperation())
-      return ::loc("worldwar/battle_finished")
+      return "worldwar/battle_finished"
 
     if (battle.status == ::EBS_WAITING ||
         battle.status == ::EBS_ACTIVE_STARTING)
-      return ::loc("worldwar/battleNotActive")
+      return "worldwar/battleNotActive"
 
     if (battle.status == ::EBS_ACTIVE_MATCHING)
-      return ::loc("worldwar/battleIsStarting")
+      return "worldwar/battleIsStarting"
 
     if (battle.isAutoBattle())
-      return ::loc("worldwar/battleIsInAutoMode")
+      return "worldwar/battleIsInAutoMode"
 
     if (battle.isConfirmed())
     {
       if (battle.isPlayerTeamFull())
-        return ::loc("worldwar/battleIsFull")
+        return "worldwar/battleIsFull"
       else
-        return ::loc("worldwar/battleIsActive")
+        return "worldwar/battleIsActive"
     }
 
-    return ::loc("worldwar/battle_finished")
+    return "worldwar/battle_finished"
+  }
+
+  function getBattleStatusText()
+  {
+    return battle.isValid() ? ::loc(getBattleStatusTextLocId()) : ""
+  }
+
+  function getBattleStatusDescText()
+  {
+    return battle.isValid() ? ::loc(getBattleStatusTextLocId() + "/desc") : ""
   }
 
   function getCanJoinText()
   {
     local currentBattleQueue = ::queues.findQueueByName(battle.getQueueId(), true)
-    local canJoinLocKey = "worldWar/canJoinStatus/no_free_places"
+    local canJoinLocKey = ""
     if (currentBattleQueue != null)
       canJoinLocKey = "worldWar/canJoinStatus/in_queue"
-    else if (!battle.isFullSessionByTeam())
-      canJoinLocKey = "worldWar/canJoinStatus/can_join"
+    else if (battle.isStarted())
+      canJoinLocKey = battle.isPlayerTeamFull() ?
+        "worldWar/canJoinStatus/no_free_places" :
+        "worldWar/canJoinStatus/can_join"
 
-    return ::loc(canJoinLocKey)
+    return ::u.isEmpty(canJoinLocKey) ? "" : ::loc(canJoinLocKey)
   }
 
   function getBattleStatusWithTimeText()
@@ -219,6 +244,9 @@ class ::WwBattleView
 
   function getBattleStatusWithCanJoinText()
   {
+    if (!battle.isValid())
+      return ""
+
     local text = getBattleStatusText()
     local canJoinText = getCanJoinText()
     if (!::u.isEmpty(canJoinText))
