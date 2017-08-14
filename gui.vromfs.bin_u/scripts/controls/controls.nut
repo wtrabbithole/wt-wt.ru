@@ -616,29 +616,15 @@ function get_favorite_voice_message_option(index)
     { id="ID_TOGGLE_TRANSMISSION_MODE_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="gm_throttle", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK }
     { id="gm_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK }
-    { id="gm_brake_left",
-      type = CONTROL_TYPE.AXIS,
-      checkGroup = ctrlGroups.TANK,
-      checkAssign = false,
-      showFunc = function() {
-        return checkOptionValue("gm_automatic_transmission", false);
-      }
+    { id="gm_brake_left"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.TANK
+      checkAssign = false
     }
-    { id="gm_brake_right",
-      type = CONTROL_TYPE.AXIS,
-      checkGroup = ctrlGroups.TANK,
-      checkAssign = false,
-      showFunc = function() {
-        return checkOptionValue("gm_automatic_transmission", false);
-      }
-    }
-    { id="gm_clutch",
-      type = CONTROL_TYPE.AXIS,
-      checkGroup = ctrlGroups.TANK,
-      checkAssign = false,
-      showFunc = function() {
-        return checkOptionValue("gm_automatic_transmission", false);
-      }
+    { id="gm_brake_right"
+      type = CONTROL_TYPE.AXIS
+      checkGroup = ctrlGroups.TANK
+      checkAssign = false
     }
     { id="ID_TRANS_GEAR_UP",
       checkGroup = ctrlGroups.TANK,
@@ -707,7 +693,7 @@ function get_favorite_voice_message_option(index)
     }
     { id = "mouse_z_ground", type = CONTROL_TYPE.MOUSE_AXIS
       axis_num = MouseAxis.MOUSE_SCROLL_TANK
-      values = ["none", "gm_zoom"]
+      values = ["none", "gm_zoom", "gm_sight_distance"]
       onChangeValue = "onMouseWheel"
     }
 
@@ -752,7 +738,13 @@ function get_favorite_voice_message_option(index)
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TOGGLE_GM_CROSSHAIR_LIGHTING", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SHORT_STOP",               checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="gm_sight_distance", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="gm_sight_distance"
+      type = CONTROL_TYPE.AXIS
+      def_relative = true
+      isAbsOnlyWhenRealAxis = true
+      checkGroup = ctrlGroups.TANK
+      checkAssign = false
+    }
 
 
   { id = "ID_SHIP_CONTROL_HEADER"
@@ -981,8 +973,20 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
 
-    { id="ship_sight_distance", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, checkAssign = false }
-    { id="ship_shoot_direction", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, checkAssign = false }
+    { id="ship_sight_distance"
+      type = CONTROL_TYPE.AXIS
+      def_relative = true
+      isAbsOnlyWhenRealAxis = true
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
+    { id="ship_shoot_direction"
+      type = CONTROL_TYPE.AXIS
+      def_relative = true
+      isAbsOnlyWhenRealAxis = true
+      checkGroup = ctrlGroups.SHIP
+      checkAssign = false
+    }
 
     //{ // Disable, because not supported in code now
     //  id = "ID_SHIP_SMOKE",

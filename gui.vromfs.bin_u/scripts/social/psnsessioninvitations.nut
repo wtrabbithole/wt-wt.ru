@@ -438,7 +438,7 @@ function g_psn_session_invitations::onEventLobbyStatusChange(params)
       sendCreateSession(PSN_SESSION_TYPE.SKIRMISH,
                         getJsonRequestForSession(PSN_SESSION_TYPE.SKIRMISH,
                                                  getCurrentSessionInfo()),
-                        "ui/images/images/reward27.jpg",
+                        "ui/images/reward27.jpg",
                         ::save_to_json({
                           roomId = ::SessionLobby.roomId,
                           inviterUid = ::my_user_id_str,
@@ -477,7 +477,7 @@ function g_psn_session_invitations::onEventSquadStatusChanged(params)
     sendCreateSession(PSN_SESSION_TYPE.SQUAD,
                       getJsonRequestForSession(PSN_SESSION_TYPE.SQUAD,
                                                getCurrentSquadInfo()),
-                      "ui/images/images/reward05.jpg",
+                      "ui/images/reward05.jpg",
                       ::save_to_json({
                         squadId = ::g_squad_manager.getLeaderUid()
                         key = PSN_SESSION_TYPE.SQUAD

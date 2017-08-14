@@ -81,7 +81,7 @@ local mpChatModel = {
 
 
   function unblockMessage(text) {
-    foreach (message in log) {
+    foreach (message in mpChatState.log) {
       if (message.text == text) {
         message.isBlocked = false
         return

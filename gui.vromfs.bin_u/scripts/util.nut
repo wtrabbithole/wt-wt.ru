@@ -3342,3 +3342,25 @@ function show_not_available_msg_box()
 {
   ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"), "not_available", true)
 }
+
+function is_hangar_blur_available()
+{
+  return ("enable_dof" in ::getroottable())
+}
+
+function hangar_blur(enable, params = null)
+{
+  if (!::is_hangar_blur_available())
+    return
+  if (enable)
+  {
+    ::enable_dof(::getTblValue("nearFrom",   params, 1000000), // meters
+                 ::getTblValue("nearTo",     params, 0), // meters
+                 ::getTblValue("nearEffect", params, 1), // 0..1
+                 ::getTblValue("farFrom",    params, 0), // meters
+                 ::getTblValue("farTo",      params, 0), // meters
+                 ::getTblValue("farEffect",  params, 0)) // 0..1
+  }
+  else
+    ::disable_dof()
+}

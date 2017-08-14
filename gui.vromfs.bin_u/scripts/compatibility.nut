@@ -469,4 +469,6 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   send_error_log = function(msg, production_only, db)
   {
   }
+  EWBAT_BATTLE_TASK = 8
+  WT_APPID = 1067
 })

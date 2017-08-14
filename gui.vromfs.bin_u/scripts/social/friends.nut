@@ -173,7 +173,7 @@ function is_psn_player_use_same_titleId(playerName)
   if (!player)
     return false
 
-  local infoList = player.presence.incontextInfoList
+  local infoList = ::getTblValue("incontextInfoList", player.presence, ::DataBlock())
   foreach (block in infoList)
     if (::getTblValue("npTitleId", ::getTblValue("gameTitleInfo", block), "") == ps4TitleId)
       return true

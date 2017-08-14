@@ -82,9 +82,13 @@ local textInput = function(text_state, options={}, handlers={}, frameCtor=defaul
       password = options.get("password")
       key = text_state
 
-      onChange = function(new_val) {
-        text_state.update(new_val)
-      }
+      onChange = function () {
+        local changeHook = handlers.get("onChange", function (newVal) {})
+        return function(new_val) {
+          changeHook(new_val)
+          text_state.update(new_val)
+        }
+      }()
 
       onFocus = handlers.get("onFocus")
       onBlur = handlers.get("onBlur")

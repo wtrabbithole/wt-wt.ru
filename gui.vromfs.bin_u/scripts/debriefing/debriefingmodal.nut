@@ -159,6 +159,15 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     ::close_cur_voicemenu()
     ::enableHangarControls(true)
 
+    if (::is_hangar_blur_available())
+      guiScene.performDelayed(this, function() { ::hangar_blur(true) })
+    else
+    {
+      local wndObj = scene.findObject("wnd_frame")
+      if (::check_obj(wndObj))
+        wndObj["color-factor"] = "217"
+    }
+
     lastProgressRank = {}
 
     if (isInited || !::debriefing_result)
@@ -283,7 +292,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function initNavbar()
   {
-    local frameObj = scene.findObject("wnd_frame")
+    local frameObj = scene.findObject("content_frame")
     if (!::check_obj(frameObj))
       return
 
@@ -1161,13 +1170,36 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     fillResearchingUnits()
   }
 
+  function hasAnyFinishedResearch()
+  {
+    if (!::debriefing_result)
+      return false
+    foreach (ut in ::g_unit_type.types)
+    {
+      local unit = ::getTblValue("unit", getResearchUnitInfo(ut.name))
+      if (unit && !::isUnitInResearch(unit))
+        return true
+    }
+    foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
+    {
+      local modName = ::getTblValue("investModuleName", unitData, "")
+      if (modName == "")
+        continue
+      local unit = ::getAircraftByName(unitId)
+      local mod = unit && ::getModificationByName(unit, modName)
+      if (unit && mod && ::isModResearched(unit, mod))
+        return true
+    }
+    return false
+  }
+
   function getResearchUnitInfo(unitTypeName)
   {
-    local unitId = ::getTblValue("investUnitName" + unitTypeName, ::debriefing_result.exp, "")
+    local unitId = ::getTblValueByPath("exp.investUnitName" + unitTypeName, ::debriefing_result, "")
     local unit = ::getAircraftByName(unitId)
     if (!unit)
       return null
-    local expInvest = ::getTblValue("expInvestUnit" + unitTypeName, ::debriefing_result.exp, 0)
+    local expInvest = ::getTblValueByPath("exp.expInvestUnit" + unitTypeName, ::debriefing_result, 0)
     expInvest = applyItemExpMultiplicator(expInvest)
     if (expInvest <= 0)
       return null
@@ -2253,6 +2285,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       save()
     }
     playCountSound(false)
+    ::hangar_blur(false)
     ::my_stats.markStatsReset()
   }
 
@@ -2264,12 +2297,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
     }
 
+    local canGoToBattle = isToBattleActionEnabled()
+
     goBack()
 
-    if (isToBattleActionEnabled())
+    if (canGoToBattle)
       guiScene.performDelayed(getroottable(), function()
       {
-        if (::handlersManager.isHandlerValid(::instant_domination_handler))
+        local eventsHandler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
+        if (eventsHandler)
+          eventsHandler.onJoinEvent()
+        else if (::handlersManager.isHandlerValid(::instant_domination_handler))
           ::instant_domination_handler.onStart()
       })
   }
@@ -2279,7 +2317,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return (skipAnim || state == debrState.done)
       && (gm == ::GM_DOMINATION) && !!(gameType & ::GT_VERSUS)
       && !::checkIsInQueue() && !::g_squad_manager.isSquadMember()
-      && !isSpectator && !::getTblValue("eventId", ::debriefing_result)
+      && !hasAnyFinishedResearch()
+      && !isSpectator
       && ::go_debriefing_next_func == ::gui_start_mainmenu
   }
 

@@ -202,7 +202,8 @@ class ControlsPreset {
       useSliders          = false
     }
     local axisWithZeroRangeMin = [
-      "throttle"
+      "throttle",
+      "gm_sight_distance"
     ]
     if (axisWithZeroRangeMin.find(name) >= 0)
       axis.rangeMin = 0.0
