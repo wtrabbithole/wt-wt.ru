@@ -225,11 +225,8 @@ class ::ChatHandler
     local scene = sceneData.scene
 
     ::showBtnTable(scene, {
-        chat_input              = show
-        chat_prompt             = show
         chat_input_back         = show
         chat_input_placeholder  = !show && canEnableChatInput()
-        btn_send                = show
     })
     ::enableBtnTable(scene, {
         chat_input              = show

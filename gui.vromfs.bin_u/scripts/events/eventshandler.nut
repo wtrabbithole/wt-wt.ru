@@ -307,6 +307,11 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateButtons()
   }
 
+  function onEventSquadDataUpdated(p)
+  {
+    updateButtons()
+  }
+
   function onDestroy()
   {
     ::events.markAllEventsSeen()

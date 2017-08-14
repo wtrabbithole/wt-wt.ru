@@ -62,6 +62,9 @@ function g_hud_hitcamera::init(_nest)
   titleObj = scene.findObject("title")
   infoObj  = scene.findObject("info")
 
+  if (!::has_feature("HitCameraTargetStateIconsTank") && (::ES_UNIT_TYPE_TANK in debuffTemplates))
+    delete debuffTemplates[::ES_UNIT_TYPE_TANK]
+
   foreach (unitType, fn in debuffTemplates)
   {
     debuffsListsByUnitType[unitType] <- ::g_hud_enemy_debuffs.getTypesArrayByUnitType(unitType)
@@ -124,18 +127,14 @@ function g_hud_hitcamera::isKillingHitResult(result)
 
 function g_hud_hitcamera::onHitCameraEvent(mode, result, info)
 {
-  local _isVisible   = isEnabled && mode == ::HIT_CAMERA_START
-  local _unitId      = ::getTblValue("unitId", info, unitId)
-  local _unitVersion = ::getTblValue("unitVersion", info, unitVersion)
-  local _unitType    = ::getTblValue("unitType", info, unitType)
+  local newUnitType = ::getTblValue("unitType", info, unitType)
+  local needResetUnitType = newUnitType != unitType
 
-  local needResetUnitType = _unitType != unitType
-
-  isVisible     = _isVisible
+  isVisible   = isEnabled && mode == ::HIT_CAMERA_START
   hitResult   = result
-  unitId      = _unitId
-  unitVersion = _unitVersion
-  unitType    = _unitType
+  unitId      = ::getTblValue("unitId", info, unitId)
+  unitVersion = ::getTblValue("unitVersion", info, unitVersion)
+  unitType    = newUnitType
   camInfo     = info
 
   if (needResetUnitType && ::check_obj(infoObj))
@@ -197,7 +196,7 @@ function g_hud_hitcamera::updateDebuffItem(item, camInfo, unitInfo, partName = n
   local data = item.getInfo(camInfo, unitInfo, partName, dmgParams)
   local isShow = data != null
 
-  local obj = infoObj.findObject(item.id)
+  local obj = ::check_obj(infoObj) ? infoObj.findObject(item.id) : null
   if (!::check_obj(obj))
     return
   obj.show(isShow)

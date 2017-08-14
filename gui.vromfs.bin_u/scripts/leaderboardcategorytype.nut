@@ -451,7 +451,6 @@ function g_lb_category::_typeConstructor ()
     EVENTS_SUPERIORITY_BATTLES_THRESHOLD = {
       field = "superiorityBattlesThreshold"
       visualKey = "lb_event_superiority_battles_threshold"
-      reqFeature = [ "HiddenLeaderboardRows" ]
     }
 
     EVENTS_SUPERIORITY = {

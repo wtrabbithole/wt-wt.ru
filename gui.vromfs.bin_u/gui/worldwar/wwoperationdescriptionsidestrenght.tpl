@@ -1,79 +1,65 @@
 tdiv {
   id:t='strenght_<<sideName>>'
+  width:t='pw'
   height:t='ph'
-  flow:t='vertical'
   <<#invert>>
-    pos:t='pw-w, 0'; position:t='relative'
+    left:t='pw-w'; position:t='relative'
   <</invert>>
+  flow:t='vertical'
+  padding:t='1@framePadding'
 
-  <<#unitString>>
-    <<^invert>>
-    tdiv {
-      id:t='<<unitName>>'
-      pos:t='0, 0'
-      position:t='relative'
-      <<^isLastElement>>
-        height:t='fh'
-        max-height:t='1.5@tableIcoSize'
-      <</isLastElement>>
-
-      tdiv {
-        img {
-          size:t='1@tableIcoSize, 1@tableIcoSize'
-          pos:t='0, 50%ph-50%h'
-          position:t='relative'
-          margin-left:t='2@framePadding'
-          margin-right:t='2@framePadding'
-          background-image:t='<<unitIcon>>'
-          shopItemType:t='<<shopItemType>>'
-        }
-
-        textareaNoTab {
-          margin-right:t='2@framePadding'
-          talign:t='left'
-          text:t='<<sideUnitCount>>'
-        }
-
-        textareaNoTab {
-          text-align:t='left'
-          text:t='<<unitName>>'
-        }
-      }
-    }
-    <</invert>>
+  textareaNoTab {
     <<#invert>>
-    tdiv {
-      pos:t='pw-w, 0'
-      position:t='relative'
-      css-hier-invalidate:t='yes'
-      <<^isLastElement>>
-        height:t='fh'
-        max-height:t='1.5@tableIcoSize'
-      <</isLastElement>>
-
-      tdiv {
-        textareaNoTab {
-          margin-right:t='4@framePadding'
-          text-align:t='right'
-          text:t='<<unitName>>'
-        }
-
-        textareaNoTab {
-          margin-right:t='2@framePadding'
-          talign:t='right'
-          text:t='<<sideUnitCount>>'
-        }
-
-        img {
-          size:t='1@tableIcoSize, 1@tableIcoSize'
-          pos:t='0, 50%ph-50%h'
-          position:t='relative'
-          margin-right:t='2@framePadding'
-          background-image:t='<<unitIcon>>'
-          shopItemType:t='<<shopItemType>>'
-        }
-      }
-    }
+      left:t='pw-w'; position:t='relative'
     <</invert>>
-  <</unitString>>
+    margin-bottom:t='1@framePadding'
+    text:t='#worldwar/available_crafts'
+    overlayTextColor:t='active'
+  }
+
+  tdiv {
+    width:t='pw'
+    flow:t='vertical'
+    overflow-y:t='auto'
+    <<^invert>>
+      scroll-align:t='left'
+    <</invert>>
+
+    <<#unitString>>
+    tdiv {
+      <<#invert>>
+      left:t='pw-w'; position:t='relative'
+
+      textareaNoTab {
+        text:t=' <<name>> '
+      }
+      <</invert>>
+
+      <<#icon>>
+      img {
+        size:t='1@tableIcoSize, 1@tableIcoSize'
+        background-image:t='<<icon>>'
+        shopItemType:t='<<shopItemType>>'
+      }
+      <</icon>>
+
+      <<^invert>>
+      textareaNoTab {
+        text:t=' <<name>> '
+      }
+      <</invert>>
+
+      <<#tooltipId>>
+      title:t='$tooltipObj'
+      tooltipObj {
+        id:t='tooltip_obj'
+        tooltipId:t='<<tooltipId>>'
+        display:t='hide'
+        on_tooltip_open:t='onGenericTooltipOpen'
+        on_tooltip_close:t='onTooltipObjClose'
+      }
+      <</tooltipId>>
+    }
+    <</unitString>>
+  }
 }

@@ -510,7 +510,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         continue
 
       local decorator = ::g_decorator.getDecorator(skinName, ::g_decorator_type.SKINS)
-      if (!decorator.isVisible())
+      if (!decorator || !decorator.isVisible())
         continue
 
       local unitType = ::get_es_unit_type(unit)

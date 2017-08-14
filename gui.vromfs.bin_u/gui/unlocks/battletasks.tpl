@@ -24,7 +24,7 @@ frame {
     text:t='#mainmenu/battleTasks/showAllTasks'
     on_change_value:t='onShowAllTasks'
     btnName:t='Y'
-    value:t='no'
+    value:t='<<showAllTasksValue>>'
     display:t = 'hide'
     enable:t='no'
 

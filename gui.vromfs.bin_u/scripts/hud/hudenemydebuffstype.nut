@@ -143,7 +143,7 @@ local getStateByValue = function(cur, max, crit, min)
     {
       local total = ::getTblValue("crewTotal", camInfo, 0)
       if (!total)
-        return ""
+        return null
       local alive = dmgParams ? ::getTblValue("crewAliveCount", dmgParams, 0)
         : ::getTblValue("crewAlive", camInfo, 0)
       local aliveMin = ::getTblValue("crewAliveMin", camInfo, 0)
@@ -204,7 +204,7 @@ local getStateByValue = function(cur, max, crit, min)
     {
       local total = ::getTblValue("crewTotal", camInfo, 0)
       if (!total)
-        return ""
+        return null
       local alive = dmgParams ? ::getTblValue("crewAliveCount", dmgParams, 0)
         : ::getTblValue("crewAlive", camInfo, 0)
       local aliveMin = ::getTblValue("crewAliveMin", camInfo, 0)

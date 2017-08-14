@@ -28,4 +28,9 @@ class ::gui_handlers.WwBattleResults extends ::gui_handlers.BaseGuiHandlerWT
   {
     return ::g_world_war.defaultDiffCode
   }
+
+  function onViewServerReplay()
+  {
+    ::gui_start_replay_battle(battleRes.getSessionId(), ::gui_start_worldWar)
+  }
 }

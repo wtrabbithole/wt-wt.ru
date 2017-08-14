@@ -341,6 +341,11 @@ class ::WwBattleView
     return getBattleStatusText()
   }
 
+  function getReplayBtnTooltip()
+  {
+    return ::loc("mainmenu/btnViewReplayTooltip", {sessionID = battle.getSessionId()})
+  }
+
   function isAutoBattle()
   {
     return battle.isAutoBattle()

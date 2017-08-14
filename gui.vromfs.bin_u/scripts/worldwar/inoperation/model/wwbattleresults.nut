@@ -9,6 +9,7 @@ class ::WwBattleResults
   zoneName = ""
   isBattleResultsIgnored = false
   teams = null
+  sessionId = ""
 
   view = null
 
@@ -41,6 +42,7 @@ class ::WwBattleResults
     locName = ::getTblValue("locName", battleBlk.desc, "")
     ordinalNumber = battleBlk.ordinalNumber || 0
     zoneName = ::getTblValueByPath("zoneInfo.zoneName", blk, "")
+    sessionId = ::getTblValue("sessionId", battleBlk.desc, "")
 
     local wwArmies = getArmies(armiesBlk)
     updateTeamsInfo(battleBlk, armyStatesBlk, wwArmies)
@@ -66,6 +68,11 @@ class ::WwBattleResults
     foreach (armyBlk in armiesBlk)
       wwArmies[armyBlk.name] <- ::WwArmy(armyBlk.name, armyBlk)
     return wwArmies
+  }
+
+  function getSessionId()
+  {
+    return sessionId
   }
 
   function updateTeamsInfo(battleBlk, armyStatesBlk, wwArmies)

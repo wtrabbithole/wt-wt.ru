@@ -69,6 +69,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "MetaPartsBlk": "gameData/units/ships/dm/destroyer_metaparts.blk"
+  },
+  {
     "type": "typeGunBoat"
   },
   {
@@ -3965,46 +3968,6 @@
     ]
   },
   {
-    "MetaParts": {
-      "engine_room1": {
-        "part": "engine_room_01_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 4000.0,
-          "kill": true,
-          "killEffect": "expl"
-        }
-      },
-      "engine_room2": {
-        "part": "engine_room_02_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 4000.0,
-          "kill": true,
-          "killEffect": "expl"
-        }
-      },
-      "ammo": [
-        {
-          "part": "ammunition_storage_01_dm"
-        },
-        {
-          "part": "ammunition_storage_02_dm"
-        },
-        {
-          "part": "ammunition_storage_03_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 1,
-            "kill": true,
-            "killEffect": "expl"
-          }
-        }
-      ]
-    }
-  },
-  {
     "tank_crew": {
       "minCrewMemberAliveCount": 99,
       "sailor1": {
@@ -7836,15 +7799,15 @@
       "waterMassVel": -50000.0,
       "waterMassMult": 50.0,
       "sizeToRepair": [0.01,2.0,15.0,1500.0],
-      "additionalWaterDeathThreshold": 5500000.0,
-      "additionalWaterShouldDiePercent": 0.45,
-      "fatalBreachDrownTime": 37.0,
+      "additionalWaterDeathThreshold": 7500000.0,
+      "additionalWaterShouldDiePercent": 0.3,
+      "fatalBreachDrownTime": 40.0,
       "maxHeelingAngle": 42.0,
       "maxHeelingTime": 10.0,
       "criticalHeelingAnglePercent": 0.5,
       "maxCriticalHeelingTime": 2.0,
       "heelingDeathHeightOffsetMult": 1.0,
-      "sideCenterOfMassOffsetPercent": 1.0
+      "sideCenterOfMassOffsetPercent": 0.5
     }
   },
   {
@@ -7852,50 +7815,50 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "weight": 0.4,
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "weight": 0.8,
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "weight": 0.6,
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_05_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "weight": 0.8,
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_06_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_07_dm",
           "weight": 1.0,
-          "maxWaterAlive": 0.5
+          "maxWaterAlive": 1.0
         }
       }
     ]
@@ -7918,6 +7881,11 @@
           "count": 800
         }
       }
+    }
+  },
+  {
+    "winch": {
+      "length": 100.0
     }
   }
 ]

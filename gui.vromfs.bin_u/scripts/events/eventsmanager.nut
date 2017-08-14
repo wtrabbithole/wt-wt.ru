@@ -2099,6 +2099,10 @@ class Events
         ::g_event_ticket_buy_offer.offerTicket(reasonData.event)
       }
     }
+    else if (::g_squad_manager.getOnlineMembersCount() < getMinSquadSize(event))
+      data.reasonText = ::loc("events/minSquadSize", { minSize = getMinSquadSize(event) })
+    else if (::g_squad_manager.getOnlineMembersCount() > getMaxSquadSize(event))
+      data.reasonText = ::loc("events/maxSquadSize", { maxSize = getMaxSquadSize(event) })
     else if (!hasPlaceInMyTeam(mGameMode, room))
     {
       local myTeam = getAvailableTeams(mGameMode, room)[0]
@@ -2660,6 +2664,16 @@ class Events
 
     ::handlersManager.loadHandler(::gui_handlers.CreateEventRoomWnd,
       { mGameMode = customMgm })
+  }
+
+  function getMaxSquadSize(event)
+  {
+    return ::getTblValue("maxSquadSize", event, 4)
+  }
+
+  function getMinSquadSize(event)
+  {
+    return ::getTblValue("minSquadSize", event, 1)
   }
 }
 

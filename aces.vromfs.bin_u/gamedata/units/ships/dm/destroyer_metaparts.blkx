@@ -1,0 +1,38 @@
+{
+  "engine_room1": {
+    "part": "engine_room_01_dm",
+    "effect": {
+      "conditionDamageType": "explosion",
+      "conditionDamage": 4000.0,
+      "kill": true,
+      "killEffect": "expl"
+    }
+  },
+  "engine_room2": {
+    "part": "engine_room_02_dm",
+    "effect": {
+      "conditionDamageType": "explosion",
+      "conditionDamage": 4000.0,
+      "kill": true,
+      "killEffect": "expl"
+    }
+  },
+  "ammo": [
+    {
+      "part": "ammunition_storage_01_dm"
+    },
+    {
+      "part": "ammunition_storage_02_dm"
+    },
+    {
+      "part": "ammunition_storage_03_dm"
+    },
+    {
+      "effect": {
+        "conditionPartsDead": 1,
+        "kill": true,
+        "killEffect": "expl"
+      }
+    }
+  ]
+}

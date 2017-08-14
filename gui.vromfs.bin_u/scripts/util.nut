@@ -1060,9 +1060,7 @@ function countCountryMedals(country, profileData=null)
   foreach(id, cb in unlocks)
   {
     local unlockCountry = cb.getStr("country","")
-    if (unlockCountry == country
-        || (country == "country_germany" && unlockCountry == "country_italy"))
-           //dirty hack - add italian medals to germany counter
+    if (unlockCountry == country)
     {
       if ((!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id))
           || (medalsList && (id in medalsList) && medalsList[id] > 0))

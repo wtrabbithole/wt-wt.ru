@@ -1,21 +1,24 @@
 tdiv {
   height:t='ph'
+  flow:t='vertical'
+  padding:t='1@framePadding'
 
   <<#isInvert>>
-    pos:t='pw-w, 0'; position:t='relative'
+    left:t='pw-w'; position:t='relative'
   <</isInvert>>
+
+  textareaNoTab {
+    margin-bottom:t='1@framePadding'
+    text:t='#worldwar/operation/participating_clans'
+    overlayTextColor:t='active'
+  }
 
   <<#columns>>
   tdiv {
     height:t='ph'
     flow:t='vertical'
-
     <<#isInvert>>
-      margin-right:t='@wwWindowListBackgroundPadding'
-    <</isInvert>>
-
-    <<^isInvert>>
-      margin-left:t='@wwWindowListBackgroundPadding'
+      left:t='pw-w'; position:t='relative'
     <</isInvert>>
 
     <<#armyGroupNames>>
@@ -27,11 +30,9 @@ tdiv {
           height:t='fh'
           max-height:t='1.3@leaderboardTrHeight'
         <</isSingleColumn>>
-
         <<#isInvert>>
-          pos:t='pw-w, 0'; position:t='relative'
+          left:t='pw-w'; position:t='relative'
         <</isInvert>>
-
         text:t='<<name>>'
       }
     <</armyGroupNames>>

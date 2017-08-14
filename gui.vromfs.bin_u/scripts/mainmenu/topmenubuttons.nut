@@ -27,6 +27,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     isInactiveInQueue = false
     elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
     isButton = @() elementType == TOP_MENU_ELEMENT_TYPE.BUTTON
+    isDelayed = true
     checkbox = @() elementType == TOP_MENU_ELEMENT_TYPE.CHECKBOX //param name only because of checkbox.tpl
     isLineSeparator = @() elementType == TOP_MENU_ELEMENT_TYPE.LINE_SEPARATOR
     isEmptyButton = @() elementType == TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
@@ -91,7 +92,7 @@ enum TOP_MENU_ELEMENT_TYPE {
       if (!::has_feature("OnlineShopPacks"))
         return ::show_not_available_msg_box()
 
-      ::scene_msg_box("question_buy_campaign", obj.getScene(), ::loc("mainmenu/questionBuyHistorical"),
+      ::scene_msg_box("question_buy_campaign", null, ::loc("mainmenu/questionBuyHistorical"),
         [
           ["yes", function() {
             if (::is_platform_ps4)
@@ -174,6 +175,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   TSS = {
     text = "#topmenu/tss"
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    isDelayed = false
     link = "#url/tss"
     isLink = true
     isHidden = @(...) ::is_vendor_tencent()
@@ -181,6 +183,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   STREAMS_AND_REPLAYS = {
     text = "#topmenu/streamsAndReplays"
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    isDelayed = false
     link = "#url/streamsAndReplays"
     isLink = true
     isHidden = @(...) ::is_vendor_tencent()
@@ -245,6 +248,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   FAQ = {
     text = "#mainmenu/faq"
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    isDelayed = false
     link = "#url/faq"
     isLink = true
     isFeatured = true
@@ -253,6 +257,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   FORUM = {
     text = "#mainmenu/forum"
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    isDelayed = false
     link = "#url/forum"
     isLink = true
     isFeatured = true
@@ -261,6 +266,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   SUPPORT = {
     text = "#mainmenu/support"
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    isDelayed = false
     link = "#url/support"
     isLink = true
     isFeatured = true
@@ -269,6 +275,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   WIKI = {
     text = "#mainmenu/wiki"
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    isDelayed = false
     link = "#url/wiki"
     isLink = true
     isFeatured = true

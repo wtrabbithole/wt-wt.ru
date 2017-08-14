@@ -5,6 +5,7 @@ enum squadEvent
   STATUS_CHANGED = "SquadStatusChanged"
   PLAYER_INVITED = "SquadPlayerInvited"
   INVITES_CHANGED = "SquadInvitesChanged"
+  SIZE_CHANGED = "SquadSizeChanged"
 }
 
 enum squadStatusUpdateState {
@@ -35,10 +36,14 @@ const SQUADS_VERSION = 2
 const SQUAD_REQEST_TIMEOUT = 45000
 
 g_squad_manager <- {
-  [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "lastUpdateStatus", "state"]
+  [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "lastUpdateStatus", "state",
+   "maxSquadSize", "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList"]
 
   maxSquadSize = 4
+  COMMON_SQUAD_SIZE = 4
+  MAX_SQUAD_SIZE = 4 //max available squad size to choose
   maxInvitesCount = 9
+  squadSizesList = []
 
   cyberCafeSquadMembersNum = -1
   state = squadState.NOT_IN_SQUAD
@@ -274,6 +279,46 @@ function g_squad_manager::getSquadSize(includeInvites = false)
 function g_squad_manager::isSquadFull()
 {
   return getSquadSize() >= maxSquadSize
+}
+
+function g_squad_manager::canChangeSquadSize()
+{
+  return ::has_feature("SquadSizeChange") && squadSizesList.len() > 1
+}
+
+function g_squad_manager::setSquadSize(newSize)
+{
+  if (newSize == maxSquadSize)
+    return
+
+  maxSquadSize = newSize
+  ::broadcastEvent(squadEvent.SIZE_CHANGED)
+}
+
+function g_squad_manager::initSquadSizes()
+{
+  squadSizesList.clear()
+  local sizesBlk = ::get_blk_value_by_path(get_game_settings_blk(), "squad/sizes")
+  if (!::u.isDataBlock(sizesBlk))
+    return
+
+  local maxSize = 0
+  for (local i = 0; i < sizesBlk.paramCount(); i++)
+  {
+    local size = sizesBlk.getParamValue(i)
+    squadSizesList.append({
+      name = sizesBlk.getParamName(i)
+      value = size
+    })
+    maxSize = ::max(maxSize, size)
+  }
+
+  if (!squadSizesList.len())
+    return
+
+  COMMON_SQUAD_SIZE = squadSizesList[0].value
+  MAX_SQUAD_SIZE = maxSize
+  maxSquadSize = COMMON_SQUAD_SIZE
 }
 
 function g_squad_manager::isInvitedMaxPlayers()
@@ -777,6 +822,7 @@ function g_squad_manager::reset()
   ::g_chat.leaveSquadRoom()
 
   cyberCafeSquadMembersNum = -1
+  maxSquadSize = COMMON_SQUAD_SIZE
 
   squadData.id = ""
   local contactsUpdatedList = []
@@ -1056,6 +1102,7 @@ function g_squad_manager::onEventMatchingConnect(params)
 
 function g_squad_manager::onEventLoginComplete(params)
 {
+  initSquadSizes()
   reset()
   checkForSquad()
 }

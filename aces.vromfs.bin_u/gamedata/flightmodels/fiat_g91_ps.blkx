@@ -2,6 +2,7 @@
   "model": "fiat_g91_ps",
   "fmFile": "fm/fiat_g91_ps.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
+  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.202,
   "gearSinkRangeC": 0.101,
   "type": "typeFighter",
@@ -2103,6 +2104,32 @@
         "name": "fiat_g91_2_75in_ffar_rockets",
         "blk": "gameData/FlightModels/weaponPresets/fiat_g91_2_75in_ffar_rockets.blk",
         "reqModification": "us_2_75_in_ffar"
+      }
+    }
+  ],
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "fiat_g91_ps_bare_metal_c*",
+        "to": "fiat_g91_ps_bare_metal_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "fiat_g91_ps_bare_metal_c_dmg*",
+        "to": "fiat_g91_ps_bare_metal_c_tomoe_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "fiat_g91_ps_bare_metal_n*",
+        "to": "fiat_g91_ps_bare_metal_tomoe_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "fiat_g91_ps_bare_metal_n_dmg*",
+        "to": "fiat_g91_ps_bare_metal_tomoe_n_dmg*"
       }
     }
   ],

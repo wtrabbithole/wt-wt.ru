@@ -26,6 +26,15 @@ frame {
 
   navBar{
     navLeft{
+      <<#hasReplay>>
+      Button_text {
+        text:t = '#mainmenu/btnViewServerReplay'
+        btnName:t='Y'
+        tooltip:t='<<getReplayBtnTooltip>>'
+        _on_click:t='onViewServerReplay'
+        ButtonImg {}
+      }
+      <</hasReplay>>
       activeText {
         style:t='color:@fadedTextColor'
         text:t='<<getBattleDescText>>'

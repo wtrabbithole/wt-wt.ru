@@ -1098,7 +1098,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   function onCheckJoinEnabled(battleId)
   {
     local battle = ::g_world_war.getBattleById(battleId)
-    local cantJoinReasonData = battle.getCantJoinReasonData(::ww_get_player_side(), false)
+    local cantJoinReasonData = battle.getCantJoinReasonData(::ww_get_player_side(), true)
     if (!cantJoinReasonData.canJoin)
     {
       destroyCheckJoinEnabledTimer()

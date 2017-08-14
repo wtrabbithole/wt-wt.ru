@@ -13,6 +13,7 @@ class ::WwBattle
   missionInfo = null
   battleStartMillisec = 0
   ordinalNumber = 0
+  sessionId = ""
 
   queueInfo = null
 
@@ -28,6 +29,7 @@ class ::WwBattle
     opponentsType = blk.opponentsType || -1
     updateAppliedOnHost = blk.updateAppliedOnHost || -1
     missionName = blk.desc ? blk.desc.missionName : ""
+    sessionId = blk.desc ? blk.desc.sessionId : ""
     missionInfo = ::get_mission_meta_info(missionName)
 
     createLocalizeConfig(blk.desc)
@@ -151,6 +153,11 @@ class ::WwBattle
   function getView()
   {
     return ::WwBattleView(this)
+  }
+
+  function getSessionId()
+  {
+    return sessionId
   }
 
   function createLocalizeConfig(descBlk)
@@ -374,7 +381,7 @@ class ::WwBattle
       return reasonData
     }
 
-    if ((team.players + ::g_squad_manager.getSquadSize()) > team.maxPlayers)
+    if ((team.players + ::g_squad_manager.getOnlineMembersCount()) > team.maxPlayers)
     {
       reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_TEAM_FULL
       reasonData.reasonText = ::loc("worldwar/squad/army_full")

@@ -472,3 +472,14 @@ function debug_change_font_size(shouldIncrease = true)
     ::handlersManager.getActiveBaseHandler().fullReloadScene()
   dlog("Loaded fonts: " + availableFonts[idx].id)
 }
+
+function debug_change_language(isNext = true)
+{
+  local list = ::g_language.getGameLocalizationInfo()
+  local curLang = ::get_current_language()
+  local curIdx = ::u.searchIndex(list, @(l) l.id == curLang, 0)
+  local newIdx = curIdx + (isNext ? 1 : -1 + list.len())
+  local newLang = list[newIdx % list.len()]
+  ::g_language.setGameLocalization(newLang.id, true, false)
+  dlog("Set language: " + newLang.id)
+}

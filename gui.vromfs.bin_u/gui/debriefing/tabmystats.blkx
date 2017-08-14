@@ -1,9 +1,159 @@
 {
   "debriefingTab": {
     "id": "my_stats_tab",
+    "flow": "vertical",
+    "debrBlock": [
+      {
+        "size": "pw, 0.12@scrn_tgt"
+      },
+      {
+        "pos": "0, 1@debrMyPlaceBlockOffset"
+      },
+      {
+        "position": "relative"
+      },
+      {
+        "padding": "1@debrPad"
+      },
+      {
+        "background-color": "@debrBgShadeMyPlaceBlock"
+      },
+      {
+        "tdiv": [
+          {
+            "id": "my_place_move_box"
+          },
+          {
+            "height": "0.036@sf"
+          },
+          {
+            "pos": "1.2@debrPad, ph/2-h/2"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "css-hier-invalidate": "yes"
+          },
+          {
+            "total-input-transparent": "yes"
+          },
+          {
+            "display": "hide"
+          },
+          {
+            "activeText": {
+              "id": "my_place_label",
+              "fontNormal": "yes",
+              "animateFontSize": "yes",
+              "text": "#debriefing/placeInMyTeam"
+            }
+          },
+          {
+            "activeText": {
+              "id": "my_place_in_mptable",
+              "fontNormal": "yes",
+              "animateFontSize": "yes",
+              "overlayTextColor": "userlog",
+              "text": "0"
+            }
+          }
+        ]
+      },
+      {
+        "tdiv": {
+          "id": "wnd_total",
+          "pos": "67%pw -w, ph/2-h/2",
+          "position": "absolute",
+          "flow": "horizontal"
+        }
+      },
+      {
+        "Button_text": {
+          "id": "btn_buy_premium_award",
+          "pos": "78%pw-w/2, ph/2-h/2",
+          "position": "absolute",
+          "class": "buyPremAward",
+          "on_click": "onBuyPremiumAward",
+          "visualStyle": "purchase",
+          "tooltip": "",
+          "display": "hide",
+          "btnName": "Y",
+          "ButtonImg": [],
+          "textarea": {
+            "id": "label",
+            "pos": "0, ph/2-h/2",
+            "position": "relative",
+            "min-width": "pw",
+            "input-transparent": "yes",
+            "text-align": "center",
+            "overlayTextColor": "premiumNotEarned",
+            "text": ""
+          }
+        }
+      },
+      {
+        "tdiv": {
+          "id": "active_wager_container",
+          "size": "1@debrWagerHeight, 1@debrWagerHeight",
+          "pos": "pw -1@debrBonusWidth -2@debrPad -85%w, ph/2-h/2",
+          "position": "absolute",
+          "title": "$tooltipObj",
+          "tdiv": {
+            "itemIconBlock": {
+              "display": "hide",
+              "id": "active_wager_icon",
+              "debriefingSize": "yes",
+              "overflow": "hidden"
+            },
+            "img": {
+              "id": "active_wager_result_icon",
+              "position": "absolute",
+              "pos": "pw-1.2w, ph-1.2h",
+              "size": "@unlockIconSize, @unlockIconSize",
+              "background-image": "#ui/gameuiskin#favorite",
+              "display": "hide"
+            }
+          },
+          "textareaNoTab": {
+            "id": "active_wager_text",
+            "text": ""
+          },
+          "tooltipObj": {
+            "id": "active_wager_tooltip",
+            "on_tooltip_open": "onWagerTooltipOpen",
+            "on_tooltip_close": "onTooltipObjClose",
+            "display": "hide",
+            "enable": "no"
+          }
+        }
+      },
+      {
+        "debriefingBonusIconNest": {
+          "id": "bonus_ico_place",
+          "size": "1@debrBonusWidth, 1@debrBonusHeight",
+          "pos": "pw -1@debrPad -w, ph/2-h/2",
+          "position": "absolute",
+          "img": {
+            "id": "bonus_ico",
+            "size": "pw, ph",
+            "display": "hide"
+          }
+        }
+      },
+      {
+        "tdiv": {
+          "id": "start_bonus_place",
+          "size": "2.5@debrBonusWidth, 2.5@debrBonusHeight",
+          "pos": "pw -1@debrPad -50%@debrBonusWidth -50%w, ph/2-h/2",
+          "position": "absolute"
+        }
+      }
+    ],
     "tdiv": {
-      "size": "pw, ph",
+      "size": "pw, fh",
       "debrBlock": {
+        "id": "my_stats_awards_block",
         "size": "2@debriefingUnlockIconSize +3@debrPad, ph",
         "class": "button",
         "behaviour": "button",
@@ -42,7 +192,7 @@
           }
         ],
         "debrSeparator": {
-          "class": "alignByMyPlaceBlock"
+          "class": "right"
         }
       },
       "tdiv": [
@@ -51,165 +201,6 @@
         },
         {
           "flow": "vertical"
-        },
-        {
-          "debrBlock": [
-            {
-              "size": "pw, 0.12@scrn_tgt"
-            },
-            {
-              "pos": "0, 1@debrMyPlaceBlockOffset"
-            },
-            {
-              "position": "relative"
-            },
-            {
-              "padding": "1@debrPad"
-            },
-            {
-              "background-color": "@debrBgShadeMyPlaceBlock"
-            },
-            {
-              "tdiv": [
-                {
-                  "id": "my_place_move_box"
-                },
-                {
-                  "height": "0.036@sf"
-                },
-                {
-                  "pos": "1@debrPad +1@tablePad, ph/2-h/2"
-                },
-                {
-                  "position": "absolute"
-                },
-                {
-                  "css-hier-invalidate": "yes"
-                },
-                {
-                  "total-input-transparent": "yes"
-                },
-                {
-                  "display": "hide"
-                },
-                {
-                  "activeText": {
-                    "id": "my_place_label",
-                    "fontNormal": "yes",
-                    "animateFontSize": "yes",
-                    "text": "#debriefing/placeInMyTeam"
-                  }
-                },
-                {
-                  "activeText": {
-                    "id": "my_place_in_mptable",
-                    "fontNormal": "yes",
-                    "animateFontSize": "yes",
-                    "overlayTextColor": "userlog",
-                    "text": "0"
-                  }
-                }
-              ]
-            },
-            {
-              "activeText": {
-                "id": "single_mission_result",
-                "pos": "1@debrPad +1@tablePad, ph/2-h/2",
-                "position": "absolute",
-                "caption": "yes",
-                "text": ""
-              }
-            },
-            {
-              "tdiv": {
-                "id": "wnd_total",
-                "pos": "pw-1@debrResearchPanelWidth -1@debrPad -w -1@tablePad, ph/2-h/2",
-                "position": "absolute",
-                "flow": "horizontal"
-              }
-            },
-            {
-              "debriefingBonusIconNest": {
-                "id": "bonus_ico_place",
-                "size": "1@debrBonusWidth, 1@debrBonusHeight",
-                "pos": "pw-1@debrResearchPanelWidth, ph/2-h/2",
-                "position": "absolute",
-                "img": {
-                  "id": "bonus_ico",
-                  "size": "pw, ph",
-                  "display": "hide"
-                }
-              }
-            },
-            {
-              "tdiv": {
-                "id": "start_bonus_place",
-                "size": "2.5@debrBonusWidth, 2.5@debrBonusHeight",
-                "pos": "pw-1@debrResearchPanelWidth +50%@debrBonusWidth -50%w, ph/2-h/2",
-                "position": "absolute"
-              }
-            },
-            {
-              "Button_text": {
-                "id": "btn_buy_premium_award",
-                "pos": "pw-1@debrResearchPanelWidth +1@debrBonusWidth +1@debrPad, ph/2-h/2",
-                "position": "absolute",
-                "class": "buyPremAward",
-                "on_click": "onBuyPremiumAward",
-                "visualStyle": "purchase",
-                "tooltip": "",
-                "display": "hide",
-                "btnName": "Y",
-                "ButtonImg": [],
-                "textarea": {
-                  "id": "label",
-                  "pos": "0, ph/2-h/2",
-                  "position": "relative",
-                  "min-width": "pw",
-                  "input-transparent": "yes",
-                  "text-align": "center",
-                  "overlayTextColor": "premiumNotEarned",
-                  "text": ""
-                }
-              }
-            },
-            {
-              "tdiv": {
-                "id": "active_wager_container",
-                "size": "1@debrWagerHeight, 1@debrWagerHeight",
-                "pos": "pw -90%w -1@debrPad, ph/2-h/2",
-                "position": "absolute",
-                "title": "$tooltipObj",
-                "tdiv": {
-                  "itemIconBlock": {
-                    "display": "hide",
-                    "id": "active_wager_icon",
-                    "debriefingSize": "yes",
-                    "overflow": "hidden"
-                  },
-                  "img": {
-                    "id": "active_wager_result_icon",
-                    "position": "absolute",
-                    "pos": "pw-1.2w, ph-1.2h",
-                    "size": "@unlockIconSize, @unlockIconSize",
-                    "background-image": "#ui/gameuiskin#favorite",
-                    "display": "hide"
-                  }
-                },
-                "textareaNoTab": {
-                  "id": "active_wager_text",
-                  "text": ""
-                },
-                "tooltipObj": {
-                  "id": "active_wager_tooltip",
-                  "on_tooltip_open": "onWagerTooltipOpen",
-                  "on_tooltip_close": "onTooltipObjClose",
-                  "display": "hide",
-                  "enable": "no"
-                }
-              }
-            }
-          ]
         },
         {
           "debrBlock": [
@@ -337,7 +328,8 @@
             },
             {
               "debrBlock": {
-                "size": "1@debrResearchPanelWidth, ph",
+                "id": "researches_block",
+                "size": "2@slot_width +2@debrPad +1@scrollBarSize, ph",
                 "debrSeparator": {
                   "class": "left"
                 },

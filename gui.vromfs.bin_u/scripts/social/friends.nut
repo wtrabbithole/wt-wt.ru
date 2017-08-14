@@ -5,6 +5,8 @@
 
 ::g_script_reloader.registerPersistentData("SocialGlobals", ::getroottable(), ["no_dump_facebook_friends"])
 
+local ps4TitleId = ::is_platform_ps4? ::ps4_get_title_id() : ""
+
 function addSocialFriends(blk, group)
 {
   local addedFriendsNumber = 0
@@ -104,7 +106,7 @@ function getPS4FriendsFromIndex(index)
   local blk = ::DataBlock()
   blk.apiGroup = "userProfile"
   blk.method = ::HTTP_METHOD_GET
-  local query = ::format("/v1/users/%s/friendList?friendStatus=friend&offset=%d&limit=%d",
+  local query = ::format("/v1/users/%s/friendList?friendStatus=friend&presenceType=incontext&offset=%d&limit=%d",
     ::ps4_get_online_id(), index, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS)
   blk.path = query
   blk.respSize = 8*1024
@@ -131,37 +133,52 @@ function getPS4FriendsFromIndex(index)
 
 function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
 {
-  if (ps4FriendsArray.len() == 0)
-    return
+  foreach (idx, playerBlock in ps4FriendsArray)
+    ::ps4_console_friends["*" + playerBlock.onlineId] <- playerBlock
 
-  for(local i = ::contacts[::EPL_FRIENDLIST].len()-1; i >= 0; i--)
+  if (ps4FriendsArray.len() == 0 || lastIndex == 0)
+    ::movePS4ContactsToSpecificGroup()
+  else
+    ::getPS4FriendsFromIndex(lastIndex+1)
+}
+
+function movePS4ContactsToSpecificGroup()
+{
+  for (local i = ::contacts[::EPL_FRIENDLIST].len()-1; i >= 0; i--)
   {
-    foreach(num, ps4playerBlock in ps4FriendsArray)
+    local friendBlock = ::contacts[::EPL_FRIENDLIST][i]
+    if (friendBlock.name in ::ps4_console_friends)
     {
-      local playerName = "*" + ps4playerBlock.onlineId
-      ::ps4_console_friends[playerName] <- ps4playerBlock
-
-      local friendBlock = ::contacts[::EPL_FRIENDLIST][i]
-      if (playerName == friendBlock.name)
-      {
-        ::contacts[::EPLX_PS4_FRIENDS].append(friendBlock)
-        ::contacts[::EPL_FRIENDLIST].remove(i)
-        dagor.debug(::format("Change contacts group from '%s' to '%s', for '%s', uid %s",
-          ::EPL_FRIENDLIST, ::EPLX_PS4_FRIENDS, friendBlock.name, friendBlock.uid))
-        break
-      }
+      ::contacts[::EPLX_PS4_FRIENDS].append(friendBlock)
+      ::contacts[::EPL_FRIENDLIST].remove(i)
+      ::dagor.debug(::format("Change contacts group from '%s' to '%s', for '%s', uid %s",
+        ::EPL_FRIENDLIST, ::EPLX_PS4_FRIENDS, friendBlock.name, friendBlock.uid))
     }
   }
 
   ::contacts[::EPLX_PS4_FRIENDS].sort(::sortContacts)
-
-  if (lastIndex != 0)
-    ::getPS4FriendsFromIndex(lastIndex+1)
 }
 
 function isPlayerPS4Friend(playerName)
 {
   return ::is_platform_ps4 && playerName in ::ps4_console_friends
+}
+
+function is_psn_player_use_same_titleId(playerName)
+{
+  if (!::is_platform_ps4)
+    return false
+
+  local player = ::getTblValue(playerName, ::ps4_console_friends)
+  if (!player)
+    return false
+
+  local infoList = player.presence.incontextInfoList
+  foreach (block in infoList)
+    if (::getTblValue("npTitleId", ::getTblValue("gameTitleInfo", block), "") == ps4TitleId)
+      return true
+
+  return false
 }
 //--------------- </PlayStation> ----------------------
 

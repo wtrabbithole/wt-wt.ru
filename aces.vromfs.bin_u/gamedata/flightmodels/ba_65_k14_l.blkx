@@ -2,6 +2,7 @@
   "model": "ba_65_k14_l",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/1x_engine_attacker_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.13,
   "gearSinkRangeC": 0.03,
   "type": "typeFighter",
@@ -2139,6 +2140,20 @@
         "name": "ba_65_k14_l_2x100kg_t",
         "blk": "gameData/FlightModels/weaponPresets/ba_65_k14_l_2x100kg_t.blk",
         "reqModification": "it100_mod"
+      }
+    }
+  ],
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "ba_65_k14_l_c*",
+        "to": "ba_65_k14_l_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "ba_65_k14_l_c_dmg*",
+        "to": "ba_65_k14_l_c_tomoe_dmg*"
       }
     }
   ],

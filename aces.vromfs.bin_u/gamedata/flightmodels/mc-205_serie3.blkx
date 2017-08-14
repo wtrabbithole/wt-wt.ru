@@ -3,6 +3,7 @@
   "fmFile": "fm/mc-205_serie3.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.1,
   "gearSinkRangeC": 0.0,
   "type": "typeFighter",
@@ -2042,6 +2043,20 @@
       "blk": "gameData/FlightModels/weaponPresets/empty.blk"
     }
   },
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "c_205_serie3_a*",
+        "to": "c_205_serie3_a_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "c_205_serie3_a_dmg*",
+        "to": "c_205_serie3_a_tomoe_dmg*"
+      }
+    }
+  ],
   "jetwash": {
     "radius": 10.0,
     "minDist": 50.0,

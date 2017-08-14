@@ -51,15 +51,15 @@
       needTimeText = true
     },
     {
-      id = "cancel_repair_breaches_status"
-      color = "#787878"
-      icon = "#ui/gameuiskin#icon_repair_in_progress"
-      needTimeText = true
-    },
-    {
       id = "unwatering_status"
       color = "#787878"
       icon = "#ui/gameuiskin#unwatering_in_progress"
+      needTimeText = true
+    },
+    {
+      id = "cancel_repair_breaches_status"
+      color = "#787878"
+      icon = "#ui/gameuiskin#icon_repair_in_progress"
       needTimeText = true
     },
     {

@@ -72,12 +72,10 @@ local speed = function () {
   }
 
   local speedUnits = @() {
-    rendObj = ROBJ_DTEXT
+    rendObj = ROBJ_STEXT
+    font = font
+    fontSize = sh(18.0/1080*100)
     text = ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
-//    fontSize = sh(14.0/1080*100)
-//    font = font
-//    fontFx = fontFx
-    padding = [0,0,sh(5.0/1080*100),0]
     margin = [0,0,0,sh(0.5)]
   }
 
@@ -103,7 +101,6 @@ local speed = function () {
     flow = FLOW_HORIZONTAL
     hplace = HALIGN_CENTER
     halign = HALIGN_RIGHT
-//    padding = [0, sh(3)]
     valign = VALIGN_MIDDLE
 
     children = [
@@ -113,10 +110,10 @@ local speed = function () {
         halign = HALIGN_RIGHT
       }
       {
-        size = [flex(1.4), SIZE_TO_CONTENT]
+        size = [flex(2), SIZE_TO_CONTENT]
         flow = FLOW_HORIZONTAL
         valign = VALIGN_BOTTOM
-        
+
         children = [
           speedValue
           speedUnits
@@ -347,6 +344,7 @@ local crewBlock = {
         hplace = HALIGN_RIGHT
         rendObj = ROBJ_TEXT
         text = crewState.aliveCrewMembersCount.value.tostring()
+        font = Fonts.tiny_text_hud
       }
     }
   ]

@@ -2,8 +2,8 @@
   "fmFile": "fm/mc-202.blk",
   "model": "c_202_serie7",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
-  "harmonizationSuffix": "_tomoe",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.1,
   "gearSinkRangeC": 0.0,
   "type": "typeFighter",
@@ -2017,24 +2017,17 @@
       "blk": "gameData/FlightModels/weaponPresets/MC-202_default.blk"
     }
   },
-  "jetwash": {
-    "radius": 10.0,
-    "minDist": 50.0,
-    "timeToLive": 45.0,
-    "maxPower": 6.0,
-    "maxSegments": 50
-  },
   "default_skin_tomoe": [
     {
       "replace_tex": {
-        "from": "mc_202_a*",
-        "to": "mc_202_a*"
+        "from": "c_202_serie7_a*",
+        "to": "c_202_serie7_a_tomoe*"
       }
     },
     {
       "replace_tex": {
-        "from": "mc_202_a_dmg*",
-        "to": "mc_202_a_dmg*"
+        "from": "c_202_serie7_a_dmg*",
+        "to": "c_202_serie7_a_tomoe_dmg*"
       }
     }
   ],
@@ -2055,6 +2048,13 @@
       }
     }
   ],
+  "jetwash": {
+    "radius": 10.0,
+    "minDist": 50.0,
+    "timeToLive": 45.0,
+    "maxPower": 6.0,
+    "maxSegments": 50
+  },
   "turbulence": {
     "segmentlength": 100.0,
     "startSpeed": 28.0,

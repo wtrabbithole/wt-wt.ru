@@ -10,6 +10,7 @@
     Squad = true
     SquadWidget = true
     SquadTransferLeadership = false
+    SquadSizeChange = false
     Clans = true
     Battalions = false
     Radio = true
@@ -64,6 +65,7 @@
     worldWarMaster = false
     worldWarShowTestMaps = false
     WorldWarClansQueue = false
+    WorldWarReplay = false
 
     GraphicsOptions = true
     Spectator = false
@@ -173,6 +175,7 @@
 
     newFontsSizes = false  //remove this features when old fonts will be removed from the game
     oldFontsSizes = true
+    HitCameraTargetStateIconsTank = false
 
     Warbonds_2_0 = false
   }

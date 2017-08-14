@@ -60,6 +60,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "MetaPartsBlk": "gameData/units/ships/dm/ships_metaparts.blk"
+  },
+  {
     "type": "typeTorpedoBoat"
   },
   {
@@ -1664,49 +1667,6 @@
     ]
   },
   {
-    "MetaParts": {
-      "cover": [
-        {
-          "part": "compartment_01_dm"
-        },
-        {
-          "part": "compartment_02_dm"
-        },
-        {
-          "part": "compartment_03_dm"
-        },
-        {
-          "part": "compartment_04_dm"
-        },
-        {
-          "part": "compartment_05_dm"
-        },
-        {
-          "part": "compartment_06_dm"
-        },
-        {
-          "part": "compartment_07_dm"
-        },
-        {
-          "part": "compartment_08_dm"
-        },
-        {
-          "part": "compartment_09_dm"
-        },
-        {
-          "part": "compartment_10_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 2,
-            "kill": true,
-            "killEffect": "drown"
-          }
-        }
-      ]
-    }
-  },
-  {
     "class_tags": {
       "pacific": true,
       "mediterran": true,
@@ -2386,7 +2346,8 @@
       "sizeToRepair": [0.01,2.0,20.0,1500.0],
       "additionalWaterDeathThreshold": 360000.0,
       "additionalWaterShouldDiePercent": 0.51,
-      "fatalBreachDrownTime": 25.0
+      "fatalBreachDrownTime": 25.0,
+      "sideCenterOfMassOffsetPercent": 0.5
     }
   },
   {
@@ -4571,8 +4532,7 @@
   },
   {
     "modifications": {
-      "30mm_PzBrGr_API": [],
-      "30mm_MGr_L_Spur_HE": [],
+      "30mm_mk_103_38_universal": [],
       "manual_extinguisher": {
         "effects": {
           "extinguisherActivationCount": -1,

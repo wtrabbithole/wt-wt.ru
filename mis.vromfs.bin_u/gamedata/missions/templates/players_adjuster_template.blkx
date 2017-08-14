@@ -220,17 +220,9 @@
           }
         },
         {
-          "triggerEnable": [
-            {
-              "target": "pa_check_5_ppl"
-            },
-            {
-              "target": "pa_check_10_ppl"
-            },
-            {
-              "target": "pa_check_all_ppl"
-            }
-          ]
+          "triggerEnable": {
+            "target": "pa_sb_check"
+          }
         }
       ],
       "else_actions": []
@@ -298,6 +290,85 @@
         }
       },
       "else_actions": []
+    },
+    "pa_sb_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "gameWhenDifficulty": {
+          "difficulty": "simulator",
+          "is": "notEqual"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "не симулятор - обычная логика"
+        },
+        "triggerEnable": [
+          {
+            "target": "pa_check_5_ppl"
+          },
+          {
+            "target": "pa_check_10_ppl"
+          },
+          {
+            "target": "pa_check_all_ppl"
+          }
+        ]
+      },
+      "else_actions": [
+        {
+          "comment": {
+            "value": "симулятор - спавним всех"
+          }
+        },
+        {
+          "comment": {
+            "value": "дизейблим проверку количества игроков"
+          }
+        },
+        {
+          "triggerDisable": [
+            {
+              "target": "pa_players_plus_calculator"
+            },
+            {
+              "target": "pa_players_minus_calculator"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "выставляем количество игроков чтобы проверка прошла корректно"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 32,
+            "var": "pa_players_count"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем проверку на то что все игроки активны"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "pa_check_all_ppl"
+          }
+        }
+      ]
     },
     "pa_check_5_ppl": {
       "is_enabled": false,

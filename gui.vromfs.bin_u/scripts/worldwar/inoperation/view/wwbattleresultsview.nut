@@ -249,4 +249,15 @@ class ::WwBattleResultsView
 
     return teams
   }
+
+  function hasReplay()
+  {
+    return !::u.isEmpty(battleRes.getSessionId()) &&
+           ::has_feature("WorldWarReplay")
+  }
+
+  function getReplayBtnTooltip()
+  {
+    return ::loc("mainmenu/btnViewReplayTooltip", {sessionID = battleRes.getSessionId()})
+  }
 }

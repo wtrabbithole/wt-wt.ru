@@ -189,7 +189,14 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
       return
 
     local btn = ::g_top_menu_buttons.getTypeById(obj.id)
-    btn.onClickFunc(obj, parentHandlerWeak)
+    if (btn.isDelayed)
+      guiScene.performDelayed(this, function()
+      {
+        if (isValid())
+          btn.onClickFunc(null, parentHandlerWeak)
+      })
+    else
+      btn.onClickFunc(obj, parentHandlerWeak)
   }
 
   function onChangeCheckboxValue(obj)

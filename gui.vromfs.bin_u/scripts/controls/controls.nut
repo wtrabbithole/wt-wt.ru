@@ -949,15 +949,14 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
 
-    { id="ID_SHIP_ACTION_BAR_ITEM_10",
-      autobind = ["ID_ACTION_BAR_ITEM_10"]
-      checkGroup = ctrlGroups.SHIP,
-      checkAssign = false
-    }
-
     { id="ID_SHIP_ACTION_BAR_ITEM_11",
       autobind = ["ID_REPAIR_TANK"]
-      checkGroup = ctrlGroups.SHIP,
+      checkGroup = ctrlGroups.SHIP
+      autobind_sc = function() {
+        return ::is_xinput_device()
+          ? null
+          : [SHORTCUT.KEY_7]
+      }
       checkAssign = false
     }
 
@@ -966,8 +965,14 @@ function get_favorite_voice_message_option(index)
       autobind_sc = function() {
         return ::is_xinput_device()
           ? null
-          : [SHORTCUT.KEY_B]
+          : [SHORTCUT.KEY_8]
       }
+      checkAssign = false
+    }
+
+    { id="ID_SHIP_ACTION_BAR_ITEM_10",
+      autobind = ["ID_ACTION_BAR_ITEM_10"]
+      checkGroup = ctrlGroups.SHIP
       checkAssign = false
     }
 

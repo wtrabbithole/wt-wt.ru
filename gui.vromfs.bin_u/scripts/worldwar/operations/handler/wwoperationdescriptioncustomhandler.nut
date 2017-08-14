@@ -161,28 +161,16 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     if (::u.isEmpty(unitsList))
       return ""
 
-    local wwUnitsList = ::WwUnit.loadUnitsFromNameCountTbl(unitsList)
-    local collectedWwUnits = ::u.values(::g_world_war.collectUnitsData(wwUnitsList))
-    collectedWwUnits.sort(::g_world_war.sortUnitsBySortCodeAndCount)
-
-    local unitsString = ::u.map(
-      collectedWwUnits,
-      function(wwUnit) {
-        return {
-          unitIcon = wwUnit.getWwUnitClassIco()
-          unitName = wwUnit.getUnitStrengthGroupTypeText()
-          shopItemType = wwUnit.getUnitRole()
-          sideUnitCount = wwUnit.count
-        }
-      }
-    )
-
-    if (unitsString.len() > 0)
-      unitsString.top().isLastElement <- true
+    local wwUnitsList = u.filter(::WwUnit.loadUnitsFromNameCountTbl(unitsList),
+      @(unit) !unit.isControlledByAI())
+    wwUnitsList.sort(::g_world_war.sortUnitsBySortCodeAndCount)
+    wwUnitsList = ::u.map(wwUnitsList, function(wwUnit) {
+      return wwUnit.getShortStringView(true, false)
+    })
 
     return {
       sideName = ::ww_side_val_to_name(side)
-      unitString = unitsString
+      unitString = wwUnitsList
       invert = isInvert
     }
   }

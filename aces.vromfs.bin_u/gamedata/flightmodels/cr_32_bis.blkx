@@ -3,6 +3,7 @@
   "model": "cr_32_bis",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/biplane_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "harmonizationSuffix": "_tomoe",
   "type": "typeFighter",
   "paratrooper": "italy_para",
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
@@ -1775,6 +1776,20 @@
       "blk": "gameData/flightModels/weaponPresets/empty.blk"
     }
   },
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "fiat_cr_32_bis_a*",
+        "to": "fiat_cr_32_bis_a_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "fiat_cr_32_bis_a_dmg*",
+        "to": "fiat_cr_32_bis_a_tomoe_dmg*"
+      }
+    }
+  ],
   "user_skin": [
     {
       "name": "cr_32_bis"

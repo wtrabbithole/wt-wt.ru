@@ -369,6 +369,7 @@ function gui_start_artillery_map(params = {})
      superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
      iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
      iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
+     mapSizeMeters = getTblValue("mapSizeMeters", params, 1400.0),
    })
 }
 

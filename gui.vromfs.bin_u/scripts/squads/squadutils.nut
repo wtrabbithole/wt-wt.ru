@@ -466,21 +466,6 @@ function g_squad_utils::getMemberPopupMenu(member, handlerForChat)
   return menu
 }
 
-function g_squad_utils::showSquadInvitesWidget(alignObj)
-{
-  if (!::has_feature("Squad") || !::has_feature("SquadWidget"))
-    return null
-
-  if (!::checkObj(alignObj))
-    return null
-
-  local params = {
-    alignObj = alignObj
-  }
-
-  return ::handlersManager.loadHandler(::gui_handlers.SquadWidgetInviteListCustomHandler, params)
-}
-
 /*use by client .cpp code*/
 function is_in_my_squad(name, checkAutosquad = true)
 {
