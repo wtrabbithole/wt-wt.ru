@@ -304,10 +304,14 @@ class Promo
     if (currentGameModeId == null)
       return
 
-    local tasksArray = ::g_battle_tasks.getTasksArrayByDifficultyTypesArray([
+    local typesArray = [
       ::g_battle_task_difficulty.EASY,
       ::g_battle_task_difficulty.MEDIUM
-    ])
+    ]
+    if (!::has_feature("Warbonds_2_0"))
+      typesArray.append(::g_battle_task_difficulty.HARD)
+
+    local tasksArray = ::g_battle_tasks.getTasksArrayByDifficultyTypesArray(typesArray)
     local searchedTask = ::g_battle_tasks.getTasksArrayByGameModeDiffCode(tasksArray, currentGameModeId)
     foreach(task in searchedTask)
     {

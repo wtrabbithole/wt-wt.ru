@@ -10,6 +10,7 @@
     Squad = true
     SquadWidget = true
     SquadTransferLeadership = false
+    SquadSizeChange = false
     Clans = true
     Battalions = false
     Radio = true

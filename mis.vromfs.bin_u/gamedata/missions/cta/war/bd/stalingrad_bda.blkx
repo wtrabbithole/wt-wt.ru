@@ -258,6 +258,9 @@
         "deathPenaltyMul": 0.0
       },
       {
+        "postfix": "_BDA"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -384,6 +387,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -403,9 +422,9 @@
       "armada": {
         "name": "t1_ai_bombers",
         "tm": [
-          [0.965926,0.0,-0.258819],
+          [0.715322,0.0,-0.698795],
           [0.0,1.0,0.0],
-          [0.258819,0.0,0.965926],
+          [0.698795,0.0,0.715322],
           [-26000.0,4000.0,26000.0]
         ],
         "unit_class": "il-4",
@@ -433,6 +452,7 @@
           "skill": 4,
           "numInWing": 3,
           "stealthRadius": 128000.0,
+          "unitReplacementType": "bomber",
           "plane": {
             "wing_formation": "Diamond",
             "row_distances": 3.0,

@@ -40,7 +40,7 @@ animated_wait_icon
   wait_icon_cock {}
 }
 
-<<#items>>
+<<#members>>
 Button_text {
   id:t='member_<<id>>'
   display:t='hide'
@@ -51,6 +51,7 @@ Button_text {
   status:t='offline'
   title:t='$tooltipObj'
   on_click:t='onSquadMemberMenu'
+  on_r_click:t='onSquadMemberMenu'
 
   squadMemberNick {
     id:t='speaking_member_nick_<<id>>'
@@ -128,7 +129,7 @@ Button_text {
     display:t='hide'
   }
 }
-<</items>>
+<</members>>
 
 Button_text {
   id:t='btn_squadInvites'

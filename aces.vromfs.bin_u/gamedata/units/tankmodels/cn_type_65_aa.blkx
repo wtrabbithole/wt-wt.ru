@@ -227,8 +227,8 @@
         "wheel_l_front_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 18.0,
-          "hp": 250.0,
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "track_r_dm": [],
           "track_l_dm": []
         }
@@ -351,12 +351,6 @@
           "genericDamageMult": 3.0
         },
         "machine_gunner_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_01_dm": {
-          "genericDamageMult": 3.0
-        },
-        "gunner_02_dm": {
           "genericDamageMult": 3.0
         }
       },
@@ -1794,7 +1788,7 @@
         "suffix": "1"
       },
       {
-        "dmName": "gunner_02_dm"
+        "dmName": "commander_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -1870,7 +1864,7 @@
         "suffix": "2"
       },
       {
-        "dmName": "gunner_01_dm"
+        "dmName": "gunner_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -2145,87 +2139,11 @@
     ]
   },
   {
-    "ikGunner": [
-      {
-        "model": "chinese_gunner_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis_"
-      },
-      {
-        "crouchDelta": [0.0,0.0,0.0]
-      },
-      {
-        "suffix": "6"
-      },
-      {
-        "dmName": "commander_dm"
-      },
-      {
-        "deadHeadAttitudeMin": -40.0
-      },
-      {
-        "deadHeadAttitudeMax": -55.0
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "righthand_",
-          "flexionDir": [-0.5,-0.5,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_",
-          "flexionDir": [-0.2,1.0,-1.0]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_",
-          "flexionDir": [-0.6,1.0,-1.0]
-        }
-      }
-    ]
-  },
-  {
     "tank_crew": {
       "changeTimeMult": 1.0,
-      "gunner1": [
+      "commander": [
         {
-          "dmPart": "gunner_01_dm"
+          "dmPart": "commander_dm"
         },
         {
           "role": "tank_gunner"
@@ -2238,9 +2156,6 @@
         },
         {
           "substitute": "loader2"
-        },
-        {
-          "substitute": "gunner2"
         }
       ],
       "driver": [
@@ -2258,14 +2173,11 @@
         },
         {
           "substitute": "loader2"
-        },
-        {
-          "substitute": "gunner2"
         }
       ],
-      "gunner2": [
+      "gunner1": [
         {
-          "dmPart": "gunner_02_dm"
+          "dmPart": "gunner_dm"
         },
         {
           "role": "tank_gunner"
@@ -2289,10 +2201,6 @@
         "dmPart": "loader_01_dm",
         "role": "loader",
         "substitute": "commander"
-      },
-      "commander": {
-        "dmPart": "commander_dm",
-        "role": "commander"
       }
     }
   },
@@ -2300,7 +2208,7 @@
     "MetaParts": {
       "crew": [
         {
-          "killNumPartsForDeath": 5
+          "killNumPartsForDeath": 4
         },
         {
           "killAllPartsForDeath": true
@@ -2312,10 +2220,7 @@
           "part": "driver_dm"
         },
         {
-          "part": "gunner_01_dm"
-        },
-        {
-          "part": "gunner_02_dm"
+          "part": "gunner_dm"
         },
         {
           "part": "loader_01_dm"
@@ -2352,7 +2257,7 @@
           "defaultPitch": 0.0,
           "speedYaw": 60.0,
           "speedPitch": 20.0,
-          "bullets": 65,
+          "bullets": 195,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
           "DelayAfterShoot": 3.0,
@@ -2398,7 +2303,7 @@
           "defaultPitch": 0.0,
           "speedYaw": 60.0,
           "speedPitch": 20.0,
-          "bullets": 65,
+          "bullets": 195,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
           "DelayAfterShoot": 3.0,
@@ -2489,34 +2394,13 @@
     "ammoLoadDistribution": {
       "primaryShells": {
         "ammo_turret_02_dm": {
-          "count": 25
+          "count": 65
         },
         "ammo_turret_01_dm": {
-          "count": 25
+          "count": 65
         },
-        "ammo_body_r_04_dm": {
-          "count": 10
-        },
-        "ammo_body_l_04_dm": {
-          "count": 10
-        },
-        "ammo_body_r_03_dm": {
-          "count": 10
-        },
-        "ammo_body_l_03_dm": {
-          "count": 10
-        },
-        "ammo_body_r_02_dm": {
-          "count": 10
-        },
-        "ammo_body_l_02_dm": {
-          "count": 10
-        },
-        "ammo_body_r_01_dm": {
-          "count": 10
-        },
-        "ammo_body_l_01_dm": {
-          "count": 10
+        "ammo_body_dm": {
+          "count": 260
         }
       }
     }

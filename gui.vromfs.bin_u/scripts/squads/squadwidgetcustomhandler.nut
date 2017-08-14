@@ -35,11 +35,11 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
   function getSceneTplView()
   {
     local view = {
-      items = []
+      members = []
     }
 
-    for(local i = 0; i < ::g_squad_manager.maxSquadSize; i++)
-      view.items.append({ id = i.tostring()})
+    for(local i = 0; i < ::g_squad_manager.MAX_SQUAD_SIZE; i++)
+      view.members.append({ id = i.tostring()})
 
     return view
   }
@@ -67,7 +67,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
       updateMemberView(memberViewIndex++, member)
     }
 
-    while (memberViewIndex < ::g_squad_manager.maxSquadSize)
+    while (memberViewIndex < ::g_squad_manager.MAX_SQUAD_SIZE)
       updateMemberView(memberViewIndex++, null)
 
     updateVisibles()
@@ -125,7 +125,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     local btnSquadReady = showSceneBtn("btn_squad_ready", ::g_squad_manager.canSwitchReadyness())
     btnSquadReady["text"] = ::loc(::g_squad_manager.isMeReady() ? "multiplayer/btnNotReady" : "mainmenu/btnReady")
 
-    showSceneBtn("btn_squadInvites", ::g_squad_manager.getInvitedPlayers().len() > 0)
+    showSceneBtn("btn_squadInvites", ::gui_handlers.squadInviteListWnd.canOpen())
 
     local btnSquadLeave = showSceneBtn("btn_squadLeave", ::g_squad_manager.canLeaveSquad())
     btnSquadLeave.tooltip = ::loc("squadAction/leave")
@@ -150,14 +150,8 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
   function onSquadInvitesClick(obj)
   {
-    if (!::checkObj(obj))
-      return
-
-    local nestObj = obj.findObject("invite_widget")
-    if (!::checkObj(nestObj))
-      return
-
-    ::g_squad_utils.showSquadInvitesWidget(nestObj)
+    if (::checkObj(obj))
+      ::gui_handlers.squadInviteListWnd.open(obj.findObject("invite_widget"))
   }
 
   function onSquadLeave()

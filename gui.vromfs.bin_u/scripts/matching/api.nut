@@ -1,4 +1,4 @@
-/*
+ /*
  module with low-level matching server interface
 
  matching_rpc_subscribe - set handler for server-side rpc or notification
@@ -82,6 +82,7 @@ function matching_api_func(name, cb, params = null)
     cb(unifyResp)
   })(cb)
 
+  dagor.debug("send matching request: " + name)
   send_matching_rpc_request(reqParams, realCb)
 }
 
@@ -90,6 +91,7 @@ function matching_api_notify(name, params = null)
   local reqParams = { name = name }
   if (params != null)
     reqParams.data <- _matching.translate_matching_params(params)
+  dagor.debug("send matching notify: " + name)
   send_matching_generic_message(reqParams)
 }
 
@@ -118,7 +120,7 @@ function on_matching_generic_message(params)
   if (!(name in _matching.dbg_silent_messages))
   {
     dagor.debug("on_matching_generic_message: " + name)
-    if (::is_dev_version)
+    if (name.find("mrooms.on_") != -1 || ::is_dev_version)
       debugTableData(::getTblValue("data", params))
   }
 

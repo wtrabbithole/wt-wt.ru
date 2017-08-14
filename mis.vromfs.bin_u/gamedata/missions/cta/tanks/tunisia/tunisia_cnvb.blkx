@@ -401,6 +401,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -438,7 +454,13 @@
             "tags": {
               "type_bomber": false,
               "type_fighter": false,
-              "type_assault": false
+              "type_assault": false,
+              "tank": true,
+              "type_heavy_tank": true,
+              "type_medium_tank": true,
+              "type_light_tank": true,
+              "type_tank_destroyer": true,
+              "type_spaa": true
             }
           }
         },
@@ -488,7 +510,7 @@
           [-0.405229,0.0,0.914215],
           [0.0,1.0,0.0],
           [-0.914215,0.0,-0.405229],
-          [3417.15,14.0771,1360.65]
+          [3441.94,14.0771,1328.53]
         ],
         "unit_class": "germ_stug_III_ausf_G",
         "objLayer": 1,
@@ -522,7 +544,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [3402.39,5.86191,1387.65]
+              [3420.69,5.86191,1378.18]
             ],
             "props": {
               "speed": 300.0,
@@ -1564,7 +1586,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [3161.8,5.86188,1384.11]
+              [3200.94,13.7763,1362.65]
             ],
             "props": {
               "speed": 300.0,
@@ -2146,7 +2168,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [3402.39,5.86191,1387.65]
+              [3420.84,5.86191,1378.25]
             ],
             "props": {
               "speed": 300.0,
@@ -3112,7 +3134,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [3161.8,5.86188,1384.11]
+              [3201.35,14.7926,1363.3]
             ],
             "props": {
               "speed": 300.0,
@@ -3710,7 +3732,7 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [3402.39,5.86196,1387.65]
+              [3421.12,5.86195,1378.52]
             ],
             "props": {
               "speed": 300.0,
@@ -4728,10 +4750,10 @@
     "convoy_starting_point": {
       "type": "Point",
       "tm": [
-        [-0.483554,0.0,0.875315],
+        [-0.67998,0.0,0.733232],
         [0.0,1.0,0.0],
-        [-0.875315,0.0,-0.483554],
-        [3382.97,6.52087,1281.49]
+        [-0.733232,0.0,-0.67998],
+        [3393.54,6.52087,1269.94]
       ],
       "objLayer": 0,
       "props": []
@@ -4742,7 +4764,7 @@
         [-0.497373,0.0,0.867537],
         [0.0,1.0,0.0],
         [-0.867537,0.0,-0.497373],
-        [3286.19,15.0972,1402.16]
+        [3303.68,15.0972,1358.47]
       ],
       "objLayer": 0,
       "props": []

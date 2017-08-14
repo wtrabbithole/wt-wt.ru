@@ -1255,8 +1255,11 @@ function get_player_stats_from_blk(blk)
     {
       cData.unitsCount = blk.aircrafts[country].paramCount()
       foreach(unitName, unitEliteStatus in blk.aircrafts[country])
-        if (unitEliteStatus == ::ES_UNIT_ELITE_STAGE2)
+      {
+        local unit = ::getAircraftByName(unitName)
+        if (unit && ::isUnitElite(unit))
           cData.eliteUnitsCount++
+      }
     }
     player.countryStats[country] <- cData
   }

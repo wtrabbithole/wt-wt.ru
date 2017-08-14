@@ -90,7 +90,7 @@ tdiv {
         class:t='topmenuImage'
       <</tmText>>
       minimalWidth:t='<<#minimalWidth>>yes<</minimalWidth>><<^minimalWidth>>no<</minimalWidth>>'
-      <<#tmOnClick>> _on_click:t = '<<tmOnClick>>' <</tmOnClick>>
+      <<#tmOnClick>> on_click:t = '<<tmOnClick>>' <</tmOnClick>>
 
       <<#haveTmDiscount>>
         discount_notification {

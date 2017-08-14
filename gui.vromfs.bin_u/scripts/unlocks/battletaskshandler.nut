@@ -100,6 +100,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     return {
       radiobuttons = getRadioButtonsView()
       tabs = getTabsView()
+      showAllTasksValue = ::g_battle_tasks.showAllTasksValue? "yes" : "no"
     }
   }
 

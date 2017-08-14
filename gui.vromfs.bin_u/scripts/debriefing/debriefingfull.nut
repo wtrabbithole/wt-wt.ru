@@ -602,19 +602,32 @@ function debriefing_result_have_teamkills()
 
 function debriefing_result_get_base_tournament_reward()
 {
+  local result = ::Cost()
+
   local logs = getUserLogsList({
     show = [
       ::EULT_SESSION_RESULT
     ]
     currentRoomOnly = true
   })
-
-  local result = ::Cost()
-
   if (logs.len())
   {
-    result.wp = ::getTblValue("baseTournamentWp", logs[0], 0)
+    result.wp   = ::getTblValue("baseTournamentWp", logs[0], 0)
     result.gold = ::getTblValue("baseTournamentGold", logs[0], 0)
+  }
+
+  if (!result.isZero())
+    return result
+
+  local logs = ::getUserLogsList({
+    show = [::EULT_CHARD_AWARD]
+    currentRoomOnly = true
+    filters = { rewardType = ["TournamentReward"] }
+  })
+  if (logs.len())
+  {
+    result.wp   = ::getTblValue("wpEarned", logs[0], 0)
+    result.gold = ::getTblValue("goldEarned", logs[0], 0)
   }
 
   return result

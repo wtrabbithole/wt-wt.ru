@@ -692,7 +692,7 @@ class ::gui_handlers.RenameReplayHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!newName || newName == "")
       return false;
     foreach(c in "\\|/<>:?*\"")
-      if (newName.find(c.tochar()))
+      if (newName.find(c.tochar()) != null)
         return false
     if (::g_string.startsWith(newName, ::autosave_replay_prefix))
       return false;

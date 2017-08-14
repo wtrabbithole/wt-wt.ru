@@ -3,6 +3,7 @@
   "fmFile": "fm/g_55s.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.15,
   "gearSinkRangeC": 0.03,
   "type": "typeFighter",
@@ -2282,6 +2283,20 @@
         "name": "g_55_2x100kg_t",
         "blk": "gameData/FlightModels/weaponPresets/g_55_2x100kg_t.blk",
         "reqModification": "it100_mod"
+      }
+    }
+  ],
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "g_55s_c*",
+        "to": "g_55s_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "g_55s_c_dmg*",
+        "to": "g_55s_c_tomoe_dmg*"
       }
     }
   ],

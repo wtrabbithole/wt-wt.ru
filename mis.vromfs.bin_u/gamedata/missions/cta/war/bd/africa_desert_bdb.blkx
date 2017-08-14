@@ -258,6 +258,9 @@
         "deathPenaltyMul": 0.0
       },
       {
+        "postfix": "_BDB"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -387,6 +390,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -406,9 +425,9 @@
       "armada": {
         "name": "t2_ai_bombers",
         "tm": [
-          [-0.965926,0.0,0.258819],
+          [-0.707107,0.0,0.707107],
           [0.0,1.0,0.0],
-          [-0.258819,0.0,-0.965926],
+          [-0.707107,0.0,-0.707107],
           [26000.0,4000.0,-26000.0]
         ],
         "unit_class": "he-111h-6",

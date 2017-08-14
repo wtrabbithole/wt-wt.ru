@@ -405,7 +405,7 @@ function load_scripts_after_login()
     "squads/squadMember.nut"
     "squads/squadManager.nut"
     "squads/squadUtils.nut"
-    "squads/squadWidgetInviteListCustomHandler.nut"
+    "squads/squadInviteListWnd.nut"
     "squads/squadWidgetCustomHandler.nut"
 
     "dirtyWordsRussian.nut"
@@ -706,6 +706,7 @@ function load_scripts_after_login()
     "matching/serviceNotifications/mrooms.nut"
 
     "webpoll.nut"
+    "ugc/ugcUtils.nut"
   ])
   {
     ::g_script_reloader.loadOnce("scripts/" + fn)

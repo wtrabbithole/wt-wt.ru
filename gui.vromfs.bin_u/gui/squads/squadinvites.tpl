@@ -5,6 +5,7 @@ emptyButton {
   uid:t='<<id>>'
   title:t='$tooltipObj'
   on_click:t='onMemberClicked'
+  on_r_click:t='onMemberClicked'
 
   img {
     background-image:t='<<pilotIcon>>'

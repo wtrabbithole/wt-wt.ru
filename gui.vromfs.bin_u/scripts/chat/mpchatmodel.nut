@@ -47,6 +47,7 @@ local mpChatModel = {
     mpChatState.log.append(message)
 
     ::broadcastEvent("MpChatLogUpdated")
+    ::push_message(message)
     return true
   }
 
@@ -62,22 +63,25 @@ local mpChatModel = {
       return
 
     mpChatState.currentModeId = modeId
+    ::push_new_mode_type(modeId)
     ::broadcastEvent("MpChatModeChanged", { modeId = mpChatState.currentModeId})
   }
 
 
   function onInputChanged(str) {
+    ::push_new_input_string(str)
     ::broadcastEvent("MpChatInputChanged", {str = str})
   }
 
 
   function onChatClear() {
     clearLog()
+    ::clear_chat_log()
   }
 
 
   function unblockMessage(text) {
-    foreach (message in log) {
+    foreach (message in mpChatState.log) {
       if (message.text == text) {
         message.isBlocked = false
         return

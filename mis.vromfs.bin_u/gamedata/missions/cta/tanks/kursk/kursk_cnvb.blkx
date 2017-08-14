@@ -288,6 +288,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "arrow": [
               {
                 "width": 1
@@ -393,6 +396,22 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/kursk/template_kursk_air_spawns.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -1948,9 +1967,9 @@
     "convoy_starting_point": {
       "type": "Point",
       "tm": [
-        [1.0,0.0,0.0],
+        [-0.527541,0.0,0.84953],
         [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
+        [-0.84953,0.0,-0.527541],
         [2171.49,56.6278,647.177]
       ],
       "objLayer": 0,

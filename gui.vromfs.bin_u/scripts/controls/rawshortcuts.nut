@@ -9,6 +9,12 @@
   KEY_2         = {dev = [2], btn = [3]}
   KEY_3         = {dev = [2], btn = [4]}
   KEY_4         = {dev = [2], btn = [5]}
+  KEY_5         = {dev = [2], btn = [6]}
+  KEY_6         = {dev = [2], btn = [7]}
+  KEY_7         = {dev = [2], btn = [8]}
+  KEY_8         = {dev = [2], btn = [9]}
+  KEY_9         = {dev = [2], btn = [10]}
+  KEY_0         = {dev = [2], btn = [11]}
   KEY_Q         = {dev = [2], btn = [16]}
   KEY_W         = {dev = [2], btn = [17]}
   KEY_E         = {dev = [2], btn = [18]}

@@ -7,6 +7,7 @@ local MRoomsHandlers = class {
   roomOps = {}
   hostReady = null
   selfReady = null
+  leaving = null
 
   constructor()
   {
@@ -18,6 +19,7 @@ local MRoomsHandlers = class {
     roomOps = {}
     hostReady = null
     selfReady = null
+    leaving = null
 
     foreach (notificationName, callback in
               {
@@ -62,6 +64,7 @@ local MRoomsHandlers = class {
     connectAllowed = null
     hostReady = null
     selfReady = null
+    leaving = null
     ::reset_room_key()
 
     notify_room_destroyed({})
@@ -71,14 +74,14 @@ local MRoomsHandlers = class {
   {
     hostReady = true
     if (selfReady)
-      connectToHost()
+      __connectToHost()
   }
 
   function __onSelfReady()
   {
     selfReady = true
     if (hostReady)
-      connectToHost()
+      __connectToHost()
   }
 
   function __addRoomMember(member)
@@ -198,15 +201,64 @@ local MRoomsHandlers = class {
     }
   }
 
+  function __isNotifyForCurrentRoom(notify)
+  {
+    if (leaving) // ignore all room notifcations after leave has been called
+      return true
+
+    if (roomId == notify.roomId)
+      return true
+    return false
+  }
+
+  function __connectToHost()
+  {
+    dagor.debug("__connectToHost")
+    if (!hasSession())
+      return
+
+    local host = __getRoomMember(hostId)
+    if (!host)
+    {
+      dagor.debug("__connectToHost failed: host is not in the room")
+      return
+    }
+
+    local me = __getMyRoomMember()
+    if (!me)
+    {
+      dagor.debug("__connectToHost failed: player is not in the room")
+      return
+    }
+
+    local hostPub = host.public
+    local roomPub = room.public
+
+    if (!("room_key" in roomPub))
+    {
+      local mePub = ::toString(::getTblValue("public", me), 3)
+      local mePrivate = ::toString(::getTblValue("private", me), 3)
+      local meStr = ::toString(me, 3)
+      local roomStr = ::toString(roomPub, 3)
+      local roomMission = ::toString(::getTblValue("mission", roomPub))
+      ::script_net_assert("missing room_key in room")
+
+      ::send_error_log("missing room_key in room", false, "log")
+      return
+    }
+
+    ::connect_to_host(hostPub.ip, hostPub.port,
+                      roomPub.room_key, me.private.auth_key,
+                      getTblValue("sessionId", roomPub, roomId))
+  }
 
   // notifications
   function onRoomInvite(notify, send_resp)
   {
-    roomId = notify.roomId
     local inviteData = notify.invite_data
     if (!(typeof inviteData == "table"))
       inviteData = {}
-    inviteData.roomId <- roomId
+    inviteData.roomId <- notify.roomId
 
     if (notify_room_invite(inviteData))
       send_resp({accept = true})
@@ -216,7 +268,7 @@ local MRoomsHandlers = class {
 
   function onRoomMemberJoined(member)
   {
-    if (!room)
+    if (!__isNotifyForCurrentRoom(member))
       return
 
     dagor.debug(format("%s (%s) joined to room", member.name, member.userId.tostring()))
@@ -227,7 +279,7 @@ local MRoomsHandlers = class {
 
   function onRoomMemberLeft(member)
   {
-    if (!room)
+    if (!__isNotifyForCurrentRoom(member))
       return
 
     dagor.debug(format("%s (%s) left from room", member.name, member.userId.tostring()))
@@ -237,7 +289,7 @@ local MRoomsHandlers = class {
 
   function onRoomMemberKicked(member)
   {
-    if (!room)
+    if (!__isNotifyForCurrentRoom(member))
       return
 
     dagor.debug(format("%s (%s) kicked from room", member.name, member.userId.tostring()))
@@ -247,7 +299,7 @@ local MRoomsHandlers = class {
 
   function onRoomAttrChanged(notify)
   {
-    if (!room)
+    if (!__isNotifyForCurrentRoom(notify))
       return
 
     __mergeAttribs(notify, room)
@@ -256,7 +308,7 @@ local MRoomsHandlers = class {
 
   function onRoomMemberAttrChanged(notify)
   {
-    if (!room)
+    if (!__isNotifyForCurrentRoom(notify))
       return
 
     __updateMemberAttributes(notify)
@@ -265,12 +317,17 @@ local MRoomsHandlers = class {
 
   function onRoomDestroyed(notify)
   {
+    if (!__isNotifyForCurrentRoom(notify))
+      return
     __cleanupRoomState()
   }
 
   function onHostNotify(notify)
   {
     debugTableData(notify)
+    if (!__isNotifyForCurrentRoom(notify))
+      return
+
     if (notify.hostId != hostId)
     {
       dagor.debug("warning: got host notify from host that is not in current room")
@@ -286,14 +343,13 @@ local MRoomsHandlers = class {
     if (notify.message == "connect-allowed")
     {
       connectAllowed = true
-      connectToHost()
+      __connectToHost()
     }
   }
 
   function onRoomJoinCb(resp)
   {
-    if (room != null)
-      return
+    __cleanupRoomState()
 
     room = resp
     roomId = room.roomId
@@ -311,34 +367,6 @@ local MRoomsHandlers = class {
   function onRoomLeaveCb()
   {
     __cleanupRoomState()
-  }
-
-  function connectToHost()
-  {
-    dagor.debug("connectToHost")
-    if (!hasSession())
-      return
-
-    local host = __getRoomMember(hostId)
-    if (!host)
-    {
-      dagor.debug("connectToHost failed: host is not in the room")
-      return
-    }
-
-    local me = __getMyRoomMember()
-    if (!me)
-    {
-      dagor.debug("connectToHost failed: player is not in the room")
-      return
-    }
-
-    local hostPub = host.public
-    local roomPub = room.public
-
-    ::connect_to_host(hostPub.ip, hostPub.port,
-                      roomPub.room_key, me.private.auth_key,
-                      getTblValue("sessionId", roomPub, roomId))
   }
 }
 
@@ -389,10 +417,14 @@ function join_room(params, cb)
 
 function leave_room(params, cb)
 {
+  local oldRoomId = g_mrooms_handlers.getRoomId()
+  g_mrooms_handlers.leaving = true
+
   matching_api_func("mrooms.leave_room",
                     function(resp)
                     {
-                      g_mrooms_handlers.onRoomLeaveCb()
+                      if (g_mrooms_handlers.getRoomId() == oldRoomId)
+                        g_mrooms_handlers.onRoomLeaveCb()
                       cb(resp)
                     },
                     params)

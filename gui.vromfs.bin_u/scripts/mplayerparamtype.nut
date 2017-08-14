@@ -209,7 +209,7 @@ function g_mplayer_param_type::_newer(old, new) {
       local total = ::get_race_checkpioints_count()
       local laps = ::get_race_laps_count()
       if (total && laps)
-        val = (::max(val - 1, 0) % (total / laps)) + 1
+        val = (::max(val, 0) % (total / laps))
       return val.tostring()
     }
     diffFunc = ::g_mplayer_param_type._newer

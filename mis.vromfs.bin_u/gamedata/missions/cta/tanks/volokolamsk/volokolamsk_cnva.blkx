@@ -227,16 +227,12 @@
       "scoreLimit": 10000,
       "timeLimit": 25,
       "deathPenaltyMul": 0.0,
+      "postfix": "_CnvA",
+      "allowedKillStreaks": true,
       "randomSpawnTeams": false,
       "remapAiTankModels": true,
-      "postfix": "_CnvA",
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedKillStreaks": true,
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -257,7 +253,14 @@
         "_Conq5": false,
         "_Conq6": false,
         "_CnvA": false,
-        "_CnvB": false
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false
       }
     },
     "spectator_points": [],
@@ -283,6 +286,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -395,6 +401,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -432,7 +454,13 @@
             "tags": {
               "type_bomber": false,
               "type_fighter": false,
-              "type_assault": false
+              "type_assault": false,
+              "tank": true,
+              "type_heavy_tank": true,
+              "type_medium_tank": true,
+              "type_light_tank": true,
+              "type_tank_destroyer": true,
+              "type_spaa": true
             }
           }
         },
@@ -468,6 +496,7 @@
     "is_enabled": true
   },
   "variables": {
+    "defenseMissionTeam": "teamA",
     "waypoints_num": 4
   },
   "dialogs": [],
@@ -481,11 +510,13 @@
           [-0.286703,0.0,-0.95802],
           [0.0,1.0,0.0],
           [0.95802,0.0,-0.286703],
-          [1583.63,64.0463,-613.899]
+          [1638.92,67.1072,-871.256]
         ],
         "unit_class": "germ_stug_III_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "75mm_ger_kwk40_HEAT",
         "bullets1": "",
@@ -497,7 +528,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 16,
+          "count": 6,
           "formation_type": "cols",
           "formation_div": 3,
           "formation_step": [8.0,4.0],
@@ -513,13 +544,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1575.37,62.3877,-670.465]
+              [1577.17,62.3877,-892.332]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_02": {
@@ -528,13 +560,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1539.88,64.2363,-734.414]
+              [1506.39,64.2363,-892.663]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_03": {
@@ -543,13 +576,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1485.01,64.7602,-777.962]
+              [1479.8,64.7602,-891.257]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_04": {
@@ -558,13 +592,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1443.38,64.5761,-804.28]
+              [1459.53,64.5761,-891.863]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_05": {
@@ -573,13 +608,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1411.71,65.1389,-847.127]
+              [1420.74,65.1389,-890.715]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_06": {
@@ -594,7 +630,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_07": {
@@ -609,7 +646,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_08": {
@@ -624,7 +662,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_09": {
@@ -639,7 +678,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_10": {
@@ -654,7 +694,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_11": {
@@ -669,7 +710,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_12": {
@@ -684,7 +726,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_13": {
@@ -699,7 +742,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_14": {
@@ -714,7 +758,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_15": {
@@ -729,7 +774,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_16": {
@@ -744,7 +790,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_17": {
@@ -759,7 +806,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_18": {
@@ -774,7 +822,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_19": {
@@ -789,7 +838,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_20": {
@@ -804,7 +854,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_21": {
@@ -819,7 +870,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_22": {
@@ -834,7 +886,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_23": {
@@ -849,7 +902,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_24": {
@@ -864,7 +918,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_25": {
@@ -879,7 +934,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_26": {
@@ -894,7 +950,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_27": {
@@ -909,7 +966,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_28": {
@@ -924,7 +982,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_29": {
@@ -939,7 +998,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_30": {
@@ -954,7 +1014,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_31": {
@@ -969,7 +1030,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_32": {
@@ -984,7 +1046,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_33": {
@@ -999,7 +1062,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_34": {
@@ -1014,7 +1078,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_35": {
@@ -1029,7 +1094,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_36": {
@@ -1044,7 +1110,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_37": {
@@ -1059,7 +1126,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_38": {
@@ -1074,7 +1142,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_39": {
@@ -1089,7 +1158,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_40": {
@@ -1104,7 +1174,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_41": {
@@ -1119,7 +1190,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_42": {
@@ -1134,7 +1206,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_43": {
@@ -1149,7 +1222,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_44": {
@@ -1164,7 +1238,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_45": {
@@ -1179,7 +1254,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_46": {
@@ -1194,7 +1270,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_47": {
@@ -1209,7 +1286,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_48": {
@@ -1224,7 +1302,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_49": {
@@ -1239,7 +1318,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_50": {
@@ -1254,7 +1334,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_51": {
@@ -1269,7 +1350,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_52": {
@@ -1284,7 +1366,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_53": {
@@ -1299,7 +1382,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_54": {
@@ -1314,7 +1398,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_55": {
@@ -1329,7 +1414,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_56": {
@@ -1344,7 +1430,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_57": {
@@ -1359,7 +1446,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_58": {
@@ -1374,7 +1462,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_59": {
@@ -1389,7 +1478,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_60": {
@@ -1404,7 +1494,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_12_wp_61": {
@@ -1419,7 +1510,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -1454,14 +1546,16 @@
       "tankModels": {
         "name": "tankModels_13",
         "tm": [
-          [0.0450292,0.0,0.998986],
+          [-0.997752,0.0,0.0670245],
           [0.0,1.0,0.0],
-          [-0.998986,0.0,0.0450292],
-          [1536.95,64.0463,-969.034]
+          [-0.0670245,0.0,-0.997752],
+          [1641.22,64.2408,-894.893]
         ],
         "unit_class": "germ_stug_III_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "75mm_ger_kwk40_HEAT",
         "bullets1": "",
@@ -1473,7 +1567,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 16,
+          "count": 6,
           "formation_type": "cols",
           "formation_div": 3,
           "formation_step": [8.0,4.0],
@@ -1489,13 +1583,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1549.9,92.187,-935.959]
+              [1579.53,63.9295,-891.707]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_02": {
@@ -1510,7 +1605,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_05": {
@@ -1525,7 +1621,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_06": {
@@ -1540,7 +1637,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_07": {
@@ -1555,7 +1653,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_08": {
@@ -1570,7 +1669,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_09": {
@@ -1585,7 +1685,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_10": {
@@ -1600,7 +1701,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_11": {
@@ -1615,7 +1717,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_12": {
@@ -1630,7 +1733,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_13": {
@@ -1645,7 +1749,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_14": {
@@ -1660,7 +1765,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_15": {
@@ -1675,7 +1781,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_16": {
@@ -1690,7 +1797,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_17": {
@@ -1705,7 +1813,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_18": {
@@ -1720,7 +1829,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_19": {
@@ -1735,7 +1845,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_20": {
@@ -1750,7 +1861,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_21": {
@@ -1765,7 +1877,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_38": {
@@ -1780,7 +1893,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_40": {
@@ -1795,7 +1909,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_41": {
@@ -1810,7 +1925,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_42": {
@@ -1825,7 +1941,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_43": {
@@ -1840,7 +1957,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_44": {
@@ -1855,7 +1973,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_45": {
@@ -1870,7 +1989,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_46": {
@@ -1885,7 +2005,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_48": {
@@ -1900,7 +2021,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_49": {
@@ -1915,7 +2037,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_50": {
@@ -1930,7 +2053,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_51": {
@@ -1945,7 +2069,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_54": {
@@ -1960,7 +2085,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_56": {
@@ -1975,7 +2101,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_57": {
@@ -1990,7 +2117,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_58": {
@@ -2005,7 +2133,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_59": {
@@ -2020,7 +2149,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_60": {
@@ -2035,7 +2165,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_13_wp_61": {
@@ -2050,7 +2181,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -2063,11 +2195,13 @@
           [-0.286703,0.0,-0.95802],
           [0.0,1.0,0.0],
           [0.95802,0.0,-0.286703],
-          [1624.37,64.0463,-538.333]
+          [1635.79,68.532,-849.574]
         ],
         "unit_class": "germ_stug_III_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "75mm_ger_kwk40_HEAT",
         "bullets1": "",
@@ -2079,7 +2213,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 16,
+          "count": 6,
           "formation_type": "cols",
           "formation_div": 3,
           "formation_step": [8.0,4.0],
@@ -2095,13 +2229,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1575.37,62.3877,-670.465]
+              [1578.38,62.3877,-892.036]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_02": {
@@ -2110,13 +2245,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1539.88,64.2363,-734.414]
+              [1506.43,64.2363,-892.259]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_03": {
@@ -2125,13 +2261,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1485.01,64.7602,-777.962]
+              [1480.68,64.7602,-890.919]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_04": {
@@ -2140,13 +2277,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1443.38,64.5761,-804.28]
+              [1460.06,64.5761,-890.666]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_05": {
@@ -2155,13 +2293,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1411.71,65.1389,-847.127]
+              [1421.21,65.1389,-890.334]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_06": {
@@ -2176,7 +2315,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_07": {
@@ -2191,7 +2331,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_08": {
@@ -2206,7 +2347,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_09": {
@@ -2221,7 +2363,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_10": {
@@ -2236,7 +2379,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_11": {
@@ -2251,7 +2395,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_12": {
@@ -2266,7 +2411,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_13": {
@@ -2281,7 +2427,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_14": {
@@ -2296,7 +2443,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_15": {
@@ -2311,7 +2459,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_16": {
@@ -2326,7 +2475,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_17": {
@@ -2341,7 +2491,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_18": {
@@ -2356,7 +2507,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_19": {
@@ -2371,7 +2523,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_20": {
@@ -2386,7 +2539,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_21": {
@@ -2401,7 +2555,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_22": {
@@ -2416,7 +2571,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_23": {
@@ -2431,7 +2587,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_24": {
@@ -2446,7 +2603,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_25": {
@@ -2461,7 +2619,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_26": {
@@ -2476,7 +2635,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_27": {
@@ -2491,7 +2651,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_28": {
@@ -2506,7 +2667,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_29": {
@@ -2521,7 +2683,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_30": {
@@ -2536,7 +2699,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_31": {
@@ -2551,7 +2715,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_32": {
@@ -2566,7 +2731,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_33": {
@@ -2581,7 +2747,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_34": {
@@ -2596,7 +2763,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_35": {
@@ -2611,7 +2779,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_36": {
@@ -2626,7 +2795,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_37": {
@@ -2641,7 +2811,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_38": {
@@ -2656,7 +2827,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_39": {
@@ -2671,7 +2843,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_40": {
@@ -2686,7 +2859,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_41": {
@@ -2701,7 +2875,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_42": {
@@ -2716,7 +2891,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_43": {
@@ -2731,7 +2907,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_44": {
@@ -2746,7 +2923,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_45": {
@@ -2761,7 +2939,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_46": {
@@ -2776,7 +2955,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_47": {
@@ -2791,7 +2971,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_48": {
@@ -2806,7 +2987,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_49": {
@@ -2821,7 +3003,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_50": {
@@ -2836,7 +3019,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_51": {
@@ -2851,7 +3035,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_52": {
@@ -2866,7 +3051,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_53": {
@@ -2881,7 +3067,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_54": {
@@ -2896,7 +3083,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_55": {
@@ -2911,7 +3099,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_56": {
@@ -2926,7 +3115,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_57": {
@@ -2941,7 +3131,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_58": {
@@ -2956,7 +3147,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_59": {
@@ -2971,7 +3163,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_60": {
@@ -2986,7 +3179,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_61": {
@@ -3001,7 +3195,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -3011,14 +3206,16 @@
       "tankModels": {
         "name": "tankModels_15",
         "tm": [
-          [0.0450292,0.0,0.998986],
+          [-1.0,0.0,0.000943374],
           [0.0,1.0,0.0],
-          [-0.998986,0.0,0.0450292],
-          [1540.33,64.0463,-1089.3]
+          [-0.000943374,0.0,-1.0],
+          [1640.36,66.5423,-914.757]
         ],
         "unit_class": "germ_stug_III_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "75mm_ger_kwk40_HEAT",
         "bullets1": "",
@@ -3030,7 +3227,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 16,
+          "count": 6,
           "formation_type": "cols",
           "formation_div": 3,
           "formation_step": [8.0,4.0],
@@ -3046,13 +3243,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1549.9,92.187,-935.959]
+              [1581.06,63.915,-892.523]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_02": {
@@ -3067,7 +3265,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_03": {
@@ -3082,7 +3281,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_04": {
@@ -3097,7 +3297,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_05": {
@@ -3112,7 +3313,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_06": {
@@ -3127,7 +3329,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_07": {
@@ -3142,7 +3345,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_08": {
@@ -3157,7 +3361,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_09": {
@@ -3172,7 +3377,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_10": {
@@ -3187,7 +3393,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_11": {
@@ -3202,7 +3409,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_12": {
@@ -3217,7 +3425,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_13": {
@@ -3232,7 +3441,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_14": {
@@ -3247,7 +3457,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_15": {
@@ -3262,7 +3473,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_16": {
@@ -3277,7 +3489,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_17": {
@@ -3292,7 +3505,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_18": {
@@ -3307,7 +3521,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_19": {
@@ -3322,7 +3537,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_20": {
@@ -3337,7 +3553,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_21": {
@@ -3352,7 +3569,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_22": {
@@ -3367,7 +3585,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_23": {
@@ -3382,7 +3601,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_24": {
@@ -3397,7 +3617,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_25": {
@@ -3412,7 +3633,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_26": {
@@ -3427,7 +3649,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_27": {
@@ -3442,7 +3665,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_28": {
@@ -3457,7 +3681,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_29": {
@@ -3472,7 +3697,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_30": {
@@ -3487,7 +3713,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_31": {
@@ -3502,7 +3729,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_32": {
@@ -3517,7 +3745,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_33": {
@@ -3532,7 +3761,8 @@
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_34": {
@@ -3547,7 +3777,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_35": {
@@ -3562,7 +3793,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_36": {
@@ -3577,7 +3809,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_37": {
@@ -3592,7 +3825,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_38": {
@@ -3607,7 +3841,8 @@
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -3621,7 +3856,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [528.304,41.1797,508.002]
+        [-1646.5,41.1787,1510.32]
       ],
       "objLayer": 0,
       "props": []
@@ -3673,10 +3908,10 @@
     "convoy_waypoint04": {
       "type": "Sphere",
       "tm": [
-        [6.32057,0.0,99.8],
+        [94.9255,0.0,31.4507],
         [0.0,100.0,0.0],
-        [-99.8,0.0,6.32057],
-        [-201.508,64.1099,844.814]
+        [-31.4507,0.0,94.9255],
+        [-66.3816,71.6878,881.655]
       ],
       "objLayer": 0,
       "props": []
@@ -3695,10 +3930,10 @@
     "convoy_waypoint00": {
       "type": "Sphere",
       "tm": [
-        [-16.5853,0.0,-98.6151],
+        [-48.1809,0.0,-87.6277],
         [0.0,100.0,0.0],
-        [98.6151,0.0,-16.5853],
-        [1646.35,60.3631,-499.155]
+        [87.6277,0.0,-48.1809],
+        [1649.79,58.2085,-519.22]
       ],
       "objLayer": 0,
       "props": []
@@ -3710,6 +3945,17 @@
         [0.0,100.0,0.0],
         [-99.8,0.0,6.32057],
         [-470.411,72.7733,1224.09]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "convoy_starting_point": {
+      "type": "Point",
+      "tm": [
+        [-0.999874,0.0,-0.0158966],
+        [0.0,1.0,0.0],
+        [0.0158966,0.0,-0.999874],
+        [1712.18,68.5425,-894.256]
       ],
       "objLayer": 0,
       "props": []

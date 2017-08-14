@@ -1,9 +1,17 @@
+enum PSN_SESSION_TYPE {
+  SKIRMISH = "skirmish"
+  SQUAD = "squad"
+}
+
 ::g_psn_session_invitations <- {
   existingSession = {}
   curSessionParams = {}
   lastUpdateTable = {}
-  existingSessionSkirmish = "skirmish"
-  existingSessionSquad = "squad"
+
+  sessionTypeToIndex = {
+    [PSN_SESSION_TYPE.SKIRMISH] = 0,
+    [PSN_SESSION_TYPE.SQUAD] = 1
+  }
 
   updateTimerLimit = 60000
   suspendedInvitationData = null
@@ -384,7 +392,7 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
 
   if (!isForUpdate)
   {
-    jsonRequest.append("\"index\": 0")
+    jsonRequest.append("\"index\": " + ::getTblValue(key, sessionTypeToIndex, -1))
     jsonRequest.append("\"sessionType\":\"owner-bind\"")
     jsonRequest.append("\"availablePlatforms\": [\"PS4\"]")
   }
@@ -394,7 +402,7 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
 
 function g_psn_session_invitations::sendSkirmishInvitation(userName)
 {
-  return sendInvitation(existingSessionSkirmish, userName)
+  return sendInvitation(PSN_SESSION_TYPE.SKIRMISH, userName)
 }
 
 function g_psn_session_invitations::sendSquadInvitation(userName)
@@ -411,7 +419,7 @@ function g_psn_session_invitations::sendSquadInvitation(userName)
   if (::g_squad_manager.isInvitedMaxPlayers())
     return ::g_popups.add(null, ::loc("squad/maximum_intitations_sent"))
 
-  return sendInvitation(existingSessionSquad, userName)
+  return sendInvitation(PSN_SESSION_TYPE.SQUAD, userName)
 }
 
 function g_psn_session_invitations::onEventLobbyStatusChange(params)
@@ -422,13 +430,13 @@ function g_psn_session_invitations::onEventLobbyStatusChange(params)
 
   if (::SessionLobby.isInRoom()) //because roomId is existed
   {
-    if (getSessionId(existingSessionSkirmish) != "" || ::SessionLobby.roomId == "")
+    if (getSessionId(PSN_SESSION_TYPE.SKIRMISH) != "" || ::SessionLobby.roomId == "")
       return
 
     if (::SessionLobby.isRoomOwner)
     {
-      sendCreateSession(existingSessionSkirmish,
-                        getJsonRequestForSession(existingSessionSkirmish,
+      sendCreateSession(PSN_SESSION_TYPE.SKIRMISH,
+                        getJsonRequestForSession(PSN_SESSION_TYPE.SKIRMISH,
                                                  getCurrentSessionInfo()),
                         "ui/images/reward27.jpg",
                         ::save_to_json({
@@ -436,13 +444,13 @@ function g_psn_session_invitations::onEventLobbyStatusChange(params)
                           inviterUid = ::my_user_id_str,
                           inviterName = ::my_user_name
                           password = ::SessionLobby.password
-                          key = existingSessionSkirmish
+                          key = PSN_SESSION_TYPE.SKIRMISH
                         })
                        )
     }
   }
   else
-    sendDestroySession(existingSessionSkirmish)
+    sendDestroySession(PSN_SESSION_TYPE.SKIRMISH)
 }
 
 function g_psn_session_invitations::onEventLobbySettingsChange(params)
@@ -450,10 +458,10 @@ function g_psn_session_invitations::onEventLobbySettingsChange(params)
   if (!::is_platform_ps4 || ::get_game_mode() != ::GM_SKIRMISH)
     return
 
-  if (isSessionParamsEqual(existingSessionSkirmish, getCurrentSessionInfo()))
+  if (isSessionParamsEqual(PSN_SESSION_TYPE.SKIRMISH, getCurrentSessionInfo()))
     return
 
-  updateExistedSessionInfo(existingSessionSkirmish, getCurrentSessionInfo())
+  updateExistedSessionInfo(PSN_SESSION_TYPE.SKIRMISH, getCurrentSessionInfo())
 }
 
 function g_psn_session_invitations::onEventSquadStatusChanged(params)
@@ -463,20 +471,20 @@ function g_psn_session_invitations::onEventSquadStatusChanged(params)
 
   if (::g_squad_manager.isInSquad() && ::g_squad_manager.canInviteMember())
   {
-    if (getSessionId(existingSessionSquad) != "")
+    if (getSessionId(PSN_SESSION_TYPE.SQUAD) != "")
       return
 
-    sendCreateSession(existingSessionSquad,
-                      getJsonRequestForSession(existingSessionSquad,
+    sendCreateSession(PSN_SESSION_TYPE.SQUAD,
+                      getJsonRequestForSession(PSN_SESSION_TYPE.SQUAD,
                                                getCurrentSquadInfo()),
                       "ui/images/reward05.jpg",
                       ::save_to_json({
                         squadId = ::g_squad_manager.getLeaderUid()
-                        key = existingSessionSquad
+                        key = PSN_SESSION_TYPE.SQUAD
                       }))
   }
   else if (!::g_squad_manager.isInSquad())
-    sendDestroySession(existingSessionSquad)
+    sendDestroySession(PSN_SESSION_TYPE.SQUAD)
 }
 
 function g_psn_session_invitations::checkReceievedInvitation()
@@ -511,9 +519,9 @@ function g_psn_session_invitations::onReceiveInvite(invitationData = null)
 
   sessionData = ::u.extend(sessionData, invitationData)
 
-  if (sessionData.key == existingSessionSkirmish)
+  if (sessionData.key == PSN_SESSION_TYPE.SKIRMISH)
     ::g_invites.addPsnSessionRoomInvite(sessionData)
-  else if (sessionData.key == existingSessionSquad)
+  else if (sessionData.key == PSN_SESSION_TYPE.SQUAD)
     ::g_invites.addPsnSquadInvite(sessionData)
 }
 

@@ -332,6 +332,20 @@
           }
         },
         {
+          "varSetReal": {
+            "value": 58000.0,
+            "var": "bda_distance_to_target",
+            "fromDescriptor": "aiBombersDistanceToTarget"
+          }
+        },
+        {
+          "varSetReal": {
+            "value": 58000.0,
+            "var": "bdb_distance_to_target",
+            "fromDescriptor": "aiBombersDistanceToTarget"
+          }
+        },
+        {
           "unitPutToSleep": [
             {
               "target": "t1_ai_bombers"
@@ -342,8 +356,425 @@
           ]
         },
         {
+          "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object": "dummy_teleport_helper"
+            },
+            {
+              "object": "t1_ai_bombers_spawnpoint"
+            },
+            {
+              "object": "t2_ai_bombers_spawnpoint"
+            },
+            {
+              "targetableByAi": false
+            },
+            {
+              "isImmortal": true
+            },
+            {
+              "movable": true
+            }
+          ]
+        },
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "t1_retreat_point",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "t1_ai_bombers_spawnpoint",
+            "move_type": "teleport",
+            "lookat": "t1_ai_bombers"
+          }
+        },
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "t1_retreat_point",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "dummy_teleport_helper",
+            "move_type": "teleport",
+            "lookat": "t1_ai_bombers"
+          }
+        },
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "t2_retreat_point",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "t2_ai_bombers_spawnpoint",
+            "move_type": "teleport",
+            "lookat": "t2_ai_bombers"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bda_template_set_bombers_spawn"
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "barabashka_init"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "bda_template_set_bombers_spawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 0.0,
+          "math": "3D",
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "t1_ai_bombers_spawnpoint",
+          "target": "t1_retreat_point",
+          "var": "bda_distance_to_target"
+        }
+      },
+      "actions": [
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "t1_ai_bombers_spawnpoint",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "dummy_teleport_helper",
+            "move_type": "teleport",
+            "teleportOffset": [1000.0,0.0,0.0]
+          }
+        },
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "dummy_teleport_helper",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "t1_ai_bombers_spawnpoint",
+            "move_type": "teleport",
+            "teleportOffset": [1000.0,0.0,0.0]
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "t1_ai_bombers_spawnpoint",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "t1_ai_bombers",
+            "move_type": "teleport",
+            "lookat": "t1_retreat_point"
+          }
+        },
+        {
+          "unitPutToSleep": {
+            "target": "t1_ai_bombers_spawnpoint"
+          }
+        },
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "t2_retreat_point",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "dummy_teleport_helper",
+            "move_type": "teleport",
+            "lookat": "t2_ai_bombers"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bdb_template_set_bombers_spawn"
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "bda_template_set_bombers_spawn"
+          }
+        }
+      ]
+    },
+    "bdb_template_set_bombers_spawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 0.0,
+          "math": "3D",
+          "object_type": "isAlive",
+          "object_marking": 0,
+          "target_type": "isAlive",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "t2_ai_bombers_spawnpoint",
+          "target": "t2_retreat_point",
+          "var": "bdb_distance_to_target"
+        }
+      },
+      "actions": [
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "t2_ai_bombers_spawnpoint",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "dummy_teleport_helper",
+            "move_type": "teleport",
+            "teleportOffset": [1000.0,0.0,0.0]
+          }
+        },
+        {
+          "unitMoveTo": {
+            "object_marking": 0,
+            "target": "dummy_teleport_helper",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object": "t2_ai_bombers_spawnpoint",
+            "move_type": "teleport",
+            "teleportOffset": [1000.0,0.0,0.0]
+          }
+        }
+      ],
+      "else_actions": {
+        "unitMoveTo": {
+          "object_marking": 0,
+          "target": "t2_ai_bombers_spawnpoint",
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object": "t2_ai_bombers",
+          "move_type": "teleport",
+          "lookat": "retreat_point"
+        },
+        "unitPutToSleep": [
+          {
+            "target": "dummy_teleport_helper"
+          },
+          {
+            "target": "t2_ai_bombers_spawnpoint"
+          }
+        ],
+        "triggerEnable": {
+          "target": "mdb_template_check_t1_min_count"
+        },
+        "triggerDisable": {
+          "target": "bdb_template_set_bombers_spawn"
+        }
+      }
+    },
+    "mdb_template_check_t1_min_count": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "bda_ai_max_count",
+          "value": 1,
+          "comparasion_func": "less"
+        }
+      },
+      "actions": {
+        "varSetInt": {
+          "value": 12,
+          "var": "bda_ai_max_count"
+        },
+        "triggerEnable": {
+          "target": "mdb_template_check_t2_min_count"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "mdb_template_check_t2_min_count"
+        }
+      }
+    },
+    "mdb_template_check_t2_min_count": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "bdb_ai_max_count",
+          "value": 1,
+          "comparasion_func": "less"
+        }
+      },
+      "actions": {
+        "varSetInt": {
+          "value": 12,
+          "var": "bdb_ai_max_count"
+        },
+        "triggerEnable": {
+          "target": "mdb_template_bombers_start"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "mdb_template_bombers_start"
+        }
+      }
+    },
+    "mdb_template_bombers_start": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "bda_bombers_count",
+            "input_var": "bda_ai_max_count"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 0,
+            "var": "bdb_bombers_count",
+            "input_var": "bdb_ai_max_count"
+          }
+        },
+        {
+          "unitWakeUp": {
+            "target": "t1_ai_bombers",
+            "varNameNumToWakeUp": "bda_ai_max_count"
+          }
+        },
+        {
+          "unitWakeUp": {
+            "target": "t2_ai_bombers",
+            "varNameNumToWakeUp": "bdb_ai_max_count",
+            "order": "fromStart"
+          }
+        },
+        {
           "comment": {
-            "value": "спавны у врага"
+            "value": "случайные спавны"
           }
         },
         {
@@ -457,6 +888,11 @@
           ]
         },
         {
+          "comment": {
+            "value": "спавны"
+          }
+        },
+        {
           "missionMarkAsRespawnPoint": {
             "loc_name": "missions/enemy_bombers_spawn",
             "spawnEffect": false,
@@ -495,11 +931,6 @@
           }
         },
         {
-          "comment": {
-            "value": "начальные спавны"
-          }
-        },
-        {
           "missionMarkAsRespawnPoint": {
             "loc_name": "missions/friendly_bombers_spawn",
             "spawnEffect": false,
@@ -535,140 +966,6 @@
             "target": "t2_ai_bombers",
             "team": "B",
             "backupZone": "t2_main_air_spawn"
-          }
-        },
-        {
-          "comment": {
-            "value": ""
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "mdb_template_check_t1_min_count"
-          }
-        },
-        {
-          "comment": {
-            "value": ""
-          }
-        },
-        {
-          "triggerDisable": {
-            "target": "barabashka_init"
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "mdb_template_check_t1_min_count": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": {
-        "varCompareInt": {
-          "var_value": "bda_ai_max_count",
-          "value": 1,
-          "comparasion_func": "less"
-        }
-      },
-      "actions": {
-        "varSetInt": {
-          "value": 12,
-          "var": "bda_ai_max_count"
-        },
-        "triggerEnable": {
-          "target": "mdb_template_check_t2_min_count"
-        }
-      },
-      "else_actions": {
-        "triggerEnable": {
-          "target": "mdb_template_check_t2_min_count"
-        }
-      }
-    },
-    "mdb_template_check_t2_min_count": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": {
-        "varCompareInt": {
-          "var_value": "bdb_ai_max_count",
-          "value": 1,
-          "comparasion_func": "less"
-        }
-      },
-      "actions": {
-        "varSetInt": {
-          "value": 12,
-          "var": "bdb_ai_max_count"
-        },
-        "triggerEnable": {
-          "target": "mdb_template_bombers_start"
-        }
-      },
-      "else_actions": {
-        "triggerEnable": {
-          "target": "mdb_template_bombers_start"
-        }
-      }
-    },
-    "mdb_template_bombers_start": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "varSetInt": {
-            "value": 0,
-            "var": "bda_bombers_count",
-            "input_var": "bda_ai_max_count"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 0,
-            "var": "bdb_bombers_count",
-            "input_var": "bdb_ai_max_count"
-          }
-        },
-        {
-          "unitWakeUp": {
-            "target": "t1_ai_bombers",
-            "varNameNumToWakeUp": "bda_ai_max_count"
-          }
-        },
-        {
-          "unitWakeUp": {
-            "target": "t2_ai_bombers",
-            "varNameNumToWakeUp": "bdb_ai_max_count",
-            "order": "fromStart"
-          }
-        },
-        {
-          "comment": {
-            "value": ""
           }
         },
         {
@@ -767,6 +1064,9 @@
               "set": true
             },
             {
+              "target_marking": 0
+            },
+            {
               "target": "t1_ai_bombers"
             },
             {
@@ -818,6 +1118,9 @@
               "set": true
             },
             {
+              "target_marking": 0
+            },
+            {
               "target": "t1_ai_bombers"
             },
             {
@@ -827,19 +1130,35 @@
         },
         {
           "missionShowMapIcon": {
-            "areaName": "t1_retreat_point",
             "show": true,
             "iconName": "ui/gameuiskin#close",
+            "areaName": "t1_retreat_point",
             "colorCode": "Team A"
           }
         },
         {
           "missionShowMapIcon": {
-            "areaName": "t2_retreat_point",
             "show": true,
             "iconName": "ui/gameuiskin#close",
+            "areaName": "t2_retreat_point",
             "colorCode": "Team B"
           }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "mdb_template_t1_bombers_to_end_point"
+            },
+            {
+              "target": "mdb_template_t2_bombers_to_end_point"
+            },
+            {
+              "target": "mdb_template_t1_bombers_killed"
+            },
+            {
+              "target": "mdb_template_t2_bombers_killed"
+            }
+          ]
         },
         {
           "triggerEnable": [
@@ -896,7 +1215,7 @@
       "else_actions": []
     },
     "mdb_template_t1_bombers_to_end_point": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -953,7 +1272,7 @@
       "else_actions": []
     },
     "mdb_template_t1_bombers_killed": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -1163,7 +1482,7 @@
       "else_actions": []
     },
     "mdb_template_t2_bombers_to_end_point": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -1220,7 +1539,7 @@
       "else_actions": []
     },
     "mdb_template_t2_bombers_killed": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -1312,6 +1631,7 @@
           "isOverFade": false,
           "time": -1.0,
           "priority": 0,
+          "target_marking": 0,
           "item": "",
           "shouldBlink": true
         }
@@ -1405,12 +1725,129 @@
     "bda_bombers_count": 0,
     "bda_tickets_for_1_kill": -100,
     "bdb_bombers_count": 0,
-    "bdb_tickets_for_1_kill": -100
+    "bdb_tickets_for_1_kill": -100,
+    "bda_distance_to_target": 0.0,
+    "bdb_distance_to_target": 0.0
   },
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [],
+  "units": [
+    {
+      "structures": {
+        "name": "dummy_teleport_helper",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2070.6,4000.0,2669.79]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": -1.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "t1_ai_bombers_spawnpoint",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1970.18,4000.0,2667.76]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": -1.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "t2_ai_bombers_spawnpoint",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1970.18,4000.0,2667.76]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "stealthRadius": -1.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    }
+  ],
   "areas": [],
   "objLayers": [
     {

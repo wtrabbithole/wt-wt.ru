@@ -30,19 +30,62 @@
     "position": "root",
     "not-input-transparent": "yes",
     "flow": "vertical",
-    "invites_widget_background": {
-      "id": "invites_list",
-      "flow": "h-flow",
-      "behavior": "posNavigator",
-      "navigatorShortcuts": "yes",
-      "childsActivate": "yes"
-    },
+    "frame": [
+      {
+        "type": "dark"
+      },
+      {
+        "div": {
+          "id": "options_block",
+          "width": "0.35@sf",
+          "padding-bottom": "1@blockInterval",
+          "flow": "vertical",
+          "activeText": {
+            "pos": "50%pw - 50%w, 0",
+            "position": "relative",
+            "text": "#options/squadSize",
+            "text-align": "center"
+          },
+          "ComboBox": {
+            "id": "squad_size_option",
+            "size": "pw, @buttonHeight",
+            "btnName": "X",
+            "on_select": "onSquadSizeChange"
+          },
+          "textAreaCentered": {
+            "width": "pw",
+            "pos": "50%pw - 50%w, 0",
+            "position": "relative",
+            "tinyFont": "yes",
+            "text": "#guiHints/squadSize"
+          }
+        }
+      },
+      {
+        "activeText": {
+          "pos": "50%pw - 50%w, 0",
+          "position": "relative",
+          "text": "#squad/invitedPlayers",
+          "text-align": "center",
+          "margin": "0.01@sf, 0"
+        }
+      },
+      {
+        "div": {
+          "id": "invites_list",
+          "pos": "50%pw-50%w, 0",
+          "position": "relative",
+          "flow": "h-flow",
+          "flow-align": "center",
+          "behavior": "posNavigator",
+          "navigatorShortcuts": "active",
+          "childsActivate": "yes",
+          "on_activate": "onInviteMemberMenu"
+        }
+      }
+    ],
     "popup_menu_arrow": {
       "align": "bottom"
-    },
-    "DummyButton": {
-      "btnName": "A",
-      "on_click": "onInviteMemberMenu"
     }
   }
 }

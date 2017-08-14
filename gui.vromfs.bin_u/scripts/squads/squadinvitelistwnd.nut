@@ -1,4 +1,4 @@
-class ::gui_handlers.SquadWidgetInviteListCustomHandler extends ::gui_handlers.BaseGuiHandlerWT
+class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType             = handlerType.MODAL
   sceneBlkName        = "gui/squads/squadInvites.blk"
@@ -10,17 +10,41 @@ class ::gui_handlers.SquadWidgetInviteListCustomHandler extends ::gui_handlers.B
   align = "top"
   alignObj = null
 
-  function initScreen()
+  optionsObj = null
+
+  static function open(alignObj)
   {
-    updateView()
+    if (!canOpen())
+      return null
+
+    if (!::checkObj(alignObj))
+      return null
+
+    local params = {
+      alignObj = alignObj
+    }
+
+    return ::handlersManager.loadHandler(::gui_handlers.squadInviteListWnd, params)
   }
 
-  function updateView()
+  static function canOpen()
+  {
+    return ::has_feature("Squad") && ::has_feature("SquadWidget")
+      && ::g_squad_manager.isInSquad()
+      && (::g_squad_manager.canChangeSquadSize() || ::g_squad_manager.getInvitedPlayers().len() > 0)
+  }
+
+  function initScreen()
+  {
+    optionsObj = scene.findObject("options_block")
+
+    updateSquadSizeOption()
+    updateInviteesList()
+  }
+
+  function updateInviteesList()
   {
     local invitedPlayers = ::g_squad_manager.getInvitedPlayers()
-    if (invitedPlayers.len() == 0)
-      return goBack()
-
     local listObj = scene.findObject(INVITE_LIST_OBJ_ID)
     local viewData = getMembersViewData()
     local viewBlk = ::handyman.renderCached(inviteListTplName, viewData)
@@ -53,17 +77,36 @@ class ::gui_handlers.SquadWidgetInviteListCustomHandler extends ::gui_handlers.B
     return { items = items }
   }
 
+  function updateSquadSizeOption()
+  {
+    local isAvailable = ::g_squad_manager.canChangeSquadSize()
+    optionsObj.show(isAvailable)
+    optionsObj.enable(isAvailable)
+    if (!isAvailable)
+      return
+
+    local sizes = ::u.map(::g_squad_manager.squadSizesList,
+      @(s) s.value + ::loc("ui/comma") + ::loc("squadSize/" + s.name))
+    local curValue = ::g_squad_manager.maxSquadSize
+    local curIdx = ::u.searchIndex(::g_squad_manager.squadSizesList, @(s) s.value == curValue, 0)
+
+    local optionObj = scene.findObject("squad_size_option")
+    local markup = ::create_option_combobox("", sizes, curIdx, null, false)
+    guiScene.replaceContentFromText(optionObj, markup, markup.len(), this)
+    optionObj.setValue(curIdx)
+  }
+
   function updateSize()
   {
     local listObj = scene.findObject(INVITE_LIST_OBJ_ID)
     if (!::checkObj(listObj))
       return
 
-    local invites = ::g_squad_manager.getInvitedPlayers()
-    local rows = (::sqrt(invites.len()) + 0.5).tointeger() || 1
-    local columns = ::ceil(invites.len().tofloat() / rows.tofloat())
+    local total = ::g_squad_manager.getInvitedPlayers().len() || 1
+    local rows = total <= 5 ? 1 : 2
+    local columns = ::ceil(total.tofloat() / rows.tofloat())
 
-    local sizeFormat = "%d@mIco + 2@framePadding"
+    local sizeFormat = "%d@mIco"
     listObj.width = ::format(sizeFormat, columns)
     listObj.height = ::format(sizeFormat, rows)
   }
@@ -114,9 +157,16 @@ class ::gui_handlers.SquadWidgetInviteListCustomHandler extends ::gui_handlers.B
     ::g_squad_utils.showMemberMenu(obj)
   }
 
+  function onSquadSizeChange(obj)
+  {
+    local idx = obj.getValue()
+    if (idx in ::g_squad_manager.squadSizesList)
+      ::g_squad_manager.setSquadSize(::g_squad_manager.squadSizesList[idx].value)
+  }
+
   /**event handlers**/
   function onEventSquadInvitesChanged(params)
   {
-    doWhenActiveOnce("updateView")
+    doWhenActiveOnce("updateInviteesList")
   }
 }

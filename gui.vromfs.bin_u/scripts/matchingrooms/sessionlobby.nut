@@ -1502,9 +1502,9 @@ function SessionLobby::leaveRoom()
     return
   }
 
-  if (roomId!="")
-    ::leave_room({ roomId = roomId }, function(p) {})
-  ::SessionLobby.afterLeaveRoom({})
+  ::leave_room({}, function(p) {
+      ::SessionLobby.afterLeaveRoom({})
+   })
 }
 
 function SessionLobby::checkLeaveRoomInDebriefing()
@@ -1737,6 +1737,13 @@ function SessionLobby::isMemberOperator(member)
 
 function SessionLobby::invitePlayer(uid)
 {
+  if (typeof(roomId) != "integer") // we are not in room. nothere to invite
+  {
+    local is_in_room = isInRoom()
+    ::script_net_assert("trying to invite into room without roomId")
+    return
+  }
+
   ::invite_player_to_room({ roomId = roomId, userId = uid}, function(p) { ::checkMatchingError(p, false) })
 }
 

@@ -175,18 +175,18 @@
     },
     {
       "event": {
-        "name": "ID_SHIP_WEAPON_TORPEDOES",
+        "name": "ID_SHIP_WEAPON_PRIMARY",
         "shortcut": [
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 8
+              "buttonId": 16
             }
           },
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 17
+              "buttonId": 0
             }
           }
         ]
@@ -194,18 +194,37 @@
     },
     {
       "event": {
-        "name": "ID_SHIP_TORPEDO_SIGHT",
+        "name": "ID_SHIP_WEAPON_SECONDARY",
         "shortcut": [
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 8
+              "buttonId": 16
             }
           },
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 9
+              "buttonId": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SHIP_WEAPON_MACHINEGUN",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 16
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 2
             }
           }
         ]
@@ -270,18 +289,18 @@
     },
     {
       "event": {
-        "name": "ID_SHIP_WEAPON_PRIMARY",
+        "name": "ID_SHIP_WEAPON_TORPEDOES",
         "shortcut": [
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 16
+              "buttonId": 8
             }
           },
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 0
+              "buttonId": 17
             }
           }
         ]
@@ -289,37 +308,18 @@
     },
     {
       "event": {
-        "name": "ID_SHIP_WEAPON_SECONDARY",
+        "name": "ID_SHIP_TORPEDO_SIGHT",
         "shortcut": [
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 16
+              "buttonId": 8
             }
           },
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 1
-            }
-          }
-        ]
-      }
-    },
-    {
-      "event": {
-        "name": "ID_SHIP_WEAPON_MACHINEGUN",
-        "shortcut": [
-          {
-            "button": {
-              "deviceId": 3,
-              "buttonId": 16
-            }
-          },
-          {
-            "button": {
-              "deviceId": 3,
-              "buttonId": 2
+              "buttonId": 9
             }
           }
         ]
@@ -332,7 +332,7 @@
           {
             "button": {
               "deviceId": 3,
-              "buttonId": 16
+              "buttonId": 8
             }
           },
           {
@@ -346,13 +346,40 @@
     },
     {
       "event": {
-        "name": "ID_SHIP_SMOKE",
-        "shortcut": {
-          "button": {
-            "deviceId": 3,
-            "buttonId": 34
+        "name": "ID_SHIP_SELECT_TARGET_AI_SEC",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 8
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 1
+            }
           }
-        }
+        ]
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SHIP_SELECT_TARGET_AI_MGUN",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 8
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 2
+            }
+          }
+        ]
       }
     },
     {
@@ -408,6 +435,25 @@
             "buttonId": 9
           }
         }
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SHIP_SMOKE",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 16
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 12
+            }
+          }
+        ]
       }
     },
     {
@@ -2444,6 +2490,18 @@
         "relSens": 0.01,
         "relStep": 0.0,
         "relative": false
+      },
+      "gm_sight_distance": {
+        "relative": true,
+        "relSens": 0.04
+      },
+      "ship_sight_distance": {
+        "relative": true,
+        "relSens": 0.09
+      },
+      "ship_shoot_direction": {
+        "relative": true,
+        "relSens": 0.09
       },
       "ailerons": {
         "axisId": 0,

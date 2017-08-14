@@ -180,6 +180,21 @@
     isControlsCommitPerformed = false
   }
 
+  function setDefaultRelativeAxes()
+  {
+    if (!("shortcutsList" in ::getroottable()))
+      return
+
+    foreach (shortcut in ::shortcutsList)
+      if (shortcut.type == CONTROL_TYPE.AXIS &&
+        ::getTblValue("def_relative", shortcut) && ::getTblValue("isAbsOnlyWhenRealAxis", shortcut))
+      {
+        local axis = curPreset.getAxis(shortcut.id)
+        if (axis.axisId == -1)
+          axis.relative = true
+      }
+  }
+
   function fixControls()
   {
     foreach (fixData in fixesList)
@@ -200,6 +215,7 @@
       if (!("condition" in shortcutsGroup) || shortcutsGroup.condition())
         foreach (shortcut in shortcutsGroup.list)
           curPreset.removeHotkeyShortcut(shortcut.name, shortcut.combo)
+    setDefaultRelativeAxes()
   }
 
   function restoreHardcodedKeys(maxShortcutCombinations)

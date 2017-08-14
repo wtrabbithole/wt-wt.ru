@@ -1,23 +1,25 @@
 {
   "hitCamDebuff": {
-    "id": "ship_buoyancy",
+    "id": "ship_crew",
+    "state": "healthy",
     "pos": "0, 0",
     "position": "relative",
-    "state": "healthy",
     "hitCamDebuffIcon": {
-      "size": "1.7@cIco, 0.37@cIco",
-      "pos": "0, ph/2-h/2",
+      "size": "1@cIco, 1@cIco",
+      "pos": "0.15@cIco, ph/2-h/2",
       "position": "relative",
-      "background-image": "#ui/gameuiskin#buoyancy_icon"
+      "background-image": "#ui/gameuiskin#ship_crew"
     },
     "hitCamDebuffLabel": {
       "id": "label",
+      "pos": "0.15@cIco, 0",
+      "position": "relative",
       "text": "100%"
     }
   },
   "tdiv": [
     {
-      "pos": "pw-w-0.25@cIco, 0"
+      "pos": "pw-w-0.3@cIco, 0"
     },
     {
       "position": "absolute"
@@ -40,18 +42,16 @@
     },
     {
       "hitCamDebuff": {
-        "id": "ship_crew",
+        "id": "ship_buoyancy",
         "state": "healthy",
         "hitCamDebuffIcon": {
-          "size": "1@cIco, 1@cIco",
+          "size": "1.7@cIco, 0.37@cIco",
           "pos": "1@cIco, ph/2-h/2",
           "position": "relative",
-          "background-image": "#ui/gameuiskin#ship_crew"
+          "background-image": "#ui/gameuiskin#buoyancy_icon"
         },
         "hitCamDebuffLabel": {
           "id": "label",
-          "pos": "0.25@cIco, 0",
-          "position": "relative",
           "text": "100%"
         }
       }

@@ -288,6 +288,10 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
     }
     requestBuy = ::g_wb_award_type._requestBuyByAmount
     getBoughtCount = ::g_wb_award_type._getBoughtCountByAmount
+  },
+
+  [::EWBAT_BATTLE_TASK] = {
+    getBoughtCount = ::g_wb_award_type._getBoughtCountByName
   }
 }
 null, "id")

@@ -47,6 +47,11 @@ class DataBlockAdapter
     return val
   }
 
+  function _in(key)
+  {
+    return (key in ___originData___) ? true : null
+  }
+
   function _get(key)
   {
     if (!(key in ___originData___))

@@ -19,14 +19,17 @@ activateTab:pushed, activateTab[chosen=yes] {
 }
 
 tabText {
-  re-type:text;
+  re-type:textarea;
+  behavior:textarea;
   font:@small;
   color:@commonTextColor;
   text-align:left;
+  word-wrap:no;
 }
 
 activateTab > tabText {
-  height:ph;
+  top:50%ph-50%h;
+  position:relative;
 }
 
 activateTab:hover > tabText {

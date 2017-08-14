@@ -933,7 +933,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("multiplayer/invite_to_session")
         show = ::SessionLobby.canInvitePlayer(curPlayer.uid)
         action = function () {
-          if (::isPlayerPS4Friend(curPlayer.name))
+          if (::is_psn_player_use_same_titleId(curPlayer.name))
             ::g_psn_session_invitations.sendSkirmishInvitation(curPlayer.name)
           else
             ::SessionLobby.invitePlayer(curPlayer.uid)
@@ -1143,7 +1143,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (curPlayer == null)
       ::g_popups.add("", ::loc("msgbox/noChosenPlayer"))
-    else if (::isPlayerPS4Friend(curPlayer.name))
+    else if (::is_psn_player_use_same_titleId(curPlayer.name))
       ::g_psn_session_invitations.sendSquadInvitation(curPlayer.name)
     else
       ::g_squad_manager.inviteToSquad(curPlayer.uid)

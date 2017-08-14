@@ -456,4 +456,19 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   }
 
   get_warbond_balance = function(wbName)  {return 0}
+
+
+  push_message = function (message) {}
+  push_new_mode_type = function (modeId) {}
+  push_new_input_string = function (str) {}
+  clear_chat_log = function () {}
+})
+
+//----------------------------wop_1_69_4_X---------------------------------//
+::apply_compatibilities({
+  send_error_log = function(msg, production_only, db)
+  {
+  }
+  EWBAT_BATTLE_TASK = 8
+  WT_APPID = 1067
 })

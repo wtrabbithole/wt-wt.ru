@@ -84,12 +84,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
         hud_ship_damage_indicator = "@sizeDamageIndicatorFull"
         xray_render_dmg_indicator = "@sizeDamageIndicator"
       }
-      onChangedFunc = function(obj) {
-        local offset = 0
-        if (::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.DMG_PANEL))
-          offset = obj.getPosRC()[0] + obj.getSize()[0]
-        ::hud_set_progress_left_margin(offset)
-      }
+      onChangedFunc = @(obj) ::g_hud_event_manager.onHudEvent("DamageIndicatorSizeChanged")
     },
     [::USEROPT_TACTICAL_MAP_SIZE] = {
       objectsToScale = {
@@ -404,6 +399,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       obj.size = ::format("%.3f*%s, %.3f*%s", size, cssConst, size, cssConst)
+      guiScene.applyPendingChanges(false)
+
       if (optionNum == ::USEROPT_TACTICAL_MAP_SIZE)
         curTacticalMapObj = obj
 
@@ -506,10 +503,13 @@ class HudAir extends ::gui_handlers.BaseUnitHud
   function initScreen()
   {
     updateTacticalMapVisibility()
-    updateMissionProgressOffset()
+    updateDmgIndicatorVisibility()
 
     ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
-      function(ed) { updateMissionProgressOffset() },
+      function(ed) { updateDmgIndicatorVisibility() },
+      this)
+    ::g_hud_event_manager.subscribe("DamageIndicatorSizeChanged",
+      function(ed) { updateDmgIndicatorVisibility() },
       this)
     ::g_hud_event_manager.subscribe("LiveStatsVisibilityToggled",
       function(ed) { updateMissionProgressOffset() },
@@ -519,7 +519,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
   function reinitScreen(params = {})
   {
     updateTacticalMapVisibility()
-    updateMissionProgressOffset()
+    updateDmgIndicatorVisibility()
   }
 
   function updateTacticalMapVisibility()
@@ -529,25 +529,52 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     showSceneBtn("hud_air_tactical_map", isVisible)
   }
 
-  _isMissionProgressShifted = null
+  function updateDmgIndicatorVisibility()
+  {
+    updateMissionProgressOffset()
+    updateChatOffset()
+  }
+
+  _missionProgressOffset = -1
   function updateMissionProgressOffset()
   {
     local isVisibleByParts = is_dmg_indicator_visible()
     local isShifted = isVisibleByParts
                       && ::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.MAP)
                       && !::g_hud_live_stats.isVisible()
-    if (isShifted == _isMissionProgressShifted)
-      return
-
-    _isMissionProgressShifted = isShifted
 
     local damageIndicatorObj = scene.findObject("xray_render_dmg_indicator")
-    if (!::checkObj(damageIndicatorObj))
-      return
-    local offset = isShifted ?
-      damageIndicatorObj.getSize()[0] + damageIndicatorObj.getPosRC()[0] + 25 :
+    local offset = ::check_obj(damageIndicatorObj) && isShifted ?
+      damageIndicatorObj.getSize()[0] + damageIndicatorObj.getPosRC()[0] + guiScene.calcString("1@hudMisObjIconsSize", null) :
       0
+
+    if (_missionProgressOffset == offset)
+      return
+
     ::hud_set_progress_left_margin(offset)
+    _missionProgressOffset = offset
+  }
+
+  _chatOffset = -1
+  function updateChatOffset()
+  {
+    local chatObj = scene.findObject("chatPlace")
+    if (!::check_obj(chatObj))
+      return
+
+    local offset = 0
+    if (::is_dmg_indicator_visible())
+    {
+      local dmgIndObj = scene.findObject("xray_render_dmg_indicator")
+      if (::check_obj(dmgIndObj))
+        offset = guiScene.calcString("sh - 1@bhHud - 1@hudMisObjIconsSize", null) - dmgIndObj.getPosRC()[1]
+    }
+
+    if (_chatOffset == offset)
+      return
+
+    chatObj["margin-bottom"] = offset.tostring()
+    _chatOffset = offset
   }
 }
 

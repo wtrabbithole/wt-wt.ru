@@ -69,6 +69,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "MetaPartsBlk": "gameData/units/ships/dm/destroyer_metaparts.blk"
+  },
+  {
     "type": "typeDestroyer"
   },
   {
@@ -2901,46 +2904,6 @@
         "role": "sailor",
         "crew": 2
       }
-    }
-  },
-  {
-    "MetaParts": {
-      "engine_room1": {
-        "part": "engine_room_01_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 4000.0,
-          "kill": true,
-          "killEffect": "expl"
-        }
-      },
-      "engine_room2": {
-        "part": "engine_room_02_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 4000.0,
-          "kill": true,
-          "killEffect": "expl"
-        }
-      },
-      "ammo": [
-        {
-          "part": "ammunition_storage_01_dm"
-        },
-        {
-          "part": "ammunition_storage_02_dm"
-        },
-        {
-          "part": "ammunition_storage_03_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 1,
-            "kill": true,
-            "killEffect": "expl"
-          }
-        }
-      ]
     }
   },
   {
@@ -6882,11 +6845,11 @@
       "waterMassVel": -50000.0,
       "waterMassMult": 50.0,
       "sizeToRepair": [0.01,2.0,15.0,1500.0],
-      "additionalWaterDeathThreshold": 7500000.0,
-      "additionalWaterShouldDiePercent": 0.4,
-      "fatalBreachDrownTime": 35.0,
-      "maxHeelingAngle": 40.0,
-      "maxHeelingTime": 10.0,
+      "additionalWaterDeathThreshold": 9000000.0,
+      "additionalWaterShouldDiePercent": 0.45,
+      "fatalBreachDrownTime": 33.0,
+      "maxHeelingAngle": 35.0,
+      "maxHeelingTime": 7.0,
       "criticalHeelingAnglePercent": 0.5,
       "maxCriticalHeelingTime": 2.0,
       "heelingDeathHeightOffsetMult": 1.0,
@@ -6898,7 +6861,7 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 1.0,
+          "weight": 0.5,
           "maxWaterAlive": 1.0
         }
       },
@@ -6919,28 +6882,28 @@
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 1.0,
+          "weight": 0.8,
           "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_05_dm",
-          "weight": 1.0,
+          "weight": 0.5,
           "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_06_dm",
-          "weight": 1.0,
+          "weight": 0.7,
           "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_07_dm",
-          "weight": 1.0,
+          "weight": 0.3,
           "maxWaterAlive": 1.0
         }
       }
