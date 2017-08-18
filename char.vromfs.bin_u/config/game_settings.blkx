@@ -615,9 +615,17 @@
     "worldWarMaster": {
       "condition": "role_WW_MASTER"
     },
-    "worldWarShowTestMaps": {
-      "condition": "role_DEVELOPER"
-    },
+    "worldWarShowTestMaps": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
     "WorldWarClansQueue": [
       {
         "condition": "role_GAIJIN"
@@ -1207,6 +1215,9 @@
       },
       {
         "condition": "ship_event_tiket_access"
+      },
+      {
+        "condition": "ship_event_invite_access"
       },
       {
         "reqPack": "pkg_ships"

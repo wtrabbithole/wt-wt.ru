@@ -12,6 +12,7 @@ enum TOP_MENU_ELEMENT_TYPE {
   }
 
   template = {
+    id = ""
     text = ""
     image = null
     link = null
@@ -287,7 +288,11 @@ enum TOP_MENU_ELEMENT_TYPE {
   LINE_SEPARATOR = {
     elementType = TOP_MENU_ELEMENT_TYPE.LINE_SEPARATOR
   }
-}, null, "id")
+},
+function() {
+  id = typeName.tolower()
+},
+"typeName")
 
 function g_top_menu_buttons::getTypeById(id)
 {

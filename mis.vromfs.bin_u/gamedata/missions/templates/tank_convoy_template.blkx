@@ -254,6 +254,13 @@
           }
         },
         {
+          "varSetInt": {
+            "value": 0,
+            "var": "convoy_kill_penalty",
+            "source_var": "mpTi1"
+          }
+        },
+        {
           "varModify": {
             "operator": "divAB",
             "value": 1.0,
@@ -530,13 +537,6 @@
             "value": 0,
             "var": "waypoint_reached_penalty",
             "source_var": "mpTi1"
-          }
-        },
-        {
-          "varSetInt": {
-            "value": 0,
-            "var": "convoy_kill_penalty",
-            "input_var": "waypoint_reached_penalty"
           }
         },
         {

@@ -37,9 +37,8 @@ const SQUAD_REQEST_TIMEOUT = 45000
 
 g_squad_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "lastUpdateStatus", "state",
-   "maxSquadSize", "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList"]
+   "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList"]
 
-  maxSquadSize = 4
   COMMON_SQUAD_SIZE = 4
   MAX_SQUAD_SIZE = 4 //max available squad size to choose
   maxInvitesCount = 9
@@ -59,6 +58,9 @@ g_squad_manager <- {
     wwOperationInfo = {
       id = -1
       country = ""
+    }
+    properties = {
+      maxMembers = 4
     }
   }
 
@@ -264,6 +266,11 @@ function g_squad_manager::canManageSquad()
   return ::has_feature("Squad") && ::isInMenu()
 }
 
+function g_squad_manager::getMaxSquadSize()
+{
+  return squadData.properties.maxMembers
+}
+
 function g_squad_manager::getSquadSize(includeInvites = false)
 {
   if (!isInSquad())
@@ -278,20 +285,23 @@ function g_squad_manager::getSquadSize(includeInvites = false)
 
 function g_squad_manager::isSquadFull()
 {
-  return getSquadSize() >= maxSquadSize
+  return getSquadSize() >= squadData.properties.maxMembers
 }
 
-function g_squad_manager::canChangeSquadSize()
+function g_squad_manager::canChangeSquadSize(shouldCheckLeader = true)
 {
-  return ::has_feature("SquadSizeChange") && squadSizesList.len() > 1
+  return ::has_feature("SquadSizeChange")
+         && (!shouldCheckLeader || ::g_squad_manager.isSquadLeader())
+         && squadSizesList.len() > 1
 }
 
 function g_squad_manager::setSquadSize(newSize)
 {
-  if (newSize == maxSquadSize)
+  if (newSize == squadData.properties.maxMembers)
     return
 
-  maxSquadSize = newSize
+  squadData.properties.maxMembers = newSize
+  updateSquadData()
   ::broadcastEvent(squadEvent.SIZE_CHANGED)
 }
 
@@ -318,7 +328,7 @@ function g_squad_manager::initSquadSizes()
 
   COMMON_SQUAD_SIZE = squadSizesList[0].value
   MAX_SQUAD_SIZE = maxSize
-  maxSquadSize = COMMON_SQUAD_SIZE
+  squadData.properties.maxMembers = COMMON_SQUAD_SIZE
 }
 
 function g_squad_manager::isInvitedMaxPlayers()
@@ -488,6 +498,7 @@ function g_squad_manager::updateSquadData()
   local data = {}
   data.chatInfo <- { name = getSquadRoomName(), password = getSquadRoomPassword() }
   data.wwOperationInfo <- { id = getWwOperationId(), country = getWwOperationCountry() }
+  data.properties <- { maxMembers = getMaxSquadSize() }
 
   ::g_squad_manager.setSquadData(data)
 }
@@ -822,7 +833,6 @@ function g_squad_manager::reset()
   ::g_chat.leaveSquadRoom()
 
   cyberCafeSquadMembersNum = -1
-  maxSquadSize = COMMON_SQUAD_SIZE
 
   squadData.id = ""
   local contactsUpdatedList = []
@@ -833,6 +843,7 @@ function g_squad_manager::reset()
   squadData.invitedPlayers.clear()
   squadData.chatInfo = { name = "", password = "" }
   squadData.wwOperationInfo = { id = -1, country = "" }
+  squadData.properties = { maxMembers = COMMON_SQUAD_SIZE }
 
   lastUpdateStatus = squadStatusUpdateState.NONE
   if (meReady)
@@ -979,6 +990,11 @@ function g_squad_manager::_parseCustomSquadData(data)
     squadData.wwOperationInfo = wwOperationInfo
   else
     squadData.wwOperationInfo = { id = -1, country = "" }
+
+  local properties = ::getTblValue("properties", data)
+  if (::u.isTable(properties))
+    foreach(key, value in properties)
+      squadData.properties[key] <- value
 }
 
 function g_squad_manager::checkMembersPkg(pack) //return list of members dont have this pack

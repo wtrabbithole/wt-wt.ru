@@ -706,6 +706,7 @@ function load_scripts_after_login()
     "matching/serviceNotifications/mrooms.nut"
 
     "webpoll.nut"
+    "ugc/ugcUtils.nut"
   ])
   {
     ::g_script_reloader.loadOnce("scripts/" + fn)

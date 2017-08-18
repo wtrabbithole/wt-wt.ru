@@ -159,7 +159,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     "ww_get_operation_winner"
     "ww_get_player_side"
     "havePremium"
-    "get_gamechat_log_text"
+    { id = "get_gamechat_log_text", value = ::getTblValue("chatLog", ::debriefing_result, "") }
     { id = "is_multiplayer", value = ::getTblValue("isMp", ::debriefing_result, false) }
     { id = "_fake_battlelog", value = ::HudBattleLog.battleLog }
     { id = "_fake_userlogs", value = ::getTblValue("roomUserlogs", ::debriefing_result, []) }

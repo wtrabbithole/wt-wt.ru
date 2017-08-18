@@ -3849,15 +3849,13 @@
           }
         },
         {
-          "wait": {
-            "time": 0.1
+          "triggerEnable": {
+            "target": "put_to_sleep_excess_units"
           }
         },
         {
-          "unitPutToSleep": {
-            "target": "@bombers_wave_name",
-            "varNameNumToSleep": "num_bombers_to_sleep",
-            "order": "fromEnd"
+          "wait": {
+            "time": 1.0
           }
         },
         {
@@ -4207,15 +4205,13 @@
           }
         },
         {
-          "wait": {
-            "time": 0.1
+          "triggerEnable": {
+            "target": "put_to_sleep_excess_units"
           }
         },
         {
-          "unitPutToSleep": {
-            "target": "@bombers_wave_name",
-            "varNameNumToSleep": "num_bombers_to_sleep",
-            "order": "fromEnd"
+          "wait": {
+            "time": 1.0
           }
         },
         {
@@ -4389,6 +4385,55 @@
         }
       ],
       "else_actions": []
+    },
+    "put_to_sleep_excess_units": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.01
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "notLess",
+          "value": 24,
+          "object": "@bombers_wave_name"
+        },
+        "varCompareInt": {
+          "var_value": "put_to_sleep_timer",
+          "value": 50,
+          "comparasion_func": "more"
+        }
+      },
+      "actions": {
+        "unitPutToSleep": {
+          "target": "@bombers_wave_name",
+          "varNameNumToSleep": "num_bombers_to_sleep",
+          "order": "fromEnd"
+        },
+        "varSetInt": {
+          "value": 0,
+          "var": "put_to_sleep_timer"
+        },
+        "triggerDisable": {
+          "target": "put_to_sleep_excess_units"
+        }
+      },
+      "else_actions": {
+        "varModify": {
+          "operator": "add",
+          "value": 1.0,
+          "var": "put_to_sleep_timer"
+        }
+      }
     },
     "wave_spawn_land": {
       "is_enabled": false,
@@ -5242,7 +5287,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
-            "isOverFade": false
+            "isOverFade": false,
+            "target_marking": 0
           }
         },
         {
@@ -5258,7 +5304,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
-            "isOverFade": false
+            "isOverFade": false,
+            "target_marking": 0
           }
         }
       ],
@@ -5293,7 +5340,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
-            "isOverFade": false
+            "isOverFade": false,
+            "target_marking": 0
           }
         },
         {
@@ -5309,7 +5357,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
-            "isOverFade": false
+            "isOverFade": false,
+            "target_marking": 0
           }
         }
       ],
@@ -5461,7 +5510,8 @@
     "land_units_mode_modifier": 0,
     "base_int_1hp_in_tickets": 0,
     "base_int_hp_old": 0,
-    "diff_tickets": 0
+    "diff_tickets": 0,
+    "put_to_sleep_timer": 0
   },
   "dialogs": [],
   "airfields": [],

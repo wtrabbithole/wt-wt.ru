@@ -29,7 +29,10 @@ function with_table(tbl, func) {
   return tbl
 }
 
-
+/*
+//===== DARG specific methods=====
+  this function create element that has internal basic stateFlags (S_HOVER S_ACTIVE S_DRAG)
+*/
 function watchElemState(builder) {
   local stateFlags = ::Watched(0)
   return function() {
@@ -45,6 +48,24 @@ function watchElemState(builder) {
 }
 
 
+NamedColor <-{
+  red = Color(255,0,0)
+  blue = Color(0,0,255)
+  green = Color(0,255,0)
+  magenta = Color(255,0,255)
+  yellow = Color(255,255,0)
+  cyan = Color(0,255,255)
+  gray = Color(128,128,128)
+  lightgray = Color(192,192,192)
+  darkgray = Color(64,64,64)
+  black = Color(0,0,0)
+  white = Color(255,255,255)
+}
+
+/*
+//===== DARG specific methods=====
+  this function returns sh() for pixels for fullhd resolution (1080p)
+*/
 function hdpx(pixels) {
   return sh((::math.floor(pixels)+0.5)*100.0/1080.0)
 }

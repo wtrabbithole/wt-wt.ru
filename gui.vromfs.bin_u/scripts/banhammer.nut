@@ -7,7 +7,11 @@ function gui_modal_complain(playerInfo, chatLog = "")
 {
   if (!::tribunal.canComplaint())
     return
+
   local cLog = (chatLog != "") ? chatLog : ::get_gamechat_log_text()
+  if (cLog == "" && ::debriefing_result)
+      cLog = ::getTblValue("chatLog", ::debriefing_result, "")
+
   ::gui_start_modal_wnd(::gui_handlers.ComplainHandler, {
                                                           pInfo = playerInfo
                                                           chatLog = cLog

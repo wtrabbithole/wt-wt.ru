@@ -24,7 +24,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   statsSortReverse = false
   statsSortBy      = ""
   clanData         = null
-  curEra           = ::max_country_rank
+  curEra           = CLAN_RANK_ERA
   curPlayer        = null
   curClan          = null
   curMode          = 0

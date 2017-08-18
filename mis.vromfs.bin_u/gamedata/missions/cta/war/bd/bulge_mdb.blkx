@@ -325,6 +325,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "bomber",
               "side": "ally",
@@ -411,9 +414,9 @@
       "armada": {
         "name": "t1_ai_bombers",
         "tm": [
-          [0.965926,0.0,-0.258819],
+          [0.724987,0.0,-0.688762],
           [0.0,1.0,0.0],
-          [0.258819,0.0,0.965926],
+          [0.688762,0.0,0.724987],
           [-26000.0,4000.0,26000.0]
         ],
         "unit_class": "b-17e",
@@ -440,7 +443,9 @@
           "attack_type": "fire_at_will",
           "skill": 4,
           "numInWing": 3,
+          "isDelayed": true,
           "stealthRadius": 256000.0,
+          "unitReplacementType": "bomber",
           "plane": {
             "wing_formation": "Diamond",
             "row_distances": 3.0,
@@ -459,9 +464,9 @@
       "armada": {
         "name": "t2_ai_bombers",
         "tm": [
-          [-0.965926,0.0,0.258819],
+          [-0.700664,0.0,0.713492],
           [0.0,1.0,0.0],
-          [-0.258819,0.0,-0.965926],
+          [-0.713492,0.0,-0.700664],
           [26000.0,4000.0,-26000.0]
         ],
         "unit_class": "he-111h-6",
@@ -489,6 +494,7 @@
           "skill": 4,
           "numInWing": 3,
           "stealthRadius": 256000.0,
+          "unitReplacementType": "bomber",
           "plane": {
             "wing_formation": "Diamond",
             "row_distances": 3.0,

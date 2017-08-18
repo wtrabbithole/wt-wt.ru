@@ -476,7 +476,7 @@ function set_mp_table(obj_tbl, table, params)
           local prepPlayer = false
           if ("clanTag" in table[i] && table[i].clanTag != "")
             nameText = table[i].clanTag + " " + nameText
-          if ("invitedName" in table[i])
+          if (("invitedName" in table[i]) && table[i].invitedName != item)
           {
             local color = ""
             if (obj_tbl.team)

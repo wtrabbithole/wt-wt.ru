@@ -199,7 +199,7 @@ function notify_session_start()
   isRoomOwner = false
   isRoomByQueue = false
   isEventRoom = false
-  roomId = ""
+  roomId = INVALID_ROOM_ID
   roomUpdated = false
   password = ""
 
@@ -1502,9 +1502,9 @@ function SessionLobby::leaveRoom()
     return
   }
 
-  if (roomId!="")
-    ::leave_room({ roomId = roomId }, function(p) {})
-  ::SessionLobby.afterLeaveRoom({})
+  ::leave_room({}, function(p) {
+      ::SessionLobby.afterLeaveRoom({})
+   })
 }
 
 function SessionLobby::checkLeaveRoomInDebriefing()
@@ -1535,7 +1535,7 @@ function SessionLobby::goForwardAfterDebriefing()
 
 function SessionLobby::afterLeaveRoom(p)
 {
-  roomId = ""
+  roomId = INVALID_ROOM_ID
   switchStatus(lobbyStates.NOT_IN_ROOM)
   local guiScene = ::get_main_gui_scene()
   if (guiScene)
@@ -1737,7 +1737,7 @@ function SessionLobby::isMemberOperator(member)
 
 function SessionLobby::invitePlayer(uid)
 {
-  if (typeof(roomId) != "integer") // we are not in room. nothere to invite
+  if (roomId == INVALID_ROOM_ID) // we are not in room. nothere to invite
   {
     local is_in_room = isInRoom()
     ::script_net_assert("trying to invite into room without roomId")
@@ -2112,7 +2112,7 @@ function SessionLobby::canInvitePlayer(uid)
 
 function SessionLobby::needAutoInviteSquad()
 {
-  return isRoomOwner || (haveLobby() && !isRoomByQueue)
+  return isInRoom() && isRoomOwner || (haveLobby() && !isRoomByQueue)
 }
 
 function SessionLobby::checkSquadAutoInvite()

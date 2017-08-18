@@ -139,7 +139,7 @@ function g_play_together::checkMeAsSquadLeader()
   if (!::g_squad_manager.isSquadLeader())
     return false
 
-  local availableSlots = ::g_squad_manager.maxSquadSize - ::g_squad_manager.getSquadSize()
+  local availableSlots = ::g_squad_manager.getMaxSquadSize() - ::g_squad_manager.getSquadSize()
   if (availableSlots >= cachedInviteeUids.len())
     return false
 

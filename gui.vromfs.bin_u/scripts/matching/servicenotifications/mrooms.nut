@@ -7,6 +7,7 @@ local MRoomsHandlers = class {
   roomOps = {}
   hostReady = null
   selfReady = null
+  leaving = null
 
   constructor()
   {
@@ -18,6 +19,7 @@ local MRoomsHandlers = class {
     roomOps = {}
     hostReady = null
     selfReady = null
+    leaving = null
 
     foreach (notificationName, callback in
               {
@@ -62,6 +64,7 @@ local MRoomsHandlers = class {
     connectAllowed = null
     hostReady = null
     selfReady = null
+    leaving = null
     ::reset_room_key()
 
     notify_room_destroyed({})
@@ -200,6 +203,9 @@ local MRoomsHandlers = class {
 
   function __isNotifyForCurrentRoom(notify)
   {
+    if (leaving) // ignore all room notifcations after leave has been called
+      return true
+
     if (roomId == notify.roomId)
       return true
     return false
@@ -412,6 +418,8 @@ function join_room(params, cb)
 function leave_room(params, cb)
 {
   local oldRoomId = g_mrooms_handlers.getRoomId()
+  g_mrooms_handlers.leaving = true
+
   matching_api_func("mrooms.leave_room",
                     function(resp)
                     {

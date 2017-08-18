@@ -159,12 +159,11 @@
         }
       },
       "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isInactive",
-          "check_objects": "all",
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
           "object_marking": 0,
-          "check_period": 1.0,
-          "target_type": "isAlive",
+          "func": "less",
+          "value": 1,
           "object": "t2_players_squad"
         }
       },
@@ -194,12 +193,11 @@
         }
       },
       "conditions": {
-        "unitWhenStatus": {
+        "unitWhenCountMatches": {
           "object_type": "isActive",
-          "check_objects": "any",
           "object_marking": 0,
-          "check_period": 1.0,
-          "target_type": "isAlive",
+          "func": "notLess",
+          "value": 1,
           "object": "t2_players_squad"
         }
       },
@@ -291,7 +289,7 @@
           "var": "no_attackers_hint"
         },
         "varAddString": {
-          "value": "hints/no_attackers_mission_end_in_",
+          "value": "",
           "digits": 2,
           "var": "no_attackers_hint",
           "input_var": "no_attackers_timer_accumulative"
@@ -365,12 +363,11 @@
         }
       },
       "conditions": {
-        "unitWhenStatus": {
-          "object_type": "isInactive",
-          "check_objects": "all",
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
           "object_marking": 0,
-          "check_period": 1.0,
-          "target_type": "isAlive",
+          "func": "less",
+          "value": 1,
           "object": "t1_players_squad"
         }
       },
@@ -400,12 +397,11 @@
         }
       },
       "conditions": {
-        "unitWhenStatus": {
+        "unitWhenCountMatches": {
           "object_type": "isActive",
-          "check_objects": "any",
           "object_marking": 0,
-          "check_period": 1.0,
-          "target_type": "isAlive",
+          "func": "notLess",
+          "value": 1,
           "object": "t1_players_squad"
         }
       },
@@ -493,11 +489,11 @@
       },
       "actions": {
         "varSetString": {
-          "value": "hints/no_attackers_mission_end_in_",
+          "value": "hints/no_attackers_so_mission_end_for_",
           "var": "no_attackers_hint"
         },
         "varAddString": {
-          "value": "hints/no_attackers_mission_end_in_",
+          "value": "",
           "digits": 2,
           "var": "no_attackers_hint",
           "input_var": "no_attackers_timer_accumulative"

@@ -491,6 +491,7 @@
               "removeAreas": false,
               "showOnMap": true,
               "isIndividual": false,
+              "onlyOnePlayerPerSpawnPoint": false,
               "target": "@ft_generate_t1_airfield_name",
               "team": "A",
               "tags": {
@@ -1240,6 +1241,7 @@
               "removeAreas": false,
               "showOnMap": true,
               "isIndividual": false,
+              "onlyOnePlayerPerSpawnPoint": false,
               "target": "@ft_generate_t2_airfield_name",
               "team": "B",
               "tags": {
@@ -4014,15 +4016,19 @@
             "target": "@ft_detect_t1_bomb_target_name",
             "type": "unit"
           },
-          "unitWhenEnemyNear": {
+          "unitDistanceBetween": {
+            "value": 4500.0,
+            "math": "2D",
             "object_type": "isAlive",
             "object_marking": 0,
-            "enemy_type": "isTeamB",
-            "distance": 4500.0,
+            "target_type": "isAlive",
+            "target_marking": 0,
             "check_objects": "any",
+            "check_targets": "any",
             "object": "@ft_detect_t1_bomb_target_name",
-            "use_variable": true,
-            "distance_var": "ft_t2_detection_range"
+            "target": "t2_players_squad",
+            "var": "ft_t2_detection_range",
+            "compareCenters": false
           }
         },
         "actions": [
@@ -4831,15 +4837,19 @@
             "target": "@ft_detect_t2_bomb_target_name",
             "type": "unit"
           },
-          "unitWhenEnemyNear": {
+          "unitDistanceBetween": {
+            "value": 4500.0,
+            "math": "2D",
             "object_type": "isAlive",
             "object_marking": 0,
-            "enemy_type": "isTeamA",
-            "distance": 4500.0,
+            "target_type": "isAlive",
+            "target_marking": 0,
             "check_objects": "any",
+            "check_targets": "any",
             "object": "@ft_detect_t2_bomb_target_name",
-            "use_variable": true,
-            "distance_var": "ft_t1_detection_range"
+            "target": "t1_players_squad",
+            "var": "ft_t2_detection_range",
+            "compareCenters": false
           }
         },
         "actions": [

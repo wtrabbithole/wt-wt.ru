@@ -41,7 +41,13 @@
         "_Conq4": false,
         "_Conq5": false,
         "_Conq6": false,
-        "_DBttl": false
+        "_DBttl": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       }
     },
     "spectator_points": [],
@@ -415,6 +421,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@lpt_t1_lookup_plane",
             "speed": 300.0
           }
@@ -427,6 +437,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@lpt_t1_lookup_plane",
             "team": "A"
           }
@@ -434,6 +445,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@lpt_t1_lookup_plane",
             "team": "B"
           }
@@ -455,9 +467,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "lpt_t1_update_pos"
-          }
+          "triggerEnable": [
+            {
+              "target": "lpt_t1_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t1_update_pos_for_t2"
+            }
+          ]
         },
         {
           "comment": {
@@ -506,7 +523,39 @@
       ],
       "else_actions": []
     },
-    "lpt_t1_update_pos": {
+    "lpt_t1_update_pos_for_t1": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 20.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "lpt_t1_defend_task",
+          "status": "inProgress"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "квест на защиту запущен"
+        },
+        "moSetObjectiveStatus": {
+          "target": "lpt_t1_defend_task",
+          "status": 1,
+          "team": "A",
+          "unit_or_area": "@lpt_t1_lookup_plane"
+        }
+      },
+      "else_actions": []
+    },
+    "lpt_t1_update_pos_for_t2": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -525,40 +574,18 @@
           "status": "inProgress"
         }
       },
-      "actions": [
-        {
-          "comment": {
-            "value": "квест на убийство запущен. апдейтим оба квеста"
-          }
-        },
-        {
-          "moSetObjectiveStatus": {
-            "target": "lpt_t1_defend_task",
-            "status": 1,
-            "team": "A",
-            "unit_or_area": "@lpt_t1_lookup_plane"
-          }
-        },
-        {
-          "moSetObjectiveStatus": {
-            "target": "lpt_t2_kill_task",
-            "status": 1,
-            "team": "B",
-            "unit_or_area": "@lpt_t1_lookup_plane"
-          }
-        }
-      ],
-      "else_actions": {
+      "actions": {
         "comment": {
-          "value": "квест на убийство не запущен. апдейтим только квест на защиту"
+          "value": "квест на убийство запущен"
         },
         "moSetObjectiveStatus": {
-          "target": "lpt_t1_defend_task",
+          "target": "lpt_t2_kill_task",
           "status": 1,
-          "team": "A",
+          "team": "B",
           "unit_or_area": "@lpt_t1_lookup_plane"
         }
-      }
+      },
+      "else_actions": []
     },
     "lpt_t1_is_detect_on": {
       "is_enabled": false,
@@ -689,6 +716,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@lpt_t1_lookup_plane",
             "team": "Both"
           }
@@ -732,7 +760,10 @@
         {
           "triggerDisable": [
             {
-              "target": "lpt_t1_update_pos"
+              "target": "lpt_t1_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t1_update_pos_for_t2"
             },
             {
               "target": "lpt_t1_lookup_retreat"
@@ -797,7 +828,7 @@
         },
         {
           "wait": {
-            "time": 30.0
+            "time": 20.0
           }
         },
         {
@@ -978,6 +1009,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@lpt_t1_lookup_plane",
             "speed": 350.0
           }
@@ -1097,6 +1132,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@lpt_t1_lookup_plane",
             "speed": 350.0
           }
@@ -1151,7 +1190,10 @@
         {
           "triggerDisable": [
             {
-              "target": "lpt_t1_update_pos"
+              "target": "lpt_t1_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t1_update_pos_for_t2"
             },
             {
               "target": "lpt_t1_lookup_active"
@@ -1256,7 +1298,10 @@
               "target": "lpt_t1_delayed_start"
             },
             {
-              "target": "lpt_t1_update_pos"
+              "target": "lpt_t1_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t1_update_pos_for_t2"
             },
             {
               "target": "lpt_t1_is_detect_on"
@@ -1503,6 +1548,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@lpt_t2_lookup_plane",
             "speed": 300.0
           }
@@ -1515,6 +1564,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@lpt_t2_lookup_plane",
             "team": "B"
           }
@@ -1522,6 +1572,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@lpt_t2_lookup_plane",
             "team": "A"
           }
@@ -1543,9 +1594,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "lpt_t2_update_pos"
-          }
+          "triggerEnable": [
+            {
+              "target": "lpt_t2_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t2_update_pos_for_t2"
+            }
+          ]
         },
         {
           "comment": {
@@ -1594,7 +1650,7 @@
       ],
       "else_actions": []
     },
-    "lpt_t2_update_pos": {
+    "lpt_t2_update_pos_for_t1": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -1613,32 +1669,41 @@
           "status": "inProgress"
         }
       },
-      "actions": [
-        {
-          "comment": {
-            "value": "квест на убийство запущен. апдейтим оба квеста"
-          }
-        },
-        {
-          "moSetObjectiveStatus": {
-            "target": "lpt_t2_defend_task",
-            "status": 1,
-            "team": "B",
-            "unit_or_area": "@lpt_t2_lookup_plane"
-          }
-        },
-        {
-          "moSetObjectiveStatus": {
-            "target": "lpt_t1_kill_task",
-            "status": 1,
-            "team": "A",
-            "unit_or_area": "@lpt_t2_lookup_plane"
-          }
-        }
-      ],
-      "else_actions": {
+      "actions": {
         "comment": {
-          "value": "квест на убийство не запущен. апдейтим только квест на защиту"
+          "value": "квест на убийство запущен"
+        },
+        "moSetObjectiveStatus": {
+          "target": "lpt_t1_kill_task",
+          "status": 1,
+          "team": "A",
+          "unit_or_area": "@lpt_t2_lookup_plane"
+        }
+      },
+      "else_actions": []
+    },
+    "lpt_t2_update_pos_for_t2": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": true
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 20.0
+        }
+      },
+      "conditions": {
+        "misObjStatus": {
+          "target": "lpt_t2_defend_task",
+          "status": "inProgress"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "квест на защиту запущен"
         },
         "moSetObjectiveStatus": {
           "target": "lpt_t2_defend_task",
@@ -1646,7 +1711,8 @@
           "team": "B",
           "unit_or_area": "@lpt_t2_lookup_plane"
         }
-      }
+      },
+      "else_actions": []
     },
     "lpt_t2_is_detect_on": {
       "is_enabled": false,
@@ -1777,6 +1843,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@lpt_t2_lookup_plane",
             "team": "Both"
           }
@@ -1820,7 +1887,10 @@
         {
           "triggerDisable": [
             {
-              "target": "lpt_t2_update_pos"
+              "target": "lpt_t2_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t2_update_pos_for_t2"
             },
             {
               "target": "lpt_t2_lookup_retreat"
@@ -1885,7 +1955,7 @@
         },
         {
           "wait": {
-            "time": 30.0
+            "time": 20.0
           }
         },
         {
@@ -2066,6 +2136,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@lpt_t2_lookup_plane",
             "speed": 350.0
           }
@@ -2185,6 +2259,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@lpt_t2_lookup_plane",
             "speed": 350.0
           }
@@ -2239,7 +2317,10 @@
         {
           "triggerDisable": [
             {
-              "target": "lpt_t2_update_pos"
+              "target": "lpt_t2_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t2_update_pos_for_t2"
             },
             {
               "target": "lpt_t2_lookup_active"
@@ -2344,7 +2425,10 @@
               "target": "lpt_t2_delayed_start"
             },
             {
-              "target": "lpt_t2_update_pos"
+              "target": "lpt_t2_update_pos_for_t1"
+            },
+            {
+              "target": "lpt_t2_update_pos_for_t2"
             },
             {
               "target": "lpt_t2_is_detect_on"

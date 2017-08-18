@@ -109,7 +109,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     curClan = null
     clanByRow = {}
     isLastPage = false
-    curEra = ::max_country_rank
+    curEra = CLAN_RANK_ERA
     clansLbSort = getCurrentSortField()
   }
 

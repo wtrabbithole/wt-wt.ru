@@ -20,7 +20,23 @@ foreach (varName in [ "excludesdata", "excludescore", "foulcore", "fouldata", "b
     local varLang = varName+lang
     if (!(varLang in root_))
       continue
-    root_[varName].extend(root_[varLang])
+    foreach (i, v in root_[varLang])
+    {
+      switch (typeof v)
+      {
+        case "string":
+          v = ::regexp2(v)
+          break
+        case "table":
+          if ("value" in v)
+            v.value = ::regexp2(v.value)
+          if ("arr" in v)
+            foreach (ai, av in v.arr)
+              v.arr[ai] = ::regexp2(av)
+          break
+      }
+      root_[varName].append(v)
+    }
     delete root_[varLang] // we don't need language specific var anymore
   }
 }
@@ -37,63 +53,63 @@ alphabet <-
 preparereplace <-
 [
   {
-    pattern = @"[\'\-\+\;\.\,\*\?\(\)]",
+    pattern = ::regexp2(@"[\'\-\+\;\.\,\*\?\(\)]")
     replace = " "
   },
   {
-    pattern = @"[\!\:\_]",
+    pattern = ::regexp2(@"[\!\:\_]")
     replace = " "
   }
 ];
 
 
-prepareex <- "(а[х]?)|(в)|([вмт]ы)|(д[ао])|(же)|(за)";
+prepareex <- ::regexp2("(а[х]?)|(в)|([вмт]ы)|(д[ао])|(же)|(за)")
 
 
 prepareword <-
 [
   {
-    pattern = "ё",
+    pattern = ::regexp2("ё")
     replace = "е"
   },
   {
-    pattern = @"&[Ee][Uu][Mm][Ll];",
+    pattern = ::regexp2(@"&[Ee][Uu][Mm][Ll];")
     replace = "е"
   },
   {
-    pattern = "&#203;",
+    pattern = ::regexp2("&#203;")
     replace = "е"
   },
   {
-    pattern = @"&[Cc][Ee][Nn][Tt];",
+    pattern = ::regexp2(@"&[Cc][Ee][Nn][Tt];")
     replace = "с"
   },
   {
-    pattern = "&#162;",
+    pattern = ::regexp2("&#162;")
     replace = "с"
   },
   {
-    pattern = "&#120;",
+    pattern = ::regexp2("&#120;")
     replace = "х"
   },
   {
-    pattern = "&#121;",
+    pattern = ::regexp2("&#121;")
     replace = "у"
   },
   {
-    pattern = @"\|\/\|",
+    pattern = ::regexp2(@"\|\/\|")
     replace = "и"
   },
   {
-    pattern = @"3[\.\,]14[\d]{0,}",
+    pattern = ::regexp2(@"3[\.\,]14[\d]{0,}")
     replace = "пи"
   },
   {
-    pattern = @"[\'\-\+\;\.\,\*\?\(\)]",
+    pattern = ::regexp2(@"[\'\-\+\;\.\,\*\?\(\)]")
     replace = ""
   },
   {
-    pattern = @"[\!\:\_]",
+    pattern = ::regexp2(@"[\!\:\_]")
     replace = ""
   }
 ];
@@ -101,7 +117,7 @@ prepareword <-
 
 preparewordwhile <-
 {
-  pattern = @"(.)\\1\\1",
+  pattern = ::regexp2(@"(.)\\1\\1")
   replace = "\\1\\1"
 }
 
@@ -120,9 +136,8 @@ class DirtyWords
     // In Asian languages, there is no spaces to separate words.
     foreach (pattern in ::badsegments)
     {
-      local re = ::regexp2(pattern)
-      if (re.match(phrase))
-        phrase = re.replace(getMaskedWord(pattern), phrase)
+      if (pattern.match(phrase))
+        phrase = pattern.replace(getMaskedWord(), phrase)
     }
 
     local words = prepare ( phrase );
@@ -193,19 +208,18 @@ class DirtyWords
     local buffer = null;
 
     foreach ( p in preparereplace )
-      phrase = regexp2 ( p.pattern ).replace ( p.replace, phrase );
+      phrase = p.pattern.replace ( p.replace, phrase );
 
     local words = split ( phrase, " " );
 
     if ( typeof words != "array" )
       return false;
 
-    local ex = regexp2 ( prepareex );
     local out = [];
 
     foreach ( word in words )
     {
-      if ( (word.len() < 3) && ! ex.match (word) )
+      if ( (word.len() < 3) && ! prepareex.match (word) )
       {
         buffer += word;
       }
@@ -236,14 +250,14 @@ class DirtyWords
 
     // replaces
     foreach ( p in prepareword )
-      word = regexp2 ( p.pattern ).replace ( p.replace, word );
+      word = p.pattern.replace ( p.replace, word );
 
     local post = null;
 
     while ( word != post )
     {
       post = word;
-      word = regexp2 ( preparewordwhile.pattern ).replace ( preparewordwhile.replace, word );
+      word = preparewordwhile.pattern.replace ( preparewordwhile.replace, word );
     }
   }
 
@@ -255,13 +269,9 @@ class DirtyWords
 
     foreach ( reg in regexps )
     {
-      local reg_exp;
-      if ( typeof reg == "table" )
-        reg_exp = reg.value;
-      else
-        reg_exp = reg
+      local re = (typeof reg == "table") ? reg.value : reg
 
-      if ( regexp2 ( reg_exp ).match ( word ) )
+      if ( re.match ( word ) )
       {
         status = !accuse;
         break;

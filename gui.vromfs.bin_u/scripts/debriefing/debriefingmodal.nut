@@ -301,8 +301,39 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     showSceneBtn("wnd_navbar_block", !isNavBarInGamerCard)
     local navbarObj = scene.findObject(isNavBarInGamerCard ? "gamercard_bottom_navbar_place" : "wnd_navbar_place")
-    if (::check_obj(navbarObj))
-      guiScene.replaceContent(navbarObj, "gui/debriefing/debriefingNavbar.blk", this)
+    if (!::check_obj(navbarObj))
+      return
+
+    guiScene.replaceContent(navbarObj, "gui/debriefing/debriefingNavbar.blk", this)
+
+    if (isNavBarInGamerCard)
+    {
+      alignObjHorizontalMarginsByObj("gc_navbar_sizer", "content_frame")
+
+      local navMiddleObj = navbarObj.findObject("nav_middle")
+      if (::check_obj(navMiddleObj))
+      {
+        guiScene.applyPendingChanges(false)
+        local offset = ::screen_width() / 2 - navMiddleObj.getPosRC()[0] - navMiddleObj.getSize()[0] / 2
+        navMiddleObj["style"] = ::format("pos:pw/2-w/2 + %d, ph/2-h/2", offset)
+      }
+    }
+  }
+
+  function alignObjHorizontalMarginsByObj(objId, alignObjId)
+  {
+    local obj = scene.findObject(objId)
+    local alignObj = scene.findObject(alignObjId)
+    if (!::check_obj(obj) || !::check_obj(alignObj))
+      return
+
+    local offsetLeft  = alignObj.getPosRC()[0] - obj.getPosRC()[0]
+    local offsetRight = (obj.getPosRC()[0] + obj.getSize()[0]) -
+      (alignObj.getPosRC()[0] + alignObj.getSize()[0])
+    if (offsetLeft > 0)
+      obj["margin-left"] = offsetLeft.tostring()
+    if (offsetRight > 0)
+      obj["margin-right"] = offsetRight.tostring()
   }
 
   function gatherAwardsLists()
@@ -865,10 +896,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     else if (state == debrState.done)
     {
       local isShowToBattleBtn = isToBattleActionEnabled()
-      ::showBtn("btn_to_battle", isShowToBattleBtn, scene)
-      scene.findObject("btn_next").setValue(::loc(isShowToBattleBtn ? "mainmenu/toHangar" :"mainmenu/btnOk"))
-      scene.findObject("skip_button").show(false)
-      scene.findObject("start_bonus_place").show(false)
+      ::showBtnTable(scene, {
+        btn_next = true
+        btn_back = isShowToBattleBtn
+        btn_skip = false
+        skip_button   = false
+        start_bonus_place = false
+      })
+       ::setDoubleTextToButton(scene, "btn_next", ::loc(isShowToBattleBtn ? "mainmenu/toBattle" :"mainmenu/btnOk"))
+      scene.findObject("btn_back").setValue(::loc(isShowToBattleBtn ? "mainmenu/toHangar" :"mainmenu/btnQuit"))
+
       fillLeaderboardChanges()
       updateInfoText()
       updateBuyPremiumAwardButton()
@@ -1908,7 +1945,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     if (!needPlayersTbl)
       return
-    local logText = ::get_gamechat_log_text()
+    local logText = ::getTblValue("chatLog", ::debriefing_result, "")
     if (logText == "")
       return
     local obj = scene.findObject("chat_history_div")
@@ -1996,7 +2033,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   }
   function is_show_chat_history()
   {
-    return needPlayersTbl && ::get_gamechat_log_text() != ""
+    return needPlayersTbl && ::getTblValue("chatLog", ::debriefing_result, "") != ""
   }
   function is_show_awards_list()
   {
@@ -2289,7 +2326,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     ::my_stats.markStatsReset()
   }
 
-  function onStart()
+  function onNext()
   {
     if (state != debrState.done && !skipAnim)
     {

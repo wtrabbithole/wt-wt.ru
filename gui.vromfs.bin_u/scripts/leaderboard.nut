@@ -717,7 +717,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local lbRows = getLbRows()
 
     local showHeader = pageData != null
-    local showTable = lbRows.len() > 0 && selfRowData != null
+    local showTable = (pos > 0 || lbRows.len() > 0) && selfRowData != null
 
     lbWaitBox.show(!showTable && !pageData)
     noLbText.show(!showTable && pageData)

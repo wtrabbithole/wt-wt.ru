@@ -399,17 +399,17 @@
         },
         {
           "comment": {
-            "value": "(br_area_div * 2 - 1 = 19) - number of total stages"
+            "value": "br_area_div - number of total stages(for 2 sides deduction each time)"
           }
         },
         {
           "comment": {
-            "value": "(19 stages - 5 = 14) - so warning will be when from 6(1 row * 6 col) to 9(3 row * 3 col) sectors left"
+            "value": "(10 stages - 3 = 7) - so warning will be when 9(3 row * 3 col) sectors left"
           }
         },
         {
           "comment": {
-            "value": "and artillery will be disabled when 5(1 row * 5 col) to 6(2 row * 3 col) sectors left"
+            "value": "and artillery will be disabled when 4(2 row * 2 col) sectors left"
           }
         },
         {
@@ -419,7 +419,7 @@
         },
         {
           "varSetInt": {
-            "value": 14,
+            "value": 7,
             "var": "artillery_disable_stage",
             "fromDescriptor": "artillery_disable_stage"
           }
