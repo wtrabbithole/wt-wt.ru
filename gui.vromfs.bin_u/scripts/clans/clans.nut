@@ -4,6 +4,8 @@ const CLAN_SEEN_CANDIDATES_SAVE_ID = "seen_clan_candidates"
 const MAX_CANDIDATES_NICKNAMES_IN_POPUP = 5
 const MY_CLAN_UPDATE_DELAY_MSEC = -60000
 
+const CLAN_RANK_ERA = 5 //really used only this rank, but in lb exist 5
+
 ::my_clan_info <- null
 ::last_update_my_clan_time <- MY_CLAN_UPDATE_DELAY_MSEC
 ::get_my_clan_data_free <- true

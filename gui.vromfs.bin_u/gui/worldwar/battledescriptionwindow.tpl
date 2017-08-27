@@ -135,14 +135,6 @@ root {
           refuseOpenHoverMenu:t='no'
           ButtonImg {}
         }
-        Button_text {
-          id:t='replay_button'
-          text:t = '#mainmenu/btnViewServerReplay'
-          btnName:t='Y'
-          tooltip:t=''
-          _on_click:t='onViewServerReplay'
-          ButtonImg {}
-        }
       }
 
       navRight {

@@ -436,8 +436,11 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
   function configShowPrevLogsBlock()
   {
     local prevLogsObj = scene.findObject("show_prev_logs_btn")
-    if (::check_obj(prevLogsObj))
-      prevLogsObj.show(::g_ww_logs.lastMark || ::g_ww_logs.viewIndex > 0)
+    if (!::check_obj(prevLogsObj))
+      return
+
+    prevLogsObj.show(::g_ww_logs.lastMark || ::g_ww_logs.viewIndex > 0)
+    updatePrevLogsBtn(false)
   }
 
   function configShowNextLogsBlock(isForcedShow = false)
@@ -600,6 +603,25 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
     ::g_ww_logs.requestNewLogs(WW_LOG_MAX_LOAD_AMOUNT, true, this)
+  }
+
+  function updatePrevLogsBtn(isLogsLoading = false)
+  {
+    local prevLogsBtnObj = scene.findObject("show_prev_logs_btn")
+    if (!::check_obj(prevLogsBtnObj) || !prevLogsBtnObj.isVisible())
+      return
+
+    local waitAnimObj = prevLogsBtnObj.findObject("show_prev_logs_btn_wait_anim")
+    if (::check_obj(waitAnimObj))
+      waitAnimObj.show(isLogsLoading)
+
+    prevLogsBtnObj.hideText = isLogsLoading ? "yes" : "no"
+    prevLogsBtnObj.enable(!isLogsLoading)
+  }
+
+  function onEventWWLogsLoadStatusChanged(params)
+  {
+    updatePrevLogsBtn(params.isLogsLoading)
   }
 
   function onClickShowNextLogs(obj)

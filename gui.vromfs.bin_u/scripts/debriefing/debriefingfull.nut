@@ -363,6 +363,7 @@ function gather_debriefing_result()
   ::debriefing_result.activeBoosters <- ::get_debriefing_result_active_boosters()
   ::debriefing_result.activeWager <- ::get_debriefing_result_active_wager()
   ::debriefing_result.eventId <- ::get_debriefing_result_event_id()
+  ::debriefing_result.chatLog <- ::get_gamechat_log_text()
 
   ::debriefing_result.exp.timBattleTime <- ::getTblValue("battleTime", ::debriefing_result.exp, 0)
   ::debriefing_result.needRewardColumn <- false

@@ -31,7 +31,7 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     return ::has_feature("Squad") && ::has_feature("SquadWidget")
       && ::g_squad_manager.isInSquad()
-      && (::g_squad_manager.canChangeSquadSize() || ::g_squad_manager.getInvitedPlayers().len() > 0)
+      && (::g_squad_manager.canChangeSquadSize(false) || ::g_squad_manager.getInvitedPlayers().len() > 0)
   }
 
   function initScreen()
@@ -58,6 +58,7 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
         inviteObj.setUserData(memberData)
     }
 
+    scene.findObject("invited_players_header").show(invitedPlayers.len() > 0)
     updateSelectedItem()
     updateSize()
     updatePosition()
@@ -79,7 +80,7 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSquadSizeOption()
   {
-    local isAvailable = ::g_squad_manager.canChangeSquadSize()
+    local isAvailable = ::g_squad_manager.canChangeSquadSize(false)
     optionsObj.show(isAvailable)
     optionsObj.enable(isAvailable)
     if (!isAvailable)
@@ -87,13 +88,14 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     local sizes = ::u.map(::g_squad_manager.squadSizesList,
       @(s) s.value + ::loc("ui/comma") + ::loc("squadSize/" + s.name))
-    local curValue = ::g_squad_manager.maxSquadSize
+    local curValue = ::g_squad_manager.getMaxSquadSize()
     local curIdx = ::u.searchIndex(::g_squad_manager.squadSizesList, @(s) s.value == curValue, 0)
 
     local optionObj = scene.findObject("squad_size_option")
     local markup = ::create_option_combobox("", sizes, curIdx, null, false)
     guiScene.replaceContentFromText(optionObj, markup, markup.len(), this)
     optionObj.setValue(curIdx)
+    optionObj.enable(::g_squad_manager.canChangeSquadSize())
   }
 
   function updateSize()
@@ -102,9 +104,9 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(listObj))
       return
 
-    local total = ::g_squad_manager.getInvitedPlayers().len() || 1
-    local rows = total <= 5 ? 1 : 2
-    local columns = ::ceil(total.tofloat() / rows.tofloat())
+    local total = ::g_squad_manager.getInvitedPlayers().len()
+    local rows = total && (total <= 5 ? 1 : 2)
+    local columns = rows && ::ceil(total.tofloat() / rows.tofloat())
 
     local sizeFormat = "%d@mIco"
     listObj.width = ::format(sizeFormat, columns)

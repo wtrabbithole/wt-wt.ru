@@ -199,6 +199,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       local array = objectivesList[name]
       objectiveBlocks.append({
           id = name,
+          isPrimary = name == "primary"
           countryIcon = countryIcon
           hide = array.len() == 0
           objectives = getObjectiveViewsArray(array)

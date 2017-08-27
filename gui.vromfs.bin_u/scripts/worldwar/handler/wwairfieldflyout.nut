@@ -18,6 +18,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   sendButtonObj = null
   selectedGroupIdx = null
+  selectedGroupFlyArmies = 0
   isArmyComboValue = false
 
   maxChoosenUnitsMask = WW_UNIT_CLASS.NONE //bitMask
@@ -75,13 +76,15 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         local maxFlyTime = (unit.getMaxFlyTime() * flightTimeFactor).tointeger()
         local value = 0
         local maxValue = unit.count
+        local maxUnitClassValue = getUnitClassMaxValue(unitClass)
         unitsList.append({
           unitClassText = null
           armyGroupIdx = airfieldFormation.getArmyGroupIdx()
           unitName = unit.name
           unitItem = unit.getItemMarkUp(true)
           unitClass = unitClass
-          maxValue = ::min(getUnitSliderMaxValue(unitClass), maxValue)
+          maxValue = ::min(maxUnitClassValue, maxValue)
+          maxUnitClassValue = maxUnitClassValue
           totalValue = maxValue
           value = value
           maxFlyTime = maxFlyTime
@@ -173,6 +176,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
     //--- After all units filled ---
     fillFlyOutDescription()
+    fillArmyLimitDescription()
   }
 
   function onTabSelect(obj)
@@ -197,6 +201,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       tabVal = 0
 
     selectedGroupIdx = ::getTblValue(tabVal, availableArmiesArray, availableArmiesArray[0]).getArmyGroupIdx()
+    selectedGroupFlyArmies = calcSelectedGroupAirArmiesNumber()
 
     hasUnitsToFly = hasEnoughUnitsToFlyOut()
 
@@ -211,6 +216,23 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     setupSendButton()
+  }
+
+  function canSendToFlyMoreArmy()
+  {
+    return selectedGroupFlyArmies < currentOperation.getGroupAirArmiesLimit()
+  }
+
+  function calcSelectedGroupAirArmiesNumber()
+  {
+    local armyCount = ::g_operations.getAirArmiesNumberByGroupIdx(selectedGroupIdx)
+    for (local idx = 0; idx < ::g_world_war.getAirfieldsCount(); idx++)
+    {
+      local airfield = ::g_world_war.getAirfieldByIndex(idx)
+      armyCount += airfield.getCooldownArmiesNumberByGroupIdx(selectedGroupIdx)
+    }
+
+    return armyCount
   }
 
   function setUnitSliderEnable(unitSliderObj, selUnitsInfo, unitTable)
@@ -272,7 +294,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         {
           selUnitsInfo.classes[utClass].amount += unitTable.value
           selUnitsInfo.classes[utClass].names.append(unitTable.unitName)
-          selUnitsInfo.selectedUnitsMask = selUnitsInfo.selectedUnitsMask | utClass
+          selUnitsInfo.selectedUnitsMask = selUnitsInfo.selectedUnitsMask |
+                                           utClass | WW_UNIT_CLASS.FIGHTER
         }
       }
 
@@ -303,10 +326,13 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       isEnable = isEnable && clamped == cl.amount
     }
 
-    sendButtonObj.enable(isEnable)
+    local canSendArmy = canSendToFlyMoreArmy()
+    sendButtonObj.enable(isEnable && canSendArmy)
 
     local cantSendText = ""
-    if (hasUnitsToFly)
+    if (!canSendArmy)
+      cantSendText = ::loc("worldwar/reached_air_armies_limit")
+    else if (hasUnitsToFly)
       cantSendText = isEnable ? getSelectedUnitsFlyTimeText(selectedGroupIdx) :
         ::loc("worldwar/airfield/army_not_equipped")
 
@@ -325,6 +351,17 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       return ::loc("worldwar/airfield/" + classText + "/number_conditions", {numb = range.y, curr = text})
 
     return ::loc("worldwar/airfield/" + classText + "/limits_conditions", {min = range.x, max = range.y, curr = text})
+  }
+
+  function fillArmyLimitDescription()
+  {
+    local textObj = scene.findObject("armies_limit_text")
+    if (!::checkObj(textObj))
+      return
+
+    textObj.setValue(::loc("worldwar/group_air_armies_limit",
+      { cur = selectedGroupFlyArmies,
+        max = currentOperation.getGroupAirArmiesLimit() }))
   }
 
   function fillFlyOutDescription()
@@ -424,10 +461,10 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   function setupQuantityManageButtons(selectedUnitsInfo, unitTable)
   {
-    local maxUnitsValue = unitTable.maxValue
+    local unitsClassMaxValue = unitTable.maxUnitClassValue
 
     local amount = getReqDataFromSelectedUnitsInfo(selectedUnitsInfo, unitTable.unitClass, "amount", 0)
-    local isMaxSelUnitsSet = amount >= maxUnitsValue && amount > 0
+    local isMaxSelUnitsSet = amount >= unitsClassMaxValue && amount > 0
 
     local prevMaxChoosenUnitsMask = maxChoosenUnitsMask
     maxChoosenUnitsMask = ::change_bit_mask(maxChoosenUnitsMask, unitTable.unitClass, isMaxSelUnitsSet? 1 : 0)
@@ -481,9 +518,9 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local unitClass = unitsList[unitIndex].unitClass
-    local unitsQty = getReqDataFromSelectedUnitsInfo(selectedUnitsInfo, unitClass, "amount", 0)
-    local unitMaxValue = unitsList[unitIndex].maxValue
-    local excess = max(unitsQty - unitMaxValue, 0)
+    local unitsClassValue = getReqDataFromSelectedUnitsInfo(selectedUnitsInfo, unitClass, "amount", 0)
+    local unitsClassMaxValue = unitsList[unitIndex].maxUnitClassValue
+    local excess = max(unitsClassValue - unitsClassMaxValue, 0)
     if (excess)
       unitsList[unitIndex].value = value - excess
 
@@ -643,7 +680,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     return ::loc("worldwar/airfield/army_fly_time") + ::loc("ui/colon") + getFlyTimeText(minTime)
   }
 
-  function getUnitSliderMaxValue(unitClass)
+  function getUnitClassMaxValue(unitClass)
   {
     return ::max(currentOperation.getQuantityToFlyOut(unitClass, unitClass).y,
                  currentOperation.getQuantityToFlyOut(unitClass, WW_UNIT_CLASS.COMBINED).y)

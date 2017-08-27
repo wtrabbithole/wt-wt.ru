@@ -10,7 +10,11 @@ function sendInvitationPsn(config)
   local dataDescriptionLocId = "ps4/invitation/" + inviteType + "/detail"
 
   blk.userMessage = ""
-  blk.target = ::getTblValue("target", config, "") //::ps4_get_friend()
+  local targetAccountId = ::getTblValue("targetAccountId", config, 0)
+  if (targetAccountId != 0)
+    blk.target = targetAccountId
+  else
+    blk.target = ::getTblValue("targetOnlineId", config, "")
   blk.dataName = ::loc(dataNameLocId)
   blk.dataDetail = ::loc(dataDescriptionLocId)
 

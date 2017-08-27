@@ -1945,7 +1945,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     if (!needPlayersTbl)
       return
-    local logText = ::get_gamechat_log_text()
+    local logText = ::getTblValue("chatLog", ::debriefing_result, "")
     if (logText == "")
       return
     local obj = scene.findObject("chat_history_div")
@@ -2033,7 +2033,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   }
   function is_show_chat_history()
   {
-    return needPlayersTbl && ::get_gamechat_log_text() != ""
+    return needPlayersTbl && ::getTblValue("chatLog", ::debriefing_result, "") != ""
   }
   function is_show_awards_list()
   {

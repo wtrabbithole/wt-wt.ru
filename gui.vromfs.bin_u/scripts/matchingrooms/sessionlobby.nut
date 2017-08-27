@@ -199,7 +199,7 @@ function notify_session_start()
   isRoomOwner = false
   isRoomByQueue = false
   isEventRoom = false
-  roomId = ""
+  roomId = INVALID_ROOM_ID
   roomUpdated = false
   password = ""
 
@@ -471,11 +471,17 @@ function SessionLobby::UpdatePlayersInfo()
 function SessionLobby::UpdateCrsSettings()
 {
   isSpectatorSelectLocked = false
-  local refereeIds = ::getTblValue("referees", getSessionInfo())
-  if (::u.isArray(refereeIds))
+  local userInUidsList = function(list_name)
   {
-    refereeIds = ::u.map(refereeIds, function (v) { return v.tostring() })
-    isSpectatorSelectLocked = ::isInArray(::my_user_id_str, refereeIds)
+    local ids = ::getTblValue(list_name, getSessionInfo())
+    if (::u.isArray(ids))
+      return ::isInArray(::my_user_id_int64, ids)
+    return false
+  }
+
+  if (userInUidsList("referees") || userInUidsList("spectators"))
+  {
+    isSpectatorSelectLocked = true
     setSpectator(isSpectatorSelectLocked)
   }
 
@@ -1535,7 +1541,7 @@ function SessionLobby::goForwardAfterDebriefing()
 
 function SessionLobby::afterLeaveRoom(p)
 {
-  roomId = ""
+  roomId = INVALID_ROOM_ID
   switchStatus(lobbyStates.NOT_IN_ROOM)
   local guiScene = ::get_main_gui_scene()
   if (guiScene)
@@ -1737,7 +1743,7 @@ function SessionLobby::isMemberOperator(member)
 
 function SessionLobby::invitePlayer(uid)
 {
-  if (typeof(roomId) != "integer") // we are not in room. nothere to invite
+  if (roomId == INVALID_ROOM_ID) // we are not in room. nothere to invite
   {
     local is_in_room = isInRoom()
     ::script_net_assert("trying to invite into room without roomId")
@@ -1922,11 +1928,9 @@ function SessionLobby::hostCb(res)
         leaveRoom()
 
     ::error_message_box("yn1/connect_error", errorCode,
-      [["ok", function()
-              {
-                ::destroy_session_scripted()
-              }
-       ]], "ok")
+      [["ok", ::destroy_session_scripted]],
+      "ok",
+      { saved = true })
   }
   //else
   //  switchStatus(lobbyStates.JOINING_SESSION)
@@ -2112,7 +2116,7 @@ function SessionLobby::canInvitePlayer(uid)
 
 function SessionLobby::needAutoInviteSquad()
 {
-  return isRoomOwner || (haveLobby() && !isRoomByQueue)
+  return isInRoom() && isRoomOwner || (haveLobby() && !isRoomByQueue)
 }
 
 function SessionLobby::checkSquadAutoInvite()

@@ -130,12 +130,7 @@ function on_facebook_login_finished()
 function start_facebook_login()
 {
   if (::is_platform_ps4)
-  {
-    local result = ::ps4_facebook_login()
-    if (result == 0) // successful login
-      ::on_facebook_login_finished()
     return
-  }
 
   ::scene_msg_box("facebook_login", null, ::loc("facebook/connecting"),
                   [["cancel", function() {::facebook_cancel_login()}]],

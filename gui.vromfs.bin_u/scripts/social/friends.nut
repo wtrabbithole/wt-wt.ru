@@ -51,9 +51,19 @@ function addPsnFriends()
         ::addSocialFriends(blk, ::EPLX_PS4_FRIENDS)
       else
       {
-        local blockName = "PS4_Specific/invitationsRecievers"
-        local selectedPlayer = ::ps4_selected_friend()
-        if (typeof(selectedPlayer) != "string" || selectedPlayer == "")
+        local selectedPlayerName = ""
+        local selectedPlayerAccountId = 0
+        local selected = ::ps4_selected_friend()
+        if (::u.isString(selected))
+        {
+          selectedPlayerName = selected
+        }
+        else if (::u.isDataBlock(selected))
+        {
+          selectedPlayerName = selected.onlineId
+          selectedPlayerAccountId = selected.accountId
+        }
+        else
           return
 
         local msgText = ::loc("msgbox/no_psn_friends_added")
@@ -61,16 +71,17 @@ function addPsnFriends()
         local defaultButton = "ok"
         local inviteConfig = {}
 
-        local path = blockName + "/" + selectedPlayer
+        local path = "PS4_Specific/invitationsRecievers/" + selectedPlayerName
         local isSecondTry = ::load_local_account_settings(path, false)
         if (!isSecondTry)
         {
-          inviteConfig = {
-                           target = selectedPlayer,
-                           inviteType = "gameStart",
-                           expireMinutes = 1440
-                         }
-          msgText += "\n" + ::loc("msgbox/send_game_invitation", {friendName = selectedPlayer})
+            inviteConfig = {
+                             targetOnlineId = selectedPlayerName,
+                             targetAccountId = selectedPlayerAccountId,
+                             inviteType = "gameStart",
+                             expireMinutes = 1440
+                           }
+          msgText += "\n" + ::loc("msgbox/send_game_invitation", {friendName = selectedPlayerName})
           buttonsArray = [
                            ["yes", (@(path, inviteConfig) function() {
                                 if (::sendInvitationPsn(inviteConfig) == 0)

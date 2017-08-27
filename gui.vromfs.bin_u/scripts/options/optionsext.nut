@@ -691,7 +691,7 @@ function create_option()
 
     getTitle = function()
     {
-      return ::stripTags(title || ::loc("options/" + id))
+      return title || ::loc("options/" + id)
     }
 
     getCurrentValueLocText = function()
@@ -4906,7 +4906,7 @@ function create_options_container(name, options, is_focused, is_centered, column
       {
         local tdText = ""
         if (haveOptText)
-          tdText = optionData.getTitle()
+          tdText = ::stripTags(optionData.getTitle())
         rowData += "td { overflow:t='hidden'; cellType:t='left'; width:t='" + wLeft + "'; " + optionTitleStyle + " { id:t = 'lbl_" + optionData.id + "'; text:t ='" + tdText + "'; } }"
         rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemTxt + " }"
       }

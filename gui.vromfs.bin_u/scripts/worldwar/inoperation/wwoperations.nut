@@ -40,6 +40,20 @@ function g_operations::getArmiesCache()
   return getCurrentOperation().armies.armiesByStatusCache
 }
 
+function g_operations::getAirArmiesNumberByGroupIdx(groupIdx)
+{
+  local armyCount = 0
+  foreach (wwArmyByStatus in getArmiesCache())
+    foreach (wwArmyByGroup in wwArmyByStatus)
+      foreach (wwArmy in wwArmyByGroup)
+        if (wwArmy.getArmyGroupIdx() == groupIdx &&
+            !(wwArmy.getArmyFlags() & EAF_NO_AIR_LIMIT_ACCOUNTING) &&
+            ::g_ww_unit_type.isAir(wwArmy.getUnitType()))
+          armyCount++
+
+  return armyCount
+}
+
 /***************** Private ********************/
 
 function g_operations::getCurrentOperation()

@@ -8,8 +8,9 @@ tdiv {
   <</isInvert>>
 
   textareaNoTab {
+    id:t='clan_block_text'
     margin-bottom:t='1@framePadding'
-    text:t='#worldwar/operation/participating_clans'
+    text:t=''
     overlayTextColor:t='active'
   }
 

@@ -4,8 +4,6 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
   sceneTplTeamStrenght = "gui/worldWar/wwOperationDescriptionSideStrenght"
   sceneTplTeamArmyGroups = "gui/worldWar/wwOperationDescriptionSideArmyGroups"
 
-  wwMap = null
-
   function setDescItem(newDescItem)
   {
     if (!(newDescItem instanceof ::WwOperation))
@@ -23,8 +21,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
     updateDescription()
 
-    wwMap = descItem.getMap()
-    if (::u.isEmpty(wwMap))
+    if (::u.isEmpty(map))
       return
 
     updateStatus()
@@ -35,12 +32,20 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
   function updateDescription()
   {
     local desctObj = scene.findObject("item_desc")
-    if (::checkObj(desctObj))
-      desctObj.setValue(descItem.getDescription(false))
+    if (::check_obj(desctObj))
+      desctObj.setValue(map.getDescription(false))
   }
 
   function updateMap()
   {
+    if (!descItem)
+    {
+      local mapBlockObj = scene.findObject("world_war_map_block")
+      if (::check_obj(mapBlockObj))
+        mapBlockObj.show(false)
+      return
+    }
+
     local taskId = ::ww_preview_operation(descItem.id)
     if (taskId < 0)
     {
@@ -89,13 +94,16 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function updateStatus()
   {
+    if (!descItem)
+      return
+
     local startDateObj = scene.findObject("operation_start_date")
     if (::checkObj(startDateObj))
       startDateObj.setValue(
         ::loc("worldwar/operation/started", { date = descItem.getStartDateTxt() })
       )
 
-    local activeBattlesCountObj = scene.findObject("operation_active_battles_count")
+    local activeBattlesCountObj = scene.findObject("operation_short_info_text")
     if (::checkObj(activeBattlesCountObj))
     {
       local battlesCount = ::g_world_war.getBattles(
@@ -149,15 +157,21 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
       local armyGroupsBlk = ::handyman.renderCached(sceneTplTeamArmyGroups, armyGroupViewData)
       guiScene.replaceContentFromText(armyGroupObjPlace, armyGroupsBlk, armyGroupsBlk.len(), this)
 
+      local clanBlockTextObj = armyGroupObjPlace.findObject("clan_block_text")
+      if (::check_obj(clanBlockTextObj))
+        clanBlockTextObj.setValue(descItem ?
+          ::loc("worldwar/operation/participating_clans") :
+          map.getClansConditionText(true))
+
       local countryesObjPlace = scene.findObject("team_" + sideName + "_countryes_info")
-      local countryesMarkUpData = wwMap.getCountriesViewBySide(side)
+      local countryesMarkUpData = map.getCountriesViewBySide(side)
       guiScene.replaceContentFromText(countryesObjPlace, countryesMarkUpData, countryesMarkUpData.len(), this)
     }
   }
 
   function getUnitsListViewBySide(side, isInvert)
   {
-    local unitsList = wwMap.getUnitInfoBySide(side)
+    local unitsList = map.getUnitInfoBySide(side)
     if (::u.isEmpty(unitsList))
       return ""
 
@@ -178,10 +192,13 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
   function getClanListViewDataBySide(side, isInvert, parentObj)
   {
     local viewData = {
-        columns = [],
+        columns = []
         isInvert = isInvert
         isSingleColumn = false
       }
+
+    if (!descItem)
+      return viewData
 
     local armyGroups = descItem.getArmyGroupsBySide(side)
     local clansPerColumn = ::g_dagui_utils.countSizeInItems(parentObj, 1, "@leaderboardTrHeight",
@@ -199,7 +216,6 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
       if ("name" in armyGroups[i])
         armyGroupNames.append({ name = armyGroups[i].name })
     }
-
     if (isInvert)
       viewData.columns.reverse()
 

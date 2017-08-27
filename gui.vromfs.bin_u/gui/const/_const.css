@@ -20,11 +20,11 @@
 @const textPaddingBugWorkaround:11px;
 
 @const shopAirHeight: 44*@sf/@pf_outdated; @const shopAirWidth: 120*@sf/@pf_outdated; @const armySmallIconWidth: 26*@sf/@pf_outdated;
-@const cIco: 20*@sf/@pf_outdated;
-@const dIco: 24*@sf/@pf_outdated;
-@const sIco: 16*@sf/@pf_outdated;
-@const mIco: 32*@sf/@pf_outdated;
-@const lIco: 64*@sf/@pf_outdated;
+@const cIco: (20*@sf/@pf_outdated) \ 1;
+@const dIco: (24*@sf/@pf_outdated) \ 1;
+@const sIco: (16*@sf/@pf_outdated) \ 1;
+@const mIco: (32*@sf/@pf_outdated) \ 1;
+@const lIco: (64*@sf/@pf_outdated) \ 1;
 @const slotBtnIco: 23*@sf/@pf_outdated;
 @const profileMedalSize: 128*@sf/@pf_outdated;
 @const profileUnlockIconSize: 100*@sf/@pf_outdated;
@@ -168,7 +168,7 @@
 
 @const actionBarBottomPos: sh - 1@bhHud;
 
-@const framePadding: @blockInterval+2; 
+@const framePadding: 1@blockInterval+4@dp; 
 @const unlockBlockWidth: 0.55@sf\1;
 
 @const modWindowWidth: 6@modCellWidth + 1.5@modBlockTierNumHeight $min 1@rw;

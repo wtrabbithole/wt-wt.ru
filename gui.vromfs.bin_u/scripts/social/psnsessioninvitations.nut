@@ -364,7 +364,7 @@ function g_psn_session_invitations::getCurrentSquadInfo()
   return {
     locIdsArray = ["ps4/session/squad"]
     isFriendsOnly = false
-    maxUsers = ::g_squad_manager.maxSquadSize
+    maxUsers = ::g_squad_manager.getMaxSquadSize()
   }
 }
 

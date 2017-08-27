@@ -3,7 +3,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
   wndType = handlerType.MODAL
   sceneBlkName   = "gui/worldWar/wwOperationsListModal.blk"
 
-  mapId = null
+  map = null
 
   selOperation = null
   isOperationJoining = false
@@ -13,7 +13,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
 
   function initScreen()
   {
-    if (!mapId)
+    if (!map)
       return goBack()
 
     opListObj = scene.findObject("items_list")
@@ -29,7 +29,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
 
   function getOpGroup()
   {
-    return ::g_ww_global_status.getOperationGroupByMapId(mapId)
+    return ::g_ww_global_status.getOperationGroupByMapId(map.getId())
   }
 
   function getSortedOperationsData()
@@ -137,8 +137,11 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
   function updateTitle()
   {
     local titleObj = scene.findObject("wnd_title")
-    if (::checkObj(titleObj))
-      titleObj.setValue(selOperation.getNameText())
+    if (!::check_obj(titleObj))
+      return
+
+    titleObj.setValue(selOperation ?
+      selOperation.getNameText() : map.getNameText())
   }
 
   function updateDescription()
@@ -146,15 +149,22 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     if (descHandlerWeak)
       return descHandlerWeak.setDescItem(selOperation)
 
-    local handler = ::gui_handlers.WwMapDescription.link(scene.findObject("item_desc"), selOperation)
+    local handler = ::gui_handlers.WwMapDescription.link(scene.findObject("item_desc"), selOperation, map)
     descHandlerWeak = handler.weakref()
     registerSubHandler(handler)
   }
 
   function updateButtons()
   {
+    ::showBtn("operation_join_block", selOperation, scene)
+    ::showBtn("operation_create_block", !selOperation, scene)
     if (!selOperation)
+    {
+      ::showBtn("btn_create_operation", isClanQueueAvaliable(), scene)
+      local operationDescText = scene.findObject("operation_short_info_text")
+      operationDescText.setValue(::loc("worldwar/msg/noActiveOperations"))
       return
+    }
 
     foreach(side in ::g_world_war.getCommonSidesOrder())
     {
@@ -173,6 +183,19 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
         guiScene.replaceContentFromText(joinBtnFlagsObj, markUpData, markUpData.len(), this)
       }
     }
+  }
+
+  function isClanQueueAvaliable()
+  {
+    return ::has_feature("WorldWarClansQueue") &&
+           ::has_feature("Clans") &&
+           ::is_in_clan() && map.isActive()
+  }
+
+  function onCreateOperation()
+  {
+    goBack()
+    ::ww_event("CreateOperation")
   }
 
   function onJoinOperationSide1()

@@ -227,12 +227,13 @@ class WwMap
     return res
   }
 
-  function getClansConditionText()
+  function getClansConditionText(isSideInfo = false)
   {
     local minNumb = ::getTblValue("minClanCount", data, 0)
     local maxNumb = ::getTblValue("maxClanCount", data, 0)
+    local prefix = isSideInfo ? "side_" : ""
     return minNumb == maxNumb ?
-      ::loc("worldwar/operation/clans_number", {numb = maxNumb}) :
-      ::loc("worldwar/operation/clans_limits", {min = minNumb, max = maxNumb})
+      ::loc("worldwar/operation/" + prefix + "clans_number", {numb = maxNumb}) :
+      ::loc("worldwar/operation/" + prefix + "clans_limits", {min = minNumb, max = maxNumb})
   }
 }

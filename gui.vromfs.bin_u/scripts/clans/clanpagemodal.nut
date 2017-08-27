@@ -24,7 +24,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   statsSortReverse = false
   statsSortBy      = ""
   clanData         = null
-  curEra           = ::max_country_rank
+  curEra           = CLAN_RANK_ERA
   curPlayer        = null
   curClan          = null
   curMode          = 0
@@ -966,15 +966,15 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       }
       {
         text = ::loc("squad/invite_player")
-        show = !isMe && ::has_feature("Squad") && !isBlock && ((meLeader && !inMySquad) || !inSquad)
-        action = (@(curPlayer) function() {
+        show = !isMe && !isBlock && ::g_squad_manager.canInviteMember(uid)
+        action = function() {
           ::find_contact_by_name_and_do(curPlayer, ::g_squad_manager,
                                         function(contact)
                                         {
                                           if (contact)
                                             inviteToSquad(contact.uid)
                                         })
-        })(curPlayer)
+        }
       }
       {
         text = ::loc("squad/remove_player")

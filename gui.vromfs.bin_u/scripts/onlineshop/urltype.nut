@@ -101,6 +101,9 @@ enum URL_CHECK_ORDER
     needAutoLogin = true
     urlRegexpList = [
       regexp(@"^https?:\/\/tss\.warthunder\.com" + URL_ANY_ENDING),
+      regexp(@"^https?:\/\/tss\.warthunder\.ru" + URL_ANY_ENDING),
+      regexp(@"^https?:\/\/tss-dev\.warthunder\.com" + URL_ANY_ENDING),
+      regexp(@"^https?:\/\/tss-dev\.warthunder\.ru" + URL_ANY_ENDING),
       regexp(@"^https?:\/\/live\.warthunder\.com" + URL_ANY_ENDING),
     ]
   }

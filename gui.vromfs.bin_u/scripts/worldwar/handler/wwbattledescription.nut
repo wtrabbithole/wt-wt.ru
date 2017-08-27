@@ -174,7 +174,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     else
     {
       local teamsData = battleView.getTeamBlockByIconSize(
-        WW_ARMY_GROUP_ICON_SIZE.SMALL, false, {hasArmyInfo = false, hasVersusText = true})
+        WW_ARMY_GROUP_ICON_SIZE.SMALL, false, {hasArmyInfo = false,
+                                               hasVersusText = true,
+                                               canAlignRight = false})
       local teamsMarkUp = ""
       foreach(idx, army in teamsData)
         teamsMarkUp += army.armies.armyViews
@@ -410,10 +412,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       cantJoinReasonTextObj.setValue(::u.isEmpty(cantJoinReasonData.shortReasonText) ? cantJoinReasonData.reasonText
                                                                                      : cantJoinReasonData.shortReasonText)
 
-      local replayButtonObj = showSceneBtn("replay_button", hasReplay())
-      if (::check_obj(replayButtonObj))
-        replayButtonObj.tooltip = battle.getView().getReplayBtnTooltip()
-
       joinBattleButtonObj.inactiveColor = cantJoinReasonData.canJoin ? "no" : "yes"
       if (!cantJoinReasonData.canJoin)
         return
@@ -427,13 +425,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     {
       showSceneBtn("cant_join_reason_txt", false)
     }
-  }
-
-  function hasReplay()
-  {
-    return battle.isConfirmed() &&
-           !::u.isEmpty(battle.getSessionId()) &&
-           ::has_feature("WorldWarReplay")
   }
 
   function updateCanJoinBattleStatus()
@@ -475,7 +466,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onJoinBattle()
   {
-    battle.join()
+    battle.tryToJoin()
   }
 
   function onLeaveBattle()
@@ -561,11 +552,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     headerObj.collapsed = headerData.isCollapsed ? "yes" : "no"
 
     guiScene.setUpdatesEnabled(true, true)
-  }
-
-  function onViewServerReplay()
-  {
-    ::gui_start_replay_battle(battleRes.getSessionId(), ::gui_start_worldWar)
   }
 
   function _getFirstBattleInListMap()

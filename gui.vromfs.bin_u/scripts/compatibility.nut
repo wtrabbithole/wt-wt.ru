@@ -471,4 +471,7 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   }
   EWBAT_BATTLE_TASK = 8
   WT_APPID = 1067
+
+  EAF_NO_COOLDOWN_ON_LANDING = 1
+  EAF_NO_AIR_LIMIT_ACCOUNTING = 2
 })

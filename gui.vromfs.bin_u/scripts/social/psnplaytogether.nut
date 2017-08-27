@@ -50,8 +50,12 @@ function g_play_together::requestUsersList(inviteesArray)
 {
   local onlineIds = []
   foreach (player in inviteesArray)
+  {
     if (::getTblValue("onlineId", player, "") != "")
       onlineIds.append(player.onlineId)
+    if (::getTblValue("accountId", player, "") != "")
+      onlineIds.append(player.accountId)
+  }
 
   local taskId = ::ps4_find_friends(onlineIds)
   local taskOptions = {
@@ -139,7 +143,7 @@ function g_play_together::checkMeAsSquadLeader()
   if (!::g_squad_manager.isSquadLeader())
     return false
 
-  local availableSlots = ::g_squad_manager.maxSquadSize - ::g_squad_manager.getSquadSize()
+  local availableSlots = ::g_squad_manager.getMaxSquadSize() - ::g_squad_manager.getSquadSize()
   if (availableSlots >= cachedInviteeUids.len())
     return false
 

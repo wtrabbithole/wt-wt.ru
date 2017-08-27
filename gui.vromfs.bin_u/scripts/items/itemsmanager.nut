@@ -177,7 +177,7 @@ function ItemsManager::fillFakeItemsList()
     fakeItemsList["FakeBoosterForNetCafeLevel" + (i || "")] <- ::build_blk_from_container(table)
   }
 
-  for (local i = 2; i <= ::g_squad_manager.maxSquadSize; i++)
+  for (local i = 2; i <= ::g_squad_manager.getMaxSquadSize(); i++)
   {
     local table = {
       type = itemType.FAKE_BOOSTER

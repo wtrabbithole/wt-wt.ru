@@ -40,7 +40,13 @@
         "_Conq3": true,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       }
     },
     "spectator_points": [],
@@ -80,10 +86,16 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "ht_t1_hunters_squad"
             },
             {
               "object": "ht_t2_hunters_squad"
+            },
+            {
+              "targetableByAi": false
             },
             {
               "stealthRadius": 4500.0
@@ -96,9 +108,6 @@
             },
             {
               "effShootingRate": 0.3
-            },
-            {
-              "targetableByAi": false
             }
           ]
         },
@@ -541,6 +550,7 @@
           "target": "@ht_t2_player_name"
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "@ht_t1_hunter_name",
           "targetableByAi": false
         },
@@ -663,6 +673,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "B"
           }
         },
@@ -679,6 +691,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "B"
           }
         }
@@ -787,6 +801,7 @@
           "target": "ht_t1_hunter_lost_target"
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "@ht_t1_hunter_name",
           "targetableByAi": true
         },
@@ -852,6 +867,10 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@ht_t1_hunter_name",
           "speed": 1500.0
         },
@@ -1236,6 +1255,7 @@
           "target": "@ht_t1_player_name"
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "@ht_t2_hunter_name",
           "targetableByAi": false
         },
@@ -1358,6 +1378,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "A"
           }
         },
@@ -1374,6 +1396,8 @@
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "A"
           }
         }
@@ -1482,6 +1506,7 @@
           "target": "ht_t2_hunter_lost_target"
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "@ht_t2_hunter_name",
           "targetableByAi": true
         },
@@ -1547,6 +1572,10 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@ht_t2_hunter_name",
           "speed": 1500.0
         },
@@ -1753,7 +1782,7 @@
         ],
         "else_actions": []
       },
-      "ht_matching_4_7": {
+      "ht_matching_4_6": {
         "is_enabled": false,
         "comments": "",
         "props": {
@@ -1770,7 +1799,7 @@
           {
             "varCompareInt": {
               "var_value": "ht_matching_rank",
-              "value": 8,
+              "value": 7,
               "comparasion_func": "less"
             }
           },
@@ -1798,7 +1827,7 @@
         ],
         "else_actions": []
       },
-      "ht_matching_8_11": {
+      "ht_matching_7_11": {
         "is_enabled": false,
         "comments": "",
         "props": {
@@ -1822,7 +1851,7 @@
           {
             "varCompareInt": {
               "var_value": "ht_matching_rank",
-              "value": 7,
+              "value": 6,
               "comparasion_func": "more"
             }
           }

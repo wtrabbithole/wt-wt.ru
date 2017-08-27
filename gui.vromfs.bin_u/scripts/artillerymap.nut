@@ -363,13 +363,15 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
 function gui_start_artillery_map(params = {})
 {
+  local isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false)
+
    ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap,
    {
-     isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false),
+     isSuperArtillery = isSuperArtillery
      superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
      iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
      iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
-     mapSizeMeters = getTblValue("mapSizeMeters", params, 1400.0),
+     mapSizeMeters = isSuperArtillery ? ::getTblValue("mapSizeMeters", params, 1400.0) : 1400.0
    })
 }
 
