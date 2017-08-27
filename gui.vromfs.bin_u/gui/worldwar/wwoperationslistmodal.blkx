@@ -214,6 +214,7 @@
                       },
                       {
                         "ShadowPlate": {
+                          "id": "world_war_map_block",
                           "size": "pw, pw",
                           "min-height": "@wwOperationMapMinSize",
                           "min-width": "@wwOperationMapMinSize",
@@ -239,7 +240,7 @@
                       },
                       {
                         "textareaNoTab": {
-                          "id": "operation_active_battles_count",
+                          "id": "operation_short_info_text",
                           "pos": "50%pw-50%w, 0",
                           "position": "relative",
                           "text": ""
@@ -252,10 +253,65 @@
               {
                 "tdiv": [
                   {
+                    "id": "operation_create_block"
+                  },
+                  {
                     "width": "pw"
                   },
                   {
-                    "margin": "1@blockInterval, 0, 1@blockInterval-1@blockInterval, 1@blockInterval-1@blockInterval"
+                    "margin-left": "1@blockInterval"
+                  },
+                  {
+                    "Button_text": {
+                      "id": "btn_back",
+                      "text": "#mainmenu/btnBack",
+                      "btnName": "B",
+                      "_on_click": "goBack",
+                      "ButtonImg": []
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "width": "fw"
+                    }
+                  },
+                  {
+                    "Button_text": {
+                      "id": "btn_create_operation",
+                      "width": "1@bigButtonWidth",
+                      "class": "battle",
+                      "navButtonFont": "yes",
+                      "_on_click": "onCreateOperation",
+                      "css-hier-invalidate": "yes",
+                      "isCancel": "no",
+                      "btnName": "Y",
+                      "pattern": [],
+                      "buttonWink": {
+                        "_transp-timer": "0"
+                      },
+                      "buttonGlance": [],
+                      "ButtonImg": [],
+                      "tdiv": {
+                        "pos": "50%pw-50%w, 50%ph-50%h",
+                        "position": "relative",
+                        "textareaNoTab": {
+                          "text": "#worldwar/btnCreateOperation"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "tdiv": [
+                  {
+                    "id": "operation_join_block"
+                  },
+                  {
+                    "width": "pw"
+                  },
+                  {
+                    "margin-left": "1@blockInterval"
                   },
                   {
                     "Button_text": {

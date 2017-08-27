@@ -1922,11 +1922,9 @@ function SessionLobby::hostCb(res)
         leaveRoom()
 
     ::error_message_box("yn1/connect_error", errorCode,
-      [["ok", function()
-              {
-                ::destroy_session_scripted()
-              }
-       ]], "ok")
+      [["ok", ::destroy_session_scripted]],
+      "ok",
+      { saved = true })
   }
   //else
   //  switchStatus(lobbyStates.JOINING_SESSION)

@@ -4,7 +4,7 @@
   "resetViralAcquisitionDaysCounter": 1,
   "moderatorPresenceCheckMaxCode": 65536,
   "moderatorPresenceCheckPeriodSec": 1200,
-  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;I2M;Tdm;Capt;NTDM;NDom;NA;NAleft;NAright;4x4_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;NADom;BR;ctf",
+  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;I2M;Tdm;Capt;NTDM;NDom;NA;NAleft;NAright;4x4_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;NADom;BR;ctf;Duo",
   "ordersPerSession": 3,
   "randomBattle": {
     "classiness": {
@@ -87,7 +87,7 @@
       }
     },
     "battle_royale_small": {
-      "superiorityBattlesThreshold": 17
+      "superiorityBattlesThreshold": 20
     },
     "battle_royale_small_rb": {
       "superiorityBattlesThreshold": 20
@@ -162,7 +162,11 @@
       "ctf": 3,
       "Tdm": 3,
       "tm": 3,
-      "Capt": 3
+      "Capt": 3,
+      "Duo": 3,
+      "NADom": 3,
+      "ArtDA": 3,
+      "ArtDB": 3
     }
   },
   "mapIntDiffToName": {
@@ -266,6 +270,12 @@
   },
   "squadronStatisticsFilter": {
     "fullreal": false
+  },
+  "squad": {
+    "sizes": {
+      "squad": 4,
+      "battleGroup": 5
+    }
   },
   "promo_block": {
     "events_mainmenu_button": {
@@ -472,6 +482,9 @@
       },
       {
         "condition": "ShipsFirstChoice"
+      },
+      {
+        "condition": "ShipEventGamescomAccess"
       },
       {
         "platform_lock": "android"
@@ -1182,6 +1195,14 @@
     "SquadTransferLeadership": {
       "condition": ""
     },
+    "SquadSizeChange": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "worldwar_cbt_access"
+      }
+    ],
     "ClanSeasonRewardsLog": {
       "condition": ""
     },
@@ -1218,6 +1239,23 @@
       },
       {
         "condition": "ship_event_invite_access"
+      },
+      {
+        "reqPack": "pkg_ships"
+      }
+    ],
+    "ShipEventGamescomAccess": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "ship_event_gamescom_access"
       },
       {
         "reqPack": "pkg_ships"

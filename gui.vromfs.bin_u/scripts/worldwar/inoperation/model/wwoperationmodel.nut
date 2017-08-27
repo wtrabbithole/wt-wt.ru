@@ -2,6 +2,7 @@ class ::WwOperationModel
 {
   armies = null
   unitClassFlyoutRange = null
+  groupAirArmiesLimit = 0
 
   maxUniqueUnitsOnFlyout = 0
 
@@ -9,11 +10,17 @@ class ::WwOperationModel
   {
     armies = ::WwOperationArmies()
     maxUniqueUnitsOnFlyout = ::g_world_war.getWWConfigurableValue("maxUniqueUnitsOnFlyout", 0)
+    groupAirArmiesLimit = ::g_world_war.getWWConfigurableValue("airArmiesLimitPerArmyGroup", 0)
   }
 
   function update()
   {
     armies.statusUpdate()
+  }
+
+  function getGroupAirArmiesLimit()
+  {
+    return groupAirArmiesLimit
   }
 
   function getUnitsFlyoutRange()

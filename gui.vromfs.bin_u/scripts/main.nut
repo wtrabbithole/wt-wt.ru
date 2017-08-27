@@ -330,6 +330,7 @@ function load_scripts_after_login()
     "newIconWidget.nut"
     "wndLib/commentModal.nut"
     "wndLib/infoWnd.nut"
+    "wndLib/skipableMsgBox.nut"
     "wndWidgets/navigationPanel.nut"
 
     "viewUtils/hintTags.nut"
@@ -537,7 +538,8 @@ function load_scripts_after_login()
     "weaponsVisual.nut"
     "weaponry/weaponrySelectModal.nut"
     "weaponry/unitWeaponsHandler.nut"
-    "weapons.nut"
+    "weaponry/weapons.nut"
+    "weaponry/weaponWarningHandler.nut"
     "weaponry/weaponsPurchase.nut"
     "finishedResearches.nut"
     "modificationsTierResearched.nut"

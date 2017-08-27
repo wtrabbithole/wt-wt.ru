@@ -4,19 +4,21 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
 
   descItem = null //WwMap, WwQueue, WwOperation, WwOperationGroup
+  map = null
   needEventHeader = true
 
   rootDescId = "item_desc"
 
   //this handler dosnt create own scene, just search objects in already exist scene.
-  static function link(_scene, _descItem = null)
+  static function link(_scene, _descItem = null, _map = null)
   {
     local params = {
       scene = _scene
       descItem = _descItem
+      map = _map
     }
 
-    if (_descItem instanceof ::WwOperation)
+    if (!_descItem && _map || _descItem instanceof ::WwOperation)
       return ::handlersManager.loadHandler(::gui_handlers.WwOperationDescriptionCustomHandler, params)
     else if (_descItem instanceof ::WwQueue)
       return ::handlersManager.loadHandler(::gui_handlers.WwQueueDescriptionCustomHandler, params)
@@ -64,7 +66,7 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function isVisible()
   {
-    return descItem != null
+    return descItem != null || map != null
   }
 
   function updateVisibilities(isVisible)

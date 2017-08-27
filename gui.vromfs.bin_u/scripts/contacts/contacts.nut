@@ -426,7 +426,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     showBtn("btn_blacklistRemove", isBlock, contact_buttons_holder)
     showBtn("btn_message", owner && !isBlock && ::ps4_is_chat_enabled(), contact_buttons_holder)
 
-    showBtn("btn_squadInvite", !isMe && !isBlock && ::g_squad_manager.canInviteMember(), contact_buttons_holder)
+    showBtn("btn_squadInvite", !isMe && !isBlock && ::g_squad_manager.canInviteMember(contact_data.uid), contact_buttons_holder)
     showBtn("btn_usercard", true, contact_buttons_holder)
     showBtn("btn_facebookFriends", ::has_feature("Facebook") && !::is_platform_ps4, contact_buttons_holder)
     showBtn("btn_steamFriends", ::steam_is_running(), contact_buttons_holder)
@@ -955,7 +955,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       {
         text = ::loc("squad/invite_player")
-        show = !isMe && !isBlock && ::g_squad_manager.canInviteMember()
+        show = !isMe && !isBlock && ::g_squad_manager.canInviteMember(curPlayer.uid)
         action = function() { onSquadInvite(null) }
       }
       {
@@ -1037,7 +1037,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_blacklistRemove", curPlayer && isBlock)
     showSceneBtn("btn_message", owner && curPlayer && !isBlock && ::ps4_is_chat_enabled())
 
-    showSceneBtn("btn_squadInvite", !isMe && !isBlock && ::g_squad_manager.canInviteMember())
+    showSceneBtn("btn_squadInvite", !isMe && !isBlock && curPlayer && ::g_squad_manager.canInviteMember(curPlayer.uid))
     showSceneBtn("btn_usercard", curPlayer!=null)
     showSceneBtn("btn_facebookFriends", ::has_feature("Facebook") && !::is_platform_ps4)
     showSceneBtn("btn_steamFriends", !::is_platform_ps4 && ::steam_is_running())
@@ -1136,14 +1136,15 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSquadInvite(obj)
   {
-    if (!::g_squad_manager.canInviteMember())
-      return
-
     updateCurPlayer(obj)
 
     if (curPlayer == null)
-      ::g_popups.add("", ::loc("msgbox/noChosenPlayer"))
-    else if (::is_psn_player_use_same_titleId(curPlayer.name))
+      return ::g_popups.add("", ::loc("msgbox/noChosenPlayer"))
+
+    if (!::g_squad_manager.canInviteMember(curPlayer.uid))
+      return
+
+    if (::is_psn_player_use_same_titleId(curPlayer.name))
       ::g_psn_session_invitations.sendSquadInvitation(curPlayer.name)
     else
       ::g_squad_manager.inviteToSquad(curPlayer.uid)

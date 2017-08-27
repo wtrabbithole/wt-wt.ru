@@ -370,31 +370,6 @@ function check_logout_scheduled()
   }
 }
 
-function on_connection_failed(fail_loc_id)
-{
-  if (::in_on_lost_psn)
-    return
-
-  if (::is_in_save_dialogs)
-  {
-    local guiScene = ::get_gui_scene()
-    local handler = ::current_base_gui_handler
-    if (handler != null)
-      handler.guiScene.performDelayed(handler, (@(fail_loc_id) function() {
-        ::on_connection_failed(fail_loc_id);
-      })(fail_loc_id))
-
-    return
-  }
-  if (::current_base_gui_handler && ("destroyProgressBox" in ::current_base_gui_handler))
-    ::current_base_gui_handler.destroyProgressBox.call(::current_base_gui_handler)
-
-  local options = ("LAST_SESSION_DEBUG_INFO" in getroottable()) ?
-    { debug_string = ::LAST_SESSION_DEBUG_INFO } : null
-
-  ::add_msg_box("connection_failed", ::loc(fail_loc_id), [["ok", function() { }]], "ok", options)
-}
-
 function get_options_mode(game_mode)
 {
   switch (game_mode)

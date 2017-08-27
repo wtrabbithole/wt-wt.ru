@@ -5,6 +5,9 @@
     <<#customWidth>>
       width:t='<<customWidth>>'
     <</customWidth>>
+    <<#isAlignRight>>
+    left:t='pw-w'; position:t='relative'
+    <</isAlignRight>>
     <<#markSurrounded>>
       <<#getGroundSurroundingTime>>
         surrounded:t='yes'

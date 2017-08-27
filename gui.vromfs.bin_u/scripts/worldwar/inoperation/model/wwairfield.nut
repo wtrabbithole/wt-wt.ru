@@ -70,11 +70,11 @@ class ::WwAirfield
         local cooldownsBlk = itemBlk.getBlockByName("cooldownUnits")
         for (local j = 0; j < cooldownsBlk.blockCount(); j++)
         {
-          local cooldown = ::WwAirfieldCooldownFormation(cooldownsBlk.getBlock(j), this)
-          cooldown.owner = ::WwArmyOwner(itemBlk.getBlockByName("owner"))
-          cooldown.setFormationID(j)
-          cooldown.setName("cooldown_" + j)
-          cooldownFormations.push(cooldown)
+          local formation = ::WwAirfieldCooldownFormation(cooldownsBlk.getBlock(j), this)
+          formation.owner = ::WwArmyOwner(itemBlk.getBlockByName("owner"))
+          formation.setFormationID(j)
+          formation.setName("cooldown_" + j)
+          cooldownFormations.push(formation)
         }
       }
 
@@ -102,6 +102,11 @@ class ::WwAirfield
     return side
   }
 
+  function getPos()
+  {
+    return pos
+  }
+
   function isMySide(checkSide)
   {
     return getSide() == checkSide
@@ -109,6 +114,17 @@ class ::WwAirfield
 
   function getCooldownsWithManageAccess()
   {
-    return ::u.filter(cooldownFormations, function(cooldown) { return cooldown.hasManageAccess() })
+    return ::u.filter(cooldownFormations, function(formation) { return formation.hasManageAccess() })
+  }
+
+  function getCooldownArmiesByGroupIdx(groupIdx)
+  {
+    return ::u.filter(cooldownFormations,
+      @(formation) formation.getArmyGroupIdx() == groupIdx)
+  }
+
+  function getCooldownArmiesNumberByGroupIdx(groupIdx)
+  {
+    return getCooldownArmiesByGroupIdx(groupIdx).len()
   }
 }

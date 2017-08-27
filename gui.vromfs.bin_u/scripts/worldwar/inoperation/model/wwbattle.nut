@@ -453,7 +453,7 @@ class ::WwBattle
     }
   }
 
-  function join(side = null)
+  function tryToJoin(side = null)
   {
     if (side == null)
       side = ::ww_get_player_side()
@@ -465,6 +465,27 @@ class ::WwBattle
       return
     }
 
+    local joinCb = ::Callback(@() join(side), this)
+    local warningReasonData = getWarningReasonData()
+    if (warningReasonData.needShow && !::g_squad_manager.isInSquad() &&
+        !::loadLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false))
+    {
+      ::gui_start_modal_wnd(::gui_handlers.SkipableMsgBox,
+        {
+          parentHandler = this
+          message = warningReasonData.warningText
+          ableToStartAndSkip = true
+          onStartPressed = joinCb
+          skipFunc = @(value) ::saveLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, value)
+        })
+      return
+    }
+
+    joinCb()
+  }
+
+  function join(side)
+  {
     local opId = ::ww_get_operation_id()
     local countryName = getCountryNameBySide(side)
     local teamName = getTeamNameBySide(side)

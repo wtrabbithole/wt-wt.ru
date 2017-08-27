@@ -125,7 +125,16 @@ wwObjective {
     }
   }
   <<^isLastObjective>>
-    objectiveSeparator{ inactive:t='yes' }
+    <<#isPrimary>>
+      objectiveTextSeparator {
+        separatorLine {}
+        textareaNoTab { text:t='#worldwar/airfield/conditions_separator' }
+        separatorLine {}
+      }
+    <</isPrimary>>
+    <<^isPrimary>>
+      objectiveSeparator{ inactive:t='yes' }
+    <</isPrimary>>
   <</isLastObjective>>
 }
 

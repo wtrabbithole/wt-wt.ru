@@ -2,6 +2,7 @@ const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
 const WW_LAST_OPERATION_LOG_SAVE_ID = "worldWar/lastReadLog/operation"
 const WW_UNIT_WEAPON_PRESET_PATH = "worldWar/weaponPreset/"
+const WW_SKIP_BATTLE_WARNINGS_SAVE_ID = "worldWar/skipBattleWarnings"
 
 enum WW_ARMY_ACTION_STATUS
 {
@@ -1125,7 +1126,7 @@ function g_world_war::getOperationTimeSec()
   return ::ww_get_operation_time_millisec() / TIME_SECOND_IN_MSEC
 }
 
-function g_world_war::requestLogs(loadAmount, useLogMark, cb)
+function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)
 {
   local logMark = useLogMark ? ::g_ww_logs.lastMark : ""
   local reqBlk = DataBlock()
@@ -1136,7 +1137,7 @@ function g_world_war::requestLogs(loadAmount, useLogMark, cb)
   if (taskId < 0) // taskId == -1 means request result is ready
     cb()
   else
-    ::g_tasker.addTask(taskId, {showProgressBox = useLogMark}, cb)
+    ::g_tasker.addTask(taskId, null, cb, errorCb)
 }
 
 function g_world_war::getSidesOrder()

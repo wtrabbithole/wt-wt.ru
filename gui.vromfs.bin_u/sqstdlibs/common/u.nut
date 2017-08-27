@@ -487,13 +487,14 @@ function u::getFirstFound(pathsArray, tablesArray, defValue = null)
 /**
  * Returns the index at which value can be found in the array, or -1 if value
  * is not present in the array
+ * <defaultIndex> is index tp return when value not found in the given array
  */
-function u::searchIndex(arr, predicate)
+function u::searchIndex(arr, predicate, defaultIndex = -1)
 {
   foreach (index, item in arr)
     if (predicate(item))
       return index
-  return -1
+  return defaultIndex
 }
 
 /**

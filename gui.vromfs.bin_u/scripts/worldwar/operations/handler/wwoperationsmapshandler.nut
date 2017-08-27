@@ -434,7 +434,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!item)
       return
 
-    local handler = ::gui_handlers.WwMapDescription.link(scene.findObject("item_desc"), item)
+    local handler = ::gui_handlers.WwMapDescription.link(scene.findObject("item_desc"), item, item)
     descHandlerWeak = handler.weakref()
     registerSubHandler(handler)
   }
@@ -654,24 +654,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       return
 
     local operationGroup = selMap.getOpGroup()
-    if (operationGroup.hasActiveOperations())
-      ::handlersManager.loadHandler(::gui_handlers.WwOperationsListModal,
-        { mapId = operationGroup.mapId })
-    else
-    {
-      if (isClanQueueAvaliable())
-        msgBox("no_active_operations",
-          ::loc("worldwar/msg/noActiveOperations") + "\n" +
-          ::loc("worldwar/msg/createOperationQuestion"),
-          [
-            ["yes", onClansQueue],
-            ["no", function() {}]
-          ], "yes", { cancel_fn = function() {}})
-      else
-        ::showInfoMsgBox(
-          ::loc("worldwar/msg/noActiveOperations") + "\n" +
-          ::loc("worldwar/msg/cantJoinNewOperation"))
-    }
+    ::handlersManager.loadHandler(::gui_handlers.WwOperationsListModal,
+      { map = selMap })
   }
 
   function goBack()
@@ -742,6 +726,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     obj.findObject("title").setValue(item.getNameText())
     obj.findObject("desc").setValue(item.getGeoCoordsText())
     placeHint(obj)
+  }
+
+  function onEventWWCreateOperation(params)
+  {
+    onClansQueue()
   }
 
   function onGlobeHintTimer(obj, dt)

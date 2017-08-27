@@ -26,9 +26,9 @@ frame {
       on_select:t = 'onTabSelect';
       <<@headerTabs>>
     }
-  }
 
-  Button_close { img {} }
+    Button_close { img {} }
+  }
 
   tdiv {
     id:t='unit_blocks_place'
@@ -76,6 +76,13 @@ frame {
         }
       }
     <</unitString>>
+  }
+
+  textareaNoTab {
+    id:t='armies_limit_text'
+    tinyFont:t='yes'
+    margin-top:t='1@framePadding'
+    text:t=''
   }
 
   textareaNoTab {

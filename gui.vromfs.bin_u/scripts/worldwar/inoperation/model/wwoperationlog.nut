@@ -132,10 +132,18 @@ function g_ww_logs::requestNewLogs(loadAmount, useLogMark, handler = null)
   if (useLogMark && !::g_ww_logs.lastMark)
     return
 
-  local cb = ::Callback((@(useLogMark, handler) function() {
-    ::g_ww_logs.getNewLogs(useLogMark, handler)
-  })(useLogMark, handler), this)
-  ::g_world_war.requestLogs(loadAmount, useLogMark, cb)
+  ::g_ww_logs.changeLogsLoadStatus(true)
+  local cb = ::Callback(function() {
+    getNewLogs(useLogMark, handler)
+    changeLogsLoadStatus()
+  }, this)
+  local errorCb = ::Callback(changeLogsLoadStatus, this)
+  ::g_world_war.requestLogs(loadAmount, useLogMark, cb, errorCb)
+}
+
+function g_ww_logs::changeLogsLoadStatus(isLogsLoading = false)
+{
+  ::ww_event("LogsLoadStatusChanged", {isLogsLoading = isLogsLoading})
 }
 
 function g_ww_logs::getNewLogs(useLogMark, handler)

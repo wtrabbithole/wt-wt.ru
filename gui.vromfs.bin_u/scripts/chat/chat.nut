@@ -588,15 +588,15 @@ function g_chat::getPlayerRClickMenu(playerName, roomId = null, contact = null, 
     }
     {
       text = ::loc("squad/invite_player")
-      show = !isMe && ::has_feature("Squad") && !isBlock && ((meLeader && !inMySquad) || !inSquad)
-      action = (@(latestName) function() {
+      show = !isMe && !isBlock && ::g_squad_manager.canInviteMember(uid)
+      action = function() {
         ::find_contact_by_name_and_do(latestName, ::g_squad_manager,
                                         function(contact)
                                         {
                                           if (contact)
                                             inviteToSquad(contact.uid)
                                         })
-      })(latestName)
+      }
     }
     {
       text = ::loc("squad/remove_player")

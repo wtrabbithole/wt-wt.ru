@@ -35,6 +35,8 @@ const DEFAULT_SQUADS_VERSION = 1
 const SQUADS_VERSION = 2
 const SQUAD_REQEST_TIMEOUT = 45000
 
+local DEFAULT_SQUAD_PROPERTIES = { maxMembers = 4 }
+
 g_squad_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "lastUpdateStatus", "state",
    "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList"]
@@ -59,9 +61,7 @@ g_squad_manager <- {
       id = -1
       country = ""
     }
-    properties = {
-      maxMembers = 4
-    }
+    properties = clone DEFAULT_SQUAD_PROPERTIES
   }
 
   meReady = false
@@ -244,11 +244,12 @@ function g_squad_manager::isInMySquad(name, checkAutosquad = true)
   return _getSquadMemberByName(name) != null
 }
 
-function g_squad_manager::canInviteMember()
+function g_squad_manager::canInviteMember(uid = null)
 {
   return canManageSquad()
     && (canJoinSquad() || isSquadLeader())
     && !isInvitedMaxPlayers()
+    && (!uid || !getMemberData(uid))
 }
 
 function g_squad_manager::canSwitchReadyness()
@@ -271,6 +272,11 @@ function g_squad_manager::getMaxSquadSize()
   return squadData.properties.maxMembers
 }
 
+function g_squad_manager::setMaxSquadSize(newSize)
+{
+  squadData.properties.maxMembers = newSize
+}
+
 function g_squad_manager::getSquadSize(includeInvites = false)
 {
   if (!isInSquad())
@@ -285,7 +291,7 @@ function g_squad_manager::getSquadSize(includeInvites = false)
 
 function g_squad_manager::isSquadFull()
 {
-  return getSquadSize() >= squadData.properties.maxMembers
+  return getSquadSize() >= getMaxSquadSize()
 }
 
 function g_squad_manager::canChangeSquadSize(shouldCheckLeader = true)
@@ -297,10 +303,10 @@ function g_squad_manager::canChangeSquadSize(shouldCheckLeader = true)
 
 function g_squad_manager::setSquadSize(newSize)
 {
-  if (newSize == squadData.properties.maxMembers)
+  if (newSize == getMaxSquadSize())
     return
 
-  squadData.properties.maxMembers = newSize
+  setMaxSquadSize(newSize)
   updateSquadData()
   ::broadcastEvent(squadEvent.SIZE_CHANGED)
 }
@@ -328,7 +334,7 @@ function g_squad_manager::initSquadSizes()
 
   COMMON_SQUAD_SIZE = squadSizesList[0].value
   MAX_SQUAD_SIZE = maxSize
-  squadData.properties.maxMembers = COMMON_SQUAD_SIZE
+  setMaxSquadSize(COMMON_SQUAD_SIZE)
 }
 
 function g_squad_manager::isInvitedMaxPlayers()
@@ -498,7 +504,7 @@ function g_squad_manager::updateSquadData()
   local data = {}
   data.chatInfo <- { name = getSquadRoomName(), password = getSquadRoomPassword() }
   data.wwOperationInfo <- { id = getWwOperationId(), country = getWwOperationCountry() }
-  data.properties <- { maxMembers = getMaxSquadSize() }
+  data.properties <- clone squadData.properties
 
   ::g_squad_manager.setSquadData(data)
 }
@@ -706,7 +712,14 @@ function g_squad_manager::acceptSquadInvite(sid)
     return
 
   setState(squadState.JOINING)
-  ::msquad.acceptInvite(sid, function(response) { ::g_squad_manager.requestSquadData() })
+  ::msquad.acceptInvite(sid,
+    function(response) { requestSquadData() }.bindenv(this),
+    function(response)
+    {
+      setState(squadState.NOT_IN_SQUAD)
+      rejectSquadInvite(sid)
+    }.bindenv(this)
+  )
 }
 
 function g_squad_manager::rejectSquadInvite(sid)
@@ -843,7 +856,8 @@ function g_squad_manager::reset()
   squadData.invitedPlayers.clear()
   squadData.chatInfo = { name = "", password = "" }
   squadData.wwOperationInfo = { id = -1, country = "" }
-  squadData.properties = { maxMembers = COMMON_SQUAD_SIZE }
+  squadData.properties = clone DEFAULT_SQUAD_PROPERTIES
+  setMaxSquadSize(COMMON_SQUAD_SIZE)
 
   lastUpdateStatus = squadStatusUpdateState.NONE
   if (meReady)

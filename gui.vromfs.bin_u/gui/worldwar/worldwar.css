@@ -89,6 +89,27 @@ objectiveBlock objectiveSeparator {
   background-color: @objectiveHeaderBackground;
 }
 
+objectiveBlock objectiveTextSeparator {
+  width: 90%pw;
+  pos: 50%pw-50%w, ph-50%h;
+  position: absolute;
+}
+
+objectiveBlock objectiveTextSeparator > textareaNoTab {
+  margin: 1@blockInterval, 0;
+  text-align: center;
+  font: @veryTiny;
+  color: @fadedTextColor;
+}
+
+objectiveBlock objectiveTextSeparator > separatorLine {
+  top: 50%ph-50%h;
+  position: relative;
+  width: fw;
+  height: 1;
+  background-color: @objectiveHeaderBackground;
+}
+
 objectiveBlock wwObjective name,
 objectiveBlock wwObjective desc {
   behaviour:textArea;

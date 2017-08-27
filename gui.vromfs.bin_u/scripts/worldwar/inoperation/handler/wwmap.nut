@@ -125,14 +125,20 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(tabsObj))
       return
 
-    tabsObj.setValue(0)
-    onReinforcementTabChange(tabsObj)
-
     local show = ::g_world_war.haveManagementAccessForAnyGroup()
     showSceneBtn("reinforcements_block", show)
     showSceneBtn("armies_block", show)
+
+    local defaultTabId = 0
     if (show)
-      updateSecondaryBlockTab(::g_ww_map_reinforcement_tab_type.REINFORCEMENT)
+    {
+      local reinforcement = ::g_ww_map_reinforcement_tab_type.REINFORCEMENT
+      updateSecondaryBlockTab(reinforcement)
+      if (reinforcement.hasTabAlert() && reinforcement.isTabAlertVisible())
+        defaultTabId = reinforcement.code
+    }
+
+    tabsObj.setValue(defaultTabId)
   }
 
   function updatePage()
@@ -336,7 +342,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       local battle = ::u.chooseRandom(availableBattles)
       ::gui_handlers.WwBattleDescription.open(battle)
       if (availableBattles.len() == 1)
-        battle.join(playerSide)
+        battle.tryToJoin(playerSide)
       return
     }
 
@@ -1040,17 +1046,34 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventWWShowRearZones(params)
   {
-    if (!::g_world_war.rearZones)
-      ::g_world_war.updateRearZones()
-    if (!::g_world_war.rearZones)
-      return
-
     local reinforcement = ::g_world_war.getReinforcementByName(::getTblValue("name", params))
     if (!reinforcement)
       return
 
-    local sideName = ::ww_side_val_to_name(reinforcement.getArmySide())
-    ::ww_mark_zones_as_outlined_by_name(::g_world_war.rearZones[sideName])
+    local popupText = ""
+    local reinforcementSide = reinforcement.getArmySide()
+    local highlightedZones = []
+    if (::g_ww_unit_type.isAir(reinforcement.getUnitType()))
+    {
+      local airfields = ::g_world_war.getAirfieldsArrayBySide(reinforcementSide)
+      highlightedZones = ::u.map(airfields, function(airfield) {
+        return ::ww_get_zone_name(::ww_get_zone_idx_world(airfield.getPos()))
+      })
+      popupText = ::loc("worldwar/error/reinforcement/wrongAirfieldCell")
+    }
+    else
+    {
+      if (!::g_world_war.rearZones)
+        ::g_world_war.updateRearZones()
+      if (!::g_world_war.rearZones)
+        return
+
+      local sideName = ::ww_side_val_to_name(reinforcementSide)
+      highlightedZones = ::g_world_war.rearZones[sideName]
+      popupText = ::loc("worldwar/error/reinforcement/wrongCell")
+    }
+
+    ::ww_mark_zones_as_outlined_by_name(highlightedZones)
 
     if (highlightZonesTimer)
       highlightZonesTimer.destroy()
@@ -1060,6 +1083,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       {
         ::ww_clear_outlined_zones()
       }, this, false)
+
+    ::g_popups.add("", popupText, null, null, null, "reinforcement_deploy_error")
   }
 
   function onEventWWArmyStatusChanged(params)

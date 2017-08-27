@@ -102,6 +102,7 @@ class ::WwBattleView
     local isVersusTextAdded = false
     local hasArmyInfo = ::getTblValue("hasArmyInfo", param, true)
     local hasVersusText = ::getTblValue("hasVersusText", param)
+    local canAlignRight = ::getTblValue("canAlignRight", param, true)
     foreach(sideIdx, side in ::g_world_war.getSidesOrder())
     {
       local team = battle.getTeamBySide(side)
@@ -145,6 +146,7 @@ class ::WwBattleView
         isArmyAlwaysUnhovered = true
         needShortInfoText = hasArmyInfo
         hasTextAfterIcon = hasArmyInfo
+        isAlignRight = canAlignRight && sideIdx != 0
       }
 
       armies.armyViews = ::handyman.renderCached(sceneTplArmyViewsName, view)

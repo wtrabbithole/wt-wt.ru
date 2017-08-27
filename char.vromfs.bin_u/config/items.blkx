@@ -548,6 +548,19 @@
       }
     }
   },
+  "booster_shop_rp_100_3mp": {
+    "locId": "item/booster_shop_name",
+    "type": "rateBooster",
+    "expiredTimeHAfterActivation": 24.0,
+    "rateBoosterParams": {
+      "xpRate": 100,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 3
+      }
+    }
+  },
   "booster_shop_wp_100_5mp": {
     "locId": "item/booster_shop_name",
     "type": "rateBooster",

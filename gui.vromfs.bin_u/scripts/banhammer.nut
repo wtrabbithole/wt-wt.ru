@@ -30,7 +30,7 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    if (!scene || !player)
+    if (!scene || !player || !canBan())
       return goBack()
 
     playerName = ::getTblValue("name", player, "")
@@ -88,6 +88,11 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateButtons()
   }
 
+  function canBan()
+  {
+    return ::myself_can_devoice() || ::myself_can_ban()
+  }
+
   function notFoundPlayerMsg()
   {
     msgBox("incorrect_user", ::loc("chat/error/item-not-found", { nick = playerName }),
@@ -120,6 +125,9 @@ class ::gui_handlers.BanHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onApply()
   {
+    if (!canBan())
+      return goBack()
+
     local comment = scene.findObject("complaint_text").getValue()
     local clearedComment = ::g_string.clearBorderSymbolsMultiline(comment)
     if (clearedComment.len() < 10)

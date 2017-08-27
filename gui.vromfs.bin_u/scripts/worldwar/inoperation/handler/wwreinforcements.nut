@@ -99,13 +99,15 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
 
     local army = ::g_world_war.getReinforcementByName(currentReinforcementName)
     if (!army)
-      return ::g_popups.add("", ::loc("worldwar/error/reinforcement/badName"))
+      return ::g_popups.add("", ::loc("worldwar/error/reinforcement/badName"),
+        null, null, null, "reinforcement_deploy_error")
 
     if (!army.hasManageAccess())
       return
 
     if (!army.isReady())
-      return ::g_popups.add("", ::loc("worldwar/error/reinforcement/notReady"))
+      return ::g_popups.add("", ::loc("worldwar/error/reinforcement/notReady"),
+        null, null, null, "reinforcement_deploy_error")
 
     local taskId = ::g_world_war.sendReinforcementRequest(params.cellIdx, currentReinforcementName)
     ::g_tasker.addTask(taskId, null, ::Callback(afterSendReinforcement, this), ::Callback(onWrongCellIdx, this))
@@ -131,8 +133,10 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
 
   function onWrongCellIdx(error)
   {
+    if (!currentReinforcementName)
+      return
+
     ::ww_event("ShowRearZones", {name = currentReinforcementName})
-    ::g_popups.add("", ::loc("worldwar/error/reinforcement/wrongCell"), null, null, null, "wrong_reinforcement_cell")
   }
 
   function fillReinforcementsList()

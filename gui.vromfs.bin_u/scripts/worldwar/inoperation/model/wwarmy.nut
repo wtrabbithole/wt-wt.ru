@@ -7,6 +7,7 @@ class ::WwArmy extends ::WwFormation
   savedArmyBlk = null
   armyIsDead = false
   deathReason = ""
+  armyFlags = 0
 
   constructor(armyName, blk = null)
   {
@@ -35,6 +36,7 @@ class ::WwArmy extends ::WwFormation
     morale = ::getTblValue("morale", blk, -1)
     armyIsDead = ::get_blk_value_by_path(blk, "specs/isDead", false)
     deathReason = ::get_blk_value_by_path(blk, "specs/deathReason", "")
+    armyFlags = ::get_blk_value_by_path(blk, "specs/flags", 0)
     suppliesEndMillisec = ::getTblValue("suppliesEndMillisec", blk, 0)
     entrenchEndMillisec = ::getTblValue("entrenchEndMillisec", blk, 0)
     stoppedAtMillisec = ::getTblValue("stoppedAtMillisec", blk, 0)
@@ -67,6 +69,7 @@ class ::WwArmy extends ::WwFormation
     entrenchEndMillisec = 0
     stoppedAtMillisec = 0
     pathTracker = null
+    armyFlags = 0
   }
 
   function updateUnits()
@@ -84,6 +87,16 @@ class ::WwArmy extends ::WwFormation
   function getName()
   {
     return name
+  }
+
+  function getArmyFlags()
+  {
+    return armyFlags
+  }
+
+  function getUnitType()
+  {
+    return unitType
   }
 
   function getFullName()
