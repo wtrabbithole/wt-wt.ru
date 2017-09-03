@@ -17,7 +17,7 @@ root {
         caption:t='yes'
       }
 
-      Button_close { img {} }
+      Button_close {}
     }
 
     tdiv {
@@ -154,13 +154,14 @@ root {
           btnName:t='A'
           inactive:t='no'
 
+          pattern{}
           buttonWink { _transp-timer:t='0' }
+          buttonGlance {}
           ButtonImg {}
           textarea {
             class:t='buttonText'
             text:t='#mainmenu/toBattle'
           }
-          buttonGlance {}
         }
         Button_text {
           id:t='btn_leave_battle'
@@ -174,14 +175,14 @@ root {
           display:t='hide'
           enable:t='no'
 
+          pattern{}
           buttonWink { _transp-timer:t='0' }
+          buttonGlance {}
           ButtonImg{}
           btnText {
             id:t='btn_leave_event_text'
             text:t='#mainmenu/btnCancel'
           }
-
-          buttonGlance {}
         }
       }
     }

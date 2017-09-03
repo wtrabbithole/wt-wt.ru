@@ -29,6 +29,7 @@ class ::gui_handlers.MultiSelectMenu extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType      = handlerType.MODAL
   sceneTplName = "gui/multiSelectMenu"
+  shouldBlurSceneBg = false
 
   list = null
   align = "top"

@@ -58,7 +58,7 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
   function getWndImage()
   {
     local res = "#ui/images/usa_tanks_locked.jpg?P1"
-    local clearedCountry = ::cut_prefix(::getUnitCountry(unit), "country_")
+    local clearedCountry = ::g_string.cutPrefix(::getUnitCountry(unit), "country_")
     if (clearedCountry)
       res = "#ui/images/" + clearedCountry + "_" + unit.unitType.tag + "_locked.jpg?P1"
     return res
@@ -70,7 +70,7 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
       return ""
 
     local country = ::getUnitCountry(unit)
-    local locTag = ::g_string.toUpper(::cut_prefix(country, "country_", ""), 1)
+    local locTag = ::g_string.toUpper(::g_string.cutPrefix(country, "country_", ""), 1)
                    + unit.unitType.name
     return format("#shop/featureLock/%s/header", locTag)
   }

@@ -25,33 +25,52 @@ weaponry_item[isBundle=yes] > weaponBody{
   background-color:@black;
 }
 
-weaponry_item[equipped=yes] > weaponBody statusImg {
-  background-image:#ui/gameuiskin#checkbox_checked_;
-}
-weaponry_item[equipped=yes] > weaponBody statusImg:hover {
-  background-image:#ui/gameuiskin#checkbox_checked_hover;
-}
-weaponry_item[equipped=yes] > weaponBody statusImg:pushed {
-  background-image:#ui/gameuiskin#checkbox_checked_active;
+weaponry_item[status=owned] > weaponBody statusImg,
+weaponry_item[status=unlocked] > weaponBody statusImg {
+  re-type:fgPict;
+  size:@modStatusCheckboxHeight, @modStatusCheckboxHeight;
+  margin:0, 0, 3@dp, 3@dp;
+  border:yes;
+  background-color:@checkboxBgColor;
+  border-color:@checkboxBorderColor;
+  foreground-image:#ui/gameuiskin#check;
+  foreground-repeat:aspect-ratio;
+  foreground-position:0, -0.33h, -0.33w, 0;
+  foreground-color:@transparent;
+  _isCheckboxvisual:yes;
 }
 
-weaponry_item[equipped=no][status=owned] > weaponBody statusImg,
-weaponry_item[equipped=no][status=unlocked] > weaponBody statusImg {
-  background-image:#ui/gameuiskin#checkbox_unchecked_;
+statusImg[_isCheckboxvisual=yes]:hover {
+  background-color:@checkboxHoveredBgColor;
+  border-color:@checkboxHoveredBorderColor;
 }
-weaponry_item[equipped=no][status=owned] > weaponBody statusImg:hover,
-weaponry_item[equipped=no][status=unlocked] > weaponBody statusImg:hover {
-  background-image:#ui/gameuiskin#checkbox_unchecked_hover;
+statusImg[_isCheckboxvisual=yes]:pushed {
+  background-color:@checkboxPushedBgColor;
+  border-color:@checkboxPushedBorderColor;
 }
-weaponry_item[equipped=no][status=owned] > weaponBody statusImg:pushed,
-weaponry_item[equipped=no][status=unlocked] > weaponBody statusImg:pushed {
-  background-image:#ui/gameuiskin#checkbox_unchecked_active;
+statusImg[_isCheckboxvisual=yes]:disabled {
+  background-color:@checkboxDisabledBgColor;
+  border-color:@checkboxDisabledBorderColor;
 }
-weaponry_item[status=locked] > weaponBody statusImg { background-image:#ui/gameuiskin#locked; }
 
-weaponry_item > weaponBody statusImg[background-image]                      { background-color:@shopItem; }
-weaponry_item[status=locked] > weaponBody statusImg[background-image]       { background-color:@shopItemLocked; }
-weaponry_item[status=locked] > weaponBody:hover statusImg[background-image] { background-color:@shopItemLockedFocus; }
+[equipped=yes] > weaponBody statusImg[_isCheckboxvisual=yes]
+  { foreground-color:@checkboxCheckColor; }
+statusImg[_isCheckboxvisual=yes]:hover
+  { foreground-color:@checkboxCheckHoveredUncheckedColor; }
+weaponry_item[equipped=yes] > weaponBody statusImg[_isCheckboxvisual=yes]:hover
+  { foreground-color:@checkboxCheckHoveredColor; }
+weaponry_item[equipped=yes] > weaponBody statusImg[_isCheckboxvisual=yes]:pushed
+  { foreground-color:@checkboxCheckPushedColor; }
+statusImg[_isCheckboxvisual=yes]:disabled
+  { foreground-color:@checkboxCheckDisabledColor; }
+
+weaponry_item[status=locked] > weaponBody statusImg {
+  background-image:#ui/gameuiskin#locked;
+  background-color:@shopItemLocked;
+}
+weaponry_item[status=locked] > weaponBody:hover statusImg {
+  background-color:@shopItemLockedFocus;
+}
 
 weaponry_item[status=researchable] > weaponBody statusImg {
   display: hide;
@@ -268,6 +287,12 @@ modBlockHeader {
   padding:5*@sf/@pf_outdated, 0;
 }
 
+modBlockHeader.flat {
+  background-color:@tableHeaderBgColor;
+  background-image:"";
+  background-position:0;
+}
+
 modBlockHeaderRow {
   height:@buttonHeight;
   position:absolute;
@@ -331,7 +356,7 @@ modBlockTierNum.vehicleRanks {
   text-align:left;
   width:3h;
   padding-left:0.35h;
-  background-image:#ui/gameuiskin#window_body_gradient;
+  background-color:@transparent;
 }
 
 modBlockTierNum > img {

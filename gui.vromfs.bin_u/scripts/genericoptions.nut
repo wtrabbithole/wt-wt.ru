@@ -18,6 +18,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/options/genericOptions.blk"
   sceneNavBlkName = "gui/options/navOptionsBack.blk"
+  shouldBlurSceneBg = true
 
   optionsId = "generic_options"
   options = null
@@ -31,6 +32,8 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   titleText = null
 
   owner = null
+
+  optionIdToObjCache = {}
 
   function initScreen()
   {
@@ -53,7 +56,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
     local container = ::create_options_container(optId, opt, true, true, columnsRatio, true, true, optionsConfig)
     guiScene.setUpdatesEnabled(false, false);
-
+    optionIdToObjCache.clear()
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
     fill_weapons_list_tooltips(optListObj, container.descr.data)
     optionsContainers.push(container.descr)
@@ -291,7 +294,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if ("hints" in option)
       obj.tooltip = option.hints[ obj.getValue() ]
     else if ("hint" in option)
-      obj.tooltip = ::stripTags( ::loc(option.hint, "") )
+      obj.tooltip = ::g_string.stripTags( ::loc(option.hint, "") )
     checkBulletsRows()
     checkRocketDisctanceFuseRow()
   }
@@ -306,9 +309,8 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
     for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
     {
-      local optionId = get_option(::USEROPT_BULLETS0 + groupIndex).id
       local show = ::isBulletGroupActive(air, groupIndex)
-      if (!showOptionRow(optionId, show))
+      if (!showOptionRow(get_option(::USEROPT_BULLETS0 + groupIndex), show))
         break
     }
   }
@@ -319,7 +321,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!option)
       return
     local unit = ::getAircraftByName(::aircraft_for_weapons)
-    showOptionRow(option.id, !!unit && ::is_unit_available_use_rocket_diffuse(unit))
+    showOptionRow(option, !!unit && ::is_unit_available_use_rocket_diffuse(unit))
   }
 
   function onEventUnitWeaponChanged(p) { checkRocketDisctanceFuseRow() }
@@ -346,17 +348,22 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
     local show = (::get_option_aerobatics_smoke_type() > ::MAX_AEROBATICS_SMOKE_INDEX * 2);
     foreach(option in options)
-      showOptionRow(option.id, show)
+      showOptionRow(option, show)
   }
 
-  function showOptionRow(id, show)
+  function showOptionRow(option, show)
   {
-    local obj = getObj(id + "_tr")
-    if (!::checkObj(obj))
-      return false
+    local obj = ::getTblValue(option.id, optionIdToObjCache)
+    if( ! ::checkObj(obj))
+    {
+      obj = getObj(option.getTrId())
+      if ( ! ::checkObj(obj))
+        return false
+      optionIdToObjCache[option.id] <- obj
+    }
 
     obj.show(show)
-    obj.inactive = show ? null : "yes"
+    obj.inactive = show && option.controlType != optionControlType.HEADER ? null : "yes"
     return true
   }
 
@@ -414,7 +421,14 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       ::set_sound_volume(::SND_TYPE_GUNS, obj.getValue() / 100.0, false)
     else if (obj.id == "volume_tinnitus")
       ::set_sound_volume(::SND_TYPE_TINNITUS, obj.getValue() / 100.0, false)
+    updateOptionValueTextByObj(obj)
   }
+
+  function onFilterEditBoxActivate(){}
+
+  function onFilterEditBoxChangeValue(){}
+
+  function onFilterEditBoxCancel(){}
 
   function onPTTChange(obj)
   {
@@ -594,7 +608,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     {
       local show = countriesType == misCountries.CUSTOM
                    || (countriesType == misCountries.SYMMETRIC && option.type == ::USEROPT_BIT_COUNTRIES_TEAM_A)
-      showOptionRow(option.id, show)
+      showOptionRow(option, show)
     }
   }
 
@@ -612,7 +626,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     local optList = find_options_in_containers([::USEROPT_USE_TANK_BOTS,
       ::USEROPT_USE_SHIP_BOTS, ::USEROPT_BOTS_RANKS])
     foreach(option in optList)
-      showOptionRow(option.id, isBotsAllowed)
+      showOptionRow(option, isBotsAllowed)
   }
 
   function onDifficultyChange(obj)
@@ -630,7 +644,21 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     foreach(option in optList)
-      showOptionRow(option.id, diffName != ::g_difficulty.ARCADE.name)
+      showOptionRow(option, diffName != ::g_difficulty.ARCADE.name)
+  }
+
+  function updateOptionValueTextByObj(obj) //dagui scene callback
+  {
+    local option = get_option_by_id(obj.id)
+    if (option)
+      updateOptionValueText(option, obj.getValue())
+  }
+
+  function updateOptionValueText(option, value)
+  {
+    local obj = scene.findObject("value_" + option.id)
+    if (::check_obj(obj))
+      obj.setValue(option.getValueLocText(value))
   }
 
   function onMissionChange(obj) {}
@@ -674,7 +702,7 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
         headerOffsetX     = "0.015@sf"
         headerOffsetY     = "0.015@sf"
         collapseShortcut  = "LB"
-        navShortcutGroup  = "RS"
+        navShortcutGroup  = ::get_option(::USEROPT_GAMEPAD_CURSOR_CONTROLLER).value ? null : "RS"
       })
     registerSubHandler(navigationHandlerWeak)
     navigationHandlerWeak = handler.weakref()
@@ -705,7 +733,7 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
     if ( ! ::check_obj(rowObj))
       return
 
-    objTbl.setValue(index)
+    objTbl.setValue(::getNearestSelectableChildIndex(objTbl, index, 1))
 
     // It scrolls correctly only when using two frame delays
     guiScene.performDelayed(this, (@(rowObj) function() {
@@ -838,6 +866,9 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   curGroup = -1
   echoTest = false;
 
+  filterText = ""
+  optionsVisibleBeforeSearch = []
+
   function initScreen()
   {
     if (!optGroups)
@@ -860,6 +891,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
 
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     local groupsObj = scene.findObject("groups_list")
+    optionIdToObjCache.clear()
     guiScene.replaceContentFromText(groupsObj, data, data.len(), this)
     groupsObj.show(true)
     groupsObj.setValue(curOption)
@@ -887,6 +919,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     } else
       fillOptions(newGroup)
 
+    setupSearch()
     joinEchoChannel(false);
   }
 
@@ -896,6 +929,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
 
     if ("fillFuncName" in config)
     {
+      curGroup = group
       this[config.fillFuncName](group);
       return;
     }
@@ -921,11 +955,122 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     local fObj = showSceneBtn("facebook_frame", hasFacebook)
     if (hasFacebook && fObj)
     {
-      fObj.findObject("facebook_like_btn").tooltip = ::tooltipColorTheme(::loc("guiHints/facebookLike") + ::loc("ui/colon") + ::get_unlock_reward("facebook_like"))
+      fObj.findObject("facebook_like_btn").tooltip = ::loc("guiHints/facebookLike") + ::loc("ui/colon") + ::get_unlock_reward("facebook_like")
       checkFacebookLoginStatus()
     }
   }
 
+  function setupSearch()
+  {
+    showSceneBtn("search_container", isSearchInCurrentGroupAvaliable())
+    showSceneBtn("filter_magnifier_icon", false)
+    resetSearch()
+  }
+
+  function isSearchInCurrentGroupAvaliable()
+  {
+    return ::getTblValue("isSearchAvaliable", optGroups[curGroup])
+  }
+
+  function onFilterEditBoxChangeValue()
+  {
+    applySearchFilter()
+  }
+
+  function onFilterEditBoxCancel()
+  {
+    resetSearch()
+  }
+
+  function applySearchFilter()
+  {
+    local filterEditBox = scene.findObject("filter_edit_box")
+    if (!::checkObj(filterEditBox))
+      return
+
+    filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+
+    if( ! filterText.len())
+    {
+      foreach(optionData in optionsVisibleBeforeSearch)
+        base.showOptionRow(optionData.option, true)
+      optionsVisibleBeforeSearch.clear()
+      return
+    }
+
+    if( ! optionsVisibleBeforeSearch.len() && optGroups[curGroup].options.len())
+      refreshVisibleOptionsList()
+
+    local searchResultOptions = []
+    foreach(optionData in optionsVisibleBeforeSearch)
+    {
+      local show = optionData.searchTitle.find(filterText) != null
+      base.showOptionRow(optionData.option, show)
+
+      if(show)
+        searchResultOptions.push(optionData.option)
+    }
+
+    foreach(option in searchResultOptions)
+    {
+      if(option.controlType == optionControlType.HEADER)
+      {
+        // show options under header
+        foreach(header, optionsList in headersToOptionsList)
+        {
+          if(header.id != option.id)
+            continue
+          foreach(optionUnderHeader in headersToOptionsList[header])
+            if(::u.search(optionsVisibleBeforeSearch,
+                @(o) o.option.id == optionUnderHeader.id) != null)
+              base.showOptionRow(optionUnderHeader, true)
+          break
+        }
+      }
+      else
+      {
+        // show options header
+        local header = getOptionHeader(option)
+        if(header)
+          base.showOptionRow(header, true)
+      }
+    }
+  }
+
+  function resetSearch()
+  {
+    local filterEditBox = scene.findObject("filter_edit_box")
+    if ( ! ::checkObj(filterEditBox))
+      return
+
+    filterEditBox.setValue("")
+  }
+
+  function doNavigateToSection(navItem)
+  {
+    resetSearch()
+    base.doNavigateToSection(navItem)
+  }
+
+  function showOptionRow(id, show)
+  {
+    resetSearch()
+    base.showOptionRow(id, show)
+  }
+
+  function refreshVisibleOptionsList()
+  {
+    optionsVisibleBeforeSearch.clear()
+    foreach(option in getCurrentOptionsList())
+    {
+      local optionTr = getObj(option.getTrId())
+      if(::checkObj(optionTr) && optionTr.isVisible())
+        optionsVisibleBeforeSearch.push({
+          option = option,
+          searchTitle = ::english_russian_to_lower_case(option.getTitle())
+        })
+    }
+  }
 
   function onFacebookLogin()
   {
@@ -1145,7 +1290,6 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
 
   function fillSystemOptions(group)
   {
-    curGroup = group
     optionsContainers = [{ name="options_systemOptions", data=[] }]
     ::sysopt.fillGuiOptions(scene.findObject("optionslist"), this)
   }
@@ -1189,6 +1333,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     optionsContainers = [container.descr]
 
     guiScene.setUpdatesEnabled(false, false)
+    optionIdToObjCache.clear()
     guiScene.replaceContentFromText(scene.findObject(objName), container.tbl, container.tbl.len(), this)
     onHintUpdate()
     setNavigationItems()

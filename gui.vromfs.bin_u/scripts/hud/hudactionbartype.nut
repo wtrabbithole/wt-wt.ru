@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_hud_action_bar_type <- {
   types = []
 
@@ -31,7 +34,7 @@
     local res = ::loc("actionBarItem/" + getName(::getTblValue("killStreakTag", actionItem)))
     local cooldownTime = ::getTblValue("cooldownTime", actionItem)
     if (cooldownTime)
-      res += "\n" + ::loc("shop/reloadTime") + ::secondsToString(cooldownTime, true, true)
+      res += "\n" + ::loc("shop/reloadTime") + time.secondsToString(cooldownTime, true, true)
     return res
   }
 
@@ -99,11 +102,27 @@
     }
   }
 
+  SMOKE_GRENADE = {
+    code = ::EII_SMOKE_GRENADE
+    _name = "smoke_screen"
+    isForWheelMenu = @() true
+    _icon = "#ui/gameuiskin#smoke_screen"
+    _title = ::loc("hotkeys/ID_SMOKE_SCREEN")
+    getShortcut = @(actionItem, unit = null) "ID_SMOKE_SCREEN"
+  }
+
   SMOKE_SCREEN = {
     code = ::EII_SMOKE_SCREEN
-    _name = "smoke_screen"
-    _icon = "#ui/gameuiskin#smoke_screen"
-    getShortcut = @(actionItem, unit = null) "ID_SMOKE_SCREEN"
+    _name = "engine_smoke_screen_system"
+    isForWheelMenu = @() true
+    _icon = "#ui/gameuiskin#engine_smoke_screen_system"
+    _title = ::loc("hotkeys/ID_SMOKE_SCREEN_GENERATOR")
+    getShortcut = function(actionItem, unit = null)
+    {
+      if (::isShip(unit))
+        return "ID_SHIP_SMOKE_SCREEN_GENERATOR"
+      return "ID_SMOKE_SCREEN_GENERATOR"
+    }
   }
 
   ARTILLERY_TARGET = {

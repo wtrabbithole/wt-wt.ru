@@ -55,7 +55,7 @@ class Popup
     selfObj.setUserData(this)
 
     if (lifetime > 0)
-      selfObj.timer_interval_msec = lifetime
+      selfObj.timer_interval_msec = lifetime.tostring()
   }
 
   function destroy(isForced = false)

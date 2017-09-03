@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::dagui_propid.add_name_id("_queueTableGenCode")
 
 class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
@@ -116,7 +119,11 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     local curQueue = getCurQueue()
     local waitTime = curQueue ? ::queues.getQueueActiveTime(curQueue) : 0
     if (waitTime > 0)
-      txtWaitTime = ::format("%d:%02d", waitTime / TIME_MINUTE_IN_SECONDS, waitTime % TIME_MINUTE_IN_SECONDS)
+    {
+      local minutes = time.secondsToMinutes(waitTime).tointeger()
+      local seconds = waitTime - time.minutesToSeconds(minutes).tointeger()
+      txtWaitTime = ::format("%d:%02d", minutes, seconds)
+    }
 
     scene.findObject("msgText").setValue(txtWaitTime)
   }

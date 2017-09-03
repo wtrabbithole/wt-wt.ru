@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::chat_window_appear_time <- 0.125;
 ::chat_window_disappear_time <- 20.0;
 ::unmapped_controls_warning_time_show <- 30.0
@@ -325,7 +328,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local unmappedLocalized = ::u.map(unmapped, ::loc)
-    local text = ::loc("controls/warningUnmapped") + ::loc("ui/colon") + "\n" + ::implode(unmappedLocalized, ::loc("ui/comma"))
+    local text = ::loc("controls/warningUnmapped") + ::loc("ui/colon") + "\n" + ::g_string.implode(unmappedLocalized, ::loc("ui/comma"))
     warningObj.setValue(text)
     warningObj.show(true)
     warningObj.wink = "yes"
@@ -442,7 +445,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     if (showAlertText)
     {
       timeToKickAlertObj.setValue(afkTimeToKick > 0
-        ? ::loc("inBattle/timeToKick", {timeToKick = ::secondsToString(afkTimeToKick, true, true)})
+        ? ::loc("inBattle/timeToKick", {timeToKick = time.secondsToString(afkTimeToKick, true, true)})
         : "")
       local curTime = ::dagor.getCurTime()
       local prevSeconds = sec? ((curTime - sec * 1000) / sec).tointeger() : 0
@@ -638,6 +641,11 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::g_hud_crew_state.init(scene)
     ::hudEnemyDamage.init(scene)
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
+    updateMissionProgressOffset()
+
+    ::g_hud_event_manager.subscribe("DamageIndicatorSizeChanged",
+      @(eventData) updateMissionProgressOffset(),
+      this)
   }
 
   function reinitScreen(params = {})
@@ -647,6 +655,24 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::g_hud_display_timers.reinit()
     ::g_hud_tank_debuffs.reinit()
     ::g_hud_crew_state.reinit()
+    updateMissionProgressOffset()
+  }
+
+  _missionProgressOffset = -1
+  function updateMissionProgressOffset()
+  {
+    local isShifted = ::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.DMG_PANEL)
+
+    local damageIndicatorObj = scene.findObject("hud_tank_damage_indicator")
+    local offset = ::check_obj(damageIndicatorObj) && isShifted ?
+      damageIndicatorObj.getPosRC()[0] + damageIndicatorObj.getSize()[0] * 0.85 :
+      0
+
+    if (_missionProgressOffset == offset)
+      return
+
+    ::hud_set_progress_left_margin(offset)
+    _missionProgressOffset = offset
   }
 }
 

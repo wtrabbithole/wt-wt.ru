@@ -5,6 +5,9 @@ class ::WarbondAward
   warbondWeak = null
   blk = null
   maxBoughtCount = 0
+  ordinaryTasks = 0
+  specialTasks = 0
+  reqMaxUnitRank = -1
 
   //special params for award view
   needAllBoughtIcon = true
@@ -17,6 +20,9 @@ class ::WarbondAward
     blk.setFrom(awardBlk)
     awardType = ::g_wb_award_type.getTypeByBlk(blk)
     maxBoughtCount = awardType.getMaxBoughtCount(blk)
+    ordinaryTasks = blk.Ordinary || 0
+    specialTasks = blk.Special || 0
+    reqMaxUnitRank = blk.reqMaxUnitRank || -1
   }
 
   function isValid()
@@ -33,12 +39,12 @@ class ::WarbondAward
 
   function getLayeredImage()
   {
-    return awardType.getLayeredImage(blk)
+    return awardType.getLayeredImage(blk, warbondWeak)
   }
 
   function getDescriptionImage()
   {
-    return awardType.getDescriptionImage(blk)
+    return awardType.getDescriptionImage(blk, warbondWeak)
   }
 
   function getCost()
@@ -55,10 +61,47 @@ class ::WarbondAward
 
   function canBuy()
   {
-    if (!isValid())
+    if (!isValid()
+       || !isAvailableForCurrentWarbondShop()
+       || !awardType.canBuy(blk)
+       || !isAvailableByShopLevel()
+       || !isAvailableByMedalsCount()
+       || !isAvailableByUnitsRank())
       return false
+
     return (maxBoughtCount <= 0
             || maxBoughtCount > awardType.getBoughtCount(warbondWeak, blk))
+  }
+
+  function isItemLocked()
+  {
+    return !isAvailableForCurrentWarbondShop()
+        || !isAvailableByShopLevel()
+        || !isAvailableByMedalsCount()
+        || !isAvailableByUnitsRank()
+  }
+
+  function isAvailableForCurrentWarbondShop()
+  {
+    if (!warbondWeak)
+      return true
+    return awardType.isAvailableForCurrentShop(warbondWeak)
+  }
+
+  function getWarbondShopLevelImage()
+  {
+    if (!warbondWeak || isAvailableByShopLevel())
+      return ""
+
+    return ::g_warbonds_view.getLevelItemMarkUp(warbondWeak, warbondWeak.getShopLevel(ordinaryTasks), "0")
+  }
+
+  function getWarbondMedalImage()
+  {
+    if (!warbondWeak || isAvailableByMedalsCount())
+      return ""
+
+    return ::g_warbonds_view.getSpecialMedalsMarkUp(warbondWeak, true, getMedalsCountNum())
   }
 
   function getBuyText(isShort = true)
@@ -77,8 +120,20 @@ class ::WarbondAward
     if (!isValid())
       return
     if (!canBuy())
-      return ::showInfoMsgBox(::loc("warbond/msg/alreadyBoughtMax",
-                                    { purchase = ::colorize("userlogColoredText", getNameText()) }))
+    {
+      local reason = ::loc("warbond/msg/alreadyBoughtMax", { purchase = ::colorize("userlogColoredText", getNameText()) })
+      if (!isAvailableForCurrentWarbondShop())
+        reason = getNotAvailableForCurrentShopText()
+      else if (!awardType.canBuy(blk))
+        reason = ::loc(awardType.canBuyReasonLocId)
+      else if (!isAvailableByShopLevel())
+        reason = getRequiredShopLevelText(false)
+      else if (!isAvailableByMedalsCount())
+        reason = getRequiredMedalsLevelText(false)
+      else if (!isAvailableByUnitsRank())
+        reason = getRequiredUnitsRankLevel(false)
+      return ::showInfoMsgBox(reason)
+    }
 
     local costWb = getCost()
     local balanceWb = warbondWeak.getBalance()
@@ -138,7 +193,16 @@ class ::WarbondAward
 
   function addAmountTextToDesc(desc)
   {
-    return ::implode([getAvailableAmountText(), desc], "\n\n")
+    return ::g_string.implode([
+      ::g_string.implode([
+        getNotAvailableForCurrentShopText(),
+        getRequiredShopLevelText(),
+        getRequiredMedalsLevelText(),
+        getRequiredUnitsRankLevel()
+      ], "\n"),
+      getAvailableAmountText(),
+      desc],
+    "\n\n")
   }
 
   function fillItemDesc(descObj, handler)
@@ -162,12 +226,94 @@ class ::WarbondAward
 
   function haveOrdinaryRequirement()
   {
-    return blk.Ordinary && blk.Ordinary > 0
+    return ordinaryTasks > 0
   }
 
   function haveSpecialRequirement()
   {
-    return blk.Special && blk.Special > 0
+    return specialTasks > 0
+  }
+
+  function getShopLevelText(tasksNum)
+  {
+    if (!warbondWeak)
+      return ""
+
+    local level = warbondWeak.getShopLevel(tasksNum)
+    return warbondWeak.getShopLevelText(level)
+  }
+
+  function isAvailableByShopLevel()
+  {
+    if (!haveOrdinaryRequirement())
+      return true
+
+    local shopLevel = warbondWeak? warbondWeak.getShopLevel(ordinaryTasks) : 0
+    local execTasks = warbondWeak? warbondWeak.getCurrentShopLevel() : 0
+    return shopLevel <= execTasks
+  }
+
+  function isAvailableByMedalsCount()
+  {
+    if (!haveSpecialRequirement())
+      return true
+
+    local curMedalsCount = warbondWeak? warbondWeak.getCurrentMedalsCount() : 0
+    local reqMedalsCount = getMedalsCountNum()
+    return reqMedalsCount <= curMedalsCount
+  }
+
+  function isAvailableByUnitsRank()
+  {
+    if (reqMaxUnitRank <= 1 || reqMaxUnitRank > ::max_country_rank)
+      return true
+
+    return reqMaxUnitRank <= ::get_max_unit_rank()
+  }
+
+  function getMedalsCountNum()
+  {
+    return warbondWeak? warbondWeak.getMedalsCount(specialTasks) : 0
+  }
+
+  function getNotAvailableForCurrentShopText()
+  {
+    if (isAvailableForCurrentWarbondShop())
+      return ""
+    return ::loc("warbonds/shop/notAvailableForCurrentShop")
+  }
+
+  function getRequiredShopLevelText(colored = true)
+  {
+    if (!haveOrdinaryRequirement())
+      return ""
+
+    local text = ::loc("warbonds/shop/requiredLevel", {
+      level = getShopLevelText(ordinaryTasks)
+    })
+    return isAvailableByShopLevel() || !colored? text : ::colorize("badTextColor", text)
+  }
+
+  function getRequiredMedalsLevelText(colored = true)
+  {
+    if (!haveSpecialRequirement())
+      return ""
+
+    local text = ::loc("warbonds/shop/requiredMedals", {
+      count = getMedalsCountNum()
+    })
+    return isAvailableByMedalsCount() || !colored? text : ::colorize("badTextColor", text)
+  }
+
+  function getRequiredUnitsRankLevel(colored = true)
+  {
+    if (reqMaxUnitRank < 2)
+      return ""
+
+    local text = ::loc("warbonds/shop/requiredUnitRank", {
+      unitRank = reqMaxUnitRank
+    })
+    return isAvailableByUnitsRank() || !colored? text : ::colorize("badTextColor", text)
   }
 
   /******************* params override to use in item.tpl ***********************************/

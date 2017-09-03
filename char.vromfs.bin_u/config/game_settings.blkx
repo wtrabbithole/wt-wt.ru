@@ -274,6 +274,7 @@
   "squad": {
     "sizes": {
       "squad": 4,
+      "platoon": 8,
       "battleGroup": 5
     }
   },
@@ -973,10 +974,7 @@
     "Orders": {
       "condition": ""
     },
-    "BattleTasks": {
-      "condition": ""
-    },
-    "PersonalUnlocks": [
+    "BattleTasks": [
       {
         "condition": "role_GAIJIN"
       },
@@ -985,9 +983,20 @@
       },
       {
         "condition": "role_TESTER"
+      }
+    ],
+    "PersonalUnlocks": {
+      "condition": ""
+    },
+    "ExtInventory": [
+      {
+        "condition": "role_GAIJIN"
       },
       {
-        "condition": "role_ALPHA_TESTER"
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
       }
     ],
     "BulletParamsForAirs": {
@@ -1080,9 +1089,6 @@
     "ExtendedCrewSkillsDescription": {
       "condition": ""
     },
-    "CrewInfoPanel": {
-      "condition": ""
-    },
     "HiddenLeaderboardRows": {
       "condition": "role_DEVELOPER"
     },
@@ -1106,9 +1112,17 @@
     "league_fan_token": {
       "condition": "wt_thunder_league_fan_token"
     },
-    "Warbonds": {
-      "condition": ""
-    },
+    "Warbonds": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "WarbondsShop": {
       "condition": "Warbonds"
     },
@@ -1198,14 +1212,9 @@
     "SquadTransferLeadership": {
       "condition": ""
     },
-    "SquadSizeChange": [
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      }
-    ],
+    "SquadSizeChange": {
+      "condition": ""
+    },
     "ClanSeasonRewardsLog": {
       "condition": ""
     },
@@ -1274,7 +1283,21 @@
       "condition": "scej_account"
     },
     "newFontsSizes": {
+      "condition": ""
+    },
+    "oldFontsSizes": {
       "condition": "role_DEVELOPER"
-    }
+    },
+    "Warbonds_2_0": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ]
   }
 }

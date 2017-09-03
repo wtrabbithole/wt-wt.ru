@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 ::uploadLimit <- 3
 ::on_screenshot_saved <- null
 ::after_facebook_login <- null
@@ -148,7 +149,7 @@ function show_facebook_login_reminder()
   local gmBlk = ::get_game_settings_blk()
   local daysCounter = gmBlk && gmBlk.reminderFacebookLikeDays || 0
   local lastDays = ::loadLocalByAccount("facebook/lastDayFacebookLikeReminder", 0)
-  local days = ::get_days_by_time( ::get_utc_time() )
+  local days = time.getDaysByTime( ::get_utc_time() )
   if ( !lastDays || daysCounter > 0 && days - lastDays > daysCounter )
   {
     ::gui_start_modal_wnd(::gui_handlers.facebookReminderModal);

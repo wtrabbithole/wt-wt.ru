@@ -1421,44 +1421,47 @@
     "armorClass": "RHA_tank",
     "hp": 10000.0,
     "hull": {
-      "superstructure_front_dm": {
-        "armorThickness": 25.0
+      "body_back_dm": {
+        "armorThickness": 70.0
+      },
+      "body_bottom_dm": {
+        "armorThickness": 35.0
       },
       "body_front_dm": {
+        "armorThickness": 75.0
+      },
+      "body_side_dm": {
         "armorThickness": 75.0
       },
       "body_top_dm": {
         "armorThickness": 40.0
       },
-      "body_side_dm": {
-        "armorThickness": 75.0
-      },
-      "body_back_dm": {
-        "armorThickness": 70.0
-      },
       "superstructure_back_dm": {
         "armorThickness": 60.0
       },
+      "superstructure_front_dm": {
+        "armorThickness": 25.0
+      },
+      "superstructure_side_dm": {
+        "armorThickness": 75.0
+      },
       "superstructure_top_dm": {
         "armorThickness": 30.0
-      },
-      "body_bottom_dm": {
-        "armorThickness": 35.0
       }
     },
     "turret": {
       "armorClass": "CHA_tank",
-      "turret_top_dm": {
-        "armorThickness": 40.0
+      "gun_mask_dm": {
+        "armorThickness": 50.0
       },
-      "turret_side_dm": {
+      "turret_01_front_dm": {
+        "armorThickness": 105.0
+      },
+      "turret_02_front_dm": {
         "armorThickness": 105.0
       },
       "turret_bottom_dm": {
         "armorThickness": 105.0
-      },
-      "gun_mask_dm": {
-        "armorThickness": 50.0
       },
       "turret_commander_dm": {
         "armorThickness": 50.0
@@ -1466,11 +1469,11 @@
       "turret_front_dm": {
         "armorThickness": 105.0
       },
-      "turret_01_front_dm": {
+      "turret_side_dm": {
         "armorThickness": 105.0
       },
-      "turret_02_front_dm": {
-        "armorThickness": 105.0
+      "turret_top_dm": {
+        "armorThickness": 40.0
       }
     },
     "mask": {
@@ -1482,13 +1485,25 @@
     },
     "optics": {
       "armorClass": "optics_tank",
+      "optic_body_01_dm": {
+        "armorThickness": 3.0,
+        "hp": 20.0
+      },
+      "optic_body_02_dm": {
+        "armorThickness": 3.0,
+        "hp": 20.0
+      },
+      "optic_body_03_dm": {
+        "armorThickness": 3.0,
+        "hp": 20.0
+      },
+      "optic_body_04_dm": {
+        "armorThickness": 3.0,
+        "hp": 20.0
+      },
       "optic_gun_dm": {
         "armorThickness": 10.0,
         "hp": 50.0
-      },
-      "optic_turret_dm": {
-        "armorThickness": 3.0,
-        "hp": 20.0
       },
       "optic_turret_01_dm": {
         "armorThickness": 3.0,
@@ -1522,19 +1537,7 @@
         "armorThickness": 3.0,
         "hp": 20.0
       },
-      "optic_body_01_dm": {
-        "armorThickness": 3.0,
-        "hp": 20.0
-      },
-      "optic_body_02_dm": {
-        "armorThickness": 3.0,
-        "hp": 20.0
-      },
-      "optic_body_03_dm": {
-        "armorThickness": 3.0,
-        "hp": 20.0
-      },
-      "optic_body_04_dm": {
+      "optic_turret_dm": {
         "armorThickness": 3.0,
         "hp": 20.0
       }
@@ -1550,14 +1553,46 @@
         "armorThickness": 5.0
       }
     },
-    "submodule": {
+    "chassis": {
+      "armorClass": "tank_steel_wheels",
+      "hp": 300.0,
+      "armorThickness": 20.0,
+      "wheel_r_01_dm": [],
+      "wheel_r_02_dm": [],
+      "wheel_r_03_dm": [],
+      "wheel_r_04_dm": [],
+      "wheel_r_05_dm": [],
+      "wheel_r_06_dm": [],
+      "wheel_l_01_dm": [],
+      "wheel_l_02_dm": [],
+      "wheel_l_03_dm": [],
+      "wheel_l_04_dm": [],
+      "wheel_l_05_dm": [],
+      "wheel_l_06_dm": [],
+      "wheel_r_drive_dm": [],
+      "wheel_l_drive_dm": [],
+      "wheel_r_front_dm": [],
+      "wheel_l_front_dm": [],
+      "wheel_l_top_01_dm": [],
+      "wheel_l_top_02_dm": [],
+      "wheel_l_top_03_dm": [],
+      "wheel_r_top_01_dm": [],
+      "wheel_r_top_02_dm": [],
+      "wheel_r_top_03_dm": [],
+      "submodule": {
+        "armorClass": "tank_traks",
+        "armorThickness": 30.0,
+        "hp": 400.0,
+        "ex_armor_body_l_01_dm": [],
+        "ex_armor_body_r_01_dm": []
+      }
+    },
+    "tracks": {
       "armorClass": "tank_traks",
       "armorThickness": 30.0,
       "hp": 400.0,
       "track_r_dm": [],
-      "track_l_dm": [],
-      "ex_armor_body_l_01_dm": [],
-      "ex_armor_body_r_01_dm": []
+      "track_l_dm": []
     },
     "crew": {
       "armorClass": "steel_tankman",
@@ -1750,6 +1785,20 @@
       "ammo_body_39_dm": [],
       "ammo_body_40_dm": [],
       "ammo_body_41_dm": [],
+      "ammo_body_42_dm": [],
+      "ammo_body_43_dm": [],
+      "ammo_body_44_dm": [],
+      "ammo_body_45_dm": [],
+      "ammo_body_46_dm": [],
+      "ammo_body_47_dm": [],
+      "ammo_body_48_dm": [],
+      "ammo_body_49_dm": [],
+      "ammo_body_50_dm": [],
+      "ammo_body_51_dm": [],
+      "ammo_body_52_dm": [],
+      "ammo_body_53_dm": [],
+      "ammo_body_54_dm": [],
+      "ammo_body_55_dm": [],
       "ammo_body_l_01_dm": [],
       "ammo_body_l_02_dm": [],
       "ammo_body_l_03_dm": [],
@@ -1793,40 +1842,6 @@
       "fuel_tank_l_03_dm": [],
       "fuel_tank_l_04_dm": [],
       "fuel_tank_l_05_dm": []
-    },
-    "chassis": {
-      "armorClass": "tank_steel_wheels",
-      "hp": 300.0,
-      "armorThickness": 20.0,
-      "wheel_r_01_dm": [],
-      "wheel_r_02_dm": [],
-      "wheel_r_03_dm": [],
-      "wheel_r_04_dm": [],
-      "wheel_r_05_dm": [],
-      "wheel_r_06_dm": [],
-      "wheel_l_01_dm": [],
-      "wheel_l_02_dm": [],
-      "wheel_l_03_dm": [],
-      "wheel_l_04_dm": [],
-      "wheel_l_05_dm": [],
-      "wheel_l_06_dm": [],
-      "wheel_r_drive_dm": [],
-      "wheel_l_drive_dm": [],
-      "wheel_r_front_dm": [],
-      "wheel_l_front_dm": [],
-      "wheel_l_top_01_dm": [],
-      "wheel_l_top_02_dm": [],
-      "wheel_l_top_03_dm": [],
-      "wheel_r_top_01_dm": [],
-      "wheel_r_top_02_dm": [],
-      "wheel_r_top_03_dm": [],
-      "submodule": {
-        "armorClass": "tank_traks",
-        "armorThickness": 30.0,
-        "hp": 400.0,
-        "track_r_dm": [],
-        "track_l_dm": []
-      }
     }
   },
   "commonWeapons": [

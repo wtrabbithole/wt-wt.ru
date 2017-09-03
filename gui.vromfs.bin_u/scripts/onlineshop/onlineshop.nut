@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -207,7 +210,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
           amount *= 24
 
         if (isTimeAmount)
-          amountText = ::hoursToString(amount, false, false, true)
+          amountText = time.hoursToString(amount, false, false, true)
         else
         {
           local isGold = chapter == "eagles"
@@ -402,7 +405,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         local expire = entitlement_expires_in(realname)
         if (expire>0)
           desc+= format("\n<color=@chapterUnlockedColor>%s</color>",
-                   ::loc("subscription/activeTime") + ::loc("ui/colon") + ::getExpireText(expire)) + "\n"
+                   ::loc("subscription/activeTime") + ::loc("ui/colon") + time.getExpireText(expire)) + "\n"
         if (!useRowVisual)
           desc += "\n"+::loc("subscription/renew") + ::loc("ui/colon") + renewText + "\n"
       }

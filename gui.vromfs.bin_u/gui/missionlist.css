@@ -420,6 +420,8 @@ shopAirImg {
   re-type:fgPict;
   background-repeat:expand;
   foreground-color:@white;
+  foreground-repeat:aspect-ratio;
+  foreground-align:left;
   pos: 3, 5;
   position:absolute;
 }
@@ -1093,18 +1095,16 @@ shopLine[shopStat=locked], shopArrow[shopStat=locked] {
 shopRow {
   position:absolute;
   re-type:9rect;
-  background-image:#ui/gameuiskin#item_table_block_bg_grad;
-  background-color:#ff999999;
-  background-position:4;
-  background-repeat:expand;
-  foreground-image:#ui/gameuiskin#pattern_dark_diag_lines;
-  foreground-repeat:repeat;
-  foreground-position:2,2;
+  background-image:#ui/gameuiskin#pattern_dark_diag_lines;
+  background-repeat:repeat;
+  background-color:@shopFrameUnlockedColor;
+  foreground-color:@shopFrameUnlockedColor;
 }
 
-shopRow[type=locked]   { background-image:#ui/gameuiskin#item_table_block_bg_locked;   foreground-color:@white;}
-shopRow[type=unlocked] { background-image:#ui/gameuiskin#item_table_block_bg_unlocked;  foreground-color:#30303030;}
-shopRow[type=owned]    { background-image:#ui/gameuiskin#item_table_block_bg_owned; foreground-color:#20202020;}
+shopRow[type=locked] {
+  background-color:@shopFrameLockedColor;
+  foreground-color:@shopFrameLockedColor;
+}
 
 shopBlockTierNum{
   re-type:text;
@@ -1119,59 +1119,6 @@ shopBlockTierNum{
   background-repeat:expand;
   background-color:@weaponryItem;
   css-hier-invalidate:yes;
-}
-
-img.firstChoiceUnitItem {
-  size:1@unitChoiceImageWidth, 1@unitChoiceImageHeight;
-  background-repeat:expand;
-  background-color:@fistChoiceColor;
-  css-hier-invalidate:yes;
-}
-
-img.firstChoiceUnitItem > textarea {
-  width:pw;
-  pos:50%pw-50%w, ph-h;
-  padding:0, 0.005@sf;
-  font:@big;
-  position:absolute;
-  text-align:center;
-  background-color:@shadeBackgroundColor2;
-  input-transparent: yes;
-  display:hide;
-}
-
-img.firstChoiceCountryItem {
-  size:1@countryChoiceImageWidth, 1@countryChoiceImageHeight;
-  background-color:@fistChoiceColor;
-}
-
-img.firstChoiceUnitItem > movie {
-  position: absolute;
-  size: pw, ph;
-  display: hide;
-  input-transparent: yes;
-}
-
-img.firstChoiceUnitItem:hover,
-img.firstChoiceCountryItem:hover {
-  background-color:@fistChoiceColorHover;
-}
-[show_console_buttons=yes] img.firstChoiceUnitItem[selected=yes] > movie,
-[show_console_buttons=no] img.firstChoiceUnitItem:hover > movie {
-  display: show;
-}
-
-img.firstChoiceUnitItem[selected=yes],
-img.firstChoiceCountryItem[selected=yes] {
-  background-color:@white;
-}
-
-img.firstChoiceUnitItem[selected=yes] > textarea {
-  display:show;
-}
-
-img.firstChoiceCountryItem:disabled {
-  background-color:@fistChoiceColorDisabled;
 }
 
 slotsOption {

@@ -58,7 +58,7 @@ enum hintTagCheckOrder {
     checkTag = function(tagName) { return ::g_string.startsWith(tagName, typeName) }
     getViewSlices = function(tagName, params)
     {
-      return [{ image = ::cut_prefix(tagName, typeName, "") }]
+      return [{ image = ::g_string.cutPrefix(tagName, typeName, "") }]
     }
     makeTag = function(image) { return typeName + image }
   }

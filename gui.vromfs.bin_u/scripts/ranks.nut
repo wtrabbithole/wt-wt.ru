@@ -8,7 +8,7 @@ if (!("EUCT_TOTAL" in ::getroottable()))
 
 ::pilot_icons_list <- []
 ::max_player_rank <- 100
-::max_country_rank <- 5
+::max_country_rank <- 6
 ::discounts <- { //count from const in warpointsBlk by (name + "Mul")
 }
 ::event_muls <- {
@@ -431,7 +431,7 @@ function update_aircraft_warpoints(maxCallTimeMsec = 0)
 
     if (maxCallTimeMsec && ::dagor.getCurTime() - startTime >= maxCallTimeMsec)
     {
-      ::dagor.assertf(errorsTextArray.len() == 0, ::implode(errorsTextArray, "\n"))
+      ::dagor.assertf(errorsTextArray.len() == 0, ::g_string.implode(errorsTextArray, "\n"))
       return PT_STEP_STATUS.SUSPEND
     }
   }
@@ -449,7 +449,7 @@ function update_aircraft_warpoints(maxCallTimeMsec = 0)
   ::min_values_to_show_reward_premium.wp = ws.wp_to_show_premium_reward || 0
   ::min_values_to_show_reward_premium.exp = ws.exp_to_show_premium_reward || 0
 
-  ::dagor.assertf(errorsTextArray.len() == 0, ::implode(errorsTextArray, "\n"))
+  ::dagor.assertf(errorsTextArray.len() == 0, ::g_string.implode(errorsTextArray, "\n"))
   return PT_STEP_STATUS.NEXT_STEP
 }
 

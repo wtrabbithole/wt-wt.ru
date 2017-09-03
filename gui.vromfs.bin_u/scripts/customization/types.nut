@@ -1,3 +1,6 @@
+local guidParser = require("scripts/guidParser.nut")
+local time = require("scripts/time.nut")
+
 ::g_decorator_type <- {
   types = []
   cache = {
@@ -58,7 +61,7 @@
       {
         local isVisibleOnlyUnlocked = block.hideUntilUnlocked || !decorator.canRecieve()
         if (block.beginDate || block.endDate)
-          isVisibleOnlyUnlocked = !::is_in_timerange_by_utc_strings(block.beginDate, block.endDate)
+          isVisibleOnlyUnlocked = !time.isInTimerangeByUtcStrings(block.beginDate, block.endDate)
         if (isVisibleOnlyUnlocked)
           return false
       }
@@ -279,6 +282,9 @@
 
     getLocName = function(decoratorName, addUnitName = false)
     {
+      if (guidParser.isGuid(decoratorName))
+        return ::loc(decoratorName)
+
       local unitName = ::g_unlocks.getPlaneBySkinId(decoratorName)
 
       if (::g_unlocks.isDefaultSkin(decoratorName))

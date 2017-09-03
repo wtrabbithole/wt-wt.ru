@@ -14,7 +14,7 @@ frame {
       <<@tabs>>
     }
 
-    Button_close { img {} }
+    Button_close {}
   }
 
   CheckBox {
@@ -59,13 +59,16 @@ frame {
       id:t='battle_tasks_no_tasks_text'
       pos:t='50%pw-50%w, 50%ph-50%h'
       position:t='absolute'
-      text:t='#mainmenu/battleTasks/noTasks'
+      max-width:t='pw'
+      hideEmptyText:t='yes'
+      text:t=''
     }
 
     RadioButtonList {
       id:t='battle_tasks_modes_radiobuttons'
       left:t='50%pw-50%w'
       position:t='relative'
+      margin-bottom:t='0.01@scrn_tgt'
 
       navigatorShortcuts:t='yes'
       on_select:t = 'onChangeShowMode'
@@ -90,23 +93,23 @@ frame {
     position:t='relative'
     display:t='hide'
     flow:t='vertical'
+    margin-bottom:t='0.01@scrn_tgt'
 
     textareaNoTab {
       id:t='progress_text'
       text:t=''
       hideEmptyText:t='yes'
-      pos:t='50%pw-50%w, 0.01@scrn_tgt'
+      pos:t='50%pw-50%w, 0'
       position:t='relative'
       margin-bottom:t='0.01@scrn_tgt'
     }
 
-    tdiv {
+    progressBoxPlace {
       id:t='progress_box_place'
       position:t='relative'
       pos:t='50%pw-50%w, 0'
       width:t='pw - 3@warbondShopLevelItemHeight'
       height:t='1@warbondShopLevelProgressHeight'
-      margin-bottom:t='0.01@scrn_tgt'
     }
 
     tdiv {

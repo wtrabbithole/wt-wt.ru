@@ -55,6 +55,17 @@
   },
   {
     "DamageParts": {
+      "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        },
+        "gun2_dm": {
+          "hp": 15.0
+        },
+        "gun3_dm": {
+          "hp": 15.0
+        }
+      },
       "armor_engine": {
         "engine1_dm": {
           "genericDamageMult": 1.6,
@@ -183,6 +194,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 70.5
         },
@@ -202,6 +216,18 @@
         }
       },
       "steel_pilot": {
+        "gunner2_dm": {
+          "hp": 20.0
+        },
+        "gunner3_dm": {
+          "hp": 20.0
+        },
+        "gunner4_dm": {
+          "hp": 20.0
+        },
+        "gunner5_dm": {
+          "hp": 20.0
+        },
         "pilot1_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -223,32 +249,6 @@
         },
         "tank4_dm": {
           "hp": 54.5
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 20.0
-        },
-        "gun1_dm": {
-          "hp": 1.9
-        },
-        "gun2_dm": {
-          "hp": 1.9
-        },
-        "gun3_dm": {
-          "hp": 1.9
-        },
-        "gunner2_dm": {
-          "hp": 13.4
-        },
-        "gunner3_dm": {
-          "hp": 13.1
-        },
-        "gunner4_dm": {
-          "hp": 19.9
-        },
-        "gunner5_dm": {
-          "hp": 13.1
         }
       }
     }
@@ -1857,6 +1857,38 @@
         }
       }
     ]
+  },
+  {
+    "navLights": {
+      "ano_l1": {
+        "node": "ano_l1",
+        "lightDir": [0.0,-1.0,0.0],
+        "lightAngle": 6.28,
+        "lightColor": [1.0,0.0,0.0],
+        "lightStrength": 1.0
+      },
+      "ano_r1": {
+        "node": "ano_r1",
+        "lightDir": [0.0,-1.0,0.0],
+        "lightAngle": 6.28,
+        "lightColor": [0.0,1.0,0.0],
+        "lightStrength": 1.0
+      },
+      "ano_c1": {
+        "node": "ano_c1",
+        "lightDir": [0.0,-1.0,0.0],
+        "lightAngle": 6.28,
+        "lightColor": [1.0,1.0,1.0],
+        "lightStrength": 1.0
+      },
+      "ano_c2": {
+        "node": "ano_c2",
+        "lightDir": [0.0,-1.0,0.0],
+        "lightAngle": 6.28,
+        "lightColor": [1.0,1.0,1.0],
+        "lightStrength": 1.0
+      }
+    }
   },
   {
     "ikPilot": [

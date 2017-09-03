@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 const PLAYERS_IN_FIRST_TABLE_IN_FFA = 16
 
 ::team_aircraft_list <- null
@@ -793,7 +796,7 @@ function getUnitClassIco(unit)
   if ("customClassIco" in unit)
     return unit.customClassIco
 
-  return ::get_unit_icon_by_unit_type(::get_es_unit_type(unit), unit.name + "_ico")
+  return ::get_unit_class_icon_by_unit(unit, unit.name + "_ico")
 }
 
 function getUnitClassColor(unit)
@@ -959,7 +962,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       timeToKickObj.setValue("")
     else
     {
-      local timeToKickText = ::secondsToString(timeToKickValue, true, true)
+      local timeToKickText = time.secondsToString(timeToKickValue, true, true)
       local locParams = {
         timeToKick = ::colorize("activeTextColor", timeToKickText)
       }
@@ -1191,7 +1194,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       if (::checkObj(tableObj))
       {
         local rowHeaderData = createHeaderRow(tableObj, tblData, markupData, teamNum)
-        local show = rowHeaderData != "" && (tbl && tbl.len() > 0)
+        local show = rowHeaderData != ""
         guiScene.replaceContentFromText(tableObj, rowHeaderData, rowHeaderData.len(), this)
         tableObj.show(show)
       }
@@ -1210,7 +1213,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       local data = ::build_mp_table(tbl, markupData, tblData, num_rows)
       guiScene.replaceContentFromText(objTbl, data, data.len(), this)
       objTbl.num_rows = tbl.len()
-      objTbl.show(tbl.len() != 0)
     }
     guiScene.setUpdatesEnabled(true, true)
   }
@@ -1228,14 +1230,11 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     local tbl = null
     guiScene.setUpdatesEnabled(false, false)
 
-    local showSecondTable = true
     if (customTbl)
     {
       local idx = max(team-1, -1)
       if (idx in customTbl)
         tbl = customTbl[idx]
-
-      showSecondTable = objTbl.id == "table_kills_team2" && tbl && tbl.len() > 0
     }
 
     local minRow = 0
@@ -1266,8 +1265,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
           }
           tbl.reverse()
         }
-        if (objTbl.id == "table_kills_team2")
-          showSecondTable = commonTbl.len() >= PLAYERS_IN_FIRST_TABLE_IN_FFA
       }
       else
         tbl = ::get_mplayers_list(team, true)
@@ -1275,9 +1272,13 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     else if (!isTeamplay && customTbl && objTbl.id == "table_kills_team2")
       minRow = PLAYERS_IN_FIRST_TABLE_IN_FFA
 
-    local secondTblObj = scene.findObject("team2-root")
-    if (::checkObj(secondTblObj))
-      secondTblObj.show(showSecondTable)
+    if (objTbl.id == "table_kills_team2")
+    {
+      local shouldShow = true
+      if (isTeamplay)
+        shouldShow = tbl && tbl.len() > 0
+      showSceneBtn("team2-root", shouldShow)
+    }
 
     if (!isTeamplay && minRow >= 0)
     {
@@ -2016,7 +2017,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (::checkObj(gameEndsObj))
         gameEndsObj.setValue(::getCompoundedText(::loc("multiplayer/timeLeft") + ::loc("ui/colon"),
-                                                 ::secondsToString(timeLeft, false),
+                                                 time.secondsToString(timeLeft, false),
                                                  "activeTextColor"))
 
       local mp_ffa_score_limit = ::get_mp_ffa_score_limit()
@@ -2032,6 +2033,7 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
 {
   sceneBlkName = "gui/mpStatistics.blk"
   sceneNavBlkName = "gui/navMpStat.blk"
+  shouldBlurSceneBg = true
   keepLoaded = true
 
   wasTimeLeft = -1

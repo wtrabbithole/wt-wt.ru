@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 ::g_hud_display_timers <- {
   timersList = [
     {
@@ -269,7 +271,7 @@
       local createTime = ::dagor.getCurTime()
       repairUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
         local curTime = ::dagor.getCurTime()
-        local timeToShowSeconds = debuffs_data.time - ::milliseconds_to_seconds(curTime - createTime)
+        local timeToShowSeconds = debuffs_data.time - time.millisecondsToSeconds(curTime - createTime)
         if (timeToShowSeconds < 0)
           return true
 
@@ -342,7 +344,7 @@
       local createTime = ::dagor.getCurTime()
       repairBreachesUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
         local curTime = ::dagor.getCurTime()
-        local timeToShowSeconds = debuffs_data.time - ::milliseconds_to_seconds(curTime - createTime)
+        local timeToShowSeconds = debuffs_data.time - time.millisecondsToSeconds(curTime - createTime)
         if (timeToShowSeconds < 0)
           return true
 
@@ -395,7 +397,7 @@
       local createTime = ::dagor.getCurTime()
       extinguishUpdater = ::secondsUpdater(timeTextObj, (@(debuffs_data, createTime) function(obj, p) {
         local curTime = ::dagor.getCurTime()
-        local timeToShowSeconds = debuffs_data.time - ::milliseconds_to_seconds(curTime - createTime)
+        local timeToShowSeconds = debuffs_data.time - time.millisecondsToSeconds(curTime - createTime)
         if (timeToShowSeconds < 0)
           return true
 

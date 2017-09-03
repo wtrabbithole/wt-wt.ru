@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -15,7 +18,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    wbList = ::g_warbonds.getVisibleList(filterFunc)
+    wbList = ::g_warbonds.getList(filterFunc)
     if (!wbList.len())
       return goBack()
 
@@ -238,15 +241,14 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(obj))
         continue
 
-      local tabName = ::loc(wb.fontIcon)
       local timeText = ""
       local timeLeft = wb.getChangeStateTimeLeft()
       if (timeLeft > 0)
       {
-        timeText = ::hoursToString(timeLeft.tofloat() / TIME_HOUR_IN_SECONDS, false, true)
+        timeText = time.hoursToString(time.secondsToHours(timeLeft), false, true)
         timeText = " " + ::loc("ui/parentheses", { text = timeText })
       }
-      obj.setValue(tabName + timeText)
+      obj.setValue(timeText)
     }
   }
 
@@ -273,7 +275,10 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   {
     local obj = scene.findObject("medals_text")
     if (::check_obj(obj))
+    {
       obj.setValue(::g_warbonds_view.getSpecialText(curWb))
+      obj.tooltip = ::g_warbonds_view.getSpecialMedalsTooltip(curWb)
+    }
   }
 
   function onItemAction(buttonObj)
@@ -306,6 +311,13 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     updateAwardPrices()
     updateItemInfo()
     guiScene.setUpdatesEnabled(true, true)
+  }
+
+  function onDestroy()
+  {
+    local activeWb = ::g_warbonds.getCurrentWarbond()
+    if (activeWb)
+      activeWb.markSeenLastResearchShopLevel()
   }
 
   //dependence by blk

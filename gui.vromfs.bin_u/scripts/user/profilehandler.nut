@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum profileEvent {
   AVATAR_CHANGED = "AvatarChanged"
 }
@@ -712,7 +715,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (pageTypeId == ::UNLOCKABLE_MEDAL)
         items.append({
           id = name
-          tooltipId = ::g_tooltip.getIdUnlock(name, { showProgress = true })
+          tooltipId = ::g_tooltip.getIdUnlock(name, { showProgress = true, needTitle = false })
           unlocked = ::is_unlocked_scripted(unlockTypeId, name)
           image = ::get_image_for_unlockable_medal(name)
         })
@@ -955,7 +958,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         text.append(::loc("reward/skin_for") + " " + ::getUnitName(unit))
       text.append(decoratorType.getLocDesc(name))
 
-      text = ::locOrStrip(::implode(text, "\n"))
+      text = ::locOrStrip(::g_string.implode(text, "\n"))
       local textBlock = "textareaNoTab {tinyFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
       guiScene.appendWithBlk(obj, ::format(textBlock, text), this)
     }
@@ -1131,7 +1134,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     {
       local unlockItemBlk = "gui/profile/unlockItem.blk"
       for(; blockAmount < achievaAmount; blockAmount++)
-        guiScene.createElementByObject(unlocksListObj, unlockItemBlk, "expandable", this)
+        guiScene.createElementByObject(unlocksListObj, unlockItemBlk, "frameBlock", this)
     }
     else if (blockAmount > achievaAmount)
     {
@@ -1256,11 +1259,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         for (local i = 0; i < 3; i++)
           value += calcStat(func, diff, mode, i)
 
-      local s = timeFormat? ::format("%d:%02d:%02d",
-                                value / TIME_HOUR_IN_SECONDS,
-                                (value / TIME_MINUTE_IN_SECONDS) % TIME_MINUTE_IN_SECONDS,
-                                value % TIME_MINUTE_IN_SECONDS)
-                          : value
+      local s = timeFormat ? time.secondsToString(value) : value
       local tooltip = ["#mainmenu/arcadeInstantAction", "#mainmenu/instantAction", "#mainmenu/fullRealInstantAction"][diff]
       row.append({ id = diff.tostring(), text = s.tostring(), tooltip = tooltip})
     }
@@ -1311,7 +1310,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       desc = itemData.text
       titles.append({
                       text = name
-                      tooltip = ::tooltipColorTheme(desc)
+                      tooltip = desc
                       action = (@(titleName) function() {setNewTitle(titleName)})(titleName)
                    })
     }

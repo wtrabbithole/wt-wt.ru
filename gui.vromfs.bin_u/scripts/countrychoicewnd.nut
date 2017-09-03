@@ -19,7 +19,7 @@ function gui_start_countryChoice()
 class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/countryChoice.blk"
+  sceneBlkName = "gui/firstChoice/countryChoice.blk"
   wndOptionsMode = ::OPTIONS_MODE_GAMEPLAY
 
   countries = null
@@ -123,7 +123,8 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function createUnitTypeChoice()
   {
-    setFrameWidth("2@unitChoiceImageWidth+2@framePadding")
+    local columns = ::min(3, unitTypesList.len())
+    setFrameWidth(::format("%d@unitChoiceImageWidth + %d@countryChoiceInterval", columns, columns - 1))
 
     local view = {
       unitTypeItems = function ()
@@ -156,7 +157,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
       }.bindenv(this)
     }
 
-    local data = ::handyman.renderCached("gui/unitTypeChoice", view)
+    local data = ::handyman.renderCached("gui/firstChoice/unitTypeChoice", view)
     if (selectedUnitType == null)
       selectedUnitType = ::g_unit_type.TANK
 
@@ -196,7 +197,9 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function createPrefferedUnitTypeCountries()
   {
-    setFrameWidth("1@countryChoiceImageWidth+2@framePadding")
+    local rows = ::max(2, ceil(sqrt(4.0/3 * countries.len())).tointeger())
+    setFrameWidth(format("%d@countryChoiceImageWidth + %d@countryChoiceInterval", rows, rows - 1))
+
     local availCountries = selectedUnitType ? ::get_countries_by_unit_type(selectedUnitType.esUnitType) : countries
     for (local i = availCountries.len() - 1; i >= 0; i--)
       if (!isCountryAvailable(availCountries[i], selectedUnitType))
@@ -209,30 +212,20 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
         local curArmyName = selectedUnitType ? selectedUnitType.armyId  : ::g_unit_type.AIRCRAFT.armyId
         foreach(country in countries)
         {
-          local available = ::isInArray(country, availCountries)
-          local armyName = available
-                               ? curArmyName
-                               : ::g_unit_type.AIRCRAFT.armyId
-
-          local tooltip = ::loc("options/country") +
-                          ::loc("ui/colon") +
-                          ::loc("unlockTag/" + country)
-
-          local id = country + "_" + armyName
-          local image = ::get_country_flag_img("countries_" + id)
+          local image = ::get_country_flag_img("first_choice_" + country + "_" + curArmyName)
           if (image == "")
-            image = ::get_country_flag_img("countries_" + country + "_aviation")
+            image = ::get_country_flag_img("first_choice_" + country + "_" + ::g_unit_type.AIRCRAFT.armyId)
 
           local cData = {
-            tooltip = tooltip
+            countryName = ::loc(country)
             backgroundImage = image
             desription = ::loc(country + "/choiseDescription", "")
           }
 
-          if (!available)
+          if (!::isInArray(country, availCountries))
           {
-            cData.disabled <- true
-            cData.text <- getNotAvailableCountryMsg(country)
+            cData.isLocked <- true
+            cData.lockText <- getNotAvailableCountryMsg(country)
           }
 
           res.append(cData)
@@ -241,7 +234,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
       }.bindenv(this)
     }
 
-    data = ::handyman.renderCached("gui/countryFirstChoiceItem", view)
+    data = ::handyman.renderCached("gui/firstChoice/countryFirstChoiceItem", view)
 
     if (!availCountries.len())
     {
@@ -426,7 +419,6 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
         ::slotbarPresets.newbieInit(presetsData)
 
         ::checkUnlockedCountriesByAirs()
-        ::top_menu_handler.reinitSlotbarAction()
         ::broadcastEvent("EventsDataUpdated")
         ::gui_handlers.BaseGuiHandlerWT.goBack.call(handler)
       })(presetsData, handler))

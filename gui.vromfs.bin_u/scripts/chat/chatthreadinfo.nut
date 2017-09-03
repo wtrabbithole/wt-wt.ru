@@ -108,7 +108,7 @@ class ChatThreadInfo
         resArray.push(str)
     }
     resArray.extend(customTags)
-    return ::implode(resArray, ",")
+    return ::g_string.implode(resArray, ",")
   }
 
   function sortLangList()
@@ -156,7 +156,7 @@ class ChatThreadInfo
     res += "\n" + ::loc("chat/thread/participants") + ::loc("ui/colon")
            + ::colorize("activeTextColor", membersAmount)
     res += "\n\n" + getTitle()
-    return ::tooltipColorTheme(res)
+    return res
   }
 
   function isJoined()

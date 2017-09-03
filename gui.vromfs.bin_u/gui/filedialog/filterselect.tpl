@@ -11,4 +11,6 @@
     selected:t = '<<#selected>>yes<</selected>><<^selected>>no<</selected>>'
   }
 <</items>>
-ButtonImg{}
+ButtonImg{
+  enable:t='no'
+}

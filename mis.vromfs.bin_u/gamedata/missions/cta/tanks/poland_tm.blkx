@@ -189,7 +189,9 @@
           "_DBttlA": true,
           "_DBttlB": true,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
         }
       },
       {
@@ -466,6 +468,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -496,6 +501,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -524,6 +532,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -557,6 +568,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -599,6 +613,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -639,6 +656,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -668,6 +688,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -682,6 +703,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -696,6 +718,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -710,6 +733,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -724,6 +748,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -738,6 +763,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -752,6 +778,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -766,6 +793,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -780,6 +808,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -803,6 +832,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -838,6 +870,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -871,6 +906,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -902,6 +940,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "arrow": [
@@ -1003,6 +1044,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "arrow": [
                 {
                   "width": 1
@@ -1082,6 +1126,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "arrow": [
                 {
                   "width": 1
@@ -1158,6 +1205,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -1193,6 +1243,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -1360,6 +1413,22 @@
       "import_record": {
         "file": "gameData/missions/cta/tanks/poland/template_poland_Bto.blk",
         "postfix": "_Bto",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/ai_base_defense_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -1634,6 +1703,8 @@
         ],
         "unit_class": "ussr_bt_5",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1724,6 +1795,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1876,6 +1949,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1927,6 +2002,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

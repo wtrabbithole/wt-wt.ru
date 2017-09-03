@@ -21,23 +21,24 @@ function get_main_options()
 
   return {
     name = isInFlight ? "main" : "mainParameters"
+    isSearchAvaliable = true
     options = [
 
-      ["#options/mainParameters"],
+      ["options/mainParameters"],
       [::USEROPT_LANGUAGE, "spinner", ! isInFlight && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! isInFlight && ! ::is_platform_ps4],
       [::USEROPT_FONTS_CSS, "spinner", ::has_feature("newFontsSizes") || ::g_font.canChange()],
       [::USEROPT_CLUSTER, "spinner", ! isInFlight && ::is_platform_ps4],
-      [::USEROPT_VIEWTYPE, "spinner", ! isInFlight],
 
-      ["#options/header/commonBattleParameters"],
+      ["options/header/commonBattleParameters"],
       [::USEROPT_HUD_SHOW_BONUSES, "spinner"],
       [::USEROPT_DAMAGE_INDICATOR_SIZE, "slider"],
       [::USEROPT_CAMERA_SHAKE_MULTIPLIER, "slider"],
       [::USEROPT_AUTO_SQUAD, "spinner"],
       [::USEROPT_QUEUE_JIP, "spinner"],
 
-      ["#options/header/air"],
+      ["options/header/air"],
+      [::USEROPT_VIEWTYPE, "spinner", ! isInFlight],
       [::USEROPT_GUN_TARGET_DISTANCE, "spinner", ! isInFlight],
       [::USEROPT_GUN_VERTICAL_TARGETING, "spinner", ! isInFlight],
       [::USEROPT_BOMB_ACTIVATION_TIME, "spinner", ! isInFlight],
@@ -53,8 +54,9 @@ function get_main_options()
       [::USEROPT_INDICATEDSPEED, "spinner"],
       [::USEROPT_CROSSHAIR_DEFLECTION, "spinner"],
       [::USEROPT_AIR_DAMAGE_DISPLAY, "spinner"],
+      [::USEROPT_GUNNER_FPS_CAMERA, "spinner"],
 
-      ["#options/header/tank"],
+      ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],
       [::USEROPT_XRAY_DEATH, "spinner", ::has_feature("Tanks") && ::has_feature("XrayDeath")],
       [::USEROPT_XRAY_KILL, "spinner", ::has_feature("Tanks") && ::has_feature("XrayKill")],
@@ -64,12 +66,12 @@ function get_main_options()
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
-      ["#options/header/ship"],
+      ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! isInFlight],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
-      ["#options/header/interface"],
+      ["options/header/interface"],
       [::USEROPT_HUD_SCREEN_SAFE_AREA, "spinner", !::is_platform_ps4],
       [::USEROPT_GAME_HUD, "spinner", isInFlight],
       [::USEROPT_GAMMA, "slider", ::can_change_gamma()],
@@ -84,14 +86,14 @@ function get_main_options()
       [::USEROPT_HUD_SHOW_TEMPERATURE, "spinner"],
       [::USEROPT_INGAME_VIEWTYPE, "spinner", isInFlight && canChangeViewType],
 
-      ["#options/header/measureUnits"],
+      ["options/header/measureUnits"],
       [::USEROPT_MEASUREUNITS_SPEED, "spinner"],
       [::USEROPT_MEASUREUNITS_ALT, "spinner"],
       [::USEROPT_MEASUREUNITS_DIST, "spinner"],
       [::USEROPT_MEASUREUNITS_CLIMBSPEED, "spinner"],
       [::USEROPT_MEASUREUNITS_TEMPERATURE, "spinner"],
 
-      ["#options/header/playersMarkers"],
+      ["options/header/playersMarkers"],
       [::USEROPT_SHOW_INDICATORS, "spinner"],
       [::USEROPT_SHOW_INDICATORS_TYPE, "spinner"],
       [::USEROPT_SHOW_INDICATORS_NICK, "spinner"],
@@ -99,7 +101,7 @@ function get_main_options()
       [::USEROPT_SHOW_INDICATORS_TITLE, "spinner"],
       [::USEROPT_SHOW_INDICATORS_DIST, "spinner"],
 
-      ["#options/header/chatAndVoiceChat"],
+      ["options/header/chatAndVoiceChat"],
       [::USEROPT_ONLY_FRIENDLIST_CONTACT, "spinner", ! isInFlight],
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],
@@ -113,7 +115,7 @@ function get_main_options()
       //[::USEROPT_VOICE_DEVICE_OUT, "combobox", ! ::is_platform_ps4 && ::gchat_voice_get_device_out_count() > 0]
       //[::USEROPT_VOICE_DEVICE_IN, "combobox", ! ::is_platform_ps4 && ::gchat_voice_get_device_in_count() > 0]
 
-      ["#options/header/gamepad"],
+      ["options/header/gamepad"],
       [::USEROPT_XCHG_STICKS, "spinner"],
       [::USEROPT_VIBRATION, "spinner"],
       [::USEROPT_ENABLE_CONSOLE_MODE, "spinner", !::get_is_console_mode_force_enabled()],
@@ -121,13 +123,13 @@ function get_main_options()
         ! isInFlight && ::g_gamepad_cursor_controls.canChangeValue()],
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
 
-      ["#options/header/replaysAndSpectatorMode"],
+      ["options/header/replaysAndSpectatorMode"],
       [::USEROPT_AUTOSAVE_REPLAYS, "spinner", ! isInFlight],
       [::USEROPT_HUE_SPECTATOR_ALLY, "spinner"],
       [::USEROPT_HUE_SPECTATOR_ENEMY, "spinner"],
       [::USEROPT_REPLAY_ALL_INDICATORS, "spinner"],
 
-      ["#options/header/otherOptions"],
+      ["options/header/otherOptions"],
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", ::g_option_menu_safearea.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],

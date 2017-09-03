@@ -35,6 +35,8 @@ class ::ww_gui_bhv.worldWarMapControls
       return ::RETCODE_PROCESSED
     else if (checkAirfield(obj, mapPos))
       return ::RETCODE_PROCESSED
+    else if (checkRearZone(obj, mapPos))
+      return ::RETCODE_PROCESSED
 
     setSelectedObject(obj, selectedObject)
     sendMapEvent("ClearSelection")
@@ -327,7 +329,7 @@ class ::ww_gui_bhv.worldWarMapControls
   function setSelectedArmies(obj, selectedArmies)
   {
     local params = obj.getUserData() || {}
-    params[selectedArmiesID] <- ::implode(selectedArmies, ",")
+    params[selectedArmiesID] <- ::g_string.implode(selectedArmies, ",")
     obj.setUserData(params)
     local selectedArmiesInfo = []
     foreach (armyName in selectedArmies)
@@ -389,6 +391,17 @@ class ::ww_gui_bhv.worldWarMapControls
     sendMapEvent("SelectedBattle", {battle = battle})
 
     return true
+  }
+
+  function checkRearZone(obj, mapPos)
+  {
+    local zoneName = ::ww_get_zone_name(::ww_get_zone_idx(mapPos.x, mapPos.y))
+    foreach (side, zones in ::g_world_war.getRearZones())
+      if (::isInArray(zoneName, zones))
+      {
+        sendMapEvent("RearZoneSelected", { side = side })
+        return true
+      }
   }
 
   function getBattleIconRadius()

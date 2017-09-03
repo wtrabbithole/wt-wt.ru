@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum UNIT_INFO_ARMY_TYPE {
   AIR = 1,
   TANK = 2,
@@ -361,7 +364,7 @@ const COMPARE_NO_COMPARE = "no"
             return
           }
           blk.value[mode] = value
-          blk.valueText[mode] = ::hoursToString(value, false)
+          blk.valueText[mode] = time.hoursToString(value, false)
         }
     }
   }
@@ -819,7 +822,7 @@ const COMPARE_NO_COMPARE = "no"
       local shotFreq = params.shotFreq;
       if(shotFreq > 0)
       {
-        local perMinute = ::roundToDigits(shotFreq * TIME_MINUTE_IN_SECONDS_F, 3)
+        local perMinute = ::roundToDigits(time.minutesToSeconds(shotFreq), 3)
         blk.value[mode] = perMinute
         blk.valueText[mode] = format("%s %s", perMinute.tostring(), ::loc("measureUnits/shotPerMinute"))
       }

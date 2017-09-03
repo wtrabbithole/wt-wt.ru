@@ -1283,9 +1283,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
+      "detonateProb": 0.5,
       "detonatePortion": [0.7,0.9],
-      "explodeHitPower": 1500.0,
+      "explodeHitPower": 5500.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1335,10 +1335,10 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 10000.0,
-        "cutDamage": 1300.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
+        "mass": 13000.0,
+        "cutDamage": 2000.0,
+        "deviation": 0.2,
+        "rotation": 0.7,
         "collisionNode": "cls_turret_01"
       }
     }
@@ -1853,7 +1853,7 @@
           "armorThickness": 80.0
         },
         "body_back_dm": {
-          "armorThickness": 80.0
+          "armorThickness": 40.0
         },
         "superstructure_top_dm": {
           "armorThickness": 40.0
@@ -1916,6 +1916,9 @@
           "armorThickness": 80.0
         },
         "turret_02_back_dm": {
+          "armorThickness": 30.0
+        },
+        "turret_01_bottom_dm": {
           "armorThickness": 30.0
         }
       },
@@ -2025,8 +2028,6 @@
           "armorClass": "tank_traks",
           "armorThickness": 30.0,
           "hp": 400.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
           "ex_armor_turret_r_01_dm": [],
           "ex_armor_turret_r_02_dm": [],
           "ex_armor_turret_r_03_dm": [],
@@ -2036,6 +2037,13 @@
           "ex_armor_turret_l_03_dm": [],
           "ex_armor_turret_l_04_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 30.0,
+        "hp": 400.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -2210,6 +2218,16 @@
         "ammo_body_38_dm": [],
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
+        "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2482,8 +2500,7 @@
                 "errExplTime": 0.0,
                 "turret": {
                   "head": "bone_grenade",
-                  "gun": "bone_grenade",
-                  "gunnerDm": "gunner_dm"
+                  "gun": "bone_grenade"
                 },
                 "limits": {
                   "yaw": [-0.0,0.0],

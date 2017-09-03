@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum BATTLE_LOG_FILTER
 {
   HERO      = 0x0001
@@ -178,7 +181,7 @@ enum BATTLE_LOG_FILTER
         filters = filters | BATTLE_LOG_FILTER.OTHER
     }
 
-    local timestamp = ::secondsToString(now, false) + " "
+    local timestamp = time.secondsToString(now, false) + " "
     local message = ""
     switch (msg.type)
     {
@@ -233,7 +236,7 @@ enum BATTLE_LOG_FILTER
         if (limit && lines.len() == limit)
           break
       }
-    return ::implode(lines, "\n")
+    return ::g_string.implode(lines, "\n")
   }
 
   function getUnitNameEx(playerId, unitNameLoc = "", teamId = 0)
@@ -293,7 +296,7 @@ enum BATTLE_LOG_FILTER
 
     local isCrash = msg.action == "crash" || msg.action == "exit"
     local sequence = isCrash ? [whom, what] : [who, what, whom]
-    return ::implode(sequence, " ")
+    return ::g_string.implode(sequence, " ")
   }
 
   function msgEscapeCodesToCssColors(sequence)

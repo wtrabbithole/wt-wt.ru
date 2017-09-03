@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 ::leaderboards_list <- [
   ::g_lb_category.VICTORIES_BATTLES
   ::g_lb_category.AVERAGE_RELATIVE_POSITION
@@ -789,7 +791,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       {
         id = "name"
         tdAlign = "left"
-        text = "name" in row ? ::stripTags(row.name) : ""
+        text = "name" in row ? ::g_string.stripTags(row.name) : ""
       }
     ]
     foreach(lbCategory in lb_presets)
@@ -891,7 +893,7 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
     local timeStr = updateTime > 0
                     ? ::format("%s %s %d:%02d",
                                ::loc("mainmenu/lbUpdateTime"),
-                               ::build_date_str(updateTimeTbl),
+                               time.buildDateStr(updateTimeTbl),
                                updateTimeTbl.hour,
                                updateTimeTbl.min)
                     : ""

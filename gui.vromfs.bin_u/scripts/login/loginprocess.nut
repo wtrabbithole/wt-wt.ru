@@ -34,6 +34,8 @@ class ::LoginProcess
       local hClass = ::gui_handlers.LoginWndHandler
       if (::is_platform_ps4)
         hClass = ::gui_handlers.LoginWndHandlerPs4
+      else if (::is_platform_xboxone)
+        hClass = ::gui_handlers.LoginWndHandlerXboxOne
       else if (::use_tencent_login())
         hClass = ::gui_handlers.LoginWndHandlerTencent
       else if (::use_dmm_login())
@@ -51,8 +53,8 @@ class ::LoginProcess
       //initConfigs
       local cb = ::Callback(function()
                  {
-                   addState(LOGIN_STATE.CONFIGS_INITED)
-                 }, ::g_login)
+                   ::g_login.addState(LOGIN_STATE.CONFIGS_INITED)
+                 }, this)
       ::g_login.initConfigs(cb)
 
       //connect to matching

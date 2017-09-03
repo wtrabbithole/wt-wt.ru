@@ -82,6 +82,12 @@
       "flap1_r_dm": {
         "hp": 14.5
       },
+      "flap2_l_dm": {
+        "hp": 21.8
+      },
+      "flap2_r_dm": {
+        "hp": 21.8
+      },
       "flap_l_dm": {
         "hp": 19.5
       },
@@ -177,6 +183,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 50.3
       },
@@ -210,17 +219,6 @@
       },
       "tank3_dm": {
         "hp": 39.5
-      }
-    },
-    "wood": {
-      "flap2_l_dm": {
-        "hp": 17.4
-      },
-      "flap2_r_dm": {
-        "hp": 17.4
-      },
-      "gear_c_dm": {
-        "hp": 5.0
       }
     }
   },
@@ -1495,7 +1493,7 @@
         },
         {
           "onHit": {
-            "damage": 35.0,
+            "damage": 50.0,
             "fire": 0.8,
             "leak": 0.9
           }
@@ -1509,7 +1507,7 @@
         },
         {
           "onKill": {
-            "damage": 15.0,
+            "damage": 30.0,
             "expl": 0.5,
             "fire": 5.0,
             "leak": 10.0,
@@ -1518,7 +1516,7 @@
         },
         {
           "onKill": {
-            "damage": 35.0,
+            "damage": 50.0,
             "expl": 1.0,
             "fire": 20.0,
             "leak": 50.0,
@@ -1547,7 +1545,7 @@
         },
         {
           "onHit": {
-            "damage": 35.0,
+            "damage": 50.0,
             "fire": 0.8,
             "leak": 0.9
           }
@@ -1561,7 +1559,7 @@
         },
         {
           "onKill": {
-            "damage": 15.0,
+            "damage": 30.0,
             "expl": 0.5,
             "fire": 5.0,
             "leak": 10.0,
@@ -1570,7 +1568,7 @@
         },
         {
           "onKill": {
-            "damage": 35.0,
+            "damage": 50.0,
             "expl": 1.0,
             "fire": 20.0,
             "leak": 50.0,
@@ -2274,6 +2272,16 @@
     "initialRadius": 12.0,
     "radiusSpeed": 2.0
   },
+  "gear_cut_parts": {
+    "gear_c": [
+      {
+        "part": "hook"
+      },
+      {
+        "part": "hook1"
+      }
+    ]
+  },
   "fireParams": {
     "engineExtinguishFireSpeed": [82.0,194.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
@@ -2419,5 +2427,26 @@
         "from": "f4u_1a_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.38297,-0.530679,0.907867],
+    "_emtr_break_wing0_l_to": [-0.38297,-0.530679,1.16822],
+    "emtr_break_wing1_l_from": [-0.38297,-0.530679,1.63418],
+    "emtr_break_wing1_l_to": [-0.38297,-0.530679,2.37868],
+    "emtr_break_wing2_l_from": [-0.38297,-0.530679,3.49541],
+    "emtr_break_wing2_l_to": [-0.38297,-0.530679,4.53726],
+    "_emtr_break_wing0_r_from": [-0.38297,-0.530679,-0.907867],
+    "_emtr_break_wing0_r_to": [-0.38297,-0.530679,-1.16822],
+    "emtr_break_wing1_r_from": [-0.38297,-0.530679,-1.63418],
+    "emtr_break_wing1_r_to": [-0.38297,-0.530679,-2.37868],
+    "emtr_break_wing2_r_from": [-0.38297,-0.530679,-3.49541],
+    "emtr_break_wing2_r_to": [-0.38297,-0.530679,-4.53726],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-5.56428,0.0,0.0]
+    ],
+    "partKindTail": 2
+  }
 }

@@ -282,6 +282,12 @@
     }
   },
   {
+    "gunnerFps": {
+      "pos": [0.35,0.45,0.0],
+      "head": "turret1"
+    }
+  },
+  {
     "turbulence": {
       "segmentlength": 100.0,
       "startSpeed": 28.0,
@@ -500,7 +506,7 @@
         },
         "elevator_dm": {
           "genericDamageMult": 0.3,
-          "hp": 47.8
+          "hp": 49.4
         },
         "fin_dm": {
           "hp": 31.0
@@ -520,6 +526,12 @@
         }
       },
       "dural": {
+        "cover10_dm": {
+          "hp": 19.5
+        },
+        "cover11_dm": {
+          "hp": 19.5
+        },
         "cover1_dm": {
           "hp": 19.5
         },
@@ -531,6 +543,21 @@
         },
         "cover4_dm": {
           "hp": 23.7
+        },
+        "cover5_dm": {
+          "hp": 23.7
+        },
+        "cover6_dm": {
+          "hp": 19.5
+        },
+        "cover7_dm": {
+          "hp": 19.5
+        },
+        "cover8_dm": {
+          "hp": 19.5
+        },
+        "cover9_dm": {
+          "hp": 19.5
         }
       },
       "dural70": {
@@ -565,6 +592,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 49.5
         },
@@ -577,6 +607,18 @@
           "hp": 21.5
         },
         "oil2_dm": {
+          "hp": 21.5
+        },
+        "oil3_dm": {
+          "hp": 15.5
+        },
+        "oil4_dm": {
+          "hp": 15.5
+        },
+        "oil5_dm": {
+          "hp": 21.5
+        },
+        "oil6_dm": {
           "hp": 21.5
         }
       },
@@ -601,50 +643,12 @@
         },
         "tank4_dm": {
           "hp": 56.4
-        }
-      },
-      "wood": {
-        "cover10_dm": {
-          "hp": 4.6
-        },
-        "cover11_dm": {
-          "hp": 4.6
-        },
-        "cover5_dm": {
-          "hp": 102.8
-        },
-        "cover6_dm": {
-          "hp": 10.2
-        },
-        "cover7_dm": {
-          "hp": 10.2
-        },
-        "cover8_dm": {
-          "hp": 7.9
-        },
-        "cover9_dm": {
-          "hp": 7.9
-        },
-        "gear_c_dm": {
-          "hp": 8.2
-        },
-        "oil3_dm": {
-          "hp": 4.5
-        },
-        "oil4_dm": {
-          "hp": 4.5
-        },
-        "oil5_dm": {
-          "hp": 11.9
-        },
-        "oil6_dm": {
-          "hp": 11.9
         },
         "tank5_dm": {
-          "hp": 20.6
+          "hp": 44.5
         },
         "tank6_dm": {
-          "hp": 20.6
+          "hp": 44.5
         }
       }
     }
@@ -2467,6 +2471,10 @@
           "limits": {
             "yaw": [-35.0,35.0],
             "pitch": [0.0,25.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-1.0,1.0],
+            "pitch": [0.0,23.0]
           }
         }
       }
@@ -2612,6 +2620,29 @@
         "reqModification": "type94_belt_pack",
         "tier": 3
       }
+    }
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.00004,0.122326,0.798704],
+      "_emtr_break_wing0_l_to": [-1.00004,0.122326,1.22598],
+      "emtr_break_wing1_l_from": [-1.00004,0.122326,2.8233],
+      "emtr_break_wing1_l_to": [-1.00004,0.122326,3.42131],
+      "emtr_break_wing2_l_from": [-1.00004,0.122326,4.81518],
+      "emtr_break_wing2_l_to": [-1.00004,0.122326,5.9216],
+      "_emtr_break_wing0_r_from": [-1.00004,0.122326,-0.798704],
+      "_emtr_break_wing0_r_to": [-1.00004,0.122326,-1.22598],
+      "emtr_break_wing1_r_from": [-1.00004,0.122326,-2.8233],
+      "emtr_break_wing1_r_to": [-1.00004,0.122326,-3.42131],
+      "emtr_break_wing2_r_from": [-1.00004,0.122326,-4.81518],
+      "emtr_break_wing2_r_to": [-1.00004,0.122326,-5.9216],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-5.86756,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

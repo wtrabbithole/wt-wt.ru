@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 // how many top places rewards are displayed in clans list window
 ::CLAN_SEASONS_TOP_PLACES_REWARD_PREVIEW <- 3
 
@@ -765,9 +767,9 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       objFrameBlock.show(false)
       return
     }
-    local time = ::get_time_from_t(dateDuel)
-    time.sec = -1
-    local endsDate = ::build_date_time_str(time)
+    local timeTbl = ::get_time_from_t(dateDuel)
+    timeTbl.sec = -1
+    local endsDate = time.buildDateTimeStr(timeTbl)
     local objEndsDuel = scene.findObject("clan_battle_season_ends")
     if (::checkObj(objEndsDuel))
       objEndsDuel.setValue(::loc("clan/battle_season/ends") + ::loc("ui/colon") + endsDate)

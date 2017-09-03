@@ -82,6 +82,9 @@
     "battleAreaColorPresets": {
       "battleRoyale": {
         "color": "#ff00002a"
+      },
+      "battleArea": {
+        "color": "#ff4b0078"
       }
     }
   },
@@ -1351,7 +1354,9 @@
       "colorBomb": "#ff4646ff",
       "iconTorpedo": "torpedo_mark",
       "colorTorpedo": "#ff4646ff",
+      "colorTorpedoFriend": "#4646ffff",
       "maxTorpedoDistanceIndicator": 400.0,
+      "maxFriendTorpedoDistanceIndicator": 1000.0,
       "iconDiveBomb": "depth_charge_mark",
       "colorDiveBomb": "#ff4646ff",
       "targetFrameMaxScreenHeightPart": 0.15,
@@ -2320,8 +2325,13 @@
           }
         },
         {
+          "smoke_grenade_activate": {
+            "shortcutIdx": 13
+          }
+        },
+        {
           "smoke_screen_activate": {
-            "shortcutIdx": -1
+            "shortcutIdx": 14
           }
         },
         {

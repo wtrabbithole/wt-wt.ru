@@ -21,6 +21,9 @@
   "testFlight": "testFlight_midway_usa",
   "DamageParts": {
     "armor10": {
+      "gun1_dm": {
+        "hp": 15.0
+      },
       "mgun1_dm": {
         "hp": 15.0
       },
@@ -80,6 +83,14 @@
         "hp": 39.5
       },
       "aileron_r_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 39.5
+      },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 39.5
+      },
+      "elevator1_dm": {
         "genericDamageMult": 0.3,
         "hp": 39.5
       },
@@ -147,6 +158,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 49.5
+      },
       "gear_l_dm": {
         "hp": 49.5
       },
@@ -169,6 +183,9 @@
       }
     },
     "steel_pilot": {
+      "gunner1_dm": {
+        "hp": 20.0
+      },
       "pilot_dm": {
         "fireProtectionHp": 20.0,
         "hp": 20.0
@@ -195,23 +212,6 @@
       },
       "tank7_dm": {
         "hp": 54.5
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 39.6
-      },
-      "elevator1_dm": {
-        "hp": 36.0
-      },
-      "gear_c_dm": {
-        "hp": 5.2
-      },
-      "gun1_dm": {
-        "hp": 6.3
-      },
-      "gunner1_dm": {
-        "hp": 20.8
       }
     }
   },
@@ -2287,32 +2287,59 @@
       }
     },
     {
-      "Weapon": {
-        "trigger": "gunner0",
-        "blk": "gameData/Weapons/gunBredaSAFAT77_turret.blk",
-        "emitter": "gun1",
-        "flash": "flare4",
-        "dm": "gunner1_dm",
-        "partsDP": "mgun1_dm",
-        "bullets": 500,
-        "turret": {
-          "head": "turret1",
-          "gun": "gun1"
+      "Weapon": [
+        {
+          "trigger": "gunner0"
         },
-        "limits": {
-          "yaw": [-90.0,90.0],
-          "pitch": [0.0,65.0]
+        {
+          "blk": "gameData/Weapons/gunBredaSAFAT77_turret.blk"
         },
-        "limitsTable": {
-          "lim1": [-90.0,-17.0,0.0,65.0],
-          "lim2": [-17.0,-15.0,5.0,65.0],
-          "lim3": [-15.0,15.0,0.0,65.0],
-          "lim4": [15.0,17.0,5.0,65.0],
-          "lim5": [17.0,90.0,0.0,65.0]
+        {
+          "emitter": "gun1"
+        },
+        {
+          "flash": "flare4"
+        },
+        {
+          "dm": "gunner1_dm"
+        },
+        {
+          "partsDP": "mgun1_dm"
+        },
+        {
+          "bullets": 500
+        },
+        {
+          "turret": {
+            "head": "turret1",
+            "gun": "gun1"
+          }
+        },
+        {
+          "limits": {
+            "yaw": [-90.0,90.0],
+            "pitch": [0.0,65.0]
+          }
+        },
+        {
+          "limitsDeadzone": {
+            "yaw": [-17.0,-14.0],
+            "pitch": [0.0,7.0]
+          }
+        },
+        {
+          "limitsDeadzone": {
+            "yaw": [14.0,17.0],
+            "pitch": [0.0,7.0]
+          }
         }
-      }
+      ]
     }
   ],
+  "gunnerFps": {
+    "pos": [0.0,0.4,0.0],
+    "head": "turret1"
+  },
   "weapon_presets": [
     {
       "preset": {
@@ -2509,5 +2536,26 @@
       "reqModification": "it50_mod",
       "tier": 3
     }
+  },
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.62595,-0.0456801,0.920828],
+    "_emtr_break_wing0_l_to": [-0.62595,-0.0456801,1.31064],
+    "emtr_break_wing1_l_from": [-0.62595,-0.0456801,3.21602],
+    "emtr_break_wing1_l_to": [-0.62595,-0.0456801,3.69437],
+    "emtr_break_wing2_l_from": [-0.62595,-0.0456801,4.6534],
+    "emtr_break_wing2_l_to": [-0.62595,-0.0456801,5.88529],
+    "_emtr_break_wing0_r_from": [-0.62595,-0.0456803,-0.923159],
+    "_emtr_break_wing0_r_to": [-0.62595,-0.0456803,-1.32631],
+    "emtr_break_wing1_r_from": [-0.62595,-0.0456803,-3.23169],
+    "emtr_break_wing1_r_to": [-0.62595,-0.0456803,-3.70991],
+    "emtr_break_wing2_r_from": [-0.62595,-0.0456803,-4.66894],
+    "emtr_break_wing2_r_to": [-0.62595,-0.0456803,-5.90083],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-3.40844,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

@@ -70,41 +70,6 @@ function hdpx(pixels) {
   return sh((::math.floor(pixels) + 0.5) * 100.0 / 1080.0)
 }
 
-/*
-  defensive function - try to not to fail in all ways (for example for data driven function)
-  get element in container or return default
-*/
-function safe_get(container, attr, defValue = null) {
-  return attr in container ? container[attr] : defValue
-}
-
-/*
-  defensive function - try to not to fail in all ways (for example for data driven function)
-  set element in container even if array index is out of range - resize array if necessary
-*/
-function safe_set(container, attr, value) {
-  if (::type(container) == "array")
-  {
-    if (container.len() <= attr)
-      container.resize(attr + 1)
-    container[attr] = value
-  }
-  else
-    container[attr] <- value
-  return container
-}
-
-/*
-  defensive function - try to not to fail in all ways (for example for data driven function)
-  insert element in array even if index is out of range - just at the end
-*/
-function safe_insert(array, index, value) {
-  if (index < 0)
-    index = max(0, array.len() + index)
-  if (array.len() < index)
-    index = array.len()
-  array.insert(index, value)
-}
 
 /*
   defensive function - try to not to fail in all ways (for example for data driven function)
@@ -136,6 +101,7 @@ function insert_array(array, index, value) {
   }
 }
 
+
 function tostring_any(input) {
   if (::type(input) != "userdata"){
     return input.tostring()
@@ -143,6 +109,7 @@ function tostring_any(input) {
   else
     return "#USERDATA#"
 }
+
 
 function tostring_r(input, indent = "  ") {
   local out = ""
@@ -217,7 +184,7 @@ function tostring_r(input, indent = "  ") {
       else {
         out += "\n" + indent
         if (!arrayElem) {
-          tostring_any(key) +  " = "
+          out += tostring_any(key) +  " = "
         }
         out += tostring_any(value) + "\n"
       }
@@ -241,6 +208,7 @@ function tostring_r(input, indent = "  ") {
   return out +"\n"
 }
 
+
 function deep_clone(source) {
   local complex_types = ["table", "array", "instance"]
   if (complex_types.find(::type(source)) == null)
@@ -257,32 +225,6 @@ function deep_clone(source) {
   return deep_clone_unsafe(source)
 }
 
-function deep_extend_value(target, attr, value) {
-  local complex_types = ["table", "array", "instance"]
-  local isArray = @(value) ::type(value) == "array"
-
-  local subfunc = function(target, attr, value) {
-    if (complex_types.find(::type(value)) == null)
-      return safe_set(target, attr, value)
-    else if (!(attr in target) || isArray(target[attr]) != isArray(value))
-      return safe_set(target, attr, deep_clone(value))
-
-    local subTarget = target[attr]
-    foreach (subAttr, subValue in value)
-      callee()(subTarget, subAttr, subValue)
-    return target
-  }
-
-  return subfunc(target, attr, value)
-}
-
-function deep_extend(target, source) {
-  local complex_types = ["table", "array", "instance"]
-  if (complex_types.find(::type(target)) != null)
-    foreach (attr, value in source)
-      deep_extend_value(target, attr, value)
-  return source
-}
 
 function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []}) {
   local compare_only_keys = []

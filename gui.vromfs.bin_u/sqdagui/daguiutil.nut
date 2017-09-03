@@ -303,7 +303,7 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
       menuPosText[i] = (menuPos[i] - frameOffset[i]) + frameOffsetText[i]
 
     menuObj["menu_align"] = align
-    menuObj["pos"] = ::implode(menuPosText, ", ")
+    menuObj["pos"] = ::g_string.implode(menuPosText, ", ")
 
     if (arrowOffset[0] || arrowOffset[1])
     {
@@ -314,7 +314,7 @@ function g_dagui_utils::setPopupMenuPosAndAlign(parentObjOrPos, _align, menuObj,
         local arrowPos = arrowObj.getPosRC()
         foreach (i, v in arrowPos)
           arrowPos[i] += arrowOffset[i]
-        arrowObj["style"] = "position:root; pos:" + ::implode(arrowPos, ", ") + ";"
+        arrowObj["style"] = "position:root; pos:" + ::g_string.implode(arrowPos, ", ") + ";"
       }
     }
 

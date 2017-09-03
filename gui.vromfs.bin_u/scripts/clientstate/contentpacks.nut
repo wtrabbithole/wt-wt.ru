@@ -298,8 +298,8 @@ function check_localization_package_and_ask_download(langId = null)
   local params = null
   if (langId != "English")
   {
-    local messageEn = ::stripTags(::loc("yn1/have_new_content_lang/en"))
-    local buttonsEn = ::stripTags(::format("[%s] = %s, [%s] = %s",
+    local messageEn = ::g_string.stripTags(::loc("yn1/have_new_content_lang/en"))
+    local buttonsEn = ::g_string.stripTags(::format("[%s] = %s, [%s] = %s",
       ::loc("msgbox/btn_download"), ::loc("msgbox/btn_download/en"),
       ::loc("msgbox/btn_cancel"), ::loc("msgbox/btn_cancel/en")))
     params = {

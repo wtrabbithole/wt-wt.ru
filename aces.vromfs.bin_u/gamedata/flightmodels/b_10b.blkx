@@ -55,6 +55,17 @@
   },
   {
     "DamageParts": {
+      "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        },
+        "gun2_dm": {
+          "hp": 15.0
+        },
+        "gun3_dm": {
+          "hp": 15.0
+        }
+      },
       "armor_engine": {
         "engine1_dm": {
           "genericDamageMult": 1.6,
@@ -112,6 +123,14 @@
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
           "hp": 49.2
+        },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 39.5
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 39.5
         },
         "fin_dm": {
           "hp": 41.8
@@ -188,6 +207,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 57.4
         },
@@ -204,6 +226,15 @@
         }
       },
       "steel_pilot": {
+        "gunner1_dm": {
+          "hp": 20.0
+        },
+        "gunner2_dm": {
+          "hp": 20.0
+        },
+        "gunner3_dm": {
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -221,35 +252,6 @@
         },
         "tank4_dm": {
           "hp": 54.5
-        }
-      },
-      "wood": {
-        "elevator0_dm": {
-          "hp": 42.6
-        },
-        "elevator1_dm": {
-          "hp": 42.6
-        },
-        "gear_c_dm": {
-          "hp": 4.8
-        },
-        "gun1_dm": {
-          "hp": 3.1
-        },
-        "gun2_dm": {
-          "hp": 3.1
-        },
-        "gun3_dm": {
-          "hp": 3.0
-        },
-        "gunner1_dm": {
-          "hp": 13.1
-        },
-        "gunner2_dm": {
-          "hp": 13.1
-        },
-        "gunner3_dm": {
-          "hp": 21.6
         }
       }
     }
@@ -2645,5 +2647,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-0.574992,0.026806,0.9401],
+      "_emtr_break_wing0_l_to": [-0.574992,0.026806,1.61788],
+      "emtr_break_wing1_l_from": [-0.574992,0.026806,3.40467],
+      "emtr_break_wing1_l_to": [-0.574992,0.026806,4.53819],
+      "emtr_break_wing2_l_from": [-0.574992,0.026806,6.61267],
+      "emtr_break_wing2_l_to": [-0.574992,0.026806,8.26186],
+      "_emtr_break_wing0_r_from": [-0.574992,0.0268058,-0.9401],
+      "_emtr_break_wing0_r_to": [-0.574992,0.0268058,-1.61788],
+      "emtr_break_wing1_r_from": [-0.574992,0.0268058,-3.40467],
+      "emtr_break_wing1_r_to": [-0.574992,0.0268058,-4.54276],
+      "emtr_break_wing2_r_from": [-0.574992,0.0268058,-6.6241],
+      "emtr_break_wing2_r_to": [-0.574992,0.0268058,-8.26872],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-6.71668,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

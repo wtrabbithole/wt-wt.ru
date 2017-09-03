@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 ::g_hud_tutorial_elements <- {
   [PERSISTENT_DATA_PARAMS] = ["visibleHTObjects", "isDebugMode", "debugBlkName"]
 
@@ -236,14 +238,14 @@ function g_hud_tutorial_elements::onDbgUpdate()
   if (!modified)
     return
 
-  //modified = ::get_full_time_table(modified)
+  //modified = time.getFullTimeTable(modified)
   if (!debugLastModified)
   {
     debugLastModified = modified
     return
   }
 
-  if (!::cmp_date(debugLastModified, modified))
+  if (!time.cmpDate(debugLastModified, modified))
     return
 
   debugLastModified = modified

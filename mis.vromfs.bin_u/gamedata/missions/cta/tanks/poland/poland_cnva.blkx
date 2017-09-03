@@ -227,16 +227,12 @@
       "scoreLimit": 10000,
       "timeLimit": 25,
       "deathPenaltyMul": 0.0,
+      "postfix": "_CnvA",
+      "allowedKillStreaks": true,
       "randomSpawnTeams": false,
       "remapAiTankModels": true,
-      "postfix": "_CnvA",
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedKillStreaks": true,
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -257,7 +253,14 @@
         "_Conq5": false,
         "_Conq6": false,
         "_CnvA": false,
-        "_CnvB": false
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false
       }
     },
     "spectator_points": [],
@@ -285,12 +288,15 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "arrow": [
               {
                 "width": 1
               },
               {
-                "side": "enemy"
+                "side": "ally"
               },
               {
                 "point": "briefing_tanks"
@@ -315,7 +321,7 @@
           {
             "icon": {
               "icontype": "bomber",
-              "side": "ally",
+              "side": "enemy",
               "target": "briefing_bombers",
               "lookAt": "briefing_tanks"
             }
@@ -323,8 +329,15 @@
           {
             "icon": {
               "icontype": "tank",
-              "side": "enemy",
+              "side": "ally",
               "target": "briefing_tanks"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "tank",
+              "side": "enemy",
+              "target": "t2_tanks_spawn"
             }
           }
         ]
@@ -395,6 +408,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -432,7 +461,13 @@
             "tags": {
               "type_bomber": false,
               "type_fighter": false,
-              "type_assault": false
+              "type_assault": false,
+              "tank": true,
+              "type_heavy_tank": true,
+              "type_medium_tank": true,
+              "type_light_tank": true,
+              "type_tank_destroyer": true,
+              "type_spaa": true
             }
           }
         },
@@ -468,6 +503,7 @@
     "is_enabled": true
   },
   "variables": {
+    "defenseMissionTeam": "teamA",
     "waypoints_num": 4
   },
   "dialogs": [],
@@ -475,1299 +511,47 @@
   "effects": [],
   "units": [
     {
-      "tankModels": {
-        "name": "tankModels_12",
-        "tm": [
-          [-0.833498,0.0,0.552521],
-          [0.0,1.0,0.0],
-          [-0.552521,0.0,-0.833498],
-          [2855.45,14.1,1563.15]
-        ],
-        "unit_class": "germ_stug_III_ausf_G",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "weapons": "",
-        "bullets0": "75mm_ger_kwk40_HEAT",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 16,
-          "formation_type": "cols",
-          "formation_div": 3,
-          "formation_step": [8.0,4.0],
-          "formation_noise": [0.5,0.5],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "unitReplacementType": "tank"
-        },
-        "way": {
-          "tankModels_12_wp_01": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2831.85,8.35,1580.15]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_35": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2811.6,8.6,1621.7]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_02": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2821.8,8.85,1702.75]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_03": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2775.35,8.2,1875.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_04": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2757.2,8.85,1927.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_05": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2714.85,7.55,1977.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_06": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2647.65,6.0,2028.4]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_07": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2593.5,5.05,2064.65]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_08": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2546.1,4.7,2083.5]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_09": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2472.3,4.65,2104.65]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_10": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2339.55,4.0,2094.2]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_11": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2279.15,3.75,2097.85]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_12": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2244.4,3.75,2102.2]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_13": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2228.8,3.8,2097.45]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_14": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2212.15,3.8,2098.05]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_15": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2158.65,3.8,2111.1]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_16": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2075.85,3.8,2134.4]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_17": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2059.15,3.9,2130.15]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_18": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2030.8,3.8,2110.7]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_36": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2023.05,3.8,2095.95]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_37": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2004.65,3.8,2093.2]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_38": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1973.35,3.8,2073.25]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_19": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1852.05,3.8,2096.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_39": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1842.94,3.83809,2105.13]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_20": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1765.9,4.2,2122.6]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_40": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1738.3,5.1,2124.6]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_21": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1700.25,6.5,2195.7]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_22": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1634.05,9.95,2212.4]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_23": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1546.45,13.35,2237.75]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_24": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1464.05,14.35,2267.15]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_25": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1398.05,15.75,2302.15]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_26": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1329.05,15.85,2332.85]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_27": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1269.45,14.9,2364.0]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_28": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1209.55,16.1,2410.25]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_29": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1153.95,18.35,2453.25]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_30": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1173.65,19.05,2497.0]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_31": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1185.1,19.5,2525.0]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_32": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1162.0,20.2,2551.95]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_33": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1161.4,19.9,2589.4]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_12_wp_34": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1175.0,19.55,2645.65]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          }
-        }
-      }
-    },
-    {
       "squad": {
         "name": "convoy_sq",
         "tm": [
-          [4.58811e+32,2.868458e-42,4.58811e+32],
-          [2.868458e-42,1.401298e-45,0.0],
-          [1.73943e-39,0.0,3.30141e+32],
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
           [1863.27,41.8284,195.195]
         ],
         "props": [
-          {
-            "squad_members": "tankModels_12"
-          },
-          {
-            "squad_members": "tankModels_13"
-          },
           {
             "squad_members": "tankModels_14"
           },
           {
             "squad_members": "tankModels_15"
+          },
+          {
+            "squad_members": "tankModels_16"
+          },
+          {
+            "squad_members": "tankModels_17"
+          },
+          {
+            "squad_members": "tankModels_18"
           }
         ]
       }
     },
     {
       "tankModels": {
-        "name": "tankModels_13",
-        "tm": [
-          [-0.0406127,0.0,0.999174],
-          [0.0,1.0,0.0],
-          [-0.999174,0.0,-0.0406127],
-          [2776.05,14.1,1477.1]
-        ],
-        "unit_class": "germ_stug_III_ausf_G",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "weapons": "",
-        "bullets0": "75mm_ger_kwk40_HEAT",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 100,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 16,
-          "formation_type": "cols",
-          "formation_div": 3,
-          "formation_step": [8.0,4.0],
-          "formation_noise": [0.5,0.5],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "unitReplacementType": "tank"
-        },
-        "way": {
-          "tankModels_13_wp_01": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2780.95,8.35,1520.35]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_02": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2811.6,8.6,1621.7]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_03": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2821.8,8.85,1702.75]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_04": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2775.35,8.2,1875.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_05": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2757.2,8.85,1927.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_06": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2714.85,7.55,1977.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_07": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2647.65,6.0,2028.4]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_08": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2593.5,5.05,2064.65]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_09": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2546.1,4.7,2083.5]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_10": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2472.3,4.65,2104.65]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_11": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2332.35,4.0,2136.8]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_12": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2306.15,3.9,2150.8]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_13": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2289.75,3.85,2177.6]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_14": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2292.5,3.8,2207.7]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_15": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2283.85,3.8,2218.1]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_16": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2247.2,3.8,2226.85]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_17": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2183.3,3.8,2241.55]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_18": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2122.05,3.9,2245.55]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_19": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [2066.75,3.8,2246.7]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_20": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1996.55,3.8,2250.2]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_21": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1917.2,3.8,2257.1]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_22": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1868.4,3.8,2259.65]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_23": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1757.35,5.5,2269.3]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_25": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1723.65,6.38978,2244.2]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_26": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1703.7,6.67018,2220.85]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_27": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1670.25,7.86294,2203.55]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_28": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1634.05,9.93532,2212.4]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_29": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1546.45,13.35,2237.75]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_30": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1464.05,14.35,2267.15]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_31": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1398.05,15.75,2302.15]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_32": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1329.05,15.85,2332.85]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_33": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1269.45,14.9,2364.0]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_34": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1209.55,16.1,2410.25]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_35": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1153.95,18.35,2453.25]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_36": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1173.65,19.05,2497.0]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_37": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1185.1,19.5,2525.0]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_38": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1162.0,20.2,2551.95]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_39": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1161.4,19.9,2589.4]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          },
-          "tankModels_13_wp_40": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1175.0,19.55,2645.65]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "tankModels": {
         "name": "tankModels_14",
         "tm": [
-          [-0.833498,0.0,0.552521],
+          [-0.992496,0.0,0.12227],
           [0.0,1.0,0.0],
-          [-0.552521,0.0,-0.833498],
-          [3008.6,14.1,1447.45]
+          [-0.12227,0.0,-0.992496],
+          [3513.63,16.0554,1516.45]
         ],
         "unit_class": "germ_stug_III_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "75mm_ger_kwk40_HEAT",
         "bullets1": "",
@@ -1779,7 +563,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 16,
+          "count": 6,
           "formation_type": "cols",
           "formation_div": 3,
           "formation_step": [8.0,4.0],
@@ -1795,13 +579,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2939.3,8.35,1475.6]
+              [3285.03,17.3879,1601.94]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
+              "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_02": {
@@ -1810,13 +595,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2811.6,8.6,1621.7]
+              [3105.7,16.0407,1655.44]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_03": {
@@ -1825,13 +611,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2821.8,8.85,1702.75]
+              [3058.06,14.3306,1697.98]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_04": {
@@ -1840,13 +627,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2775.35,8.2,1875.3]
+              [2830.84,7.65196,1677.84]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_05": {
@@ -1855,13 +643,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2757.2,8.85,1927.3]
+              [2800.79,8.81651,1800.77]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_06": {
@@ -1870,13 +659,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2714.85,7.55,1977.3]
+              [2764.28,9.12756,1911.73]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_07": {
@@ -1885,13 +675,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2647.65,6.0,2028.4]
+              [2722.43,7.68201,1973.04]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_08": {
@@ -1900,13 +691,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2593.5,5.05,2064.65]
+              [2593.5,5.05426,2064.65]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_09": {
@@ -1915,13 +707,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2546.1,4.7,2083.5]
+              [2546.1,4.69925,2083.5]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_10": {
@@ -1930,13 +723,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2472.3,4.65,2104.65]
+              [2472.3,4.62675,2104.65]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_11": {
@@ -1945,13 +739,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2339.55,4.0,2094.2]
+              [2380.13,4.54699,2187.14]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_12": {
@@ -1960,13 +755,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2279.15,3.75,2097.85]
+              [2314.75,4.46126,2247.07]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_13": {
@@ -1975,13 +771,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2244.4,3.75,2102.2]
+              [2279.63,4.51592,2290.03]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_14": {
@@ -1990,13 +787,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2228.8,3.8,2097.45]
+              [2142.36,4.58736,2302.51]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_15": {
@@ -2005,13 +803,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2212.15,3.8,2098.05]
+              [1933.01,4.44969,2339.7]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_16": {
@@ -2020,13 +819,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2158.65,3.8,2111.1]
+              [1739.48,8.21196,2457.61]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_17": {
@@ -2035,13 +835,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2075.85,3.8,2134.4]
+              [1696.35,8.96301,2550.64]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_14_wp_18": {
@@ -2050,11 +851,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2059.15,3.9,2130.15]
+              [1710.45,9.07152,2609.34]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2065,11 +867,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2030.8,3.8,2110.7]
+              [1711.47,9.69852,2669.6]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2080,11 +883,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2023.05,3.8,2095.95]
+              [1723.12,11.2378,2736.39]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2095,11 +899,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2004.65,3.8,2093.2]
+              [1730.42,12.777,2772.6]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2110,11 +915,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1973.35,3.8,2073.25]
+              [1728.47,13.8627,2795.15]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2125,10 +931,11 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1852.05,3.8,2096.3]
+              [1711.91,15.06,2816.81]
             ],
             "props": {
               "speed": 300.0,
+              "tas": false,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
@@ -2140,11 +947,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1842.94,3.83809,2105.13]
+              [1677.64,17.2357,2850.74]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2155,10 +963,11 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1765.9,4.2,2122.6]
+              [1645.66,19.5866,2884.09]
             ],
             "props": {
               "speed": 300.0,
+              "tas": false,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
@@ -2170,11 +979,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1738.3,5.1,2124.6]
+              [1626.49,22.6858,2922.96]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2185,11 +995,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1700.25,6.5,2195.7]
+              [1613.14,25.1492,2963.04]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2200,11 +1011,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1634.05,9.95,2212.4]
+              [1595.86,26.4024,3020.66]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2215,11 +1027,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1546.45,13.35,2237.75]
+              [1580.39,26.2471,3081.04]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2230,11 +1043,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1464.05,14.35,2267.15]
+              [1491.81,23.0351,3121.64]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2245,11 +1059,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1398.05,15.75,2302.15]
+              [1377.3,17.3131,3191.18]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2260,11 +1075,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1329.05,15.85,2332.85]
+              [1280.68,16.2929,3263.62]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2275,11 +1091,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1269.45,14.9,2364.0]
+              [1192.0,16.9441,3297.95]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2290,11 +1107,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1209.55,16.1,2410.25]
+              [1151.8,17.7834,3287.3]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2305,11 +1123,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1153.95,18.35,2453.25]
+              [1112.2,18.3046,3288.8]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2320,11 +1139,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1173.65,19.05,2497.0]
+              [1047.6,17.9858,3300.25]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2335,11 +1155,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1185.1,19.5,2525.0]
+              [948.2,15.4735,3316.55]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2350,11 +1171,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1162.0,20.2,2551.95]
+              [846.55,13.5779,3335.85]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2365,11 +1187,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1161.4,19.9,2589.4]
+              [780.2,13.0035,3350.9]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2380,10 +1203,187 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1175.0,19.55,2645.65]
+              [751.95,12.7925,3358.9]
             ],
             "props": {
               "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_41": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [739.05,12.6511,3370.6]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_42": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.2,12.5407,3386.4]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_43": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.65,12.4609,3410.7]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_44": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [751.15,12.4802,3454.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_45": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [767.0,12.5809,3508.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_46": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [780.1,13.0333,3565.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_47": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [789.6,14.7455,3627.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_48": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [790.45,18.1067,3694.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_49": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [788.7,22.8594,3798.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_50": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [785.9,27.3688,3900.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_14_wp_51": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [787.95,30.3211,4009.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
@@ -2393,17 +1393,308 @@
       }
     },
     {
+      "objectGroups": {
+        "name": "notree02",
+        "tm": [
+          [0.985012,0.0,-0.172487],
+          [0.0,1.0,0.0],
+          [0.172487,0.0,0.985012],
+          [2305.7,0.0,2307.45]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree04",
+        "tm": [
+          [0.999459,0.0,0.032903],
+          [0.0,1.0,0.0],
+          [-0.032903,0.0,0.999459],
+          [2179.75,0.0,2326.4]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree07",
+        "tm": [
+          [0.850839,0.0,0.525426],
+          [0.0,1.0,0.0],
+          [-0.525426,0.0,0.850839],
+          [1706.75,0.0,2560.05]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree10",
+        "tm": [
+          [0.850839,0.0,0.525426],
+          [0.0,1.0,0.0],
+          [-0.525426,0.0,0.850839],
+          [1425.3,0.0,3152.85]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree13",
+        "tm": [
+          [0.7002,0.0,0.713947],
+          [0.0,1.0,0.0],
+          [-0.713947,0.0,0.7002],
+          [1486.2,0.0,3107.7]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree16",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [1041.05,0.0,3300.45]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree19",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [946.6,0.0,3315.1]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree22",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [849.65,0.0,3330.35]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree25",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [755.8,0.0,3345.9]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree28",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [764.3,0.0,3441.6]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree31",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [778.85,0.0,3540.65]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree34",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [778.25,0.0,3638.85]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree37",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [787.35,0.0,3726.25]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree40",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [782.65,0.0,3819.4]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree43",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [781.45,0.0,3914.65]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree46",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [781.85,0.0,4014.1]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree49",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [791.1,0.0,4107.85]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
       "tankModels": {
         "name": "tankModels_15",
         "tm": [
-          [0.267579,0.0,0.963535],
+          [-0.992496,0.0,0.12227],
           [0.0,1.0,0.0],
-          [-0.963535,0.0,0.267579],
-          [2655.35,14.1,1421.3]
+          [-0.12227,0.0,-0.992496],
+          [3514.68,16.2427,1528.28]
         ],
         "unit_class": "germ_stug_III_ausf_G",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "75mm_ger_kwk40_HEAT",
         "bullets1": "",
@@ -2415,7 +1706,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 16,
+          "count": 6,
           "formation_type": "cols",
           "formation_div": 3,
           "formation_step": [8.0,4.0],
@@ -2431,13 +1722,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2686.0,8.35,1474.55]
+              [3285.03,17.3879,1601.94]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "MOVETO_STRAIGHT",
+              "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_02": {
@@ -2446,13 +1738,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2811.6,8.6,1621.7]
+              [3105.7,16.0407,1655.44]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_03": {
@@ -2461,13 +1754,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2821.8,8.85,1702.75]
+              [3058.06,14.3306,1697.98]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_04": {
@@ -2476,13 +1770,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2775.35,8.2,1875.3]
+              [2830.84,7.65196,1677.84]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_05": {
@@ -2491,13 +1786,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2757.2,8.85,1927.3]
+              [2800.79,8.81651,1800.77]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_06": {
@@ -2506,13 +1802,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2714.85,7.55,1977.3]
+              [2764.28,9.12756,1911.73]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_07": {
@@ -2521,13 +1818,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2647.65,6.0,2028.4]
+              [2722.43,7.68201,1973.04]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_08": {
@@ -2536,13 +1834,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2593.5,5.05,2064.65]
+              [2593.5,5.05425,2064.65]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_09": {
@@ -2551,13 +1850,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2546.1,4.7,2083.5]
+              [2546.1,4.69925,2083.5]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_10": {
@@ -2566,13 +1866,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2472.3,4.65,2104.65]
+              [2472.3,4.62675,2104.65]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_11": {
@@ -2581,13 +1882,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2332.35,4.0,2136.8]
+              [2380.13,4.54699,2187.14]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_12": {
@@ -2596,13 +1898,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2306.15,3.9,2150.8]
+              [2314.75,4.46126,2247.07]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_13": {
@@ -2611,13 +1914,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2289.75,3.85,2177.6]
+              [2279.63,4.51592,2290.03]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_14": {
@@ -2626,13 +1930,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2292.5,3.8,2207.7]
+              [2142.36,4.58736,2302.51]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_15": {
@@ -2641,13 +1946,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2283.85,3.8,2218.1]
+              [1933.01,4.44969,2339.7]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_16": {
@@ -2656,13 +1962,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2247.2,3.8,2226.85]
+              [1739.48,8.21196,2457.61]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_17": {
@@ -2671,13 +1978,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2183.3,3.8,2241.55]
+              [1696.35,8.96301,2550.64]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "tankModels_15_wp_18": {
@@ -2686,11 +1994,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2122.05,3.9,2245.55]
+              [1710.45,9.07152,2609.34]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2701,11 +2010,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [2066.75,3.8,2246.7]
+              [1711.47,9.69852,2669.6]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2716,11 +2026,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1996.55,3.8,2250.2]
+              [1723.12,11.2378,2736.39]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2731,11 +2042,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1917.2,3.8,2257.1]
+              [1730.42,12.777,2772.6]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2746,11 +2058,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1868.4,3.8,2259.65]
+              [1728.47,13.8627,2795.15]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2761,10 +2074,11 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1757.35,5.5,2269.3]
+              [1711.91,15.06,2816.81]
             ],
             "props": {
               "speed": 300.0,
+              "tas": false,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
@@ -2776,10 +2090,11 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1723.65,6.38978,2244.2]
+              [1677.64,17.2357,2850.74]
             ],
             "props": {
               "speed": 300.0,
+              "tas": false,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
@@ -2791,11 +2106,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1703.7,6.67018,2220.85]
+              [1645.66,19.5866,2884.09]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2806,11 +2122,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1670.25,7.86294,2203.55]
+              [1626.49,22.6858,2922.96]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2821,11 +2138,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1634.05,9.93532,2212.4]
+              [1613.14,25.1492,2963.04]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2836,11 +2154,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1546.45,13.35,2237.75]
+              [1595.86,26.4024,3020.66]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2851,11 +2170,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1464.05,14.35,2267.15]
+              [1580.39,26.2471,3081.04]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2866,11 +2186,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1398.05,15.75,2302.15]
+              [1491.81,23.0351,3121.64]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2881,11 +2202,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1329.05,15.85,2332.85]
+              [1377.3,17.3131,3191.18]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2896,11 +2218,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1269.45,14.9,2364.0]
+              [1280.68,16.2929,3263.62]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2911,11 +2234,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1209.55,16.1,2410.25]
+              [1192.0,16.9441,3297.95]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2926,11 +2250,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1153.95,18.35,2453.25]
+              [1151.8,17.7834,3287.3]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2941,11 +2266,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1173.65,19.05,2497.0]
+              [1112.2,18.3046,3288.8]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2956,11 +2282,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1185.1,19.5,2525.0]
+              [1047.6,17.9858,3300.25]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2971,11 +2298,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1162.0,20.2,2551.95]
+              [948.2,15.4735,3316.55]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -2986,11 +2314,12 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1161.4,19.9,2589.4]
+              [846.55,13.5779,3335.85]
             ],
             "props": {
               "speed": 300.0,
-              "moveType": "GATHER_TO",
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
@@ -3001,15 +2330,2838 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [1175.0,19.55,2645.65]
+              [780.2,13.0035,3350.9]
             ],
             "props": {
               "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_40": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [751.95,12.7925,3358.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_41": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [739.05,12.6511,3370.6]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_42": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.2,12.5407,3386.4]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_43": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.65,12.4609,3410.7]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_44": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [751.15,12.4802,3454.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_45": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [767.0,12.5809,3508.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_46": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [780.1,13.0333,3565.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_47": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [789.6,14.7455,3627.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_48": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [790.45,18.1067,3694.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_49": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [788.7,22.8594,3798.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_50": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [785.9,27.3688,3900.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_15_wp_51": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [787.95,30.3211,4009.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
               "canUsePathFinder": false
             }
           }
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_16",
+        "tm": [
+          [-0.992496,0.0,0.12227],
+          [0.0,1.0,0.0],
+          [-0.12227,0.0,-0.992496],
+          [3519.51,16.4815,1544.2]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "75mm_ger_kwk40_HEAT",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "cols",
+          "formation_div": 3,
+          "formation_step": [8.0,4.0],
+          "formation_noise": [0.5,0.5],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": {
+          "tankModels_16_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3285.03,17.3879,1601.94]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3105.7,16.0407,1655.44]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3058.06,14.3306,1697.98]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2830.84,7.65196,1677.84]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_05": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2800.79,8.81651,1800.77]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_06": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2764.28,9.12756,1911.73]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_07": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2722.43,7.68201,1973.04]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_08": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2593.5,5.05425,2064.65]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_09": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2546.1,4.69925,2083.5]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_10": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2472.3,4.62675,2104.65]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_11": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2380.13,4.54699,2187.14]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_12": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2314.75,4.46126,2247.07]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_13": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2279.63,4.51592,2290.03]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_14": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2142.36,4.58736,2302.51]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_15": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1933.01,4.44969,2339.7]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_16": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1739.48,8.21196,2457.61]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_17": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1696.35,8.96302,2550.64]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_16_wp_18": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1710.45,9.07152,2609.34]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_19": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1711.47,9.69852,2669.6]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_20": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1723.12,11.2378,2736.39]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_21": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1730.42,12.777,2772.6]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_22": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1728.47,13.8627,2795.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_23": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1711.91,15.06,2816.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_24": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1677.64,17.2357,2850.74]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_25": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1645.66,19.5866,2884.09]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_26": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1626.49,22.6858,2922.96]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_27": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1613.14,25.1492,2963.04]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_28": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1595.86,26.4024,3020.66]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_29": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1580.39,26.2471,3081.04]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_30": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1491.81,23.0351,3121.64]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_31": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1377.3,17.3131,3191.18]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_32": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1280.68,16.2929,3263.62]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_33": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1192.0,16.9441,3297.95]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_34": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1151.8,17.7834,3287.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_35": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1112.2,18.3046,3288.8]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_36": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1047.6,17.9858,3300.25]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_37": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [948.2,15.4735,3316.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_38": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [846.55,13.5779,3335.85]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_39": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [780.2,13.0035,3350.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_40": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [751.95,12.7925,3358.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_41": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [739.05,12.6511,3370.6]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_42": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.2,12.5407,3386.4]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_43": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.65,12.4609,3410.7]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_44": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [751.15,12.4802,3454.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_45": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [767.0,12.5809,3508.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_46": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [780.1,13.0333,3565.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_47": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [789.6,14.7455,3627.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_48": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [790.45,18.1067,3694.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_49": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [788.7,22.8594,3798.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_50": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [785.9,27.3688,3900.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_16_wp_51": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [787.95,30.3211,4009.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_17",
+        "tm": [
+          [-0.992496,0.0,0.12227],
+          [0.0,1.0,0.0],
+          [-0.12227,0.0,-0.992496],
+          [3523.82,16.6645,1556.01]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "75mm_ger_kwk40_HEAT",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "cols",
+          "formation_div": 3,
+          "formation_step": [8.0,4.0],
+          "formation_noise": [0.5,0.5],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": {
+          "tankModels_17_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3285.03,17.3879,1601.94]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3105.7,16.0407,1655.44]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3058.06,14.3306,1697.98]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2830.84,7.65196,1677.84]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_05": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2588.67,5.16602,1732.71]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_06": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2495.87,3.20848,1807.02]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_07": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2436.07,5.28894,1926.32]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_08": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2414.12,5.09505,2050.73]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_09": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2415.18,4.58543,2118.24]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_10": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2402.24,4.55473,2181.78]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_11": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2363.22,4.53923,2239.12]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_12": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2321.09,4.53726,2304.79]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_13": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2258.93,4.55185,2357.99]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_14": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2161.66,4.62031,2408.23]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_15": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2113.32,4.73673,2450.35]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_16": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2060.16,4.9323,2513.64]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_17": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2014.17,5.21984,2561.84]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_17_wp_18": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1964.31,5.76737,2592.18]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_19": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1881.18,6.85309,2614.17]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_20": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1805.09,7.62616,2628.02]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_21": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1751.48,8.33646,2628.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_22": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1690.59,9.74723,2626.83]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_23": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1608.73,11.6081,2618.43]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_24": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1529.8,14.2007,2621.46]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_25": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1477.24,16.1416,2628.86]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_26": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1412.95,17.6899,2639.2]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_27": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1363.11,18.7785,2647.65]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_28": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1305.73,19.4736,2650.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_29": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1226.99,19.3367,2654.85]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_30": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1187.52,19.3853,2675.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_31": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1150.14,19.6939,2707.11]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_32": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1112.11,16.9146,2736.2]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_33": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1063.39,16.8094,2779.87]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_34": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [984.746,25.6282,2826.47]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_35": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [882.249,24.8131,2862.64]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_36": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [815.322,21.1849,2904.95]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_37": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [779.778,21.1663,2968.25]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_38": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [753.991,18.9282,3051.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_39": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [735.236,15.4665,3149.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_40": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [724.8,13.8059,3221.5]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_41": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [721.914,13.1169,3280.27]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_42": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [721.324,12.7212,3339.42]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_43": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.65,12.4609,3410.7]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_44": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [751.15,12.4802,3454.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_45": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [767.0,12.5809,3508.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_46": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [780.1,13.0333,3565.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_47": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [789.6,14.7455,3627.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_48": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [790.45,18.1067,3694.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_49": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [788.7,22.8594,3798.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_50": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [785.9,27.3688,3900.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_17_wp_51": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [787.95,30.3211,4009.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "tankModels_18",
+        "tm": [
+          [-0.992496,0.0,0.12227],
+          [0.0,1.0,0.0],
+          [-0.12227,0.0,-0.992496],
+          [3524.08,16.8277,1565.19]
+        ],
+        "unit_class": "germ_stug_III_ausf_G",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "75mm_ger_kwk40_HEAT",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 6,
+          "formation_type": "cols",
+          "formation_div": 3,
+          "formation_step": [8.0,4.0],
+          "formation_noise": [0.5,0.5],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": {
+          "tankModels_18_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3285.03,17.3879,1601.94]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3105.7,16.0407,1655.44]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [3058.06,14.3306,1697.98]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2830.84,7.65196,1677.84]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_05": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2588.67,5.16602,1732.71]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_06": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2495.87,3.20848,1807.02]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_07": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2436.07,5.28894,1926.32]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_08": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2414.12,5.09505,2050.73]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_09": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2415.18,4.58542,2118.24]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_10": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2402.24,4.55473,2181.78]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_11": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2363.22,4.53923,2239.12]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_12": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2321.09,4.53726,2304.79]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_13": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2258.93,4.55185,2357.99]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_14": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2161.66,4.62031,2408.23]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_15": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2113.32,4.73673,2450.35]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_16": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2060.16,4.9323,2513.64]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_17": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [2014.17,5.21984,2561.84]
+            ],
+            "props": {
+              "speed": 300.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false,
+              "tas": false
+            }
+          },
+          "tankModels_18_wp_18": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1964.31,5.76737,2592.18]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_19": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1881.18,6.85309,2614.17]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_20": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1805.09,7.62616,2628.02]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_21": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1751.48,8.33646,2628.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_22": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1690.59,9.74723,2626.83]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_23": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1608.73,11.6081,2618.43]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_24": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1529.8,14.2007,2621.46]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_25": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1477.24,16.1416,2628.86]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_26": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1412.95,17.6899,2639.2]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_27": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1363.11,18.7785,2647.65]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_28": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1305.73,19.4735,2650.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_29": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1226.99,19.3367,2654.85]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_30": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1187.52,19.3853,2675.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_31": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1150.14,19.6939,2707.11]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_32": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1112.11,16.9146,2736.2]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_33": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [1063.39,16.8094,2779.87]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_34": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [984.746,25.6282,2826.47]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_35": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [882.249,24.8131,2862.64]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_36": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [815.322,21.1849,2904.95]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_37": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [779.778,21.1663,2968.25]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_38": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [753.991,18.9282,3051.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_39": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [735.236,15.4665,3149.81]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_40": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [724.8,13.8059,3221.5]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_41": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [721.914,13.1169,3280.27]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_42": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [721.324,12.7212,3339.42]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_43": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [733.65,12.4609,3410.7]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_44": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [751.15,12.4802,3454.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_45": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [767.0,12.5809,3508.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_46": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [780.1,13.0333,3565.9]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_47": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [789.6,14.7455,3627.55]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_48": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [790.45,18.1067,3694.3]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_49": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [788.7,22.8594,3798.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_50": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [785.9,27.3688,3900.45]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "tankModels_18_wp_51": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [787.95,30.3211,4009.15]
+            ],
+            "props": {
+              "speed": 300.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree15",
+        "tm": [
+          [0.850839,0.0,0.525426],
+          [0.0,1.0,0.0],
+          [-0.525426,0.0,0.850839],
+          [1706.91,0.0,2619.45]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree24",
+        "tm": [
+          [0.850839,0.0,0.525426],
+          [0.0,1.0,0.0],
+          [-0.525426,0.0,0.850839],
+          [1152.56,0.0,2702.42]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree33",
+        "tm": [
+          [0.850839,0.0,0.525426],
+          [0.0,1.0,0.0],
+          [-0.525426,0.0,0.850839],
+          [967.824,0.0,2841.83]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "notree39",
+        "tm": [
+          [0.156736,0.0,0.987641],
+          [0.0,1.0,0.0],
+          [-0.987641,0.0,0.156736],
+          [703.894,0.0,3360.96]
+        ],
+        "unit_class": "noTreeObjectGroup100",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
         }
       }
     }
@@ -3018,76 +5170,10 @@
     "briefing_bombers": {
       "type": "Point",
       "tm": [
-        [-0.785066,0.0,-0.619412],
+        [1.0,0.0,0.0],
         [0.0,1.0,0.0],
-        [0.619412,0.0,-0.785066],
-        [321.258,72.0264,2708.95]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_waypoint01": {
-      "type": "Sphere",
-      "tm": [
-        [-69.081,0.0,-72.3035],
-        [0.0,100.0,0.0],
-        [72.3035,0.0,-69.081],
-        [2629.4,9.7,2116.6]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_waypoint02": {
-      "type": "Sphere",
-      "tm": [
-        [-41.709,0.0,-34.3023],
-        [0.0,54.0027,0.0],
-        [34.3023,0.0,-41.709],
-        [2222.65,8.1,2152.9]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_waypoint03": {
-      "type": "Sphere",
-      "tm": [
-        [-75.1231,0.0,-42.8759],
-        [0.0,86.4975,0.0],
-        [42.8759,0.0,-75.1231],
-        [1696.0,13.55,2247.15]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_waypoint04": {
-      "type": "Sphere",
-      "tm": [
-        [99.9159,0.0,-4.09771],
-        [0.0,100.0,0.0],
-        [4.09771,0.0,99.9159],
-        [1117.5,18.95,2530.75]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_tanks_spawn": {
-      "type": "Sphere",
-      "tm": [
-        [-129.875,0.0,249.487],
-        [0.0,281.267,0.0],
-        [-249.487,0.0,-129.875],
-        [1373.35,1.87097,1273.55]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "convoy_waypoint00": {
-      "type": "Sphere",
-      "tm": [
-        [-91.6188,0.0,40.0749],
-        [0.0,100.0,0.0],
-        [-40.0749,0.0,-91.6188],
-        [3107.25,13.6,1749.75]
+        [0.0,0.0,1.0],
+        [528.304,41.1797,508.002]
       ],
       "objLayer": 0,
       "props": []
@@ -3098,7 +5184,348 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [2825.55,53.3,1477.85]
+        [3556.22,41.1796,1539.88]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "convoy_waypoint01": {
+      "type": "Sphere",
+      "tm": [
+        [-61.6334,0.0,78.7483],
+        [0.0,100.0,0.0],
+        [-78.7483,0.0,-61.6334],
+        [2595.45,9.7,1967.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "convoy_waypoint02": {
+      "type": "Sphere",
+      "tm": [
+        [-10.0505,0.0,99.4937],
+        [0.0,100.0,0.0],
+        [-99.4937,0.0,-10.0505],
+        [1750.65,6.50325,2374.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "convoy_waypoint03": {
+      "type": "Sphere",
+      "tm": [
+        [85.1512,0.0,52.4334],
+        [0.0,100.0,0.0],
+        [-52.4334,0.0,85.1512],
+        [1444.42,17.5497,2841.12]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "convoy_waypoint04": {
+      "type": "Sphere",
+      "tm": [
+        [88.4421,0.0,-46.6687],
+        [0.0,100.0,0.0],
+        [46.6687,0.0,88.4421],
+        [696.058,19.6094,3691.21]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_tanks_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-136.126,0.0,-146.526],
+        [0.0,200.0,0.0],
+        [146.526,0.0,-136.126],
+        [2849.34,12.5496,3156.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "convoy_waypoint00": {
+      "type": "Sphere",
+      "tm": [
+        [-97.3788,0.0,22.7459],
+        [0.0,100.0,0.0],
+        [-22.7459,0.0,-97.3788],
+        [3404.54,19.563,1683.26]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "convoy_starting_point": {
+      "type": "Point",
+      "tm": [
+        [-0.919436,0.0,0.393239],
+        [0.0,1.0,0.0],
+        [-0.393239,0.0,-0.919436],
+        [3558.47,16.5436,1538.58]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "area_01": {
+      "type": "Box",
+      "tm": [
+        [4096.0,0.0,0.0],
+        [0.0,931.89,0.0],
+        [0.0,0.0,4096.0],
+        [2048.0,12.1382,2048.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "area_03": {
+      "type": "Sphere",
+      "tm": [
+        [2200.0,0.0,0.0],
+        [0.0,2200.0,0.0],
+        [0.0,0.0,2200.0],
+        [2849.57,18.4395,3160.91]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "area_04": {
+      "type": "Sphere",
+      "tm": [
+        [1400.0,0.0,0.0],
+        [0.0,1400.0,0.0],
+        [0.0,0.0,1400.0],
+        [763.85,17.45,3102.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree01": {
+      "type": "Box",
+      "tm": [
+        [98.5012,0.0,-17.2487],
+        [0.0,50.0,0.0],
+        [17.2487,0.0,98.5012],
+        [2305.7,0.0,2307.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree05": {
+      "type": "Box",
+      "tm": [
+        [99.9459,0.0,3.2903],
+        [0.0,50.0,0.0],
+        [-3.2903,0.0,99.9459],
+        [2179.75,0.0,2326.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree08": {
+      "type": "Box",
+      "tm": [
+        [85.0839,0.0,52.5426],
+        [0.0,50.0,0.0],
+        [-52.5426,0.0,85.0839],
+        [1706.75,0.0,2560.05]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree11": {
+      "type": "Box",
+      "tm": [
+        [85.0839,0.0,52.5426],
+        [0.0,50.0,0.0],
+        [-52.5426,0.0,85.0839],
+        [1425.3,0.0,3152.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree14": {
+      "type": "Box",
+      "tm": [
+        [70.02,0.0,71.3947],
+        [0.0,50.0,0.0],
+        [-71.3947,0.0,70.02],
+        [1486.2,0.0,3107.7]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree17": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [1041.05,0.0,3300.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree20": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [946.6,0.0,3315.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree23": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [849.65,0.0,3330.35]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree26": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [755.8,0.0,3345.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree29": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [764.3,0.0,3441.6]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree32": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [778.85,0.0,3540.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree35": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [778.25,0.0,3638.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree38": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [787.35,0.0,3726.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree41": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [782.65,0.0,3819.4]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree44": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [781.45,0.0,3914.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree47": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [781.85,0.0,4014.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree50": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [791.1,0.0,4107.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree12": {
+      "type": "Box",
+      "tm": [
+        [85.0839,0.0,52.5426],
+        [0.0,50.0,0.0],
+        [-52.5426,0.0,85.0839],
+        [1706.91,0.0,2619.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree21": {
+      "type": "Box",
+      "tm": [
+        [85.0839,0.0,52.5426],
+        [0.0,50.0,0.0],
+        [-52.5426,0.0,85.0839],
+        [1152.56,0.0,2702.42]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree30": {
+      "type": "Box",
+      "tm": [
+        [85.0839,0.0,52.5426],
+        [0.0,50.0,0.0],
+        [-52.5426,0.0,85.0839],
+        [967.824,0.0,2841.83]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "notree36": {
+      "type": "Box",
+      "tm": [
+        [15.6736,0.0,98.7641],
+        [0.0,50.0,0.0],
+        [-98.7641,0.0,15.6736],
+        [703.894,0.0,3360.96]
       ],
       "objLayer": 0,
       "props": []
@@ -3126,5 +5553,11 @@
       }
     }
   ],
-  "wayPoints": []
+  "wayPoints": [],
+  "__viewPoints": {
+    "viewpt_01": {
+      "pos": [1483.4,15.8667,2500.15],
+      "ht": 2.5001
+    }
+  }
 }

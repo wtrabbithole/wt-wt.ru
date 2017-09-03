@@ -200,8 +200,8 @@ function LayersIcon::getTextDataFromLayer(layerCfg)
   local position = ::getTblValue("position", layerCfg, "absolute")
 
   return ::format("blankTextArea {%s text:t='%s'; pos:t='%s, %s'; position:t='%s'; %s}",
-                      ::stripTags(id),
-                      ::stripTags(::getTblValue("text", layerCfg, "")),
+                      ::g_string.stripTags(id),
+                      ::g_string.stripTags(::getTblValue("text", layerCfg, "")),
                       posX, posY,
                       position,
                       props)

@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 function create_event_description(parent_scene, event = null, needEventHeader = true)
 {
   local containerObj = parent_scene.findObject("item_desc")
@@ -335,8 +338,8 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     local secToStart = startTime - ::get_matching_server_time()
     if (secToStart <= 0)
-      return ::loc("multiplayer/battleInProgressTime", { time = ::secondsToString(-secToStart, true) })
-    return ::loc("multiplayer/battleStartsIn", { time = ::secondsToString(secToStart, true) })
+      return ::loc("multiplayer/battleInProgressTime", { time = time.secondsToString(-secToStart, true) })
+    return ::loc("multiplayer/battleStartsIn", { time = time.secondsToString(secToStart, true) })
   }
 
   function fetchLbData()
@@ -429,8 +432,8 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
         width = "3fw"
         textRawParam = "width:t='pw'; pare-text:t='yes';"
         tdAlign = "left"
-        text = ::stripTags(::getTblValue(nameField, row, ""))
-        tooltip = forClan ? ::stripTags(::getTblValue("name", row, "")) : ""
+        text = ::g_string.stripTags(::getTblValue(nameField, row, ""))
+        tooltip = forClan ? ::g_string.stripTags(::getTblValue("name", row, "")) : ""
         active = false
       }
     ]

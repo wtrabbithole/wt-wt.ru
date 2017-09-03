@@ -517,7 +517,11 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = ::can_play_gamemode_by_squad(gm), showOfflineSquadMembersPopup = true }))
+    if (!::g_squad_utils.canJoinFlightMsgBox({
+           isLeaderCanJoin = ::can_play_gamemode_by_squad(gm),
+           showOfflineSquadMembersPopup = true
+           maxSquadSize = ::get_max_players_for_gamemode(gm)
+         }))
       return
 
     if (::getTblValue("blk", curMission) == null && ::g_mislist_type.isUrlMission(curMission))
@@ -973,6 +977,7 @@ class ::gui_handlers.SingleMissions extends ::gui_handlers.CampaignChapter
 {
   sceneBlkName = "gui/chapter.blk"
   sceneNavBlkName = "gui/backSelectNavChapter.blk"
+  shouldBlurSceneBg = true
 
   function initScreen()
   {

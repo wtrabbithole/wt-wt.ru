@@ -547,6 +547,15 @@
       "armor10": {
         "armor3_dm": {
           "hp": 40.0
+        },
+        "gun1_dm": {
+          "hp": 15.0
+        },
+        "gun2_dm": {
+          "hp": 15.0
+        },
+        "gun3_dm": {
+          "hp": 15.0
         }
       },
       "armor8_5": {
@@ -609,6 +618,14 @@
           "genericDamageMult": 0.3,
           "hp": 41.7
         },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 60.5
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 60.5
+        },
         "fin1_dm": {
           "hp": 39.7
         },
@@ -654,6 +671,9 @@
         },
         "cover5_dm": {
           "hp": 19.5
+        },
+        "cover6_dm": {
+          "hp": 19.5
         }
       },
       "dural90": {
@@ -691,6 +711,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 68.5
         },
@@ -725,13 +748,13 @@
         }
       },
       "steel_pilot": {
-        "gunner4_dm": {
-          "hp": 20.0
-        },
         "gunner2_dm": {
           "hp": 20.0
         },
         "gunner3_dm": {
+          "hp": 20.0
+        },
+        "gunner4_dm": {
           "hp": 20.0
         },
         "pilot1_dm": {
@@ -754,7 +777,7 @@
           "hp": 73.6
         },
         "tank4_dm": {
-          "hp": 136.7
+          "hp": 95.5
         },
         "tank5_dm": {
           "hp": 54.5
@@ -767,29 +790,6 @@
         },
         "tank8_dm": {
           "hp": 67.6
-        }
-      },
-      "wood": {
-        "cover6_dm": {
-          "hp": 54.3
-        },
-        "elevator0_dm": {
-          "hp": 75.5
-        },
-        "elevator1_dm": {
-          "hp": 75.5
-        },
-        "gear_c_dm": {
-          "hp": 5.3
-        },
-        "gun1_dm": {
-          "hp": 9.3
-        },
-        "gun2_dm": {
-          "hp": 10.1
-        },
-        "gun3_dm": {
-          "hp": 9.8
         }
       }
     }
@@ -1709,17 +1709,17 @@
       },
       {
         "part": {
-          "name": "gunner4_dm"
-        }
-      },
-      {
-        "part": {
           "name": "gunner2_dm"
         }
       },
       {
         "part": {
           "name": "gunner3_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "gunner4_dm"
         }
       },
       {
@@ -3148,6 +3148,25 @@
         "reqModLevel": 6.0,
         "reqModification": "er-2_m-105_der-19-20"
       }
+    }
+  },
+  {
+    "cutting": {
+      "emtr_break_wing1_l_from": [-1.05342,-0.372625,3.17003],
+      "emtr_break_wing1_l_to": [-1.05342,-0.372625,3.91082],
+      "emtr_break_wing2_l_from": [-1.05342,-0.372625,6.33811],
+      "emtr_break_wing2_l_to": [-1.05342,-0.372625,8.14514],
+      "emtr_break_wing1_r_from": [-1.05342,-0.372625,-3.17003],
+      "emtr_break_wing1_r_to": [-1.05342,-0.372625,-3.91082],
+      "emtr_break_wing2_r_from": [-1.05342,-0.372625,-6.33811],
+      "emtr_break_wing2_r_to": [-1.05342,-0.372625,-8.14514],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-8.11429,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

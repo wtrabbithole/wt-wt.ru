@@ -220,7 +220,7 @@
       local raceRp = ::getTblValue("expRace", ::debriefing_result.exp, 0)
       if (raceWp || raceRp)
         texts.append(::loc("events/chapter/race") + ::loc("ui/colon") + ::Cost(raceWp, 0, 0, raceRp))
-      return texts.len() ? ::colorize("commonTextColor", ::implode(texts, "\n")) : null
+      return texts.len() ? ::colorize("commonTextColor", ::g_string.implode(texts, "\n")) : null
     }
   }
   {
@@ -846,7 +846,7 @@ function get_mission_victory_bonus_text(gm)
   local wp = ::round_by_value(bonusWp * 100, 1).tointeger()
   local textRp = rp ? ::getRpPriceText("+" + rp + "%", true) : ""
   local textWp = wp ? ::getWpPriceText("+" + wp + "%", true) : ""
-  return ::implode([ textRp, textWp ], ::loc("ui/comma"))
+  return ::g_string.implode([ textRp, textWp ], ::loc("ui/comma"))
 }
 
 function get_entitlement_with_award()

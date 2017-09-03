@@ -1,4 +1,4 @@
-handlersManager[PERSISTENT_DATA_PARAMS].append("curControlsAllowMask")
+handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurSceneBgBlurred" ])
 
 ::handlersManager.lastInFlight <- false  //to reload scenes on change inFlight
 ::handlersManager.currentFont <- ::g_font.SCALE
@@ -9,6 +9,14 @@ handlersManager[PERSISTENT_DATA_PARAMS].append("curControlsAllowMask")
   [handlerType.BASE] = CtrlsInGui.CTRL_ALLOW_ANSEL,
   [handlerType.MODAL] = CtrlsInGui.CTRL_ALLOW_NONE,
   [handlerType.CUSTOM] = CtrlsInGui.CTRL_ALLOW_FULL
+}
+
+::handlersManager.isCurSceneBgBlurred <- false
+::handlersManager.sceneBgBlurDefaults <- {
+  [handlerType.ROOT]   = false,
+  [handlerType.BASE]   = false,
+  [handlerType.MODAL]  = true,
+  [handlerType.CUSTOM] = false,
 }
 
 function handlersManager::setIngameShortcutsActive(value)
@@ -25,6 +33,8 @@ function handlersManager::onClearScene(guiScene)
     guiScene.setCursorSizeMul(guiScene.calcString("@cursorSizeMul", null))
   if (guiScene.setPatternSizeMul) //compatibility with old exe
     guiScene.setPatternSizeMul(guiScene.calcString("@dp", null))
+
+  ::broadcastEvent("GuiSceneCleared")
 }
 
 function handlersManager::isNeedFullReloadAfterClearScene()
@@ -202,7 +212,7 @@ function handlersManager::generateCssString(config)
   foreach (cfg in config)
     css.append(::format("@const %s:%s", cfg.name, cfg.value))
 
-  return ::implode(css, ";")
+  return ::g_string.implode(css, ";")
 }
 
 function handlersManager::getHandlerControlsAllowMask(handler)
@@ -252,15 +262,46 @@ function handlersManager::_updateControlsAllowMask()
   //dlog(::format("GP: controls changed to 0x%X", curControlsAllowMask))
 }
 
+function handlersManager::calcCurrentSceneBgBlur()
+{
+  foreach(wndType, group in handlers)
+  {
+    local defValue = ::getTblValue(wndType, sceneBgBlurDefaults, false)
+    foreach(h in group)
+      if (isHandlerValid(h, true) && h.isSceneActive())
+        if (::getTblValue("shouldBlurSceneBg", h, defValue))
+          return true
+  }
+  return false
+}
+
+function handlersManager::updateSceneBgBlur(forced = false)
+{
+  if (!_loadHandlerRecursionLevel)
+    _updateSceneBgBlur(forced)
+}
+
+function handlersManager::_updateSceneBgBlur(forced = false)
+{
+  local isBlur = calcCurrentSceneBgBlur()
+  if (!forced && isBlur == isCurSceneBgBlurred)
+    return
+
+  isCurSceneBgBlurred = isBlur
+  ::hangar_blur(isCurSceneBgBlurred)
+}
+
 function handlersManager::onActiveHandlersChanged()
 {
   _updateControlsAllowMask()
+  _updateSceneBgBlur()
   ::broadcastEvent("ActiveHandlersChanged")
 }
 
 function handlersManager::onEventWaitBoxCreated(p)
 {
   _updateControlsAllowMask()
+  _updateSceneBgBlur()
 }
 
 function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.

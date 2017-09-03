@@ -53,6 +53,9 @@
   {
     "DamageParts": {
       "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        },
         "mgun1_dm": {
           "hp": 15.0
         }
@@ -172,6 +175,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 60.5
+        },
         "gear_l_dm": {
           "hp": 60.5
         },
@@ -196,14 +202,6 @@
       "steel_tank_s": {
         "tank1_dm": {
           "hp": 70.5
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 226.0
-        },
-        "gun1_dm": {
-          "hp": 7.6
         }
       }
     }
@@ -1851,25 +1849,67 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner0",
-          "blk": "gameData/Weapons/gunBrowning30_turret.blk",
-          "emitter": "gun1",
-          "flash": "flare3",
-          "dm": "gunner1_dm",
-          "partsDP": "gun1_dm",
-          "bullets": 600,
-          "turret": {
-            "head": "turret1",
-            "gun": "gun1"
+        "Weapon": [
+          {
+            "trigger": "gunner0"
           },
-          "limits": {
-            "yaw": [-50.0,50.0],
-            "pitch": [-10.0,45.0]
+          {
+            "blk": "gameData/Weapons/gunBrowning30_turret.blk"
+          },
+          {
+            "emitter": "gun1"
+          },
+          {
+            "flash": "flare3"
+          },
+          {
+            "dm": "gunner1_dm"
+          },
+          {
+            "partsDP": "gun1_dm"
+          },
+          {
+            "bullets": 600
+          },
+          {
+            "turret": {
+              "head": "turret1",
+              "gun": "gun1"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-50.0,50.0],
+              "pitch": [-5.0,45.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-13.0,13.0],
+              "pitch": [-5.0,8.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-10.0,10.0],
+              "pitch": [8.0,10.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-2.0,2.0],
+              "pitch": [10.0,34.0]
+            }
           }
-        }
+        ]
       }
     ]
+  },
+  {
+    "gunnerFps": {
+      "pos": [0.0,0.5,0.04],
+      "head": "turret1"
+    }
   },
   {
     "weapon_presets": [
@@ -2038,10 +2078,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-5.97148,-4.97148],
-      "wingLDist": [5.01168,6.01168],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-0.587371,-0.0913681,0.859248],
+      "_emtr_break_wing0_l_to": [-0.587371,-0.0913681,1.45615],
+      "emtr_break_wing1_l_from": [-0.587371,-0.0913681,2.3515],
+      "emtr_break_wing1_l_to": [-0.587371,-0.0913681,3.00337],
+      "emtr_break_wing2_l_from": [-0.587371,-0.0913681,3.98117],
+      "emtr_break_wing2_l_to": [-0.587371,-0.0913681,4.58276],
+      "_emtr_break_wing0_r_from": [-0.587371,-0.0913681,-0.859248],
+      "_emtr_break_wing0_r_to": [-0.587371,-0.0913681,-1.45615],
+      "emtr_break_wing1_r_from": [-0.587371,-0.0913681,-2.3515],
+      "emtr_break_wing1_r_to": [-0.587371,-0.0913681,-3.00337],
+      "emtr_break_wing2_r_from": [-0.587371,-0.0913681,-3.98117],
+      "emtr_break_wing2_r_to": [-0.587371,-0.0913681,-4.58276],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.70341,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

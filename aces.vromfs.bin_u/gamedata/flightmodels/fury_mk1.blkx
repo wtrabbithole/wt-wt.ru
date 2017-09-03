@@ -33,13 +33,13 @@
     "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk"
   },
   {
-    "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk"
+    "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map_biplane.blk"
   },
   {
-    "damagePartsToCollisionPointsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_points_map.blk"
+    "damagePartsToCollisionPointsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_points_map_biplane.blk"
   },
   {
-    "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk"
+    "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map_biplane.blk"
   },
   {
     "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk"
@@ -1887,14 +1887,6 @@
     ]
   },
   {
-    "cutting": {
-      "wingRDist": [-4.96765,-3.96765],
-      "wingLDist": [4.63698,5.63698],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
     "skin": [
       {
         "name": "raf_standard"
@@ -1941,10 +1933,26 @@
   },
   {
     "cutting": {
-      "wingRDist": [-5.05501,-4.05501],
-      "wingLDist": [3.44378,4.44378],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "emtr_break_wing0_l_from": [-0.358222,-0.45667,0.963622],
+      "emtr_break_wing0_l_to": [-0.358222,-0.45667,1.41816],
+      "emtr_break_wing1_l_from": [-0.358222,-0.45667,0.63825],
+      "emtr_break_wing1_l_to": [-0.358222,-0.45667,1.01344],
+      "emtr_break_wing2_l_from": [-0.358222,-0.45667,1.61315],
+      "emtr_break_wing2_l_to": [-0.358222,-0.45667,2.78604],
+      "emtr_break_wing0_r_from": [-0.358222,-0.45667,-0.963622],
+      "emtr_break_wing0_r_to": [-0.358222,-0.45667,-1.41816],
+      "emtr_break_wing1_r_from": [-0.358222,-0.45667,-0.63825],
+      "emtr_break_wing1_r_to": [-0.358222,-0.45667,-1.01344],
+      "emtr_break_wing2_r_from": [-0.358222,-0.45667,-1.61315],
+      "emtr_break_wing2_r_to": [-0.358222,-0.45667,-2.78604],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-3.70329,0.0,0.0]
+      ],
+      "emtr_break_wing_biplane": [-0.358222,-0.0117234,0.0],
+      "partKindTail": 2
     }
   }
 ]

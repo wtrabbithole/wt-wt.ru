@@ -57,7 +57,7 @@ expandable {
           roomId:t='<<roomId>>'
           pos:t='0.02@scrn_tgt, 50%ph-50%h'
           position:t='relative'
-          class:t='tinyButton'
+          class:t='smallButton'
 
           text:t = '#chat/editThread'
           on_click:t = 'onEditThread'

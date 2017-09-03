@@ -168,6 +168,6 @@ class Decorator
     if (unlockId)
       string.append("unlockId = " + unlockId)
 
-    return "Decorator: " + ::implode(string, "; ")
+    return "Decorator: " + ::g_string.implode(string, "; ")
   }
 }

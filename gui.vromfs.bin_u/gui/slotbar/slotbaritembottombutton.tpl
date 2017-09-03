@@ -13,6 +13,7 @@ bottomButtonsDiv {
     btnName:t='A'
     <</spaceButton>>
 
+    visualStyle:t='common'
     class:t='bottomAirItem'
     text:t='<<mainButtonText>>'
     on_click:t='<<mainButtonAction>>'

@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 class ::WwArtilleryAmmo
 {
   static _strikesBlk = ::DataBlock()
@@ -59,7 +60,7 @@ class ::WwArtilleryAmmo
   function getNextAmmoRefillTime()
   {
     local millisec = nextAmmoRefillMillisec - ::ww_get_operation_time_millisec()
-    return ::milliseconds_to_seconds(millisec).tointeger()
+    return time.millisecondsToSeconds(millisec).tointeger()
   }
 
   function getMaxStrikesPerAttack()
@@ -83,7 +84,7 @@ class ::WwArtilleryAmmo
       return 0
 
     local millisec = nextStrikeTimeMillis - ::ww_get_operation_time_millisec()
-    return ::max(::ceil(::milliseconds_to_seconds(millisec)).tointeger(), 1)
+    return ::max(::ceil(time.millisecondsToSeconds(millisec)).tointeger(), 1)
   }
 
   function getTimeToCompleteStrikes()
@@ -95,7 +96,7 @@ class ::WwArtilleryAmmo
     millisec += getUnusedStrikesNumber() * getStrikeIntervalMillisec()
     millisec -= ::ww_get_operation_time_millisec()
 
-    return ::max(::ceil(::milliseconds_to_seconds(millisec)).tointeger(), 1)
+    return ::max(::ceil(time.millisecondsToSeconds(millisec)).tointeger(), 1)
   }
 
   function getUnusedStrikesNumber()

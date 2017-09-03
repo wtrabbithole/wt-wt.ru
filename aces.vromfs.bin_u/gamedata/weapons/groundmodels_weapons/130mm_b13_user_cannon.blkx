@@ -7,7 +7,7 @@
   "emitR": 3.0,
   "emitTime": 0.03,
   "aimMinDist": 0.1,
-  "aimMaxDist": 2000.0,
+  "aimMaxDist": 25731.0,
   "maxDeltaAngle": 0.065,
   "maxDeltaAngleVertical": 0.065,
   "shotFreq": 0.052,
@@ -87,8 +87,8 @@
         "fx": "cannon_hit_armor"
       },
       "wood": {
-        "fx": "cannon_hit_ship_cumulative",
-        "fxScale": [2.0,2.0]
+        "fx": "cannon_hit_ship_ap",
+        "fxScale": [3.0,3.0]
       },
       "buildings": {
         "fx": "122_ap_stone_splash",
@@ -136,16 +136,16 @@
       },
       "collisions": {
         "steel": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [4.0,5.0]
+          "fx": "ps_hit_150mm_cumulative",
+          "fxScale": [6.0,5.0]
         },
         "armor": {
-          "fx": "cannon_hit_armor_cumulative",
-          "fxScale": [4.0,5.0]
+          "fx": "ps_hit_150mm_cumulative",
+          "fxScale": [6.0,5.0]
         },
         "wood": {
           "fx": "cannon_hit_ship_cumulative",
-          "fxScale": [4.0,5.0]
+          "fxScale": [5.0,6.0]
         },
         "buildings": {
           "fx": "122_he_stone_splash",

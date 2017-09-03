@@ -23,7 +23,10 @@
       "position": "relative"
     },
     {
-      "padding-right": "-1@buttonVMargin"
+      "padding": "-1@buttonMargin"
+    },
+    {
+      "padding-top": "0"
     },
     {
       "behaviour": "wrapNavigator"
@@ -47,9 +50,11 @@
       "Button_text": {
         "id": "threads_search_langs_btn",
         "max-width": "0.5 * (pw - 1@buttonWidth - 1@buttonHeight - 0.025@scrn_tgt)",
+        "style": "width:0;",
         "overflow": "hidden",
         "class": "image",
         "showConsoleImage": "no",
+        "isColoredImg": "yes",
         "on_click": "onLangsBtn"
       }
     },

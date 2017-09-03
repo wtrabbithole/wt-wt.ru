@@ -34,7 +34,7 @@ start_button
   input-sensitive:yes;
 }
 
-menu_button, menu_button_inactive, dialog_button, area > button
+menu_button, menu_button_inactive, area > button
 {
   behaviour:button;
   re-type:9rect;
@@ -67,7 +67,7 @@ menu_button, menu_button_inactive {
   mouse-focusable:yes;
 }
 
-menu_button, menu_button_inactive, dialog_button {
+menu_button, menu_button_inactive {
   behaviour:navigator;
   tabStop:yes;
 }
@@ -77,59 +77,17 @@ menu_button_inactive
   color:@inactiveButtonTextColor;
 }
 
-dialog_button
-{
-  font:@dialogbutton_font;
-  margin-left:2*@scrn_tgt/100.0;
-  margin-bottom:1*@scrn_tgt/100.0;
-  padding:0.5*@scrn_tgt/100.0, 0;
-  text-align:center;
-  min-width:20*@scrn_tgt/100.0;
-  height:1@buttonHeight;
-  background-image:#ui/gameuiskin#button_;
-  background-color:@white;
-  background-position:5;
-  background-repeat:expand;
-  input-sensitive:yes;
-}
-dialog_button[smallFont=yes]
-{
-  font:@small;
-}
-
-dialog_button:focus {
-  background-image:#ui/gameuiskin#button_glow;
-}
-
-dialog_button:hover {
-  background-image:#ui/gameuiskin#button_hover;
-}
-
-dialog_button:pushed {
-  background-image:#ui/gameuiskin#button_active;
-  padding-top:1*@sf/@pf_outdated;
-  padding-bottom:-1*@sf/@pf_outdated;
-  margin-bottom:1*@scrn_tgt/100.0-2*@sf/@pf_outdated;
-  margin-top:2*@sf/@pf_outdated;
-}
-
 menu_button:current, menu_button:active, menu_button:focus
 {
   color:@hoverMenuButtonColor;
   font:@menubutton_selected_font;
 }
 
-dialog_button:current, dialog_button:active, dialog_button:focus
-{
-  color:@hoverMenuButtonColor;
-  font:@dialogbutton_selected_font;
-}
-
 area > button:focus {
   font:@smallBold;
 }
 
-menu_button:hover, dialog_button:hover, button:hover
+menu_button:hover, button:hover
 {
   color:@hoverMenuButtonColor;
 }
@@ -139,15 +97,9 @@ menu_button:pushed
   color:@hoverMenuButtonColor;
 }
 
-dialog_button:pushed, button:pushed
+button:pushed
 {
   color:@pushedMenuButtonColor;
-}
-
-dialog_button:disabled
-{
-  color:@inactiveButtonTextColor;
-  background-color:@controlDisabledColor;
 }
 
 menu_button_inactive:current, menu_button_inactive:focus

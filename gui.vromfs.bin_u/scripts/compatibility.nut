@@ -50,6 +50,7 @@ function get_version_int_from_string(versionText)
 
   is_option_free_camera_inertia_exist = ("OPTION_FREE_CAMERA_INERTIA" in getroottable())
   is_option_replay_camera_wiggle_exist = ("OPTION_REPLAY_CAMERA_WIGGLE" in getroottable())
+  inventory = {request=function(request, callback) {callback({error="NOT_IMPLEMENTED"})}}
 }
 
 ::apply_compatibilities(::compatibility_main)
@@ -469,9 +470,27 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   send_error_log = function(msg, production_only, db)
   {
   }
+
+  is_chat_active = function () // called from client
+  {
+    return ::get_game_chat_handler().isActive
+  }
   EWBAT_BATTLE_TASK = 8
   WT_APPID = 1067
+  EII_SMOKE_GRENADE = 13
+  EII_SMOKE_SCREEN = 15
 
+  // return max rank to allow for player to purchase items in warbond's shop
+  // if no support in code, but item have restriction parametrs in config
+  get_max_unit_rank = function()  {return ::max_country_rank}
   EAF_NO_COOLDOWN_ON_LANDING = 1
   EAF_NO_AIR_LIMIT_ACCOUNTING = 2
+
+  ugc_preview_resource = function(descBlkHash, resourceTypeName, resourceName)
+  {
+    return {result = "not_implemented"}
+  }
+  MISSION_TEAM_LEAD_ZONE = 3
+
+  EIT_UNIVERSAL_SPARE = 6
 })

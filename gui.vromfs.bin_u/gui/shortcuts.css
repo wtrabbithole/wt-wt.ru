@@ -5,7 +5,7 @@ start_button {
   shortcutActivate:"J:B | J:Start | Enter | NumEnter | Space";
 }
 
-menu_button, menu_button_inactive, dialog_button {
+menu_button, menu_button_inactive {
   shortcutActivate:"J:A | Enter | NumEnter | Space";
   shortcutUp:"@shortcutUpGamepad | Up";
   shortcutDown:"@shortcutDownGamepad | Down";
@@ -17,7 +17,7 @@ menu_button, menu_button_inactive, dialog_button {
   navLobbyRight:"#next:wrap";
 }
 
-[swap_ab] menu_button, [swap_ab] menu_button_inactive, [swap_ab] dialog_button {
+[swap_ab] menu_button, [swap_ab] menu_button_inactive {
   shortcutActivate:"J:B | Enter | NumEnter | Space";
 }
 
@@ -33,15 +33,6 @@ menu_button, menu_button_inactive, dialog_button {
 
 [childsActivate=yes] > Button_text[btnName=LB] {
   accessKey:"J:LB";
-}
-
-dialog_button {
-  navUp:"";
-  navDown:"";
-  shortcutUp:"";
-  shortcutDown:"";
-  shortcutLeft:"@shortcutLeftGamepad | Left";
-  shortcutRight:"@shortcutRightGamepad | Right";
 }
 
 MultiSelect[optionsShortcuts] {

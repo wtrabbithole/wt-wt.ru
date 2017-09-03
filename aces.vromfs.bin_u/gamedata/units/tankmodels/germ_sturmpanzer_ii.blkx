@@ -261,9 +261,8 @@
         "ex_armor_02_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 10.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "hp": 150.0,
+          "armorThickness": 15.0,
           "ex_armor_01_dm": [],
           "ex_armor_03_dm": [],
           "ex_armor_04_dm": [],
@@ -274,6 +273,13 @@
         },
         "wheel_l_06_dm": [],
         "wheel_r_06_dm": []
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 15.0,
+        "hp": 150.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -358,52 +364,143 @@
           "hp": 70.0
         }
       },
-      "ammo": {
-        "armorClass": "tank_structural_steel",
-        "hp": 500.0,
-        "armorThickness": 2.0,
-        "armorThrough": 10.0,
-        "fireProtectionHp": 20.0,
-        "createSecondaryShatters": false,
-        "ammo_body_dm": [],
-        "ammo_body_01_dm": [],
-        "ammo_body_02_dm": [],
-        "ammo_body_03_dm": [],
-        "ammo_body_04_dm": [],
-        "ammo_body_05_dm": [],
-        "ammo_body_l_01_dm": [],
-        "ammo_body_l_02_dm": [],
-        "ammo_body_l_03_dm": [],
-        "ammo_body_l_04_dm": [],
-        "ammo_body_l_05_dm": [],
-        "ammo_body_r_01_dm": [],
-        "ammo_body_r_02_dm": [],
-        "ammo_body_r_03_dm": [],
-        "ammo_body_r_04_dm": [],
-        "ammo_body_r_05_dm": [],
-        "ammo_turret_dm": [],
-        "ammo_turret_01_dm": [],
-        "ammo_turret_02_dm": [],
-        "ammo_turret_03_dm": [],
-        "ammo_turret_04_dm": [],
-        "ammo_turret_05_dm": [],
-        "ammo_body_06_dm": [],
-        "ammo_body_07_dm": [],
-        "ammo_body_08_dm": [],
-        "ammo_turret_06_dm": [],
-        "ammo_turret_07_dm": [],
-        "ammo_turret_08_dm": [],
-        "ammo_turret_09_dm": [],
-        "ammo_turret_10_dm": [],
-        "ammo_turret_11_dm": [],
-        "ammo_turret_12_dm": [],
-        "ammo_turret_13_dm": [],
-        "ammo_turret_14_dm": [],
-        "ammo_turret_15_dm": [],
-        "ammo_turret_16_dm": [],
-        "ammo_turret_17_dm": [],
-        "ammo_turret_18_dm": []
-      },
+      "ammo": [
+        {
+          "armorClass": "tank_structural_steel"
+        },
+        {
+          "hp": 500.0
+        },
+        {
+          "armorThickness": 2.0
+        },
+        {
+          "armorThrough": 10.0
+        },
+        {
+          "fireProtectionHp": 20.0
+        },
+        {
+          "createSecondaryShatters": false
+        },
+        {
+          "ammo_body_dm": []
+        },
+        {
+          "ammo_body_01_dm": []
+        },
+        {
+          "ammo_body_02_dm": []
+        },
+        {
+          "ammo_body_03_dm": []
+        },
+        {
+          "ammo_body_04_dm": []
+        },
+        {
+          "ammo_body_05_dm": []
+        },
+        {
+          "ammo_body_06_dm": []
+        },
+        {
+          "ammo_body_l_01_dm": []
+        },
+        {
+          "ammo_body_l_02_dm": []
+        },
+        {
+          "ammo_body_l_03_dm": []
+        },
+        {
+          "ammo_body_l_04_dm": []
+        },
+        {
+          "ammo_body_l_05_dm": []
+        },
+        {
+          "ammo_body_r_01_dm": []
+        },
+        {
+          "ammo_body_r_02_dm": []
+        },
+        {
+          "ammo_body_r_03_dm": []
+        },
+        {
+          "ammo_body_r_04_dm": []
+        },
+        {
+          "ammo_body_r_05_dm": []
+        },
+        {
+          "ammo_turret_dm": []
+        },
+        {
+          "ammo_turret_01_dm": []
+        },
+        {
+          "ammo_turret_02_dm": []
+        },
+        {
+          "ammo_turret_03_dm": []
+        },
+        {
+          "ammo_turret_04_dm": []
+        },
+        {
+          "ammo_turret_05_dm": []
+        },
+        {
+          "ammo_body_06_dm": []
+        },
+        {
+          "ammo_body_07_dm": []
+        },
+        {
+          "ammo_body_08_dm": []
+        },
+        {
+          "ammo_turret_06_dm": []
+        },
+        {
+          "ammo_turret_07_dm": []
+        },
+        {
+          "ammo_turret_08_dm": []
+        },
+        {
+          "ammo_turret_09_dm": []
+        },
+        {
+          "ammo_turret_10_dm": []
+        },
+        {
+          "ammo_turret_11_dm": []
+        },
+        {
+          "ammo_turret_12_dm": []
+        },
+        {
+          "ammo_turret_13_dm": []
+        },
+        {
+          "ammo_turret_14_dm": []
+        },
+        {
+          "ammo_turret_15_dm": []
+        },
+        {
+          "ammo_turret_16_dm": []
+        },
+        {
+          "ammo_turret_17_dm": []
+        },
+        {
+          "ammo_turret_18_dm": []
+        }
+      ],
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
         "hp": 250.0,

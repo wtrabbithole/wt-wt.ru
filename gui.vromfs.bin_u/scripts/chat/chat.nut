@@ -1,3 +1,5 @@
+local penalties = require("scripts/penitentiary/penalties.nut")
+
 enum chatUpdateState {
   OUTDATED
   IN_PROGRESS
@@ -321,7 +323,7 @@ function g_chat::createThread(title, categoryName, langTags = null)
   if (!langTags)
     langTags = ::g_chat_thread_tag.LANG.prefix + ::g_language.getCurLangInfo().chatId
   local categoryTag = ::g_chat_thread_tag.CATEGORY.prefix + categoryName
-  local tagsList = ::implode([langTags, categoryTag], ",")
+  local tagsList = ::g_string.implode([langTags, categoryTag], ",")
   ::gchat_raw_command("xtjoin " + tagsList + " :" + prepareThreadTitleToSend(title))
   ::broadcastEvent("ChatThreadCreateRequested")
 }
@@ -385,7 +387,7 @@ function g_chat::checkThreadTitleLen(title)
 
 function g_chat::openRoomCreationWnd()
 {
-  local devoiceMsg = ::get_chat_devoice_msg("activeTextColor")
+  local devoiceMsg = penalties.getDevoiceMessage("activeTextColor")
   if (devoiceMsg)
     return ::showInfoMsgBox(devoiceMsg)
 
@@ -773,7 +775,7 @@ function g_chat::sendLocalizedMessage(roomId, langConfig, isSeparationAllowed = 
 
 function g_chat::localizeReceivedMessage(message)
 {
-  local jsonString = ::cut_prefix(message, LOCALIZED_MESSAGE_PREFIX)
+  local jsonString = ::g_string.cutPrefix(message, LOCALIZED_MESSAGE_PREFIX)
   if (!jsonString)
     return message
 

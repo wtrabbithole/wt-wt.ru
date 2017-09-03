@@ -15,7 +15,7 @@ function gui_start_flight_menu_psn() {} //unused atm, but still have a case in c
 class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/flightMenu.blk"
-  sceneNavBlkName = "gui/cancelSelectNav.blk"
+  shouldBlurSceneBg = true
   keepLoaded = true
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_FLIGHT_MENU
 
@@ -324,7 +324,7 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
                                      return res
                                    })
         if (unitsTexts.len())
-          text = ::loc("flightmenu/haveAvailableCrews") + "\n" + ::implode(unitsTexts, ", ") + "\n\n"
+          text = ::loc("flightmenu/haveAvailableCrews") + "\n" + ::g_string.implode(unitsTexts, ", ") + "\n\n"
 
         text += ::loc("flightmenu/questionQuitMissionInProgress")
       } else

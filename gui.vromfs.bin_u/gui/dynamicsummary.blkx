@@ -551,13 +551,15 @@
           "tdiv": {
             "id": "gamercard_drawer_container"
           },
-          "CentralPlate": {
+          "GamecardPlate": {
             "id": "gamercard_center",
             "display": "hide",
             "pos": "50%sw-50%w, 0",
             "position": "root",
             "min-width": "1@queueTableWidth",
-            "padding-top": "1@gameModeSelectPaddingY",
+            "padding-top": "1@gameModeSelectPaddingTop",
+            "padding-bottom": "1@gameModeSelectPaddingBottom",
+            "background-color": "@gameModeColor",
             "tdiv": {
               "id": "gamercard_panel_center",
               "position": "relative",
@@ -615,29 +617,11 @@
           },
           "TopMenuPanel": [
             {
-              "css-hier-invalidate": "yes"
-            },
-            {
-              "pattern": {
-                "type": "bright_texture"
-              }
-            },
-            {
-              "Red_shadow_light": {
-                "pos": "50%pw-50%w, 5",
-                "position": "absolute",
-                "size": "25%pw, ph - 10",
-                "re-type": "rotation",
-                "background-rotation": "180",
-                "display": "hide"
-              }
-            },
-            {
               "tdiv": {
-                "background-color": "@shadeBackgroundColor2",
+                "background-color": "@gameModeColorSolid",
                 "position": "absolute",
                 "pos": "50%pw-50%w, 0",
-                "size": "1@gcToBattleButtonPlaceWidth, 1@topBarHeight-5"
+                "size": "1@gcToBattleButtonPlaceWidth, 1@topBarHeight"
               }
             },
             {
@@ -699,7 +683,7 @@
                   "height": "1@gamercardHeight"
                 },
                 {
-                  "pos": "1@bw,ph-h-6"
+                  "pos": "1@bw,ph-h"
                 },
                 {
                   "position": "absolute"
@@ -713,7 +697,7 @@
                       "height": "ph"
                     },
                     {
-                      "pos": "50%pw - w - 0.5@gcToBattleButtonPlaceWidth - 1@gcLineLockWidth, 50%ph-50%h"
+                      "pos": "50%pw - w - 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h"
                     },
                     {
                       "position": "absolute"
@@ -765,7 +749,7 @@
                             "tooltip": "#mainmenu/btnClanCard",
                             "display": "hide",
                             "_on_click": "onMyClanOpen",
-                            "shadeDiv": {
+                            "ShadeDiv": {
                               "id": "gc_clanAlert",
                               "display": "hide",
                               "padding-right": "2/720@sf",
@@ -794,7 +778,7 @@
                             "reduceMinWidth": "yes",
                             "tooltip": "#mainmenu/btnProfile",
                             "_on_click": "onProfile",
-                            "shadeDiv": {
+                            "ShadeDiv": {
                               "cardImg": {
                                 "id": "gc_icon"
                               },
@@ -850,7 +834,7 @@
                       "height": "ph"
                     },
                     {
-                      "pos": "50%pw + 0.5@gcToBattleButtonPlaceWidth + 1@gcLineLockWidth, 50%ph-50%h"
+                      "pos": "50%pw + 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h"
                     },
                     {
                       "position": "absolute"
@@ -914,7 +898,7 @@
                               "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                             },
                             {
-                              "shadeDiv": {
+                              "ShadeDiv": {
                                 "cardImg": {
                                   "background-image": "#ui/gameuiskin#convert_xp"
                                 }
@@ -975,7 +959,7 @@
                               "showBonusCommon": ""
                             },
                             {
-                              "shadeDiv": {
+                              "ShadeDiv": {
                                 "cardImg": {
                                   "background-image": "#ui/gameuiskin#shop_warpoints"
                                 }
@@ -1009,7 +993,7 @@
                             "style": "height:ph;",
                             "_on_click": "onOnlineShopEaglesMsg",
                             "tooltip": "#mainmenu/gold",
-                            "shadeDiv": {
+                            "ShadeDiv": {
                               "cardImg": {
                                 "background-image": "#ui/gameuiskin#shop_warpoints_premium"
                               }
@@ -1032,9 +1016,8 @@
                         {
                           "Button_text": {
                             "id": "gc_PremiumAccount",
-                            "size": "ph,ph",
                             "_on_click": "onOnlineShopPremium",
-                            "class": "image20",
+                            "class": "header",
                             "display": "show",
                             "img": {
                               "id": "gc_prempic",
@@ -1060,33 +1043,17 @@
               ]
             },
             {
-              "tdiv": [
-                {
-                  "position": "absolute"
-                },
-                {
-                  "pos": "50%pw-50%w, 0"
-                },
-                {
-                  "LineLock": {
-                    "type": "left"
-                  }
-                },
-                {
-                  "tdiv": {
-                    "id": "gamercard_tobattle",
-                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
-                    "pos": "0, 1@bh",
-                    "position": "relative",
-                    "allowDecreaseFont": "yes"
-                  }
-                },
-                {
-                  "LineLock": {
-                    "type": "right"
-                  }
+              "tdiv": {
+                "position": "absolute",
+                "pos": "50%pw-50%w, 0",
+                "tdiv": {
+                  "id": "gamercard_tobattle",
+                  "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
+                  "pos": "0, 1@bh",
+                  "position": "relative",
+                  "allowDecreaseFont": "yes"
                 }
-              ]
+              }
             },
             {
               "infoBlock": {
@@ -1216,16 +1183,13 @@
                         "id": "gc_invites_btn"
                       },
                       {
-                        "size": "ph,ph"
-                      },
-                      {
                         "tooltip": "#mainmenu/invites"
                       },
                       {
                         "_on_click": "onGC_invites"
                       },
                       {
-                        "class": "image24"
+                        "class": "header"
                       },
                       {
                         "img": {
@@ -1247,10 +1211,9 @@
                   {
                     "Button_text": {
                       "id": "gc_contacts",
-                      "size": "ph,ph",
                       "tooltip": "#mainmenu/contacts",
                       "_on_click": "onGC_contacts",
-                      "class": "image24",
+                      "class": "header",
                       "img": {
                         "background-image": "#ui/gameuiskin#friends"
                       },
@@ -1270,13 +1233,10 @@
                         "id": "gc_chat_btn"
                       },
                       {
-                        "size": "ph,ph"
-                      },
-                      {
                         "_on_click": "onGC_chat"
                       },
                       {
-                        "class": "image24"
+                        "class": "header"
                       },
                       {
                         "img": {
@@ -1311,13 +1271,10 @@
                         "id": "gc_userlog_btn"
                       },
                       {
-                        "size": "ph,ph"
-                      },
-                      {
                         "_on_click": "onUserLog"
                       },
                       {
-                        "class": "image24"
+                        "class": "header"
                       },
                       {
                         "img": {

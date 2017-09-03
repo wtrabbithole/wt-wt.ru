@@ -171,6 +171,26 @@
           "hp": 19.5
         }
       },
+      "dural60": {
+        "spar1_l_dm": {
+          "hp": 80.5
+        },
+        "spar1_r_dm": {
+          "hp": 80.5
+        },
+        "spar2_l_dm": {
+          "hp": 71.1
+        },
+        "spar2_r_dm": {
+          "hp": 71.1
+        },
+        "spar_l_dm": {
+          "hp": 67.8
+        },
+        "spar_r_dm": {
+          "hp": 67.8
+        }
+      },
       "protected_controls": {
         "tailcontrol_dm": {
           "hp": 60.5
@@ -186,6 +206,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 43.8
         },
@@ -230,29 +253,6 @@
         },
         "airbrake_r_dm": {
           "hp": 7.2
-        },
-        "gear_c_dm": {
-          "hp": 5.6
-        }
-      },
-      "wood120": {
-        "spar1_l_dm": {
-          "hp": 80.5
-        },
-        "spar1_r_dm": {
-          "hp": 80.5
-        },
-        "spar2_l_dm": {
-          "hp": 71.1
-        },
-        "spar2_r_dm": {
-          "hp": 71.1
-        },
-        "spar_l_dm": {
-          "hp": 67.8
-        },
-        "spar_r_dm": {
-          "hp": 67.8
         }
       }
     }
@@ -2267,6 +2267,12 @@
     ]
   },
   {
+    "gunnerFps": {
+      "pos": [-0.7,1.5,0.0],
+      "head": "turret1"
+    }
+  },
+  {
     "weapon_presets": [
       {
         "preset": {
@@ -2470,5 +2476,24 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "emtr_break_wing1_l_from": [-0.894598,-0.339115,1.4809],
+      "emtr_break_wing1_l_to": [-0.894598,-0.339115,2.52682],
+      "emtr_break_wing2_l_from": [-0.894598,-0.339115,4.0957],
+      "emtr_break_wing2_l_to": [-0.894598,-0.339115,5.20784],
+      "emtr_break_wing1_r_from": [-0.894598,-0.341921,-1.4809],
+      "emtr_break_wing1_r_to": [-0.894598,-0.341921,-2.52682],
+      "emtr_break_wing2_r_from": [-0.894598,-0.341921,-4.0957],
+      "emtr_break_wing2_r_to": [-0.894598,-0.341921,-5.20784],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-5.87934,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

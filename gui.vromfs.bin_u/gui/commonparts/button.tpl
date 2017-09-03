@@ -22,6 +22,7 @@
 
   id:t='<<id>>'
   text:t='<<text>>'
+  css-hier-invalidate:t='yes'
   <<#isHidden>>
     display:t='hide'
     enable:t='no'
@@ -60,13 +61,13 @@
 
   <<#isToBattle>>
     class:t='battle'
-    css-hier-invalidate:t='yes'
     <<^titleButtonFont>>
       navButtonFont:t='yes'
     <</titleButtonFont>>
     <<#titleButtonFont>>
       style:t='height:1@battleButtonHeight;'
     <</titleButtonFont>>
+    pattern{}
     buttonWink { _transp-timer:t='0' }
     buttonGlance {}
     btnText {

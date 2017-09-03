@@ -130,7 +130,7 @@ function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew)
     }
   }
 
-  return ::implode(resArray, "\n")
+  return ::g_string.implode(resArray, "\n")
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]

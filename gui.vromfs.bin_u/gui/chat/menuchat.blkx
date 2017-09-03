@@ -29,18 +29,12 @@
       "class": "scaleable"
     },
     {
-      "padding-top": "7"
-    },
-    {
-      "padding-bottom": "0.75*@scrn_tgt/100.0"
-    },
-    {
       "moveElem": []
     },
     {
       "HorizontalListBox": {
         "id": "rooms_list",
-        "width": "pw - 4@buttonHeight",
+        "width": "pw - 4@smallButtonHeight - 4@smallButtonMargin -1@blockInterval",
         "min-height": "1@buttonHeight",
         "tinyFont": "yes",
         "class": "tabs",
@@ -193,7 +187,8 @@
                   "on_wrap_down": "onWrapDown",
                   "on_set_focus": "onChatFocus",
                   "font": "@tiny",
-                  "text": ""
+                  "text": "",
+                  "noMargin": "yes"
                 },
                 "Button_text": {
                   "id": "btn_send",
@@ -201,7 +196,8 @@
                   "position": "relative",
                   "text": "#chat/send",
                   "on_click": "onChatSend",
-                  "style": "padding-left:1*@scrn_tgt/100.0; text-align:left; min-width:3h; margin-right:0;"
+                  "noMargin": "yes",
+                  "showConsoleImage": "no"
                 }
               }
             }
@@ -242,7 +238,9 @@
                     "position": "absolute",
                     "tooltip": "#chat/backToMainChannels",
                     "on_click": "onMainChannels",
-                    "class": "image16",
+                    "class": "image",
+                    "imgSize": "small",
+                    "showConsoleImage": "no",
                     "img": {
                       "background-image": "#ui/gameuiskin#btn_undo"
                     }
@@ -263,7 +261,9 @@
                   "Button_text": {
                     "tooltip": "#channel/search",
                     "on_click": "onSearchStart",
-                    "class": "image16",
+                    "class": "image",
+                    "imgSize": "small",
+                    "showConsoleImage": "no",
                     "img": {
                       "background-image": "#ui/gameuiskin#btn_search"
                     }
@@ -304,13 +304,17 @@
     {
       "Button_close": {
         "id": "close_chat",
-        "img": []
+        "_on_click": "goBack",
+        "smallIcon": "yes"
       }
     },
     {
       "top_right_holder": [
         {
           "id": "header_buttons"
+        },
+        {
+          "smallIcon": "yes"
         },
         {
           "behaviour": "wrapNavigator"
@@ -339,43 +343,43 @@
         {
           "Button_text": {
             "id": "btn_showSearchList",
-            "class": "header",
-            "size": "1@buttonHeight, 1@buttonHeight",
+            "class": "image",
+            "imgSize": "small",
+            "showConsoleImage": "no",
             "tooltip": "#channel/search",
             "on_click": "onShowSearchList",
             "display": "hide",
             "enable": "no",
             "img": {
-              "background-image": "#ui/gameuiskin#btn_search",
-              "style": "size:@sIco,@sIco;"
+              "background-image": "#ui/gameuiskin#btn_search"
             }
           }
         },
         {
           "Button_text": {
             "id": "btn_showPlayersList",
-            "class": "header",
-            "size": "1@buttonHeight, 1@buttonHeight",
+            "class": "image",
+            "imgSize": "small",
+            "showConsoleImage": "no",
             "tooltip": "#channel/showPlayersList",
             "on_click": "onShowPlayersList",
             "display": "hide",
             "enable": "no",
             "img": {
-              "background-image": "#ui/gameuiskin#btn_room_list",
-              "style": "size:@sIco,@sIco;"
+              "background-image": "#ui/gameuiskin#btn_room_list"
             }
           }
         },
         {
           "Button_text": {
             "id": "btn_create_room",
-            "class": "header",
-            "size": "1@buttonHeight, 1@buttonHeight",
+            "class": "image",
+            "imgSize": "small",
+            "showConsoleImage": "no",
             "tooltip": "#chat/createRoom",
             "_on_click": "onRoomCreator",
             "img": {
-              "background-image": "#ui/gameuiskin#btn_create_room",
-              "style": "size:@sIco,@sIco;"
+              "background-image": "#ui/gameuiskin#btn_create_room"
             }
           }
         }

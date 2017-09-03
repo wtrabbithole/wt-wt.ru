@@ -15,7 +15,21 @@
         "class": "wnd"
       },
       {
-        "frame_header": []
+        "frame_header": {
+          "Button_close": [],
+          "top_right_holder": {
+            "CheckBox": {
+              "id": "skip_this",
+              "pos": "0, 50%ph-50%h",
+              "position": "relative",
+              "text": "#options/doNotAskMeAgain",
+              "on_change_value": "onSkipMessageBox",
+              "btnName": "X",
+              "CheckBoxImg": [],
+              "ButtonImg": []
+            }
+          }
+        }
       },
       {
         "textAreaCentered": {
@@ -62,15 +76,16 @@
               "class": "battle",
               "navButtonFont": "yes",
               "css-hier-invalidate": "yes",
+              "pattern": [],
               "buttonWink": {
                 "_transp-timer": "0"
               },
+              "buttonGlance": [],
               "btnText": {
                 "id": "btn_select_text",
                 "text": "#mainmenu/toBattle"
               },
-              "ButtonImg": [],
-              "buttonGlance": []
+              "ButtonImg": []
             }
           }
         ]
@@ -89,25 +104,6 @@
             "background-image": "#ui/gameuiskin#slot_weapons"
           },
           "CheckBoxImg": []
-        }
-      },
-      {
-        "Button_close": {
-          "img": []
-        }
-      },
-      {
-        "top_right_holder": {
-          "CheckBox": {
-            "id": "skip_this",
-            "pos": "0, 50%ph-50%h",
-            "position": "relative",
-            "text": "#options/doNotAskMeAgain",
-            "on_change_value": "onSkipMessageBox",
-            "btnName": "X",
-            "CheckBoxImg": [],
-            "ButtonImg": []
-          }
         }
       }
     ]

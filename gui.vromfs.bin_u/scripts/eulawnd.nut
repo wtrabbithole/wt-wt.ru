@@ -7,6 +7,7 @@ class ::gui_handlers.EulaWndHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
   sceneBlkName = "gui/eulaFrame.blk"
+  shouldBlurSceneBg = false
 
   eulaType = ::TEXT_EULA
 

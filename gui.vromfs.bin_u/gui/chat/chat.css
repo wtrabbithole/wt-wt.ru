@@ -1,0 +1,29 @@
+EditBox[chatMode=team], text[chatMode=team],
+textareaNoTab[chatMode=team], Button_text[chatMode=team],
+hoverButton[chatMode=team] > icon
+{
+  color:@chatTextTeamColor;
+}
+EditBox[chatMode=all], text[chatMode=all],
+textareaNoTab[chatMode=all], Button_text[chatMode=all],
+hoverButton[chatMode=all] > icon
+{
+  color:@chatTextAllColor;
+}
+EditBox[chatMode=squad], text[chatMode=squad],
+textareaNoTab[chatMode=squad], Button_text[chatMode=squad],
+hoverButton[chatMode=squad] > icon
+{
+  color:@chatTextSquadColor;
+}
+EditBox[chatMode=private], text[chatMode=private],
+textareaNoTab[chatMode=private], Button_text[chatMode=private],
+hoverButton[chatMode=private] > icon
+{
+  color:@chatTextPrivateColor;
+}
+
+Button_text[chatMode]:hover
+{
+  color:@buttonFontColorHover;
+}

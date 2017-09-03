@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, save_scene=true)
 {
   if (!::checkObj(scene))
@@ -74,7 +77,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
         case "gold":
           local tooltipText = ::getGpPriceText(::colorize("activeTextColor", val), true)
           tooltipText += "\n" + ::loc("mainmenu/gold")
-          obj.getParent().tooltip = ::tooltipColorTheme(tooltipText)
+          obj.getParent().tooltip = tooltipText
 
           obj.setValue(val.tostring())
           break
@@ -88,7 +91,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           }
 
           local buttonObj = obj.getParent()
-          buttonObj.tooltip = ::tooltipColorTheme(tooltipText)
+          buttonObj.tooltip = tooltipText
           buttonObj.showBonusCommon = ::have_active_bonuses_by_effect_type(::BoosterEffectType.WP, false)? "yes" : "no"
           buttonObj.showBonusPersonal = ::have_active_bonuses_by_effect_type(::BoosterEffectType.WP, true)? "yes" : "no"
 
@@ -103,7 +106,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
             tooltipText += title + "\n" + bonus
           }
 
-          obj.tooltip = ::tooltipColorTheme(tooltipText)
+          obj.tooltip = tooltipText
           obj.showBonusCommon = ::have_active_bonuses_by_effect_type(::BoosterEffectType.RP, false)? "yes" : "no"
           obj.showBonusPersonal = ::have_active_bonuses_by_effect_type(::BoosterEffectType.RP, true)? "yes" : "no"
 
@@ -181,7 +184,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
     local premPic = "#ui/gameuiskin#sub_premium_noactive"
     if (expire > 0)
     {
-      text = ::loc("charServer/entitlement/" + name) + ::loc("ui/colon") + ::getExpireText(expire)
+      text = ::loc("charServer/entitlement/" + name) + ::loc("ui/colon") + time.getExpireText(expire)
       totalText += ((totalText=="")? "":"\n") + text
       premPic = "#ui/gameuiskin#sub_premiumaccount"
     }

@@ -16,6 +16,9 @@
   "fireParamsPreset": "300kph",
   "DamageParts": {
     "armor10": {
+      "gun1_dm": {
+        "hp": 15.0
+      },
       "mgun1_dm": {
         "hp": 15.0
       },
@@ -177,11 +180,6 @@
       },
       "tank2_dm": {
         "hp": 43.6
-      }
-    },
-    "wood": {
-      "gun1_dm": {
-        "hp": 2.7
       }
     }
   },
@@ -1968,10 +1966,18 @@
         "limits": {
           "yaw": [-60.0,60.0],
           "pitch": [-5.0,50.0]
+        },
+        "limitsDeadzone": {
+          "yaw": [-2.0,2.0],
+          "pitch": [-5.0,17.0]
         }
       }
     }
   ],
+  "gunnerFps": {
+    "pos": [0.0,0.3,0.0],
+    "head": "turret1"
+  },
   "weapon_presets": [
     {
       "preset": {
@@ -2145,9 +2151,24 @@
     }
   ],
   "cutting": {
-    "wingLDist": [3.80178,4.80178],
-    "wingRDist": [-3.32094,-2.32094],
-    "tailDist": [10.0,11.0],
-    "color": [0.151,0.151,0.151,1.0]
+    "_emtr_break_wing0_l_from": [-0.0377272,-0.665085,0.892178],
+    "_emtr_break_wing0_l_to": [-0.0377272,-0.665085,1.4917],
+    "emtr_break_wing1_l_from": [-0.0377272,-0.665085,2.39099],
+    "emtr_break_wing1_l_to": [-0.0377272,-0.665085,3.21579],
+    "emtr_break_wing2_l_from": [-0.0377272,-0.665085,4.453],
+    "emtr_break_wing2_l_to": [-0.0377272,-0.665085,5.29267],
+    "_emtr_break_wing0_r_from": [-0.0377272,-0.665085,-0.892178],
+    "_emtr_break_wing0_r_to": [-0.0377272,-0.665085,-1.4917],
+    "emtr_break_wing1_r_from": [-0.0377272,-0.665085,-2.39099],
+    "emtr_break_wing1_r_to": [-0.0377272,-0.665085,-3.21579],
+    "emtr_break_wing2_r_from": [-0.0377272,-0.665085,-4.453],
+    "emtr_break_wing2_r_to": [-0.0377272,-0.665085,-5.29267],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-3.99345,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

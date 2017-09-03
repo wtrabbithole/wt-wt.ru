@@ -275,7 +275,7 @@ class Writer
         value = context.lookup(token[1])
         if (value != null)
           if (typeof value == "string")
-            buffer += ::stripTags(value)
+            buffer += ::g_string.stripTags(value)
           else
             buffer += value.tostring()
 
@@ -287,7 +287,7 @@ class Writer
           buffer += value.tostring()
       }
       else if (token[0] == "?")
-        buffer += ::stripTags(::loc(token[1]))
+        buffer += ::g_string.stripTags(::loc(token[1]))
       else if (token[0] == "text")
         buffer += token[1]
     }

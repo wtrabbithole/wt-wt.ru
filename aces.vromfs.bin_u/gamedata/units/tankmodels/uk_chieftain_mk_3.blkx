@@ -343,12 +343,17 @@
         "wheel_support_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 25.0,
-          "hp": 300.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_body_01_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -1020,6 +1025,13 @@
           {
             "onKill": {
               "damageType": "explosion",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
               "expl": 0.5,
               "fire": 0.5
             }
@@ -2534,8 +2546,7 @@
                 "errExplTime": 0.0,
                 "turret": {
                   "head": "bone_grenade",
-                  "gun": "bone_grenade",
-                  "gunnerDm": "gunner_dm"
+                  "gun": "bone_grenade"
                 },
                 "limits": {
                   "yaw": [-0.0,0.0],

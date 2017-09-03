@@ -4,7 +4,7 @@
       "height": "1@buttonHeight",
       "textarea": {
         "id": "excess_exp_text",
-        "pos": "0, 50%ph-50%h",
+        "pos": "1@buttonMargin, ph/2-h/2",
         "position": "absolute"
       }
     }
@@ -13,10 +13,9 @@
     {
       "Button_text": {
         "id": "btn_repairall",
-        "text": "#mainmenu/btnRepairAll",
         "hideText": "yes",
         "btnName": "Y",
-        "show": "hide",
+        "display": "hide",
         "_on_click": "onRepairAll",
         "visualStyle": "purchase",
         "buttonWink": [],
@@ -24,7 +23,8 @@
         "ButtonImg": [],
         "textarea": {
           "id": "btn_repairall_text",
-          "class": "buttonText"
+          "class": "buttonText",
+          "text": "#mainmenu/btnRepairAll"
         }
       }
     },
@@ -33,7 +33,6 @@
         "id": "btn_spend_exp",
         "navButtonFont": "yes",
         "display": "hide",
-        "text": "#weaponry/research",
         "_on_click": "onSpendExcessExp",
         "css-hier-invalidate": "yes",
         "btnName": "X",
@@ -41,7 +40,8 @@
         "buttonWink": [],
         "textarea": {
           "id": "btn_spend_exp_text",
-          "class": "buttonText"
+          "class": "buttonText",
+          "text": "#weaponry/research"
         },
         "ButtonImg": []
       }
@@ -55,22 +55,28 @@
         "display": "hide",
         "btnName": "X",
         "visualStyle": "purchase",
+        "text": "#shop/btnOrderUnit",
         "buttonWink": [],
         "buttonGlance": [],
         "ButtonImg": []
       }
     },
     {
-      "ComboBox": {
-        "id": "show_mode",
-        "width": "200*@sf/@pf_outdated",
-        "on_select": "onChangeShowMode",
-        "tooltip": "#mainmenu/showModesInfo/tooltip",
-        "behaviour": "wrapBroadcast",
-        "focusFrame": "yes",
-        "navigatorShortcuts": "yes",
-        "on_wrap_up": "onWrapUp",
-        "on_wrap_down": "onWrapDown"
+      "tdiv": {
+        "pos": "0, ph/2-h/2",
+        "position": "relative",
+        "margin": "1@buttonMargin",
+        "ComboBox": {
+          "id": "show_mode",
+          "width": "300@sf/@pf",
+          "on_select": "onChangeShowMode",
+          "tooltip": "#mainmenu/showModesInfo/tooltip",
+          "behaviour": "wrapBroadcast",
+          "focusFrame": "yes",
+          "navigatorShortcuts": "yes",
+          "on_wrap_up": "onWrapUp",
+          "on_wrap_down": "onWrapDown"
+        }
       }
     }
   ]

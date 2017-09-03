@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 const CLAN_ID_NOT_INITED = ""
 const CLAN_SEASON_NUM_IN_YEAR_SHIFT = 1 // Because numInYear is zero-based.
 const CLAN_SEEN_CANDIDATES_SAVE_ID = "seen_clan_candidates"
@@ -214,7 +217,7 @@ function g_clans::getRegionUpdateCooldownTime()
   return ::getTblValue(
     "clansChangeRegionPeriodSeconds",
     ::get_game_settings_blk(),
-    TIME_DAY_IN_SECONDS
+    time.daysToSeconds(1)
   )
 }
 
@@ -244,7 +247,7 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
         local logType = ::g_clan_log_type.getTypeByName(logEntryTable.ev)
 
         if ("time" in logEntryTable)
-          logEntryTable.time = ::build_date_time_str(::get_time_from_t(logEntryTable.time))
+          logEntryTable.time = time.buildDateTimeStr(::get_time_from_t(logEntryTable.time))
 
         logEntryTable.header <- logType.getLogHeader(logEntryTable)
         if (logType.showDetails)
@@ -429,7 +432,7 @@ function g_clans::parseSeenCandidates()
 
   if(newCandidatesNicknames.len())
     ::g_popups.add(null,
-      ::loc("clan/requestRecieved") +::loc("ui/colon") +::implode(newCandidatesNicknames, ", ") +
+      ::loc("clan/requestRecieved") +::loc("ui/colon") +::g_string.implode(newCandidatesNicknames, ", ") +
       " " + extraText,
       function()
       {
@@ -497,7 +500,7 @@ function g_clans::getClanCreationDateText(clanData)
 function g_clans::getClanInfoChangeDateText(clanData)
 {
   local t = ::get_time_from_t(clanData.changedTime)
-  return ::build_date_time_str(t, false, false)
+  return time.buildDateTimeStr(t, false, false)
 }
 
 function g_clans::getClanMembersCountText(clanData)

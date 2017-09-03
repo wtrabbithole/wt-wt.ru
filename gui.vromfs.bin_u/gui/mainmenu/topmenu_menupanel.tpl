@@ -26,7 +26,7 @@ tdiv {
         width:t='<<columnsCount>> * 0.28@sf'
       <</forceHoverWidth>>
       height:t='0'
-      pos:t='<<tmHoverMenuPos>> - 1@topMenuHoverMenuIndent, ph-1'; position:t='absolute'
+      pos:t='<<tmHoverMenuPos>> - 1@topMenuHoverMenuIndent, ph'; position:t='absolute'
       overflow:t='hidden'
       tooltip:t='' // Overrides underlying widgets tooltips.
 
@@ -36,7 +36,7 @@ tdiv {
 
       topMenuButtons {
         id:t='<<tmId>>_focus'
-        pos:t='<<tmHoverMenuPos>> + 1@topMenuHoverMenuIndent, ph-60%sh-3';
+        pos:t='<<tmHoverMenuPos>> + 1@topMenuHoverMenuIndent, ph-60%sh';
         position:t='absolute';
         flow:t='vertical'
 

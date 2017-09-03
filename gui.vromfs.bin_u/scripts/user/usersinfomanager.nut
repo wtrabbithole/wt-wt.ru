@@ -34,7 +34,7 @@ function g_users_info_manager::requestInfo(users, successCb = null, errorCb = nu
   if (fastResponse != null && successCb != null)
     return successCb(fastResponse)
 
-  local usersList = ::implode(users, ";")
+  local usersList = ::g_string.implode(users, ";")
 
   local requestBlk = DataBlock()
   requestBlk.setStr("usersList", usersList)

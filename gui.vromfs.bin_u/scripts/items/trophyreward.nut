@@ -306,7 +306,7 @@ function trophyReward::getCommonRewardText(configsArray)
       returnData.append(text)
     }
   }
-  returnData = ::implode(returnData, ", ")
+  returnData = ::g_string.implode(returnData, ", ")
   return ::colorize("activeTextColor", returnData)
 }
 

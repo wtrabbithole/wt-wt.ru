@@ -1,3 +1,5 @@
+local penalties = require("scripts/penitentiary/penalties.nut")
+
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
 ::my_user_name <- ""
@@ -10,6 +12,8 @@
   ])
 
 ::g_login.initOptionsPseudoThread <- null
+::g_login.shouldRestartPseudoThread <- false
+::g_login[PERSISTENT_DATA_PARAMS].append("initOptionsPseudoThread")
 
 function gui_start_startscreen()
 {
@@ -43,6 +47,7 @@ function on_sign_out()  //!!FIX ME: better to full replace this function by Sign
     ::g_recent_items.reset()
   ::abandoned_researched_items_for_session = []
   ::launched_tutorial_questions_peer_session = 0
+  ::check_tutorial_reward_data = null
 }
 
 function can_logout()
@@ -199,12 +204,69 @@ function g_login::initConfigs(cb)
     }
     function()
     {
+      // FIXME: it is better to get string from NDA text!
+      local versions = ["nda_version", "nda_version_tanks", "eula_version"]
+      foreach (sver in versions)
+      {
+        local l = ::loc(sver)
+        try { getroottable()[sver] = l.tointeger() }
+        catch(e) { dagor.assertf(0, "can't convert '"+l+"' to version "+sver) }
+      }
+
+      ::nda_version = ::check_feature_tanks() ? ::nda_version_tanks : ::nda_version
+
+      if (should_agree_eula(::nda_version, ::TEXT_NDA))
+        ::gui_start_eula(::TEXT_NDA)
+      else
+      if (should_agree_eula(::eula_version, ::TEXT_EULA))
+        ::gui_start_eula(::TEXT_EULA)
+    }
+    function()
+    {
+      if (should_agree_eula(::nda_version, ::TEXT_NDA) || should_agree_eula(::eula_version, ::TEXT_EULA))
+        return PT_STEP_STATUS.SUSPEND
+    }
+    function()
+    {
+      if (::is_need_first_country_choice())
+        ::gui_start_countryChoice()
+    }
+    function()
+    {
+      if (::is_need_first_country_choice())
+        return PT_STEP_STATUS.SUSPEND
+    }
+    function()
+    {
       ::g_login.initOptionsPseudoThread = null
       cb()
     }
   ])
 
   ::start_pseudo_thread(initOptionsPseudoThread)
+}
+
+function g_login::onEventGuiSceneCleared(p)
+{
+  //work only after scripts reload
+  if (!shouldRestartPseudoThread)
+    return
+  shouldRestartPseudoThread = false
+  if (!initOptionsPseudoThread)
+    return
+
+  ::get_cur_gui_scene().performDelayed(::getroottable(),
+    function()
+    {
+      ::handlersManager.loadHandler(::gui_handlers.WaitForLoginWnd)
+      ::start_pseudo_thread(::g_login.initOptionsPseudoThread)
+    })
+}
+
+function g_login::onEventScriptsReloaded(p)
+{
+  if (initOptionsPseudoThread)
+    shouldRestartPseudoThread = true
 }
 
 function g_login::onLoggedInChanged()
@@ -236,9 +298,6 @@ function g_login::firstMainMenuLoad()
   ::tribunal.checkComplaintCounts()
 
   ::update_start_mission_instead_of_queue()
-
-  if (::is_need_first_country_choice())
-    handler.doWhenActive(::gui_start_countryChoice)
 
   handler.doWhenActive(checkAwardsOnStartFrom)
 
@@ -287,23 +346,6 @@ function g_login::firstMainMenuLoad()
     handler.doWhenActive(::check_tutorial_on_start)
   handler.doWhenActive(::check_joystick_thustmaster_hotas)
 
-  // FIXME: it is better to get string from NDA text!
-  local versions = ["nda_version", "nda_version_tanks", "eula_version"]
-  foreach (sver in versions)
-  {
-    local l = ::loc(sver)
-    try { getroottable()[sver] = l.tointeger() }
-    catch(e) { dagor.assertf(0, "can't convert '"+l+"' to version "+sver) }
-  }
-
-  ::nda_version = ::check_feature_tanks() ? ::nda_version_tanks : ::nda_version
-
-  if (should_agree_eula(::nda_version, ::TEXT_NDA))
-    ::gui_start_eula(::TEXT_NDA)
-  else
-  if (should_agree_eula(::eula_version, ::TEXT_EULA))
-    ::gui_start_eula(::TEXT_EULA)
-
   if (::has_feature("CheckEmailVerified"))
     if (!::check_account_tag("email_verified"))
       handler.doWhenActive(function () {
@@ -338,7 +380,7 @@ function g_login::firstMainMenuLoad()
   ::init_coop_flags()
 
   ::update_gamercards()
-  ::showBannedStatusMsgBox()
+  penalties.showBannedStatusMsgBox()
 
   ::on_mainmenu_return(handler, true)
 }
@@ -433,3 +475,5 @@ function g_login::statsdOnLogin()
     }
   }
 }
+
+::g_login.init()

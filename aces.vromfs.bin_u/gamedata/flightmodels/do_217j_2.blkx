@@ -313,14 +313,6 @@
     }
   },
   {
-    "cutting": {
-      "wingRDist": [-6.19034,-5.19034],
-      "wingLDist": [3.92536,4.92536],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
     "Aircraft": {
       "gunnersCount": 2
     }
@@ -563,14 +555,6 @@
     }
   },
   {
-    "cutting": {
-      "wingRDist": [-6.19034,-5.19034],
-      "wingLDist": [3.92536,4.92536],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
     "DamageParts": {
       "armor10": {
         "cannon1_dm": {
@@ -605,16 +589,16 @@
         }
       },
       "armor5": {
-        "armor2_dm": {
-          "hp": 35.0
-        },
-        "armor9_dm": {
-          "hp": 35.0
-        },
         "armor10_dm": {
           "hp": 35.0
         },
         "armor11_dm": {
+          "hp": 35.0
+        },
+        "armor2_dm": {
+          "hp": 35.0
+        },
+        "armor9_dm": {
           "hp": 35.0
         }
       },
@@ -622,10 +606,10 @@
         "armor1_dm": {
           "hp": 40.0
         },
-        "armor4_dm": {
+        "armor3_dm": {
           "hp": 40.0
         },
-        "armor3_dm": {
+        "armor4_dm": {
           "hp": 40.0
         },
         "armor6_dm": {
@@ -775,6 +759,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 70.5
         },
@@ -829,11 +816,6 @@
         },
         "tank7_dm": {
           "hp": 54.5
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 17.4
         }
       }
     }
@@ -3237,10 +3219,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-6.19034,-5.19034],
-      "wingLDist": [3.92536,4.92536],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-0.766169,0.371021,1.2763],
+      "_emtr_break_wing0_l_to": [-0.766169,0.371021,2.04775],
+      "emtr_break_wing1_l_from": [-0.766169,0.371021,3.75007],
+      "emtr_break_wing1_l_to": [-0.766169,0.371021,4.7947],
+      "emtr_break_wing2_l_from": [-0.766169,0.371021,6.43231],
+      "emtr_break_wing2_l_to": [-0.766169,0.371021,7.668],
+      "_emtr_break_wing0_r_from": [-0.766895,0.371021,-1.2763],
+      "_emtr_break_wing0_r_to": [-0.766895,0.371021,-2.04775],
+      "emtr_break_wing1_r_from": [-0.766895,0.371021,-3.75007],
+      "emtr_break_wing1_r_to": [-0.766895,0.371021,-4.7947],
+      "emtr_break_wing2_r_from": [-0.766895,0.371021,-6.43231],
+      "emtr_break_wing2_r_to": [-0.766895,0.371021,-7.668],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-8.68266,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

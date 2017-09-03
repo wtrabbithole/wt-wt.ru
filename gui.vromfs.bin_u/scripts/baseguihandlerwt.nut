@@ -1,3 +1,6 @@
+local penalties = require("scripts/penitentiary/penalties.nut")
+local time = require("scripts/time.nut")
+
 const MAIN_FOCUS_ITEM_IDX = 4
 
 ::stickedDropDown <- null
@@ -1026,7 +1029,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     ::g_tasker.restoreCharCallback()
     destroyProgressBox()
 
-    ::showBannedStatusMsgBox(true)
+    penalties.showBannedStatusMsgBox(true)
 
     if (result != 0)
     {
@@ -1407,7 +1410,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
         text += ::loc(blk.advert, "")
         ::secondsUpdater(obj, (@(text) function(obj, params) {
           local stopUpdate = text.find("{time_countdown=") == null
-          local textResult = ::processTimeStamps(text)
+          local textResult = time.processTimeStamps(text)
           local objText = obj.findObject("topmenu_advert_text")
           objText.setValue(textResult)
           obj.show(textResult != "")

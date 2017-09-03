@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 function gui_start_show_login_award(blk)
 {
   if (!blk)
@@ -10,6 +13,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
   sceneBlkName = "gui/items/everyDayLoginAward.blk"
+  shouldBlurSceneBg = false
 
   stylePrefix = "every_day_award_trophy_"
   lastSavedDay = 0
@@ -485,7 +489,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
       return ""
 
     local totalRentTime = curUnit.getRentTimeleft()
-    local timeText = ::colorize("userlogColoredText", ::hoursToString(totalRentTime / TIME_HOUR_IN_SECONDS_F))
+    local timeText = ::colorize("userlogColoredText", time.hoursToString(time.secondsToHours(totalRentTime)))
 
     local rentText = ::loc("shop/rentFor", {time = timeText})
     return ::colorize("activeTextColor", rentText)
@@ -541,7 +545,6 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContentFromText(awardsObj, data, data.len(), this)
     }
 
-    updateFrameWindowWidth(awardsObj)
     guiScene.setUpdatesEnabled(true, true)
   }
 
@@ -581,13 +584,6 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
 
     for (local i = 1; i < daysDiff; i++)
       view.items.append({item = ::handyman.renderCached(("gui/items/item"), { items=[{enableBackground = true}] }), emptyBlock = "yes"})
-  }
-
-  function updateFrameWindowWidth(awardsObj)
-  {
-    local frameObj = scene.findObject("main_frame_login_rewards")
-    if (::checkObj(frameObj))
-      frameObj.width = awardsObj.getSize()[0] + 4
   }
 
   function updateDaysProgressBar()

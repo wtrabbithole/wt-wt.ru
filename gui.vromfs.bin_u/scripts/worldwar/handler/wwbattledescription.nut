@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -340,7 +343,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local currentWaitingTime = ::queues.getQueueActiveTime(currentBattleQueue).tointeger()
-    scene.findObject("ww_queue_waiting_time").setValue(::secondsToString(currentWaitingTime, false))
+    scene.findObject("ww_queue_waiting_time").setValue(time.secondsToString(currentWaitingTime, false))
 
     lastQueueInfoTimeLeft += dt
     if (lastQueueInfoTimeLeft <= 5)

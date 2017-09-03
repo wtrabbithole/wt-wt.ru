@@ -854,7 +854,7 @@ function getBulletsSetData(air, modifName, noModList = null)
         if (paramsBlk.caliber)
           res = { caliber = 1000.0 * paramsBlk.caliber,
                   bullets = [],
-                  isBulletBelt = (wBlk.isBulletBelt != false || wBlk.bulletsCartridge > 1),
+                  isBulletBelt = (wBlk.isBulletBelt != false || wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet),
                   catridge = wBlk.bulletsCartridge || 0
                   weaponType = weaponType
                   useDefaultBullet = !wBlk.notUseDefaultBulletInGui,
@@ -1820,7 +1820,7 @@ function get_all_modifications_cost(unit, open = false)
 
     ::scene_msg_box("buy_all_available_mods", null
       ::loc("msgbox/buy_all_researched_modifications",
-        { unitsList = ::implode(stringOfUnits, ","), cost = cost.getTextAccordingToBalance() }),
+        { unitsList = ::g_string.implode(stringOfUnits, ","), cost = cost.getTextAccordingToBalance() }),
       [["yes", (@(cost, unitsWithNBMods) function() {
           if (!::check_balance_msgBox(cost, function(){::prepareUnitsForPurchaseMods.checkUnboughtMods()}))
             return
@@ -1914,8 +1914,8 @@ function append_one_bullets_item(descr, modifName, air, amountText, genTexts, en
   if (!genTexts)
     return
 
-  item.text    <- ::implode([ amountText, ::getModificationName(air, modifName)     ], " ")
-  item.tooltip <- ::implode([ amountText, ::getModificationInfoText(air, modifName) ], " ")
+  item.text    <- ::g_string.implode([ amountText, ::getModificationName(air, modifName)     ], " ")
+  item.tooltip <- ::g_string.implode([ amountText, ::getModificationInfoText(air, modifName) ], " ")
 }
 
 function get_bullet_group_index(airName, bulletName)

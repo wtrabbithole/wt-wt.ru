@@ -245,7 +245,11 @@ class ::gui_handlers.DynamicLayouts extends ::gui_handlers.CampaignChapter
 
   function onStart(obj)
   {
-    if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = ::enable_coop_in_DynCampaign, showOfflineSquadMembersPopup = true }))
+    if (!::g_squad_utils.canJoinFlightMsgBox({
+        isLeaderCanJoin = ::enable_coop_in_DynCampaign
+        showOfflineSquadMembersPopup = true
+        maxSquadSize = ::get_max_players_for_gamemode(::GM_DYNAMIC)
+      }))
       return
 
     local index = getSelectedMission()

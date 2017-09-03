@@ -267,9 +267,6 @@
         "ctaCaptureZoneEqualPenaltyMul": 0.0
       },
       {
-        "useAlternativeMapCoord": true
-      },
-      {
         "allowedKillStreaks": true
       },
       {
@@ -277,6 +274,9 @@
       },
       {
         "remapAiTankModels": true
+      },
+      {
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
@@ -371,6 +371,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -408,6 +411,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -443,6 +449,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -522,6 +531,22 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/finland/template_finland_air_spawn.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/finland/battleareas/template_finland_battleareas.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -850,17 +875,6 @@
       "objLayer": 0,
       "props": []
     },
-    "conq_battle_area_arcade": {
-      "type": "Cylinder",
-      "tm": [
-        [-850.0,0.0,0.0],
-        [0.0,100.0,0.0],
-        [0.0,0.0,-850.0],
-        [1036.2,42.45,1054.35]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
     "t2_tankSpawn01_zone02": {
       "type": "Sphere",
       "tm": [
@@ -1185,17 +1199,6 @@
         [1590.1,1.075,1096.25]
       ],
       "objLayer": 0,
-      "props": []
-    },
-    "conq_battle_area_hardcore": {
-      "type": "Cylinder",
-      "tm": [
-        [-850.0,0.0,0.0],
-        [0.0,100.0,0.0],
-        [0.0,0.0,-850.0],
-        [1036.2,42.4501,1054.35]
-      ],
-      "objLayer": 3,
       "props": []
     },
     "conq_capture_area_01_hardcore": {

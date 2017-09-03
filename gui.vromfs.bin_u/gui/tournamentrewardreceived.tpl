@@ -10,9 +10,7 @@ root{
     class:t='wndNav';
 
     frame_header{
-      Button_close {
-        img {}
-      }
+      Button_close {}
     }
     img{
       id:t='award_image';
@@ -93,12 +91,7 @@ root{
       }
 
       <<#nextReward>>
-      tdiv {
-        re-type:t='9rect';
-        background-image:t='#ui/gameuiskin#window_block_bright';
-        background-position:t='4';
-        background-repeat:t='expand';
-        background-color:t='@white';
+      frameBlock_dark {
         width:t='pw';
         flow:t='vertical';
         padding:t='0.01@sf';

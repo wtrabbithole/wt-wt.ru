@@ -87,12 +87,38 @@
           }
         },
         {
-          "div": {
-            "id": "buttons_holder",
-            "pos": "50%pw-50%w, 0",
-            "position": "relative",
-            "margin": "@scrn_tgt/100.0"
-          }
+          "div": [
+            {
+              "id": "buttons_holder"
+            },
+            {
+              "pos": "50%pw-50%w, 0"
+            },
+            {
+              "position": "relative"
+            },
+            {
+              "margin": "0.01@scrn_tgt"
+            },
+            {
+              "Button_text": {
+                "id": "btn_ok",
+                "text": "#msgbox/btn_ok",
+                "on_click": "goBack",
+                "btnName": "A",
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_cancel",
+                "text": "#msgbox/btn_cancel",
+                "on_click": "onCancel",
+                "btnName": "B",
+                "ButtonImg": []
+              }
+            }
+          ]
         }
       ]
     }

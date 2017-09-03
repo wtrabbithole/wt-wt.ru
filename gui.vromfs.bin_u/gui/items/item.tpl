@@ -103,11 +103,7 @@ itemDiv {
     <<#contentIconData>>
     contentCorner {
       contentType:t='<<contentType>>'
-      tdiv {
-        img {
-          background-image:t='<<contentIcon>>'
-        }
-      }
+      foreground-image:t='<<contentIcon>>'
     }
     <</contentIconData>>
 
@@ -196,6 +192,15 @@ itemDiv {
   }
   <</arrowNext>>
 
+  <<#isItemLocked>>
+  tdiv {
+    flow:t='vertical'
+    position:t='absolute'
+    <<@getWarbondShopLevelImage>>
+    <<@getWarbondMedalImage>>
+  }
+  <</isItemLocked>>
+
   selBorder {
     size:t='pw-4, ph-4'
     pos:t='50%pw-50%w, 50%ph-50%h'
@@ -222,7 +227,8 @@ itemDiv {
     id:t='actionBtn'
     pos:t='50%pw-50%w, ph-h/2' //empty zone in button texture
     position:t='absolute'
-    class:t='tinyButton'
+    visualStyle:t='common'
+    class:t='smallButton'
     text:t='<<modActionName>>'
     <<#itemIndex>>
     holderId:t='<<itemIndex>>'

@@ -559,6 +559,13 @@
           },
           {
             "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
               "damageType": "generic",
               "expl": 0.5,
               "fire": 0.5
@@ -1787,12 +1794,17 @@
         "wheel_l_front_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 18.0,
-          "hp": 250.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_01_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "equipment": {
         "armorClass": "tank_structural_steel",
@@ -2270,8 +2282,7 @@
                 "errExplTime": 0.0,
                 "turret": {
                   "head": "bone_grenade",
-                  "gun": "bone_grenade",
-                  "gunnerDm": "gunner_dm"
+                  "gun": "bone_grenade"
                 },
                 "limits": {
                   "yaw": [-0.0,0.0],

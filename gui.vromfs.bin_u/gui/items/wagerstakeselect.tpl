@@ -20,11 +20,7 @@ popup_menu {
   height:t='0.185*@scrn_tgt'
   flow:t='vertical'
 
-  Button_close {
-    pos:t='pw-w, 0'
-    position:t='absolute'
-    img {}
-  }
+  Button_close { _on_click:t='goBack'; smallIcon:t='yes'}
 
   activeText {
     text:t='#items/wager/stake/header'

@@ -396,15 +396,17 @@ function u::copy(obj)
 }
 
 /**
- * Create new table which have all keys from both table, and for each key maps
- * value func(tbl1Value, tbl2Value)
+ * Create new table which have all keys from both tables (or just first table,
+   if skipSecondTable=true), and for each key maps value func(tbl1Value, tbl2Value)
  * If value not exist in one of table it will be pushed to func as defValue
  */
-function u::tablesCombine(tbl1, tbl2, func, defValue = null)
+function u::tablesCombine(tbl1, tbl2, func, defValue = null, addParams = true)
 {
   local res = {}
   foreach(key, value in tbl1)
     res[key] <- func(value, ::getTblValue(key, tbl2, defValue))
+  if (!addParams)
+    return res
   foreach(key, value in tbl2)
     if (!(key in res))
       res[key] <- func(defValue, value)

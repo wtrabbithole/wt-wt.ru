@@ -27,7 +27,7 @@
             "height": "0.036@sf"
           },
           {
-            "pos": "1.2@debrPad, ph/2-h/2"
+            "pos": "1.1@debrPad, ph/2-h/2"
           },
           {
             "position": "absolute"
@@ -61,97 +61,124 @@
         ]
       },
       {
-        "tdiv": {
-          "id": "wnd_total",
-          "pos": "67%pw -w, ph/2-h/2",
-          "position": "absolute",
-          "flow": "horizontal"
-        }
-      },
-      {
-        "Button_text": {
-          "id": "btn_buy_premium_award",
-          "pos": "78%pw-w/2, ph/2-h/2",
-          "position": "absolute",
-          "class": "buyPremAward",
-          "on_click": "onBuyPremiumAward",
-          "visualStyle": "purchase",
-          "tooltip": "",
-          "display": "hide",
-          "btnName": "Y",
-          "buttonWink": {
-            "_transp-timer": "0"
+        "tdiv": [
+          {
+            "id": "my_stats_top_bar"
           },
-          "buttonGlance": [],
-          "ButtonImg": [],
-          "textarea": {
-            "id": "label",
-            "pos": "0, ph/2-h/2",
-            "position": "relative",
-            "min-width": "pw",
-            "input-transparent": "yes",
-            "text-align": "center",
-            "overlayTextColor": "premiumNotEarned",
-            "text": ""
-          }
-        }
-      },
-      {
-        "tdiv": {
-          "id": "active_wager_container",
-          "size": "1@debrWagerHeight, 1@debrWagerHeight",
-          "pos": "pw -1@debrBonusWidth -2@debrPad -85%w, ph/2-h/2",
-          "position": "absolute",
-          "title": "$tooltipObj",
-          "tdiv": {
-            "itemIconBlock": {
-              "display": "hide",
-              "id": "active_wager_icon",
-              "debriefingSize": "yes",
-              "overflow": "hidden"
-            },
-            "img": {
-              "id": "active_wager_result_icon",
-              "position": "absolute",
-              "pos": "pw-1.2w, ph-1.2h",
-              "size": "@unlockIconSize, @unlockIconSize",
-              "background-image": "#ui/gameuiskin#favorite",
-              "display": "hide"
+          {
+            "pos": "pw-w-1.3@debrPad, ph/2-h/2"
+          },
+          {
+            "position": "absolute"
+          },
+          {
+            "tdiv": {
+              "id": "wnd_total",
+              "pos": "1@debrPad, ph/2-h/2",
+              "position": "relative"
             }
           },
-          "textareaNoTab": {
-            "id": "active_wager_text",
-            "text": ""
+          {
+            "tdiv": {
+              "id": "buy_premium",
+              "pos": "1@debrPad, ph/2-h/2",
+              "position": "relative",
+              "display": "hide",
+              "Button_text": {
+                "id": "btn_buy_premium_award",
+                "class": "buyPremAward",
+                "style": "margin-right:0;",
+                "on_click": "onBuyPremiumAward",
+                "visualStyle": "purchase",
+                "tooltip": "",
+                "btnName": "Y",
+                "buttonWink": {
+                  "_transp-timer": "0"
+                },
+                "buttonGlance": [],
+                "ButtonImg": [],
+                "textarea": {
+                  "id": "label",
+                  "pos": "0, ph/2-h/2",
+                  "position": "relative",
+                  "min-width": "pw",
+                  "input-transparent": "yes",
+                  "text-align": "center",
+                  "overlayTextColor": "premiumNotEarned",
+                  "text": ""
+                }
+              },
+              "textareaNoTab": {
+                "max-width": "150@sf/@pf",
+                "pos": "0.3@sIco, ph/2-h/2",
+                "position": "relative",
+                "overlayTextColor": "userlog",
+                "tinyFont": "yes",
+                "text": "#mainmenu/notEarnedPremiumReward"
+              }
+            }
           },
-          "tooltipObj": {
-            "id": "active_wager_tooltip",
-            "on_tooltip_open": "onWagerTooltipOpen",
-            "on_tooltip_close": "onTooltipObjClose",
-            "display": "hide",
-            "enable": "no"
+          {
+            "tdiv": {
+              "id": "active_wager_container",
+              "pos": "1@debrPad, ph/2-h/2",
+              "position": "relative",
+              "title": "$tooltipObj",
+              "display": "hide",
+              "tdiv": {
+                "size": "70%@debrWagerHeight, 1@debrWagerHeight",
+                "itemIconBlock": {
+                  "id": "active_wager_icon",
+                  "pos": "pw/2-w/2, ph/2-h/2",
+                  "position": "absolute",
+                  "debriefingSize": "yes",
+                  "overflow": "hidden"
+                },
+                "img": {
+                  "id": "active_wager_result_icon",
+                  "size": "ph/2, ph/2",
+                  "pos": "pw-0.7w, ph-h",
+                  "position": "absolute",
+                  "background-image": ""
+                }
+              },
+              "textareaNoTab": {
+                "id": "active_wager_text",
+                "pos": "10@sf/@pf, ph/2-h/2",
+                "position": "relative",
+                "overlayTextColor": "userlog",
+                "tinyFont": "yes",
+                "text": ""
+              },
+              "tooltipObj": {
+                "id": "active_wager_tooltip",
+                "on_tooltip_open": "onWagerTooltipOpen",
+                "on_tooltip_close": "onTooltipObjClose",
+                "display": "hide",
+                "enable": "no"
+              }
+            }
+          },
+          {
+            "debriefingBonusIconNest": {
+              "id": "bonus_ico_place",
+              "size": "1@debrBonusWidth, 1@debrBonusHeight",
+              "pos": "1@debrPad, ph/2-h/2",
+              "position": "relative",
+              "display": "hide",
+              "img": {
+                "id": "bonus_ico",
+                "size": "pw, ph"
+              },
+              "tdiv": {
+                "id": "start_bonus_place",
+                "size": "2.5@debrBonusWidth, 2.5@debrBonusHeight",
+                "pos": "pw/2-w/2, ph/2-h/2",
+                "position": "absolute"
+              }
+            }
           }
-        }
-      },
-      {
-        "debriefingBonusIconNest": {
-          "id": "bonus_ico_place",
-          "size": "1@debrBonusWidth, 1@debrBonusHeight",
-          "pos": "pw -1@debrPad -w, ph/2-h/2",
-          "position": "absolute",
-          "img": {
-            "id": "bonus_ico",
-            "size": "pw, ph",
-            "display": "hide"
-          }
-        }
-      },
-      {
-        "tdiv": {
-          "id": "start_bonus_place",
-          "size": "2.5@debrBonusWidth, 2.5@debrBonusHeight",
-          "pos": "pw -1@debrPad -50%@debrBonusWidth -50%w, ph/2-h/2",
-          "position": "absolute"
-        }
+        ]
       }
     ],
     "tdiv": {

@@ -1,6 +1,7 @@
 local shipState = require("shipState.nut")
 local crewState = require("crewState.nut")
 local colors = require("style/colors.nut")
+local background = require("style/hudBackground.nut")
 
 const STATE_ICON_MARGIN = 0.7
 const STATE_ICON_SIZE = 5
@@ -195,8 +196,11 @@ local dmModule = function (icon, count_total_state, count_broken_state) {
     local dots = function () {
       local aliveCount = count_total_state.value - count_broken_state.value
       local children = []
-      children.resize(aliveCount, dotAlive(count_total_state.value))
-      children.resize(count_total_state.value, dotDead(count_total_state.value))
+      if (aliveCount > 0 && count_total_state.value > 0)
+      {
+        children.resize(aliveCount, dotAlive(count_total_state.value))
+        children.resize(count_total_state.value, dotDead(count_total_state.value))
+      }
 
       return {
         size = [flex(), SIZE_TO_CONTENT]
@@ -343,8 +347,10 @@ local crewBlock = {
         vplace = VALIGN_BOTTOM
         hplace = HALIGN_RIGHT
         rendObj = ROBJ_TEXT
-        text = crewState.aliveCrewMembersCount.value.tostring()
+        text = (100 * crewState.aliveCrewMembersCount.value / crewState.totalCrewMembersCount.value) + "%"
         font = Fonts.tiny_text_hud
+        fontFx = fontFx
+        fontFxColor = fontFxColor
       }
     }
   ]
@@ -472,11 +478,6 @@ local shipStateDisplay = {
 
 
 return {
-  rendObj = ROBJ_9RECT
-  screenOffs = [0,sh(10.0/1080*100)]
-  texOffs = [0,30]
-  color = Color(0, 0, 0, 128)
-  image = images.bg
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
   padding = sh(1)
@@ -485,4 +486,4 @@ return {
     {size=[flex(),sh(0.5)]}
     shipStateDisplay
   ]
-}
+}.patchComponent(background)

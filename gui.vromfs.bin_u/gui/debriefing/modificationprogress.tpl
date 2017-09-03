@@ -11,8 +11,9 @@ tdiv {
       height:t='1@slot_height -2@slot_vert_pad -2'
       pos:t='0, ph/2-h/2'; position:t='absolute'
       width:t='2.7h'
-      background-color:t='@white'
       background-image:t='<<unitImg>>'
+      background-repeat:t='aspect-ratio'
+      background-align:t='left'
     }
 
     textareaNoTab {

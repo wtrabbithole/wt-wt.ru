@@ -49,6 +49,6 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
 
     local text = [::trophyReward.getName(reward_config)]
     text.append(::trophyReward.getDecription(reward_config, true))
-    obj.setValue(::implode(text, "\n"))
+    obj.setValue(::g_string.implode(text, "\n"))
   }
 }

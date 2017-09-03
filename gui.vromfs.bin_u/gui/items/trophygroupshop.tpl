@@ -10,7 +10,7 @@ frame {
 
   frame_header {
     activeText{ id:t='group_trophy_header'; caption:t='yes' }
-    Button_close { id:t = 'btn_back'; img {} }
+    Button_close { id:t = 'btn_back' }
   }
 
   frameBlock {

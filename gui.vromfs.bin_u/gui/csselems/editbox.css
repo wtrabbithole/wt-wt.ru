@@ -1,0 +1,88 @@
+@const editboxColor: #91020509;
+@const editboxHintColor: #555555;
+
+@const editboxColorFocus: #99020509;
+@const editboxFontColorFocus: #e0e0e0;
+@const editboxBorderColorFocus: #243640;
+
+EditBoxBG {
+  background-color:@editboxColor;
+}
+
+EditBox
+{
+  behaviour:edit;
+  re-type:edit;
+  text-align:left;
+  selected-border:none;
+  font:@tiny;
+
+  background-color:@editboxColor;
+
+  tabStop:yes;
+  color:@commonTextColor;
+  cursor-color:@activeTextColor;
+  height:@buttonHeight;   padding:5*@sf/@pf_outdated, 3*@sf/@pf_outdated;
+  margin-bottom:5*@sf/@pf_outdated;
+  multiShortcuts:no;
+
+  edit-hint-back-color:@transparent;
+  edit-hint-color: @editboxHintColor;
+
+  overflow:hidden;
+}
+
+EditBox[noMargin="yes"]
+{
+  margin-bottom:0;
+}
+
+EditBox:focus, EditBox[select="yes"], EditBox.showAlways {
+  background-color: @editboxColorFocus;
+  color: @editboxFontColorFocus;
+  border: yes;
+  border-color:@editboxBorderColorFocus;
+
+  edit-hint:"";
+}
+
+[has_ime=yes] EditBox:focus {
+  edit-hint:"#default_editbox_hint_message";
+}
+
+EditBox[multiline] {
+  re-type:multiEdit;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overflow:hidden;
+  auto-scroll:yes;
+  multiShortcuts:yes;
+  padding:5*@sf/@pf_outdated, 0.8*@scrn_tgt/100.0;
+}
+
+EditBox:hover, EditBox:focus, EditBox[select="yes"]
+{
+  color:@activeTextColor;
+}
+
+[show_console_buttons=yes] EditBox:focus {
+  background-color: @gamepadFocusFrameColor;
+  background-image: #ui/gameuiskin#item_selection;
+  background-position: 6;
+  background-repeat: expand;
+}
+
+EditBox:disabled {
+  background-color:@transparent;
+}
+
+EditBox[btnName] > ButtonImg {
+  position:'absolute';
+  pos:'pw-w-0.25ph, (ph-h)/2';
+  size:'0.75ph, 0.75ph';
+}
+
+EditBox[warning=yes] {
+  border:yes;
+  border-color:@warningTextColor;
+}

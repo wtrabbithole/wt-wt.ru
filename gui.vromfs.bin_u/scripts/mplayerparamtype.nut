@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_mplayer_param_type <- {
   types = []
   cache = {
@@ -189,7 +192,7 @@ function g_mplayer_param_type::_newer(old, new) {
     tooltip = "#debriefing/Damage"
     missionObjective = MISSION_OBJECTIVE.ZONE_BOMBING
     printFunc = function(val, player) {
-      return ::roundToDigits(val * ::ZONE_HP_TO_TNT_EQUIVALENT_TONS, 3).tostring()
+      return ::roundToDigits(val * ::KG_TO_TONS, 3).tostring()
     }
   }
 
@@ -222,7 +225,7 @@ function g_mplayer_param_type::_newer(old, new) {
     relWidth = 30
     defVal = -1
     printFunc = function(val, player) {
-      return ::getRaceTimeFromSeconds(val)
+      return time.getRaceTimeFromSeconds(val)
     }
     diffFunc = ::g_mplayer_param_type._newer
   }
@@ -240,7 +243,7 @@ function g_mplayer_param_type::_newer(old, new) {
     relWidth = 30
     defVal = -1
     printFunc = function(val, player) {
-      return ::getRaceTimeFromSeconds(val)
+      return time.getRaceTimeFromSeconds(val)
     }
     diffFunc = function(old, new) {
       return old != new ? new : -1
@@ -260,7 +263,7 @@ function g_mplayer_param_type::_newer(old, new) {
         if (total)
           return (100 * ::getTblValue("raceLastCheckpoint", player, 0) / total).tointeger() + "%"
       }
-      return ::getRaceTimeFromSeconds(val)
+      return time.getRaceTimeFromSeconds(val)
     }
     diffFunc = ::g_mplayer_param_type._newer
   }
@@ -286,7 +289,7 @@ function g_mplayer_param_type::_newer(old, new) {
     fontIcon = "#icon/timer"
     relWidth = 15
     missionObjective = MISSION_OBJECTIVE.ALIVE_TIME
-    printFunc = @(val, player) ::secondsToString(val, false)
+    printFunc = @(val, player) time.secondsToString(val, false)
     isVisibleByGameType = @(gt) !!(gt & ::GT_LAST_MAN_STANDING)
   }
 })

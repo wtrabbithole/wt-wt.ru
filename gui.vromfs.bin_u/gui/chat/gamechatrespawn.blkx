@@ -48,7 +48,7 @@
         }
       }
     ],
-    "tdiv": {
+    "EditBoxBG": {
       "pos": "0, -3px",
       "position": "relative",
       "width": "pw",
@@ -56,10 +56,6 @@
       "overflow-y": "auto",
       "auto-scroll": "yes",
       "padding": "0.5*@scrn_tgt/100.0",
-      "background-repeat": "expand",
-      "background-position": "5",
-      "background-image": "#ui/gameuiskin#editbox",
-      "background-color": "@editboxBGColor",
       "chatLog": {
         "width": "pw",
         "id": "chat_log",
@@ -94,7 +90,8 @@
           "width": "15*@scrn_tgt/100.0",
           "top": "50%ph-50%h",
           "position": "relative",
-          "style": "padding-left:1*@scrn_tgt/100.0; text-align:left; min-width:15*@scrn_tgt/100.0;",
+          "style": "padding-left:1*@scrn_tgt/100.0; min-width:15*@scrn_tgt/100.0;",
+          "showConsoleImage": "no",
           "_on_click": "onChatMode",
           "accesskey": "Tab"
         }
@@ -122,7 +119,8 @@
           "position": "relative",
           "text": "#chat/send",
           "_on_click": "onChatSend",
-          "style": "padding-left:1*@scrn_tgt/100.0; text-align:left; min-width:15*@scrn_tgt/100.0;"
+          "showConsoleImage": "no",
+          "style": "padding-left:1*@scrn_tgt/100.0; min-width:15*@scrn_tgt/100.0;"
         }
       }
     ]

@@ -96,6 +96,21 @@
     "type": "typeMediumTank"
   },
   {
+    "smokeScreenActivateTime": 10.0
+  },
+  {
+    "smokeScreenEffectTime": 30.0
+  },
+  {
+    "smokeScreenRad": 15.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
+    "smokeScreenDmPart": "engine_dm"
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -316,10 +331,8 @@
         "wheel_l_front_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 18.0,
-          "hp": 250.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_01_dm": {
             "armorClass": "tank_structural_steel",
             "armorThickness": 18.0,
@@ -327,6 +340,13 @@
             "createSecondaryShatters": false
           }
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "equipment": {
         "armorClass": "tank_structural_steel",
@@ -1008,6 +1028,13 @@
           },
           {
             "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
               "damageType": "generic",
               "expl": 0.5,
               "fire": 0.5
@@ -1351,37 +1378,6 @@
         "dmPart": "commander_dm",
         "role": "commander"
       }
-    }
-  },
-  {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
     }
   },
   {
@@ -2270,6 +2266,7 @@
       "tank_tool_kit": [],
       "art_support": [],
       "tank_new_gun": [],
+      "tank_engine_smoke_screen_system": [],
       "tank_medical_kit": {
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },

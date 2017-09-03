@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::stats_fm <- ["fighter", "bomber", "assault"]
 ::stats_tanks <- ["tank", "tank_destroyer", "heavy_tank", "SPAA"]
 ::stats_fm.extend(::stats_tanks)
@@ -1157,7 +1160,7 @@ function build_profile_summary_rowData(config, summary, diff, textId = "")
         if ((config.fm in sumData) && (config.id in sumData[config.fm]))
           value += sumData[config.fm][config.id]
     }
-  local s = config.timeFormat? ::hoursToString(value.tofloat() / TIME_HOUR_IN_SECONDS, false) : value
+  local s = config.timeFormat? time.hoursToString(time.secondsToHours(value), false) : value
   local tooltip = diffItems[diff].text
   row.append({text = s.tostring(), tooltip = tooltip})
   return buildTableRowNoPad("", row)
@@ -1248,8 +1251,7 @@ function get_player_stats_from_blk(blk)
       cData.unitsCount = blk.aircrafts[country].paramCount()
       foreach(unitName, unitEliteStatus in blk.aircrafts[country])
       {
-        local unit = ::getAircraftByName(unitName)
-        if (unit && ::isUnitElite(unit))
+        if (::isUnitEliteByStatus(unitEliteStatus))
           cData.eliteUnitsCount++
       }
     }

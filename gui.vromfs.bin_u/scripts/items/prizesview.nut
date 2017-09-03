@@ -15,6 +15,10 @@
 //  getPrizesListView(content, params = null) - get full prizes list not stacked.
 //
 
+
+local time = require("scripts/time.nut")
+
+
 enum PRIZE_TYPE {
   UNKNOWN
   MULTI_AWARD
@@ -137,7 +141,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
       local unitColor = ::getUnitClassColor(unitName)
       name = ::loc("shop/rentUnitFor", {
         unit = ::colorize(unitColor, ::getUnitName(unitName, true))
-        time = ::colorize("userlogColoredText", ::hoursToString(prize.timeHours || 0))
+        time = ::colorize("userlogColoredText", time.hoursToString(prize.timeHours || 0))
       })
     }
   }
@@ -157,7 +161,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
   }
   else if (prize.premium_in_hours)
   {
-    name = ::loc("charServer/entitlement/PremiumAccount") + ::loc("ui/colon") + ::hoursToString(prize.premium_in_hours)
+    name = ::loc("charServer/entitlement/PremiumAccount") + ::loc("ui/colon") + time.hoursToString(prize.premium_in_hours)
     color = "userlogColoredText"
   }
   else if (prize.entitlement)
@@ -473,7 +477,7 @@ function PrizesView::_getStackUnitsText(stack)
   local headerSeparator = ::loc("ui/colon") + (isDetailed ? "\n" : "")
   local unitsSeparator  = isDetailed ? "\n" : ::loc("ui/comma")
 
-  return header + headerSeparator + ::implode(units, unitsSeparator)
+  return header + headerSeparator + ::g_string.implode(units, unitsSeparator)
 }
 
 function PrizesView::_stackContent(content, stackLevel = prizesStack.BY_TYPE, shopDesc = false)
@@ -535,7 +539,7 @@ function PrizesView::getPrizesListText(content, fixedAmountHeaderFunc = null)
     }
   }
 
-  return ::implode(list, "\n")
+  return ::g_string.implode(list, "\n")
 }
 
 function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0, numSpares = 0)
@@ -586,9 +590,9 @@ function PrizesView::_getUnitRentComment(rentTimeHours = 0, numSpares = 0, short
   local text = ""
   if (!rentTimeHours)
     return ""
-  local time = ::colorize("userlogColoredText", ::hoursToString(rentTimeHours))
-  local text = short ? time :
-    ::colorize("activeTextColor", ::loc("shop/rentFor", { time =  time }))
+  local timeStr = ::colorize("userlogColoredText", time.hoursToString(rentTimeHours))
+  local text = short ? timeStr :
+    ::colorize("activeTextColor", ::loc("shop/rentFor", { time =  timeStr }))
   if (numSpares)
     text += ::colorize("grayOptionColor", " + " + ::loc("multiAward/name/count/singleType", { awardType = ::loc("multiAward/type/spare") awardCount = numSpares }))
   return short ? ::loc("ui/parentheses/space", { text = text }) : text

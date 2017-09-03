@@ -108,7 +108,7 @@
       "hp": 10000.0,
       "hull": {
         "superstructure_front_dm": {
-          "armorThickness": 100.0
+          "armorThickness": 40.0
         },
         "superstructure_side_dm": {
           "armorThickness": 40.0
@@ -123,7 +123,7 @@
           "armorThickness": 15.0
         },
         "body_front_dm": {
-          "armorThickness": 75.0
+          "armorThickness": 80.0
         },
         "body_side_dm": {
           "armorThickness": 40.0
@@ -306,10 +306,15 @@
           "armorClass": "tank_traks",
           "armorThickness": 20.0,
           "hp": 200.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
           "ex_armor_r_01_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -981,6 +986,13 @@
           {
             "onKill": {
               "damageType": "explosion",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
               "expl": 0.5,
               "fire": 0.5
             }
@@ -2687,8 +2699,7 @@
                 {
                   "turret": {
                     "head": "bone_grenade",
-                    "gun": "bone_grenade",
-                    "gunnerDm": "gunner_dm"
+                    "gun": "bone_grenade"
                   }
                 },
                 {

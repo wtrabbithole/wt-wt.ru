@@ -108,13 +108,7 @@
     "cumulativeAirArmor": 100.0
   },
   {
-    "enableExplosiveTypes": true
-  },
-  {
     "explosionOffset": 0.01
-  },
-  {
-    "secondaryShatterOffset": 0.0
   },
   {
     "explosionOffsetByNormal": false
@@ -127,9 +121,6 @@
   },
   {
     "ammoExplosionProb": [1.0,0.2,0.3]
-  },
-  {
-    "useRealShatters": true
   },
   {
     "secondaryShatterWithoutPenetration": [20.0,5.0,0.0,0.0]
@@ -2346,6 +2337,16 @@
           "ricochetProbability90deg": [90.0,0.0]
         }
       },
+      "apds_fs_full_body_steel": {
+        "t1": {
+          "caliberToArmor": 1.0,
+          "ricochetProbability0deg": [0.0,1.0],
+          "ricochetProbability18deg": [15.0,1.0],
+          "ricochetProbability22deg": [17.0,0.5],
+          "ricochetProbability24deg": [18.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        }
+      },
       "apds_fs_long": {
         "t1": {
           "caliberToArmor": 1.0,
@@ -2838,6 +2839,45 @@
           "slopeEffect50deg": [50.0,1.305],
           "slopeEffect60deg": [60.0,1.024],
           "slopeEffect70deg": [70.0,1.0],
+          "slopeEffect90deg": [90.0,1.0]
+        }
+      },
+      "apds_fs_full_body_steel": {
+        "t1": {
+          "caliberToArmor": 1.0,
+          "slopeEffect0deg": [0.0,20.0],
+          "slopeEffect10deg": [10.0,5.7],
+          "slopeEffect20deg": [20.0,2.8],
+          "slopeEffect25deg": [25.0,2.5],
+          "slopeEffect30deg": [30.0,1.85],
+          "slopeEffect45deg": [45.0,1.3],
+          "slopeEffect50deg": [50.0,1.2],
+          "slopeEffect60deg": [60.0,1.1],
+          "slopeEffect70deg": [70.0,1.06],
+          "slopeEffect90deg": [90.0,1.0]
+        }
+      },
+      "apds_fs_tungsten_small_core_tank": {
+        "t1": {
+          "caliberToArmor": 1.0,
+          "slopeEffect0deg": [0.0,20.0],
+          "slopeEffect10deg": [10.0,5.5],
+          "slopeEffect20deg": [20.0,2.5],
+          "slopeEffect30deg": [30.0,1.9],
+          "slopeEffect50deg": [50.0,1.305],
+          "slopeEffect70deg": [70.0,1.064],
+          "slopeEffect90deg": [90.0,1.0]
+        }
+      },
+      "apds_fs_tungsten_l10_l15_tank": {
+        "t1": {
+          "caliberToArmor": 1.0,
+          "slopeEffect0deg": [0.0,20.0],
+          "slopeEffect10deg": [10.0,5.5],
+          "slopeEffect20deg": [20.0,2.5],
+          "slopeEffect30deg": [30.0,1.9],
+          "slopeEffect50deg": [50.0,1.305],
+          "slopeEffect70deg": [70.0,1.064],
           "slopeEffect90deg": [90.0,1.0]
         }
       },
@@ -3478,10 +3518,11 @@
         "normalizationPreset": "default",
         "ricochetPreset": "default",
         "slopeEffectPreset": "ap",
+        "secondaryShattersPreset": "ap",
         "stabilityThreshold": 0.05,
         "stabilityCaliberToArmorThreshold": 5.0,
         "stabilityReductionAfterRicochet": 0.5,
-        "stabilityReductionAfterPenetration": 0.3,
+        "stabilityReductionAfterPenetration": 0.15,
         "stabilityRicochetModifier": [
           {
             "mod1": [0.0,0.05]
@@ -4157,7 +4198,7 @@
         "stabilityThreshold": 0.0,
         "stabilityCaliberToArmorThreshold": 10.0,
         "stabilityReductionAfterRicochet": 0.15,
-        "stabilityReductionAfterPenetration": 0.3,
+        "stabilityReductionAfterPenetration": 0.2,
         "normalizationPreset": "apcr",
         "ricochetPreset": "apds",
         "slopeEffectPreset": "apds",
@@ -4191,6 +4232,93 @@
         "ricochetPreset": "apds_fs",
         "slopeEffectPreset": "apds_fs",
         "modelName": "tank_bullet_apdsfs",
+        "fresnel": [0.23,0.1,2.0],
+        "secondaryShattersPreset": "apds_fs",
+        "stabilityRicochetModifier": [
+          {
+            "mod1": [0.0,0.25]
+          },
+          {
+            "mod2": [20.0,0.3]
+          },
+          {
+            "mod3": [30.0,0.45]
+          },
+          {
+            "mod3": [45.0,0.5]
+          },
+          {
+            "mod4": [50.0,0.7]
+          }
+        ]
+      },
+      "apds_fs_full_body_steel_tank": {
+        "stabilityThreshold": 0.0,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.15,
+        "stabilityReductionAfterPenetration": 0.15,
+        "normalizationPreset": "apcr",
+        "ricochetPreset": "apds_fs_full_body_steel",
+        "slopeEffectPreset": "apds_fs_full_body_steel",
+        "modelName": "tank_bullet_apdsfs",
+        "fresnel": [0.23,0.1,2.0],
+        "secondaryShattersPreset": "apds_fs",
+        "stabilityRicochetModifier": [
+          {
+            "mod1": [0.0,0.25]
+          },
+          {
+            "mod2": [20.0,0.3]
+          },
+          {
+            "mod3": [30.0,0.45]
+          },
+          {
+            "mod3": [45.0,0.5]
+          },
+          {
+            "mod4": [50.0,0.7]
+          }
+        ]
+      },
+      "apds_fs_tungsten_small_core_tank": {
+        "stabilityThreshold": 0.0,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.15,
+        "stabilityReductionAfterPenetration": 0.15,
+        "normalizationPreset": "apcr",
+        "ricochetPreset": "apds_fs",
+        "slopeEffectPreset": "apds_fs",
+        "modelName": "tank_bullet_apdsfs",
+        "fresnel": [0.23,0.1,2.0],
+        "secondaryShattersPreset": "apds_fs",
+        "stabilityRicochetModifier": [
+          {
+            "mod1": [0.0,0.25]
+          },
+          {
+            "mod2": [20.0,0.3]
+          },
+          {
+            "mod3": [30.0,0.45]
+          },
+          {
+            "mod3": [45.0,0.5]
+          },
+          {
+            "mod4": [50.0,0.7]
+          }
+        ]
+      },
+      "apds_fs_tungsten_l10_l15_tank": {
+        "stabilityThreshold": 0.0,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.15,
+        "stabilityReductionAfterPenetration": 0.15,
+        "normalizationPreset": "apcr",
+        "ricochetPreset": "apds_fs",
+        "slopeEffectPreset": "apds_fs",
+        "modelName": "tank_bullet_apdsfs_long",
         "fresnel": [0.23,0.1,2.0],
         "secondaryShattersPreset": "apds_fs",
         "stabilityRicochetModifier": [
@@ -4327,13 +4455,29 @@
           "mod2": [20.0,1.0]
         }
       },
-      "heat_fs_tank": {
+      "heat_grenade_tank": {
         "normalizationPreset": "heat",
         "ricochetPreset": "heat_fs",
         "stabilityThreshold": 0.1,
         "stabilityCaliberToArmorThreshold": 100.0,
         "stabilityReductionAfterRicochet": 0.3,
         "stabilityReductionAfterPenetration": 0.01,
+        "cumulativeSecondaryShattersPreset": "heat_fs",
+        "explodeOnRendinst": true,
+        "modelName": "tank_bullet_grenade_heat_fs",
+        "fresnel": [0.23,0.1,2.0],
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.0],
+          "mod2": [20.0,1.0]
+        }
+      },
+      "heat_fs_tank": {
+        "normalizationPreset": "heat",
+        "ricochetPreset": "heat_fs",
+        "stabilityThreshold": 0.1,
+        "stabilityCaliberToArmorThreshold": 100.0,
+        "stabilityReductionAfterRicochet": 0.3,
+        "stabilityReductionAfterPenetration": 0.001,
         "cumulativeSecondaryShattersPreset": "heat_fs",
         "explodeOnRendinst": true,
         "modelName": "tank_bullet_heat_fs",
@@ -4365,6 +4509,24 @@
         "slopeEffectPreset": "ap",
         "secondaryShattersPreset": "ap",
         "modelName": "tank_bullet_he",
+        "fresnel": [0.23,0.1,2.0],
+        "stabilityThreshold": 0.4,
+        "stabilityCaliberToArmorThreshold": 10.0,
+        "stabilityReductionAfterRicochet": 0.45,
+        "stabilityReductionAfterPenetration": 1.0,
+        "explodeOnRendinst": true,
+        "stabilityRicochetModifier": {
+          "mod1": [0.0,0.5],
+          "mod2": [20.0,0.6],
+          "mod3": [30.0,1.0]
+        }
+      },
+      "he_grenade_tank": {
+        "normalizationPreset": "heat",
+        "ricochetPreset": "he",
+        "slopeEffectPreset": "ap",
+        "secondaryShattersPreset": "ap",
+        "modelName": "tank_bullet_grenade_heat_fs",
         "fresnel": [0.23,0.1,2.0],
         "stabilityThreshold": 0.4,
         "stabilityCaliberToArmorThreshold": 10.0,
@@ -4674,7 +4836,7 @@
   {
     "bulletDecals": {
       "ap": {
-        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_fs_tank, apds_fs_long_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank,ap_large_caliber_tank, tp_tank, shrapnel_tank, he_ball, ap_i_ball, ap_i_t_ball, ap_t_ball, ap_ball, apc_solid_medium_caliber_tank, apcbc_solid_medium_caliber_tank",
+        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_fs_tank, apds_fs_long_tank, apds_fs_full_body_steel_tank, apds_fs_tungsten_small_core_tank, apds_fs_tungsten_l10_l15_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank,ap_large_caliber_tank, tp_tank, shrapnel_tank, he_ball, ap_i_ball, ap_i_t_ball, ap_t_ball, ap_ball, apc_solid_medium_caliber_tank, apcbc_solid_medium_caliber_tank",
         "pierce": "pr_gen",
         "stop": "st_gen",
         "ricochet": "st_gen",
@@ -4708,7 +4870,7 @@
         "ricochet": "st_gen"
       },
       "heat": {
-        "bullets": "atgm_tank, heat_fs_tank, heat_tank",
+        "bullets": "atgm_tank, heat_fs_tank, heat_grenade_tank, heat_tank",
         "pierce": "pr_jet",
         "stop": "st_jet",
         "ricochet": "st_gen"

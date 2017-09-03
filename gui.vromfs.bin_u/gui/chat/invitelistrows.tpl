@@ -85,7 +85,6 @@ expandable {
         inviteUid:t='<<uid>>'
         class:t="double"
         showOnSelect:t='yes'
-        noMargin:t='yes'
         tooltip:t = '#invite/reject'
         btnName:t='Y'
         on_click:t = 'onReject'

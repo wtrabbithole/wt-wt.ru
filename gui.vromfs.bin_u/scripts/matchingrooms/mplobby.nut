@@ -85,7 +85,7 @@ function session_fill_info(scene, sessionInfo)
     envTexts.append(::loc("options/weather" + missionInfo.weather))
   if ("environment" in missionInfo)
     envTexts.append(::get_mission_time_text(missionInfo.environment))
-  setTextToObj(envObj, ::loc("sm_conditions") + ::loc("ui/colon"), ::implode(envTexts, ", "))
+  setTextToObj(envObj, ::loc("sm_conditions") + ::loc("ui/colon"), ::g_string.implode(envTexts, ", "))
 
   local difObj = scene.findObject("session_difficulty")
   local diff = ::getTblValue("difficulty", missionInfo)
@@ -340,7 +340,7 @@ function session_player_rmenu(handler, player, chatText = "", position = null)
     }
     {
       text = ::loc("mainmenu/btnKick")
-      show = !isMe && owner
+      show = !isMe && owner && !::SessionLobby.isEventRoom
       action = (@(player) function() { ::SessionLobby.kickPlayer(::SessionLobby.getMemberByName(player.name)) })(player)
     }
     {
@@ -384,6 +384,7 @@ function gui_start_mp_lobby_next_mission()
 class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/mpLobby/mpLobby.blk"
+  shouldBlurSceneBg = true
 
   tblData = null
   tblMarkupData = null
@@ -987,7 +988,7 @@ class ::gui_handlers.JoiningGame extends ::gui_handlers.BaseGuiHandlerWT
     if (!show)
       return
 
-    local data = format("dialog_button { id:t='%s'; btnName:t='AB'; text:t='#msgbox/btn_cancel'; on_click:t='onCancel' }", btnId)
+    local data = format("Button_text { id:t='%s'; btnName:t='AB'; text:t='#msgbox/btn_cancel'; on_click:t='onCancel' }", btnId)
     local holderObj = scene.findObject("buttons_holder")
     if (!holderObj)
       return

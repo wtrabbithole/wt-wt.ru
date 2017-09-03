@@ -53,6 +53,14 @@
         "genericDamageMult": 0.3,
         "hp": 15.6
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
       "fin_dm": {
         "hp": 30.5
       },
@@ -154,6 +162,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 39.6
       },
@@ -173,17 +184,6 @@
       },
       "tank2_dm": {
         "hp": 64.6
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 12.2
-      },
-      "elevator1_dm": {
-        "hp": 11.0
-      },
-      "gear_c_dm": {
-        "hp": 11.0
       }
     }
   },
@@ -1221,47 +1221,54 @@
         },
         {
           "onHit": {
-            "fire": 0.03,
+            "fire": 0.0001,
+            "leak": 0.3
+          }
+        },
+        {
+          "onHit": {
+            "damage": 3.0,
+            "fire": 0.001,
             "leak": 0.5
           }
         },
         {
           "onHit": {
-            "damage": 10.0,
-            "fire": 0.5,
+            "damage": 20.0,
+            "fire": 0.005,
             "leak": 0.7
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
-            "fire": 0.8,
+            "damage": 70.0,
+            "fire": 0.01,
             "leak": 0.9
           }
         },
         {
           "onKill": {
-            "fire": 3.0,
-            "leak": 12.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "expl": 0.5,
-            "fire": 5.0,
-            "leak": 10.0,
-            "nothing": 85.0
+            "fire": 0.01,
+            "leak": 9.99,
+            "nothing": 90.0
           }
         },
         {
           "onKill": {
             "damage": 50.0,
+            "expl": 0.25,
+            "fire": 1.0,
+            "leak": 19.0,
+            "nothing": 80.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 70.0,
             "expl": 1.0,
-            "fire": 20.0,
-            "leak": 50.0,
-            "nothing": 30.0
+            "fire": 5.0,
+            "leak": 25.0,
+            "nothing": 70.0
           }
         }
       ]
@@ -2254,5 +2261,26 @@
         "from": "mig_15bis_s23_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "_emtr_break_wing0_l_from": [0.132631,-0.00489228,1.03947],
+    "_emtr_break_wing0_l_to": [0.132631,-0.00489228,1.51539],
+    "emtr_break_wing1_l_from": [0.132631,-0.00489228,2.22926],
+    "emtr_break_wing1_l_to": [0.132631,-0.00489228,2.74431],
+    "emtr_break_wing2_l_from": [0.132631,-0.00489228,3.51689],
+    "emtr_break_wing2_l_to": [0.132631,-0.00489228,4.13968],
+    "_emtr_break_wing0_r_from": [0.13263,-0.00489093,-1.03947],
+    "_emtr_break_wing0_r_to": [0.13263,-0.00489093,-1.51539],
+    "emtr_break_wing1_r_from": [0.13263,-0.00489093,-2.22926],
+    "emtr_break_wing1_r_to": [0.13263,-0.00489093,-2.74431],
+    "emtr_break_wing2_r_from": [0.13263,-0.00489093,-3.51689],
+    "emtr_break_wing2_r_to": [0.13263,-0.00489093,-4.13968],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-4.00816,0.0,0.0]
+    ],
+    "partKindTail": 3
+  }
 }

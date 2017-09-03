@@ -226,6 +226,7 @@
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
+      "allowEmptyTeams": false,
       "country_axis": "germany",
       "country_allies": "usa",
       "tags": [],
@@ -282,6 +283,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -614,6 +618,54 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/bfd/bfd_manager.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/bfd/assaults_planesets/bfd_t1_usa.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/bfd/assaults_planesets/bfd_t2_germ.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -710,6 +762,7 @@
             "showOnMap": true,
             "removeAreas": false,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -735,6 +788,7 @@
             "showOnMap": true,
             "removeAreas": false,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -772,6 +826,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_back_squad"
             },
@@ -1008,6 +1065,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_tanks_squad"
             },
             {
@@ -1042,6 +1102,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_def_aaa_squad"
             },
             {
@@ -1066,6 +1129,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_aaa_squad"
             },
@@ -1101,6 +1167,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -1108,6 +1175,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -1609,7 +1677,6 @@
       "actions": [
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1618,6 +1685,7 @@
             "radiusOffset": [10.0,15.0],
             "target": "zone_01_t2_squad",
             "randomTargetsCount": 1,
+            "partName": "body_dm",
             "doExplosion": true,
             "target_type": "isActive"
           }
@@ -1629,7 +1697,6 @@
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1638,6 +1705,7 @@
             "radiusOffset": [10.0,15.0],
             "target": "zone_01_t1_squad",
             "randomTargetsCount": 1,
+            "partName": "body_dm",
             "doExplosion": true,
             "target_type": "isActive"
           }
@@ -1691,7 +1759,6 @@
       "actions": [
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1700,6 +1767,7 @@
             "radiusOffset": [10.0,15.0],
             "target": "zone_02_t1_squad",
             "randomTargetsCount": 1,
+            "partName": "body_dm",
             "doExplosion": true,
             "target_type": "isActive"
           }
@@ -1711,7 +1779,6 @@
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1720,6 +1787,7 @@
             "radiusOffset": [10.0,15.0],
             "target": "zone_02_t2_squad",
             "randomTargetsCount": 1,
+            "partName": "body_dm",
             "doExplosion": true,
             "target_type": "isActive"
           }
@@ -1773,7 +1841,6 @@
       "actions": [
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1782,6 +1849,7 @@
             "radiusOffset": [10.0,15.0],
             "target": "zone_03_t2_squad",
             "randomTargetsCount": 1,
+            "partName": "body_dm",
             "doExplosion": true,
             "target_type": "isActive"
           }
@@ -1793,7 +1861,6 @@
         },
         {
           "unitDamage": {
-            "partName": "body_dm",
             "power": 1.0,
             "useEffect": false,
             "countEffects": 1,
@@ -1802,6 +1869,7 @@
             "radiusOffset": [10.0,15.0],
             "target": "zone_03_t1_squad",
             "randomTargetsCount": 1,
+            "partName": "body_dm",
             "doExplosion": true,
             "target_type": "isActive"
           }
@@ -5451,7 +5519,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [6931.3,24.7,6223.7]
+          [7854.83,24.6992,6100.52]
         ],
         "props": [
           {
@@ -13976,6 +14044,129 @@
           }
         ]
       }
+    },
+    {
+      "squad": {
+        "name": "t1_quest_group_01_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [7255.0,28.9004,-793.709]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_01_01"
+          },
+          {
+            "squad_members": "t1_tanks_01_02"
+          },
+          {
+            "squad_members": "t1_tanks_01_03"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_quest_group_02_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-5858.41,28.9004,1203.61]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_02_01"
+          },
+          {
+            "squad_members": "t1_tanks_02_02"
+          },
+          {
+            "squad_members": "t1_tanks_02_03"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_quest_group_03_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-3458.92,28.9004,431.885]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_tanks_03_01"
+          },
+          {
+            "squad_members": "t1_tanks_03_02"
+          },
+          {
+            "squad_members": "t1_tanks_03_03"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_quest_group_01_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8439.0,23.3496,2750.7]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_zone1_bunkers_01_squad"
+          },
+          {
+            "squad_members": "t2_zone1_bunkers_02_squad"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_quest_group_02_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [7854.83,24.6992,6100.52]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_zone3_bunkers_01_squad"
+          },
+          {
+            "squad_members": "t2_zone3_bunkers_02_squad"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_quest_group_03_squad",
+        "tm": [
+          [0.173648,0.0,0.984808],
+          [0.0,1.0,0.0],
+          [-0.984808,0.0,0.173648],
+          [9051.85,171.801,11797.3]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_tanks_01_squad"
+          },
+          {
+            "squad_members": "t2_tanks_02_squad"
+          }
+        ]
+      }
     }
   ],
   "areas": {
@@ -14811,7 +15002,7 @@
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
-        [2128.45,350.0,35000.0]
+        [2128.45,1500.0,35000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -14888,6 +15079,72 @@
         [0.0,237.2,0.0],
         [0.0,0.0,237.2],
         [17586.5,48.4,25185.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "bfd_assaults_t1_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [-0.320672,0.0,0.94719],
+        [0.0,1.0,0.0],
+        [-0.94719,0.0,-0.320672],
+        [10000.0,1500.0,-28000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "bfd_assaults_t1_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [0.326448,0.0,0.945215],
+        [0.0,1.0,0.0],
+        [-0.945215,0.0,0.326448],
+        [0.0,1500.0,-28000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "bfd_assaults_t1_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.394418,0.0,0.918931],
+        [0.0,1.0,0.0],
+        [-0.918931,0.0,0.394418],
+        [-10000.0,1500.0,-28000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "bfd_assaults_t2_spawn_01": {
+      "type": "Point",
+      "tm": [
+        [0.240551,0.0,-0.970636],
+        [0.0,1.0,0.0],
+        [0.970636,0.0,0.240551],
+        [20000.0,1500.0,28000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "bfd_assaults_t2_spawn_02": {
+      "type": "Point",
+      "tm": [
+        [-0.0342158,0.0,-0.999414],
+        [0.0,1.0,0.0],
+        [0.999414,0.0,-0.0342158],
+        [10000.0,1500.0,28000.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "bfd_assaults_t2_spawn_03": {
+      "type": "Point",
+      "tm": [
+        [0.16983,0.0,-0.985473],
+        [0.0,1.0,0.0],
+        [0.985473,0.0,0.16983],
+        [0.0,350.0,28000.0]
       ],
       "objLayer": 0,
       "props": []

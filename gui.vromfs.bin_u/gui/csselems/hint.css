@@ -49,3 +49,45 @@ hintRow > combination > textareaNoTab {
 hintRow > timeBar textareaNoTab {
   font: @hud_normal;
 }
+
+
+
+hint[animation=show],
+hint[animation=hide] {
+  transp-base:0;
+  transp-end:255;
+  transp-func:square;
+  _needAnim:yes;
+}
+
+hint[animation=show] {
+  transp-time:300;
+  blend-time:0;
+}
+
+hint[animation=hide] {
+  transp-time:-600;
+  blend-time:200;
+}
+
+hint[animation=wink] {
+  transp-base:170;
+  transp-end:255;
+  transp-time:1500;
+  transp-func:sin;
+  transp-cycled:yes;
+  _needAnim:yes;
+}
+
+hint[_transp-timer=0][animation=hide] {
+  _needAnim:no;
+  display:hide;
+}
+
+hint[_transp-timer=1][animation=show] {
+  _needAnim:no;
+}
+
+hint[_needAnim=yes] {
+  behaviour:massTransparency;
+}

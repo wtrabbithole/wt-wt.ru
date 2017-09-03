@@ -44,8 +44,7 @@
             "Button_close": {
               "id": "btn_close_tutorial",
               "on_click": "onClose",
-              "userInputType": "mouse",
-              "img": []
+              "userInputType": "mouse"
             }
           },
           {
@@ -105,14 +104,17 @@
               "on_click": "onStart",
               "btnName": "A",
               "style": "size:1@bigButtonWidth, 1@battleButtonHeight;",
+              "pattern": {
+                "type": "bright_texture"
+              },
               "buttonWink": {
                 "_transp-timer": "0"
               },
+              "buttonGlance": [],
               "ButtonImg": [],
               "btnText": {
                 "text": "#multiplayer/btnStart"
-              },
-              "buttonGlance": []
+              }
             }
           }
         }

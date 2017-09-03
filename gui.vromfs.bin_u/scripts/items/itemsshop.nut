@@ -63,6 +63,22 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       key = "orders"
       typeMask = itemType.ORDER
     } {
+      key = "vehicles"
+      typeMask = itemType.VEHICLE
+      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
+    } {
+      key = "skins"
+      typeMask = itemType.SKIN
+      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
+    } {
+      key = "decals"
+      typeMask = itemType.DECAL
+      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
+    } {
+      key = "chests"
+      typeMask = itemType.CHEST
+      tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []
+    } {
       key = "devItems"
       typeMask = itemType.ALL
       devItemsTab = true
@@ -154,6 +170,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     foreach (type in types)
     {
+      type.id <- "shop_filter_" + type.key
       if (!("text" in type))
         type.text <- "#itemTypes/" + type.key
       if (!("emptyTabLocId" in type))
@@ -250,10 +267,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local view = {
-      itemTypesList = _types
+      items = _types
     }
-    for (local i = view.itemTypesList.len() - 1; i >= 0; --i)
-      view.itemTypesList[i].newIconWidget <- NewIconWidget.createLayout()
+    for (local i = view.items.len() - 1; i >= 0; --i)
+      view.items[i].newIconWidget <- NewIconWidget.createLayout()
 
     local data = ::handyman.renderCached(("gui/items/shopFilters"), view)
     guiScene.replaceContentFromText(scene.findObject("filter_block"), data, data.len(), this)
@@ -261,7 +278,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local typesObj = getItemTypeFilterObj()
     if (::checkObj(typesObj))
     {
-      for (local i = view.itemTypesList.len() - 1; i >= 0; --i)
+      for (local i = view.items.len() - 1; i >= 0; --i)
       {
         local filterObj = typesObj.getChild(i)
         local newIconWidgetObj = filterObj.findObject("filter_new_icon_widget")

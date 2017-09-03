@@ -71,9 +71,7 @@ Button_text {
 
   buttonGlance {}
 
-  pattern{
-    type:t='bright_texture';
-  }
+  pattern { type:t='bright_texture' }
 
   btnText {
     id:t='to_battle_button_text';

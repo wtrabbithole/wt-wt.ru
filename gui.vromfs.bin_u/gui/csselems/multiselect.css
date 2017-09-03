@@ -1,4 +1,11 @@
-@const countryOptionWidth: 4.5@baseTrHeight;
+@const multiCountryBgColor:          #353a3e;
+@const multiCountryChosenBgColor:    #e0e0e0;
+@const multiCountryTextColor:        @commonTextColor;
+@const multiCountryChosenTextColor:  @black;
+
+@const countryOptionWidth:  138@sf/@pf;
+@const countryOptionLineHeight: 28@sf/@pf;
+@const countryOptionHeight: 100@sf/@pf + 1@dp;
 
 MultiSelect {
   behaviour:MultiSelect;
@@ -13,21 +20,19 @@ MultiSelect[flow=horizontal] > multiOption {
   padding:1*@sf/@pf_outdated;
   padding-left:20%h;
   margin-right:0.5*@scrn_tgt/100.0;
-  background-image:#ui/gameuiskin#window_block_bright;
-  background-color:@white;
-  background-position:4;
-  background-repeat:expand;
+  background-color:@frameBackgroundColor;
+  border-color:@frameBorderColor;
+  border:yes;
 }
 
 multiOption {
+  min-width: pw;
   re-type:9rect;
   css-hier-invalidate:yes;
-  padding-right: @checkboxSize;
   input-transparent:yes;
   color:@commonTextColor;
   font:@small;
   text-align:left;
-  min-width: pw;
 }
 
 multiOption[filter_multi_option=yes] {
@@ -35,13 +40,14 @@ multiOption[filter_multi_option=yes] {
 }
 
 multiOption > CheckBoxImg {
-  pos: 0, 50%ph-50%h;
-  position: relative;
+  left:0;
+  position:relative;
+  margin-right:@blockInterval + 0.33h;
 }
 
 multiOption[filter_multi_option=yes] > CheckBoxImg {
-  pos: pw - w, 0;
-  position: absolute;
+  margin-left:@blockInterval;
+  margin-right:0.33h;
 }
 
 multiOptionText {
@@ -61,89 +67,68 @@ multiOption[chosen=yes] > multiOptionText {
   color:@activeTextColor;
 }
 
-multiOption:hover > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_unchecked_hover;
-}
 
-multiOption[chosen=yes] > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_checked_;
+MultiSelect.countries {
+  height:@countryOptionHeight;
 }
-
-multiOption:pushed > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_unchecked_active;
-}
-
-multiOption:disabled > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_unchecked_disabled;
-}
-
-multiOption[chosen=yes]:disabled > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_checked_disabled;
-}
-
-multiOption[chosen=yes]:hover > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_checked_hover;
-}
-
-multiOption[chosen=yes]:pushed > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_checked_active;
-}
-
 
 .countries > multiOption {
+  height:@countryOptionHeight;
   width:@countryOptionWidth;
+  min-width:0;
+  margin:@blockInterval, 0;
+  background-color:@multiCountryBgColor;
+  background-position:0, h - 1@countryOptionLineHeight, 0, 0;
+  border:no;
   flow:vertical;
   text-align:center;
-  padding-right: 0;
-}
-
-.countries multiOptionImg {
-  height:4*@scrn_tgt/100.0;
-  width:1.923h;
-  position:relative;
-  pos:0.5pw-50%w, ph-0.03@sf-h;
-  background-color:@imageNotSelCountryColor;
-  border:yes;
-  border-color:@black;
-}
-
-.countries :hover multiOptionImg {
-  background-color:@imageHoverCountryColor;
-}
-
-.countries > multiOption[chosen=yes] > multiOptionImg {
-  height:5*@scrn_tgt/100.0;
-  background-color:@white;
 }
 
 .countries > multiOption[chosen=yes] {
-  re-type:9rect;
-  background-position:6,6;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#selectbox_select;
+  background-color:@multiCountryChosenBgColor;
+}
+
+.countries multiOptionImg {
+  height:0.52pw;
+  width:pw;
+  position:relative;
+  background-color:@imageNotSelCountryColor;
+}
+
+.countries > multiOption[chosen=yes] > multiOptionImg {
   background-color:@white;
 }
 
+.countries > :hover > multiOptionImg {
+  background-color:@imageHoverCountryColor;
+}
+
 .countries multiOptionText {
-  text-align:center;
-  position:relative;
-  pos:50%pw-50%w, 0;
+  position:absolute;
+  pos:@blockInterval, ph - 0.5@countryOptionLineHeight - 0.5h;
+  text-align:left;
+  color:@multiCountryTextColor;
+}
+
+.countries > multiOption[chosen=yes] > multiOptionText {
+  color:@multiCountryChosenTextColor;
 }
 
 .countries multiOption > CheckBoxImg {
   position: absolute;
-  pos: pw-w, 0;
+  top:ph - 0.5@countryOptionLineHeight - 0.5h;
+  left:pw-w-1@blockInterval;
+  margin-right:0;
 }
 
 
 
 multiOption[cluster_option=yes] {
   padding-left:@checkboxSize + 6*@sf/@pf_outdated;
-  padding-right:0;
   padding-top:4*@sf/@pf_outdated;
 }
 
 multiOption[cluster_option=yes] > CheckBoxImg {
   position:absolute;
-  pos:0, ph - h;
+  left:0;
 }

@@ -22,6 +22,9 @@
       <<#iconColor>>
         style:t='background-color:<<iconColor>>'
       <</iconColor>>
+      <<#isLastPlayedIcon>>
+        isLastPlayedIcon:t='yes'
+      <</isLastPlayedIcon>>
     }
 
     <<#hasWaitAnim>>

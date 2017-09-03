@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::shown_userlog_notifications <- []
 
 ::g_script_reloader.registerPersistentData("UserlogDataGlobals", ::getroottable(), ["shown_userlog_notifications"])
@@ -321,6 +324,8 @@ function checkNewNotificationUserlogs(onStartAwards = false)
                             )
           local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
           msg = awardType.getUserlogBuyText(awardBlk, priceText)
+          if (awardType.id == ::EWBAT_BATTLE_TASK && awardType.canBuy(awardBlk))
+            ::broadcastEvent("BattleTasksIncomeUpdate")
         }
       }
       else
@@ -336,16 +341,25 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     local markDisabled = false
     if (blk.type == ::EULT_NEW_UNLOCK)
     {
+      if (!blk.body || !blk.body.unlockId)
+        continue
+
       if (blk.body.unlockType == ::UNLOCKABLE_TITLE && !onStartAwards)
         ::my_stats.markStatsReset()
 
-      if (!blk.body || !blk.body.unlockId
-          || (! ::is_unlock_need_popup(blk.body.unlockId)
-              && ! ::is_unlock_need_popup_in_menu(blk.body.unlockId))
-          || ::isHandlerInScene(::gui_handlers.DebriefingModal))
+      if (blk.body.unlockType == ::UNLOCKABLE_CHALLENGE)
+      {
+        local unlock = ::g_unlocks.getUnlockById(blk.body.unlockId)
+        if (unlock.showAsBattleTask)
+          ::broadcastEvent("PersonalUnlocksRequestUpdate")
+      }
+
+      if ((! ::is_unlock_need_popup(blk.body.unlockId)
+          && ! ::is_unlock_need_popup_in_menu(blk.body.unlockId))
+        || ::isHandlerInScene(::gui_handlers.DebriefingModal))
         continue
 
-      if(::is_unlock_need_popup_in_menu(blk.body.unlockId))
+      if (::is_unlock_need_popup_in_menu(blk.body.unlockId))
       {
         // if new unlock passes 'is_unlock_need_popup_in_menu'
         // we need to check if there is Popup Dialog
@@ -385,8 +399,8 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       {
         config.desc += "\n"
 
-        local rentTimeHours = ::getTblValue("rentTimeLeftSec", blk.body, 0) / TIME_HOUR_IN_SECONDS_F
-        local timeText = ::colorize("userlogColoredText", ::hoursToString(rentTimeHours))
+        local rentTimeHours = time.secondsToHours(::getTblValue("rentTimeLeftSec", blk.body, 0))
+        local timeText = ::colorize("userlogColoredText", time.hoursToString(rentTimeHours))
         config.desc += ::loc("mainmenu/rent/rentTimeSec", {time = timeText})
 
         config.desc = ::colorize("activeTextColor", config.desc)

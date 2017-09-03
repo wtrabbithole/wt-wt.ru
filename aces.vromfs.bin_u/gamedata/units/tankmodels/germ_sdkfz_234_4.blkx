@@ -535,6 +535,9 @@
           "part": "commander_dm"
         },
         {
+          "part": "loader_dm"
+        },
+        {
           "effects": {
             "killUnit": {
               "nothing": 1.0
@@ -1197,11 +1200,6 @@
     }
   },
   {
-    "optics": {
-      "driverReticule": "car_driver_optics"
-    }
-  },
-  {
     "dmgAngles": {
       "hatch_10": [45.0,90.0]
     }
@@ -1389,6 +1387,82 @@
       },
       {
         "dmName": "commander_dm"
+      },
+      {
+        "deadHeadAttitudeMin": 40.0
+      },
+      {
+        "deadHeadAttitudeMax": 55.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "german_gunner_early_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
+        "suffix": "4"
+      },
+      {
+        "dmName": "loader_dm"
       },
       {
         "deadHeadAttitudeMin": 40.0
@@ -1878,6 +1952,20 @@
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
         "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1935,15 +2023,29 @@
           "role": "tank_gunner"
         },
         {
-          "role": "loader"
+          "substitute": "commander"
+        },
+        {
+          "substitute": "loader"
+        }
+      ],
+      "driver": [
+        {
+          "dmPart": "driver_dm"
+        },
+        {
+          "role": "driver"
         },
         {
           "substitute": "commander"
+        },
+        {
+          "substitute": "loader"
         }
       ],
-      "driver": {
-        "dmPart": "driver_dm",
-        "role": "driver",
+      "loader": {
+        "dmPart": "loader_dm",
+        "role": "loader",
         "substitute": "commander"
       },
       "commander": {
@@ -1983,17 +2085,34 @@
           "errTargettingOn100kmph": 0.0,
           "errTargetting": 3.0,
           "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_turret",
-            "gun": "bone_gun",
-            "barrel": "bone_gun_barrel",
-            "gunnerDm": "gunner_dm",
-            "linkedAnimPart": {
-              "verNode": "bone_gun_mask",
-              "verLimits": [0.0,0.6],
-              "verOriginLimits": [-7.0,22.0]
+          "turret": [
+            {
+              "head": "bone_turret"
+            },
+            {
+              "gun": "bone_gun"
+            },
+            {
+              "barrel": "bone_gun_barrel"
+            },
+            {
+              "gunnerDm": "gunner_dm"
+            },
+            {
+              "linkedAnimPart": {
+                "verNode": "bone_gun_mask",
+                "verLimits": [0.0,0.6],
+                "verOriginLimits": [-7.0,22.0]
+              }
+            },
+            {
+              "linkedAnimPart": {
+                "horNode": "bone_turret_rotate",
+                "horLimits": [-10.0,10.0],
+                "horOriginLimits": [-20.0,20.0]
+              }
             }
-          },
+          ],
           "limits": {
             "yaw": [-20.0,20.0],
             "pitch": [-5.0,22.0]

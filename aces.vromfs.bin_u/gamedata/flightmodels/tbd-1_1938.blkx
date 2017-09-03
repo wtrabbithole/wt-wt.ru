@@ -59,6 +59,9 @@
   {
     "DamageParts": {
       "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        },
         "mgun1_dm": {
           "hp": 15.0
         }
@@ -125,6 +128,14 @@
           "genericDamageMult": 0.3,
           "hp": 45.5
         },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 45.5
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 45.5
+        },
         "fin_dm": {
           "hp": 24.5
         },
@@ -150,6 +161,26 @@
           "hp": 19.5
         }
       },
+      "dural60": {
+        "spar1_l_dm": {
+          "hp": 80.5
+        },
+        "spar1_r_dm": {
+          "hp": 80.5
+        },
+        "spar2_l_dm": {
+          "hp": 47.1
+        },
+        "spar2_r_dm": {
+          "hp": 47.2
+        },
+        "spar_l_dm": {
+          "hp": 80.5
+        },
+        "spar_r_dm": {
+          "hp": 80.5
+        }
+      },
       "protected_controls": {
         "tailcontrol_dm": {
           "hp": 60.5
@@ -162,6 +193,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 50.6
         },
@@ -181,6 +215,13 @@
         "gunner1_dm": {
           "hp": 20.0
         },
+        "gunner2_dm": {
+          "hp": 20.0
+        },
+        "pilot1_dm": {
+          "fireProtectionHp": 20.0,
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -192,46 +233,6 @@
         },
         "tank2_dm": {
           "hp": 80.2
-        }
-      },
-      "wood": {
-        "elevator0_dm": {
-          "hp": 41.5
-        },
-        "elevator1_dm": {
-          "hp": 41.5
-        },
-        "gear_c_dm": {
-          "hp": 3.8
-        },
-        "gun1_dm": {
-          "hp": 2.9
-        },
-        "gunner2_dm": {
-          "hp": 19.8
-        },
-        "pilot1_dm": {
-          "hp": 20.8
-        }
-      },
-      "wood120": {
-        "spar1_l_dm": {
-          "hp": 80.5
-        },
-        "spar1_r_dm": {
-          "hp": 80.5
-        },
-        "spar2_l_dm": {
-          "hp": 47.1
-        },
-        "spar2_r_dm": {
-          "hp": 47.2
-        },
-        "spar_l_dm": {
-          "hp": 80.5
-        },
-        "spar_r_dm": {
-          "hp": 80.5
         }
       }
     }
@@ -2329,7 +2330,7 @@
       },
       {
         "Weapon": {
-          "trigger": "gunner1",
+          "trigger": "gunner0",
           "blk": "gameData/Weapons/gunBrowning30_turret.blk",
           "emitter": "gun1",
           "flash": "flare2",
@@ -2343,10 +2344,20 @@
           "limits": {
             "yaw": [-40.0,40.0],
             "pitch": [0.0,45.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-1.0,1.0],
+            "pitch": [0.0,20.0]
           }
         }
       }
     ]
+  },
+  {
+    "gunnerFps": {
+      "pos": [-0.3,0.2,0.0],
+      "head": "turret1"
+    }
   },
   {
     "modifications": {
@@ -2416,5 +2427,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.76386,-0.59627,1.13934],
+      "_emtr_break_wing0_l_to": [-1.76386,-0.59627,2.15453],
+      "emtr_break_wing1_l_from": [-1.76386,-0.59627,3.67732],
+      "emtr_break_wing1_l_to": [-1.76386,-0.59627,4.46331],
+      "emtr_break_wing2_l_from": [-1.76386,-0.59627,5.64229],
+      "emtr_break_wing2_l_to": [-1.76386,-0.59627,6.43035],
+      "_emtr_break_wing0_r_from": [-1.76386,-0.662515,-1.13934],
+      "_emtr_break_wing0_r_to": [-1.76386,-0.662515,-2.15453],
+      "emtr_break_wing1_r_from": [-1.76386,-0.662515,-3.67732],
+      "emtr_break_wing1_r_to": [-1.76386,-0.662515,-4.46331],
+      "emtr_break_wing2_r_from": [-1.76386,-0.662515,-5.64229],
+      "emtr_break_wing2_r_to": [-1.76386,-0.662515,-6.43035],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.88565,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

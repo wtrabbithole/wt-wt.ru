@@ -253,7 +253,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
       else
         obj.setValue(value)
     }
-    rowObj.tooltip = ::tooltipColorTheme(rowData.tooltip)
+    rowObj.tooltip = rowData.tooltip
     if (log.enabled)
       rowObj.status="owned"
     if (rowData.logImg)

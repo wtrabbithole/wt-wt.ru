@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 ::g_hud_hints_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["activeHints"]
 
@@ -6,8 +7,11 @@
   guiScene = null
 
   activeHints = []
+  animatedRemovedHints = [] //hints set to remove animation. to be able instant finish them
 
   timerNest = null
+
+  hintIdx = 0 //used only for unique hint id
 
   function init(_nest)
   {
@@ -35,6 +39,7 @@
   {
     if (!::is_in_flight())
       activeHints.clear()
+    animatedRemovedHints.clear()
   }
 
 
@@ -68,6 +73,9 @@
     {
       if (!::u.isNull(hint.showEvent))
         ::g_hud_event_manager.subscribe(hint.showEvent, (@(hint) function (eventData) {
+          if (!hint.isCurrent(eventData, false))
+            return
+
           local hintData = findActiveHintFromSameGroup(hint)
 
           if (hintData)
@@ -75,12 +83,12 @@
               return
             else if (hint == hintData.hint)
             {
-              hideHint(hintData)
+              hideHint(hintData, true)
               updateHintInList(hintData, eventData)
             }
             else
             {
-              removeHint(hintData)
+              removeHint(hintData, true)
               hintData = null
             }
 
@@ -93,15 +101,21 @@
 
       if (!::u.isNull(hint.hideEvent))
         ::g_hud_event_manager.subscribe(hint.hideEvent, (@(hint) function (eventData) {
+          if (!hint.isCurrent(eventData, true))
+            return
+
           local hintData = findActiveHintFromSameGroup(hint)
           if (!hintData)
             return
-          removeHint(hintData)
+          removeHint(hintData, hintData.hint.isInstantHide(eventData))
         })(hint), this)
 
       if (hint.updateCbs)
         foreach(eventName, func in hint.updateCbs)
           ::g_hud_event_manager.subscribe(eventName, (@(hint, func) function (eventData) {
+            if (!hint.isCurrent(eventData, false))
+              return
+
             local hintData = findActiveHintFromSameGroup(hint)
             local needUpdate = func.call(hint, hintData, eventData)
             if (hintData && needUpdate)
@@ -128,20 +142,32 @@
     })
 
     local addedHint = ::u.last(activeHints)
-    addRemoveTimer(addedHint)
+    updateRemoveTimer(addedHint)
     return addedHint
   }
 
-  function addRemoveTimer(hintData)
+  function updateRemoveTimer(hintData)
   {
     if (!::checkObj(timerNest))
       return
-    if (!hintData.hint.selfRemove || hintData.removeTimer != null)
+    if (!hintData.hint.selfRemove)
       return
 
     local lifeTime = hintData.hint.getLifeTime(hintData.eventData)
+    if (hintData.removeTimer)
+    {
+      if (lifeTime <= 0)
+        hintData.removeTimer.destroy()
+      else
+        hintData.removeTimer.setDelay(lifeTime)
+      return
+    }
+
+    if (lifeTime <= 0)
+      return
+
     hintData.removeTimer = ::Timer(timerNest, lifeTime, (@(hintData) function () {
-      hideHint(hintData)
+      hideHint(hintData, false)
       removeFromList(hintData)
     })(hintData), this)
   }
@@ -155,7 +181,7 @@
   function removeFromList(hintData)
   {
     local idx = ::u.searchIndex(activeHints, (@(hintData) function (item) { return item == hintData })(hintData) )
-    if (idx != null)
+    if (idx >= 0)
       activeHints.remove(idx)
   }
 
@@ -168,8 +194,10 @@
     if (!::checkObj(hintNestObj))
       return
 
-    local id = hintData.hint.name
-    local markup = hintData.hint.buildMarkup(hintData.eventData)
+    checkRemovedHints(hintData.hint) //remove hints with not finished animation if needed
+
+    local id = hintData.hint.name + (++hintIdx)
+    local markup = hintData.hint.buildMarkup(hintData.eventData, id)
     guiScene.appendWithBlk(hintNestObj, markup, markup.len(), null)
     hintData.hintObj = hintNestObj.findObject(id)
     setCoutdownTimer(hintData)
@@ -190,7 +218,7 @@
         return false
 
       local lifeTime = hintData.hint.getLifeTime(hintData.eventData)
-      local offset = ::milliseconds_to_seconds(::dagor.getCurTime() - hintData.addTime)
+      local offset = time.millisecondsToSeconds(::dagor.getCurTime() - hintData.addTime)
       local timeLeft = (lifeTime - offset + 0.5).tointeger()
 
       if (timeLeft < 0)
@@ -201,26 +229,43 @@
     })(hintData))
   }
 
-  function hideHint(hintData)
+  function hideHint(hintData, isInstant)
   {
     local hintObject = hintData.hintObj
-    if (!::checkObj(hintObject))
+    if (!::check_obj(hintObject))
       return
 
-    guiScene.destroyElement(hintObject)
+    local needFinalizeRemove = hintData.hint.hideHint(hintObject, isInstant)
+    if (needFinalizeRemove)
+      animatedRemovedHints.append(clone hintData)
   }
 
-  function removeHint(hintData)
+  function removeHint(hintData, isInstant)
   {
-    hideHint(hintData)
+    hideHint(hintData, isInstant)
     if (hintData.hint.selfRemove && hintData.removeTimer)
       hintData.removeTimer.destroy()
     removeFromList(hintData)
   }
 
+  function checkRemovedHints(hint)
+  {
+    for(local i = animatedRemovedHints.len() - 1; i >= 0; i--)
+    {
+      local hintData = animatedRemovedHints[i]
+      if (::check_obj(hintData.hintObj))
+      {
+        if (!hint.hintType.isSameReplaceGroup(hintData.hint, hint))
+          continue
+        hintData.hint.hideHint(hintData.hintObj, true)
+      }
+      animatedRemovedHints.remove(i)
+    }
+  }
+
   function updateHint(hintData)
   {
-    addRemoveTimer(hintData)
+    updateRemoveTimer(hintData)
 
     local hintObj = hintData.hintObj
     if (!::checkObj(hintObj))

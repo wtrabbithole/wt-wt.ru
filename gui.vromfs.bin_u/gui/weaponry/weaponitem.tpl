@@ -19,6 +19,7 @@ weaponry_item {
     id:t='actionBtn'
     holderId:t='<<id>>'
     class:t='additional'
+    visualStyle:t='common'
     text:t='#weaponry/research';
     vertPos:t='up'
     on_click:t='onModActionBtn'
@@ -276,7 +277,7 @@ weaponry_item {
     visualStyle:t='purchase'
     buttonWink {}
     buttonGlance{}
-    textarea{
+    textarea {
       id:t='item_buy_text'
       text:t='';
       class:t='buttonText';

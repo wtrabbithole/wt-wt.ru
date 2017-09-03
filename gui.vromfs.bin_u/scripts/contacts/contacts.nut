@@ -435,12 +435,10 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   searchGroupActiveTextInclude = @"
     id:t='search_group_active_text';
-    closeBtn {
+    Button_close {
       id:t='close_search_group';
-      /*pos:t='pw-w, 0.5ph-0.5h';*/
-      pos:t='pw-w, 0';
       on_click:t='onCloseSearchGroupClicked';
-      img {}
+      smallIcon:t='yes'
     }"
 
   groupFormat = @"group {
@@ -1449,24 +1447,7 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     if (!obj) return
 
     local value = obj.getValue()
-    local show = false
-    if (value in ::contacts[curGroup])
-    {
-      local player = ::contacts[curGroup][value]
-      curPlayer = player
-      show = player.presence != ::g_contact_presence.OFFLINE
-    }
-    else
-      curPlayer = null
-
-    updatePlayerButtons(show)
-  }
-
-  function updatePlayerButtons(show)
-  {
-    local squadBtn = scene.findObject("btn_squadInvite_bottom")
-    if (::checkObj(squadBtn))
-      squadBtn.inactiveColor = show? "no" : "yes"
+    curPlayer = ::getTblValue(value, ::contacts[curGroup])
   }
 
   function onGroupSelect(obj)

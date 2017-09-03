@@ -6,7 +6,7 @@ button
 <</hasSimpleNavButtons>>
 {
   id:t='pag_next_page';
-  class:t='image20';
+  class:t='image';
   nav:t='right';
   on_click:t='goToPage';
   to_page:t='0'
@@ -28,7 +28,7 @@ button
 <</hasSimpleNavButtons>>
 {
   id:t='pag_prew_page';
-  class:t='image20';
+  class:t='image';
   nav:t='left';
   on_click:t='goToPage';
   to_page:t='0'

@@ -27,7 +27,7 @@ frame {
       <<@headerTabs>>
     }
 
-    Button_close { img {} }
+    Button_close {}
   }
 
   tdiv {

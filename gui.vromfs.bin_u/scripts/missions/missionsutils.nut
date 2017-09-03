@@ -1,3 +1,5 @@
+const COOP_MAX_PLAYERS = 4
+
 ::enable_coop_in_QMB <- false
 ::enable_coop_in_DynCampaign <- false
 ::enable_coop_in_SingleMissions <- false
@@ -54,6 +56,14 @@ function can_play_gamemode_by_squad(gm)
     return ::enable_custom_battles
 
   return false
+}
+
+//return 0 when no limits
+function get_max_players_for_gamemode(gm)
+{
+  if (::isInArray(gm, [::GM_SINGLE_MISSION, ::GM_DYNAMIC, ::GM_BUILDER]))
+    return COOP_MAX_PLAYERS
+  return 0
 }
 
 function is_skirmish_with_killstreaks(misBlk)

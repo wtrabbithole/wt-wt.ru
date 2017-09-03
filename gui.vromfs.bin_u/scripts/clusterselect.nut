@@ -1,6 +1,7 @@
 class ::gui_handlers.ClusterSelect extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
+  shouldBlurSceneBg = false
   parentObj = null
   align = null
 

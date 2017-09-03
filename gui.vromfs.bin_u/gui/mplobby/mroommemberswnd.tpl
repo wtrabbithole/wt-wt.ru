@@ -41,9 +41,7 @@ root {
         }
       }
 
-      Button_close {
-        img {}
-      }
+      Button_close {}
     }
 
     tdiv {

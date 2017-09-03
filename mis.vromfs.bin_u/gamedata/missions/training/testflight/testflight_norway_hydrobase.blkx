@@ -45,7 +45,9 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "cover_points": [],
@@ -71,6 +73,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -156,13 +161,15 @@
           "runwayEnd": "airfield01",
           "runwayWidth": 100.0,
           "army": 1,
-          "spawnPoint": "spawnpoint"
+          "spawnPoint": "spawnpoint",
+          "visibleOnHud": true
         },
         "spawnOnAirfield": {
           "runwayName": "airfield00",
           "objects": "armada_01"
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "non_smoking_ships",
           "hasExhaust": false
         }
@@ -213,13 +220,15 @@
       "armada": {
         "name": "armada_01",
         "tm": [
-          [-0.51126,0.0,0.859427],
+          [0.770758,0.0,0.637129],
           [0.0,1.0,0.0],
-          [-0.859427,0.0,-0.51126],
-          [-40712.0,-305.398,-52470.4]
+          [-0.637129,0.0,0.770758],
+          [-43026.5,0.0,-53269.2]
         ],
         "unit_class": "a6m2_n_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -263,6 +272,8 @@
         ],
         "unit_class": "cargo_ship",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -296,6 +307,8 @@
         ],
         "unit_class": "germ_dd_z28",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -329,6 +342,8 @@
         ],
         "unit_class": "fishboat5",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -362,6 +377,8 @@
         ],
         "unit_class": "fishboat6",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -395,6 +412,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -424,6 +443,8 @@
         ],
         "unit_class": "fishboat5",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -457,6 +478,8 @@
         ],
         "unit_class": "fishboat2",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -490,6 +513,8 @@
         ],
         "unit_class": "uss_lcvp",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -523,6 +548,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -542,106 +569,113 @@
           "infantry_02_wp_01": {
             "type": "normal",
             "tm": [
-              [-0.987803,0.0,0.155712],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.155712,0.0,-0.987803],
+              [0.0,0.0,1.0],
               [-39454.9,30.9541,-51881.8]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "infantry_02_wp_02": {
             "type": "normal",
             "tm": [
-              [-0.987803,0.0,0.155712],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.155712,0.0,-0.987803],
+              [0.0,0.0,1.0],
               [-39478.1,28.9809,-51856.5]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "infantry_02_wp_03": {
             "type": "normal",
             "tm": [
-              [-0.987803,0.0,0.155712],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.155712,0.0,-0.987803],
+              [0.0,0.0,1.0],
               [-39484.9,22.1014,-51864.5]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "infantry_02_wp_04": {
             "type": "normal",
             "tm": [
-              [-0.987803,0.0,0.155712],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.155712,0.0,-0.987803],
+              [0.0,0.0,1.0],
               [-39473.5,21.6422,-51884.8]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "infantry_02_wp_05": {
             "type": "normal",
             "tm": [
-              [-0.987803,0.0,0.155712],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.155712,0.0,-0.987803],
+              [0.0,0.0,1.0],
               [-39456.8,23.8412,-51900.5]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "infantry_02_wp_06": {
             "type": "normal",
             "tm": [
-              [-0.987803,0.0,0.155712],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.155712,0.0,-0.987803],
+              [0.0,0.0,1.0],
               [-39442.1,29.4025,-51903.4]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "infantry_02_wp_07": {
             "type": "normal",
             "tm": [
-              [-0.987803,0.0,0.155712],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [-0.155712,0.0,-0.987803],
+              [0.0,0.0,1.0],
               [-39445.3,30.952,-51894.6]
             ],
             "props": {
               "speed": 300.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -683,30 +717,30 @@
     "airfield00": {
       "type": "Sphere",
       "tm": [
-        [-76.3129,0.0,217.289],
+        [202.999,0.0,108.764],
         [0.0,230.3,0.0],
-        [-217.289,0.0,-76.3129],
-        [-40540.6,-2.84769,-53691.2]
+        [-108.764,0.0,202.999],
+        [-42995.2,-2.84757,-53275.6]
       ],
       "props": []
     },
     "airfield01": {
       "type": "Sphere",
       "tm": [
-        [-71.7048,0.0,218.853],
+        [-218.8,0.0,-71.8652],
         [0.0,230.3,0.0],
-        [-218.853,0.0,-71.7048],
-        [-42422.6,-6.39075,-49480.0]
+        [71.8652,0.0,-218.8],
+        [-39873.1,-6.39087,-52733.4]
       ],
       "props": []
     },
     "spawnpoint": {
       "type": "Sphere",
       "tm": [
-        [-22.1478,0.0,73.2238],
+        [68.9561,0.0,33.1257],
         [0.0,76.5,0.0],
-        [-73.2238,0.0,-22.1478],
-        [-40538.7,-1.01891,-53718.3]
+        [-33.1257,0.0,68.9561],
+        [-43021.7,-1.01879,-53281.6]
       ],
       "props": []
     }

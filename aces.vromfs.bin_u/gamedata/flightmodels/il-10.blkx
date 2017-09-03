@@ -53,6 +53,9 @@
         "cannon2_dm": {
           "hp": 15.0
         },
+        "gun1_dm": {
+          "hp": 15.0
+        },
         "mgun1_dm": {
           "hp": 15.0
         },
@@ -184,6 +187,38 @@
         },
         "cover3_dm": {
           "hp": 19.5
+        },
+        "cover4_dm": {
+          "hp": 19.5
+        },
+        "cover5_dm": {
+          "hp": 19.5
+        },
+        "cover6_dm": {
+          "hp": 19.5
+        },
+        "cover7_dm": {
+          "hp": 19.5
+        }
+      },
+      "dural60": {
+        "spar1_l_dm": {
+          "hp": 80.5
+        },
+        "spar1_r_dm": {
+          "hp": 80.5
+        },
+        "spar2_l_dm": {
+          "hp": 52.0
+        },
+        "spar2_r_dm": {
+          "hp": 52.0
+        },
+        "spar_l_dm": {
+          "hp": 68.5
+        },
+        "spar_r_dm": {
+          "hp": 68.5
         }
       },
       "glass64": {
@@ -203,6 +238,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 57.9
         },
@@ -217,6 +255,12 @@
         "oil2_dm": {
           "hp": 19.5
         },
+        "oil3_dm": {
+          "hp": 19.5
+        },
+        "oil4_dm": {
+          "hp": 13.5
+        },
         "water1_dm": {
           "hp": 9.5
         },
@@ -225,6 +269,9 @@
         }
       },
       "steel_pilot": {
+        "gunner1_dm": {
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -236,55 +283,6 @@
         },
         "tank2_dm": {
           "hp": 39.5
-        }
-      },
-      "wood": {
-        "cover4_dm": {
-          "hp": 7.6
-        },
-        "cover5_dm": {
-          "hp": 41.8
-        },
-        "cover6_dm": {
-          "hp": 10.6
-        },
-        "cover7_dm": {
-          "hp": 10.3
-        },
-        "gear_c_dm": {
-          "hp": 6.9
-        },
-        "gun1_dm": {
-          "hp": 5.2
-        },
-        "gunner1_dm": {
-          "hp": 20.9
-        },
-        "oil3_dm": {
-          "hp": 8.2
-        },
-        "oil4_dm": {
-          "hp": 3.5
-        }
-      },
-      "wood120": {
-        "spar1_l_dm": {
-          "hp": 80.5
-        },
-        "spar1_r_dm": {
-          "hp": 80.5
-        },
-        "spar2_l_dm": {
-          "hp": 52.0
-        },
-        "spar2_r_dm": {
-          "hp": 52.0
-        },
-        "spar_l_dm": {
-          "hp": 68.5
-        },
-        "spar_r_dm": {
-          "hp": 68.5
         }
       }
     }
@@ -2227,11 +2225,21 @@
           },
           "limits": {
             "yaw": [-40.0,40.0],
-            "pitch": [-5.0,40.0]
+            "pitch": [-1.0,40.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-1.0,1.0],
+            "pitch": [-1.0,17.0]
           }
         }
       }
     ]
+  },
+  {
+    "gunnerFps": {
+      "pos": [0.35,-0.05,0.0],
+      "head": "turret1"
+    }
   },
   {
     "weapon_presets": [
@@ -2482,6 +2490,29 @@
         "modClass": "weapon",
         "reqModification": "ro_82_mod"
       }
+    }
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-0.377847,-0.589114,0.703052],
+      "_emtr_break_wing0_l_to": [-0.377847,-0.589114,1.14983],
+      "emtr_break_wing1_l_from": [-0.377847,-0.589114,1.82],
+      "emtr_break_wing1_l_to": [-0.377847,-0.589114,2.792],
+      "emtr_break_wing2_l_from": [-0.377847,-0.589114,4.25],
+      "emtr_break_wing2_l_to": [-0.377847,-0.589114,5.23165],
+      "_emtr_break_wing0_r_from": [-0.377847,-0.589113,-0.703052],
+      "_emtr_break_wing0_r_to": [-0.377847,-0.589113,-1.14983],
+      "emtr_break_wing1_r_from": [-0.377847,-0.589113,-1.82],
+      "emtr_break_wing1_r_to": [-0.377847,-0.589113,-2.792],
+      "emtr_break_wing2_r_from": [-0.377847,-0.589113,-4.25],
+      "emtr_break_wing2_r_to": [-0.377847,-0.589113,-5.23165],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.96812,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

@@ -62,6 +62,9 @@
   {
     "DamageParts": {
       "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        },
         "mgun1_dm": {
           "hp": 15.0
         },
@@ -163,6 +166,26 @@
           "hp": 19.5
         }
       },
+      "dural60": {
+        "spar1_l_dm": {
+          "hp": 61.9
+        },
+        "spar1_r_dm": {
+          "hp": 61.9
+        },
+        "spar2_l_dm": {
+          "hp": 39.5
+        },
+        "spar2_r_dm": {
+          "hp": 39.5
+        },
+        "spar_l_dm": {
+          "hp": 57.1
+        },
+        "spar_r_dm": {
+          "hp": 57.1
+        }
+      },
       "glass38": {
         "armor1_dm": {
           "hp": 100.0
@@ -180,6 +203,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 49.9
         },
@@ -216,34 +242,6 @@
         },
         "tank4_dm": {
           "hp": 52.9
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 1.5
-        },
-        "gun1_dm": {
-          "hp": 14.6
-        }
-      },
-      "wood120": {
-        "spar1_l_dm": {
-          "hp": 61.9
-        },
-        "spar1_r_dm": {
-          "hp": 61.9
-        },
-        "spar2_l_dm": {
-          "hp": 39.5
-        },
-        "spar2_r_dm": {
-          "hp": 39.5
-        },
-        "spar_l_dm": {
-          "hp": 57.1
-        },
-        "spar_r_dm": {
-          "hp": 57.1
         }
       }
     }
@@ -2190,6 +2188,10 @@
           "limits": {
             "yaw": [-120.0,120.0],
             "pitch": [-5.0,60.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-2.0,2.0],
+            "pitch": [0.0,20.0]
           }
         }
       },
@@ -2208,10 +2210,20 @@
           "limits": {
             "yaw": [-120.0,120.0],
             "pitch": [-5.0,60.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-2.0,2.0],
+            "pitch": [0.0,20.0]
           }
         }
       }
     ]
+  },
+  {
+    "gunnerFps": {
+      "pos": [0.3,0.5,0.0],
+      "head": "turret1"
+    }
   },
   {
     "weapon_presets": [
@@ -2394,5 +2406,24 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "emtr_break_wing1_l_from": [-1.00275,-0.316021,1.67913],
+      "emtr_break_wing1_l_to": [-1.00275,-0.316021,2.56373],
+      "emtr_break_wing2_l_from": [-1.00275,-0.316021,3.89063],
+      "emtr_break_wing2_l_to": [-1.00275,-0.316021,4.86205],
+      "emtr_break_wing1_r_from": [-1.00275,-0.31602,-1.67913],
+      "emtr_break_wing1_r_to": [-1.00275,-0.31602,-2.56373],
+      "emtr_break_wing2_r_from": [-1.00275,-0.31602,-3.89063],
+      "emtr_break_wing2_r_to": [-1.00275,-0.31602,-4.86205],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.90643,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

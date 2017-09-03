@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.ChatThreadsListView extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -83,7 +86,7 @@ class ::gui_handlers.ChatThreadsListView extends ::gui_handlers.BaseGuiHandlerWT
     local tooltip = ::loc("mainmenu/btnRefresh")
     local timeLeft = ::g_chat_latest_threads.getTimeToRefresh()
     if (timeLeft > 0)
-      tooltip += " (" + ::secondsToString(0.001 * timeLeft, true, true) + ")"
+      tooltip += " (" + time.secondsToString(0.001 * timeLeft, true, true) + ")"
     btnObj.tooltip = tooltip
     guiScene.updateTooltip(btnObj)
 
@@ -121,7 +124,7 @@ class ::gui_handlers.ChatThreadsListView extends ::gui_handlers.BaseGuiHandlerWT
     {
       local textsList = ::u.map(::g_chat_categories.getSearchCategoriesLList(),
                                 function(cName) { return ::g_chat_categories.getCategoryNameText(cName) })
-      text = ::implode(textsList, ", ")
+      text = ::g_string.implode(textsList, ", ")
     }
     catBtn.setValue(text)
   }

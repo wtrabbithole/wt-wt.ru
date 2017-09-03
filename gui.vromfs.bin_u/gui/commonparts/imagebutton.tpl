@@ -35,11 +35,10 @@ imgButton {
     <</image>>
 
     <<#onDeleteClick>>
-      closeBtn {
-        pos:t='pw - w + 2*@sf/@pf_outdated, 0'
+      Button_close {
+        smallIcon:t='yes'
         tooltip:t='#msgbox/btn_delete'
         on_click:t='<<onDeleteClick>>'
-        img {}
       }
     <</onDeleteClick>>
 

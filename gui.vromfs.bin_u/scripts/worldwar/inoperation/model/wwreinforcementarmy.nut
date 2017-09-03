@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::WwReinforcementArmy extends ::WwFormation
 {
   suppliesEndMillisec = 0
@@ -69,7 +72,7 @@ class ::WwReinforcementArmy extends ::WwFormation
       local elapsed = ::max(0, (suppliesEndMillisec - ::ww_get_operation_time_millisec()) * 0.001)
 
       desc.push(::loc("worldwar/suppliesfinishedIn",
-          {time = ::hoursToString(elapsed / TIME_HOUR_IN_SECONDS_F, true, true)}))
+          {time = time.hoursToString(time.secondsToHours(elapsed), true, true)}))
     }
 
     local elapsed = secondsLeftToEntrench();
@@ -80,10 +83,10 @@ class ::WwReinforcementArmy extends ::WwFormation
     else if (elapsed > 0)
     {
       desc.push(::loc("worldwar/armyEntrenching",
-          {time = ::hoursToString(elapsed / TIME_HOUR_IN_SECONDS_F, true, true)}))
+          {time = time.hoursToString(time.secondsToHours(elapsed), true, true)}))
     }
 
-    return ::implode(desc, "\n")
+    return ::g_string.implode(desc, "\n")
   }
 
   function getArrivalTime()
@@ -102,14 +105,14 @@ class ::WwReinforcementArmy extends ::WwFormation
     if (arrivalTime == 0)
       return ::loc("worldwar/state/reinforcement_ready")
 
-    return ::secondsToString(::milliseconds_to_seconds(arrivalTime), false)
+    return time.secondsToString(time.millisecondsToSeconds(arrivalTime), false)
   }
 
   function getFullDescription()
   {
     local desc = getFullName()
     desc += "\n"
-    desc += ::implode(getUnitsMapFullName(), "\n")
+    desc += ::g_string.implode(getUnitsMapFullName(), "\n")
     return desc
   }
 

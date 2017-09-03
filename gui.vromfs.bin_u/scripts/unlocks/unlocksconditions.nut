@@ -22,6 +22,9 @@
 */
 
 
+local time = require("scripts/time.nut")
+
+
 ::UnlockConditions <- {
   conditionsOrder = [
     "beginDate", "endDate",
@@ -413,9 +416,9 @@ function UnlockConditions::loadCondition(blk)
   {
     foreach(key in ["beginDate", "endDate"])
     {
-      local time = blk[key] && ::convert_utc_to_local_time(::get_time_from_string_utc(blk[key]))
-      if (time)
-        res[key] <- ::build_date_time_str(time)
+      local unlockTime = blk[key] && time.convertUtcToLocalTime(time.getTimeFromStringUtc(blk[key]))
+      if (unlockTime)
+        res[key] <- time.buildDateTimeStr(unlockTime)
     }
   }
   else if (t == "missionPostfix")
@@ -540,7 +543,7 @@ function UnlockConditions::getConditionsText(conditions, curValue = null, maxVal
     }
   }
 
-  local conditionsText = ::implode(condTextsList, separator)
+  local conditionsText = ::g_string.implode(condTextsList, separator)
   if (inlineText && conditionsText != "")
     conditionsText = ::format("(%s)", conditionsText)
 
@@ -549,7 +552,7 @@ function UnlockConditions::getConditionsText(conditions, curValue = null, maxVal
   local mulText = ::UnlockConditions.getMultipliersText(mainCond || {})
 
   local pieces = [mainConditionText, conditionsText, mulText]
-  return ::implode(pieces, separator)
+  return ::g_string.implode(pieces, separator)
 }
 
 function UnlockConditions::addTextToCondTextList(condTextsList, group, valuesData, customLocGroupText = "")
@@ -557,7 +560,7 @@ function UnlockConditions::addTextToCondTextList(condTextsList, group, valuesDat
   local valuesText = ""
   local text = ""
 
-  valuesText = ::implode(valuesData, ::loc("ui/comma"))
+  valuesText = ::g_string.implode(valuesData, ::loc("ui/comma"))
   if (valuesText != "")
     valuesText = ::colorize("unlockActiveColor", valuesText)
 
@@ -609,7 +612,7 @@ function UnlockConditions::_genMainConditionText(condition, curValue = null, max
   if (bitMode && ::getTblValue("bitListInValue", params))
   {
     if (curValue == null)
-      progressText = ::implode(getLocForBitValues(modeType, condition.values), ", ")
+      progressText = ::g_string.implode(getLocForBitValues(modeType, condition.values), ", ")
     if (::is_numeric(maxValue) && maxValue != condition.values.len())
     {
       textId += "/withValue"
@@ -618,7 +621,11 @@ function UnlockConditions::_genMainConditionText(condition, curValue = null, max
   } else if (modeType == "maxUnitsRankOnStartMission")
   {
     local valuesText = ::u.map(condition.values, ::get_roman_numeral)
-    progressText = ::implode(valuesText, "-")
+    progressText = ::g_string.implode(valuesText, "-")
+  } else if (modeType == "amountDamagesZone")
+  {
+    if (::is_numeric(curValue) && ::is_numeric(maxValue))
+      progressText = ::round_by_value(curValue * 0.001, 0.001) + "/" + ::round_by_value(maxValue * 0.001,  0.001)
   } else //usual progress text
   {
     progressText = (curValue != null) ? curValue : ""
@@ -647,6 +654,8 @@ function UnlockConditions::_genMainConditionText(condition, curValue = null, max
     textId = "conditions/missionsPlayed"
   else if (modeType == "char_resources_count")
     textId = "conditions/char_resources_count/" + ::getTblValue("resourceType", condition, "")
+  else if (modeType == "amountDamagesZone")
+    textId = "debriefing/Damage"
 
   if ("locEnding" in params)
     res = ::loc(textId + params.locEnding, textParams)
@@ -684,7 +693,7 @@ function UnlockConditions::_getSingleAttachmentConditionText(condition, curValue
 {
   local modeType = ::getTblValue("modeType", condition)
   local locNames = getLocForBitValues(modeType, condition.values)
-  local valueText = ::colorize("unlockActiveColor", "\"" +  ::implode(locNames, ::loc("ui/comma")) + "\"")
+  local valueText = ::colorize("unlockActiveColor", "\"" +  ::g_string.implode(locNames, ::loc("ui/comma")) + "\"")
   local progress = ::colorize("unlockActiveColor", (curValue != null? (curValue + "/") : "") + maxValue)
   return ::loc("conditions/" + modeType + "/single", { value = valueText, progress = progress})
 }
@@ -702,7 +711,7 @@ function UnlockConditions::_addUniqConditionsText(groupsList, condition)
   else if (cType == "atLeastOneUnitsRankOnStartMission")
   {
     local valuesTexts = ::u.map(condition.values, ::get_roman_numeral)
-    _addValueToGroup(groupsList, cType, ::implode(valuesTexts, "-"))
+    _addValueToGroup(groupsList, cType, ::g_string.implode(valuesTexts, "-"))
     return true
   }
   return false //not found, do as usual conditions.
@@ -727,7 +736,7 @@ function UnlockConditions::_addUsualConditionsText(groupsList, condition)
     else if (cType == "playerType" || cType == "targetType")
       text = ::loc("unlockTag/" + ::getTblValue(v, mapConditionUnitType, v))
     else if (cType == "playerExpClass" || cType == "targetExpClass" || cType == "unitClass" || cType == "targetUnitClass")
-      text = ::get_role_text(::cut_prefix(v, "exp_", v))
+      text = ::get_role_text(::g_string.cutPrefix(v, "exp_", v))
     else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country")
       text = ::loc("unlockTag/" + v)
     else if (::isInArray(cType, [ "activity", "playerUnitRank", "crewsUnitRank", "minStat"]))

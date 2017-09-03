@@ -94,8 +94,9 @@
         },
         "Button_close": {
           "id": "button_exit",
-          "style": "pos:@rw+@bw-w, @bh; position:absolute; margin-right:0;",
-          "img": []
+          "_on_click": "goBack",
+          "smallIcon": "yes",
+          "style": "pos:@rw+@bw-w, @bh;"
         }
       }
     },
@@ -126,30 +127,28 @@
           "position": "absolute"
         },
         {
-          "tdiv": {
+          "ShadeDiv": {
             "min-width": "0.35*@sf",
             "width": "100%pw",
-            "height": "ph - 1@topBarHeight - 1@bottomBarHeight - 1@bh + 5*@sf/@pf_outdated + 2px",
-            "pos": "50%pw-50%w, 1@topBarHeight-2px",
-            "position": "absolute",
-            "background-color": "#77000000"
+            "height": "ph - 1@topBarHeight - 1@bottomBarHeight + 4@dp",
+            "pos": "50%pw-50%w, 1@topBarHeight",
+            "position": "absolute"
           }
         },
         {
           "Red_shadow_light": {
             "pos": "50%pw-50%w, 0",
             "position": "absolute",
-            "size": "300%pw, 1@topBarHeight-5"
+            "size": "300%pw, 1@topBarHeight"
           }
         },
         {
-          "tdiv": {
+          "ShadeDiv": {
             "min-width": "0.33*@sf",
             "width": "95%pw",
             "height": "1@topBarHeight",
-            "pos": "50%pw-50%w, -5",
-            "position": "absolute",
-            "background-color": "@shadeBackgroundColor"
+            "pos": "50%pw-50%w, 0",
+            "position": "absolute"
           }
         },
         {
@@ -540,12 +539,11 @@
                   }
                 },
                 {
-                  "tdiv": {
+                  "ShadeDiv": {
                     "id": "login_action_button",
                     "pos": "-0.015@scrn_tgt-1@framePadding, 0.01@scrn_tgt",
                     "position": "relative",
-                    "size": "p.p.w-2*@sf/@pf_outdated, 0.05@sf",
-                    "background-color": "@shadeBackgroundColor",
+                    "size": "p.p.w, 0.05@sf",
                     "childsActivate": "yes",
                     "behavior": "wrapNavigator",
                     "navigatorShortcuts": "yes",
@@ -563,25 +561,27 @@
                       "css-hier-invalidate": "yes",
                       "btnName": "X",
                       "focusBtnName": "A",
+                      "pattern": {
+                        "type": "bright_texture"
+                      },
                       "buttonWink": {
                         "_transp-timer": "0"
                       },
+                      "buttonGlance": [],
                       "btnText": {
                         "text": "#msgbox/btn_signIn",
                         "fontNormal": "yes"
                       },
-                      "ButtonImg": [],
-                      "buttonGlance": []
+                      "ButtonImg": []
                     }
                   }
                 },
                 {
-                  "tdiv": {
+                  "ShadeDiv": {
                     "id": "steam_login_action_button",
                     "pos": "-0.015@scrn_tgt-1@framePadding, 0.01@scrn_tgt",
                     "position": "relative",
-                    "size": "p.p.w-2*@sf/@pf_outdated, 0.05@sf",
-                    "background-color": "@shadeBackgroundColor",
+                    "size": "p.p.w, 0.05@sf",
                     "childsActivate": "yes",
                     "behavior": "wrapNavigator",
                     "navigatorShortcuts": "yes",
@@ -704,21 +704,20 @@
         },
         {
           "tdiv": {
-            "size": "300%pw, 1@bottomBarHeight + 1@bh - 2*@sf/@pf_outdated",
+            "size": "300%pw, 1@bottomBarHeight",
             "position": "absolute",
-            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf_outdated",
+            "pos": "50%pw-50%w, ph - h + 5*@sf/@pf_outdated",
             "background-image": "#ui/gameuiskin#bottom_bar_light",
             "background-color": "#88888888"
           }
         },
         {
-          "tdiv": {
+          "ShadeDiv": {
             "min-width": "0.33*@sf",
             "width": "95%pw",
-            "height": "1@bottomBarHeight + 1@bh - 2*@sf/@pf_outdated",
+            "height": "1@bottomBarHeight",
             "position": "absolute",
-            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf_outdated",
-            "background-color": "@shadeBackgroundColor"
+            "pos": "50%pw-50%w, ph - h + 3*@sf/@pf_outdated"
           }
         },
         {

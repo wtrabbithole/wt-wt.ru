@@ -7,6 +7,29 @@ const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍ�
 
   intRegExp = regexp2(@"^-?\d+$")
   floatRegExp = regexp2(@"^-?\d+\.?\d*$")
+
+  stripTagsConfig = [
+    {
+      re2 = ::regexp2("~")
+      repl = "~~"
+    }
+    {
+      re2 = ::regexp2("\"")
+      repl = "~\""
+    }
+    {
+      re2 = ::regexp2("\r")
+      repl = "~r"
+    }
+    {
+      re2 = ::regexp2("\n")
+      repl = "~n"
+    }
+    {
+      re2 = ::regexp2("\'")
+      repl = "~\'"
+    }
+  ]
 }
 
 /**
@@ -199,6 +222,25 @@ function g_string::toUpper(string, symbolsNum = 0)
   return slice(string, 0, symbolsNum).toupper() + slice(string, symbolsNum)
 }
 
+
+/**
+ * Joins array elements into a string with the glue string between each element.
+ * This function is a reverse operation to g_string.split()
+ * @param {string[]} pieces - The array of strings to join.
+ * @param {string}   glue - glue string.
+ * @return {string} - String containing all the array elements in the same order,
+ *                    with the glue string between each element.
+ */
+function g_string::implode(pieces = [], glue = "") // Reverse operation to split()
+{
+  local result = ""
+  foreach (piece in pieces)
+    if (piece != "")
+      result += (result == "" ? "" : glue) + piece
+  return result
+}
+
+
 /**
  * Joins array elements into a string with the glue string between each element.
  * Like implode(), but doesn't skip empty strings, so it is lossless
@@ -313,4 +355,23 @@ function g_string::hexStringToInt(hexString)
   }
 
   return res
+}
+
+//Return defValue when incorrect prefix
+function g_string::cutPrefix(id, prefix, defValue = null)
+{
+  local pLen = prefix.len()
+  if ((id.len() > pLen) && (id.slice(0, pLen) == prefix))
+    return id.slice(pLen)
+  return defValue
+}
+
+function g_string::stripTags(str)
+{
+  if (!str || !str.len())
+    return ""
+
+  foreach(test in stripTagsConfig)
+    str = test.re2.replace(test.repl, str)
+  return str
 }

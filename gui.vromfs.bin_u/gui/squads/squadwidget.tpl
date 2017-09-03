@@ -20,7 +20,7 @@ Button_text {
   size:t='ph, ph'
   tooltip:t='#contacts/invite'
   on_click:t='onSquadPlus'
-  class:t='image24'
+  class:t='header'
 
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'
@@ -72,7 +72,6 @@ Button_text {
 
     memberIcon {
       id:t='member_icon_<<id>>'
-      size:t='@cIco, @cIco'
       pos:t='0, 2*@sf/@pf_outdated'; position:t='relative'
       bgcolor:t='#FFFFFF'
       background-image:t=''
@@ -136,7 +135,7 @@ Button_text {
   size:t='ph, ph'
   tooltip:t='#squad/invited_players'
   on_click:t='onSquadInvitesClick'
-  class:t='image24'
+  class:t='header'
   type:t='squadInvites'
 
   tdiv {
@@ -146,7 +145,6 @@ Button_text {
 
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'
-    background-image:t='#ui/gameuiskin#player_in_queue'
   }
 }
 
@@ -155,7 +153,7 @@ Button_text {
   size:t='ph, ph'
   tooltip:t=''
   on_click:t='onSquadLeave'
-  class:t='image24'
+  class:t='header'
   type:t='squadLeave'
 
   squadButtonImg {

@@ -94,6 +94,15 @@
         },
         "gun3_dm": {
           "hp": 15.0
+        },
+        "mgun1_dm": {
+          "hp": 15.0
+        },
+        "mgun2_dm": {
+          "hp": 15.0
+        },
+        "mgun3_dm": {
+          "hp": 15.0
         }
       },
       "armor12": {
@@ -166,6 +175,14 @@
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
           "hp": 39.9
+        },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 39.5
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 39.5
         },
         "fin_dm": {
           "hp": 49.6
@@ -249,6 +266,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 70.5
         },
@@ -306,26 +326,6 @@
         },
         "tank4_dm": {
           "hp": 54.5
-        }
-      },
-      "wood": {
-        "elevator0_dm": {
-          "hp": 41.7
-        },
-        "elevator1_dm": {
-          "hp": 41.7
-        },
-        "gear_c_dm": {
-          "hp": 12.7
-        },
-        "mgun1_dm": {
-          "hp": 9.5
-        },
-        "mgun2_dm": {
-          "hp": 9.6
-        },
-        "mgun3_dm": {
-          "hp": 6.2
         }
       }
     }
@@ -993,9 +993,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2610,5 +2641,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-0.869173,-0.0495386,1.02646],
+      "_emtr_break_wing0_l_to": [-0.869173,-0.0495386,1.82421],
+      "emtr_break_wing1_l_from": [-0.869173,-0.0495386,3.65002],
+      "emtr_break_wing1_l_to": [-0.869173,-0.0495386,3.84842],
+      "emtr_break_wing2_l_from": [-0.869173,-0.0495386,5.50184],
+      "emtr_break_wing2_l_to": [-0.869173,-0.0495386,7.30866],
+      "_emtr_break_wing0_r_from": [-0.869173,-0.0495386,-1.02646],
+      "_emtr_break_wing0_r_to": [-0.869173,-0.0495386,-1.82421],
+      "emtr_break_wing1_r_from": [-0.869173,-0.0495386,-3.65002],
+      "emtr_break_wing1_r_to": [-0.869173,-0.0495386,-3.84842],
+      "emtr_break_wing2_r_from": [-0.869173,-0.0495386,-5.50184],
+      "emtr_break_wing2_r_to": [-0.869173,-0.0495386,-7.30866],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-7.50045,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

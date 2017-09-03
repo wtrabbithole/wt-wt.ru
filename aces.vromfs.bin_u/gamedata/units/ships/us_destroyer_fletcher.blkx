@@ -93,12 +93,23 @@
     "explosionFx": "ship_explosion"
   },
   {
-    "default_skin_tomoe": {
-      "replace_tex": {
-        "from": "flag_uk_01_c*",
-        "to": "flag_uk_alt_c*"
+    "canReloadNonGuns": true
+  },
+  {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "flag_usa_01_c*",
+          "to": "flag_usa_alt_c*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_usa_02_c*",
+          "to": "flag_usa_alt_c*"
+        }
       }
-    }
+    ]
   },
   {
     "ikGunner": [
@@ -2039,6 +2050,28 @@
   },
   {
     "DamageEffects": [
+      {
+        "part": [
+          {
+            "name": "torpedo_01_dm"
+          },
+          {
+            "name": "torpedo_02_dm"
+          },
+          {
+            "name": "torpedo_03_dm"
+          },
+          {
+            "name": "torpedo_04_dm"
+          },
+          {
+            "onKill": {
+              "fire": 1.0,
+              "fHitCritical": true
+            }
+          }
+        ]
+      },
       {
         "part": [
           {
@@ -4351,7 +4384,7 @@
           "emitterGenFmt": "bone_torpedo_%02d",
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
-          "allowableDelta": 10.0,
+          "allowableDelta": 20.0,
           "enableCourseCorrection": false,
           "partsDP": "tt_01_dm",
           "turret": {
@@ -4381,7 +4414,7 @@
           "emitterGenFmt": "bone_torpedo_%02d",
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
-          "allowableDelta": 10.0,
+          "allowableDelta": 20.0,
           "enableCourseCorrection": false,
           "partsDP": "tt_02_dm",
           "turret": {
@@ -4784,19 +4817,22 @@
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo"
+              "emitter": "emtr_fire_ammo",
+              "scale": 0.7
             }
           },
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo_01"
+              "emitter": "emtr_fire_ammo_01",
+              "scale": 0.7
             }
           },
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo_02"
+              "emitter": "emtr_fire_ammo_02",
+              "scale": 0.7
             }
           }
         ]
@@ -5045,21 +5081,22 @@
           {
             "fx": {
               "name": "ship_explosion_large",
-              "emitter": "emtr_explosion_center_01"
+              "emitter": "emtr_explosion_center_01",
+              "scale": 1.0
             }
           },
           {
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_02",
-              "scale": 0.8
+              "scale": 0.6
             }
           },
           {
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_03",
-              "scale": 0.7
+              "scale": 0.5
             }
           }
         ]
@@ -5212,7 +5249,15 @@
   },
   {
     "winch": {
-      "length": 100.0
+      "length": 170.0
+    }
+  },
+  {
+    "difficulty": {
+      "arcade": {
+        "shipRudderAreaMult": 1.0,
+        "tankRearmOnCaptureZone": true
+      }
     }
   }
 ]

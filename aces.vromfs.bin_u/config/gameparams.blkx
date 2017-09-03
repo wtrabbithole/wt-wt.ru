@@ -42,6 +42,8 @@
   "maxMassMultApexObjectsCollidedWithHero": 0.04,
   "minViscosityApexObjectsCollidedWithHero": 0.95,
   "maxViscosityApexObjectsCollidedWithHero": 1.0,
+  "wreckedPartsCollision": true,
+  "wreckedDecoratorsCollision": false,
   "multipointVisibilityAgainstTreesWithoutMarkers": true,
   "multipointVisibilityTreeTrunkOpacity": 1.0,
   "multipointVisibilityTreeCanopyOpacity": 0.5,
@@ -5668,6 +5670,12 @@
         "p": "gun_mask"
       },
       {
+        "p": "ex_era_hull_"
+      },
+      {
+        "p": "ex_era_turret_"
+      },
+      {
         "p": "bow"
       },
       {
@@ -5833,6 +5841,18 @@
       },
       {
         "p": "mg_"
+      },
+      {
+        "p": "composite_armor_hull_"
+      },
+      {
+        "p": "composite_armor_turret_"
+      },
+      {
+        "p": "ex_era_hull_"
+      },
+      {
+        "p": "ex_era_turret_"
       },
       {
         "p": {
@@ -6427,6 +6447,18 @@
           "name": "funnel",
           "color_h": 0.1,
           "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "ex_era_hull_",
+          "hideIfDead": true
+        }
+      },
+      {
+        "p": {
+          "name": "ex_era_turret_",
+          "hideIfDead": true
         }
       }
     ],
@@ -7427,6 +7459,36 @@
       "ri": "norway_rocks_small_e"
     },
     {
+      "ri": "norway_stone_grey_small_a_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_b_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_c_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_d_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_e_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_f_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_g_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_h_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_i_range"
+    },
+    {
+      "ri": "norway_stone_grey_small_j_range"
+    },
+    {
       "ri": "small_rock_moss_a"
     },
     {
@@ -7437,6 +7499,15 @@
     },
     {
       "ri": "rail_crosstie"
+    },
+    {
+      "ri": "fence_chain_simple_section"
+    },
+    {
+      "ri": "fence_chain_simple_column"
+    },
+    {
+      "ri": "mesh_netting_fence_a"
     }
   ],
   "rendinstOpt": {
@@ -7467,6 +7538,9 @@
       },
       {
         "excRE": "sawmill_baracks"
+      },
+      {
+        "excRE": "japan_house"
       }
     ],
     "hideForMode1": [
@@ -8316,6 +8390,36 @@
       },
       {
         "ri": "tabletop_mountain_stone_small_1a"
+      },
+      {
+        "ri": "norway_stone_grey_small_a_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_b_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_c_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_d_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_e_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_f_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_g_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_h_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_i_range"
+      },
+      {
+        "ri": "norway_stone_grey_small_j_range"
       }
     ]
   },
@@ -8572,5 +8676,14 @@
     {
       "row": [10000.0,700.0]
     }
-  ]
+  ],
+  "DofGunnerFPSCamera": {
+    "enable": true,
+    "nearStartDist": 2.0,
+    "nearMaxDist": 1.0,
+    "nearEffect": 1.0,
+    "farStartDist": 100000.0,
+    "farMaxDist": 100000.0,
+    "farEffect": 0.0
+  }
 }

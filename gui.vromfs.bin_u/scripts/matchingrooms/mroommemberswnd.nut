@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.MRoomMembersWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -112,9 +115,9 @@ class ::gui_handlers.MRoomMembersWnd extends ::gui_handlers.BaseGuiHandlerWT
       {
         local secToStart = startTime - ::get_matching_server_time()
         if (secToStart <= 0)
-          text = ::loc("multiplayer/battleInProgressTime", { time = ::secondsToString(-secToStart, true) })
+          text = ::loc("multiplayer/battleInProgressTime", { time = time.secondsToString(-secToStart, true) })
         else
-          text = ::loc("multiplayer/battleStartsIn", { time = ::secondsToString(secToStart, true) })
+          text = ::loc("multiplayer/battleStartsIn", { time = time.secondsToString(secToStart, true) })
       }
       obj.setValue(text)
     }, this))

@@ -17,7 +17,7 @@
     {
       local stateLoc = stateText.len() ? ::loc("multiplayer/state/" + stateText) : ""
       local roleLoc = isSpectator(playerInfo) ? ::loc("multiplayer/state/player_referee") : ""
-      return ::implode([ roleLoc, stateLoc ], ::loc("ui/semicolon"))
+      return ::g_string.implode([ roleLoc, stateLoc ], ::loc("ui/semicolon"))
     }
   }
 }

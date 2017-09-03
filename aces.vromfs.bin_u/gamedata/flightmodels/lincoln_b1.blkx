@@ -160,6 +160,14 @@
           "genericDamageMult": 0.3,
           "hp": 60.5
         },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 60.5
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 60.5
+        },
         "fin_dm": {
           "hp": 60.5
         },
@@ -188,6 +196,18 @@
         }
       },
       "dural": {
+        "cover10_dm": {
+          "hp": 19.5
+        },
+        "cover11_dm": {
+          "hp": 19.5
+        },
+        "cover12_dm": {
+          "hp": 19.5
+        },
+        "cover13_dm": {
+          "hp": 19.5
+        },
         "cover1_dm": {
           "hp": 19.5
         },
@@ -248,6 +268,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 50.2
+        },
         "gear_l_dm": {
           "hp": 70.5
         },
@@ -313,7 +336,7 @@
           "hp": 81.0
         },
         "tank2_dm": {
-          "hp": 108.6
+          "hp": 95.5
         },
         "tank3_dm": {
           "hp": 78.6
@@ -322,33 +345,10 @@
           "hp": 78.6
         },
         "tank5_dm": {
-          "hp": 108.6
+          "hp": 95.5
         },
         "tank6_dm": {
           "hp": 81.0
-        }
-      },
-      "wood": {
-        "cover10_dm": {
-          "hp": 29.1
-        },
-        "cover11_dm": {
-          "hp": 29.1
-        },
-        "cover12_dm": {
-          "hp": 29.1
-        },
-        "cover13_dm": {
-          "hp": 29.1
-        },
-        "elevator0_dm": {
-          "hp": 97.0
-        },
-        "elevator1_dm": {
-          "hp": 97.0
-        },
-        "gear_c_dm": {
-          "hp": 27.6
         }
       }
     }
@@ -3070,7 +3070,7 @@
           "flash": "flare3",
           "dm": "gunner3_dm",
           "partsDP": "gun2_dm",
-          "bullets": 350,
+          "bullets": 380,
           "traceOffset": 2,
           "turret": {
             "head": "turret2",
@@ -3090,7 +3090,7 @@
           "emitter": "gun2",
           "flash": "flare4",
           "dm": "gunner3_dm",
-          "bullets": 350,
+          "bullets": 380,
           "turret": {
             "head": "turret2",
             "gun": "gun2"
@@ -3329,10 +3329,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-16.0951,-15.0951],
-      "wingLDist": [15.0197,16.0197],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-0.760509,0.125603,1.72656],
+      "_emtr_break_wing0_l_to": [-0.760509,0.125603,2.68722],
+      "emtr_break_wing1_l_from": [-0.760509,0.125603,6.6421],
+      "emtr_break_wing1_l_to": [-0.760509,0.125603,6.68773],
+      "emtr_break_wing2_l_from": [-0.760509,0.125603,12.4837],
+      "emtr_break_wing2_l_to": [-0.760509,0.125603,14.8085],
+      "_emtr_break_wing0_r_from": [-0.760509,0.125603,-1.72656],
+      "_emtr_break_wing0_r_to": [-0.760509,0.125603,-2.68722],
+      "emtr_break_wing1_r_from": [-0.760509,0.125603,-6.6421],
+      "emtr_break_wing1_r_to": [-0.760509,0.125603,-6.68773],
+      "emtr_break_wing2_r_from": [-0.760509,0.125603,-12.4838],
+      "emtr_break_wing2_r_to": [-0.760509,0.125603,-14.8085],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-12.2035,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   },
   {

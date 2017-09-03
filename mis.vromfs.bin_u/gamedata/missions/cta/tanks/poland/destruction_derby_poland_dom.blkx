@@ -117,7 +117,7 @@
     ],
     "mission": {
       "name": "derby_poland_Dom",
-      "type": "singleMission",
+      "type": "domination",
       "level": "levels/avg_poland.bin",
       "campaign": "UserMissions",
       "restoreType": "attempts",
@@ -289,43 +289,58 @@
           "object": "all_players_squad"
         }
       },
-      "actions": {
-        "missionSetTimeSpeed": {
-          "speed": 1.0,
-          "realtimeTriggers": false
-        },
-        "triggerEnable": {
-          "target": "last_man_standet"
-        },
-        "wait": {
-          "time": 15.0
-        },
-        "missionMarkAsRespawnPoint": {
-          "loc_name": "",
-          "spawnEffect": false,
-          "isStrictSpawn": true,
-          "isAirfield": false,
-          "isUnit": false,
-          "useExisting": false,
-          "isIndividual": true,
-          "removeAreas": false,
-          "canSpawnOnNeutral": true,
-          "showOnMap": false,
-          "offset": [0.0,0.0,0.0],
-          "radius": -1.0,
-          "target": "spawn_squad",
-          "team": "Both",
-          "disableAfter": 1,
-          "tags": {
-            "air": false,
-            "tank": true,
-            "ship": false
+      "actions": [
+        {
+          "missionSetTimeSpeed": {
+            "speed": 1.0,
+            "realtimeTriggers": false
           }
         },
-        "triggerDisable": {
-          "target": "wait_untill_start"
+        {
+          "triggerEnable": {
+            "target": "timer"
+          }
+        },
+        {
+          "wait": {
+            "time": 15.0
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "last_man_standet"
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "",
+            "spawnEffect": false,
+            "isStrictSpawn": true,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": true,
+            "removeAreas": false,
+            "canSpawnOnNeutral": true,
+            "showOnMap": false,
+            "offset": [0.0,0.0,0.0],
+            "radius": -1.0,
+            "target": "spawn_squad",
+            "team": "Both",
+            "disableAfter": 1,
+            "tags": {
+              "air": false,
+              "tank": true,
+              "ship": false
+            }
+          }
+        },
+        {
+          "triggerDisable": {
+            "target": "wait_untill_start"
+          }
         }
-      },
+      ],
       "else_actions": {
         "missionSetTimeSpeed": {
           "speed": 0.01,
@@ -409,7 +424,7 @@
           "missionBattleArea": {
             "air": false,
             "ground": true,
-            "mapArea": true,
+            "mapArea": false,
             "killOutOfBattleArea": true,
             "newGridHorizontalCellCount": 0,
             "area": "@battlearea_string_var"
@@ -538,7 +553,7 @@
       },
       "else_actions": []
     },
-    "35_area": {
+    "55_area": {
       "is_enabled": true,
       "comments": "",
       "props": {
@@ -554,13 +569,13 @@
       "conditions": {
         "varCompareInt": {
           "var_value": "count_var",
-          "value": 35,
+          "value": 55,
           "comparasion_func": "equal"
         }
       },
       "actions": {
         "varSetInt": {
-          "value": 3,
+          "value": 4,
           "var": "time_to_next_area_var"
         }
       },
@@ -582,13 +597,13 @@
       "conditions": {
         "varCompareInt": {
           "var_value": "count_var",
-          "value": 35,
+          "value": 65,
           "comparasion_func": "equal"
         }
       },
       "actions": {
         "varSetInt": {
-          "value": 4,
+          "value": 5,
           "var": "time_to_next_area_var"
         }
       },
@@ -610,7 +625,7 @@
       "conditions": {
         "varCompareInt": {
           "var_value": "count_var",
-          "value": 35,
+          "value": 70,
           "comparasion_func": "equal"
         }
       },

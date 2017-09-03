@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
 const WW_LAST_OPERATION_LOG_SAVE_ID = "worldWar/lastReadLog/operation"
@@ -254,7 +257,6 @@ function g_world_war::openMainWnd()
 function g_world_war::openWarMap()
 {
   local operationId = ::ww_get_operation_id()
-  ::ww_service.unsubscribeOperation(operationId) //!!FIX ME: why we are doing this???
   ::ww_service.subscribeOperation(
     operationId,
     null,
@@ -483,6 +485,14 @@ function g_world_war::updateRearZones()
 
     rearZones[sideName].append(zoneName)
   }
+}
+
+function g_world_war::getRearZones()
+{
+  if (!rearZones)
+    updateRearZones()
+
+  return rearZones
 }
 
 function g_world_war::getSelectedArmies()
@@ -1123,7 +1133,7 @@ function g_world_war::getAvailableBattles(playerSide)
 
 function g_world_war::getOperationTimeSec()
 {
-  return ::ww_get_operation_time_millisec() / TIME_SECOND_IN_MSEC
+  return time.millisecondsToSeconds(::ww_get_operation_time_millisec())
 }
 
 function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)

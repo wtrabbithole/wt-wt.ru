@@ -69,7 +69,7 @@
     "minDistBetween": 10.0
   },
   {
-    "expClass": "exp_tank"
+    "expClass": "exp_tank_destroyer"
   },
   {
     "mass": 7000.0
@@ -93,7 +93,7 @@
     "destroysTrees": true
   },
   {
-    "type": "typeMediumTank"
+    "type": "typeTankDestroyer"
   },
   {
     "ikGunner": [
@@ -139,7 +139,7 @@
           "midNode": "Bip01 L Forearm",
           "upNode": "Bip01 L UpperArm",
           "targetNode": "lefthand_",
-          "flexionDir": [0.5,-0.5,0.3]
+          "flexionDir": [1.0,0.0,1.0]
         }
       },
       {
@@ -148,7 +148,7 @@
           "midNode": "Bip01 R Forearm",
           "upNode": "Bip01 R UpperArm",
           "targetNode": "righthand_",
-          "flexionDir": [-0.5,-0.5,0.3]
+          "flexionDir": [0.0,-2.0,2.0]
         }
       },
       {
@@ -660,10 +660,8 @@
         "wheel_r_top_05_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 10.0,
-          "hp": 400.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 15.0,
+          "hp": 150.0,
           "ex_armor_turret_r_01_dm": {
             "hp": 300.0
           },
@@ -671,6 +669,13 @@
             "hp": 300.0
           }
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 15.0,
+        "hp": 150.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -855,6 +860,20 @@
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
         "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2005,9 +2024,9 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 6936.0,
-        "Fuel": 208.0,
-        "TakeOff": 7144.0,
+        "Empty": 6900.0,
+        "Fuel": 130.0,
+        "TakeOff": 7030.0,
         "momentOfInertia": [1.5,1.5,3.0],
         "CenterOfGravity": [-0.3,0.5,0.0],
         "CenterOfGravityClampY": [0.0,0.6],

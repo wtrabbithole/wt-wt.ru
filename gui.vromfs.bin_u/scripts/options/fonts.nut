@@ -59,6 +59,8 @@ enum FONT_SIZE_ORDER {
     }
     return ::handyman.renderCached("gui/const/const_fonts_css", config)
   }
+
+  getOptionText = @() (100 * sizeMultiplier).tointeger() + "%" //text visible in options
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_font",
@@ -74,6 +76,7 @@ enum FONT_SIZE_ORDER {
       ::has_feature("oldFontsSizes") && !::use_touchscreen && !::is_platform_android && !::is_platform_shield_tv()
     getFontSizePx = @(sWidth, sHeight) 720
     getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) 720
+    getOptionText = @() "OLD PX"
   }
 
   SCALE = {
@@ -87,6 +90,7 @@ enum FONT_SIZE_ORDER {
       && (sHeight > 800 || !isLowWidthScreen(sWidth, sHeight)
           || ::use_touchscreen || ::is_platform_android || ::is_platform_shield_tv())
     getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) ::min(900, getFontSizePx(sWidth, sHeight))
+    getOptionText = @() "OLD SCALE"
   }
 
   SMALL = {
@@ -94,6 +98,7 @@ enum FONT_SIZE_ORDER {
     saveId = FONT_SAVE_ID.SMALL
     sizeMultiplier = 0.667
     sizeOrder = FONT_SIZE_ORDER.SMALL
+    saveIdCompatibility = [FONT_SAVE_ID.PX]
 
     isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 1080
   }
@@ -112,6 +117,7 @@ enum FONT_SIZE_ORDER {
     saveId = FONT_SAVE_ID.BIG
     sizeMultiplier = 1.0
     sizeOrder = FONT_SIZE_ORDER.BIG
+    saveIdCompatibility = [FONT_SAVE_ID.SCALE]
 
     isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes")
   }
@@ -124,8 +130,8 @@ null,
 function g_font::getAvailableFontBySaveId(saveId)
 {
   local res = ::g_enum_utils.getCachedType("saveId", saveId, cache.bySaveId, this, null)
-  if (res)
-    return res.isAvailable(::screen_width(), ::screen_height()) ? res : null
+  if (res && res.isAvailable(::screen_width(), ::screen_height()))
+    return res
 
   foreach(font in types)
     if (font.saveIdCompatibility
@@ -160,12 +166,26 @@ function g_font::getDefault()
   if (fixedFont)
     return fixedFont
 
-  if (::is_platform_ps4 || ::is_steam_big_picture())
+  if (!::has_feature("newFontsSizes"))
+  {
+    if (::is_platform_ps4 || ::is_steam_big_picture())
+      return SCALE
+    if (::screen_height() * ::display_scale() <= 1200)
+      return PX
     return SCALE
+  }
 
-  if (::screen_height() * ::display_scale() <= 1200)
-    return PX
-  return SCALE
+  if (::is_platform_shield_tv() || ::is_platform_ps4 || ::is_platform_xboxone || ::is_steam_big_picture())
+    return BIG
+
+  local displayScale = ::display_scale()
+  local sWidth = ::screen_width()
+  local sHeight = ::screen_height()
+  if (displayScale <= 1.2 && SMALL.isAvailable(sWidth, sHeight))
+    return SMALL
+  if (displayScale <= 1.4 && MEDIUM.isAvailable(sWidth, sHeight))
+    return MEDIUM
+  return BIG
 }
 
 function g_font::getCurrent()
@@ -173,7 +193,7 @@ function g_font::getCurrent()
   if (!canChange())
     return getDefault()
 
-  if (!::g_login.isAuthorized())
+  if (!::g_login.isProfileReceived())
   {
     local fontSaveId = ::getSystemConfigOption(FONTS_SAVE_PATH_CONFIG)
     if (fontSaveId)

@@ -49,34 +49,32 @@
           "size": "pw, fh",
           "pos": "0, 0.005@sf",
           "position": "relative",
+          "class": "wnd",
           "type": "dark",
           "color-factor": "128",
           "style": "padding:1@debrWndPad",
-          "HorizontalListBox": {
-            "id": "tabs_list",
-            "width": "pw - 1@shopFilterHFlowHeight",
-            "class": "hflow",
-            "style": "background-color:@transparent;",
-            "smallFont": "yes",
-            "display": "none",
-            "navigatorShortcuts": "yes",
-            "on_wrap_up": "onWrapUp",
-            "on_wrap_down": "onWrapDown",
-            "on_select": "onChangeTab"
-          },
-          "Button_close": {
-            "style": "margin-right:0; pos:pw-w-1@debrWndPad+2@dp, 1@debrWndPad-2@dp;",
-            "img": []
-          },
-          "debrWndSeparator": {
-            "top": "1@shopFilterHFlowHeight +2@debrWndPad -h/2"
+          "frame_header": {
+            "HorizontalListBox": {
+              "id": "tabs_list",
+              "height": "ph",
+              "class": "header",
+              "smallFont": "yes",
+              "display": "hide",
+              "navigatorShortcuts": "yes",
+              "on_wrap_up": "onWrapUp",
+              "on_wrap_down": "onWrapDown",
+              "on_select": "onChangeTab"
+            },
+            "Button_close": {
+              "_on_click": "goBack"
+            }
           },
           "div": [
             {
               "id": "tabs_content"
             },
             {
-              "pos": "0, 1@debrWndPad"
+              "pos": "0, 1@frameHeaderHeight +1@debrWndPad"
             },
             {
               "position": "relative"
@@ -303,7 +301,7 @@
                         "height": "0.036@sf"
                       },
                       {
-                        "pos": "1.2@debrPad, ph/2-h/2"
+                        "pos": "1.1@debrPad, ph/2-h/2"
                       },
                       {
                         "position": "absolute"
@@ -337,97 +335,124 @@
                     ]
                   },
                   {
-                    "tdiv": {
-                      "id": "wnd_total",
-                      "pos": "67%pw -w, ph/2-h/2",
-                      "position": "absolute",
-                      "flow": "horizontal"
-                    }
-                  },
-                  {
-                    "Button_text": {
-                      "id": "btn_buy_premium_award",
-                      "pos": "78%pw-w/2, ph/2-h/2",
-                      "position": "absolute",
-                      "class": "buyPremAward",
-                      "on_click": "onBuyPremiumAward",
-                      "visualStyle": "purchase",
-                      "tooltip": "",
-                      "display": "hide",
-                      "btnName": "Y",
-                      "buttonWink": {
-                        "_transp-timer": "0"
+                    "tdiv": [
+                      {
+                        "id": "my_stats_top_bar"
                       },
-                      "buttonGlance": [],
-                      "ButtonImg": [],
-                      "textarea": {
-                        "id": "label",
-                        "pos": "0, ph/2-h/2",
-                        "position": "relative",
-                        "min-width": "pw",
-                        "input-transparent": "yes",
-                        "text-align": "center",
-                        "overlayTextColor": "premiumNotEarned",
-                        "text": ""
-                      }
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "active_wager_container",
-                      "size": "1@debrWagerHeight, 1@debrWagerHeight",
-                      "pos": "pw -1@debrBonusWidth -2@debrPad -85%w, ph/2-h/2",
-                      "position": "absolute",
-                      "title": "$tooltipObj",
-                      "tdiv": {
-                        "itemIconBlock": {
-                          "display": "hide",
-                          "id": "active_wager_icon",
-                          "debriefingSize": "yes",
-                          "overflow": "hidden"
-                        },
-                        "img": {
-                          "id": "active_wager_result_icon",
-                          "position": "absolute",
-                          "pos": "pw-1.2w, ph-1.2h",
-                          "size": "@unlockIconSize, @unlockIconSize",
-                          "background-image": "#ui/gameuiskin#favorite",
-                          "display": "hide"
+                      {
+                        "pos": "pw-w-1.3@debrPad, ph/2-h/2"
+                      },
+                      {
+                        "position": "absolute"
+                      },
+                      {
+                        "tdiv": {
+                          "id": "wnd_total",
+                          "pos": "1@debrPad, ph/2-h/2",
+                          "position": "relative"
                         }
                       },
-                      "textareaNoTab": {
-                        "id": "active_wager_text",
-                        "text": ""
+                      {
+                        "tdiv": {
+                          "id": "buy_premium",
+                          "pos": "1@debrPad, ph/2-h/2",
+                          "position": "relative",
+                          "display": "hide",
+                          "Button_text": {
+                            "id": "btn_buy_premium_award",
+                            "class": "buyPremAward",
+                            "style": "margin-right:0;",
+                            "on_click": "onBuyPremiumAward",
+                            "visualStyle": "purchase",
+                            "tooltip": "",
+                            "btnName": "Y",
+                            "buttonWink": {
+                              "_transp-timer": "0"
+                            },
+                            "buttonGlance": [],
+                            "ButtonImg": [],
+                            "textarea": {
+                              "id": "label",
+                              "pos": "0, ph/2-h/2",
+                              "position": "relative",
+                              "min-width": "pw",
+                              "input-transparent": "yes",
+                              "text-align": "center",
+                              "overlayTextColor": "premiumNotEarned",
+                              "text": ""
+                            }
+                          },
+                          "textareaNoTab": {
+                            "max-width": "150@sf/@pf",
+                            "pos": "0.3@sIco, ph/2-h/2",
+                            "position": "relative",
+                            "overlayTextColor": "userlog",
+                            "tinyFont": "yes",
+                            "text": "#mainmenu/notEarnedPremiumReward"
+                          }
+                        }
                       },
-                      "tooltipObj": {
-                        "id": "active_wager_tooltip",
-                        "on_tooltip_open": "onWagerTooltipOpen",
-                        "on_tooltip_close": "onTooltipObjClose",
-                        "display": "hide",
-                        "enable": "no"
+                      {
+                        "tdiv": {
+                          "id": "active_wager_container",
+                          "pos": "1@debrPad, ph/2-h/2",
+                          "position": "relative",
+                          "title": "$tooltipObj",
+                          "display": "hide",
+                          "tdiv": {
+                            "size": "70%@debrWagerHeight, 1@debrWagerHeight",
+                            "itemIconBlock": {
+                              "id": "active_wager_icon",
+                              "pos": "pw/2-w/2, ph/2-h/2",
+                              "position": "absolute",
+                              "debriefingSize": "yes",
+                              "overflow": "hidden"
+                            },
+                            "img": {
+                              "id": "active_wager_result_icon",
+                              "size": "ph/2, ph/2",
+                              "pos": "pw-0.7w, ph-h",
+                              "position": "absolute",
+                              "background-image": ""
+                            }
+                          },
+                          "textareaNoTab": {
+                            "id": "active_wager_text",
+                            "pos": "10@sf/@pf, ph/2-h/2",
+                            "position": "relative",
+                            "overlayTextColor": "userlog",
+                            "tinyFont": "yes",
+                            "text": ""
+                          },
+                          "tooltipObj": {
+                            "id": "active_wager_tooltip",
+                            "on_tooltip_open": "onWagerTooltipOpen",
+                            "on_tooltip_close": "onTooltipObjClose",
+                            "display": "hide",
+                            "enable": "no"
+                          }
+                        }
+                      },
+                      {
+                        "debriefingBonusIconNest": {
+                          "id": "bonus_ico_place",
+                          "size": "1@debrBonusWidth, 1@debrBonusHeight",
+                          "pos": "1@debrPad, ph/2-h/2",
+                          "position": "relative",
+                          "display": "hide",
+                          "img": {
+                            "id": "bonus_ico",
+                            "size": "pw, ph"
+                          },
+                          "tdiv": {
+                            "id": "start_bonus_place",
+                            "size": "2.5@debrBonusWidth, 2.5@debrBonusHeight",
+                            "pos": "pw/2-w/2, ph/2-h/2",
+                            "position": "absolute"
+                          }
+                        }
                       }
-                    }
-                  },
-                  {
-                    "debriefingBonusIconNest": {
-                      "id": "bonus_ico_place",
-                      "size": "1@debrBonusWidth, 1@debrBonusHeight",
-                      "pos": "pw -1@debrPad -w, ph/2-h/2",
-                      "position": "absolute",
-                      "img": {
-                        "id": "bonus_ico",
-                        "size": "pw, ph",
-                        "display": "hide"
-                      }
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "start_bonus_place",
-                      "size": "2.5@debrBonusWidth, 2.5@debrBonusHeight",
-                      "pos": "pw -1@debrPad -50%@debrBonusWidth -50%w, ph/2-h/2",
-                      "position": "absolute"
-                    }
+                    ]
                   }
                 ],
                 "tdiv": {
@@ -886,13 +911,15 @@
             "tdiv": {
               "id": "gamercard_drawer_container"
             },
-            "CentralPlate": {
+            "GamecardPlate": {
               "id": "gamercard_center",
               "display": "hide",
               "pos": "50%sw-50%w, 0",
               "position": "root",
               "min-width": "1@queueTableWidth",
-              "padding-top": "1@gameModeSelectPaddingY",
+              "padding-top": "1@gameModeSelectPaddingTop",
+              "padding-bottom": "1@gameModeSelectPaddingBottom",
+              "background-color": "@gameModeColor",
               "tdiv": {
                 "id": "gamercard_panel_center",
                 "position": "relative",
@@ -950,29 +977,11 @@
             },
             "TopMenuPanel": [
               {
-                "css-hier-invalidate": "yes"
-              },
-              {
-                "pattern": {
-                  "type": "bright_texture"
-                }
-              },
-              {
-                "Red_shadow_light": {
-                  "pos": "50%pw-50%w, 5",
-                  "position": "absolute",
-                  "size": "25%pw, ph - 10",
-                  "re-type": "rotation",
-                  "background-rotation": "180",
-                  "display": "hide"
-                }
-              },
-              {
                 "tdiv": {
-                  "background-color": "@shadeBackgroundColor2",
+                  "background-color": "@gameModeColorSolid",
                   "position": "absolute",
                   "pos": "50%pw-50%w, 0",
-                  "size": "1@gcToBattleButtonPlaceWidth, 1@topBarHeight-5"
+                  "size": "1@gcToBattleButtonPlaceWidth, 1@topBarHeight"
                 }
               },
               {
@@ -1034,7 +1043,7 @@
                     "height": "1@gamercardHeight"
                   },
                   {
-                    "pos": "1@bw,ph-h-6"
+                    "pos": "1@bw,ph-h"
                   },
                   {
                     "position": "absolute"
@@ -1048,7 +1057,7 @@
                         "height": "ph"
                       },
                       {
-                        "pos": "50%pw - w - 0.5@gcToBattleButtonPlaceWidth - 1@gcLineLockWidth, 50%ph-50%h"
+                        "pos": "50%pw - w - 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h"
                       },
                       {
                         "position": "absolute"
@@ -1100,7 +1109,7 @@
                               "tooltip": "#mainmenu/btnClanCard",
                               "display": "hide",
                               "_on_click": "onMyClanOpen",
-                              "shadeDiv": {
+                              "ShadeDiv": {
                                 "id": "gc_clanAlert",
                                 "display": "hide",
                                 "padding-right": "2/720@sf",
@@ -1129,7 +1138,7 @@
                               "reduceMinWidth": "yes",
                               "tooltip": "#mainmenu/btnProfile",
                               "_on_click": "onProfile",
-                              "shadeDiv": {
+                              "ShadeDiv": {
                                 "cardImg": {
                                   "id": "gc_icon"
                                 },
@@ -1185,7 +1194,7 @@
                         "height": "ph"
                       },
                       {
-                        "pos": "50%pw + 0.5@gcToBattleButtonPlaceWidth + 1@gcLineLockWidth, 50%ph-50%h"
+                        "pos": "50%pw + 0.5@gcToBattleButtonPlaceWidth, 50%ph-50%h"
                       },
                       {
                         "position": "absolute"
@@ -1249,7 +1258,7 @@
                                 "width": "@cIco + 0.08@sf + 9*@sf/@pf_outdated"
                               },
                               {
-                                "shadeDiv": {
+                                "ShadeDiv": {
                                   "cardImg": {
                                     "background-image": "#ui/gameuiskin#convert_xp"
                                   }
@@ -1310,7 +1319,7 @@
                                 "showBonusCommon": ""
                               },
                               {
-                                "shadeDiv": {
+                                "ShadeDiv": {
                                   "cardImg": {
                                     "background-image": "#ui/gameuiskin#shop_warpoints"
                                   }
@@ -1344,7 +1353,7 @@
                               "style": "height:ph;",
                               "_on_click": "onOnlineShopEaglesMsg",
                               "tooltip": "#mainmenu/gold",
-                              "shadeDiv": {
+                              "ShadeDiv": {
                                 "cardImg": {
                                   "background-image": "#ui/gameuiskin#shop_warpoints_premium"
                                 }
@@ -1367,9 +1376,8 @@
                           {
                             "Button_text": {
                               "id": "gc_PremiumAccount",
-                              "size": "ph,ph",
                               "_on_click": "onOnlineShopPremium",
-                              "class": "image20",
+                              "class": "header",
                               "display": "show",
                               "img": {
                                 "id": "gc_prempic",
@@ -1395,33 +1403,17 @@
                 ]
               },
               {
-                "tdiv": [
-                  {
-                    "position": "absolute"
-                  },
-                  {
-                    "pos": "50%pw-50%w, 0"
-                  },
-                  {
-                    "LineLock": {
-                      "type": "left"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "id": "gamercard_tobattle",
-                      "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
-                      "pos": "0, 1@bh",
-                      "position": "relative",
-                      "allowDecreaseFont": "yes"
-                    }
-                  },
-                  {
-                    "LineLock": {
-                      "type": "right"
-                    }
+                "tdiv": {
+                  "position": "absolute",
+                  "pos": "50%pw-50%w, 0",
+                  "tdiv": {
+                    "id": "gamercard_tobattle",
+                    "size": "1@gcToBattleButtonPlaceWidth, 0.06@sf",
+                    "pos": "0, 1@bh",
+                    "position": "relative",
+                    "allowDecreaseFont": "yes"
                   }
-                ]
+                }
               },
               {
                 "infoBlock": {
@@ -1551,16 +1543,13 @@
                           "id": "gc_invites_btn"
                         },
                         {
-                          "size": "ph,ph"
-                        },
-                        {
                           "tooltip": "#mainmenu/invites"
                         },
                         {
                           "_on_click": "onGC_invites"
                         },
                         {
-                          "class": "image24"
+                          "class": "header"
                         },
                         {
                           "img": {
@@ -1582,10 +1571,9 @@
                     {
                       "Button_text": {
                         "id": "gc_contacts",
-                        "size": "ph,ph",
                         "tooltip": "#mainmenu/contacts",
                         "_on_click": "onGC_contacts",
-                        "class": "image24",
+                        "class": "header",
                         "img": {
                           "background-image": "#ui/gameuiskin#friends"
                         },
@@ -1605,13 +1593,10 @@
                           "id": "gc_chat_btn"
                         },
                         {
-                          "size": "ph,ph"
-                        },
-                        {
                           "_on_click": "onGC_chat"
                         },
                         {
-                          "class": "image24"
+                          "class": "header"
                         },
                         {
                           "img": {
@@ -1646,13 +1631,10 @@
                           "id": "gc_userlog_btn"
                         },
                         {
-                          "size": "ph,ph"
-                        },
-                        {
                           "_on_click": "onUserLog"
                         },
                         {
-                          "class": "image24"
+                          "class": "header"
                         },
                         {
                           "img": {

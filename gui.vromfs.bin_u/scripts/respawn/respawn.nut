@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::last_ca_aircraft <- null
 ::last_ca_base <- null
 ::used_planes <- {}
@@ -41,6 +44,7 @@ function gui_start_respawn(is_match_start = false)
 class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 {
   sceneBlkName = "gui/respawn.blk"
+  shouldBlurSceneBg = true
   keepLoaded = true
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_NONE
 
@@ -289,9 +293,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (isRespawn && respawnBasesInfo.len())
     {
       local spawnId = (::last_ca_base != null) ? ::last_ca_base : -1
-      local time = ::get_respawn_base_time_left_by_id(spawnId)
-      if (time > 0)
-        text = ::loc("multiplayer/respawnBaseAvailableTime", { time = ::secondsToString(time) })
+      local timeLeft = ::get_respawn_base_time_left_by_id(spawnId)
+      if (timeLeft > 0)
+        text = ::loc("multiplayer/respawnBaseAvailableTime", { time = time.secondsToString(timeLeft) })
     }
     tmapRespawnBaseTimerObj.setValue(text)
   }
@@ -1405,7 +1409,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local slotDelay = ::get_slot_delay(air.name)
       if (slotDelay > 0)
       {
-        local timeText = ::secondsToString(slotDelay)
+        local timeText = time.secondsToString(slotDelay)
         local msgBoxText = ::loc("multiplayer/slotDelay", { time = timeText })
         if (!silent)
           ::showInfoMsgBox(msgBoxText, "wait_for_slot_delay", true)
@@ -1604,7 +1608,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     infoTexts.append(missionRules.getRespawnInfoTextForUnit(unit))
     isAvailResp = isAvailResp && missionRules.getUnitLeftRespawns(unit) != 0
 
-    local infoText = ::implode(infoTexts, ", ")
+    local infoText = ::g_string.implode(infoTexts, ", ")
     if (infoText.len())
       applyText += ::loc("ui/parentheses/space", { text = infoText })
 
@@ -2045,6 +2049,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     showSpectatorInfo(is_spectator)
     setOrdersEnabled(isSpectate)
     updateSpectatorRotationForced()
+
+    shouldBlurSceneBg = !isSpectate
+    ::handlersManager.updateSceneBgBlur()
 
     updateTacticalMapUnitType()
     if ("set_tactical_map_type_without_unit" in ::getroottable()) //compatibility with wop_1_69_1_X

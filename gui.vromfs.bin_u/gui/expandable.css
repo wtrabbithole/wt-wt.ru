@@ -72,20 +72,6 @@ expandable[status=locked] statusImg {
   background-image:#ui/gameuiskin#locked;
 }
 
-expandable.battletask {
-  background-image:#ui/gameuiskin#lr_frame_bg;
-  padding:0;
-}
-
-expandable.battletask[battleTaskStatus=done] {
-  background-image:#ui/gameuiskin#window_block_bright;
-  background-color:@itemLockedColor;
-}
-
-expandable.battletask[battleTaskStatus=done] textareaNoTab {
-  overlayTextColor:"faded";
-}
-
 expandable statusImg[background-image] {
   background-color:@commonTextColor;
 }
@@ -107,14 +93,6 @@ expandable[status=owned], expandable[status=owned] statusImg[background-image] {
   background-color:@shopItemOwned;
 }
 
-expandable.battletask[battleTaskStatus=done]:hover {
-  background-color:@itemLockedColorHover;
-}
-
-expandable.battletask[battleTaskStatus=done]:current {
-  background-color:@itemLockedColor;
-}
-
 expandable[status=owned]:hover, expandable[status=owned]:hover statusImg[background-image],
 expandable[status=owned]:current, expandable[status=owned]:current statusImg[background-image] {
   background-color:@shopItemOwnedFocus;
@@ -133,6 +111,46 @@ expandable[haveHeader=first] {
 }
 expandable[haveHeader=yes] {
   margin-top:8*@scrn_tgt/100.0;
+}
+
+expandable.battletask {
+  padding:0;
+  background-image:"";
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  border-offset:@dp;
+}
+
+expandable.battletask[battleTaskStatus=done] {
+  background-image:"";
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+}
+
+promoButton > expandable.battletask {
+  border: no;
+}
+
+expandable.battletask:hover {
+  background-color:@frameDarkActiveBgColor;
+}
+
+expandable.battletask:current {
+  background-color:@frameDarkActiveBgColor;
+  border-color:@frameDarkSelectedBorderColor;
+}
+
+expandable.battletask[battleTaskStatus=done] textareaNoTab {
+  color-factor:128;
+}
+
+expandable:current > fgLine {
+  size:pw + 2@dp, 2@dp;
+  pos:-1@dp, -1@dp;
+  position:absolute;
+  background-color:@frameDarkLineColor;
 }
 
 promoButton[type=battleTask] expandable {

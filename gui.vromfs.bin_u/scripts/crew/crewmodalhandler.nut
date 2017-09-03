@@ -197,7 +197,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local maxDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo, false)
     local discountText = maxDiscount > 0? ("-" + maxDiscount + "%") : ""
-    local discountTooltip = ::stripTags(::g_crew.getDiscountsTooltipByInfo(discountInfo, false))
+    local discountTooltip = ::g_string.stripTags(::g_crew.getDiscountsTooltipByInfo(discountInfo, false))
 
     curPage = 0
 

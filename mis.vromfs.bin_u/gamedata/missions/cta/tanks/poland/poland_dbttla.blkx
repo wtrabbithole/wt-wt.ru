@@ -222,23 +222,20 @@
       "weather": "hazy",
       "missionDebriefing": "",
       "missionBriefing": "",
+      "chapter": "air_ground_DBttlA",
       "locName": "missions/_DBttlA;poland/name",
       "locDesc": "poland/desc;missions/_DBttl/desc",
-      "chapter": "air_ground_DBttlA",
       "scoreLimit": 6000,
       "timeLimit": 30,
       "deathPenaltyMul": 0.0,
+      "postfix": "_DBttlA",
+      "ctaCaptureZoneEqualPenaltyMul": 0.5,
       "useAlternativeMapCoord": false,
+      "allowedKillStreaks": true,
       "randomSpawnTeams": false,
       "remapAiTankModels": true,
-      "postfix": "_DBttlA",
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedKillStreaks": true,
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -257,7 +254,16 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false
       }
     },
     "spectator_points": [],
@@ -283,6 +289,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -317,6 +326,22 @@
               "icontype": "tank",
               "side": "enemy",
               "target": "briefing_dbttl_t2_spawn_02"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "ally",
+              "target": "t1_briefing_airspawn",
+              "lookAt": "t2_briefing_airspawn"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "enemy",
+              "target": "t2_briefing_airspawn",
+              "lookAt": "t1_briefing_airspawn"
             }
           }
         ]
@@ -387,6 +412,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -397,63 +438,21 @@
     "isCategory": true,
     "is_enabled": true
   },
-  "variables": [],
+  "variables": {
+    "defenseMissionTeam": "teamA"
+  },
   "dialogs": [],
   "airfields": [],
   "effects": [],
   "units": [],
   "areas": {
-    "briefing_t1_tankSpawn_Rb_01": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [2691.45,7.25,2098.75]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t2_tankSpawn_Rb_01": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [1310.6,15.55,2036.9]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t1_tankSpawn_Rb_02": {
-      "type": "Point",
-      "tm": [
-        [0.996195,0.0,0.0871554],
-        [0.0,1.0,0.0],
-        [-0.0871554,0.0,0.996195],
-        [3176.55,14.0,1554.55]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_t2_tankSpawn_Rb_02": {
-      "type": "Point",
-      "tm": [
-        [0.906308,0.0,-0.422618],
-        [0.0,1.0,0.0],
-        [0.422618,0.0,0.906308],
-        [1129.6,4.3,1399.3]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "briefing_dbttl_t1_capture_area": {
       "type": "Point",
       "tm": [
-        [31.1664,0.0,26.9652],
+        [32.696,0.0,-25.0885],
         [0.0,75.0,0.0],
-        [-26.9652,0.0,31.1664],
-        [2249.66,3.77332,2196.93]
+        [25.0885,0.0,32.696],
+        [2347.25,4.4,2148.6]
       ],
       "objLayer": 0,
       "props": []
@@ -461,10 +460,10 @@
     "briefing_dbttl_t1_spawn_01": {
       "type": "Point",
       "tm": [
-        [0.475107,0.0,-0.879928],
+        [-0.766044,0.0,-0.642788],
         [0.0,1.0,0.0],
-        [0.879928,0.0,0.475107],
-        [2733.82,7.73692,2075.08]
+        [0.642788,0.0,-0.766044],
+        [2584.95,4.55,2513.2]
       ],
       "objLayer": 0,
       "props": []
@@ -472,10 +471,10 @@
     "briefing_dbttl_t2_spawn_01": {
       "type": "Point",
       "tm": [
-        [31.1664,0.0,26.9652],
-        [0.0,75.0,0.0],
-        [-26.9652,0.0,31.1664],
-        [1299.0,3.77344,2073.78]
+        [0.819152,0.0,0.573577],
+        [0.0,1.0,0.0],
+        [-0.573577,0.0,0.819152],
+        [1273.25,11.5,1783.85]
       ],
       "objLayer": 0,
       "props": []
@@ -483,10 +482,10 @@
     "briefing_dbttl_t1_spawn_02": {
       "type": "Point",
       "tm": [
-        [0.475107,0.0,-0.879928],
+        [-0.766044,0.0,-0.642788],
         [0.0,1.0,0.0],
-        [0.879928,0.0,0.475107],
-        [2618.91,7.73718,1479.29]
+        [0.642788,0.0,-0.766044],
+        [2722.6,9.0,2089.35]
       ],
       "objLayer": 0,
       "props": []
@@ -494,10 +493,32 @@
     "briefing_dbttl_t2_spawn_02": {
       "type": "Point",
       "tm": [
-        [31.1664,0.0,26.9652],
-        [0.0,75.0,0.0],
-        [-26.9652,0.0,31.1664],
-        [1267.02,3.77344,1560.64]
+        [0.819152,0.0,0.573577],
+        [0.0,1.0,0.0],
+        [-0.573577,0.0,0.819152],
+        [1208.8,13.7,2215.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [-0.198457,0.0,0.98011],
+        [0.0,1.0,0.0],
+        [-0.98011,0.0,-0.198457],
+        [322.35,294.7,2202.85]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [-0.186653,0.0,-0.982426],
+        [0.0,1.0,0.0],
+        [0.982426,0.0,-0.186653],
+        [3821.3,62.95,1733.55]
       ],
       "objLayer": 0,
       "props": []

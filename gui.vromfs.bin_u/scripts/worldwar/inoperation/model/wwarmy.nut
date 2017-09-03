@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::WwArmy extends ::WwFormation
 {
   suppliesEndMillisec = 0
@@ -133,7 +136,7 @@ class ::WwArmy extends ::WwFormation
     local suppliesEnd = getSuppliesFinishTime()
     if (suppliesEnd > 0)
     {
-      local timeText = ::hoursToString(::seconds_to_hours(suppliesEnd), true, true)
+      local timeText = time.hoursToString(time.secondsToHours(suppliesEnd), true, true)
       local suppliesEndLoc = "worldwar/suppliesfinishedIn"
       if (::g_ww_unit_type.isAir(unitType))
         suppliesEndLoc = "worldwar/returnToAirfieldIn"
@@ -148,17 +151,17 @@ class ::WwArmy extends ::WwFormation
     else if (entrenchTime > 0)
     {
       desc.push(::loc("worldwar/armyEntrenching",
-          {time = ::hoursToString(::seconds_to_hours(entrenchTime), true, true)}))
+          {time = time.hoursToString(time.secondsToHours(entrenchTime), true, true)}))
     }
 
-    return ::implode(desc, "\n")
+    return ::g_string.implode(desc, "\n")
   }
 
   function getFullDescription()
   {
     local desc = getFullName()
     desc += "\n"
-    desc += ::implode(getUnitsFullNamesList(), "\n")
+    desc += ::g_string.implode(getUnitsFullNamesList(), "\n")
     return desc
   }
 
@@ -175,7 +178,7 @@ class ::WwArmy extends ::WwFormation
     else if (isInBattle() && suppliesEndMillisec < 0)
       finishTimeMillisec = -suppliesEndMillisec
 
-    return ::milliseconds_to_seconds(finishTimeMillisec).tointeger()
+    return time.millisecondsToSeconds(finishTimeMillisec).tointeger()
   }
 
   function secondsLeftToEntrench()
@@ -183,8 +186,8 @@ class ::WwArmy extends ::WwFormation
     if (entrenchEndMillisec <= 0)
       return -1
 
-    local time = entrenchEndMillisec - ::ww_get_operation_time_millisec()
-    return ::milliseconds_to_seconds(time).tointeger()
+    local leftToEntrenchTime = entrenchEndMillisec - ::ww_get_operation_time_millisec()
+    return time.millisecondsToSeconds(leftToEntrenchTime).tointeger()
   }
 
   function secondsLeftToFireEnable()
@@ -193,8 +196,8 @@ class ::WwArmy extends ::WwFormation
       return -1
 
     local coolDownMillisec = artilleryAmmo.getCooldownAfterMoveMillisec()
-    local time = stoppedAtMillisec + coolDownMillisec - ::ww_get_operation_time_millisec()
-    return ::max(::milliseconds_to_seconds(time).tointeger(), 0)
+    local leftToFireEnableTime = stoppedAtMillisec + coolDownMillisec - ::ww_get_operation_time_millisec()
+    return ::max(time.millisecondsToSeconds(leftToFireEnableTime).tointeger(), 0)
   }
 
   function needUpdateDescription()

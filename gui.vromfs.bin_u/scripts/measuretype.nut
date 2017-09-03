@@ -2,6 +2,10 @@
  * Measure type is a useful abstraction above
  * customizable and hard-coded measure units.
  */
+
+local time = require("scripts/time.nut")
+
+
 ::g_measure_type <- {
   types = []
 }
@@ -101,7 +105,7 @@ function g_measure_type::_getMeasureUnitsName()
 
     getMeasureUnitsText = function (value, ...)
     {
-      return ::hoursToString(value, false)
+      return time.hoursToString(value, false)
     }
 
     getMeasureUnitsName = function ()

@@ -47,6 +47,14 @@
         "genericDamageMult": 0.3,
         "hp": 14.5
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
       "fin_dm": {
         "hp": 17.8
       },
@@ -55,6 +63,12 @@
       },
       "flap1_r_dm": {
         "hp": 14.5
+      },
+      "flap2_l_dm": {
+        "hp": 14.6
+      },
+      "flap2_r_dm": {
+        "hp": 14.6
       },
       "rudder_dm": {
         "genericDamageMult": 0.3,
@@ -146,6 +160,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 39.5
       },
@@ -209,23 +226,6 @@
       },
       "tank4_dm": {
         "hp": 39.5
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 8.0
-      },
-      "elevator1_dm": {
-        "hp": 8.0
-      },
-      "flap2_l_dm": {
-        "hp": 11.6
-      },
-      "flap2_r_dm": {
-        "hp": 11.6
-      },
-      "gear_c_dm": {
-        "hp": 1.6
       }
     }
   },
@@ -2451,5 +2451,26 @@
         "from": "he_100d_1_luft_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.352359,-0.33235,0.723255],
+    "_emtr_break_wing0_l_to": [-0.352359,-0.33235,1.09557],
+    "emtr_break_wing1_l_from": [-0.352359,-0.33235,1.65405],
+    "emtr_break_wing1_l_to": [-0.352359,-0.33235,2.30533],
+    "emtr_break_wing2_l_from": [-0.352359,-0.33235,3.28226],
+    "emtr_break_wing2_l_to": [-0.352359,-0.33235,3.8547],
+    "_emtr_break_wing0_r_from": [-0.352359,-0.33235,-0.723256],
+    "_emtr_break_wing0_r_to": [-0.352359,-0.33235,-1.09557],
+    "emtr_break_wing1_r_from": [-0.352359,-0.33235,-1.65405],
+    "emtr_break_wing1_r_to": [-0.352359,-0.33235,-2.30533],
+    "emtr_break_wing2_r_from": [-0.352359,-0.33235,-3.28226],
+    "emtr_break_wing2_r_to": [-0.352359,-0.33235,-3.8547],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-4.343,0.0,0.0]
+    ],
+    "partKindTail": 2
+  }
 }

@@ -71,3 +71,37 @@ function g_mp_chat_mode::getModeById(modeId)
 {
   return ::g_enum_utils.getCachedType("id", modeId, cache.byId, this, ALL)
 }
+
+
+function g_mp_chat_mode::getModeNameText(modeId)
+{
+  return getModeById(modeId).getNameText()
+}
+
+
+function g_mp_chat_mode::getNextMode(modeId)
+{
+  local isCurFound = false
+  local newMode = null
+  foreach(mode in types)
+  {
+    if (modeId == mode.id)
+    {
+      isCurFound = true
+      continue
+    }
+
+    if (!mode.isEnabled())
+      continue
+
+    if (isCurFound)
+      return mode.id
+    if (newMode == null)
+      newMode = mode.id
+  }
+
+  return newMode
+}
+
+
+::cross_call_api.mp_chat_mode <- ::g_mp_chat_mode

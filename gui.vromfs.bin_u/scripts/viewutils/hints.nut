@@ -27,6 +27,7 @@ function g_hints::buildHintMarkup(text, params = {})
     isOrderPopup = ::getTblValue("isOrderPopup", params, false)
     isWrapInRowAllowed = ::getTblValue("isWrapInRowAllowed", params, false)
     flowAlign = ::getTblValue("flowAlign", params, "center")
+    animation = ::getTblValue("animation", params)
     rows = []
   }
 

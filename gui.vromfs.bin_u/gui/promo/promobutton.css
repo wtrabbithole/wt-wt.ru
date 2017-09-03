@@ -177,24 +177,6 @@ promoButton[invisibleHover=yes]:hover {
   background-image: #ui/gameuiskin#expandable_item_transp;
 }
 
-promoButton fillBlock[link] > textareaFade > textarea {
-  color:@linkTextColor;
-}
-
-promoButton fillBlock[link] > textareaFade > textarea > underline {
-  background-color:@linkTextColor;
-}
-
-promoButton:hover fillBlock[link] > textareaFade > textarea,
-[show_console_buttons=yes] promoButton:focus fillBlock[link] > textareaFade > textarea {
-  color:@linkTextHoverColor;
-}
-
-promoButton:hover fillBlock[link] > textareaFade > textarea > underline,
-[show_console_buttons=yes] promoButton:focus fillBlock[link] > textareaFade > textarea > underline {
-  background-color:@linkTextHoverColor;
-}
-
 promoButton fillBlock > imageFade {
   background-color:@white;
   background-position:4;
@@ -299,6 +281,25 @@ promoButton:hover[inactiveColor=yes] collapsedContainer > shortHeaderIcon {
 promoButton[invisibleHover=yes] collapsedContainer > shortHeaderText,
 promoButton[invisibleHover=yes] > uncollapsedContainer > fillBlock > textareaFade > textarea {
   color: @commonPromoButtonTextColor;
+}
+
+
+promoButton fillBlock[link] > textareaFade > textarea {
+  color:@linkTextColor;
+}
+
+promoButton fillBlock[link] > textareaFade > textarea > underline {
+  background-color:@linkTextColor;
+}
+
+promoButton:hover fillBlock[link] > textareaFade > textarea,
+[show_console_buttons=yes] promoButton:focus fillBlock[link] > textareaFade > textarea {
+  color:@linkTextHoverColorLight;
+}
+
+promoButton:hover fillBlock[link] > textareaFade > textarea > underline,
+[show_console_buttons=yes] promoButton:focus fillBlock[link] > textareaFade > textarea > underline {
+  background-color:@linkTextHoverColorLight;
 }
 
 promoButton[type=autoWidth] {

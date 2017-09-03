@@ -132,7 +132,7 @@ function g_chat_thread_tag::_getTagStringBoolForBoolTag(threadInfo)
     {
       threadInfo.sortLangList()
       local tags = ::u.map(threadInfo[threadInfoParamName], (@(prefix) function(val) { return prefix + val })(prefix))
-      return ::implode(tags, ",")
+      return ::g_string.implode(tags, ",")
     }
   }
 

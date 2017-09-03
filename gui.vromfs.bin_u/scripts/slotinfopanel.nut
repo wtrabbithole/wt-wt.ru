@@ -72,7 +72,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContentFromText(listboxObj, data, data.len(), this)
 
       listboxObj.setValue(showTabs ? ::loadLocalByAccount(SLOT_INFO_TAB_SAVE_ID, 0) : 0)
-      listboxObj.show(showTabs && ::has_feature("CrewInfoPanel"))
+      listboxObj.show(showTabs)
     }
 
     local unitInfoObj = scene.findObject("air_info_content_info")
@@ -192,6 +192,20 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       ::dmViewer.init(this)
     }
     base.onSceneActivate(show)
+  }
+
+  function onEventShopWndVisible(p)
+  {
+    local isShopShow = ::getTblValue("isShow", p, false)
+    local isShow = !isShopShow
+
+    onSceneActivate(isShow)
+    scene.show(isShow)
+    if (isShow)
+    {
+      doWhenActiveOnce("updateAirInfo")
+      doWhenActiveOnce("updateCrewInfo")
+    }
   }
 
   function onEventModalWndDestroy(p)

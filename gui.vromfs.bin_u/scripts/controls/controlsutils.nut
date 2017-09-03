@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 function on_connected_controller()
 {
   //calls from c++ code, no event on PS4
@@ -14,11 +17,13 @@ function on_connected_controller()
       func = null
     }]
 
-  ::g_popups.add(::loc("popup/newcontroller"),
-          ::loc("popup/newcontroller/message"),
-          action,
-          buttons,
-          null,
-          null,
-          10*TIME_MINUTE_IN_SECONDS*TIME_SECOND_IN_MSEC)
+  ::g_popups.add(
+    ::loc("popup/newcontroller"),
+    ::loc("popup/newcontroller/message"),
+    action,
+    buttons,
+    null,
+    null,
+    time.secondsToMilliseconds(time.minutesToSeconds(10))
+  )
 }

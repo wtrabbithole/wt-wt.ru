@@ -9,13 +9,35 @@ function gui_start_order_activation_window(params = null)
 
 class ::gui_handlers.OrderActivationWindow extends ::gui_handlers.ItemsList
 {
+  _types = [
+    {
+      key = "orders"
+      typeMask = itemType.ORDER
+    }
+    {
+      key = "devItems"
+      typeMask = itemType.ALL
+      devItemsTab = true
+      tabEnable = @() ::has_feature("devItemShop") ? [itemsTab.SHOP] : []
+    }
+  ]
+
   /*override*/ function updateButtons()
   {
     local item = getCurItem()
     local actionName = item ? item.getMainActionName() : ""
-    showSceneBtn("btn_main_action", actionName.len() > 0)
-    ::setDoubleTextToButton(scene, "btn_main_action", actionName)
-    setWarningText(::g_orders.getWarningText(item))
+    local showMainAction = actionName != ""
+    local buttonObj = showSceneBtn("btn_main_action", showMainAction)
+    if (showMainAction)
+    {
+      buttonObj.visualStyle = curTab == itemsTab.INVENTORY? "secondary" : "purchase"
+      ::setDoubleTextToButton(scene, "btn_main_action", item.getMainActionName(false), actionName)
+    }
+
+    local text = ""
+    if (curTab == itemsTab.INVENTORY)
+      text =::g_orders.getWarningText(item)
+    setWarningText(text)
   }
 
   /*override*/ function onTimer(obj, dt)

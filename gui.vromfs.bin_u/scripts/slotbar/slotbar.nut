@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::crews_list <- !::g_login.isLoggedIn() ? [] : ::get_crew_info()
 
 /*
@@ -228,6 +231,7 @@ function build_aircraft_item(id, air, params = {})
       unitRarity          = unitRarity
       isBroken            = isLocalState && isBroken
       shopAirImg          = ::image_for_air(air)
+      isPkgDev            = air.isPkgDev
       discountId          = id + "-discount"
       showDiscount        = isLocalState && !isOwn && (!::isUnitGift(air) || checkNotification)
       shopItemTextId      = id + "_txt"
@@ -237,7 +241,7 @@ function build_aircraft_item(id, air, params = {})
       showInService       = getVal("showInService", false) && isUsable
       isMounted           = isMounted
       priceText           = priceText
-      isElite             = isLocalState && ::isUnitElite(air) || special
+      isElite             = isLocalState && (isOwn && ::isUnitElite(air)) || (!isOwn && special)
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
       isItemLocked        = isLocalState && !isUsable && !special && !::isUnitsEraUnlocked(air)
       hasTalismanIcon     = isLocalState && (special || ::shop_is_modification_enabled(air.name, "premExpMul"))
@@ -273,6 +277,7 @@ function build_aircraft_item(id, air, params = {})
     local isGroupUsable     = false
     local isGroupInResearch = false
     local isElite           = true
+    local isPkgDev          = false
     local hasTalismanIcon   = false
     local talismanIncomplete = false
     local mountedUnit       = null
@@ -319,6 +324,7 @@ function build_aircraft_item(id, air, params = {})
       reserve = reserve || ::isUnitDefault(a)
       special = ::isUnitSpecial(a)
       isElite = isElite && ::isUnitElite(a)
+      isPkgDev = isPkgDev || a.isPkgDev
 
       local hasTalisman = special || ::shop_is_modification_enabled(a.name, "premExpMul")
       hasTalismanIcon = hasTalismanIcon || hasTalisman
@@ -422,9 +428,9 @@ function build_aircraft_item(id, air, params = {})
     local shopAirImage = ::get_unit_preset_img(air.name)
     if (!shopAirImage)
       if (::is_tencent_unit_image_reqired(nextAir))
-        shopAirImage = "!#ui/unitskin_tomoe#" + air.name + (air.name.find("_group", 0) ? "" : "_group")
+        shopAirImage = ::get_tomoe_unit_icon(air.name) + (air.name.find("_group", 0) ? "" : "_group")
       else
-        shopAirImage = "!" + (::getTblValue("image", air) || "#ui/unitskin_air#planes_group")
+        shopAirImage = "!" + (::getTblValue("image", air) || ("#ui/atlas_air#planes_group"))
 
     local groupSlotView = {
       slotId              = id
@@ -433,6 +439,7 @@ function build_aircraft_item(id, air, params = {})
       groupStatus         = groupStatus == defaultStatus ? ::getUnitItemStatusText(bitStatus, true) : groupStatus
       isBroken            = bitStatus & bit_unit_status.broken
       shopAirImg          = shopAirImage
+      isPkgDev            = isPkgDev
       discountId          = id + "-discount"
       shopItemTextId      = id + "_txt"
       shopItemText        = forceUnitNameOnPlate ? "#" + nextAir.name + "_shop" : "#shop/group/" + air.name
@@ -636,7 +643,7 @@ function get_unit_item_price_text(unit, params)
       ? slotDelayData.slotDelay - ((::dagor.getCurTime() - slotDelayData.updateTime)/1000).tointeger()
       : ::get_slot_delay(unit.name)
     if (haveSpawnDelay && spawnDelay > 0)
-      priceText += ::secondsToString(spawnDelay)
+      priceText += time.secondsToString(spawnDelay)
     else
     {
       local txtList = []
@@ -664,7 +671,7 @@ function get_unit_item_price_text(unit, params)
 
       if (txtList.len())
       {
-        local spawnCostText = ::implode(txtList, ", ")
+        local spawnCostText = ::g_string.implode(txtList, ", ")
         if (priceText.len())
           spawnCostText = ::loc("ui/parentheses", { text = spawnCostText })
         priceText += spawnCostText
@@ -694,7 +701,7 @@ function get_unit_item_price_text(unit, params)
     if (overlayPrice >= 0)
       priceText = ::getPriceAccordingToPlayersCurrency(overlayPrice, 0, true)
     else if (!isUsable && gift)
-      priceText = ::stripTags(::loc("shop/giftAir/" + unit.gift, "shop/giftAir/alpha"))
+      priceText = ::g_string.stripTags(::loc("shop/giftAir/" + unit.gift, "shop/giftAir/alpha"))
     else if (!isUsable && (canBuy || special || !special && researched))
       priceText = ::getPriceAccordingToPlayersCurrency(::wp_get_cost(unit.name), ::wp_get_cost_gold(unit.name), true)
 
@@ -751,14 +758,14 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
       minBR = !minBR ? br : ::min(minBR, br)
       maxBR = !maxBR ? br : ::max(maxBR, br)
     }
-    return isReserve ? ::stripTags(::loc("shop/reserve")) :
+    return isReserve ? ::g_string.stripTags(::loc("shop/reserve")) :
       showBR  ? (minBR != maxBR ? ::format("%.1f-%.1f", minBR, maxBR) : ::format("%.1f", minBR)) :
       ::get_roman_numeral(rank)
   }
 
   local isReserve = ::isUnitDefault(unit)
   local isSpare = crew && ::is_in_flight() ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false
-  return isReserve ? (isSpare ? "" : ::stripTags(::loc("shop/reserve"))) :
+  return isReserve ? (isSpare ? "" : ::g_string.stripTags(::loc("shop/reserve"))) :
     showBR  ? ::format("%.1f", ::get_unit_battle_rating_by_mode(unit, ediff)) :
     ::get_roman_numeral(unit.rank)
 }
@@ -1741,10 +1748,12 @@ function initSlotbarTopBar(slotbarObj, show)
   if (!::checkObj(slotbarObj))
     return
 
+  local containerObj = slotbarObj.findObject("slotbar_buttons_place")
   local mainObj = slotbarObj.findObject("autorefill-settings")
-  if (!::checkObj(mainObj))
+  if (!::check_obj(containerObj) || !::check_obj(mainObj))
     return
 
+  containerObj.show(show)
   mainObj.show(show)
   if (!show)
     return
@@ -1830,11 +1839,11 @@ function unlockCountry(country, hideInUserlog = false, reqUnlock = true)
 
 function checkUnlockedCountries()
 {
+  local curUnlocked = []
   if (::is_need_first_country_choice())
-    return
+    return curUnlocked
 
   local unlockAll = ::isDiffUnlocked(1, ::ES_UNIT_TYPE_AIRCRAFT) || ::disable_network() || ::has_feature("UnlockAllCountries")
-  local curUnlocked = []
   local wasInList = ::unlocked_countries.len()
   foreach(i, country in ::shopCountriesList)
     if (::is_country_available(country))

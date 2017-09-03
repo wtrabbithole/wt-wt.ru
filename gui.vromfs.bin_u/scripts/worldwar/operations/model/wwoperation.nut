@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum WW_OPERATION_STATUSES
 {
   UNKNOWN = -1
@@ -75,13 +78,13 @@ class WwOperation
     local map = getMap()
     if (map)
       txtList.append(map.getDescription(false))
-    return ::implode(txtList, "\n")
+    return ::g_string.implode(txtList, "\n")
   }
 
   function getStartDateTxt()
   {
     local createTime = ::getTblValue("ct", data, 0)
-    return ::build_date_str(::get_time_from_t(createTime))
+    return time.buildDateStr(::get_time_from_t(createTime))
   }
 
   function getGeoCoordsText()

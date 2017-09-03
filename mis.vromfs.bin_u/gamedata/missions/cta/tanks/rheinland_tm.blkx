@@ -826,6 +826,9 @@
               "isIndividual": false
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "teamA_artillery_spawn_01"
             },
             {
@@ -922,6 +925,9 @@
               "isIndividual": false
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "teamB_artillery_spawn_01"
             },
             {
@@ -993,6 +999,7 @@
           "unitSetProperties": {
             "object_marking": 0,
             "object": "ai_tanks_squad",
+            "stealthRadius": 0.0,
             "accuracy": 0.1,
             "effShootingRate": 0.0,
             "speed": 20.0,
@@ -1009,6 +1016,9 @@
             },
             {
               "object": "teamB_ai_tanks_squad"
+            },
+            {
+              "stealthRadius": 0.0
             },
             {
               "accuracy": 0.1
@@ -1135,6 +1145,9 @@
               "isIndividual": true
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t1_spawnpoint01"
             },
             {
@@ -1189,6 +1202,9 @@
               "isIndividual": true
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t2_spawnpoint01"
             },
             {
@@ -1218,6 +1234,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_spawnpoint02",
             "team": "A",
             "tags": {
@@ -1239,6 +1256,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_spawnpoint01",
             "team": "A",
             "tags": {
@@ -1260,6 +1278,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_spawnpoint02",
             "team": "B",
             "tags": {
@@ -1281,6 +1300,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_spawnpoint01",
             "team": "B",
             "tags": {
@@ -1373,6 +1393,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_spawnpoint02_north-oriented",
             "team": "A",
             "tags": {
@@ -1394,6 +1415,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_spawnpoint02",
             "team": "B",
             "tags": {
@@ -1476,6 +1498,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_spawnpoint02_east-oriented",
             "team": "A",
             "tags": {
@@ -1497,6 +1520,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_spawnpoint02",
             "team": "B",
             "tags": {
@@ -1539,6 +1563,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_spawnpoint01",
             "team": "A",
             "tags": {
@@ -1560,6 +1585,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_spawnpoint02",
             "team": "B",
             "tags": {
@@ -1634,6 +1660,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_spawnpoint02_east-oriented",
             "team": "A",
             "tags": {
@@ -1655,6 +1682,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_spawnpoint01",
             "team": "B",
             "tags": {
@@ -1924,7 +1952,8 @@
           "formation_step": [2.0,2.1],
           "formation_noise": [0.4,-0.3],
           "uniqueName": "",
-          "attack_type": "fire_at_will"
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0
         },
         "way": []
       }
@@ -1960,7 +1989,9 @@
           "formation_step": [2.6,4.0],
           "formation_noise": [0.4,0.2],
           "uniqueName": "",
-          "attack_type": "fire_at_will"
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
         },
         "way": []
       }
@@ -2032,7 +2063,9 @@
           "formation_step": [8.5,4.0],
           "formation_noise": [0.3,0.3],
           "uniqueName": "",
-          "attack_type": "fire_at_will"
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
         },
         "way": []
       }
@@ -2068,7 +2101,9 @@
           "formation_step": [8.0,2.4],
           "formation_noise": [0.2,0.5],
           "uniqueName": "",
-          "attack_type": "fire_at_will"
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
         },
         "way": []
       }
@@ -2104,7 +2139,9 @@
           "formation_step": [9.0,7.0],
           "formation_noise": [0.2,0.5],
           "uniqueName": "",
-          "attack_type": "fire_at_will"
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
         },
         "way": []
       }
@@ -2140,7 +2177,9 @@
           "formation_step": [8.0,5.0],
           "formation_noise": [0.2,0.5],
           "uniqueName": "",
-          "attack_type": "fire_at_will"
+          "attack_type": "fire_at_will",
+          "stealthRadius": 0.0,
+          "setStealth": true
         },
         "way": []
       }

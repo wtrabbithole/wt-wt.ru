@@ -179,7 +179,7 @@ menutitle {
   text-align:left;
 }
 
-textarea, textAreaCentered, helpText, hintText, awardText, framedMessage, textAreaNoScroll,
+textarea, textAreaCentered, helpText, awardText, framedMessage, textAreaNoScroll,
 textareaNoTab, titleTextArea,textAreaSmall, notificationText, tooltipDesc {
   font:@small;
   behaviour:textArea;
@@ -331,7 +331,7 @@ toolbar {
   background-image:#ui/skin#toolbar;
 }
 
-text, optiontext, header, optionheader, activeText,
+text, optiontext, optionValueText, header, optionheader, activeText,
 widthText, titleWidthText, textButtonHint
 {
   re-type:text;
@@ -1164,6 +1164,15 @@ td[cellType=top] > optiontext {
   font:@tiny;
 }
 
+optionValueText {
+  pos:0.01@sf, 50%ph-50%h;
+  position:relative;
+}
+tr[selected=yes] > td > optionValueText {
+  color:@activeTextColor;
+  font:@option_selected_font;
+}
+
 tr[selected=yes] > td > text, tr[selected=yes] activeText
 {
   color:@trSelectedTextColor;
@@ -1422,6 +1431,9 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 @import "cssElems\hint.css"
 @import "cssElems\combobox.css"
 @import "cssElems\slider.css"
+@import "cssElems\editbox.css"
+@import "cssElems\frame.css"
+@import "cssElems\navBar.css"
 
 
 @import "help/help.css"
@@ -1442,9 +1454,11 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 @import "promo\promoButton.css"
 @import "worldWar/worldWar.css"
 @import "squads/squadWidget.css"
+@import "firstChoice/firstChoice.css"
 
 @import "cssElems\buttons_console.css" 
 @import "paginator\paginator.css" 
+@import "chat/chat.css"
 @import "fileDialog/fileDialog.css"
 @import "animated.css"
 
@@ -1516,68 +1530,6 @@ animated_wait_icon[circle=both] {
   inc-factor:56;
 }
 
-expProgress, referenceProgress, crewSpecProgressBar {
-  behaviour:progress;
-  re-type:progress;
-  background-color:@cardProgressBGColor;
-  foreground-color:@cardProgressFGColor;
-  border:yes;
-  border-color:@cardProgressBorderColor;
-}
-
-expProgress {
-  height:1@progressHeight;
-  min:0;
-  needMax:yes;
-}
-expProgress[max] {
-  needMax:no;
-}
-expProgress[needMax=yes] {
-  max:1000;
-}
-expProgress[small=yes] {
-  height:1@progressHeightSmall;
-}
-expProgress[type=old], crewSpecProgressBar[type=old] {
-  background-color:@transparent;
-}
-expProgress[type=new], crewSpecProgressBar[type=new] {
-  foreground-color:@cardProgressChangeColor;
-}
-expProgress[paused=yes], crewSpecProgressBar[paused=yes] {
-  foreground-color:@cardProgressDisabledFGColor;
-  border-color:@cardProgressDisabledFGColor;
-}
-expProgress[type=bonus] {
-  foreground-color:@cardProgressBonusColor;
-}
-expProgress[transpBG=yes] {
-  background-color:@transparent;
-}
-expProgress.slider {
-  behaviour:slider;
-  input-transparent:no;
-}
-expProgress.slider sliderButton {
-  width:1*@scrn_tgt/100.0;
-  height:1.5ph;
-}
-
-challengeDescriptionProgress {
-  behaviour:progress;
-  re-type:progress;
-  height:5*@sf/@pf_outdated;
-  width:200*@sf/@pf_outdated;
-  margin-top:0.01@sf;
-  background-color:@cardProgressBGColor;
-  foreground-color:@cardProgressFGColor;
-  border:yes;
-  border-color:@cardProgressBorderColor;
-  min:0;
-  max:1000;
-}
-
 framedMessage {
   background-position:4;
   background-repeat:expand;
@@ -1605,54 +1557,24 @@ framedMessage[text=""] {
   display:hide;
 }
 
-frame {
-  flow:vertical;
-  background-repeat:expand;
-  background-color:@white;
-  background-position:6,6;
-  background-image:#ui/gameuiskin#window_body;
-  padding:@framePadding;
-  foreground-repeat:repeat;
-  foreground-color:@white;
-  foreground-position:4,4;
-  foreground-image:#ui/gameuiskin#pattern_bright_hor_lines;
-  tooltip:'';
-}
-
-frame[type=dark] {
-  background-image:#ui/gameuiskin#window_body_dark;
-}
-
 tooltipObj, tooltip {
-  background-repeat:expand;
-  background-color:#FF888888;
-  background-position:4;
-  background-image:#ui/gameuiskin#tooltip_bubble;
-  padding:5*@sf/@pf_outdated;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  padding:@framePadding;
   tooltip-screen-offset:1@bw, 1@bh;
 }
 
-tooltipObj[type=dark] {
-  background-repeat:expand;
-  background-color:@white;
-  background-position:6,6;
-  background-image:#ui/gameuiskin#window_body_dark;
-}
-
-frame, tooltipObj {
-  re-type:9rect;
-}
-
 tooltip {
-  padding:11*@sf/@pf_outdated, 9*@sf/@pf_outdated, 11*@sf/@pf_outdated, 7*@sf/@pf_outdated;
+  re-type:textarea;
+  behaviour:textarea;
+  position:absolute;
+  pos:25@sf/@pf, 25@sf/@pf;
+  max-width:0.7@sf;
   color:@commonTextColor;
-  border:no;
   font:@tiny;
   font-bold:@small;
-  position:absolute;
-  pos:25*@sf/@pf_outdated, 25*@sf/@pf_outdated;
   timeout:250;
-  max-width:70*@scrn_tgt/100.0;
 }
 
 tooltipObj {
@@ -1812,90 +1734,15 @@ img[click_to_resize] {
   input-transparent:no;
 }
 
-frame.wndNav {
-  padding:1@framePadding, 1@frameHeaderHeight, 1@framePadding, 1@frameFooterHeight;
-}
-frame.wndNav[largeNavBarHeight=yes] {
-  padding:1@framePadding, 1@frameHeaderHeight, 1@framePadding, 1@frameFooterHeightLarge;
-}
-frame.wndNav[padByLine] {
-  padding:2*@sf/@pf_outdated, 2*@sf/@pf_outdated, 2*@sf/@pf_outdated, 1@buttonHeight+10*@sf/@pf_outdated;
-}
-frame.leaderboard {
-  padding:0.025@scrn_tgt, 1@frameHeaderHeight, 0.025@scrn_tgt, 1@buttonHeight+10*@sf/@pf_outdated;
-}
-frame.small {
-  padding:1@framePadding, 1@framePadding, 1@framePadding, 1@buttonHeight+10*@sf/@pf_outdated;
-}
-frame.wnd {
-  padding:1@framePadding, 1@frameHeaderHeight + 1@framePadding, 1@framePadding, 1@framePadding;
-}
-
-frame_header {
-  re-type:9rect;
-  width:pw;
-  height:1@frameHeaderHeight;
-  position:absolute;
-  padding-left:10*@sf/@pf_outdated;
-  background-repeat:expand;
-  background-position:5;
-  background-image:#ui/gameuiskin#window_header;
-  background-color:@white;
-  foreground-repeat:repeat;
-  foreground-color:@white;
-  foreground-position:4,4,4,5;
-  foreground-image:#ui/gameuiskin#pattern_bright_texture;
-}
-frame_header[smallIcon=yes] {
-  height:1@frameSmallHeaderHeight;
-}
-
-frame > activeText[caption=yes] {
-  pos:0, -2*@sf/@pf_outdated;
-  position:relative;
-}
-
-frame_header > activeText {
-  pos: 0, 50%ph-50%h;
-  position:relative;
-}
 tooltipObj.empty {
   background-color:@transparent;
 }
 
-frame.scaleable, div.scaleable {
-  application-window:yes;
-  input-transparent:no;
-}
-
-moveElem {
-  behaviour:moveObj;
-}
-
-frame.scaleable > moveElem {
-  size:pw-10*@sf/@pf_outdated, ph-5*@sf/@pf_outdated;
-  pos:50%pw-50%w, 50%ph-50%h;
-  position:absolute;
-}
-
-frame_inner {
-  input-transparent: yes;
-  padding:0,2*@sf/@pf_outdated;
-  re-type:9rect;
-  background-repeat:expand;
-  overflow-y:auto;
-  border:none;
-  border-color:@transparent;
-  background-color:@white;
-  background-position:10;
-  background-image:#ui/gameuiskin#window;
-}
-
 frameBlock {
-  background-image:#ui/gameuiskin#window_block_bright;
-  background-color:@white;
-  background-position:4;
-  background-repeat:expand;
+  background-color:@frameBackgroundColor;
+  border-color:@frameBorderColor;
+  border:yes;
+  border-offset:@dp;
 }
 
 frameBlock[ticketsWindow=yes] {
@@ -1903,22 +1750,18 @@ frameBlock[ticketsWindow=yes] {
 }
 
 frameBlock_dark {
-  background-image:#ui/gameuiskin#window_block_dark;
-  background-color:@white;
-  background-position:4;
-  background-repeat:expand;
-}
-
-frameBlock_dark[bgTeamColor=any] {
-  background-color:@teamAnyColor;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  border-offset:@dp;
 }
 
 frameBlock_dark[bgTeamColor=red] {
-  background-color:@teamRedColor;
+  background-color:@frameTeamRedBackgroundColor;
 }
 
 frameBlock_dark[bgTeamColor=blue] {
-  background-color:@teamBlueColor;
+  background-color:@frameTeamBlueBackgroundColor;
 }
 
 modIco {
@@ -1939,44 +1782,6 @@ rootScene {
   input-transparent:yes;
 }
 
-navBar {
-  id:'nav-help';
-  size:1@rw, 2*@buttonHeight+4*@sf/@pf_outdated;
-  pos:50%sw-50%w, 83.5%sh;
-  position:absolute;
-  input-transparent: yes;
-  if_target_pc:@target_pc;
-}
-
-navBar[type=slotbar] {
-  size:1@slotbarWidthFull, 1@navBarBattleButtonHeight;
-  pos:50%sw-50%w, sh -h -1@shopBottomOffset;
-}
-
-navBar[type=slotbar] > navLeft,
-navBar[type=slotbar] > navRight,
-navBar[type=slotbar] > navMiddle {
-  height:ph;
-}
-
-navBar[type=shop] {
-  size:1@shopWndWidth, 1@frameFooterHeight;
-  pos:50%sw-50%w, 1@shopYPos-h;
-}
-
-navBarStatic {
-  size:@rw, 10*@scrn_tgt/100.0;
-  pos:50%sw-50%w+1%sw, 92.5%sh-h;
-  position:absolute;
-  input-transparent: yes;
-  if_target_pc:@target_pc;
-}
-
-navBarStatic[if_target_pc=yes] {
-  size:@rw, 11*@scrn_tgt/100.0;
-  pos:50%sw-50%w+1%sw, 83.2%sh;
-}
-
 collapsableBlock[type=decoratorsList] > content {
   behaviour:posNavigator;
   navigatorShortcuts:full;
@@ -1994,80 +1799,6 @@ collapsableBlock[type=decoratorsList] > content {
   padding:1*@sf/@pf_outdated, 0;
 }
 
-navLeft {
-  pos:0, 0;
-  position:absolute;
-  input-transparent: yes;
-}
-
-frame navLeft {
-  pos:0, 0;
-}
-
-bottomNavPlace > navLeft{
-  pos:0, 50%ph-50%h;
-}
-
-navShopCenter {
-  pos:40%sw-50%w,0;
-  position:absolute;
-  input-transparent: yes;
-}
-
-navRight {
-  pos:pw - w + 1@buttonVMargin, 0;
-  position:absolute;
-  input-transparent: yes;
-}
-
-frame navRight {
-  pos:pw - w + 1@buttonVMargin, 0;
-}
-
-bottomNavPlace  > navRight {
-  pos:pw-w+1@buttonVMargin, 50%ph-50%h;
-}
-
-navMiddle {
-  pos:0.5pw-0.5w, 0;
-  position:absolute;
-  input-transparent: yes;
-}
-
-frame navMiddle {
-  pos:0.5pw-0.5w, 0;
-}
-
-bottomNavPlace > navMiddle {
-  pos:0.5pw-0.5w, 50%ph-50%h;
-}
-
-navBottomLeft {
-  position:absolute;
-  input-transparent: yes;
-}
-
-navBottomRight {
-  pos:pw - w + 1@buttonVMargin, 60%ph;
-  position:absolute;
-  input-transparent: yes;
-}
-
-navLeft > Button_text,
-navRight > Button_text,
-navMiddle > Button_text {
-  position:relative;
-  pos:0, ph-h;
-}
-
-bottomNavPlace  Button_text,
-frame navLeft > Button_text,
-frame navRight > Button_text,
-frame navMiddle > Button_text {
-  position:relative;
-  pos:0, 50%ph-50%h;
-}
-
 fieldReq{
   width: 25*@scrn_tgt/100.0;
   pos: p.p.w, ph/1.55-h/2;
@@ -2077,56 +1808,6 @@ fieldReq{
   background-repeat: expand;
   background-color: @white;
   background-image: #ui/gameuiskin#frame_opaq;
-}
-
-frame > navBar,
-navBar.embedded {
-  re-type:9rect;
-  size:pw, 1@frameFooterHeight;
-  pos:50%pw-50%w, ph-h;
-    background-color:@white;
-  background-position:6;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#window_footer;
-  foreground-repeat:repeat;
-  foreground-color:@white;
-  foreground-position:4,7,4,2;
-  foreground-image:#ui/gameuiskin#pattern_bright_texture;
-}
-
-frame[largeNavBarHeight=yes] > navBar,
-navBar.embedded[largeNavBarHeight=yes] {
-  size:pw, 1@frameFooterHeightLarge;
-}
-
-frame > navBar > navRight,
-navBar.embedded > navRight,
-[type=shop] > navRight {
-  pos:pw -w -0.005*@scrn_tgt, 55%ph-50%h;
-  position:absolute;
-}
-
-frame > navBar > navLeft,
-navBar.embedded > navLeft,
-[type=shop] > navLeft {
-  pos:0.01*@scrn_tgt, 55%ph-50%h;
-  position:absolute;
-}
-frame > navBar > navMiddle,
-navBar.embedded > navMiddle,
-[type=shop] > navMiddle {
-  pos:50%pw-50%w, 55%ph-50%h;
-  position:absolute;
-}
-
-navGamercard {
-  pos:sw-1@bw-w+2*@scrn_tgt/100.0, 9.5*@scrn_tgt/100.0-h;
-  position:root;
-}
-
-navUnderTitle {
-  pos:@bw+1*@scrn_tgt/100.0, 16.5*@scrn_tgt/100.0-h;
-  position:root;
 }
 
 slotbarBg {
@@ -2142,150 +1823,6 @@ navBar > slotbarDiv {
   width:@slotbarWidthFull;
 }
 
-hintDiv, upperHintDiv {
-  id:'hint_box_div';
-  size:@rw-2%sw, 4*@scrn_tgt/100.0;
-  pos:50%pw-50%w, ph-h;
-  position:absolute;
-  overflow:hidden;
-  input-transparent:yes;
-}
-
-upperHintDiv {
-  pos:50%pw-50%w, -h;
-}
-hintDiv.upper, frame > navBar > hintDiv {
-  pos:50%pw-50%w, 0;
-}
-
-frame > navBar > hintDiv[modalPos=left]
-{
-  size:pw-21*@scrn_tgt/100.0;
-  pos:0.5*@scrn_tgt/100.0, 0;
-}
-
-hintText {
-  id:'hint_box';
-  min-width:pw-0.5*@scrn_tgt/100.0;
-  text-align:center;
-  auto-scroll:yes;
-  input-transparent:yes;
-}
-
-frame > navBar > hintDiv[modalPos=left] > hintText {
-  text-align:left;
-}
-
-navBar.embedded{
-  pos:50%pw-50%w, ph;
-  size:p.p.w, @buttonHeight+10*@sf/@pf_outdated;
-}
-
-EditBox
-{
-  behaviour:edit;
-  re-type:edit;
-  text-align:left;
-  selected-border:none;
-  font:@tiny;
-  background-repeat:expand;
-  background-position:5;
-  background-image:#ui/gameuiskin#editbox;
-  background-color:@editboxBGColor;
-
-  tabStop:yes;
-  color:@commonTextColor;
-  cursor-color:@activeTextColor;
-  height:@buttonHeight;   padding:5*@sf/@pf_outdated, 3*@sf/@pf_outdated;
-  margin-bottom:5*@sf/@pf_outdated;
-  multiShortcuts:no;
-
-  edit-hint-back-color:@transparent;
-  edit-hint-color:#555555;
-
-  _needOverflowHidden:yes;
-}
-
-EditBox:focus {
-  edit-hint:"";
-}
-
-[has_ime=yes] EditBox:focus {
-  edit-hint:"#default_editbox_hint_message";
-}
-
-EditBox[multiline] {
-  re-type:multiEdit;
-  overflow-x:hidden;
-  overflow-y:auto;
-  _needOverflowHidden:no;
-  auto-scroll:yes;
-  multiShortcuts:yes;
-  padding:5*@sf/@pf_outdated, 0.8*@scrn_tgt/100.0;
-}
-
-EditBox[_needOverflowHidden=yes] {
-  overflow:hidden;
-}
-
-EditBox:hover, EditBox:focus, EditBox[select="yes"]
-{
-  color:@activeTextColor;
-}
-
-EditBox:focus, EditBox[select="yes"], EditBox.showAlways
-{
-  background-color:#90909090;
-}
-
-[show_console_buttons=yes] EditBox:focus {
-  background-color: @gamepadFocusFrameColor;
-  background-image: #ui/gameuiskin#item_selection;
-  background-position: 6;
-  background-repeat: expand;
-}
-
-EditBox:disabled {
-  background-color:@transparent;
-}
-
-EditBox[btnName] > ButtonImg {
-  position:'absolute';
-  pos:'pw-w-0.25ph, (ph-h)/2';
-  size:'0.75ph, 0.75ph';
-}
-
-EditBox[warning=yes] {
-  border:yes;
-  border-color:@warningTextColor;
-}
-
-EditBox[chatMode=team], text[chatMode=team],
-textareaNoTab[chatMode=team], Button_text[chatMode=team],
-hoverButton[chatMode=team] > icon
-{
-  color:@chatTextTeamColor;
-}
-EditBox[chatMode=all], text[chatMode=all],
-textareaNoTab[chatMode=all], Button_text[chatMode=all],
-hoverButton[chatMode=all] > icon
-{
-  color:@chatTextAllColor;
-}
-EditBox[chatMode=squad], text[chatMode=squad],
-textareaNoTab[chatMode=squad], Button_text[chatMode=squad],
-hoverButton[chatMode=squad] > icon
-{
-  color:@chatTextSquadColor;
-}
-EditBox[chatMode=private], text[chatMode=private],
-textareaNoTab[chatMode=private], Button_text[chatMode=private],
-hoverButton[chatMode=private] > icon
-{
-  color:@chatTextPrivateColor;
-}
-
-
 optionlist_container[mislist=yes] {
   background-color:@containerMisSelectColor;
 }
@@ -2295,13 +1832,6 @@ optionlist_container[mislist=yes] {
 [class=optionsTable] > tr[inactiveColor=yes] activeText,
 [class=optionsTable] > tr:disabled EditBox {
   color:@fadedTextColor;
-}
-
-[class=optionsTable] > tr:disabled expProgress,
-[class=optionsTable] > tr[inactiveColor=yes] expProgress,
-expProgress[inactiveColor=yes] {
-  foreground-color:@controlDisabledColor;
-  border-color:@fadedTextColor;
 }
 
 chapterListPlace {
@@ -2408,61 +1938,6 @@ briefingglow[needAnim=yes] {
   behaviour:basicTransparency;
 }
 
-country_exp_div, exp_div {
-  input-transparent:yes;
-}
-
-country_exp_div {
-  min-height:3@sf/100.0;
-  flow:horizontal;
-}
-
-[countryExpType=vertical] country_exp_div {
-  flow:vertical;
-  width:30*@sf/100.0;
-}
-[countryExpType=centered] country_exp_div, [countryExpType=noNames] country_exp_div {
-  width:41*@sf/100.0;
-  pos:50%pw-50%w,0;
-  position:relative;
-}
-[countryExpType=noNames] country_exp_div {
-  width:33*@sf/100.0;
-}
-exp_div {
-  width:20*@sf/100.0;
-}
-.short > exp_div, .short > exp_div > expProgress {
-  width:15*@sf/100.0;
-}
-
-country_exp_div[flow=vertical] > exp_div {
-  pos:50%pw-50%w, 0;
-  position:relative;
-}
-
-country_exp_div[flow=horizontal] > exp_div {
-  pos:1*@scrn_tgt/100.0, 50%ph-50%h;
-  position:relative;
-}
-
-[countryExpType=wide] country_exp_div > exp_div {
-  size:pw, ph;
-  pos:0,0;
-  position:absolute;
-}
-
-[countryExpType=wide] country_exp_div > exp_div > expProgress {
-  width:pw;
-  pos:0, ph-h;
-}
-
-[countryExpType=wide] country_exp_div > exp_div > activeText {
-  pos:50%pw-50%w, 0;
-  position:absolute;
-  height:ph;
-}
-
 [allAlignLeft=yes] textareaNoTab,
 [allAlignLeft=yes] text
 {
@@ -2549,29 +2024,6 @@ text.decalsTitle {
   size:pw, @decalIconHeight-2*@sf/@pf_outdated;
 }
 
-referenceProgress{
-  height:@referenceProgressHeight;
-  width:8*@sf/100;
-  pos:0, ph+@referenceProgressOffset;
-  position:absolute;
-  min:0;
-  max:1000;
-}
-
-.airInfoPanel referenceProgress {
-  width:0.5@airInfoPanelWidth;
-}
-
-referenceMarker{
-  height: 0.02@sf;
-  width: 9/22*h;
-  top: 0.5ph - 0.5h;
-  background-repeat:expand;
-  background-color:@white;
-  background-image: #ui/gameuiskin#slider_thumb;
-  position: absolute;
-}
-
 pattern {
   size:pw, ph;
   background-color:@white;
@@ -2617,7 +2069,7 @@ slotbarEdge {
 }
 slotbarTop {
   re-type:9rect;
-  size:pw, 1@slotbarTop + 2; 
+  size:pw, 1@slotbarTop;
   background-image:#ui/gameuiskin#slotbar_top_bar;
   background-position:4;
   background-repeat:expand;
@@ -2647,11 +2099,11 @@ TopMenuPanel {
   pos:0,0;
   position:root;
   size:sw, 1@topBarHeight;
-  padding-bottom:1@framePadding;
   background-image:#ui/gameuiskin#top_bar;
   background-color:@barColor;
-  background-position:6,8;
+  background-position:1, 6, 1, 1;
   background-repeat:expand;
+  css-hier-invalidate:yes;
 }
 BottomMenuPanel {
   re-type:9rect;
@@ -2773,14 +2225,6 @@ GameLogoPlate > infoBlock[type=right] {
   padding-left:10*@sf/@pf_outdated;
 }
 
-CentralPlate {
-  background-repeat:expand;
-  background-color:#555555;
-  background-position:6,6;
-  background-image:#ui/gameuiskin#window_body;
-  padding:1@framePadding;
-}
-
 TopMenuPanel > infoBlock {
   pos:sw - w - 1@offsetBetweenScreenAndAirinfo, 1@topBarHeight;
   position:absolute;
@@ -2789,26 +2233,6 @@ TopMenuPanel > infoBlock {
 gamercard_div[type=wwMap] > gamercard > TopMenuPanel > infoBlock {
   pos:sw - w - 1@wwMapPanelInfoWidth - 3@framePadding, 1@topBarHeight + 3*@sf/@pf_outdated;
   position:absolute;
-}
-
-LineLock {
-  re-type:9rect;
-  size:1@gcLineLockWidth, 1@topBarHeight;
-
-  foreground-repeat:repeat;
-  foreground-color:@white;
-  foreground-position:0,0,1,6;
-  foreground-image:#ui/gameuiskin#pattern_bright_texture;
-
-  background-repeat:expand;
-  background-color:@white;
-  background-position:0,6, 0, 11;
-  background-image:#ui/gameuiskin#top_bar_stump_left;
-}
-
-LineLock[type=right] {
-  foreground-position:1,0,0,6;
-  background-image:#ui/gameuiskin#top_bar_stump_right;
 }
 
 slotbarTop > tdiv[offset=yes] {
@@ -2843,21 +2267,23 @@ activeText[airCanBuy=no] {
 
 textareaNoTab.highlightButton {
   behaviour:button;
+  padding:3@sf/@pf;
+  padding-bottom:0;
   snd_click:click;
   input-transparent:no;
-  background-image:#ui/gameuiskin#window_block_dark;
-  background-color:@commonMenuButtonColor;
-  background-repeat:expand;
-  background-position:2;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
 }
 
 textareaNoTab.highlightButton:hover {
-  background-color:@hoverMenuButtonColor;
+  background-color:@frameDarkActiveBgColor;
   color:@fadedTextColor;
 }
 
 textareaNoTab.highlightButton:pushed {
-  background-color:@pushedMenuButtonColor;
+  background-color:@frameDarkActiveBgColor;
+  border-color:@frameDarkSelectedBorderColor;
   color:@activeTextColor;
 }
 
@@ -2911,7 +2337,6 @@ focus_border,
 [show_console_buttons=yes] :focus > activateTab[selected=yes],
 [show_console_buttons=yes] promoButton:focus,
 [show_console_buttons=yes] :focus > promoButton[type=simpleList][selected=yes],
-[show_console_buttons=yes] dialog_button:focus,
 [show_console_buttons=yes] PosOptionsNavigator > cell[selected=yes],
 [show_console_buttons=yes] gameModeChangeButton[navigatorShortcuts]:focus,
 [show_console_buttons=yes] hangarToggleButton[navigatorShortcuts]:focus,
@@ -3082,12 +2507,6 @@ fadedImageFrame fadingBox {
   background-color:@fadedImageFrameColor;
 }
 
-frame[tank_not_default_controls_frame=yes] {
-  bgcolor:#88000000;
-  background-image:"";
-  padding:0;
-}
-
 autosize[display=none] {
   min-width:0;
   width:1;
@@ -3174,6 +2593,10 @@ ShadowPlate {
   background-repeat:expand;
 }
 
+ShadeDiv {
+  background-color:#91020509;
+}
+
 debriefingTab {
   size:pw, ph;
   position:absolute;
@@ -3183,15 +2606,15 @@ moveObjSizeDiv activeText[animateFontSize=yes] {
   font-ht:ph;
 }
 
-frame[side=left] {
-  pos:-((w-(@slot_width-(25*@sf/@pf_outdated)))-2*@sf/@pf_outdated), -h-1*@scrn_tgt/100.0;
-}
-frame[side=right] {
-  pos:2*@sf/@pf_outdated, -h-1*@scrn_tgt/100.0;
-}
-
 activeText[text-align=center] {
   padding:0;
+}
+
+dbg34 {
+  pos:50%sw-50%w, 50%sh - 50%h;
+  position:root;
+  size:sh * 4 / 3, sh;
+  border:yes; border-color:@red;
 }
 
 

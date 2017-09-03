@@ -354,7 +354,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rankText = ::events.getTierTextByRules(reqUnits)
       local ruleTexts = ::u.map(reqUnits, getRuleText)
-      local rulesText = ::colorize(color, ::implode(ruleTexts, ::loc("ui/comma")))
+      local rulesText = ::colorize(color, ::g_string.implode(ruleTexts, ::loc("ui/comma")))
 
       text = ::colorize(color, rankText) + " " + text
       if (rulesText.len())
@@ -661,6 +661,12 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onCreateRoom()
   {
+    local diffCode = ::events.getEventDiffCode(event)
+    local unitTypeMask = ::events.getEventUnitTypesMask(event)
+    local checkTutorUnitType = (::number_of_set_bits(unitTypeMask)==1) ? ::number_of_set_bits(unitTypeMask - 1) : null
+    if(checkDiffTutorial(diffCode, checkTutorUnitType))
+      return
+
     ::events.openCreateRoomWnd(event)
   }
 

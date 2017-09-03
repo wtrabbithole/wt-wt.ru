@@ -17,6 +17,12 @@ class ::gui_handlers.WaitForLoginWnd extends ::BaseGuiHandler
     scene.findObject("msgText").setValue(text)
   }
 
+  function updateVisibility()
+  {
+    local isVisible = isSceneActiveNoModals()
+    scene.findObject("root-box").show(isVisible)
+  }
+
   function onEventLoginStateChanged(p)
   {
     updateText()
@@ -25,5 +31,10 @@ class ::gui_handlers.WaitForLoginWnd extends ::BaseGuiHandler
   function onEventHangarModelLoaded(params)
   {
     ::enableHangarControls(true)
+  }
+
+  function onEventActiveHandlersChanged(p)
+  {
+    updateVisibility()
   }
 }

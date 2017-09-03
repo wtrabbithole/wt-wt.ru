@@ -14,15 +14,6 @@ enum squadStatusUpdateState {
   BATTLE
 }
 
-enum squadMemberState
-{
-  NOT_IN_SQUAD
-  SQUAD_LEADER //leader cant be offline or not ready.
-  SQUAD_MEMBER
-  SQUAD_MEMBER_READY
-  SQUAD_MEMBER_OFFLINE
-}
-
 enum squadState
 {
   NOT_IN_SQUAD

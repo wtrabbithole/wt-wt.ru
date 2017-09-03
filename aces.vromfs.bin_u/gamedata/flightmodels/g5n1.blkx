@@ -27,6 +27,9 @@
     "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk"
   },
   {
+    "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk"
+  },
+  {
     "noEffectsDist": 20.0
   },
   {
@@ -119,6 +122,14 @@
           "genericDamageMult": 0.3,
           "hp": 100.5
         },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 100.5
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 100.5
+        },
         "fin1_dm": {
           "hp": 59.5
         },
@@ -206,6 +217,15 @@
         },
         "cover6_dm": {
           "hp": 19.5
+        },
+        "cover7_dm": {
+          "hp": 19.5
+        },
+        "cover8_dm": {
+          "hp": 19.5
+        },
+        "cover9_dm": {
+          "hp": 19.5
         }
       },
       "dural100": {
@@ -240,6 +260,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 59.5
+        },
         "gear_l_dm": {
           "hp": 80.5
         },
@@ -259,6 +282,18 @@
         },
         "oil4_dm": {
           "hp": 19.5
+        },
+        "oil5_dm": {
+          "hp": 25.5
+        },
+        "oil6_dm": {
+          "hp": 25.5
+        },
+        "oil7_dm": {
+          "hp": 25.5
+        },
+        "oil8_dm": {
+          "hp": 25.5
         }
       },
       "steel_pilot": {
@@ -275,6 +310,9 @@
           "hp": 20.0
         },
         "gunner6_dm": {
+          "hp": 20.0
+        },
+        "gunner7_dm": {
           "hp": 20.0
         },
         "pilot1_dm": {
@@ -310,41 +348,6 @@
         },
         "tank8_dm": {
           "hp": 98.6
-        }
-      },
-      "wood": {
-        "cover7_dm": {
-          "hp": 13.7
-        },
-        "cover8_dm": {
-          "hp": 13.7
-        },
-        "cover9_dm": {
-          "hp": 14.6
-        },
-        "elevator0_dm": {
-          "hp": 159.3
-        },
-        "elevator1_dm": {
-          "hp": 159.3
-        },
-        "gear_c_dm": {
-          "hp": 47.9
-        },
-        "gunner7_dm": {
-          "hp": 20.8
-        },
-        "oil5_dm": {
-          "hp": 79.4
-        },
-        "oil6_dm": {
-          "hp": 82.4
-        },
-        "oil7_dm": {
-          "hp": 79.4
-        },
-        "oil8_dm": {
-          "hp": 82.4
         }
       }
     }
@@ -3968,6 +3971,12 @@
         }
       },
       {
+        "fm": {
+          "fm": "arrestor",
+          "dm": "hook_dm"
+        }
+      },
+      {
         "enginesAutoConfiguration": [
           {
             "engine": "engine1_dm"
@@ -4528,10 +4537,25 @@
   },
   {
     "cutting": {
-      "wingLDist": [9.5701,10.5701],
-      "wingRDist": [-5.62313,-4.62313],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [0.26591,0.143546,2.14055],
+      "_emtr_break_wing0_l_to": [0.26591,0.143546,4.90449],
+      "emtr_break_wing1_l_from": [0.26591,0.143546,9.05039],
+      "emtr_break_wing1_l_to": [0.26591,0.143546,10.2171],
+      "emtr_break_wing2_l_from": [0.26591,0.143546,14.2877],
+      "emtr_break_wing2_l_to": [0.26591,0.143546,16.9882],
+      "_emtr_break_wing0_r_from": [0.26591,0.143546,-2.14055],
+      "_emtr_break_wing0_r_to": [0.26591,0.143546,-4.90449],
+      "emtr_break_wing1_r_from": [0.26591,0.143546,-9.05039],
+      "emtr_break_wing1_r_to": [0.26591,0.143546,-10.2171],
+      "emtr_break_wing2_r_from": [0.26591,0.143546,-14.2877],
+      "emtr_break_wing2_r_to": [0.26591,0.143546,-16.9882],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13.3082,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

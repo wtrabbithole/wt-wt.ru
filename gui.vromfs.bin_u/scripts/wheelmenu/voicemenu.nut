@@ -124,7 +124,7 @@ class ::gui_handlers.voiceMenuHandler extends ::gui_handlers.wheelMenuHandler
     }
 
     showSceneBtn("empty_messages_warning", messagesArray.len() == 0)
-    local data = ::implode(messagesArray, "\n")
+    local data = ::g_string.implode(messagesArray, "\n")
     local tblObj = scene.findObject("fast_voice_messages_table")
     if (::checkObj(tblObj))
       guiScene.replaceContentFromText(tblObj, data, data.len(), this)

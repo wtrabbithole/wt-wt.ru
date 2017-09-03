@@ -39,6 +39,7 @@ local mpChatModel = {
       isBlocked = ::isPlayerNickInContacts(sender, ::EPL_BLOCKLIST)
       isAutomatic = automatic
       mode = mode
+      time = ::get_usefull_total_time()
     }
 
     if (mpChatState.log.len() > maxLogSize) {

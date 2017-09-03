@@ -1,9 +1,6 @@
 <<#items>>
 awardItemDiv {
-  pos:t='-1, 0';
-  position:t='relative';
   emptyBlock:t='<<emptyBlock>>'
-  height:t='1@itemHeight'
   flow:t='vertical'
 
   awardItemHeader {

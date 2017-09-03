@@ -12,7 +12,7 @@ enum LOGIN_STATE //bit mask
 }
 
 ::g_login <- {
-  [PERSISTENT_DATA_PARAMS] = ["curState"]
+  [PERSISTENT_DATA_PARAMS] = ["curState", "curLoginProcess"]
 
   curState = LOGIN_STATE.NOT_LOGGED_IN
   curLoginProcess = null
@@ -20,6 +20,12 @@ enum LOGIN_STATE //bit mask
   onAuthorizeChanged = function() {}
   onLoggedInChanged  = function() {}
   initConfigs        = function(cb) { cb() }
+}
+
+function g_login::init()
+{
+  ::g_script_reloader.registerPersistentDataFromRoot("g_login")
+  ::subscribe_handler(this, ::g_listener_priority.CONFIG_VALIDATION)
 }
 
 function g_login::isAuthorized()
@@ -97,9 +103,8 @@ function g_login::onEventScriptsReloaded(p)
     startLoginProcess()
 }
 
+
 function is_logged_in() //used from code
 {
   return ::g_login.isLoggedIn()
 }
-
-::g_script_reloader.registerPersistentDataFromRoot("g_login")

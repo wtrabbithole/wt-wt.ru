@@ -1,4 +1,7 @@
+local time = require("scripts/time.nut")
 local ingame_chat = require("scripts/chat/mpChatModel.nut")
+
+
 enum SPECTATOR_MODE {
   RESPAWN     // Common multiplayer battle participant between respawns or after death.
   SKIRMISH    // Anyone entered as a Referee into any Skirmish session.
@@ -160,7 +163,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           if (hotkeys.len())
             hotkeys = "<color=@hotkeyColor>" + ::loc("ui/parentheses/space", {text = hotkeys}) + "</color>"
           local title = ::loc("hotkeys/" + shortcutId)
-          obj.tooltip = ::tooltipColorTheme(title + hotkeys)
+          obj.tooltip = title + hotkeys
         }
       }
     }
@@ -192,7 +195,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       {
         replayAuthorUserId = ::getTblValue("authorUserId", comments, replayAuthorUserId)
         replayTimeTotal = ::getTblValue("timePlayed", comments, replayTimeTotal)
-        scene.findObject("txt_replay_time_total").setValue(::preciseSecondsToString(replayTimeTotal))
+        scene.findObject("txt_replay_time_total").setValue(time.preciseSecondsToString(replayTimeTotal))
       }
 
       local replaySessionId = ::getTblValue("sessionId", replayProps, "")
@@ -299,7 +302,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     updateControls(isTargetSwitched)
 
-    if (::is_chat_active())
+    if (::get_game_chat_handler().isActive)
     {
       local obj = scene.findObject("chat_input")
       if (!::checkObj(obj) || !obj.isFocused())
@@ -394,7 +397,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       list.append(::loc("controls/no_rockets_left"))
     if (briefMalfunctionState & ::BMS_OUT_OF_TORPEDOES)
       list.append(::loc("controls/no_torpedoes_left"))
-    local desc = ::implode(list, ::loc("ui/semicolon"))
+    local desc = ::g_string.implode(list, ::loc("ui/semicolon"))
     if (desc.len())
       desc = ::colorize("warningTextColor", desc)
     return desc
@@ -511,7 +514,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         scene.findObject("ID_REPLAY_SHOW_MARKERS").highlighted = replayMarkersEnabled ? "yes" : "no"
       }
       local replayTimeCurrent = ::get_usefull_total_time()
-      scene.findObject("txt_replay_time_current").setValue(::preciseSecondsToString(replayTimeCurrent))
+      scene.findObject("txt_replay_time_current").setValue(time.preciseSecondsToString(replayTimeCurrent))
       local progress = (replayTimeTotal > 0) ? (1000 * replayTimeCurrent / replayTimeTotal).tointeger() : 0
       if (progress != replayTimeProgress)
       {
@@ -522,7 +525,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     if (canSeeMissionTimer)
     {
-      scene.findObject("txt_mission_timer").setValue(::secondsToString(::get_usefull_total_time(), false))
+      scene.findObject("txt_mission_timer").setValue(time.secondsToString(::get_usefull_total_time(), false))
     }
 
     if (::is_spectator_rotation_forced() != cameraRotationByMouse)
@@ -927,9 +930,9 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
       obj.dead = player.canBeSwitchedTo ? "no" : "yes"
       obj.findObject("unit").setValue(getUnitName(unitId || "dummy_plane"))
-      obj.tooltip = ::tooltipColorTheme(playerName + (unitId ? ::loc("ui/parentheses/space", {text = ::getUnitName(unitId, false)}) : "")
+      obj.tooltip = playerName + (unitId ? ::loc("ui/parentheses/space", {text = ::getUnitName(unitId, false)}) : "")
         + (stateDesc != "" ? ("\n" + stateDesc) : "")
-        + (malfunctionDesc != "" ? ("\n" + malfunctionDesc) : ""))
+        + (malfunctionDesc != "" ? ("\n" + malfunctionDesc) : "")
 
       if (debugMode)
         obj.tooltip += "\n\n" + getPlayerDebugTooltipText(player)
@@ -992,7 +995,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       extra.append(i + " = " + v)
     }
     extra.sort()
-    return ::implode(extra, "\n")
+    return ::g_string.implode(extra, "\n")
   }
 
   function updateClientHudOffset()
@@ -1156,13 +1159,13 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           msg[msgTeamAlly] <- buildHistoryLogMessage(msg)
 
       local historyLogMessages = ::u.map(historyLog, (@(msgTeamAlly) function(x) { return x[msgTeamAlly] })(msgTeamAlly))
-      obj.setValue(obj.isVisible() ? ::implode(historyLogMessages, "\n") : "")
+      obj.setValue(obj.isVisible() ? ::g_string.implode(historyLogMessages, "\n") : "")
     }
   }
 
   function buildHistoryLogMessage(msg)
   {
-    local timestamp = ::secondsToString(msg.time, false) + " "
+    local timestamp = time.secondsToString(msg.time, false) + " "
     switch (msg.type)
     {
       // All players messages
@@ -1232,19 +1235,19 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
               if (shortcutsText != "")
                 keys.append(shortcutsText)
             }
-            hotkeys = ::implode(keys, ::loc("ui/comma"))
+            hotkeys = ::g_string.implode(keys, ::loc("ui/comma"))
           }
           else if ("keys" in keys)
           {
             local keysLocalized = ::u.map(keys.keys, ::loc)
-            hotkeys = ::implode(keysLocalized, ::loc("ui/comma"))
+            hotkeys = ::g_string.implode(keysLocalized, ::loc("ui/comma"))
           }
 
           if (hotkeys != "")
           {
             local tooltip = obj.tooltip || ""
             local add = "<color=@hotkeyColor>" + ::loc("ui/parentheses/space", {text = hotkeys}) + "</color>"
-            obj.tooltip = ::tooltipColorTheme(tooltip + add)
+            obj.tooltip = tooltip + add
           }
         }
       }

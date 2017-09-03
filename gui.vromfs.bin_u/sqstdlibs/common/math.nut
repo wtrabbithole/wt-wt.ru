@@ -9,6 +9,24 @@ function clamp(value, min, max)
   return (value < min) ? min : (value > max) ? max : value
 }
 
+//round @value to valueble @digits amount
+// roundToDigits(1.23, 2) = 1.2
+// roundToDigits(123, 2) = 120
+function roundToDigits(value, digits)
+{
+  if (value==0) return value
+  local log = log10(fabs(value))
+  local mul = pow(10, floor(log)-digits+1)
+  return mul*floor(0.5+value.tofloat()/mul)
+}
+
+//round @value by @roundValue
+//round_by_value(1.56, 0.1) = 1.6
+function round_by_value(value, roundValue)
+{
+  return floor(value.tofloat() / roundValue + 0.5) * roundValue
+}
+
 
 function number_of_set_bits(i)
 {
@@ -31,4 +49,16 @@ function change_bit(bitMask, bitIdx, value)
 function change_bit_mask(bitMask, bitMaskToSet, value)
 {
   return (bitMask & ~bitMaskToSet) | (value? bitMaskToSet : 0)
+}
+
+/**
+* Linear interpolation of f(value) where:
+* f(valueMin) = resMin
+* f(valueMax) = resMax
+*/
+function lerp(valueMin, valueMax, resMin, resMax, value)
+{
+  if (valueMin == valueMax)
+    return 0.5 * (resMin + resMax)
+  return resMin + (resMax - resMin) * (value - valueMin) / (valueMax - valueMin)
 }

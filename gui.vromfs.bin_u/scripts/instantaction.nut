@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
   //[::ES_UNIT_TYPE_TANK] = "",
@@ -1510,7 +1513,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
     if(repairInfo.canFlyoutIfRepair)
       msgText = ::format(::loc(::format(msgText, "repared")), ::getPriceText(repairInfo.repairCost))
     else
-      msgText = ::format(::loc(::format(msgText, "available")), ::secondsToString(::lockTimeMaxLimitSec))
+      msgText = ::format(::loc(::format(msgText, "available")), time.secondsToString(::lockTimeMaxLimitSec))
 
     local repairBtnName = respawns ? "RepairAll" : "Repair"
     local buttons = repairInfo.canFlyoutIfRepair ?

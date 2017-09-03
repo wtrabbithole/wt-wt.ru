@@ -397,7 +397,7 @@ function g_psn_session_invitations::getJsonRequestForSession(key, sessionInfo, i
     jsonRequest.append("\"availablePlatforms\": [\"PS4\"]")
   }
 
-  return "{\r\n" + ::implode(jsonRequest, ",\r\n") + "\r\n}\r\n"
+  return "{\r\n" + ::g_string.implode(jsonRequest, ",\r\n") + "\r\n}\r\n"
 }
 
 function g_psn_session_invitations::sendSkirmishInvitation(userName)

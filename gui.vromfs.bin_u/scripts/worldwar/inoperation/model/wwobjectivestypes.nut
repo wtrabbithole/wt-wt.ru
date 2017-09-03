@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_ww_objective_type <- {
   types = []
   cache = {
@@ -14,6 +17,7 @@
   invertUpdateValue = false
 
   titleParams = []
+  defaultValuesTable = {}
   paramsArray = []
   updateArray = []
   currentStateParam = ""
@@ -71,17 +75,29 @@
     foreach (paramName in titleParams)
       res[paramName] <- (paramName in dataBlk)   ? getValueByParam(paramName, dataBlk, side)
                       : (paramName in statusBlk) ? getValueByParam(paramName, statusBlk, side)
-                      : ""
+                      : getTitleLocParamsDefaultValue(dataBlk, paramName)
     return res
+  }
+
+  getTitleLocParamsDefaultValue = function(dataBlk, pName)
+  {
+    if (pName in defaultValuesTable)
+    {
+      local value = defaultValuesTable[pName]
+      return ::u.isFunction(value) ? value(dataBlk) : value
+    }
+    return ""
   }
 
   specificClassParamConvertion = {}
   convertParamValue = {
-    timeSecScaled = function(value, blk) { return ::hoursToString(::seconds_to_hours(value - ::g_world_war.getOperationTimeSec()), false, true)}
-    holdTimeSec   = function(value, blk) { return ::hoursToString(::seconds_to_hours(value), false, true)}
+    timeSecScaled = function(value, blk) { return time.hoursToString(time.secondsToHours(value - ::g_world_war.getOperationTimeSec()), false, true)}
+    holdTimeSec   = function(value, blk) { return time.hoursToString(time.secondsToHours(value), false, true)}
     zonePercent_ = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
     zonesPercent = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
     unitCount = function(value, blk) { return value + ::g_ww_unit_type.getUnitTypeByTextCode(blk.unitType).fontIcon }
+    advantage = @(value, blk)
+      ::loc("wwar_obj/params/advantage/value", {advantageFactor = ::round(value, 2)})
   }
 
   colorize = {
@@ -176,9 +192,9 @@
         return true
 
       local sideName = ::ww_side_val_to_name(side)
-      local time = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
+      local operationTime = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
       nestObj.setValue(type.getName(dataBlk, statusBlk, sideName))
-      local needStopTimer = type.needStopTimer(dataBlk, statusBlk, time, sideName)
+      local needStopTimer = type.needStopTimer(dataBlk, statusBlk, operationTime, sideName)
       return needStopTimer
     }
     zones = function(nestObj, dataBlk, statusBlk, type, zoneName)
@@ -190,7 +206,7 @@
       local captureTimeSec = ::ww_get_zone_capture_time_sec(zoneName)
       local captureTimeEnd = dataBlk.holdTimeSec
 
-      valueObj.setValue(::hoursToString(captureTimeSec/TIME_HOUR_IN_SECONDS, false, true))
+      valueObj.setValue(time.hoursToString(time.secondsToHours(captureTimeSec), false, true))
 
       return captureTimeSec > captureTimeEnd
     }
@@ -428,7 +444,13 @@
     }
   }
 
-  OT_DOMINATION_UNIT = {}
+  OT_DOMINATION_UNIT = {
+    titleParams = ["fontIcon", "advantageFactor"]
+    defaultValuesTable = {
+      fontIcon = @(dataBlk) ::g_ww_unit_type.getUnitTypeByTextCode(dataBlk.unitType).fontIcon
+    }
+    updateArray = ["advantage"]
+  }
 
 }, null, "typeName")
 

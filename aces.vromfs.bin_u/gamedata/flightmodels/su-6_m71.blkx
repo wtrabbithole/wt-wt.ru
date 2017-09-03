@@ -25,6 +25,9 @@
       "cannon2_dm": {
         "hp": 15.0
       },
+      "gun1_dm": {
+        "hp": 15.0
+      },
       "mgun1_dm": {
         "hp": 15.0
       },
@@ -149,6 +152,26 @@
         "hp": 19.5
       }
     },
+    "dural60": {
+      "spar1_l_dm": {
+        "hp": 80.3
+      },
+      "spar1_r_dm": {
+        "hp": 80.3
+      },
+      "spar2_l_dm": {
+        "hp": 39.5
+      },
+      "spar2_r_dm": {
+        "hp": 39.5
+      },
+      "spar_l_dm": {
+        "hp": 67.7
+      },
+      "spar_r_dm": {
+        "hp": 67.7
+      }
+    },
     "glass64": {
       "armor4_dm": {
         "hp": 100.0
@@ -175,6 +198,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 44.3
       },
@@ -188,9 +214,15 @@
       },
       "oil2_dm": {
         "hp": 13.5
+      },
+      "oil3_dm": {
+        "hp": 13.5
       }
     },
     "steel_pilot": {
+      "gunner1_dm": {
+        "hp": 20.0
+      },
       "pilot_dm": {
         "fireProtectionHp": 20.0,
         "hp": 20.0
@@ -207,38 +239,6 @@
       },
       "cover5_dm": {
         "hp": 8.5
-      },
-      "gear_c_dm": {
-        "hp": 4.6
-      },
-      "gun1_dm": {
-        "hp": 17.3
-      },
-      "gunner1_dm": {
-        "hp": 20.8
-      },
-      "oil3_dm": {
-        "hp": 2.7
-      }
-    },
-    "wood120": {
-      "spar1_l_dm": {
-        "hp": 80.3
-      },
-      "spar1_r_dm": {
-        "hp": 80.3
-      },
-      "spar2_l_dm": {
-        "hp": 39.5
-      },
-      "spar2_r_dm": {
-        "hp": 39.5
-      },
-      "spar_l_dm": {
-        "hp": 67.7
-      },
-      "spar_r_dm": {
-        "hp": 67.7
       }
     }
   },
@@ -1988,15 +1988,29 @@
         "limits": {
           "yaw": [-12.0,12.0],
           "pitch": [-8.0,36.0]
+        },
+        "limitsDeadzone": {
+          "yaw": [-1.0,1.0],
+          "pitch": [0.0,22.0]
         }
       }
     }
   ],
+  "gunnerFps": {
+    "pos": [-0.1,0.3,0.0],
+    "head": "turret1"
+  },
   "weapon_presets": [
     {
       "preset": {
         "name": "su_6_m71_default",
         "blk": "gameData/FlightModels/weaponPresets/su_6_m71_default.blk"
+      }
+    },
+    {
+      "preset": {
+        "name": "su_6_m71_16x25m1",
+        "blk": "gameData/FlightModels/weaponPresets/su_6_m71_16x25m1.blk"
       }
     },
     {
@@ -2030,6 +2044,20 @@
       "preset": {
         "name": "su_6_m71_fab50_rbs82",
         "blk": "gameData/FlightModels/weaponPresets/su_6_m71_fab50_rbs82.blk",
+        "reqModification": "ro_82_mod"
+      }
+    },
+    {
+      "preset": {
+        "name": "su_6_m71_16x25m1_rs82",
+        "blk": "gameData/FlightModels/weaponPresets/su_6_m71_16x25m1_rs82.blk",
+        "reqModification": "ro_82_mod"
+      }
+    },
+    {
+      "preset": {
+        "name": "su_6_m71_16x25m1_rbs82",
+        "blk": "gameData/FlightModels/weaponPresets/su_6_m71_16x25m1_rbs82.blk",
         "reqModification": "ro_82_mod"
       }
     },
@@ -2222,5 +2250,22 @@
         "from": "su_6_m_71f_green_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "emtr_break_wing1_l_from": [-0.556072,-0.442487,1.66663],
+    "emtr_break_wing1_l_to": [-0.556072,-0.442487,2.66137],
+    "emtr_break_wing2_l_from": [-0.556072,-0.442487,4.1535],
+    "emtr_break_wing2_l_to": [-0.556072,-0.442487,5.18668],
+    "emtr_break_wing1_r_from": [-0.556072,-0.442487,-1.66663],
+    "emtr_break_wing1_r_to": [-0.556072,-0.442487,-2.66137],
+    "emtr_break_wing2_r_from": [-0.556072,-0.442487,-4.1535],
+    "emtr_break_wing2_r_to": [-0.556072,-0.442487,-5.18668],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-4.2926,0.0,0.0]
+    ],
+    "partKindTail": 2
+  }
 }

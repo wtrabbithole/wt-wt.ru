@@ -8,7 +8,7 @@
   "timer_interval_msec": "10000",
   "popupWrap": {
     "id": "popup_wrap",
-    "padding": "5",
+    "padding": "1@framePadding",
     "class": "tinyFont",
     "background-position": "4",
     "background-repeat": "expand",
@@ -20,17 +20,17 @@
     "left": "0",
     "flow": "vertical",
     "input-transparent": "yes",
-    "closeBtn": {
+    "Button_close": {
       "id": "close_button",
-      "pos": "pw-w, 5",
-      "position": "absolute",
-      "on_click": "onClosePopup",
-      "img": []
+      "smallIcon": "yes",
+      "on_click": "onClosePopup"
     },
     "activeText": {
       "id": "title",
       "tinyFont": "yes",
       "position": "relative",
+      "max-width": "pw - 1@smallButtonCloseHeight",
+      "pare-text": "yes",
       "text": "",
       "input-transparent": "yes"
     },
@@ -43,7 +43,8 @@
     "tdiv": {
       "id": "popup_buttons_place",
       "max-width": "pw",
-      "pos": "pw-w, 0",
+      "pos": "pw-w, 3@dp",
+      "padding": "-1@buttonMargin",
       "position": "relative"
     }
   }

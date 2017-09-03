@@ -39,7 +39,7 @@
       "class": "scaleable"
     },
     {
-      "padding-top": "1@frameSmallHeaderHeight"
+      "padding-top": "1@frameHeaderHeight"
     },
     {
       "moveElem": {
@@ -52,7 +52,7 @@
         "input-transparent": "yes",
         "Button_close": {
           "id": "close_contacts",
-          "img": []
+          "smallIcon": "yes"
         },
         "activeText": {
           "id": "title",
@@ -81,7 +81,9 @@
         "Button_text": {
           "tooltip": "#contacts/search",
           "on_click": "onSearchButtonClick",
-          "class": "image16",
+          "class": "image",
+          "imgSize": "small",
+          "showConsoleImage": "no",
           "position": "relative",
           "pos": "0, 0.5ph-0.5h-3",
           "img": {

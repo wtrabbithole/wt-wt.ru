@@ -1,13 +1,14 @@
 @const squadInvitesWidgetPadding: 4*@sf/@pf_outdated;
 
 squadButtonImg {
-  size:@mIco, @mIco;
+  size:@dIco, @dIco;
   background-color:#00a0a0a0;
 }
 
 Button_text[type=squadInvites] > squadButtonImg {
-  size:@sIco, @sIco;
   background-color:@gray;
+  background-image:#ui/gameuiskin#sh_invites;
+  background-repeat:aspect-ratio;
 }
 
 Button_text:hover > squadButtonImg {
@@ -53,7 +54,7 @@ Button_text.squadWidgetMember[status=leader] squadMemberVoipStatus {
   pos:4*@sf/@pf_outdated, 0; position:absolute;
 }
 
-Button_text.squadWidgetMember > memberIcon {
+Button_text.squadWidgetMember memberIcon {
   size:@cIco, @cIco;
   pos:0, 2*@sf/@pf_outdated;
   position:relative;

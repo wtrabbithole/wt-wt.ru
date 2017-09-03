@@ -11,10 +11,7 @@ frame{
       text:t='<<windowHeader>>'
     }
 
-    Button_close {
-      id:t='btn_back'
-      img{}
-    }
+    Button_close { id:t='btn_back' }
   }
 
   tdiv{

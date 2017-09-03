@@ -60,6 +60,14 @@
         "genericDamageMult": 0.3,
         "hp": 20.0
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 17.1
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 17.1
+      },
       "fin_dm": {
         "hp": 28.8
       },
@@ -159,17 +167,20 @@
       "tailcontrol_dm": {
         "hp": 60.5
       },
+      "wingcontrol_dm": {
+        "hp": 60.5
+      },
       "wingcontrol_l_dm": {
         "hp": 60.5
       },
       "wingcontrol_r_dm": {
         "hp": 60.5
-      },
-      "wingcontrol_dm": {
-        "hp": 60.5
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 42.6
       },
@@ -209,17 +220,6 @@
       },
       "tank6_dm": {
         "hp": 39.5
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 14.9
-      },
-      "elevator1_dm": {
-        "hp": 14.9
-      },
-      "gear_c_dm": {
-        "hp": 2.8
       }
     }
   },
@@ -2523,5 +2523,26 @@
         "from": "g_55_serie1_ss0_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.665854,-0.392657,0.629422],
+    "_emtr_break_wing0_l_to": [-0.665854,-0.392657,1.03551],
+    "emtr_break_wing1_l_from": [-0.665854,-0.392657,1.66206],
+    "emtr_break_wing1_l_to": [-0.665854,-0.392657,2.44505],
+    "emtr_break_wing2_l_from": [-0.665854,-0.392657,3.61953],
+    "emtr_break_wing2_l_to": [-0.665854,-0.392657,4.54183],
+    "_emtr_break_wing0_r_from": [-0.665854,-0.392657,-0.629422],
+    "_emtr_break_wing0_r_to": [-0.665854,-0.392657,-1.03551],
+    "emtr_break_wing1_r_from": [-0.665854,-0.392657,-1.66206],
+    "emtr_break_wing1_r_to": [-0.665854,-0.392657,-2.44505],
+    "emtr_break_wing2_r_from": [-0.665854,-0.392657,-3.61953],
+    "emtr_break_wing2_r_to": [-0.665854,-0.392657,-4.54183],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-4.70092,0.0,0.0]
+    ],
+    "partKindTail": 2
+  }
 }

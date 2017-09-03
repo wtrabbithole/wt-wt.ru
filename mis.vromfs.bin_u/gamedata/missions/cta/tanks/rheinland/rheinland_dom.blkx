@@ -246,6 +246,12 @@
         "chapter": "air_ground_Dom"
       },
       {
+        "locName": "missions/_Dom;rheinland/name"
+      },
+      {
+        "locDesc": "rheinland/desc;missions/_Dom/desc"
+      },
+      {
         "scoreLimit": 14000
       },
       {
@@ -255,7 +261,16 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Dom"
+      },
+      {
         "ctaCaptureZoneEqualPenaltyMul": 0.0
+      },
+      {
+        "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -264,31 +279,13 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
         "country_allies": "usa"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "useAlternativeMapCoord": false
-      },
-      {
-        "locName": "missions/_Dom;rheinland/name"
-      },
-      {
-        "locDesc": "rheinland/desc;missions/_Dom/desc"
-      },
-      {
-        "postfix": "_Dom"
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -311,21 +308,36 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 18000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 20000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -352,6 +364,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -454,6 +469,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/rheinland/battleareas/template_rheinland_dom_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -471,7 +502,7 @@
   "units": [],
   "areas": {
     "briefing_t1_fighters_spawn": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-273.633,0.0,122.983],
         [0.0,300.0,0.0],
@@ -482,7 +513,7 @@
       "props": []
     },
     "briefing_t2_fighters_spawn": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [299.877,0.0,-8.61137],
         [0.0,300.0,0.0],
@@ -493,7 +524,7 @@
       "props": []
     },
     "briefing_t1_bombers_spawn": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-276.741,0.0,115.82],
         [0.0,300.0,0.0],
@@ -504,7 +535,7 @@
       "props": []
     },
     "briefing_t2_bombers_spawn": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [299.744,0.0,-12.4082],
         [0.0,300.0,0.0],
@@ -515,7 +546,7 @@
       "props": []
     },
     "briefing_dom_t1_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [4.77819,0.0,19.4208],
         [0.0,20.0,0.0],
@@ -526,7 +557,7 @@
       "props": []
     },
     "briefing_dom_t1_spawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [19.6086,0.0,3.93781],
         [0.0,20.0,0.0],
@@ -537,7 +568,7 @@
       "props": []
     },
     "briefing_dom_t2_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [19.5238,0.0,-4.33868],
         [0.0,20.0,0.0],
@@ -548,7 +579,7 @@
       "props": []
     },
     "briefing_dom_t2_spawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.500958,0.0,-19.9937],
         [0.0,20.0,0.0],
@@ -559,7 +590,7 @@
       "props": []
     },
     "briefing_zone01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.66893e-05,0.0,-140.0],
         [0.0,140.0,0.0],
@@ -570,7 +601,7 @@
       "props": []
     },
     "briefing_zone02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [4.76837e-06,0.0,-40.0],
         [0.0,40.0,0.0],
@@ -581,7 +612,7 @@
       "props": []
     },
     "briefing_zone03": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [4.76837e-06,0.0,-40.0],
         [0.0,40.0,0.0],

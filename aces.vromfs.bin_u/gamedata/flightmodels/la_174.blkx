@@ -52,6 +52,14 @@
         "genericDamageMult": 0.3,
         "hp": 18.2
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
       "flap_l_dm": {
         "hp": 27.5
       },
@@ -150,6 +158,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 39.5
       },
@@ -175,17 +186,6 @@
       },
       "tank4_dm": {
         "hp": 39.5
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 10.8
-      },
-      "elevator1_dm": {
-        "hp": 10.8
-      },
-      "gear_c_dm": {
-        "hp": 7.2
       }
     }
   },
@@ -2247,9 +2247,24 @@
     }
   ],
   "cutting": {
-    "wingRDist": [-2.30097,-1.30097],
-    "wingLDist": [2.24333,3.24333],
-    "tailDist": [10.0,11.0],
-    "color": [0.151,0.151,0.151,1.0]
+    "_emtr_break_wing0_l_from": [0.315867,0.402182,0.854258],
+    "_emtr_break_wing0_l_to": [0.315867,0.402182,1.28079],
+    "emtr_break_wing1_l_from": [0.315867,0.402182,1.9206],
+    "emtr_break_wing1_l_to": [0.315867,0.402182,2.43286],
+    "emtr_break_wing2_l_from": [0.315867,0.402182,3.20124],
+    "emtr_break_wing2_l_to": [0.315867,0.402182,3.68359],
+    "_emtr_break_wing0_r_from": [0.315867,0.402183,-0.854246],
+    "_emtr_break_wing0_r_to": [0.315867,0.402183,-1.28076],
+    "emtr_break_wing1_r_from": [0.315867,0.402183,-1.92052],
+    "emtr_break_wing1_r_to": [0.315867,0.402183,-2.43278],
+    "emtr_break_wing2_r_from": [0.315867,0.402183,-3.20117],
+    "emtr_break_wing2_r_to": [0.315867,0.402183,-3.68351],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-3.68634,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

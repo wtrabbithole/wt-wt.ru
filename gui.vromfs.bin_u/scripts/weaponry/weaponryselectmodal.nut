@@ -88,6 +88,7 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType      = handlerType.MODAL
   sceneTplName = "gui/weaponry/weaponrySelectModal"
+  shouldBlurSceneBg = false
 
   unit = null
   list = null

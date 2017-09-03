@@ -699,8 +699,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {
             modsCountObj.setValue(countMods.tostring() + ::loc("weapons_types/short/separator") + reqMods.tostring())
             local tooltipText = "<color=@badTextColor>" + ::loc("weaponry/unlockTier/reqPrevTiers") + "</color>"
-            modsCountObj.tooltip = ::tooltipColorTheme(::loc("weaponry/unlockTier/countsBlock/startText") + "\n" +  tooltipText)
-            jObj.tooltip = ::tooltipColorTheme(tooltipText)
+            modsCountObj.tooltip = ::loc("weaponry/unlockTier/countsBlock/startText") + "\n" +  tooltipText
+            jObj.tooltip = tooltipText
           }
           else
           {
@@ -715,8 +715,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
           local tooltipText = ::loc("weaponry/unlockTier/tooltip",
                                     { amount = req.tostring(), tier = ::get_roman_numeral(i+1) })
-          jObj.tooltip = ::tooltipColorTheme(tooltipText)
-          modsCountObj.tooltip = ::tooltipColorTheme(::loc("weaponry/unlockTier/countsBlock/startText") + "\n" + tooltipText)
+          jObj.tooltip = tooltipText
+          modsCountObj.tooltip = ::loc("weaponry/unlockTier/countsBlock/startText") + "\n" + tooltipText
         }
       }
     }

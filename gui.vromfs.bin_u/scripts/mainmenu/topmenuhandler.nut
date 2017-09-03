@@ -32,6 +32,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   checkPriceTimer = 0.0
 
   isWaitForContentToActivateScene = false
+  isInQueue = false
 
   constructor(gui_scene, params = {})
   {
@@ -88,7 +89,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
     local hasResearch = ::getTblValue("hasTopMenuResearch", handler, true)
     showSceneBtn("topmenu_btn_shop_wnd", hasResearch)
-    showSceneBtn("topmenu_btn_shop_wnd_bg", hasResearch)
     if (!hasResearch)
       closeShop()
 
@@ -146,9 +146,10 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function onQueue(inQueue)
   {
+    isInQueue = inQueue
+
     shadeSlotbar(inQueue)
-    local obj = getObj("topmenu-backshade")
-    if (obj) obj.animation = inQueue ? "show" : "hide"
+    updateSceneShade()
 
     if (inQueue)
     {
@@ -157,6 +158,17 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
       ::broadcastEvent("SetInQueue")
     }
+  }
+
+  function updateSceneShade()
+  {
+    local obj = getObj("topmenu_backshade_dark")
+    if (::check_obj(obj))
+      obj.animation = isInQueue ? "show" : "hide"
+
+    local obj = getObj("topmenu_backshade_light")
+    if (::check_obj(obj))
+      obj.animation = !isInQueue && ::top_menu_shop_active ? "show" : "hide"
   }
 
   function getCurrentEdiff()
@@ -244,8 +256,36 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       shopMove.setFloatProp(::dagui_propid.add_name_id("_size-timer"), 1.0)
       shopMove.height = "sh"
 
+      guiScene.performDelayed(this, function () { updateOnShopWndAnim(true) })
+
       updateShopCountry(true)
     }
+  }
+
+  function onShopWndAnimStarted(obj)
+  {
+    onHoverSizeMove(obj)
+    updateOnShopWndAnim(!::top_menu_shop_active)
+  }
+
+  function onShopWndAnimFinished(obj)
+  {
+    updateOnShopWndAnim(::top_menu_shop_active)
+  }
+
+  function updateOnShopWndAnim(isVisible)
+  {
+    local isShow = ::top_menu_shop_active
+    updateSlotbarTopPanelVisibility(!isShow)
+    updateSceneShade()
+    if (isVisible)
+      ::broadcastEvent("ShopWndVisible", { isShow = isShow })
+    ::broadcastEvent("ShopWndAnimation", { isShow = isShow, isVisible = isVisible })
+  }
+
+  function updateSlotbarTopPanelVisibility(isShow)
+  {
+    showSceneBtn("slotbar_buttons_place", isShow)
   }
 
   function afterBuyAircraftModal()
@@ -284,7 +324,10 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     if (::current_base_gui_handler && ("onReinitSlotbar" in ::current_base_gui_handler))
       ::current_base_gui_handler.onReinitSlotbar.call(::current_base_gui_handler)
     if (::top_menu_shop_active && ::is_shop_loaded())
+    {
       updateShopCountry(false)
+      updateSlotbarTopPanelVisibility(false)
+    }
   }
 
   function onSlotRepair(obj)

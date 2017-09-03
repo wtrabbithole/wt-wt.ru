@@ -59,6 +59,9 @@
         "cannon2_dm": {
           "hp": 15.0
         },
+        "gun1_dm": {
+          "hp": 15.0
+        },
         "mgun1_dm": {
           "hp": 15.0
         },
@@ -139,15 +142,15 @@
       "c_dural3": {
         "aileron_l_dm": {
           "genericDamageMult": 0.3,
-          "hp": 45.3
+          "hp": 30.5
         },
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
-          "hp": 45.3
+          "hp": 30.5
         },
         "elevator_dm": {
           "genericDamageMult": 0.3,
-          "hp": 50.5
+          "hp": 30.5
         },
         "fin1_dm": {
           "hp": 29.5
@@ -161,13 +164,13 @@
         "flap_r_dm": {
           "hp": 50.5
         },
-        "rudder1_dm": {
-          "genericDamageMult": 0.3,
-          "hp": 29.5
-        },
         "rudder0_dm": {
           "genericDamageMult": 0.3,
-          "hp": 29.5
+          "hp": 16.3
+        },
+        "rudder1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 16.3
         },
         "stab_dm": {
           "hp": 33.0
@@ -233,6 +236,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 54.8
         },
@@ -260,13 +266,16 @@
           "hp": 17.5
         },
         "water3_dm": {
-          "hp": 17.5
+          "hp": 23.5
         },
         "water4_dm": {
-          "hp": 23.5
+          "hp": 17.5
         }
       },
       "steel_pilot": {
+        "gunner1_dm": {
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -284,17 +293,6 @@
         },
         "tank4_dm": {
           "hp": 55.8
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 4.9
-        },
-        "gun1_dm": {
-          "hp": 4.3
-        },
-        "gunner1_dm": {
-          "hp": 21.1
         }
       }
     }
@@ -1269,29 +1267,29 @@
       {
         "part": [
           {
-            "name": "rudder1_dm"
+            "name": "rudder0_dm"
           },
           {
             "onHit": {
-              "damage": 5.0,
+              "damage": 10.0,
               "cut": 0.1
             }
           },
           {
             "onHit": {
-              "damage": 10.0,
+              "damage": 20.0,
               "cut": 0.4
             }
           },
           {
             "onHit": {
-              "damage": 20.0,
+              "damage": 30.0,
               "cut": 0.7
             }
           },
           {
             "onHit": {
-              "damage": 29.5,
+              "damage": 50.0,
               "cut": 1.0
             }
           },
@@ -1303,21 +1301,21 @@
           },
           {
             "onKill": {
-              "damage": 10.0,
+              "damage": 20.0,
               "cut": 1.0,
               "nothing": 2.0
             }
           },
           {
             "onKill": {
-              "damage": 20.0,
+              "damage": 30.0,
               "cut": 1.0,
               "nothing": 1.0
             }
           },
           {
             "onKill": {
-              "damage": 29.5,
+              "damage": 50.0,
               "cut": 1.0
             }
           }
@@ -1326,29 +1324,29 @@
       {
         "part": [
           {
-            "name": "rudder0_dm"
+            "name": "rudder1_dm"
           },
           {
             "onHit": {
-              "damage": 5.0,
+              "damage": 10.0,
               "cut": 0.1
             }
           },
           {
             "onHit": {
-              "damage": 10.0,
+              "damage": 20.0,
               "cut": 0.4
             }
           },
           {
             "onHit": {
-              "damage": 20.0,
+              "damage": 30.0,
               "cut": 0.7
             }
           },
           {
             "onHit": {
-              "damage": 29.5,
+              "damage": 50.0,
               "cut": 1.0
             }
           },
@@ -1360,21 +1358,21 @@
           },
           {
             "onKill": {
-              "damage": 10.0,
+              "damage": 20.0,
               "cut": 1.0,
               "nothing": 2.0
             }
           },
           {
             "onKill": {
-              "damage": 20.0,
+              "damage": 30.0,
               "cut": 1.0,
               "nothing": 1.0
             }
           },
           {
             "onKill": {
-              "damage": 29.5,
+              "damage": 50.0,
               "cut": 1.0
             }
           }
@@ -2580,6 +2578,12 @@
     ]
   },
   {
+    "gunnerFps": {
+      "pos": [-0.1,0.1,0.0],
+      "head": "turret1"
+    }
+  },
+  {
     "weapon_presets": [
       {
         "preset": {
@@ -2813,6 +2817,29 @@
         "tier": 4,
         "reqModification": "Bf-110C-4_2xSC250"
       }
+    }
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-0.624528,-0.230333,0.851581],
+      "_emtr_break_wing0_l_to": [-0.624528,-0.230333,1.64679],
+      "emtr_break_wing1_l_from": [-0.624528,-0.230333,2.99493],
+      "emtr_break_wing1_l_to": [-0.624528,-0.230333,3.98582],
+      "emtr_break_wing2_l_from": [-0.624528,-0.230333,5.64517],
+      "emtr_break_wing2_l_to": [-0.624528,-0.230333,6.6397],
+      "_emtr_break_wing0_r_from": [-0.624528,-0.230334,-0.851581],
+      "_emtr_break_wing0_r_to": [-0.624528,-0.230334,-1.64679],
+      "emtr_break_wing1_r_from": [-0.624528,-0.230334,-2.99493],
+      "emtr_break_wing1_r_to": [-0.624528,-0.230334,-3.98582],
+      "emtr_break_wing2_r_from": [-0.624528,-0.230334,-5.64517],
+      "emtr_break_wing2_r_to": [-0.624528,-0.230334,-6.6397],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-6.92058,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

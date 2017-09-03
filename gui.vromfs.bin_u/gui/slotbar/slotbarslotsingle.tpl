@@ -51,6 +51,10 @@ shopItem {
   isBroken:t='no'
   <</isBroken>>
 
+  <<#isPkgDev>>
+  shopAirImg { foreground-image:t='#ui/gameuiskin#unit_under_construction' }
+  <</isPkgDev>>
+
   shopAirImg {
     foreground-image:t='<<shopAirImg>>'
   }

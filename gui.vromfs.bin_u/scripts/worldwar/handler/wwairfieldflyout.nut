@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -126,7 +129,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   function getFlyTimeText(timeInSeconds)
   {
-    return ::hoursToString(::seconds_to_hours(timeInSeconds), false, true) + " " + ::loc("icon/timer")
+    return time.hoursToString(time.secondsToHours(timeInSeconds), false, true) + " " + ::loc("icon/timer")
   }
 
   function getHeaderTabs()
@@ -383,10 +386,10 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
         bitsTexts.append(getUnitTypeRequirementText(bit, selUnitsInfo, mask))
       }
-      text.append(::implode(bitsTexts, " + "))
+      text.append(::g_string.implode(bitsTexts, " + "))
     }
 
-    topTextObj.setValue(::implode(text, "\n" + ::loc("worldwar/airfield/conditions_separator") + "\n"))
+    topTextObj.setValue(::g_string.implode(text, "\n" + ::loc("worldwar/airfield/conditions_separator") + "\n"))
 
     local conditionsTextObj = scene.findObject("unit_fly_conditions_title")
     if (::check_obj(conditionsTextObj))

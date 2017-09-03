@@ -17,10 +17,7 @@
   "fightAiBehaviour": "fighter",
   "DamageParts": {
     "armor10": {
-      "armor3_dm": {
-        "hp": 40.0
-      },
-      "armor4_dm": {
+      "armor2_dm": {
         "hp": 40.0
       },
       "cannon1_dm": {
@@ -33,9 +30,12 @@
         "hp": 15.0
       }
     },
-    "armor6": {
-      "armor2_dm": {
-        "hp": 35.0
+    "armor16": {
+      "armor3_dm": {
+        "hp": 45.0
+      },
+      "armor4_dm": {
+        "hp": 45.0
       }
     },
     "armor_engine": {
@@ -52,6 +52,14 @@
       "aileron_r_dm": {
         "genericDamageMult": 0.3,
         "hp": 19.0
+      },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
       },
       "fin_dm": {
         "hp": 30.5
@@ -134,7 +142,7 @@
         "hp": 58.0
       }
     },
-    "glass64": {
+    "glass60": {
       "armor1_dm": {
         "hp": 100.0
       }
@@ -154,6 +162,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 39.5
       },
@@ -173,17 +184,6 @@
       },
       "tank2_dm": {
         "hp": 52.8
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 9.2
-      },
-      "elevator1_dm": {
-        "hp": 8.3
-      },
-      "gear_c_dm": {
-        "hp": 8.0
       }
     }
   },
@@ -1221,47 +1221,54 @@
         },
         {
           "onHit": {
-            "fire": 0.03,
+            "fire": 0.0001,
+            "leak": 0.3
+          }
+        },
+        {
+          "onHit": {
+            "damage": 3.0,
+            "fire": 0.001,
             "leak": 0.5
           }
         },
         {
           "onHit": {
-            "damage": 10.0,
-            "fire": 0.5,
+            "damage": 20.0,
+            "fire": 0.005,
             "leak": 0.7
           }
         },
         {
           "onHit": {
-            "damage": 50.0,
-            "fire": 0.8,
+            "damage": 70.0,
+            "fire": 0.01,
             "leak": 0.9
           }
         },
         {
           "onKill": {
-            "fire": 3.0,
-            "leak": 12.0,
-            "nothing": 85.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "expl": 0.5,
-            "fire": 5.0,
-            "leak": 10.0,
-            "nothing": 85.0
+            "fire": 0.01,
+            "leak": 9.99,
+            "nothing": 90.0
           }
         },
         {
           "onKill": {
             "damage": 50.0,
+            "expl": 0.25,
+            "fire": 1.0,
+            "leak": 19.0,
+            "nothing": 80.0
+          }
+        },
+        {
+          "onKill": {
+            "damage": 70.0,
             "expl": 1.0,
-            "fire": 20.0,
-            "leak": 50.0,
-            "nothing": 30.0
+            "fire": 5.0,
+            "leak": 25.0,
+            "nothing": 70.0
           }
         }
       ]
@@ -2258,5 +2265,22 @@
         "from": "mig_17_late_ussr_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "emtr_break_wing1_l_from": [0.200957,-0.00981411,2.09966],
+    "emtr_break_wing1_l_to": [0.200957,-0.00981411,2.6791],
+    "emtr_break_wing2_l_from": [0.200957,-0.00981411,3.54825],
+    "emtr_break_wing2_l_to": [0.200957,-0.00981411,4.02709],
+    "emtr_break_wing1_r_from": [0.200957,-0.00981411,-2.09966],
+    "emtr_break_wing1_r_to": [0.200957,-0.00981411,-2.6791],
+    "emtr_break_wing2_r_from": [0.200957,-0.00981411,-3.54825],
+    "emtr_break_wing2_r_to": [0.200957,-0.00981411,-4.02709],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-5.05491,0.0,0.0]
+    ],
+    "partKindTail": 3
+  }
 }

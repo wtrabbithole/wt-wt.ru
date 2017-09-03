@@ -8,11 +8,17 @@ class ::Warbond
   blkListPath = ""
   isListValid = false
   awardsList = null
+  levelsArray = null
 
   expiredTime = -1 //time to which you can spend warbonds
-  canEarnTime = -1 //time to witch you can earn warbonds. (time to witch isCurrent will be true)
+  canEarnTime = -1 //time to which you can earn warbonds. (time to which isCurrent will be true)
 
   updateRequested = false //warbond will be full reloaded after request complete
+
+  medalForSpecialTasks = 1
+
+  static LAST_SEEN_WARBOND_SHOP_LEVEL_PATH = "warbonds/lastReachedShopLevel"
+  static LAST_SEEN_WARBOND_SHOP_MONTH_PATH = "warbonds/lastReachedShopMonth"
 
   constructor(wbId, wbListId)
   {
@@ -27,11 +33,13 @@ class ::Warbond
     if (!::u.isDataBlock(listBlk))
       return
 
-    fontIcon = ::g_warbonds.getWarbondFontIcon(id, listId)
+    fontIcon = ::g_warbonds.defaultWbFontIcon
     medalIcon = ::getTblValue(listId, ::getTblValue("medalIcons", ::configs.GUI.get().warbonds), "")
+    medalForSpecialTasks = ::getTblValue("specialTasksByMedal", ::configs.GUI.get().warbonds, 1)
 
     expiredTime = listBlk.expiredTime || -1
     canEarnTime = listBlk.endTime || -1
+    levelsArray = ::blk_to_array(listBlk.levels || ::DataBlock(), "level")
   }
 
   function getFullId()
@@ -146,5 +154,82 @@ class ::Warbond
   function getMedalIcon()
   {
     return medalIcon == ""? "" : ("#ui/gameuiskin#" + medalIcon)
+  }
+
+  function getCurrentShopLevelTasks()
+  {
+    return getLevelData().Ordinary
+  }
+
+  function getCurrentShopLevel()
+  {
+    if (!haveAnyOrdinaryRequirements())
+      return 0
+
+    return getShopLevel(getCurrentShopLevelTasks())
+  }
+
+  function getShopLevel(tasksNum)
+  {
+    local shopLevel = 0
+    foreach (level, reqTasks in levelsArray)
+      if (tasksNum >= reqTasks)
+        shopLevel = ::max(shopLevel, level)
+
+    return shopLevel
+  }
+
+  function getShopLevelText(level)
+  {
+    return ::get_roman_numeral(level + 1)
+  }
+
+  function getShopLevelTasks(level)
+  {
+    return ::getTblValue(level, levelsArray, levelsArray.top())
+  }
+
+  function getNextShopLevelTasks()
+  {
+    return getShopLevelTasks(getCurrentShopLevel() + 1)
+  }
+
+  function getCurrentMedalsCount()
+  {
+    if (!haveAnySpecialRequirements())
+      return 0
+
+    return getMedalsCount(getLevelData().Special)
+  }
+
+  function getMedalsCount(tasksCount)
+  {
+    return tasksCount / medalForSpecialTasks
+  }
+
+  function leftForAnotherMedalTasks()
+  {
+    return getLevelData().Special % medalForSpecialTasks
+  }
+
+  function isReachedNewShopLevel()
+  {
+    local month = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_MONTH_PATH, listId)
+    if (month == listId)
+      return false
+
+    local curLevel = getCurrentShopLevel()
+    local lastSeen = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_LEVEL_PATH, curLevel)
+    return curLevel != 0 && lastSeen != curLevel
+  }
+
+  function markSeenLastResearchShopLevel()
+  {
+    if (!isReachedNewShopLevel())
+      return
+
+    ::saveLocalByAccount(LAST_SEEN_WARBOND_SHOP_MONTH_PATH, listId)
+    ::saveLocalByAccount(LAST_SEEN_WARBOND_SHOP_LEVEL_PATH, getCurrentShopLevel())
+    ::broadcastEvent("WarbondShopMarkSeenLevel")
   }
 }

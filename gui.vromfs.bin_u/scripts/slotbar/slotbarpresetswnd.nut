@@ -88,7 +88,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
       }
 
       local data = ::format("textarea{ text:t='%s' padding:t='-1@textPaddingBugWorkaround, 8*@sf/@pf_outdated' } ",
-        ::stripTags(presetBattleRatingText) +
+        ::g_string.stripTags(presetBattleRatingText) +
         ::loc("shop/slotbarPresets/contents") + ::loc("ui/colon"))
       data += "table{ class:t='slotbarPresetsTable' "
       for (local r = 0; r < cells / perRow; r++)
@@ -115,7 +115,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
 
       if (!preset.enabled)
         data += ::format("textarea{ text:t='%s' padding:t='-1@textPaddingBugWorkaround, 8*@sf/@pf_outdated' } ",
-          ::colorize("badTextColor", ::stripTags(::loc("shop/slotbarPresets/forbidden/unitTypes"))))
+          ::colorize("badTextColor", ::g_string.stripTags(::loc("shop/slotbarPresets/forbidden/unitTypes"))))
 
       guiScene.replaceContentFromText(objDesc, data, data.len(), this)
       foreach (unitItem in unitItems)
@@ -123,7 +123,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
     {
-      local data = ::format("textarea{ text:t='%s' width:t='pw' } ", ::stripTags(::loc("shop/slotbarPresets/presetUnknown")))
+      local data = ::format("textarea{ text:t='%s' width:t='pw' } ", ::g_string.stripTags(::loc("shop/slotbarPresets/presetUnknown")))
       guiScene.replaceContentFromText(objDesc, data, data.len(), this)
     }
 
@@ -186,8 +186,8 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
     local unitNames = []
     foreach (unitId in preset.units)
       unitNames.append(::loc(unitId + "_shop"))
-    local comment = "(" + ::loc("shop/slotbarPresets/contents") + ::loc("ui/colon") + ::implode(unitNames, ::loc("ui/comma")) + ")"
-    comment = ::format("textarea{overlayTextColor:t='bad'; text:t='%s'}", ::stripTags(comment))
+    local comment = "(" + ::loc("shop/slotbarPresets/contents") + ::loc("ui/colon") + ::g_string.implode(unitNames, ::loc("ui/comma")) + ")"
+    comment = ::format("textarea{overlayTextColor:t='bad'; text:t='%s'}", ::g_string.stripTags(comment))
 
     msgBox("question_delete_preset", msgText,
     [
