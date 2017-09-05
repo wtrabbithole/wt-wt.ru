@@ -226,6 +226,7 @@
       "locDesc": "missions/BR/desc",
       "gt_ffa": true,
       "gt_last_man_standing": true,
+      "timeLimit": 60,
       "useTankBots": true,
       "battleAreaColorPreset": "battleRoyale",
       "ignoreInvulnerableTimer": true,
@@ -233,7 +234,6 @@
       "customSuperArtillery": "structures/streakArtillery_203mm_r100m",
       "country_axis": "germany",
       "country_allies": "ussr",
-      "timeLimit": 60,
       "missionType": {
         "_Dom": false,
         "_Conq": false,
@@ -459,6 +459,13 @@
             "value": "(1,1);(2,1);(4,1);(1,2);(5,4);(1,5);(2,5);(3,5);(4,5);(5,5)",
             "var": "br_final_sector_exclude",
             "fromDescriptor": "br_final_sector_exclude"
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object": "object_groups_sqad",
+            "stealthRadius": 0.0
           }
         },
         {
@@ -739,10 +746,10 @@
       "objectGroups": {
         "name": "objectGroups_41",
         "tm": [
-          [-0.602207,0.0,0.79834],
+          [0.456236,0.0,0.889859],
           [0.0,1.0,0.0],
-          [-0.79834,0.0,-0.602207],
-          [4010.33,7.31667,3353.12]
+          [-0.889859,0.0,0.456236],
+          [4013.85,7.3,3354.3]
         ],
         "unit_class": "debris_bricks_large_b",
         "objLayer": 2,
@@ -759,7 +766,7 @@
           [-0.602207,0.0,0.79834],
           [0.0,1.0,0.0],
           [-0.79834,0.0,-0.602207],
-          [4005.07,7.31667,3404.54]
+          [4003.3,7.3,3400.35]
         ],
         "unit_class": "debris_bricks_large_b",
         "objLayer": 2,
@@ -776,7 +783,7 @@
           [-0.906291,0.0,-0.422655],
           [0.0,1.0,0.0],
           [0.422655,0.0,-0.906291],
-          [3962.28,7.31665,3426.99]
+          [3977.6,7.3,3425.8]
         ],
         "unit_class": "debris_bricks_large_b",
         "objLayer": 2,
@@ -1198,10 +1205,10 @@
       "objectGroups": {
         "name": "objectGroups_64",
         "tm": [
-          [-0.906291,0.0,-0.422655],
-          [0.0,1.0,0.0],
-          [0.422655,0.0,-0.906291],
-          [3207.19,7.31674,3145.77]
+          [-0.906291,0.0387298,-0.420877],
+          [0.0,0.995793,0.0916346],
+          [0.422655,0.0830476,-0.902478],
+          [3224.38,8.8346,3138.86]
         ],
         "unit_class": "debris_bricks_large_b",
         "objLayer": 2,
@@ -1762,7 +1769,7 @@
           [0.0732392,0.0,0.997315],
           [0.0,1.0,0.0],
           [-0.997315,0.0,0.0732392],
-          [3905.35,7.3,3436.1]
+          [3905.05,8.1,3458.25]
         ],
         "unit_class": "debris_bricks_large_b",
         "objLayer": 2,
@@ -1779,7 +1786,7 @@
           [0.592694,0.0,0.805428],
           [0.0,1.0,0.0],
           [-0.805428,0.0,0.592694],
-          [4008.75,7.3,3508.0]
+          [4004.95,7.8,3508.0]
         ],
         "unit_class": "debris_bricks_large_b",
         "objLayer": 2,
@@ -2020,6 +2027,496 @@
             "squad_members": "pickupArea35"
           }
         ]
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_98",
+        "tm": [
+          [0.336538,0.0,-0.94167],
+          [0.0,1.0,0.0],
+          [0.94167,0.0,0.336538],
+          [3903.3,6.65,3503.55]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_99",
+        "tm": [
+          [0.714129,0.0,-0.700015],
+          [0.0,1.0,0.0],
+          [0.700015,0.0,0.714129],
+          [4012.3,5.6,3516.65]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_100",
+        "tm": [
+          [-0.998285,-0.0524086,-0.0260768],
+          [-0.0501392,0.995439,-0.0811573],
+          [0.0302112,-0.0797107,-0.99636],
+          [4007.65,6.45,3429.25]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_101",
+        "tm": [
+          [0.914384,-0.082318,0.396392],
+          [0.0438539,0.993488,0.105155],
+          [-0.402467,-0.078769,0.912039],
+          [3941.9,5.65,3409.1]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_102",
+        "tm": [
+          [0.854823,-0.0765835,0.513238],
+          [0.0892324,0.996011,0.0],
+          [-0.511191,0.0457975,0.858247],
+          [3217.7,8.4,3245.95]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_103",
+        "tm": [
+          [0.858247,0.0,0.513238],
+          [0.0,1.0,0.0],
+          [-0.513238,0.0,0.858247],
+          [3264.01,7.60693,3145.65]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_104",
+        "tm": [
+          [0.987892,0.0,0.155143],
+          [0.0,1.0,0.0],
+          [-0.155143,0.0,0.987892],
+          [3264.17,9.79996,3290.99]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_05",
+        "tm": [
+          [0.260991,0.0,0.965342],
+          [0.0,1.0,0.0],
+          [-0.965342,0.0,0.260991],
+          [3281.01,9.63617,3323.41]
+        ],
+        "unit_class": "det_germ_tram",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_105",
+        "tm": [
+          [0.987892,0.0,0.155143],
+          [0.0,1.0,0.0],
+          [-0.155143,0.0,0.987892],
+          [3213.6,9.79996,3287.51]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "objectGroups_106",
+        "tm": [
+          [0.858247,0.0,0.513238],
+          [0.0,1.0,0.0],
+          [-0.513238,0.0,0.858247],
+          [3226.64,7.3,3214.78]
+        ],
+        "unit_class": "debris_bricks_large_b",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "squad": {
+        "name": "object_groups_sqad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2953.56,9.82013,3214.55]
+        ],
+        "props": [
+          {
+            "squad_members": "objectGroups_25"
+          },
+          {
+            "squad_members": "objectGroups_27"
+          },
+          {
+            "squad_members": "objectGroups_28"
+          },
+          {
+            "squad_members": "objectGroups_29"
+          },
+          {
+            "squad_members": "objectGroups_30"
+          },
+          {
+            "squad_members": "objectGroups_32"
+          },
+          {
+            "squad_members": "objectGroups_33"
+          },
+          {
+            "squad_members": "objectGroups_34"
+          },
+          {
+            "squad_members": "objectGroups_26"
+          },
+          {
+            "squad_members": "objectGroups_35"
+          },
+          {
+            "squad_members": "objectGroups_36"
+          },
+          {
+            "squad_members": "objectGroups_37"
+          },
+          {
+            "squad_members": "objectGroups_38"
+          },
+          {
+            "squad_members": "objectGroups_39"
+          },
+          {
+            "squad_members": "objectGroups_40"
+          },
+          {
+            "squad_members": "objectGroups_41"
+          },
+          {
+            "squad_members": "objectGroups_42"
+          },
+          {
+            "squad_members": "objectGroups_43"
+          },
+          {
+            "squad_members": "objectGroups_44"
+          },
+          {
+            "squad_members": "objectGroups_45"
+          },
+          {
+            "squad_members": "objectGroups_46"
+          },
+          {
+            "squad_members": "objectGroups_47"
+          },
+          {
+            "squad_members": "objectGroups_48"
+          },
+          {
+            "squad_members": "objectGroups_04"
+          },
+          {
+            "squad_members": "objectGroups_03"
+          },
+          {
+            "squad_members": "objectGroups_02"
+          },
+          {
+            "squad_members": "objectGroups_53"
+          },
+          {
+            "squad_members": "objectGroups_54"
+          },
+          {
+            "squad_members": "objectGroups_55"
+          },
+          {
+            "squad_members": "objectGroups_56"
+          },
+          {
+            "squad_members": "objectGroups_01"
+          },
+          {
+            "squad_members": "objectGroups_49"
+          },
+          {
+            "squad_members": "objectGroups_57"
+          },
+          {
+            "squad_members": "objectGroups_58"
+          },
+          {
+            "squad_members": "objectGroups_50"
+          },
+          {
+            "squad_members": "objectGroups_51"
+          },
+          {
+            "squad_members": "objectGroups_59"
+          },
+          {
+            "squad_members": "objectGroups_52"
+          },
+          {
+            "squad_members": "objectGroups_60"
+          },
+          {
+            "squad_members": "objectGroups_61"
+          },
+          {
+            "squad_members": "objectGroups_62"
+          },
+          {
+            "squad_members": "objectGroups_63"
+          },
+          {
+            "squad_members": "objectGroups_64"
+          },
+          {
+            "squad_members": "objectGroups_65"
+          },
+          {
+            "squad_members": "objectGroups_66"
+          },
+          {
+            "squad_members": "objectGroups_67"
+          },
+          {
+            "squad_members": "objectGroups_68"
+          },
+          {
+            "squad_members": "objectGroups_69"
+          },
+          {
+            "squad_members": "objectGroups_70"
+          },
+          {
+            "squad_members": "objectGroups_71"
+          },
+          {
+            "squad_members": "objectGroups_72"
+          },
+          {
+            "squad_members": "objectGroups_73"
+          },
+          {
+            "squad_members": "objectGroups_74"
+          },
+          {
+            "squad_members": "objectGroups_75"
+          },
+          {
+            "squad_members": "objectGroups_76"
+          },
+          {
+            "squad_members": "objectGroups_77"
+          },
+          {
+            "squad_members": "objectGroups_78"
+          },
+          {
+            "squad_members": "objectGroups_79"
+          },
+          {
+            "squad_members": "objectGroups_80"
+          },
+          {
+            "squad_members": "objectGroups_81"
+          },
+          {
+            "squad_members": "objectGroups_82"
+          },
+          {
+            "squad_members": "objectGroups_83"
+          },
+          {
+            "squad_members": "objectGroups_84"
+          },
+          {
+            "squad_members": "objectGroups_85"
+          },
+          {
+            "squad_members": "objectGroups_86"
+          },
+          {
+            "squad_members": "objectGroups_87"
+          },
+          {
+            "squad_members": "objectGroups_88"
+          },
+          {
+            "squad_members": "objectGroups_89"
+          },
+          {
+            "squad_members": "objectGroups_90"
+          },
+          {
+            "squad_members": "objectGroups_91"
+          },
+          {
+            "squad_members": "objectGroups_92"
+          },
+          {
+            "squad_members": "objectGroups_93"
+          },
+          {
+            "squad_members": "objectGroups_94"
+          },
+          {
+            "squad_members": "objectGroups_95"
+          },
+          {
+            "squad_members": "objectGroups_31"
+          },
+          {
+            "squad_members": "objectGroups_96"
+          },
+          {
+            "squad_members": "objectGroups_97"
+          },
+          {
+            "squad_members": "objectGroups_98"
+          },
+          {
+            "squad_members": "objectGroups_99"
+          },
+          {
+            "squad_members": "objectGroups_100"
+          },
+          {
+            "squad_members": "objectGroups_101"
+          },
+          {
+            "squad_members": "objectGroups_102"
+          },
+          {
+            "squad_members": "objectGroups_103"
+          },
+          {
+            "squad_members": "objectGroups_104"
+          },
+          {
+            "squad_members": "objectGroups_05"
+          },
+          {
+            "squad_members": "objectGroups_105"
+          },
+          {
+            "squad_members": "objectGroups_106"
+          }
+        ]
+      }
+    },
+    {
+      "armada": {
+        "name": "player01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2445.35,408.048,2710.35]
+        ],
+        "unit_class": "dummy_plane",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
       }
     }
   ],
@@ -2963,7 +3460,7 @@
   "wayPoints": [],
   "__viewPoints": {
     "viewpt_01": {
-      "pos": [4036.45,18.6696,3475.1],
+      "pos": [4036.45,11.4882,3475.1],
       "ht": 4.5
     }
   }

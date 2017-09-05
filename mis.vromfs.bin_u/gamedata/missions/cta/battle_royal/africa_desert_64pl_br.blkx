@@ -226,6 +226,7 @@
       "locDesc": "missions/BR/desc",
       "gt_ffa": true,
       "gt_last_man_standing": true,
+      "timeLimit": 60,
       "useTankBots": true,
       "battleAreaColorPreset": "battleRoyale",
       "ignoreInvulnerableTimer": true,
@@ -233,7 +234,6 @@
       "customSuperArtillery": "structures/streakArtillery_203mm_r250m",
       "country_axis": "germany",
       "country_allies": "ussr",
-      "timeLimit": 60,
       "missionType": {
         "_Dom": false,
         "_Conq": false,
@@ -909,6 +909,52 @@
             "squad_members": "pickupArea54"
           }
         ]
+      }
+    },
+    {
+      "armada": {
+        "name": "player01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1695.26,408.048,2045.95]
+        ],
+        "unit_class": "dummy_plane",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
       }
     }
   ],
@@ -2644,7 +2690,7 @@
   "wayPoints": [],
   "__viewPoints": {
     "viewpt_01": {
-      "pos": [2898.97,-11.5424,2268.19],
+      "pos": [2898.97,-10.0528,2268.19],
       "ht": 1.4896
     }
   }

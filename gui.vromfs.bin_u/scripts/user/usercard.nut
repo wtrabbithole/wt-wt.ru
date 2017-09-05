@@ -931,8 +931,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!isFriend) bText = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
       }
 
-    local canShowPsn = ::is_platform_ps4 && ::getTblValue("psnName", player, "") != "" && ::isInMenu()
-
     local sheet = getCurSheet()
     local showStatBar = infoReady && sheet=="Statistics"
     local showProfBar = infoReady && !showStatBar
@@ -941,7 +939,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
                           btn_friendAdd = showProfBar && fText!=""
                           btn_blacklistAdd = showProfBar && bText!=""
                           btn_moderatorBan = showProfBar && canBan && !::is_platform_ps4
-                          btn_psnProfile = showProfBar && canShowPsn
                           btn_complain = showProfBar && !isMe
                         }
 
@@ -984,11 +981,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onBlacklistAdd()
   {
     modifyPlayerInList(::EPL_BLOCKLIST)
-  }
-
-  function onPsnProfile()
-  {
-    ::ps4_show_profile(player.psnName)
   }
 
   function onComplain()

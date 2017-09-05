@@ -26,6 +26,8 @@ function g_personal_unlocks::update()
       unlocksArray.append(unlockBlk)
       newIconWidgetById[unlockBlk.id] <- null
     }
+
+  ::broadcastEvent("PersonalUnlocksFinishedUpdate")
 }
 
 function g_personal_unlocks::getUnlocksArray() { return unlocksArray }
@@ -42,6 +44,11 @@ function g_personal_unlocks::onEventSignOut(p)
 }
 
 function g_personal_unlocks::onEventLoginComplete(p)
+{
+  update()
+}
+
+function g_personal_unlocks::onEventPersonalUnlocksRequestUpdate(p)
 {
   update()
 }

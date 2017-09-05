@@ -79,6 +79,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     updateBattleTasksData()
+    updatePersonalUnlocks()
     onChangeTab(scene.findObject("tasks_sheet_list"))
 
     initFocusArray()
@@ -242,9 +243,13 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     currentTasksArray = ::g_battle_tasks.getTasksArray()
     newIconWidgetByTaskId = ::g_battle_tasks.getWidgetsTable()
-    personalUnlocksArray = ::g_personal_unlocks.getUnlocksArray()
     buildBattleTasksArray(BattleTasksWndTab.BATTLE_TASKS)
     buildBattleTasksArray(BattleTasksWndTab.BATTLE_TASKS_HARD)
+  }
+
+  function updatePersonalUnlocks()
+  {
+    personalUnlocksArray = ::g_personal_unlocks.getUnlocksArray()
     buildPersonalUnlocksArray(BattleTasksWndTab.PERSONAL_UNLOCKS)
   }
 
@@ -318,6 +323,12 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onEventBattleTasksFinishedUpdate(params)
   {
     updateBattleTasksData()
+    onChangeTab(scene.findObject("tasks_sheet_list"))
+  }
+
+  function onEventPersonalUnlocksFinishedUpdate(params)
+  {
+    updatePersonalUnlocks()
     onChangeTab(scene.findObject("tasks_sheet_list"))
   }
 

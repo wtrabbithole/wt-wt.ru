@@ -471,11 +471,17 @@ function SessionLobby::UpdatePlayersInfo()
 function SessionLobby::UpdateCrsSettings()
 {
   isSpectatorSelectLocked = false
-  local refereeIds = ::getTblValue("referees", getSessionInfo())
-  if (::u.isArray(refereeIds))
+  local userInUidsList = function(list_name)
   {
-    refereeIds = ::u.map(refereeIds, function (v) { return v.tostring() })
-    isSpectatorSelectLocked = ::isInArray(::my_user_id_str, refereeIds)
+    local ids = ::getTblValue(list_name, getSessionInfo())
+    if (::u.isArray(ids))
+      return ::isInArray(::my_user_id_int64, ids)
+    return false
+  }
+
+  if (userInUidsList("referees") || userInUidsList("spectators"))
+  {
+    isSpectatorSelectLocked = true
     setSpectator(isSpectatorSelectLocked)
   }
 

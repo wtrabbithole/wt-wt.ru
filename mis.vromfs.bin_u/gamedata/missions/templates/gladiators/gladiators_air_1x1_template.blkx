@@ -700,8 +700,8 @@
           },
           {
             "playerForceMoveToRespawnScreen": {
-              "target": "all_player_squad_alive",
-              "target_type": "isActive"
+              "target": "all_player_squad",
+              "target_type": "any"
             }
           },
           {
@@ -1009,17 +1009,13 @@
             }
           },
           "conditions": {
-            "missionIsZoneCaptured": {
-              "target": "battle_area_01",
-              "army": 0
-            },
-            "unitWhenInArea": {
-              "math": "notNear2D",
-              "object_type": "isActive",
-              "object_marking": 0,
+            "unitWhenStatus": {
+              "object_type": "isKilled",
               "check_objects": "all",
-              "object": "all_player_squad",
-              "target": "battle_area_01"
+              "object_marking": 0,
+              "target_type": "isAlive",
+              "check_period": 1.0,
+              "object": "all_player_squad"
             }
           },
           "actions": {

@@ -50,8 +50,12 @@ function g_play_together::requestUsersList(inviteesArray)
 {
   local onlineIds = []
   foreach (player in inviteesArray)
+  {
     if (::getTblValue("onlineId", player, "") != "")
       onlineIds.append(player.onlineId)
+    if (::getTblValue("accountId", player, "") != "")
+      onlineIds.append(player.accountId)
+  }
 
   local taskId = ::ps4_find_friends(onlineIds)
   local taskOptions = {
