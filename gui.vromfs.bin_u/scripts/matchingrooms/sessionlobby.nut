@@ -1873,7 +1873,8 @@ function SessionLobby::getMaxMembersCount(room = null)
 
 function SessionLobby::checkAutoStart()
 {
-  if (isRoomOwner && !isRoomByQueue && !haveLobby() && roomUpdated && ::g_squad_manager.getSquadSize() <= getMembersCount())
+  if (isRoomOwner && !isRoomByQueue && !haveLobby() && roomUpdated
+    && ::g_squad_manager.getOnlineMembersCount() <= getMembersCount())
     startSession()
 }
 

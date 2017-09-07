@@ -121,6 +121,7 @@ function briefing_options_apply()
             isLeaderCanJoin = ::mission_settings.coop
             allowWhenAlone = false
             msgId = "multiplayer/squad/cantJoinSessionWithSquad"
+            maxSquadSize = ::get_max_players_for_gamemode(gm)
           }
         )
       )

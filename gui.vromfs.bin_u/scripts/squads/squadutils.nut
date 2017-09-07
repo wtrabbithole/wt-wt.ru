@@ -45,21 +45,37 @@ function g_squad_utils::canJoinFlightMsgBox(options = null,
   if (::getTblValue("allowWhenAlone", options, true) && !::g_squad_manager.isNotAloneOnline())
     return true
 
-  if (::getTblValue("isLeaderCanJoin", options, false) && ::g_squad_manager.isSquadLeader())
-    if (::g_squad_manager.readyCheck(true))
-    {
-      if (::getTblValue("showOfflineSquadMembersPopup", options, false))
-        checkAndShowHasOfflinePlayersPopup()
-      return true
-    }
-    else if (::g_squad_manager.readyCheck(false))
-    {
-      showRevokeNonAcceptInvitesMsgBox(okFunc, cancelFunc)
-      return false
-    }
-    else
-      msgId = "squad/not_all_ready"
+  if (!::getTblValue("isLeaderCanJoin", options, false) || !::g_squad_manager.isSquadLeader())
+  {
+    showLeaveSquadMsgBox(msgId, okFunc, cancelFunc)
+    return false
+  }
 
+  local maxSize = ::getTblValue("maxSquadSize", options, 0)
+  if (maxSize > 0 && ::g_squad_manager.getOnlineMembersCount() > maxSize)
+  {
+    ::showInfoMsgBox(::loc("gamemode/squad_is_too_big",
+      {
+        squadSize = ::colorize("userlogColoredText", ::g_squad_manager.getOnlineMembersCount())
+        maxTeamSize = ::colorize("userlogColoredText", maxSize)
+      }))
+    return false
+  }
+
+  if (::g_squad_manager.readyCheck(true))
+  {
+    if (::getTblValue("showOfflineSquadMembersPopup", options, false))
+      checkAndShowHasOfflinePlayersPopup()
+    return true
+  }
+
+  if (::g_squad_manager.readyCheck(false))
+  {
+    showRevokeNonAcceptInvitesMsgBox(okFunc, cancelFunc)
+    return false
+  }
+
+  msgId = "squad/not_all_ready"
   showLeaveSquadMsgBox(msgId, okFunc, cancelFunc)
   return false
 }

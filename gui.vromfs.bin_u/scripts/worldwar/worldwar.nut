@@ -254,7 +254,6 @@ function g_world_war::openMainWnd()
 function g_world_war::openWarMap()
 {
   local operationId = ::ww_get_operation_id()
-  ::ww_service.unsubscribeOperation(operationId) //!!FIX ME: why we are doing this???
   ::ww_service.subscribeOperation(
     operationId,
     null,
@@ -483,6 +482,14 @@ function g_world_war::updateRearZones()
 
     rearZones[sideName].append(zoneName)
   }
+}
+
+function g_world_war::getRearZones()
+{
+  if (!rearZones)
+    updateRearZones()
+
+  return rearZones
 }
 
 function g_world_war::getSelectedArmies()

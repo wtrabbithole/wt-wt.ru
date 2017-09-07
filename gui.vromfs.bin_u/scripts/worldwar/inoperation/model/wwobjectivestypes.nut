@@ -14,6 +14,7 @@
   invertUpdateValue = false
 
   titleParams = []
+  defaultValuesTable = {}
   paramsArray = []
   updateArray = []
   currentStateParam = ""
@@ -71,8 +72,18 @@
     foreach (paramName in titleParams)
       res[paramName] <- (paramName in dataBlk)   ? getValueByParam(paramName, dataBlk, side)
                       : (paramName in statusBlk) ? getValueByParam(paramName, statusBlk, side)
-                      : ""
+                      : getTitleLocParamsDefaultValue(dataBlk, paramName)
     return res
+  }
+
+  getTitleLocParamsDefaultValue = function(dataBlk, pName)
+  {
+    if (pName in defaultValuesTable)
+    {
+      local value = defaultValuesTable[pName]
+      return ::u.isFunction(value) ? value(dataBlk) : value
+    }
+    return ""
   }
 
   specificClassParamConvertion = {}
@@ -82,6 +93,8 @@
     zonePercent_ = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
     zonesPercent = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
     unitCount = function(value, blk) { return value + ::g_ww_unit_type.getUnitTypeByTextCode(blk.unitType).fontIcon }
+    advantage = @(value, blk)
+      ::loc("wwar_obj/params/advantage/value", {advantageFactor = ::round(value, 2)})
   }
 
   colorize = {
@@ -428,7 +441,13 @@
     }
   }
 
-  OT_DOMINATION_UNIT = {}
+  OT_DOMINATION_UNIT = {
+    titleParams = ["fontIcon", "advantageFactor"]
+    defaultValuesTable = {
+      fontIcon = @(dataBlk) ::g_ww_unit_type.getUnitTypeByTextCode(dataBlk.unitType).fontIcon
+    }
+    updateArray = ["advantage"]
+  }
 
 }, null, "typeName")
 

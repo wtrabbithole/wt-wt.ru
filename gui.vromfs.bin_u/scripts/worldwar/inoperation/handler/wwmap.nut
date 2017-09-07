@@ -383,7 +383,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventMatchingConnect(params)
   {
-    ::ww_service.unsubscribeOperation(::ww_get_operation_id())
     ::ww_service.subscribeOperation(::ww_get_operation_id())
   }
 
@@ -1063,13 +1062,10 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
     {
-      if (!::g_world_war.rearZones)
-        ::g_world_war.updateRearZones()
-      if (!::g_world_war.rearZones)
-        return
-
+      local rearZones = ::g_world_war.getRearZones()
       local sideName = ::ww_side_val_to_name(reinforcementSide)
-      highlightedZones = ::g_world_war.rearZones[sideName]
+      if (sideName in rearZones)
+        highlightedZones = rearZones[sideName]
       popupText = ::loc("worldwar/error/reinforcement/wrongCell")
     }
 
@@ -1145,5 +1141,15 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       ::ww_clear_outlined_zones()
       ::ww_update_popuped_armies_name([])
     }
+  }
+
+  function onEventWWMapRearZoneSelected(params)
+  {
+    local tabsObj = scene.findObject("reinforcement_pages_list")
+    if (!::check_obj(tabsObj))
+      return
+
+    tabsObj.setValue(::g_ww_map_reinforcement_tab_type.REINFORCEMENT.code)
+    reinforcementBlockHandler.selectFirstArmyBySide(params.side)
   }
 }

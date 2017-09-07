@@ -37,14 +37,11 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     local opDataList = ::u.map(getOpGroup().getOperationsList(),
                                function(o) { return { operation = o, priority = o.getPriority() } })
 
-    opDataList.sort(function(a,b)
-    {
-      if (a.priority != b.priority)
-        return a.priority > b.priority ? -1 : 1
-      if (a.operation.id != b.operation.id)
-        return a.operation.id > b.operation.id ? 1 : -1
-      return 0
-    })
+    opDataList.sort(
+      @(a, b) b.operation.isAvailableToJoin() <=> a.operation.isAvailableToJoin()
+           || b.priority <=> a.priority
+           || a.operation.id <=> b.operation.id
+    )
     return opDataList
   }
 
@@ -55,13 +52,41 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     local selPriority = -1
 
     local sortedOperationsDataList = getSortedOperationsData()
-    local isOperationListVisible = sortedOperationsDataList.len() > 1
+    local isOperationListVisible = sortedOperationsDataList.len() > 0
     showSceneBtn("chapter_place", isOperationListVisible)
     showSceneBtn("separator_line", isOperationListVisible)
 
+    local isActiveChapterAdded = false
+    local isFinishedChapterAdded = false
     foreach (idx, opData in sortedOperationsDataList)
     {
       local operation = opData.operation
+      local isAvailableToJoin = operation.isAvailableToJoin()
+      local itemColor = isAvailableToJoin ? "activeTextColor" : "minorTextColor"
+      if (isAvailableToJoin)
+      {
+        if (!isActiveChapterAdded)
+        {
+          view.items.append({
+            id = "active_group"
+            itemTag = "group"
+            itemText = ::colorize(itemColor, ::loc("worldwar/operation/active"))
+            isCollapsable = true
+          })
+          isActiveChapterAdded = true
+        }
+      }
+      else if (!isFinishedChapterAdded)
+      {
+        view.items.append({
+          id = "finished_group"
+          itemTag = "group"
+          itemText = ::colorize(itemColor, ::loc("worldwar/operation/finished"))
+          isCollapsable = true
+        })
+        isFinishedChapterAdded = true
+      }
+
       local icon = null
 
       local isLastPlayed = false
@@ -76,26 +101,30 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       view.items.append({
         itemIcon = icon
         id = operation.id.tostring()
-        itemText = operation.getNameText(false)
+        itemText = ::colorize(itemColor, operation.getNameText(false))
         isLastPlayedIcon = isLastPlayed
       })
-
-      local priority = operation.isEqual(selOperation) ? WW_MAP_PRIORITY.MAX : opData.priority
-      if (priority > selPriority)
-      {
-        selPriority = priority
-        selIdx = idx
-      }
     }
 
-    local data = ::handyman.renderCached("gui/missions/missionBoxItemsList", view)
+    local data = ::handyman.renderCached("gui/worldWar/wwOperationsMapsItemsList", view)
     guiScene.replaceContentFromText(opListObj, data, data.len(), this)
 
-    selOperation = null //force refresh description
-    if (selIdx >= 0)
-      opListObj.setValue(selIdx)
-    onItemSelect()
+    selectFirstItem(opListObj)
+  }
 
+  function selectFirstItem(containerObj)
+  {
+    for (local i = 0; i < containerObj.childrenCount(); i++)
+    {
+      local itemObj = containerObj.getChild(i)
+      if (!itemObj.collapse_header && itemObj.isEnabled())
+      {
+        selOperation = null //force refresh description
+        containerObj.setValue(i)
+        break
+      }
+    }
+    onItemSelect()
     restoreFocus()
   }
 
@@ -114,6 +143,55 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     local isChanged = !newOperation || !selOperation || !selOperation.isEqual(newOperation)
     selOperation = newOperation
     return isChanged
+  }
+
+  function onCollapse(obj)
+  {
+    if (!::check_obj(obj))
+      return
+
+    local headerObj = obj.getParent()
+    if (!::check_obj(headerObj))
+      return
+
+    local containerObj = headerObj.getParent()
+    if (!::check_obj(containerObj))
+      return
+
+    headerObj.collapsing = "yes"
+
+    local containerLen = containerObj.childrenCount()
+    local isHeaderFound = false
+    local isShow = headerObj.collapsed == "yes"
+    local selectIdx = containerObj.getValue()
+    local needReselect = false
+
+    for (local i = 0; i < containerLen; i++)
+    {
+      local itemObj = containerObj.getChild(i)
+      if (!isHeaderFound)
+      {
+        if (itemObj.collapsing == "yes")
+        {
+          itemObj.collapsing = "no"
+          itemObj.collapsed = isShow ? "no" : "yes"
+          isHeaderFound = true
+        }
+      }
+      else
+      {
+        if (itemObj.collapse_header)
+          break
+        itemObj.show(isShow)
+        itemObj.enable(isShow)
+        if (!isShow && i == selectIdx)
+          needReselect = true
+      }
+    }
+
+    local selectedObj = containerObj.getChild(containerObj.getValue())
+    if (needReselect || (::check_obj(selectedObj) && !selectedObj.isVisible()))
+      selectFirstItem(containerObj)
   }
 
   //operation select

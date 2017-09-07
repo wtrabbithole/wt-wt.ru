@@ -43,6 +43,7 @@ function on_sign_out()  //!!FIX ME: better to full replace this function by Sign
     ::g_recent_items.reset()
   ::abandoned_researched_items_for_session = []
   ::launched_tutorial_questions_peer_session = 0
+  ::check_tutorial_reward_data = null
 }
 
 function can_logout()

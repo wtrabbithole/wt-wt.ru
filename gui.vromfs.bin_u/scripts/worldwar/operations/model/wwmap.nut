@@ -115,11 +115,11 @@ class WwMap
 
   function getChangeStateTimeText()
   {
-    local time = ::getTblValue("changeStateTime", data, -1)
+    local changeStateTimeStamp = ::getTblValue("changeStateTime", data, -1)
     local text = ""
-    if (time >= 0)
+    if (changeStateTimeStamp >= 0)
     {
-      local secToChangeState = time - ::get_charserver_time_sec()
+      local secToChangeState = changeStateTimeStamp - ::get_charserver_time_sec()
       if (secToChangeState > 0)
       {
         local changeStateLocId = "worldwar/operation/" +

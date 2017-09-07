@@ -259,4 +259,26 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
       })(placeObj),
       this, true)
   }
+
+  function selectFirstArmyBySide(side)
+  {
+    local reinforcementsObj = scene.findObject("ready_reinforcements_list")
+    if (reinforcementsObj.childrenCount())
+      reinforcementsObj.getChild(0).setValue(true)
+
+    foreach (army in armiesBlocks)
+      if (army.isReady() && ::ww_side_val_to_name(army.getArmySide()) == side)
+      {
+        local armyView = army.getView()
+        if (!armyView)
+          continue
+
+        local reinforcementObj = reinforcementsObj.findObject(armyView.getId())
+        if (!::check_obj(reinforcementObj))
+          continue
+
+        reinforcementObj.setValue(true)
+        break
+      }
+  }
 }

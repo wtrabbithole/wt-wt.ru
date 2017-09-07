@@ -1830,11 +1830,11 @@ function unlockCountry(country, hideInUserlog = false, reqUnlock = true)
 
 function checkUnlockedCountries()
 {
+  local curUnlocked = []
   if (::is_need_first_country_choice())
-    return
+    return curUnlocked
 
   local unlockAll = ::isDiffUnlocked(1, ::ES_UNIT_TYPE_AIRCRAFT) || ::disable_network() || ::has_feature("UnlockAllCountries")
-  local curUnlocked = []
   local wasInList = ::unlocked_countries.len()
   foreach(i, country in ::shopCountriesList)
     if (::is_country_available(country))

@@ -210,7 +210,10 @@ class ::gui_handlers.MissionBuilder extends ::gui_handlers.GenericOptionsModal
 
   function onMissionBuilder()
   {
-    if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = ::enable_coop_in_QMB }))
+    if (!::g_squad_utils.canJoinFlightMsgBox({
+        isLeaderCanJoin = ::enable_coop_in_QMB
+        maxSquadSize = ::get_max_players_for_gamemode(::GM_BUILDER)
+      }))
       return
 
     if (!::isUnitInSlotbar(::show_aircraft))
@@ -659,7 +662,10 @@ class ::gui_handlers.MissionBuilderOptions extends ::gui_handlers.GenericOptions
 
   function onApply()
   {
-    if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = ::enable_coop_in_QMB }))
+    if (!::g_squad_utils.canJoinFlightMsgBox({
+        isLeaderCanJoin = ::enable_coop_in_QMB
+        maxSquadSize = ::get_max_players_for_gamemode(::GM_BUILDER)
+      }))
       return
 
     if (!isBuilderAvailable())
@@ -848,7 +854,10 @@ class ::gui_handlers.MissionBuilderOptions extends ::gui_handlers.GenericOptions
 
   function applyFunc()
   {
-    if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = ::enable_coop_in_QMB }))
+    if (!::g_squad_utils.canJoinFlightMsgBox({
+        isLeaderCanJoin = ::enable_coop_in_QMB
+        maxSquadSize = ::get_max_players_for_gamemode(::GM_BUILDER)
+      }))
       return
 
     ::mission_settings.currentMissionIdx = scene.findObject("dyn_mp_map").getValue()
@@ -1360,7 +1369,10 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
 
   function onApply(obj)
   {
-    if (!::g_squad_utils.canJoinFlightMsgBox({ isLeaderCanJoin = ::enable_coop_in_QMB }))
+    if (!::g_squad_utils.canJoinFlightMsgBox({
+        isLeaderCanJoin = ::enable_coop_in_QMB
+        maxSquadSize = ::get_max_players_for_gamemode(::GM_BUILDER)
+      }))
       return
 
     for (local i = 0; i < listA.len(); i++)
