@@ -79,6 +79,17 @@ function g_mp_chat_mode::getModeNameText(modeId)
 }
 
 
+// To pass color name to daRg.
+// daRg can't use text color constants
+function g_mp_chat_mode::getModeColorName(modeId)
+{
+  local colorName = getModeById(modeId).textColor
+  if (colorName.len())
+    colorName = colorName.slice(1) //slice '@'
+  return colorName
+}
+
+
 function g_mp_chat_mode::getNextMode(modeId)
 {
   local isCurFound = false

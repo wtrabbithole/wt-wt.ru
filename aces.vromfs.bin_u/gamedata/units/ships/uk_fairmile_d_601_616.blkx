@@ -3,7 +3,7 @@
     "hasQualityModels": true
   },
   {
-    "model": "fairmile_d_601_695"
+    "model": "fairmile_d_601_616"
   },
   {
     "subclass": "warShip"
@@ -60,6 +60,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "MetaPartsBlk": "gameData/units/ships/dm/ships_metaparts.blk"
+  },
+  {
     "type": "typeGunBoat"
   },
   {
@@ -79,6 +82,18 @@
   },
   {
     "explosionFx": "ship_explosion"
+  },
+  {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 20.0
+  },
+  {
+    "smokeScreenRad": 20.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
   },
   {
     "canReloadNonGuns": true
@@ -2722,6 +2737,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 25.0
           },
           {
@@ -2734,7 +2752,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 480
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -2849,6 +2867,9 @@
             "defaultPitch": 0.0
           },
           {
+            "isBulletBelt": true
+          },
+          {
             "speedYaw": 25.0
           },
           {
@@ -2861,7 +2882,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 480
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -2991,7 +3012,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 1300
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -3125,7 +3146,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 1300
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -3254,7 +3275,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 1300
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -3388,7 +3409,7 @@
             "ChainfireTime": 1.0
           },
           {
-            "bullets": 1300
+            "bullets": 1000
           },
           {
             "allowableDelta": 1.0
@@ -3514,7 +3535,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2000
+            "bullets": 1500
           },
           {
             "allowableDelta": 1.0
@@ -3633,7 +3654,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2400
+            "bullets": 1500
           },
           {
             "allowableDelta": 1.0
@@ -3752,7 +3773,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2000
+            "bullets": 1500
           },
           {
             "allowableDelta": 1.0
@@ -3871,7 +3892,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2000
+            "bullets": 1500
           },
           {
             "allowableDelta": 1.0
@@ -3967,8 +3988,8 @@
   {
     "weapon_presets": {
       "preset": {
-        "name": "uk_fairmile_d_601_695_default",
-        "blk": "gameData/units/ships/weaponPresets/uk_fairmile_d_601_695_default.blk"
+        "name": "uk_fairmile_d_601_616_default",
+        "blk": "gameData/units/ships/weaponPresets/uk_fairmile_d_601_616_default.blk"
       }
     }
   },
@@ -4524,6 +4545,11 @@
     ]
   },
   {
+    "optics": {
+      "binoculars": "navy_binoculars"
+    }
+  },
+  {
     "modifications": {
       "40mm_qf_mkxv_he": [],
       "manual_extinguisher": {
@@ -4534,12 +4560,7 @@
           "extinguisherCrewBusyTime": -1.0
         }
       },
-      "tank_tool_kit": []
-    }
-  },
-  {
-    "optics": {
-      "binoculars": "navy_binoculars"
+      "ship_smoke_screen_system_mod": []
     }
   },
   {
@@ -4604,8 +4625,20 @@
     ]
   },
   {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "shells": {
+          "ammunition_storage_01_dm": {
+            "count": 1000
+          }
+        }
+      }
+    }
+  },
+  {
     "winch": {
-      "length": 50.0
+      "length": 70.0
     }
   },
   {

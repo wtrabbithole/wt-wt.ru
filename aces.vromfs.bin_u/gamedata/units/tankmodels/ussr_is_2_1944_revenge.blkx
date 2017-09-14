@@ -90,17 +90,6 @@
     "type": "typeHeavyTank"
   },
   {
-    "sound": {
-      "EngineName": "engine_su100",
-      "TrackSoundPath": "tanks/engines_tanks",
-      "TrackSoundName": "tracks_heavy",
-      "TrackSoundNameCockpit": "tracks_heavy_interior",
-      "turret_turn": "turret_turn_manual_y",
-      "EngineNameAi": "engine_tank_ai_heavy",
-      "TrackSoundNameAi": "tracks_ai_heavy"
-    }
-  },
-  {
     "tank_crew": {
       "changeTimeMult": 1.0,
       "gunner": [
@@ -200,9 +189,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.6,0.9],
-      "explodeHitPower": 1500.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.7,0.9],
+      "explodeHitPower": 4500.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -225,7 +214,7 @@
         "mass": 8000.0,
         "cutDamage": 1000.0,
         "deviation": 0.5,
-        "rotation": 0.5,
+        "rotation": 1.5,
         "collisionNode": "cls_turret_01"
       }
     }
@@ -2115,6 +2104,17 @@
       "decal0Wrap": false,
       "decal0Abs": false,
       "decal0Tex": "ussr_text_mest_za_brata_geroya"
+    }
+  },
+  {
+    "sound": {
+      "EngineName": "engine_su100",
+      "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundName": "tracks_heavy",
+      "TrackSoundNameCockpit": "tracks_heavy_interior",
+      "turret_turn": "turret_turn_manual_y",
+      "EngineNameAi": "engine_tank_ai_heavy",
+      "TrackSoundNameAi": "tracks_ai_heavy"
     }
   }
 ]

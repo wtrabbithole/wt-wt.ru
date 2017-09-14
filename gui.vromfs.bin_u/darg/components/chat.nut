@@ -26,16 +26,20 @@ local makeInputField = function (form_state, send_function) {
 
 local makeLogBox = function (log_state) {
   return function (background_ctor, message_component) {
-    return background_ctor.patchComponent(function (comp) {
-      local result = comp
-      if (typeof comp == "function") {
-        result = comp()
-      }
+    local bgInstance = background_ctor()
+    return bgInstance.patchComponent(function (comp) {
+      return function () {
+        local result = comp
+        if (typeof comp == "function") {
+          result = comp()
+        }
 
-      result.flow <- FLOW_VERTICAL
-      result.children <- extendToArray(result, "children", log_state.value.map(message_component))
-      result.watch <- extendToArray(result, "watch", log_state)
-      return @() result
+        local messages = log_state.value.map(message_component)
+        result.flow <- FLOW_VERTICAL
+        result.children <- extendToArray(result, "children", messages)
+        result.watch <- extendToArray(result, "watch", log_state)
+        return result
+      }
     })
   }
 }

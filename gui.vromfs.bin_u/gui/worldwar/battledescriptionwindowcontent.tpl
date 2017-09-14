@@ -47,7 +47,7 @@ tdiv {
         width:t='pw'
         text:t='<<#getBattleName>><<getBattleName>> <</getBattleName>><<getMissionName>>'
         text-align:t='center'
-        fontNormal:t='yes'
+        mediumFont:t='yes'
       }
 
       activeText {

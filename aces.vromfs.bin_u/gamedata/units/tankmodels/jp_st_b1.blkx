@@ -117,7 +117,8 @@
           "armorThickness": 25.0
         },
         "superstructure_top_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 20.0,
+          "explosionArmorQuality": 2.7
         },
         "superstructure_bottom_dm": {
           "armorThickness": 15.0
@@ -364,7 +365,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1478,7 +1479,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1522,12 +1524,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-9.0,9.0]
+            "pitch": [-6.0,9.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-150.0,-1.0,20.0],
-            "lim2": [-150.0,150.0,-9.0,20.0],
-            "lim3": [150.0,180.0,-1.0,20.0]
+            "lim1": [-180.0,-150.0,-1.0,9.0],
+            "lim2": [-150.0,150.0,-6.0,9.0],
+            "lim3": [150.0,180.0,-1.0,9.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -1861,7 +1863,7 @@
         "cutDamage": 650.0,
         "deviation": 0.7,
         "rotation": 0.7,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_turret"
       }
     }
   },
@@ -2437,12 +2439,12 @@
                 },
                 "limits": {
                   "yaw": [-180.0,180.0],
-                  "pitch": [-9.0,9.0]
+                  "pitch": [-6.0,9.0]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-150.0,-1.0,20.0],
-                  "lim2": [-150.0,150.0,-9.0,20.0],
-                  "lim3": [150.0,180.0,-1.0,20.0]
+                  "lim1": [-180.0,-150.0,-1.0,9.0],
+                  "lim2": [-150.0,150.0,-6.0,9.0],
+                  "lim3": [150.0,180.0,-1.0,9.0]
                 },
                 "gunStabilizer": {
                   "hasVerticalGunFreeMode": false,

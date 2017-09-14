@@ -353,11 +353,9 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_buy_unit", currentState == windowState.canBuy)
     scene.findObject("btn_apply").inactiveColor = curGoldValue != minGoldValue ? "no" : "yes"
 
-    local maxObj = scene.findObject("btn_max")
-    maxObj.enable(!isMaxSet)
-    maxObj.show(currentState == windowState.research)
     scene.findObject("buttonDec").enable(!isMinSet)
     scene.findObject("buttonInc").enable(!isMaxSet)
+    scene.findObject("btn_max").enable(!isMaxSet)
   }
 
   function updateExpTextPosition()

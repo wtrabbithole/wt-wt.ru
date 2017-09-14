@@ -1024,18 +1024,6 @@
     }
   },
   {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 1500.0,
-        "cutDamage": 200.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
-      }
-    }
-  },
-  {
     "unitFx": [
       {
         "event": [
@@ -1790,7 +1778,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
@@ -2254,6 +2242,18 @@
         "defaultDampeningForce": [60000.0,60000.0],
         "dampeningRelaxationRatio": 0.25,
         "dampeningCompressionRatio": 0.1
+      }
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 1500.0,
+        "cutDamage": 200.0,
+        "deviation": 0.5,
+        "rotation": 3.5,
+        "collisionNode": "cls_turret"
       }
     }
   },

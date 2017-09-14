@@ -456,7 +456,7 @@ function g_crew::upgradeUnitSpec(crew, unit, unitTypeToCheck = null, nextSpecTyp
     "yes",
     {
       cancel_fn = function() {}
-      font = "small"
+      font = "fontNormal"
     }
   )
 }

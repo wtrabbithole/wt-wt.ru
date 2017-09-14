@@ -24,9 +24,37 @@
       "weather": "hazy",
       "missionDebriefing": "",
       "missionBriefing": "",
-      "tags": []
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
     },
     "cover_points": [],
+    "spectator_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    },
     "briefing": {
       "place_loc": "",
       "date_loc": "",
@@ -43,14 +71,16 @@
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "dynamic_missions/berlin_02_01"
+            "picture": "dynamic_missions/berlin_02_01",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "dynamic_missions/aircrafts/slide_a-20g"
+            "picture": "dynamic_missions/aircrafts/slide_a-20g",
+            "showAirMap": false
           }
         },
         {
@@ -58,6 +88,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "fighter",
               "side": "player",
@@ -86,11 +117,17 @@
       "conditions": [],
       "actions": {
         "unitDamage": {
-          "part": 0,
           "power": 1.0,
-          "target": "dummy_fake"
+          "useEffect": false,
+          "countEffects": 1,
+          "delay": [1.0,1.0],
+          "offset": [0.0,0.0,0.0],
+          "radiusOffset": [10.0,15.0],
+          "target": "dummy_fake",
+          "partName": "body_dm"
         }
-      }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -115,9 +152,19 @@
           [0.0,0.0,1.0],
           [-41759.3,20.0,-6777.05]
         ],
-        "closed_waypoints": false,
         "unit_class": "a-20g",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 4,
@@ -150,13 +197,9 @@
           [0.0,0.0,1.0],
           [26.75,22.2,15.7]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": ""
-        },
-        "way": []
+        }
       }
     },
     {
@@ -168,13 +211,9 @@
           [0.0,0.0,1.0],
           [166.4,-86.0,350.3]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "dummy_fake"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -186,9 +225,19 @@
           [0.0,0.0,1.0],
           [90572.8,0.0,90842.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy_nosmoke",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -205,5 +254,28 @@
       }
     }
   ],
-  "areas": []
+  "areas": [],
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
 }

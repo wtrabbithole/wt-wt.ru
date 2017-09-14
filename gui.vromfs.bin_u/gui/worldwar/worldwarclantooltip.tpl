@@ -13,17 +13,17 @@ frame {
 
   textareaNoTab {
     text:t='<<?clan/creationDate>> <<getCreationDateText>>'
-    tinyFont:t='yes'
+    smallFont:t='yes'
   }
 
   textareaNoTab {
     text:t='<<?clan/memberListTitle>> (<<getMembersCountText>>)'
-    tinyFont:t='yes'
+    smallFont:t='yes'
   }
 
   <<#canShowActivity>>
   tdiv {
-    tinyFont:t='yes'
+    smallFont:t='yes'
     textareaNoTab {
       text:t='<<?clan/squadron_rating>> '
     }

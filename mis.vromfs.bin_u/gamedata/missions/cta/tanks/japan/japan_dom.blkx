@@ -279,6 +279,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -286,133 +289,6 @@
       },
       {
         "tags": []
-      },
-      {
-        "editSlotbar": {
-          "keepOwnUnits": false,
-          "country_usa": {
-            "us_m60a1_rise_passive_era": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_m60a2": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_m60a1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_mbt_70": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_m50_ontos": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_t114": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          },
-          "country_germany": {
-            "germ_raketenjagdpanzer_2": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "germ_leopard_I": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "germ_leopard_I_a1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "germ_kpz_70": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          },
-          "country_ussr": {
-            "ussr_bmp_1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_t_62": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_t_64a_1971": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_it_1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_object_120": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          },
-          "country_britain": {
-            "uk_fv438_swingfire": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "uk_chieftain_mk_10": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "uk_chieftain_mk_5": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "uk_centurion_mk_10": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          }
-        }
       },
       {
         "missionType": {
@@ -770,6 +646,38 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/japan/battleareas/template_japan_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/japan/battleareas/template_japan_battleareas_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -789,10 +697,10 @@
       "objectGroups": {
         "name": "dom_circle_02_arcade",
         "tm": [
-          [-0.227114,0.0,1.72511],
+          [-0.341549,0.0,2.59433],
           [0.0,1.0,0.0],
-          [-1.72511,0.0,-0.227114],
-          [2032.53,1865.19,2118.86]
+          [-2.59433,0.0,-0.341549],
+          [2029.3,1869.54,2112.6]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1053,7 +961,7 @@
           [-0.227114,0.0,1.72511],
           [0.0,1.0,0.0],
           [-1.72511,0.0,-0.227114],
-          [1465.37,1832.65,2370.5]
+          [1465.64,1832.63,2370.5]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1067,10 +975,10 @@
       "objectGroups": {
         "name": "dom_circle_03_arcade",
         "tm": [
-          [-0.227114,0.0,1.72511],
+          [-0.186321,0.0,1.41526],
           [0.0,1.0,0.0],
-          [-1.72511,0.0,-0.227114],
-          [2598.67,1851.35,1879.0]
+          [-1.41526,0.0,-0.186321],
+          [2598.71,1851.35,1880.3]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1084,10 +992,10 @@
       "objectGroups": {
         "name": "dom_circle_02_hardcore",
         "tm": [
-          [-0.227114,0.0,1.72511],
+          [-0.339677,0.0,2.58011],
           [0.0,1.0,0.0],
-          [-1.72511,0.0,-0.227114],
-          [2032.53,1865.19,2118.86]
+          [-2.58011,0.0,-0.339677],
+          [2029.3,1865.19,2112.6]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1101,10 +1009,10 @@
       "objectGroups": {
         "name": "dom_circle_03_hardcore",
         "tm": [
-          [-0.227114,0.0,1.72511],
+          [-0.188377,0.0,1.43087],
           [0.0,1.0,0.0],
-          [-1.72511,0.0,-0.227114],
-          [2598.67,1851.35,1879.0]
+          [-1.43087,0.0,-0.188377],
+          [2598.71,1851.35,1880.3]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1121,7 +1029,7 @@
           [-0.227114,0.0,1.72511],
           [0.0,1.0,0.0],
           [-1.72511,0.0,-0.227114],
-          [1465.37,1832.65,2370.5]
+          [1465.64,1832.65,2370.5]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1321,7 +1229,7 @@
           [-0.422618,0.0,-0.906308],
           [0.0,1.0,0.0],
           [0.906308,0.0,-0.422618],
-          [2045.1,1853.15,1338.75]
+          [2060.99,1853.15,1361.34]
         ],
         "props": [
           {
@@ -1380,175 +1288,10 @@
     "t1_tankSpawn02_zone01": {
       "type": "Sphere",
       "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1943.49,1852.29,1465.86]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone02": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1931.33,1852.73,1466.19]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone03": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1919.16,1853.24,1466.53]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone04": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1907.0,1853.79,1466.87]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone05": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1937.08,1852.37,1456.85]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone06": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1924.92,1852.9,1457.19]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone07": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1912.76,1853.48,1457.53]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone08": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1900.59,1854.05,1457.86]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone09": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1942.59,1851.92,1447.37]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone10": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1930.43,1852.48,1447.7]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone11": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1918.27,1853.1,1448.04]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone12": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1906.1,1853.71,1448.38]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone13": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1935.76,1851.95,1437.61]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone14": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1923.59,1852.6,1437.95]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone15": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1911.43,1853.27,1438.28]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_tankSpawn02_zone16": {
-      "type": "Sphere",
-      "tm": [
-        [1.2701,0.0,9.91901],
-        [0.0,10.0,0.0],
-        [-9.91901,0.0,1.2701],
-        [1899.26,1853.9,1438.62]
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1941.09,1844.32,1464.25]
       ],
       "objLayer": 0,
       "props": []
@@ -1751,12 +1494,12 @@
       "props": []
     },
     "dom_capture_area_02_arcade": {
-      "type": "Box",
+      "type": "Cylinder",
       "tm": [
-        [-109.801,0.0,62.3165],
+        [-54.7909,0.0,31.096],
         [0.0,35.85,0.0],
-        [-62.3165,0.0,-109.801],
-        [2032.53,1863.31,2118.86]
+        [-31.096,0.0,-54.7909],
+        [2029.3,1852.09,2112.6]
       ],
       "objLayer": 0,
       "props": []
@@ -2105,12 +1848,12 @@
       "props": []
     },
     "dom_capture_area_03_arcade": {
-      "type": "Box",
+      "type": "Cylinder",
       "tm": [
-        [-63.856,0.0,-22.5537],
+        [-31.5877,0.0,-11.1566],
         [0.0,35.85,0.0],
-        [22.5537,0.0,-63.856],
-        [2598.67,1854.88,1879.0]
+        [11.1566,0.0,-31.5877],
+        [2598.71,1851.0,1880.3]
       ],
       "objLayer": 0,
       "props": []
@@ -2149,23 +1892,23 @@
       "props": []
     },
     "dom_capture_area_03_hardcore": {
-      "type": "Box",
+      "type": "Cylinder",
       "tm": [
-        [-63.856,0.0,-22.5537],
+        [-31.5877,0.0,-11.1566],
         [0.0,35.85,0.0],
-        [22.5537,0.0,-63.856],
-        [2598.67,1854.88,1879.0]
+        [11.1566,0.0,-31.5877],
+        [2598.71,1851.0,1880.3]
       ],
       "objLayer": 0,
       "props": []
     },
     "dom_capture_area_02_hardcore": {
-      "type": "Box",
+      "type": "Cylinder",
       "tm": [
-        [-109.801,0.0,62.3165],
+        [-54.7909,0.0,31.096],
         [0.0,35.85,0.0],
-        [-62.3165,0.0,-109.801],
-        [2032.53,1863.31,2118.86]
+        [-31.096,0.0,-54.7909],
+        [2029.3,1852.09,2112.6]
       ],
       "objLayer": 0,
       "props": []
@@ -2198,7 +1941,7 @@
         [7.45058e-08,0.0,-1.0],
         [0.0,1.0,0.0],
         [1.0,0.0,7.45058e-08],
-        [1920.9,1855.62,1447.26]
+        [1920.9,1845.2,1447.26]
       ],
       "objLayer": 0,
       "props": []
@@ -2258,26 +2001,169 @@
       "objLayer": 0,
       "props": []
     },
-    "dom_battle_area_arcade": {
-      "type": "Box",
+    "t1_tankSpawn02_zone02": {
+      "type": "Sphere",
       "tm": [
-        [1600.0,0.0,-4.06901e-05],
-        [0.0,400.0,0.0],
-        [4.06901e-05,0.0,1600.0],
-        [2002.05,1860.89,2104.35]
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1922.36,1844.8,1463.62]
       ],
-      "objLayer": 4,
+      "objLayer": 0,
       "props": []
     },
-    "dom_battle_area_hardcore": {
-      "type": "Box",
+    "t1_tankSpawn02_zone03": {
+      "type": "Sphere",
       "tm": [
-        [2400.0,0.0,-6.10352e-05],
-        [0.0,400.0,0.0],
-        [6.10352e-05,0.0,2400.0],
-        [2160.21,1867.02,2088.37]
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1903.64,1845.61,1463.0]
       ],
-      "objLayer": 4,
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone04": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1885.55,1846.66,1464.96]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone05": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1953.61,1844.15,1442.42]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone06": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1932.92,1844.79,1443.36]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone07": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1914.69,1845.56,1441.53]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone08": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1893.96,1846.58,1441.47]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone09": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1943.55,1844.37,1423.1]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone10": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1921.48,1845.69,1422.55]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone11": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1903.13,1846.55,1423.17]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone12": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1879.05,1847.26,1423.67]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone13": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1930.99,1845.31,1405.2]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone14": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1910.16,1846.82,1402.19]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone15": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1887.97,1847.5,1402.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_tankSpawn02_zone16": {
+      "type": "Sphere",
+      "tm": [
+        [1.90515,0.0,14.8785],
+        [0.0,15.0,0.0],
+        [-14.8785,0.0,1.90515],
+        [1872.33,1847.22,1441.58]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },
@@ -2308,11 +2194,5 @@
       }
     }
   ],
-  "wayPoints": [],
-  "__viewPoints": {
-    "viewpt_02": {
-      "pos": [1412.04,1830.37,2471.44],
-      "ht": 2.5
-    }
-  }
+  "wayPoints": []
 }

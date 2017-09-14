@@ -362,7 +362,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1090,7 +1090,8 @@
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_rocket_turn",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1138,6 +1139,7 @@
           "recoilMultiplier": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "allowableDelta": 20.0,
           "barrelDP": "gun_barrel_dm",
           "brokenBarrelAllowShoot": true,
           "speedYaw": 18.0,
@@ -1167,6 +1169,33 @@
           "limits": {
             "yaw": [-0.0,0.0],
             "pitch": [-0.0,0.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": false,
+            "hasHorizontal": true,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 75.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 1.0,
+            "verticalSpeedLimitKPH": 75.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [25.0,0.015]
+              },
+              {
+                "row": [35.0,0.02]
+              },
+              {
+                "row": [45.0,0.1]
+              },
+              {
+                "row": [50.0,0.3]
+              }
+            ]
           }
         }
       },
@@ -1174,7 +1203,7 @@
         "Weapon": {
           "trigger": "gunner3",
           "triggerGroup": "machinegun",
-          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_L37A1_user_machinegun.blk",
           "emitter": "bone_gun_01",
           "flash": "emtr_gun_flame",
           "defaultYaw": 0.0,
@@ -1865,7 +1894,7 @@
       "zoomInFov": 6.0,
       "sightFov": 9.0,
       "headPos": [0.0,3.2,-6.5],
-      "headPosOnShooting": [0.0,3.1,0.0],
+      "headPosOnShooting": [0.0,2.6,0.0],
       "detectionHeight": 2.7
     }
   },
@@ -1873,21 +1902,6 @@
     "ammoLoadDistribution": {
       "removeLoadedAmmo": false,
       "primaryShells": {
-        "ammo_turret_01_dm": {
-          "count": 1
-        },
-        "ammo_turret_02_dm": {
-          "count": 1
-        },
-        "ammo_turret_03_dm": {
-          "count": 1
-        },
-        "ammo_turret_04_dm": {
-          "count": 1
-        },
-        "ammo_turret_05_dm": {
-          "count": 1
-        },
         "ammo_turret_06_dm": {
           "count": 1
         },
@@ -1901,6 +1915,21 @@
           "count": 1
         },
         "ammo_turret_10_dm": {
+          "count": 1
+        },
+        "ammo_turret_01_dm": {
+          "count": 1
+        },
+        "ammo_turret_02_dm": {
+          "count": 1
+        },
+        "ammo_turret_03_dm": {
+          "count": 1
+        },
+        "ammo_turret_04_dm": {
+          "count": 1
+        },
+        "ammo_turret_05_dm": {
           "count": 1
         }
       }

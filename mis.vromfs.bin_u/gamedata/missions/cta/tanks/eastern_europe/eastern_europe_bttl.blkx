@@ -276,6 +276,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -377,6 +380,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -421,6 +427,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -463,6 +472,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -563,6 +575,38 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/eastern_europe/template_eastern_europe_air_spawn.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/eastern_europe/battleareas/template_eastern_europe_bttl_battleareas_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/eastern_europe/battleareas/template_eastern_europe_bttl_battleareas.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -2170,28 +2214,6 @@
       "objLayer": 4,
       "props": []
     },
-    "bttl_battle_area_arcade": {
-      "type": "Box",
-      "tm": [
-        [-1700.0,0.0,0.0],
-        [0.0,659.45,0.0],
-        [0.0,0.0,-1700.0],
-        [2237.9,20.25,1686.15]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bttl_battle_area_hardcore": {
-      "type": "Box",
-      "tm": [
-        [-3520.0,0.0,0.0],
-        [0.0,659.45,0.0],
-        [0.0,0.0,-3520.0],
-        [1998.3,20.25,1686.15]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "briefing_bttl_t1_spawn_01_arcade": {
       "type": "Point",
       "tm": [
@@ -2276,28 +2298,6 @@
         [0.0,1.0,0.0],
         [0.0,0.0,1.0],
         [388.95,14.8,1602.95]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_bttl_t1_capture_area_hardcore": {
-      "type": "Point",
-      "tm": [
-        [0.422618,0.0,-0.906308],
-        [0.0,1.0,0.0],
-        [0.906308,0.0,0.422618],
-        [2713.35,14.4,1973.05]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_bttl_t2_capture_area_hardcore": {
-      "type": "Point",
-      "tm": [
-        [0.21644,0.0,0.976296],
-        [0.0,1.0,0.0],
-        [-0.976296,0.0,0.21644],
-        [1363.05,25.05,1580.8]
       ],
       "objLayer": 0,
       "props": []

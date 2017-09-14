@@ -65,51 +65,23 @@ enum FONT_SIZE_ORDER {
 
 ::g_enum_utils.addTypesByGlobalName("g_font",
 {
-  PX = {
-    fontGenId = ""
-    saveId = FONT_SAVE_ID.PX
-    saveIdCompatibility = [FONT_SAVE_ID.PX_COMPATIBILITY]
-    isScaleable = false
-    sizeOrder = FONT_SIZE_ORDER.PX
-
-    isAvailable = @(sWidth, sHeight)
-      ::has_feature("oldFontsSizes") && !::use_touchscreen && !::is_platform_android && !::is_platform_shield_tv()
-    getFontSizePx = @(sWidth, sHeight) 720
-    getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) 720
-    getOptionText = @() "OLD PX"
-  }
-
-  SCALE = {
-    fontGenId = "_hud"
-    saveId = FONT_SAVE_ID.SCALE
-    saveIdCompatibility = [FONT_SAVE_ID.SCALE_COMPATIBILITY]
-    sizeOrder = FONT_SIZE_ORDER.SCALE
-
-    isAvailable = @(sWidth, sHeight)
-      ::has_feature("oldFontsSizes")
-      && (sHeight > 800 || !isLowWidthScreen(sWidth, sHeight)
-          || ::use_touchscreen || ::is_platform_android || ::is_platform_shield_tv())
-    getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) ::min(900, getFontSizePx(sWidth, sHeight))
-    getOptionText = @() "OLD SCALE"
-  }
-
   SMALL = {
     fontGenId = "_set_small"
     saveId = FONT_SAVE_ID.SMALL
     sizeMultiplier = 0.667
     sizeOrder = FONT_SIZE_ORDER.SMALL
-    saveIdCompatibility = [FONT_SAVE_ID.PX]
 
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 1080
+    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 900
   }
 
   MEDIUM = {
     fontGenId = "_set_medium"
     saveId = FONT_SAVE_ID.MEDIUM
     sizeMultiplier = 0.834
+    saveIdCompatibility = [FONT_SAVE_ID.PX]
     sizeOrder = FONT_SIZE_ORDER.MEDIUM
 
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 900
+    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 800
   }
 
   BIG = {
@@ -196,14 +168,8 @@ function g_font::getCurrent()
   if (!::g_login.isProfileReceived())
   {
     local fontSaveId = ::getSystemConfigOption(FONTS_SAVE_PATH_CONFIG)
-    if (fontSaveId)
-      return getAvailableFontBySaveId(fontSaveId) || getDefault()
-
-    //compatibility with old save format (wop_1_69_3_X)
-    local isPxFonts = ::getSystemConfigOption("video/pxFonts")
-    return isPxFonts == null ? getDefault()
-      : isPxFonts ? PX
-      : SCALE
+    return (fontSaveId && getAvailableFontBySaveId(fontSaveId))
+      || getDefault()
   }
 
   local fontSaveId = ::loadLocalByScreenSize(FONTS_SAVE_PATH)

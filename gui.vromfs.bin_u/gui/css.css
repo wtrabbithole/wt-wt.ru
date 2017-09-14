@@ -130,7 +130,7 @@ airRow > cardImg {
 titletext, menutitle, dyncampresult, debriefingTitle
 {
   re-type:text;
-  font:@times_big;
+  font:@fontMedium;
   text-shade-x:0;
   text-shade-y:0;
   text-shade-color:@mainTitleStrokeColor;
@@ -181,7 +181,7 @@ menutitle {
 
 textarea, textAreaCentered, helpText, awardText, framedMessage, textAreaNoScroll,
 textareaNoTab, titleTextArea,textAreaSmall, notificationText, tooltipDesc {
-  font:@small;
+  font:@fontNormal;
   behaviour:textArea;
   re-type:textarea;
   color:@commonTextColor;
@@ -197,13 +197,13 @@ blankTextArea {
 }
 
 textareaNoTab[controlsHelp=yes] {
-  font:@veryTiny;
+  font:@fontTiny;
   color:@commonTextColor;
 }
 
 tooltipDesc {
   max-width:70*@scrn_tgt/100.0;
-  font:@tiny;
+  font:@fontSmall;
 }
 
 tutorDark {
@@ -226,7 +226,7 @@ chatLog {
   behaviour:textArea;
   re-type:textarea;
   color:@commonTextColor;
-  font:@tiny;
+  font:@fontSmall;
   wrap-indent:3*@scrn_tgt/100.0;
   paragraph-indent:0;
 }
@@ -237,11 +237,11 @@ hudMessageStack {
 
 titleTextArea {
   width:pw;
-  font:@normal;
+  font:@fontMedium;
   color:@titleTextColor;
 }
 textareaNoTab[caption=yes] {
-  font:@normal;
+  font:@fontMedium;
   color:@titleTextColor;
 }
 
@@ -268,7 +268,7 @@ textarea[text-align=center] {
 }
 
 textAreaSmall {
-  font:@bold;
+  font:@fontNormal;
   color:@activeTextColor;
 }
 
@@ -336,7 +336,7 @@ widthText, titleWidthText, textButtonHint
 {
   re-type:text;
   color:@commonTextColor;
-  font:@small;
+  font:@fontNormal;
 }
 
 text[textHide=yes][text=""], activeText[textHide=yes][text=""],
@@ -344,14 +344,14 @@ textAreaCentered[textHide=yes][text=""], textareaNoTab[textHide=yes][text=""] {
   display:hide;
 }
 
-.smallFont text, .smallFont textareaNoTab {
-  font:@bold;
+.normalFont text, .normalFont textareaNoTab {
+  font:@fontNormal;
 }
 
 versionText {
   re-type:text;
   color:@commonTextColor;
-  font:@tiny;
+  font:@fontSmall;
   id:"version_text";
   pos:0, 50%ph-50%h;
   position:relative;
@@ -367,7 +367,7 @@ notificationText {
 discount {
   re-type:9rect;
   color:@discountTextColor;
-  font:@small;
+  font:@fontNormal;
   textShade:yes;
   background-image:#ui/gameuiskin#discount;
   background-color:@white;
@@ -383,7 +383,7 @@ discount[type=new] {
   background-color:@discountBGColor;
   pos:pw-w, ph-2*@sf/@pf_outdated;
   position:absolute;
-  font:@tiny;
+  font:@fontSmall;
   padding:10*@sf/@pf_outdated, 1*@sf/@pf_outdated, 3*@sf/@pf_outdated, 1*@sf/@pf_outdated;
   background-repeat:expand;
   background-position:6,2,2,2;
@@ -399,7 +399,7 @@ discount_notification {
   background-color:@discountBGColor;
   background-repeat:expand;
   input-transparent:yes;
-  font:@tiny;
+  font:@fontSmall;
   color:@discountTextColor;
   textShade:yes;
 }
@@ -445,7 +445,7 @@ discount[type=weaponryItem] {
   background-position:21,2,2,6;
   padding:0, 3*@sf/@pf_outdated, 0, 8*@sf/@pf_outdated;
   height:1@discountBoxDownHeight;
-  font:@tiny;
+  font:@fontSmall;
   color:@discountTextColor;
 }
 
@@ -544,7 +544,7 @@ discount[text=""], discount_notification[showDiscount=no], bonus[background-imag
 }
 
 subtitles, subtitles_slow {
-  font:@bold;
+  font:@fontNormal;
   behaviour:textarea;
   re-type:textarea;
   color:@white;
@@ -594,7 +594,7 @@ activeText[noMargin=yes] {
 }
 
 [gamertag] activeText, [gamertag] text {
-  font:@gamertag_font;
+  font:@fontSmall;
 }
 
 activeText[cardItem] {
@@ -635,7 +635,7 @@ text[talign=left], activeText[talign=left] {
 }
 
 titleWidthText {
-  font:@normal;
+  font:@fontMedium;
   pos:0,0.03*@scrn_tgt;
   min-width:pw-0.01*@scrn_tgt;
 }
@@ -664,7 +664,7 @@ widthLine {
 
 [textStyle=mis-descr] > textareaNoTab {
   width:pw;
-  font:@bold;
+  font:@fontNormal;
   pos:1*@scrn_tgt/100.0, -1*@scrn_tgt/100.0;
   padding-left:0.01*@scrn_tgt + 0.01*@scrn_tgt*@isWide;
   position:relative;
@@ -716,7 +716,7 @@ optiontext[textStyle=textarea] {
 
 optionheader {
   text-align:center;
-  font:@normal;
+  font:@fontMedium;
   pare-text:yes;
   color:@activeTextColor;
 }
@@ -853,14 +853,14 @@ fontIcon20 {
   size:@cIco, @cIco;
 }
 fontIcon20 > fonticon {
-  font:@small;
+  font:@fontNormal;
 }
 
 fontIcon32 {
   size:@mIco, @mIco;
 }
 fontIcon32 > fonticon {
-  font:@normal;
+  font:@fontMedium;
 }
 
 sideLogIcon {
@@ -894,14 +894,14 @@ logIcon {
 }
 
 verticalCellsOptions[baseRow=yes] > tr {
-  size:pw,@tinyRowHeight + 1@baseTrHeight - 2@dp;
+  size:pw,@smallRowHeight + 1@baseTrHeight - 2@dp;
 }
 
 [baseRow=rows16] > tr {
   size:pw,@rows16height;
 }
-[baseRow=tiny] > tr {
-  size:pw,@tinyRowHeight;
+[baseRow=small] > tr {
+  size:pw,@smallRowHeight;
 }
 
 [baseRow=slider] > tr {
@@ -1118,7 +1118,7 @@ td[cellType=tdCenter] activeText {
 
 td[cellType=top] {
   width:pw;
-  height:@tinyRowHeight;
+  height:@smallRowHeight;
 }
 td[cellType=bottom] {
   width:pw;
@@ -1161,7 +1161,7 @@ tr[selected=yes] > td > optiontext {
 }
 td[cellType=top] > optiontext {
   color:@grayOptionColor;
-  font:@tiny;
+  font:@fontSmall;
 }
 
 optionValueText {
@@ -1230,7 +1230,7 @@ tr[winAwardColor=yes] > td > activeText, tr[winAwardColor=yes] > td > textareaNo
   pos:50%p.p.w-50%w, ph-1.1h;
   position:absolute;
   color:@white;
-  font:@normal;
+  font:@fontMedium;
 }
 
 tr[enable=no] activeText, tr[enable=no] > td > text, tr[enable=no] optiontext {
@@ -1250,14 +1250,14 @@ tr[inactive=yes] {
 }
 
 activeText[caption=yes], textarea[caption=yes], textAreaCentered[caption=yes] {
-  font:@big;
+  font:@fontMedium;
 }
-[tinyFont=yes] activeText[caption=yes] {
-  font:@small;
+[smallFont=yes] activeText[caption=yes] {
+  font:@fontNormal;
 }
 
 activeText[titleFont=yes], textAreaCentered[titleFont=yes], menutitle[titleFont=yes] {
-  font:@title_big;
+  font:@fontBigBold;
 }
 
 td[team]   > text {color:@commonTextColor;}
@@ -1305,7 +1305,7 @@ td[team] > teamImg {
 }
 
 teamImg > activeText {
-  font:@tiny;
+  font:@fontSmall;
   margin-top:4;
   text-align:center;
   padding:0;
@@ -1531,12 +1531,12 @@ animated_wait_icon[circle=both] {
 }
 
 framedMessage {
-  background-position:4;
-  background-repeat:expand;
-  background-color:@white;
-  background-image:#ui/gameuiskin#frame_opaq;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  border-offset:@dp;
   input-transparent:yes;
-  padding:10*@sf/@pf_outdated, 0, 10*@sf/@pf_outdated, 2*@sf/@pf_outdated;
+  padding:15@sf/@pf, 3@sf/@pf;
 }
 
 advertDiv {
@@ -1548,7 +1548,7 @@ advertDiv {
 }
 
 advertDiv > textAreaCentered {
-  font:@small;
+  font:@fontNormal;
   color:@advertTextColor;
   text-align:center;
 }
@@ -1572,8 +1572,8 @@ tooltip {
   pos:25@sf/@pf, 25@sf/@pf;
   max-width:0.7@sf;
   color:@commonTextColor;
-  font:@tiny;
-  font-bold:@small;
+  font:@fontSmall;
+  font-bold:@fontNormal;
   timeout:250;
 }
 
@@ -1803,18 +1803,11 @@ fieldReq{
   width: 25*@scrn_tgt/100.0;
   pos: p.p.w, ph/1.55-h/2;
   position: absolute;
-  padding: 10*@sf/@pf_outdated;
-  background-position: 4;
-  background-repeat: expand;
-  background-color: @white;
-  background-image: #ui/gameuiskin#frame_opaq;
-}
-
-slotbarBg {
-  size:@slotbarWidth5+4*@sf/@pf_outdated, @shopBottomOffset+5*@sf/@pf_outdated;
-  pos:50%sw-50%w, sh-h+1*@sf/@pf_outdated;
-  position:root;
-  input-transparent:yes;
+  padding: 15@sf/@pf;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  border-offset:@dp;
 }
 
 navBar > slotbarDiv {
@@ -2050,28 +2043,17 @@ pattern[type=itemCurrent2] {
   background-image:#ui/gameuiskin#pattern_w;
 }
 
-slotbarBottom {
-  re-type:9rect;
-  pos:50%pw-50%w,0;
-  position:absolute;
-  size:pw-2*@sf/@pf_outdated, ph;
-  background-image:#ui/gameuiskin#slotbar_bottom_bar;
-  background-position:1;
-  background-repeat:expand;
-  background-color:@white;
-}
 slotbarEdge {
   re-type:9rect;
-  background-position:8;
+  background-position:4;
   background-repeat:expand;
   background-color:@white;
-  background-image:#ui/gameuiskin#slotbar_edge;
+  background-image:#ui/gameuiskin#slotbar_edge_bg;
 }
 slotbarTop {
   re-type:9rect;
-  size:pw, 1@slotbarTop;
-  background-image:#ui/gameuiskin#slotbar_top_bar;
-  background-position:4;
+  background-image:#ui/gameuiskin#slotbar_top;
+  background-position:2;
   background-repeat:expand;
   background-color:@white;
 }
@@ -2100,21 +2082,24 @@ TopMenuPanel {
   position:root;
   size:sw, 1@topBarHeight;
   background-image:#ui/gameuiskin#top_bar;
-  background-color:@barColor;
+  background-color:@white;
   background-position:1, 6, 1, 1;
   background-repeat:expand;
   css-hier-invalidate:yes;
 }
+
 BottomMenuPanel {
   re-type:9rect;
-  pos:0, sh-h+3*@sf/@pf_outdated;
+  pos:0, sh-h +3@dp;
   position:root;
-  size:sw, 1@bottomBarHeight;
-  padding-top:2*@sf/@pf_outdated;
-  background-image:#ui/gameuiskin#bottom_bar;
-  background-color:@barColor;
-  background-position:6,8;
-  background-repeat:expand;
+  size:sw, 1@bottomBarHeight +3@dp;
+  background-color:@bottomBarBackgroundColor;
+}
+
+BottomMenuPanel > line {
+  position: "absolute";
+  size: "pw, 1@dp";
+  background-color: '@bottomBarForegroundColor';
 }
 
 airItemNavigation {
@@ -2152,7 +2137,7 @@ copyright {
   re-type:text;
   color:@commonTextColor;
   text:"#mainmenu/legal_text";
-  font:@small;
+  font:@fontNormal;
   padding-right:0.04@sf;
   text-align:center;
   input-transparent:yes;
@@ -2250,7 +2235,7 @@ bottomButtonsDiv {
 }
 
 .slotbarTable bottomButtonsDiv {
-  top:ph -1*@sf/@pf_outdated;
+  top:ph;
 }
 
 activeText[airBought=yes] {
@@ -2277,7 +2262,7 @@ textareaNoTab.highlightButton {
 }
 
 textareaNoTab.highlightButton:hover {
-  background-color:@frameDarkActiveBgColor;
+  background-color:@frameDarkHoverBgColor;
   color:@fadedTextColor;
 }
 
@@ -2330,7 +2315,7 @@ focus_border,
 [show_console_buttons=yes] buttonPlayer[selected=yes],
 [show_console_buttons=yes] [childsActivate=yes] > gameModeItem:focus,
 [show_console_buttons=yes] [childsActivate=yes] > gameModeChangeButton:focus,
-[show_console_buttons=yes] [childsActivate=yes] > div[hoverMenuButtons=yes]:focus,
+[show_console_buttons=yes] [childsActivate=yes] > div.dropDown:focus,
 [show_console_buttons=yes] MultiSelect:focus > multiOption[selected=yes],
 [show_console_buttons=yes] game_mode_block[selected=yes],
 [show_console_buttons=yes] [cluster_select_button_container=yes] > button[selected=yes],
@@ -2340,7 +2325,9 @@ focus_border,
 [show_console_buttons=yes] PosOptionsNavigator > cell[selected=yes],
 [show_console_buttons=yes] gameModeChangeButton[navigatorShortcuts]:focus,
 [show_console_buttons=yes] hangarToggleButton[navigatorShortcuts]:focus,
-[show_console_buttons=yes] ComboBox[focusFrame=yes]:focus {
+[show_console_buttons=yes] ComboBox[focusFrame=yes]:focus,
+[show_console_buttons=yes] pupup_actions_list > itemsList > actionListItem:focus,
+[show_console_buttons=yes] pupup_actions_list > itemsList > button:focus {
   re-type:9rect;
   foreground-color: @gamepadFocusFrameColor;
   foreground-image: #ui/gameuiskin#item_selection;
@@ -2376,22 +2363,21 @@ table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_b
 }
 
 airInfoBlock {
-  background-image:#ui/gameuiskin#window_body;
-  background-repeat:expand;
-  background-color:#99999999;
-  background-position:4;
-  flow:vertical;
-  pos:-4px, @infoPanelVertPosition;
+  background-image: #ui/gameuiskin#expandable_item_ww_transp_reflect;
+  re-type:9rect;
+  background-position:3, 3, 33, 3;
+  color-factor:175;
+  background-color: @white;
+  background-repeat: expand;
+  flow:horizontal;
+  pos: 0, @infoPanelVertPosition;
   position:absolute;
-  padding:0.01@sf;
-  padding-left:1@offsetBetweenScreenAndAirinfo;
-  min-height:2@sIco;
+  min-height:4@sIco;
   css-hier-invalidate:yes;
   total-input-transparent:yes;
 }
 
 airInfoBlock[toggled=no] {
-  padding-left:0.5sw - 0.5@slotbarWidthFull + 4px - 6*@sf/@pf_outdated + @mIco;
   background-color:@transparent;
 }
 
@@ -2399,21 +2385,32 @@ crewUnitSpecUpgradeTooltip textarea,
 skillParametersTooltip textarea,
 airInfoBlock textarea,
 airInfoBlock text {
-  font:@tiny;
+  font:@fontSmall;
   paragraph-indent:0;
   padding-left:0; padding-right:0;
 }
 
 crewUnitSpecUpgradeTooltip textareaNoTab[exp_upgrade_text_area=yes] {
-  font:@tiny;
+  font:@fontSmall;
 }
 
 airInfoBlock textarea[crew_data=yes], airInfoBlock text[crew_data=yes] {
-  font:@small;
+  font:@fontNormal;
 }
 
 airInfoBlock td {
   padding:0, @referenceProgressHeight, 4*@sf/@pf_outdated, @referenceProgressHeight + @referenceProgressOffset;
+}
+
+airInfoHeader {
+  re-type:text;
+  color:@lightHighlightedTextColor;
+  font:@fontNormalBold;
+  text-align:center;
+  position:relative;
+  height:1@buttonCloseHeight;
+  width:fw;
+  padding:5*@sf/@pf_outdated, 0;
 }
 
 navConsoleBlock > directionImage {
@@ -2534,7 +2531,7 @@ paymentItem {
 }
 
 paymentItem shopItemText {
-  font:@normal;
+  font:@fontMedium;
   color:@commonTextColor;
 }
 
@@ -2558,21 +2555,24 @@ paymentItem > icon[background-image=""] {
 }
 
 topMenuButtons {
-  re-type:9rect;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#hovermenu_bg;
-  background-color:@white;
-  background-position:6;
-  padding:2*@sf/@pf_outdated, 7*@sf/@pf_outdated;
+  border:yes;
+  border-color: @frameDarkBorderColor;
+  background-color: @frameDarkBackgroundColor;
+  padding:1@dp;
+}
+topMenuButtons > line {
+  size:pw, 1@dp;
+  pos:0,-1@dp;
+  position:absolute;
+  background-color:@frameDarkBackgroundColor;
 }
 
 rightClickMenu {
-  re-type:9rect;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#frame_opaq;
-  background-color:@white;
-  background-position:4;
-  padding:1@framePadding;
+  border:yes;
+  border-color: @frameScaleableBorderColor;
+  background-color:@frameDarkBackgroundColor;
+  css-hier-invalidate: yes;
+  padding: 1@dp;
 }
 
 gamercardShade {

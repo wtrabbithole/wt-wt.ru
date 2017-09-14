@@ -344,7 +344,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -866,22 +866,6 @@
       },
       {
         "part": {
-          "name": "optic_turret_01_dm",
-          "onKill": {
-            "ammo_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "optic_turret_01_dm",
-          "onKill": {
-            "ammo_turret_02_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
           "name": "gun_barrel_01_dm",
           "onKill": {
             "ammo_turret_01_dm": 1.0
@@ -1014,7 +998,8 @@
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_rocket_turn",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {

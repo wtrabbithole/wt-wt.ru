@@ -69,8 +69,8 @@
       timerObj.setUserData(handler) //!!FIX ME: it a bad idea link timer to handler.
                                     //better to link all timers here, and switch them off when not active.
 
-    update(handler)
-    repaint(handler)
+    update()
+    repaint()
   }
 
   function updateSecondaryMods()
@@ -180,15 +180,14 @@
     repaint()
   }
 
-  function update(handler = null)
+  function update()
   {
     local newActive = canUse()
     if (!newActive && !active) //no need to check other conditions when not canUse and not active.
       return false
 
-    if (!handler)
-      handler = ::handlersManager.getActiveBaseHandler()
-    newActive = newActive && (("canShowDmViewer" in handler) ? handler.canShowDmViewer() : false)
+    local handler = ::handlersManager.getActiveBaseHandler()
+    newActive = newActive && handler && (("canShowDmViewer" in handler) ? handler.canShowDmViewer() : false)
     if (::top_menu_handler && ::top_menu_handler.isSceneActive())
       newActive = newActive && ::top_menu_handler.canShowDmViewer()
 
@@ -199,10 +198,9 @@
     return true
   }
 
-  function repaint(handler = null)
+  function repaint()
   {
-    if (!handler)
-      handler = ::handlersManager.getActiveBaseHandler()
+    local handler = ::handlersManager.getActiveBaseHandler()
     if (!handler)
       return
 

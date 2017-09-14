@@ -84,9 +84,6 @@
     "explosionFx": "ship_explosion"
   },
   {
-    "sideCenterOfMassOffsetPercent": 1.0
-  },
-  {
     "smokeScreenActivateTime": 5.0
   },
   {
@@ -3147,91 +3144,6 @@
     }
   },
   {
-    "breaches": {
-      "repairSpeed": 30.0,
-      "waterMassVel": -3000.0,
-      "waterMassMult": 25.0,
-      "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 360000.0,
-      "additionalWaterShouldDiePercent": 0.51,
-      "fatalBreachDrownTime": 25.0
-    }
-  },
-  {
-    "shipCover": [
-      {
-        "cover": {
-          "part": "compartment_01_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_02_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_03_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_04_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_05_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_06_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_07_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_08_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_09_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_10_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      }
-    ]
-  },
-  {
     "modifications": {
       "37mm_ger_navy_universal": [],
       "manual_extinguisher": {
@@ -3244,6 +3156,101 @@
       },
       "tank_tool_kit": [],
       "ship_smoke_screen_system_mod": []
+    }
+  },
+  {
+    "breaches": {
+      "repairSpeed": 30.0,
+      "waterMassVel": -3000.0,
+      "waterMassMult": 25.0,
+      "sizeToRepair": [0.01,2.0,20.0,1500.0],
+      "additionalWaterDeathThreshold": 500000.0,
+      "additionalWaterShouldDiePercent": 0.45,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 40.0,
+      "maxHeelingTime": 10.0,
+      "criticalHeelingAnglePercent": 0.5,
+      "maxCriticalHeelingTime": 2.0,
+      "heelingDeathHeightOffsetMult": 1.0,
+      "sideCenterOfMassOffsetPercent": 0.5
+    }
+  },
+  {
+    "shipCover": [
+      {
+        "cover": {
+          "part": "compartment_01_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_02_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_03_dm",
+          "weight": 0.8,
+          "maxWaterAlive": 1.0
+        }
+      }
+    ]
+  },
+  {
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "shells": {
+            "ammunition_storage_02_dm": {
+              "count": 5000
+            }
+          }
+        }
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "weaponTrigger": "gunner4"
+        },
+        {
+          "shells": {
+            "ammunition_storage_01_dm": {
+              "count": 6000
+            }
+          }
+        }
+      ],
+      "ammo3": {
+        "weaponTrigger": "gunner6",
+        "shells": {
+          "torpedo_01_dm": {
+            "count": 1
+          }
+        }
+      },
+      "ammo4": {
+        "weaponTrigger": "gunner5",
+        "shells": {
+          "torpedo_02_dm": {
+            "count": 1
+          }
+        }
+      }
     }
   },
   {
@@ -3576,7 +3583,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2400
+            "bullets": 2000
           },
           {
             "allowableDelta": 1.0
@@ -3631,12 +3638,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 12
-          },
-          {
-            "reusePitchTrigger": 12
           },
           {
             "turret": {
@@ -3716,7 +3717,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2400
+            "bullets": 2000
           },
           {
             "allowableDelta": 1.0
@@ -3771,12 +3772,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 12
-          },
-          {
-            "reusePitchTrigger": 12
           },
           {
             "turret": {

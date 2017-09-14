@@ -16,7 +16,7 @@ tdiv {
         pos:t='pw/2-w/2, ph/2-h/2'
         position:t='absolute'
         text:t='<<getBattleResultText>>'
-        fontNormal:t='yes'
+        mediumFont:t='yes'
       }
 
       <<#isBattleResultsIgnored>>
@@ -93,7 +93,7 @@ tdiv {
         <<#invert>>flow-align:t='right'<</invert>>
 
         textareaNoTab {
-          veryTinyFont:t='yes'
+          tinyFont:t='yes'
           text:t='<<armyStateText>>'
         }
       }

@@ -1,7 +1,7 @@
 activeText {
   id:t='label_airfield'
   text:t='#worldwar/airfield'
-  fontNormal:t='yes'
+  mediumFont:t='yes'
   pos:t='50%pw-50%w, 1@framePadding'
   position:t='relative'
 }

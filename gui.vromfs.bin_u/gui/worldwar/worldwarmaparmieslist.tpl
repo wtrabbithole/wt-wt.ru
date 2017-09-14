@@ -21,12 +21,12 @@ tdiv {
         shopFilterText {
           id:t='army_by_state_title_<<id>>'
           display:t='hide'
-          tinyFont:t='yes'
+          smallFont:t='yes'
           text:t='<<tabText>> '
         }
         shopFilterText {
           id:t='army_by_state_title_count_<<id>>'
-          tinyFont:t='yes'
+          smallFont:t='yes'
           text:t='<<armiesCountText>>'
         }
       }

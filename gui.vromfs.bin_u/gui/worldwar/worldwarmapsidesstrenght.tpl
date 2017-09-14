@@ -17,7 +17,7 @@ tdiv {
     id:t='label_commands'
     text:t='#worldWar/armyStrength'
     hideEmptyText:t='yes'
-    fontNormal:t='yes'
+    mediumFont:t='yes'
     pos:t='0, 50%ph-50%h'
     position:t='relative'
     width:t='fw'

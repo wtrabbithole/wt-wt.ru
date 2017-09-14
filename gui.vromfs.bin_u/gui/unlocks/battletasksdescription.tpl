@@ -1,5 +1,5 @@
 <<#isPromo>>
-tinyFont:t='yes'
+smallFont:t='yes'
 <</isPromo>>
 <<#taskDescription>>
 textareaNoTab {

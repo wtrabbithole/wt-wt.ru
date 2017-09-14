@@ -54,25 +54,22 @@
     "useSingleIconForBullet": true
   },
   {
-    "fxType": "big_gun_flame_recoilless"
-  },
-  {
-    "fxGroundDust": "ground_shock_wave_dust"
-  },
-  {
     "shouldCollideWithRendinsts": true
   },
   {
-    "sound_path": "tanks/weapon_tanks/cannons"
+    "sound_path": "tanks/weapon_tanks/rockets"
   },
   {
-    "sound": "105mm_l7"
+    "sound": "82mm_m8"
   },
   {
-    "sound_inside": "105mm_l7_interior"
+    "sound_inside": "82mm_m8_interior"
   },
   {
-    "sfxReloadBullet": "grd_cannon_reload"
+    "reload_sound_path": "tanks/effects_tanks"
+  },
+  {
+    "reload_sound": "reload_rocket"
   },
   {
     "fxMultipleSpawn": true
@@ -88,6 +85,12 @@
   },
   {
     "notUseDefaultBulletInGui": true
+  },
+  {
+    "drawRocketInBullet": true
+  },
+  {
+    "mesh": "bae_swingfire_rocket_deployed"
   },
   {
     "bullet": {
@@ -136,7 +139,7 @@
       "cumulativeDamage": {
         "armorPower": 152.0,
         "distance": 0.05,
-        "damage": 5.0
+        "damage": 400.0
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
@@ -193,13 +196,13 @@
           "autoLeveling": true,
           "autoAiming": true,
           "explosionEffect": "art_ground_splash",
-          "smokeEffect": "",
+          "smokeEffect": "trail_smoke",
           "maxDistance": 3000.0,
           "minDistance": 30.0,
           "spawnExplosionWreckage": false,
           "spawnExplosionFx": false,
           "explosionOffset": 0.05,
-          "hitPowerMult": 1.0,
+          "hitPowerMult": 100.0,
           "nearHitPower": [1.0,50.0],
           "midHitPower": [0.9,400.0],
           "farHitPower": [0.1,1000.0],
@@ -239,6 +242,10 @@
               "fx": "atgm_hit",
               "fxScale": [1.2,1.5]
             }
+          },
+          "armorpower": {
+            "ArmorPower0m": [2.0,10.0],
+            "ArmorPower7000m": [1.0,7000.0]
           },
           "cumulativeDamage": {
             "armorPower": 500.0,

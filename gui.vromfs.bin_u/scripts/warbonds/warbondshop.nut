@@ -26,7 +26,10 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     curPageAwards = []
     curWb = wbList[0]
 
-    initItemsProgress()
+    local obj = scene.findObject("warbond_shop_progress_block")
+    if (::check_obj(obj))
+      obj.show(true)
+
     initItemsListSize()
     fillTabs()
     updateBalance()
@@ -259,25 +262,31 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function initItemsProgress()
   {
-    local obj = scene.findObject("warbond_shop_progress_block")
-    if (!::check_obj(obj))
-      return
+    local showAnyShopProgress = ::g_warbonds_view.showOrdinaryProgress(curWb)
+    local progressPlaceObj = scene.findObject("shop_level_progress_place")
+    progressPlaceObj.show(showAnyShopProgress)
 
-    obj.show(::g_warbonds_view.showSpecialProgress(curWb) || ::g_warbonds_view.showOrdinaryProgress(curWb))
-
-    ::g_warbonds_view.createProgressBox(curWb, obj, this)
-
-    ::g_warbonds_view.createSpecialMedalsProgress(curWb, obj, this)
-    updateMedalsText()
-  }
-
-  function updateMedalsText()
-  {
-    local obj = scene.findObject("medals_text")
-    if (::check_obj(obj))
+    local isShopInactive = !curWb || !curWb.isCurrent()
+    if (showAnyShopProgress)
     {
-      obj.setValue(::g_warbonds_view.getSpecialText(curWb))
-      obj.tooltip = ::g_warbonds_view.getSpecialMedalsTooltip(curWb)
+      local oldShopObj = progressPlaceObj.findObject("old_shop_progress_place")
+      oldShopObj.show(isShopInactive)
+
+      ::g_warbonds_view.createProgressBox(curWb, progressPlaceObj, this, isShopInactive)
+      if (isShopInactive)
+      {
+        local data = ::g_warbonds_view.getCurrentLevelItemMarkUp(curWb)
+        guiScene.replaceContentFromText(oldShopObj.findObject("level_icon"), data, data.len(), this)
+      }
+    }
+
+    local showAnyMedalProgress = ::g_warbonds_view.showSpecialProgress(curWb)
+    local medalsPlaceObj = scene.findObject("special_tasks_progress_block")
+    medalsPlaceObj.show(showAnyMedalProgress)
+    if (showAnyMedalProgress)
+    {
+      ::g_warbonds_view.createSpecialMedalsProgress(curWb, medalsPlaceObj, this)
+      scene.findObject("medals_block").tooltip = ::g_warbonds_view.getSpecialMedalsTooltip(curWb)
     }
   }
 
@@ -311,6 +320,11 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     updateAwardPrices()
     updateItemInfo()
     guiScene.setUpdatesEnabled(true, true)
+  }
+
+  function onEventBattleTasksFinishedUpdate(p)
+  {
+    updateItemInfo()
   }
 
   function onDestroy()

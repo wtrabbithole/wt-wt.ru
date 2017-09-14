@@ -47,7 +47,7 @@ class ::gui_handlers.ActionsList
   closeOnUnhover = false
 
   __al_obj_blk      = "gui/actionsList/actionsListBlock.blk"
-  __al_obj_tag      = "popup_menu"
+  __al_obj_tag      = "pupup_actions_list"
 
   __al_item_obj_tpl = "gui/actionsList/actionsListItem"
 

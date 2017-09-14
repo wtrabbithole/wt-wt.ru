@@ -1,8 +1,8 @@
 frame {
   id:t='trophy_group_shop_frame'
   width:t='<<width>> + 1@trophiesGroupItemsInfoBlockWidth';
-  height:t='<<height>> + 1@frameHeaderHeight + 1@frameFooterHeight + 1@itemSpacing'
-  min-height:t='3@itemHeight + 1@frameHeaderHeight + 1@frameFooterHeight'
+  height:t='<<height>> + 1@frameTopPadding + 1@frameFooterHeight + 1@itemSpacing'
+  min-height:t='3@itemHeight + 1@frameTopPadding + 1@frameFooterHeight'
   pos:t='50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)';
   position:t='absolute'
   class:t='wndNav'

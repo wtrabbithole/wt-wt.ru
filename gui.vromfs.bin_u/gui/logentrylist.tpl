@@ -49,7 +49,7 @@ expandable {
         min-width:t='0.20@sf'
         valign:t='center'
         text-align:t='right'
-        tinyFont:t='yes'
+        smallFont:t='yes'
       }
 
       text {

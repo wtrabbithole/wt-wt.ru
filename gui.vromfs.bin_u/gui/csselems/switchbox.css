@@ -19,11 +19,15 @@ SwitchBox {
   height:@switchBoxHeight;
   padding-left:@switchBoxWidth + @blockInterval;
   color:@uncheckedTextColor;
-  font:@small;
+  font:@fontNormal;
   text-align:left;
   css-hier-invalidate:yes;
   total-input-transparent:yes;
   snd_change_value:check;
+}
+
+top_right_holder > SwitchBox {
+ valign: center;
 }
 
 SwitchBox:checked {
@@ -72,10 +76,9 @@ SwitchBox:checked > SwitchSliderBg > SwitchSlider {
 }
 
 SwitchBox:hover > SwitchSliderBg > SwitchSlider {
-  size:ph-2@dp, ph-2@dp;
-  pos:@dp,@dp;
-  foreground-position:-2@dp, -2@dp, -2@dp, h - @switchButtonLineHeight + @dp;
+  foreground-position:0, 0, 0, h - @switchButtonLineHeight;
   border:yes;
+  border-offset:1@dp;
   border-color:@switchHoverBorderColor;
 }
 

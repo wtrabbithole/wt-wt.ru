@@ -1,41 +1,37 @@
+[smallFont=yes] text, text[smallFont=yes], textarea[smallFont=yes],
+textareaNoTab[smallFont=yes], textAreaCentered[smallFont=yes],
+[smallFont=yes] optiontext, hintText[smallFont=yes],
+[smallFont=yes] activeText, activeText[smallFont=yes],
+[smallFont=yes] textAreaCentered,
+[smallFont=yes] textareaNoTab, textareaNoTab[smallFont=yes],
+button[smallFont=yes],
+[smallFont=yes] CheckBox, CheckBox[smallFont=yes], modBlockHeader[smallFont=yes], [smallFont=yes] multiOption {
+  font:@fontSmall;
+}
+
 [tinyFont=yes] text, text[tinyFont=yes], textarea[tinyFont=yes],
-textareaNoTab[tinyFont=yes], textAreaCentered[tinyFont=yes],
 [tinyFont=yes] optiontext, hintText[tinyFont=yes],
 [tinyFont=yes] activeText, activeText[tinyFont=yes],
-[tinyFont=yes] textAreaCentered,
-[tinyFont=yes] textareaNoTab, textareaNoTab[tinyFont=yes],
-button[tinyFont=yes],
-[tinyFont=yes] CheckBox, CheckBox[tinyFont=yes], modBlockHeader[tinyFont=yes], [tinyFont=yes] multiOption {
-  font:@tiny;
-}
-
-[veryTinyFont=yes] text, text[veryTinyFont=yes], textarea[veryTinyFont=yes],
-[veryTinyFont=yes] optiontext, hintText[veryTinyFont=yes],
-[veryTinyFont=yes] activeText, activeText[veryTinyFont=yes],
-[veryTinyFont=yes] textAreaCentered, textAreaCentered[veryTinyFont=yes],
-[veryTinyFont=yes] textareaNoTab, textareaNoTab[veryTinyFont=yes]
-button[veryTinyFont=yes], [veryTinyFont=yes] CheckBox, CheckBox[veryTinyFont=yes] {
-  font:@veryTiny;
-}
-
-activeText[boldFont] {
-  font:@normalBold;
+[tinyFont=yes] textAreaCentered, textAreaCentered[tinyFont=yes],
+[tinyFont=yes] textareaNoTab, textareaNoTab[tinyFont=yes]
+button[tinyFont=yes], [tinyFont=yes] CheckBox, CheckBox[tinyFont=yes] {
+  font:@fontTiny;
 }
 
 textarea[hudFont=tiny] {
-  font:@hud_tiny;
-}
-
-textarea[hudFont=veryTiny] {
-  font:@hud_veryTiny;
+  font:@fontHudTiny;
 }
 
 textarea[hudFont=small] {
-  font:@hud_small;
+  font:@fontHudSmall;
 }
 
-activeText[hudFont=normal] {
-  font:@hud_normal;
+textarea[hudFont=normal] {
+  font:@fontHudNormal;
+}
+
+activeText[hudFont=medium] {
+  font:@fontHudMedium;
 }
 
 [wink=slow] {
@@ -79,12 +75,12 @@ activeText[hudFont=normal] {
   color-factor:255;
 }
 
-[fontNormal=yes] {
-  font:@normal;
+[mediumFont=yes] {
+  font:@fontMedium;
 }
 
-[fontBig=yes] {
-  font:@times_big;
+[bigBoldFont=yes] {
+  font:@fontBigBold;
 }
 
 [textShade=yes] {

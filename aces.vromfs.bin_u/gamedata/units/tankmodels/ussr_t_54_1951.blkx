@@ -310,7 +310,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -530,7 +530,8 @@
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_manual_y",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -2189,9 +2190,14 @@
       },
       "100mm_APHE_ammo_pack": [],
       "100mm_APCBC_ammo_pack": [],
-      "100mm_APCR_ammo_pack": [],
+      "100mm_APCR_ammo_pack": {
+        "tier": 1
+      },
       "100mm_APDS_ammo_pack": [],
       "100mm_HEAT_ammo_pack": [],
+      "100mm_ussr_Smoke_ammo_pack": {
+        "tier": 3
+      },
       "100mm_ussr_APHE": [],
       "100mm_ussr_APCBC": {
         "modCostMul": 2.0
@@ -2206,6 +2212,7 @@
         "modCostMul": 4.5
       },
       "100mm_ussr_HE": [],
+      "100mm_ussr_Smoke": [],
       "tank_smoke_screen_system_mod": {
         "tier": 2,
         "effects": {

@@ -1,10 +1,9 @@
 popup_menu {
-  re-type:rotation;
-  background-color: @white;
-  background-image: #ui/gameuiskin#popup_menu_bg;
-  background-position:3, 10, 3, 2;
-  background-repeat: expand;
-  padding: 10*@sf/@pf_outdated, 6 + 10*@sf/@pf_outdated, 4 + 10*@sf/@pf_outdated, 10*@sf/@pf_outdated;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  border-offset:@dp;
+  padding:1@framePadding;
   css-hier-invalidate: yes;
 }
 
@@ -19,27 +18,19 @@ popup_menu_arrow {
   position: absolute;
 }
 
-popup_menu,
 popup_menu_arrow {
   re-type:rotation;
   background-rotation:0;
 }
 
-
 [menu_align=top] > popup_menu_arrow {
   pos: 0.5pw - 0.5w, ph-1;
-}
-
-
-popup_menu[menu_align=bottom] {
-  background-rotation:180;
 }
 
 [menu_align=bottom] > popup_menu_arrow {
   background-rotation:180;
   pos: 0.5pw - 0.5w, -h + 1;
 }
-
 
 [menu_align=left] > popup_menu_arrow {
   background-rotation:270;

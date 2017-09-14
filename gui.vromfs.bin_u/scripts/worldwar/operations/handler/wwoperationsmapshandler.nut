@@ -523,6 +523,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       local obj = ::showBtn(objIdPrefixCountriesOfMap + mapId, show, mapsListObj)
       if (obj)
         obj.enable(isQueueJoiningEnabled && canJoin)
+
+      local membersIconObj = scene.findObject("queue_members_" + mapId)
+      if (::check_obj(membersIconObj))
+        membersIconObj.show(map.getQueue().getArmyGroupsAmountTotal() > 0)
     }
 
     local obj = ::showBtn("select_all_countries", show, scene)

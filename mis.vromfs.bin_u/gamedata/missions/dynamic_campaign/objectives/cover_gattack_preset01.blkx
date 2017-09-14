@@ -25,13 +25,37 @@
       "missionBriefing": "",
       "campaign": "pacific",
       "windDirection": [1.0,0.0,0.0],
-      "tags": []
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      }
     },
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
     },
+    "spectator_points": [],
     "briefing": {
       "place_loc": "",
       "date_loc": "",
@@ -48,21 +72,24 @@
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "dynamic_missions/berlin_02_01"
+            "picture": "dynamic_missions/berlin_02_01",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "dynamic_missions/aircrafts/slide_a-20g"
+            "picture": "dynamic_missions/aircrafts/slide_a-20g",
+            "showAirMap": false
           }
         },
         {
           "slide": {
             "map": false,
             "minTime": 4,
-            "picture": "dynamic_missions/mission_targets/ruhr_allies_tank"
+            "picture": "dynamic_missions/mission_targets/ruhr_allies_tank",
+            "showAirMap": false
           }
         },
         {
@@ -75,6 +102,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "arrow": [
@@ -139,9 +169,14 @@
       "actions": [
         {
           "unitDamage": {
-            "part": 0,
             "power": 1.0,
-            "target": "dummy_fake"
+            "useEffect": false,
+            "countEffects": 1,
+            "delay": [1.0,1.0],
+            "offset": [0.0,0.0,0.0],
+            "radiusOffset": [10.0,15.0],
+            "target": "dummy_fake",
+            "partName": "body_dm"
           }
         },
         {
@@ -156,7 +191,9 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "enemy_all",
+            "calmDetection": true,
             "plane": {
               "targetDeviation": {
                 "trigger": "machine gun",
@@ -168,6 +205,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "ally_all"
             },
@@ -188,6 +228,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "#bomb_targets_cover"
             },
             {
@@ -203,6 +246,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "#bomb_targets",
             "targetableByAi": false
           }
@@ -222,7 +266,8 @@
             "target": "miss_start"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "miss_start": {
       "is_enabled": false,
@@ -257,6 +302,11 @@
             "useUnitHeightForTele": false,
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_fighters_group",
             "speed": 250.0
           }
@@ -269,6 +319,11 @@
             "useUnitHeightForTele": false,
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_assault_group",
             "speed": 250.0
           }
@@ -348,6 +403,11 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#player_cut.any",
             "speed": 250.0
           }
@@ -363,6 +423,10 @@
             "name": "hints/cutsc_skip",
             "action": "show",
             "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -412,6 +476,10 @@
             "name": "hints/cutsc_skip",
             "action": "hide",
             "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -438,7 +506,8 @@
             "target": "battle_start"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "start_cut_skip": {
       "is_enabled": false,
@@ -467,7 +536,11 @@
           "hintType": "custom",
           "name": "hints/cutsc_skip",
           "action": "hide",
-          "shouldFadeOut": false
+          "shouldFadeOut": false,
+          "isOverFade": false,
+          "time": -1.0,
+          "priority": 0,
+          "target_marking": 0
         },
         "missionSetFade": {
           "mode": "fadeOut",
@@ -481,7 +554,8 @@
           "time": 0.95
         },
         "missionStopCutscene": []
-      }
+      },
+      "else_actions": []
     },
     "battle_start": {
       "is_enabled": false,
@@ -521,6 +595,11 @@
             "useUnitHeightForTele": false,
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_fighters_group",
             "move_type": "teleport",
             "lookat": "target_waypoint_fighters",
@@ -535,6 +614,11 @@
             "useUnitHeightForTele": false,
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_assault_group",
             "move_type": "teleport",
             "lookat": "target_waypoint_bombers",
@@ -574,6 +658,11 @@
             "useUnitHeightForTele": false,
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_fighters_group"
           }
         },
@@ -585,6 +674,11 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_assault_group"
           }
         },
@@ -618,64 +712,65 @@
         },
         {
           "varModify": {
-            "var": "countToFail",
             "operator": "add",
             "value": 0.0,
+            "var": "countToFail",
             "use_variable": true,
             "var_value": "bombers_count"
           }
         },
         {
           "varModify": {
+            "operator": "add",
+            "value": 0.0,
             "var": "count_alive",
-            "operator": "add",
-            "value": 0.0,
             "use_variable": true,
             "var_value": "bombers_count"
           }
         },
         {
           "varModify": {
-            "var": "countToFail",
             "operator": "divAB",
-            "value": 3.0
+            "value": 3.0,
+            "var": "countToFail"
           }
         },
         {
           "varModify": {
-            "var": "count_alive",
             "operator": "subAB",
             "value": 0.0,
+            "var": "count_alive",
             "use_variable": true,
             "var_value": "countToFail"
           }
         },
         {
           "varModify": {
-            "var": "wave1_killCount",
             "operator": "add",
             "value": 0.0,
+            "var": "wave1_killCount",
             "use_variable": true,
             "var_value": "enemy01_count"
           }
         },
         {
           "varModify": {
-            "var": "wave1_killCount",
             "operator": "divAB",
-            "value": 7.0
+            "value": 7.0,
+            "var": "wave1_killCount"
           }
         },
         {
           "varModify": {
-            "var": "enemy01_count",
             "operator": "divAB",
-            "value": 3.0
+            "value": 3.0,
+            "var": "enemy01_count"
           }
         },
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "#ally_assault_group"
           }
         },
@@ -728,7 +823,8 @@
             }
           ]
         }
-      ]
+      ],
+      "else_actions": []
     },
     "cover_gattack_count": {
       "is_enabled": false,
@@ -754,7 +850,8 @@
           "set": true,
           "target": "#ally_assault_group"
         }
-      }
+      },
+      "else_actions": []
     },
     "enemy1_near": {
       "is_enabled": false,
@@ -777,6 +874,8 @@
           "target_type": "isAlive",
           "check_objects": "any",
           "check_targets": "any",
+          "object_marking": 0,
+          "target_marking": 0,
           "object": "#enemy_group01",
           "target": "ally_all"
         }
@@ -799,7 +898,8 @@
             "target": "dogfight_time"
           }
         ]
-      }
+      },
+      "else_actions": []
     },
     "dogfight_time": {
       "is_enabled": false,
@@ -817,11 +917,12 @@
       "conditions": [],
       "actions": {
         "varModify": {
-          "var": "dogfight_time",
           "operator": "subAB",
-          "value": 1.0
+          "value": 1.0,
+          "var": "dogfight_time"
         }
-      }
+      },
+      "else_actions": []
     },
     "enemy1_flee": {
       "is_enabled": false,
@@ -866,6 +967,11 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#enemy_group01",
             "speed": 500.0
           }
@@ -883,6 +989,11 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_assault_group"
           }
         },
@@ -894,10 +1005,16 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#ally_fighters_group"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "near_target": {
       "is_enabled": true,
@@ -920,6 +1037,8 @@
           "target_type": "isAlive",
           "check_objects": "any",
           "check_targets": "any",
+          "object_marking": 0,
+          "target_marking": 0,
           "object": "#ally_assault_group",
           "target": "target_waypoint_bombers"
         },
@@ -997,7 +1116,8 @@
             }
           ]
         }
-      ]
+      ],
+      "else_actions": []
     },
     "gattack_done": {
       "is_enabled": false,
@@ -1037,12 +1157,18 @@
           "useUnitHeightForTele": true,
           "shouldKeepFormation": true,
           "teleportHeightValue": 1000.0,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "horizontalDirectionForTeleport": true,
           "object": "#ally_assault_group"
         },
         "triggerEnable": {
           "target": "evac_done"
         }
-      }
+      },
+      "else_actions": []
     },
     "cover_fail": {
       "is_enabled": true,
@@ -1089,7 +1215,8 @@
         "triggerEnable": {
           "target": "dynamic_fail"
         }
-      }
+      },
+      "else_actions": []
     },
     "dynamic_fail": {
       "is_enabled": false,
@@ -1113,7 +1240,8 @@
       },
       "actions": {
         "missionFailed": []
-      }
+      },
+      "else_actions": []
     },
     "evac_done": {
       "is_enabled": false,
@@ -1136,6 +1264,8 @@
           "target_type": "isAlive",
           "check_objects": "any",
           "check_targets": "any",
+          "object_marking": 0,
+          "target_marking": 0,
           "object": "#ally_assault_group",
           "target": "evac"
         }
@@ -1149,6 +1279,11 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "enemy_all",
             "speed": 500.0
           }
@@ -1161,6 +1296,11 @@
             "useUnitHeightForTele": true,
             "shouldKeepFormation": true,
             "teleportHeightValue": 1000.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "ally_all",
             "speed": 250.0
           }
@@ -1168,6 +1308,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "#ally_assault_group"
           }
         },
@@ -1203,7 +1344,8 @@
             "target": "#ally_assault_group"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "end_cut": {
       "is_enabled": false,
@@ -1228,6 +1370,11 @@
             "useUnitHeightForTele": false,
             "shouldKeepFormation": true,
             "teleportHeightValue": 0.0,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "horizontalDirectionForTeleport": true,
             "object": "#player_cut.any",
             "move_type": "teleport",
             "lookat": "evac",
@@ -1269,6 +1416,10 @@
             "name": "hints/cutsc_skip",
             "action": "show",
             "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1289,6 +1440,10 @@
             "name": "hints/cutsc_skip",
             "action": "hide",
             "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
             "item": "ID_LOCK_TARGET",
             "shouldBlink": false
           }
@@ -1308,7 +1463,8 @@
             "target": "miss_complete"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "end_cut_skip": {
       "is_enabled": false,
@@ -1337,12 +1493,17 @@
           "hintType": "custom",
           "name": "hints/cutsc_skip",
           "action": "hide",
-          "shouldFadeOut": false
+          "shouldFadeOut": false,
+          "isOverFade": false,
+          "time": -1.0,
+          "priority": 0,
+          "target_marking": 0
         },
         "triggerEnable": {
           "target": "miss_complete"
         }
-      }
+      },
+      "else_actions": []
     },
     "miss_complete": {
       "is_enabled": false,
@@ -1391,7 +1552,8 @@
             "time": 1.0
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "completed": {
       "is_enabled": false,
@@ -1416,7 +1578,8 @@
             "target": "completed_offline"
           }
         ]
-      }
+      },
+      "else_actions": []
     },
     "assault_time_calc": {
       "is_enabled": false,
@@ -1434,11 +1597,12 @@
       "conditions": [],
       "actions": {
         "varModify": {
-          "var": "assault_time",
           "operator": "subAB",
-          "value": 1.0
+          "value": 1.0,
+          "var": "assault_time"
         }
-      }
+      },
+      "else_actions": []
     },
     "enemy_allDead": {
       "is_enabled": false,
@@ -1469,10 +1633,11 @@
       },
       "actions": {
         "varSetInt": {
-          "var": "assault_time",
-          "value": 20
+          "value": 20,
+          "var": "assault_time"
         }
-      }
+      },
+      "else_actions": []
     },
     "bombers_count_calc": {
       "is_enabled": true,
@@ -1499,11 +1664,12 @@
       },
       "actions": {
         "varModify": {
-          "var": "bombers_count",
           "operator": "add",
-          "value": 1.0
+          "value": 1.0,
+          "var": "bombers_count"
         }
-      }
+      },
+      "else_actions": []
     },
     "bomber_died": {
       "is_enabled": false,
@@ -1531,19 +1697,20 @@
       "actions": [
         {
           "varModify": {
-            "var": "bombers_count",
             "operator": "subAB",
-            "value": 1.0
+            "value": 1.0,
+            "var": "bombers_count"
           }
         },
         {
           "varModify": {
-            "var": "count_alive",
             "operator": "subAB",
-            "value": 1.0
+            "value": 1.0,
+            "var": "count_alive"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "bomber_count_toLow": {
       "is_enabled": false,
@@ -1568,26 +1735,27 @@
       "actions": [
         {
           "varSetInt": {
-            "var": "countToFail",
-            "value": 1
+            "value": 1,
+            "var": "countToFail"
           }
         },
         {
           "varSetInt": {
-            "var": "count_alive",
-            "value": 0
+            "value": 0,
+            "var": "count_alive"
           }
         },
         {
           "varModify": {
-            "var": "count_alive",
             "operator": "add",
             "value": 0.0,
+            "var": "count_alive",
             "use_variable": true,
             "var_value": "count_alive"
           }
         }
-      ]
+      ],
+      "else_actions": []
     },
     "enemy_group1_countCalc": {
       "is_enabled": true,
@@ -1614,11 +1782,12 @@
       },
       "actions": {
         "varModify": {
-          "var": "enemy01_count",
           "operator": "add",
-          "value": 1.0
+          "value": 1.0,
+          "var": "enemy01_count"
         }
-      }
+      },
+      "else_actions": []
     },
     "kill_count_toLow": {
       "is_enabled": false,
@@ -1642,10 +1811,11 @@
       },
       "actions": {
         "varSetInt": {
-          "var": "wave1_killCount",
-          "value": 2
+          "value": 2,
+          "var": "wave1_killCount"
         }
-      }
+      },
+      "else_actions": []
     },
     "enemy_count_toLow": {
       "is_enabled": false,
@@ -1669,10 +1839,11 @@
       },
       "actions": {
         "varSetInt": {
-          "var": "enemy01_count",
-          "value": 1
+          "value": 1,
+          "var": "enemy01_count"
         }
-      }
+      },
+      "else_actions": []
     },
     "completed_online": {
       "is_enabled": false,
@@ -1706,7 +1877,8 @@
         "missionCompleted": {
           "timer": false
         }
-      }
+      },
+      "else_actions": []
     },
     "completed_offline": {
       "is_enabled": false,
@@ -1740,7 +1912,8 @@
         "missionCompleted": {
           "timer": true
         }
-      }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -1784,9 +1957,19 @@
           [0.0,0.0,1.0],
           [282.9,20.0,381.65]
         ],
-        "closed_waypoints": false,
         "unit_class": "a-20g",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 4,
@@ -1820,9 +2003,19 @@
           [0.0,0.0,1.0],
           [313.35,20.0,454.8]
         ],
-        "closed_waypoints": false,
         "unit_class": "a-20g",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 1,
@@ -1856,9 +2049,19 @@
           [0.0,0.0,1.0],
           [329.65,20.0,507.0]
         ],
-        "closed_waypoints": false,
         "unit_class": "a-20g",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 1,
@@ -1892,9 +2095,19 @@
           [0.0,0.0,1.0],
           [350.05,20.0,556.45]
         ],
-        "closed_waypoints": false,
         "unit_class": "a-20g",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -1928,9 +2141,19 @@
           [0.0,0.0,1.0],
           [216.65,20.0,583.35]
         ],
-        "closed_waypoints": false,
         "unit_class": "a-20g",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -1964,9 +2187,6 @@
           [0.0,0.0,1.0],
           [-24.4,0.0,564.25]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": [
           {
             "squad_members": "#enemy_group01"
@@ -1974,8 +2194,7 @@
           {
             "squad_members": "#enemy_group02"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -1987,9 +2206,6 @@
           [0.0,0.0,1.0],
           [-126.3,0.0,597.95]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": [
           {
             "squad_members": "#ally_assault_group"
@@ -1997,8 +2213,7 @@
           {
             "squad_members": "#ally_fighters_group"
           }
-        ],
-        "way": []
+        ]
       }
     },
     {
@@ -2010,13 +2225,9 @@
           [0.0,0.0,1.0],
           [4.75,0.0,627.85]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "dummy_fake"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2028,13 +2239,9 @@
           [0.0,0.0,1.0],
           [-93.35,0.0,666.7]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "dummy_fake"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2046,9 +2253,19 @@
           [0.0,0.0,1.0],
           [-90102.3,0.0,90360.3]
         ],
-        "closed_waypoints": false,
         "unit_class": "dummy",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 2,
           "count": 1,
@@ -2074,13 +2291,9 @@
           [0.0,0.0,1.0],
           [39.3,0.0,505.9]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "dummy_fake"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2092,13 +2305,9 @@
           [0.0,0.0,1.0],
           [-56.7,0.0,466.45]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "dummy_fake"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2110,13 +2319,9 @@
           [0.0,0.0,1.0],
           [-179.9,0.0,500.6]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": ""
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2128,14 +2333,10 @@
           [0.0,0.0,1.0],
           [62.6,0.0,347.8]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "#player.fighter",
           "object_type": "isPlayer"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2147,13 +2348,9 @@
           [0.0,0.0,1.0],
           [166.4,-86.0,350.3]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "dummy_fake"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2165,14 +2362,10 @@
           [0.0,0.0,1.0],
           [-83.5,-85.75,388.2]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": "ally_all",
           "object_type": "isActive"
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2184,9 +2377,19 @@
           [0.0,0.0,1.0],
           [-473.25,56.6,-501.2]
         ],
-        "closed_waypoints": false,
         "unit_class": "a-20g",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
         "props": {
           "army": 1,
           "count": 1,
@@ -2221,13 +2424,9 @@
           [0.0,0.0,1.0],
           [3982.2,50.95,415.65]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": ""
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2239,13 +2438,9 @@
           [0.0,0.0,1.0],
           [3470.1,41.2,2221.05]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": ""
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2257,13 +2452,9 @@
           [0.0,0.0,1.0],
           [5153.55,41.4,1875.7]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": ""
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2275,13 +2466,9 @@
           [0.0,0.0,1.0],
           [6067.2,46.1,638.9]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": ""
-        },
-        "way": []
+        }
       }
     },
     {
@@ -2293,13 +2480,9 @@
           [0.0,0.0,1.0],
           [333.25,42.65,620.5]
         ],
-        "closed_waypoints": false,
-        "unit_class": "",
-        "weapons": "",
         "props": {
           "squad_members": ""
-        },
-        "way": []
+        }
       }
     }
   ],
@@ -2400,5 +2583,28 @@
         "forceReplication": true
       }
     }
-  }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
 }

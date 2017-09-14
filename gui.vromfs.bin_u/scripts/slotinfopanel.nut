@@ -61,6 +61,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       local view = { items = [] }
       for(local i=0; i < tabsInfo.len(); i++)
       {
+        if( ! showTabs && i)
+          break
         view.items.push({
           tooltip = tabsInfo[i].tooltip,
           imgId = tabsInfo[i].imgId,
@@ -71,8 +73,9 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       local data = ::handyman.renderCached("gui/SlotInfoTabItem", view)
       guiScene.replaceContentFromText(listboxObj, data, data.len(), this)
 
-      listboxObj.setValue(showTabs ? ::loadLocalByAccount(SLOT_INFO_TAB_SAVE_ID, 0) : 0)
-      listboxObj.show(showTabs)
+      updateUnitIcon()
+      listboxObj.setValue(showTabs ? ::load_local_account_settings(SLOT_INFO_TAB_SAVE_ID, 0) : 0)
+      updateContentVisibility()
     }
 
     local unitInfoObj = scene.findObject("air_info_content_info")
@@ -82,9 +85,6 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       local hasSlotbar = handler && ::checkObj(handler.getSlotbarScene())
       unitInfoObj["max-height"] = unitInfoObj[hasSlotbar ? "maxHeightWithSlotbar" : "maxHeightWithoutSlotbar"]
     }
-
-    // Syncs actual panel state with value from local account.
-    ::airInfoToggle(scene, null, showTabs)
 
     // Fixes DM selector being locked after battle.
     ::dmViewer.update()
@@ -110,17 +110,10 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_modal_weapons()
   }
 
-  function onAirInfoPanelToggle(obj)
+  function onCollapseButton()
   {
-    local holderObj = obj && obj.getParent()
-    local toggled = holderObj && holderObj.toggled != "no"
-    local toggle = !toggled
-    local cdb = ::get_local_custom_settings_blk()
-    cdb.showTechSpecPanel = toggle
-    ::save_profile_offline_limited()
-    ::airInfoToggle(holderObj, toggle, showTabs)
-    if(toggle)
-      doWhenActiveOnce("updateContentVisibility")
+    if(listboxObj)
+      listboxObj.setValue(listboxObj.getValue() < 0 ? 0 : -1)
   }
 
   function onAirInfoToggleDMViewer(obj)
@@ -133,21 +126,26 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     ::dmViewer.placeHint(obj)
   }
 
-  function onSlotInfoListboxSelected(obj)
-  {
-    updateContentVisibility(obj)
-  }
-
   function updateContentVisibility(obj = null)
   {
-    foreach(index, tabInfo in tabsInfo)
+    local currentIndex = listboxObj.getValue()
+    local isPanelHidden = currentIndex == -1
+    local collapseBtnContainer = scene.findObject("slot_collapse")
+    if(::checkObj(collapseBtnContainer))
+      collapseBtnContainer.collapsed = isPanelHidden ? "yes" : "no"
+    showSceneBtn("slot_info_content", ! isPanelHidden)
+    if( ! isPanelHidden)
     {
-      local isActive = index == listboxObj.getValue()
-      showSceneBtn(tabInfo.contentId, isActive)
-      if(isActive)
-        tabInfo.fillerFunction.call(this)
+      foreach(index, tabInfo in tabsInfo)
+      {
+        local isActive = index == currentIndex
+        showSceneBtn(tabInfo.contentId, isActive)
+        if(isActive)
+          tabInfo.fillerFunction.call(this)
+      }
     }
-    ::saveLocalByAccount(SLOT_INFO_TAB_SAVE_ID, listboxObj.getValue())
+    if(showTabs)
+      ::save_local_account_settings(SLOT_INFO_TAB_SAVE_ID, currentIndex)
   }
 
   function updateHeader(text)
@@ -159,8 +157,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateAirInfo(force = false)
   {
-    local unit = getCurShowUnit()
-    updateUnitIcon(unit)
+    local unit = updateUnitIcon()
 
     local contentObj = scene.findObject("air_info_content")
     if ( !::checkObj(contentObj) || ( ! contentObj.isVisible() && ! force))
@@ -353,14 +350,17 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     doWhenActiveOnce("updateCrewInfo")
   }
 
-  function updateUnitIcon(unit)
+  function updateUnitIcon()
   {
+    local unit = getCurShowUnit()
     if (!unit)
-      return
+      return null
 
     local iconObj = scene.findObject("slot_info_vehicle_icon")
     if (::checkObj(iconObj))
       iconObj["background-image"] = unit.unitType.testFlightIcon
+
+    return unit
   }
 
   function updateWeaponryDiscounts(unit)

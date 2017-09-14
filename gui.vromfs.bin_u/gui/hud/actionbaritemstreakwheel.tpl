@@ -47,7 +47,7 @@ action_bar_item {
       id:t='amount_text';
       pos:t='pw - w, ph - h + 0.004@shHud';
       position:t='absolute';
-      tinyFont:t='yes';
+      smallFont:t='yes';
       shadeStyle:t='outline33pct'
       text-align:t='right';
       text:t='<<amount>>';

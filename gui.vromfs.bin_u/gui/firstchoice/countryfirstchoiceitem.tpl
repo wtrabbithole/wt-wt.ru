@@ -32,7 +32,7 @@ div {
       width:t='pw - 2@countryChoiceInterval'
       pos:t='50%pw-50%w, @countryChoiceImageHeight -  h - @countryChoiceInterval'
       position:t='absolute'
-      tinyFont:t='yes'
+      smallFont:t='yes'
       text:t='<<lockText>>'
     }
     <</lockText>>

@@ -66,7 +66,7 @@ frame{
         id:t='req_newclan_type'
         display:t='hide';
         textarea {
-          tinyFont:t='yes'
+          smallFont:t='yes'
           width:t='pw'
           text:t='#clan/newclan_type_req'
         }
@@ -102,7 +102,7 @@ frame{
       fieldReq{
         id:t='req_newclan_name';
         textarea{
-          tinyFont:t='yes';
+          smallFont:t='yes';
           width:t='pw';
           text:t='#clan/newclan_name_req';
         }
@@ -157,7 +157,7 @@ frame{
         display:t='hide';
         textarea{
           id:t='req_newclan_tag_text'
-          tinyFont:t='yes';
+          smallFont:t='yes';
           width:t='pw';
           text:t='';
         }
@@ -189,7 +189,7 @@ frame{
         id:t='req_newclan_slogan';
         display:t='hide';
         textarea{
-          tinyFont:t='yes';
+          smallFont:t='yes';
           width:t='pw';
           text:t='#clan/newclan_slogan_req';
         }
@@ -232,7 +232,7 @@ frame{
         id:t='req_newclan_region';
         display:t='hide';
         textarea{
-          tinyFont:t='yes';
+          smallFont:t='yes';
           width:t='pw';
           text:t='#clan/newclan_region_req';
         }
@@ -273,7 +273,7 @@ frame{
         id:t='req_newclan_description';
         display:t='hide';
         textarea{
-          tinyFont:t='yes';
+          smallFont:t='yes';
           width:t='pw';
           text:t='#clan/newclan_description_req';
         }
@@ -314,7 +314,7 @@ frame{
         id:t='req_newclan_announcement';
         display:t='hide';
         textarea{
-          tinyFont:t='yes';
+          smallFont:t='yes';
           width:t='pw';
           text:t='#clan/newclan_announcement_req';
         }

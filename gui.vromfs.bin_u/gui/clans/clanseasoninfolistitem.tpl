@@ -79,7 +79,7 @@ expandable {
       text {
         pos:t='pw-w, 6@sf/@pf_outdated'
         position:t='absolute'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         text:t='<<condition>>'
       }
     }

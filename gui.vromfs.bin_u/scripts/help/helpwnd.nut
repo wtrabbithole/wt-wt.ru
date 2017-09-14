@@ -1256,7 +1256,7 @@ function get_shortcut_frame_for_help(shortcut)
   {
     local btnName = curPreset.getButtonName(shortcut.dev[k], shortcut.btn[k]);
     local name = ::getLocalizedControlName(btnName);
-    local buttonFrame = format("controlsHelpBtn { text:t='%s'; font:t='%s' }", ::g_string.stripTags(name), (name.len()>2)? "@veryTiny" : "@normal");
+    local buttonFrame = format("controlsHelpBtn { text:t='%s'; font:t='%s' }", ::g_string.stripTags(name), (name.len()>2)? "@fontTiny" : "@fontMedium");
 
     if (shortcut.dev[k] == ::STD_MOUSE_DEVICE_ID)
     {

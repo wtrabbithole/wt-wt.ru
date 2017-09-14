@@ -93,7 +93,31 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "smokeScreenActivateTime": 10.0
+  },
+  {
+    "smokeScreenTime": 30.0
+  },
+  {
+    "smokeScreenRad": 50.0
+  },
+  {
+    "smokeScreenFx": "smoke_screen_effect"
+  },
+  {
+    "smokeScreenOffset": [-35.0,2.0,0.0]
+  },
+  {
+    "rearmSmokeTimeOnField": 180.0
+  },
+  {
     "canReloadNonGuns": true
+  },
+  {
+    "depthTraceWarningDepth": 5.0
+  },
+  {
+    "depthTraceCriticalDepth": 2.0
   },
   {
     "default_skin_tomoe": {
@@ -6376,7 +6400,8 @@
           "extinguisherCrewBusyTime": -1.0
         }
       },
-      "tank_tool_kit": []
+      "tank_tool_kit": [],
+      "ship_smoke_screen_system_mod": []
     }
   },
   {
@@ -6819,16 +6844,52 @@
     ]
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammunition_storage_01_dm": {
-          "count": 1800
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "shells": {
+            "ammunition_storage_01_dm": {
+              "count": 1200
+            }
+          }
         }
-      },
-      "primaryCharges": {
-        "ammunition_storage_03_dm": {
-          "count": 1800
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "shells": {
+            "ammunition_storage_02_dm": {
+              "count": 1400
+            }
+          }
+        }
+      ],
+      "ammo3": {
+        "weaponTrigger": "gunner9",
+        "shells": {
+          "torpedo_01_dm": {
+            "count": 1
+          },
+          "torpedo_02_dm": {
+            "count": 1
+          },
+          "torpedo_03_dm": {
+            "count": 1
+          },
+          "torpedo_04_dm": {
+            "count": 1
+          }
         }
       }
     }

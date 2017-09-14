@@ -24,53 +24,69 @@
   "sfxReloadBullet": "grd_cannon_reload_auto",
   "fxMultipleSpawn": true,
   "isBulletBelt": false,
+  "notUseDefaultBulletInGui": true,
   "bullet": {
-    "mass": 9.1,
+    "bulletCount": 25,
+    "mass": 22.0,
+    "explosiveType": "comp_b",
+    "explosiveMass": 2.85,
     "caliber": 0.152,
-    "damageCaliber": 0.04,
-    "ballisticCaliber": 0.09,
-    "speed": 1478.0,
-    "maxDistance": 10000.0,
-    "bulletType": "apds_fs_tank",
-    "bulletName": "152mm_xm578e1",
-    "hitPowerMult": 800.0,
-    "onHitChanceMultExplFuel": 0.1,
+    "speed": 682.0,
+    "maxDistance": 7000.0,
+    "bulletType": "heat_tank",
+    "bulletName": "152mm_m409a1",
+    "hitPowerMult": 20.0,
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
-    "groundCollisionEffect": "big_ground_splash",
-    "groundFxScale": [1.1,1.2],
+    "explodeTreshold": 0.1,
+    "explodeHitPower": 200.0,
+    "explodeArmorPower": 18.0,
+    "explodeRadius": [0.4,1.0],
+    "explosionPatchRadius": 1.1,
+    "shutterDamage": true,
+    "shutterDamageRadius": 16.4,
+    "shutterAmount": 200,
+    "shutterArmorPower": 5.0,
+    "shutterHit": 8.0,
+    "groundCollisionEffect": "art_ground_splash",
     "ricochetEffect": "cannon_ricochet",
-    "waterCollisionEffect": "big_water_splash",
+    "groundFxScale": [1.4,1.5],
     "hitpower": {
-      "HitPower0m": [1.0,1000.0],
-      "HitPower10000m": [0.8,10000.0]
+      "HitPower0m": [1.0,500.0],
+      "HitPower1000m": [0.9,1000.0],
+      "HitPower1500m": [0.65,1500.0],
+      "HitPower2500m": [0.5,2500.0],
+      "HitPower7000m": [0.0,7000.0]
     },
     "armorpower": {
-      "ArmorPower0m": [380.0,10.0],
-      "ArmorPower100m": [375.0,100.0],
-      "ArmorPower500m": [365.0,500.0],
-      "ArmorPower1000m": [350.0,1000.0],
-      "ArmorPower2000m": [320.0,2000.0],
-      "ArmorPower3000m": [280.0,3000.0],
-      "ArmorPower4000m": [251.0,4000.0],
-      "ArmorPower10000m": [80.0,10000.0]
+      "ArmorPower0m": [2.0,10.0],
+      "ArmorPower7000m": [1.0,7000.0]
+    },
+    "cumulativeDamage": {
+      "armorPower": 354.0,
+      "distance": 4.5,
+      "damage": 400.0,
+      "onHitChanceMultFire": 30.0,
+      "cumulativeFragmentsDamageRadius": 3.5,
+      "cumulativeFragmentsDamageAngle": 15.0,
+      "cumulativeFragmentsAmount": 45,
+      "cumulativeFragmentsArmorPower": 6.0,
+      "cumulativeFragmentsHit": 9.0
     },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "50mmRed",
+      "tracer": "30mmWhite",
       "trail": "black"
     },
     "collisions": {
       "steel": {
-        "fx": "cannon_hit_light"
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.5,3.5]
       },
       "armor": {
-        "fx": "cannon_hit_armor"
-      },
-      "buildings": {
-        "fx": "122_ap_stone_splash",
-        "fxScale": [0.7,1.1]
+        "fx": "cannon_hit_armor_cumulative",
+        "fxScale": [2.5,3.5]
       }
     }
   },
@@ -141,6 +157,103 @@
       }
     }
   },
+  "152mm_usa_MGM61C_HEAT": {
+    "bullet": {
+      "bulletType": "atgm_tank",
+      "bulletName": "152mm_mgm_61c",
+      "mass": 27.8,
+      "caliber": 0.152,
+      "sound_path": "tanks/weapon_tanks/rockets",
+      "sound": "82mm_m8",
+      "sound_inside": "82mm_m8_interior",
+      "mesh": "mgm_61b_rocket",
+      "recoilMultiplier": 0.05,
+      "rocket": {
+        "caliber": 0.152,
+        "mass": 27.8,
+        "explosiveType": "comp_b",
+        "explosiveMass": 3.6,
+        "massEnd": 27.8,
+        "bulletType": "atgm_tank",
+        "maxDeltaAngle": 0.03,
+        "dragCx": 0.027,
+        "length": 1.15,
+        "distFromCmToStab": 0.005,
+        "CxK": 1.5,
+        "WdK": [0.1,0.1,0.1],
+        "force": 1000.0,
+        "timeFire": 20.0,
+        "thrustDeviation": 0.01,
+        "operated": true,
+        "operatedDist": 3000.0,
+        "autoLeveling": true,
+        "autoAiming": true,
+        "explosionEffect": "art_ground_splash",
+        "smokeEffect": "trail_smoke",
+        "maxDistance": 3000.0,
+        "minDistance": 30.0,
+        "spawnExplosionWreckage": false,
+        "spawnExplosionFx": false,
+        "explosionOffset": 0.05,
+        "hitPowerMult": 100.0,
+        "nearHitPower": [1.0,50.0],
+        "midHitPower": [0.9,400.0],
+        "farHitPower": [0.1,1000.0],
+        "endHitPower": [0.01,1500.0],
+        "relativeVelHitShift": [300.0,1000.0],
+        "nearArmorPower": [3.0,50.0],
+        "midArmorPower": [2.0,400.0],
+        "farArmorPower": [0.2,700.0],
+        "relativeVelArmorShift": [200.0,1000.0],
+        "distanceFuse": false,
+        "explodeTreshold": 0.01,
+        "explodeHitPower": 350.0,
+        "explodeArmorPower": 29.0,
+        "explodeRadius": [0.5,1.2],
+        "explosionPatchRadius": 2.0,
+        "rendinstDamageRadius": 5.0,
+        "statType": "hydra",
+        "shutterDamage": true,
+        "shutterDamageRadius": 25.0,
+        "shutterAmount": 1000,
+        "shutterArmorPower": 7.0,
+        "shutterHit": 12.0,
+        "advancedMissiles": false,
+        "useStartSpeed": true,
+        "startSpeed": 323.0,
+        "endSpeed": 323.0,
+        "speedViscosity": 0.2,
+        "timeToLive": 20.0,
+        "price": 3000.0,
+        "mesh": "mgm_61b_rocket",
+        "collisions": {
+          "steel": {
+            "fx": "atgm_hit",
+            "fxScale": [1.2,1.5]
+          },
+          "armor": {
+            "fx": "atgm_hit",
+            "fxScale": [1.2,1.5]
+          }
+        },
+        "armorpower": {
+          "ArmorPower0m": [2.0,10.0],
+          "ArmorPower7000m": [1.0,7000.0]
+        },
+        "cumulativeDamage": {
+          "armorPower": 431.0,
+          "distance": 5.5,
+          "damage": 300.0,
+          "onHitChanceMultFire": 25.0,
+          "cumulativeFragmentsDamageRadius": 4.5,
+          "cumulativeFragmentsDamageAngle": 20.0,
+          "cumulativeFragmentsAmount": 40,
+          "cumulativeFragmentsArmorPower": 5.0,
+          "cumulativeFragmentsHit": 9.0
+        }
+      }
+    }
+  },
   "152mm_XM410E1_Smoke": {
     "bullet": {
       "bulletCount": 25,
@@ -195,95 +308,54 @@
       }
     }
   },
-  "152mm_usa_MGM61C_HEAT": {
+  "152mm_usa_XM578E1_APDS_FS": {
     "bullet": {
-      "bulletType": "atgm_tank",
-      "bulletName": "152mm_mgm_61c",
-      "mass": 27.8,
+      "mass": 9.1,
       "caliber": 0.152,
-      "sound_path": "tanks/weapon_tanks/rockets",
-      "sound": "82mm_m8",
-      "sound_inside": "82mm_m8_interior",
-      "mesh": "mgm_61b_rocket",
-      "recoilMultiplier": 0.05,
-      "rocket": {
-        "caliber": 0.152,
-        "mass": 27.8,
-        "explosiveType": "comp_b",
-        "explosiveMass": 3.6,
-        "massEnd": 27.8,
-        "bulletType": "atgm_tank",
-        "maxDeltaAngle": 0.03,
-        "dragCx": 0.027,
-        "length": 1.15,
-        "distFromCmToStab": 0.005,
-        "CxK": 1.5,
-        "WdK": [0.1,0.1,0.1],
-        "force": 1000.0,
-        "timeFire": 20.0,
-        "thrustDeviation": 0.01,
-        "operated": true,
-        "operatedDist": 3000.0,
-        "autoLeveling": true,
-        "autoAiming": true,
-        "explosionEffect": "art_ground_splash",
-        "smokeEffect": "hydra_smoke",
-        "maxDistance": 3000.0,
-        "minDistance": 30.0,
-        "spawnExplosionWreckage": false,
-        "spawnExplosionFx": false,
-        "explosionOffset": 0.05,
-        "hitPowerMult": 1.0,
-        "nearHitPower": [1.0,50.0],
-        "midHitPower": [0.9,400.0],
-        "farHitPower": [0.1,1000.0],
-        "endHitPower": [0.01,1500.0],
-        "relativeVelHitShift": [300.0,1000.0],
-        "nearArmorPower": [3.0,50.0],
-        "midArmorPower": [2.0,400.0],
-        "farArmorPower": [0.2,700.0],
-        "relativeVelArmorShift": [200.0,1000.0],
-        "distanceFuse": false,
-        "explodeTreshold": 0.01,
-        "explodeHitPower": 350.0,
-        "explodeArmorPower": 29.0,
-        "explodeRadius": [0.5,1.2],
-        "explosionPatchRadius": 2.0,
-        "rendinstDamageRadius": 5.0,
-        "statType": "hydra",
-        "shutterDamage": true,
-        "shutterDamageRadius": 25.0,
-        "shutterAmount": 1000,
-        "shutterArmorPower": 7.0,
-        "shutterHit": 12.0,
-        "advancedMissiles": false,
-        "useStartSpeed": true,
-        "startSpeed": 323.0,
-        "endSpeed": 323.0,
-        "speedViscosity": 0.2,
-        "timeToLive": 20.0,
-        "price": 3000.0,
-        "mesh": "mgm_61b_rocket",
-        "collisions": {
-          "steel": {
-            "fx": "atgm_hit",
-            "fxScale": [1.2,1.5]
-          },
-          "armor": {
-            "fx": "atgm_hit",
-            "fxScale": [1.2,1.5]
-          }
+      "damageCaliber": 0.04,
+      "ballisticCaliber": 0.12,
+      "speed": 1478.0,
+      "maxDistance": 10000.0,
+      "bulletType": "apds_fs_tungsten_l10_l15_tank",
+      "bulletName": "152mm_xm578e1",
+      "hitPowerMult": 600.0,
+      "onHitChanceMultExplFuel": 0.1,
+      "relativeVelHitShift": [300.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "groundCollisionEffect": "big_ground_splash",
+      "groundFxScale": [1.1,1.2],
+      "ricochetEffect": "cannon_ricochet",
+      "waterCollisionEffect": "big_water_splash",
+      "hitpower": {
+        "HitPower0m": [1.0,1000.0],
+        "HitPower10000m": [0.8,10000.0]
+      },
+      "armorpower": {
+        "ArmorPower0m": [380.0,10.0],
+        "ArmorPower100m": [370.0,100.0],
+        "ArmorPower500m": [360.0,500.0],
+        "ArmorPower1000m": [345.0,1000.0],
+        "ArmorPower2000m": [315.0,2000.0],
+        "ArmorPower3000m": [270.0,3000.0],
+        "ArmorPower4000m": [245.0,4000.0],
+        "ArmorPower10000m": [80.0,10000.0]
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "50mmRed",
+        "trail": "black"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_light"
         },
-        "cumulativeDamage": {
-          "armorPower": 431.0,
-          "distance": 5.5,
-          "damage": 300.0,
-          "onHitChanceMultFire": 25.0,
-          "cumulativeFragmentsDamageRadius": 4.5,
-          "cumulativeFragmentsDamageAngle": 20.0,
-          "cumulativeFragmentsAmount": 40,
-          "cumulativeFragmentsArmorPower": 5.0,
-          "cumulativeFragmentsHit": 9.0
+        "armor": {
+          "fx": "cannon_hit_armor"
+        },
+        "buildings": {
+          "fx": "122_ap_stone_splash",
+          "fxScale": [0.7,1.1]
         }
       }
     }

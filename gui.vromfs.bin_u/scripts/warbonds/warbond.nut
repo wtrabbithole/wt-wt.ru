@@ -3,7 +3,8 @@ class ::Warbond
   id = ""
   listId = ""
   fontIcon = "currency/warbond"
-  medalIcon = ""
+  medalIcon = "hard_task_medal1"
+  levelIcon = "level_icon"
 
   blkListPath = ""
   isListValid = false
@@ -16,6 +17,7 @@ class ::Warbond
   updateRequested = false //warbond will be full reloaded after request complete
 
   medalForSpecialTasks = 1
+  needShowSpecialTasksProgress = true
 
   static LAST_SEEN_WARBOND_SHOP_LEVEL_PATH = "warbonds/lastReachedShopLevel"
   static LAST_SEEN_WARBOND_SHOP_MONTH_PATH = "warbonds/lastReachedShopMonth"
@@ -34,8 +36,14 @@ class ::Warbond
       return
 
     fontIcon = ::g_warbonds.defaultWbFontIcon
-    medalIcon = ::getTblValue(listId, ::getTblValue("medalIcons", ::configs.GUI.get().warbonds), "")
-    medalForSpecialTasks = ::getTblValue("specialTasksByMedal", ::configs.GUI.get().warbonds, 1)
+
+    local guiWarbondsBlock = ::configs.GUI.get().warbonds
+    medalIcon = ::getTblValue(listId, ::getTblValue("medalIcons", guiWarbondsBlock), medalIcon)
+    levelIcon = ::getTblValue(listId, ::getTblValue("levelIcons", guiWarbondsBlock), levelIcon)
+    medalForSpecialTasks = ::getTblValue("specialTasksByMedal", guiWarbondsBlock, 1)
+
+    //No need to show medal progress if a single medal is required.
+    needShowSpecialTasksProgress = medalForSpecialTasks > 1
 
     expiredTime = listBlk.expiredTime || -1
     canEarnTime = listBlk.endTime || -1
@@ -153,7 +161,12 @@ class ::Warbond
 
   function getMedalIcon()
   {
-    return medalIcon == ""? "" : ("#ui/gameuiskin#" + medalIcon)
+    return "#ui/gameuiskin#" + medalIcon
+  }
+
+  function getLevelIcon()
+  {
+    return "#ui/gameuiskin#" + levelIcon
   }
 
   function getCurrentShopLevelTasks()
@@ -186,7 +199,7 @@ class ::Warbond
 
   function getShopLevelTasks(level)
   {
-    return ::getTblValue(level, levelsArray, levelsArray.top())
+    return ::getTblValue(level, levelsArray, levelsArray.len()? levelsArray.top() : 0)
   }
 
   function getNextShopLevelTasks()
@@ -214,13 +227,13 @@ class ::Warbond
 
   function isReachedNewShopLevel()
   {
-    local month = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_MONTH_PATH, listId)
-    if (month == listId)
-      return false
-
     local curLevel = getCurrentShopLevel()
-    local lastSeen = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_LEVEL_PATH, curLevel)
-    return curLevel != 0 && lastSeen != curLevel
+    local lastSeen = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_LEVEL_PATH, 0)
+    if (curLevel != 0 && lastSeen != curLevel)
+      return true
+
+    local month = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_MONTH_PATH, "")
+    return month != listId
   }
 
   function markSeenLastResearchShopLevel()

@@ -1,3 +1,5 @@
+const SQUAD_MEMBERS_TO_HIDE_TITLE = 3
+
 function init_squad_widget_handler(parentHandler, nestObj)
 {
   if (!::has_feature("Squad") || !::has_feature("SquadWidget"))
@@ -121,7 +123,8 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
     showSceneBtn("wait_icon", isInTransition)
 
-    showSceneBtn("txt_squad_title", ::g_squad_manager.canManageSquad())
+    showSceneBtn("txt_squad_title", ::g_squad_manager.canManageSquad()
+      && ::g_squad_manager.getMembers().len() < SQUAD_MEMBERS_TO_HIDE_TITLE)
     local btnSquadReady = showSceneBtn("btn_squad_ready", ::g_squad_manager.canSwitchReadyness())
     btnSquadReady["text"] = ::loc(::g_squad_manager.isMeReady() ? "multiplayer/btnNotReady" : "mainmenu/btnReady")
 

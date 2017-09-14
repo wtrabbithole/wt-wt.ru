@@ -15,11 +15,10 @@ CheckBox {
 
   ButtonImg{}
   textarea {
-    width:t='pw'
     position:t='relative'
     pos:t='0, 50%ph-50%h'
     style:t='wrap-indent:0; paragraph-indent:0;'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     text:t='#promo/showAllPromoBlocks'
     input-transparent:t='yes'
   }
@@ -51,6 +50,9 @@ promoButton {
   timer_interval_msec:t='1000'
   <</timerFunc>>
 
+  <<#image>>
+  class:t='withImage'
+  <</image>>
 
   uncollapsedContainer {
     <<#isMultiblock>>
@@ -81,6 +83,25 @@ promoButton {
       <</image>>
 
       textareaFade {
+
+        <<#isMultiblock>>
+        RadioButtonList {
+          id:t='multiblock_radiobuttons_list'
+          blockId:t='<<id>>'
+          position:t='absolute'
+          pos:t='pw/2-w/2, -h - 1@framePadding'
+          on_select:t='switchBlock'
+          on_click:t='manualSwitchBlock'
+          class:t='promo'
+          <<#radiobuttons>>
+            RadioButton {
+              <<#selected>>selected:t='yes'<</selected>>
+              RadioButtonImg {}
+            }
+          <</radiobuttons>>
+        }
+        <</isMultiblock>>
+
         <<^showTextShade>>display:t='hide'<</showTextShade>>
         textarea {
           id:t='<<id>>_text'
@@ -111,23 +132,6 @@ promoButton {
       <</showTextShade>>
     }
     <</fillBlocks>>
-
-    <<#isMultiblock>>
-    RadioButtonList {
-      id:t='multiblock_radiobuttons_list'
-      blockId:t='<<id>>'
-      position:t='absolute'
-      pos:t='pw-w, ph-h - 1@framePadding'
-      on_select:t='switchBlock'
-      on_click:t='manualSwitchBlock'
-      <<#radiobuttons>>
-        RadioButton {
-          <<#selected>>selected:t='yes'<</selected>>
-          RadioButtonImg {}
-        }
-      <</radiobuttons>>
-    }
-    <</isMultiblock>>
   }
 
   collapsedContainer {

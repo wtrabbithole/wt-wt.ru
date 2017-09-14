@@ -336,7 +336,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1450,16 +1450,6 @@
     }
   },
   {
-    "sound": {
-      "EngineName": "engine_panther",
-      "TrackSoundPath": "tanks/engines_tanks",
-      "TrackSoundName": "tracks",
-      "TrackSoundNameCockpit": "tracks_interior",
-      "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
-    }
-  },
-  {
     "class_tags": []
   },
   {
@@ -1569,7 +1559,7 @@
         "cutDamage": 650.0,
         "deviation": 0.7,
         "rotation": 0.7,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_turret"
       }
     }
   },
@@ -2193,16 +2183,16 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-9.0,19.0]
+            "pitch": [-10.0,13.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-177.0,-1.5,19.0],
-            "lim2": [-177.0,-150.0,-0.7,19.0],
-            "lim3": [-150.0,-130.0,-4.0,19.0],
-            "lim4": [-130.0,130.0,-9.0,19.0],
-            "lim5": [130.0,150.0,-4.0,19.0],
-            "lim6": [150.0,177.0,-0.7,19.0],
-            "lim7": [177.0,180.0,-1.5,19.0]
+            "lim1": [-180.0,-177.0,-1.5,13.0],
+            "lim2": [-177.0,-150.0,-0.7,13.0],
+            "lim3": [-150.0,-130.0,-4.0,13.0],
+            "lim4": [-130.0,130.0,-10.0,13.0],
+            "lim5": [130.0,150.0,-4.0,13.0],
+            "lim6": [150.0,177.0,-0.7,13.0],
+            "lim7": [177.0,180.0,-1.5,13.0]
           }
         }
       },
@@ -2323,6 +2313,16 @@
           "count": 32
         }
       }
+    }
+  },
+  {
+    "sound": {
+      "EngineName": "engine_panther",
+      "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundName": "tracks",
+      "TrackSoundNameCockpit": "tracks_interior",
+      "EngineNameAi": "engine_tank_ai_middle",
+      "TrackSoundNameAi": "tracks_ai_middle"
     }
   }
 ]

@@ -75,14 +75,16 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           }
           break
         case "gold":
-          local tooltipText = ::getGpPriceText(::colorize("activeTextColor", val), true)
+          local valStr = ::g_string.intToStrWithDelimiter(val)
+          local tooltipText = ::getGpPriceText(::colorize("activeTextColor", valStr), true)
           tooltipText += "\n" + ::loc("mainmenu/gold")
           obj.getParent().tooltip = tooltipText
 
-          obj.setValue(val.tostring())
+          obj.setValue(valStr)
           break
         case "balance":
-          local tooltipText = ::getWpPriceText(::colorize("activeTextColor", val), true) + "\n" + ::loc("mainmenu/warpoints")
+          local valStr = ::g_string.intToStrWithDelimiter(val)
+          local tooltipText = ::getWpPriceText(::colorize("activeTextColor", valStr), true) + "\n" + ::loc("mainmenu/warpoints")
           local bonus = ::get_current_bonuses_text(::BoosterEffectType.WP)
           if (!::u.isEmpty(bonus))
           {
@@ -95,10 +97,11 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           buttonObj.showBonusCommon = ::have_active_bonuses_by_effect_type(::BoosterEffectType.WP, false)? "yes" : "no"
           buttonObj.showBonusPersonal = ::have_active_bonuses_by_effect_type(::BoosterEffectType.WP, true)? "yes" : "no"
 
-          obj.setValue(::getShortTextFromNum(val))
+          obj.setValue(valStr)
           break
         case "free_exp":
-          local tooltipText = ::getFreeRpPriceText(::colorize("activeTextColor", val), true) + "\n" + ::loc("currency/freeResearchPoints/desc")
+          local valStr = ::g_string.intToStrWithDelimiter(val)
+          local tooltipText = ::getFreeRpPriceText(::colorize("activeTextColor", valStr), true) + "\n" + ::loc("currency/freeResearchPoints/desc")
           local bonus = ::get_current_bonuses_text(::BoosterEffectType.RP)
           if (!::u.isEmpty(bonus))
           {
@@ -112,7 +115,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
 
           local textObj = obj.findObject("gc_free_exp_text")
           if (::checkObj(textObj))
-            textObj.setValue(::getShortTextFromNum(val))
+            textObj.setValue(::getShortTextFromNum(valStr))
           break
         case "name":
           if (::u.isEmpty(val))

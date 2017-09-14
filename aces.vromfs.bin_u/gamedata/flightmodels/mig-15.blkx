@@ -1966,6 +1966,27 @@
         "blk": "gameData/FlightModels/weaponPresets/mig_15bis_nr23_200lb_bombs.blk",
         "reqModification": "bd-2-48"
       }
+    },
+    {
+      "preset": {
+        "name": "mig_15bis_16xs_5k_rockets",
+        "blk": "gameData/FlightModels/weaponPresets/mig_15bis_16xs_5k_rockets.blk",
+        "reqModification": "C5"
+      }
+    },
+    {
+      "preset": {
+        "name": "mig_15bis_16xs_5m_rockets",
+        "blk": "gameData/FlightModels/weaponPresets/mig_15bis_16xs_5m_rockets.blk",
+        "reqModification": "C5M"
+      }
+    },
+    {
+      "preset": {
+        "name": "mig_15bis_2xs_21_rockets",
+        "blk": "gameData/FlightModels/weaponPresets/mig_15bis_2xs_21_rockets.blk",
+        "reqModification": "C21"
+      }
     }
   ],
   "skin": [
@@ -2264,6 +2285,20 @@
     "bd-2-48": {
       "modClass": "weapon",
       "tier": 3
+    },
+    "C5": {
+      "modClass": "weapon",
+      "tier": 2
+    },
+    "C5M": {
+      "modClass": "weapon",
+      "reqModification": "C5",
+      "tier": 3
+    },
+    "C21": {
+      "modClass": "weapon",
+      "reqModification": "C5M",
+      "tier": 4
     }
   },
   "cutting": {

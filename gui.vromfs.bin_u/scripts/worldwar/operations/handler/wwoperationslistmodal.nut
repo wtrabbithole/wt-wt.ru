@@ -52,7 +52,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     local selPriority = -1
 
     local sortedOperationsDataList = getSortedOperationsData()
-    local isOperationListVisible = sortedOperationsDataList.len() > 1
+    local isOperationListVisible = sortedOperationsDataList.len() > 0
     showSceneBtn("chapter_place", isOperationListVisible)
     showSceneBtn("separator_line", isOperationListVisible)
 
@@ -62,7 +62,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     {
       local operation = opData.operation
       local isAvailableToJoin = operation.isAvailableToJoin()
-      local itemColor = isAvailableToJoin ? "activeTextColor" : "minorTextColor"
+      local itemColor = isAvailableToJoin ? "activeTextColor" : "commonTextColor"
       if (isAvailableToJoin)
       {
         if (!isActiveChapterAdded)
@@ -121,11 +121,11 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       {
         selOperation = null //force refresh description
         containerObj.setValue(i)
-        onItemSelect()
-        restoreFocus()
         break
       }
     }
+    onItemSelect()
+    restoreFocus()
   }
 
   function refreshSelOperation()

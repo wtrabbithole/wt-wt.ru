@@ -228,10 +228,17 @@
           }
         },
         {
-          "varSetString": {
-            "value": "bttl_battle_area",
-            "var": "battle_area_name"
-          }
+          "varSetString": [
+            {
+              "value": "bttl_battle_area"
+            },
+            {
+              "var": "battle_area_name"
+            },
+            {
+              "var": "temp_battle_area_name"
+            }
+          ]
         },
         {
           "triggerEnable": [
@@ -243,6 +250,37 @@
             },
             {
               "target": "bttl_check_hardcore"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "раздельные бэтл зоны для команды"
+          }
+        },
+        {
+          "varSetString": [
+            {
+              "value": "bttl_battle_area"
+            },
+            {
+              "var": "t1_battle_area_name"
+            },
+            {
+              "var": "temp_t1_battle_area_name"
+            }
+          ]
+        },
+        {
+          "varSetString": [
+            {
+              "value": "bttl_battle_area"
+            },
+            {
+              "var": "t2_battle_area_name"
+            },
+            {
+              "var": "temp_t2_battle_area_name"
             }
           ]
         }
@@ -343,6 +381,22 @@
             "digits": 0,
             "var": "battle_area_name"
           }
+        },
+        {
+          "varAddString": [
+            {
+              "value": "_arcade"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "t1_battle_area_name"
+            },
+            {
+              "var": "t2_battle_area_name"
+            }
+          ]
         },
         {
           "triggerEnable": {
@@ -446,6 +500,22 @@
             "digits": 0,
             "var": "temp_battle_area_name"
           }
+        },
+        {
+          "varAddString": [
+            {
+              "value": "_realistic"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "temp_t1_battle_area_name"
+            },
+            {
+              "var": "temp_t2_battle_area_name"
+            }
+          ]
         },
         {
           "triggerEnable": {
@@ -600,6 +670,22 @@
           }
         },
         {
+          "varAddString": [
+            {
+              "value": "_realistic"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "t1_battle_area_name"
+            },
+            {
+              "var": "t2_battle_area_name"
+            }
+          ]
+        },
+        {
           "triggerEnable": {
             "target": "bttl_check_random_spawn"
           }
@@ -687,6 +773,22 @@
             "digits": 0,
             "var": "battle_area_name"
           }
+        },
+        {
+          "varAddString": [
+            {
+              "value": "_arcade"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "t1_battle_area_name"
+            },
+            {
+              "var": "t2_battle_area_name"
+            }
+          ]
         },
         {
           "triggerEnable": {
@@ -791,6 +893,22 @@
           }
         },
         {
+          "varAddString": [
+            {
+              "value": "_hardcore"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "t1_battle_area_name"
+            },
+            {
+              "var": "t2_battle_area_name"
+            }
+          ]
+        },
+        {
           "triggerEnable": {
             "target": "bttl_check_random_spawn"
           }
@@ -875,6 +993,9 @@
               "radius": -1.0
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "@t1_spawn_01_name"
             },
             {
@@ -927,6 +1048,9 @@
             },
             {
               "radius": -1.0
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
             },
             {
               "target": "@t2_spawn_01_name"
@@ -983,6 +1107,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_01_name",
             "team": "A",
             "tags": {
@@ -1004,6 +1129,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_01_name",
             "team": "B",
             "tags": {
@@ -1100,7 +1226,7 @@
               "target": "bttl_check_second_spawn_exist"
             },
             {
-              "target": "bttl_check_battle_area_exist"
+              "target": "bttl_check_separate_battle_area_exist"
             },
             {
               "target": "bttl_t1_zone_captured"
@@ -1153,6 +1279,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_02_name",
             "team": "A",
             "tags": {
@@ -1174,6 +1301,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_02_name",
             "team": "B",
             "tags": {
@@ -1183,6 +1311,71 @@
         }
       ],
       "else_actions": []
+    },
+    "bttl_check_separate_battle_area_exist": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@t1_battle_area_name",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "@t2_battle_area_name",
+            "type": "area"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "comment": {
+            "value": "есть раздельные бэтл зоны. используем их"
+          }
+        },
+        {
+          "missionBattleArea": {
+            "air": false,
+            "ground": true,
+            "mapArea": true,
+            "killOutOfBattleArea": true,
+            "target": "@battle_area_name",
+            "newGridHorizontalCellCount": 0,
+            "area": "@t1_battle_area_name",
+            "team": "A"
+          }
+        },
+        {
+          "missionBattleArea": {
+            "air": false,
+            "ground": true,
+            "mapArea": true,
+            "killOutOfBattleArea": true,
+            "target": "@battle_area_name",
+            "newGridHorizontalCellCount": 0,
+            "area": "@t2_battle_area_name",
+            "team": "B"
+          }
+        }
+      ],
+      "else_actions": {
+        "comment": {
+          "value": "раздельных бэтл зон нет. пробуем использовать общую"
+        },
+        "triggerEnable": {
+          "target": "bttl_check_battle_area_exist"
+        }
+      }
     },
     "bttl_check_battle_area_exist": {
       "is_enabled": false,
@@ -1208,6 +1401,7 @@
           "mapArea": true,
           "killOutOfBattleArea": true,
           "target": "@battle_area_name",
+          "newGridHorizontalCellCount": 0,
           "area": "@battle_area_name"
         }
       },
@@ -1320,7 +1514,11 @@
     "temp_t1_spawn_02_name": "",
     "temp_t2_spawn_01_name": "",
     "temp_t2_spawn_02_name": "",
-    "temp_battle_area_name": ""
+    "temp_battle_area_name": "",
+    "t1_battle_area_name": "",
+    "t2_battle_area_name": "",
+    "temp_t1_battle_area_name": "",
+    "temp_t2_battle_area_name": ""
   },
   "dialogs": [],
   "airfields": [],

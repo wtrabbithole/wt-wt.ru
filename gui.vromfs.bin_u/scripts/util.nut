@@ -147,6 +147,8 @@ function get_gamepad_specific_localization(locId)
 
   return ::loc(locId + "/gamepad_specific", locId)
 }
+::cross_call_api.get_gamepad_specific_localization <- ::get_gamepad_specific_localization
+
 
 function locEnding(locId, ending, defValue = null)
 {
@@ -2994,6 +2996,8 @@ function is_mode_with_teams(gt = null)
     gt = ::get_game_type()
   return !(gt & (::GT_FFA_DEATHMATCH | ::GT_FFA))
 }
+::cross_call_api.is_mode_with_teams <- ::is_mode_with_teams
+
 
 function is_team_friendly(teamId)
 {

@@ -1,6 +1,7 @@
 <<#items>>
 expandable {
   id:t='<<performActionId>>'
+  type:t='battleTask'
   <<#action>> on_click:t='<<action>>' <</action>>
   <<#taskId>> task_id:t='<<taskId>>' <</taskId>>
 
@@ -15,7 +16,6 @@ expandable {
     setStandartWidth:t='no'
   <</showAsUsualPromoButton>>
 
-  class:t='battletask'
   fullSize:t='yes'
   selImg {
     header {
@@ -54,7 +54,7 @@ expandable {
         <<^showAsUsualPromoButton>>
           overlayTextColor:t='active'
           <<#isLowWidthScreen>>
-            smallFont:t='yes'
+            normalFont:t='yes'
           <</isLowWidthScreen>>
           <<^isLowWidthScreen>>
             caption:t='yes'
@@ -87,9 +87,15 @@ expandable {
         top:t='50%ph-50%h'
         position:t='relative'
 
-        <<#isLowWidthScreen>>
-          tinyFont:t='yes'
-        <</isLowWidthScreen>>
+        <<^showAsUsualPromoButton>>
+          overlayTextColor:t='active'
+          <<#isLowWidthScreen>>
+            normalFont:t='yes'
+          <</isLowWidthScreen>>
+          <<^isLowWidthScreen>>
+            caption:t='yes'
+          <</isLowWidthScreen>>
+        <</showAsUsualPromoButton>>
       }
       <</taskRankValue>>
 
@@ -221,39 +227,41 @@ expandable {
 
     <<#isPromo>>
     <<#warbondLevelPlace>>
+      progressBoxPlace {
+        id:t='progress_box_place'
+        left:t='pw-w - 0.4@warbondShopLevelItemHeight'
+        position:t='relative'
+        margin:t='0, 0.015@scrn_tgt'
+        size:t='75%pw, 1@warbondShopLevelProgressHeight'
+
+        <<@warbondLevelPlace>>
+      }
+    <</warbondLevelPlace>>
+
+    <<#newItemsAvailable>>
       tdiv {
         width:t='pw'
         flow:t='vertical'
-
-        progressBoxPlace {
-          id:t='progress_box_place'
-          left:t='pw-w - 0.4@warbondShopLevelItemHeight'
+        margin:t='0, 0.01@scrn_tgt'
+        textarea {
+          left:t='pw-w'
           position:t='relative'
-          margin:t='0, 0.015@scrn_tgt'
-          size:t='75%pw, 1@warbondShopLevelProgressHeight'
-
-          <<@warbondLevelPlace>>
+          text:t='#mainmenu/newItemsAvailable'
+          overlayTextColor:t='warning'
         }
-        <<#newItemsAvailable>>
-          textarea {
-            left:t='pw-w'
-            position:t='relative'
-            text:t='#mainmenu/newItemsAvailable'
-          }
-          <<^isConsoleMode>>
-            Button_text {
-              id:t = 'btn_warbond_shop'
-              left:t='pw-w'
-              position:t='relative'
-              text:t = '#mainmenu/btnWarbondsShop'
-              on_click:t = 'onWarbondsShop'
-              visualStyle:t='secondary'
-              buttonWink {}
-            }
-          <</isConsoleMode>>
-        <</newItemsAvailable>>
+      <<^isConsoleMode>>
+        Button_text {
+          id:t = 'btn_warbond_shop'
+          left:t='pw-w'
+          position:t='relative'
+          text:t = '#mainmenu/btnWarbondsShop'
+          on_click:t = 'onWarbondsShop'
+          visualStyle:t='secondary'
+          buttonWink {}
+        }
+      <</isConsoleMode>>
       }
-    <</warbondLevelPlace>>
+    <</newItemsAvailable>>
     <</isPromo>>
   }
 

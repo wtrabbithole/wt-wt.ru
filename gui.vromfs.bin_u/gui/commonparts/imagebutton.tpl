@@ -59,7 +59,7 @@ imgButton {
       pos:t='pw-w-4, ph-h';
       position:t='absolute';
       text:t='<<unitLocked>>'
-      fontNormal:t='yes'
+      mediumFont:t='yes'
       overlayTextColor:t='bad'
     }
   <</unitLocked>>
@@ -69,7 +69,7 @@ imgButton {
     textAreaCentered {
       valign:t='center'
       width:t='pw';
-      tinyFont:t='yes'
+      smallFont:t='yes'
       text:t='#ui/empty'
     }
   <</emptySlot>>
@@ -81,7 +81,7 @@ imgButton {
       position:t='absolute';
       textareaNoTab {
         text:t='<<cost>>'
-        tinyFont:t='yes';
+        smallFont:t='yes';
         padding:t='3@dp,6@dp,3@dp,3@dp';
       }
     }
@@ -93,7 +93,7 @@ imgButton {
       pos:t='pw-w-2, ph-h-2';
       position:t='absolute';
       text:t='<<leftAmount>>/<<limit>>'
-      tinyFont:t='yes';
+      smallFont:t='yes';
       padding:t='3@dp,6@dp,3@dp,3@dp';
       <<#isMax>>
         overlayTextColor:t='bad'
@@ -107,7 +107,7 @@ imgButton {
       on_tooltip_open:t='onGenericTooltipOpen'
       on_tooltip_close:t='onTooltipObjClose'
       max-width:t='8*@decalIconHeight+10*@sf/@pf_outdated'
-      tinyFont:t='yes';
+      smallFont:t='yes';
       display:t='hide';
     }
     title:t='$tooltipObj';

@@ -19,7 +19,7 @@ tdiv {
     }
     textarea {
       text:t='<<locId>>'
-      tinyFont:t='yes'
+      smallFont:t='yes'
       valign:t='center'
     }
   }

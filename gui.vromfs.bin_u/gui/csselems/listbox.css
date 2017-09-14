@@ -1,4 +1,5 @@
 @const shopFilterHFlowHeight: 0.04*@sf;
+@const listboxItemsInterval:1@dp;
 
 @const listboxBgColor:              #CC03070C;
 
@@ -12,7 +13,7 @@
 
 @const headerOptionTextColor:       #908f8f;
 
-@const headerOptionHoverColor: #996a2211;
+@const headerOptionHoverColor:      #996a2211;
 @const headerOptionSelectedColor:   #ffb2391d;
 
 @const headerOptionSelectedTextColor: #e0e0e0;
@@ -40,7 +41,7 @@ listbox {
 HorizontalListBox, VerticalListBox{
   re-type:9rect;
   background-color:@listboxBgColor;
-  padding:1@listboxPad;
+  padding:@listboxPad-1@listboxItemsInterval;
   snd_select:choose;
   snd_set_focus:focus;
   snd_dbl_click:click;
@@ -48,18 +49,39 @@ HorizontalListBox, VerticalListBox{
   _has_navigator:no;
 }
 
-VerticalListBox > shopFilter,
-HorizontalListBox > shopFilter {
-  margin-right:1@dp;
+HorizontalListBox[useParentHeight=yes],
+VerticalListBox[useParentHeight=yes] {
+  height: ph;
 }
 
+shopFilter {
+  re-type:fgPict;
+  padding:0.02@scrn_tgt, 0;
+  foreground-position:0, 0, 0, h - 2@dp;
+  css-hier-invalidate:yes;
+  color:@commonTextColor;
+  height: @buttonHeight;
+}
+
+[useParentHeight=yes] > shopFilter {
+  height: ph;
+}
+
+HorizontalListBox.slotbar {
+  background-color:@slotbarBgColor;
+  background-position:1, 2, 1, 0;
+  padding:0, 2, 0, 0;
+}
+
+VerticalListBox > shopFilter,
+HorizontalListBox > shopFilter {
+  margin:1@listboxItemsInterval;
+}
+
+VerticalListBox[navigator=posNavigator],
 HorizontalListBox[navigator=posNavigator] {
   behaviour:posNavigator;
   _has_navigator:yes;
-}
-
-HorizontalListBox[noPadding=yes] {
-  padding:0;
 }
 
 HorizontalListBox[_has_navigator=no],
@@ -77,7 +99,6 @@ HorizontalListBox[need_flow=yes] {
 
 VerticalListBox {
   flow:vertical;
-  background-color:@transparent;
 }
 
 VerticalListBox.options {
@@ -85,7 +106,7 @@ VerticalListBox.options {
   width:pw;
 }
 
-HorizontalListBox.tabs,
+HorizontalListBox[isTransparentBg=yes],
 HorizontalListBox.header {
   background-color:@transparent;
   padding: 0;
@@ -114,18 +135,9 @@ HorizontalListBox.hflow {
 }
 
 shopFilter, shopFilterText {
-  font:@small;
+  font:@fontNormal;
   color:@commonTextColor;
   text-align:center;
-}
-
-shopFilter {
-  re-type:fgPict;
-  padding:0.02@scrn_tgt, 0;
-  background-position:0, 2@dp, 0, 0;
-  foreground-position:0, 0, 0, h - 2@dp;
-  css-hier-invalidate:yes;
-  color:@commonTextColor;
 }
 
 VerticalListBox > shopFilter {
@@ -161,6 +173,7 @@ HorizontalListBox > shopFilter {
   width:ph;
   flow:vertical;
 }
+
 .countries > shopFilter {
   width:1.5ph;
   flow:vertical;
@@ -227,13 +240,18 @@ shopFilter[selected=yes] > img {
 }
 
 .header > shopFilter {
-  foreground-position:0, h - 2@dp, 0, 0;
+  foreground-position:0, h, 0, 0;
 }
 
 .header > shopFilter:hover,.tabs > shopFilter:hover {
   foreground-color:@headerOptionHoverColor;
   color:@headerOptionSelectedTextColor;
 }
+
+.tabs > shopFilter:hover {
+  background-color:@transparent;
+}
+
 .header > shopFilter:hover > shopFilterText,
 .tabs > shopFilter:hover > shopFilterText {
   color:@headerOptionSelectedTextColor;
@@ -252,25 +270,17 @@ shopFilter[selected=yes] > img {
   color:@headerOptionSelectedTextColor;
 }
 
-.tabs[tinyFont=yes] > shopFilter {
+.tabs[smallFont=yes] > shopFilter {
   height:1@buttonHeight;
 }
 
-.tabs[invertImages=yes] > shopFilter {
-  re-type:rotation;
-  background-rotation:180;
-}
-
-.tabs[smallFont=yes] > shopFilter {
+.tabs[normalFont=yes] > shopFilter {
   padding:0.5*@scrn_tgt/100.0, 0;
 }
-.tabs[smallFont=yes][invertImages=yes] > shopFilter {
-  padding:0.5*@scrn_tgt/100.0, -2*@sf/@pf_outdated, 0.5*@scrn_tgt/100.0, 4*@sf/@pf_outdated;
-}
-.tabs[tinyFont=yes] > shopFilter {
+.tabs[smallFont=yes] > shopFilter {
   padding:@scrn_tgt/100.0, 2*@sf/@pf_outdated+0.5*@scrn_tgt/100.0, @scrn_tgt/100.0, 0.5*@scrn_tgt/100.0;
 }
-.tabs[tinyFont=yes] > shopFilter[canClose=yes] {
+.tabs[smallFont=yes] > shopFilter[canClose=yes] {
   padding:@scrn_tgt/100.0, 2*@sf/@pf_outdated+0.5*@scrn_tgt/100.0, 3*@scrn_tgt/100.0, 0.5*@scrn_tgt/100.0;
 }
 
@@ -289,14 +299,14 @@ shopFilter[selected=yes] > img {
 
 [onlyImages=yes] > shopFilter > shopFilterText,
 .countries > shopFilter > shopFilterText {
-  font:@normal;
+  font:@fontMedium;
   pos:50%pw-50%w, 0;
   position:relative;
   color:@transparent;
 }
 
 .choice3 > shopFilter > shopFilterText {
-  font:@normal;
+  font:@fontMedium;
   pos:50%pw-50%w, ph-h;
   position:absolute;
 }
@@ -304,7 +314,7 @@ shopFilter[selected=yes] > img {
 .options > shopFilter > shopFilterText {
   behaviour:textArea;
   re-type:textarea;
-  font:@small;
+  font:@fontNormal;
   width:pw;
   pos:50%pw-50%w, 50%ph-50%h;
   position:relative;
@@ -320,9 +330,9 @@ VerticalListBox.options > shopFilter > shopFilterText {
   re-type:textarea;
 }
 
-[tinyFont=yes] > shopFilter > shopFilterText,
-shopFilterText[tinyFont=yes] {
-  font:@tiny;
+[smallFont=yes] > shopFilter > shopFilterText,
+shopFilterText[smallFont=yes] {
+  font:@fontSmall;
 }
 
 .countries > shopFilter:hover > shopFilterText {
@@ -354,12 +364,11 @@ shopFilterText[colorTag=friend]                  { color:@mChatSenderFriendColor
 shopFilterImg {
   height:1@shopFilterHFlowHeight;
   width:h;
-  pos:50%pw-50%w, 4.2*@scrn_tgt/100.0-60%h;
+  pos:50%pw-50%w, 50%ph-50%h;
   position:relative;
   color:@commonTextColor;
   background-repeat:expand;
-  background-color:@imageNotSelectedColor;
-  margin:3*@scrn_tgt/100.0, 0;
+  background-color:@commonTextColor;
   input-transparent:yes;
 }
 
@@ -382,7 +391,6 @@ shopFilterImg {
 .countries_battle shopFilterImg {
   pos:50%pw-50%w, 50%ph-50%h;
   size:@cIco, @cIco;
-  margin:0.5(ph-h), 0;
   background-color:@imageNotSelCountryColor;
 }
 
@@ -393,7 +401,7 @@ shopFilterImg {
 }
 
 .countries > shopFilter[selected=yes] > shopFilterImg {
-  pos:50%pw-50%w, 4.2*@scrn_tgt/100.0-60%h;
+  pos:50%pw-50%w, 50%ph-50%h;
 }
 
 .choice3 > shopFilter > shopFilterImg {
@@ -403,7 +411,6 @@ shopFilterImg {
 }
 
 shopFilter[selected=yes] > shopFilterImg {
-  height:5*@scrn_tgt/100.0;
   background-color:@white;
 }
 
@@ -450,7 +457,7 @@ cornerImg[_needColor=yes] {
   left:pw -0.9h -ph;
 }
 
-.tabs[tinyFont=yes] cornerImg {
+.tabs[smallFont=yes] cornerImg {
   height:30*@sf/@pf_outdated;
   pos:pw-0.5w-20, -0.5h;
 }
@@ -496,12 +503,7 @@ HorizontalListBox[withImages=yes] > shopFilter > shopFilterImg {
   height:ph - 10*@sf/@pf_outdated;
   pos:3*@sf/@pf_outdated, 50%ph-50%h;
   position:relative;
-  margin:0;
   margin-right:3*@sf/@pf_outdated;
-}
-
-.tabs[withImages=yes] > shopFilter {
-  padding-left:0.5*@scrn_tgt/100.0+0.5*h;
 }
 
 VerticalListBox.options > shopFilter {

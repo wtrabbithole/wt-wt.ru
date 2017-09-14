@@ -213,15 +213,15 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillPage()
   {
-    createItem(air, weaponsItem.curUnit, mainModsObj, 0, 0.5)
-    fillModsTree(3.5)
+    createItem(air, weaponsItem.curUnit, mainModsObj, 0.0, 0.0)
+    fillModsTree(3.0)
 
     if (researchMode)
-      fillPremiumMods(0, 2.1)
+      fillPremiumMods(0.0, 1.6)
     else
     {
-      fillPremiumMods(1.0, 0.5)
-      fillWeaponsAndBullets(0, 2)
+      fillPremiumMods(1.0, 0.0)
+      fillWeaponsAndBullets(0, 1.5)
     }
 
     updateAllItems()
@@ -409,9 +409,14 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       })
   }
 
+  function getItemObj(idx)
+  {
+    return scene.findObject("item_" + idx)
+  }
+
   function updateItem(idx)
   {
-    local itemObj = scene.findObject("item_" + idx)
+    local itemObj = getItemObj(idx)
     if (!::checkObj(itemObj) || !(idx in items))
       return
 
@@ -597,7 +602,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         column.needDivLine <- idx > 0
         headerWidth += column.width
         if (column.name && ::utf8_strlen(column.name) > ::header_len_per_cell * column.width)
-          column.isTinyFont <- true
+          column.isSmallFont <- true
       }
 
       //increase last column width to full window width
@@ -1298,6 +1303,12 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (idx < 0)
       return
 
+    if (items[idx].type==weaponsItem.spare)
+    {
+      ::gui_handlers.UniversalSpareApplyWnd.open(air, getItemObj(idx))
+      return
+    }
+
     onBuy(idx)
   }
 
@@ -1513,6 +1524,13 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         researchBlock = researchBlock
       }
     }
+  }
+
+  function onEventUniversalSpareActivated(p)
+  {
+    foreach(idx, item in items)
+      if (item.type == weaponsItem.spare)
+        updateItem(idx)
   }
 
   items = null

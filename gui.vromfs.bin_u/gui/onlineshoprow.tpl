@@ -39,11 +39,12 @@ td {
 
   Button_text {
     id:t='buttonBuy';
-    on_click:t='onRowBuy';
     pos:t='0, 50%ph-50%h';
     position:t='relative';
+    noMargin:t='yes'
     showOn:t='hoverOrSelect';
     btnName:t='A';
+    on_click:t='onRowBuy';
     ButtonImg {}
 
     <<^externalLink>>

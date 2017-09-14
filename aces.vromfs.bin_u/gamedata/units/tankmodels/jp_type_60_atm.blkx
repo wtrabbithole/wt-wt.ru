@@ -384,7 +384,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -910,22 +910,6 @@
       },
       {
         "part": {
-          "name": "optic_gun_dm",
-          "onKill": {
-            "ammo_turret_01_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
-          "name": "optic_gun_dm",
-          "onKill": {
-            "ammo_turret_02_dm": 1.0
-          }
-        }
-      },
-      {
-        "part": {
           "name": "gun_barrel_01_dm",
           "onKill": {
             "ammo_turret_01_dm": 1.0
@@ -945,23 +929,10 @@
   {
     "tank_crew": {
       "changeTimeMult": 1.0,
-      "gunner": [
-        {
-          "dmPart": "gunner_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "substitute": "commander"
-        },
-        {
-          "substitute": "loader1"
-        },
-        {
-          "substitute": "loader2"
-        }
-      ],
+      "machine_gunner": {
+        "dmPart": "gunner_dm",
+        "role": "radio_gunner"
+      },
       "driver": [
         {
           "dmPart": "driver_dm"
@@ -970,7 +941,7 @@
           "role": "driver"
         },
         {
-          "substitute": "commander"
+          "substitute": "machine_gunner"
         },
         {
           "substitute": "loader1"
@@ -982,17 +953,33 @@
       "loader2": {
         "dmPart": "loader_02_dm",
         "role": "loader",
-        "substitute": "commander"
+        "substitute": "machine_gunner"
       },
       "loader1": {
         "dmPart": "loader_01_dm",
         "role": "loader",
-        "substitute": "commander"
+        "substitute": "machine_gunner"
       },
-      "commander": {
-        "dmPart": "commander_dm",
-        "role": "commander"
-      }
+      "commander": [
+        {
+          "dmPart": "commander_dm"
+        },
+        {
+          "role": "commander"
+        },
+        {
+          "role": "tank_gunner"
+        },
+        {
+          "substitute": "machine_gunner"
+        },
+        {
+          "substitute": "loader1"
+        },
+        {
+          "substitute": "loader2"
+        }
+      ]
     }
   },
   {
@@ -1083,7 +1070,8 @@
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_rocket_turn",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {

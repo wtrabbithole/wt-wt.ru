@@ -62,12 +62,11 @@ tr {
 
     tdiv{
       id:t='btnDec_place'
-      size:t='0.025@scrn_tgt, ph'
+      size:t='1@sliderButtonSquareHeight+@buttonMargin, ph'
       pos:t='0.01@scrn_tgt, 0'; position:t='relative';
 
       Button_text {
         id:t='buttonDec'
-        pos:t='50%pw-50%w, 50%ph-50%h'; position:t='absolute'
         square:t='yes'
         holderId:t='<<rowIdx>>'
         text:t='-'
@@ -80,7 +79,7 @@ tr {
     invisSlider {
       id:t='skillSlider'
       size:t='<<maxSkillCrewLevel>> * (0.185@scrn_tgt \ (<<maxSkillCrewLevel>> * @skillProgressWidthMul)) * @skillProgressWidthMul, 2*@scrn_tgt/100.0'
-      pos:t='0, 50%ph-50%h - 0.001@scrn_tgt'; position:t='relative'
+      pos:t='0, 50%ph-50%h'; position:t='relative'
       min:t='0'
       max:t='<<progressMax>>'
       value:t='0'
@@ -155,9 +154,13 @@ tr {
       valign:t='center'
     }
 
-    Button_text { id:t='buttonInc'; text:t='+'; square:t='yes'
-      on_click:t='onButtonInc'; on_click_repeat:t = 'onButtonIncRepeat'
-      pos:t='pw-w, 50%ph-50%h'; position:t='absolute'; tooltip:t='#crew/skillIncrease'
+    Button_text {
+      id:t='buttonInc';
+      text:t='+';
+      square:t='yes';
+      on_click:t='onButtonInc';
+      on_click_repeat:t = 'onButtonIncRepeat'
+      tooltip:t='#crew/skillIncrease'
     }
   }
   td {

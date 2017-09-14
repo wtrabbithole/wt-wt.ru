@@ -568,8 +568,7 @@ function g_chat::getPlayerRClickMenu(playerName, roomId = null, contact = null, 
       action = function () {
         if (::is_psn_player_use_same_titleId(latestName))
           ::g_psn_session_invitations.sendSkirmishInvitation(latestName)
-        else
-          ::SessionLobby.invitePlayer(uid)
+        ::SessionLobby.invitePlayer(uid)
       }
     }
     {

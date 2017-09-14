@@ -1148,15 +1148,6 @@
     ]
   },
   {
-    "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
-      "headPos": [0.0,3.6,-6.0],
-      "headPosOnShooting": [-1.5,3.3,0.0],
-      "detectionHeight": 2.5
-    }
-  },
-  {
     "ikGunner": [
       {
         "model": "soviet_gunner_char"
@@ -1568,7 +1559,8 @@
           "hp": 20.0
         },
         "turret_02_back_dm": {
-          "armorThickness": 6.0
+          "armorThickness": 12.0,
+          "armorClass": "glass12"
         }
       },
       "hull_armor": {
@@ -1745,7 +1737,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
@@ -2127,8 +2119,8 @@
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_01_dm",
           "breechDP": "cannon_breech_dm",
-          "speedYaw": 35.0,
-          "speedPitch": 20.0,
+          "speedYaw": 46.0,
+          "speedPitch": 37.0,
           "bullets": 600,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -2195,8 +2187,8 @@
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_02_dm",
           "breechDP": "cannon_breech_dm",
-          "speedYaw": 35.0,
-          "speedPitch": 20.0,
+          "speedYaw": 46.0,
+          "speedPitch": 37.0,
           "bullets": 600,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -2322,6 +2314,15 @@
     }
   },
   {
+    "cockpit": {
+      "zoomOutFov": 40.0,
+      "zoomInFov": 21.0,
+      "headPos": [0.0,3.6,-7.0],
+      "headPosOnShooting": [-0.6,3.3,0.0],
+      "detectionHeight": 2.71
+    }
+  },
+  {
     "modifications": {
       "new_wheels": [],
       "new_car_suspension": [],
@@ -2351,18 +2352,13 @@
   },
   {
     "ammoLoadDistribution": {
+      "removeLoadedAmmo": false,
       "primaryShells": {
-        "ammo_turret_01_dm": {
-          "count": 50
-        },
-        "ammo_turret_02_dm": {
-          "count": 50
-        },
         "ammo_body_l_01_dm": {
-          "count": 550
+          "count": 600
         },
-        "ammo_body_r_01_dm": {
-          "count": 550
+        "ammo_turret_01_dm": {
+          "count": 600
         }
       }
     }

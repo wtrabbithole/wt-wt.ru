@@ -93,12 +93,13 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local frameObj = scene.findObject("wnd_frame")
     frameObj.width = "1@slotbarWidthFull - 6@framePadding"
-    frameObj.height = "1@maxWindowHeightWithSlotbar - 1@frameFooterHeight - 1@frameHeaderHeight"
+    frameObj.height = "1@maxWindowHeightWithSlotbar - 1@frameFooterHeight - 1@frameTopPadding"
     frameObj.top = "1@battleBtnBottomOffset - 1@frameFooterHeight - h"
 
     local roomsListBtn = showSceneBtn("btn_rooms_list", true)
     roomsListBtn.btnName = "B"
     roomsListBtn.isOpened = "yes"
+    roomsListBtn.noMargin = "yes"
     guiScene.applyPendingChanges(false)
     local pos = roomsListBtn.getPosRC()
     pos[0] -= guiScene.calcString("3@framePadding", null)

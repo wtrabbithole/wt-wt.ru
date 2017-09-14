@@ -22,7 +22,7 @@ CheckBox {
     re-type:9rect;
   behaviour:check;
   color:@commonMenuButtonColor;
-  font:@small;
+  font:@fontNormal;
   text-align:left;
   padding-left:h+4*@sf/@pf_outdated;
   css-hier-invalidate:yes;
@@ -134,8 +134,8 @@ CheckBox.with_image:pushed > infoImg {
   background-color:#cccccc;
 }
 
-CheckBox[tinyFont=yes] {
-  font:@tiny;
+CheckBox[smallFont=yes] {
+  font:@fontSmall;
 }
 
 [show_console_buttons=yes] CheckBox[btnName]

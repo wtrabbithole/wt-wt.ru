@@ -1413,10 +1413,10 @@ function getMaxBestLevelingRank(unit)
     return -1
 
   local unitRank = ::getUnitRank(unit)
-  if (unitRank == 5)
-    return 5
+  if (unitRank == ::max_country_rank)
+    return ::max_country_rank
   local result = unitRank + ::getHighestRankDiffNoPenalty()
-  return result <= 5 ? result : 5
+  return result <= ::max_country_rank ? result : ::max_country_rank
 }
 
 function getHighestRankDiffNoPenalty(inverse = false)
@@ -1426,7 +1426,7 @@ function getHighestRankDiffNoPenalty(inverse = false)
                       ? "expMulWithTierDiffMinus"
                       : "expMulWithTierDiff"
 
-  for (local rankDif = 0; rankDif < 5; rankDif++)
+  for (local rankDif = 0; rankDif < ::max_country_rank; rankDif++)
     if (ranksBlk[paramPrefix + rankDif] < 0.8)
       return rankDif - 1
 }
@@ -1649,13 +1649,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   local isRented = air.isRented()
   local rentTimeHours = ::getTblValue("rentTimeHours", params, -1)
   local showAsRent = showLocalState && isRented || rentTimeHours > 0
-
-  if (holderObj.toggled != null)
-  {
-    local cdb = ::get_local_custom_settings_blk()
-    local toggle = cdb.showTechSpecPanel != false && ::g_login.isAuthorized()
-    airInfoToggle(holderObj, toggle)
-  }
 
   local isSecondaryModsValid = ::check_unit_mods_update(air)
                             && ::check_secondary_weapon_mods_recount(air)
@@ -2087,7 +2080,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local discountsList = {}
     local freeRepairsUnlimited = ::isUnitDefault(air)
     if (freeRepairsUnlimited)
-      repairCostData = ::format("textareaNoTab { tinyFont:t='yes'; text:t='%s' }", ::loc("shop/free"))
+      repairCostData = ::format("textareaNoTab { smallFont:t='yes'; text:t='%s' }", ::loc("shop/free"))
     else
     {
       local avgRepairMul = wBlk.avgRepairMul? wBlk.avgRepairMul : 1.0
@@ -2096,7 +2089,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local modeName = ::get_name_by_gamemode(egdCode, false)
       discountsList[modeName] <- modeName + "-discount"
       repairCostData += format("tdiv { " +
-                                 "textareaNoTab {tinyFont:t='yes' text:t='%s' }" +
+                                 "textareaNoTab {smallFont:t='yes' text:t='%s' }" +
                                  "discount { id:t='%s'; text:t=''; pos:t='-1*@scrn_tgt/100.0, 0.5ph-0.55h'; position:t='relative'; rotation:t='8' }" +
                                "}\n",
                           ((repairCostData!="")?"/ ":"") + ::getPriceAccordingToPlayersCurrency(avgCost.tointeger(), 0),
@@ -2142,6 +2135,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (air.isPkgDev)
     addInfoTextsList.append(::colorize("badTextColor", ::loc("locatedInPackage", { package = "PKG_DEV" })))
+  if (air.isRecentlyReleased)
+    addInfoTextsList.append(::colorize("chapterUnlockedColor", ::loc("shop/unitIsRecentlyReleased")))
 
   if (isInFlight && ::g_mis_custom_state.getCurMissionRules().hasCustomUnitRespawns())
   {
@@ -2380,36 +2375,6 @@ function get_max_era_available_by_country(country, unitType = ::ES_UNIT_TYPE_INV
       return (era - 1)
   return ::max_country_rank
 }
-
-function airInfoToggle(holderObj, toggle = null, showTabs = true)
-{
-  if (toggle == null)
-    toggle = ::loadLocalByAccount("show_slot_info_panel", true)
-  else
-    ::saveLocalByAccount("show_slot_info_panel", toggle)
-
-  local toggled = holderObj.toggled != "no"
-  if (toggled == toggle)
-    return
-
-  holderObj.toggled = toggle? "yes" : "no"
-
-  local contentObj = holderObj.findObject("slot_info_content")
-  if (::checkObj(contentObj))
-    contentObj.show(toggle)
-
-  local contentSwitchObj = holderObj.findObject("slot_info_listbox")
-  if (::checkObj(contentSwitchObj))
-    contentSwitchObj.show(toggle && showTabs)
-
-  local bObj = holderObj.findObject("btnAirInfoToggle")
-  if (bObj)
-    bObj.tooltip = ::loc(toggle? "mainmenu/btnCollapse" : "mainmenu/btnExpand")
-  local iObj = holderObj.findObject("btnAirInfoToggle_icon")
-  if (iObj)
-    iObj.rotation = toggle? "270" : "90"
-}
-
 
 function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
 {

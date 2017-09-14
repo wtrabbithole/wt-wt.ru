@@ -30,8 +30,8 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
 
   function initScreen()
   {
-    showSceneBtn(buttonOkId, true)
-    showSceneBtn(buttonCancelId, true)
+    showSceneBtn(buttonOkId, false)
+    showSceneBtn(buttonCancelId, false)
 
     scene.findObject("updater_timer").setUserData(this)
 
@@ -55,7 +55,7 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
   function resetTimer()
   {
     timer = timeToShowCancel
-    showSceneBtn(buttonCancelId, true)
+    showSceneBtn(buttonCancelId, false)
   }
 
   function onUpdaterCallback(type, p0, p1, p2)

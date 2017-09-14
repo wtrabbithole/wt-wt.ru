@@ -15,7 +15,7 @@ EditBox
   re-type:edit;
   text-align:left;
   selected-border:none;
-  font:@tiny;
+  font:@fontSmall;
 
   background-color:@editboxColor;
 
@@ -42,7 +42,7 @@ EditBox:focus, EditBox[select="yes"], EditBox.showAlways {
   color: @editboxFontColorFocus;
   border: yes;
   border-color:@editboxBorderColorFocus;
-
+  border-offset:@dp;
   edit-hint:"";
 }
 
@@ -85,4 +85,5 @@ EditBox[btnName] > ButtonImg {
 EditBox[warning=yes] {
   border:yes;
   border-color:@warningTextColor;
+  border-offset:@dp;
 }

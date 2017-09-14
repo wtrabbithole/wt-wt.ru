@@ -1,25 +1,25 @@
 <<#multiplier>>
 activeText {
   style:t='color:@commonTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   parseTags:t='yes'
   text:t='<<multiplier>>'
 }
 activeText {
   style:t='color:@fadedTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   text:t='#ui/multiply'
 }
 activeText {
   style:t='color:@commonTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   text:t='('
 }
 <</multiplier>>
 <<#noBonus>>
 activeText {
   style:t='color:@commonTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   parseTags:t='yes'
   text:t='<<noBonus>>'
 }
@@ -27,7 +27,7 @@ activeText {
 <<#premAcc>>
 activeText {
   style:t='color:@fadedTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   text:t='+'
 }
 tdiv {
@@ -40,7 +40,7 @@ tdiv {
 }
 activeText {
   style:t='color:@chapterUnlockedColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   parseTags:t='yes'
   text:t='<<premAcc>>'
 }
@@ -48,7 +48,7 @@ activeText {
 <<#premMod>>
 activeText {
   style:t='color:@fadedTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   text:t='+'
 }
 tdiv {
@@ -61,7 +61,7 @@ tdiv {
 }
 activeText {
   style:t='color:@chapterUnlockedColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   parseTags:t='yes'
   text:t='<<premMod>>'
 }
@@ -69,7 +69,7 @@ activeText {
 <<#booster>>
 activeText {
   style:t='color:@fadedTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   text:t='+'
 }
 tdiv {
@@ -82,7 +82,7 @@ tdiv {
 }
 activeText {
   style:t='color:@linkTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   parseTags:t='yes'
   text:t='<<booster>>'
 }
@@ -90,7 +90,7 @@ activeText {
 <<#multiplier>>
 activeText {
   style:t='color:@commonTextColor'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   text:t=')'
 }
 <</multiplier>>

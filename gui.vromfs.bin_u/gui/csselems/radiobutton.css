@@ -1,3 +1,7 @@
+@const promoRadiobuttonSize: 8@sf/@pf;
+@const promoRadiobuttonBgColor: #3D3D3D3D;
+@const promoRadiobuttonBgColorHover: #99999999;
+
 RadioButtonList {
   behaviour:select;
   re-type:select;
@@ -13,7 +17,7 @@ RadioButton {
   height:@checkboxSize;
   padding:@checkboxSize, 0, 4@sf/@pf_outdated, 0;
   color:@commonMenuButtonColor;
-  font:@small;
+  font:@fontNormal;
   css-hier-invalidate:yes;
   text-align:left;
 }
@@ -41,3 +45,29 @@ RadioButton:current:disabled > RadioButtonImg { background-image:#ui/gameuiskin#
 RadioButton:current:hover >    RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_hover; }
 
 RadioButton:current:pushed >   RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_active; }
+
+RadioButtonList.promo {
+  itemInterval:3@promoRadiobuttonSize;
+  left:pw/2-w/2
+  top:0;
+}
+
+.promo > RadioButton {
+  min-width: @promoRadiobuttonSize;
+  height: @promoRadiobuttonSize;
+  padding: 0;
+}
+
+.promo > RadioButton > RadioButtonImg {
+  size:@promoRadiobuttonSize, @promoRadiobuttonSize;
+  background-color:@promoRadiobuttonBgColor;
+  background-image:#ui/gameuiskin#radiobutton_promo;
+}
+
+.promo > RadioButton:hover > RadioButtonImg {
+  background-color:@promoRadiobuttonBgColorHover;
+}
+
+.promo > RadioButton:current > RadioButtonImg {
+  background-color:@white;
+}

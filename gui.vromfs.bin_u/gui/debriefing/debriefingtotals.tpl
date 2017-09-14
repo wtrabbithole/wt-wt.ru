@@ -11,7 +11,7 @@ tdiv{
     talign:t='right'
     text:t='#debriefing/withPremium'
     style:t='color:@disabledTextColor;'
-    tinyFont:t='yes'
+    smallFont:t='yes'
   }
   activeText{
     id:t='expTeaser'
@@ -43,7 +43,7 @@ tdiv{
     noMargin:t='yes'
     talign:t='right'
     text:t='#debriefing/withoutPremium'
-    tinyFont:t='yes'
+    smallFont:t='yes'
   }
   <</showTeaser>>
   activeText{

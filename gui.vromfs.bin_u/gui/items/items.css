@@ -113,7 +113,7 @@ itemDiv[ticketBuyWindow=yes] {
   height:1@itemHeight + 4@itemPadding;
 }
 
-frameBlock[itemShopList=yes] > itemDiv {
+[itemShopList=yes] > itemDiv {
   margin:0, 0, 1@itemSpacing, 1@itemSpacing;
 }
 frameBlock[itemShopList=yes] {
@@ -373,6 +373,18 @@ everyDayRewardProgress > filledRewardProgressBox {
   background-image:#ui/gameuiskin#progress_bar;
 }
 
+everyDayRewardProgress > additionalProgress {
+  re-type:progress;
+  behaviour:progress;
+  foreground-position:4,4;
+  foreground-repeat:expand;
+  foreground-image:#ui/gameuiskin#progress_bar;
+  min:0;
+  max:10000;
+
+  padding:2;
+}
+
 everyDayRewardProgress > progressBoxFraming {
   background-repeat:stretch;
   background-color:@white;
@@ -395,9 +407,7 @@ warbondShopLevel {
   re-type:9rect;
   background-position:4;
   background-repeat:expand;
-  background-image:#ui/gameuiskin#level_icon;
   background-color:@white;
-  foreground-image:#ui/gameuiskin#level_icon_overlay;
   foreground-repeat:expand;
   foreground-position:6;
   foreground-color:@transparent;

@@ -69,6 +69,9 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
     }
     else
       guiScene.replaceContent(obj, blkName, callbacksContext)
+
+    if ("onCreate" in callbacksContext)
+      callbacksContext.onCreate(obj)
   }
 
   function checkModify()

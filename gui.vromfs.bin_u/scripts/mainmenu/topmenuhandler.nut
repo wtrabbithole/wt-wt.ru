@@ -52,9 +52,12 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     {
       topMenuInited = true
 
-      leftSectionHandlerWeak = ::gui_handlers.TopMenuButtonsHandler.create(scene.findObject("topmenu_menu_panel"),
-                                                                           this,
-                                                                           ::g_top_menu_left_side_sections)
+      leftSectionHandlerWeak = ::gui_handlers.TopMenuButtonsHandler.create(
+        scene.findObject("topmenu_menu_panel"),
+        this,
+        ::g_top_menu_left_side_sections,
+        scene.findObject("left_gc_panel_free_width")
+      )
       registerSubHandler(leftSectionHandlerWeak)
 
       if (::last_chat_scene_show)

@@ -1,5 +1,5 @@
 frame {
-  size:t='0.8@sf, 1@maxWindowHeight'
+  size:t='1.1@scrn_tgt, 1@maxWindowHeight'
   pos:t='50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)'
   position:t='absolute'
   class:t='wndNav'
@@ -113,7 +113,7 @@ frame {
     }
 
     tdiv {
-      id:t='medals_block'
+      id:t='medal_icon'
       pos:t='50%pw-50%w, 0'
       position:t='relative'
       max-width:t='pw'
@@ -139,9 +139,9 @@ frame {
 
       textareaNoTab {
         id:t='warbonds_balance'
-        pos:t='0, 50%ph-50%h'
+        pos:t='1@buttonMargin, 50%ph-50%h'
         position:t='relative'
-        margin-right:t='0.02@scrn_tgt'
+        margin-right:t='1@buttonMargin'
         hideEmptyText:t='yes'
         text:t=''
 

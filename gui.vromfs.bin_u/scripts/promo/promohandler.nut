@@ -309,11 +309,10 @@ class Promo
     if (currentGameModeId == null)
       return
 
-    // Prepare: reverse order - to show first hardest task if it's done or in progress
     local typesArray = [
-      ::g_battle_task_difficulty.HARD,
+      ::g_battle_task_difficulty.EASY,
       ::g_battle_task_difficulty.MEDIUM,
-      ::g_battle_task_difficulty.EASY
+      ::g_battle_task_difficulty.HARD
     ]
 
     // 0) Prepare: Filter tasks array by available difficulties list
@@ -333,6 +332,8 @@ class Promo
       reqTask = ::u.search(filteredByGameMode, @(task) !::g_battle_tasks.isTaskDone(task) && ::g_battle_tasks.isTaskActive(task))
     }
 
+    local showProgressBar = false
+    local currentWarbond = null
     local promoView = ::u.copy(::getTblValue(id, ::g_promo.getConfig(), {}))
     local view = {}
 
@@ -346,20 +347,24 @@ class Promo
       view = ::u.tablesCombine(itemView, promoView, function(val1, val2) { return val1 != null? val1 : val2 })
       view.collapsedText <- ::g_promo.getCollapsedText(view, id)
 
-      local curWb = ::g_warbonds.getCurrentWarbond()
-      if (curWb)
+      currentWarbond = ::g_warbonds.getCurrentWarbond()
+      if (currentWarbond && currentWarbond.levelsArray.len())
       {
-        local curLevel = curWb.getCurrentShopLevel()
-        local markUp = ::g_warbonds_view.getProgressBoxMarkUp({
-          value = ::g_warbonds_view.calculateProgressBarValue(curWb, curLevel, 1)
-          tooltip = ::g_warbonds_view.getCurrentShopProgressBarText(curWb)
-        })
-        markUp += ::g_warbonds_view.getCurrentLevelItemMarkUp(curWb, "-50%w")
-        markUp += ::g_warbonds_view.getLevelItemMarkUp(curWb, curLevel + 1, "pw-50%w")
-        view.warbondLevelPlace <- markUp
-        view.isConsoleMode <- ::show_console_buttons
-
-        view.newItemsAvailable <- !isTaskWithReward && curWb.isReachedNewShopLevel()
+        showProgressBar = (isTaskWithReward || ::g_warbonds_view.needShowProgressBarInPromo)
+          && ::g_battle_task_difficulty.getDifficultyTypeByTask(reqTask).canIncreaseShopLevel
+        if (showProgressBar)
+        {
+          local curLevel = currentWarbond.getCurrentShopLevel()
+          local markUp = ::g_warbonds_view.getProgressBoxMarkUp()
+          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, curLevel, "-50%w")
+          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, curLevel + 1, "pw-50%w")
+          view.warbondLevelPlace <- markUp
+        }
+        else if (!isTaskWithReward)
+        {
+          view.isConsoleMode <- ::show_console_buttons
+          view.newItemsAvailable <- currentWarbond.isReachedNewShopLevel()
+        }
       }
     }
     else
@@ -376,6 +381,8 @@ class Promo
     view.collapsedIcon <- ::g_promo.getCollapsedIcon(view, id)
     setTplView("gui/unlocks/battleTasksItem", buttonObj, { items = [view], collapsedAction = ::g_promo.PERFORM_ACTON_NAME})
     ::g_battle_tasks.setUpdateTimer(reqTask, buttonObj)
+    if (showProgressBar && currentWarbond)
+      ::g_warbonds_view.updateProgressBar(currentWarbond, buttonObj, true)
   }
 
   function onGenericTooltipOpen(obj)
@@ -639,6 +646,7 @@ class Promo
                                                }
   function onEventCurrentGameModeIdChanged(p) { updateCurrentBattleTaskButton() }
   function onEventWarbondShopMarkSeenLevel(p) { updateCurrentBattleTaskButton() }
+  function onEventWarbondViewShowProgressBarFlagUpdate(p) { updateCurrentBattleTaskButton() }
   function onEventHangarModelLoaded(p)  { updateTutorialButton() }
   function onEventShowAllPromoBlocksValueChanged(p) { updatePromoBlocks() }
   function onEventPartnerUnlocksUpdated(p) { updatePromoBlocks(true) }

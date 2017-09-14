@@ -50,6 +50,7 @@
   "multipointVisibilityTreeTransparencyThreshold": 1.5,
   "multipointVisibilityForMarkersDistK": 2.0,
   "multipointVisibilityOnePointBackDistK": 2.0,
+  "bombDropDownOnRendInstCollision": false,
   "teleScale": 0.03,
   "minSkyAmbientLighting": [0.00954,0.012756,0.026677],
   "propeller_side_angle": 0.1,
@@ -130,6 +131,8 @@
   "maxContrailTemperature": -20.0,
   "use_uav_feedback": true,
   "cloudShadowIntensityTankMul": 0.95,
+  "shipDepthTraceWarningDepth": 1.0,
+  "shipDepthTraceCriticalDepth": 0.5,
   "tracers": {
     "headFadeTime": 2.0,
     "headSpeedScale": [400.0,900.0,0.1,1.0],
@@ -1299,9 +1302,9 @@
     },
     "noTrail": {
       "particleHalfSizeFrom": 0.0,
-      "particleHalfSizeTo": 0.04,
+      "particleHalfSizeTo": 0.03,
       "color": "#e4e4e4e4",
-      "deviation": 0.1
+      "deviation": 2.0
     },
     "black": {
       "particleHalfSizeFrom": 0.1,
@@ -1310,8 +1313,8 @@
       "deviation": 3.0
     },
     "black_rpg": {
-      "particleHalfSizeFrom": 0.9,
-      "particleHalfSizeTo": 2.0,
+      "particleHalfSizeFrom": 0.3,
+      "particleHalfSizeTo": 0.7,
       "color": "#505050ff",
       "deviation": 0.0
     },
@@ -5575,6 +5578,7 @@
     "lineWidth": 0.5,
     "lineWidthThick": 1.0,
     "whiteCircle": "white_circle_hi",
+    "spikeCircle": "searchlight_earth_flare",
     "noiseTexture": "snow_noise_mask",
     "armorThicknessMax": 300.0,
     "hsvRange": [160.0,0.0],
@@ -6117,9 +6121,6 @@
     ],
     "track": [
       {
-        "p": "wheel_"
-      },
-      {
         "p": {
           "name": "track_r_",
           "color_h": 0.0,
@@ -6131,6 +6132,48 @@
           "name": "track_l_",
           "color_h": 0.0,
           "dmgThreshold": 0.5
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_back_",
+          "color_h": 0.0,
+          "dmgThreshold": 0.3
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_front_",
+          "color_h": 0.0,
+          "dmgThreshold": 0.3
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_drive_",
+          "color_h": 0.0,
+          "dmgThreshold": 0.3
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_back_",
+          "color_h": 0.0,
+          "dmgThreshold": 0.3
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_front_",
+          "color_h": 0.0,
+          "dmgThreshold": 0.3
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_drive_",
+          "color_h": 0.0,
+          "dmgThreshold": 0.3
         }
       }
     ],
@@ -6462,48 +6505,15 @@
         }
       }
     ],
-    "decorators": {
-      "p": {
-        "name": "ex_decor_",
-        "color_h": 0.8
-      }
-    },
-    "destroyed_equipment": [
+    "decorators": [
       {
-        "p": "optic_"
+        "p": "wheel_"
       },
       {
-        "p": "drive_turret_h_"
-      },
-      {
-        "p": "fuel_tank_"
-      },
-      {
-        "p": "radiator_"
-      },
-      {
-        "p": "radio_station_"
-      },
-      {
-        "p": "engine_"
-      },
-      {
-        "p": "transmission_"
-      },
-      {
-        "p": "drive_turret_v_"
-      },
-      {
-        "p": "cannon_breech_"
-      },
-      {
-        "p": "ammo_"
-      },
-      {
-        "p": "ammo_rack_turret"
-      },
-      {
-        "p": "ammo_rack_body_xray"
+        "p": {
+          "name": "ex_decor_",
+          "color_h": 0.8
+        }
       }
     ]
   },

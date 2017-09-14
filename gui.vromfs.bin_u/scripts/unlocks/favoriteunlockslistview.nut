@@ -30,7 +30,7 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
     {
       if(i >= listContainer.childrenCount())
         guiScene.createElementByObject(listContainer,
-          "gui/profile/unlockItemSimplified.blk", "frameBlock", this)
+          "gui/profile/unlockItemSimplified.blk", "expandable", this)
       fillUnlockInfo(curFavoriteUnlocksBlk.getBlock(i), listContainer.getChild(i))
     }
 

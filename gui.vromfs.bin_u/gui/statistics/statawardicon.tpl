@@ -22,7 +22,7 @@ div{
 
     textarea {
       id:t='amount_text'
-      style:t='font:medium_text_hud'
+      style:t='font:@fontHudMedium'
       overlayTextColor:t='userlog'
       text:t='<<amount>>'
       removeParagraphIndent:t='yes'

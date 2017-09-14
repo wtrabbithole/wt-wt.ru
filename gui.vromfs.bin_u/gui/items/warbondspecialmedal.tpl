@@ -1,7 +1,5 @@
 <<#medal>>
 warbondSpecialMedal {
-  width:t='1@battleTasksHardMedalWidth'
-  height:t='w'
   pos:t='<<#posX>><<posX>><</posX>><<^posX>>0<</posX>>, 0'
   position:t='relative'
 
@@ -11,8 +9,9 @@ warbondSpecialMedal {
       background-position:t='0'
       background-repeat:t='aspect-ratio'
       background-color:t='@inactiveWarbondMedalImgColor'
-      size:t='pw, ph'
-      pos:t='50%pw-50%w, 50%ph-50%h'
+      width:t='1@battleTasksHardMedalWidth'
+      height:t='w'
+      pos:t='0, 50%ph-50%h'
       position:t='absolute'
     }
   <</sector>>
@@ -28,9 +27,10 @@ warbondSpecialMedal {
       background-color:t='@warbondMedalImgColor'
     <</inactive>>
 
-    size:t='pw, ph'
-    pos:t='50%pw-50%w, 50%ph-50%h'
-    position:t='absolute'
+    width:t='1@battleTasksHardMedalWidth'
+    height:t='w'
+    pos:t='0, 50%ph-50%h'
+    position:t='relative'
     <<#sector>>
       re-type:t='sector'
       sector-angle-1:t='<<sector>>'
@@ -39,10 +39,10 @@ warbondSpecialMedal {
   }
   <<#countText>>
     textareaNoTab {
-      pos:t='1@battleTasksHardMedalWidth, 50%ph-50%h'
-      position:t='absolute'
+      pos:t='0, 50%ph-50%h'
+      position:t='relative'
       text:t='x<<countText>>'
-      caption:t='yes'
+      overlayTextColor:t='active'
     }
   <</countText>>
 }

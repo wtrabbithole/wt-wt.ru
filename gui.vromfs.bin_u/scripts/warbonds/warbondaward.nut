@@ -61,24 +61,17 @@ class ::WarbondAward
 
   function canBuy()
   {
-    if (!isValid()
-       || !isAvailableForCurrentWarbondShop()
-       || !awardType.canBuy(blk)
-       || !isAvailableByShopLevel()
-       || !isAvailableByMedalsCount()
-       || !isAvailableByUnitsRank())
-      return false
-
-    return (maxBoughtCount <= 0
-            || maxBoughtCount > awardType.getBoughtCount(warbondWeak, blk))
+    return !isItemLocked() && awardType.canBuy(blk)
   }
 
   function isItemLocked()
   {
-    return !isAvailableForCurrentWarbondShop()
-        || !isAvailableByShopLevel()
-        || !isAvailableByMedalsCount()
-        || !isAvailableByUnitsRank()
+    return !isValid()
+       || !isAvailableForCurrentWarbondShop()
+       || !isAvailableByShopLevel()
+       || !isAvailableByMedalsCount()
+       || !isAvailableByUnitsRank()
+       || isAllBought()
   }
 
   function isAvailableForCurrentWarbondShop()
@@ -90,18 +83,23 @@ class ::WarbondAward
 
   function getWarbondShopLevelImage()
   {
-    if (!warbondWeak || isAvailableByShopLevel())
+    if (!warbondWeak)
       return ""
 
-    return ::g_warbonds_view.getLevelItemMarkUp(warbondWeak, warbondWeak.getShopLevel(ordinaryTasks), "0")
+    local level = warbondWeak.getShopLevel(ordinaryTasks)
+    if (level == 0)
+      return ""
+
+    return ::g_warbonds_view.getLevelItemMarkUp(warbondWeak, level, "0")
   }
 
   function getWarbondMedalImage()
   {
-    if (!warbondWeak || isAvailableByMedalsCount())
+    local medals = getMedalsCountNum()
+    if (!warbondWeak || medals == 0)
       return ""
 
-    return ::g_warbonds_view.getSpecialMedalsMarkUp(warbondWeak, true, getMedalsCountNum())
+    return ::g_warbonds_view.getSpecialMedalsMarkUp(warbondWeak, medals)
   }
 
   function getBuyText(isShort = true)
@@ -123,9 +121,9 @@ class ::WarbondAward
     {
       local reason = ::loc("warbond/msg/alreadyBoughtMax", { purchase = ::colorize("userlogColoredText", getNameText()) })
       if (!isAvailableForCurrentWarbondShop())
-        reason = getNotAvailableForCurrentShopText()
+        reason = getNotAvailableForCurrentShopText(false)
       else if (!awardType.canBuy(blk))
-        reason = ::loc(awardType.canBuyReasonLocId)
+        reason = getAwardTypeCannotBuyReason(false)
       else if (!isAvailableByShopLevel())
         reason = getRequiredShopLevelText(false)
       else if (!isAvailableByMedalsCount())
@@ -196,6 +194,7 @@ class ::WarbondAward
     return ::g_string.implode([
       ::g_string.implode([
         getNotAvailableForCurrentShopText(),
+        getAwardTypeCannotBuyReason(),
         getRequiredShopLevelText(),
         getRequiredMedalsLevelText(),
         getRequiredUnitsRankLevel()
@@ -276,11 +275,22 @@ class ::WarbondAward
     return warbondWeak? warbondWeak.getMedalsCount(specialTasks) : 0
   }
 
-  function getNotAvailableForCurrentShopText()
+  function getAwardTypeCannotBuyReason(colored = true)
+  {
+    if (awardType.canBuy(blk) || !isAvailableForCurrentWarbondShop())
+      return ""
+
+    local text = ::loc(awardType.canBuyReasonLocId)
+    return colored? ::colorize("warningTextColor", text) : text
+  }
+
+  function getNotAvailableForCurrentShopText(colored = true)
   {
     if (isAvailableForCurrentWarbondShop())
       return ""
-    return ::loc("warbonds/shop/notAvailableForCurrentShop")
+
+    local text = ::loc("warbonds/shop/notAvailableForCurrentShop")
+    return colored? ::colorize("badTextColor", text) : text
   }
 
   function getRequiredShopLevelText(colored = true)

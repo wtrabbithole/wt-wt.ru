@@ -15,8 +15,8 @@ tdiv {
     pos:t='pw/2 - w/2';
     position:t='relative';
     text-align:t='center'
-    <<^isLongScText>>hudFont:t='tiny';<</isLongScText>>
-    <<#isLongScText>>hudFont:t='veryTiny';<</isLongScText>>
+    <<^isLongScText>>hudFont:t='small';<</isLongScText>>
+    <<#isLongScText>>hudFont:t='tiny';<</isLongScText>>
     shortcut:t='yes';
     text:t='<<shortcutText>>';
   }

@@ -243,13 +243,13 @@
         "missionBriefing": ""
       },
       {
+        "chapter": "air_ground_Dom"
+      },
+      {
         "locName": "missions/_Dom;eastern_europe/name"
       },
       {
         "locDesc": "eastern_europe/desc;missions/_Dom/desc"
-      },
-      {
-        "chapter": "air_ground_Dom"
       },
       {
         "scoreLimit": 14000
@@ -261,7 +261,13 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Dom"
+      },
+      {
         "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -270,22 +276,13 @@
         "remapAiTankModels": true
       },
       {
-        "postfix": "_Dom"
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -313,6 +310,13 @@
           "_CnvB": false,
           "_ArtDA": false,
           "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -367,6 +371,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -418,6 +425,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -467,6 +477,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -574,6 +587,38 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/eastern_europe/template_eastern_europe_air_spawn.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/eastern_europe/battleareas/template_eastern_europe_dom_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/eastern_europe/battleareas/template_eastern_europe_dom_battleareas_hardcore.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -2257,28 +2302,6 @@
         [1201.19,24.5193,1515.8]
       ],
       "objLayer": 4,
-      "props": []
-    },
-    "dom_battle_area_hardcore": {
-      "type": "Box",
-      "tm": [
-        [-3100.0,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,-3100.0],
-        [2303.95,50.9993,1919.45]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "dom_battle_area_arcade": {
-      "type": "Box",
-      "tm": [
-        [-1700.0,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,-1700.0],
-        [2117.86,44.4973,1770.71]
-      ],
-      "objLayer": 3,
       "props": []
     },
     "briefing_dom_capture_area_01_arcade": {

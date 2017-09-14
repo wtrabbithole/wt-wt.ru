@@ -1202,7 +1202,7 @@ function sysopt::isHotReloadPending()
 
 function sysopt::isReloadSceneRerquired()
 {
-  return mCfgApplied.resolution != mCfgCurrent.resolution
+  return mCfgApplied.resolution != mCfgCurrent.resolution || mCfgApplied.mode != mCfgCurrent.mode
 }
 
 function sysopt::isSavePending()

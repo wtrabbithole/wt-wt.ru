@@ -1,7 +1,8 @@
+local colorCorrector = require_native("colorCorrector")
 handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurSceneBgBlurred" ])
 
 ::handlersManager.lastInFlight <- false  //to reload scenes on change inFlight
-::handlersManager.currentFont <- ::g_font.SCALE
+::handlersManager.currentFont <- ::g_font.BIG
 
 ::handlersManager.curControlsAllowMask <- CtrlsInGui.CTRL_ALLOW_FULL
 ::handlersManager.controlsAllowMaskDefaults <- {
@@ -73,8 +74,6 @@ function handlersManager::onBaseHandlerLoadFailed(handler)
 
 function handlersManager::onSwitchBaseHandler()
 {
-  if (!::is_hud_visible())
-    ::show_hud(true)
   if (!::g_login.isLoggedIn())
     return
   local curHandler = getActiveBaseHandler()
@@ -145,9 +144,9 @@ function handlersManager::generateColorConstantsConfig()
   local cssConfig = []
   local standardColors = !::g_login.isLoggedIn() || !::isPlayerDedicatedSpectator()
   local theme = {
-    squad = standardColors ? ::TARGET_HUE_SQUAD : ::TARGET_HUE_SPECTATOR_ALLY
-    ally  = standardColors ? ::TARGET_HUE_ALLY  : ::TARGET_HUE_SPECTATOR_ALLY
-    enemy = standardColors ? ::TARGET_HUE_ENEMY : ::TARGET_HUE_SPECTATOR_ENEMY
+    squad = standardColors ? colorCorrector.TARGET_HUE_SQUAD : colorCorrector.TARGET_HUE_SPECTATOR_ALLY
+    ally  = standardColors ? colorCorrector.TARGET_HUE_ALLY  : colorCorrector.TARGET_HUE_SPECTATOR_ALLY
+    enemy = standardColors ? colorCorrector.TARGET_HUE_ENEMY : colorCorrector.TARGET_HUE_SPECTATOR_ENEMY
   }
 
   local config = [
@@ -166,7 +165,8 @@ function handlersManager::generateColorConstantsConfig()
 
   foreach (cfg in config)
   {
-    local color = ::correct_color_hue_target(cfg.baseColor, theme[cfg.style])
+    local color = colorCorrector.correctHueTarget(cfg.baseColor, theme[cfg.style])
+
     foreach (name in cfg.names)
       cssConfig.append({
         name = name,

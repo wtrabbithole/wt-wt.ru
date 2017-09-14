@@ -108,7 +108,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1033,9 +1034,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.6,0.9],
-      "explodeHitPower": 1500.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.7,0.9],
+      "explodeHitPower": 4000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1049,18 +1050,6 @@
       "explodeTreshold": 0.0001,
       "explodeArmorPower": 30.0,
       "explodeRadius": [1.5,10.0]
-    }
-  },
-  {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 8000.0,
-        "cutDamage": 1000.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
-      }
     }
   },
   {
@@ -1674,7 +1663,8 @@
           "armorThickness": 40.0
         },
         "body_top_dm": {
-          "armorThickness": 36.0
+          "armorThickness": 36.0,
+          "explosionArmorQuality": 1.6
         },
         "turret_04_top_dm": {
           "armorThickness": 165.0
@@ -2893,6 +2883,18 @@
       "headPos": [0.0,3.9,-8.7],
       "headPosOnShooting": [0.0,3.6,0.0],
       "detectionHeight": 3.213
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 8000.0,
+        "cutDamage": 1000.0,
+        "deviation": 0.5,
+        "rotation": 0.5,
+        "collisionNode": "cls_turret_02"
+      }
     }
   }
 ]

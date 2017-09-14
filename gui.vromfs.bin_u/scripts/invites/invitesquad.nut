@@ -40,6 +40,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
   function isValid()
   {
     return !isAccepted
+        && !::is_psn_player_use_same_titleId(inviterName)
   }
 
   function getInviteText()

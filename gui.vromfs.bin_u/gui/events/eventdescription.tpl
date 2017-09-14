@@ -330,7 +330,7 @@ tdiv {
               id:t='players_count'
               width:t='pw'
               hideEmptyText:t='yes'
-              font-bold:t='@tiny'
+              font-bold:t='@fontSmall'
               text:t=''
             }
 

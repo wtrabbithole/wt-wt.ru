@@ -21,7 +21,7 @@ class ::items_classes.Booster extends ::BaseItem
   eventTypeData = {}
   static eventTypesTable = [{
                               name = null,
-                              iconImg = "#ui/gameuiskin#item_type_premium"
+                              iconImg = "#ui/gameuiskin#item_type_boosters"
                             },
                             {
                               name = "kill",

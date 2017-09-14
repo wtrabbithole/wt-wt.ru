@@ -715,7 +715,7 @@
           "armorThickness": 120.0
         },
         "turret_01_bottom_dm": {
-          "armorThickness": 10.0
+          "armorThickness": 40.0
         }
       },
       "optics": {
@@ -772,7 +772,7 @@
       "mask": {
         "armorClass": "CHA_tank",
         "gun_mask_01_dm": {
-          "armorThickness": 120.0
+          "armorThickness": 200.0
         },
         "gun_mask_02_dm": {
           "armorThickness": 50.0
@@ -781,7 +781,7 @@
           "armorThickness": 50.0
         },
         "gun_mask_04_dm": {
-          "armorThickness": 150.0
+          "armorThickness": 250.0
         },
         "gun_mask_05_dm": {
           "armorThickness": 120.0
@@ -916,7 +916,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -2099,7 +2099,7 @@
           "turret": {
             "head": "bone_turret",
             "gun": "bone_gun_01",
-            "barrel": "bone_gun_barrel_01",
+            "barrel": "bone_gun_barrel",
             "gunnerDm": "gunner_dm",
             "invertedHierarchy": true,
             "linkedAnimPart": {
@@ -2175,19 +2175,13 @@
             "ratio": -5.35
           },
           {
-            "ratio": -8.35
+            "ratio": -8.0
           },
           {
             "ratio": 0.0
           },
           {
-            "ratio": 12.5
-          },
-          {
-            "ratio": 10.5
-          },
-          {
-            "ratio": 8.5
+            "ratio": 8.0
           },
           {
             "ratio": 6.0
@@ -2475,11 +2469,11 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 3300.0,
+        "mass": 8000.0,
         "cutDamage": 350.0,
         "deviation": 0.5,
         "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_gun"
       }
     }
   },

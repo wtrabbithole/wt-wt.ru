@@ -49,60 +49,63 @@
           "type": "bright_texture"
         },
         "tdiv": {
-          "id": "language_selector",
-          "pos": "pw-w-1@bw-0.05@sf, 1@bh",
+          "pos": "pw-w-1@bw, 1@bh",
           "position": "absolute",
-          "display": "hide",
-          "text": {
-            "id": "label_language",
-            "text": "#profile/language",
+          "tdiv": {
+            "id": "language_selector",
             "pos": "0, ph/2-h/2",
             "position": "relative",
-            "talign": "left",
-            "margin": "@sIco/8, 0, @sIco/4, 0",
-            "padding-right": "-1@textPaddingBugWorkaround",
-            "input-transparent": "yes",
-            "inactive": "yes"
-          },
-          "Button_text": {
-            "id": "btn_language",
-            "class": "header",
-            "pos": "0, ph/2-h/2",
-            "position": "relative",
-            "style": "height:1@buttonHeight; min-width:5h;",
-            "on_click": "onPopupLanguages",
-            "popupMenuBrightIcons": "yes",
-            "btnName": "Y",
-            "ButtonImg": {
-              "style": "position:relative;"
-            },
-            "cardImg": {
-              "id": "btn_language_icon",
-              "background-image": "#ui/gameuiskin#lang_usa",
-              "margin-left": "@sIco/4"
-            },
+            "display": "hide",
             "text": {
-              "id": "btn_language_text",
-              "text": "#profile/language/en",
+              "id": "label_language",
+              "text": "#profile/language",
+              "pos": "0, ph/2-h/2",
               "position": "relative",
-              "pos": "0, 50%ph-50%h",
               "talign": "left",
               "margin": "@sIco/8, 0, @sIco/4, 0",
-              "padding-right": "-1@textPaddingBugWorkaround"
+              "padding-right": "-1@textPaddingBugWorkaround",
+              "input-transparent": "yes",
+              "inactive": "yes"
+            },
+            "Button_text": {
+              "id": "btn_language",
+              "visualStyle": "header",
+              "pos": "0, ph/2-h/2",
+              "position": "relative",
+              "style": "height:1@buttonHeight; min-width:5h;",
+              "on_click": "onPopupLanguages",
+              "popupMenuBrightIcons": "yes",
+              "btnName": "Y",
+              "ButtonImg": {
+                "style": "position:relative;"
+              },
+              "cardImg": {
+                "id": "btn_language_icon",
+                "background-image": "#ui/gameuiskin#lang_usa",
+                "margin-left": "@sIco/4"
+              },
+              "text": {
+                "id": "btn_language_text",
+                "text": "#profile/language/en",
+                "position": "relative",
+                "pos": "0, 50%ph-50%h",
+                "talign": "left",
+                "margin": "@sIco/8, 0, @sIco/4, 0"
+              }
             }
+          },
+          "Button_close": {
+            "id": "button_exit",
+            "_on_click": "goBack",
+            "relative": "yes"
           }
-        },
-        "Button_close": {
-          "id": "button_exit",
-          "_on_click": "goBack",
-          "smallIcon": "yes",
-          "style": "pos:@rw+@bw-w, @bh;"
         }
       }
     },
     {
       "BottomMenuPanel": {
         "input-transparent": "yes",
+        "line": [],
         "pattern": {
           "type": "bright_texture"
         },
@@ -210,7 +213,7 @@
                   "width": "pw-0.03@scrn_tgt"
                 },
                 {
-                  "pos": "0.015@scrn_tgt, 0.01@scrn_tgt"
+                  "pos": "50%pw-50%w, 0.01@scrn_tgt"
                 },
                 {
                   "position": "relative"
@@ -271,7 +274,7 @@
                         "pos": "pw-w-2,0"
                       },
                       {
-                        "tinyFont": "yes"
+                        "smallFont": "yes"
                       },
                       {
                         "text": {
@@ -350,6 +353,7 @@
                     {
                       "CheckBox": {
                         "id": "loginbox_remote_comp",
+                        "width": "pw",
                         "pos": "-4*@sf/@pf_outdated, 0",
                         "position": "relative",
                         "display": "show",
@@ -362,7 +366,7 @@
                           "position": "relative",
                           "pos": "0, 50%ph-50%h",
                           "style": "wrap-indent:0; paragraph-indent:0;",
-                          "tinyFont": "yes",
+                          "smallFont": "yes",
                           "text": "#options/remote_device",
                           "input-transparent": "yes"
                         },
@@ -372,6 +376,7 @@
                     {
                       "CheckBox": {
                         "id": "loginbox_code_remember_this_device",
+                        "width": "pw",
                         "pos": "-4*@sf/@pf_outdated, 0",
                         "position": "relative",
                         "display": "hide",
@@ -384,7 +389,7 @@
                           "position": "relative",
                           "pos": "0, 50%ph-50%h",
                           "style": "wrap-indent:0; paragraph-indent:0;",
-                          "tinyFont": "yes",
+                          "smallFont": "yes",
                           "text": "#options/remember_cur_device",
                           "input-transparent": "yes"
                         },
@@ -405,7 +410,7 @@
                           "position": "relative",
                           "pos": "0, 50%ph-50%h",
                           "style": "wrap-indent:0; paragraph-indent:0;",
-                          "tinyFont": "yes",
+                          "smallFont": "yes",
                           "text": "#mainmenu/saveLogin",
                           "input-transparent": "yes"
                         },
@@ -427,7 +432,7 @@
                           "position": "relative",
                           "pos": "0, 0.005@sf",
                           "style": "wrap-indent:0; paragraph-indent:0;",
-                          "tinyFont": "yes",
+                          "smallFont": "yes",
                           "text": "#mainmenu/savePassword",
                           "input-transparent": "yes"
                         },
@@ -450,7 +455,7 @@
                           "position": "relative",
                           "pos": "0, 0.005@sf",
                           "style": "wrap-indent:0; paragraph-indent:0;",
-                          "tinyFont": "yes",
+                          "smallFont": "yes",
                           "text": "#mainmenu/disableSSLCert",
                           "input-transparent": "yes"
                         },
@@ -460,6 +465,7 @@
                     {
                       "CheckBox": {
                         "id": "loginbox_autologin",
+                        "width": "pw",
                         "pos": "-4*@sf/@pf_outdated, 0.015@scrn_tgt",
                         "position": "relative",
                         "btnName": "SpaceA",
@@ -469,7 +475,7 @@
                           "position": "relative",
                           "pos": "0, 50%ph-50%h",
                           "style": "wrap-indent:0; paragraph-indent:0;",
-                          "tinyFont": "yes",
+                          "smallFont": "yes",
                           "text": "#options/auto_login",
                           "input-transparent": "yes"
                         },
@@ -484,7 +490,7 @@
                         "text": "#mainmenu/signUp",
                         "_on_click": "onSignUp",
                         "noMargin": "yes",
-                        "tfont": "tiny",
+                        "tfont": "small",
                         "talign": "left",
                         "class": "link",
                         "btnName": "SpaceA",
@@ -500,7 +506,7 @@
                         "pos": "0, 0.01@scrn_tgt",
                         "position": "relative",
                         "noMargin": "yes",
-                        "tfont": "tiny",
+                        "tfont": "small",
                         "talign": "left",
                         "class": "link",
                         "_on_click": "onForgetPassword",
@@ -541,9 +547,10 @@
                 {
                   "ShadeDiv": {
                     "id": "login_action_button",
-                    "pos": "-0.015@scrn_tgt-1@framePadding, 0.01@scrn_tgt",
+                    "pos": "-1@loginFramePadding - 1@framePadding + 1@dp, 0.01@scrn_tgt",
                     "position": "relative",
-                    "size": "p.p.w, 0.05@sf",
+                    "width": "p.p.w - 2@dp",
+                    "padding": "1@loginFramePadding, 1@blockInterval",
                     "childsActivate": "yes",
                     "behavior": "wrapNavigator",
                     "navigatorShortcuts": "yes",
@@ -552,10 +559,10 @@
                     "on_set_focus": "checkCurrentFocusItem",
                     "Button_text": {
                       "class": "battle",
-                      "size": "pw - 0.02@scrn_tgt, 80%ph",
+                      "size": "pw, 1@navBarBattleButtonHeight",
                       "position": "relative",
-                      "pos": "0.01@scrn_tgt, 50%ph-50%h",
-                      "fontNormal": "yes",
+                      "pos": "50%pw-50%w, 50%ph-50%h",
+                      "navButtonFont": "yes",
                       "text": "#msgbox/btn_signIn",
                       "_on_click": "onOk",
                       "css-hier-invalidate": "yes",
@@ -569,8 +576,7 @@
                       },
                       "buttonGlance": [],
                       "btnText": {
-                        "text": "#msgbox/btn_signIn",
-                        "fontNormal": "yes"
+                        "text": "#msgbox/btn_signIn"
                       },
                       "ButtonImg": []
                     }
@@ -579,9 +585,10 @@
                 {
                   "ShadeDiv": {
                     "id": "steam_login_action_button",
-                    "pos": "-0.015@scrn_tgt-1@framePadding, 0.01@scrn_tgt",
+                    "pos": "-1@loginFramePadding - 1@framePadding + 1@dp, 0.005@scrn_tgt",
                     "position": "relative",
-                    "size": "p.p.w, 0.05@sf",
+                    "width": "p.p.w - 2@dp",
+                    "padding": "1@loginFramePadding, 1@blockInterval",
                     "childsActivate": "yes",
                     "behavior": "wrapNavigator",
                     "navigatorShortcuts": "yes",
@@ -646,7 +653,7 @@
                         "on_click": "onMsgLink",
                         "link": "#url/faq",
                         "bqKey": "login_page",
-                        "tfont": "tiny",
+                        "tfont": "small",
                         "class": "link",
                         "talign": "left",
                         "btnName": "SpaceA",
@@ -663,7 +670,7 @@
                         "on_click": "onMsgLink",
                         "link": "#url/forum",
                         "bqKey": "login_page",
-                        "tfont": "tiny",
+                        "tfont": "small",
                         "class": "link",
                         "talign": "left",
                         "btnName": "SpaceA",
@@ -684,7 +691,7 @@
                         "link": "#url/support",
                         "bqKey": "login_page",
                         "class": "link",
-                        "tfont": "tiny",
+                        "tfont": "small",
                         "talign": "left",
                         "btnName": "SpaceA",
                         "ButtonImg": [],

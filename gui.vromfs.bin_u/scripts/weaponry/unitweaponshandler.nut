@@ -192,7 +192,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       name = header
       needDivLine = needDivLine
       width = width
-      isTinyFont = true
+      isSmallFont = true
     }
   }
 

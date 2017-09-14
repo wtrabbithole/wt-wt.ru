@@ -232,6 +232,7 @@ function build_aircraft_item(id, air, params = {})
       isBroken            = isLocalState && isBroken
       shopAirImg          = ::image_for_air(air)
       isPkgDev            = air.isPkgDev
+      isRecentlyReleased      = air.isRecentlyReleased
       discountId          = id + "-discount"
       showDiscount        = isLocalState && !isOwn && (!::isUnitGift(air) || checkNotification)
       shopItemTextId      = id + "_txt"
@@ -278,6 +279,7 @@ function build_aircraft_item(id, air, params = {})
     local isGroupInResearch = false
     local isElite           = true
     local isPkgDev          = false
+    local isRecentlyReleased    = false
     local hasTalismanIcon   = false
     local talismanIncomplete = false
     local mountedUnit       = null
@@ -325,6 +327,7 @@ function build_aircraft_item(id, air, params = {})
       special = ::isUnitSpecial(a)
       isElite = isElite && ::isUnitElite(a)
       isPkgDev = isPkgDev || a.isPkgDev
+      isRecentlyReleased = isRecentlyReleased || a.isRecentlyReleased
 
       local hasTalisman = special || ::shop_is_modification_enabled(a.name, "premExpMul")
       hasTalismanIcon = hasTalismanIcon || hasTalisman
@@ -440,6 +443,7 @@ function build_aircraft_item(id, air, params = {})
       isBroken            = bitStatus & bit_unit_status.broken
       shopAirImg          = shopAirImage
       isPkgDev            = isPkgDev
+      isRecentlyReleased      = isRecentlyReleased
       discountId          = id + "-discount"
       shopItemTextId      = id + "_txt"
       shopItemText        = forceUnitNameOnPlate ? "#" + nextAir.name + "_shop" : "#shop/group/" + air.name
@@ -850,7 +854,7 @@ function get_slotbar_obj(handler=null, scene=null, canCreateObj = false)
   {
     if (!canCreateObj)
       return null
-    local data = "slotbarBg {} slotbarDiv { id:t='nav-slotbar' } "
+    local data = "slotbarDiv { id:t='nav-slotbar' }"
     guiScene.appendWithBlk(scene, data, handler)
     slotbarObj = scene.findObject("nav-slotbar")
   }

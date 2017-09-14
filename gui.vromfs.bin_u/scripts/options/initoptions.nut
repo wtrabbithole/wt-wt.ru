@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 function init_options()
 {
   if (::measure_units.len() > 0 && (::g_login.isAuthorized() || ::disable_network()))
@@ -33,6 +35,10 @@ function update_all_units()
   //update the main table
   local ws = ::get_warpoints_blk()
   local ws_cost = ::get_wpcost_blk()
+  local unitTagsBlk = ::get_unittags_blk()
+
+  local markRecentlyReleasedUnitsDays = ::getTblValue("markRecentlyReleasedUnitsDays", ::configs.GUI.get(), 0)
+  local timeMarkReleasedAfter = ::get_charserver_time_sec() - (markRecentlyReleasedUnitsDays * TIME_DAY_IN_SECONDS)
 
   foreach (air in ::all_units)
   {
@@ -115,6 +121,9 @@ function update_all_units()
     air.getRentTimeleft <- ::getUnitRentTimeleft
     air.maxFlightTimeMinutes <- ::getTblValue("maxFlightTimeMinutes", ws_air, 0)
     air.isPkgDev <- ::is_dev_version && ::getTblValue("pkgDev", ws_air, false)
+
+    local releaseDate = ::get_tbl_value_by_path_array([ air.name, "releaseDate" ], unitTagsBlk, "")
+    air.isRecentlyReleased <- releaseDate != "" && ::mktime(time.getTimeFromStringUtc(releaseDate)) > timeMarkReleasedAfter
   }
 
   foreach (airname, airblock in ws_cost)

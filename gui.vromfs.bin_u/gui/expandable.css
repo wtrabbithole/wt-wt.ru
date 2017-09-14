@@ -3,22 +3,18 @@ expandable {
   width:pw-10*@sf/@pf_outdated;
   pos:50%pw-50%w, 0;
   position:relative;
-  background-position:4,4;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#shop_item_own;
-  background-color:@commonTextColor;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  border-offset:@dp;
   flow:vertical;
   margin-top:0.5*@scrn_tgt/100.0+2*@sf/@pf_outdated;
-  padding:-6*@sf/@pf_outdated,-4*@sf/@pf_outdated, -4*@sf/@pf_outdated, -4*@sf/@pf_outdated;
   total-input-transparent:yes;
 }
 
 expandable > selImg {
   width:pw+2*@sf/@pf_outdated;
   re-type:9rect;
-  background-position:6,6;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#shop_select;
   padding:10*@sf/@pf_outdated,6*@sf/@pf_outdated, 8*@sf/@pf_outdated,6*@sf/@pf_outdated;
   flow:vertical;
 }
@@ -53,7 +49,7 @@ expandable:current > selImg {
   background-color:@white;
 }
 
-[selImgType=gamepadFocused] > expandable > selImg,  expandable.battletask > selImg {
+[selImgType=gamepadFocused] > expandable > selImg,  expandable > selImg {
   background-color:@transparent;
 }
 
@@ -75,10 +71,20 @@ expandable[status=locked] statusImg {
 expandable statusImg[background-image] {
   background-color:@commonTextColor;
 }
-expandable:hover, expandable:hover statusImg[background-image] {
+
+expandable:hover {
+  background-color:@frameDarkHoverBgColor;
+}
+expandable:hover statusImg[background-image] {
   background-color:@hoverTextColor;
 }
-expandable:current, expandable:current statusImg[background-image] {
+
+expandable:current {
+  background-color:@frameDarkActiveBgColor;
+  border-color:@frameDarkSelectedBorderColor;
+}
+
+expandable:current statusImg[background-image] {
   background-color:@activeTextColor;
 }
 
@@ -89,13 +95,20 @@ expandable[clickable=yes]:hover {
   background-color:@white;
 }
 
-expandable[status=owned], expandable[status=owned] statusImg[background-image] {
-  background-color:@shopItemOwned;
+expandable[status=owned] {
+  background-color:@frameDarkActiveBgColor;
+  border:no;
 }
 
-expandable[status=owned]:hover, expandable[status=owned]:hover statusImg[background-image],
-expandable[status=owned]:current, expandable[status=owned]:current statusImg[background-image] {
-  background-color:@shopItemOwnedFocus;
+expandable[status=owned]:current {
+  background-color:@frameDarkActiveBgColor;
+  border-color:@frameDarkSelectedBorderColor;
+  border:yes;
+}
+
+expandable[status=owned]:hover {
+  background-color:@frameDarkHoverBgColor;
+  border-color:@frameDarkSelectedBorderColor;
 }
 
 expandable[status=locked], expandable[status=locked] statusImg[background-image] {
@@ -113,42 +126,24 @@ expandable[haveHeader=yes] {
   margin-top:8*@scrn_tgt/100.0;
 }
 
-expandable.battletask {
-  padding:0;
-  background-image:"";
-  background-color:@frameDarkBackgroundColor;
-  border-color:@frameDarkBorderColor;
-  border:yes;
-  border-offset:@dp;
-}
-
-expandable.battletask[battleTaskStatus=done] {
+expandable[battleTaskStatus=done] {
   background-image:"";
   background-color:@frameDarkBackgroundColor;
   border-color:@frameDarkBorderColor;
   border:yes;
 }
 
-promoButton > expandable.battletask {
+promoButton > expandable {
   border: no;
 }
 
-expandable.battletask:hover {
-  background-color:@frameDarkActiveBgColor;
-}
-
-expandable.battletask:current {
-  background-color:@frameDarkActiveBgColor;
-  border-color:@frameDarkSelectedBorderColor;
-}
-
-expandable.battletask[battleTaskStatus=done] textareaNoTab {
+expandable[battleTaskStatus=done] textareaNoTab {
   color-factor:128;
 }
 
 expandable:current > fgLine {
-  size:pw + 2@dp, 2@dp;
-  pos:-1@dp, -1@dp;
+  size:pw, 2@dp;
+  pos:0, 0;
   position:absolute;
   background-color:@frameDarkLineColor;
 }
@@ -159,21 +154,25 @@ promoButton[type=battleTask] expandable {
 }
 
 promoButton[type=battleTask] statusImg,
-expandable.battletask statusImg {
+expandable statusImg {
   size:1@modStatusHeight, 1@modStatusHeight;
   background-color:@transparent;
   pos:0, 50%ph-50%h;
   position:relative;
 }
 
+expandable[type=battleTask]:current {
+  border-color:@frameDarkLineColor;
+}
+
 promoButton[type=battleTask] [battleTaskStatus=complete] statusImg,
-expandable.battletask[battleTaskStatus=complete] statusImg  {
+expandable[battleTaskStatus=complete] statusImg  {
   background-image:#ui/gameuiskin#new_reward_icon;
   background-color:@white;
 }
 
 promoButton[type=battleTask] [battleTaskStatus=done] statusImg,
-expandable.battletask[battleTaskStatus=done] statusImg {
+expandable[battleTaskStatus=done] statusImg {
   background-image:#ui/gameuiskin#favorite;
   background-color:@white;
 }
@@ -189,7 +188,7 @@ expandable hiddenDiv {
 }
 
 expandable:current hiddenDiv,
-promoButton expandable.battletask hiddenDiv {
+promoButton expandable hiddenDiv {
   display:show;
 }
 
@@ -198,6 +197,16 @@ expandable expandImg {
 }
 
 expandable:current expandImg,
-promoButton expandable.battletask expandImg {
+promoButton expandable expandImg {
   display:hide;
+}
+
+highlightedRowLine {
+  position: absolute;
+  size:pw, 3@dp;
+  background-color:@transparent;
+}
+
+expandable[status=owned] > highlightedRowLine {
+  background-color:@frameDarkSelectedBorderColor;
 }

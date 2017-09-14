@@ -352,6 +352,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/team_battleareas_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -548,82 +564,6 @@
         ],
         "else_actions": []
       }
-    },
-    "t1_battleareas_init": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ANY",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": [
-        {
-          "objectExists": {
-            "target": "@t1_battlearea",
-            "type": "area"
-          }
-        },
-        {
-          "objectExists": {
-            "target": "@t1_battlearea",
-            "type": "squad"
-          }
-        }
-      ],
-      "actions": {
-        "missionBattleArea": {
-          "air": false,
-          "ground": true,
-          "mapArea": true,
-          "killOutOfBattleArea": true,
-          "newGridHorizontalCellCount": 0,
-          "area": "@t1_battlearea",
-          "team": "A"
-        }
-      },
-      "else_actions": []
-    },
-    "t2_battleareas_init": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ANY",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": [
-        {
-          "objectExists": {
-            "target": "@t2_battlearea",
-            "type": "area"
-          }
-        },
-        {
-          "objectExists": {
-            "target": "@t2_battlearea",
-            "type": "squad"
-          }
-        }
-      ],
-      "actions": {
-        "missionBattleArea": {
-          "air": false,
-          "ground": true,
-          "mapArea": true,
-          "killOutOfBattleArea": true,
-          "newGridHorizontalCellCount": 0,
-          "area": "@t2_battlearea",
-          "team": "B"
-        }
-      },
-      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -633,9 +573,7 @@
   "variables": {
     "enableExitZones": false,
     "t1_exitZoneName": "",
-    "t2_exitZoneName": "",
-    "t1_battlearea": "t1_battlearea",
-    "t2_battlearea": "t2_battlearea"
+    "t2_exitZoneName": ""
   },
   "dialogs": [],
   "airfields": [],

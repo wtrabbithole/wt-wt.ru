@@ -175,7 +175,7 @@ skillParametersTooltip {
       textarea{
         pos:t='1@helpInterval, 0.5(ph-h)'
         position:t='relative'
-        tinyFont:t="yes"
+        smallFont:t="yes"
         text:t='<<imageLegendText>>'
       }
     }

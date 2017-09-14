@@ -45,7 +45,7 @@ root {
         width:t='pw';
         chapterTextAreaStyle:t='yes';
         hideEmptyText:t='yes';
-        font-bold:t='@normal';
+        font-bold:t='@fontMedium';
         text:t='<<mainText>>';
         padding-left:t='0.02@sf';
         on_link_click:t='proccessLinkFromText'

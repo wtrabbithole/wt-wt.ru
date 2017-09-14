@@ -269,7 +269,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       sceneChanged = true
       guiScene = scene.getScene()
-      guiScene.replaceContent(scene, "gui/contacts.blk", this)
+      guiScene.replaceContent(scene, "gui/contacts/contacts.blk", this)
       setSavedSizes()
       scene.findObject("contacts_update").setUserData(this)
       fillContactsList()
@@ -442,7 +442,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     }"
 
   groupFormat = @"group {
-    activeText {
+    groupHeader {
+      canBeClosed:t='yes';
       text:t='%s';
       %s
     }
@@ -933,8 +934,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         action = function () {
           if (::is_psn_player_use_same_titleId(curPlayer.name))
             ::g_psn_session_invitations.sendSkirmishInvitation(curPlayer.name)
-          else
-            ::SessionLobby.invitePlayer(curPlayer.uid)
+          ::SessionLobby.invitePlayer(curPlayer.uid)
         }
       }
       {
@@ -1144,8 +1144,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::is_psn_player_use_same_titleId(curPlayer.name))
       ::g_psn_session_invitations.sendSquadInvitation(curPlayer.name)
-    else
-      ::g_squad_manager.inviteToSquad(curPlayer.uid)
+    ::g_squad_manager.inviteToSquad(curPlayer.uid)
   }
 
   function onSquadRemove(obj)
@@ -1384,7 +1383,7 @@ function gui_start_search_squadPlayer()
 class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/contacts.blk"
+  sceneBlkName = "gui/contacts/contacts.blk"
 
   curGroup = ::EPL_FRIENDLIST
   searchGroup = ::EPLX_SEARCH
@@ -2067,7 +2066,7 @@ function fillContactTooltip(obj, contact, handler)
     }
   }
 
-  local blk = ::handyman.renderCached("gui/contactTooltip", view)
+  local blk = ::handyman.renderCached("gui/contacts/contactTooltip", view)
   obj.getScene().replaceContentFromText(obj, blk, blk.len(), handler)
 }
 

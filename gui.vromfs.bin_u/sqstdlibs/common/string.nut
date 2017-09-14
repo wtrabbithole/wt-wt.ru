@@ -375,3 +375,15 @@ function g_string::stripTags(str)
     str = test.re2.replace(test.repl, str)
   return str
 }
+
+function g_string::intToStrWithDelimiter(value, delimiter = " ")
+{
+  local res = value.tointeger().tostring()
+  local idx = res.len()
+  while (idx > 3)
+  {
+    idx -= 3
+    res = res.slice(0, idx) + delimiter + res.slice(idx)
+  }
+  return res
+}

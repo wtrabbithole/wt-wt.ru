@@ -316,10 +316,29 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function createGameModeCountriesView(gameMode)
   {
-    local countries = []
-    foreach (country in gameMode.countries)
-      countries.append({ img = ::get_country_icon(country) })
-    return countries
+    local res = []
+    local countries = gameMode.countries
+    if (!countries.len() || countries.len() >= ::crews_list.len())
+      return res
+
+    local needShowLocked = false
+    if (countries.len() >= 0.7 * ::crews_list.len())
+    {
+      local lockedCountries = []
+      foreach(countryData in ::crews_list)
+      {
+        local country = countryData.country
+        if (::is_country_visible(country) && !::isInArray(country, countries))
+          lockedCountries.append(country)
+      }
+
+      needShowLocked = true
+      countries = lockedCountries
+    }
+
+    foreach (country in countries)
+      res.append({ img = ::get_country_icon(country, false, needShowLocked) })
+    return res
   }
 
   function createGameModesPartitionView(partition)

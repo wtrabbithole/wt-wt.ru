@@ -1,8 +1,8 @@
 ::callstack <- dagor.debug_dump_stack
 
-function reload(scriptName = "main")
+function reload()
 {
-  return ::g_script_reloader.reload("scripts/" + scriptName + ".nut")
+  return ::g_script_reloader.reload(::reload_main_script_module)
 }
 
 function get_stack_string(level = 2)
@@ -474,16 +474,6 @@ function debug_show_unit(unitId)
   ::show_aircraft = unit
   ::gui_start_decals()
   return "Done"
-}
-
-function debug_change_font_size(shouldIncrease = true)
-{
-  local availableFonts = ::g_font.getAvailableFonts()
-  local idx = ::find_in_array(availableFonts, ::g_font.getCurrent(), 0)
-  idx = ::clamp(idx + (shouldIncrease ? 1 : -1), 0, availableFonts.len() - 1)
-  if (::g_font.setCurrent(availableFonts[idx]))
-    ::handlersManager.getActiveBaseHandler().fullReloadScene()
-  dlog("Loaded fonts: " + availableFonts[idx].id)
 }
 
 function debug_change_language(isNext = true)

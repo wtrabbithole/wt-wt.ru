@@ -896,7 +896,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1605,13 +1605,13 @@
           "role": "tank_gunner"
         },
         {
-          "role": "loader"
-        },
-        {
           "substitute": "commander"
         },
         {
           "substitute": "machine_gunner"
+        },
+        {
+          "substitute": "loader"
         }
       ],
       "driver": [
@@ -1636,7 +1636,21 @@
       "machine_gunner": {
         "dmPart": "machine_gunner_dm",
         "role": "radio_gunner"
-      }
+      },
+      "loader": [
+        {
+          "dmPart": "loader_dm"
+        },
+        {
+          "role": "loader"
+        },
+        {
+          "substitute": "machine_gunner"
+        },
+        {
+          "substitute": "commander"
+        }
+      ]
     }
   },
   {

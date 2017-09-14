@@ -1,5 +1,10 @@
 local colors = {}
 
+colors.menu <- {}
+::with_table(colors.menu, function () {
+  chatTextBlockedColor =  Color(128, 128, 128)
+})
+
 colors.hud <- {}
 ::with_table(colors.hud, function () {
   teamBlueColor = Color(82, 122, 255)
@@ -13,8 +18,15 @@ colors.hud <- {}
   teamRedDarkColor = Color(52, 17, 16)
   squadColor = Color(62, 158, 47)
   chatTextSquadColor = Color(198, 255, 189)
-})
+  chatActiveInfoColor = Color(255, 255, 5)
+  mainPlayerColor = Color(221, 163, 57)
 
+  mySquadColor = Color(62, 158, 47)
+  spectatorColor = Color(128, 128, 128)
+
+  componentFill = Color(0, 0, 0, 192)
+  componentBorder = Color(255, 255, 255)
+})
 
 colors.hud.damageModule <- {}
 ::with_table(colors.hud.damageModule, function () {

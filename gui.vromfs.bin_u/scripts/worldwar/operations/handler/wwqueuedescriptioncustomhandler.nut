@@ -2,17 +2,22 @@ class ::gui_handlers.WwQueueDescriptionCustomHandler extends ::gui_handlers.WwMa
 {
   function mapCountriesToView(countries, amountByCountry, joinedCountries)
   {
+    local minTeamsInfoText = descItem.getMinClansCondition()
+    local getTeamsInfoText = function (countryName) {
+      local isJoined = ::isInArray(countryName, joinedCountries)
+      local text = ::getTblValue(countryName, amountByCountry, "").tostring()
+
+      return isJoined ? ::colorize("@userlogColoredText", text) : text + "/" + minTeamsInfoText
+    }
+
     return {
       countries = ::u.map(countries,
-                    (@(amountByCountry, joinedCountries) function (countryName) {
-                      return {
-                        countryName = countryName
-                        countryIcon = ::get_country_icon(countryName)
-                        amount      = ::getTblValue(countryName, amountByCountry, "").tostring()
-                        isJoined    = ::isInArray(countryName, joinedCountries)
-                      }
-                    })(amountByCountry, joinedCountries)
-                  )
+        @(countryName) {
+          countryName   = countryName
+          countryIcon   = ::get_country_icon(countryName)
+          isJoined      = ::isInArray(countryName, joinedCountries)
+          teamsInfoText = getTeamsInfoText(countryName)
+        })
     }
   }
 
@@ -33,5 +38,6 @@ class ::gui_handlers.WwQueueDescriptionCustomHandler extends ::gui_handlers.WwMa
     }
     local data = ::handyman.renderCached("gui/worldWar/wwOperationCountriesInfo", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
+    obj.show(descItem.isMapActive())
   }
 }

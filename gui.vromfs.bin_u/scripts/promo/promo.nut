@@ -664,6 +664,7 @@ function g_promo::onOpenBattleTasksWnd(owner, params = {}, obj = null)
   if (taskId == null && params.len() > 0)
     taskId = params[0]
 
+  ::g_warbonds_view.resetShowProgressBarFlag()
   ::gui_start_battle_tasks_wnd(taskId)
 }
 

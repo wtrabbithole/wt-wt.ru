@@ -69,14 +69,21 @@ function g_script_reloader::registerPersistentDataFromRoot(structureId, paramsAr
   registerPersistentData(structureId, context, context[paramsArrayId])
 }
 
-function g_script_reloader::reload(scriptPath = "scripts/main.nut")
+function g_script_reloader::reload(scriptPathOrStartFunc)
 {
   isInReloading = true
   saveAllDataToStorages()
   loadedScripts.clear()
-  loadOnce(scriptPath)
+
+  if (typeof(scriptPathOrStartFunc) == "function")
+    scriptPathOrStartFunc()
+  else if (typeof(scriptPathOrStartFunc) == "string")
+    loadOnce(scriptPathOrStartFunc)
+  else
+    ::dagor.assertf(res, "Scripts reloader: bad reload param type " + scriptPathOrStartFunc)
+
   if ("broadcastEvent" in ::getroottable())
-    ::broadcastEvent("ScriptsReloaded", { scriptPath = scriptPath })
+    ::broadcastEvent("ScriptsReloaded")
   isInReloading = false
   return "Reload success" //for feedbek on console command
 }

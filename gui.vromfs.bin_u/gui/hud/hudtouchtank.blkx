@@ -360,7 +360,7 @@
                 "textareaNoTab": {
                   "id": "streak_header",
                   "width": "pw",
-                  "style": "color:@streakTextColor; font:@hud_normal; text-align:center;",
+                  "style": "color:@streakTextColor; font:@fontHudMedium; text-align:center;",
                   "text": "",
                   "shadeStyle": "HudHeader3D",
                   "pos": "0, -0.004*@shHud",
@@ -371,7 +371,7 @@
                 "textareaNoTab": {
                   "id": "streak_score",
                   "width": "pw",
-                  "style": "color:@white; font:@hud_tiny; text-align:center;",
+                  "style": "color:@white; font:@fontHudSmall; text-align:center;",
                   "shadeStyle": "HudTinyLight",
                   "text": ""
                 }
@@ -749,7 +749,7 @@
               "message_style": "kill_log_notification",
               "position": "relative",
               "pos": "pw - w, ph - h",
-              "width": "fw",
+              "width": "0.5@shHud",
               "flow": "vertical"
             }
           }

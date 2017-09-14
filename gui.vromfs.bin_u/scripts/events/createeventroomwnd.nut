@@ -36,7 +36,7 @@ class ::gui_handlers.CreateEventRoomWnd extends ::gui_handlers.GenericOptionsMod
   {
     local frameObj = scene.findObject("wnd_frame")
     frameObj.width = "1.3@sf"
-    frameObj.height = "8@baseTrHeight + 1@frameHeaderHeight + 1@frameFooterHeightLarge"
+    frameObj.height = "8@baseTrHeight + 1@frameTopPadding + 1@frameFooterHeightLarge"
   }
 
   function getNavbarTplView()

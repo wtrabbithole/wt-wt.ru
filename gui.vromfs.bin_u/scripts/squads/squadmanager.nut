@@ -1168,6 +1168,8 @@ function g_squad_manager::onEventLobbyStatusChange(params)
   updateMyMemberData()
 }
 
+::cross_call_api.squad_manger <- ::g_squad_manager
+
 ::g_script_reloader.registerPersistentDataFromRoot("g_squad_manager")
 
 ::subscribe_handler(::g_squad_manager, ::g_listener_priority.DEFAULT_HANDLER)

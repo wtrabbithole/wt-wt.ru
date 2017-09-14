@@ -66,6 +66,7 @@ foreach (fn in [
                  "trophyMultiAward.nut"
                  "itemsRoulette.nut"
                  "itemLimits.nut"
+                 "universalSpareApplyWnd.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/items/" + fn)
 

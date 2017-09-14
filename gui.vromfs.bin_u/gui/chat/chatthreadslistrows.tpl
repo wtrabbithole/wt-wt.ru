@@ -44,7 +44,7 @@ expandable {
           position:t='relative'
           roomId:t='<<roomId>>'
           overlayTextColor:t='minor'
-          tinyFont:t='yes'
+          smallFont:t='yes'
           text:t='<<getOwnerText>>'
 
           behaviour:t='button'
@@ -69,7 +69,7 @@ expandable {
         id:t='thread_members'
         pos:t='pw-w, 0'
         position:t='absolute'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         overlayTextColor:t='minor'
         text:t='<<getMembersAmountText>>'
       }
@@ -85,7 +85,7 @@ expandable {
         pos:t='0, ph-h'
         position:t='relative'
         padding-right:t='4*@sf/@pf_outdated'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         overlayTextColor:t='active'
         overflow-y:t='auto'
         scrollbarShortcutsOnSelect:t="focus"
@@ -95,13 +95,13 @@ expandable {
       <<^onlyInfo>>
       <<#isGamepadMode>>
       tdiv {
-        height:t='@buttonHeight -0.005@scrn_tgt -2'
+        height:t='1@buttonHeight'
         pos:t='0, ph-h'
         position:t='relative'
 
         Button_text {
           id:t='action_btn'
-          pos:t='0, ph-h+2' //2 bottom button pixels are shade
+          pos:t='0, ph-h'
           position:t='relative'
           noMargin:t='yes'
           roomId:t='<<roomId>>'

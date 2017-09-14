@@ -63,6 +63,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       key = "orders"
       typeMask = itemType.ORDER
     } {
+      key = "universalSpare"
+      typeMask = itemType.UNIVERSAL_SPARE
+    } {
       key = "vehicles"
       typeMask = itemType.VEHICLE
       tabEnable = @() ::has_feature("ExtInventory") ? [itemsTab.INVENTORY] : []

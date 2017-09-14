@@ -15,7 +15,7 @@ tdiv {
     pos:t='0, 50%ph-50%h'; position:t='relative'
     margin:t='1@blockInterval, 0'
     text-align:t='center'
-    boldFont:t='yes'
+    mediumFont:t='yes'
   }
   tdiv {
     id:t='countries2';
@@ -32,7 +32,7 @@ tdiv {
     id:t='vsText'
     text:t='#country/VS';
     pos:t='50%pw-50%w, 50%ph-50%h'; position:t='relative'
-    boldFont:t='yes'
+    mediumFont:t='yes'
 
     <<#teamA>>
     tdiv {

@@ -33,11 +33,6 @@
           "position": "absolute"
         },
         {
-          "pattern": {
-            "type": "bright_texture"
-          }
-        },
-        {
           "navConsoleBlock": {
             "id": "slotbar_nav_block_left",
             "pos": "-w+10, 50%ph-50%h",
@@ -81,14 +76,11 @@
       ],
       "slotbarTop": {
         "id": "slotbar_buttons_place",
-        "pos": "0,-h + 1",
+        "size": "pw, 1@slotbarTop",
+        "pos": "0,-h",
         "position": "absolute",
-        "width": "pw",
         "display": "hide",
         "behavior": "Timer",
-        "pattern": {
-          "type": "bright_hor_lines"
-        },
         "tdiv": [
           {
             "id": "autorefill-settings"
@@ -158,9 +150,8 @@
       "id": "slotbar-countries",
       "pos": "50%pw-50%w, 0",
       "position": "relative",
-      "style": "background-image:#ui/gameuiskin#slotbar_body; background-position:4;",
       "useShortcuts": "no",
-      "noPadding": "yes",
+      "class": "slotbar",
       "on_select": "onSlotbarCountry"
     }
   },

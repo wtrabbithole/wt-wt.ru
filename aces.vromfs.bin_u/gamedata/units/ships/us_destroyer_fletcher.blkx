@@ -93,7 +93,31 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "smokeScreenActivateTime": 10.0
+  },
+  {
+    "smokeScreenTime": 30.0
+  },
+  {
+    "smokeScreenRad": 50.0
+  },
+  {
+    "smokeScreenFx": "smoke_screen_effect"
+  },
+  {
+    "smokeScreenOffset": [-45.0,2.0,0.0]
+  },
+  {
+    "rearmSmokeTimeOnField": 180.0
+  },
+  {
     "canReloadNonGuns": true
+  },
+  {
+    "depthTraceWarningDepth": 5.0
+  },
+  {
+    "depthTraceCriticalDepth": 2.0
   },
   {
     "default_skin_tomoe": [
@@ -4430,314 +4454,6 @@
             "pitch": [0.0,0.0]
           }
         }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
-          "emitter": "bone_bomb_01",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 21.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
-          "emitter": "bone_bomb_02",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 21.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
-          "emitter": "bone_bomb_03",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 21.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
-          "emitter": "bone_bomb_04",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 21.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
-          "emitter": "bone_bomb_05",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 21.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_6_mortar.blk",
-          "emitter": "bone_bomb_06",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 21.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_07",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 1.9
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_08",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 1.9
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_09",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 2.7
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_10",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 2.7
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_11",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 3.5
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_12",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 3.5
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_13",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 4.3
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_14",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 4.3
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_15",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 5.1
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_16",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 5.1
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_17",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 5.9
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_18",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 5.9
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_19",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 6.7
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_20",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 6.7
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_21",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 7.5
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_22",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 7.5
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_23",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 8.3
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_24",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 8.3
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_25",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 9.1
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_26",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 9.1
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_27",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 9.9
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_mk_vii.blk",
-          "emitter": "bone_bomb_28",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 9.9
-        }
       }
     ]
   },
@@ -4769,7 +4485,8 @@
           "extinguisherCrewBusyTime": -1.0
         }
       },
-      "tank_tool_kit": []
+      "tank_tool_kit": [],
+      "ship_smoke_screen_system_mod": []
     }
   },
   {
@@ -5226,23 +4943,83 @@
     ]
   },
   {
-    "ammoLoadDistribution": {
-      "primaryShells": {
-        "ammunition_storage_01_dm": {
-          "count": 1800
-        }
-      },
-      "primaryCharges": {
-        "ammunition_storage_04_dm": {
-          "count": 1800
-        }
-      },
-      "secondaryShells": {
-        "ammunition_storage_02_dm": {
-          "count": 2500
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
         },
-        "ammunition_storage_03_dm": {
-          "count": 2500
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "shells": {
+            "ammunition_storage_01_dm": {
+              "count": 720
+            }
+          }
+        }
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "shells": {
+            "ammunition_storage_02_dm": {
+              "count": 720
+            }
+          }
+        }
+      ],
+      "ammo3": {
+        "weaponTrigger": "gunner4",
+        "shells": {
+          "ammunition_storage_04_dm": {
+            "count": 360
+          }
+        }
+      },
+      "ammo4": {
+        "weaponTrigger": "gunner12",
+        "shells": {
+          "torpedo_01_dm": {
+            "count": 1
+          },
+          "torpedo_02_dm": {
+            "count": 1
+          },
+          "torpedo_03_dm": {
+            "count": 1
+          },
+          "torpedo_04_dm": {
+            "count": 1
+          },
+          "torpedo_05_dm": {
+            "count": 1
+          }
+        }
+      },
+      "ammo5": {
+        "weaponTrigger": "gunner13",
+        "shells": {
+          "torpedo_06_dm": {
+            "count": 1
+          },
+          "torpedo_07_dm": {
+            "count": 1
+          },
+          "torpedo_08_dm": {
+            "count": 1
+          },
+          "torpedo_09_dm": {
+            "count": 1
+          },
+          "torpedo_10_dm": {
+            "count": 1
+          }
         }
       }
     }

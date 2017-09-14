@@ -13,6 +13,11 @@ class WwQueue
     data = _data
   }
 
+  function isMapActive()
+  {
+    return map.isActive()
+  }
+
   function getArmyGroupsByCountry(country, defValue = null)
   {
     return ::getTblValue(country, data, defValue)
@@ -102,7 +107,7 @@ class WwQueue
 
   function getGeoCoordsText()
   {
-    return ::loc("worldwar/сlansInQueueTotal") + " " + getArmyGroupsAmountTotal()
+    return ""
   }
 
   function getCountriesByTeams()
@@ -213,7 +218,12 @@ class WwQueue
 
   function getChangeStateTimeText()
   {
-    return map.getChangeStateTimeText()
+    return map.getMapChangeStateTimeText()
+  }
+
+  function getMinClansCondition()
+  {
+    return map.getMinClansCondition()
   }
 
   function getClansConditionText()

@@ -6,6 +6,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   parentHandlerWeak = null
   sectionsStructure = null
+  objForWidth = null
 
   GCDropdownsList = null
   focusArray = null
@@ -16,7 +17,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   ON_ESC_SECTION_OPEN = "menu"
 
-  static function create(nestObj, parentHandler, sectionsStructure)
+  static function create(nestObj, parentHandler, sectionsStructure, objForWidth = null)
   {
     if (!::g_login.isLoggedIn())
       return null
@@ -27,7 +28,8 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     local handler = ::handlersManager.loadHandler(::gui_handlers.TopMenuButtonsHandler, {
                                            scene = nestObj
                                            parentHandlerWeak = parentHandler,
-                                           sectionsStructure = sectionsStructure
+                                           sectionsStructure = sectionsStructure,
+                                           objForWidth = objForWidth
                                         })
     return handler? handler.weakref() : null
   }
@@ -62,13 +64,15 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   function getMaxSectionsCount()
   {
-    if (!::check_obj(scene))
-      return 1
-
     if (!::has_feature("SeparateTopMenuButtons"))
       return 1
 
-    local freeWidth = scene.getSize()[0]
+    if (!::check_obj(objForWidth))
+      objForWidth = scene
+    if (!::check_obj(objForWidth))
+      return 1
+
+    local freeWidth = objForWidth.getSize()[0]
     local singleButtonMinWidth = guiScene.calcString("1@topMenuButtonWidth", null)
     return freeWidth / singleButtonMinWidth || 1
   }
@@ -111,14 +115,13 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
         tmId = tmId
         haveTmDiscount = sectionData.haveTmDiscount
         tmDiscountId = sectionData.getTopMenuDiscountId()
-        tmType = sectionData.type
+        visualStyle = sectionData.visualStyle
         tmText = sectionData.getText(maxSectionsCount)
         tmImage = sectionData.getImage(maxSectionsCount)
         tmWinkImage = sectionData.getWinkImage()
         tmHoverMenuPos = sectionData.hoverMenuPos
         tmOnClick = sectionData.onClick
         forceHoverWidth = sectionData.forceHoverWidth
-        minimalWidth = sectionData.minimalWidth
         columnsCount = columnsCount
         columns = columns
         btnName = sectionData.btnName

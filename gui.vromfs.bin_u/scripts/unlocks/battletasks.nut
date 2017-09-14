@@ -623,6 +623,9 @@ function BattleTasks::setUpdateTimer(task, taskBlockObj)
   if (!::checkObj(taskBlockObj))
     return
 
+  local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
+  if (!diff.hasTimer) return
+
   local holderObj = taskBlockObj.findObject("task_timer_text")
   if (::checkObj(holderObj) && task)
     ::secondsUpdater(holderObj, (@(task) function(obj, params) {
@@ -823,11 +826,21 @@ function BattleTasks::getRewardForTask(battleTaskId)
   if (::u.isEmpty(battleTaskId))
     return
 
+  local battleTask = getTaskById(battleTaskId)
+  if (!::g_warbonds.checkOverLimit(battleTask))
+    return
+
+  sendReceiveRewardRequest(battleTask)
+}
+
+function BattleTasks::sendReceiveRewardRequest(battleTask)
+{
   local blk = ::DataBlock()
-  blk.unlockName = battleTaskId
+  blk.unlockName = battleTask.id
 
   local taskId = ::char_send_blk("cln_reward_specific_battle_task", blk)
   ::g_tasker.addTask(taskId, {showProgressBox = true}, function() {
+    ::g_warbonds_view.needShowProgressBarInPromo = true
     ::update_gamercards()
     ::broadcastEvent("BattleTasksIncomeUpdate")
     ::broadcastEvent("BattleTasksRewardReceived")

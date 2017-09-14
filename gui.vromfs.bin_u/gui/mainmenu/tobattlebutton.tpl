@@ -52,6 +52,7 @@ Button_text {
   id:t='to_battle_button';
   position:t='absolute';
   pos:t='50%pw-50%w, 3';
+  noMargin:t='yes'
   class:t='battle';
   text:t='#mainmenu/toBattle';
   on_click:t='onStart';
@@ -63,7 +64,7 @@ Button_text {
     noEnter:t='yes'
   <</enableEnterKey>>
 
-  style:t='margin-right: 0*@sf/@pf_outdated; height: 1@topMenuBattleButtonHeight; min-width: pw - 14*@sf/@pf_outdated;'
+  style:t='height: 1@topMenuBattleButtonHeight; min-width: pw - 14*@sf/@pf_outdated;'
 
   buttonWink {
     _transp-timer:t='0';

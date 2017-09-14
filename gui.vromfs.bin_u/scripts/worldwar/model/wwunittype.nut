@@ -18,7 +18,7 @@
   moveSound = ""
   deploySound = ""
   expClass = null
-  canBeControlledByPlayer = true
+  canBeControlledByPlayer = false
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_ww_unit_type", {
@@ -33,6 +33,7 @@
     fontIcon = ::loc("worldwar/iconAir")
     moveSound = "ww_unit_move_airplanes"
     deploySound = "ww_unit_move_airplanes"
+    canBeControlledByPlayer = true
   }
   GROUND = {
     code = ::UT_GROUND
@@ -43,6 +44,7 @@
     fontIcon = ::loc("worldwar/iconGround")
     moveSound = "ww_unit_move_tanks"
     deploySound = "ww_unit_move_tanks"
+    canBeControlledByPlayer = true
   }
   WATER = {
     code = ::UT_WATER
@@ -51,6 +53,7 @@
     esUnitCode = ::ES_UNIT_TYPE_SHIP
     name = "Ship"
     fontIcon = ::loc("worldwar/iconWater")
+    canBeControlledByPlayer = true
   }
   INFANTRY = {
     code = ::UT_INFANTRY
@@ -61,7 +64,6 @@
     expClass = "infantry"
     moveSound = "ww_unit_move_infantry"
     deploySound = "ww_unit_move_infantry"
-    canBeControlledByPlayer = false
   }
   ARTILLERY = {
     code = ::UT_ARTILLERY
@@ -72,7 +74,6 @@
     expClass = "artillery"
     moveSound = "ww_unit_move_artillery"
     deploySound = "ww_unit_move_artillery"
-    canBeControlledByPlayer = false
   }
 })
 

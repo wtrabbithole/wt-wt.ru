@@ -158,6 +158,8 @@ function g_warbonds::openShop(params = {})
 {
   if (!isShopAvailable())
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
+
+  ::g_warbonds_view.resetShowProgressBarFlag()
   ::handlersManager.loadHandler(::gui_handlers.WarbondsShop, params)
 }
 
@@ -174,6 +176,30 @@ function g_warbonds::isShopButtonVisible()
 function g_warbonds::getLimit()
 {
   return maxAllowedWarbondsBalance
+}
+
+function g_warbonds::checkOverLimit(battleTask, silent = false)
+{
+  local curWb = ::g_warbonds.getCurrentWarbond()
+  local limit = getLimit()
+  local newBalance = curWb.getBalance() + battleTask.amount_warbonds
+  if (newBalance <= limit)
+    return true
+
+  if (!silent)
+  {
+    ::scene_msg_box("warbonds_over_limit",
+      null,
+      ::loc("warbond/msg/awardMayBeLost", {maxWarbonds = limit, lostWarbonds = newBalance - limit}),
+      [
+        ["yes", @() ::g_battle_tasks.sendReceiveRewardRequest(battleTask)],
+        ["#mainmenu/btnWarbondsShop", @() ::g_warbonds.openShop()],
+        ["no", @() null ]
+      ],
+      "#mainmenu/btnWarbondsShop",
+      {cancel_fn = @() null})
+  }
+  return false
 }
 
 function g_warbonds::onEventPriceUpdated(p)

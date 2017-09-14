@@ -35,7 +35,7 @@ modIcon{
     overflow:t='hidden'
     text {
       id:t='amount'
-      tinyFont:t='yes'
+      smallFont:t='yes'
       text:t=''
       auto-scroll:t='medium'
     }

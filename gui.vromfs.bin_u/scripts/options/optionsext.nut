@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local colorCorrector = require_native("colorCorrector")
 
 
 const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
@@ -874,8 +875,8 @@ function get_option(type, context = null)
       for (local i = 0; i < descr.values.len(); i++)
       {
         local assaultFuse = descr.values[i] == ::BOMB_ASSAULT_FUSE_TIME_OPT_VALUE
-        local text = assaultFuse ? "#options/bomb_activation_type/assault" :
-          (descr.values[i].tostring() + ::nbsp + ::loc("measureUnits/seconds"))
+        local text = assaultFuse ? "#options/bomb_activation_type/assault"
+          : time.secondsToString(descr.values[i], true, true, 1)
         local tooltipLoc = assaultFuse ? "guiHints/bomb_activation_type/assault" : "guiHints/bomb_activation_type/timer"
 
         descr.items.append({
@@ -3556,11 +3557,11 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_HUE_ALLY:
-      gen_hue_option(descr, "color_picker_hue_ally", 226, ::get_hue(::TARGET_HUE_ALLY))
+      gen_hue_option(descr, "color_picker_hue_ally", 226, ::get_hue(colorCorrector.TARGET_HUE_ALLY))
       break
 
     case ::USEROPT_HUE_ENEMY:
-      gen_hue_option(descr, "color_picker_hue_enemy", 3, ::get_hue(::TARGET_HUE_ENEMY))
+      gen_hue_option(descr, "color_picker_hue_enemy", 3, ::get_hue(colorCorrector.TARGET_HUE_ENEMY))
       break
 
     case ::USEROPT_STROBE_ALLY:
@@ -3578,15 +3579,15 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_HUE_SQUAD:
-      gen_hue_option(descr, "color_picker_hue_squad", 472, ::get_hue(::TARGET_HUE_SQUAD))
+      gen_hue_option(descr, "color_picker_hue_squad", 472, ::get_hue(colorCorrector.TARGET_HUE_SQUAD))
       break
 
     case ::USEROPT_HUE_SPECTATOR_ALLY:
-      gen_hue_option(descr, "color_picker_hue_spectator_ally", 112, ::get_hue(::TARGET_HUE_SPECTATOR_ALLY))
+      gen_hue_option(descr, "color_picker_hue_spectator_ally", 112, ::get_hue(colorCorrector.TARGET_HUE_SPECTATOR_ALLY))
       break
 
     case ::USEROPT_HUE_SPECTATOR_ENEMY:
-      gen_hue_option(descr, "color_picker_hue_spectator_enemy", 292, ::get_hue(::TARGET_HUE_SPECTATOR_ENEMY))
+      gen_hue_option(descr, "color_picker_hue_spectator_enemy", 292, ::get_hue(colorCorrector.TARGET_HUE_SPECTATOR_ENEMY))
       break
 
 
@@ -4266,27 +4267,27 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_HUE_SQUAD:
-      ::set_hue(::TARGET_HUE_SQUAD, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_SQUAD, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_ALLY:
-      ::set_hue(::TARGET_HUE_ALLY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_ALLY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_ENEMY:
-      ::set_hue(::TARGET_HUE_ENEMY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_ENEMY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_SPECTATOR_ALLY:
-      ::set_hue(::TARGET_HUE_SPECTATOR_ALLY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_SPECTATOR_ALLY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_SPECTATOR_ENEMY:
-      ::set_hue(::TARGET_HUE_SPECTATOR_ENEMY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_SPECTATOR_ENEMY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 

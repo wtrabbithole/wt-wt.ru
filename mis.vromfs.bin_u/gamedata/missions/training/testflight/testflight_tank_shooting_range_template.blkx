@@ -1,0 +1,771 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": "tankModels_01"
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "type": "singleMission",
+      "level": "levels/avg_training_ground.bin",
+      "campaign": "UserMissions",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      },
+      "tags": []
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true,
+    "init_shooting_range": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [],
+      "actions": {
+        "unitSetProperties": {
+          "object_marking": 0,
+          "object": "target_sq",
+          "stealthRadius": 1.0
+        },
+        "unitPlayAnim": {
+          "animName": "work_anim",
+          "target": "target_sq"
+        }
+      },
+      "else_actions": []
+    }
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "structures": {
+        "name": "target01",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2033.25,217.241,1540.72]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target02",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2283.36,217.241,1579.28]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target03",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2533.47,217.25,1589.2]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target04",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2683.11,217.25,1600.07]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target05",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2883.22,217.25,1620.35]
+        ],
+        "unit_class": "tank_target_25_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target07",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2883.22,217.25,1630.83]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target08",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2883.22,217.25,1641.32]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target09",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [3274.41,273.643,1610.17]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target10",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [3127.19,252.281,1600.15]
+        ],
+        "unit_class": "tank_target_25_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target11",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [3274.36,274.403,1589.71]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target06",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [2777.28,217.241,1552.99]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target12",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [1883.25,217.25,1644.25]
+        ],
+        "unit_class": "tank_target_17_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "structures": {
+        "name": "target13",
+        "tm": [
+          [1.04308e-07,0.0,1.0],
+          [0.0,1.0,0.0],
+          [-1.0,0.0,1.04308e-07],
+          [1883.25,217.25,1649.55]
+        ],
+        "unit_class": "tank_target_12_char",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "target_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1804.71,217.241,1492.97]
+        ],
+        "props": [
+          {
+            "squad_members": "target01"
+          },
+          {
+            "squad_members": "target02"
+          },
+          {
+            "squad_members": "target03"
+          },
+          {
+            "squad_members": "target04"
+          },
+          {
+            "squad_members": "target05"
+          },
+          {
+            "squad_members": "target07"
+          },
+          {
+            "squad_members": "target08"
+          },
+          {
+            "squad_members": "target09"
+          },
+          {
+            "squad_members": "target10"
+          },
+          {
+            "squad_members": "target11"
+          },
+          {
+            "squad_members": "target06"
+          },
+          {
+            "squad_members": "target12"
+          },
+          {
+            "squad_members": "target13"
+          }
+        ]
+      }
+    }
+  ],
+  "areas": {
+    "250": {
+      "type": "Sphere",
+      "tm": [
+        [500.0,0.0,0.0],
+        [0.0,500.0,0.0],
+        [0.0,0.0,500.0],
+        [1782.87,217.25,1555.35]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "500": {
+      "type": "Sphere",
+      "tm": [
+        [1000.0,0.0,0.0],
+        [0.0,1000.0,0.0],
+        [0.0,0.0,1000.0],
+        [1782.88,217.241,1566.6]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "750": {
+      "type": "Sphere",
+      "tm": [
+        [1500.0,0.0,0.0],
+        [0.0,1500.0,0.0],
+        [0.0,0.0,1500.0],
+        [1782.88,217.241,1578.6]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "900": {
+      "type": "Sphere",
+      "tm": [
+        [1800.0,0.0,0.0],
+        [0.0,1800.0,0.0],
+        [0.0,0.0,1800.0],
+        [1782.87,217.25,1589.45]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "1000": {
+      "type": "Sphere",
+      "tm": [
+        [2000.0,0.0,0.0],
+        [0.0,2000.0,0.0],
+        [0.0,0.0,2000.0],
+        [1782.87,217.25,1599.5]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "1100": {
+      "type": "Sphere",
+      "tm": [
+        [2200.0,0.0,0.0],
+        [0.0,2200.0,0.0],
+        [0.0,0.0,2200.0],
+        [1782.87,217.25,1610.1]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "1101": {
+      "type": "Sphere",
+      "tm": [
+        [2200.0,0.0,0.0],
+        [0.0,2200.0,0.0],
+        [0.0,0.0,2200.0],
+        [1782.87,217.25,1620.6]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "1102": {
+      "type": "Sphere",
+      "tm": [
+        [2200.0,0.0,0.0],
+        [0.0,2200.0,0.0],
+        [0.0,0.0,2200.0],
+        [1782.87,217.25,1631.1]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "1500": {
+      "type": "Sphere",
+      "tm": [
+        [3000.0,0.0,0.0],
+        [0.0,3000.0,0.0],
+        [0.0,0.0,3000.0],
+        [1782.87,217.25,1599.5]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "100": {
+      "type": "Sphere",
+      "tm": [
+        [200.0,0.0,0.0],
+        [0.0,200.0,0.0],
+        [0.0,0.0,200.0],
+        [1782.87,217.25,1634.94]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "1350": {
+      "type": "Sphere",
+      "tm": [
+        [2700.0,0.0,0.0],
+        [0.0,2700.0,0.0],
+        [0.0,0.0,2700.0],
+        [1782.87,217.25,1599.5]
+      ],
+      "objLayer": 3,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": false
+      }
+    }
+  ],
+  "wayPoints": [],
+  "__viewPoints": {
+    "viewpt_01": {
+      "pos": [1763.8,235.149,1797.3],
+      "ht": 17.9077
+    }
+  }
+}

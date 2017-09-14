@@ -2,7 +2,7 @@ activeText {
   id:t='label_commands'
   text:t='<<header>>'
   hideEmptyText:t='yes'
-  fontNormal:t='yes'
+  mediumFont:t='yes'
   pos:t='50%pw-50%w, 1@framePadding'
   position:t='relative'
 }

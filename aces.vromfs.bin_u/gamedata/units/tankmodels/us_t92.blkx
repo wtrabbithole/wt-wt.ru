@@ -380,7 +380,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1672,16 +1672,38 @@
     }
   },
   {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret_01",
-        "mass": 3500.0,
-        "cutDamage": 200.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret"
+    "wreckedParts": [
+      {
+        "part": {
+          "node": "bone_turret_01",
+          "mass": 3500.0,
+          "cutDamage": 200.0,
+          "deviation": 0.7,
+          "rotation": 5.5,
+          "collisionNode": "cls_turret_01"
+        }
+      },
+      {
+        "part": {
+          "node": "bone_turret_02",
+          "mass": 800.0,
+          "cutDamage": 100.0,
+          "deviation": 0.3,
+          "rotation": 5.5,
+          "collisionNode": "cls_turret_02"
+        }
+      },
+      {
+        "part": {
+          "node": "bone_turret_03",
+          "mass": 800.0,
+          "cutDamage": 100.0,
+          "deviation": 0.3,
+          "rotation": 5.5,
+          "collisionNode": "cls_turret_03"
+        }
       }
-    }
+    ]
   },
   {
     "unitFx": [

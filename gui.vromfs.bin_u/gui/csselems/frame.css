@@ -21,22 +21,25 @@ frame[type=blue] {
 }
 
 frame.wndNav {
-  padding:1@framePadding, 1@frameHeaderHeight, 1@framePadding, 1@frameFooterHeight;
+  padding:1@framePadding, 1@frameTopPadding, 1@framePadding, 1@frameFooterHeight;
 }
 frame.wndNav[largeNavBarHeight=yes] {
-  padding:1@framePadding, 1@frameHeaderHeight, 1@framePadding, 1@frameFooterHeightLarge;
+  padding:1@framePadding, 1@frameTopPadding, 1@framePadding, 1@frameFooterHeightLarge;
+}
+frame.wndNav[largeNavBarHeight=battle] {
+  padding:1@framePadding, 1@frameTopPadding, 1@framePadding, 1@frameFooterHeightBigBattle;
 }
 frame.wndNav[padByLine=yes] {
-  padding:1@frameHeaderPad, 1@frameHeaderHeight, 1@frameHeaderPad, 1@frameFooterHeight;
+  padding:1@frameHeaderPad, 1@frameHeaderHeight +1@dp, 1@frameHeaderPad, 1@frameFooterHeight;
 }
 frame.leaderboard {
-  padding:0.025@scrn_tgt, 1@frameHeaderHeight, 0.025@scrn_tgt, 1@frameFooterHeight;
+  padding:0.025@scrn_tgt, 1@frameTopPadding, 0.025@scrn_tgt, 1@frameFooterHeight;
 }
 frame.small {
   padding:1@framePadding, 1@framePadding, 1@framePadding, 1@frameFooterHeight;
 }
 frame.wnd {
-  padding:1@framePadding, 1@frameHeaderHeight + 1@framePadding, 1@framePadding, 1@framePadding;
+  padding:1@framePadding, 1@frameTopPadding, 1@framePadding, 1@framePadding;
 }
 
 frame_header {
@@ -44,9 +47,9 @@ frame_header {
   width:pw;
   height:1@frameHeaderHeight;
   position:absolute;
-  padding:1@frameHeaderPad, 1@frameHeaderPad, 1@frameHeaderPad + 1@buttonCloseHeight, 1@frameHeaderPad;
+  padding:1@frameHeaderPad, 1@frameHeaderPad, 1@frameHeaderPad + 1@buttonCloseHeight, 0;
 
-  background-position:@frameHeaderPad;
+  background-position:@frameHeaderPad, @frameHeaderPad, @frameHeaderPad, 0;
   background-color:@frameHeaderColor;
 }
 

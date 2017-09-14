@@ -42,6 +42,8 @@ function g_battle_task_difficulty::_getTimeLeftText()
   timeLimit = function() { return -1 }
   getTimeLeft = function() { return -1 }
   showSeasonIcon = @() false
+  canIncreaseShopLevel = true
+  hasTimer = true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_battle_task_difficulty", {
@@ -64,10 +66,12 @@ function g_battle_task_difficulty::_getTimeLeftText()
   HARD = {
     image = "#ui/gameuiskin#battle_tasks_hard"
     showSeasonIcon = @() ::has_feature("Warbonds_2_0")
+    canIncreaseShopLevel = false
     timeParamId = "specialTasks"
     executeOrder = @() ::has_feature("Warbonds_2_0")? -1 : 2
     timeLimit = function() { return time.daysToSeconds(1) }
     getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
+    hasTimer = false
   }
 
   UNKNOWN = {}

@@ -119,9 +119,6 @@
         "ex_armor_body_03_dm": {
           "armorThickness": 40.0
         },
-        "body_top_dm": {
-          "armorThickness": 36.0
-        },
         "turret_04_back_dm": {
           "armorThickness": 228.0
         },
@@ -144,7 +141,13 @@
           "armorThickness": 32.0
         },
         "body_side_dm": {
-          "armorThickness": 51.0
+          "armorThickness": 101.6
+        },
+        "body_top_dm": {
+          "armorThickness": 76.2
+        },
+        "body_shield_dm": {
+          "armorThickness": 50.8
         },
         "superstructure_top_dm": {
           "armorThickness": 25.0
@@ -685,7 +688,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1981,7 +1985,7 @@
         "cutDamage": 1000.0,
         "deviation": 0.5,
         "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_turret_02"
       }
     }
   },

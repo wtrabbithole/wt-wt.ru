@@ -262,18 +262,9 @@
         "gun_barrel_dm": {
           "armorThickness": 33.0
         },
-        "gun_barrel_01_dm": {
-          "armorThickness": 33.0
-        },
         "gun_barrel_02_dm": {
-          "armorThickness": 33.0
-        },
-        "gun_barrel_03_dm": {
           "armorThrough": 10.0,
           "armorThickness": 5.0
-        },
-        "gun_barrel_04_dm": {
-          "armorThickness": 33.0
         }
       },
       "chassis": {
@@ -547,95 +538,41 @@
   },
   {
     "sound": {
-      "EngineName": "engine_sherman_m4a3",
+      "EngineName": "engine_chaffee_m24",
       "TrackSoundPath": "tanks/engines_tanks",
-      "TrackSoundName": "tracks_heavy",
-      "TrackSoundNameCockpit": "tracks_heavy_interior",
-      "turret_turn": "turret_turn_manual_y",
-      "EngineNameAi": "engine_tank_ai_heavy",
-      "TrackSoundNameAi": "tracks_ai_heavy"
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "EngineNameAi": "engine_tank_ai_light",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {
     "ammoLoadDistribution": {
+      "removeLoadedAmmo": false,
       "primaryShells": {
-        "ammo_turret_01_dm": {
-          "count": 1
-        },
-        "ammo_turret_02_dm": {
-          "count": 1
-        },
-        "ammo_turret_03_dm": {
-          "count": 1
-        },
-        "ammo_turret_04_dm": {
-          "count": 1
-        },
-        "ammo_turret_05_dm": {
-          "count": 1
-        },
-        "ammo_turret_06_dm": {
-          "count": 1
-        },
-        "ammo_turret_07_dm": {
-          "count": 1
-        },
-        "ammo_turret_08_dm": {
-          "count": 1
-        },
-        "ammo_turret_09_dm": {
-          "count": 1
-        },
-        "ammo_turret_10_dm": {
-          "count": 1
-        },
-        "ammo_turret_11_dm": {
-          "count": 1
-        },
-        "ammo_turret_12_dm": {
-          "count": 1
-        },
-        "ammo_turret_13_dm": {
-          "count": 1
-        },
-        "ammo_turret_14_dm": {
-          "count": 1
-        },
         "ammo_body_01_dm": {
-          "count": 1
+          "count": 3
         },
         "ammo_body_02_dm": {
-          "count": 1
+          "count": 3
         },
         "ammo_body_03_dm": {
-          "count": 1
+          "count": 3
         },
         "ammo_body_04_dm": {
-          "count": 1
+          "count": 3
         },
-        "ammo_body_05_dm": {
-          "count": 1
+        "ammo_turret_01_dm": {
+          "count": 3
         },
-        "ammo_body_06_dm": {
-          "count": 1
+        "ammo_turret_02_dm": {
+          "count": 3
         },
-        "ammo_body_07_dm": {
-          "count": 1
+        "ammo_turret_03_dm": {
+          "count": 3
         },
-        "ammo_body_08_dm": {
-          "count": 1
-        },
-        "ammo_body_09_dm": {
-          "count": 1
-        },
-        "ammo_body_10_dm": {
-          "count": 1
-        },
-        "ammo_body_11_dm": {
-          "count": 1
-        },
-        "ammo_body_12_dm": {
-          "count": 1
+        "ammo_turret_04_dm": {
+          "count": 3
         }
       }
     }
@@ -1416,10 +1353,10 @@
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
-          "speedYaw": 18.0,
-          "speedPitch": 4.0,
+          "speedYaw": 20.0,
+          "speedPitch": 7.0,
           "fireConeAngle": 1.0,
-          "bullets": 26,
+          "bullets": 24,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1443,12 +1380,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-10.0,15.0]
+            "pitch": [-8.0,8.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-140.0,-4.0,15.0],
-            "lim2": [-140.0,140.0,-10.0,15.0],
-            "lim3": [140.0,180.0,-4.0,15.0]
+            "lim1": [-180.0,-140.0,-4.0,8.0],
+            "lim2": [-140.0,140.0,-8.0,8.0],
+            "lim3": [140.0,180.0,-4.0,8.0]
           }
         }
       },
@@ -1474,6 +1411,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "partsDP": "gun_barrel_02_dm"
           },
           {
             "speedYaw": 18.0
@@ -1557,11 +1497,11 @@
         "Empty": 8850.0,
         "Fuel": 150.0,
         "TakeOff": 9000.0,
-        "momentOfInertia": [2.5,2.5,6.0],
+        "momentOfInertia": [2.0,2.0,3.5],
         "CenterOfGravity": [0.05,0.5,0.0],
-        "CenterOfGravityClampY": [0.0,0.7],
+        "CenterOfGravityClampY": [0.0,0.5],
         "AdvancedMass": true,
-        "trackMass": 2500.0
+        "trackMass": 500.0
       },
       "tracks": {
         "animationMultiplier": -0.63,
@@ -1580,35 +1520,32 @@
       "mechanics": {
         "maxBrakeForce": 50000.0,
         "driveGearRadius": 0.25,
-        "mainGearRatio": 1.17,
-        "sideGearRatio": 16.222,
+        "mainGearRatio": 4.17,
+        "sideGearRatio": 1.11,
         "gearRatios": [
           {
-            "ratio": -0.58
+            "ratio": -4.54
           },
           {
             "ratio": 0.0
           },
           {
-            "ratio": 1.5
+            "ratio": 4.09
+          },
+          {
+            "ratio": 2.63
           },
           {
             "ratio": 1.0
-          },
-          {
-            "ratio": 0.428
-          },
-          {
-            "ratio": 0.244
           }
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.14,-0.12,0.1],
+        "suspensionOffsets": [-0.08,-0.08,0.05],
         "defaultGearRadius": 0.24,
         "topGearRadius": 0.122,
         "frontBackGearRadius": 0.22,
-        "defaultDampeningForce": [15000.0,15000.0],
+        "defaultDampeningForce": [27000.0,27000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -1637,10 +1574,10 @@
   },
   {
     "ammo": {
-      "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.6,0.9],
-      "explodeHitPower": 1500.0,
+      "combustionTime": 7.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.5,0.9],
+      "explodeHitPower": 1000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1660,11 +1597,11 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 8000.0,
-        "cutDamage": 1000.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
+        "mass": 2000.0,
+        "cutDamage": 500.0,
+        "deviation": 0.3,
+        "rotation": 1.5,
+        "collisionNode": "cls_turret"
       }
     }
   },
@@ -2166,7 +2103,7 @@
       "sightFov": 10.0,
       "headPos": [0.0,3.0,-5.0],
       "headPosOnShooting": [-0.8,2.43,0.5],
-      "detectionHeight": 2.3
+      "detectionHeight": 2.04
     }
   },
   {
@@ -2190,8 +2127,7 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_us"
       },
-      "106mm_M344A1_HEAT": [],
-      "106mm_M361A1_HESH": []
+      "106mm_M344A1_HEAT": []
     }
   },
   {

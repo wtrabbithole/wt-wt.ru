@@ -54,7 +54,7 @@ local mpChatModel = {
 
 
   clearLog = function() {
-    mpChatState.log = []
+    onChatClear()
     ::broadcastEvent("MpChatLogUpdated")
   }
 
@@ -76,7 +76,7 @@ local mpChatModel = {
 
 
   function onChatClear() {
-    clearLog()
+    mpChatState.log.clear()
     ::clear_chat_log()
   }
 

@@ -1,4 +1,5 @@
 local math = require("math")
+local timeBase = require("sqStdLibs/common/time.nut")
 
 
 /**
@@ -16,8 +17,6 @@ local math = require("math")
 local timeOrder = ["year", "month", "day", "hour", "min", "sec"]
 const DAYS_TO_YEAR_1970 = 719528
 
-const TIME_SECOND_IN_MSEC = 1000
-const TIME_SECOND_IN_MSEC_F = 1000.0
 const TIME_MINUTE_IN_SECONDS = 60
 const TIME_MINUTE_IN_SECONDS_F = 60.0
 const TIME_HOUR_IN_SECONDS = 3600
@@ -40,13 +39,6 @@ local getFullTimeTable = function(time, fillMissedByTimeTable = null) {
 }
 
 
-local millisecondsToSeconds = @(time) time / TIME_SECOND_IN_MSEC_F
-local secondsToMilliseconds = @(time) time * TIME_SECOND_IN_MSEC_F
-local secondsToMinutes = @(time) time / TIME_MINUTE_IN_SECONDS_F
-local minutesToSeconds = @(time) time * TIME_MINUTE_IN_SECONDS_F
-local secondsToHours = @(seconds) seconds / TIME_HOUR_IN_SECONDS_F
-local hoursToSeconds = @(seconds) seconds * TIME_HOUR_IN_SECONDS_F
-local daysToSeconds = @(days) days * TIME_DAY_IN_SECONDS_F
 local getDaysByTime = @(timeTbl) DAYS_TO_YEAR_1970 + ::get_t_from_utc_time(timeTbl) / TIME_DAY_IN_SECONDS
 local getUtcDays = @() DAYS_TO_YEAR_1970 + ::get_charserver_time_sec() / TIME_DAY_IN_SECONDS
 local cmpDate = @(timeTbl1, timeTbl2) ::get_t_from_utc_time(timeTbl1) <=> ::get_t_from_utc_time(timeTbl2)
@@ -195,58 +187,6 @@ local isInTimerangeByUtcStrings = function(beginDateStr, endDateStr) {
 }
 
 
-local hoursToString = function(time, full = true, useSeconds = false, dontShowZeroParam = false, fullUnits = false) {
-  local res = []
-
-  local sign = time >= 0 ? "" : ::loc("ui/minus")
-  time = math.fabs(time.tofloat())
-
-  local dd = (time / 24).tointeger()
-  local hh = (time % 24).tointeger()
-  local mm = (time * TIME_MINUTE_IN_SECONDS % TIME_MINUTE_IN_SECONDS).tointeger()
-  local ss = (time * TIME_HOUR_IN_SECONDS % TIME_MINUTE_IN_SECONDS).tointeger()
-
-  if (dd) {
-    res.append(
-      fullUnits ? ::loc("measureUnits/full/days", { n = dd }) :
-      dd + ::loc("measureUnits/days")
-    )
-    if (dontShowZeroParam && hh == 0) {
-      return sign + ::g_string.implode(res, " ")
-    }
-  }
-
-  if (hh && (full || time<24*7)) {
-    res.append(
-      fullUnits ? ::loc("measureUnits/full/hours", { n = hh }) :
-      ::format((time >= 24)? "%02d%s" : "%d%s", hh, ::loc("measureUnits/hours"))
-    )
-    if (dontShowZeroParam && mm == 0) {
-      return sign + ::g_string.implode(res, " ")
-    }
-  }
-
-  if (mm && (full || time<24)) {
-    res.append(
-      fullUnits ? ::loc("measureUnits/full/minutes", { n = mm }) :
-      ::format((time >= 1)? "%02d%s" : "%d%s", mm, ::loc("measureUnits/minutes"))
-    )
-  }
-
-  if (ss && useSeconds && time < 1.0/6) { // < 10min
-    res.append(
-      fullUnits ? ::loc("measureUnits/full/seconds", { n = ss }) :
-      ::format("%02d%s", ss, ::loc("measureUnits/seconds"))
-    )
-  }
-
-  if (!res.len()) {
-    return ""
-  }
-  return sign + ::g_string.implode(res, " ")
-}
-
-
 local processTimeStamps = function(text) {
   foreach (idx, time in ["{time=", "{time_countdown="]) {
     local startPos = 0
@@ -275,7 +215,7 @@ local processTimeStamps = function(text) {
 
       local textTime = ""
       if (time == "{time_countdown=") {
-        textTime = hoursToString(::max( 0, ::get_t_from_utc_time(timeTable) - ::get_charserver_time_sec() ) / TIME_HOUR_IN_SECONDS_F, true, true)
+        textTime = timeBase.hoursToString(::max( 0, ::get_t_from_utc_time(timeTable) - ::get_charserver_time_sec() ) / TIME_HOUR_IN_SECONDS_F, true, true)
       } else {
         textTime = buildDateTimeStr(convertUtcToLocalTime(timeTable))
       }
@@ -284,34 +224,6 @@ local processTimeStamps = function(text) {
   }
 
   return text
-}
-
-
-local secondsToString = function(value, useAbbreviations = true, dontShowZeroParam = false) {
-  value = value != null ? value.tofloat() : 0.0
-  local s = (math.fabs(value) + 0.5).tointeger()
-  local timeArray = []
-
-  local hoursNum = s / TIME_HOUR_IN_SECONDS
-  local minutesNum = (s % TIME_HOUR_IN_SECONDS) / TIME_MINUTE_IN_SECONDS
-  local secondsNum = s % TIME_MINUTE_IN_SECONDS
-
-  if (hoursNum != 0) {
-    timeArray.append(::format("%d%s", hoursNum, useAbbreviations ? ::loc("measureUnits/hours") : ""))
-  }
-
-  if (!dontShowZeroParam || minutesNum != 0) {
-    local fStr = timeArray.len() ? "%02d%s" : "%d%s"
-    timeArray.append(::format(fStr, minutesNum, useAbbreviations ? ::loc("measureUnits/minutes") : ""))
-  }
-
-  if (!dontShowZeroParam || secondsNum != 0) {
-    timeArray.append(::format("%02d%s", secondsNum, useAbbreviations ? ::loc("measureUnits/seconds") : ""))
-  }
-
-  local separator = useAbbreviations ? ::nbsp : ":"
-  local sign = value >= 0 ? "" : ::loc("ui/minus")
-  return sign + ::g_string.implode(timeArray, separator)
 }
 
 
@@ -359,15 +271,8 @@ local getExpireText = function(expireMin)
 }
 
 
-local export = {
+timeBase.__update({
   getFullTimeTable = getFullTimeTable
-  millisecondsToSeconds = millisecondsToSeconds
-  secondsToMilliseconds = secondsToMilliseconds
-  minutesToSeconds = minutesToSeconds
-  secondsToMinutes = secondsToMinutes
-  secondsToHours = secondsToHours
-  hoursToSeconds = hoursToSeconds
-  daysToSeconds = daysToSeconds
   getDaysByTime = getDaysByTime
   getUtcDays = getUtcDays
   cmpDate = cmpDate
@@ -381,12 +286,10 @@ local export = {
   processTimeStamps = processTimeStamps
   getExpireText = getExpireText
 
-  hoursToString = hoursToString
-  secondsToString = secondsToString
   preciseSecondsToString = preciseSecondsToString
   getRaceTimeFromSeconds = getRaceTimeFromSeconds
 
   buildIso8601DateTimeStr = buildIso8601DateTimeStr
-}
+})
 
-return export
+return timeBase

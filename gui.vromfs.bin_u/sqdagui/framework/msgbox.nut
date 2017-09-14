@@ -98,8 +98,8 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
     msgbox.findObject("msgBox_container").type = "big"
 
   local textObj = msgbox.findObject("msgText")
-  if (::getTblValue("font", options) == "small")
-    textObj.fontNormal = "no"
+  if (::getTblValue("font", options) == "fontNormal")
+    textObj.mediumFont = "no"
   textObj.setValue(text)
 
   local handlerObj = null
@@ -217,7 +217,7 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
       if (btn[0]!="")
       {
         local locTxtId = (btn[0].slice(0,1) == "#") ? btn[0] : "#msgbox/btn_" + btn[0]
-        local btnText = "text:t='" + locTxtId + "'; id:t='" + btn[0] + "';"
+        local btnText = "text:t='" + locTxtId + "'; id:t='" + btn[0] + "'; on_click:t='onButton';"
         if (buttons.len() == 1)
           btnText += "btnName:t='AB'; " //Enter and Esc for the single button
         blkText += "Button_text { " + animParams + btnText + "}"

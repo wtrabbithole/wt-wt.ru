@@ -133,9 +133,6 @@
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
       "country_axis": "japan",
       "country_allies": "ussr",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -152,7 +149,18 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false
       }
     },
     "cover_points": [],
@@ -191,6 +199,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -339,6 +350,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -361,6 +373,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -423,6 +436,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_land_squad",
             "team": "B"
           }
@@ -430,12 +444,16 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_land_squad",
             "team": "A"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_trucks_squad"
             },
@@ -601,6 +619,8 @@
         ],
         "unit_class": "a6m5_zero",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -645,6 +665,8 @@
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -658,8 +680,8 @@
           "army": 1,
           "count": 14,
           "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [12.0,8.0],
+          "formation_div": 4,
+          "formation_step": [16.0,14.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -671,12 +693,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [11440.5,144.85,13523.4]
+              [11381.0,145.679,13495.6]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 30.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_02": {
@@ -688,9 +712,11 @@
               [10770.4,157.8,12944.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_03": {
@@ -702,9 +728,11 @@
               [8614.1,63.25,12093.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_04": {
@@ -716,9 +744,11 @@
               [8253.55,40.75,10723.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_05": {
@@ -730,9 +760,11 @@
               [8078.5,41.1,9110.3]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_06": {
@@ -744,9 +776,11 @@
               [7701.9,29.2,8465.75]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_07": {
@@ -758,9 +792,11 @@
               [7537.4,18.15,7409.85]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_08": {
@@ -772,9 +808,11 @@
               [7678.25,41.7,6879.9]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_09": {
@@ -786,9 +824,11 @@
               [7970.7,89.8,4567.0]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_10": {
@@ -800,9 +840,11 @@
               [7048.2,63.15,4552.85]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_11": {
@@ -814,9 +856,11 @@
               [5786.75,51.0,6404.95]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_12": {
@@ -828,9 +872,11 @@
               [302.05,206.1,7197.4]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_01_wp_13": {
@@ -842,9 +888,11 @@
               [-935.8,105.75,8382.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -857,10 +905,12 @@
           [-0.422618,0.0,0.906308],
           [0.0,1.0,0.0],
           [-0.906308,0.0,-0.422618],
-          [12228.4,151.3,3175.35]
+          [12228.4,184.058,3175.35]
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -874,8 +924,8 @@
           "army": 2,
           "count": 14,
           "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [12.0,8.0],
+          "formation_div": 4,
+          "formation_step": [16.0,14.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
@@ -887,12 +937,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [11872.7,155.7,3717.85]
+              [12068.5,179.441,3420.06]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 30.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_02": {
@@ -901,12 +953,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [10390.0,179.35,4288.45]
+              [10350.6,165.549,4318.4]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_03": {
@@ -918,9 +972,11 @@
               [8595.95,83.35,4506.1]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_04": {
@@ -932,9 +988,11 @@
               [7649.3,40.5,6861.3]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_05": {
@@ -946,9 +1004,11 @@
               [7474.1,18.7,7310.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_06": {
@@ -960,9 +1020,11 @@
               [7669.9,30.8,8368.25]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_07": {
@@ -974,9 +1036,11 @@
               [8046.9,45.95,9011.75]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_08": {
@@ -988,9 +1052,11 @@
               [8190.55,42.8,10616.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_09": {
@@ -1002,9 +1068,11 @@
               [7900.25,72.55,11879.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_10": {
@@ -1016,9 +1084,11 @@
               [5677.95,31.75,10550.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_11": {
@@ -1030,9 +1100,11 @@
               [-446.65,132.163,9803.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_01_wp_12": {
@@ -1044,9 +1116,11 @@
               [-1207.3,52.2,8731.65]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1059,10 +1133,12 @@
           [-0.422618,0.0,0.906308],
           [0.0,1.0,0.0],
           [-0.906308,0.0,-0.422618],
-          [12377.6,151.3,1182.45]
+          [12520.7,40.8457,1294.83]
         ],
         "unit_class": "germ_sdKfz_251",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1089,12 +1165,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [12192.8,131.378,1821.6]
+              [12517.3,59.3149,1574.61]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 30.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_02": {
@@ -1103,12 +1181,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [10390.0,179.35,4288.45]
+              [10348.5,165.372,4321.77]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_03": {
@@ -1120,9 +1200,11 @@
               [8595.95,83.35,4506.1]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_04": {
@@ -1134,9 +1216,11 @@
               [7649.3,40.5,6861.3]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_05": {
@@ -1148,9 +1232,11 @@
               [7474.1,18.7,7310.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_06": {
@@ -1162,9 +1248,11 @@
               [7669.9,30.8,8368.25]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_07": {
@@ -1176,9 +1264,11 @@
               [8046.9,45.95,9011.75]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_08": {
@@ -1190,9 +1280,11 @@
               [8190.55,42.8,10616.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_09": {
@@ -1204,9 +1296,11 @@
               [7900.25,72.55,11879.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_10": {
@@ -1218,9 +1312,11 @@
               [5677.95,31.75,10550.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_11": {
@@ -1232,9 +1328,11 @@
               [-446.65,132.163,9803.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_02_wp_12": {
@@ -1246,9 +1344,11 @@
               [-1207.3,52.2,8731.65]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1261,10 +1361,12 @@
           [-0.422618,0.0,0.906308],
           [0.0,1.0,0.0],
           [-0.906308,0.0,-0.422618],
-          [12708.5,151.3,-350.5]
+          [12708.5,25.7749,-350.5]
         ],
         "unit_class": "germ_sdKfz_251",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1291,12 +1393,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [12623.5,80.25,-46.45]
+              [12609.5,56.9169,-6.99589]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 30.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_02": {
@@ -1308,9 +1412,11 @@
               [10390.0,179.35,4288.45]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_03": {
@@ -1322,9 +1428,11 @@
               [8595.95,83.35,4506.1]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_04": {
@@ -1336,9 +1444,11 @@
               [7649.3,40.5,6861.3]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_05": {
@@ -1350,9 +1460,11 @@
               [7474.1,18.7,7310.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_06": {
@@ -1364,9 +1476,11 @@
               [7669.9,30.8,8368.25]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_07": {
@@ -1378,9 +1492,11 @@
               [8046.9,45.95,9011.75]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_08": {
@@ -1392,9 +1508,11 @@
               [8190.55,42.8,10616.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_09": {
@@ -1406,9 +1524,11 @@
               [7900.25,72.55,11879.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_10": {
@@ -1420,9 +1540,11 @@
               [5677.95,31.75,10550.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_11": {
@@ -1434,9 +1556,11 @@
               [-446.65,132.163,9803.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t2_trucks_03_wp_12": {
@@ -1448,9 +1572,11 @@
               [-1207.3,52.2,8731.65]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1499,10 +1625,12 @@
           [-0.422618,0.0,-0.906308],
           [0.0,1.0,0.0],
           [0.906308,0.0,-0.422618],
-          [12503.4,120.9,14736.0]
+          [12503.4,20.3682,14736.0]
         ],
         "unit_class": "germ_sdKfz_251",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1516,39 +1644,27 @@
           "army": 1,
           "count": 13,
           "formation_type": "rows",
-          "formation_div": 2,
+          "formation_div": 3,
           "formation_step": [24.0,24.0],
           "formation_noise": [0.4,0.5],
           "uniqueName": "",
           "attack_type": "fire_at_will"
         },
         "way": {
-          "t1_trucks_02_wp_14": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [12435.4,24.95,14677.0]
-            ],
-            "props": {
-              "speed": 300.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
-            }
-          },
           "t1_trucks_02_wp_01": {
             "type": "normal",
             "tm": [
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [12410.8,144.85,14484.1]
+              [12359.7,38.2832,14453.4]
             ],
             "props": {
-              "speed": 300.0,
-              "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "speed": 30.0,
+              "moveType": "GATHER_TO",
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_02": {
@@ -1560,9 +1676,11 @@
               [10770.4,157.8,12944.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_03": {
@@ -1574,9 +1692,11 @@
               [8614.1,63.25,12093.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_04": {
@@ -1588,9 +1708,11 @@
               [8253.55,40.75,10723.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_05": {
@@ -1602,9 +1724,11 @@
               [8078.5,41.1,9110.3]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_06": {
@@ -1616,9 +1740,11 @@
               [7701.9,29.2,8465.75]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_07": {
@@ -1630,9 +1756,11 @@
               [7537.4,18.15,7409.85]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_08": {
@@ -1644,9 +1772,11 @@
               [7678.25,41.7,6879.9]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_09": {
@@ -1658,9 +1788,11 @@
               [7970.7,89.8,4567.0]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_10": {
@@ -1672,9 +1804,11 @@
               [7048.2,63.15,4552.85]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_11": {
@@ -1686,9 +1820,11 @@
               [5786.75,51.0,6404.95]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_12": {
@@ -1700,9 +1836,11 @@
               [302.05,206.1,7197.4]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_02_wp_13": {
@@ -1714,9 +1852,11 @@
               [-935.8,105.75,8382.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -1729,10 +1869,12 @@
           [0.461748,0.0,-0.887011],
           [0.0,1.0,0.0],
           [0.887011,0.0,0.461748],
-          [12467.7,120.9,15576.7]
+          [12467.7,46.11,15576.7]
         ],
         "unit_class": "germ_sdKfz_251",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1759,12 +1901,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [12610.2,24.95,15077.6]
+              [12612.6,21.0742,15055.4]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 30.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_02": {
@@ -1773,12 +1917,14 @@
               [1.0,0.0,0.0],
               [0.0,1.0,0.0],
               [0.0,0.0,1.0],
-              [12410.8,144.85,14484.1]
+              [12359.3,35.3802,14465.0]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_03": {
@@ -1790,9 +1936,11 @@
               [10770.4,157.8,12944.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_04": {
@@ -1804,9 +1952,11 @@
               [8614.1,63.25,12093.5]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_05": {
@@ -1818,9 +1968,11 @@
               [8253.55,40.75,10723.8]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_06": {
@@ -1832,9 +1984,11 @@
               [8078.5,41.1,9110.3]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_07": {
@@ -1846,9 +2000,11 @@
               [7701.9,29.2,8465.75]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_08": {
@@ -1860,9 +2016,11 @@
               [7537.4,18.15,7409.85]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_09": {
@@ -1874,9 +2032,11 @@
               [7678.25,41.7,6879.9]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_10": {
@@ -1888,9 +2048,11 @@
               [7970.7,89.8,4567.0]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_11": {
@@ -1902,9 +2064,11 @@
               [7048.2,63.15,4552.85]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_12": {
@@ -1916,9 +2080,11 @@
               [5786.75,51.0,6404.95]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_13": {
@@ -1930,9 +2096,11 @@
               [302.05,206.1,7197.4]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           },
           "t1_trucks_03_wp_14": {
@@ -1944,9 +2112,11 @@
               [-935.8,105.75,8382.2]
             ],
             "props": {
-              "speed": 300.0,
+              "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false
+              "shouldKeepFormation": false,
+              "tas": false,
+              "canUsePathFinder": false
             }
           }
         }
@@ -2104,6 +2274,8 @@
         ],
         "unit_class": "dummy",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

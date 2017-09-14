@@ -1,3 +1,5 @@
+@const slideGroupMargin: 1@dp;
+
 SlideListBox,SlideListBoxOptions
 {
   behaviour:listbox+slide;
@@ -9,7 +11,7 @@ SlideListBox,SlideListBoxOptions
   tabStop:yes;
   slide-time:100;
   flow:horizontal;
-  font:@small;
+  font:@fontNormal;
 }
 
 SlideListBoxOptions {
@@ -55,7 +57,7 @@ HangarSliderListBox {
   re-type:SlideListBox;
   disable_wheel:yes;
   border:no;
-  font:@normal;
+  font:@fontMedium;
   re-type:9rect;
   background-position:0,6;
   background-repeat:expand;
@@ -98,7 +100,7 @@ SlideListBoxButton:disabled {
 
 HangarSliderListBox option {
   re-type:9rect;
-  font:@normal;
+  font:@fontMedium;
   min-width: (p.p.w)/5;
   padding:3*@scrn_tgt/100.0,0;
   color:@commonTextColor;
@@ -116,7 +118,7 @@ HangarSliderListBox option:hover {
 HangarSliderListBox option:current {
   color:@activeTextColor;
   re-type:9rect;
-  font:@big;
+  font:@fontMedium;
   background-repeat:expand;
 }
 
@@ -147,19 +149,17 @@ groupBox, groupList {
   navigatorShortcuts:full;
   mouse-focusable:yes;
 }
+
 groupBox {
-  background-position:6,6;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#selectbox_bg;
-  background-color:@white;
-  padding:0,2*@sf/@pf_outdated;
+  padding:0, -1@slideGroupMargin
 }
 
 groupBox > group {
-  width:pw-2*@sf/@pf_outdated;
+  width:pw;
   height:@groupHeight;
   pos:50%pw-50%w;
   position:relative;
+  margin:0, 1@slideGroupMargin;
   flow:vertical;
   css-hier-invalidate:yes;
 }
@@ -168,31 +168,42 @@ groupBox > group:current {
   height:fh;
 }
 
-group > activeText {
-  size:pw, @groupHeight;
+groupHeader {
   re-type:9rect;
-  background-image:#ui/gameuiskin#button_;
-  background-color:@white;
-  background-position:5;
-  background-repeat:expand;
-  padding:4*@sf/@pf_outdated,2*@sf/@pf_outdated;
+  size:pw, @groupHeight;
+  padding:@blockInterval, 0;
+  font:@fontNormal;
   pare-text:yes;
   text-align:left;
   input-transparent:yes;
+
+  background-image:#ui/gameuiskin#button_flat_;
+  background-position:3, 4, 3, 4;
+  background-color: @white;
+  background-repeat:expand;
+  color: @commonTextColor;
 }
-group:hover > activeText {
-  background-image:#ui/gameuiskin#button_hover;
+
+groupHeader[canBeClosed=yes] {
+  padding:@blockInterval, 0, @blockInterval+1@smallButtonCloseHeight, 0;
 }
-group:current > activeText {
-  background-image:#ui/gameuiskin#button_active;
+
+group:hover > groupHeader {
+  background-image:#ui/gameuiskin#button_flat_hover;
+  color:@activeTextColor;
+}
+
+group:current > groupHeader {
+  background-image:#ui/gameuiskin#button_flat_focus;
+  color:@activeTextColor;
 }
 
 groupList {
   size:pw, fh;
+  padding:0, @blockInterval;
   overflow-y:auto;
   flow:vertical;
-  tinyFont:yes;
-  padding:2*@sf/@pf_outdated;
+  smallFont:yes;
 }
 group > groupList {
   display:hide;
@@ -226,7 +237,7 @@ groupList > text:current {
   color:@activeTextColor;
   background-color:@contactSelColor;
 }
-[show_console_buttons=yes] :focus > group:current > activeText,
+[show_console_buttons=yes] :focus > group:current > groupHeader,
 [show_console_buttons=yes] groupList:focus > text:current {
   re-type:9rect;
   foreground-color: @gamepadFocusFrameColor;

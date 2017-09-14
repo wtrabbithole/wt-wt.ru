@@ -161,8 +161,7 @@
           "runwayEnd": "airfield01",
           "runwayWidth": 100.0,
           "army": 1,
-          "spawnPoint": "spawnpoint",
-          "visibleOnHud": true
+          "spawnPoint": "spawnpoint"
         },
         "spawnOnAirfield": {
           "runwayName": "airfield00",
@@ -220,10 +219,10 @@
       "armada": {
         "name": "armada_01",
         "tm": [
-          [0.770758,0.0,0.637129],
+          [-0.51126,0.0,0.859427],
           [0.0,1.0,0.0],
-          [-0.637129,0.0,0.770758],
-          [-43026.5,0.0,-53269.2]
+          [-0.859427,0.0,-0.51126],
+          [-40712.0,-305.398,-52470.4]
         ],
         "unit_class": "a6m2_n_zero",
         "closed_waypoints": false,
@@ -711,36 +710,74 @@
           }
         ]
       }
+    },
+    {
+      "ships": {
+        "name": "ships_02",
+        "tm": [
+          [0.71532,0.0,0.698798],
+          [0.0,1.0,0.0],
+          [-0.698798,0.0,0.71532],
+          [-43113.5,0.999878,-46958.7]
+        ],
+        "unit_class": "cargo_ship",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "hold_fire",
+          "targetAir": false,
+          "targetGnd": false
+        },
+        "way": []
+      }
     }
   ],
   "areas": {
     "airfield00": {
       "type": "Sphere",
       "tm": [
-        [202.999,0.0,108.764],
+        [-96.194,0.0,209.248],
         [0.0,230.3,0.0],
-        [-108.764,0.0,202.999],
-        [-42995.2,-2.84757,-53275.6]
+        [-209.248,0.0,-96.194],
+        [-40540.6,-2.84769,-53691.2]
       ],
       "props": []
     },
     "airfield01": {
       "type": "Sphere",
       "tm": [
-        [-218.8,0.0,-71.8652],
+        [-71.7048,0.0,218.853],
         [0.0,230.3,0.0],
-        [71.8652,0.0,-218.8],
-        [-39873.1,-6.39087,-52733.4]
+        [-218.853,0.0,-71.7048],
+        [-41707.5,-6.39075,-51662.7]
       ],
       "props": []
     },
     "spawnpoint": {
       "type": "Sphere",
       "tm": [
-        [68.9561,0.0,33.1257],
+        [-31.9668,0.0,69.5009],
         [0.0,76.5,0.0],
-        [-33.1257,0.0,68.9561],
-        [-43021.7,-1.01879,-53281.6]
+        [-69.5009,0.0,-31.9668],
+        [-40538.7,-1.01891,-53718.3]
       ],
       "props": []
     }

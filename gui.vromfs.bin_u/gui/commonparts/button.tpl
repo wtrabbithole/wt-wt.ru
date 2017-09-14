@@ -94,7 +94,7 @@
         <</isFeatured>>
 
         text:t='<<text>>'
-        font:t='@small'
+        font:t='@fontNormal'
         css-hier-invalidate:t='yes'
         underline{}
       }

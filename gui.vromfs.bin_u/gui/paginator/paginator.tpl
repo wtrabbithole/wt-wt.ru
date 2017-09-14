@@ -10,6 +10,7 @@ button
   nav:t='right';
   on_click:t='goToPage';
   to_page:t='0'
+  noMargin:t=yes;
   btnName:t='RB';
   showButtonImageOnConsole:t='no'
   ButtonImg{}
@@ -32,6 +33,7 @@ button
   nav:t='left';
   on_click:t='goToPage';
   to_page:t='0'
+  noMargin:t=yes;
   btnName:t='LB';
   showButtonImageOnConsole:t='no'
   ButtonImg{}

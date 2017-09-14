@@ -5,12 +5,16 @@ enum WARBOND_SHOP_LEVEL_STATUS {
 }
 
 ::g_warbonds_view <- {
+  [PERSISTENT_DATA_PARAMS] = ["needShowProgressBarInPromo"]
   progressBarId = "warbond_shop_progress"
+  progressBarAddId = "warbond_shop_progress_additional_bar"
   levelItemIdPrefix = "level_"
   maxProgressBarValue = 10000
+
+  needShowProgressBarInPromo = false
 }
 
-function g_warbonds_view::createProgressBox(wbClass, placeObj, handler)
+function g_warbonds_view::createProgressBox(wbClass, placeObj, handler, needForceHide = false)
 {
   if (!::check_obj(placeObj))
     return
@@ -19,10 +23,11 @@ function g_warbonds_view::createProgressBox(wbClass, placeObj, handler)
   if (!::check_obj(nest))
     return
 
-  local show = ::has_feature("Warbonds_2_0")
+  local show = !needForceHide
+               && ::has_feature("Warbonds_2_0")
                && wbClass != null
                && wbClass.haveAnyOrdinaryRequirements()
-               && wbClass.levelsArray.len() > 0
+               && wbClass.levelsArray.len()
   nest.show(show)
   if (!show)
     return
@@ -34,10 +39,13 @@ function g_warbonds_view::createProgressBox(wbClass, placeObj, handler)
   updateProgressBar(wbClass, nest)
 }
 
-function g_warbonds_view::getProgressBoxMarkUp(params = {})
+function g_warbonds_view::getProgressBoxMarkUp()
 {
-  params.id <- progressBarId
-  return ::handyman.renderCached("gui/commonParts/progressBarModern", params)
+  return ::handyman.renderCached("gui/commonParts/progressBarModern", {
+    id = progressBarId
+    addId = progressBarAddId
+    additionalProgress = true
+  })
 }
 
 function g_warbonds_view::getLevelItemsMarkUp(wbClass)
@@ -67,7 +75,7 @@ function g_warbonds_view::getLevelItemMarkUp(wbClass, level, forcePosX = null)
 function g_warbonds_view::getLevelItemData(wbClass, level, forcePosX = null)
 {
   local status = getLevelStatus(wbClass, level)
-  local reqTasks = wbClass.levelsArray[level]
+  local reqTasks = wbClass.getShopLevelTasks(level)
 
   local posX = forcePosX
   if (!posX)
@@ -79,6 +87,7 @@ function g_warbonds_view::getLevelItemData(wbClass, level, forcePosX = null)
   local lvlText = wbClass.getShopLevelText(level)
   return {
     id = levelItemIdPrefix + level
+    levelIcon = wbClass.getLevelIcon()
     text = lvlText
     tooltip = ::loc("warbonds/shop/level/" + status + "/tooltip", {level = lvlText, tasksNum = reqTasks})
     status = status
@@ -98,18 +107,18 @@ function g_warbonds_view::getLevelStatus(wbClass, level)
   return WARBOND_SHOP_LEVEL_STATUS.RECEIVED
 }
 
-function g_warbonds_view::calculateProgressBarValue(wbClass, level, steps)
+function g_warbonds_view::calculateProgressBarValue(wbClass, level, steps, curTasksDone)
 {
   local levelTasks = wbClass.getShopLevelTasks(level)
   local nextLevelTasks = wbClass.getShopLevelTasks(level + 1)
 
   local progressPeerLevel = maxProgressBarValue.tofloat() / steps
+  local iLerp = ::lerp(levelTasks, nextLevelTasks, 0, progressPeerLevel, curTasksDone)
 
-  local iLerp = ::lerp(levelTasks, nextLevelTasks, 0, progressPeerLevel, wbClass.getCurrentShopLevelTasks())
-  return progressPeerLevel * level + iLerp
+  return steps == 1? iLerp : (progressPeerLevel * level + iLerp)
 }
 
-function g_warbonds_view::updateProgressBar(wbClass, placeObj)
+function g_warbonds_view::updateProgressBar(wbClass, placeObj, isForSingleStep = false)
 {
   if (!wbClass)
     return
@@ -118,18 +127,30 @@ function g_warbonds_view::updateProgressBar(wbClass, placeObj)
   if (!::check_obj(progressBoxObj))
     return
 
-  local steps = wbClass.levelsArray.len() - 1
+  local steps = isForSingleStep? 1 : wbClass.levelsArray.len() - 1
   local level = wbClass.getCurrentShopLevel()
+  local tasks = wbClass.getCurrentShopLevelTasks()
 
-  local curProgress = calculateProgressBarValue(wbClass, level, steps)
+  local totalTasks = tasks
+  local reqTask = ::g_battle_tasks.getTaskWithAvailableAward(::g_battle_tasks.getActiveTasksArray())
+  if (reqTask && ::g_battle_task_difficulty.getDifficultyTypeByTask(reqTask).canIncreaseShopLevel)
+    totalTasks++
+  local curProgress = calculateProgressBarValue(wbClass, level, steps, totalTasks)
 
   progressBoxObj.setValue(curProgress.tointeger())
   progressBoxObj.tooltip = getCurrentShopProgressBarText(wbClass)
+
+  local addProgressBarObj = progressBoxObj.findObject(progressBarAddId)
+  if (::checkObj(addProgressBarObj))
+  {
+    local addBarValue = calculateProgressBarValue(wbClass, level, steps, tasks)
+    addProgressBarObj.setValue(addBarValue)
+  }
 }
 
 function g_warbonds_view::getCurrentShopProgressBarText(wbClass)
 {
-  if (!showOrdinaryProgress(wbClass))
+  if (!showOrdinaryProgress(wbClass) || wbClass.levelsArray.len() == 0)
     return ""
 
   return getShopProgressBarText(
@@ -151,7 +172,7 @@ function g_warbonds_view::createSpecialMedalsProgress(wbClass, placeObj, handler
   if (!::check_obj(placeObj))
     return
 
-  local nest = placeObj.findObject("medals_block")
+  local nest = placeObj.findObject("medal_icon")
   if (!::check_obj(nest))
     return
 
@@ -163,7 +184,7 @@ function g_warbonds_view::createSpecialMedalsProgress(wbClass, placeObj, handler
     return
 
   nest.tooltip = getSpecialMedalsTooltip(wbClass)
-  local data = getSpecialMedalsMarkUp(wbClass)
+  local data = getSpecialMedalsMarkUp(wbClass, getWarbondMedalsCount(wbClass), true)
   data += getSpecialMedalInProgressMarkUp(wbClass)
   nest.getScene().replaceContentFromText(nest, data, data.len(), handler)
 }
@@ -177,24 +198,24 @@ function g_warbonds_view::getSpecialMedalsTooltip(wbClass)
   })
 }
 
-function g_warbonds_view::getSpecialMedalsMarkUp(wbClass, isSingle = false, reqAwardMedals = 0)
+function g_warbonds_view::getSpecialMedalsMarkUp(wbClass, reqAwardMedals = 0, needShowZero = false)
 {
   local medalsCount = getWarbondMedalsCount(wbClass)
-  local icons = isSingle? 1 : medalsCount
-  local view = { medal = [] }
-  for (local i = 0; i < icons; i++)
-    view.medal.append({
-      posX = i? "-0.5*w" : 0
+  local view = { medal = [{
+      posX = 0
       image = wbClass? wbClass.getMedalIcon() : null
-      countText = reqAwardMedals
+      countText = needShowZero && reqAwardMedals==0? reqAwardMedals.tostring() : reqAwardMedals
       inactive = medalsCount < reqAwardMedals
-    })
+  }]}
 
   return ::handyman.renderCached("gui/items/warbondSpecialMedal", view)
 }
 
 function g_warbonds_view::getSpecialMedalInProgressMarkUp(wbClass)
 {
+  if (!wbClass.needShowSpecialTasksProgress)
+    return ""
+
   local leftTasks = wbClass.leftForAnotherMedalTasks()
   local view = { medal = [{
     sector = 360 - (360 * leftTasks.tofloat()/wbClass.medalForSpecialTasks)
@@ -218,10 +239,14 @@ function g_warbonds_view::showSpecialProgress(wbClass)
   return ::has_feature("Warbonds_2_0") && wbClass && wbClass.haveAnySpecialRequirements()
 }
 
-function g_warbonds_view::getSpecialText(wbClass)
+function g_warbonds_view::resetShowProgressBarFlag()
 {
-  if (!showSpecialProgress(wbClass))
-    return ""
+  if (!needShowProgressBarInPromo)
+    return
 
-  return ::loc("mainmenu/battleTasks/special/medals", {medals = getWarbondMedalsCount(wbClass)})
+  needShowProgressBarInPromo = false
+  ::broadcastEvent("WarbondViewShowProgressBarFlagUpdate")
 }
+
+::g_script_reloader.registerPersistentDataFromRoot("g_warbonds_view")
+::subscribe_handler(::g_warbonds_view, ::g_listener_priority.DEFAULT_HANDLER)

@@ -155,7 +155,7 @@ tdiv {
       position:t='relative'
       text-align:t='center'
       width:t='pw'
-      tinyFont:t='yes'
+      smallFont:t='yes'
       overlayTextColor:t='silver'
       text:t='<<getArmyInfoText>>'
     }
@@ -174,7 +174,7 @@ tdiv {
       position:t='relative'
       text-align:t='center'
       width:t='pw'
-      tinyFont:t='yes'
+      smallFont:t='yes'
       overlayTextColor:t='silver'
       text:t='<<getArmyAlertText>>'
     }

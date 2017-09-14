@@ -1340,6 +1340,7 @@ function isPlayerDedicatedSpectator(name = null)
   }
   return !!::getTblValue("spectator", ::get_local_mplayer() || {}, 0)
 }
+::cross_call_api.isPlayerDedicatedSpectator <- ::isPlayerDedicatedSpectator
 
 ::spectator_air_hud_offset_x <- 0
 function get_spectator_air_hud_offset_x() // called from client

@@ -1,7 +1,7 @@
 <<#items>>
 itemDiv {
-  tinyFont:t='yes';
-  class:t='tinyFont'
+  smallFont:t='yes';
+  class:t='smallFont'
   total-input-transparent:t='yes'
   css-hier-invalidate:t='yes'
   <<#active>>
@@ -137,7 +137,7 @@ itemDiv {
         pos:t='1@itemPadding + 10/720@sf, 1@itemPadding'
         position:t='relative'
         //position:t='absolute'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         text:t='<<expireTime>>'
         style:t='color:@grayOptionColor;'
 
@@ -156,7 +156,7 @@ itemDiv {
     activeText {
       pos:t='pw -w -1@itemPadding , 1@itemPadding -3*@sf/@pf_outdated'
       position:t='absolute'
-      style:t='font:@small;'
+      style:t='font:@fontNormal;'
       textShade:t='yes';
       text:t='<<amount>>'
     }
@@ -192,14 +192,12 @@ itemDiv {
   }
   <</arrowNext>>
 
-  <<#isItemLocked>>
   tdiv {
     flow:t='vertical'
     position:t='absolute'
     <<@getWarbondShopLevelImage>>
     <<@getWarbondMedalImage>>
   }
-  <</isItemLocked>>
 
   selBorder {
     size:t='pw-4, ph-4'

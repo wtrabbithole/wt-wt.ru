@@ -217,10 +217,10 @@ class ::BaseItem
   function getNameMarkup(count = 0, showTitle = true)
   {
     return ::handyman.renderCached("gui/items/itemString", {
-      title = showTitle? getName() : null
+      title = showTitle? colorize("activeTextColor",getName()) : null
       icon = typeIcon
       tooltipId = ::g_tooltip.getIdItem(id)
-      count = count >= 2? ::format(::loc("weapons/counter"), count) : null
+      count = count > 1? (colorize("activeTextColor", " x") + colorize("userlogColoredText", count)) : null
     })
   }
 

@@ -84,7 +84,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     updateBattleTasksData()
     updatePersonalUnlocks()
-    onChangeTab(scene.findObject("tasks_sheet_list"))
+
+    local tabType = findTabSheetByTaskId(currentTaskId)
+    getTabsListObj().setValue(tabType)
 
     initFocusArray()
 
@@ -92,12 +94,22 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     updateWarbondsBalance()
   }
 
-  function getAvailablePageIndex()
+  function findTabSheetByTaskId(taskId)
   {
-    foreach(idx, tab in tabsList)
-      if (!("isVisible" in tab) || tab.isVisible())
-        return idx
-    return -1
+    if (taskId)
+      foreach (tabType, tasksArray in configsArrayByTabType)
+      {
+        local task = ::u.search(tasksArray, @(task) taskId == task.id )
+        if (!task)
+          continue
+
+        local tab = ::u.search(tabsList, @(tabData) tabData.tabType == tabType)
+        if (!("isVisible" in tab) || tab.isVisible())
+          return tabType
+        break
+      }
+
+    return BattleTasksWndTab.BATTLE_TASKS
   }
 
   function getSceneTplView()
@@ -226,7 +238,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNoTasksText(items = [])
   {
-    local tabsListObj = scene.findObject("tasks_sheet_list")
+    local tabsListObj = getTabsListObj()
     local tabData = getSelectedTabData(tabsListObj)
 
     local text = ""
@@ -337,13 +349,13 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onEventBattleTasksFinishedUpdate(params)
   {
     updateBattleTasksData()
-    onChangeTab(scene.findObject("tasks_sheet_list"))
+    onChangeTab(getTabsListObj())
   }
 
   function onEventPersonalUnlocksFinishedUpdate(params)
   {
     updatePersonalUnlocks()
-    onChangeTab(scene.findObject("tasks_sheet_list"))
+    onChangeTab(getTabsListObj())
   }
 
   function onShowAllTasks(obj)
@@ -446,7 +458,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("battle_tasks_modes_radiobuttons", currentTabType == BattleTasksWndTab.BATTLE_TASKS)
     showSceneBtn("warbond_shop_progress_block", isBattleTasksTab())
     showSceneBtn("progress_box_place", currentTabType == BattleTasksWndTab.BATTLE_TASKS)
-    showSceneBtn("medals_block", currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD)
+    showSceneBtn("medal_icon", currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD)
     updateProgressText()
   }
 
@@ -470,7 +482,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
         text = ::g_warbonds_view.getCurrentShopProgressBarText(curWb)
       else if (currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD)
       {
-        text = ::g_warbonds_view.getSpecialText(curWb)
+        text = ::loc("mainmenu/battleTasks/special/medals")
         tooltip = ::g_warbonds_view.getSpecialMedalsTooltip(curWb)
       }
 
@@ -519,7 +531,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function getTabsView()
   {
-    local pageIndex = getAvailablePageIndex()
     local view = {tabs = []}
     foreach (idx, tabData in tabsList)
     {
@@ -527,7 +538,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
         tabName = tabData.text
         navImagesText = ::get_navigation_images_text(idx, tabsList.len())
         hidden = ("isVisible" in tabData) && !tabData.isVisible()
-        selected = idx == pageIndex
       })
     }
 
@@ -766,6 +776,11 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::g_sound.stop()
     else
       ::g_sound.play(config.id)
+  }
+
+  function getTabsListObj()
+  {
+    return scene.findObject("tasks_sheet_list")
   }
 
   function onDestroy()

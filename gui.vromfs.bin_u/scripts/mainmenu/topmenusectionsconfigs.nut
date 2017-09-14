@@ -87,12 +87,11 @@ Params - can be whole section ('help', 'pve') or single button.
 ::g_enum_utils.addTypesByGlobalName("g_top_menu_right_side_sections", [
   {
     name = "shop"
-    type = "gold"
+    visualStyle = "noFrameGold"
     hoverMenuPos = "pw-w-"
     getText = function(totalSections = 0) { return ::is_low_width_screen()? null : "#mainmenu/btnOnlineShop" }
     getImage = function(totalSections = 0) { return "#ui/gameuiskin#store_icon" }
     getWinkImage = function () { return "#ui/gameuiskin#hovermenu_shop_button_glow" }
-    minimalWidth = true
     haveTmDiscount = true
     buttons = [
       [
@@ -109,7 +108,6 @@ Params - can be whole section ('help', 'pve') or single button.
   {
     name = "help"
     hoverMenuPos = "pw-w-"
-    minimalWidth = true
     getImage = function(totalSections = 0) { return "#ui/gameuiskin#btn_help" }
     buttons = [
       [

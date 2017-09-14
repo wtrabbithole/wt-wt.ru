@@ -7,7 +7,7 @@
     top:t = "(ph-h)/2"
     text:t = "<<text>>"
     tooltip:t = "<<tooltip>>"
-    font:t = "small_text"
+    font:t = "@fontNormal"
     color:t = "#FFFFFFFF"
     text-align:t = "left"
     input-transparent:t = "yes"

@@ -32,6 +32,10 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
     {
       msgBox("no_internet_connection", ::loc("ps4/noInternetConnection"), [["ok", function() {} ]], "ok")
     }
+    else
+    {
+      //::g_login.addState(LOGIN_STATE.AUTHORIZED)
+    }
   }
 
   function onChangeLoginScreen()

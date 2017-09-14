@@ -6,7 +6,7 @@ tdiv {
   activeText {
     id:t='label_army'
     text:t='#worldWar/armyStrength'
-    fontNormal:t='yes'
+    mediumFont:t='yes'
     pos:t='50%pw-50%w, 1@framePadding'
     position:t='relative'
   }

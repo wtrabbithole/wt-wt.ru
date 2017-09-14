@@ -84,6 +84,18 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 20.0
+  },
+  {
+    "smokeScreenRad": 20.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -917,7 +929,7 @@
       },
       {
         "ammo": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 500.0,
           "armorThickness": 20.0,
           "armorThrough": 15.0,
@@ -2367,20 +2379,6 @@
     }
   },
   {
-    "modifications": {
-      "manual_extinguisher": {
-        "effects": {
-          "extinguisherActivationCount": -1,
-          "extinguisherMinTime": 10.0,
-          "extinguisherMaxTime": 10.0,
-          "extinguisherCrewBusyTime": -1.0
-        }
-      },
-      "tank_tool_kit": [],
-      "40mm_bofors_l60_navy_universal": []
-    }
-  },
-  {
     "commonWeapons": [
       {
         "Weapon": [
@@ -3672,6 +3670,21 @@
   {
     "optics": {
       "binoculars": "navy_binoculars"
+    }
+  },
+  {
+    "modifications": {
+      "40mm_bofors_l60_navy_universal": [],
+      "manual_extinguisher": {
+        "effects": {
+          "extinguisherActivationCount": -1,
+          "extinguisherMinTime": 10.0,
+          "extinguisherMaxTime": 10.0,
+          "extinguisherCrewBusyTime": -1.0
+        }
+      },
+      "tank_tool_kit": [],
+      "ship_smoke_screen_system_mod": []
     }
   },
   {

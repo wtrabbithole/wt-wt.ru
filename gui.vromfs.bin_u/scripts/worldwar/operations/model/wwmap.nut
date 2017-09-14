@@ -118,6 +118,11 @@ class WwMap
 
   function getChangeStateTimeText()
   {
+    return ""
+  }
+
+  function getMapChangeStateTimeText()
+  {
     local changeStateTimeStamp = ::getTblValue("changeStateTime", data, -1)
     local text = ""
     if (changeStateTimeStamp >= 0)
@@ -230,9 +235,14 @@ class WwMap
     return res
   }
 
+  function getMinClansCondition()
+  {
+    return ::getTblValue("minClanCount", data, 0)
+  }
+
   function getClansConditionText(isSideInfo = false)
   {
-    local minNumb = ::getTblValue("minClanCount", data, 0)
+    local minNumb = getMinClansCondition()
     local maxNumb = ::getTblValue("maxClanCount", data, 0)
     local prefix = isSideInfo ? "side_" : ""
     return minNumb == maxNumb ?

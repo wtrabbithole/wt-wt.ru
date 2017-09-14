@@ -127,6 +127,8 @@ function g_login::initConfigs(cb)
       ::set_show_attachables(::has_feature("AttachablesUse"))
 
       ::g_font.validateSavedConfigFonts()
+      if (::handlersManager.checkPostLoadCss(true))
+        dagor.debug("Login: forced to reload waitforLogin window.")
     }
     function() {
       if (!::g_login.hasState(LOGIN_STATE.MATCHING_CONNECTED))

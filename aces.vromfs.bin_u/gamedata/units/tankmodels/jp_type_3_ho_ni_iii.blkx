@@ -69,7 +69,7 @@
     "minDistBetween": 10.0
   },
   {
-    "expClass": "exp_tank"
+    "expClass": "exp_tank_destroyer"
   },
   {
     "mass": 9700.0
@@ -1172,18 +1172,6 @@
     }
   },
   {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 2000.0,
-        "cutDamage": 350.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
-      }
-    }
-  },
-  {
     "unitFx": [
       {
         "event": [
@@ -1927,7 +1915,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
@@ -2227,6 +2215,18 @@
       "replace_tex": {
         "from": "jp_camo_olive_kusairo*",
         "to": "jp_camo_post_winter*"
+      }
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 2000.0,
+        "cutDamage": 350.0,
+        "deviation": 0.5,
+        "rotation": 0.5,
+        "collisionNode": "cls_gun"
       }
     }
   }

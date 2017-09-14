@@ -279,6 +279,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -286,133 +289,6 @@
       },
       {
         "tags": []
-      },
-      {
-        "editSlotbar": {
-          "keepOwnUnits": false,
-          "country_usa": {
-            "us_m60a1_rise_passive_era": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_m60a2": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_m60a1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_mbt_70": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_m50_ontos": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "us_t114": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          },
-          "country_germany": {
-            "germ_raketenjagdpanzer_2": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "germ_leopard_I": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "germ_leopard_I_a1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "germ_kpz_70": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          },
-          "country_ussr": {
-            "ussr_bmp_1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_t_62": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_t_64a_1971": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_it_1": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "ussr_object_120": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          },
-          "country_britain": {
-            "uk_fv438_swingfire": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "uk_chieftain_mk_10": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "uk_chieftain_mk_5": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            },
-            "uk_centurion_mk_10": {
-              "crewSkillsPercent": 100,
-              "crewSpecialization": 2,
-              "allWeapons": true,
-              "allModifications": true
-            }
-          }
-        }
       },
       {
         "missionType": {
@@ -792,6 +668,38 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/fulda/battleareas/template_fuda_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/fulda/battleareas/template_fuda_battleareas_realistic_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -814,7 +722,7 @@
           [1.74,0.0,-1.33495e-08],
           [0.0,1.0,0.0],
           [1.33495e-08,0.0,1.74],
-          [1930.43,225.6,2238.68]
+          [1930.0,225.6,2242.3]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -828,9 +736,9 @@
       "objectGroups": {
         "name": "dom_circle_01_arcade",
         "tm": [
-          [1.74,0.0,-1.33495e-08],
+          [1.79186,0.0,-1.37474e-08],
           [0.0,1.0,0.0],
-          [1.33495e-08,0.0,1.74],
+          [1.37474e-08,0.0,1.79186],
           [1572.41,197.11,2509.44]
         ],
         "unit_class": "capture_zone_circle",
@@ -848,7 +756,7 @@
           [1.74,0.0,-1.33495e-08],
           [0.0,1.0,0.0],
           [1.33495e-08,0.0,1.74],
-          [2422.9,222.44,1885.47]
+          [2421.9,222.44,1888.8]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2170,10 +2078,10 @@
       "objectGroups": {
         "name": "dom_circle_01_realistic",
         "tm": [
-          [1.74,0.0,-1.33495e-08],
+          [1.80101,0.0,-1.38176e-08],
           [0.0,1.0,0.0],
-          [1.33495e-08,0.0,1.74],
-          [1162.95,197.11,2864.39]
+          [1.38176e-08,0.0,1.80101],
+          [1167.6,197.11,2867.5]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2187,10 +2095,10 @@
       "objectGroups": {
         "name": "dom_circle_01_hardcore",
         "tm": [
-          [1.74,0.0,-1.33495e-08],
+          [1.81379,0.0,-1.39156e-08],
           [0.0,1.0,0.0],
-          [1.33495e-08,0.0,1.74],
-          [1162.95,197.11,2864.39]
+          [1.39156e-08,0.0,1.81379],
+          [1167.6,197.11,2867.5]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2207,7 +2115,7 @@
           [1.74,0.0,-1.33495e-08],
           [0.0,1.0,0.0],
           [1.33495e-08,0.0,1.74],
-          [1930.43,225.6,2238.68]
+          [1930.43,225.6,2242.3]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2224,7 +2132,7 @@
           [1.74,0.0,-1.33495e-08],
           [0.0,1.0,0.0],
           [1.33495e-08,0.0,1.74],
-          [1930.43,225.6,2238.68]
+          [1930.43,225.6,2242.3]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2238,10 +2146,10 @@
       "objectGroups": {
         "name": "dom_circle_03_realistic",
         "tm": [
-          [1.74,0.0,-1.33495e-08],
+          [1.77239,0.0,-1.3598e-08],
           [0.0,1.0,0.0],
-          [1.33495e-08,0.0,1.74],
-          [2910.46,141.64,1444.21]
+          [1.3598e-08,0.0,1.77239],
+          [2911.4,141.64,1444.5]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2255,10 +2163,10 @@
       "objectGroups": {
         "name": "dom_circle_03_hardcore",
         "tm": [
-          [1.74,0.0,-1.33495e-08],
+          [1.7565,0.0,-1.34761e-08],
           [0.0,1.0,0.0],
-          [1.33495e-08,0.0,1.74],
-          [2910.46,141.64,1444.21]
+          [1.34761e-08,0.0,1.7565],
+          [2911.4,141.64,1444.5]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -2270,28 +2178,6 @@
     }
   ],
   "areas": {
-    "dom_battle_area_arcade": {
-      "type": "Box",
-      "tm": [
-        [8.74228e-05,0.0,2000.0],
-        [0.0,400.0,0.0],
-        [-2000.0,0.0,8.74228e-05],
-        [2037.21,239.456,2169.22]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "dom_battle_area_realistic": {
-      "type": "Box",
-      "tm": [
-        [0.000174846,0.0,4000.0],
-        [0.0,400.0,0.0],
-        [-4000.0,0.0,0.000174846],
-        [2049.91,239.456,2043.86]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
     "dom_effect_02_arcade": {
       "type": "Point",
       "tm": [
@@ -2556,17 +2442,6 @@
       "objLayer": 0,
       "props": []
     },
-    "dom_battle_area_hardcore": {
-      "type": "Box",
-      "tm": [
-        [0.000174846,0.0,4000.0],
-        [0.0,400.0,0.0],
-        [-4000.0,0.0,0.000174846],
-        [2049.91,239.456,2043.86]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
     "dom_capture_area_01_hardcore": {
       "type": "Cylinder",
       "tm": [
@@ -2711,17 +2586,6 @@
       "props": []
     },
     "briefing_capture_zone_03_realistic": {
-      "type": "Point",
-      "tm": [
-        [4.97641,0.0,-1.3918e-06],
-        [0.0,1.0,0.0],
-        [-4.98694e-06,0.0,3.63658],
-        [2911.44,141.632,1444.48]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "briefing_capture_zone_03_hardcore": {
       "type": "Point",
       "tm": [
         [4.97641,0.0,-1.3918e-06],

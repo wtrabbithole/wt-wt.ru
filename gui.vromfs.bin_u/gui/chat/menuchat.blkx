@@ -36,7 +36,7 @@
         "id": "rooms_list",
         "width": "pw - 4@smallButtonHeight - 4@smallButtonMargin -1@blockInterval",
         "min-height": "1@buttonHeight",
-        "tinyFont": "yes",
+        "smallFont": "yes",
         "class": "tabs",
         "flow": "h-flow",
         "input-transparent": "yes",
@@ -46,6 +46,7 @@
         "clearOnFocusLost": "no",
         "navigatorShortcuts": "full",
         "activateBy": "Y",
+        "isTransparentBg": "yes",
         "on_select": "onRoomChanged",
         "on_r_click": "onRoomRClick",
         "on_dbl_click": "onRemoveRoom",
@@ -76,7 +77,7 @@
             "frame": {
               "size": "pw, ph",
               "flow": "vertical",
-              "tinyFont": "yes",
+              "smallFont": "yes",
               "style": "padding:0, 7, 0, 5;",
               "groupList": {
                 "id": "users_list",
@@ -186,7 +187,7 @@
                   "on_wrap_up": "onWrapUp",
                   "on_wrap_down": "onWrapDown",
                   "on_set_focus": "onChatFocus",
-                  "font": "@tiny",
+                  "font": "@fontSmall",
                   "text": "",
                   "noMargin": "yes"
                 },
@@ -219,7 +220,7 @@
             "frame": {
               "size": "pw, ph",
               "flow": "vertical",
-              "tinyFont": "yes",
+              "smallFont": "yes",
               "tdiv": {
                 "id": "search_channels_block",
                 "width": "pw",
@@ -228,7 +229,7 @@
                   "width": "pw",
                   "overflow": "hidden",
                   "activeText": {
-                    "tinyFont": "yes",
+                    "smallFont": "yes",
                     "text": "#channel/search",
                     "min-height": "24"
                   },
@@ -252,6 +253,7 @@
                     "class": "showAlways",
                     "text": "",
                     "mouse-focusable": "yes",
+                    "noMargin": "yes",
                     "on_activate": "onSearchStart",
                     "on_cancel_edit": "onCancelSearchEdit",
                     "on_wrap_up": "onWrapUp",
@@ -259,10 +261,12 @@
                     "on_set_focus": "onChatFocus"
                   },
                   "Button_text": {
+                    "pos": "@blockInterval, 0.5ph-0.5h",
+                    "position": "relative",
                     "tooltip": "#channel/search",
                     "on_click": "onSearchStart",
                     "class": "image",
-                    "imgSize": "small",
+                    "noMargin": "yes",
                     "showConsoleImage": "no",
                     "img": {
                       "background-image": "#ui/gameuiskin#btn_search"

@@ -60,7 +60,6 @@ function gui_start_menuShop()
 function mainmenu_preFunc()
 {
   ::back_from_replays = null
-  ::set_in_save_dialogs(false)
 
   ::dynamic_clear();
   ::mission_desc_clear();
@@ -84,6 +83,7 @@ function on_mainmenu_return(handler, isAfterLogin)
   update_news()
   if (!isAfterLogin)
   {
+    ::g_warbonds_view.resetShowProgressBarFlag()
     ::checkUnlockedCountriesByAirs()
     penalties.showBannedStatusMsgBox(true)
     if (isAllowPopups && !::disable_network())

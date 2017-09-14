@@ -276,6 +276,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -528,6 +531,38 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/eastern_europe/template_eastern_europe_air_spawn.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/eastern_europe/battleareas/template_eastern_europe_conq2_battleareas_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/eastern_europe/battleareas/template_eastern_europe_conq2_battleareas.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -1561,17 +1596,6 @@
       "objLayer": 4,
       "props": []
     },
-    "conq_battle_area_hardcore": {
-      "type": "Box",
-      "tm": [
-        [-2900.0,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,-2900.0],
-        [2440.25,27.4,2003.1]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
     "conq_capture_area_02_hardcore": {
       "type": "Cylinder",
       "tm": [
@@ -1658,17 +1682,6 @@
         [3692.55,28.25,1412.85]
       ],
       "objLayer": 0,
-      "props": []
-    },
-    "conq_battle_area_arcade": {
-      "type": "Box",
-      "tm": [
-        [-1600.0,0.0,0.0],
-        [0.0,244.0,0.0],
-        [0.0,0.0,-1600.0],
-        [2330.95,43.65,1761.45]
-      ],
-      "objLayer": 3,
       "props": []
     },
     "area_01": {

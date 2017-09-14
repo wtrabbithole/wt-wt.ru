@@ -11,7 +11,7 @@ tdiv {
     id:t='title'
     pos:t='pw/2-w/2, 0'
     position:t='relative'
-    style:t='color:@white; font:medium_text_hud'
+    style:t='color:@white; font:@fontHudMedium'
     padding-right:t='-1@textPaddingBugWorkaround'
     text:t='<<title>>'
   }

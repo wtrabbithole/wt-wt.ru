@@ -1,5 +1,5 @@
 bottomButtonsDiv {
-  class:t='tinyFont'
+  class:t='smallFont'
 
   <<#hasButton>>
   Button_text {

@@ -55,7 +55,7 @@ tdiv {
           tdiv {
             width:t='pw - 0.01@sf'
             margin-left:t='0.01@sf';
-            tinyFont:t='yes';
+            smallFont:t='yes';
             img {
               id:t='air_icon';
               background-image:t='<<ico>>';

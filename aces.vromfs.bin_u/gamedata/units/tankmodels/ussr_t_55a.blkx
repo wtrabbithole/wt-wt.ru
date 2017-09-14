@@ -129,7 +129,8 @@
           "armorThickness": 45.0
         },
         "superstructure_top_dm": {
-          "armorThickness": 30.0
+          "armorThickness": 30.0,
+          "explosionArmorQuality": 1.8
         },
         "body_bottom_dm": {
           "armorThickness": 20.0
@@ -151,9 +152,9 @@
         }
       },
       "anti_fragmentation_screen": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "nbc_liner_tank",
         "hp": 1000.0,
-        "armorThickness": 8.0,
+        "armorThickness": 30.0,
         "createSecondaryShatters": false,
         "ex_armor_05_dm": [],
         "ex_armor_04_dm": []
@@ -364,7 +365,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -584,7 +585,8 @@
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_manual_y",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1711,10 +1713,10 @@
   },
   {
     "ammo": {
-      "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.3,0.9],
-      "explodeHitPower": 1000.0,
+      "combustionTime": 7.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.4,0.9],
+      "explodeHitPower": 2000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1735,9 +1737,9 @@
       "part": {
         "node": "bone_turret",
         "mass": 7000.0,
-        "cutDamage": 800.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
+        "cutDamage": 1000.0,
+        "deviation": 0.3,
+        "rotation": 1.5,
         "collisionNode": "cls_turret_01"
       }
     }
@@ -2275,7 +2277,9 @@
       },
       "100mm_3BK25_ammo_pack": [],
       "100mm_BR412D_ammo_pack": [],
+      "100mm_ussr_Smoke_ammo_pack": [],
       "100mm_3BK17M_ammo_pack": [],
+      "100mm_ussr_Smoke": [],
       "100mm_ussr_BR412D": {
         "modCostMul": 2.0
       },

@@ -959,7 +959,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       text.append(decoratorType.getLocDesc(name))
 
       text = ::locOrStrip(::g_string.implode(text, "\n"))
-      local textBlock = "textareaNoTab {tinyFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
+      local textBlock = "textareaNoTab {smallFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
       guiScene.appendWithBlk(obj, ::format(textBlock, text), this)
     }
   }
@@ -1134,7 +1134,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     {
       local unlockItemBlk = "gui/profile/unlockItem.blk"
       for(; blockAmount < achievaAmount; blockAmount++)
-        guiScene.createElementByObject(unlocksListObj, unlockItemBlk, "frameBlock", this)
+        guiScene.createElementByObject(unlocksListObj, unlockItemBlk, "expandable", this)
     }
     else if (blockAmount > achievaAmount)
     {

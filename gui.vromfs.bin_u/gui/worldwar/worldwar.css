@@ -98,7 +98,7 @@ objectiveBlock objectiveTextSeparator {
 objectiveBlock objectiveTextSeparator > textareaNoTab {
   margin: 1@blockInterval, 0;
   text-align: center;
-  font: @veryTiny;
+  font: @fontTiny;
   color: @fadedTextColor;
 }
 
@@ -117,12 +117,12 @@ objectiveBlock wwObjective desc {
 }
 
 objectiveBlock wwObjective name {
-  font:@small;
+  font:@fontNormal;
   color:@commonTextColor;
 }
 
 objectiveBlock wwObjective desc {
-  font:@tiny;
+  font:@fontSmall;
   color:@minorTextColor;
 }
 
@@ -261,22 +261,22 @@ armyBlock > textAfterIcon
 {
   behaviour:textArea;
   re-type:textarea;
-  font:@small;
+  font:@fontNormal;
   color:@userlogColoredText;
 }
 
 armyUnitType[battleDescriptionIconSize=medium] {
-  font:@normal;
+  font:@fontMedium;
   color:@activeTextColor;
 }
 
 armyUnitType[battleDescriptionIconSize=small] {
-  font:@tiny;
+  font:@fontSmall;
   color:@activeTextColor;
 }
 
 textAfterIcon[battleDescriptionIconSize=medium] {
-  font:@normal;
+  font:@fontMedium;
 }
 
 armyIcon[managerAccess=yes] > armyGroupText {
@@ -305,7 +305,7 @@ armyBlock > textarea,
 armyBlock > arrivalTime {
   behaviour:textArea;
   re-type:textarea;
-  font:@small;
+  font:@fontNormal;
   color:@commonTextColor;
 }
 
@@ -375,7 +375,6 @@ ww_map_item {
   background-position:4,5;
   background-repeat:expand;
   background-image:#ui/gameuiskin#expandable_item_sub_transp;
-  background-position: 2@arrowTexturePaddingUpAndRight, 1@arrowTexturePaddingUpAndRight, 1@arrowTexturePaddingUpAndRight, 1@arrowTexturePaddingBottom;
   background-color:@transparent;
   css-hier-invalidate:yes;
   total-input-transparent:yes;
@@ -394,13 +393,13 @@ ww_map_item[selected=yes] {
 
 ww_map_item mission_item_text {
   color:@commonTextColor;
-  font:@small;
+  font:@fontNormal;
 }
 ww_map_item mission_item_text[overlayTextColor=disabled] {
   color:@disabledTextColor;
 }
 ww_map_item.header mission_item_text {
-  font:@normal;
+  font:@fontMedium;
 }
 ww_map_item[selected=yes] mission_item_text, ww_map_item:hover mission_item_text {
   color:@activeTextColor;
@@ -416,11 +415,11 @@ ww_map_item.header mission_item_text {
 
 ww_map_item > missionDiv {
   pos:0, 50%ph-50%h;
-  padding-left:20*@sf/@pf_outdated;
+  padding-left:25*@sf/@pf_outdated;
   width:pw;
 }
 ww_map_item.header > missionDiv {
-  padding-left:10*@sf/@pf_outdated;
+  padding-left:15*@sf/@pf_outdated;
 }
 
 ww_map_item img[medalIcon] {
@@ -470,7 +469,7 @@ MapBlockVisibilitySwitch:hover > icon {
 
 wwWindowListBackground {
   background-repeat:expand;
-  background-position:1@arrowTexturePaddingUpAndRight, 1@arrowTexturePaddingUpAndRight, 1@arrowTexturePaddingUpAndRight, 1@arrowTexturePaddingUpAndRight;
+  background-position:2;
   background-color:@white;
 
   transparent:50;
@@ -488,7 +487,7 @@ operationResultText {
   behaviour:textArea;
   re-type:textarea;
   text-align:center;
-  font: @title_big;
+  font: @fontBigBold;
   color: @white;
 
   text-shade:smooth;
@@ -534,7 +533,7 @@ wwBattleBackgroundShadow[type=bottom] {
 
 textareaNoTab[isOperationClanParticipateColor=yes] {
   color:@isOperationClanParticipateColor;
-  font:@normal;
+  font:@fontMedium;
 }
 
 ww_operation_list_place > listbox > mission_item_unlocked > img[medalIcon] {

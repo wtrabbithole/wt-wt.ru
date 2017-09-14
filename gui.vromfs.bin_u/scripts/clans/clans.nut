@@ -915,19 +915,7 @@ function get_clan_info_table(clanInfo = null)
     return log
   })(clan)
 
-  local sortRewardsInlog = function(a, b)
-  {
-    if (a.time == b.time)
-      return 0
-
-    if (a.time == null)
-      return 1
-
-    if (b.time == null)
-      return -1
-
-    return a.time > b.time ? -1 : 1
-  }
+  local sortRewardsInlog = @(a, b) b.seasonTime <=> a.seasonTime
 
   clan.rewardLog <- getRewardLog(clanInfo, "clanRewardLog", ::ClanSeasonPlaceTitle)
   clan.rewardLog.sort(sortRewardsInlog)
@@ -948,7 +936,7 @@ class ClanSeasonTitle
   clanTag = ""
   clanName = ""
   seasonName = ""
-  time = 0
+  seasonTime = 0
   difficultyName = ""
 
 
@@ -991,13 +979,13 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
   place = ""
 
 
-  static function createFromClanReward (titleString, time, seasonName, clanData)
+  static function createFromClanReward (titleString, sTime, seasonName, clanData)
   {
     local titleParts = ::split(titleString, "@")
     local place = ::getTblValue(0, titleParts, "")
     local difficultyName = ::getTblValue(1, titleParts, "")
     return ClanSeasonPlaceTitle(
-      time
+      sTime,
       difficultyName,
       place,
       seasonName,
@@ -1023,7 +1011,7 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
 
 
   constructor (
-    _time,
+    _seasonTime,
     _difficlutyName,
     _place,
     _seasonName,
@@ -1031,7 +1019,7 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     _clanName,
   )
   {
-    time = _time
+    seasonTime = _seasonTime
     difficultyName = _difficlutyName
     place = _place
     seasonName = _seasonName
@@ -1097,14 +1085,14 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
   rating = ""
 
 
-  static function createFromClanReward (titleString, time, seasonName, clanData)
+  static function createFromClanReward (titleString, sTime, seasonName, clanData)
   {
     local titleParts = ::split(titleString, "@")
     local rating = ::getTblValue(0, titleParts, "")
     rating = ::g_string.slice(rating, 0, ::g_string.indexOf(rating, "rating"))
     local difficultyName = ::getTblValue(1, titleParts, "")
     return ClanSeasonRaitingTitle(
-      time
+      sTime
       difficultyName,
       rating,
       seasonName,
@@ -1118,7 +1106,7 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
   {
     local info = ::ClanSeasonRaitingTitle.getUpdatedClanInfo(unlockBlk)
     return ClanSeasonRaitingTitle(
-      time
+      seasonTime,
       difficultyName,
       rating,
       seasonName,
@@ -1129,7 +1117,7 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
 
 
   constructor (
-    _time,
+    _seasonTime,
     _dufficultyName,
     _rating,
     _seasonName,
@@ -1137,7 +1125,7 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
     _clanName
   )
   {
-    time = _time
+    seasonTime = _seasonTime
     difficultyName = _dufficultyName
     rating = _rating
     seasonName = _seasonName

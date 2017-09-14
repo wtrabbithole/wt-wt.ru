@@ -243,26 +243,6 @@
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
           "armorThickness": 35.0
-        },
-        "gun_barrel_02_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
-        },
-        "gun_barrel_03_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
-        },
-        "gun_barrel_04_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
-        },
-        "gun_barrel_05_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
-        },
-        "gun_barrel_06_dm": {
-          "armorThrough": 10.0,
-          "armorThickness": 35.0
         }
       },
       "chassis": {
@@ -564,7 +544,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1541,24 +1522,25 @@
   },
   {
     "ammoLoadDistribution": {
+      "removeLoadedAmmo": false,
       "primaryShells": {
         "ammo_body_01_dm": {
-          "count": 1
+          "count": 2
         },
         "ammo_body_02_dm": {
-          "count": 1
+          "count": 2
         },
         "ammo_body_03_dm": {
-          "count": 1
+          "count": 2
         },
         "ammo_body_04_dm": {
-          "count": 1
+          "count": 2
         },
         "ammo_body_05_dm": {
-          "count": 1
+          "count": 2
         },
         "ammo_body_06_dm": {
-          "count": 1
+          "count": 2
         },
         "ammo_body_07_dm": {
           "count": 1
@@ -1596,12 +1578,12 @@
           "recoilMultiplier": 0.05,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_dm",
+          "barrelDP": "gun_barrel_01_dm",
           "brokenBarrelAllowShoot": true,
           "speedYaw": 18.0,
           "speedPitch": 4.0,
           "fireConeAngle": 1.0,
-          "bullets": 12,
+          "bullets": 18,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1635,6 +1617,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/7_62mm_M1919A4_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_flame_05",
+          "partsDP": "gun_barrel_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "parkInDeadzone": false,
@@ -1676,7 +1659,7 @@
             "trigger": "gunner2"
           },
           {
-            "triggerGroup": "coaxial"
+            "triggerGroup": "secondary"
           },
           {
             "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk"
@@ -1762,7 +1745,7 @@
       {
         "Weapon": {
           "trigger": "gunner3",
-          "triggerGroup": "coaxial",
+          "triggerGroup": "secondary",
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk",
           "emitter": "bone_mg_gun_twin_02",
           "flash": "emtr_mg_flame_02",
@@ -1802,7 +1785,7 @@
       {
         "Weapon": {
           "trigger": "gunner4",
-          "triggerGroup": "coaxial",
+          "triggerGroup": "secondary",
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk",
           "emitter": "bone_mg_gun_twin_03",
           "flash": "emtr_mg_flame_03",
@@ -1842,7 +1825,7 @@
       {
         "Weapon": {
           "trigger": "gunner5",
-          "triggerGroup": "coaxial",
+          "triggerGroup": "secondary",
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk",
           "emitter": "bone_mg_gun_twin_04",
           "flash": "emtr_mg_flame_04",
@@ -2504,7 +2487,7 @@
       "sightFov": 10.0,
       "headPos": [0.0,2.8,-5.0],
       "headPosOnShooting": [0.0,2.35,0.0],
-      "detectionHeight": 2.004
+      "detectionHeight": 2.13
     }
   },
   {

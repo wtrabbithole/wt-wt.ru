@@ -20,14 +20,14 @@
     }
   },
   "slotsScrollDiv": {
-    "height": "@slotbarHeight+10*@scrn_tgt/100.0",
-    "pos": "0, -4*@scrn_tgt/100.0-4",
+    "height": "1@slotbarHeight -1@slotbar_top_shade +2@slotbarInvisPad",
+    "pos": "0, 1@slotbar_top_shade -1@slotbarInvisPad",
     "position": "relative",
     "input-transparent": "yes",
     "overflow-x": "auto",
     "table": {
       "id": "airs_table",
-      "pos": "0, 0.5@slotbarHeight+5*@scrn_tgt/100.0 -0.53h",
+      "pos": "0, 1@slotbarInvisPad",
       "position": "relative",
       "class": "slotbarTable",
       "navigatorShortcuts": "yes",

@@ -37,7 +37,16 @@ class ::gui_handlers.BattleTasksSelectNewTaskWnd extends ::gui_handlers.BaseGuiH
   {
     local listObj = getConfigsListObj()
     if (listObj)
-      listObj.setValue(0)
+    {
+      local currentGameModeId = ::game_mode_manager.getCurrentGameModeId()
+      local filteredTasksArray = ::g_battle_tasks.filterTasksByGameModeId(battleTasksArray, currentGameModeId)
+
+      local index = 0
+      if (filteredTasksArray.len())
+        index = ::u.searchIndex(battleTasksArray, @(task) filteredTasksArray[0].id == task.id, 0)
+
+      listObj.setValue(index)
+    }
   }
 
   function getCurrentConfig()

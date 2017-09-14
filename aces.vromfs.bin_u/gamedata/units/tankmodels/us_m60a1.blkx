@@ -102,7 +102,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1027,9 +1028,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.6,0.9],
-      "explodeHitPower": 1500.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.7,0.9],
+      "explodeHitPower": 4000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1689,7 +1690,8 @@
           "armorThickness": 40.0
         },
         "body_top_dm": {
-          "armorThickness": 36.0
+          "armorThickness": 36.0,
+          "explosionArmorQuality": 1.6
         },
         "turret_04_top_dm": {
           "armorThickness": 165.0
@@ -2422,6 +2424,7 @@
           "flash": "emtr_gun_flame_02",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "partsDP": "gun_barrel_03_dm",
           "barrelDP": "mg_aa_01_dm",
           "speedYaw": 24.0,
           "speedPitch": 15.0,
@@ -2449,7 +2452,7 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-15.0,60.0]
+            "pitch": [-9.0,60.0]
           }
         }
       },
@@ -2469,6 +2472,9 @@
           },
           {
             "flash": "emtr_mg_flame_01"
+          },
+          {
+            "partsDP": "gun_barrel_02_dm"
           },
           {
             "defaultYaw": 0.0
@@ -2571,10 +2577,10 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 8000.0,
-        "cutDamage": 1000.0,
+        "mass": 4500.0,
+        "cutDamage": 800.0,
         "deviation": 0.5,
-        "rotation": 0.5,
+        "rotation": 1.3,
         "collisionNode": "cls_turret_02"
       }
     }

@@ -218,7 +218,7 @@
       "ballisticCaliber": 0.08,
       "speed": 1430.0,
       "maxDistance": 10000.0,
-      "bulletType": "apds_fs_tank",
+      "bulletType": "apds_fs_tungsten_small_core_tank",
       "bulletName": "100mm_3bm25",
       "hitPowerMult": 300.0,
       "onHitChanceMultExplFuel": 0.1,
@@ -340,6 +340,52 @@
         "buildings": {
           "fx": "122_ap_stone_splash",
           "fxScale": [0.8,1.2]
+        }
+      }
+    }
+  },
+  "100mm_ussr_Smoke": {
+    "bullet": {
+      "bulletCount": 40,
+      "mass": 15.6,
+      "explosiveType": "tnt",
+      "explosiveMass": 0.272,
+      "caliber": 0.1,
+      "speed": 880.0,
+      "maxDistance": 10000.0,
+      "bulletType": "smoke_tank",
+      "bulletName": "100mm_3d3",
+      "hitPowerMult": 20.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [3.0,600.0],
+      "farArmorPower": [3.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.5,
+      "fuseDelayDist": 0.4,
+      "smokeShell": true,
+      "smokeFx": "smoke_shell_explosion",
+      "smokeShellRad": 20.0,
+      "smokeActivateTime": 5.0,
+      "smokeTime": 25.0,
+      "groundCollisionEffect": "ground_splash",
+      "groundFxScale": [0.1,0.2],
+      "ricochetEffect": "cannon_ricochet",
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "noColor"
+      },
+      "collisions": {
+        "steel": {
+          "fx": "smoke_shell_explosion"
+        },
+        "armor": {
+          "fx": "smoke_shell_explosion"
         }
       }
     }

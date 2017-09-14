@@ -26,6 +26,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   armyStrengthUpdateTimeRemain = 0
   isArmiesPathSwitchedOn = false
   leftSectionHandlerWeak = null
+  savedReinforcements = null
 
   static renderFlagPID = ::dagui_propid.add_name_id("_renderFlag")
 
@@ -46,8 +47,13 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     leftSectionHandlerWeak = ::gui_handlers.TopMenuButtonsHandler.create(
       scene.findObject("topmenu_menu_panel"),
-      this, ::g_ww_top_menu_left_side_sections)
+      this,
+      ::g_ww_top_menu_left_side_sections,
+      scene.findObject("left_gc_panel_free_width")
+    )
     registerSubHandler(leftSectionHandlerWeak)
+
+    savedReinforcements = {}
 
     initMapName()
     initOperationStatus(false)
@@ -761,7 +767,36 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   function updateReinforcements()
   {
     updateSecondaryBlockTab(::g_ww_map_reinforcement_tab_type.REINFORCEMENT)
+    updateRearZonesHighlight()
     return ::g_world_war.hasSuspendedReinforcements()
+  }
+
+  function updateRearZonesHighlight()
+  {
+    local arrivingReinforcementSides = {}
+    local reinforcements = ::g_world_war.getMyReadyReinforcementsArray()
+    foreach (reinforcement in reinforcements)
+    {
+      local name = ::getTblValue("name", reinforcement)
+      if (name && !(name in savedReinforcements))
+      {
+        local side = ::getTblValueByPath("armyGroup.owner.side", reinforcement)
+        if (!side)
+          continue
+
+        savedReinforcements[name] <- side
+        if (!(side in arrivingReinforcementSides))
+          arrivingReinforcementSides[side] <- null
+      }
+    }
+
+    local rearZones = ::g_world_war.getRearZones()
+    local highlightZones = []
+    foreach (side, value in arrivingReinforcementSides)
+      highlightZones.extend(rearZones[::ww_side_val_to_name(side)])
+
+    if (highlightZones.len())
+      ::ww_mark_zones_as_outlined_by_name(highlightZones)
   }
 
   function updateArmyStrenght()
@@ -1150,6 +1185,11 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   {
     local tabsObj = scene.findObject("reinforcement_pages_list")
     if (!::check_obj(tabsObj))
+      return
+
+    local tabBlockId = ::g_ww_map_reinforcement_tab_type.REINFORCEMENT.tabId
+    local tabBlockObj = tabsObj.findObject(tabBlockId)
+    if (!::check_obj(tabBlockObj) || !tabBlockObj.isVisible())
       return
 
     tabsObj.setValue(::g_ww_map_reinforcement_tab_type.REINFORCEMENT.code)

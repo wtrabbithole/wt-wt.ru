@@ -319,7 +319,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -533,7 +533,8 @@
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "EngineNameAi": "engine_tank_ai_light",
-      "TrackSoundNameAi": "tracks_ai_light"
+      "TrackSoundNameAi": "tracks_ai_light",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1558,6 +1559,9 @@
         "sideGearRatio": 3.0,
         "neutralGearRatio": 7.0,
         "gearRatios": [
+          {
+            "ratio": -3.85
+          },
           {
             "ratio": -7.0
           },

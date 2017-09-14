@@ -279,6 +279,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -581,6 +584,38 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/fulda/battleareas/template_fuda_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/fulda/battleareas/template_fuda_battleareas_realistic_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -603,7 +638,7 @@
           [1.74,0.0,-1.33495e-08],
           [0.0,1.0,0.0],
           [1.33495e-08,0.0,1.74],
-          [1569.53,197.11,2507.62]
+          [1572.0,197.11,2509.8]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1056,7 +1091,7 @@
           [1.74,0.0,-1.33495e-08],
           [0.0,1.0,0.0],
           [1.33495e-08,0.0,1.74],
-          [1167.42,177.028,2867.34]
+          [1167.6,177.028,2867.5]
         ],
         "unit_class": "capture_zone_circle",
         "objLayer": 2,
@@ -1303,28 +1338,6 @@
     }
   ],
   "areas": {
-    "conq_battle_area_arcade": {
-      "type": "Box",
-      "tm": [
-        [8.74228e-05,0.0,2000.0],
-        [0.0,400.0,0.0],
-        [-2000.0,0.0,8.74228e-05],
-        [2037.21,239.456,2169.22]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "conq_battle_area_hardcore": {
-      "type": "Box",
-      "tm": [
-        [0.000174846,0.0,4000.0],
-        [0.0,400.0,0.0],
-        [-4000.0,0.0,0.000174846],
-        [2049.91,239.456,2043.86]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
     "conq_effect_01_arcade": {
       "type": "Point",
       "tm": [
@@ -1488,17 +1501,6 @@
         [1162.64,197.101,2863.76]
       ],
       "objLayer": 0,
-      "props": []
-    },
-    "conq_battle_area_realistic": {
-      "type": "Box",
-      "tm": [
-        [0.000174846,0.0,4000.0],
-        [0.0,400.0,0.0],
-        [-4000.0,0.0,0.000174846],
-        [2049.91,239.456,2043.86]
-      ],
-      "objLayer": 3,
       "props": []
     }
   },

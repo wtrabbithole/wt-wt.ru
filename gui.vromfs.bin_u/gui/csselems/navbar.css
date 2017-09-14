@@ -63,6 +63,11 @@ navBar[largeNavBarHeight=yes] {
   height:1@frameFooterHeightLarge;
 }
 
+frame[largeNavBarHeight=battle] > navBar,
+navBar[largeNavBarHeight=battle] {
+  height:1@frameFooterHeightBigBattle;
+}
+
 navLeft {
   position:absolute;
   padding:-1@buttonMargin, 0;
@@ -146,7 +151,7 @@ hintText {
   behaviour:textArea;
   re-type:textarea;
   min-width:pw-0.5*@scrn_tgt/100.0;
-  font:@small;
+  font:@fontNormal;
   color:@commonTextColor;
   text-align:center;
   auto-scroll:yes;

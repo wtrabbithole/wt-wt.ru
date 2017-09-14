@@ -946,17 +946,6 @@
     }
   },
   {
-    "sound": {
-      "EngineName": "engine_hetzer",
-      "TrackSoundPath": "tanks/engines_tanks",
-      "TrackSoundName": "tracks_light",
-      "TrackSoundNameCockpit": "tracks_light_interior",
-      "turret_turn": "turret_turn_manual",
-      "EngineNameAi": "engine_tank_ai_light",
-      "TrackSoundNameAi": "tracks_ai_light"
-    }
-  },
-  {
     "class_tags": []
   },
   {
@@ -1166,18 +1155,6 @@
       "hatch_06": [45.0,115.0],
       "hatch_07": [45.0,93.0],
       "hatch_08": [45.0,90.0]
-    }
-  },
-  {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 2000.0,
-        "cutDamage": 350.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
-      }
     }
   },
   {
@@ -1914,7 +1891,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -2482,6 +2459,18 @@
     ]
   },
   {
+    "sound": {
+      "EngineName": "engine_hetzer",
+      "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
+      "turret_turn": "turret_turn_manual",
+      "EngineNameAi": "engine_tank_ai_light",
+      "TrackSoundNameAi": "tracks_ai_light",
+      "gun_turn": "turret_turn_mg_light"
+    }
+  },
+  {
     "commonWeapons": [
       {
         "Weapon": {
@@ -2521,7 +2510,7 @@
           },
           "limits": {
             "yaw": [-5.0,5.0],
-            "pitch": [-5.0,30.0]
+            "pitch": [-10.0,20.0]
           }
         }
       },
@@ -2730,6 +2719,18 @@
       "replace_tex": {
         "from": "jp_camo_chairo_brown*",
         "to": "jp_camo_post_winter*"
+      }
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 6000.0,
+        "cutDamage": 350.0,
+        "deviation": 0.5,
+        "rotation": 5.5,
+        "collisionNode": "cannon_breech_dm"
       }
     }
   }

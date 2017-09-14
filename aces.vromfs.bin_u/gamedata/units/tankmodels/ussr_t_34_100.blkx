@@ -937,9 +937,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.3,0.9],
-      "explodeHitPower": 1000.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.8,0.9],
+      "explodeHitPower": 4000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -959,10 +959,10 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 3300.0,
-        "cutDamage": 350.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
+        "mass": 6000.0,
+        "cutDamage": 1000.0,
+        "deviation": 0.3,
+        "rotation": 1.5,
         "collisionNode": "cls_turret_01"
       }
     }
@@ -1725,7 +1725,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -2196,11 +2196,13 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
       "100mm_APHE_ammo_pack": [],
+      "100mm_ussr_Smoke_ammo_pack": [],
       "100mm_APCBC_ammo_pack": {
         "modCostMul": 2.0
       },
       "100mm_ussr_APHE": [],
       "100mm_ussr_APCBC": [],
+      "100mm_ussr_Smoke": [],
       "100mm_ussr_HE": []
     }
   },

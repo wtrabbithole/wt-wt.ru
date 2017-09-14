@@ -4,13 +4,6 @@ local time = require("scripts/time.nut")
 const MAIN_FOCUS_ITEM_IDX = 4
 
 ::stickedDropDown <- null
-::is_in_save_dialogs <- false
-
-function set_in_save_dialogs(en)
-{
-  ::is_in_save_dialogs = en
-  ::disable_message_processing(en)
-}
 
 class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 {
@@ -212,20 +205,17 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
           txt = "x360/noSpace"
         else if (saveRes == ::SAVELOAD_NOT_SELECTED)
           txt = "xbox360/questionSelectDevice"
-        ::set_in_save_dialogs(true)
         msgBox("no_save_device", ::loc(txt),
         [
           ["yes", (@(handler, onlineSave) function() {
               dagor.debug("performDelayed save")
               handler.guiScene.performDelayed(handler, (@(handler, onlineSave) function() {
-                ::set_in_save_dialogs(false)
                 ::select_save_device(true)
                 save(onlineSave)
                 handler.afterSave()
               })(handler, onlineSave))
           })(handler, onlineSave)],
           ["no", (@(handler) function() {
-            ::set_in_save_dialogs(false)
             handler.afterSave()
           })(handler)
           ]
@@ -236,20 +226,17 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     }
     else
     {
-      ::set_in_save_dialogs(true)
       msgBox("no_save_device", ::loc("xbox360/questionSelectDevice"),
       [
         ["yes", (@(handler, onlineSave) function() {
 
             dagor.debug("performDelayed save")
             handler.guiScene.performDelayed(handler, (@(handler, onlineSave) function() {
-              ::set_in_save_dialogs(false)
               ::select_save_device(true)
               save(onlineSave)
             })(handler, onlineSave))
         })(handler, onlineSave)],
         ["no", (@(handler) function() {
-          ::set_in_save_dialogs(false)
           handler.afterSave()
         })(handler)
         ]
@@ -1120,9 +1107,13 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onContactTooltipOpen(obj)
   {
     local uid = obj.uid
-    if (!uid) return
-    local contact = ::getContact(uid)
-    local canShow = canShowContactTooltip(contact)
+    local canShow = false
+    local contact = null
+    if (uid)
+    {
+      contact = ::getContact(uid)
+      canShow = canShowContactTooltip(contact)
+    }
     obj["class"] = canShow ? "" : "empty"
 
     if (canShow)

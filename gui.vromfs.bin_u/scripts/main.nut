@@ -233,6 +233,7 @@ foreach (fn in [
   "scripts/viewUtils/layeredIcon.nut"
   "scripts/viewUtils/projectAwards.nut"
 
+  "scripts/sqModuleHelpers.nut"
   "scripts/util.nut"
   "scripts/timer.nut"
 
@@ -284,6 +285,8 @@ foreach (fn in [
   "scripts/debugTools/dbgTimer.nut"
   "scripts/debugTools/dbgDump.nut"
   "scripts/debugTools/dbgUtils.nut"
+  "scripts/debugTools/dbgImage.nut"
+  "scripts/debugTools/dbgFonts.nut"
 
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"

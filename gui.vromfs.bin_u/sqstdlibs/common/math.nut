@@ -1,3 +1,5 @@
+const GOLDEN_RATIO = 1.618034
+
 function min(a, b) { return (a < b)? a : b }
 function max(a, b) { return (a > b)? a : b }
 function minByAbs(a, b) { return (fabs(a) < fabs(b))? a : b }
@@ -61,4 +63,15 @@ function lerp(valueMin, valueMax, resMin, resMax, value)
   if (valueMin == valueMax)
     return 0.5 * (resMin + resMax)
   return resMin + (resMax - resMin) * (value - valueMin) / (valueMax - valueMin)
+}
+
+/*
+* return columns amount for the table with <total> same size items
+* with a closer table size to golden ratio
+* <widthToHeight> is a item size ratio (width / height)
+*/
+function calc_golden_ratio_columns(total, widthToHeight = 1.0)
+{
+  local rows = (sqrt(total.tofloat() / GOLDEN_RATIO * widthToHeight) + 0.5).tointeger() || 1
+  return ceil(total.tofloat() / rows).tointeger()
 }

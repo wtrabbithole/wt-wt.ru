@@ -72,7 +72,14 @@ table.optionsTable[dontUseAxisShortcuts=yes] {
 slider, sliderProgress, invisSlider {
   shortcutLeft:"@shortcutLeftGamepad | Left";
   shortcutRight:"@shortcutRightGamepad | Right";
+  shortcutUp:"";
+  shortcutDown:"";
   shortcutCancel:"";
+}
+
+slider[canWrap=yes] {
+  shortcutWrapUp: "@shortcutUpGamepad | Up";
+  shortcutWrapDown: "@shortcutDownGamepad | Down";
 }
 
 spinnerListBox {
