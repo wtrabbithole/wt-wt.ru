@@ -114,7 +114,6 @@ tdiv {
     pos:t="50%pw-50%w,0";
     position:t='relative';
     background-rotation:t = '0'
-    wait_icon_cock {}
   }
   <</delayed>>
   <<#expText>>

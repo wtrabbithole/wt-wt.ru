@@ -33,7 +33,6 @@ promoButton {
       position:t='absolute'
       class:t='missionBox'
       background-rotation:t = '0'
-      wait_icon_cock {}
     }
     <</hasWaitAnim>>
   }

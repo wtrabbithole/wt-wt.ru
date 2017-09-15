@@ -215,11 +215,15 @@ tutorLight {
 }
 
 chatBlock {
-  background-image:#ui/gameuiskin#block_bg;
-  background-color:@white;
-  background-position:4;
-  background-repeat:expand;
-  padding:6;
+  border:yes;
+  border-offset:@dp;
+  border-color: @frameDarkBorderColor;
+  background-color: @frameDarkBackgroundColor;
+  padding: 1@framePadding;
+}
+
+chatBlock[paddingSize=small] {
+  padding: 1@dp;
 }
 
 chatLog {
@@ -530,7 +534,7 @@ bonus {
 bonusNoFrame {
   pos:50%pw-50%w, 0.5ph - 0.5(h - 1@cIco); 
   position:relative;
-  size:1@slot_hdr_width, 41@sf/@pf_outdated;
+  size:1@slot_hdr_width, 1.577@slot_hdr_width;
   background-color:@transparent;
   background-repeat:expand;
 }
@@ -1497,13 +1501,6 @@ Button_text.squadWidgetMember > animated_wait_icon {
   position:absolute;
 }
 
-wait_icon_cock {
-  size:pw,ph;
-  background-color:@white;
-  background-image:ui/loadinganim_cock;
-  input-transparent:yes;
-}
-
 animated_wait_icon[circle=both] > animated_wait_icon {
   circle:aircraft;
   rotation:180;
@@ -1542,7 +1539,7 @@ framedMessage {
 advertDiv {
   re-type:9rect;
   background-color:@gray;
-  background-image:#ui/gameuiskin#subtitles_backgr_middle;
+  background-image:#ui/hudskin#subtitles_backgr_middle;
   background-repeat:expand;
   input-transparent:yes;
 }
@@ -1579,6 +1576,11 @@ tooltip {
 
 tooltipObj {
   color-factor:255;
+}
+
+tooltipObj.empty {
+  background-color:@transparent;
+  border:no;
 }
 
 @const imgFrameSize: 1.45*@profileMedalSize;
@@ -1732,10 +1734,6 @@ img[click_to_resize] {
   snd_click:click;
   on_click:onViewImage;
   input-transparent:no;
-}
-
-tooltipObj.empty {
-  background-color:@transparent;
 }
 
 frameBlock {

@@ -564,7 +564,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local iconObj = scene.findObject("active_wager_result_icon")
     if (!::checkObj(iconObj))
       return
-    iconObj["background-image"] = success ? "#ui/gameuiskin#favorite" : "#ui/gameuiskin#icon_primary_fail"
+    iconObj["background-image"] = success ? "#ui/gameuiskin#favorite" : "#ui/hudskin#icon_primary_fail"
   }
 
   function handlePveReward()

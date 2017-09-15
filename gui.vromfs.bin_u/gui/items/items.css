@@ -113,8 +113,10 @@ itemDiv[ticketBuyWindow=yes] {
   height:1@itemHeight + 4@itemPadding;
 }
 
-[itemShopList=yes] > itemDiv {
+[itemShopList=yes] > itemDiv,
+[itemShopList=yes] > iconLayer {
   margin:0, 0, 1@itemSpacing, 1@itemSpacing;
+  pos:0,0;
 }
 frameBlock[itemShopList=yes] {
   padding:1@itemSpacing, 1@itemSpacing, 0, 0;

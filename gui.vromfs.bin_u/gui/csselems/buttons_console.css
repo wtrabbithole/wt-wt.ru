@@ -651,7 +651,10 @@ Button_text[visualStyle=noFrame][isColoredImg=yes]:pushed > img,
 }
 
 Button_text.image:disabled > img,
-Button_text.image[inactiveColor=yes] > img,
+Button_text.image[inactiveColor=yes] > img {
+  background-color: @buttonFontColorDisabled;
+}
+
 Button_text[visualStyle=noFrame][isColoredImg=yes]:disabled > img,
 Button_text[visualStyle=noFrame][isColoredImg=yes][inactiveColor=yes] > img {
   background-color: @buttonFontColorPushed;
@@ -1539,6 +1542,10 @@ Button_text > BonusCorner[bonusType=common] {
   background-image:#ui/gameuiskin#booster_yellow_corner;
 }
 
+Button_text:disabled > BonusCorner {
+  background-color:@buttonFontColorDisabled;
+}
+
 Button_text[visualStyle=header] {
   background-image:#ui/gameuiskin#header_button_;
   background-position:5;
@@ -1702,14 +1709,11 @@ Button_text[enableOn=hoverOrSelect] {
 
 Button_text.profileImg {
   reduceMinimalWidth:yes;
-  height:1@profileUnlockIconSize + 10;
+  height:1@profileUnlockIconSize + 2@blockInterval;
   width:h;
   background-image:#ui/gameuiskin#header_button_;
   margin:0;
-  padding-bottom:5;
-  padding-left:5;
-  padding-right:5;
-  padding-top:5;
+  padding:1@blockInterval;
   css-hier-invalidate:yes;
 }
 
@@ -2050,4 +2054,13 @@ frame navMiddle > Button_text {
 
 btnText[text-align=left] {
   padding-right:-1@textPaddingBugWorkaround;
+}
+
+Button_text[scaleble=yes] {
+  pare-text:yes;
+  min-width:0.3@buttonWidth;
+}
+
+Button_text[noWidth=yes] {
+  width:0;
 }

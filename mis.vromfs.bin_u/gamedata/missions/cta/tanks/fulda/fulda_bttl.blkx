@@ -279,6 +279,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -590,6 +593,38 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/fulda/template_fulda_tanks_spawns.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/fulda/battleareas/template_fuda_battleareas_realistic_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/fulda/battleareas/template_fuda_battleareas.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -1375,28 +1410,6 @@
     }
   ],
   "areas": {
-    "bttl_battle_area_arcade": {
-      "type": "Box",
-      "tm": [
-        [8.74228e-05,0.0,2000.0],
-        [0.0,400.0,0.0],
-        [-2000.0,0.0,8.74228e-05],
-        [2037.21,239.456,2169.22]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
-    "bttl_battle_area_realistic": {
-      "type": "Box",
-      "tm": [
-        [0.000174846,0.0,4000.0],
-        [0.0,400.0,0.0],
-        [-4000.0,0.0,0.000174846],
-        [2049.91,239.456,2043.86]
-      ],
-      "objLayer": 3,
-      "props": []
-    },
     "bttl_t2_effect_arcade": {
       "type": "Point",
       "tm": [
@@ -1516,17 +1529,6 @@
         [2584.07,185.078,3889.18]
       ],
       "objLayer": 0,
-      "props": []
-    },
-    "bttl_battle_area_hardcore": {
-      "type": "Box",
-      "tm": [
-        [0.000174846,0.0,4000.0],
-        [0.0,400.0,0.0],
-        [-4000.0,0.0,0.000174846],
-        [2049.91,239.456,2043.86]
-      ],
-      "objLayer": 3,
       "props": []
     },
     "bttl_t1_capture_area_realistic": {

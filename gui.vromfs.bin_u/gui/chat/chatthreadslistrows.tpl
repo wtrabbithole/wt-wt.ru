@@ -20,7 +20,7 @@ expandable {
   on_click:t = 'onJoinThread'
   clickable:t='yes'
   <</onlyInfo>>
-
+  highlightedRowLine {}
   selImg {
     id:t='thread_row_sel_img'
     flow:t='vertical'
@@ -29,6 +29,7 @@ expandable {
       width:t='pw'
 
       tdiv {
+        width:t='fw'
         <<#needShowLang>>
         tdiv {
           margin-right:t='0.02@scrn_tgt'
@@ -55,8 +56,15 @@ expandable {
         <<#canEdit>>
         Button_text {
           roomId:t='<<roomId>>'
-          pos:t='0.02@scrn_tgt, 50%ph-50%h'
+          pos:t='0, 50%ph-50%h'
+          width:t='fw'
+          max-width:t='1@buttonWidth'
+          margin-right:t='1@buttonMargin'
+          margin-left:t='1@buttonMargin'
+          overflow:t='hidden'
           position:t='relative'
+          showConsoleImage:t='no'
+          scaleble:t='yes'
           class:t='smallButton'
 
           text:t = '#chat/editThread'
@@ -64,11 +72,9 @@ expandable {
         }
         <</canEdit>>
       }
-
       textareaNoTab {
         id:t='thread_members'
         pos:t='pw-w, 0'
-        position:t='absolute'
         smallFont:t='yes'
         overlayTextColor:t='minor'
         text:t='<<getMembersAmountText>>'

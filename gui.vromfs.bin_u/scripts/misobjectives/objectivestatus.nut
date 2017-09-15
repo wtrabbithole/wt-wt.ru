@@ -17,20 +17,20 @@
   RUNNING = {
     code = ::MISSION_OBJECTIVE_STATUS_IN_PROGRESS
     name = "running"
-    missionObjImg = "#ui/gameuiskin#icon_primary"
-    wwMissionObjImg = "#ui/gameuiskin#icon_primary"
+    missionObjImg = "#ui/hudskin#icon_primary"
+    wwMissionObjImg = "#ui/hudskin#icon_primary"
   }
   SUCCEED = {
     code = ::MISSION_OBJECTIVE_STATUS_COMPLETED
     name = "succeed"
-    missionObjImg = "#ui/gameuiskin#icon_primary_success"
+    missionObjImg = "#ui/hudskin#icon_primary_success"
     wwMissionObjImg = "#ui/gameuiskin#favorite"
   }
   FAILED = {
     code = ::MISSION_OBJECTIVE_STATUS_FAILED
     name = "failed"
-    missionObjImg = "#ui/gameuiskin#icon_primary_fail"
-    wwMissionObjImg = "#ui/gameuiskin#icon_primary_fail"
+    missionObjImg = "#ui/hudskin#icon_primary_fail"
+    wwMissionObjImg = "#ui/hudskin#icon_primary_fail"
   }
   UNKNOWN = {
     name = "unknown"

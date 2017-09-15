@@ -923,7 +923,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       nameObj.setValue(playerName)
 
       local unitId = player.aircraftName != "" ? player.aircraftName : null
-      local iconImg = !player.ingame ? "#ui/gameuiskin#player_not_ready" : unitId ? ::getUnitClassIco(unitId) : "#ui/gameuiskin#dead"
+      local iconImg = !player.ingame ? "#ui/gameuiskin#player_not_ready" : unitId ? ::getUnitClassIco(unitId) : "#ui/hudskin#dead"
       local iconType = unitId ? ::get_unit_role(unitId) : ""
       local stateDesc = getPlayerStateDesc(player)
       local malfunctionDesc = getUnitMalfunctionDesc(player)

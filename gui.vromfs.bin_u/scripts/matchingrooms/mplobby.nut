@@ -229,11 +229,9 @@ function updateCurrentPlayerInfo(handler, scene, playerInfo, unitParams = null)
     }
 
     teamObj.team = teamStyle
-    if (teamTxt != "")
-    {
-      local teamIcoObj = teamObj.findObject("player_team_ico")
-      teamIcoObj.tooltip = ::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt
-    }
+    local teamIcoObj = teamObj.findObject("player_team_ico")
+    teamIcoObj.show(teamTxt != "")
+    teamIcoObj.tooltip = ::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt
   }
 
   ::fill_gamer_card({

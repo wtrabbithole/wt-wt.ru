@@ -20,12 +20,12 @@ class ::gui_handlers.CampaignPreview extends ::gui_handlers.BaseGuiHandlerWT
   logTimer = 0
   logLastMission = 0
   loseImages = {
-    fighters   = "#ui/gameuiskin#objective_fighter"
-    bombers    = "#ui/gameuiskin#objective_bomber"
-    tanks      = "#ui/gameuiskin#objective_tank"
-    infantry   = "#ui/gameuiskin#objective_troops"
-    ships      = "#ui/gameuiskin#objective_destroyer"
-    artillery  = "#ui/gameuiskin#objective_aa"
+    fighters   = "#ui/hudskin#objective_fighter"
+    bombers    = "#ui/hudskin#objective_bomber"
+    tanks      = "#ui/hudskin#objective_tank"
+    infantry   = "#ui/hudskin#objective_troops"
+    ships      = "#ui/hudskin#objective_destroyer"
+    artillery  = "#ui/hudskin#objective_aa"
   }
 
   function initScreen()

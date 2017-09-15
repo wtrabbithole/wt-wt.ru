@@ -1475,17 +1475,17 @@ enum MOUSE_AXIS {
 
 ::mouse_axes_to_image <- {
   [MOUSE_AXIS.NOT_AXIS] = "",
-  [MOUSE_AXIS.HORIZONTAL_AXIS] = "#ui/gameuiskin#mouse_move_l_r",
-  [MOUSE_AXIS.VERTICAL_AXIS] = "#ui/gameuiskin#mouse_move_up_down",
-  [MOUSE_AXIS.MOUSE_MOVE] = "#ui/gameuiskin#mouse_move_4_sides",
-  [MOUSE_AXIS.WHEEL_AXIS] = "#ui/gameuiskin#mouse_center_up_down",
+  [MOUSE_AXIS.HORIZONTAL_AXIS] = "#ui/hudskin#mouse_move_l_r",
+  [MOUSE_AXIS.VERTICAL_AXIS] = "#ui/hudskin#mouse_move_up_down",
+  [MOUSE_AXIS.MOUSE_MOVE] = "#ui/hudskin#mouse_move_4_sides",
+  [MOUSE_AXIS.WHEEL_AXIS] = "#ui/hudskin#mouse_center_up_down",
 
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_center_down",
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_center_up",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_l",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_r",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_down",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_up",
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_center_down",
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_center_up",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_move_l",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_move_r",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_move_down",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_move_up",
 }
 
 ::autorestore_axis_table <- {

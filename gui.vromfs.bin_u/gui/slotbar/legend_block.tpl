@@ -4,7 +4,6 @@ tdiv {
   padding-top:t='0.01@scrn_tgt'
   inactive:t='yes'
   textarea {
-    max-width:t='pw';
     overlayTextColor:t='active'
     text:t='<<header>>';
     position:t='relative';

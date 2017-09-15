@@ -20,13 +20,12 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
       return goBack()
 
     local data = getItemsImages()
-
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
-    local height = ::max(listObj.getSize()[1], guiScene.calcString("3@itemHeight", null))
-    scene.findObject("trophy_rewards_list").height = height
-    listObj.select()
 
-    guiScene.setUpdatesEnabled(true, true)
+    if (rewardsArray.len() > 3)
+      listObj.width = (listObj.getSize()[0] + guiScene.calcString("1@scrollBarSize", null)).tostring()
+
+    listObj.select()
   }
 
   function getItemsImages()

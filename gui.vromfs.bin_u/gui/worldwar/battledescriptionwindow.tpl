@@ -87,8 +87,6 @@ root {
                 margin-left:t='10*@sf/@pf_outdated'
                 background-rotation:t='0'
                 display:t='show'
-
-                wait_icon_cock {}
               }
             }
 

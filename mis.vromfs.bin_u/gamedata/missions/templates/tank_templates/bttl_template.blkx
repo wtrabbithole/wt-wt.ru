@@ -252,37 +252,6 @@
               "target": "bttl_check_hardcore"
             }
           ]
-        },
-        {
-          "comment": {
-            "value": "раздельные бэтл зоны для команды"
-          }
-        },
-        {
-          "varSetString": [
-            {
-              "value": "bttl_battle_area"
-            },
-            {
-              "var": "t1_battle_area_name"
-            },
-            {
-              "var": "temp_t1_battle_area_name"
-            }
-          ]
-        },
-        {
-          "varSetString": [
-            {
-              "value": "bttl_battle_area"
-            },
-            {
-              "var": "t2_battle_area_name"
-            },
-            {
-              "var": "temp_t2_battle_area_name"
-            }
-          ]
         }
       ],
       "else_actions": []
@@ -381,22 +350,6 @@
             "digits": 0,
             "var": "battle_area_name"
           }
-        },
-        {
-          "varAddString": [
-            {
-              "value": "_arcade"
-            },
-            {
-              "digits": 0
-            },
-            {
-              "var": "t1_battle_area_name"
-            },
-            {
-              "var": "t2_battle_area_name"
-            }
-          ]
         },
         {
           "triggerEnable": {
@@ -502,22 +455,6 @@
           }
         },
         {
-          "varAddString": [
-            {
-              "value": "_realistic"
-            },
-            {
-              "digits": 0
-            },
-            {
-              "var": "temp_t1_battle_area_name"
-            },
-            {
-              "var": "temp_t2_battle_area_name"
-            }
-          ]
-        },
-        {
           "triggerEnable": {
             "target": "bttl_check_realistic_exist"
           }
@@ -563,13 +500,13 @@
         },
         {
           "objectExists": {
-            "target": "@temp_bttl_t1_circle",
+            "target": "@temp_t1_circle_name",
             "type": "objectGroup"
           }
         },
         {
           "objectExists": {
-            "target": "@temp_bttl_t2_circle",
+            "target": "@temp_t2_circle_name",
             "type": "objectGroup"
           }
         },
@@ -670,22 +607,6 @@
           }
         },
         {
-          "varAddString": [
-            {
-              "value": "_realistic"
-            },
-            {
-              "digits": 0
-            },
-            {
-              "var": "t1_battle_area_name"
-            },
-            {
-              "var": "t2_battle_area_name"
-            }
-          ]
-        },
-        {
           "triggerEnable": {
             "target": "bttl_check_random_spawn"
           }
@@ -773,22 +694,6 @@
             "digits": 0,
             "var": "battle_area_name"
           }
-        },
-        {
-          "varAddString": [
-            {
-              "value": "_arcade"
-            },
-            {
-              "digits": 0
-            },
-            {
-              "var": "t1_battle_area_name"
-            },
-            {
-              "var": "t2_battle_area_name"
-            }
-          ]
         },
         {
           "triggerEnable": {
@@ -891,22 +796,6 @@
             "digits": 0,
             "var": "battle_area_name"
           }
-        },
-        {
-          "varAddString": [
-            {
-              "value": "_hardcore"
-            },
-            {
-              "digits": 0
-            },
-            {
-              "var": "t1_battle_area_name"
-            },
-            {
-              "var": "t2_battle_area_name"
-            }
-          ]
         },
         {
           "triggerEnable": {
@@ -1226,7 +1115,7 @@
               "target": "bttl_check_second_spawn_exist"
             },
             {
-              "target": "bttl_check_separate_battle_area_exist"
+              "target": "bttl_check_battle_area_exist"
             },
             {
               "target": "bttl_t1_zone_captured"
@@ -1311,71 +1200,6 @@
         }
       ],
       "else_actions": []
-    },
-    "bttl_check_separate_battle_area_exist": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "initMission": []
-      },
-      "conditions": [
-        {
-          "objectExists": {
-            "target": "@t1_battle_area_name",
-            "type": "area"
-          }
-        },
-        {
-          "objectExists": {
-            "target": "@t2_battle_area_name",
-            "type": "area"
-          }
-        }
-      ],
-      "actions": [
-        {
-          "comment": {
-            "value": "есть раздельные бэтл зоны. используем их"
-          }
-        },
-        {
-          "missionBattleArea": {
-            "air": false,
-            "ground": true,
-            "mapArea": true,
-            "killOutOfBattleArea": true,
-            "target": "@battle_area_name",
-            "newGridHorizontalCellCount": 0,
-            "area": "@t1_battle_area_name",
-            "team": "A"
-          }
-        },
-        {
-          "missionBattleArea": {
-            "air": false,
-            "ground": true,
-            "mapArea": true,
-            "killOutOfBattleArea": true,
-            "target": "@battle_area_name",
-            "newGridHorizontalCellCount": 0,
-            "area": "@t2_battle_area_name",
-            "team": "B"
-          }
-        }
-      ],
-      "else_actions": {
-        "comment": {
-          "value": "раздельных бэтл зон нет. пробуем использовать общую"
-        },
-        "triggerEnable": {
-          "target": "bttl_check_battle_area_exist"
-        }
-      }
     },
     "bttl_check_battle_area_exist": {
       "is_enabled": false,
@@ -1514,11 +1338,7 @@
     "temp_t1_spawn_02_name": "",
     "temp_t2_spawn_01_name": "",
     "temp_t2_spawn_02_name": "",
-    "temp_battle_area_name": "",
-    "t1_battle_area_name": "",
-    "t2_battle_area_name": "",
-    "temp_t1_battle_area_name": "",
-    "temp_t2_battle_area_name": ""
+    "temp_battle_area_name": ""
   },
   "dialogs": [],
   "airfields": [],

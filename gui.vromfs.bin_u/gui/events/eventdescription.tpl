@@ -205,8 +205,6 @@ tdiv {
             behavior:t='increment'
             inc-target:t='background-rotation'
             inc-factor:t='120'
-
-            wait_icon_cock {}
           }
           table {
             id:t = 'lb_table'

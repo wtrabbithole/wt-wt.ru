@@ -139,8 +139,6 @@ expandable {
               behavior:t='increment'
               inc-target:t='background-rotation'
               inc-factor:t='120'
-
-              wait_icon_cock {}
             }
             playbackImg{}
           }

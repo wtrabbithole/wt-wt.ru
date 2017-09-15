@@ -656,9 +656,7 @@ function BattleTasks::getUnlockConditionBlock(text, id, type, isUnlocked, isFina
 
   return {
     tooltipId = ::UnlockConditions.getTooltipIdByModeType(type, id, hasCustomUnlockableList)
-    overlayTextColor = !isBitMode ? ""
-                     : isUnlocked ? "active"
-                     : "disabled"
+    overlayTextColor = (isBitMode && isUnlocked) ? "userlog" : "active"
     text = unlockDesc
   }
 }

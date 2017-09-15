@@ -145,21 +145,19 @@ buttonPlayer {
   behavior:button;
   cursor:onButton;
   css-hier-invalidate:current;
-  padding:0.008@sf;
+  padding:@blockInterval;
 }
 buttonPlayer > img {
   position:absolute;
-  pos:pw-w, 50%ph-50%h;
+  pos:pw-w -@blockInterval, 50%ph-50%h;
   size:1@sIco, 1@sIco;
-  margin-right:0.008@sf;
 }
 
 buttonPlayer > btnText {
   smallFont:yes;
   font:@fontNormal;
   color:#2e7ac5;
-  margin-right:1@sIco+5*@sf/@pf_outdated;
-  pos:pw-w, 50%ph-50%h;
+  pos:pw-w -1@sIco -@blockInterval, 50%ph-50%h;
   position:relative;
   text-align:right;
   max-width:pw;

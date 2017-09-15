@@ -3,7 +3,7 @@ expandable {
   id:t='invite_<<uid>>'
   inviteUid:t='<<uid>>'
   class:t='simple'
-
+  highlightedRowLine {}
   selImg {
     style:t='flow:horizontal;'
 
@@ -89,7 +89,7 @@ expandable {
         btnName:t='Y'
         on_click:t = 'onReject'
         ButtonImg {}
-        img { background-image:t='#ui/gameuiskin#icon_primary_fail' }
+        img { background-image:t='#ui/hudskin#icon_primary_fail' }
       }
     }
   }

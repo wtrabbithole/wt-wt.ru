@@ -17,16 +17,16 @@
       "id": "threads_buttons_panel"
     },
     {
-      "width": "pw"
+      "width": "pw-2@framePadding"
     },
     {
       "position": "relative"
     },
     {
-      "padding": "-1@buttonMargin"
+      "padding": "-1@buttonMargin-1@dp"
     },
     {
-      "padding-top": "0"
+      "margin": "1@framePadding"
     },
     {
       "behaviour": "wrapNavigator"
@@ -49,8 +49,8 @@
     {
       "Button_text": {
         "id": "threads_search_langs_btn",
-        "max-width": "0.5 * (pw - 1@buttonWidth - 1@buttonHeight - 0.025@scrn_tgt)",
-        "style": "width:0;",
+        "max-width": "0.5 * (pw - 1@buttonWidth - 1@buttonHeight - 3@blockInterval)",
+        "noWidth": "yes",
         "overflow": "hidden",
         "class": "image",
         "showConsoleImage": "no",
@@ -63,8 +63,8 @@
         "id": "btn_categories_filter",
         "width": "fw",
         "showConsoleImage": "no",
+        "scaleble": "yes",
         "talign": "left",
-        "pare-text": "yes",
         "on_click": "onCategoriesBtn"
       }
     },
@@ -91,8 +91,7 @@
           "id": "btn_refresh_wait_anim",
           "pos": "50%pw-50%w,50%ph-50%h",
           "position": "absolute",
-          "background-rotation": "0",
-          "wait_icon_cock": []
+          "background-rotation": "0"
         }
       }
     },

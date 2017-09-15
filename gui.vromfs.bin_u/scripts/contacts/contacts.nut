@@ -1272,7 +1272,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local data = ""
       if (searchInProgress)
-        data = "animated_wait_icon { pos:t='0.5(pw-w),0.03sh'; position:t='absolute'; background-rotation:t='0'; wait_icon_cock {} }"
+        data = "animated_wait_icon { pos:t='0.5(pw-w),0.03sh'; position:t='absolute'; background-rotation:t='0' }"
       else if (searchShowNotFound)
         data = "textAreaCentered { text:t='#contacts/searchNotFound'; enable:t='no' }"
       else

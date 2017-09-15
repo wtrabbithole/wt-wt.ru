@@ -1172,7 +1172,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(kbdAmmoSwitchObj))
       kbdAmmoSwitchObj.show(!isGamepadPreset)
 
-    local cursorControlImg = isGamepadPreset ? "#ui/controlskin#r_stick_4" : "#ui/gameuiskin#mouse_move_4_sides"
+    local cursorControlImg = isGamepadPreset ? "#ui/controlskin#r_stick_4" : "#ui/hudskin#mouse_move_4_sides"
     foreach (frameObjId in [ "CURSOR_controls_frame", "ID_CAMERA_NEUTRAL_controls_frame" ])
     {
       local frameObj = scene.findObject(frameObjId)

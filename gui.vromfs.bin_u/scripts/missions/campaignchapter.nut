@@ -212,12 +212,12 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     local data = ::handyman.renderCached("gui/missions/missionBoxItemsList", view)
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
-    createFilterDataArray()
+
     if (selIdx >= 0 && selIdx < listObj.childrenCount())
     {
       local mission = missions[selIdx]
       if (useCampaignsCollapsing)
-        collapse(mission.campaign, true)
+        collapse(mission.campaign, true, false)
       if (hasVideoToPlay && gm == ::GM_CAMPAIGN)
         playChapterVideo(mission.chapter, true)
 
@@ -230,7 +230,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     else
       listObj.select()
 
-    onItemSelect(listObj)
+    createFilterDataArray()
+    applyMissionFilter()
   }
 
   function createFilterDataArray()
@@ -251,8 +252,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
         filterCheck = true
       })
     }
-
-    applyMissionFilter()
   }
 
   function playChapterVideo(chapterName, checkSeen = false)
@@ -632,6 +631,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     guiScene.setUpdatesEnabled(false, false)
     local collapsed = false
+    local wasIdx = listObj.getValue()
     local selIdx = -1
     local hasAnyVisibleMissions = false
     foreach(idx, m in missions)
@@ -653,23 +653,30 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
       local filterData = filterDataArray[idx]
       isVisible = isVisible && filterData.filterCheck
+      if (isVisible && (selIdx < 0 || wasIdx == idx))
+        selIdx = idx
+
       obj.enable(isVisible)
       obj.show(isVisible)
       hasAnyVisibleMissions = hasAnyVisibleMissions || isVisible
     }
+
+    guiScene.setUpdatesEnabled(true, true)
     if (selIdx>=0)
     {
-      listObj.setValue(selIdx)
-      onItemSelect(listObj)
+      if (selIdx != wasIdx)
+      {
+        listObj.setValue(selIdx)
+        onItemSelect(listObj)
+      } else
+        listObj.getChild(selIdx).scrollToView()
     }
 
     local listText = hasAnyVisibleMissions ? "" : getEmptyListMsg()
     scene.findObject("items_list_msg").setValue(listText)
-
-    guiScene.setUpdatesEnabled(true, true)
   }
 
-  function collapse(campId, forceOpen = false)
+  function collapse(campId, forceOpen = false, shouldUpdate = true)
   {
     local hide = !forceOpen
     foreach(idx, camp in collapsedCamp)
@@ -681,6 +688,10 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       }
     if (hide)
       collapsedCamp.append(campId)
+
+    if (!shouldUpdate)
+      return
+
     updateCollapsedItems(campId)
     updateButtons()
   }

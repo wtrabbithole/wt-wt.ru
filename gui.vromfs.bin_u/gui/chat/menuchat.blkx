@@ -66,19 +66,20 @@
           "div": {
             "id": "middleLine",
             "size": "3@sIco + 0.26@sf, ph",
-            "min-width": "0.1@sf",
-            "max-width": "35%pw",
+            "min-width": "15*@scrn_tgt/100.0",
+            "max-width": "30%pw",
             "min-height": "ph",
             "max-height": "ph",
-            "padding-top": "0.5*@scrn_tgt/100.0",
-            "padding-right": "5",
+            "padding-top": "1@blockInterval",
+            "padding-right": "1@framePadding",
+            "border-offset": "@dp",
             "behaviour": "window-size",
             "window-size-border-mask": "R",
             "frame": {
               "size": "pw, ph",
               "flow": "vertical",
               "smallFont": "yes",
-              "style": "padding:0, 7, 0, 5;",
+              "type": "dark",
               "groupList": {
                 "id": "users_list",
                 "imgType": "none",
@@ -133,7 +134,10 @@
               "flow": "vertical"
             },
             {
-              "padding-top": "0.5*@scrn_tgt/100.0"
+              "min-width": "20*@scrn_tgt/100.0"
+            },
+            {
+              "padding-top": "1@blockInterval"
             },
             {
               "div": {
@@ -148,6 +152,7 @@
                 "id": "menu_chat_custom_handler_block",
                 "size": "pw, fh",
                 "flow": "vertical",
+                "paddingSize": "small",
                 "display": "hide"
               }
             },
@@ -178,6 +183,8 @@
                   "id": "menuchat_input",
                   "width": "fw",
                   "height": "1@buttonHeight",
+                  "pos": "0, 1@blockInterval",
+                  "position": "relative",
                   "max-len": "250",
                   "selected": "yes",
                   "mouse-focusable": "yes",
@@ -193,7 +200,7 @@
                 },
                 "Button_text": {
                   "id": "btn_send",
-                  "pos": "0.5*@scrn_tgt/100.0, 0",
+                  "pos": "1@blockInterval, 1@blockInterval",
                   "position": "relative",
                   "text": "#chat/send",
                   "on_click": "onChatSend",
@@ -208,19 +215,20 @@
           "div": {
             "id": "searchDiv",
             "display": "hide",
-            "size": "21*@scrn_tgt/100.0, ph",
-            "min-width": "10*@scrn_tgt/100.0",
-            "max-width": "35%pw",
+            "size": "3@sIco + 0.26@sf, ph",
+            "min-width": "15*@scrn_tgt/100.0",
+            "max-width": "30%pw",
             "min-height": "ph",
             "max-height": "ph",
-            "padding-top": "0.5*@scrn_tgt/100.0",
-            "padding-left": "5",
+            "padding-top": "1@blockInterval",
+            "padding-left": "1@blockInterval",
             "behaviour": "window-size",
             "window-size-border-mask": "L",
             "frame": {
               "size": "pw, ph",
               "flow": "vertical",
               "smallFont": "yes",
+              "type": "dark",
               "tdiv": {
                 "id": "search_channels_block",
                 "width": "pw",
@@ -248,6 +256,7 @@
                   }
                 },
                 "groupIns": {
+                  "noPadding": "yes",
                   "EditBox": {
                     "id": "search_edit",
                     "class": "showAlways",

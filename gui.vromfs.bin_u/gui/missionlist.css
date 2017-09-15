@@ -6,6 +6,7 @@
 @const slotItemFont:              @fontSmall;
 
 @const missionBoxImageOffsetX: 12*@sf/@pf_outdated;
+@const missionItemTextPaddingLeft: 3@sf/@pf;
 
 mission_item_text
 {
@@ -40,13 +41,13 @@ chapter_item_unlocked, chapter_item_locked, campaign_item
   total-input-transparent:yes;
 }
 
-mission_item_completed:current, mission_item_unlocked:current, mission_item_locked:current,
-chapter_item_unlocked:current, chapter_item_locked:current, campaign_item:current {
-  background-color:@listboxSelOptionColor;
-}
 mission_item_completed:hover, mission_item_unlocked:hover, mission_item_locked:hover,
 chapter_item_unlocked:hover, chapter_item_locked:hover, campaign_item:hover {
   background-color:@listboxHoverOptionColor;
+}
+mission_item_completed:current, mission_item_unlocked:current, mission_item_locked:current,
+chapter_item_unlocked:current, chapter_item_locked:current, campaign_item:current {
+  background-color:@listboxSelOptionColor;
 }
 
 [show_console_buttons=yes] :focus > mission_item_completed:current,
@@ -677,7 +678,7 @@ shopItem[isBroken=yes] > eliteIcon {
 }
 
 recentlyReleasedIcon {
-  size:42@sf/@pf, 42@sf/@pf;
+  size:50@sf/@pf, 50@sf/@pf;
   position:absolute;
   background-image:#ui/gameuiskin#item_new;
   background-color:@white;

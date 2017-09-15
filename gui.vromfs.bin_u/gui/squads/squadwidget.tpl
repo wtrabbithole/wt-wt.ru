@@ -34,8 +34,6 @@ animated_wait_icon
   position:t="relative"
   class:t='byParent'
   background-rotation:t = '0'
-
-  wait_icon_cock {}
 }
 
 <<#members>>
@@ -114,7 +112,6 @@ Button_text {
     id:t='member_waiting_<<id>>'
     display:t='hide'
     background-rotation:t='0'
-    wait_icon_cock {}
   }
 
   tooltipObj {

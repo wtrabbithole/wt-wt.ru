@@ -24,12 +24,11 @@ promoButton expandable > selImg {
 }
 
 expandable.simple {
-  background-image:#ui/gameuiskin#lr_frame_bg;
-  padding:-6*@sf/@pf_outdated,-4*@sf/@pf_outdated, -2*@sf/@pf_outdated, -4*@sf/@pf_outdated;
-}
-
-expandable.simple[active=yes] {
-  background-image:#ui/gameuiskin#lr_frame_bg_active_no_fx;
+  padding: 0;
+  margin-top: 1@blockInterval;
+  margin:1@blockInterval;
+  width:pw-2@framePadding;
+  pos:1@dp, 1@dp;
 }
 
 expandable.simple > selImg {
@@ -37,8 +36,12 @@ expandable.simple > selImg {
 }
 
 expandable.simple[fullSize=yes] {
+  pos:0, 0;
   width:pw;
   padding:0;
+  margin-top:0;
+  margin-bottom:1@blockInterval;
+  margin:0;
 }
 
 expandable.simple[fullSize=yes] > selImg {
@@ -55,6 +58,10 @@ expandable:current > selImg {
 
 [show_console_buttons=yes] [selImgType=gamepadFocused]:focus > expandable:current > selImg {
   background-color:@white;
+}
+
+[show_console_buttons=yes] [selImgType=gamepadFocused]:focus > expandable.simple > selImg {
+  background-color:@transparent;
 }
 
 expandable {
@@ -79,7 +86,7 @@ expandable:hover statusImg[background-image] {
   background-color:@hoverTextColor;
 }
 
-expandable:current {
+expandable:current, expandable.simple[active=yes] {
   background-color:@frameDarkActiveBgColor;
   border-color:@frameDarkSelectedBorderColor;
 }
@@ -93,6 +100,10 @@ expandable[clickable=yes] {
 }
 expandable[clickable=yes]:hover {
   background-color:@white;
+}
+
+expandable.simple:hover {
+  background-color:@frameDarkHoverBgColor;
 }
 
 expandable[status=owned] {
@@ -208,5 +219,9 @@ highlightedRowLine {
 }
 
 expandable[status=owned] > highlightedRowLine {
+  background-color:@frameDarkSelectedBorderColor;
+}
+
+expandable.simple[active=yes] > highlightedRowLine {
   background-color:@frameDarkSelectedBorderColor;
 }

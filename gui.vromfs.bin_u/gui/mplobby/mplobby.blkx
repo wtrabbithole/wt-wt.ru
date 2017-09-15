@@ -8,6 +8,7 @@
       "pos": "50%pw-50%w, 1@minYposWindow + 0.01@scrn_tgt",
       "position": "absolute",
       "size": "1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar - 0.01@scrn_tgt",
+      "padding-bottom": "1@frameFooterHeightLarge",
       "flow": "vertical",
       "textAreaCentered": {
         "id": "battle_start_countdown",
@@ -49,288 +50,293 @@
               "size": "33%pw, ph"
             },
             {
-              "tdiv": [
-                {
-                  "size": "pw,55%ph"
-                },
-                {
-                  "flow": "vertical"
-                },
-                {
-                  "optionlist_line_left": {
-                    "size": "pw, 1@baseTrHeight",
-                    "activeText": {
-                      "pos": "pw-w, 50%ph-50%h",
-                      "text": "#multiplayer/sessionSettings",
-                      "caption": "yes",
-                      "text-align": "right"
-                    }
-                  }
-                },
-                {
-                  "tdiv": [
-                    {
-                      "pos": "pw-w, 0"
-                    },
-                    {
-                      "position": "relative"
-                    },
-                    {
-                      "tdiv": {
-                        "id": "countries1",
-                        "pos": "0, 50%ph-50%h",
-                        "position": "relative"
-                      }
-                    },
-                    {
-                      "activeText": {
-                        "id": "vsText",
-                        "text": "#country/VS",
-                        "pos": "0.01@sf, 50%ph-50%h",
-                        "position": "relative",
-                        "style": "font:@fontMedium;"
-                      }
-                    },
-                    {
-                      "tdiv": {
-                        "id": "countries2",
-                        "pos": "0, 50%ph-50%h",
-                        "position": "relative"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_mapName",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_difficulty",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_creator",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_hasPassword",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_teamLimit",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_battleRating",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_environment",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_laps",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_winners",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_can_shoot",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_timeLimit",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "limited_fuel",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "limited_ammo",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_respawn",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_takeoff",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_allowbots",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_botsranks",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_jip",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "session_cluster",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "disable_airfields",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "textarea": {
-                      "id": "spawn_ai_tank_on_tank_maps",
-                      "smallFont": "yes"
-                    }
-                  }
-                },
-                {
-                  "tdiv": {
-                    "id": "vehicles_info_button_block",
-                    "pos": "pw-w, 0",
-                    "position": "relative",
-                    "Button_text": {
-                      "text": "#lobby/vehicles",
-                      "on_click": "onVehiclesInfo",
-                      "btnName": "L3",
-                      "ButtonImg": []
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "_newline": []
+              "flow": "vertical"
             },
             {
               "tdiv": {
-                "size": "pw,fh",
+                "size": "pw, fh",
+                "flow": "vertical",
+                "optionlist_line_left": {
+                  "size": "pw, 1@baseTrHeight",
+                  "activeText": {
+                    "pos": "pw-w, 50%ph-50%h",
+                    "text": "#multiplayer/sessionSettings",
+                    "caption": "yes",
+                    "text-align": "right"
+                  }
+                },
+                "tdiv": [
+                  {
+                    "size": "pw, fh"
+                  },
+                  {
+                    "overflow-y": "auto"
+                  },
+                  {
+                    "flow": "vertical"
+                  },
+                  {
+                    "tdiv": [
+                      {
+                        "pos": "pw-w, 0"
+                      },
+                      {
+                        "position": "relative"
+                      },
+                      {
+                        "tdiv": {
+                          "id": "countries1",
+                          "pos": "0, 50%ph-50%h",
+                          "position": "relative"
+                        }
+                      },
+                      {
+                        "activeText": {
+                          "id": "vsText",
+                          "text": "#country/VS",
+                          "pos": "0.01@sf, 50%ph-50%h",
+                          "position": "relative",
+                          "style": "font:@fontMedium;"
+                        }
+                      },
+                      {
+                        "tdiv": {
+                          "id": "countries2",
+                          "pos": "0, 50%ph-50%h",
+                          "position": "relative"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_mapName",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_difficulty",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_creator",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_hasPassword",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_teamLimit",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_battleRating",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_environment",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_laps",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_winners",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_can_shoot",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_timeLimit",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "limited_fuel",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "limited_ammo",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_respawn",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_takeoff",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_allowbots",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_botsranks",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_jip",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "session_cluster",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "disable_airfields",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "textarea": {
+                        "id": "spawn_ai_tank_on_tank_maps",
+                        "smallFont": "yes"
+                      }
+                    }
+                  },
+                  {
+                    "tdiv": {
+                      "id": "vehicles_info_button_block",
+                      "pos": "pw-w, 0",
+                      "position": "relative",
+                      "Button_text": {
+                        "text": "#lobby/vehicles",
+                        "on_click": "onVehiclesInfo",
+                        "btnName": "L3",
+                        "ButtonImg": []
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "tdiv": {
+                "width": "pw",
                 "id": "player_info",
                 "flow": "vertical",
                 "optionlist_line_left": {
@@ -344,7 +350,7 @@
                 },
                 "tdiv": [
                   {
-                    "size": "pw, fh"
+                    "size": "pw, 150@sf/@pf"
                   },
                   {
                     "flow": "vertical"
@@ -353,16 +359,42 @@
                     "playerTeam": ""
                   },
                   {
-                    "textarea": {
-                      "id": "player_name",
+                    "tdiv": {
                       "pos": "pw-w, 0",
-                      "position": "relative"
+                      "position": "relative",
+                      "DummyButton": {
+                        "id": "btn_user_options",
+                        "pos": "-w - 1@blockInterval, 50%ph-50%h",
+                        "position": "absolute",
+                        "btnName": "Y",
+                        "_on_click": "onUserOption",
+                        "ButtonImg": {
+                          "class": "independent"
+                        }
+                      },
+                      "tdiv": {
+                        "id": "player_team",
+                        "css-hier-invalidate": "yes",
+                        "team": "",
+                        "teamImg": {
+                          "id": "player_team_ico",
+                          "size": "3*@scrn_tgt/100.0,3*@scrn_tgt/100.0",
+                          "tooltip": ""
+                        },
+                        "cardImg": {
+                          "id": "player_country"
+                        }
+                      },
+                      "textarea": {
+                        "id": "player_name"
+                      }
                     }
                   },
                   {
                     "textarea": {
                       "id": "player_title",
                       "hideEmptyText": "yes",
+                      "smallFont": "yes",
                       "pos": "pw-w, 0",
                       "position": "relative"
                     }
@@ -371,69 +403,29 @@
                     "textarea": {
                       "id": "player_spectator",
                       "hideEmptyText": "yes",
+                      "smallFont": "yes",
                       "pos": "pw-w, 0",
                       "position": "relative"
-                    }
-                  },
-                  {
-                    "tdiv": {
-                      "pos": "pw-w, 0",
-                      "position": "relative",
-                      "id": "player_team",
-                      "css-hier-invalidate": "yes",
-                      "team": "",
-                      "teamImg": {
-                        "id": "player_team_ico",
-                        "size": "3*@scrn_tgt/100.0,3*@scrn_tgt/100.0",
-                        "tooltip": ""
-                      },
-                      "cardImg": {
-                        "id": "player_country"
-                      }
                     }
                   },
                   {
                     "tdiv": {
                       "id": "curAircraft",
                       "display": "hide",
-                      "pos": "pw-w, 0",
+                      "pos": "pw -w, -0.003@sf",
                       "position": "relative"
                     }
                   },
                   {
-                    "tdiv": [
-                      {
-                        "pos": "pw-w, 0.01@sf"
-                      },
-                      {
-                        "position": "relative"
-                      },
-                      {
-                        "Button_text": {
-                          "id": "btn_usercard",
-                          "text": "#mainmenu/btnUserCard",
-                          "on_click": "onUserCard",
-                          "display": "hide"
-                        }
-                      },
-                      {
-                        "Button_text": {
-                          "id": "btn_user_options",
-                          "text": "#mainmenu/btnUserAction",
-                          "btnName": "Y",
-                          "_on_click": "onUserOption",
-                          "ButtonImg": []
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "img": {
-                      "id": "player_icon",
-                      "size": "15*@scrn_tgt/100.0,15*@scrn_tgt/100.0",
-                      "pos": "0, 0",
+                    "Button_text": {
                       "position": "absolute",
-                      "background-image": ""
+                      "class": "profileImg",
+                      "_on_click": "onUserCard",
+                      "img": {
+                        "id": "player_icon",
+                        "size": "pw,ph",
+                        "background-image": ""
+                      }
                     }
                   }
                 ]
@@ -445,9 +437,6 @@
           "tdiv": [
             {
               "size": "fw, ph"
-            },
-            {
-              "padding-bottom": "1@frameFooterHeightLarge"
             },
             {
               "pos": "2%pw, 50%ph-50%h"
@@ -1207,7 +1196,6 @@
                 "background-rotation": "0",
                 "display": "show",
                 "title": "$tooltipObj",
-                "wait_icon_cock": [],
                 "tooltipObj": {
                   "id": "queues_info_tooltip",
                   "on_tooltip_open": "onQueuesTooltipOpen",

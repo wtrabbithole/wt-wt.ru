@@ -99,9 +99,10 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local roomsListBtn = showSceneBtn("btn_rooms_list", true)
     roomsListBtn.btnName = "B"
     roomsListBtn.isOpened = "yes"
-    roomsListBtn.noMargin = "yes"
     guiScene.applyPendingChanges(false)
+
     local pos = roomsListBtn.getPosRC()
+    roomsListBtn.noMargin = "yes"
     pos[0] -= guiScene.calcString("3@framePadding", null)
     pos[1] += guiScene.calcString("1@frameFooterHeight", null)
     roomsListBtn.style = format("position:root; pos:%d,%d;", pos[0], pos[1])

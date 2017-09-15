@@ -885,7 +885,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function updateTacticalMapHint()
   {
     local hint = ""
-    local hintIcon = ::show_console_buttons ? "#ui/controlskin#l_trigger" : "#ui/gameuiskin#mouse_left"
+    local hintIcon = ::show_console_buttons ? "#ui/controlskin#l_trigger" : "#ui/hudskin#mouse_left"
     local respBaseTimerText = ""
     if (!isRespawn)
       hint = ::colorize("activeTextColor", ::loc("voice_message_attention_to_point_2"))

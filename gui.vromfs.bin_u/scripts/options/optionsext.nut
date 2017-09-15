@@ -3262,7 +3262,7 @@ function get_option(type, context = null)
       for (local nc = 0; nc < ::crosshair_icons.len(); nc++)
       {
         descr.items.append({
-          image = "#ui/gameuiskin#" + ::crosshair_icons[nc]
+          image = "#ui/hudskin#" + ::crosshair_icons[nc]
         })
         descr.values.append(nc)
         if (c == nc)
