@@ -293,11 +293,12 @@ function g_promo::generateBlockView(block)
       text = getViewText(block)
     fillBlock.text <- text
 
-    fillBlock.showTextShade <- text != "" || isDebugModeEnabled
+    local showTextShade = !::is_chat_message_empty(text) || isDebugModeEnabled
+    fillBlock.showTextShade <- showTextShade
 
     local isBlockSelected = isValueCurrentInMultiBlock(id, i)
     local show = checkBlockVisibility(checkBlock) && isBlockSelected
-    if (view.type == PROMO_BUTTON_TYPE.ARROW && text == "" && !isDebugModeEnabled)
+    if (view.type == PROMO_BUTTON_TYPE.ARROW && !showTextShade)
       show = false
     fillBlock.blockShow <- show
 

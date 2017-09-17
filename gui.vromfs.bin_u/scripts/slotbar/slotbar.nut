@@ -951,12 +951,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
   local hObj = slotbarObj.findObject("slotbar_background")
   hObj.show(!country)
   if (::show_console_buttons)
-  {
-    local lNavObj = hObj.findObject("slotbar_nav_block_left")
-    lNavObj.show(!country && !limitCountryChoice)
-    local rNavObj = hObj.findObject("slotbar_nav_block_right")
-    rNavObj.show(!country && !limitCountryChoice)
-  }
+    ::showBtn("slotbar_nav_block", !country && !limitCountryChoice, slotbarObj)
 
 /*
   if (!slotbarActions)

@@ -141,45 +141,6 @@ menu_button_inactive:current, menu_button_inactive:active, menu_button_inactive:
   background-color:#99999999;
 }
 
-buttonPlayer {
-  behavior:button;
-  cursor:onButton;
-  css-hier-invalidate:current;
-  padding:@blockInterval;
-}
-buttonPlayer > img {
-  position:absolute;
-  pos:pw-w -@blockInterval, 50%ph-50%h;
-  size:1@sIco, 1@sIco;
-}
-
-buttonPlayer > btnText {
-  smallFont:yes;
-  font:@fontNormal;
-  color:#2e7ac5;
-  pos:pw-w -1@sIco -@blockInterval, 50%ph-50%h;
-  position:relative;
-  text-align:right;
-  max-width:pw;
-  pare-text:yes;
-}
-
-buttonPlayer[selected=yes] {
-  background-color:@contactSelColor;
-}
-
-buttonPlayer:hover > btnText,
-buttonPlayer[selected=yes] > btnText {
-  color:#FF5ba9f9;
-}
-
-buttonPlayer:active {
-  margin:1*@sf/@pf_outdated;
-}
-buttonPlayer:active > btnText {
-  color:#99c9f9;
-}
-
 underline {
   width:pw;
   height:(@sf/@pf_outdated*0.75) $max 1;

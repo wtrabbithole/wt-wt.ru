@@ -347,13 +347,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     if (!newGameModeIconWidget)
-    {
-      newGameModeIconWidget = ::NewIconWidget(guiScene)
-      newGameModeIconWidget.setContainer(newGameModesWidgetsPlaceObj)
-    }
+      newGameModeIconWidget = ::NewIconWidget(guiScene, newGameModesWidgetsPlaceObj)
 
-    if ("getUnseenGameModeCount" in ::game_mode_manager)
-      newGameModeIconWidget.setValue(::game_mode_manager.getUnseenGameModeCount())
+    newGameModeIconWidget.setValue(::game_mode_manager.getUnseenGameModeCount())
   }
 
   function onEventShowingGameModesUpdated(params)

@@ -2714,7 +2714,7 @@ function get_option(type, context = null)
       descr.values = []
       for(local i = 1; i <= ::max_country_rank; i++)
       {
-        descr.items.append("#options/chooseUnitsRank/rank_" + i)
+        descr.items.append(::get_roman_numeral(i))
         descr.values.append(i)
       }
       break

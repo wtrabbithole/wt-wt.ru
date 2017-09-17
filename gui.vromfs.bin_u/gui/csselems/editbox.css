@@ -1,12 +1,18 @@
 @const editboxColor: #91020509;
+@const editboxBorderColor: #243640;
 @const editboxHintColor: #555555;
 
 @const editboxColorFocus: #99020509;
 @const editboxFontColorFocus: #e0e0e0;
-@const editboxBorderColorFocus: #243640;
+@const editboxBorderColorFocus: #3e4b52;
+@const editboxFgColorFocus: #788890;
+
 
 EditBoxBG {
   background-color:@editboxColor;
+  border-color:@editboxBorderColor;
+  border:yes;
+  border-offset:@dp;
 }
 
 EditBox
@@ -18,12 +24,16 @@ EditBox
   font:@fontSmall;
 
   background-color:@editboxColor;
+  border-color:@editboxBorderColor;
+  border:yes;
+  border-offset:@dp;
 
   tabStop:yes;
   color:@commonTextColor;
   cursor-color:@activeTextColor;
-  height:@buttonHeight;   padding:5*@sf/@pf_outdated, 3*@sf/@pf_outdated;
-  margin-bottom:5*@sf/@pf_outdated;
+  height:@buttonHeight;
+  padding:8@sf/@pf, 5@sf/@pf;
+  margin-bottom:8@sf/@pf;
   multiShortcuts:no;
 
   edit-hint-back-color:@transparent;
@@ -39,10 +49,10 @@ EditBox[noMargin="yes"]
 
 EditBox:focus, EditBox[select="yes"], EditBox.showAlways {
   background-color: @editboxColorFocus;
+  foreground-color:@editboxFgColorFocus;
+  foreground-position: 0, h-2@dp, 0, 0;
   color: @editboxFontColorFocus;
-  border: yes;
   border-color:@editboxBorderColorFocus;
-  border-offset:@dp;
   edit-hint:"";
 }
 
@@ -57,7 +67,7 @@ EditBox[multiline] {
   overflow:hidden;
   auto-scroll:yes;
   multiShortcuts:yes;
-  padding:5*@sf/@pf_outdated, 0.8*@scrn_tgt/100.0;
+  padding:8@sf/@pf;
 }
 
 EditBox:hover, EditBox:focus, EditBox[select="yes"]
@@ -70,6 +80,8 @@ EditBox:hover, EditBox:focus, EditBox[select="yes"]
   background-image: #ui/gameuiskin#item_selection;
   background-position: 6;
   background-repeat: expand;
+  foreground-color:@transparent;
+  border:no;
 }
 
 EditBox:disabled {
@@ -83,7 +95,5 @@ EditBox[btnName] > ButtonImg {
 }
 
 EditBox[warning=yes] {
-  border:yes;
   border-color:@warningTextColor;
-  border-offset:@dp;
 }

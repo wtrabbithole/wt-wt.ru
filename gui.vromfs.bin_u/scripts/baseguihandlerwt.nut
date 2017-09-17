@@ -905,16 +905,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     {
       local shadeObj = slotbarScene.findObject("slotbar_shade")
       if(::checkObj(shadeObj))
-        shadeObj.animation = show ? "show" : "hide"
+        shadeObj.animation = isSlotbarShaded ? "show" : "hide"
       if (::show_console_buttons)
-      {
-        local rNavObj = slotbarScene.findObject("slotbar_nav_block_right")
-        if (::checkObj(rNavObj))
-          rNavObj.show(!show)
-        local lNavObj = slotbarScene.findObject("slotbar_nav_block_left")
-        if (::checkObj(lNavObj))
-          lNavObj.show(!show)
-      }
+        showSceneBtn("slotbar_nav_block", !isSlotbarShaded)
     }
   }
 

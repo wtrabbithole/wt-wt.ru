@@ -135,7 +135,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
         rentText = "mainmenu/rent/rent_unit_extended"
 
       rentText = ::loc(rentText) + "\n"
-      local timeText = ::colorize("userlogColoredText", time.hoursToString(time.hoursToSeconds(totalRentTime)))
+      local timeText = ::colorize("userlogColoredText", time.hoursToString(totalRentTime))
       rentText += ::loc("mainmenu/rent/rentTimeSec", {time = timeText})
 
       scene.findObject("prize_desc_text").setValue(::colorize("activeTextColor", rentText))
@@ -143,7 +143,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     guiScene.replaceContentFromText(obj, data, data.len(), this)
   }
-
+  
   function onTakeNavBar()
   {
     if (!unit)

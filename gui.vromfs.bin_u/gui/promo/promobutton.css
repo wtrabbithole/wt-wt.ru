@@ -15,6 +15,8 @@
 
 @const imageRouletteTextAreaHeigth: 48@sf/@pf;
 
+@const promoButtonMinHeight: 45@sf/@pf;
+
 promoButton {
   background-image: #ui/gameuiskin#expandable_item_ww_transp;
   background-position: 5,2;
@@ -28,11 +30,11 @@ promoButton {
   pos: pw - w + 1@overflowScreenButton, 0;
   position: relative;
 
-  margin-bottom: 1@framePadding;
+  margin-bottom: 1@blockInterval;
 
-  min-height: 45@sf/@pf;
+  min-height: @promoButtonMinHeight;
 
-  padding-right:1@offsetBetweenScreenAndAirinfo - 1@mIco;
+  padding-right:1@offsetBetweenScreenAndAirinfo - 1@cIco;
 }
 
 promoButton:hover {
@@ -54,7 +56,8 @@ promoButton[type=battleTask] expandable {
   padding:0;
 }
 
-promoButton[collapsed=no] {
+promoButton[collapsed=no][type=imageButton],
+promoButton[collapsed=no][type=imageRoulette] {
   padding-top:@promoBtnNotCollapsedBgVPadding;
   padding-bottom:@promoBtnNotCollapsedBgVPadding;
 }
@@ -252,10 +255,6 @@ promoButton:hover[type=arrowButton] fillBlock > textareaFade {
   background-color:@transparent;
 }
 
-promoButton : expandable > selImg {
-  padding-top: 0;
-}
-
 promoButton[inactiveColor=yes] fillBlock > textareaFade > textarea,
 promoButton:disabled fillBlock > textareaFade > textarea,
 promoButton[inactiveColor=yes] expandable > selImg > header > textareaNoTab,
@@ -365,8 +364,6 @@ promoButton[invisibleHover=yes] > hangarToggleButton {
   not-input-transparent:yes;
 }
 
-promoButton[type=recentItems] > hangarToggleButton { top:ph-h;}
-
 hangarToggleButton:hover, hangarToggleButton:focus {
   background-color:@menuButtonColorHover;
 }
@@ -375,10 +372,14 @@ hangarToggleButton:pushed {
   background-color:@menuButtonColorPushed;
 }
 
+promoButton[collapsed=yes] > hangarToggleButton,
+promoButton[collapsed=no][type=arrowButton] > hangarToggleButton,
+promoButton[collapsed=no][type=battleTask] > hangarToggleButton {
+  top: @promoButtonMinHeight/2 - h/2;
+}
 
-[collapsed=yes] > hangarToggleButton,
-[collapsed=no][type=arrowButton] > hangarToggleButton {
-  top: ph/2 - h/2;
+promoButton[type=recentItems] > hangarToggleButton {
+  bottom: @promoButtonMinHeight/2 - h/2;
 }
 
 [collapsed=yes] > hangarToggleButton {
@@ -390,7 +391,7 @@ hangarToggleButton > directionImg {
   background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   pos:(pw-w)/2, (ph-h)/2;
   position:absolute;
-  size:0.025@scrn_tgt, 0.025@scrn_tgt;
+  size:@cIco, @cIco;
   rotation:270;
   input-transparent:yes;
   background-color:@white;

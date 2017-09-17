@@ -1,79 +1,16 @@
 [
   {
-    "dummy": {
-      "id": "btn_slotbar_prev_country",
-      "on_click": "prevCountry",
-      "behaviour": "accesskey",
-      "accessKey": "J:LB"
-    }
-  },
-  {
-    "dummy": {
-      "id": "btn_slotbar_next_country",
-      "on_click": "nextCountry",
-      "behaviour": "accesskey",
-      "accessKey": "J:RB"
-    }
-  },
-  {
     "tdiv": {
       "id": "slotbar_background",
       "size": "1@slotbarWidthFull, 1@slotbarHeight + 1@slotbarOffset",
       "display": "hide",
       "pos": "50%pw-50%w, 0",
       "position": "absolute",
-      "slotbarEdge": [
-        {
-          "size": "1@slotbarWidthFull, 1@slotbarHeight"
-        },
-        {
-          "pos": "0,0"
-        },
-        {
-          "position": "absolute"
-        },
-        {
-          "navConsoleBlock": {
-            "id": "slotbar_nav_block_left",
-            "pos": "-w+10, 50%ph-50%h",
-            "position": "absolute",
-            "height": "0.04@scrn_tgt",
-            "display": "hide",
-            "directionImage": {
-              "pos": "0, 50%ph-50%h",
-              "position": "relative",
-              "size": "0.02@scrn_tgt, ph",
-              "rotation": "180"
-            },
-            "buttonImage": {
-              "pos": "0, 50%ph-50%h",
-              "position": "relative",
-              "btnName": "LT",
-              "size": "ph,ph"
-            }
-          }
-        },
-        {
-          "navConsoleBlock": {
-            "id": "slotbar_nav_block_right",
-            "pos": "pw-10, 50%ph-50%h",
-            "position": "absolute",
-            "height": "0.04@scrn_tgt",
-            "display": "hide",
-            "buttonImage": {
-              "btnName": "RT",
-              "pos": "0, 50%ph-50%h",
-              "position": "relative",
-              "size": "ph,ph"
-            },
-            "directionImage": {
-              "pos": "0, 50%ph-50%h",
-              "position": "relative",
-              "size": "0.02@scrn_tgt, ph"
-            }
-          }
-        }
-      ],
+      "slotbarEdge": {
+        "size": "1@slotbarWidthFull, 1@slotbarHeight",
+        "pos": "0,0",
+        "position": "absolute"
+      },
       "slotbarTop": {
         "id": "slotbar_buttons_place",
         "size": "pw, 1@slotbarTop",
@@ -154,6 +91,50 @@
       "class": "slotbar",
       "on_select": "onSlotbarCountry"
     }
+  },
+  {
+    "tdiv": [
+      {
+        "id": "slotbar_nav_block"
+      },
+      {
+        "width": "(1@slotbarWidthFull +2@dIco +2@blockInterval) $min @rw"
+      },
+      {
+        "height": "ph"
+      },
+      {
+        "pos": "pw/2-w/2, ph-h"
+      },
+      {
+        "position": "absolute"
+      },
+      {
+        "display": "hide"
+      },
+      {
+        "DummyButton": {
+          "pos": "0, ph-h",
+          "position": "absolute",
+          "btnName": "LB",
+          "_on_click": "prevCountry",
+          "ButtonImg": {
+            "class": "independent"
+          }
+        }
+      },
+      {
+        "DummyButton": {
+          "pos": "pw-w, ph-h",
+          "position": "absolute",
+          "btnName": "RB",
+          "_on_click": "nextCountry",
+          "ButtonImg": {
+            "class": "independent"
+          }
+        }
+      }
+    ]
   },
   {
     "animShow": {

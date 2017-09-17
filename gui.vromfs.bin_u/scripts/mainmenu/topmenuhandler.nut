@@ -457,7 +457,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
       //airInfo
       {
-        obj = ["btnAirInfoToggle"]
+        obj = ["slot_info_listbox", "slot_collapse"]
         msgId = "hint_unitInfo"
       }
 
@@ -479,7 +479,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       { obj = ["gc_free_exp", "gc_warpoints", "gc_eagles"]
         msgId = "hint_currencies"
       }
-      { obj = "gc_shop_btn"
+      { obj = "topmenu_shop_btn"
         msgId = "hint_onlineShop"
       }
       { obj = "gc_PremiumAccount"

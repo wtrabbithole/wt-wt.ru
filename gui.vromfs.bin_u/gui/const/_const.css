@@ -166,7 +166,7 @@
 @const slotbarWidthFull: 1@slotbarWidth5;
 @const slotbarHeight:    1@slotbar_top_shade + 1@slotbar_pad_top + 1@slot_height + 1@slotbar_pad_bottom;
 @const slotbarInvisPad: 1@buttonHeight;
-@const offsetBetweenScreenAndAirinfo: 1@bw + (((0.5sw-1@bw-0.5@slotbarWidthFull) $max 1@mIco) $min 3@mIco);
+@const offsetBetweenScreenAndAirinfo: 1@bw + (((0.5sw-1@bw-0.5@slotbarWidthFull) $max 1@mIco + 2@blockInterval) $min 3@mIco);
 @const airInfoPanelWidth: 0.4@sf;
 @const airInfoPanelShadowWidth: 0.07@sf;
 @const airInfoPanelDmSwitcherWidth: ((@airInfoPanelWidth - 2@listboxPad - 2@listboxItemsInterval) \ 3) * 3 + 2@listboxPad + 2@listboxItemsInterval; 

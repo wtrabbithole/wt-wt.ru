@@ -21,7 +21,7 @@ class ::Input.Button extends ::Input.InputBase
     else if (deviceId == ::STD_MOUSE_DEVICE_ID && buttonId in mouse_button_texturas)
     {
       template = "gui/gamepadButton"
-      view.buttonImage <- "#ui/gameuiskin#" + ::mouse_button_texturas[buttonId]
+      view.buttonImage <- "#ui/hudskin#" + ::mouse_button_texturas[buttonId]
     }
     else
     {

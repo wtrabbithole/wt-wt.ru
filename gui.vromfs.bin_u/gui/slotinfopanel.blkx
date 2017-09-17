@@ -5,13 +5,24 @@
   "display": "hide",
   "tdiv": [
     {
-      "min-width": "@sIco + @airInfoPanelShadowWidth"
+      "min-width": "@sIco + @offsetBetweenScreenAndAirinfo"
+    },
+    {
+      "min-height": "4@mIco + 4@buttonImgPadding + 2@airInfoPadding"
+    },
+    {
+      "padding-left": "1@offsetBetweenScreenAndAirinfo"
     },
     {
       "flow": "horizontal"
     },
     {
+      "css-hier-invalidate": "yes"
+    },
+    {
       "tdiv": {
+        "position": "absolute",
+        "left": "@offsetBetweenScreenAndAirinfo - w",
         "padding": "@airInfoPadding",
         "flow": "vertical",
         "tdiv": {
