@@ -81,7 +81,22 @@
     "exhaustFx": "ps_exhaust"
   },
   {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 20.0
+  },
+  {
+    "smokeScreenRad": 20.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
     "explosionFx": "ship_explosion"
+  },
+  {
+    "canReloadNonGuns": true
   },
   {
     "default_skin_tomoe": {
@@ -701,7 +716,7 @@
       },
       {
         "ammo": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 500.0,
           "armorThickness": 20.0,
           "armorThrough": 15.0,
@@ -762,7 +777,7 @@
       },
       {
         "fuel_tanks": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 3000.0,
           "armorThickness": 20.0,
           "armorThrough": 200.0,
@@ -1668,6 +1683,15 @@
       {
         "part": [
           {
+            "name": "ammunition_storage_01_dm"
+          },
+          {
+            "name": "ammunition_storage_02_dm"
+          },
+          {
+            "name": "ammunition_storage_03_dm"
+          },
+          {
             "name": "ammo_body_dm"
           },
           {
@@ -1787,6 +1811,66 @@
       },
       {
         "part": [
+          {
+            "name": "depth_charge_01_dm"
+          },
+          {
+            "name": "depth_charge_02_dm"
+          },
+          {
+            "name": "depth_charge_03_dm"
+          },
+          {
+            "name": "depth_charge_04_dm"
+          },
+          {
+            "name": "depth_charge_05_dm"
+          },
+          {
+            "name": "depth_charge_06_dm"
+          },
+          {
+            "name": "depth_charge_07_dm"
+          },
+          {
+            "name": "depth_charge_08_dm"
+          },
+          {
+            "name": "depth_charge_09_dm"
+          },
+          {
+            "name": "depth_charge_10_dm"
+          },
+          {
+            "name": "depth_charge_11_dm"
+          },
+          {
+            "name": "depth_charge_12_dm"
+          },
+          {
+            "name": "depth_charge_13_dm"
+          },
+          {
+            "name": "depth_charge_14_dm"
+          },
+          {
+            "name": "depth_charge_15_dm"
+          },
+          {
+            "name": "depth_charge_16_dm"
+          },
+          {
+            "name": "depth_charge_17_dm"
+          },
+          {
+            "name": "depth_charge_18_dm"
+          },
+          {
+            "name": "depth_charge_19_dm"
+          },
+          {
+            "name": "depth_charge_20_dm"
+          },
           {
             "name": "depth_charge_l_01_dm"
           },
@@ -2003,11 +2087,11 @@
   },
   {
     "tank_crew": {
-      "minCrewMemberAliveCount": 1,
+      "minCrewMemberAliveCount": 2,
       "sailor1": {
         "dmPart": "bridge_dm",
-        "role": "commander",
-        "crew": 4
+        "role": "sailor",
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
@@ -2017,7 +2101,7 @@
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 1
+        "crew": 3
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
@@ -2114,343 +2198,18 @@
   },
   {
     "modifications": {
-      "13mm_type93_universal": []
+      "13mm_type93_universal": [],
+      "manual_extinguisher": {
+        "effects": {
+          "extinguisherActivationCount": -1,
+          "extinguisherMinTime": 10.0,
+          "extinguisherMaxTime": 10.0,
+          "extinguisherCrewBusyTime": -1.0
+        }
+      },
+      "tank_tool_kit": [],
+      "ship_smoke_screen_system_mod": []
     }
-  },
-  {
-    "commonWeapons": [
-      {
-        "Weapon": [
-          {
-            "trigger": "gunner0"
-          },
-          {
-            "triggerGroup": "primary"
-          },
-          {
-            "blk": "gameData/Weapons/groundModels_weapons/13_2mm_Type93_user_machinegun.blk"
-          },
-          {
-            "emitter": "emtr_gun_flame_01"
-          },
-          {
-            "flash": "emtr_gun_flame_01"
-          },
-          {
-            "useEmitter": true
-          },
-          {
-            "recoilOffset": 0.0
-          },
-          {
-            "barrelDP": "main_caliber_gun_01_dm"
-          },
-          {
-            "breechDP": "main_caliber_gun_01_dm"
-          },
-          {
-            "defaultYaw": 0.0
-          },
-          {
-            "defaultPitch": 0.0
-          },
-          {
-            "speedYaw": 60.0
-          },
-          {
-            "speedPitch": 45.0
-          },
-          {
-            "fireConeAngle": 1.0
-          },
-          {
-            "bullets": 2000
-          },
-          {
-            "allowableDelta": 1.0
-          },
-          {
-            "speedYaw": 45.0
-          },
-          {
-            "speedPitch": 45.0
-          },
-          {
-            "fireConeAngle": 20.0
-          },
-          {
-            "ChainfireTime": 2.0
-          },
-          {
-            "DelayAfterShoot": 2.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyAir": 1.0
-          },
-          {
-            "accuracyGnd": 0.5
-          },
-          {
-            "errMeasureVel": 0.0
-          },
-          {
-            "errTargettingOn100kmph": 0.0
-          },
-          {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
-          },
-          {
-            "errExplTime": 0.0
-          },
-          {
-            "turret": {
-              "head": "main_caliber_turret_01",
-              "gun": "main_caliber_gun_01",
-              "gunnerDm": "main_caliber_turret_01_dm",
-              "linkedAnimPart": {
-                "verNode": "bone_radius_pelvis",
-                "verLimits": [0.0,5.0],
-                "verOriginLimits": [30.0,70.0]
-              }
-            }
-          },
-          {
-            "limits": {
-              "yaw": [-180.0,180.0],
-              "pitch": [-10.0,70.0]
-            }
-          }
-        ]
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner1",
-          "triggerGroup": "torpedoes",
-          "external": true,
-          "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
-          "emitter": "bone_launch_torpedo_01",
-          "animatedEmitter": "bone_torpedo_01",
-          "bullets": 1,
-          "launchAnimVar": "anim_launch_torpedo_01",
-          "animLaunchTime": 3.0,
-          "launchTime": 0.9,
-          "startSpeed": 2.0,
-          "useStartSpeed": true,
-          "allowableDelta": 180.0,
-          "turret": {
-            "head": "bone_launch_torpedo_01",
-            "gun": "bone_launch_torpedo_01"
-          },
-          "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "gunner2",
-          "triggerGroup": "torpedoes",
-          "external": true,
-          "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
-          "emitter": "bone_launch_torpedo_02",
-          "animatedEmitter": "bone_torpedo_02",
-          "bullets": 1,
-          "launchAnimVar": "anim_launch_torpedo_02",
-          "animLaunchTime": 3.0,
-          "launchTime": 0.9,
-          "startSpeed": 2.0,
-          "useStartSpeed": true,
-          "allowableDelta": 180.0,
-          "turret": {
-            "head": "bone_launch_torpedo_02",
-            "gun": "bone_launch_torpedo_02"
-          },
-          "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
-          }
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-          "emitter": "bone_bomb_01",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 3.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-          "emitter": "bone_bomb_02",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 3.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-          "emitter": "bone_bomb_03",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 4.5
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-          "emitter": "bone_bomb_04",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 4.5
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-          "emitter": "bone_bomb_05",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 6.0
-        }
-      },
-      {
-        "Weapon": {
-          "trigger": "bombs",
-          "triggerGroup": "depth_charge",
-          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
-          "emitter": "bone_bomb_06",
-          "bullets": 1,
-          "external": true,
-          "dropSpeed": 6.0
-        }
-      }
-    ]
-  },
-  {
-    "weapon_presets": {
-      "preset": {
-        "name": "jp_t14_class_default",
-        "blk": "gameData/units/ships/weaponPresets/jp_t14_class_default.blk"
-      }
-    }
-  },
-  {
-    "cockpit": {
-      "headPos": [0.0,6.0,-17.0],
-      "headPosOnShooting": [-2.0,4.8,0.0]
-    }
-  },
-  {
-    "sound": {
-      "EngineName": "engine_ctr01",
-      "EngineNameAi": "engine_ctr_ai",
-      "TrackSoundPath": "ships/engines_ships",
-      "TrackSoundName": "tracks_ctr",
-      "TrackSoundNameCockpit": "tracks_ctr_interior",
-      "TrackSoundNameAi": "tracks_ai_ctr"
-    }
-  },
-  {
-    "breaches": {
-      "repairSpeed": 30.0,
-      "waterMassVel": -3000.0,
-      "waterMassMult": 25.0,
-      "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 70000.0,
-      "additionalWaterShouldDiePercent": 0.51,
-      "fatalBreachDrownTime": 15.0,
-      "sideCenterOfMassOffsetPercent": 0.5
-    }
-  },
-  {
-    "shipCover": [
-      {
-        "compartment": [
-          {
-            "cover": {
-              "part": "bow_l_dm",
-              "weight": 1.0,
-              "maxWaterAlive": 0.3
-            }
-          },
-          {
-            "cover": {
-              "part": "bow_r_dm",
-              "weight": 1.0,
-              "maxWaterAlive": 0.3
-            }
-          }
-        ]
-      },
-      {
-        "compartment": [
-          {
-            "cover": {
-              "part": "mid_l_dm",
-              "weight": 1.0,
-              "maxWaterAlive": 0.3
-            }
-          },
-          {
-            "cover": {
-              "part": "mid_r_dm",
-              "weight": 1.0,
-              "maxWaterAlive": 0.3
-            }
-          }
-        ]
-      },
-      {
-        "compartment": [
-          {
-            "cover": {
-              "part": "stern_l_dm",
-              "weight": 0.7,
-              "maxWaterAlive": 0.3
-            }
-          },
-          {
-            "cover": {
-              "part": "stern_r_dm",
-              "weight": 0.7,
-              "maxWaterAlive": 0.3
-            }
-          }
-        ]
-      }
-    ]
   },
   {
     "unitFx": [
@@ -2458,24 +2217,6 @@
         "event": [
           {
             "name": "engine_fire"
-          },
-          {
-            "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine"
-            }
-          },
-          {
-            "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_01"
-            }
-          },
-          {
-            "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_02"
-            }
           },
           {
             "fx": {
@@ -2518,6 +2259,27 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo",
+              "scale": 0.6
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo_01",
+              "scale": 0.6
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo_02",
+              "scale": 0.6
             }
           }
         ]
@@ -2944,13 +2706,22 @@
           {
             "fx": {
               "name": "ship_explosion",
-              "emitter": "emtr_explosion_center"
+              "emitter": "emtr_explosion_center",
+              "scale": 0.9
             }
           },
           {
             "fx": {
               "name": "ship_explosion",
-              "emitter": "emtr_explosion_center_01"
+              "emitter": "emtr_explosion_center_01",
+              "scale": 0.7
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_explosion_center_02",
+              "scale": 0.6
             }
           }
         ]
@@ -2975,13 +2746,359 @@
     ]
   },
   {
+    "commonWeapons": [
+      {
+        "Weapon": [
+          {
+            "trigger": "gunner0"
+          },
+          {
+            "triggerGroup": "primary"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/13_2mm_Type93_user_machinegun.blk"
+          },
+          {
+            "emitter": "emtr_gun_flame_01"
+          },
+          {
+            "flash": "emtr_gun_flame_01"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "recoilOffset": 0.15
+          },
+          {
+            "barrelDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "speedYaw": 60.0
+          },
+          {
+            "speedPitch": 45.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 2500
+          },
+          {
+            "allowableDelta": 1.0
+          },
+          {
+            "speedYaw": 45.0
+          },
+          {
+            "speedPitch": 45.0
+          },
+          {
+            "fireConeAngle": 20.0
+          },
+          {
+            "ChainfireTime": 2.0
+          },
+          {
+            "DelayAfterShoot": 2.0
+          },
+          {
+            "aimMinDist": 20.0
+          },
+          {
+            "aimMaxDist": 4000.0
+          },
+          {
+            "randomAngle": 0.0
+          },
+          {
+            "accuracyAir": 1.0
+          },
+          {
+            "accuracyGnd": 0.5
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errMeasureVelFast": 100.0
+          },
+          {
+            "errMeasureVelFwdShift": 1.0
+          },
+          {
+            "errMeasureVelDir": 3.0
+          },
+          {
+            "errTargetting": 1.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "main_caliber_turret_01",
+              "gun": "main_caliber_gun_01",
+              "barrel": "gun_barrel_01",
+              "gunnerDm": "main_caliber_turret_01_dm",
+              "linkedAnimPart": {
+                "verNode": "bone_radius_pelvis",
+                "verLimits": [0.0,5.0],
+                "verOriginLimits": [30.0,70.0]
+              }
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-180.0,180.0],
+              "pitch": [-10.0,70.0]
+            }
+          }
+        ]
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner1",
+          "triggerGroup": "torpedoes",
+          "external": true,
+          "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
+          "emitter": "bone_launch_torpedo_01",
+          "animatedEmitter": "bone_torpedo_01",
+          "bullets": 1,
+          "launchAnimVar": "anim_launch_torpedo_01",
+          "animLaunchTime": 3.0,
+          "launchTime": 0.9,
+          "startSpeed": 2.0,
+          "useStartSpeed": true,
+          "allowableDelta": 180.0,
+          "enableCourseCorrection": false,
+          "turret": {
+            "head": "bone_launch_torpedo_01",
+            "gun": "bone_launch_torpedo_01"
+          },
+          "limits": {
+            "yaw": [0.0,0.0],
+            "pitch": [0.0,0.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner2",
+          "triggerGroup": "torpedoes",
+          "external": true,
+          "blk": "gameData/Weapons/torpedoes/jp_torpedo_type44.blk",
+          "emitter": "bone_launch_torpedo_02",
+          "animatedEmitter": "bone_torpedo_02",
+          "bullets": 1,
+          "launchAnimVar": "anim_launch_torpedo_02",
+          "animLaunchTime": 3.0,
+          "launchTime": 0.9,
+          "startSpeed": 2.0,
+          "useStartSpeed": true,
+          "allowableDelta": 180.0,
+          "enableCourseCorrection": false,
+          "turret": {
+            "head": "bone_launch_torpedo_02",
+            "gun": "bone_launch_torpedo_02"
+          },
+          "limits": {
+            "yaw": [0.0,0.0],
+            "pitch": [0.0,0.0]
+          }
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+          "emitter": "bone_bomb_01",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 3.0
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+          "emitter": "bone_bomb_02",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 3.0
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+          "emitter": "bone_bomb_03",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 4.5
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+          "emitter": "bone_bomb_04",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 4.5
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+          "emitter": "bone_bomb_05",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 6.0
+        }
+      },
+      {
+        "Weapon": {
+          "trigger": "bombs",
+          "triggerGroup": "depth_charge",
+          "blk": "gameData/weapons/bombguns/depth_charge_jp_type95.blk",
+          "emitter": "bone_bomb_06",
+          "bullets": 1,
+          "external": true,
+          "dropSpeed": 6.0
+        }
+      }
+    ]
+  },
+  {
+    "weapon_presets": {
+      "preset": {
+        "name": "jp_t14_class_default",
+        "blk": "gameData/units/ships/weaponPresets/jp_t14_class_default.blk"
+      }
+    }
+  },
+  {
+    "cockpit": {
+      "headPos": [0.0,6.0,-17.0],
+      "headPosOnShooting": [-2.0,4.8,0.0],
+      "detectionHeigh": 3.8
+    }
+  },
+  {
+    "sound": {
+      "EngineName": "engine_ctr01",
+      "EngineNameAi": "engine_ctr_ai",
+      "TrackSoundPath": "ships/engines_ships",
+      "TrackSoundName": "tracks_ctr",
+      "TrackSoundNameCockpit": "tracks_ctr_interior",
+      "TrackSoundNameAi": "tracks_ai_ctr"
+    }
+  },
+  {
+    "breaches": {
+      "repairSpeed": 30.0,
+      "waterMassVel": -3000.0,
+      "waterMassMult": 25.0,
+      "sizeToRepair": [0.01,2.0,20.0,1500.0],
+      "additionalWaterDeathThreshold": 75000.0,
+      "additionalWaterShouldDiePercent": 0.45,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 45.0,
+      "maxHeelingTime": 10.0,
+      "criticalHeelingAnglePercent": 0.5,
+      "maxCriticalHeelingTime": 2.0,
+      "heelingDeathHeightOffsetMult": 1.0,
+      "sideCenterOfMassOffsetPercent": 0.5
+    }
+  },
+  {
+    "shipCover": [
+      {
+        "cover": {
+          "part": "compartment_01_dm",
+          "weight": 0.2,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_02_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_03_dm",
+          "weight": 0.3,
+          "maxWaterAlive": 1.0
+        }
+      }
+    ]
+  },
+  {
     "optics": {
       "binoculars": "navy_binoculars"
     }
   },
   {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "shells": {
+          "ammunition_storage_01_dm": {
+            "count": 2500
+          }
+        }
+      },
+      "ammo2": {
+        "weaponTrigger": "gunner1",
+        "shells": {
+          "torpedo_01_dm": {
+            "count": 1
+          }
+        }
+      },
+      "ammo3": {
+        "weaponTrigger": "gunner2",
+        "shells": {
+          "torpedo_02_dm": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  {
     "winch": {
       "length": 50.0
+    }
+  },
+  {
+    "difficulty": {
+      "arcade": {
+        "tankRearmOnCaptureZone": true
+      }
     }
   }
 ]

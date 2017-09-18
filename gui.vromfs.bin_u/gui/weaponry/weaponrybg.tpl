@@ -40,7 +40,7 @@ modBlockHeaderRow {
     modBlockHeader {
       width:t='<<width>>@modCellWidth'
       <<#needDivLine>>pos:t='-1, 0'<</needDivLine>>
-      <<#isTinyFont>>tinyFont:t='yes'<</isTinyFont>>
+      <<#isSmallFont>>smallFont:t='yes'<</isSmallFont>>
       text:t='<<name>>'
     }
     <</name>>

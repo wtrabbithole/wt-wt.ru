@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 /*
   ::ItemsManager API:
 
@@ -56,24 +57,34 @@ class BoosterEffectType
 //events from code:
 function on_items_loaded()
 {
+  ::ItemsManager.refreshExtInventory()
   ::ItemsManager.markInventoryUpdate()
 }
 
 foreach (fn in [
-                 "items.nut"
+                 "discountItemSortMethod.nut"
+                 "trophyMultiAward.nut"
+                 "itemsRoulette.nut"
+                 "itemLimits.nut"
+                 "universalSpareApplyWnd.nut"
+               ])
+  ::g_script_reloader.loadOnce("scripts/items/" + fn)
+
+foreach (fn in [
+                 "itemsBase.nut"
                  "itemTrophy.nut"
                  "itemBooster.nut"
                  "itemTicket.nut"
                  "itemWager.nut"
                  "itemDiscount.nut"
-                 "discountItemSortMethod.nut"
+                 "itemVehicle.nut"
+                 "itemSkin.nut"
+                 "itemDecal.nut"
+                 "itemChest.nut"
                  "itemOrder.nut"
-
-                 "trophyMultiAward.nut"
-                 "itemsRoulette.nut"
-                 "itemLimits.nut"
+                 "itemUniversalSpare.nut"
                ])
-  ::g_script_reloader.loadOnce("scripts/items/" + fn)
+  ::g_script_reloader.loadOnce("scripts/items/itemsClasses/" + fn)
 
 ::ItemsManager <- {
   itemsList = []
@@ -150,6 +161,8 @@ foreach (fn in [
 
   refreshBoostersTask = -1
   boostersTaskUpdateFlightTime = -1
+
+  inventoryClient = require("scripts/inventory/inventoryClient.nut")
 }
 
 function ItemsManager::fillFakeItemsList()
@@ -188,6 +201,13 @@ function ItemsManager::fillFakeItemsList()
     }
     fakeItemsList["FakeBoosterForSquadFromSameCafe" + i] <- ::build_blk_from_container(table)
   }
+
+  local trophyFromInventory = {
+    type = itemType.TROPHY
+    locId = "inventory/consumeItem"
+    iconStyle = "gold_iron_box"
+  }
+  fakeItemsList["trophyFromInventory"] <- ::build_blk_from_container(trophyFromInventory)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,6 +215,8 @@ function ItemsManager::fillFakeItemsList()
 /////////////////////////////////////////////////////////////////////////////////////////////
 function ItemsManager::_checkUpdateList()
 {
+  refreshExtInventory()
+
   if (!_reqUpdateList)
     return
   _reqUpdateList = false
@@ -261,7 +283,7 @@ function ItemsManager::_checkUpdateList()
     }
 
   if (duplicatesId.len())
-    ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::implode(duplicatesId, ", "))
+    ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::g_string.implode(duplicatesId, ", "))
 
   ::ItemsManager.updateSeenItemsData(false)
 }
@@ -327,8 +349,23 @@ function ItemsManager::findItemById(id, typeMask = itemType.ALL)
 /////////////////////////////////////////////////////////////////////////////////////////////
 function ItemsManager::getInventoryItemType(blkType)
 {
-  if (typeof(blkType) == "string")
+  if (typeof(blkType) == "string") {
+    if (blkType == "skin") {
+      return itemType.SKIN
+    } else if (blkType == "decal") {
+      return itemType.DECAL
+    } else if (blkType == "chest") {
+      return itemType.CHEST
+    } else if (blkType == "aircraft") {
+      return itemType.VEHICLE
+    } else if (blkType == "tank") {
+      return itemType.VEHICLE
+    } else if (blkType == "ship") {
+      return itemType.VEHICLE
+    }
+
     blkType = ::item_get_type_id_by_type_name(blkType)
+  }
 
   switch (blkType)
   {
@@ -337,6 +374,7 @@ function ItemsManager::getInventoryItemType(blkType)
     case ::EIT_WAGER:             return itemType.WAGER
     case ::EIT_PERSONAL_DISCOUNTS:return itemType.DISCOUNT
     case ::EIT_ORDER:             return itemType.ORDER
+    case ::EIT_UNIVERSAL_SPARE:   return itemType.UNIVERSAL_SPARE
   }
   return itemType.UNKNOWN
 }
@@ -394,6 +432,16 @@ function ItemsManager::_checkInventoryUpdate()
     }
   }
 
+  foreach (itemDesc in inventoryClient.getItems()) {
+    local type = ::getTblValue("type", itemDesc.itemdef.tags)
+    if (type) {
+      local iType = getInventoryItemType(type)
+      if (iType != itemType.UNKNOWN) {
+        local item = createItem(iType, itemDesc)
+        inventory.append(item)
+      }
+    }
+  }
 }
 
 function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
@@ -610,6 +658,16 @@ function ItemsManager::removeRefreshBoostersTask()
   refreshBoostersTask = -1
 }
 
+function ItemsManager::refreshExtInventory()
+{
+  ::ItemsManager.inventoryClient.requestAll()
+}
+
+function ItemsManager::onEventInventoryChanged(p)
+{
+  markInventoryUpdateDelayed()
+}
+
 function ItemsManager::onEventLoadingStateChange(p)
 {
   if (!::is_in_flight())
@@ -779,11 +837,11 @@ function ItemsManager::getActiveBoostersDescription(boostersArray, effectType, s
         insertedSubHeader = true
       }
     }
-    detailedDescription.append(::implode(detailedArray, "\n"))
+    detailedDescription.append(::g_string.implode(detailedArray, "\n"))
   }
 
   local description = ::loc("mainmenu/boostersTooltip", effectType) + ::loc("ui/colon") + "\n"
-  return description + ::implode(separateBoosters, "\n") + ::implode(detailedDescription, "\n\n")
+  return description + ::g_string.implode(separateBoosters, "\n") + ::g_string.implode(detailedDescription, "\n\n")
 }
 
 function ItemsManager::hasActiveBoosters(effectType, personal)
@@ -871,7 +929,7 @@ function ItemsManager::getNumUnseenItems(forInventoryItems)
   local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
   if (seenItemsInfo.numUnseenItemsInvalidated)
   {
-    local curDays = ::get_days_by_time(::get_utc_time())
+    local curDays = time.getDaysByTime(::get_utc_time())
     seenItemsInfo.numUnseenItemsInvalidated = false
     seenItemsInfo.numUnseenItems = 0
     local items = forInventoryItems
@@ -908,7 +966,7 @@ function ItemsManager::markItemSeen(item)
   if (seenItemsData == null)
     return false
   local seenItemsInfo = _seenItemsInfoByCategory[item.isInventoryItem]
-  local curDays = ::get_days_by_time(::get_utc_time())
+  local curDays = time.getDaysByTime(::get_utc_time())
   local result = false
 
   // This will force _numUnseenItems to recalc on next access
@@ -964,7 +1022,7 @@ function ItemsManager::updateSeenItemsData(forInventoryItems)
   if (seenItemsData == null)
     return
   local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
-  local curDays = ::get_days_by_time(::get_utc_time())
+  local curDays = time.getDaysByTime(::get_utc_time())
   local items = forInventoryItems
     ? inventory
     : itemsList

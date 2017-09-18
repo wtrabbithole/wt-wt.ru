@@ -1,6 +1,7 @@
 {
   "gamercard": {
     "BottomMenuPanel": {
+      "line": [],
       "tdiv": [
         {
           "width": "sw - 2@offsetBetweenScreenAndAirinfo"
@@ -34,9 +35,8 @@
           }
         },
         {
-          "tdiv": {
+          "gcButtonsHolder": {
             "id": "gamercard_squad_widget",
-            "height": "ph",
             "pos": "0, 0.5(ph-h)",
             "margin-right": "2@buttonTextPadding",
             "class": "header",
@@ -50,12 +50,9 @@
           }
         },
         {
-          "tdiv": [
+          "gcButtonsHolder": [
             {
               "id": "gamercard_bottom_right"
-            },
-            {
-              "height": "ph"
             },
             {
               "class": "header"
@@ -87,16 +84,13 @@
                   "id": "gc_invites_btn"
                 },
                 {
-                  "size": "ph,ph"
+                  "class": "image"
                 },
                 {
                   "tooltip": "#mainmenu/invites"
                 },
                 {
                   "_on_click": "onGC_invites"
-                },
-                {
-                  "class": "image24"
                 },
                 {
                   "img": {
@@ -118,10 +112,9 @@
             {
               "Button_text": {
                 "id": "gc_contacts",
-                "size": "ph,ph",
+                "class": "image",
                 "tooltip": "#mainmenu/contacts",
                 "_on_click": "onGC_contacts",
-                "class": "image24",
                 "img": {
                   "background-image": "#ui/gameuiskin#friends"
                 },
@@ -129,7 +122,7 @@
                   "id": "gc_friends_online",
                   "position": "absolute",
                   "pos": "pw - w, ph - h - 2",
-                  "style": "font:@veryTiny; color:@userlogColoredText",
+                  "style": "font:@fontTiny; color:@userlogColoredText",
                   "shadeStyle": "outline33pct",
                   "text": ""
                 }
@@ -141,13 +134,10 @@
                   "id": "gc_chat_btn"
                 },
                 {
-                  "size": "ph,ph"
+                  "class": "image"
                 },
                 {
                   "_on_click": "onGC_chat"
-                },
-                {
-                  "class": "image24"
                 },
                 {
                   "img": {
@@ -170,7 +160,7 @@
                     "id": "gc_new_chat_messages",
                     "position": "absolute",
                     "pos": "pw - w, ph - h",
-                    "style": "font:@veryTiny; color:@userlogColoredText",
+                    "style": "font:@fontTiny; color:@userlogColoredText",
                     "text": ""
                   }
                 }
@@ -182,13 +172,10 @@
                   "id": "gc_userlog_btn"
                 },
                 {
-                  "size": "ph,ph"
+                  "class": "image"
                 },
                 {
                   "_on_click": "onUserLog"
-                },
-                {
-                  "class": "image24"
                 },
                 {
                   "img": {

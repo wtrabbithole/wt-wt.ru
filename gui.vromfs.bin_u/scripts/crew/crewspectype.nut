@@ -115,9 +115,9 @@ function g_crew_spec_type::_getFullBonusesText(unitType, prevSpecTypeCode = -1)
       continue
 
     rowsArray.append(::colorize("activeTextColor", ::loc("crew/" + page.id))
-                     + ::loc("ui/colon") + ::implode(textsArray, ", ") + ::loc("ui/dot"))
+                     + ::loc("ui/colon") + ::g_string.implode(textsArray, ", ") + ::loc("ui/dot"))
   }
-  return ::implode(rowsArray, "\n")
+  return ::g_string.implode(rowsArray, "\n")
 }
 
 function g_crew_spec_type::_getReqCrewLevelByCode(unit, upgradeFromCode)

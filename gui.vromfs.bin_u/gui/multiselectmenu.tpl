@@ -39,6 +39,7 @@ popup_menu {
 
       CheckBoxImg {}
       cardImg {
+        margin-right:t='@blockInterval'
         background-image:t='<<icon>>'
         <<#color>>
         style:t='background-color:<<color>>;'

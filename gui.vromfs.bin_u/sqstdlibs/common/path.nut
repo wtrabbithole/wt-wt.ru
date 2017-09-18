@@ -55,7 +55,7 @@ function g_path::normalize(path)
     }
   }
 
-  local normalizedPath = ::implode(pathSegments, "/")
+  local normalizedPath = ::g_string.implode(pathSegments, "/")
   if (normalizedPath.len() > 2 && normalizedPath.slice(0, 2) == "//")
     normalizedPath = normalizedPath.slice(1)
   return normalizedPath

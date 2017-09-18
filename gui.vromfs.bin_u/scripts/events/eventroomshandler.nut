@@ -93,14 +93,16 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local frameObj = scene.findObject("wnd_frame")
     frameObj.width = "1@slotbarWidthFull - 6@framePadding"
-    frameObj.height = "1@maxWindowHeightWithSlotbar - 1@frameFooterHeight - 1@frameHeaderHeight"
+    frameObj.height = "1@maxWindowHeightWithSlotbar - 1@frameFooterHeight - 1@frameTopPadding"
     frameObj.top = "1@battleBtnBottomOffset - 1@frameFooterHeight - h"
 
     local roomsListBtn = showSceneBtn("btn_rooms_list", true)
     roomsListBtn.btnName = "B"
     roomsListBtn.isOpened = "yes"
     guiScene.applyPendingChanges(false)
+
     local pos = roomsListBtn.getPosRC()
+    roomsListBtn.noMargin = "yes"
     pos[0] -= guiScene.calcString("3@framePadding", null)
     pos[1] += guiScene.calcString("1@frameFooterHeight", null)
     roomsListBtn.style = format("position:root; pos:%d,%d;", pos[0], pos[1])
@@ -354,7 +356,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rankText = ::events.getTierTextByRules(reqUnits)
       local ruleTexts = ::u.map(reqUnits, getRuleText)
-      local rulesText = ::colorize(color, ::implode(ruleTexts, ::loc("ui/comma")))
+      local rulesText = ::colorize(color, ::g_string.implode(ruleTexts, ::loc("ui/comma")))
 
       text = ::colorize(color, rankText) + " " + text
       if (rulesText.len())
@@ -661,6 +663,12 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onCreateRoom()
   {
+    local diffCode = ::events.getEventDiffCode(event)
+    local unitTypeMask = ::events.getEventUnitTypesMask(event)
+    local checkTutorUnitType = (::number_of_set_bits(unitTypeMask)==1) ? ::number_of_set_bits(unitTypeMask - 1) : null
+    if(checkDiffTutorial(diffCode, checkTutorUnitType))
+      return
+
     ::events.openCreateRoomWnd(event)
   }
 

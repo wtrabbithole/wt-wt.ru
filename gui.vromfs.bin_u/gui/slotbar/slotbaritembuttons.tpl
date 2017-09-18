@@ -3,6 +3,7 @@
 Button_text {
   id:t='slotBtn_battle'
   class:t='battle'
+  noMargin:t='yes'
   text:t=''
   css-hier-invalidate:t='yes'
   on_click:t='<<toBattleButtonPrefix>>Battle'

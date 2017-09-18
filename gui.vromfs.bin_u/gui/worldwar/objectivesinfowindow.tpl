@@ -6,15 +6,11 @@ frame {
 
   frame_header {
     activeText {
-      position:t='relative';
-      pos:t='0, 0';
       text:t='#worldWar/wndTitle/Objectives';
       caption:t='yes';
     }
 
-    Button_close {
-      img {}
-    }
+    Button_close {}
   }
   tdiv {
     id:t='operations_info'

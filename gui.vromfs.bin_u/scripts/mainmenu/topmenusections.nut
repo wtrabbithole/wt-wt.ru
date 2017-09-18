@@ -1,7 +1,7 @@
 ::g_top_menu_sections <- {
   template = {
     name = "unknown"
-    type = null
+    visualStyle = "noFrame"
     onClick = "onDropDown"
     hoverMenuPos = "0"
     getText = function(totalSections = 0) { return null }
@@ -10,7 +10,6 @@
     btnName = null
     buttons = null
     mergeIndex = -1
-    minimalWidth = false
     haveTmDiscount = false
     forceHoverWidth = null
 

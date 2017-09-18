@@ -224,14 +224,14 @@
         "wheel_l_top_03_dm": [],
         "wheel_r_top_01_dm": [],
         "wheel_r_top_02_dm": [],
-        "wheel_r_top_03_dm": [],
-        "submodule": {
-          "armorClass": "tank_traks",
-          "armorThickness": 30.0,
-          "hp": 400.0,
-          "track_r_dm": [],
-          "track_l_dm": []
-        }
+        "wheel_r_top_03_dm": []
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 30.0,
+        "hp": 400.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -424,6 +424,20 @@
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
         "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1581,9 +1595,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.5,0.9],
-      "explodeHitPower": 1000.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.7,0.9],
+      "explodeHitPower": 4000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1603,10 +1617,10 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 5500.0,
-        "cutDamage": 500.0,
+        "mass": 10000.0,
+        "cutDamage": 1000.0,
         "deviation": 0.5,
-        "rotation": 0.5,
+        "rotation": 1.5,
         "collisionNode": "cls_turret_01"
       }
     }

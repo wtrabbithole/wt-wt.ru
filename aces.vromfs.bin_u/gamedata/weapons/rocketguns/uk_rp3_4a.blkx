@@ -12,6 +12,8 @@
   "rocket": {
     "caliber": 0.076,
     "mass": 37.0,
+    "explosiveType": "tnt",
+    "explosiveMass": 5.44,
     "massEnd": 32.0,
     "maxDeltaAngle": 2.0,
     "dragCx": 0.016,
@@ -21,22 +23,16 @@
     "WdK": [0.1,0.1,0.1],
     "force": 13000.0,
     "timeFire": 1.0,
-    "explosionEffect": "hydra_expl",
+    "spawnExplosionFx": false,
+    "spawnExplosionWreckage": false,
+    "explosionEffect": "art_ground_splash",
     "smokeEffect": "hydra_smoke",
     "maxDistance": 7500.0,
     "minDistance": 30.0,
     "distanceFuse": false,
-    "hitPowerMult": 1.0,
-    "nearHitPower": [1.0,50.0],
-    "midHitPower": [0.9,400.0],
-    "farHitPower": [0.1,1000.0],
-    "endHitPower": [0.01,1500.0],
-    "relativeVelHitShift": [300.0,1000.0],
-    "nearArmorPower": [10.0,50.0],
-    "midArmorPower": [7.0,400.0],
-    "farArmorPower": [0.2,700.0],
-    "relativeVelArmorShift": [200.0,1000.0],
-    "explodeTreshold": 0.1,
+    "hitPowerMult": 400.0,
+    "fuseDelayDist": 0.3,
+    "explodeTreshold": 20.0,
     "explodeHitPower": 600.0,
     "explodeArmorPower": 75.0,
     "explodeRadius": [1.0,3.5],
@@ -63,6 +59,15 @@
     "aiMaxAimAngle": 30.0,
     "aiSpeedViscosity": 3.0,
     "aiSpeedPrediction": 1.0,
-    "aiAccelPrediction": 0.5
+    "aiAccelPrediction": 0.5,
+    "armorpower": {
+      "ArmorPower0m": [60.0,10.0],
+      "ArmorPower100m": [55.0,100.0],
+      "ArmorPower7000m": [10.0,7000.0]
+    },
+    "hitpower": {
+      "HitPower0m": [400.0,500.0],
+      "HitPower10000m": [400.0,10000.0]
+    }
   }
 }

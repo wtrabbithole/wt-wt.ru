@@ -276,6 +276,12 @@
     }
   },
   {
+    "gunnerFps": {
+      "pos": [-0.17,0.12,0.0],
+      "head": "gun1"
+    }
+  },
+  {
     "turbulence": {
       "segmentlength": 100.0,
       "startSpeed": 28.0,
@@ -403,6 +409,29 @@
     ]
   },
   {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.00004,0.122326,0.798704],
+      "_emtr_break_wing0_l_to": [-1.00004,0.122326,1.22598],
+      "emtr_break_wing1_l_from": [-1.00004,0.122326,2.8233],
+      "emtr_break_wing1_l_to": [-1.00004,0.122326,3.42131],
+      "emtr_break_wing2_l_from": [-1.00004,0.122326,4.81518],
+      "emtr_break_wing2_l_to": [-1.00004,0.122326,5.9216],
+      "_emtr_break_wing0_r_from": [-1.00004,0.122326,-0.798704],
+      "_emtr_break_wing0_r_to": [-1.00004,0.122326,-1.22598],
+      "emtr_break_wing1_r_from": [-1.00004,0.122326,-2.8233],
+      "emtr_break_wing1_r_to": [-1.00004,0.122326,-3.42131],
+      "emtr_break_wing2_r_from": [-1.00004,0.122326,-4.81518],
+      "emtr_break_wing2_r_to": [-1.00004,0.122326,-5.9216],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-5.86756,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
+  },
+  {
     "DamageParts": {
       "armor10": {
         "cannon1_dm": {
@@ -508,6 +537,12 @@
         }
       },
       "dural": {
+        "cover10_dm": {
+          "hp": 19.5
+        },
+        "cover11_dm": {
+          "hp": 19.5
+        },
         "cover1_dm": {
           "hp": 25.8
         },
@@ -521,7 +556,7 @@
           "hp": 19.5
         },
         "cover5_dm": {
-          "hp": 19.5
+          "hp": 23.8
         },
         "cover6_dm": {
           "hp": 19.5
@@ -533,12 +568,6 @@
           "hp": 19.5
         },
         "cover9_dm": {
-          "hp": 19.5
-        },
-        "cover10_dm": {
-          "hp": 19.5
-        },
-        "cover11_dm": {
           "hp": 19.5
         }
       },
@@ -566,6 +595,9 @@
         "tailcontrol_dm": {
           "hp": 59.5
         },
+        "wingcontrol_dm": {
+          "hp": 59.5
+        },
         "wingcontrol_l_dm": {
           "hp": 59.5
         },
@@ -574,14 +606,14 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 52.2
         },
         "gear_r_dm": {
           "hp": 52.2
-        },
-        "gear_c_dm": {
-          "hp": 20.2
         }
       },
       "steel_cooling_sys": {
@@ -592,16 +624,16 @@
           "hp": 17.7
         },
         "oil3_dm": {
-          "hp": 17.7
+          "hp": 15.5
         },
         "oil4_dm": {
-          "hp": 17.7
+          "hp": 15.5
         },
         "oil5_dm": {
-          "hp": 17.7
+          "hp": 21.5
         },
         "oil6_dm": {
-          "hp": 17.7
+          "hp": 21.5
         }
       },
       "steel_pilot": {
@@ -628,11 +660,6 @@
         },
         "tank5_dm": {
           "hp": 44.5
-        }
-      },
-      "wood": {
-        "wingcontrol_dm": {
-          "hp": 1.0
         }
       }
     }
@@ -710,6 +737,11 @@
       },
       {
         "part": {
+          "name": "armor2_dm"
+        }
+      },
+      {
+        "part": {
           "name": "cannon1_dm"
         }
       },
@@ -730,6 +762,16 @@
       },
       {
         "part": {
+          "name": "cover10_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover11_dm"
+        }
+      },
+      {
+        "part": {
           "name": "cover1_dm"
         }
       },
@@ -746,6 +788,31 @@
       {
         "part": {
           "name": "cover4_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover5_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover6_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover7_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover8_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cover9_dm"
         }
       },
       {
@@ -1204,6 +1271,42 @@
       {
         "part": [
           {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
             "name": "gear_l_dm"
           },
           {
@@ -1275,6 +1378,11 @@
       },
       {
         "part": {
+          "name": "gun1_dm"
+        }
+      },
+      {
+        "part": {
           "name": "gunner1_dm"
         }
       },
@@ -1292,6 +1400,50 @@
       {
         "part": {
           "name": "oil2_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "oil3_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "oil4_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "oil5_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
+        }
+      },
+      {
+        "part": {
+          "name": "oil6_dm",
           "onHit": {
             "leak_oil": 0.95
           },
@@ -1651,6 +1803,65 @@
         "part": [
           {
             "name": "tank4_dm"
+          },
+          {
+            "onHit": {
+              "fire": 0.005,
+              "leak": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damage": 3.0,
+              "fire": 0.01,
+              "leak": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "fire": 0.1,
+              "leak": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "fire": 0.4,
+              "leak": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "fire": 3.0,
+              "leak": 12.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "expl": 0.5,
+              "fire": 5.0,
+              "leak": 10.0,
+              "nothing": 85.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 70.0,
+              "expl": 1.0,
+              "fire": 20.0,
+              "leak": 50.0,
+              "nothing": 30.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "tank5_dm"
           },
           {
             "onHit": {
@@ -2222,6 +2433,10 @@
           "limits": {
             "yaw": [-35.0,35.0],
             "pitch": [0.0,25.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-1.0,1.0],
+            "pitch": [0.0,21.0]
           }
         }
       },

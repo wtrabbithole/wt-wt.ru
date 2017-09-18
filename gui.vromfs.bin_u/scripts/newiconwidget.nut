@@ -49,7 +49,7 @@ class NewIconWidget
     if (::checkObj(_containerObj))
     {
       _containerObj.setUserData(this.weakref())
-      _updateSubObjects()
+      validateContent()
     }
   }
 

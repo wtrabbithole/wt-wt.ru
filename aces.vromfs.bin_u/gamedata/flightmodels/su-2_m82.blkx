@@ -67,6 +67,12 @@
         },
         "mgun2_dm": {
           "hp": 15.0
+        },
+        "mgun3_dm": {
+          "hp": 15.0
+        },
+        "mgun4_dm": {
+          "hp": 15.0
         }
       },
       "armor4": {
@@ -105,6 +111,14 @@
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
           "hp": 27.3
+        },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 24.5
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 24.5
         },
         "fin_dm": {
           "hp": 24.7
@@ -155,6 +169,26 @@
           "hp": 67.3
         }
       },
+      "dural60": {
+        "spar1_l_dm": {
+          "hp": 39.7
+        },
+        "spar1_r_dm": {
+          "hp": 39.7
+        },
+        "spar2_l_dm": {
+          "hp": 39.5
+        },
+        "spar2_r_dm": {
+          "hp": 39.5
+        },
+        "spar_l_dm": {
+          "hp": 39.5
+        },
+        "spar_r_dm": {
+          "hp": 39.5
+        }
+      },
       "protected_controls": {
         "tailcontrol_dm": {
           "hp": 60.5
@@ -170,6 +204,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 46.7
         },
@@ -217,41 +254,6 @@
         },
         "cover2_dm": {
           "hp": 19.5
-        },
-        "elevator0_dm": {
-          "hp": 19.3
-        },
-        "elevator1_dm": {
-          "hp": 19.3
-        },
-        "gear_c_dm": {
-          "hp": 3.7
-        },
-        "mgun3_dm": {
-          "hp": 10.0
-        },
-        "mgun4_dm": {
-          "hp": 10.3
-        }
-      },
-      "wood120": {
-        "spar1_l_dm": {
-          "hp": 39.7
-        },
-        "spar1_r_dm": {
-          "hp": 39.7
-        },
-        "spar2_l_dm": {
-          "hp": 39.5
-        },
-        "spar2_r_dm": {
-          "hp": 39.5
-        },
-        "spar_l_dm": {
-          "hp": 39.5
-        },
-        "spar_r_dm": {
-          "hp": 39.5
         }
       }
     }
@@ -2342,6 +2344,10 @@
           "limits": {
             "yaw": [-90.0,90.0],
             "pitch": [0.0,50.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-2.0,1.0],
+            "pitch": [0.0,20.0]
           }
         }
       },
@@ -2589,5 +2595,24 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "emtr_break_wing1_l_from": [-0.435608,-0.441886,1.67913],
+      "emtr_break_wing1_l_to": [-0.435608,-0.441886,2.74176],
+      "emtr_break_wing2_l_from": [-0.435608,-0.441886,4.3357],
+      "emtr_break_wing2_l_to": [-0.435608,-0.441886,5.43223],
+      "emtr_break_wing1_r_from": [-0.435608,-0.441886,-1.67913],
+      "emtr_break_wing1_r_to": [-0.435608,-0.441886,-2.74176],
+      "emtr_break_wing2_r_from": [-0.435608,-0.441886,-4.3357],
+      "emtr_break_wing2_r_to": [-0.435608,-0.441886,-5.43223],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.38617,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

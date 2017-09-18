@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::unlocks_punctuation_without_space <- ","
 ::map_mission_type_to_localization <- null
 
@@ -126,7 +129,7 @@ function build_unlock_desc(item, params = {})
                        //to generate progress text for stages
   item.showProgress <- showProgress && (progressText != "")
   item.progressText <- progressText
-  item.shortText <- ::implode([item.text, item.progressText], "\n")
+  item.shortText <- ::g_string.implode([item.text, item.progressText], "\n")
 
   local showAsContent = ::getTblValue("showAsContent", params, false)
   if (showAsContent && ::getTblValue("isRevenueShare", item))
@@ -163,7 +166,7 @@ function getUnlockDescription(data, params = {})
       descData.append(::loc("ugm/price") + ::loc("ui/colon") + ::colorize("unlockActiveColor", cost.getTextAccordingToBalance()))
   }
 
-  return ::implode(descData, "\n")
+  return ::g_string.implode(descData, "\n")
 }
 
 function set_image_by_unlock_type(config, unlockBlk)
@@ -423,7 +426,7 @@ function get_unlock_rewards_text(config)
     textsList.append(
       ::g_warbonds.getWarbondPriceText(config.rewardWarbonds.wbName, null, config.rewardWarbonds.wbAmount)
     )
-  return ::implode(textsList, ", ")
+  return ::g_string.implode(textsList, ", ")
 }
 
 function get_icon_from_unlock_blk(unlockBlk, unlocked = true)
@@ -467,7 +470,7 @@ function is_unlock_visible(unlockBlk, needCheckVisibilityByPlatform = true)
   local showOnlyUnlocked = unlockBlk.hideUntilUnlocked
   if (::is_numeric(unlockBlk.visibleDays))
   {
-    local marginTime = (unlockBlk.visibleDays * TIME_DAY_IN_SECONDS).tointeger()
+    local marginTime = time.daysToSeconds(unlockBlk.visibleDays).tointeger()
 
     foreach (cond in unlockBlk.mode % "condition")
     {
@@ -476,8 +479,8 @@ function is_unlock_visible(unlockBlk, needCheckVisibilityByPlatform = true)
         continue
       }
 
-      local startTime = ::mktime(::get_time_from_string_utc(cond.beginDate)) - marginTime
-      local endTime = ::mktime(::get_time_from_string_utc(cond.endDate)) + marginTime
+      local startTime = ::mktime(time.getTimeFromStringUtc(cond.beginDate)) - marginTime
+      local endTime = ::mktime(time.getTimeFromStringUtc(cond.endDate)) + marginTime
       local currentTime = get_charserver_time_sec()
 
       showOnlyUnlocked = (currentTime < startTime || currentTime > endTime)
@@ -984,7 +987,7 @@ function get_unlock_name_text(unlockType, id)
         parts.pop()
       else
         countryId = null
-      local locId = "dynamic/" + ::implode(parts, "_")
+      local locId = "dynamic/" + ::g_string.implode(parts, "_")
       return ::loc(locId) + (countryId ? ::loc("ui/parentheses/space", { text = ::loc(countryId) }) : "")
 
     case ::UNLOCKABLE_TROPHY:
@@ -1023,7 +1026,7 @@ function does_unlock_exist(unlockId)
   return ::get_unlock_type_by_id(unlockId) != ::UNLOCKABLE_UNKNOWN
 }
 
-function build_log_unlock_data(config, showProgress = false) //id, type    //??stageText, rewardText
+function build_log_unlock_data(config, showProgress = false, needTitle = true) //id, type    //??stageText, rewardText
 {
   local res = ::create_default_unlock_data()
   local realId = ("unlockId" in config)? config.unlockId : ("id" in config)? config.id : ""
@@ -1061,12 +1064,14 @@ function build_log_unlock_data(config, showProgress = false) //id, type    //??s
 
   if (::g_battle_tasks.isBattleTask(realId))
   {
-    res.title = ::loc("unlocks/battletask")
+    if (needTitle)
+      res.title = ::loc("unlocks/battletask")
     res.name = ::g_battle_tasks.getLocalizedTaskNameById(realId)
   } else
   {
     res.name = ::get_unlock_name_text(type, id)
-    res.title = ::get_unlock_type_text(type, id)
+    if (needTitle)
+      res.title = ::get_unlock_type_text(type, id)
   }
 
   switch (type)

@@ -145,6 +145,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 42.7
       },
@@ -192,9 +195,6 @@
       },
       "cover5_dm": {
         "hp": 4.2
-      },
-      "gear_c_dm": {
-        "hp": 4.3
       }
     }
   },
@@ -2053,12 +2053,7 @@
       "modClass": "armor",
       "tier": 3,
       "effects": {
-        "changeMass": 21.6,
-        "DamageGen": {
-          "armor1_dm": {
-            "mat": "armor10"
-          }
-        }
+        "changeMass": 21.6
       }
     },
     "la-5fn_rear_armorglass_75": {
@@ -2070,18 +2065,13 @@
         "DamageParts": {
           "glass75": {
             "armor2_dm": {
-              "hp": 105.0
+              "hp": 100.0
             }
           }
         },
         "DamageEffects": {
           "part": {
             "name": "armor2_dm"
-          }
-        },
-        "DamageGen": {
-          "armor2_dm": {
-            "mat": "armor_glass75"
           }
         }
       }
@@ -2135,5 +2125,26 @@
         "speedWep": [10000.0,540.0]
       }
     ]
+  },
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.829057,-0.319168,0.848035],
+    "_emtr_break_wing0_l_to": [-0.829057,-0.319168,1.12864],
+    "emtr_break_wing1_l_from": [-0.829057,-0.319168,1.71788],
+    "emtr_break_wing1_l_to": [-0.829057,-0.319168,2.32275],
+    "emtr_break_wing2_l_from": [-0.829057,-0.319168,3.23007],
+    "emtr_break_wing2_l_to": [-0.829057,-0.319168,3.9105],
+    "_emtr_break_wing0_r_from": [-0.829056,-0.319167,-0.835282],
+    "_emtr_break_wing0_r_to": [-0.829056,-0.319167,-1.12239],
+    "emtr_break_wing1_r_from": [-0.829056,-0.319167,-1.70512],
+    "emtr_break_wing1_r_to": [-0.829056,-0.319167,-2.31],
+    "emtr_break_wing2_r_from": [-0.829056,-0.319167,-3.21732],
+    "emtr_break_wing2_r_to": [-0.829056,-0.319167,-3.89774],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-4.43836,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

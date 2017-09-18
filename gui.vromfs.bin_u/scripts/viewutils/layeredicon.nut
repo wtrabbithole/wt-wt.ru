@@ -186,7 +186,7 @@ function LayersIcon::replaceIcon(iconObj, iconStyle, image=null, ratio=null, def
 function LayersIcon::getTextDataFromLayer(layerCfg)
 {
   local props = ::format("color:t='%s';", ::getTblValue("color", layerCfg, "@commonTextColor"))
-  props += ::format("font:t='%s';", ::getTblValue("font", layerCfg, "@small"))
+  props += ::format("font:t='%s';", ::getTblValue("font", layerCfg, "@fontNormal"))
   foreach(id in ["font-ht", "max-width", "text-align", "shadeStyle"])
     if (id in layerCfg)
       props += ::format("%s:t='%s';", id, layerCfg[id])
@@ -200,8 +200,8 @@ function LayersIcon::getTextDataFromLayer(layerCfg)
   local position = ::getTblValue("position", layerCfg, "absolute")
 
   return ::format("blankTextArea {%s text:t='%s'; pos:t='%s, %s'; position:t='%s'; %s}",
-                      ::stripTags(id),
-                      ::stripTags(::getTblValue("text", layerCfg, "")),
+                      ::g_string.stripTags(id),
+                      ::g_string.stripTags(::getTblValue("text", layerCfg, "")),
                       posX, posY,
                       position,
                       props)

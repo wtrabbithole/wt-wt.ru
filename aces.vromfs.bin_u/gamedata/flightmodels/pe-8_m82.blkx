@@ -67,6 +67,23 @@
   },
   {
     "DamageParts": {
+      "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        },
+        "gun2_dm": {
+          "hp": 15.0
+        },
+        "gun3_dm": {
+          "hp": 15.0
+        },
+        "gun4_dm": {
+          "hp": 15.0
+        },
+        "gun5_dm": {
+          "hp": 15.0
+        }
+      },
       "armor8": {
         "armor1_dm": {
           "hp": 40.0
@@ -172,6 +189,12 @@
         }
       },
       "dural": {
+        "cover10_dm": {
+          "hp": 19.5
+        },
+        "cover11_dm": {
+          "hp": 19.5
+        },
         "cover1_dm": {
           "hp": 35.8
         },
@@ -185,6 +208,18 @@
           "hp": 35.9
         },
         "cover5_dm": {
+          "hp": 19.5
+        },
+        "cover6_dm": {
+          "hp": 19.5
+        },
+        "cover7_dm": {
+          "hp": 19.5
+        },
+        "cover8_dm": {
+          "hp": 19.5
+        },
+        "cover9_dm": {
           "hp": 19.5
         }
       },
@@ -223,6 +258,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 59.5
+        },
         "gear_l_dm": {
           "hp": 72.9
         },
@@ -245,9 +283,6 @@
         }
       },
       "steel_pilot": {
-        "gunner6_dm": {
-          "hp": 20.0
-        },
         "gunner2_dm": {
           "hp": 20.0
         },
@@ -258,6 +293,9 @@
           "hp": 20.0
         },
         "gunner5_dm": {
+          "hp": 20.0
+        },
+        "gunner6_dm": {
           "hp": 20.0
         },
         "pilot1_dm": {
@@ -287,44 +325,6 @@
         },
         "tank6_dm": {
           "hp": 120.5
-        }
-      },
-      "wood": {
-        "cover10_dm": {
-          "hp": 23.7
-        },
-        "cover11_dm": {
-          "hp": 50.1
-        },
-        "cover6_dm": {
-          "hp": 31.8
-        },
-        "cover7_dm": {
-          "hp": 41.7
-        },
-        "cover8_dm": {
-          "hp": 32.6
-        },
-        "cover9_dm": {
-          "hp": 23.7
-        },
-        "gear_c_dm": {
-          "hp": 19.3
-        },
-        "gun1_dm": {
-          "hp": 15.2
-        },
-        "gun2_dm": {
-          "hp": 13.6
-        },
-        "gun3_dm": {
-          "hp": 16.3
-        },
-        "gun4_dm": {
-          "hp": 11.3
-        },
-        "gun5_dm": {
-          "hp": 11.3
         }
       }
     }
@@ -1354,11 +1354,6 @@
       },
       {
         "part": {
-          "name": "gunner6_dm"
-        }
-      },
-      {
-        "part": {
           "name": "gunner2_dm"
         }
       },
@@ -1375,6 +1370,11 @@
       {
         "part": {
           "name": "gunner5_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "gunner6_dm"
         }
       },
       {
@@ -3149,6 +3149,29 @@
         "modClass": "weapon",
         "reqModification": "der-20p"
       }
+    }
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.22091,0.0249732,1.44714],
+      "_emtr_break_wing0_l_to": [-1.22091,0.0249732,2.29681],
+      "emtr_break_wing1_l_from": [-1.22091,0.0249732,4.19948],
+      "emtr_break_wing1_l_to": [-1.22091,0.0249732,6.44172],
+      "emtr_break_wing2_l_from": [-1.22091,0.0249732,11.4368],
+      "emtr_break_wing2_l_to": [-1.22091,0.0249732,14.7021],
+      "_emtr_break_wing0_r_from": [-1.22091,0.0249731,-1.44714],
+      "_emtr_break_wing0_r_to": [-1.22091,0.0249731,-2.29681],
+      "emtr_break_wing1_r_from": [-1.22091,0.0249731,-4.19948],
+      "emtr_break_wing1_r_to": [-1.22091,0.0249731,-6.44172],
+      "emtr_break_wing2_r_from": [-1.22091,0.0249731,-11.4368],
+      "emtr_break_wing2_r_to": [-1.22091,0.0249731,-14.7021],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-11.2259,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

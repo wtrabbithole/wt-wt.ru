@@ -133,9 +133,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
+      "detonateProb": 0.5,
       "detonatePortion": [0.7,0.9],
-      "explodeHitPower": 1500.0,
+      "explodeHitPower": 5500.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -155,10 +155,10 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 10000.0,
-        "cutDamage": 1300.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
+        "mass": 13000.0,
+        "cutDamage": 2000.0,
+        "deviation": 0.2,
+        "rotation": 0.7,
         "collisionNode": "cls_turret_01"
       }
     }
@@ -699,6 +699,9 @@
         },
         "body_shield_dm": {
           "armorThickness": 80.0
+        },
+        "superstructure_front_dm": {
+          "armorThickness": 150.0
         }
       },
       "body_shields": {
@@ -718,20 +721,6 @@
         "ex_decor_body_l_06_dm": [],
         "ex_decor_body_l_02_dm": []
       },
-      "hull_RHA_tiger_II": {
-        "armorClass": "RHA_tank",
-        "superstructure_front_dm": {
-          "armorThickness": 150.0,
-          "hp": 3000.0
-        }
-      },
-      "turret_RHA_tiger_II": {
-        "armorClass": "RHA_tank",
-        "turret_front_dm": {
-          "armorThickness": 185.0,
-          "hp": 3000.0
-        }
-      },
       "turret": {
         "turret_top_dm": {
           "armorThickness": 40.0
@@ -747,6 +736,9 @@
         },
         "turret_02_back_dm": {
           "armorThickness": 30.0
+        },
+        "turret_front_dm": {
+          "armorThickness": 185.0
         }
       },
       "mask": {
@@ -862,8 +854,6 @@
           "armorClass": "tank_traks",
           "armorThickness": 30.0,
           "hp": 400.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
           "ex_armor_turret_r_01_dm": [],
           "ex_armor_turret_r_02_dm": [],
           "ex_armor_turret_r_03_dm": [],
@@ -875,6 +865,13 @@
           "ex_armor_turret_l_04_dm": [],
           "ex_armor_turret_l_05_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 30.0,
+        "hp": 400.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -924,7 +921,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1049,6 +1046,16 @@
         "ammo_body_38_dm": [],
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
+        "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -1584,7 +1591,200 @@
         "modCostMul": 1.5
       },
       "105mm_germany_APCR": [],
-      "tank_rangefinder": []
+      "tank_rangefinder": [],
+      "tank_smoke_screen_system_mod": {
+        "tier": 4,
+        "effects": {
+          "commonWeapons": [
+            {
+              "Weapon": {
+                "trigger": "gunner0",
+                "blk": "gameData/Weapons/groundModels_weapons/105mm_Kwk46_user_cannon.blk",
+                "emitter": "bone_gun_barrel",
+                "flash": "emtr_gun_flame",
+                "recoilOffset": 1.1,
+                "recoilTimes": [0.1,0.55],
+                "defaultYaw": 0.0,
+                "defaultPitch": 0.0,
+                "barrelDP": "gun_barrel_dm",
+                "breechDP": "cannon_breech_dm",
+                "speedYaw": 18.5,
+                "speedPitch": 4.0,
+                "fireConeAngle": 1.0,
+                "bullets": 54,
+                "salvoAmount": 100.0,
+                "ChainfireTime": 0.0,
+                "DelayAfterShoot": 5.0,
+                "AttackMaxDistance": 1000.0,
+                "AttackMaxRadius": 1000.0,
+                "AttackMaxHeight": 1000.0,
+                "accuracyAir": 0.0,
+                "accuracyGnd": 1.5,
+                "errMeasureVel": 0.0,
+                "errMeasureVelFast": 0.0,
+                "errMeasureVelFwdShift": 0.0,
+                "errMeasureVelDir": 0.0,
+                "errTargettingOn100kmph": 0.0,
+                "errTargetting": 3.0,
+                "errExplTime": 0.0,
+                "turret": {
+                  "head": "bone_turret",
+                  "gun": "bone_gun",
+                  "barrel": "bone_gun_barrel",
+                  "linkedAnimPart": {
+                    "verNode": "bone_camera_gunner",
+                    "verLimits": [-180.0,180.0],
+                    "verOriginLimits": [-180.0,180.0]
+                  }
+                },
+                "limits": {
+                  "yaw": [-180.0,180.0],
+                  "pitch": [-8.0,15.0]
+                },
+                "limitsTable": {
+                  "lim1": [-180.0,-160.0,-5.0,15.0],
+                  "lim2": [-160.0,160.0,-8.0,15.0],
+                  "lim3": [160.0,180.0,-5.0,15.0]
+                }
+              }
+            },
+            {
+              "Weapon": [
+                {
+                  "trigger": "gunner1"
+                },
+                {
+                  "triggerGroup": "coaxial"
+                },
+                {
+                  "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk"
+                },
+                {
+                  "emitter": "bone_mg_gun_twin"
+                },
+                {
+                  "flash": "emtr_mg_flame_01"
+                },
+                {
+                  "defaultYaw": 0.0
+                },
+                {
+                  "defaultPitch": 0.0
+                },
+                {
+                  "useAnimFlashNode": true
+                },
+                {
+                  "speedYaw": 5.5
+                },
+                {
+                  "speedPitch": 4.0
+                },
+                {
+                  "fireConeAngle": 1.0
+                },
+                {
+                  "bullets": 5850
+                },
+                {
+                  "fireConeAngle": 15.0
+                },
+                {
+                  "ChainfireTime": 3.0
+                },
+                {
+                  "DelayAfterShoot": 3.0
+                },
+                {
+                  "accuracyAir": 0.0
+                },
+                {
+                  "accuracyGnd": 0.0
+                },
+                {
+                  "errMeasureVel": 0.0
+                },
+                {
+                  "errMeasureVelFast": 0.0
+                },
+                {
+                  "errMeasureVelFwdShift": 0.0
+                },
+                {
+                  "errMeasureVelDir": 0.0
+                },
+                {
+                  "errTargettingOn100kmph": 0.0
+                },
+                {
+                  "errTargetting": 3.0
+                },
+                {
+                  "errExplTime": 0.0
+                },
+                {
+                  "turret": {
+                    "head": "bone_mg_gun_twin",
+                    "gun": "bone_mg_gun_twin",
+                    "gunnerDm": "gunner_dm"
+                  }
+                },
+                {
+                  "limits": {
+                    "yaw": [-0.0,0.0],
+                    "pitch": [-0.0,0.0]
+                  }
+                }
+              ]
+            },
+            {
+              "Weapon": {
+                "trigger": "gunner3",
+                "triggerGroup": "smoke",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_germ_smoke_mortar_launcher.blk",
+                "weaponType": "rockets",
+                "startFx": "",
+                "useEmitter": true,
+                "emitter": "emtr_mortar_flame_01",
+                "emitterGenRange": [1,1],
+                "emitterGenFmt": "emtr_mortar_flame_%02d",
+                "createGunEffects": true,
+                "defaultYaw": 0.0,
+                "defaultPitch": 0.0,
+                "allowableDelta": 360.0,
+                "salvo": 1,
+                "speedYaw": 24.0,
+                "speedPitch": 15.0,
+                "fireConeAngle": 1.0,
+                "bullets": 6,
+                "salvoAmount": 100.0,
+                "ChainfireTime": 0.0,
+                "DelayAfterShoot": 5.0,
+                "AttackMaxDistance": 1000.0,
+                "AttackMaxRadius": 1000.0,
+                "AttackMaxHeight": 1000.0,
+                "accuracyAir": 0.0,
+                "accuracyGnd": 1.5,
+                "errMeasureVel": 0.0,
+                "errMeasureVelFast": 0.0,
+                "errMeasureVelFwdShift": 0.0,
+                "errMeasureVelDir": 0.0,
+                "errTargettingOn100kmph": 0.0,
+                "errTargetting": 3.0,
+                "errExplTime": 0.0,
+                "turret": {
+                  "head": "bone_grenade",
+                  "gun": "bone_grenade"
+                },
+                "limits": {
+                  "yaw": [-0.0,0.0],
+                  "pitch": [0.0,0.0]
+                }
+              }
+            }
+          ]
+        }
+      }
     }
   },
   {

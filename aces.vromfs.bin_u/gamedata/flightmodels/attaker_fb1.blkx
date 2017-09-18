@@ -42,6 +42,14 @@
       }
     },
     "c_dural3": {
+      "aileron1_l_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "aileron1_r_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
       "aileron_l_dm": {
         "genericDamageMult": 0.3,
         "hp": 14.5
@@ -49,6 +57,14 @@
       "aileron_r_dm": {
         "genericDamageMult": 0.3,
         "hp": 14.5
+      },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 30.5
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 30.5
       },
       "fin_dm": {
         "hp": 30.5
@@ -151,6 +167,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 41.5
       },
@@ -175,38 +194,23 @@
       },
       "tank2_dm": {
         "hp": 48.5
-      },
-      "tank3_dm": {
-        "hp": 48.5
-      },
-      "tank4_dm": {
-        "hp": 39.5
-      },
-      "tank5_dm": {
-        "hp": 39.5
-      },
-      "tank6_dm": {
-        "hp": 39.5
-      },
-      "tank7_dm": {
-        "hp": 39.5
       }
     },
-    "wood": {
-      "aileron1_l_dm": {
-        "hp": 7.5
+    "steel_tank_light": {
+      "tank3_dm": {
+        "hp": 55.5
       },
-      "aileron1_r_dm": {
-        "hp": 7.5
+      "tank4_dm": {
+        "hp": 24.5
       },
-      "elevator0_dm": {
-        "hp": 27.9
+      "tank5_dm": {
+        "hp": 24.5
       },
-      "elevator1_dm": {
-        "hp": 27.9
+      "tank6_dm": {
+        "hp": 24.5
       },
-      "gear_c_dm": {
-        "hp": 6.4
+      "tank7_dm": {
+        "hp": 24.5
       }
     }
   },
@@ -2567,9 +2571,24 @@
     }
   ],
   "cutting": {
-    "wingRDist": [-4.53368,-3.53368],
-    "wingLDist": [2.61131,3.61131],
-    "tailDist": [10.0,11.0],
-    "color": [0.151,0.151,0.151,1.0]
+    "_emtr_break_wing0_l_from": [-0.402393,-0.331088,1.13313],
+    "_emtr_break_wing0_l_to": [-0.402393,-0.331088,1.90124],
+    "emtr_break_wing1_l_from": [-0.402393,-0.331088,3.05339],
+    "emtr_break_wing1_l_to": [-0.402393,-0.331088,3.53311],
+    "emtr_break_wing2_l_from": [-0.402393,-0.331088,4.25269],
+    "emtr_break_wing2_l_to": [-0.402393,-0.331088,4.79097],
+    "_emtr_break_wing0_r_from": [-0.402394,-0.331088,-1.13313],
+    "_emtr_break_wing0_r_to": [-0.402394,-0.331088,-1.90124],
+    "emtr_break_wing1_r_from": [-0.402394,-0.331088,-3.05339],
+    "emtr_break_wing1_r_to": [-0.402394,-0.331088,-3.53311],
+    "emtr_break_wing2_r_from": [-0.402394,-0.331088,-4.25269],
+    "emtr_break_wing2_r_to": [-0.402394,-0.331088,-4.79097],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-5.33119,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

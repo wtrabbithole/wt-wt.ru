@@ -59,7 +59,7 @@
             "width": "1.1@sf",
             "pos": "50%pw-50%w, 0",
             "position": "relative",
-            "fontNormal": "yes",
+            "mediumFont": "yes",
             "margin": "1.5*@scrn_tgt/100.0"
           }
         },
@@ -82,22 +82,49 @@
             "width": "1.1@sf",
             "pos": "50%pw-50%w, 0",
             "position": "relative",
-            "tinyFont": "yes",
+            "smallFont": "yes",
             "margin": "0.5*@scrn_tgt/100.0"
           }
         },
         {
-          "div": {
-            "id": "buttons_holder",
-            "pos": "50%pw-50%w, 0",
-            "position": "relative",
-            "margin": "@scrn_tgt/100.0"
-          }
+          "div": [
+            {
+              "id": "buttons_holder"
+            },
+            {
+              "pos": "50%pw-50%w, 0"
+            },
+            {
+              "position": "relative"
+            },
+            {
+              "margin": "0.01@scrn_tgt"
+            },
+            {
+              "Button_text": {
+                "id": "btn_ok",
+                "text": "#msgbox/btn_ok",
+                "on_click": "goBack",
+                "btnName": "A",
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_cancel",
+                "text": "#msgbox/btn_cancel",
+                "on_click": "onCancel",
+                "btnName": "B",
+                "ButtonImg": []
+              }
+            }
+          ]
         }
       ]
     }
   ],
   "BottomMenuPanel": {
+    "line": [],
     "pattern": {
       "type": "bright_texture"
     },
@@ -122,8 +149,7 @@
           "id": "rot",
           "pos": "-0.1w-1, 50%ph-50%h",
           "position": "relative",
-          "background-rotation": "0",
-          "wait_icon_cock": []
+          "background-rotation": "0"
         },
         "textAreaCentered": {
           "pos": "5, 50%ph-50%h-2",

@@ -122,7 +122,7 @@ function g_system_msg::configToLang(langConfig, paramValidateFunction = null, se
   {
     local resArray = ::u.map(langConfig,
       (@(cfg) configToLang(cfg, paramValidateFunction) || "").bindenv(this))
-    return ::implode(resArray, separator)
+    return ::g_string.implode(resArray, separator)
   }
   if (::u.isString(langConfig))
     return ::loc(langConfig, defaultLocValue)

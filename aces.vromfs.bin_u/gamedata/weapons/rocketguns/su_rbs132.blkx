@@ -12,8 +12,11 @@
   "rocket": {
     "caliber": 0.132,
     "mass": 51.6,
+    "explosiveType": "tnt",
+    "explosiveMass": 1.35,
+    "bulletType": "rocket_tank",
     "massEnd": 43.77,
-    "maxDeltaAngle": 0.1,
+    "maxDeltaAngle": 1.0,
     "dragCx": 0.018,
     "length": 1.5,
     "distFromCmToStab": 0.01,
@@ -21,32 +24,18 @@
     "WdK": [0.1,0.1,0.1],
     "force": 19600.0,
     "timeFire": 1.0,
-    "explosionEffect": "hydra_expl",
-    "smokeEffect": "hydra_smoke",
+    "explosionEffect": "art_ground_splash",
     "maxDistance": 7500.0,
     "minDistance": 30.0,
-    "hitPowerMult": 1.0,
-    "nearHitPower": [1.0,50.0],
-    "midHitPower": [0.9,400.0],
-    "farHitPower": [0.1,1000.0],
-    "endHitPower": [0.01,1500.0],
-    "relativeVelHitShift": [300.0,1000.0],
-    "nearArmorPower": [10.0,50.0],
-    "midArmorPower": [7.0,400.0],
-    "farArmorPower": [0.2,700.0],
-    "relativeVelArmorShift": [200.0,1000.0],
-    "explodeTreshold": 0.01,
-    "explodeHitPower": 400.0,
-    "explodeArmorPower": 70.0,
-    "explodeRadius": [0.5,1.0],
-    "explosionPatchRadius": 1.8,
-    "rendinstDamageRadius": 0.5,
+    "spawnExplosionFx": false,
+    "spawnExplosionWreckage": false,
+    "distanceFuse": false,
+    "hitPowerMult": 600.0,
+    "explodeTreshold": 8.0,
+    "fuseDelayDist": 1.0,
+    "explosionPatchRadius": 0.15,
+    "rendinstDamageRadius": 0.15,
     "statType": "hydra",
-    "shutterDamage": true,
-    "shutterDamageRadius": 4.0,
-    "shutterAmount": 120,
-    "shutterArmorPower": 70.0,
-    "shutterHit": 10.0,
     "useStartSpeed": true,
     "startSpeed": 30.0,
     "endSpeed": 335.0,
@@ -62,6 +51,28 @@
     "aiMaxAimAngle": 30.0,
     "aiSpeedViscosity": 3.0,
     "aiSpeedPrediction": 1.0,
-    "aiAccelPrediction": 0.5
+    "aiAccelPrediction": 0.5,
+    "smokeEffect": "hydra_smoke",
+    "groundCollisionEffect": "big_ground_splash",
+    "groundFxScale": [1.1,1.2],
+    "ricochetEffect": "cannon_ricochet",
+    "waterCollisionEffect": "big_water_splash",
+    "armorpower": {
+      "ArmorPower0m": [85.0,10.0],
+      "ArmorPower500m": [75.0,500.0],
+      "ArmorPower7000m": [20.0,7000.0]
+    },
+    "hitpower": {
+      "HitPower0m": [1.0,500.0],
+      "HitPower10000m": [1.0,10000.0]
+    },
+    "collisions": {
+      "steel": {
+        "fx": "cannon_hit_light"
+      },
+      "armor": {
+        "fx": "cannon_hit_armor"
+      }
+    }
   }
 }

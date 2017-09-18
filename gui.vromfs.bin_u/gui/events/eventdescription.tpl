@@ -205,8 +205,6 @@ tdiv {
             behavior:t='increment'
             inc-target:t='background-rotation'
             inc-factor:t='120'
-
-            wait_icon_cock {}
           }
           table {
             id:t = 'lb_table'
@@ -330,7 +328,7 @@ tdiv {
               id:t='players_count'
               width:t='pw'
               hideEmptyText:t='yes'
-              font-bold:t='@tiny'
+              font-bold:t='@fontSmall'
               text:t=''
             }
 

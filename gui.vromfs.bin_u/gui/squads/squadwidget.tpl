@@ -10,17 +10,15 @@ Button_text {
   id:t='btn_squad_ready'
   pos:t='0, 50%(ph-h)'; position:t='relative'
   display:t='hide'
-  class:t='header'
   text:t='#mainmenu/btnReady'
   on_click:t='onSquadReady'
 }
 
 Button_text {
   id:t='btn_squadPlus'
-  size:t='ph, ph'
+  class:t='image'
   tooltip:t='#contacts/invite'
   on_click:t='onSquadPlus'
-  class:t='image24'
 
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'
@@ -36,8 +34,6 @@ animated_wait_icon
   position:t="relative"
   class:t='byParent'
   background-rotation:t = '0'
-
-  wait_icon_cock {}
 }
 
 <<#members>>
@@ -60,19 +56,18 @@ Button_text {
     activeText {
       id:t='speaking_member_nick_text_<<id>>'
       margin:t='1@blockInterval'
-      veryTinyFont:t='yes'
+      tinyFont:t='yes'
     }
   }
 
   tdiv {
     height:t='1@cIco'
     width:t='pw'
-    pos:t='0, 0.5*(ph-h)-2'; position:t='relative'
+    pos:t='0, 0.5(ph-h)'; position:t='relative'
     css-hier-invalidate:t='yes'
 
     memberIcon {
       id:t='member_icon_<<id>>'
-      size:t='@cIco, @cIco'
       pos:t='0, 2*@sf/@pf_outdated'; position:t='relative'
       bgcolor:t='#FFFFFF'
       background-image:t=''
@@ -83,13 +78,12 @@ Button_text {
     tdiv {
       id:t='member_state_block_<<id>>'
       height:t='ph'
-      margin-left:t='2*@sf/@pf_outdated'
-      margin-right:t='2*@sf/@pf_outdated'
+      margin-left:t='2@dp'
       flow:t='vertical'
       css-hier-invalidate:t='yes'
 
       tdiv {
-        margin-left:t='1*@sf/@pf_outdated'
+        margin-left:t='1@dp'
         css-hier-invalidate:t='yes'
 
         squadMemberStatus {
@@ -99,14 +93,14 @@ Button_text {
 
         squadMemberVoipStatus {
           id:t='member_voip_<<id>>'
-          margin-left:t='3*@sf/@pf_outdated'
+          margin-left:t='5@sf/@pf'
           isVoipActive:t='no'
         }
       }
 
       tdiv {
         id:t='member_country_<<id>>'
-        pos:t='0, -1*@sf/@pf_outdated'; position:t='relative'
+        pos:t='0, -1@dp'; position:t='relative'
         size:t='@sIco, @sIco'
         bgcolor:t='#FFFFFF'
         background-image:t=''
@@ -118,7 +112,6 @@ Button_text {
     id:t='member_waiting_<<id>>'
     display:t='hide'
     background-rotation:t='0'
-    wait_icon_cock {}
   }
 
   tooltipObj {
@@ -133,10 +126,9 @@ Button_text {
 
 Button_text {
   id:t='btn_squadInvites'
-  size:t='ph, ph'
+  class:t='image'
   tooltip:t='#squad/invited_players'
   on_click:t='onSquadInvitesClick'
-  class:t='image24'
   type:t='squadInvites'
 
   tdiv {
@@ -146,16 +138,14 @@ Button_text {
 
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'
-    background-image:t='#ui/gameuiskin#player_in_queue'
   }
 }
 
 Button_text {
   id:t='btn_squadLeave'
-  size:t='ph, ph'
+  class:t='image'
   tooltip:t=''
   on_click:t='onSquadLeave'
-  class:t='image24'
   type:t='squadLeave'
 
   squadButtonImg {

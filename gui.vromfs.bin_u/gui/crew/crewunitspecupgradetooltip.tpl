@@ -12,7 +12,7 @@ crewUnitSpecUpgradeTooltip {
   textareaNoTab {
     width:t='pw'
     padding:t='6*@sf/@pf_outdated'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     text:t='<<tinyTooltipText>>'
   }
   <</tinyTooltipText>>

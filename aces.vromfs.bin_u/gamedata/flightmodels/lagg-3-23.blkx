@@ -485,6 +485,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 56.7
         },
@@ -497,6 +500,9 @@
           "hp": 11.5
         },
         "oil2_dm": {
+          "hp": 11.5
+        },
+        "oil3_dm": {
           "hp": 11.5
         },
         "water1_dm": {
@@ -538,12 +544,6 @@
         },
         "cover5_dm": {
           "hp": 7.8
-        },
-        "gear_c_dm": {
-          "hp": 5.0
-        },
-        "oil3_dm": {
-          "hp": 3.4
         }
       }
     }
@@ -1141,9 +1141,40 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_c_dm"
-        }
+        "part": [
+          {
+            "name": "gear_c_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -1246,7 +1277,13 @@
       },
       {
         "part": {
-          "name": "oil3_dm"
+          "name": "oil3_dm",
+          "onHit": {
+            "leak_oil": 0.95
+          },
+          "onKill": {
+            "leak_oil": 1.0
+          }
         }
       },
       {
@@ -2287,6 +2324,29 @@
         "reqModLevel": 6.0,
         "reqModification": "LaGG_dz-40_r"
       }
+    }
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-0.438568,-0.524295,0.677003],
+      "_emtr_break_wing0_l_to": [-0.438568,-0.524295,1.10425],
+      "emtr_break_wing1_l_from": [-0.438568,-0.524295,1.7583],
+      "emtr_break_wing1_l_to": [-0.438568,-0.524295,2.35201],
+      "emtr_break_wing2_l_from": [-0.438568,-0.524295,3.24257],
+      "emtr_break_wing2_l_to": [-0.438568,-0.524295,3.9736],
+      "_emtr_break_wing0_r_from": [-0.438568,-0.524295,-0.677003],
+      "_emtr_break_wing0_r_to": [-0.438568,-0.524295,-1.10425],
+      "emtr_break_wing1_r_from": [-0.438568,-0.524295,-1.7583],
+      "emtr_break_wing1_r_to": [-0.438568,-0.524295,-2.35201],
+      "emtr_break_wing2_r_from": [-0.438568,-0.524295,-3.24257],
+      "emtr_break_wing2_r_to": [-0.438568,-0.524295,-3.9736],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.10345,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

@@ -33,13 +33,13 @@
           "id": "button_exit",
           "style": "pos:@rw+@bw-w, @bh; position:absolute; margin-right:0;",
           "display": "hide",
-          "enable": "no",
-          "img": []
+          "enable": "no"
         }
       }
     },
     {
       "BottomMenuPanel": {
+        "line": [],
         "pattern": {
           "type": "bright_texture"
         },
@@ -125,6 +125,11 @@
         "pos": "50%sw-50%w, 70%sh",
         "position": "absolute",
         "flow": "vertical",
+        "tdiv": {
+          "id": "authorization_button_place",
+          "pos": "50%pw-50%w, 0.01@scrn_tgt",
+          "position": "relative"
+        },
         "Button_text": {
           "id": "change_login",
           "visualStyle": "secondary",

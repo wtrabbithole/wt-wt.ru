@@ -19,10 +19,22 @@
   "fightAiBehaviour": "assault",
   "DamageParts": {
     "armor10": {
+      "gun1_dm": {
+        "hp": 15.0
+      },
       "mgun1_dm": {
         "hp": 15.0
       },
       "mgun2_dm": {
+        "hp": 15.0
+      },
+      "mgun3_dm": {
+        "hp": 15.0
+      },
+      "mgun4_dm": {
+        "hp": 15.0
+      },
+      "mgun8_dm": {
         "hp": 15.0
       }
     },
@@ -80,6 +92,14 @@
         "genericDamageMult": 0.3,
         "hp": 24.5
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 24.5
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 24.5
+      },
       "fin_dm": {
         "hp": 24.5
       },
@@ -129,6 +149,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 39.5
       },
@@ -159,29 +182,6 @@
       },
       "tank3_dm": {
         "hp": 39.5
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 19.7
-      },
-      "elevator1_dm": {
-        "hp": 19.7
-      },
-      "gear_c_dm": {
-        "hp": 4.4
-      },
-      "gun1_dm": {
-        "hp": 7.2
-      },
-      "mgun3_dm": {
-        "hp": 5.1
-      },
-      "mgun4_dm": {
-        "hp": 4.9
-      },
-      "mgun8_dm": {
-        "hp": 7.5
       }
     }
   },
@@ -2098,7 +2098,7 @@
     },
     {
       "Weapon": {
-        "trigger": "gunner1",
+        "trigger": "gunner0",
         "blk": "gameData/Weapons/gunBredaSAFAT77_turret.blk",
         "emitter": "gun1",
         "flash": "flare5",
@@ -2117,10 +2117,18 @@
           "lim1": [-80.0,-55.0,-20.0,60.0],
           "lim2": [-55.0,55.0,0.0,60.0],
           "lim3": [55.0,80.0,-20.0,60.0]
+        },
+        "limitsDeadzone": {
+          "yaw": [-1.0,1.0],
+          "pitch": [0.0,13.0]
         }
       }
     }
   ],
+  "gunnerFps": {
+    "pos": [0.0,0.4,0.0],
+    "head": "turret1"
+  },
   "weapon_presets": [
     {
       "preset": {
@@ -2477,5 +2485,26 @@
         "from": "ba_65_k14_l_interior_n*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.465637,-0.308383,0.88641],
+    "_emtr_break_wing0_l_to": [-0.465637,-0.308383,1.3369],
+    "emtr_break_wing1_l_from": [-0.465637,-0.308383,2.01263],
+    "emtr_break_wing1_l_to": [-0.465637,-0.308383,2.92013],
+    "emtr_break_wing2_l_from": [-0.465637,-0.308383,4.28138],
+    "emtr_break_wing2_l_to": [-0.465637,-0.308383,4.96771],
+    "_emtr_break_wing0_r_from": [-0.465637,-0.308383,-0.88641],
+    "_emtr_break_wing0_r_to": [-0.465637,-0.308383,-1.3369],
+    "emtr_break_wing1_r_from": [-0.465637,-0.308383,-2.01263],
+    "emtr_break_wing1_r_to": [-0.465637,-0.308383,-2.92013],
+    "emtr_break_wing2_r_from": [-0.465637,-0.308383,-4.28138],
+    "emtr_break_wing2_r_to": [-0.465637,-0.308383,-4.99748],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-4.88107,0.0,0.0]
+    ],
+    "partKindTail": 2
+  }
 }

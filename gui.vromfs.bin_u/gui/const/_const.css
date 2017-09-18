@@ -17,12 +17,25 @@
 
 
 
+
+@const veryTiny:      @fontTiny;
+@const tiny:          @fontSmall;
+@const small:         @fontNormal;
+@const smallBold:     @fontNormalBold;
+@const normal:        @fontMedium;
+@const big:           @fontBigBold;
+@const hud_veryTiny:  @fontHudTiny;
+@const hud_tiny:      @fontHudSmall;
+@const hud_small:     @fontHudNormal;
+@const hud_normal:    @fontHudMedium;
+@const hud_big:       @fontHudBigBold;
+
 @const textPaddingBugWorkaround:11px;
 
 @const shopAirHeight: 44*@sf/@pf_outdated; @const shopAirWidth: 120*@sf/@pf_outdated; @const armySmallIconWidth: 26*@sf/@pf_outdated;
-@const cIco: (20*@sf/@pf_outdated) \ 1;
-@const dIco: (24*@sf/@pf_outdated) \ 1;
-@const sIco: (16*@sf/@pf_outdated) \ 1;
+@const sIco: (22*@sf/@pf) \ 1;
+@const cIco: (30*@sf/@pf) \ 1;
+@const dIco: (40*@sf/@pf) \ 1;
 @const mIco: (32*@sf/@pf_outdated) \ 1;
 @const lIco: (64*@sf/@pf_outdated) \ 1;
 @const slotBtnIco: 23*@sf/@pf_outdated;
@@ -30,7 +43,6 @@
 @const profileUnlockIconSize: 100*@sf/@pf_outdated;
 @const debriefingUnlockIconSize: 75@sf/@pf;
 @const unlockStageIconSize: 32*@sf/@pf_outdated;
-@const checkboxSize: 22@sf/@pf_outdated;
 
 @const decalIconHeight:(64 + 10)*@sf/@pf_outdated;
 @const mainMenuButtonWidth: 0.26@sf;
@@ -38,17 +50,15 @@
 @const modIcoSize: 56*@sf/@pf_outdated;
 @const modArrowWidth: 15*@sf/@pf_outdated;
 @const modStatusHeight: 22*@sf/@pf_outdated;
+@const modStatusCheckboxHeight: 18@sf/@pf;
 @const modArrowLen: 15*@sf/@pf_outdated;
 @const modPadSize: (0.20@modIcoSize-2*@sf/@pf_outdated) \ 1;
-
-@const unitChoiceImageWidth: (0.5@rw $min 512*@sf/@pf_outdated);
-@const countryChoiceImageWidth: (0.6@rw $min 1024*@sf/@pf_outdated);
 
 @const battleModeSwitchHeight: 30*@sf/@pf_outdated;
 
 @const chestRewardHeight: 227*@sf/@pf_outdated;
 @const chestRewardWidth:  227*@sf/@pf_outdated;
-@const itemIconHeight:    120*@sf/@pf_outdated;
+@const itemIconHeight:    (120*@sf/@pf_outdated)\1;
 @const awardIconHeight:   50*@sf/@pf_outdated;
 
 @const tableIcoSize:20*@sf/@pf_outdated;
@@ -56,26 +66,31 @@
 
 @const titlePos:@bw+1*@scrn_tgt/100.0;
 
+@const listboxPad: 3@dp;
 @const optPad:2.5*@scrn_tgt/100.0;  
 @const tblPad:2.5*@scrn_tgt/100.0;  
-@const mainMenuButtonHeight:0.059*@scrn_tgt\1;  
-@const baseTrHeight:0.038*@sf\1;  
-@const baseTrHeaderHeight:0.076*@sf\1;  
-@const leaderboardTrHeight:0.03*@sf\1;
+@const mainMenuButtonHeight:(0.059*@scrn_tgt)\1;  
+@const baseTrHeight:(0.038*@sf)\1;  
+@const baseTrHeaderHeight:(0.076*@sf)\1;  
+@const leaderboardTrHeight:(0.03*@sf)\1;
 @const leaderboardHeaderHeight:0.05@sf;
-@const rows16height:0.030*@scrn_tgt\1;
+@const rows16height:(0.030*@scrn_tgt)\1;
 @const sliderRowHeight:(1@sliderHeight + 2@sliderIncHeight)\1;
-@const crewTrHeight:0.035*@sf\1 + 6*@sf/@pf_outdated;
-@const tinyRowHeight:0.02*@sf\1;
+@const crewTrHeight:(0.035*@sf)\1 + 6*@sf/@pf_outdated;
+@const smallRowHeight:(0.02*@sf)\1;
 
-@const gamercardHeight:0.045*@sf;
+@const gamercardHeight:1@bigButtonHeight;
 @const topBarHeight:1@gamercardHeight + 1@bh + 0.006@sf;
-@const bottomBarHeight:        0.06@scrn_tgt + 1@bh;
+@const bottomBarHeight:        59@sf/@pf + 1@bh;
 
-@const frameHeaderHeight:      1@cIco + 10 + 0.01@scrn_tgt;
-@const frameFooterHeightLarge: 1@navBarBattleButtonHeight + 12*@sf/@pf_outdated;
-@const frameFooterHeight:      1@buttonHeight + 12*@sf/@pf_outdated;
-@const frameSmallHeaderHeight: 1@sIco + (8 + 5)*@sf/@pf_outdated;
+@const frameHeaderHeight:      (0.045@sf)/1 + 1@frameHeaderPad;
+@const frameHeaderPad:         2@dp;
+@const frameTopPadding:        1@frameHeaderHeight + 1@blockInterval;
+@const navBarTopPadding:       1@blockInterval;
+@const unlocksListboxItemInterval: 0.5@blockInterval;
+@const frameFooterHeightLarge: 1@navBarBattleButtonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
+@const frameFooterHeight:      1@buttonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
+@const frameFooterHeightBigBattle:1@battleButtonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
 
 @const userDecalsDivHeight: 1.1*@decalIconHeight;
 @const freeDecalsHeight:      sh - 1@minYposWindow - 1@bh - 1@userDecalsDivHeight - 1@bottomBarHeight - 1@buttonHeight;
@@ -87,11 +102,12 @@
 @const titleLogoPlateHeight: (((1@scrn_tgt+200)\400) * 32) $max 64) $min 128;
 @const titleLogoPlateWidth: 2*@titleLogoPlateHeight;
 @const loginLogoScale: ((@sf/@pf_outdated) \ 1) $max 1;
+@const loginFramePadding: 0.015@scrn_tgt;
+
 @const gcBattleBlockPadding: 0.04@scrn_tgt*1@isWide;
 @const toBattleButtonBottom: 1@titleLogoPlateHeight + 1@bh + 0.006@sf;
-@const gcLineLockWidth: 9@dp;
 @const gcToBattleButtonPlaceWidth: 1@titleLogoPlateWidth + 2@gcBattleBlockPadding;
-@const topGcPanelWidth: 0.5sw - 1@offsetBetweenScreenAndAirinfo - 0.5@gcToBattleButtonPlaceWidth - 1@gcLineLockWidth;
+@const topGcPanelWidth: 0.5sw - 1@offsetBetweenScreenAndAirinfo - 0.5@gcToBattleButtonPlaceWidth;
 
 @const queueTableWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
 
@@ -105,7 +121,9 @@
 @const nameWidthInWideScreen: (0.24 + 0.12@isWide)*@sf;
 @const clanNameTableWidth: 30@sf/100;
 @const clanMedalSizeMin: 80@sf/@pf_outdated;
-@const maxPresetNameItemWidth:0.6@nameWidth + 1@activateTabPaddingSum;
+@const minPresetNameTextWidth:(0.3 + 0.1@isWide) * 1@nameWidth;
+@const maxPresetNameTextWidth:(0.45 + 0.1@isWide) * 1@nameWidth;
+@const maxPresetNameItemWidth:1@maxPresetNameTextWidth + 1@activateTabPaddingSum;
 
 @const shopCols: 7;
 @const shopWidthMax: 180*@sf/@pf_outdated;
@@ -126,49 +144,51 @@
 @const slot_interval: 3*@sf/@pf_outdated;
 @const slot_vert_pad: 0.005*@scrn_tgt\1;
 @const slot_height:   @shopAirHeight + 10*@sf/@pf_outdated;
-@const slot_hdr_width:@cIco+6*@sf/@pf_outdated;
+@const slot_hdr_width:@cIco +12@sf/@pf;
 @const shop_vert_arrow_width: 15*@sf/@pf_outdated;
 @const shop_hor_arrow_height: 15*@sf/@pf_outdated;
 
-@const slotbar_pad_top: 10*@sf/@pf_outdated;
-@const slotbar_pad_bottom: 20*@sf/@pf_outdated;
+@const slotbar_top_shade: 2@dp;
+@const slotbar_pad_top: 15@sf/@pf;
+@const slotbar_pad_bottom: 36@sf/@pf;
 
 @const groupHeight:   0.03*@scrn_tgt\1;
 
 @const flightMenuBrHeight: 16*@sf/@pf_outdated;
 
-@const slotbarBorder: 16*@sf/@pf_outdated;
-@const slots_count1:   (((1@rw -1@slot_hdr_width -2@slot_interval -1*@scrn_tgt/100.0 -2@slotbarBorder)) \@slot_width) $min 10;
-@const slots_count5:   (((1@rw -@slotbarCountries*@slot_hdr_width -2@slot_interval -5*@scrn_tgt/100.0 -2@slotbarBorder)) \@slot_width) $min 10;
-@const slotsScrollDivWidth1:1@slot_width*1@slots_count1+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated;
-@const slotsScrollDivWidth5:1@slot_width*1@slots_count5+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated;
+@const slots_count1:   (((1@rw -1@slot_hdr_width -2@slot_interval -1*@scrn_tgt/100.0)) \@slot_width) $min 10;
+@const slots_count5:   (((1@rw -@slotbarCountries*@slot_hdr_width -2@slot_interval -5*@scrn_tgt/100.0)) \@slot_width) $min 10;
+@const slotsScrollDivWidth1:(1@slot_width*1@slots_count1+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated +1)\2*2;
+@const slotsScrollDivWidth5:(1@slot_width*1@slots_count5+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated +1)\2*2;
 
-@const slotbarWidth1:    1@slotsScrollDivWidth1 + 1@slot_hdr_width + 8*@sf/@pf_outdated;
-@const slotbarWidth5:    1@slotsScrollDivWidth5 + 1@slot_hdr_width * 1@slotbarCountries + (6 + 2@slotbarCountries)*@sf/@pf_outdated;
-@const slotbarWidthFull: 1@slotbarWidth5 + 1@slotbarBorder;
-@const slotbarHeight:    1@slot_height + 1@slotbar_pad_top + 1@slotbar_pad_bottom;
-@const offsetFromEdge:  10*@sf/@pf_outdated;
-@const offsetBetweenScreenAndAirinfo: 1@bw + (((0.5sw-1@bw-0.5@slotbarWidthFull) $max 1@mIco) $min 3@mIco);
+@const slotbarWidth1:    (1@slotsScrollDivWidth1 + 1@slot_hdr_width + 8*@sf/@pf_outdated +1)\2*2;
+@const slotbarWidth5:    (1@slotsScrollDivWidth5 + 1@slot_hdr_width * 1@slotbarCountries +1)\2*2;
+@const slotbarWidthFull: 1@slotbarWidth5;
+@const slotbarHeight:    1@slotbar_top_shade + 1@slotbar_pad_top + 1@slot_height + 1@slotbar_pad_bottom;
+@const slotbarInvisPad: 1@buttonHeight;
+@const offsetBetweenScreenAndAirinfo: 1@bw + (((0.5sw-1@bw-0.5@slotbarWidthFull) $max 1@mIco + 2@blockInterval) $min 3@mIco);
 @const airInfoPanelWidth: 0.4@sf;
+@const airInfoPanelShadowWidth: 0.07@sf;
+@const airInfoPanelDmSwitcherWidth: ((@airInfoPanelWidth - 2@listboxPad - 2@listboxItemsInterval) \ 3) * 3 + 2@listboxPad + 2@listboxItemsInterval; 
+@const slotbarOffset:    1@bottomBarHeight;
+@const slotbarTop:       36@sf/@pf;
 
-@const slotbarOffset:    1@bh + 0.054@scrn_tgt;
-@const slotbarTop:       1@checkboxSize + 2*@sf/@pf_outdated;
-
+@const offsetFromEdge:   1@frameHeaderPad + 1@buttonMargin;
 @const slotbarButtonsOffset:  0.5sw - 0.5@slotbarWidthFull + 1@offsetFromEdge;
 @const bigSOfs:               ((1@slotbarButtonsOffset) \ (0.20@sf)) $min 1;   
 @const borderButtonsOffset:   (1 - 1@bigSOfs) * @slotbarButtonsOffset + 1@bigSOfs * 1@bw;
 
-@const shopBottomOffset:  1@slotbarHeight+1@slotbarOffset + 1@slotbarTop;
-@const shopYPos: sh-1@shopBottomOffset+27@sf/@pf_outdated;
-@const shopWndWidth: 1@slotbarWidthFull + 2;
-@const battleBtnBottomOffset: sh-1@slotbarHeight-1@slotbarOffset-1@slotbarTop;
+@const shopBottomOffset: 1@wndWithSlotbarBottomOffset;
+@const shopYPos: sh -1@shopBottomOffset +1@slotbarTop;
+@const shopWndWidth: 1@slotbarWidthFull;
+@const battleBtnBottomOffset: sh-1@shopBottomOffset;
 
 @const onlineShopWidth: @sf $max 512;
 @const researchNotificationWidth: @sf $max 750;
 
 @const actionBarBottomPos: sh - 1@bhHud;
 
-@const framePadding: 1@blockInterval+4@dp; 
+@const framePadding: 1@blockInterval + 1@dp;
 @const unlockBlockWidth: 0.55@sf\1;
 
 @const modWindowWidth: 6@modCellWidth + 1.5@modBlockTierNumHeight $min 1@rw;
@@ -178,7 +198,7 @@
 @const modCellWidth:  1@modItemWidth +2@modPadSize;
 @const modCellHeight: 1@modItemHeight +2@modPadSize;
 
-@const wndWithSlotbarBottomOffset: 1@slotbarHeight + 1@slotbarOffset + 1@slotbarTop;
+@const wndWithSlotbarBottomOffset: 1@slotbarHeight +1@slotbarOffset +1@slotbar_top_shade +1@slotbarTop;
 @const maxWindowHeightNoSrh: sh - 1@bh - 1@titleLogoPlateHeight - 1@bottomBarHeight - 0.01@scrn_tgt;
 @const maxWindowHeight: 1@maxWindowHeightNoSrh $min 1@srh;
 @const maxWindowHeightWithSlotbar: sh - 1@bh - 1@titleLogoPlateHeight - 1@wndWithSlotbarBottomOffset;
@@ -198,15 +218,13 @@
 @const discountBoxDownHeight: 26*@sf/@pf_outdated;
 @const discountBoxHeight: 17*@sf/@pf_outdated;
 
-@const countryChoiceImageHeight: 1@countryChoiceImageWidth/8;
-@const unitChoiceImageHeight: 1@unitChoiceImageWidth/2;
 @const eventTacticalMapSize: 0.3@scrn_tgt;
-
 @const eventRewardWidth:  0.4@scrn_tgt;
 @const eventRewardHeight: 0.1@scrn_tgt;
 @const eventRewardIconHeight: 0.08@scrn_tgt;
 
-@const blockInterval:    3@dp;
+@const blockInterval:    6@sf/@pf;
+@const airInfoPadding:   10@sf/@pf;
 @const helpInterval:     0.01@sf;
 @const helpLineInterval: @helpInterval;
 @const helpLineWidth:    1@dp;
@@ -224,11 +242,11 @@
 
 @const framedMessageMaxWidth: 0.5@sf;
 
-@const hud_normal:     medium_text_hud;
-@const hud_small:      small_text_hud;@const hud_tiny:       tiny_text_hud;@const hud_veryTiny:   very_tiny_text_hud;
 @const infoPanelVertPosition: 1@titleLogoPlateHeight + 1@bh + 0.04@sf;
 
-@const gameModeSelectPaddingY: 1@topMenuBattleButtonHeight + 0.5@topMenuBattleButtonImgHeight + 3 + 1@bh';
+@const gameModeSelectPaddingTop: 1@topMenuBattleButtonHeight + 0.5@topMenuBattleButtonImgHeight + 3@dp + 1@bh';
+@const gameModeSelectPaddingBottom: 3@dp;
+@const gameModeSelectPadding: 1@gameModeSelectPaddingTop + 1@gameModeSelectPaddingBottom;
 
 
 
@@ -250,7 +268,5 @@
 
 @const shortcutRightDpAndStick: "J:Dpad.Right | J:L.Thumb.Right";
 @const shortcutRightDp: "J:Dpad.Right";
-
-@const missionItemTextPaddingLeft: 6*@sf/@pf_outdated;
 
 @const newTextClassIconWidgetImgPaddingLeft: 9*@sf/@pf_outdated;

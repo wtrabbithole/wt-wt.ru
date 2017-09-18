@@ -130,11 +130,11 @@
       "c_dural10": {
         "aileron_l_dm": {
           "genericDamageMult": 0.3,
-          "hp": 94.6
+          "hp": 100.5
         },
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
-          "hp": 94.2
+          "hp": 100.5
         },
         "elevator0_dm": {
           "genericDamageMult": 0.3,
@@ -248,6 +248,14 @@
           "hp": 79.5
         }
       },
+      "steel": {
+        "gear_l_dm": {
+          "hp": 80.5
+        },
+        "gear_r_dm": {
+          "hp": 80.5
+        }
+      },
       "steel_cooling_sys": {
         "oil1_dm": {
           "hp": 25.5
@@ -352,12 +360,6 @@
         },
         "gun9_dm": {
           "hp": 3.8
-        },
-        "gear_l_dm": {
-          "hp": 167.4
-        },
-        "gear_r_dm": {
-          "hp": 167.4
         }
       }
     }
@@ -1274,14 +1276,76 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_l_dm"
-        }
+        "part": [
+          {
+            "name": "gear_l_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
-        "part": {
-          "name": "gear_r_dm"
-        }
+        "part": [
+          {
+            "name": "gear_r_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": {
@@ -3423,14 +3487,6 @@
     }
   },
   {
-    "cutting": {
-      "wingRDist": [-7.81207,-6.81207],
-      "wingLDist": [6.86261,7.86261],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
     "user_skin": [
       {
         "name": "h8k"
@@ -3456,5 +3512,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.41843,0.0398697,2.35012],
+      "_emtr_break_wing0_l_to": [-1.41843,0.0398697,4.66034],
+      "emtr_break_wing1_l_from": [-1.41843,0.0398697,8.12568],
+      "emtr_break_wing1_l_to": [-1.41843,0.0398697,9.38362],
+      "emtr_break_wing2_l_from": [-1.41843,0.0398697,12.9606],
+      "emtr_break_wing2_l_to": [-1.41843,0.0398697,15.3418],
+      "_emtr_break_wing0_r_from": [-1.41843,0.0398683,-2.35012],
+      "_emtr_break_wing0_r_to": [-1.41843,0.0398683,-4.66034],
+      "emtr_break_wing1_r_from": [-1.41843,0.0398683,-8.12568],
+      "emtr_break_wing1_r_to": [-1.41843,0.0398683,-9.38362],
+      "emtr_break_wing2_r_from": [-1.41843,0.0398683,-12.9606],
+      "emtr_break_wing2_r_to": [-1.41843,0.0398683,-15.3418],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13.6844,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

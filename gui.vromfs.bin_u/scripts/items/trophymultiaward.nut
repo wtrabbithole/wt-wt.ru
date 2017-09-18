@@ -90,7 +90,7 @@ class TrophyMultiAward
       return header
 
     textList.insert(0, header + ::loc("ui/colon"))
-    return ::implode(textList, listDiv)
+    return ::g_string.implode(textList, listDiv)
   }
 
   function getAwardText(awardBlk, skipUnconditional = false, useBoldAsSmaller = false)
@@ -103,7 +103,7 @@ class TrophyMultiAward
 
       local uTypes = ::u.map(awardBlk % "type",
                                  function(t) { return ::colorize(goodsColor, ::loc("multiAward/type/" + t)) }.bindenv(this))
-      return ::implode(uTypes, listDiv)
+      return ::g_string.implode(uTypes, listDiv)
     }
 
     if (curAwardType == "modificationsList")
@@ -123,7 +123,7 @@ class TrophyMultiAward
 
       local uTypes = ::u.map(awardBlk % "resourceType",
                                  function(t) { return ::colorize(goodsColor, ::loc("multiAward/type/" + t)) }.bindenv(this))
-      return ::implode(uTypes, listDiv)
+      return ::g_string.implode(uTypes, listDiv)
     }
 
     local res = ::colorize(goodsColor, ::loc("multiAward/type/" + curAwardType))
@@ -150,7 +150,7 @@ class TrophyMultiAward
     _addCondCountries(awardBlk, condList)
     _addCondRanks(awardBlk, condList)
     _addCondUnitClass(awardBlk, condList)
-    return ::implode(condList, "; ")
+    return ::g_string.implode(condList, "; ")
   }
 
   function _addCondSpecialization(awardBlk, condList)
@@ -171,7 +171,7 @@ class TrophyMultiAward
     local text = ::loc("options/country") + ::loc("ui/colon")
     countries = ::u.map(countries,
                             function(val) { return ::colorize(condColor ::loc(val)) }.bindenv(this))
-    text += ::implode(countries, ", ")
+    text += ::g_string.implode(countries, ", ")
     condList.append(text)
   }
 
@@ -195,7 +195,7 @@ class TrophyMultiAward
                           return res + div + ::colorize(condColor, ::getUnitRankName(val.y))
                         }.bindenv(this))
 
-    text += ::implode(ranks, ", ")
+    text += ::g_string.implode(ranks, ", ")
     condList.append(text)
   }
 
@@ -209,11 +209,11 @@ class TrophyMultiAward
     classes = ::u.map(classes,
                           function(val) {
                             local role = val.tolower()
-                            role = ::cut_prefix(role, "exp_", role)
+                            role = ::g_string.cutPrefix(role, "exp_", role)
                             return ::colorize(condColor, ::get_role_text(role))
                           }.bindenv(this))
 
-    text += ::implode(classes, ", ")
+    text += ::g_string.implode(classes, ", ")
     condList.append(text)
   }
 

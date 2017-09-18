@@ -17,6 +17,13 @@
       <</selected>>
     <</disabled>>
 
+    <<#newIconWidget>>
+    tdiv {
+      id:t='filter_new_icon_widget'
+      <<@newIconWidget>>
+    }
+    <</newIconWidget>>
+
     <<#image>>
       shopFilterImg {
         background-image:t='<<image>>'
@@ -27,10 +34,6 @@
       text:t='<<text>>'
       hideEmptyText:t='yes'
     }
-
-    <<#needCheckBoxImg>>
-      CheckBoxImg {}
-    <</needCheckBoxImg>>
 
     <<#navigationImage>>
       <<@navigationImage>>

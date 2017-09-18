@@ -9,6 +9,7 @@ enum POINTING_DEVICE
 class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/artilleryMap.blk"
+  shouldBlurSceneBg = true
   keepLoaded = true
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_ARTILLERY |
                          CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD |
@@ -130,7 +131,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     local show = mapCoords != null
     local disp = mapCoords ? ::artillery_dispersion(mapCoords[0], mapCoords[1]) : -1
     local valid = show && disp >= 0 && artilleryEnabled
-    local dispersionRadius = valid ? (isSuperArtillery ? ::world_to_map(superStrikeRadius) : disp) : invalidTargetDispersionRadius
+    local dispersionRadius = valid ? (isSuperArtillery ? 2 * superStrikeRadius / mapSizeMeters : disp) : invalidTargetDispersionRadius
     valid = valid && artilleryReady
 
     objTarget.show(show)
@@ -363,16 +364,13 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
 function gui_start_artillery_map(params = {})
 {
-  local isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false)
-
-   ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap,
-   {
-     isSuperArtillery = isSuperArtillery
-     superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
-     iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
-     iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
-     mapSizeMeters = isSuperArtillery ? ::getTblValue("mapSizeMeters", params, 1400.0) : 1400.0
-   })
+  ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap,
+  {
+    isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false)
+    superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
+    iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
+    iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
+  })
 }
 
 function close_artillery_map() // called from client

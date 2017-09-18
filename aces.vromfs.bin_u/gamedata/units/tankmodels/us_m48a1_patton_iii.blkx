@@ -334,17 +334,22 @@
         "wheel_r_top_05_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 30.0,
-          "hp": 400.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_body_r_01_dm": {
-            "hp": 300.0
+            "hp": 200.0
           },
           "ex_armor_body_l_01_dm": {
-            "hp": 300.0
+            "hp": 200.0
           }
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -529,6 +534,20 @@
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
         "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -582,7 +601,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1020,6 +1040,13 @@
           {
             "onKill": {
               "damageType": "explosion",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
               "expl": 0.5,
               "fire": 0.5
             }

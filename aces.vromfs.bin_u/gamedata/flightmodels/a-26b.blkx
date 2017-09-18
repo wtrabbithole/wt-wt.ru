@@ -83,6 +83,12 @@
         "mgun10_dm": {
           "hp": 15.0
         },
+        "mgun11_dm": {
+          "hp": 15.0
+        },
+        "mgun12_dm": {
+          "hp": 15.0
+        },
         "mgun1_dm": {
           "hp": 15.0
         },
@@ -210,11 +216,25 @@
           "genericDamageMult": 0.3,
           "hp": 38.8
         },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 52.9
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 52.9
+        },
         "flap1_l_dm": {
           "hp": 43.6
         },
         "flap1_r_dm": {
           "hp": 43.6
+        },
+        "flap_l_dm": {
+          "hp": 34.5
+        },
+        "flap_r_dm": {
+          "hp": 34.5
         },
         "rudder_dm": {
           "genericDamageMult": 0.3,
@@ -303,6 +323,10 @@
         "gunner1_dm": {
           "hp": 20.0
         },
+        "pilot1_dm": {
+          "fireProtectionHp": 20.0,
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -310,7 +334,7 @@
       },
       "steel_tank_m": {
         "tank1_dm": {
-          "hp": 99.4
+          "hp": 80.5
         },
         "tank2_dm": {
           "hp": 61.7
@@ -319,33 +343,10 @@
           "hp": 61.7
         },
         "tank4_dm": {
-          "hp": 99.4
+          "hp": 80.5
         },
         "tank5_dm": {
           "hp": 55.5
-        }
-      },
-      "wood": {
-        "elevator0_dm": {
-          "hp": 44.7
-        },
-        "elevator1_dm": {
-          "hp": 44.7
-        },
-        "flap2_l_dm": {
-          "hp": 23.4
-        },
-        "flap2_r_dm": {
-          "hp": 23.4
-        },
-        "mgun11_dm": {
-          "hp": 9.5
-        },
-        "mgun12_dm": {
-          "hp": 24.6
-        },
-        "pilot1_dm": {
-          "hp": 20.8
         }
       }
     }
@@ -880,7 +881,7 @@
       {
         "part": [
           {
-            "name": "flap2_l_dm"
+            "name": "flap_l_dm"
           },
           {
             "onHit": {
@@ -937,7 +938,7 @@
       {
         "part": [
           {
-            "name": "flap2_r_dm"
+            "name": "flap_r_dm"
           },
           {
             "onHit": {
@@ -2814,7 +2815,6 @@
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
-      "new_engine_injection": [],
       "50cal_universal": [],
       "50cal_ground_targets": [],
       "50cal_tracers": [],
@@ -2879,5 +2879,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.48003,0.426608,1.22934],
+      "_emtr_break_wing0_l_to": [-1.48003,0.426608,1.90011],
+      "emtr_break_wing1_l_from": [-1.48003,0.426608,3.88617],
+      "emtr_break_wing1_l_to": [-1.48003,0.426608,4.96116],
+      "emtr_break_wing2_l_from": [-1.48003,0.426608,6.92729],
+      "emtr_break_wing2_l_to": [-1.48003,0.426608,8.42072],
+      "_emtr_break_wing0_r_from": [-1.48003,0.426608,-1.22934],
+      "_emtr_break_wing0_r_to": [-1.48003,0.426608,-1.90011],
+      "emtr_break_wing1_r_from": [-1.48003,0.426608,-3.88617],
+      "emtr_break_wing1_r_to": [-1.48003,0.426608,-4.96116],
+      "emtr_break_wing2_r_from": [-1.48003,0.426608,-6.92729],
+      "emtr_break_wing2_r_to": [-1.48003,0.426608,-8.42072],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.62696,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

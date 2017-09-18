@@ -12,7 +12,7 @@ options_list {
       value:t='<<option_value>>';
       on_select:t='onSelectedOptionChooseUnit';
       flow:t='horizontal';
-      tinyFont:t='yes';
+      smallFont:t='yes';
       optionsShortcuts:t='yes';
       <<#nums>>
       multiOption {

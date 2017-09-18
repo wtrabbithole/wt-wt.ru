@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType      = handlerType.MODAL
@@ -84,10 +87,10 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     /*body*/
     foreach(entry in historyArr)
     {
-      local t = get_time_from_t(entry.day * TIME_DAY_IN_SECONDS)
+      local t = get_time_from_t(time.daysToSeconds(entry.day))
       local rowParams = [
         {
-          text = ::build_date_str(t)
+          text = time.buildDateStr(t)
         },
         {
           text = ::format("%d", entry.value)

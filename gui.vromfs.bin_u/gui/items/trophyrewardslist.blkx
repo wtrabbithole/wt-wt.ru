@@ -3,7 +3,7 @@
     "background-color": "@modalShadeColor",
     "type": "big",
     "frame": {
-      "width": "1@itemWidth + 1@itemInfoWidth + 2@itemSpacing + 2@framePadding",
+      "width": "1@itemWidth + 2@itemSpacing + 1@blockInterval + 1@itemInfoWidth + 2@framePadding",
       "pos": "50%pw-50%w, 50%ph-50%h",
       "position": "absolute",
       "class": "wnd",
@@ -13,8 +13,7 @@
           "caption": "yes"
         },
         "Button_close": {
-          "id": "btn_back",
-          "img": []
+          "id": "btn_back"
         }
       },
       "tdiv": [
@@ -25,12 +24,12 @@
           "width": "pw"
         },
         {
-          "max-height": "3@itemHeight+ 2@itemSpacing + 2@framePadding"
+          "max-height": "3@itemHeight+ 4@itemSpacing + 2@framePadding"
         },
         {
           "frameBlock": {
             "id": "items_list",
-            "size": "fw, ph",
+            "width": "1@itemWidth + 2@itemSpacing",
             "flow": "vertical",
             "overflow-y": "auto",
             "itemShopList": "yes",
@@ -44,7 +43,7 @@
         },
         {
           "frameBlock": {
-            "size": "1@itemInfoWidth, ph",
+            "size": "fw, ph",
             "pos": "1@blockInterval, 0",
             "position": "relative",
             "padding-top": "1@itemSpacing",

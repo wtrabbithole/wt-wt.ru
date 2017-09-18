@@ -33,16 +33,12 @@ root {
 
       activeText {
         id:t='event_name';
-        position:t='relative';
-        pos:t='0, 0';
         text:t='<<eventName>>';
         caption:t='yes';
       }
       <</eventHeader>>
 
-      Button_close {
-        img {}
-      }
+      Button_close {}
     }
 
     tdiv {

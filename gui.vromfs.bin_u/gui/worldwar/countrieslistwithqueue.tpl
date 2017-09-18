@@ -11,13 +11,12 @@ tdiv {
     background-image:t='<<countryIcon>>'
   }
 
-  <<#amount>>
+  <<#teamsInfoText>>
   textareaNoTab {
     pos:t='pw/2-w/2, 0'
     position:t='relative'
-    text:t='<<amount>>'
-    overlayTextColor:t='<<#isJoined>>userlog<</isJoined>><<^isJoined>>active<</isJoined>>'
+    text:t='<<teamsInfoText>>'
   }
-  <</amount>>
+  <</teamsInfoText>>
 }
 <</countries>>

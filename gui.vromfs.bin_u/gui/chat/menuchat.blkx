@@ -29,37 +29,127 @@
       "class": "scaleable"
     },
     {
-      "padding-top": "7"
-    },
-    {
-      "padding-bottom": "0.75*@scrn_tgt/100.0"
+      "flow": "vertical"
     },
     {
       "moveElem": []
     },
     {
-      "HorizontalListBox": {
-        "id": "rooms_list",
-        "width": "pw - 4@buttonHeight",
-        "min-height": "1@buttonHeight",
-        "tinyFont": "yes",
-        "class": "tabs",
-        "flow": "h-flow",
+      "div": {
+        "width": "pw",
+        "height": "0",
         "input-transparent": "yes",
-        "navigator": "posNavigator",
-        "moveX": "linear",
-        "moveY": "closest",
-        "clearOnFocusLost": "no",
-        "navigatorShortcuts": "full",
-        "activateBy": "Y",
-        "on_select": "onRoomChanged",
-        "on_r_click": "onRoomRClick",
-        "on_dbl_click": "onRemoveRoom",
-        "on_cancel_edit": "goBack",
-        "on_wrap_up": "onWrapUp",
-        "on_wrap_down": "onWrapDown",
-        "on_wrap_right": "onSwitchHeaderObj",
-        "on_set_focus": "onChatFocus"
+        "min-height": "1@buttonHeight",
+        "position": "relative",
+        "padding": "-1@framePadding-1@dp",
+        "total-input-transparent": "yes",
+        "frame_header": {
+          "scaleable": "yes",
+          "HorizontalListBox": {
+            "id": "rooms_list",
+            "width": "pw - 3@buttonHeight",
+            "min-height": "1@buttonHeight",
+            "smallFont": "yes",
+            "class": "tabs",
+            "flow": "h-flow",
+            "input-transparent": "yes",
+            "navigator": "posNavigator",
+            "moveX": "linear",
+            "moveY": "closest",
+            "clearOnFocusLost": "no",
+            "navigatorShortcuts": "full",
+            "activateBy": "Y",
+            "isTransparentBg": "yes",
+            "on_select": "onRoomChanged",
+            "on_r_click": "onRoomRClick",
+            "on_dbl_click": "onRemoveRoom",
+            "on_cancel_edit": "goBack",
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown",
+            "on_wrap_right": "onSwitchHeaderObj",
+            "on_set_focus": "onChatFocus"
+          },
+          "Button_close": {
+            "id": "close_chat",
+            "normalIcon": "yes",
+            "_on_click": "goBack"
+          },
+          "top_right_holder": [
+            {
+              "id": "header_buttons"
+            },
+            {
+              "behaviour": "wrapNavigator"
+            },
+            {
+              "smallIcon": "yes"
+            },
+            {
+              "navigatorShortcuts": "cancel"
+            },
+            {
+              "childsActivate": "yes"
+            },
+            {
+              "on_wrap_up": "onWrapUp"
+            },
+            {
+              "on_wrap_down": "onWrapDown"
+            },
+            {
+              "on_wrap_left": "onSwitchHeaderObj"
+            },
+            {
+              "_on_cancel_edit": "goBack"
+            },
+            {
+              "on_set_focus": "onChatFocus"
+            },
+            {
+              "Button_text": {
+                "id": "btn_showSearchList",
+                "class": "image",
+                "visualStyle": "noFrame",
+                "showConsoleImage": "no",
+                "tooltip": "#channel/search",
+                "on_click": "onShowSearchList",
+                "display": "hide",
+                "enable": "no",
+                "img": {
+                  "background-image": "#ui/gameuiskin#btn_search"
+                }
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_showPlayersList",
+                "class": "image",
+                "visualStyle": "noFrame",
+                "showConsoleImage": "no",
+                "tooltip": "#channel/showPlayersList",
+                "on_click": "onShowPlayersList",
+                "display": "hide",
+                "enable": "no",
+                "img": {
+                  "background-image": "#ui/gameuiskin#btn_room_list"
+                }
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_create_room",
+                "class": "image",
+                "visualStyle": "noFrame",
+                "showConsoleImage": "no",
+                "tooltip": "#chat/createRoom",
+                "_on_click": "onRoomCreator",
+                "img": {
+                  "background-image": "#ui/gameuiskin#btn_create_room"
+                }
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -71,19 +161,20 @@
           "div": {
             "id": "middleLine",
             "size": "3@sIco + 0.26@sf, ph",
-            "min-width": "0.1@sf",
-            "max-width": "35%pw",
+            "min-width": "15*@scrn_tgt/100.0",
+            "max-width": "30%pw",
             "min-height": "ph",
             "max-height": "ph",
-            "padding-top": "0.5*@scrn_tgt/100.0",
-            "padding-right": "5",
+            "padding-top": "1@blockInterval",
+            "padding-right": "1@framePadding",
+            "border-offset": "@dp",
             "behaviour": "window-size",
             "window-size-border-mask": "R",
             "frame": {
               "size": "pw, ph",
               "flow": "vertical",
-              "tinyFont": "yes",
-              "style": "padding:0, 7, 0, 5;",
+              "smallFont": "yes",
+              "type": "dark",
               "groupList": {
                 "id": "users_list",
                 "imgType": "none",
@@ -138,7 +229,10 @@
               "flow": "vertical"
             },
             {
-              "padding-top": "0.5*@scrn_tgt/100.0"
+              "min-width": "20*@scrn_tgt/100.0"
+            },
+            {
+              "padding-top": "1@blockInterval"
             },
             {
               "div": {
@@ -153,6 +247,7 @@
                 "id": "menu_chat_custom_handler_block",
                 "size": "pw, fh",
                 "flow": "vertical",
+                "paddingSize": "small",
                 "display": "hide"
               }
             },
@@ -183,6 +278,8 @@
                   "id": "menuchat_input",
                   "width": "fw",
                   "height": "1@buttonHeight",
+                  "pos": "0, 1@blockInterval",
+                  "position": "relative",
                   "max-len": "250",
                   "selected": "yes",
                   "mouse-focusable": "yes",
@@ -192,16 +289,18 @@
                   "on_wrap_up": "onWrapUp",
                   "on_wrap_down": "onWrapDown",
                   "on_set_focus": "onChatFocus",
-                  "font": "@tiny",
-                  "text": ""
+                  "font": "@fontSmall",
+                  "text": "",
+                  "noMargin": "yes"
                 },
                 "Button_text": {
                   "id": "btn_send",
-                  "pos": "0.5*@scrn_tgt/100.0, 0",
+                  "pos": "1@blockInterval, 1@blockInterval",
                   "position": "relative",
                   "text": "#chat/send",
                   "on_click": "onChatSend",
-                  "style": "padding-left:1*@scrn_tgt/100.0; text-align:left; min-width:3h; margin-right:0;"
+                  "noMargin": "yes",
+                  "showConsoleImage": "no"
                 }
               }
             }
@@ -211,19 +310,20 @@
           "div": {
             "id": "searchDiv",
             "display": "hide",
-            "size": "21*@scrn_tgt/100.0, ph",
-            "min-width": "10*@scrn_tgt/100.0",
-            "max-width": "35%pw",
+            "size": "3@sIco + 0.26@sf, ph",
+            "min-width": "15*@scrn_tgt/100.0",
+            "max-width": "30%pw",
             "min-height": "ph",
             "max-height": "ph",
-            "padding-top": "0.5*@scrn_tgt/100.0",
-            "padding-left": "5",
+            "padding-top": "1@blockInterval",
+            "padding-left": "1@blockInterval",
             "behaviour": "window-size",
             "window-size-border-mask": "L",
             "frame": {
               "size": "pw, ph",
               "flow": "vertical",
-              "tinyFont": "yes",
+              "smallFont": "yes",
+              "type": "dark",
               "tdiv": {
                 "id": "search_channels_block",
                 "width": "pw",
@@ -232,7 +332,9 @@
                   "width": "pw",
                   "overflow": "hidden",
                   "activeText": {
-                    "tinyFont": "yes",
+                    "smallFont": "yes",
+                    "width": "pw",
+                    "pare-text": "yes",
                     "text": "#channel/search",
                     "min-height": "24"
                   },
@@ -242,18 +344,22 @@
                     "position": "absolute",
                     "tooltip": "#chat/backToMainChannels",
                     "on_click": "onMainChannels",
-                    "class": "image16",
+                    "class": "image",
+                    "imgSize": "small",
+                    "showConsoleImage": "no",
                     "img": {
                       "background-image": "#ui/gameuiskin#btn_undo"
                     }
                   }
                 },
                 "groupIns": {
+                  "noPadding": "yes",
                   "EditBox": {
                     "id": "search_edit",
                     "class": "showAlways",
                     "text": "",
                     "mouse-focusable": "yes",
+                    "noMargin": "yes",
                     "on_activate": "onSearchStart",
                     "on_cancel_edit": "onCancelSearchEdit",
                     "on_wrap_up": "onWrapUp",
@@ -261,9 +367,13 @@
                     "on_set_focus": "onChatFocus"
                   },
                   "Button_text": {
+                    "pos": "@blockInterval, 0.5ph-0.5h",
+                    "position": "relative",
                     "tooltip": "#channel/search",
                     "on_click": "onSearchStart",
-                    "class": "image16",
+                    "class": "image",
+                    "noMargin": "yes",
+                    "showConsoleImage": "no",
                     "img": {
                       "background-image": "#ui/gameuiskin#btn_search"
                     }
@@ -300,86 +410,6 @@
         "timer_handler_func": "onUpdate",
         "timer_interval_msec": "1000"
       }
-    },
-    {
-      "Button_close": {
-        "id": "close_chat",
-        "img": []
-      }
-    },
-    {
-      "top_right_holder": [
-        {
-          "id": "header_buttons"
-        },
-        {
-          "behaviour": "wrapNavigator"
-        },
-        {
-          "navigatorShortcuts": "cancel"
-        },
-        {
-          "childsActivate": "yes"
-        },
-        {
-          "on_wrap_up": "onWrapUp"
-        },
-        {
-          "on_wrap_down": "onWrapDown"
-        },
-        {
-          "on_wrap_left": "onSwitchHeaderObj"
-        },
-        {
-          "_on_cancel_edit": "goBack"
-        },
-        {
-          "on_set_focus": "onChatFocus"
-        },
-        {
-          "Button_text": {
-            "id": "btn_showSearchList",
-            "class": "header",
-            "size": "1@buttonHeight, 1@buttonHeight",
-            "tooltip": "#channel/search",
-            "on_click": "onShowSearchList",
-            "display": "hide",
-            "enable": "no",
-            "img": {
-              "background-image": "#ui/gameuiskin#btn_search",
-              "style": "size:@sIco,@sIco;"
-            }
-          }
-        },
-        {
-          "Button_text": {
-            "id": "btn_showPlayersList",
-            "class": "header",
-            "size": "1@buttonHeight, 1@buttonHeight",
-            "tooltip": "#channel/showPlayersList",
-            "on_click": "onShowPlayersList",
-            "display": "hide",
-            "enable": "no",
-            "img": {
-              "background-image": "#ui/gameuiskin#btn_room_list",
-              "style": "size:@sIco,@sIco;"
-            }
-          }
-        },
-        {
-          "Button_text": {
-            "id": "btn_create_room",
-            "class": "header",
-            "size": "1@buttonHeight, 1@buttonHeight",
-            "tooltip": "#chat/createRoom",
-            "_on_click": "onRoomCreator",
-            "img": {
-              "background-image": "#ui/gameuiskin#btn_create_room",
-              "style": "size:@sIco,@sIco;"
-            }
-          }
-        }
-      ]
     },
     {
       "dummy": {

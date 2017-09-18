@@ -13,18 +13,6 @@
       "padding": "4*@sf/@pf_outdated"
     },
     {
-      "background-image": "#ui/gameuiskin#rounded_container"
-    },
-    {
-      "background-color": "#EA000000"
-    },
-    {
-      "background-repeat": "expand"
-    },
-    {
-      "background-position": "5"
-    },
-    {
       "flow": "vertical"
     },
     {
@@ -38,7 +26,7 @@
         "id": "clusters_list",
         "width": "pw",
         "min-height": "1@buttonHeight",
-        "tinyFont": "yes",
+        "smallFont": "yes",
         "class": "tabs",
         "flow": "h-flow",
         "on_select": "onClusterChange"
@@ -91,6 +79,7 @@
         "enable": "no",
         "on_change_value": "onCustomModeCheckbox",
         "SwitchSliderBg": {
+          "SwitchSliderBgOn": [],
           "SwitchSlider": []
         }
       }
@@ -115,8 +104,7 @@
           "animated_wait_icon": {
             "pos": "0, 50%ph-50%h",
             "position": "relative",
-            "background-rotation": "0",
-            "wait_icon_cock": []
+            "background-rotation": "0"
           }
         }
       }

@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 function gui_start_open_trophy(configsTable = {})
 {
   if (configsTable.len() == 0)
@@ -128,11 +131,11 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     {
       local totalRentTime = unit.getRentTimeleft()
       local rentText = "mainmenu/rent/rent_unit"
-      if (totalRentTime > (rentTimeHours * TIME_HOUR_IN_SECONDS))
+      if (totalRentTime > time.hoursToSeconds(rentTimeHours))
         rentText = "mainmenu/rent/rent_unit_extended"
 
       rentText = ::loc(rentText) + "\n"
-      local timeText = ::colorize("userlogColoredText", ::hoursToString(totalRentTime / TIME_HOUR_IN_SECONDS_F))
+      local timeText = ::colorize("userlogColoredText", time.hoursToString(totalRentTime))
       rentText += ::loc("mainmenu/rent/rentTimeSec", {time = timeText})
 
       scene.findObject("prize_desc_text").setValue(::colorize("activeTextColor", rentText))
@@ -140,7 +143,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     guiScene.replaceContentFromText(obj, data, data.len(), this)
   }
-
+  
   function onTakeNavBar()
   {
     if (!unit)

@@ -7,6 +7,7 @@ textAreaCentered {
   tdiv {
     pos:t='-w, 50%ph-50%h'
     position:t='absolute'
+    padding-right:t='1@blockInterval'
     include "gui/worldWar/countriesListWithQueue"
   }
   <</side1>>
@@ -15,6 +16,7 @@ textAreaCentered {
   tdiv {
     pos:t='pw, 50%ph-50%h'
     position:t='absolute'
+    padding-left:t='1@blockInterval'
     include "gui/worldWar/countriesListWithQueue"
   }
   <</side2>>

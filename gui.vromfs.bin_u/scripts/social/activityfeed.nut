@@ -186,8 +186,8 @@ function ps4PostActivityFeed(config, customFeedParams)
   local fileExtension = ::getTblValue("fileExtension", imageUrlsConfig, "")
 
   local requestBody = ""
-  requestBody += "\"captions\": {" + ::implode(captions, ",") + "},"
-  requestBody += "\"condensedCaptions\": {" + ::implode(condensedCaptions, ",") + "},"
+  requestBody += "\"captions\": {" + ::g_string.implode(captions, ",") + "},"
+  requestBody += "\"condensedCaptions\": {" + ::g_string.implode(condensedCaptions, ",") + "},"
 
   requestBody += "\"storyType\": \"IN_GAME_POST\","
   requestBody += "\"subType\": " + subType + ","
@@ -208,7 +208,7 @@ function ps4PostActivityFeed(config, customFeedParams)
     smallImageTarget = "{\"meta\":\"" + smallImage + fileExtension + "\",\"type\":\"SMALL_IMAGE_URL\",\"aspectRatio\":\"2.08:1\"}"
 
   local targets = [largeImageTarget, onlineIdTarget, smallImageTarget]
-  requestBody += "\"targets\": [" + ::implode(targets, ",") + "]"
+  requestBody += "\"targets\": [" + ::g_string.implode(targets, ",") + "]"
 
   blk.request = "{" + ::stringReplace(requestBody, "\t", "") + "}"
   local ret = ::ps4_web_api_request(blk)

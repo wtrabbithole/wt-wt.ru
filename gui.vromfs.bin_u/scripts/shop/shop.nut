@@ -52,6 +52,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   wndType = handlerType.CUSTOM
   sceneBlkName = "gui/shop/shopInclude.blk"
   sceneNavBlkName = "gui/shop/shopNav.blk"
+  shouldBlurSceneBg = false
   keepLoaded = true
   boughtVehiclesCount = null
   totalVehiclesCount = null
@@ -1033,47 +1034,66 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function generateHeaders(treeData)
   {
     local obj = scene.findObject("tree_header_div")
-    local data = ""
-    local treeHeaderFormat = "modBlockHeader { text { text:t='%s'; width:t='pw'; top:t='ph/2-h/2' text-align:t='center'; position:t='absolute' } pos:t='%s, %s'; width:t='%s' } "
+    local view = {
+      plates = [],
+      separators = [],
+    }
 
     local sectionsTotal = treeData.sectionsPos.len() - 1
     local totalWidth = guiScene.calcString("1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize", null)
     local itemWidth = guiScene.calcString("@shop_width", null)
-    local extraW = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
+
+    local extraWidth = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
+    local extraLeft = extraWidth + "+1@modBlockTierNumHeight"
+    local extraRight = extraWidth + "+1@scrollBarSize"
 
     for (local s = 0; s < sectionsTotal; s++)
     {
       local isLeft = s == 0
       local isRight = s == sectionsTotal - 1
 
-      local x = treeData.sectionsPos[s] + "@shop_width" + (isLeft ? "" : extraW) + "+1@modBlockTierNumHeight"
-      local w = (treeData.sectionsPos[s + 1] - treeData.sectionsPos[s]) + "@shop_width" + (isLeft ? extraW : "") + (isRight ? extraW : "")
+      local x = treeData.sectionsPos[s] + "@shop_width" + (isLeft ? "" : extraLeft)
+      local w = (treeData.sectionsPos[s + 1] - treeData.sectionsPos[s]) + "@shop_width" + (isLeft ? extraLeft : "") + (isRight ? extraRight : "")
 
       local isResearchable = ::getTblValue(s, treeData.sectionsResearchable)
       local title = isResearchable ? "#shop/section/researchable" : "#shop/section/premium"
-      data += ::format(treeHeaderFormat, title, x, "0", w)
-    }
-    data += "modBlockHeader { width:t='1@modBlockTierNumHeight' } "
 
+      view.plates.append({ title = title, x = x, w = w })
+      if (!isLeft)
+        view.separators.append({ x = x })
+    }
+
+    local data = ::handyman.renderCached("gui/shop/treeHeadPlates", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
   }
 
   function generateBGPlates(treeData)
   {
     local tblBgObj = scene.findObject("shopTable_air_plates")
-    local data = ""
-    local plateFormat = "shopRow {id:t='shop_tier_%s'; type:t='%s'; pos:t='%s, %s'; size:t='%s, %s'; tooltip:t=''; }"
+    local view = {
+      plates = [],
+      vertSeparators = [],
+      horSeparators = [],
+    }
 
-    local tiersTotal = min(treeData.ranksHeight.len() - 1, treeData.tree.len())
+    local lastFilledRank = treeData.ranksHeight.len() - 1
+    for(local i = lastFilledRank - 1; i >= 0; i--)
+    {
+      if (treeData.ranksHeight[i] != treeData.ranksHeight[lastFilledRank])
+        break
+      lastFilledRank = i
+    }
+
+    local tiersTotal = min(lastFilledRank, treeData.tree.len())
     local sectionsTotal = treeData.sectionsPos.len() - 1
 
     local totalWidth = guiScene.calcString("1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize", null)
     local itemWidth = guiScene.calcString("@shop_width", null)
-    local extraW = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
 
-    local treeHeaderHeight = "+1@buttonHeight"
-    local extraHTop = "+1@shop_h_extra_first"
-    local extraHBottom = "+1@shop_h_extra_last"
+    local extraRight = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
+    local extraLeft = extraRight + "+1@modBlockTierNumHeight"
+    local extraTop = "+1@shop_h_extra_first"
+    local extraBottom = "+1@shop_h_extra_last"
 
     for(local i = 0; i < tiersTotal; i++)
     {
@@ -1084,19 +1104,24 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
       for(local s = 0; s < sectionsTotal; s++)
       {
+        local isLeft = s == 0
+        local isRight = s == sectionsTotal - 1
         local isResearchable = ::getTblValue(s, treeData.sectionsResearchable)
         local tierType = tierUnlocked || !isResearchable ? "unlocked" : "locked"
 
-        local isLeft = s == 0
-        local isRight = s == sectionsTotal - 1
+        local x = treeData.sectionsPos[s] + "@shop_width" + (isLeft ? "" : extraLeft)
+        local y = treeData.ranksHeight[i] + "@shop_height" + (isTop ? "" : extraTop)
+        local w = (treeData.sectionsPos[s + 1] - treeData.sectionsPos[s]) + "@shop_width" + (isLeft ? extraLeft : "") + (isRight ? extraRight : "")
+        local h = (treeData.ranksHeight[i + 1] - treeData.ranksHeight[i]) + "@shop_height" + (isTop ? extraTop : "") + (isBottom ? extraBottom : "")
 
-        local x = treeData.sectionsPos[s] + "@shop_width" + (isLeft ? "" : extraW)
-        local y = treeData.ranksHeight[i] + "@shop_height" + treeHeaderHeight + (isTop ? "" : extraHTop)
-        local w = (treeData.sectionsPos[s + 1] - treeData.sectionsPos[s]) + "@shop_width" + (isLeft ? extraW : "") + (isRight ? extraW : "")
-        local h = (treeData.ranksHeight[i + 1] - treeData.ranksHeight[i]) + "@shop_height" + (isTop ? extraHTop : "") + (isBottom ? extraHBottom : "")
-        data += ::format(plateFormat, tierNum, tierType, x, y, w, h)
+        view.plates.append({ tierNum = tierNum, tierType = tierType, x = x, y = y, w = w, h = h })
+        if (!isLeft)
+          view.vertSeparators.append({ x = x, y = y, h = h, isTop = isTop, isBottom = isBottom })
+        if (!isTop)
+          view.horSeparators.append({ x = x, y = y, w = w, isLeft = isLeft })
       }
     }
+    local data = ::handyman.renderCached("gui/shop/treeBgPlates", view)
     guiScene.replaceContentFromText(tblBgObj, data, data.len(), this)
   }
 
@@ -1188,7 +1213,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                     treeData.ranksHeight[i-2].tostring(),
                     status,
                     texts.reqCounter,
-                    ::stripTags(::tooltipColorTheme(texts.tooltipReqCounter))
+                    ::g_string.stripTags(texts.tooltipReqCounter)
                     )
       }
 
@@ -1196,13 +1221,13 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                   status,
                   prevEraPos.tostring(),
                   ::loc("options/chooseUnitsRank/rank_" + i),
-                  ::stripTags(::tooltipColorTheme(texts.tooltipRank)))
+                  ::g_string.stripTags(texts.tooltipRank))
 
       data += arrowData
 
       local tierObj = scene.findObject("shop_tier_" + i.tostring())
       if (::checkObj(tierObj))
-        tierObj.tooltip = ::tooltipColorTheme(texts.tooltipPlate)
+        tierObj.tooltip = texts.tooltipPlate
     }
 
     local height = treeData.ranksHeight[treeData.ranksHeight.len()-1] + "@shop_height"
@@ -1210,7 +1235,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     tierObj.height = height
     guiScene.replaceContentFromText(tierObj, data, data.len(), this)
 
-    scene.findObject("shop_items_scroll_div").height = height + " + 1@buttonHeight + 1@shop_h_extra_first + 1@shop_h_extra_last"
+    scene.findObject("shop_items_scroll_div").height = height + " + 1@shop_h_extra_first + 1@shop_h_extra_last"
   }
 
   function updateBoughtVehiclesCount()
@@ -2403,6 +2428,15 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       destroyGroupChoose()
     if (show)
       popDelayedActions()
+  }
+
+  function onEventShopWndAnimation(p)
+  {
+    if (::getTblValue("isVisible", p, false))
+    {
+      shouldBlurSceneBg = ::getTblValue("isShow", p, false)
+      ::handlersManager.updateSceneBgBlur()
+    }
   }
 
   function onUnitSelect() {}

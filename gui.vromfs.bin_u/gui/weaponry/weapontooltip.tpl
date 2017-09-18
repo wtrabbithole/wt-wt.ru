@@ -12,7 +12,7 @@ tdiv {
   table {
     allAlignLeft:t="yes"
     class:t='noPad'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     <<#bulletActions>>
     tr {
       td {
@@ -53,7 +53,7 @@ tdiv {
       //position:t='relative'
       allAlignLeft:t="yes"
       class:t='noPad'
-      tinyFont:t='yes'
+      smallFont:t='yes'
 
       <<#props>>
       tr {
@@ -91,7 +91,7 @@ tdiv {
     textareaNoTab {
       pos:t='2@sf/@pf_outdated, ph/2-h/2'
       position:t='relative'
-      tinyFont:t='yes'
+      smallFont:t='yes'
       overlayTextColor:t='warning'
       text:t='<<warningText>>'
     }
@@ -102,7 +102,7 @@ tdiv {
   textareaNoTab {
     pos:t='pw-w, 5'
     position:t='relative'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     text:t='<<amountText>>'
   }
   <</amountText>>
@@ -114,12 +114,11 @@ tdiv {
     pos:t="50%pw-50%w,0";
     position:t='relative';
     background-rotation:t = '0'
-    wait_icon_cock {}
   }
   <</delayed>>
   <<#expText>>
   textareaNoTab {
-    tinyFont:t='yes'
+    smallFont:t='yes'
     pos:t='pw-w, 5'
     position:t='relative'
     text:t='<<expText>>'
@@ -128,7 +127,7 @@ tdiv {
   <<#showPrice>>
   tdiv{
     id:t='discount';
-    tinyFont:t='yes'
+    smallFont:t='yes'
     pos:t='pw-w, 5'
     position:t='relative'
     textareaNoTab{

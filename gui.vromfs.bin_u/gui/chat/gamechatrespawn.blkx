@@ -17,7 +17,7 @@
         "class": "tabs"
       },
       {
-        "tinyFont": "yes"
+        "smallFont": "yes"
       },
       {
         "navigatorShortcuts": "yes"
@@ -48,18 +48,14 @@
         }
       }
     ],
-    "tdiv": {
-      "pos": "0, -3px",
+    "EditBoxBG": {
+      "pos": "0, -2@dp",
       "position": "relative",
       "width": "pw",
       "height": "fh",
       "overflow-y": "auto",
       "auto-scroll": "yes",
       "padding": "0.5*@scrn_tgt/100.0",
-      "background-repeat": "expand",
-      "background-position": "5",
-      "background-image": "#ui/gameuiskin#editbox",
-      "background-color": "@editboxBGColor",
       "chatLog": {
         "width": "pw",
         "id": "chat_log",
@@ -82,7 +78,7 @@
         "position": "relative"
       },
       {
-        "margin-top": "5*@sf/@pf_outdated"
+        "margin-top": "1@blockInterval"
       },
       {
         "size": "pw, @buttonHeight"
@@ -92,37 +88,42 @@
           "id": "chat_prompt",
           "text": "",
           "width": "15*@scrn_tgt/100.0",
-          "top": "50%ph-50%h",
+          "pos": "0, ph/2-h/2",
           "position": "relative",
-          "style": "padding-left:1*@scrn_tgt/100.0; text-align:left; min-width:15*@scrn_tgt/100.0;",
+          "style": "padding-left:1*@scrn_tgt/100.0; min-width:15*@scrn_tgt/100.0;",
+          "showConsoleImage": "no",
           "_on_click": "onChatMode",
-          "accesskey": "Tab"
+          "accesskey": "Tab",
+          "noMargin": "yes"
         }
       },
       {
         "EditBox": {
           "text": "",
           "id": "chat_input",
-          "width": "pw-30.5*@scrn_tgt/100.0",
+          "pos": "1@blockInterval, ph/2-h/2",
+          "position": "relative",
+          "width": "pw -30@scrn_tgt/100.0 -2@blockInterval",
           "max-len": "250",
           "on_activate": "onChatEntered",
           "on_cancel_edit": "onChatCancel",
           "on_change_value": "onChatChanged",
           "on_wrap_up": "onWrapUp",
           "on_wrap_down": "onWrapDown",
-          "mouse-focusable": "yes",
-          "margin-right": "0.5*@scrn_tgt/100.0"
+          "mouse-focusable": "yes"
         }
       },
       {
         "Button_text": {
           "id": "btn_send",
           "width": "15*@scrn_tgt/100.0",
-          "top": "50%ph-50%h",
+          "pos": "1@blockInterval, ph/2-h/2",
           "position": "relative",
           "text": "#chat/send",
           "_on_click": "onChatSend",
-          "style": "padding-left:1*@scrn_tgt/100.0; text-align:left; min-width:15*@scrn_tgt/100.0;"
+          "showConsoleImage": "no",
+          "style": "padding-left:1*@scrn_tgt/100.0; min-width:15*@scrn_tgt/100.0;",
+          "noMargin": "yes"
         }
       }
     ]

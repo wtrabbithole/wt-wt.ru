@@ -1,22 +1,3 @@
-function max(a, b) {
-  return a>b ? a : b
-}
-
-
-function min(a, b) {
-  return a<b ? a : b
-}
-
-
-function clamp(x, lo, hi) {
-  if (x < lo)
-    return lo
-  if (x > hi)
-    return hi
-  return x
-}
-
-
 function with_table(tbl, func) {
   local roottbl = ::getroottable()
   local accessor = class {
@@ -184,7 +165,7 @@ function tostring_r(input, indent = "  ") {
       else {
         out += "\n" + indent
         if (!arrayElem) {
-          tostring_any(key) +  " = "
+          out += tostring_any(key) +  " = "
         }
         out += tostring_any(value) + "\n"
       }

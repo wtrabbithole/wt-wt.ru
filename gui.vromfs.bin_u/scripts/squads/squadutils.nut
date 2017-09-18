@@ -305,7 +305,7 @@ function g_squad_utils::checkAndShowHasOfflinePlayersPopup()
     return
 
   local text = ::loc("squad/has_offline_members") + ::loc("ui/colon")
-  text += ::implode(::u.map(offlineMembers,
+  text += ::g_string.implode(::u.map(offlineMembers,
                             function(memberData)
                             {
                               return ::colorize("warningTextColor", memberData.name)
@@ -400,7 +400,7 @@ function g_squad_utils::isEventAllowedForAllMembers(eventEconomicName, isSilent 
   if (res || isSilent)
     return res
 
-  local mText = ::implode(
+  local mText = ::g_string.implode(
     ::u.map(notAvailableMemberNames, function(name) { return ::colorize("userlogColoredText", name) })
     ", "
   )

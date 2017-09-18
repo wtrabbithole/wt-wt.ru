@@ -133,10 +133,34 @@
         }
       },
       "dural": {
+        "cover10_dm": {
+          "hp": 19.5
+        },
         "cover1_dm": {
           "hp": 19.5
         },
         "cover2_dm": {
+          "hp": 19.5
+        },
+        "cover3_dm": {
+          "hp": 19.5
+        },
+        "cover4_dm": {
+          "hp": 19.5
+        },
+        "cover5_dm": {
+          "hp": 19.5
+        },
+        "cover6_dm": {
+          "hp": 19.5
+        },
+        "cover7_dm": {
+          "hp": 19.5
+        },
+        "cover8_dm": {
+          "hp": 19.5
+        },
+        "cover9_dm": {
           "hp": 19.5
         }
       },
@@ -182,6 +206,9 @@
       "steel_cooling_sys": {
         "water1_dm": {
           "hp": 15.7
+        },
+        "water2_dm": {
+          "hp": 12.4
         }
       },
       "steel_cooling_sys_light": {
@@ -197,42 +224,13 @@
       },
       "steel_tank_light": {
         "tank1_dm": {
-          "hp": 55.5
+          "hp": 45.0
         },
         "tank2_dm": {
-          "hp": 55.5
+          "hp": 28.1
         },
         "tank3_dm": {
-          "hp": 55.5
-        }
-      },
-      "wood": {
-        "cover10_dm": {
-          "hp": 1.6
-        },
-        "cover3_dm": {
-          "hp": 2.6
-        },
-        "cover4_dm": {
-          "hp": 13.1
-        },
-        "cover5_dm": {
-          "hp": 2.6
-        },
-        "cover6_dm": {
-          "hp": 13.1
-        },
-        "cover7_dm": {
-          "hp": 16.6
-        },
-        "cover8_dm": {
-          "hp": 8.2
-        },
-        "cover9_dm": {
-          "hp": 8.2
-        },
-        "water2_dm": {
-          "hp": 5.4
+          "hp": 31.9
         }
       }
     }
@@ -1847,6 +1845,16 @@
     }
   },
   {
+    "cut_parts": {
+      "wing1_l": {
+        "part": "wires_l"
+      },
+      "wing1_r": {
+        "part": "wires_r"
+      }
+    }
+  },
+  {
     "fireParams": {
       "engineExtinguishFireSpeed": [55.0,138.0],
       "engineExtinguishFireSpeedChance": [0.01,0.1],
@@ -1950,14 +1958,6 @@
         "reqModification": "type89_belt_pack",
         "tier": 3
       }
-    }
-  },
-  {
-    "cutting": {
-      "wingRDist": [-5.48652,-4.48652],
-      "wingLDist": [1.63665,2.63665],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
     }
   },
   {
@@ -2158,10 +2158,26 @@
   },
   {
     "cutting": {
-      "wingRDist": [-5.48652,-4.48652],
-      "wingLDist": [1.63665,2.63665],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "emtr_break_wing0_l_from": [-0.77807,-0.445777,0.922964],
+      "emtr_break_wing0_l_to": [-0.77807,-0.445777,1.42231],
+      "emtr_break_wing1_l_from": [-0.77807,-0.445777,0.700894],
+      "emtr_break_wing1_l_to": [-0.77807,-0.445777,1.33796],
+      "emtr_break_wing2_l_from": [-0.77807,-0.445777,2.29356],
+      "emtr_break_wing2_l_to": [-0.77807,-0.445777,3.3735],
+      "emtr_break_wing0_r_from": [-0.77807,-0.445777,-0.922964],
+      "emtr_break_wing0_r_to": [-0.77807,-0.445777,-1.42231],
+      "emtr_break_wing1_r_from": [-0.77807,-0.445777,-0.700894],
+      "emtr_break_wing1_r_to": [-0.77807,-0.445777,-1.33796],
+      "emtr_break_wing2_r_from": [-0.77807,-0.445777,-2.29356],
+      "emtr_break_wing2_r_to": [-0.77807,-0.445777,-3.3735],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-3.51162,0.0,0.0]
+      ],
+      "emtr_break_wing_biplane": [-0.77807,-0.114332,0.0],
+      "partKindTail": 2
     }
   }
 ]

@@ -52,7 +52,9 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
 
   function isValid()
   {
-    return !isAccepted && !::g_mroom_info.get(roomId).isRoomDestroyed
+    return !isAccepted
+        && !::g_mroom_info.get(roomId).isRoomDestroyed
+        && !::is_psn_player_use_same_titleId(inviterName)
   }
 
   function remove()

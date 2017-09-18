@@ -101,27 +101,27 @@
       "armor_engine": {
         "engine1_dm": {
           "genericDamageMult": 1.6,
-          "hp": 66.0
+          "hp": 40.5
         },
         "engine2_dm": {
           "genericDamageMult": 1.6,
-          "hp": 66.0
+          "hp": 40.5
         },
         "engine3_dm": {
           "genericDamageMult": 1.6,
-          "hp": 66.0
+          "hp": 40.5
         },
         "engine4_dm": {
           "genericDamageMult": 1.6,
-          "hp": 66.0
+          "hp": 40.5
         },
         "engine5_dm": {
           "genericDamageMult": 1.6,
-          "hp": 66.0
+          "hp": 40.5
         },
         "engine6_dm": {
           "genericDamageMult": 1.6,
-          "hp": 66.0
+          "hp": 40.5
         }
       },
       "c_dural10": {
@@ -198,6 +198,15 @@
         }
       },
       "dural": {
+        "cover10_dm": {
+          "hp": 19.5
+        },
+        "cover11_dm": {
+          "hp": 19.5
+        },
+        "cover12_dm": {
+          "hp": 19.5
+        },
         "cover1_dm": {
           "hp": 40.5
         },
@@ -212,6 +221,18 @@
         },
         "cover5_dm": {
           "hp": 40.5
+        },
+        "cover6_dm": {
+          "hp": 40.5
+        },
+        "cover7_dm": {
+          "hp": 19.5
+        },
+        "cover8_dm": {
+          "hp": 19.5
+        },
+        "cover9_dm": {
+          "hp": 19.5
         }
       },
       "dural100": {
@@ -246,6 +267,14 @@
         },
         "wingcontrol_r_dm": {
           "hp": 79.5
+        }
+      },
+      "steel": {
+        "gear_l_dm": {
+          "hp": 80.5
+        },
+        "gear_r_dm": {
+          "hp": 80.5
         }
       },
       "steel_cooling_sys": {
@@ -347,35 +376,6 @@
         },
         "tank6_dm": {
           "hp": 120.5
-        }
-      },
-      "wood": {
-        "cover10_dm": {
-          "hp": 54.3
-        },
-        "cover11_dm": {
-          "hp": 54.3
-        },
-        "cover12_dm": {
-          "hp": 54.3
-        },
-        "cover6_dm": {
-          "hp": 378.2
-        },
-        "cover7_dm": {
-          "hp": 54.3
-        },
-        "cover8_dm": {
-          "hp": 34.4
-        },
-        "cover9_dm": {
-          "hp": 25.7
-        },
-        "gear_l_dm": {
-          "hp": 167.4
-        },
-        "gear_r_dm": {
-          "hp": 167.4
         }
       }
     }
@@ -1392,14 +1392,76 @@
         ]
       },
       {
-        "part": {
-          "name": "gear_l_dm"
-        }
+        "part": [
+          {
+            "name": "gear_l_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
-        "part": {
-          "name": "gear_r_dm"
-        }
+        "part": [
+          {
+            "name": "gear_r_dm"
+          },
+          {
+            "onHit": {
+              "damage": 15.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 25.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 40.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 60.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": {
@@ -1455,10 +1517,10 @@
         "part": {
           "name": "oil10_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1466,10 +1528,10 @@
         "part": {
           "name": "oil11_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1477,10 +1539,10 @@
         "part": {
           "name": "oil12_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1488,10 +1550,10 @@
         "part": {
           "name": "oil1_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1499,10 +1561,10 @@
         "part": {
           "name": "oil2_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1510,10 +1572,10 @@
         "part": {
           "name": "oil3_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1521,10 +1583,10 @@
         "part": {
           "name": "oil4_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1532,10 +1594,10 @@
         "part": {
           "name": "oil5_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1543,10 +1605,10 @@
         "part": {
           "name": "oil6_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1554,10 +1616,10 @@
         "part": {
           "name": "oil7_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1565,10 +1627,10 @@
         "part": {
           "name": "oil8_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -1576,10 +1638,10 @@
         "part": {
           "name": "oil9_dm",
           "onHit": {
-            "leak_oil": 0.95
+            "leak_water": 0.5
           },
           "onKill": {
-            "leak_oil": 1.0
+            "leak_water": 1.0
           }
         }
       },
@@ -3779,10 +3841,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-7.81207,-6.81207],
-      "wingLDist": [6.86261,7.86261],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-1.02643,-0.533258,3.43664],
+      "_emtr_break_wing0_l_to": [-1.02643,-0.533258,6.56701],
+      "emtr_break_wing1_l_from": [-1.02643,-0.533258,11.2626],
+      "emtr_break_wing1_l_to": [-1.02643,-0.533258,13.8696],
+      "emtr_break_wing2_l_from": [-1.02643,-0.533258,20.6493],
+      "emtr_break_wing2_l_to": [-1.02643,-0.533258,24.3625],
+      "_emtr_break_wing0_r_from": [-1.02643,-0.533255,-3.43664],
+      "_emtr_break_wing0_r_to": [-1.02643,-0.533255,-6.56701],
+      "emtr_break_wing1_r_from": [-1.02643,-0.533255,-11.2626],
+      "emtr_break_wing1_r_to": [-1.02643,-0.533255,-13.8624],
+      "emtr_break_wing2_r_from": [-1.02643,-0.533255,-20.6493],
+      "emtr_break_wing2_r_to": [-1.02643,-0.533255,-24.3625],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-19.6572,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

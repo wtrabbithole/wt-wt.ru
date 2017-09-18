@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -45,7 +48,7 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
     {
       threadTimeTbl = ::get_time_from_t(threadInfo.timeStamp)
       timeHeader += ::loc("ui/colon")
-                  + ::build_date_time_str(threadTimeTbl)
+                  + time.buildDateTimeStr(threadTimeTbl)
     }
     scene.findObject("thread_time_header").setValue(timeHeader)
 
@@ -146,7 +149,7 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     local text = ""
     if (timeTbl)
-      text = " -> " + ::build_date_time_str(timeTbl)
+      text = " -> " + time.buildDateTimeStr(timeTbl)
     scene.findObject("new_time_text").setValue(text)
   }
 
@@ -155,7 +158,7 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
     local timeStr = obj.getValue() || ""
     local timeTbl = null
     if (timeStr != "")
-      timeTbl = ::get_time_from_string(timeStr, threadTimeTbl)
+      timeTbl = time.getTimeFromString(timeStr, threadTimeTbl)
 
     updateSelTimeText(timeTbl)
     curTime = timeTbl ? ::mktime(timeTbl) : -1
@@ -183,9 +186,9 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
     local menu = []
     foreach(hours in hoursList)
       menu.append({
-        text = ::loc("chat/pinThreadForTime", { time = ::hoursToString(hours) })
+        text = ::loc("chat/pinThreadForTime", { time = time.hoursToString(hours) })
         action = (@(hours) function() {
-          local timeInt = ::get_charserver_time_sec() + hours * TIME_HOUR_IN_SECONDS
+          local timeInt = ::get_charserver_time_sec() + time.hoursToSeconds(hours)
           setChatTime(::get_time_from_t(timeInt))
         })(hours)
       })

@@ -48,6 +48,7 @@ table {
         position:t='relative';
         redDisabled:t='yes'
         showOn = "hoverOrSelect"
+        noMargin:t='yes'
 
         text:t='#mainmenu/btnBuy'
         tooltip:t='#mainmenu/btnBuySkillPoints'

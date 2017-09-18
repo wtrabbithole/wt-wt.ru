@@ -58,6 +58,12 @@
         },
         "mgun2_dm": {
           "hp": 15.0
+        },
+        "mgun3_dm": {
+          "hp": 15.0
+        },
+        "mgun4_dm": {
+          "hp": 15.0
         }
       },
       "armor10_5": {
@@ -175,6 +181,9 @@
         "tailcontrol_dm": {
           "hp": 60.5
         },
+        "wingcontrol_dm": {
+          "hp": 39.5
+        },
         "wingcontrol_l_dm": {
           "hp": 39.5
         },
@@ -183,6 +192,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 39.5
         },
@@ -213,20 +225,6 @@
         },
         "tank3_dm": {
           "hp": 40.3
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 2.8
-        },
-        "mgun3_dm": {
-          "hp": 9.0
-        },
-        "mgun4_dm": {
-          "hp": 9.0
-        },
-        "wingcontrol_dm": {
-          "hp": 1.8
         }
       }
     }
@@ -1109,65 +1107,59 @@
           },
           {
             "onHit": {
-              "damage": 20.0,
+              "damage": 30.0,
               "cut": 0.25
             }
           },
           {
             "onHit": {
-              "damage": 30.0,
+              "damage": 50.0,
               "cut": 0.5
             }
           },
           {
             "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onHit": {
-              "damage": 70.0,
+              "damage": 65.0,
               "cut": 1.0
             }
           },
           {
             "onKill": {
+              "tailcontrol_dm": 1.0,
+              "nothing": 19.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 10.0,
               "tailcontrol_dm": 1.0,
               "nothing": 9.0
             }
           },
           {
             "onKill": {
-              "damage": 7.0,
-              "tailcontrol_dm": 1.0,
-              "nothing": 5.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 10.0,
+              "damage": 20.0,
               "cut": 1.0,
               "nothing": 4.0
             }
           },
           {
             "onKill": {
-              "damage": 20.0,
+              "damage": 30.0,
               "cut": 1.0,
               "nothing": 3.0
             }
           },
           {
             "onKill": {
-              "damage": 30.0,
+              "damage": 50.0,
               "cut": 1.0,
               "nothing": 2.0
             }
           },
           {
             "onKill": {
-              "damage": 50.0,
+              "damage": 65.0,
               "cut": 1.0
             }
           }
@@ -2232,10 +2224,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-5.91121,-4.91121],
-      "wingLDist": [4.91303,5.91303],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-1.20509,-0.477358,0.853209],
+      "_emtr_break_wing0_l_to": [-1.20509,-0.477358,1.26449],
+      "emtr_break_wing1_l_from": [-1.20509,-0.477358,1.90177],
+      "emtr_break_wing1_l_to": [-1.20509,-0.477358,2.41032],
+      "emtr_break_wing2_l_from": [-1.20509,-0.477358,3.17316],
+      "emtr_break_wing2_l_to": [-1.20509,-0.477358,3.78942],
+      "_emtr_break_wing0_r_from": [-1.20509,-0.477358,-0.853209],
+      "_emtr_break_wing0_r_to": [-1.20509,-0.477358,-1.26449],
+      "emtr_break_wing1_r_from": [-1.20509,-0.477358,-1.90177],
+      "emtr_break_wing1_r_to": [-1.20509,-0.477358,-2.41032],
+      "emtr_break_wing2_r_from": [-1.20509,-0.477358,-3.17315],
+      "emtr_break_wing2_r_to": [-1.20509,-0.477358,-3.78942],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.74898,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

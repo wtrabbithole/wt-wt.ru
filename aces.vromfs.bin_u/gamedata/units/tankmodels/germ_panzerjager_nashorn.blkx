@@ -678,14 +678,7 @@
         "wheel_r_top_01_dm": [],
         "wheel_r_top_02_dm": [],
         "wheel_r_top_03_dm": [],
-        "wheel_r_top_04_dm": [],
-        "submodule": {
-          "armorClass": "tank_traks",
-          "armorThickness": 15.0,
-          "hp": 150.0,
-          "track_r_dm": [],
-          "track_l_dm": []
-        }
+        "wheel_r_top_04_dm": []
       },
       "optics": {
         "armorClass": "optics_tank",
@@ -726,6 +719,13 @@
           "hp": 20.0
         }
       },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
+      },
       "equipment": {
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
@@ -746,7 +746,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
@@ -1934,7 +1934,8 @@
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_manual_y",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -2228,7 +2229,7 @@
         "cutDamage": 550.0,
         "deviation": 0.5,
         "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_gun"
       }
     }
   },

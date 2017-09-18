@@ -93,6 +93,33 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "smokeScreenActivateTime": 10.0
+  },
+  {
+    "smokeScreenTime": 30.0
+  },
+  {
+    "smokeScreenRad": 50.0
+  },
+  {
+    "smokeScreenFx": "smoke_screen_effect"
+  },
+  {
+    "smokeScreenOffset": [-48.0,2.0,0.0]
+  },
+  {
+    "rearmSmokeTimeOnField": 180.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
+    "depthTraceWarningDepth": 5.0
+  },
+  {
+    "depthTraceCriticalDepth": 2.0
+  },
+  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -257,7 +284,7 @@
   {
     "ikGunner": [
       {
-        "model": "german_officer_char"
+        "model": "german_sailor_char"
       },
       {
         "maxHeadHorAngle": 60.0
@@ -1715,6 +1742,371 @@
     ]
   },
   {
+    "ikGunner": [
+      {
+        "model": "german_sailor_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [-1.0,-1.2,1.2]
+      },
+      {
+        "suffix": "23"
+      },
+      {
+        "deadHeadAttitudeMin": -55.0
+      },
+      {
+        "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "german_sailor_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [-1.0,-1.2,1.2]
+      },
+      {
+        "suffix": "24"
+      },
+      {
+        "deadHeadAttitudeMin": -55.0
+      },
+      {
+        "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "german_sailor_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [-1.0,-1.2,1.2]
+      },
+      {
+        "suffix": "25"
+      },
+      {
+        "deadHeadAttitudeMin": -55.0
+      },
+      {
+        "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "german_sailor_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [-1.0,-1.2,1.2]
+      },
+      {
+        "suffix": "26"
+      },
+      {
+        "deadHeadAttitudeMin": -55.0
+      },
+      {
+        "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "german_sailor_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [-1.0,-1.2,1.2]
+      },
+      {
+        "suffix": "27"
+      },
+      {
+        "deadHeadAttitudeMin": -55.0
+      },
+      {
+        "deadHeadAttitudeMax": -40.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
     "attach": {
       "Bip01 Pelvis_1": "german_sailor_sit",
       "Bip01 Pelvis_2": "german_sailor_sit",
@@ -1736,7 +2128,12 @@
       "Bip01 Pelvis_18": "german_sailor_sit",
       "Bip01 Pelvis_19": "german_sailor_sit",
       "Bip01 Pelvis_20": "german_sailor_sit",
-      "Bip01 Pelvis_21": "german_sailor_sit"
+      "Bip01 Pelvis_21": "german_sailor_sit",
+      "Bip01 Pelvis_23": "german_sailor_standing",
+      "Bip01 Pelvis_24": "german_sailor_standing",
+      "Bip01 Pelvis_25": "german_sailor_standing",
+      "Bip01 Pelvis_26": "german_sailor_standing",
+      "Bip01 Pelvis_27": "german_sailor_standing"
     }
   },
   {
@@ -1837,6 +2234,16 @@
         "ex_armor_r_02_dm": [],
         "ex_armor_r_03_dm": [],
         "ex_armor_r_04_dm": []
+      },
+      "turrets_armor": {
+        "hp": 5000.0,
+        "armorClass": "RHA_tank",
+        "armorThickness": 5.0,
+        "turret_11_dm": [],
+        "turret_12_dm": [],
+        "turret_13_dm": [],
+        "turret_14_dm": [],
+        "turret_15_dm": []
       },
       "masts": {
         "armorClass": "ship_structural_steel",
@@ -2688,6 +3095,28 @@
   },
   {
     "DamageEffects": [
+      {
+        "part": [
+          {
+            "name": "torpedo_01_dm"
+          },
+          {
+            "name": "torpedo_02_dm"
+          },
+          {
+            "name": "torpedo_03_dm"
+          },
+          {
+            "name": "torpedo_04_dm"
+          },
+          {
+            "onKill": {
+              "fire": 1.0,
+              "fHitCritical": true
+            }
+          }
+        ]
+      },
       {
         "part": [
           {
@@ -5054,8 +5483,784 @@
         ]
       },
       {
+        "Weapon": [
+          {
+            "trigger": "gunner8"
+          },
+          {
+            "triggerGroup": "machinegun"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_user_cannon.blk"
+          },
+          {
+            "emitter": "emtr_gun_flame_14"
+          },
+          {
+            "flash": "emtr_gun_flame_14"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "recoilOffset": 0.3
+          },
+          {
+            "barrelDP": "aa_gun_02_dm"
+          },
+          {
+            "breechDP": "aa_gun_02_dm"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 30.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 2000
+          },
+          {
+            "allowableDelta": 1.0
+          },
+          {
+            "speedYaw": 45.0
+          },
+          {
+            "speedPitch": 45.0
+          },
+          {
+            "fireConeAngle": 20.0
+          },
+          {
+            "ChainfireTime": 2.0
+          },
+          {
+            "DelayAfterShoot": 2.0
+          },
+          {
+            "aimMinDist": 20.0
+          },
+          {
+            "aimMaxDist": 4000.0
+          },
+          {
+            "randomAngle": 0.0
+          },
+          {
+            "accuracyAir": 1.0
+          },
+          {
+            "accuracyGnd": 0.5
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errMeasureVelFast": 100.0
+          },
+          {
+            "errMeasureVelFwdShift": 1.0
+          },
+          {
+            "errMeasureVelDir": 3.0
+          },
+          {
+            "errTargetting": 1.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "aa_turret_02",
+              "gun": "aa_gun_02",
+              "barrel": "gun_barrel_14",
+              "gunnerDm": "aa_turret_02_dm",
+              "linkedAnimPart": {
+                "verNode": "bone_radius_foot_01",
+                "verLimits": [0.0,13.0],
+                "verOriginLimits": [0.0,60.0]
+              }
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-180.0,180.0],
+              "pitch": [-10.0,60.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-170.0,25.0,60.0],
+              "lim2": [-170.0,170.0,-10.0,60.0],
+              "lim3": [170.0,180.0,25.0,60.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "Weapon": [
+          {
+            "trigger": "gunner9"
+          },
+          {
+            "triggerGroup": "machinegun"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_user_cannon.blk"
+          },
+          {
+            "emitter": "emtr_gun_flame_15"
+          },
+          {
+            "flash": "emtr_gun_flame_15"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "recoilOffset": 0.3
+          },
+          {
+            "barrelDP": "aa_gun_03_dm"
+          },
+          {
+            "breechDP": "aa_gun_03_dm"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 30.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 2000
+          },
+          {
+            "allowableDelta": 1.0
+          },
+          {
+            "speedYaw": 45.0
+          },
+          {
+            "speedPitch": 45.0
+          },
+          {
+            "fireConeAngle": 20.0
+          },
+          {
+            "ChainfireTime": 2.0
+          },
+          {
+            "DelayAfterShoot": 2.0
+          },
+          {
+            "aimMinDist": 20.0
+          },
+          {
+            "aimMaxDist": 4000.0
+          },
+          {
+            "randomAngle": 0.0
+          },
+          {
+            "accuracyAir": 1.0
+          },
+          {
+            "accuracyGnd": 0.5
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errMeasureVelFast": 100.0
+          },
+          {
+            "errMeasureVelFwdShift": 1.0
+          },
+          {
+            "errMeasureVelDir": 3.0
+          },
+          {
+            "errTargetting": 1.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "aa_turret_03",
+              "gun": "aa_gun_03",
+              "barrel": "gun_barrel_15",
+              "gunnerDm": "aa_turret_03_dm",
+              "linkedAnimPart": {
+                "verNode": "bone_radius_foot_02",
+                "verLimits": [0.0,13.0],
+                "verOriginLimits": [0.0,60.0]
+              }
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-150.0,45.0],
+              "pitch": [-10.0,60.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-150.0,0.0,-9.0,60.0],
+              "lim2": [0.0,45.0,40.0,60.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "Weapon": [
+          {
+            "trigger": "gunner10"
+          },
+          {
+            "triggerGroup": "machinegun"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_user_cannon.blk"
+          },
+          {
+            "emitter": "emtr_gun_flame_16"
+          },
+          {
+            "flash": "emtr_gun_flame_16"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "recoilOffset": 0.3
+          },
+          {
+            "barrelDP": "aa_gun_04_dm"
+          },
+          {
+            "breechDP": "aa_gun_04_dm"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 30.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 2000
+          },
+          {
+            "allowableDelta": 1.0
+          },
+          {
+            "speedYaw": 45.0
+          },
+          {
+            "speedPitch": 45.0
+          },
+          {
+            "fireConeAngle": 20.0
+          },
+          {
+            "ChainfireTime": 2.0
+          },
+          {
+            "DelayAfterShoot": 2.0
+          },
+          {
+            "aimMinDist": 20.0
+          },
+          {
+            "aimMaxDist": 4000.0
+          },
+          {
+            "randomAngle": 0.0
+          },
+          {
+            "accuracyAir": 1.0
+          },
+          {
+            "accuracyGnd": 0.5
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errMeasureVelFast": 100.0
+          },
+          {
+            "errMeasureVelFwdShift": 1.0
+          },
+          {
+            "errMeasureVelDir": 3.0
+          },
+          {
+            "errTargetting": 1.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "aa_turret_04",
+              "gun": "aa_gun_04",
+              "barrel": "gun_barrel_16",
+              "gunnerDm": "aa_turret_04_dm",
+              "linkedAnimPart": {
+                "verNode": "bone_radius_foot_03",
+                "verLimits": [0.0,13.0],
+                "verOriginLimits": [0.0,60.0]
+              }
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-45.0,150.0],
+              "pitch": [-10.0,60.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-45.0,0.0,40.0,60.0],
+              "lim2": [0.0,150.0,-9.0,60.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "Weapon": [
+          {
+            "trigger": "gunner11"
+          },
+          {
+            "triggerGroup": "machinegun"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_user_cannon.blk"
+          },
+          {
+            "emitter": "emtr_gun_flame_17"
+          },
+          {
+            "flash": "emtr_gun_flame_17"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "recoilOffset": 0.3
+          },
+          {
+            "barrelDP": "aa_gun_05_dm"
+          },
+          {
+            "breechDP": "aa_gun_05_dm"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 30.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 2000
+          },
+          {
+            "allowableDelta": 1.0
+          },
+          {
+            "speedYaw": 45.0
+          },
+          {
+            "speedPitch": 45.0
+          },
+          {
+            "fireConeAngle": 20.0
+          },
+          {
+            "ChainfireTime": 2.0
+          },
+          {
+            "DelayAfterShoot": 2.0
+          },
+          {
+            "aimMinDist": 20.0
+          },
+          {
+            "aimMaxDist": 4000.0
+          },
+          {
+            "randomAngle": 0.0
+          },
+          {
+            "accuracyAir": 1.0
+          },
+          {
+            "accuracyGnd": 0.5
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errMeasureVelFast": 100.0
+          },
+          {
+            "errMeasureVelFwdShift": 1.0
+          },
+          {
+            "errMeasureVelDir": 3.0
+          },
+          {
+            "errTargetting": 1.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "aa_turret_05",
+              "gun": "aa_gun_05",
+              "barrel": "gun_barrel_17",
+              "gunnerDm": "aa_turret_05_dm",
+              "linkedAnimPart": {
+                "verNode": "bone_radius_foot_04",
+                "verLimits": [0.0,13.0],
+                "verOriginLimits": [0.0,60.0]
+              }
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-180.0,180.0],
+              "pitch": [-10.0,60.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-175.0,20.0,60.0],
+              "lim2": [-175.0,-150.0,13.0,60.0],
+              "lim3": [-150.0,-120.0,-2.0,60.0],
+              "lim4": [-120.0,-10.0,-9.0,60.0],
+              "lim5": [-10.0,10.0,7.0,60.0],
+              "lim6": [10.0,165.0,55.0,60.0],
+              "lim7": [165.0,180.0,20.0,60.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "Weapon": [
+          {
+            "trigger": "gunner12"
+          },
+          {
+            "triggerGroup": "machinegun"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/20mm_FlaK38_user_cannon.blk"
+          },
+          {
+            "emitter": "emtr_gun_flame_18"
+          },
+          {
+            "flash": "emtr_gun_flame_18"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "recoilOffset": 0.3
+          },
+          {
+            "barrelDP": "aa_gun_06_dm"
+          },
+          {
+            "breechDP": "aa_gun_06_dm"
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "isBulletBelt": true
+          },
+          {
+            "speedYaw": 25.0
+          },
+          {
+            "speedPitch": 30.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 2000
+          },
+          {
+            "allowableDelta": 1.0
+          },
+          {
+            "speedYaw": 45.0
+          },
+          {
+            "speedPitch": 45.0
+          },
+          {
+            "fireConeAngle": 20.0
+          },
+          {
+            "ChainfireTime": 2.0
+          },
+          {
+            "DelayAfterShoot": 2.0
+          },
+          {
+            "aimMinDist": 20.0
+          },
+          {
+            "aimMaxDist": 4000.0
+          },
+          {
+            "randomAngle": 0.0
+          },
+          {
+            "accuracyAir": 1.0
+          },
+          {
+            "accuracyGnd": 0.5
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errMeasureVelFast": 100.0
+          },
+          {
+            "errMeasureVelFwdShift": 1.0
+          },
+          {
+            "errMeasureVelDir": 3.0
+          },
+          {
+            "errTargetting": 1.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "aa_turret_06",
+              "gun": "aa_gun_06",
+              "barrel": "gun_barrel_18",
+              "gunnerDm": "aa_turret_06_dm",
+              "linkedAnimPart": {
+                "verNode": "bone_radius_foot_05",
+                "verLimits": [0.0,13.0],
+                "verOriginLimits": [0.0,50.0]
+              }
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-45.0,100.0],
+              "pitch": [-10.0,90.0]
+            }
+          },
+          {
+            "limitsTable": {
+              "lim1": [-180.0,-165.0,20.0,60.0],
+              "lim2": [-165.0,-10.0,55.0,60.0],
+              "lim3": [-10.0,10.0,7.0,60.0],
+              "lim4": [10.0,120.0,-9.0,60.0],
+              "lim5": [120.0,150.0,-2.0,60.0],
+              "lim6": [150.0,175.0,13.0,60.0],
+              "lim7": [175.0,180.0,20.0,60.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "Weapon": {
-          "trigger": "gunner8",
+          "trigger": "gunner13",
           "triggerGroup": "torpedoes",
           "external": true,
           "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
@@ -5066,7 +6271,7 @@
           "emitterGenFmt": "bone_torpedo_%02d",
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
-          "allowableDelta": 10.0,
+          "allowableDelta": 20.0,
           "enableCourseCorrection": false,
           "partsDP": "tt_01_dm",
           "turret": {
@@ -5085,7 +6290,7 @@
       },
       {
         "Weapon": {
-          "trigger": "gunner9",
+          "trigger": "gunner14",
           "triggerGroup": "torpedoes",
           "external": true,
           "blk": "gameData/Weapons/torpedoes/de_toro_m1_torpedo_tube.blk",
@@ -5096,7 +6301,7 @@
           "emitterGenFmt": "bone_torpedo_%02d",
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
-          "allowableDelta": 10.0,
+          "allowableDelta": 20.0,
           "enableCourseCorrection": false,
           "partsDP": "tt_02_dm",
           "turret": {
@@ -5143,7 +6348,8 @@
           "extinguisherCrewBusyTime": -1.0
         }
       },
-      "tank_tool_kit": []
+      "tank_tool_kit": [],
+      "ship_smoke_screen_system_mod": []
     }
   },
   {
@@ -5191,19 +6397,22 @@
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo"
+              "emitter": "emtr_fire_ammo",
+              "scale": 0.7
             }
           },
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo_01"
+              "emitter": "emtr_fire_ammo_01",
+              "scale": 0.7
             }
           },
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo_02"
+              "emitter": "emtr_fire_ammo_02",
+              "scale": 0.7
             }
           }
         ]
@@ -5452,21 +6661,22 @@
           {
             "fx": {
               "name": "ship_explosion_large",
-              "emitter": "emtr_explosion_center_01"
+              "emitter": "emtr_explosion_center_01",
+              "scale": 1.0
             }
           },
           {
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_02",
-              "scale": 0.8
+              "scale": 0.6
             }
           },
           {
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_03",
-              "scale": 0.7
+              "scale": 0.5
             }
           }
         ]
@@ -5575,14 +6785,86 @@
     ]
   },
   {
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "shells": {
+            "ammunition_storage_01_dm": {
+              "count": 240
+            }
+          }
+        }
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "weaponTrigger": "gunner4"
+        },
+        {
+          "shells": {
+            "ammunition_storage_02_dm": {
+              "count": 560
+            }
+          }
+        }
+      ],
+      "ammo3": {
+        "weaponTrigger": "gunner13",
+        "shells": {
+          "torpedo_01_dm": {
+            "count": 1
+          },
+          "torpedo_02_dm": {
+            "count": 1
+          },
+          "torpedo_03_dm": {
+            "count": 1
+          },
+          "torpedo_04_dm": {
+            "count": 1
+          }
+        }
+      },
+      "ammo5": {
+        "weaponTrigger": "gunner14",
+        "shells": {
+          "torpedo_05_dm": {
+            "count": 1
+          },
+          "torpedo_06_dm": {
+            "count": 1
+          },
+          "torpedo_07_dm": {
+            "count": 1
+          },
+          "torpedo_08_dm": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  {
     "winch": {
-      "length": 100.0
+      "length": 170.0
     }
   },
   {
     "difficulty": {
       "arcade": {
-        "shipRudderAreaMult": 1.0
+        "shipRudderAreaMult": 1.0,
+        "tankRearmOnCaptureZone": true
       }
     }
   }

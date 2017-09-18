@@ -130,6 +130,9 @@
         "fuse1_dm": {
           "hp": 125.5
         },
+        "fuse2_dm": {
+          "hp": 84.5
+        },
         "fuse_dm": {
           "hp": 86.0
         }
@@ -142,6 +145,14 @@
         "aileron_r_dm": {
           "genericDamageMult": 0.3,
           "hp": 50.5
+        },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 37.3
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 37.3
         },
         "fin_dm": {
           "hp": 43.2
@@ -198,6 +209,9 @@
         "tailcontrol_dm": {
           "hp": 80.5
         },
+        "wingcontrol_dm": {
+          "hp": 59.5
+        },
         "wingcontrol_l_dm": {
           "hp": 64.2
         },
@@ -206,6 +220,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 49.5
         },
@@ -219,9 +236,21 @@
         },
         "oil2_dm": {
           "hp": 16.0
+        },
+        "oil3_dm": {
+          "hp": 15.5
+        },
+        "oil4_dm": {
+          "hp": 17.6
         }
       },
       "steel_pilot": {
+        "gunner2_dm": {
+          "hp": 20.0
+        },
+        "gunner3_dm": {
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -251,35 +280,6 @@
         },
         "tank8_dm": {
           "hp": 44.5
-        }
-      },
-      "wood": {
-        "elevator0_dm": {
-          "hp": 27.6
-        },
-        "elevator1_dm": {
-          "hp": 27.6
-        },
-        "fuse2_dm": {
-          "hp": 58.4
-        },
-        "gear_c_dm": {
-          "hp": 5.2
-        },
-        "gunner2_dm": {
-          "hp": 21.9
-        },
-        "gunner3_dm": {
-          "hp": 21.9
-        },
-        "oil3_dm": {
-          "hp": 2.6
-        },
-        "oil4_dm": {
-          "hp": 9.4
-        },
-        "wingcontrol_dm": {
-          "hp": 1.2
         }
       }
     }
@@ -768,9 +768,92 @@
         ]
       },
       {
-        "part": {
-          "name": "fuse2_dm"
-        }
+        "part": [
+          {
+            "name": "fuse2_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "wing_r_dm": 0.1,
+              "wing_l_dm": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "wing_r_dm": 0.3,
+              "wing_l_dm": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "wing_r_dm": 0.5,
+              "wing_l_dm": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "wing_r_dm": 0.7,
+              "wing_l_dm": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "wing_r_dm": 0.9,
+              "wing_l_dm": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "wingcontrol_l_dm": 1.0,
+              "wingcontrol_r_dm": 1.0,
+              "nothing": 14.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 10.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 5.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 3.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 70.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -2751,6 +2834,25 @@
       "type99mk2_new_gun": {
         "reqModification": "type99mk2_belt_pack"
       }
+    }
+  },
+  {
+    "cutting": {
+      "emtr_break_wing1_l_from": [-0.703323,-0.483323,2.94913],
+      "emtr_break_wing1_l_to": [-0.703323,-0.483323,3.9285],
+      "emtr_break_wing2_l_from": [-0.703323,-0.483323,5.39756],
+      "emtr_break_wing2_l_to": [-0.703323,-0.483323,6.63411],
+      "emtr_break_wing1_r_from": [-0.703323,-0.483323,-2.94913],
+      "emtr_break_wing1_r_to": [-0.703323,-0.483323,-3.9285],
+      "emtr_break_wing2_r_from": [-0.703323,-0.483323,-5.39756],
+      "emtr_break_wing2_r_to": [-0.703323,-0.483323,-6.63411],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-6.96005,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

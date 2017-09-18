@@ -1,10 +1,9 @@
 popup_menu {
-  re-type:rotation;
-  background-color: @white;
-  background-image: #ui/gameuiskin#popup_menu_bg;
-  background-position:4, 10, 4, 4;
-  background-repeat: expand;
-  padding: 10*@sf/@pf_outdated, 6 + 10*@sf/@pf_outdated, 4 + 10*@sf/@pf_outdated, 10*@sf/@pf_outdated;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+  border-offset:@dp;
+  padding:1@framePadding;
   css-hier-invalidate: yes;
 }
 
@@ -13,40 +12,31 @@ popup_menu_arrow {
   background-color: @white;
   background-image: #ui/gameuiskin#popup_menu_arrow;
   background-repeat: expand;
-  background-position:4;
-  width: 33;
-  height: 14;
+  background-position:11, 1;
+  width: 22@dp;
+  height: 12@dp;
   position: absolute;
 }
 
-popup_menu,
 popup_menu_arrow {
   re-type:rotation;
   background-rotation:0;
 }
 
-
-popup_menu[menu_align=top] > popup_menu_arrow,
-popup_menu_arrow[align=bottom] {
-  pos: 0.5pw - 0.5w, ph - 4;
+[menu_align=top] > popup_menu_arrow {
+  pos: 0.5pw - 0.5w, ph-1;
 }
 
-
-popup_menu[menu_align=bottom] {
+[menu_align=bottom] > popup_menu_arrow {
   background-rotation:180;
+  pos: 0.5pw - 0.5w, -h + 1;
 }
 
-popup_menu[menu_align=bottom] > popup_menu_arrow {
-  background-rotation:180;
-  pos: 0.5pw - 0.5w, -10;
-}
-
-
-popup_menu[menu_align=left] > popup_menu_arrow {
+[menu_align=left] > popup_menu_arrow {
   background-rotation:270;
-  pos: pw - 13, 0.5ph - 0.5h;
+  pos: pw - 0.5h, 0.5ph - 0.5h;
 }
-popup_menu[menu_align=right] > popup_menu_arrow {
+[menu_align=right] > popup_menu_arrow {
   background-rotation:90;
-  pos: -w +14, 0.5ph - 0.5h;
+  pos: -w + 0.5h, 0.5ph - 0.5h;
 }

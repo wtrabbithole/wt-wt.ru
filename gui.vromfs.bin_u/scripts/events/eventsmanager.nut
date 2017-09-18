@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
   "air_arcade"
@@ -1545,7 +1548,7 @@ class Events
   function markEventSeen(event)
   {
     local wasNew = isEventNew(event)
-    seenEvents[event.name] <- ::get_utc_days()
+    seenEvents[event.name] <- time.getUtcDays()
     if (wasNew)
     {
       saveSeenEvents()
@@ -1556,7 +1559,7 @@ class Events
   function markAllEventsSeen(typeMask = EVENT_TYPE.ANY_BASE_EVENTS)
   {
     local wasNew = getNewEventsCount(typeMask)
-    local days = ::get_utc_days()
+    local days = time.getUtcDays()
     getEventsList(typeMask, (@(days) function (event) {
         seenEvents[event.name] <- days
       })(days))
@@ -1602,7 +1605,7 @@ class Events
     if (!initSeenChecked())
       return //data not loaded yet
 
-    local minDay = ::get_utc_days() - EVENTS_OUT_OF_DATE_DAYS
+    local minDay = time.getUtcDays() - EVENTS_OUT_OF_DATE_DAYS
     local blk = ::DataBlock()
     foreach(eventId, day in seenEvents)
     {
@@ -1931,7 +1934,7 @@ class Events
   function getRulesText(rules, separator = "\n")
   {
     local textsList = ::u.map(rules, function(rule) { return generateEventRule(rule, true) }.bindenv(this))
-    return ::implode(textsList, separator)
+    return ::g_string.implode(textsList, separator)
   }
 
   function getSpecialRequirementsText(event, separator = "\n")
@@ -2055,7 +2058,7 @@ class Events
         local startTime = ::events.getEventStartTime(reasonData.event)
         if (startTime > 0)
           messageText +=  "\n" + ::format(::loc("events/event_starts_in"), ::colorize("activeTextColor",
-            ::hoursToString(startTime / TIME_HOUR_IN_SECONDS_F)))
+            time.hoursToString(secondsToHours(startTime))))
         ::scene_msg_box("cant_join", null, messageText,
             [["ok", function() {}]], "ok")
       }
@@ -2150,7 +2153,7 @@ class Events
     {
       local startTime = ::events.getEventStartTime(event)
       if (startTime > 0)
-        return ::format(::loc("events/event_started_at"), ::colorize("activeTextColor", ::hoursToString(::seconds_to_hours(startTime))))
+        return ::format(::loc("events/event_started_at"), ::colorize("activeTextColor", time.hoursToString(time.secondsToHours(startTime))))
     }
     return ""
   }
@@ -2161,13 +2164,13 @@ class Events
     {
       local endTime = ::events.getEventEndTime(event)
       if (endTime > 0)
-        return ::format(::loc("events/event_ends_in"), ::colorize("activeTextColor", ::hoursToString(::seconds_to_hours(endTime))))
+        return ::format(::loc("events/event_ends_in"), ::colorize("activeTextColor", time.hoursToString(time.secondsToHours(endTime))))
       else
         return ""
     }
     local startTime = ::events.getEventStartTime(event)
     if (startTime > 0)
-      return ::format(::loc("events/event_starts_in"), ::colorize("activeTextColor", ::hoursToString(::seconds_to_hours(startTime))))
+      return ::format(::loc("events/event_starts_in"), ::colorize("activeTextColor", time.hoursToString(time.secondsToHours(startTime))))
     return ::loc("events/event_disabled")
   }
 
@@ -2486,7 +2489,7 @@ class Events
     if (isTesting)
       textsList.append(::colorize("@yellow", ::loc("events/event_is_testing")))
 
-    return ::implode(textsList, "\n")
+    return ::g_string.implode(textsList, "\n")
   }
 
   function isEventAllowSwitchClan(event)
@@ -2504,9 +2507,7 @@ class Events
   {
     local custChanges = getCustomDifficultyChanges(eventId)
     custChanges = (custChanges.len()? "\n" : "") + custChanges
-    return ::tooltipColorTheme(
-      ::events.descFormat(::loc("multiplayer/difficulty"),
-      getDifficultyText(eventId)) + custChanges)
+    return ::events.descFormat(::loc("multiplayer/difficulty"), getDifficultyText(eventId)) + custChanges
   }
 
   function getDifficultyText(eventId)

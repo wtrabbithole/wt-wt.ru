@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 const MAX_ALLOWED_WARBONDS_BALANCE = 0x7fffffff
 
 ::g_warbonds <- {
@@ -8,7 +11,7 @@ const MAX_ALLOWED_WARBONDS_BALANCE = 0x7fffffff
 
   fontIcons = {}
   isFontIconsValid = false
-  defaultWbFontIcon = "currency/warbond"
+  defaultWbFontIcon = "currency/warbond/green"
 
   maxAllowedWarbondsBalance = MAX_ALLOWED_WARBONDS_BALANCE //default value as on server side, MAX_ALLOWED_WARBONDS_BALANCE
 }
@@ -66,7 +69,7 @@ function g_warbonds::validateList()
 function g_warbonds::getBalanceText()
 {
   local wbList = getVisibleList()
-  local textList = ::u.map(wbList, @(wb) wb.getBalanceText())
+  local textList = [wbList.len()? wbList[0].getBalanceText() : ""]
 
   if (!::has_feature("Warbonds_2_0"))
   {
@@ -84,12 +87,12 @@ function g_warbonds::getBalanceText()
     }
     if (nextTimeIdx in textList)
     {
-      local timeText = ::hoursToString(nextTime.tofloat() / TIME_HOUR_IN_SECONDS, false, true)
+      local timeText = time.hoursToString(time.secondsToHours(nextTime), false, true)
       textList[nextTimeIdx] += " " + ::loc("ui/parentheses", { text = timeText })
     }
   }
 
-  return ::implode(textList, ", ")
+  return ::g_string.implode(textList, ", ")
 }
 
 function g_warbonds::isWarbondsRecounted()
@@ -115,10 +118,8 @@ function g_warbonds::findWarbond(wbId, wbListId = null)
 {
   if (!wbListId)
     wbListId = ::get_warbond_curr_stage_name(wbId)
-  return ::u.search(getList(),
-                    (@(wbId, wbListId) function(wb) {
-                      return wbId == wb.id && wbListId == wb.listId
-                    })(wbId, wbListId))
+
+  return ::u.search(getList(), @(wb) wbId == wb.id && wbListId == wb.listId)
 }
 
 function g_warbonds::getCurrentWarbond()
@@ -144,54 +145,21 @@ function g_warbonds::getWarbondAwardByFullId(wbAwardFullId)
   return wb && wb.getAwardById(data[2])
 }
 
-function g_warbonds::checkLoadWarbondsIcons()
-{
-  if (isFontIconsValid)
-    return
-  isFontIconsValid = true
-
-  fontIcons.clear()
-  local blk = ::get_gui_regional_blk()
-  local iconsBlk = blk.warbondsFontIcons
-  if (!::u.isDataBlock(iconsBlk))
-    return
-
-  for (local i = 0; i < iconsBlk.blockCount(); i++)
-  {
-    local wbBlk = iconsBlk.getBlock(i)
-    local wbName = wbBlk.getBlockName()
-    if (!(wbName in fontIcons))
-      fontIcons[wbName] <- {}
-
-    for (local j = 0; j < wbBlk.paramCount(); j++)
-    {
-      local value = wbBlk.getParamValue(j)
-      if (!::u.isString(value))
-        continue
-      fontIcons[wbName][wbBlk.getParamName(j)] <- value
-    }
-  }
-}
-
-function g_warbonds::getWarbondFontIcon(wbId, wbListId)
-{
-  checkLoadWarbondsIcons()
-  return ::getTblValue(wbListId, ::getTblValue(wbId, fontIcons), defaultWbFontIcon)
-}
-
 function g_warbonds::getWarbondPriceText(wbId, wbListId, amount)
 {
   if (!amount)
     return ""
   if (!wbListId)
     wbListId = ::get_warbond_curr_stage_name(wbId)
-  return amount + ::loc(getWarbondFontIcon(wbId, wbListId))
+  return amount + ::loc(defaultWbFontIcon)
 }
 
 function g_warbonds::openShop(params = {})
 {
   if (!isShopAvailable())
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
+
+  ::g_warbonds_view.resetShowProgressBarFlag()
   ::handlersManager.loadHandler(::gui_handlers.WarbondsShop, params)
 }
 
@@ -208,6 +176,30 @@ function g_warbonds::isShopButtonVisible()
 function g_warbonds::getLimit()
 {
   return maxAllowedWarbondsBalance
+}
+
+function g_warbonds::checkOverLimit(battleTask, silent = false)
+{
+  local curWb = ::g_warbonds.getCurrentWarbond()
+  local limit = getLimit()
+  local newBalance = curWb.getBalance() + battleTask.amount_warbonds
+  if (newBalance <= limit)
+    return true
+
+  if (!silent)
+  {
+    ::scene_msg_box("warbonds_over_limit",
+      null,
+      ::loc("warbond/msg/awardMayBeLost", {maxWarbonds = limit, lostWarbonds = newBalance - limit}),
+      [
+        ["yes", @() ::g_battle_tasks.sendReceiveRewardRequest(battleTask)],
+        ["#mainmenu/btnWarbondsShop", @() ::g_warbonds.openShop()],
+        ["no", @() null ]
+      ],
+      "#mainmenu/btnWarbondsShop",
+      {cancel_fn = @() null})
+  }
+  return false
 }
 
 function g_warbonds::onEventPriceUpdated(p)

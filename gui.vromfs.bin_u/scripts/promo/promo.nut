@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_promo <- {
   PROMO_BUTTON_TYPE = {
     ARROW = "arrowButton"
@@ -89,14 +92,14 @@ function g_promo::checkOldRecordsOnInit()
     for (local i = 0; i < checkBlock.paramCount(); i++)
     {
       local id = checkBlock.getParamName(i)
-      local time = checkBlock.getParamValue(i)
-      local days = convertTimeFunc(time)
+      local lastTimeSeen = checkBlock.getParamValue(i)
+      local days = convertTimeFunc(lastTimeSeen)
 
-      local minDay = ::get_utc_days() - BUTTON_OUT_OF_DATE_DAYS
+      local minDay = time.getUtcDays() - BUTTON_OUT_OF_DATE_DAYS
       if (days > minDay)
         continue
 
-      newBlk[id] <- time
+      newBlk[id] <- lastTimeSeen
     }
     ::saveLocalByAccount("seen/" + blockName, newBlk)
   }
@@ -290,11 +293,12 @@ function g_promo::generateBlockView(block)
       text = getViewText(block)
     fillBlock.text <- text
 
-    fillBlock.showTextShade <- text != "" || isDebugModeEnabled
+    local showTextShade = !::is_chat_message_empty(text) || isDebugModeEnabled
+    fillBlock.showTextShade <- showTextShade
 
     local isBlockSelected = isValueCurrentInMultiBlock(id, i)
     local show = checkBlockVisibility(checkBlock) && isBlockSelected
-    if (view.type == PROMO_BUTTON_TYPE.ARROW && text == "" && !isDebugModeEnabled)
+    if (view.type == PROMO_BUTTON_TYPE.ARROW && !showTextShade)
       show = false
     fillBlock.blockShow <- show
 
@@ -382,11 +386,11 @@ function g_promo::checkBlockTime(block)
   local utcTime = ::get_utc_time()
 
   local startTime = getUTCTimeFromBlock(block, "startTime")
-  if (startTime != null && ::cmp_date(startTime, utcTime) >= 0)
+  if (startTime != null && time.cmpDate(startTime, utcTime) >= 0)
     return false
 
   local endTime = getUTCTimeFromBlock(block, "endTime")
-  if (endTime != null && ::cmp_date(utcTime, endTime) >= 0)
+  if (endTime != null && time.cmpDate(utcTime, endTime) >= 0)
     return false
 
   if (!::g_partner_unlocks.isPartnerUnlockAvailable(block.partnerUnlock, block.partnerUnlockDurationMin))
@@ -449,7 +453,7 @@ function g_promo::getUTCTimeFromBlock(block, timeProperty)
   local timeText = ::getTblValue(timeProperty, block, null)
   if (!::u.isString(timeText) || timeText.len() == 0)
     return null
-  return ::get_time_from_string_utc(timeText)
+  return time.getTimeFromStringUtc(timeText)
 }
 
 function g_promo::getDefaultBoolParamFromBlock(block, param, defaultValue = false)
@@ -474,7 +478,7 @@ function g_promo::getActionParamsKey(id)
 
 function g_promo::cutActionParamsKey(id)
 {
-  return ::cut_prefix(id, "perform_action_", id)
+  return ::g_string.cutPrefix(id, "perform_action_", id)
 }
 
 function g_promo::getType(block)
@@ -541,7 +545,7 @@ function g_promo::setSimpleWidgetData(widgetsTable, id, widgetsWithCounter)
   local table = ::buildTableFromBlk(blk)
 
   if (!(id in table))
-    table[id] <- ::get_utc_days()
+    table[id] <- time.getUtcDays()
 
   if (::getTblValue(id, widgetsTable) != null)
     widgetsTable[id].setWidgetVisible(false)
@@ -551,7 +555,7 @@ function g_promo::setSimpleWidgetData(widgetsTable, id, widgetsWithCounter)
 
 function g_promo::updateSimpleWidgetsData(table)
 {
-  local minDay = ::get_utc_days() - BUTTON_OUT_OF_DATE_DAYS
+  local minDay = time.getUtcDays() - BUTTON_OUT_OF_DATE_DAYS
   local idOnRemoveArray = []
   local blk = ::DataBlock()
   foreach(id, day in table)
@@ -661,6 +665,7 @@ function g_promo::onOpenBattleTasksWnd(owner, params = {}, obj = null)
   if (taskId == null && params.len() > 0)
     taskId = params[0]
 
+  ::g_warbonds_view.resetShowProgressBarFlag()
   ::gui_start_battle_tasks_wnd(taskId)
 }
 

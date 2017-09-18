@@ -23,7 +23,6 @@
   }
   {
     name = "ww_map_filter"
-    minimalWidth = true
     forceHoverWidth = "0.55@sf"
     getText = function(totalSections = 0) { return ::is_low_width_screen()? null : "#worldwar/mapFilters" }
     getImage = function(totalSections = 0) { return "#ui/gameuiskin#render_army_rad" }

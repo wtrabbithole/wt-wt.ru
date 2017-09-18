@@ -67,7 +67,7 @@ tdiv {
   textareaNoTab {
     max-width:t='0.65@sf'
     style:t='color:@fadedTextColor'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     text:t='<<tooltipComment>>'
   }
 <</tooltipComment>>

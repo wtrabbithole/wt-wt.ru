@@ -62,8 +62,8 @@
                 "max-height": "85%p.p.h",
                 "text-align": "center",
                 "overflow-y": "auto",
-                "fontNormal": "yes",
-                "font-bold": "@tiny",
+                "mediumFont": "yes",
+                "font-bold": "@fontSmall",
                 "padding-left": "0.5*@scrn_tgt/100.0",
                 "border-color": "@commonTextColor"
               }
@@ -85,17 +85,15 @@
                 "background-rotation": "0",
                 "behavior": "increment",
                 "inc-target": "background-rotation",
-                "inc-factor": "120",
-                "wait_icon_cock": []
+                "inc-factor": "120"
               }
             },
             {
-              "div": {
-                "style": "margin:0;",
+              "msgBoxButtonsHolder": {
                 "id": "buttons_holder",
-                "padding-right": "2*@scrn_tgt/100.0",
                 "pos": "50%pw-50%w, ph + 0.4(57%p.p.h - 50%ph - h)",
-                "position": "absolute"
+                "position": "absolute",
+                "childsActivate": "yes"
               }
             },
             {
@@ -116,7 +114,7 @@
           "position": "absolute",
           "input-transparent": "yes",
           "overlayTextColor": "faded",
-          "tinyFont": "yes",
+          "smallFont": "yes",
           "display": "hide",
           "text": ""
         }

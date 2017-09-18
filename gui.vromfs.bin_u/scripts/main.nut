@@ -122,20 +122,25 @@ enum itemsTab {
 enum itemType { //bit values for easy multitype search
   UNKNOWN      = 0
 
-  TROPHY       = 0x0001  //chest
-  BOOSTER      = 0x0002
-  TICKET       = 0x0004  //tournament ticket
-  WAGER        = 0x0008
-  DISCOUNT     = 0x0010
-  ORDER        = 0x0020
-  FAKE_BOOSTER = 0x0040
+  TROPHY         = 0x0001  //chest
+  BOOSTER        = 0x0002
+  TICKET         = 0x0004  //tournament ticket
+  WAGER          = 0x0008
+  DISCOUNT       = 0x0010
+  ORDER          = 0x0020
+  FAKE_BOOSTER   = 0x0040
+  SKIN           = 0x0080
+  DECAL          = 0x0100
+  CHEST          = 0x0200
+  VEHICLE        = 0x0400
+  UNIVERSAL_SPARE = 0x0800
 
   //entitlement items
   //WARPOINTS    = 0x0002
   //PREMIUM      = 0x0004
   //GOLD         = 0x0008
 
-  ALL          = 0x00FF
+  ALL          = 0x0FFF
 }
 
 enum prizesStack {
@@ -176,6 +181,15 @@ enum voiceChatStats
   online
   offline
   talking
+}
+
+enum squadMemberState
+{
+  NOT_IN_SQUAD
+  SQUAD_LEADER //leader cant be offline or not ready.
+  SQUAD_MEMBER
+  SQUAD_MEMBER_READY
+  SQUAD_MEMBER_OFFLINE
 }
 
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
@@ -219,7 +233,7 @@ foreach (fn in [
   "scripts/viewUtils/layeredIcon.nut"
   "scripts/viewUtils/projectAwards.nut"
 
-  "scripts/time.nut"
+  "scripts/sqModuleHelpers.nut"
   "scripts/util.nut"
   "scripts/timer.nut"
 
@@ -271,6 +285,8 @@ foreach (fn in [
   "scripts/debugTools/dbgTimer.nut"
   "scripts/debugTools/dbgDump.nut"
   "scripts/debugTools/dbgUtils.nut"
+  "scripts/debugTools/dbgImage.nut"
+  "scripts/debugTools/dbgFonts.nut"
 
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"
@@ -517,6 +533,7 @@ function load_scripts_after_login()
     "unlocks/battleTasks.nut"
     "unlocks/personalUnlocks.nut"
     "unlocks/battleTasksHandler.nut"
+    "unlocks/battleTasksSelectNewTask.nut"
     "unlocks/favoriteUnlocksListView.nut"
 
     "onlineShop/onlineShopModel.nut"
@@ -593,8 +610,8 @@ function load_scripts_after_login()
     "clans/clanLogModal.nut"
     "clans/clanSeasonInfoModal.nut"
 
-    "banhammer.nut"
-    "tribunal.nut"
+    "penitentiary/banhammer.nut"
+    "penitentiary/tribunal.nut"
 
     "social/friends.nut"
     "social/activityFeed.nut"
@@ -616,6 +633,7 @@ function load_scripts_after_login()
     "items/itemsShop.nut"
     "items/trophyReward.nut"
     "items/trophyGroupShopWnd.nut"
+    "items/chestOpenWnd.nut"
     "items/trophyRewardWnd.nut"
     "items/trophyRewardList.nut"
     "items/everyDayLoginAward.nut"
@@ -624,7 +642,6 @@ function load_scripts_after_login()
     "items/orderUseResult.nut"
     "items/orders.nut"
     "items/orderActivationWindow.nut"
-    "inventory/inventory.nut"
 
     "crew/crewShortCache.nut"
     "crew/skillParametersRequestType.nut"
@@ -726,7 +743,7 @@ function should_disable_menu()
     || ::getFromSettingsBlk("viewReplay")
 }
 
-if (::g_login.isLoggedIn() //scripts reload
+if (::g_login.isAuthorized() //scripts reload
     || ::should_disable_menu())
 {
   ::load_scripts_after_login()

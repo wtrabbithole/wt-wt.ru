@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum queueStates
 {
   ERROR,
@@ -224,7 +227,11 @@ class QueueManager {
   {
     local waitTime = ::queues.getQueueActiveTime(queue)
     if (waitTime > 0)
-      return ::format(::loc("yn1/wait_time"), waitTime / TIME_MINUTE_IN_SECONDS, waitTime % TIME_MINUTE_IN_SECONDS)
+    {
+      local minutes = time.secondsToMinutes(waitTime).tointeger()
+      local seconds = waitTime - time.minutesToSeconds(minutes).tointeger()
+      return ::format(::loc("yn1/wait_time"), minutes, seconds)
+    }
     return ""
   }
 

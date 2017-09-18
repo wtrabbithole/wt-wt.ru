@@ -26,6 +26,12 @@
       },
       "cannon2_dm": {
         "hp": 15.0
+      },
+      "cannon3_dm": {
+        "hp": 15.0
+      },
+      "cannon4_dm": {
+        "hp": 15.0
       }
     },
     "armor16": {
@@ -48,11 +54,39 @@
         "genericDamageMult": 0.3,
         "hp": 22.6
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "fin1_dm": {
+        "hp": 30.5
+      },
+      "fin2_dm": {
+        "hp": 30.5
+      },
+      "flap1_l_dm": {
+        "hp": 14.5
+      },
+      "flap1_r_dm": {
+        "hp": 14.5
+      },
       "flap_l_dm": {
         "hp": 24.9
       },
       "flap_r_dm": {
         "hp": 24.9
+      },
+      "rudder0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
+      },
+      "rudder1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 14.5
       },
       "stab_dm": {
         "hp": 14.5
@@ -139,6 +173,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 46.4
+      },
       "gear_l_dm": {
         "hp": 60.5
       },
@@ -151,6 +188,15 @@
         "hp": 17.5
       },
       "oil2_dm": {
+        "hp": 17.5
+      },
+      "oil3_dm": {
+        "hp": 17.5
+      },
+      "oil4_dm": {
+        "hp": 17.5
+      },
+      "oil5_dm": {
         "hp": 17.5
       }
     },
@@ -175,50 +221,6 @@
       },
       "tank5_dm": {
         "hp": 42.7
-      }
-    },
-    "wood": {
-      "cannon3_dm": {
-        "hp": 20.0
-      },
-      "cannon4_dm": {
-        "hp": 17.9
-      },
-      "elevator0_dm": {
-        "hp": 8.3
-      },
-      "elevator1_dm": {
-        "hp": 8.3
-      },
-      "fin1_dm": {
-        "hp": 25.3
-      },
-      "fin2_dm": {
-        "hp": 25.3
-      },
-      "flap1_l_dm": {
-        "hp": 5.5
-      },
-      "flap1_r_dm": {
-        "hp": 5.5
-      },
-      "gear_c_dm": {
-        "hp": 18.6
-      },
-      "oil3_dm": {
-        "hp": 11.5
-      },
-      "oil4_dm": {
-        "hp": 7.9
-      },
-      "oil5_dm": {
-        "hp": 7.9
-      },
-      "rudder0_dm": {
-        "hp": 10.0
-      },
-      "rudder1_dm": {
-        "hp": 10.0
       }
     }
   },
@@ -557,6 +559,12 @@
           }
         },
         {
+          "onHit": {
+            "damage": 65.0,
+            "expl": 1.0
+          }
+        },
+        {
           "onKill": {
             "tailcontrol_dm": 1.0,
             "nothing": 9.0
@@ -566,21 +574,14 @@
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 14.0
+            "nothing": 9.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "cut": 1.0,
-            "nothing": 4.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 1.0
+            "nothing": 3.0
           }
         }
       ]
@@ -602,6 +603,12 @@
           }
         },
         {
+          "onHit": {
+            "damage": 65.0,
+            "expl": 1.0
+          }
+        },
+        {
           "onKill": {
             "tailcontrol_dm": 1.0,
             "nothing": 9.0
@@ -611,21 +618,14 @@
           "onKill": {
             "damage": 10.0,
             "cut": 1.0,
-            "nothing": 14.0
+            "nothing": 9.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "cut": 1.0,
-            "nothing": 4.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 1.0
+            "nothing": 3.0
           }
         }
       ]
@@ -2422,9 +2422,24 @@
     }
   ],
   "cutting": {
-    "wingLDist": [2.67622,3.67622],
-    "wingRDist": [-3.04206,-2.04206],
-    "tailDist": [10.0,11.0],
-    "color": [0.151,0.151,0.151,1.0]
+    "_emtr_break_wing0_l_from": [-1.93846,-0.622485,1.00143],
+    "_emtr_break_wing0_l_to": [-1.93846,-0.622485,1.43763],
+    "emtr_break_wing1_l_from": [-1.93846,-0.622485,2.09195],
+    "emtr_break_wing1_l_to": [-1.93846,-0.622485,2.72927],
+    "emtr_break_wing2_l_from": [-1.93846,-0.622485,3.68527],
+    "emtr_break_wing2_l_to": [-1.93846,-0.622485,4.43042],
+    "_emtr_break_wing0_r_from": [-1.93846,-0.622484,-1.00143],
+    "_emtr_break_wing0_r_to": [-1.93846,-0.622484,-1.43763],
+    "emtr_break_wing1_r_from": [-1.93846,-0.622484,-2.09195],
+    "emtr_break_wing1_r_to": [-1.93846,-0.622484,-2.72927],
+    "emtr_break_wing2_r_from": [-1.93846,-0.622484,-3.68527],
+    "emtr_break_wing2_r_to": [-1.93846,-0.622484,-4.43042],
+    "emtr_break_wing_tail": [
+      [-1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [3.72817,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

@@ -35,7 +35,7 @@ class ::Input.Combination extends ::Input.InputBase
     foreach (element in elements)
       text.append(element.getText())
 
-    return ::implode(text, " + ")
+    return ::g_string.implode(text, " + ")
   }
 
   function getDeviceId()

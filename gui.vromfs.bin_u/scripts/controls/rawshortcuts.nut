@@ -24,6 +24,7 @@
   KEY_D         = {dev = [2], btn = [32]}
   KEY_F         = {dev = [2], btn = [33]}
   KEY_G         = {dev = [2], btn = [34]}
+  KEY_H         = {dev = [2], btn = [35]}
   KEY_V         = {dev = [2], btn = [47]}
   KEY_B         = {dev = [2], btn = [48]}
 

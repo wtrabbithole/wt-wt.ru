@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::shown_userlog_notifications <- []
 
 ::g_script_reloader.registerPersistentData("UserlogDataGlobals", ::getroottable(), ["shown_userlog_notifications"])
@@ -321,6 +324,8 @@ function checkNewNotificationUserlogs(onStartAwards = false)
                             )
           local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
           msg = awardType.getUserlogBuyText(awardBlk, priceText)
+          if (awardType.id == ::EWBAT_BATTLE_TASK && awardType.canBuy(awardBlk))
+            ::broadcastEvent("BattleTasksIncomeUpdate")
         }
       }
       else
@@ -394,8 +399,8 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       {
         config.desc += "\n"
 
-        local rentTimeHours = ::getTblValue("rentTimeLeftSec", blk.body, 0) / TIME_HOUR_IN_SECONDS_F
-        local timeText = ::colorize("userlogColoredText", ::hoursToString(rentTimeHours))
+        local rentTimeHours = time.secondsToHours(::getTblValue("rentTimeLeftSec", blk.body, 0))
+        local timeText = ::colorize("userlogColoredText", time.hoursToString(rentTimeHours))
         config.desc += ::loc("mainmenu/rent/rentTimeSec", {time = timeText})
 
         config.desc = ::colorize("activeTextColor", config.desc)

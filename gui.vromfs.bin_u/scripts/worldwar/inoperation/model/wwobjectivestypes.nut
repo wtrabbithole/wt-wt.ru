@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_ww_objective_type <- {
   types = []
   cache = {
@@ -88,8 +91,8 @@
 
   specificClassParamConvertion = {}
   convertParamValue = {
-    timeSecScaled = function(value, blk) { return ::hoursToString(::seconds_to_hours(value - ::g_world_war.getOperationTimeSec()), false, true)}
-    holdTimeSec   = function(value, blk) { return ::hoursToString(::seconds_to_hours(value), false, true)}
+    timeSecScaled = function(value, blk) { return time.hoursToString(time.secondsToHours(value - ::g_world_war.getOperationTimeSec()), false, true)}
+    holdTimeSec   = function(value, blk) { return time.hoursToString(time.secondsToHours(value), false, true)}
     zonePercent_ = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
     zonesPercent = function(value, blk) { return ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)}
     unitCount = function(value, blk) { return value + ::g_ww_unit_type.getUnitTypeByTextCode(blk.unitType).fontIcon }
@@ -189,9 +192,9 @@
         return true
 
       local sideName = ::ww_side_val_to_name(side)
-      local time = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
+      local operationTime = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
       nestObj.setValue(type.getName(dataBlk, statusBlk, sideName))
-      local needStopTimer = type.needStopTimer(dataBlk, statusBlk, time, sideName)
+      local needStopTimer = type.needStopTimer(dataBlk, statusBlk, operationTime, sideName)
       return needStopTimer
     }
     zones = function(nestObj, dataBlk, statusBlk, type, zoneName)
@@ -203,7 +206,7 @@
       local captureTimeSec = ::ww_get_zone_capture_time_sec(zoneName)
       local captureTimeEnd = dataBlk.holdTimeSec
 
-      valueObj.setValue(::hoursToString(captureTimeSec/TIME_HOUR_IN_SECONDS, false, true))
+      valueObj.setValue(time.hoursToString(time.secondsToHours(captureTimeSec), false, true))
 
       return captureTimeSec > captureTimeEnd
     }

@@ -5,7 +5,7 @@
 ::always_reload_scenes <- false //debug only
 
 ::handlersManager <- {
-  [PERSISTENT_DATA_PARAMS] = ["lastBaseHandlerStartFunc"]
+  [PERSISTENT_DATA_PARAMS] = ["lastBaseHandlerStartData"]
 
   handlers = { //handlers weakrefs
     [handlerType.ROOT] = [],
@@ -22,9 +22,9 @@
   isFullReloadInProgress = false
   isInLoading = true
   restoreDataByTriggerHandler = {}
-  lastBaseHandlerStartFunc = null //function to start backScene or to reload current base handler
-                                  //automatically set on loadbaseHandler
-                                  //but can be overrided by setLastBaseHandlerStartFunc
+  lastBaseHandlerStartData = [] //functions list (by guiScenes) to start backScene or to reload current base handler
+                                //automatically set on loadbaseHandler
+                                //but can be overrided by setLastBaseHandlerStartFunc
 
   lastLoadedHandlerName = ""
 
@@ -488,7 +488,7 @@ function handlersManager::needReloadScene()
 
 function handlersManager::startSceneFullReload(startSceneFunc = null)
 {
-  startSceneFunc = startSceneFunc || lastBaseHandlerStartFunc
+  startSceneFunc = startSceneFunc || getLastBaseHandlerStartFunc()
   if (!startSceneFunc)
     return
 
@@ -512,8 +512,9 @@ function handlersManager::markfullReloadOnSwitchScene(needReloadOnActivateHandle
 function handlersManager::onEventScriptsReloaded(p)
 {
   markfullReloadOnSwitchScene()
-  if (lastBaseHandlerStartFunc)
-    lastBaseHandlerStartFunc()
+  local startFunc = getLastBaseHandlerStartFunc()
+  if (startFunc)
+    startFunc()
 }
 
 function handlersManager::checkPostLoadCssOnBackToBaseHandler()
@@ -521,9 +522,9 @@ function handlersManager::checkPostLoadCssOnBackToBaseHandler()
   needCheckPostLoadCss = true
 }
 
-function handlersManager::checkPostLoadCss()
+function handlersManager::checkPostLoadCss(isForced = false)
 {
-  if (!needCheckPostLoadCss)
+  if (!needCheckPostLoadCss && !isForced)
     return false
   local handler = ::handlersManager.getActiveBaseHandler()
   if (!handler || !handler.isSceneActiveNoModals())
@@ -704,23 +705,42 @@ function handlersManager::restoreHandlers(triggerHandlerClass)
   }
 }
 
-function handlersManager::getLastBaseHandlerStartFunc()
+function handlersManager::findLastBaseHandlerStartData(guiScene)
 {
-  return lastBaseHandlerStartFunc
+  for(local i = lastBaseHandlerStartData.len() - 1; i >= 0; i--)
+    if (lastBaseHandlerStartData[i].guiScene.isEqual(guiScene))
+      return lastBaseHandlerStartData[i]
+  return null
 }
 
-function handlersManager::setLastBaseHandlerStartFunc(startFunc)
+function handlersManager::getLastBaseHandlerStartFunc(guiScene = null)
 {
-  lastBaseHandlerStartFunc = startFunc
+  if (!guiScene)
+    guiScene = ::get_gui_scene()
+  local data = findLastBaseHandlerStartData(guiScene)
+  return data && data.startFunc
+}
+
+function handlersManager::setLastBaseHandlerStartFunc(startFunc, guiScene = null)
+{
+  if (!guiScene)
+    guiScene = ::get_gui_scene()
+  local data = findLastBaseHandlerStartData(guiScene)
+  if (!data)
+  {
+    data = { guiScene = guiScene, startFunc = null }
+    lastBaseHandlerStartData.append(data)
+  }
+  data.startFunc = startFunc
 }
 
 function handlersManager::setLastBaseHandlerStartFuncByHandler(handlerClass, params)
 {
   local handlerClassName = getHandlerClassName(handlerClass)
-  lastBaseHandlerStartFunc = (@(handlerClassName, handlerClass, params) function() {
+  setLastBaseHandlerStartFunc(function() {
                                local hClass = ::getTblValue(handlerClassName, ::gui_handlers, handlerClass)
                                ::handlersManager.loadHandler(hClass, params)
-                             })(handlerClassName, handlerClass, params)
+                             })
 }
 
 function handlersManager::destroyPrevHandlerAndLoadNew(handlerClass, params, needDestroyIfAlreadyOnTop = false)

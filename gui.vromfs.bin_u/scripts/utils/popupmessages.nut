@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum POPUP_VIEW_TYPES {
   NEVER = "never"
   EVERY_SESSION = "every_session"
@@ -14,7 +17,7 @@ enum POPUP_VIEW_TYPES {
 
 function getTimeIntByString(stringDate, defaultValue = 0)
 {
-  local timeTbl = stringDate && ::get_time_from_string_utc(stringDate)
+  local timeTbl = stringDate && time.getTimeFromStringUtc(stringDate)
   if (!timeTbl)
     return defaultValue
 
@@ -79,7 +82,7 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject)
 
 function g_popup_msg::showPopupWndIfNeed(hasModalObject)
 {
-  days = get_utc_days()
+  days = time.getUtcDays()
   if (!::get_gui_regional_blk())
     return false
 

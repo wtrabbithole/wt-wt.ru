@@ -1,6 +1,7 @@
 contactItem {
   re-type:text;
   size: pw, 0.04@scrn_tgt;
+  padding:1@blockInterval, 0;
   css-hier-invalidate:yes;
 }
 
@@ -18,7 +19,7 @@ contactItem > text {
 }
 
 contactItem textareaNoTab[contact_presence=yes] {
-  font:@tiny;
+  font:@fontSmall;
 }
 
 contactItem:hover > tdiv[contact_buttons_holder=yes] {

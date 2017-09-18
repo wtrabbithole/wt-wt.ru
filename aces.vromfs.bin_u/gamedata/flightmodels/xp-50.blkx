@@ -57,6 +57,26 @@
         "genericDamageMult": 0.3,
         "hp": 28.0
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 29.9
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 29.9
+      },
+      "fin1_dm": {
+        "hp": 18.5
+      },
+      "fin2_dm": {
+        "hp": 18.5
+      },
+      "flap1_l_dm": {
+        "hp": 28.5
+      },
+      "flap1_r_dm": {
+        "hp": 28.5
+      },
       "flap_l_dm": {
         "hp": 14.5
       },
@@ -162,6 +182,9 @@
       },
       "gear_r_dm": {
         "hp": 40.1
+      },
+      "gear_c_dm": {
+        "hp": 40.2
       }
     },
     "steel_cooling_sys": {
@@ -169,6 +192,12 @@
         "hp": 11.5
       },
       "oil2_dm": {
+        "hp": 17.5
+      },
+      "oil3_dm": {
+        "hp": 11.5
+      },
+      "oil4_dm": {
         "hp": 17.5
       }
     },
@@ -184,32 +213,6 @@
       },
       "tank2_dm": {
         "hp": 39.5
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 26.0
-      },
-      "elevator1_dm": {
-        "hp": 26.0
-      },
-      "fin1_dm": {
-        "hp": 14.8
-      },
-      "fin2_dm": {
-        "hp": 14.8
-      },
-      "flap1_l_dm": {
-        "hp": 22.8
-      },
-      "flap1_r_dm": {
-        "hp": 22.8
-      },
-      "oil3_dm": {
-        "hp": 3.5
-      },
-      "oil4_dm": {
-        "hp": 14.0
       }
     }
   },
@@ -1110,6 +1113,42 @@
       "part": [
         {
           "name": "gear_r_dm"
+        },
+        {
+          "onHit": {
+            "damage": 15.0,
+            "cut": 0.1
+          }
+        },
+        {
+          "onHit": {
+            "damage": 25.0,
+            "cut": 0.4
+          }
+        },
+        {
+          "onHit": {
+            "damage": 40.0,
+            "cut": 0.7
+          }
+        },
+        {
+          "onHit": {
+            "damage": 60.0,
+            "cut": 1.0
+          }
+        },
+        {
+          "onKill": {
+            "cut": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "part": [
+        {
+          "name": "gear_c_dm"
         },
         {
           "onHit": {
@@ -2325,7 +2364,6 @@
     "hp_105": [],
     "new_radiator": [],
     "new_compressor": [],
-    "new_engine_injection": [],
     "50cal_universal": [],
     "50cal_ground_targets": [],
     "50cal_tracers": [],
@@ -2341,5 +2379,26 @@
     "anm2_new_gun": {
       "reqModification": "anm2_belt_pack"
     }
+  },
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.42382,0.266992,0.884606],
+    "_emtr_break_wing0_l_to": [-0.42382,0.266992,1.06376],
+    "emtr_break_wing1_l_from": [-0.42382,0.266992,3.14379],
+    "emtr_break_wing1_l_to": [-0.42382,0.266992,3.79959],
+    "emtr_break_wing2_l_from": [-0.42382,0.266992,4.78328],
+    "emtr_break_wing2_l_to": [-0.42382,0.266992,5.47196],
+    "_emtr_break_wing0_r_from": [-0.42382,0.266992,-0.884606],
+    "_emtr_break_wing0_r_to": [-0.42382,0.266992,-1.06376],
+    "emtr_break_wing1_r_from": [-0.42382,0.266992,-3.14379],
+    "emtr_break_wing1_r_to": [-0.42382,0.266992,-3.79959],
+    "emtr_break_wing2_r_from": [-0.42382,0.266992,-4.78328],
+    "emtr_break_wing2_r_to": [-0.42382,0.266992,-5.47196],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-5.03233,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

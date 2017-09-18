@@ -53,7 +53,7 @@
                       "childsActivate": "yes",
                       "Button_text": {
                         "id": "btn_lock_clan_req",
-                        "class": "image20",
+                        "class": "image",
                         "behaviour": "wrapBroadcast",
                         "tooltip": "#clan/open_close_new_req",
                         "display": "hide",
@@ -75,7 +75,7 @@
                     "textareaNoTab": {
                       "id": "clan-title",
                       "overlayTextColor": "active",
-                      "fontNormal": "yes",
+                      "mediumFont": "yes",
                       "text": "",
                       "hideEmptyText": "yes",
                       "overflow-y": "none",
@@ -88,7 +88,7 @@
                 {
                   "textareaNoTab": {
                     "id": "clan-creationDate",
-                    "tinyFont": "yes",
+                    "smallFont": "yes",
                     "hideEmptyText": "yes",
                     "text": ""
                   }
@@ -96,7 +96,7 @@
                 {
                   "textareaNoTab": {
                     "id": "clan-prevChanges",
-                    "tinyFont": "yes",
+                    "smallFont": "yes",
                     "hideEmptyText": "yes",
                     "text": ""
                   }
@@ -104,7 +104,7 @@
                 {
                   "textareaNoTab": {
                     "id": "clan-region",
-                    "tinyFont": "yes",
+                    "smallFont": "yes",
                     "max-width": "pw",
                     "max-height": "3.3%@sf",
                     "overflow-y": "auto",
@@ -125,7 +125,7 @@
                 {
                   "textareaNoTab": {
                     "id": "clan-membershipReqRank",
-                    "tinyFont": "yes",
+                    "smallFont": "yes",
                     "hideEmptyText": "yes",
                     "text": ""
                   }
@@ -133,7 +133,7 @@
                 {
                   "textareaNoTab": {
                     "id": "clan-membershipReqBattles",
-                    "tinyFont": "yes",
+                    "smallFont": "yes",
                     "hideEmptyText": "yes",
                     "text": ""
                   }
@@ -153,7 +153,7 @@
               "max-height": "9.2%@sf",
               "padding": "0.01@sf",
               "text-align": "left",
-              "tinyFont": "yes",
+              "smallFont": "yes",
               "overflow-y": "auto",
               "text": ""
             }
@@ -170,7 +170,7 @@
               "max-height": "9.2%@sf",
               "padding": "0.01@sf",
               "text-align": "left",
-              "tinyFont": "yes",
+              "smallFont": "yes",
               "overflow-y": "auto",
               "text": ""
             }
@@ -268,7 +268,7 @@
                 "id": "update_stats_info_text",
                 "width": "pw",
                 "text-align": "center",
-                "tinyfont": "yes",
+                "smallFont": "yes",
                 "overlayTextColor": "faded",
                 "text": ""
               }
@@ -356,7 +356,6 @@
       },
       "HorizontalListBox": {
         "id": "modes_list",
-        "height": "0.04@scrn_tgt",
         "position": "absolute",
         "pos": "pw - w, ph/2 - h/2",
         "on_select": "cp_onStatsModeChange",
@@ -394,8 +393,7 @@
       "id": "clan_loading",
       "pos": "0.5pw-0.5w, 0.5ph-0.5h",
       "position": "absolute",
-      "background-rotation": "0",
-      "wait_icon_cock": []
+      "background-rotation": "0"
     }
   },
   {

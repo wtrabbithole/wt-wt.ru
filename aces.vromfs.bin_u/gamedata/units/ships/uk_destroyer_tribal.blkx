@@ -93,6 +93,33 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "smokeScreenActivateTime": 10.0
+  },
+  {
+    "smokeScreenTime": 30.0
+  },
+  {
+    "smokeScreenRad": 50.0
+  },
+  {
+    "smokeScreenFx": "smoke_screen_effect"
+  },
+  {
+    "smokeScreenOffset": [-35.0,2.0,0.0]
+  },
+  {
+    "rearmSmokeTimeOnField": 180.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
+    "depthTraceWarningDepth": 5.0
+  },
+  {
+    "depthTraceCriticalDepth": 2.0
+  },
+  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_uk_01_c*",
@@ -2627,6 +2654,28 @@
       {
         "part": [
           {
+            "name": "torpedo_01_dm"
+          },
+          {
+            "name": "torpedo_02_dm"
+          },
+          {
+            "name": "torpedo_03_dm"
+          },
+          {
+            "name": "torpedo_04_dm"
+          },
+          {
+            "onKill": {
+              "fire": 1.0,
+              "fHitCritical": true
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
             "name": "fuel_tank_dm"
           },
           {
@@ -3076,12 +3125,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 10
-          },
-          {
-            "reusePitchTrigger": 10
-          },
-          {
             "turret": {
               "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
@@ -3234,12 +3277,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 10
-          },
-          {
-            "reusePitchTrigger": 10
-          },
-          {
             "turret": {
               "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
@@ -3385,12 +3422,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 11
-          },
-          {
-            "reusePitchTrigger": 11
           },
           {
             "turret": {
@@ -3547,12 +3578,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 11
-          },
-          {
-            "reusePitchTrigger": 11
           },
           {
             "turret": [
@@ -3728,12 +3753,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 12
-          },
-          {
-            "reusePitchTrigger": 12
-          },
-          {
             "turret": {
               "head": "main_caliber_turret_04",
               "gun": "main_caliber_gun_07",
@@ -3888,12 +3907,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 12
-          },
-          {
-            "reusePitchTrigger": 12
-          },
-          {
             "turret": {
               "head": "main_caliber_turret_04",
               "gun": "main_caliber_gun_07",
@@ -4044,12 +4057,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 13
-          },
-          {
-            "reusePitchTrigger": 13
           },
           {
             "turret": {
@@ -4205,12 +4212,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 13
-          },
-          {
-            "reusePitchTrigger": 13
-          },
-          {
             "turret": {
               "head": "main_caliber_turret_03",
               "gun": "main_caliber_gun_05",
@@ -4357,12 +4358,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
           },
           {
             "turret": {
@@ -4522,12 +4517,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
-          },
-          {
             "turret": {
               "head": "auxiliary_caliber_turret_01",
               "gun": "auxiliary_caliber_gun_01",
@@ -4680,12 +4669,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
-          },
-          {
             "turret": {
               "head": "auxiliary_caliber_turret_01",
               "gun": "auxiliary_caliber_gun_01",
@@ -4836,12 +4819,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
           },
           {
             "turret": {
@@ -5284,12 +5261,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 17
-          },
-          {
-            "reusePitchTrigger": 17
-          },
-          {
             "turret": {
               "head": "turret_h_06",
               "gun": "aa_gun_03",
@@ -5442,12 +5413,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 17
-          },
-          {
-            "reusePitchTrigger": 17
-          },
-          {
             "turret": {
               "head": "turret_h_06",
               "gun": "aa_gun_04",
@@ -5593,12 +5558,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 17
-          },
-          {
-            "reusePitchTrigger": 17
           },
           {
             "turret": {
@@ -5748,12 +5707,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 17
-          },
-          {
-            "reusePitchTrigger": 17
-          },
-          {
             "turret": {
               "head": "turret_h_06",
               "gun": "aa_gun_06",
@@ -5899,12 +5852,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 18
-          },
-          {
-            "reusePitchTrigger": 18
           },
           {
             "turret": {
@@ -6059,12 +6006,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 18
-          },
-          {
-            "reusePitchTrigger": 18
-          },
-          {
             "turret": {
               "head": "turret_h_05",
               "gun": "aa_gun_08",
@@ -6210,12 +6151,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 18
-          },
-          {
-            "reusePitchTrigger": 18
           },
           {
             "turret": {
@@ -6365,12 +6300,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 18
-          },
-          {
-            "reusePitchTrigger": 18
-          },
-          {
             "turret": {
               "head": "turret_h_05",
               "gun": "aa_gun_10",
@@ -6426,7 +6355,7 @@
           "emitterGenFmt": "bone_torpedo_%02d",
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
-          "allowableDelta": 10.0,
+          "allowableDelta": 20.0,
           "enableCourseCorrection": false,
           "turret": {
             "head": "tt_head_01",
@@ -6471,7 +6400,8 @@
           "extinguisherCrewBusyTime": -1.0
         }
       },
-      "tank_tool_kit": []
+      "tank_tool_kit": [],
+      "ship_smoke_screen_system_mod": []
     }
   },
   {
@@ -6519,19 +6449,22 @@
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo"
+              "emitter": "emtr_fire_ammo",
+              "scale": 0.7
             }
           },
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo_01"
+              "emitter": "emtr_fire_ammo_01",
+              "scale": 0.7
             }
           },
           {
             "fx": {
               "name": "ship_ammo_fire_large",
-              "emitter": "emtr_fire_ammo_02"
+              "emitter": "emtr_fire_ammo_02",
+              "scale": 0.7
             }
           }
         ]
@@ -6780,21 +6713,22 @@
           {
             "fx": {
               "name": "ship_explosion_large",
-              "emitter": "emtr_explosion_center_01"
+              "emitter": "emtr_explosion_center_01",
+              "scale": 1.0
             }
           },
           {
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_02",
-              "scale": 0.8
+              "scale": 0.6
             }
           },
           {
             "fx": {
               "name": "ship_explosion_large_second",
               "emitter": "emtr_explosion_center_03",
-              "scale": 0.7
+              "scale": 0.5
             }
           }
         ]
@@ -6910,23 +6844,67 @@
     ]
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammunition_storage_01_dm": {
-          "count": 1800
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "shells": {
+            "ammunition_storage_01_dm": {
+              "count": 1200
+            }
+          }
         }
-      },
-      "primaryCharges": {
-        "ammunition_storage_03_dm": {
-          "count": 1800
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "shells": {
+            "ammunition_storage_02_dm": {
+              "count": 1400
+            }
+          }
+        }
+      ],
+      "ammo3": {
+        "weaponTrigger": "gunner9",
+        "shells": {
+          "torpedo_01_dm": {
+            "count": 1
+          },
+          "torpedo_02_dm": {
+            "count": 1
+          },
+          "torpedo_03_dm": {
+            "count": 1
+          },
+          "torpedo_04_dm": {
+            "count": 1
+          }
         }
       }
     }
   },
   {
     "winch": {
-      "length": 100.0
+      "length": 170.0
+    }
+  },
+  {
+    "difficulty": {
+      "arcade": {
+        "shipRudderAreaMult": 1.0,
+        "tankRearmOnCaptureZone": true
+      }
     }
   }
 ]

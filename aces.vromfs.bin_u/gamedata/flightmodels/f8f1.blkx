@@ -49,6 +49,14 @@
         "genericDamageMult": 0.3,
         "hp": 25.6
       },
+      "elevator0_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 24.3
+      },
+      "elevator1_dm": {
+        "genericDamageMult": 0.3,
+        "hp": 24.3
+      },
       "fin_dm": {
         "hp": 30.5
       },
@@ -150,6 +158,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 60.5
       },
@@ -163,6 +174,9 @@
       },
       "oil2_dm": {
         "hp": 17.5
+      },
+      "water1_dm": {
+        "hp": 17.5
       }
     },
     "steel_pilot": {
@@ -174,20 +188,6 @@
     "steel_tank_s": {
       "tank1_dm": {
         "hp": 70.5
-      }
-    },
-    "wood": {
-      "elevator0_dm": {
-        "hp": 21.1
-      },
-      "elevator1_dm": {
-        "hp": 21.1
-      },
-      "gear_c_dm": {
-        "hp": 7.6
-      },
-      "water1_dm": {
-        "hp": 17.2
       }
     }
   },
@@ -2064,9 +2064,24 @@
     }
   ],
   "cutting": {
-    "wingRDist": [-3.80132,-2.80132],
-    "wingLDist": [2.77069,3.77069],
-    "tailDist": [10.0,11.0],
-    "color": [0.151,0.151,0.151,1.0]
+    "_emtr_break_wing0_l_from": [-0.642829,-0.272851,0.928886],
+    "_emtr_break_wing0_l_to": [-0.642829,-0.272851,1.35124],
+    "emtr_break_wing1_l_from": [-0.642829,-0.272851,2.00005],
+    "emtr_break_wing1_l_to": [-0.642829,-0.272851,2.52933],
+    "emtr_break_wing2_l_from": [-0.642829,-0.272851,3.32326],
+    "emtr_break_wing2_l_to": [-0.642829,-0.272851,4.12474],
+    "_emtr_break_wing0_r_from": [-0.64283,-0.27285,-0.928838],
+    "_emtr_break_wing0_r_to": [-0.64283,-0.27285,-1.3512],
+    "emtr_break_wing1_r_from": [-0.64283,-0.27285,-1.99995],
+    "emtr_break_wing1_r_to": [-0.64283,-0.27285,-2.52924],
+    "emtr_break_wing2_r_from": [-0.64283,-0.27285,-3.32316],
+    "emtr_break_wing2_r_to": [-0.64283,-0.27285,-4.12464],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-4.16587,0.0,0.0]
+    ],
+    "partKindTail": 2
   }
 }

@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 /**
  * This method is called from within C++.
  * Triggered only when some player gets a reward.
@@ -164,7 +167,7 @@ function g_orders::getActivateButtonLabel()
   local label = ::loc("flightmenu/btnActivateOrder")
   if (cooldownTimeleft > 0)
   {
-    local timeText = ::secondsToString(::g_orders.cooldownTimeleft)
+    local timeText = time.secondsToString(::g_orders.cooldownTimeleft)
     label += ::format(" (%s)", timeText)
   }
   return label
@@ -181,7 +184,7 @@ function g_orders::getWarningText(selectedOrderItem = null)
   local timeleft = getCooldownTimeleft()
   if (timeleft > 0)
   {
-    local locParams = {cooldownTimeleftText = ::secondsToString(timeleft)}
+    local locParams = {cooldownTimeleftText = time.secondsToString(timeleft)}
     return ::loc("items/order/activateOrderWarning/cooldown", locParams)
   }
   if (!checkCurrentMission(selectedOrderItem))
@@ -581,8 +584,8 @@ function g_orders::getStatusContent(orderObject)
     playersHeaderText = ::loc("items/order/scoreTable/playersHeader")
     scoreHeaderText = orderType.getScoreHeaderText()
     addScalableFrame = ::is_replay_playing()
-    orderStatusFramePos = orderStatusPosition == null ? null : ::implode(orderStatusPosition, ", ")
-    orderStatusFrameSize = orderStatusSize == null ? null : ::implode(orderStatusSize, ", ")
+    orderStatusFramePos = orderStatusPosition == null ? null : ::g_string.implode(orderStatusPosition, ", ")
+    orderStatusFrameSize = orderStatusSize == null ? null : ::g_string.implode(orderStatusSize, ", ")
   }
   for (local i = 0; i < maxRowsInScoreTable; ++i)
     view.rows.push({ rowIndex = i })
@@ -754,12 +757,12 @@ function g_orders::updateStatusTextView(orderObject, fullUpdate)
     ? orderObject.orderType.getObjectiveDescription(orderTypeParams, statusColorScheme)
     : null
 
-  view.orderTimeleft <- ::secondsToString(getOrderTimeleft(orderObject))
-  view.cooldownTimeleft <- ::secondsToString(cooldownTimeleft)
+  view.orderTimeleft <- time.secondsToString(getOrderTimeleft(orderObject))
+  view.cooldownTimeleft <- time.secondsToString(cooldownTimeleft)
   if (orderObject.targetPlayer != emptyPlayerData)
     view.orderTarget <- ::build_mplayer_name(orderObject.targetPlayer)
   if (orderObject.timeToSwitchTarget != -1)
-    view.timeToSwitchTarget <- ::secondsToString(orderObject.timeToSwitchTarget)
+    view.timeToSwitchTarget <- time.secondsToString(orderObject.timeToSwitchTarget)
 }
 
 function g_orders::getOrderTimeleft(orderObject)

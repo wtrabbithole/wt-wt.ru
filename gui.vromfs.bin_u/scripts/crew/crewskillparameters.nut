@@ -92,7 +92,7 @@ function g_crew_skill_parameters::onEventCrewChanged(params)
   _baseParameters = null
 }
 
-function g_crew_skill_parameters::getBaseDescriptionText(memberName, skillName)
+function g_crew_skill_parameters::getBaseDescriptionText(memberName, skillName, crew)
 {
   local locId = ::format("crew/%s/%s/tooltip", memberName, skillName)
   local locParams = null
@@ -108,13 +108,25 @@ function g_crew_skill_parameters::getBaseDescriptionText(memberName, skillName)
       binocularMul = ::getTblValue("distanceMultForBinocularView", detectDefaults, 1.0)
     }
   }
+  else if (skillName == "loading_time_mult" && memberName == "loader")
+  {
+      local wBlk = ::get_wpcost_blk()
+      local unit = ::g_crew.getCrewUnit(crew)
+      if (unit)
+      {
+        local uBlk = wBlk[unit.name]
+        local value = uBlk && uBlk["primaryWeaponAutoLoader"]
+        if (value)
+          locId = "crew/loader/loading_time_mult/tooltipauto"
+      }
+  }
 
   return ::loc(locId, locParams)
 }
 
 function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew)
 {
-  local resArray = [getBaseDescriptionText(memberName, skillName)]
+  local resArray = [getBaseDescriptionText(memberName, skillName, crew)]
 
   if (crew && memberName == "groundService" && skillName == "repair")
   {
@@ -130,7 +142,7 @@ function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew)
     }
   }
 
-  return ::implode(resArray, "\n")
+  return ::g_string.implode(resArray, "\n")
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]

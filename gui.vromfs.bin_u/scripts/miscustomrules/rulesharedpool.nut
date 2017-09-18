@@ -146,7 +146,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
           continue
         }
 
-        local role = ::cut_prefix(tag, "type_", null)
+        local role = ::g_string.cutPrefix(tag, "type_", null)
         if (role)
           res.unitLimits.append(::g_unit_limit_classes.LimitByUnitRole(role, respLeft))
       }

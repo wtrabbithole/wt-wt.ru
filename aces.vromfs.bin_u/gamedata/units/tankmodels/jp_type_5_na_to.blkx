@@ -728,13 +728,14 @@
         "wheel_r_top_02_dm": [],
         "wheel_r_top_03_dm": [],
         "ex_armor_body_03_dm": [],
-        "ex_armor_body_04_dm": [],
-        "submodule": {
-          "armorClass": "tank_traks",
-          "armorThickness": 15.0,
-          "track_r_dm": [],
-          "track_l_dm": []
-        }
+        "ex_armor_body_04_dm": []
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 15.0,
+        "hp": 150.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -784,7 +785,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1970,6 +1971,120 @@
         "dampeningCompressionRatio": 0.15
       }
     }
+  },
+  {
+    "PhysSys": [
+      {
+        "group": {
+          "find": "^bone_suspension_(\\w)_(\\d+)$",
+          "points": {
+            "lever": {
+              "name": "bone_suspension_$1_$2",
+              "limitMin": [0.0,0.0,0.0],
+              "limitMax": [0.0,0.0,0.0]
+            },
+            "suspension_01_01": {
+              "name": "bone_suspension_$1_$2_01",
+              "limitMin": [-0.5,-0.5,0.0],
+              "limitMax": [0.5,0.5,0.0]
+            },
+            "wheel_01": {
+              "searchChildren": {
+                "parent": "suspension_01_01",
+                "find": "bone_wheel_",
+                "occurence": 1,
+                "limitMin": [-1.0,-1.0,0.0],
+                "limitMax": [1.0,1.0,0.0]
+              }
+            },
+            "wheel_02": {
+              "searchChildren": {
+                "find": "bone_wheel_",
+                "parent": "suspension_01_01",
+                "occurence": 2,
+                "limitMin": [-1.0,-1.0,0.0],
+                "limitMax": [1.0,1.0,0.0]
+              }
+            },
+            "suspension_01_02": {
+              "name": "suspension_$1_$2_02",
+              "limitMin": [-0.5,0.0,0.0],
+              "limitMax": [0.5,0.0,0.0]
+            }
+          },
+          "constraints": [
+            {
+              "projection": {
+                "point": "suspension_01_01",
+                "from": "wheel_01",
+                "to": "wheel_02",
+                "moveEdge": true
+              }
+            },
+            {
+              "edge": {
+                "from": "lever",
+                "to": "suspension_01_01",
+                "moveSecond": false
+              }
+            },
+            {
+              "edge": {
+                "moveSecond": false,
+                "from": "suspension_01_02",
+                "to": "suspension_01_01",
+                "moveOnly": true
+              }
+            },
+            {
+              "direction": {
+                "moveNodes": true,
+                "rotateSecond": false,
+                "from": "wheel_01",
+                "to": "wheel_02",
+                "point": "suspension_01_01"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "group": {
+          "find": "^bone_suspension_tb_(._\\d\\d)$",
+          "points": {
+            "suspension": {
+              "limitMin": [0.0,0.0,0.0],
+              "limitMax": [0.0,0.0,0.0],
+              "name": "bone_suspension_tb_$1"
+            },
+            "wheel": {
+              "searchChildren": {
+                "occurence": 1,
+                "limitMin": [-1000.0,-1000.0,0.0],
+                "limitMax": [1000.0,1000.0,0.0],
+                "parent": "suspension",
+                "find": "bone_wheel_"
+              }
+            },
+            "suspension_01_02": {
+              "searchChildren": {
+                "occurence": 1,
+                "limitMin": [-0.5,0.0,0.0],
+                "limitMax": [-0.5,0.0,0.0],
+                "parent": "suspension",
+                "find": "suspension_tb_"
+              }
+            }
+          },
+          "constraints": {
+            "edge": {
+              "from": "suspension",
+              "to": "wheel"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "ammo": {

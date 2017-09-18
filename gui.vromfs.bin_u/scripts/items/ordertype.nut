@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_order_type <- {
   types = []
 }
@@ -22,7 +25,7 @@ function g_order_type::_getParametersDescription(typeParams, colorScheme)
     if (paramName == "huntTime")
     {
       localizeStringValue = false
-      paramValue = ::secondsToString(paramValue, true, true)
+      paramValue = time.secondsToString(paramValue, true, true)
     }
     description += ::g_order_type._getParameterDescription.call(this, paramName,
       paramValue, localizeStringValue, colorScheme)
@@ -159,7 +162,7 @@ function g_order_type::_formatScore(scoreValue)
       if (types.len() == 0)
         return "-"
       local names = ::u.map(types, function (type) { return type.getName() })
-      return ::implode(names, ", ")
+      return ::g_string.implode(names, ", ")
     }
   }
 

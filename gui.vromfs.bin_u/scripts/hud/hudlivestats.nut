@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum LIVE_STATS_MODE {
   WATCH
   SPAWN
@@ -203,7 +206,7 @@ function g_hud_live_stats::fill()
   else if (curViewMode == LIVE_STATS_MODE.SPAWN && !isMissionLastManStanding)
   {
     local txtUnitName = ::getUnitName(::getTblValue("aircraftName", state.player, ""))
-    local txtLifetime = ::secondsToString(state.lifetime, true)
+    local txtLifetime = time.secondsToString(state.lifetime, true)
     title = ::loc("multiplayer/lifetime") + ::loc("ui/parentheses/space", { text = txtUnitName }) + ::loc("ui/colon") + txtLifetime
   }
   else if (curViewMode == LIVE_STATS_MODE.FINAL || isMissionLastManStanding)
@@ -239,7 +242,7 @@ function g_hud_live_stats::fill()
     foreach (unitId in hero.units)
       unitNames.append(::getUnitName(unitId))
     view["units"] <- ::loc("mainmenu/btnUnits") + ::loc("ui/colon") +
-      ::implode(unitNames, ::loc("ui/comma"))
+      ::g_string.implode(unitNames, ::loc("ui/comma"))
   }
 
   local template = isSelfTogglable ? "gui/hud/hudLiveStats" : "gui/hud/hudLiveStatsSpectator"
@@ -286,7 +289,7 @@ function g_hud_live_stats::update(obj = null, dt = 0.0)
 
   if (isCompareStates && (!visState || visState.lifetime != state.lifetime) && !isMissionLastManStanding)
   {
-    local text = ::secondsToString(state.lifetime, true)
+    local text = time.secondsToString(state.lifetime, true)
     local obj = scene.findObject("txt_lifetime")
     if (::checkObj(obj) && obj.getValue() != text)
       obj.setValue(text)

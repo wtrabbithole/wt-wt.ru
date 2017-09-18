@@ -50,7 +50,7 @@ animSizeObj { //place div
       id:t='time_text';
       position:t='absolute';
       pos:t='pw/2 - w/2, ph/2 - h/2';
-      hudFont:t='normal';
+      hudFont:t='medium';
 
       behaviour:t='Timer';
       text:t='';

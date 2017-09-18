@@ -55,7 +55,7 @@ wwObjective {
             id:t='<<id>>'
             pos:t='50%pw-50%w, 0'
             position:t='relative'
-            tinyFont:t='yes';
+            smallFont:t='yes';
 
             textareaNoTab {
               id:t='pName'
@@ -85,7 +85,7 @@ wwObjective {
             text:t='<<text>>'
             team:t='<<team>>'
             input-transparent:t='yes'
-            tinyFont:t='yes'
+            smallFont:t='yes'
           }
           <</getUpdatableZonesData>>
         }
@@ -99,7 +99,7 @@ wwObjective {
             margin:t='0.02@scrn_tgt, 0'
             team:t='<<team>>'
             css-hier-invalidate:t='yes'
-            tinyFont:t='yes'
+            smallFont:t='yes'
               textareaNoTab {
                 id:t='pName'
                 text:t='<<pName>>'

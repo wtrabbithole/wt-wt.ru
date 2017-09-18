@@ -228,10 +228,17 @@
           }
         },
         {
-          "varSetString": {
-            "value": "bttl_battle_area",
-            "var": "battle_area_name"
-          }
+          "varSetString": [
+            {
+              "value": "bttl_battle_area"
+            },
+            {
+              "var": "battle_area_name"
+            },
+            {
+              "var": "temp_battle_area_name"
+            }
+          ]
         },
         {
           "triggerEnable": [
@@ -493,13 +500,13 @@
         },
         {
           "objectExists": {
-            "target": "@temp_bttl_t1_circle",
+            "target": "@temp_t1_circle_name",
             "type": "objectGroup"
           }
         },
         {
           "objectExists": {
-            "target": "@temp_bttl_t2_circle",
+            "target": "@temp_t2_circle_name",
             "type": "objectGroup"
           }
         },
@@ -875,6 +882,9 @@
               "radius": -1.0
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "@t1_spawn_01_name"
             },
             {
@@ -927,6 +937,9 @@
             },
             {
               "radius": -1.0
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
             },
             {
               "target": "@t2_spawn_01_name"
@@ -983,6 +996,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_01_name",
             "team": "A",
             "tags": {
@@ -1004,6 +1018,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_01_name",
             "team": "B",
             "tags": {
@@ -1153,6 +1168,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t1_spawn_02_name",
             "team": "A",
             "tags": {
@@ -1174,6 +1190,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@t2_spawn_02_name",
             "team": "B",
             "tags": {
@@ -1208,6 +1225,7 @@
           "mapArea": true,
           "killOutOfBattleArea": true,
           "target": "@battle_area_name",
+          "newGridHorizontalCellCount": 0,
           "area": "@battle_area_name"
         }
       },

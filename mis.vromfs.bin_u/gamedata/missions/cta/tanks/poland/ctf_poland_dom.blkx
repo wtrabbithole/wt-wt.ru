@@ -129,7 +129,7 @@
       "chapter": "test",
       "scoreLimit": 9000,
       "timeLimit": 20,
-      "deathPenaltyMul": 0.0,
+      "deathPenaltyMul": 0.2,
       "allowedKillStreaks": false,
       "country_axis": "germany",
       "country_allies": "ussr",
@@ -255,6 +255,9 @@
               "killOutOfBattleArea": true
             },
             {
+              "newGridHorizontalCellCount": 0
+            },
+            {
               "area": "t1_battlearea_part01"
             },
             {
@@ -277,6 +280,7 @@
             "ground": true,
             "mapArea": true,
             "killOutOfBattleArea": true,
+            "newGridHorizontalCellCount": 0,
             "area": "t2_battlearea",
             "team": "B"
           }
@@ -500,7 +504,8 @@
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
@@ -512,6 +517,24 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t1_player_squad",
+              "target_type": "isMarked",
+              "team": "A"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/you_capture_flag",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 1,
+              "target": "all_players_squad",
+              "target_type": "isMarked",
               "team": "A"
             }
           },
@@ -524,6 +547,9 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t2_player_squad",
+              "target_type": "isMarked",
               "team": "B"
             }
           },
@@ -541,6 +567,9 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t1_player_squad",
+              "target_type": "isMarked",
               "team": "A"
             }
           },
@@ -553,6 +582,9 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t2_player_squad",
+              "target_type": "isMarked",
               "team": "B"
             }
           }
@@ -680,7 +712,8 @@
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
@@ -692,6 +725,24 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t2_tankspawn_01",
+              "target_type": "isMarked",
+              "team": "B"
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/you_capture_flag",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 1,
+              "target": "all_players_squad",
+              "target_type": "isMarked",
               "team": "B"
             }
           },
@@ -704,6 +755,9 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t1_tankspawn_01",
+              "target_type": "isMarked",
               "team": "A"
             }
           },
@@ -721,6 +775,9 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t2_tankspawn_01",
+              "target_type": "isMarked",
               "team": "B"
             }
           },
@@ -733,6 +790,9 @@
               "isOverFade": false,
               "time": -1.0,
               "priority": 0,
+              "target_marking": 0,
+              "target": "t1_tankspawn_01",
+              "target_type": "isMarked",
               "team": "A"
             }
           }
@@ -781,6 +841,20 @@
           }
         ],
         "actions": [
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/you_capture_flag",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 1,
+              "target": "all_players_squad",
+              "target_type": "isMarked"
+            }
+          },
           {
             "unitPlayEffect": {
               "effect_type": "specify",
@@ -920,7 +994,8 @@
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             },
             "wait": {
               "time": 3.0
@@ -984,7 +1059,8 @@
                 "shouldFadeOut": false,
                 "isOverFade": false,
                 "time": -1.0,
-                "priority": 0
+                "priority": 0,
+                "target_marking": 0
               }
             },
             {
@@ -1050,7 +1126,8 @@
                 "shouldFadeOut": false,
                 "time": -1.0,
                 "priority": 0,
-                "isOverFade": false
+                "isOverFade": false,
+                "target_marking": 0
               }
             },
             {
@@ -1116,7 +1193,8 @@
                 "shouldFadeOut": false,
                 "time": -1.0,
                 "priority": 0,
-                "isOverFade": false
+                "isOverFade": false,
+                "target_marking": 0
               }
             },
             {
@@ -1246,7 +1324,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 5.0
+            "time": 10.0
           }
         },
         "conditions": {
@@ -1423,21 +1501,87 @@
             "unit_type_ex": "isActive"
           }
         },
-        "actions": {
-          "gameMPChangeScore": {
-            "value": -5,
-            "valueSystem": "amount",
-            "team": "B"
+        "actions": [
+          {
+            "gameMPChangeScore": {
+              "value": -5,
+              "valueSystem": "amount",
+              "team": "B"
+            }
           },
-          "varModify": {
-            "operator": "add",
-            "value": 5.0,
-            "var": "t1_take_points_int"
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 5.0,
+              "var": "t1_take_points_int"
+            }
           },
-          "triggerEnable": {
-            "target": "t1_flag_in_t2_capturezone"
+          {
+            "triggerEnable": {
+              "target": "t1_flag_in_t2_capturezone"
+            }
+          },
+          {
+            "__comment": {
+              "value": "Счетчик отображаемый снизу пока не работает, отключил логику"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t1_hint_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "A"
+            }
+          },
+          {
+            "__varSetString": {
+              "value": "",
+              "var": "t1_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t1_hint_string",
+              "input_var": "t1_take_points_int"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "/",
+              "digits": 0,
+              "var": "t1_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t1_hint_string",
+              "input_var": "mpPoints_int"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t1_hint_string",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "A"
+            }
           }
-        },
+        ],
         "else_actions": []
       },
       "t2_with_flag": {
@@ -1463,21 +1607,87 @@
             "unit_type_ex": "isActive"
           }
         },
-        "actions": {
-          "gameMPChangeScore": {
-            "value": -5,
-            "valueSystem": "amount",
-            "team": "A"
+        "actions": [
+          {
+            "gameMPChangeScore": {
+              "value": -5,
+              "valueSystem": "amount",
+              "team": "A"
+            }
           },
-          "varModify": {
-            "operator": "add",
-            "value": 5.0,
-            "var": "t2_take_points_int"
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 5.0,
+              "var": "t2_take_points_int"
+            }
           },
-          "triggerEnable": {
-            "target": "t2_flag_in_t1_capturezone"
+          {
+            "triggerEnable": {
+              "target": "t2_flag_in_t1_capturezone"
+            }
+          },
+          {
+            "__comment": {
+              "value": "Счетчик отображаемый снизу пока не работает, отключил логику"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t2_hint_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "B"
+            }
+          },
+          {
+            "__varSetString": {
+              "value": "",
+              "var": "t2_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t2_hint_string",
+              "input_var": "t2_take_points_int"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "/",
+              "digits": 0,
+              "var": "t2_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t2_hint_string",
+              "input_var": "mpPoints_int"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t2_hint_string",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "B"
+            }
           }
-        },
+        ],
         "else_actions": []
       }
     },
@@ -1769,6 +1979,18 @@
           }
         },
         "actions": {
+          "playHint": {
+            "hintType": "custom",
+            "name": "hints/you_capture_flag",
+            "action": "hide",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 1,
+            "target": "all_players_squad",
+            "target_type": "isMarked"
+          },
           "unitMark": {
             "target_marking": 0,
             "target": "all_players_squad"
@@ -1895,34 +2117,105 @@
             "army": 1
           }
         },
-        "actions": {
-          "gameMPChangeScore": {
-            "value": -40,
-            "valueSystem": "amount",
-            "team": "B"
+        "actions": [
+          {
+            "gameMPChangeScore": {
+              "value": -40,
+              "valueSystem": "amount",
+              "team": "B"
+            }
           },
-          "varModify": {
-            "operator": "add",
-            "value": 40.0,
-            "var": "t1_take_points_int"
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 40.0,
+              "var": "t1_take_points_int"
+            }
           },
-          "triggerDisable": {
-            "target": "flag_on_the_ground"
+          {
+            "triggerDisable": {
+              "target": "flag_on_the_ground"
+            }
           },
-          "playHint": {
-            "hintType": "custom",
-            "name": "@on_the_ground_string",
-            "action": "hide",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "@on_the_ground_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "target_marking": 0
+            }
           },
-          "varSetInt": {
-            "value": 10,
-            "var": "on_the_ground_counter_int"
+          {
+            "varSetInt": {
+              "value": 10,
+              "var": "on_the_ground_counter_int"
+            }
+          },
+          {
+            "__comment": {
+              "value": "Счетчик отображаемый снизу пока не работает, отключил логику"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t1_hint_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "A"
+            }
+          },
+          {
+            "__varSetString": {
+              "value": "",
+              "var": "t1_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t1_hint_string",
+              "input_var": "t1_take_points_int"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "/",
+              "digits": 0,
+              "var": "t1_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t1_hint_string",
+              "input_var": "mpPoints_int"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t1_hint_string",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "A"
+            }
           }
-        },
+        ],
         "else_actions": {
           "triggerEnable": {
             "target": "t2_restore_flag_from_t2_capturezone"
@@ -1998,6 +2291,18 @@
           }
         },
         "actions": {
+          "playHint": {
+            "hintType": "custom",
+            "name": "hints/you_capture_flag",
+            "action": "hide",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 1,
+            "target": "all_players_squad",
+            "target_type": "isMarked"
+          },
           "unitMark": {
             "target_marking": 0,
             "target": "all_players_squad"
@@ -2125,34 +2430,105 @@
             "army": 2
           }
         },
-        "actions": {
-          "gameMPChangeScore": {
-            "value": -40,
-            "valueSystem": "amount",
-            "team": "A"
+        "actions": [
+          {
+            "gameMPChangeScore": {
+              "value": -40,
+              "valueSystem": "amount",
+              "team": "A"
+            }
           },
-          "varModify": {
-            "operator": "add",
-            "value": 40.0,
-            "var": "t2_take_points_int"
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 40.0,
+              "var": "t2_take_points_int"
+            }
           },
-          "triggerDisable": {
-            "target": "flag_on_the_ground"
+          {
+            "triggerDisable": {
+              "target": "flag_on_the_ground"
+            }
           },
-          "playHint": {
-            "hintType": "custom",
-            "name": "@on_the_ground_string",
-            "action": "hide",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "@on_the_ground_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "target_marking": 0
+            }
           },
-          "varSetInt": {
-            "value": 10,
-            "var": "on_the_ground_counter_int"
+          {
+            "varSetInt": {
+              "value": 10,
+              "var": "on_the_ground_counter_int"
+            }
+          },
+          {
+            "__comment": {
+              "value": "Счетчик отображаемый снизу пока не работает, отключил логику"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t2_hint_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "B"
+            }
+          },
+          {
+            "__varSetString": {
+              "value": "",
+              "var": "t2_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t2_hint_string",
+              "input_var": "t2_take_points_int"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "/",
+              "digits": 0,
+              "var": "t2_hint_string"
+            }
+          },
+          {
+            "__varAddString": {
+              "value": "",
+              "digits": 0,
+              "var": "t2_hint_string",
+              "input_var": "mpPoints_int"
+            }
+          },
+          {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t2_hint_string",
+              "action": "show",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "B"
+            }
           }
-        },
+        ],
         "else_actions": {
           "triggerEnable": {
             "target": "t1_restore_flag_from_t1_capturezone"
@@ -2258,6 +2634,19 @@
             ]
           },
           {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t1_hint_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "A"
+            }
+          },
+          {
             "playHint": {
               "hintType": "custom",
               "name": "hints/enemy_loose_third_of_points",
@@ -2266,6 +2655,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "A"
             }
           },
@@ -2278,6 +2668,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "B"
             }
           },
@@ -2307,6 +2698,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "A"
             }
           },
@@ -2319,6 +2711,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "B"
             }
           },
@@ -2393,6 +2786,19 @@
             ]
           },
           {
+            "__playHint": {
+              "hintType": "bottom",
+              "name": "@t2_hint_string",
+              "action": "hide",
+              "shouldFadeOut": false,
+              "isOverFade": false,
+              "time": -1.0,
+              "priority": 0,
+              "target_marking": 0,
+              "team": "B"
+            }
+          },
+          {
             "playHint": {
               "hintType": "custom",
               "name": "hints/enemy_loose_third_of_points",
@@ -2401,6 +2807,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "B"
             }
           },
@@ -2413,6 +2820,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "A"
             }
           },
@@ -2442,6 +2850,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "B"
             }
           },
@@ -2454,6 +2863,7 @@
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "A"
             }
           },
@@ -2601,7 +3011,9 @@
     "mpPoints_int": 3000,
     "numOfRestores": 3,
     "t1_take_points_int": 0,
-    "t2_take_points_int": 0
+    "t2_take_points_int": 0,
+    "t1_hint_string": "",
+    "t2_hint_string": ""
   },
   "dialogs": [],
   "airfields": [],

@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum bit_unit_status
 {
   locked      = 1
@@ -196,7 +199,7 @@ function get_full_unit_role_text(unit)
       textsList.append(::loc("mainmenu/"+tag))
 
   if (textsList.len())
-    return ::implode(textsList, ::loc("mainmenu/unit_type_separator"))
+    return ::g_string.implode(textsList, ::loc("mainmenu/unit_type_separator"))
 
   foreach (t in basicRoles)
     if (isInArray("type_" + t, unit.tags))
@@ -679,10 +682,15 @@ function isUnitBought(unit = null)
   return unitName ? ::shop_is_aircraft_purchased(unitName) : false
 }
 
+function isUnitEliteByStatus(status)
+{
+  return status > ::ES_UNIT_ELITE_STAGE1
+}
+
 function isUnitElite(unit)
 {
-  return ::get_unit_elite_status(unit.name) > ::ES_UNIT_ELITE_STAGE1
-         || (!unit.isFirstBattleAward && ::isUnitSpecial(unit))
+  local unitName = ::getTblValue("name", unit)
+  return unitName ? ::isUnitEliteByStatus(::get_unit_elite_status(unitName)) : false
 }
 
 function isUnitBroken(unit)
@@ -1405,10 +1413,10 @@ function getMaxBestLevelingRank(unit)
     return -1
 
   local unitRank = ::getUnitRank(unit)
-  if (unitRank == 5)
-    return 5
+  if (unitRank == ::max_country_rank)
+    return ::max_country_rank
   local result = unitRank + ::getHighestRankDiffNoPenalty()
-  return result <= 5 ? result : 5
+  return result <= ::max_country_rank ? result : ::max_country_rank
 }
 
 function getHighestRankDiffNoPenalty(inverse = false)
@@ -1418,7 +1426,7 @@ function getHighestRankDiffNoPenalty(inverse = false)
                       ? "expMulWithTierDiffMinus"
                       : "expMulWithTierDiff"
 
-  for (local rankDif = 0; rankDif < 5; rankDif++)
+  for (local rankDif = 0; rankDif < ::max_country_rank; rankDif++)
     if (ranksBlk[paramPrefix + rankDif] < 0.8)
       return rankDif - 1
 }
@@ -1546,8 +1554,8 @@ function fillAirInfoTimers(holderObj, air, needShopInfo)
       if (isBroken)
       {
         //local hpText = format("%d%%", floor(hp*100))
-        //hpText += (hp < 1)? " (" + hoursToString(shop_time_until_repair(air.name)) + ")" : ""
-        local hpText = ::loc("shop/damaged") + " (" + hoursToString(shop_time_until_repair(air.name), false, true) + ")"
+        //hpText += (hp < 1)? " (" + time.hoursToString(shop_time_until_repair(air.name)) + ")" : ""
+        local hpText = ::loc("shop/damaged") + " (" + time.hoursToString(shop_time_until_repair(air.name), false, true) + ")"
         hpTrObj.show(true)
         hpTrObj.findObject("aircraft-condition").setValue(hpText)
       } else
@@ -1570,8 +1578,8 @@ function fillAirInfoTimers(holderObj, air, needShopInfo)
       local value = ""
       if (show)
       {
-        local time = ::hoursToString(sec / TIME_HOUR_IN_SECONDS_F, false, true, true)
-        value = ::colorize("goodTextColor", ::loc("mainmenu/unitRentTimeleft") + ::loc("ui/colon") + time)
+        local timeStr = time.hoursToString(time.secondsToHours(sec), false, true, true)
+        value = ::colorize("goodTextColor", ::loc("mainmenu/unitRentTimeleft") + ::loc("ui/colon") + timeStr)
       }
       if (rentObj.isVisible() != show)
         rentObj.show(show)
@@ -1641,13 +1649,6 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   local isRented = air.isRented()
   local rentTimeHours = ::getTblValue("rentTimeHours", params, -1)
   local showAsRent = showLocalState && isRented || rentTimeHours > 0
-
-  if (holderObj.toggled != null)
-  {
-    local cdb = ::get_local_custom_settings_blk()
-    local toggle = cdb.showTechSpecPanel != false && ::g_login.isAuthorized()
-    airInfoToggle(holderObj, toggle)
-  }
 
   local isSecondaryModsValid = ::check_unit_mods_update(air)
                             && ::check_secondary_weapon_mods_recount(air)
@@ -1906,7 +1907,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("aircraft-visibilityFactor-tr").show(visibilityFactor);
     if (shotFreq)
     {
-      local val = ::roundToDigits(shotFreq * TIME_MINUTE_IN_SECONDS_F, 3).tostring()
+      local val = ::roundToDigits(time.minutesToSeconds(shotFreq), 3).tostring()
       holderObj.findObject("aircraft-shotFreq").setValue(format("%s %s", val, ::loc("measureUnits/shotPerMinute")))
     }
     if (reloadTime)
@@ -2079,7 +2080,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local discountsList = {}
     local freeRepairsUnlimited = ::isUnitDefault(air)
     if (freeRepairsUnlimited)
-      repairCostData = ::format("textareaNoTab { tinyFont:t='yes'; text:t='%s' }", ::loc("shop/free"))
+      repairCostData = ::format("textareaNoTab { smallFont:t='yes'; text:t='%s' }", ::loc("shop/free"))
     else
     {
       local avgRepairMul = wBlk.avgRepairMul? wBlk.avgRepairMul : 1.0
@@ -2088,7 +2089,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local modeName = ::get_name_by_gamemode(egdCode, false)
       discountsList[modeName] <- modeName + "-discount"
       repairCostData += format("tdiv { " +
-                                 "textareaNoTab {tinyFont:t='yes' text:t='%s' }" +
+                                 "textareaNoTab {smallFont:t='yes' text:t='%s' }" +
                                  "discount { id:t='%s'; text:t=''; pos:t='-1*@scrn_tgt/100.0, 0.5ph-0.55h'; position:t='relative'; rotation:t='8' }" +
                                "}\n",
                           ((repairCostData!="")?"/ ":"") + ::getPriceAccordingToPlayersCurrency(avgCost.tointeger(), 0),
@@ -2104,7 +2105,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local repairTimeText = ::getTextByModes((@(air, showLocalState) function(mode) {
           local hours = showLocalState ? ::shop_get_full_repair_time_by_mode(air.name, mode.modeId)
               : ::getTblValue("repairTimeHrs" + ::get_name_by_gamemode(mode.modeId, true), air, 0)
-          return hoursToString(hours, false)
+          return time.hoursToString(hours, false)
         })(air, showLocalState))
       local label = ::loc(showLocalState && crew ? "shop/full_repair_time_crew" : "shop/full_repair_time")
       holderObj.findObject("aircraft-full_repair_time_crew-tr").show(true)
@@ -2131,6 +2132,12 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   }
 
   local addInfoTextsList = []
+
+  if (air.isPkgDev)
+    addInfoTextsList.append(::colorize("badTextColor", ::loc("locatedInPackage", { package = "PKG_DEV" })))
+  if (air.isRecentlyReleased)
+    addInfoTextsList.append(::colorize("chapterUnlockedColor", ::loc("shop/unitIsRecentlyReleased")))
+
   if (isInFlight && ::g_mis_custom_state.getCurMissionRules().hasCustomUnitRespawns())
   {
     local respawnsleft = ::g_mis_custom_state.getCurMissionRules().getUnitLeftRespawns(air)
@@ -2146,8 +2153,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   {
     if (rentTimeHours > 0)
     {
-      local time = ::colorize("activeTextColor", ::hoursToString(rentTimeHours))
-      addInfoTextsList.append(::colorize("userlogColoredText", ::loc("shop/rentFor", { time =  time })))
+      local rentTimeStr = ::colorize("activeTextColor", time.hoursToString(rentTimeHours))
+      addInfoTextsList.append(::colorize("userlogColoredText", ::loc("shop/rentFor", { time =  rentTimeStr })))
     }
     else
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("trophy/unlockables_names/trophy")))
@@ -2173,7 +2180,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   local infoObj = holderObj.findObject("aircraft-addInfo")
   if (::checkObj(infoObj))
   {
-    local addInfoText = ::implode(addInfoTextsList, "\n")
+    local addInfoText = ::g_string.implode(addInfoTextsList, "\n")
     infoObj.show(addInfoText!="")
     if (addInfoText!="")
      infoObj.setValue(addInfoText)
@@ -2340,7 +2347,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     local battleType = ::get_battle_type_by_ediff(ediff)
     local fonticon = !::CAN_USE_EDIFF ? "" :
       ::loc(battleType == BATTLE_TYPES.AIR ? "icon/unittype/aircraft" : "icon/unittype/tank")
-    local diffName = ::implode([ fonticon, difficulty.getLocName() ], ::nbsp)
+    local diffName = ::g_string.implode([ fonticon, difficulty.getLocName() ], ::nbsp)
 
     local unitStateId = !showLocalState ? "reference"
       : crew ? "current_crew"
@@ -2368,36 +2375,6 @@ function get_max_era_available_by_country(country, unitType = ::ES_UNIT_TYPE_INV
       return (era - 1)
   return ::max_country_rank
 }
-
-function airInfoToggle(holderObj, toggle = null, showTabs = true)
-{
-  if (toggle == null)
-    toggle = ::loadLocalByAccount("show_slot_info_panel", true)
-  else
-    ::saveLocalByAccount("show_slot_info_panel", toggle)
-
-  local toggled = holderObj.toggled != "no"
-  if (toggled == toggle)
-    return
-
-  holderObj.toggled = toggle? "yes" : "no"
-
-  local contentObj = holderObj.findObject("slot_info_content")
-  if (::checkObj(contentObj))
-    contentObj.show(toggle)
-
-  local contentSwitchObj = holderObj.findObject("slot_info_listbox")
-  if (::checkObj(contentSwitchObj))
-    contentSwitchObj.show(toggle && showTabs)
-
-  local bObj = holderObj.findObject("btnAirInfoToggle")
-  if (bObj)
-    bObj.tooltip = ::loc(toggle? "mainmenu/btnCollapse" : "mainmenu/btnExpand")
-  local iObj = holderObj.findObject("btnAirInfoToggle_icon")
-  if (iObj)
-    iObj.rotation = toggle? "270" : "90"
-}
-
 
 function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
 {
@@ -2565,7 +2542,7 @@ function get_fm_file(unitId, unitBlkData = null)
   local nodes = ::split(unitPath, "/")
   if (nodes.len())
     nodes.pop()
-  local unitDir = ::implode(nodes, "/")
+  local unitDir = ::g_string.implode(nodes, "/")
   local fmPath = unitDir + "/" + (unitBlkData.fmFile || ("fm/" + unitId))
   return ::DataBlock(fmPath)
 }

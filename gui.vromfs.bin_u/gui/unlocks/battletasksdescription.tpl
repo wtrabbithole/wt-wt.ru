@@ -1,5 +1,5 @@
 <<#isPromo>>
-tinyFont:t='yes'
+smallFont:t='yes'
 <</isPromo>>
 <<#taskDescription>>
 textareaNoTab {
@@ -28,7 +28,9 @@ tdiv {
   width:t='pw'
   class:t='header'
   Button_text {
-    class:t='image16'
+    class:t='image'
+    imgSize:t='small'
+    showConsoleImage:t='no'
     img { background-image:t='#ui/gameuiskin#help_tooltip' }
     on_click:t='onViewUnlocks'
   }

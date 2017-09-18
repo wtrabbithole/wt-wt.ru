@@ -11,7 +11,7 @@ tdiv {
     padding:t='1@framePadding, 0, 1@framePadding, 1@framePadding'
     text:t='<<#getBattleName>><<getBattleName>> <</getBattleName>><<getMissionName>>'
     text-align:t='center'
-    fontNormal:t='yes'
+    mediumFont:t='yes'
   }
 
   tdiv {
@@ -147,7 +147,7 @@ tdiv {
       width:t='pw'
       text:t='#worldwar/battle_open_info'
       text-align:t='center'
-      tinyFont:t='yes'
+      smallFont:t='yes'
     }
     <</isAutoBattle>>
   }

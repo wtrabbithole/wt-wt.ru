@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_qi_view_utils <- {}
 
 function g_qi_view_utils::createViewByCountries(nestObj, queue, event)
@@ -96,7 +99,7 @@ function g_qi_view_utils::updateShortQueueInfo(timerObj, textObj, iconObj)
         msg = ::loc("yn1/wait_for_session")
         local waitTime = queue ? ::queues.getQueueActiveTime(queue).tointeger() : 0
         if (waitTime > 0)
-          msg += ::loc("ui/colon") + ::secondsToString(waitTime, false)
+          msg += ::loc("ui/colon") + time.secondsToString(waitTime, false)
       }
       textObj.setValue(msg)
     }

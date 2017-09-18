@@ -243,13 +243,13 @@
         "missionBriefing": ""
       },
       {
+        "chapter": "air_ground_Bttl"
+      },
+      {
         "locName": "missions/_Bttl;rheinland/name"
       },
       {
         "locDesc": "rheinland/desc;missions/_Bttl/desc"
-      },
-      {
-        "chapter": "air_ground_Bttl"
       },
       {
         "scoreLimit": 10000
@@ -261,10 +261,16 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Bttl"
+      },
+      {
         "ctaCaptureZoneEqualPenaltyMul": 0.0
       },
       {
         "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -273,22 +279,13 @@
         "remapAiTankModels": true
       },
       {
-        "postfix": "_Bttl"
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "usa"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -313,7 +310,16 @@
           "_Conq5": false,
           "_Conq6": false,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -367,6 +373,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -450,6 +459,22 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/rheinland/template_rheinland_air_spawns.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/rheinland/battleareas/template_rheinland_bttl_conq1_conq4_battleareas.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,

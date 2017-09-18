@@ -19,7 +19,7 @@ tdiv {
     position:t='relative'
     padding-bottom:t='4/720@shHud'
     <<#isHeader>>
-    style:t='font:@hud_normal'
+    style:t='font:@fontHudMedium'
     <</isHeader>>
     overlayTextColor:t='active'
     text:t='<<title>>'
@@ -77,7 +77,7 @@ tdiv {
             text {
               pos:t='pw/2-w/2, ph/2-h/2'
               position:t='absolute'
-              style:t='font:battle_button_text_hud; color:@white'
+              style:t='font:@fontBigBold; color:@white'
               font-tex:t='ui/gradient_v'
               shadeStyle:t='LiveStats'
               text:t='<<fontIcon>>'
@@ -103,7 +103,7 @@ tdiv {
               id:t='txt_<<id>>'
               pos:t='pw/2-w/2, ph/2-h/2'
               position:t='absolute'
-              style:t='font:@hud_normal; color:@white'
+              style:t='font:@fontHudMedium; color:@white'
               shadeStyle:t='LiveStats'
               text:t=''
             }
@@ -117,7 +117,7 @@ tdiv {
           max-width:t='pw'
           text-align:t='center'
           text:t='<<label>>'
-          style:t='font:tiny_text_hud; color:#80808080'
+          style:t='font:@fontHudSmall; color:#80808080'
           shadeStyle:t='HudTinyLight'
         }
         <</label>>

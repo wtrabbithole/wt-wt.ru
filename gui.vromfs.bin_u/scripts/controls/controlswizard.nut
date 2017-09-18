@@ -1393,7 +1393,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       foreach(idx, btn in msgButtons)
       {
         local text = (btn.len()>0 && btn.slice(0, 1)!="#") ? "#"+btn : btn
-        data += format("dialog_button { id:t='%d'; text:t='%s'; on_click:t='onMsgButton' }",
+        data += format("Button_text { id:t='%d'; text:t='%s'; on_click:t='onMsgButton'; showConsoleImage:t='no'}",
                   idx, text)
       }
       local btnsHolder = scene.findObject("msgBox_buttons")
@@ -1483,7 +1483,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
   {
     local curObj = getCurListboxObj()
     if (!curObj) return
-    scene.findObject("listbox-hint").setValue("" + ::tooltipColorTheme(curObj.tooltip, true))
+    scene.findObject("listbox-hint").setValue("" + curObj.tooltip, true)
   }
 
   function askPresetsWnd()

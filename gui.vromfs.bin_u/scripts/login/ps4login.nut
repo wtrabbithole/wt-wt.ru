@@ -20,8 +20,8 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
       isToBattle = true
       titleButtonFont = true
     })
-    guiScene.prependWithBlk(scene.findObject("authorization_block"), data, this)
-    showSceneBtn("text_req_connection", ::is_platform_ps4)
+    guiScene.prependWithBlk(scene.findObject("authorization_button_place"), data, this)
+    showSceneBtn("text_req_connection",  true)
 
     guiScene.performDelayed(this, function() {
       ::ps4_initial_check_settings()

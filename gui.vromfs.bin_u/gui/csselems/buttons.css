@@ -1,10 +1,13 @@
+@const menubutton_font:           @fontMedium;
+@const menubutton_selected_font:  @fontMedium;
+
 button {
   behaviour:button;
   re-type:9rect;
   selected-border:none;
   input-sensitive:yes;
 
-  font:@small;
+  font:@fontNormal;
 
   text-align:center;
 
@@ -28,13 +31,13 @@ start_button
   border:none;
   color:@commonMenuButtonColor;
   snd_click:click;
-  font:@times_big;
+  font:@fontBigBold;
   font-tex:'ui/title_font_gradient';
   text-align:left;
   input-sensitive:yes;
 }
 
-menu_button, menu_button_inactive, dialog_button, area > button
+menu_button, menu_button_inactive, area > button
 {
   behaviour:button;
   re-type:9rect;
@@ -67,7 +70,7 @@ menu_button, menu_button_inactive {
   mouse-focusable:yes;
 }
 
-menu_button, menu_button_inactive, dialog_button {
+menu_button, menu_button_inactive {
   behaviour:navigator;
   tabStop:yes;
 }
@@ -77,59 +80,17 @@ menu_button_inactive
   color:@inactiveButtonTextColor;
 }
 
-dialog_button
-{
-  font:@dialogbutton_font;
-  margin-left:2*@scrn_tgt/100.0;
-  margin-bottom:1*@scrn_tgt/100.0;
-  padding:0.5*@scrn_tgt/100.0, 0;
-  text-align:center;
-  min-width:20*@scrn_tgt/100.0;
-  height:1@buttonHeight;
-  background-image:#ui/gameuiskin#button_;
-  background-color:@white;
-  background-position:5;
-  background-repeat:expand;
-  input-sensitive:yes;
-}
-dialog_button[smallFont=yes]
-{
-  font:@small;
-}
-
-dialog_button:focus {
-  background-image:#ui/gameuiskin#button_glow;
-}
-
-dialog_button:hover {
-  background-image:#ui/gameuiskin#button_hover;
-}
-
-dialog_button:pushed {
-  background-image:#ui/gameuiskin#button_active;
-  padding-top:1*@sf/@pf_outdated;
-  padding-bottom:-1*@sf/@pf_outdated;
-  margin-bottom:1*@scrn_tgt/100.0-2*@sf/@pf_outdated;
-  margin-top:2*@sf/@pf_outdated;
-}
-
 menu_button:current, menu_button:active, menu_button:focus
 {
   color:@hoverMenuButtonColor;
   font:@menubutton_selected_font;
 }
 
-dialog_button:current, dialog_button:active, dialog_button:focus
-{
-  color:@hoverMenuButtonColor;
-  font:@dialogbutton_selected_font;
-}
-
 area > button:focus {
-  font:@smallBold;
+  color:@hoverMenuButtonColor;
 }
 
-menu_button:hover, dialog_button:hover, button:hover
+menu_button:hover, button:hover
 {
   color:@hoverMenuButtonColor;
 }
@@ -139,15 +100,9 @@ menu_button:pushed
   color:@hoverMenuButtonColor;
 }
 
-dialog_button:pushed, button:pushed
+button:pushed
 {
   color:@pushedMenuButtonColor;
-}
-
-dialog_button:disabled
-{
-  color:@inactiveButtonTextColor;
-  background-color:@controlDisabledColor;
 }
 
 menu_button_inactive:current, menu_button_inactive:focus
@@ -184,56 +139,6 @@ menu_button_inactive:current, menu_button_inactive:active, menu_button_inactive:
 }
 [toggled=no] airInfoButton, airInfoButton:hover {
   background-color:#99999999;
-}
-airInfoButton > airInfoButtonIcon {
-    background-color:@gray;
-}
-airInfoButton:hover > airInfoButtonIcon {
-    background-color:@white;
-}
-airInfoButton[active=yes] > airInfoButtonIcon {
-  background-color:@userlogColoredText;
-}
-
-buttonPlayer {
-  behavior:button;
-  cursor:onButton;
-  css-hier-invalidate:current;
-  padding:0.008@sf;
-}
-buttonPlayer > img {
-  position:absolute;
-  pos:pw-w, 50%ph-50%h;
-  size:1@sIco, 1@sIco;
-  margin-right:0.008@sf;
-}
-
-buttonPlayer > btnText {
-  tinyFont:yes;
-  font:@small;
-  color:#2e7ac5;
-  margin-right:1@sIco+5*@sf/@pf_outdated;
-  pos:pw-w, 50%ph-50%h;
-  position:relative;
-  text-align:right;
-  max-width:pw;
-  pare-text:yes;
-}
-
-buttonPlayer[selected=yes] {
-  background-color:@contactSelColor;
-}
-
-buttonPlayer:hover > btnText,
-buttonPlayer[selected=yes] > btnText {
-  color:#FF5ba9f9;
-}
-
-buttonPlayer:active {
-  margin:1*@sf/@pf_outdated;
-}
-buttonPlayer:active > btnText {
-  color:#99c9f9;
 }
 
 underline {

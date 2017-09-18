@@ -74,7 +74,7 @@
       },
       "conditions": {
         "objectExists": {
-          "target": "defenseMissionTeam",
+          "target": "@defence_team_variable",
           "type": "var"
         }
       },
@@ -190,7 +190,7 @@
       },
       "conditions": {
         "varCompareString": {
-          "var_value": "defenseMissionTeam",
+          "var_value": "@defence_team_variable",
           "value": "teamA",
           "comparasion_func": "equal"
         }
@@ -989,7 +989,8 @@
     "t2_disableAirfieldsName": "",
     "t1_disableAirfieldsAAAName": "",
     "t2_disableAirfieldsAAAName": "",
-    "force_plane_airfield_spawn": false
+    "force_plane_airfield_spawn": false,
+    "defence_team_variable": "defenseMissionTeam"
   },
   "dialogs": [],
   "airfields": [],

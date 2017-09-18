@@ -1,3 +1,7 @@
+local time = require("scripts/time.nut")
+local penalties = require("scripts/penitentiary/penalties.nut")
+
+
 ::dbg_mainmenu_start_check <- 0
 ::_is_first_mainmenu_call <- true //only for comatible with 1.59.2.X executable
 function gui_start_mainmenu(allowMainmenuActions = true)
@@ -56,7 +60,6 @@ function gui_start_menuShop()
 function mainmenu_preFunc()
 {
   ::back_from_replays = null
-  ::set_in_save_dialogs(false)
 
   ::dynamic_clear();
   ::mission_desc_clear();
@@ -80,8 +83,9 @@ function on_mainmenu_return(handler, isAfterLogin)
   update_news()
   if (!isAfterLogin)
   {
+    ::g_warbonds_view.resetShowProgressBarFlag()
     ::checkUnlockedCountriesByAirs()
-    ::showBannedStatusMsgBox(true)
+    penalties.showBannedStatusMsgBox(true)
     if (isAllowPopups && !::disable_network())
     {
       handler.doWhenActive(::check_tutorial_on_mainmenu)
@@ -103,6 +107,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     handler.doWhenActive(function() { checkSquadInvitesFromPS4Friends(false) })
     handler.doWhenActive(@() ::g_psn_session_invitations.checkReceievedInvitation() )
     handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
+    handler.doWhenActive(@() ::g_battle_tasks.checkNewSpecialTasks() )
   }
 
   if(isAllowPopups && ::has_feature("Invites") && !guiScene.hasModalObject())
@@ -112,8 +117,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     if(invitedPlayersBlk.blockCount() == 0)
     {
       local cdb = ::get_local_custom_settings_blk()
-      local time = ::get_local_time()
-      local days = ::get_days_by_time(time)
+      local days = time.getDaysByTime(::get_local_time())
       if(!cdb.viralAcquisition)
         cdb.viralAcquisition = ::DataBlock()
 
@@ -317,7 +321,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
     local unit = ::getAircraftByName(unitName)
     local lockObj = scene.findObject("crew-notready-topmenu")
-    lockObj.tooltip = ::format(::loc("msgbox/no_available_aircrafts"), ::secondsToString(::lockTimeMaxLimitSec))
+    lockObj.tooltip = ::format(::loc("msgbox/no_available_aircrafts"), time.secondsToString(::lockTimeMaxLimitSec))
     ::setCrewUnlockTime(lockObj, unit)
 
     updateUnitRentInfo(unit)
@@ -333,12 +337,18 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
       if (isVisible)
       {
         local sec = unit.getRentTimeleft()
-        local time = (sec < TIME_HOUR_IN_SECONDS) ?
-          ::secondsToString(sec) :
-          ::hoursToString(sec / TIME_HOUR_IN_SECONDS_F, false, true, true)
-        obj.setValue(::format(messageTemplate, time))
+        local hours = time.secondsToHours(sec)
+        local timeStr = hours < 1.0 ?
+          time.secondsToString(sec) :
+          time.hoursToString(hours, false, true, true)
+        obj.setValue(::format(messageTemplate, timeStr))
       }
       return !isVisible
     })
+  }
+
+  function onEventBattleTasksFinishedUpdate(p)
+  {
+    ::g_battle_tasks.checkNewSpecialTasks()
   }
 }

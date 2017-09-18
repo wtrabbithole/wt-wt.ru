@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 const CLAN_ID_NOT_INITED = ""
 const CLAN_SEASON_NUM_IN_YEAR_SHIFT = 1 // Because numInYear is zero-based.
 const CLAN_SEEN_CANDIDATES_SAVE_ID = "seen_clan_candidates"
@@ -214,7 +217,7 @@ function g_clans::getRegionUpdateCooldownTime()
   return ::getTblValue(
     "clansChangeRegionPeriodSeconds",
     ::get_game_settings_blk(),
-    TIME_DAY_IN_SECONDS
+    time.daysToSeconds(1)
   )
 }
 
@@ -244,7 +247,7 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
         local logType = ::g_clan_log_type.getTypeByName(logEntryTable.ev)
 
         if ("time" in logEntryTable)
-          logEntryTable.time = ::build_date_time_str(::get_time_from_t(logEntryTable.time))
+          logEntryTable.time = time.buildDateTimeStr(::get_time_from_t(logEntryTable.time))
 
         logEntryTable.header <- logType.getLogHeader(logEntryTable)
         if (logType.showDetails)
@@ -429,7 +432,7 @@ function g_clans::parseSeenCandidates()
 
   if(newCandidatesNicknames.len())
     ::g_popups.add(null,
-      ::loc("clan/requestRecieved") +::loc("ui/colon") +::implode(newCandidatesNicknames, ", ") +
+      ::loc("clan/requestRecieved") +::loc("ui/colon") +::g_string.implode(newCandidatesNicknames, ", ") +
       " " + extraText,
       function()
       {
@@ -497,7 +500,7 @@ function g_clans::getClanCreationDateText(clanData)
 function g_clans::getClanInfoChangeDateText(clanData)
 {
   local t = ::get_time_from_t(clanData.changedTime)
-  return ::build_date_time_str(t, false, false)
+  return time.buildDateTimeStr(t, false, false)
 }
 
 function g_clans::getClanMembersCountText(clanData)
@@ -912,19 +915,7 @@ function get_clan_info_table(clanInfo = null)
     return log
   })(clan)
 
-  local sortRewardsInlog = function(a, b)
-  {
-    if (a.time == b.time)
-      return 0
-
-    if (a.time == null)
-      return 1
-
-    if (b.time == null)
-      return -1
-
-    return a.time > b.time ? -1 : 1
-  }
+  local sortRewardsInlog = @(a, b) b.seasonTime <=> a.seasonTime
 
   clan.rewardLog <- getRewardLog(clanInfo, "clanRewardLog", ::ClanSeasonPlaceTitle)
   clan.rewardLog.sort(sortRewardsInlog)
@@ -945,7 +936,7 @@ class ClanSeasonTitle
   clanTag = ""
   clanName = ""
   seasonName = ""
-  time = 0
+  seasonTime = 0
   difficultyName = ""
 
 
@@ -988,13 +979,13 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
   place = ""
 
 
-  static function createFromClanReward (titleString, time, seasonName, clanData)
+  static function createFromClanReward (titleString, sTime, seasonName, clanData)
   {
     local titleParts = ::split(titleString, "@")
     local place = ::getTblValue(0, titleParts, "")
     local difficultyName = ::getTblValue(1, titleParts, "")
     return ClanSeasonPlaceTitle(
-      time
+      sTime,
       difficultyName,
       place,
       seasonName,
@@ -1020,7 +1011,7 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
 
 
   constructor (
-    _time,
+    _seasonTime,
     _difficlutyName,
     _place,
     _seasonName,
@@ -1028,7 +1019,7 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     _clanName,
   )
   {
-    time = _time
+    seasonTime = _seasonTime
     difficultyName = _difficlutyName
     place = _place
     seasonName = _seasonName
@@ -1094,14 +1085,14 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
   rating = ""
 
 
-  static function createFromClanReward (titleString, time, seasonName, clanData)
+  static function createFromClanReward (titleString, sTime, seasonName, clanData)
   {
     local titleParts = ::split(titleString, "@")
     local rating = ::getTblValue(0, titleParts, "")
     rating = ::g_string.slice(rating, 0, ::g_string.indexOf(rating, "rating"))
     local difficultyName = ::getTblValue(1, titleParts, "")
     return ClanSeasonRaitingTitle(
-      time
+      sTime
       difficultyName,
       rating,
       seasonName,
@@ -1115,7 +1106,7 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
   {
     local info = ::ClanSeasonRaitingTitle.getUpdatedClanInfo(unlockBlk)
     return ClanSeasonRaitingTitle(
-      time
+      seasonTime,
       difficultyName,
       rating,
       seasonName,
@@ -1126,7 +1117,7 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
 
 
   constructor (
-    _time,
+    _seasonTime,
     _dufficultyName,
     _rating,
     _seasonName,
@@ -1134,7 +1125,7 @@ class ClanSeasonRaitingTitle extends ClanSeasonTitle
     _clanName
   )
   {
-    time = _time
+    seasonTime = _seasonTime
     difficultyName = _dufficultyName
     rating = _rating
     seasonName = _seasonName

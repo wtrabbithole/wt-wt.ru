@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 enum WW_OM_WND_MODE
 {
   PLAYER  // Personal operation selection
@@ -479,15 +482,15 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function getLatestQueueJoinTime()
   {
-    local time = 0
+    local res = 0
     foreach (map in mapsTbl)
     {
       local queue = map.getQueue()
       local t = queue.isMyClanJoined() ? queue.getMyClanQueueJoinTime() : 0
       if (t > 0)
-        time = (time == 0) ? t : ::min(time, t)
+        res = (res == 0) ? t : ::min(res, t)
     }
-    return time
+    return res
   }
 
   function onTimerQueuesWaitTime(obj, dt)
@@ -500,8 +503,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local obj = scene.findObject("queues_wait_time_text")
     if (!::checkObj(obj))
       return
-    local time = ::g_ww_global_status.getTimeSec() - queuesJoinTime
-    obj.setValue(::loc("worldwar/mapStatus/yourClanInQueue") + ::loc("ui/colon") + ::secondsToString(time, false))
+    local timeInQueue = ::g_ww_global_status.getTimeSec() - queuesJoinTime
+    obj.setValue(::loc("worldwar/mapStatus/yourClanInQueue") + ::loc("ui/colon") + time.secondsToString(timeInQueue, false))
   }
 
   function updateQueueElementsInList()
@@ -520,6 +523,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       local obj = ::showBtn(objIdPrefixCountriesOfMap + mapId, show, mapsListObj)
       if (obj)
         obj.enable(isQueueJoiningEnabled && canJoin)
+
+      local membersIconObj = scene.findObject("queue_members_" + mapId)
+      if (::check_obj(membersIconObj))
+        membersIconObj.show(map.getQueue().getArmyGroupsAmountTotal() > 0)
     }
 
     local obj = ::showBtn("select_all_countries", show, scene)

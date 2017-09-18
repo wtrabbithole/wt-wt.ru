@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 class ::WwAirfieldCooldownFormation extends ::WwAirfieldFormation
 {
   cooldownFinishedMillis = 0
@@ -33,6 +35,6 @@ class ::WwAirfieldCooldownFormation extends ::WwAirfieldFormation
     if (cooldownTime == 0)
       return ::loc("worldwar/state/ready")
 
-    return ::secondsToString(::milliseconds_to_seconds(cooldownTime), false)
+    return time.secondsToString(time.millisecondsToSeconds(cooldownTime), false)
   }
 }

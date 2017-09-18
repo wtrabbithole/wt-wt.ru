@@ -243,13 +243,13 @@
         "missionBriefing": ""
       },
       {
+        "chapter": "air_ground_Conq1"
+      },
+      {
         "locName": "missions/_Conq1;sinai/name"
       },
       {
         "locDesc": "sinai/desc;missions/_Conq1/desc"
-      },
-      {
-        "chapter": "air_ground_Conq1"
       },
       {
         "scoreLimit": 14000
@@ -261,10 +261,16 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Conq1"
+      },
+      {
         "ctaCaptureZoneEqualPenaltyMul": 0.0
       },
       {
         "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -273,22 +279,10 @@
         "remapAiTankModels": true
       },
       {
-        "postfix": "_Conq1"
-      },
-      {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -311,7 +305,18 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -356,6 +361,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {

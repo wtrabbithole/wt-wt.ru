@@ -193,7 +193,7 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
     textParts.push(::loc("ticketBuyWindow/unfinishedSessions", tournamentData))
     textParts.push(activeTicket.getDefeatCountText(tournamentData))
     textParts.push(activeTicket.getSequenceDefeatCountText(tournamentData))
-    text += ::implode(textParts, "\n")
+    text += ::g_string.implode(textParts, "\n")
     return text
   }
 }

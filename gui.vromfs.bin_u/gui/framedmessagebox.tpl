@@ -11,7 +11,7 @@ massTransp {
 
     frame {
       activeText {
-        tinyFont:t='yes'
+        smallFont:t='yes'
         position:t='relative'
         text:t='<<title>>'
         input-transparent:t='yes'

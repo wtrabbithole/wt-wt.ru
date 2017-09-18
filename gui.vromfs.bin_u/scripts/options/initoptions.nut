@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 function init_options()
 {
   if (::measure_units.len() > 0 && (::g_login.isAuthorized() || ::disable_network()))
@@ -33,6 +35,10 @@ function update_all_units()
   //update the main table
   local ws = ::get_warpoints_blk()
   local ws_cost = ::get_wpcost_blk()
+  local unitTagsBlk = ::get_unittags_blk()
+
+  local markRecentlyReleasedUnitsDays = ::getTblValue("markRecentlyReleasedUnitsDays", ::configs.GUI.get(), 0)
+  local timeMarkReleasedAfter = ::get_charserver_time_sec() - (markRecentlyReleasedUnitsDays * TIME_DAY_IN_SECONDS)
 
   foreach (air in ::all_units)
   {
@@ -90,12 +96,12 @@ function update_all_units()
       customImage = ::get_unit_preset_img(air.name)
 
     if (::u.isEmpty(customImage) && ::is_tencent_unit_image_reqired(air))
-      customImage = "!#ui/unitskin_tomoe#" + air.name
+      customImage = ::get_tomoe_unit_icon(air.name)
 
     if (!::u.isEmpty(customImage))
     {
       if (!::isInArray(customImage.slice(0, 1), ["#", "!"]))
-        customImage = ::get_unit_icon_by_unit_type(::get_es_unit_type(air), customImage)
+        customImage = ::get_unit_icon_by_unit(air, customImage)
       air.customImage <- customImage
     }
 
@@ -114,6 +120,10 @@ function update_all_units()
     air.isBought <- ::isUnitBought
     air.getRentTimeleft <- ::getUnitRentTimeleft
     air.maxFlightTimeMinutes <- ::getTblValue("maxFlightTimeMinutes", ws_air, 0)
+    air.isPkgDev <- ::is_dev_version && ::getTblValue("pkgDev", ws_air, false)
+
+    local releaseDate = ::get_tbl_value_by_path_array([ air.name, "releaseDate" ], unitTagsBlk, "")
+    air.isRecentlyReleased <- releaseDate != "" && ::mktime(time.getTimeFromStringUtc(releaseDate)) > timeMarkReleasedAfter
   }
 
   foreach (airname, airblock in ws_cost)
@@ -368,10 +378,6 @@ function countUsageAmountOnce()
 
   function()
   {
-    local blk = ::dgs_get_game_params()
-    if (blk.bombingZoneHpToTntEquivalentTons)
-      ::ZONE_HP_TO_TNT_EQUIVALENT_TONS = blk.bombingZoneHpToTntEquivalentTons
-
     ::broadcastEvent("InitConfigs")
   }
 ]

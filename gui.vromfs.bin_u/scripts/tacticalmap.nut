@@ -12,6 +12,7 @@ function gui_start_tactical_map_tc()
 class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/tacticalMap.blk"
+  shouldBlurSceneBg = true
   keepLoaded = true
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_TACTICAL_MAP |
                          CtrlsInGui.CTRL_ALLOW_MP_STATISTICS |

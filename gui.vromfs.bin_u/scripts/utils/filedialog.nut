@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 {
   static wndType = handlerType.MODAL
@@ -154,9 +155,9 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         if (value != null)
         {
           local timeTable = ::get_time_from_t(value)
-          tooltip = ::build_date_time_str(timeTable)
+          tooltip = time.buildDateTimeStr(timeTable)
           timeTable.sec = -1 // Do not show seconds
-          text = build_iso8601_date_time_str(timeTable, " ")
+          text = time.buildIso8601DateTimeStr(timeTable, " ")
         }
 
         return {

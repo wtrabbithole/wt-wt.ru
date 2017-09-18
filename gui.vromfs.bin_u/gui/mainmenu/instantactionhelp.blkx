@@ -30,43 +30,10 @@
   {
     "tdiv": [
       {
-        "pos": "35%sw - w, 1@toBattleButtonBottom + 1@helpInterval"
-      },
-      {
-        "position": "root"
-      },
-      {
-        "flow": "vertical"
-      },
-      {
-        "controlsHelpTextArea": {
-          "id": "hint_clan",
-          "max-width": "@shopWidthMax",
-          "pos": "pw - w, 0",
-          "position": "relative",
-          "margin-bottom": "@helpInterval",
-          "margin-right": "2@helpInterval",
-          "text": "#help/clan"
-        }
-      },
-      {
-        "controlsHelpTextArea": {
-          "id": "hint_profile",
-          "max-width": "@shopWidthMax",
-          "pos": "pw - w, 0",
-          "position": "relative",
-          "text": "#help/profile"
-        }
-      }
-    ]
-  },
-  {
-    "tdiv": [
-      {
         "width": "@topGcPanelWidth - 1@gamercardHeight"
       },
       {
-        "pos": "0.5sw + 0.5@gcToBattleButtonPlaceWidth + 1@gcLineLockWidth, 1@gameModeSelectPaddingY + 1@gameModeChangeButtonHeight + 1@helpInterval"
+        "pos": "0.5sw + 0.5@gcToBattleButtonPlaceWidth, 1@gameModeSelectPadding"
       },
       {
         "position": "root"
@@ -78,6 +45,8 @@
         "controlsHelpTextArea": {
           "id": "hint_currencies",
           "max-width": "@shopWidthMax",
+          "pos": "pw - w + ( - 2 - 3@isWide)*1@gamercardHeight, 0",
+          "position": "relative",
           "text": "#help/currencies"
         }
       },
@@ -85,18 +54,9 @@
         "controlsHelpTextArea": {
           "id": "hint_premium",
           "max-width": "@shopWidthMax",
-          "pos": "pw - w + ( - 2 - 2@isWide)*1@gamercardHeight, 1@helpInterval",
+          "pos": "pw - w + ( - 1 - 2@isWide)*1@gamercardHeight, 1@helpInterval",
           "position": "relative",
           "text": "#help/premium"
-        }
-      },
-      {
-        "controlsHelpTextArea": {
-          "id": "hint_inventory",
-          "max-width": "@shopWidthMax",
-          "pos": "pw - w + ( - 1 - 1@isWide)*1@gamercardHeight, 1@helpInterval",
-          "position": "relative",
-          "text": "#help/inventory"
         }
       },
       {
@@ -113,10 +73,7 @@
   {
     "tdiv": [
       {
-        "width": "0.18@sf"
-      },
-      {
-        "pos": "1@offsetBetweenScreenAndAirinfo, @toBattleButtonBottom + 1@helpInterval"
+        "pos": "1@offsetBetweenScreenAndAirinfo + 1@helpInterval, @toBattleButtonBottom"
       },
       {
         "position": "root"
@@ -125,17 +82,42 @@
         "flow": "vertical"
       },
       {
+        "tdiv": [
+          {
+            "pos": "(1 + 2@isWide) * 1@gamercardHeight, 0"
+          },
+          {
+            "position": "relative"
+          },
+          {
+            "controlsHelpTextArea": {
+              "id": "hint_clan",
+              "max-width": "@shopWidthMax",
+              "margin-right": "@helpInterval",
+              "text": "#help/clan"
+            }
+          },
+          {
+            "controlsHelpTextArea": {
+              "id": "hint_profile",
+              "max-width": "@shopWidthMax",
+              "text": "#help/profile"
+            }
+          }
+        ]
+      },
+      {
         "controlsHelpTextArea": {
           "id": "hint_mainmenu",
-          "max-width": "pw",
-          "margin-bottom": "@helpInterval",
+          "max-width": "@shopWidthMax",
+          "margin": "0, @helpInterval",
           "text": "#help/mainmenu"
         }
       },
       {
         "controlsHelpTextArea": {
           "id": "hint_unitInfo",
-          "max-width": "pw",
+          "max-width": "@shopWidthMax",
           "text": "#help/unitInfo"
         }
       }

@@ -52,8 +52,8 @@ function debugTableData(info, recursionLevel = 4, addStr = "", showBlockBrackets
         else if (val instanceof ::TMatrix) { type = ":m"
           local arr = []
           for (local i = 0; i < 4; i++)
-            arr.append("[" + ::implode([ val[i].x, val[i].y, val[i].z ], ", ") + "]")
-          val = "[" + ::implode(arr, " ") + "]"
+            arr.append("[" + ::g_string.implode([ val[i].x, val[i].y, val[i].z ], ", ") + "]")
+          val = "[" + ::g_string.implode(arr, " ") + "]"
         }
         else val = ::toString(val)
         printFn(prefix+addStr2+name+type+"= " + val)
@@ -133,7 +133,7 @@ function toString(val, recursion = 1, addStr = "")
         iv.append("" + val.getParamName(i) + " = " + ::toString(val.getParamValue(i)))
       for (local i = 0; i < val.blockCount(); i++)
         iv.append("" + val.getBlock(i).getBlockName() + " = " + ::toString(val.getBlock(i)))
-      return format("DataBlock { %s }", ::implode(iv, ", "))
+      return format("DataBlock { %s }", ::g_string.implode(iv, ", "))
     }
     else if (val instanceof ::Point2)
       return format("Point2(%s, %s)", val.x.tostring(), val.y.tostring())
@@ -146,7 +146,7 @@ function toString(val, recursion = 1, addStr = "")
       local arr = []
       for (local i = 0; i < 4; i++)
         arr.append(::toString(val[i]))
-      return "TMatrix(" + ::implode(arr, ", ") + ")"
+      return "TMatrix(" + ::g_string.implode(arr, ", ") + ")"
     }
     else if (::getTblValue("isToStringForDebug", val))
       return val.tostring()
@@ -198,7 +198,7 @@ function toString(val, recursion = 1, addStr = "")
       local index = !isArray && ::isInArray(type(i), [ "float", "int64", "null" ]) ? ::toString(i) : i
       iv.append("" + (isArray ? "[" + index + "]" : index) + " = " + ::toString(v, recursion - 1, ""))
     }
-    str = ::implode(iv, ", ")
+    str = ::g_string.implode(iv, ", ")
   } else
     str = val.len() ? "..." : ""
   return isArray ? ("[ " + str + " ]") : ("{ " + str + " }")

@@ -16,5 +16,5 @@ SwitchBox {
   on_change_value:t='<<cb>>'
   <</cb>>
 
-  SwitchSliderBg { SwitchSlider {} }
+  SwitchSliderBg { SwitchSliderBgOn {} SwitchSlider {} }
 }

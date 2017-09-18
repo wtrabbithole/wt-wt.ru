@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_battle_task_difficulty <- {
   types = []
   template = {}
@@ -14,11 +17,11 @@ function g_battle_task_difficulty::_getLocName()
 
 function g_battle_task_difficulty::_getTimeLeftText()
 {
-  local time = getTimeLeft()
-  if (time < 0)
+  local timeLeft = getTimeLeft()
+  if (timeLeft < 0)
     return ""
 
-  return ::hoursToString(time / TIME_HOUR_IN_SECONDS_F, false, true, true)
+  return time.hoursToString(time.secondsToHours(timeLeft), false, true, true)
 }
 
 ::g_battle_task_difficulty.template <- {
@@ -31,7 +34,7 @@ function g_battle_task_difficulty::_getTimeLeftText()
   image = null
   period = 1
   daysShift = 0
-  executeOrder = -1
+  executeOrder = @() -1
   lastGenTimeSuccess = -1
   lastGenTimeFailure = -1
   generationPeriodSec = -1
@@ -39,32 +42,36 @@ function g_battle_task_difficulty::_getTimeLeftText()
   timeLimit = function() { return -1 }
   getTimeLeft = function() { return -1 }
   showSeasonIcon = @() false
+  canIncreaseShopLevel = true
+  hasTimer = true
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_battle_task_difficulty", {
   EASY = {
     image = "#ui/gameuiskin#battle_tasks_easy"
     timeParamId = "daily"
-    executeOrder = 0
-    timeLimit = function() { return TIME_DAY_IN_SECONDS }
+    executeOrder = @() 0
+    timeLimit = function() { return time.daysToSeconds(1) }
     getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
   }
 
   MEDIUM = {
     image = "#ui/gameuiskin#battle_tasks_middle"
     timeParamId = "daily"
-    executeOrder = 1
-    timeLimit = function() { return TIME_DAY_IN_SECONDS }
+    executeOrder = @() 1
+    timeLimit = function() { return time.daysToSeconds(1) }
     getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
   }
 
   HARD = {
     image = "#ui/gameuiskin#battle_tasks_hard"
     showSeasonIcon = @() ::has_feature("Warbonds_2_0")
-    timeParamId = "daily"
-    executeOrder = ::has_feature("Warbonds_2_0")? 0 : 3
-    timeLimit = function() { return TIME_DAY_IN_SECONDS }
+    canIncreaseShopLevel = false
+    timeParamId = "specialTasks"
+    executeOrder = @() ::has_feature("Warbonds_2_0")? -1 : 2
+    timeLimit = function() { return time.daysToSeconds(1) }
     getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
+    hasTimer = false
   }
 
   UNKNOWN = {}
@@ -77,20 +84,14 @@ function g_battle_task_difficulty::_getTimeLeftText()
 }, null, "name")
 
 g_battle_task_difficulty.types.sort(function(a,b){
-  if (a.executeOrder != b.executeOrder)
-    return a.executeOrder > b.executeOrder ? 1 : -1
+  if (a.executeOrder() != b.executeOrder())
+    return a.executeOrder() > b.executeOrder() ? 1 : -1
   return 0
 })
 
 function g_battle_task_difficulty::getDifficultyTypeByName(typeName)
 {
   return ::g_enum_utils.getCachedType("name", typeName, ::g_battle_task_difficulty.cache.byName,
-    ::g_battle_task_difficulty, ::g_battle_task_difficulty.UNKNOWN)
-}
-
-function g_battle_task_difficulty::getDifficultyTypeByExecuteOrder(typeName)
-{
-  return ::g_enum_utils.getCachedType("executeOrder", typeName, ::g_battle_task_difficulty.cache.byExecOrder,
     ::g_battle_task_difficulty, ::g_battle_task_difficulty.UNKNOWN)
 }
 
@@ -104,13 +105,13 @@ function g_battle_task_difficulty::getDifficultyTypeByTask(task)
   return getDifficultyTypeByName(getDifficultyFromTask(task))
 }
 
-function g_battle_task_difficulty::getRequiredDifficultyTypeDone(typeName)
+function g_battle_task_difficulty::getRequiredDifficultyTypeDone(diff)
 {
-  foreach(type in types)
-    if (type.executeOrder > 0 && typeName == type.name)
-      return getDifficultyTypeByExecuteOrder(type.executeOrder - 1)
+  local res = null
+  if (diff.executeOrder() >= 0)
+    res = ::u.search(types, @(type) type.executeOrder() == (diff.executeOrder()-1))
 
-  return null
+  return res || ::g_battle_task_difficulty.UNKNOWN
 }
 
 function g_battle_task_difficulty::getRefreshTimeForAllTypes(tasksArray, overrideStatus = false)
@@ -139,24 +140,28 @@ function g_battle_task_difficulty::getRefreshTimeForAllTypes(tasksArray, overrid
   return resultArray
 }
 
-function g_battle_task_difficulty::canPlayerInteractWithType(checkDiffName, tasksArray, overrideStatus = false)
+function g_battle_task_difficulty::canPlayerInteractWithDifficulty(diff, tasksArray, overrideStatus = false)
 {
   if (overrideStatus)
     return true
 
-  local reqTypeDone = getRequiredDifficultyTypeDone(checkDiffName)
-  if (::u.isEmpty(reqTypeDone))
+  local reqDiffDone = getRequiredDifficultyTypeDone(diff)
+  if (reqDiffDone == ::g_battle_task_difficulty.UNKNOWN)
     return true
 
   foreach(task in tasksArray)
   {
+    local taskDifficulty = getDifficultyTypeByTask(task)
+    if (taskDifficulty != reqDiffDone)
+      continue
+
     if (!::g_battle_tasks.isBattleTask(task) || !::g_battle_tasks.isTaskActual(task))
       continue
 
     if (::g_battle_tasks.isTaskDone(task))
       continue
 
-    if (getDifficultyTypeByName(checkDiffName).executeOrder <= getDifficultyTypeByTask(task).executeOrder)
+    if (diff.executeOrder() <= taskDifficulty.executeOrder())
       continue
 
     return false
@@ -201,7 +206,5 @@ function g_battle_task_difficulty::checkAvailabilityByProgress(task, overrideSta
 
 function g_battle_task_difficulty::withdrawTasksArrayByDifficulty(diff, array)
 {
-  return ::u.filter(array, (@(diff) function(task) {
-      return diff == ::g_battle_task_difficulty.getDifficultyTypeByTask(task).name
-    })(diff))
+  return ::u.filter(array, @(task) diff == ::g_battle_task_difficulty.getDifficultyTypeByTask(task) )
 }

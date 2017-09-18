@@ -6,10 +6,11 @@ button
 <</hasSimpleNavButtons>>
 {
   id:t='pag_next_page';
-  class:t='image20';
+  class:t='image';
   nav:t='right';
   on_click:t='goToPage';
   to_page:t='0'
+  noMargin:t=yes;
   btnName:t='RB';
   showButtonImageOnConsole:t='no'
   ButtonImg{}
@@ -28,10 +29,11 @@ button
 <</hasSimpleNavButtons>>
 {
   id:t='pag_prew_page';
-  class:t='image20';
+  class:t='image';
   nav:t='left';
   on_click:t='goToPage';
   to_page:t='0'
+  noMargin:t=yes;
   btnName:t='LB';
   showButtonImageOnConsole:t='no'
   ButtonImg{}

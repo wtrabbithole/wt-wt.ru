@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 const REPLAY_SESSION_ID_MIN_LENGHT = 16
 
 ::autosave_replay_max_count <- 100
@@ -100,7 +103,7 @@ function autosave_replay()
         if (replays[i].name.slice(0,1) != ::autosave_replay_prefix)
           continue;
 
-        if (!oldestDate || cmp_date(replays[i].dateTime, oldestDate) < 0)
+        if (!oldestDate || time.cmpDate(replays[i].dateTime, oldestDate) < 0)
         {
           oldestDate = replays[i].dateTime;
           indexToDelete = i;
@@ -207,7 +210,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       local corrupted = (("corrupted" in replays[i]) && replays[i].corrupted) ||
         ("isVersionMismatch" in replays[i]) && replays[i].isVersionMismatch
       if (corrupted)
-        iconName = "#ui/gameuiskin#icon_primary_fail"
+        iconName = "#ui/hudskin#icon_primary_fail"
       else if (autosave)
         iconName = "#ui/gameuiskin#slot_modifications"
 
@@ -236,7 +239,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
         local startTime = ::getTblValue("startTime", replays[i], 0) || (("dateTime" in replays[i]) ? ::mktime(replays[i].dateTime) : 0)
         if (startTime)
         {
-          local date = ::build_date_time_str(::get_time_from_t(startTime))
+          local date = time.buildDateTimeStr(::get_time_from_t(startTime))
           name += ::colorize("fadedTextColor", ::loc("ui/parentheses/space", { text = date }))
         }
       }
@@ -317,7 +320,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
 
       local startTime = ::getTblValue("startTime", replayInfo, 0) || (("dateTime" in replayInfo) ? ::mktime(replayInfo.dateTime) : 0)
       if (startTime)
-        text += ::loc("options/mission_start_time") + ::loc("ui/colon") + ::build_date_time_str(::get_time_from_t(startTime)) + "\n"
+        text += ::loc("options/mission_start_time") + ::loc("ui/colon") + time.buildDateTimeStr(::get_time_from_t(startTime)) + "\n"
 
       if (replayInfo.multiplayerGame)
         headerText += ::loc("mainmenu/btnMultiplayer")
@@ -413,7 +416,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       if (name == "timePlayed")
-        value = ::secondsToString(value)
+        value = time.secondsToString(value)
       data.addDescr += (::loc("options/" + name) + ::loc("ui/colon") + value + "\n")
     }
 

@@ -83,6 +83,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "flt_t1_big_aaa_squad"
             },
             {
@@ -116,6 +119,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "flt_t1_small_aaa_squad"
             },
             {
@@ -148,6 +154,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "flt_t1_art_squad"
             },
@@ -221,6 +230,7 @@
             "ground": true,
             "mapArea": true,
             "killOutOfBattleArea": true,
+            "newGridHorizontalCellCount": 0,
             "area": "flt_battle_area"
           }
         }
@@ -299,17 +309,100 @@
             }
           },
           {
-            "__varSetInt": {
+            "comment": {
+              "value": "проверяем на нули"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_forces_counting_check_zero"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "flt_forces_counting_check_zero": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ANY",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_t1_force",
+              "value": 1,
+              "comparasion_func": "less"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_t2_force",
+              "value": 1,
+              "comparasion_func": "less"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "comment": {
+              "value": "переменные меньше 1, перебиваем их в дефолт"
+            }
+          },
+          {
+            "varSetInt": {
               "value": 30000,
               "var": "flt_t1_force"
             }
           },
           {
-            "__varSetInt": {
+            "varSetInt": {
               "value": 30000,
               "var": "flt_t2_force"
             }
           },
+          {
+            "comment": {
+              "value": "высчитываем результат"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_forces_counting_results"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "все ок. высчитываем результат"
+          },
+          "triggerEnable": {
+            "target": "flt_forces_counting_results"
+          }
+        }
+      },
+      "flt_forces_counting_results": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
           {
             "comment": {
               "value": "запоминаем полученую силу"
@@ -7946,9 +8039,9 @@
           },
           {
             "__missionShowMapIcon": {
-              "areaName": "@flt_battle_area_name",
               "show": true,
-              "iconName": "ui/gameuiskin#objective_cannon",
+              "iconName": "ui/hudskin#objective_cannon",
+              "areaName": "@flt_battle_area_name",
               "colorCode": "Team B"
             }
           },
@@ -8089,9 +8182,9 @@
           },
           {
             "__missionShowMapIcon": {
-              "areaName": "@flt_battle_area_name",
               "show": true,
-              "iconName": "ui/gameuiskin#objective_cannon",
+              "iconName": "ui/hudskin#objective_cannon",
+              "areaName": "@flt_battle_area_name",
               "colorCode": "Team A"
             }
           },
@@ -8205,6 +8298,9 @@
           },
           {
             "unitSetProperties": [
+              {
+                "object_marking": 0
+              },
               {
                 "object": "flt_battles_t1_battle_squad"
               },
@@ -8450,7 +8546,7 @@
         },
         "conditions": {
           "objectExists": {
-            "target": "@flt_battles_t1_spawn_name",
+            "target": "@flt_battles_t2_spawn_name",
             "type": "area"
           }
         },
@@ -8579,19 +8675,25 @@
           {
             "unitSetProperties": [
               {
+                "object_marking": 0
+              },
+              {
                 "object": "flt_battles_t1_battle_squad"
               },
               {
                 "object": "flt_battles_t2_battle_squad"
               },
               {
-                "attack_type": "fire_at_will"
-              },
-              {
                 "stealthRadius": 64000.0
               },
               {
-                "accuracy": 0.3
+                "attack_type": "fire_at_will"
+              },
+              {
+                "accuracy": 0.1
+              },
+              {
+                "checkVisibilityTarget": false
               },
               {
                 "effShootingRate": 0.1
@@ -8654,6 +8756,8 @@
               "horizontalDirectionForTeleport": true,
               "waypointReachedDist": 10.0,
               "recalculatePathDist": -1.0,
+              "object_marking": 0,
+              "target_marking": 0,
               "object": "flt_battles_t1_tank_01",
               "speed": 5.0,
               "follow_radius": 150.0,
@@ -8672,6 +8776,8 @@
               "horizontalDirectionForTeleport": true,
               "waypointReachedDist": 10.0,
               "recalculatePathDist": -1.0,
+              "object_marking": 0,
+              "target_marking": 0,
               "object": "flt_battles_t2_tank_01",
               "speed": 5.0,
               "follow_radius": 150.0,
@@ -8745,6 +8851,9 @@
             "unitSetIndication": [
               {
                 "set": true
+              },
+              {
+                "target_marking": 0
               },
               {
                 "target": "flt_battles_t1_battle_squad"
@@ -8957,9 +9066,9 @@
           },
           {
             "__missionShowMapIcon": {
-              "areaName": "@flt_battle_area_name",
               "show": false,
-              "iconName": "ui/gameuiskin#objective_cannon"
+              "iconName": "ui/hudskin#objective_cannon",
+              "areaName": "@flt_battle_area_name"
             }
           },
           {
@@ -8982,6 +9091,9 @@
                 "set": false
               },
               {
+                "target_marking": 0
+              },
+              {
                 "target": "flt_battles_t1_battle_squad"
               },
               {
@@ -8996,6 +9108,9 @@
           },
           {
             "unitSetProperties": [
+              {
+                "object_marking": 0
+              },
               {
                 "object": "flt_battles_t1_battle_squad"
               },
@@ -9395,19 +9510,19 @@
         "conditions": {
           "unitDistanceBetween": [
             {
-              "value": 7500.0
+              "value": 2500.0
             },
             {
               "math": "notNear2D"
             },
             {
-              "object_type": "isAlive"
+              "object_type": "isActive"
             },
             {
               "object_marking": 0
             },
             {
-              "target_type": "isAlive"
+              "target_type": "isActive"
             },
             {
               "target_marking": 0
@@ -9436,6 +9551,20 @@
           ]
         },
         "actions": {
+          "unitRestore": [
+            {
+              "ressurectIfDead": true
+            },
+            {
+              "fullRestore": true
+            },
+            {
+              "target": "flt_battles_t1_battle_squad"
+            },
+            {
+              "target": "flt_battles_t2_battle_squad"
+            }
+          ],
           "unitPutToSleep": [
             {
               "target": "flt_battles_t1_battle_squad"

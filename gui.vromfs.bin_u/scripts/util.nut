@@ -1,4 +1,8 @@
-﻿::usageRating_amount <- [0.0003, 0.0005, 0.001, 0.002]
+local time = require("scripts/time.nut")
+local penalty = require("penalty")
+local penalties = require("scripts/penitentiary/penalties.nut")
+
+::usageRating_amount <- [0.0003, 0.0005, 0.001, 0.002]
 ::allowingMultCountry <- [1.5, 2, 2.5, 3, 4, 5]
 ::allowingMultAircraft <- [1.3, 1.5, 2, 2.5, 3, 4, 5, 10]
 ::fakeBullets_prefix <- "fake"
@@ -8,7 +12,6 @@ const NOTIFY_EXPIRE_PREMIUM_ACCOUNT = 15
 ::current_campaign_id <- null
 ::current_campaign_mission <- null
 ::current_wait_screen <- null
-::encyclopedia_page <- null
 ::msg_box_selected_elem <- null
 ::slotbar_oninit <- false
 
@@ -52,7 +55,7 @@ const NOTIFY_EXPIRE_PREMIUM_ACCOUNT = 15
 foreach (i, v in ::cssColorsMapDark)
     ::cssColorsMapLigth[v] <- i
 
-::global_max_players_versus <- 32
+::global_max_players_versus <- 64
 ::global_max_players_coop <- 4
 
 function get_blk_by_path_array(path, blk, defaultValue = null)
@@ -132,42 +135,9 @@ function replaceParamsInLocalizedText(localizedString, param)
   return localizedString
 }
 
-_stripTagsConfig <- [
-  {
-    re2 = ::regexp2("~")
-    repl = "~~"
-  }
-  {
-    re2 = ::regexp2("\"")
-    repl = "~\""
-  }
-  {
-    re2 = ::regexp2("\r")
-    repl = "~r"
-  }
-  {
-    re2 = ::regexp2("\n")
-    repl = "~n"
-  }
-  {
-    re2 = ::regexp2("\'")
-    repl = "~\'"
-  }
-]
-
-function stripTags(str)
-{
-  if (!str || !str.len())
-    return ""
-
-  foreach(test in ::_stripTagsConfig)
-    str = test.re2.replace(test.repl, str)
-  return str
-}
-
 function locOrStrip(text)
 {
-  return (text.len() && text.slice(0,1)!="#")? ::stripTags(text) : text
+  return (text.len() && text.slice(0,1)!="#")? ::g_string.stripTags(text) : text
 }
 
 function get_gamepad_specific_localization(locId)
@@ -177,6 +147,8 @@ function get_gamepad_specific_localization(locId)
 
   return ::loc(locId + "/gamepad_specific", locId)
 }
+::cross_call_api.get_gamepad_specific_localization <- ::get_gamepad_specific_localization
+
 
 function locEnding(locId, ending, defValue = null)
 {
@@ -203,25 +175,6 @@ function colorize(color, text)
   return ::format("<color=%s>%s</color>", color, text)
 }
 
-function tooltipColorTheme(txt, revert=false)
-{
-  /*
-  if (!txt || txt=="")
-    return txt
-  if (txt.len() > 0 && txt[0] == '#')
-    txt = ::loc(txt.slice(1))
-  local colorMap = revert? ::cssColorsMapLigth : ::cssColorsMapDark
-  foreach(fnd, repl in colorMap)
-    txt = ::stringReplace(txt, "<color=@"+fnd+">", "<color=@"+repl+">")
-  */
-  return txt
-}
-
-function set_encyclopedia_page(page)
-{
-  ::encyclopedia_page = page
-}
-
 function get_filtered_aircrafts_list(team)
 {
   local tags = ::aircrafts_filter_tags
@@ -246,17 +199,6 @@ function get_filtered_aircrafts_list(team)
 function getAircraftByName(name)
 {
   return ::getTblValue(name, ::all_units)
-}
-
-function has_msg_boxes()
-{
-  if (::gui_scene_boxes.len() > 0)
-    return true
-  local guiScene = ::get_gui_scene()
-  if (guiScene["is_msg_box"] != null)
-    return true
-
-  return false
 }
 
 
@@ -462,21 +404,6 @@ function fill_weapons_list_tooltips(listObj, optionsList)
   }
 }
 
-mm_progressBox <- null
-
-function destroy_mm_progressBox()
-{
-  if (::mm_progressBox)
-  {
-    if (::mm_progressBox.isValid())
-    {
-      local guiScene = ::mm_progressBox.getScene();
-      guiScene.destroyElement(::mm_progressBox)
-    }
-    ::mm_progressBox = null
-  }
-}
-
 function set_current_campaign(id)
 {
   ::current_campaign_id = id
@@ -516,22 +443,6 @@ function preload_ingame_scenes()
   require("scripts/chat/mpChatModel.nut").init()
 }
 
-function getExpireText(expireMin)
-{
-  if (expireMin < TIME_MINUTE_IN_SECONDS)
-    return expireMin + ::loc("measureUnits/minutes")
-
-  local showMin = expireMin < 3 * TIME_MINUTE_IN_SECONDS
-  local expireHours = floor(expireMin / TIME_MINUTE_IN_SECONDS_F + (showMin? 0.0 : 0.5))
-  if (expireHours < 24)
-    return expireHours + ::loc("measureUnits/hours") +
-           (showMin? " " + (expireMin - TIME_MINUTE_IN_SECONDS * expireHours) + ::loc("measureUnits/minutes") : "")
-
-  local showHours = expireHours < 3*24
-  local expireDays = floor(expireHours / 24.0 + (showHours? 0.0 : 0.5))
-  return expireDays + ::loc("measureUnits/days") +
-         (showHours? " " + (expireHours - 24*expireDays) + ::loc("measureUnits/hours") : "")
-}
 
 function have_active_bonuses_by_effect_type(effectType, personal = false)
 {
@@ -606,7 +517,7 @@ function get_current_bonuses_text(effectType)
   if (::u.isEmpty(tooltipText))
     return ""
 
-  return ::implode(tooltipText, "\n")
+  return ::g_string.implode(tooltipText, "\n")
 }
 
 function add_bg_task_cb(taskId, actionFunc, handler = null)
@@ -933,24 +844,6 @@ function remove_seconds_updater(obj)
     obj.setUserData(null)
 }
 
-//round @value to valueble @digits amount
-// roundToDigits(1.23, 2) = 1.2
-// roundToDigits(123, 2) = 120
-function roundToDigits(value, digits)
-{
-  if (value==0) return value
-  local log = log10(fabs(value))
-  local mul = pow(10, floor(log)-digits+1)
-  return mul*floor(0.5+value.tofloat()/mul)
-}
-
-//round @value by @roundValue
-//round_by_value(1.56, 0.1) = 1.6
-function round_by_value(value, roundValue)
-{
-  return floor(value.tofloat() / roundValue + 0.5) * roundValue
-}
-
 function getTextByModes(textFunc, separator = " / ")
 {
   local text = ""
@@ -990,8 +883,8 @@ function setCrewUnlockTime(obj, air)
           ::dagor.assertf(::skip_crew_unlock_assert, "Too big locked crew wait time")
           ::skip_crew_unlock_assert = true
         }
-        local time = ::secondsToString(waitTime)
-        tObj.setValue(time)
+        local timeStr = time.secondsToString(waitTime)
+        tObj.setValue(timeStr)
 
         local showButtons = ::has_feature("EarlyExitCrewUnlock")
         if (showButtons)
@@ -1276,21 +1169,13 @@ function colorTextByValues(text, val1, val2, useNeutral = true, useGood = true)
   return ::format("<color=@%s>%s</color>", color, text)
 }
 
-function cut_prefix(id, prefix, defValue = null) //return defValue when incorrect prefix
-{
-  local pLen = prefix.len()
-  if ((id.len() > pLen) && (id.slice(0, pLen) == prefix))
-    return id.slice(pLen)
-  return defValue
-}
-
 function getObjIdByPrefix(obj, prefix, idProp = "id")
 {
   if (!obj) return null
   local id = obj[idProp]
   if (!id) return null
 
-  return ::cut_prefix(id, prefix)
+  return ::g_string.cutPrefix(id, prefix)
 }
 
 function getTooltipObjId(obj)
@@ -2359,10 +2244,10 @@ function on_have_to_start_chard_op(message)
   }
   else if (message == "profile_reload")
   {
-    local oldPenaltyStatus = ::get_player_penalty_status()
+    local oldPenaltyStatus = penalty.getPenaltyStatus()
     local taskId = ::chard_request_profile()
     ::add_bg_task_cb(taskId, (@(oldPenaltyStatus) function() {
-      local  newPenaltyStatus = ::get_player_penalty_status()
+      local  newPenaltyStatus = penalty.getPenaltyStatus()
       if (newPenaltyStatus.status != oldPenaltyStatus.status || newPenaltyStatus.duration != oldPenaltyStatus.duration)
         ::broadcastEvent("PlayerPenaltyStatusChanged", {status = newPenaltyStatus.status})
     })(oldPenaltyStatus))
@@ -2376,7 +2261,7 @@ function onUpdateProfile(taskId, action, transactionType = ::EATT_UNKNOWN) //cod
   if (!::g_login.isLoggedIn())
     return
   ::update_gamercards()
-  ::showBannedStatusMsgBox(true)
+  penalties.showBannedStatusMsgBox(true)
 }
 
 function getValueForMode(optionsMode, type)
@@ -2611,58 +2496,6 @@ function quit_and_run_cmd(cmd)
   ::exit_game();
 }
 
-function showBannedStatusMsgBox(showBanOnly = false)
-{
-  local st = ::get_player_penalty_status()
-  if (showBanOnly && st.status != ::EPS_BAN)
-    return
-
-  debugTableData(st, -1, "BAN ");
-
-  local txt = "";
-  local fn = function() {};
-  local type = "";
-  local time= 0;
-  local onlyDecalsDisabled = false;
-
-  if (st.status == ::EPS_BAN)
-  {
-    type  = "ban";
-    fn = function() { ::gui_start_logout() }
-    ::queues.leaveAllQueuesSilent()
-    ::SessionLobby.leaveRoom()
-  }
-  else if (st.status == ::EPS_DEVOICE)
-    if (is_decals_disabled())
-      type = "mutedecal"
-    else
-      type = "mute";
-  else if (is_decals_disabled())
-  {
-    onlyDecalsDisabled = true;
-    type = "decal";
-  }
-  else
-    return;
-
-  time = get_time_till_decals_disabled() || st.seconds_left;
-  if (st.duration >= ::BANUSER_INFINITE_PENALTY || onlyDecalsDisabled)
-    txt += ::loc("charServer/"+type+"/permanent");
-  else
-  {
-    txt += format(::loc("charServer/"+type+"/timed"), ::hoursToString(st.duration/TIME_HOUR_IN_SECONDS_F, false))
-    txt += " "+format(::loc("charServer/ban/timeLeft"), ::hoursToString(time/TIME_HOUR_IN_SECONDS_F, false, true))
-  }
-
-  if (!onlyDecalsDisabled)
-  {
-    txt += "\n" + ::loc("charServer/ban/reason") + ::loc("ui/colon")+" " + "<color=@highlightedTextColor>"+::loc("charServer/ban/reason/"+st.category)+"</color>\n\n"
-    txt += ::loc("charServer/ban/comment") + "\n"+st.comment
-  }
-
-  if (txt != "")
-    ::scene_msg_box("banned", null, txt, [["ok", fn ]], "ok", { saved = true, cancel_fn = fn })
-}
 
 function getEnumValName(strEnumName, value, skipSynonyms=false)
 {
@@ -2738,14 +2571,6 @@ function init_use_touchscreen()
   return "is_thouchscreen_enabled" in getroottable() ? ::is_thouchscreen_enabled() : false
 }
 
-function implode(pieces=[], glue="") // Reverse operation to split()
-{
-  local result = ""
-  foreach (piece in pieces)
-    if (piece != "")
-      result += (result == "" ? "" : glue) + piece
-  return result
-}
 
 function check_tanks_available(silent = false)
 {
@@ -2845,7 +2670,7 @@ function checkRemnantPremiumAccount()
       !::has_feature("SpendGold"))
     return
 
-  local currDays = ::get_days_by_time(::get_utc_time())
+  local currDays = time.getDaysByTime(::get_utc_time())
   local expire = entitlement_expires_in("PremiumAccount")
   if (expire > 0)
     ::saveLocalByAccount("premium/lastDayHavePremium", currDays)
@@ -3058,18 +2883,6 @@ function is_numeric(value)
   return t == "integer" || t == "float" || t == "int64"
 }
 
-/**
-* Linear interpolation of f(t) where:
-* f(t1) = f1
-* f(t2) = f2
-*/
-function lerp(t1, t2, f1, f2, t)
-{
-  if (t1 == t2)
-  return 0.5 * (f1 + f2)
-  return f1 + (f2 - f1) * (t - t1) / (t2 - t1)
-}
-
 function getArrayFromInt(intNum)
 {
   local array = []
@@ -3183,6 +2996,8 @@ function is_mode_with_teams(gt = null)
     gt = ::get_game_type()
   return !(gt & (::GT_FFA_DEATHMATCH | ::GT_FFA))
 }
+::cross_call_api.is_mode_with_teams <- ::is_mode_with_teams
+
 
 function is_team_friendly(teamId)
 {
@@ -3209,7 +3024,7 @@ function build_mplayer_name(player, colored = true, withClanTag = true, withUnit
     return ""
 
   local clanTag = withClanTag ? player.clanTag : ""
-  local name = ::implode([clanTag, player.name], " ")
+  local name = ::g_string.implode([clanTag, player.name], " ")
 
   if (withUnit)
   {

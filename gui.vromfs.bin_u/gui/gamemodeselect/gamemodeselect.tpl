@@ -188,7 +188,7 @@ frame {
 
         <<#showEventDescription>>
         Button_text {
-          class:t='header';
+          visualStyle:t='header';
           size:t='0.4ph, 0.4ph';
           right:t='0';
           padding-top:t='0';

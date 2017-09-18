@@ -12,7 +12,8 @@ gameModeChangeButton > activeText {
   input-transparent: yes;
 }
 
-gameModeChangeButton:hover > activeText {
+gameModeChangeButton:hover > activeText,
+[show_console_buttons=yes] gameModeChangeButton:focus > activeText {
   color:@hoverMenuButtonColor;
 }
 
@@ -70,7 +71,7 @@ game_mode_block {
   height: 0.094@scrn_tgt;
   margin: 0.0014@scrn_tgt;
   padding: 0.0014@scrn_tgt;
-  font:@small;
+  font:@fontNormal;
   color:@commonMenuButtonColor;
   css-hier-invalidate:yes;
 }
@@ -161,26 +162,16 @@ game_mode_block[inactiveColor=yes] > title > tdiv > textarea {
 }
 
 game_mode_block > CheckBoxImg {
-  pos: pw - w, ph - h;
+  pos: pw - w - @blockInterval, ph - h - @blockInterval;
   display: hide;
 }
 
-game_mode_block > CheckBoxImg {
-  size: 0.029@scrn_tgt, 0.029@scrn_tgt;
-}
-
 game_mode_block[current_mode=yes] > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_checked_;
   display: show;
 }
 
 game_mode_block:hover > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_unchecked_;
   display: show;
-}
-
-game_mode_block[current_mode=yes]:hover > CheckBoxImg {
-  background-image:#ui/gameuiskin#checkbox_checked_hover;
 }
 
 link_icon {

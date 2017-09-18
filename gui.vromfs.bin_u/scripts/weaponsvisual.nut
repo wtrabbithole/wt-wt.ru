@@ -280,11 +280,15 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     altBtnText = getItemUnlockCost(air, item).tostring()
   if (altBtnText != "")
     altBtnText = ::loc("mainmenu/btnBuy") + ::loc("ui/parentheses/space", {text = altBtnText})
-  else if (visualItem.type != weaponsItem.spare
-            && statusTbl.amount && statusTbl.maxAmount > 1
+  else if (visualItem.type == weaponsItem.spare)
+  {
+    if (::ItemsManager.getInventoryList(itemType.UNIVERSAL_SPARE).len())
+      altBtnText = ::loc("items/universalSpare/activate", { icon = ::loc("icon/universalSpare") })
+  }
+  else if (statusTbl.amount && statusTbl.maxAmount > 1
             && statusTbl.amount < statusTbl.maxAmount
             && !isBundle)
-      altBtnText = ::loc("mainmenu/btnBuy")
+    altBtnText = ::loc("mainmenu/btnBuy")
 
   altBtn.canShow = (altBtnText == "") ? "no" : "yes"
   local textObj = altBtn.findObject("item_buy_text")

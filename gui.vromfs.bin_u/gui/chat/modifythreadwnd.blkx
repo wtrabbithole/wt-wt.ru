@@ -22,9 +22,7 @@
             "text": "#chat/editThread",
             "caption": "yes"
           },
-          "Button_close": {
-            "img": []
-          }
+          "Button_close": []
         }
       },
       {
@@ -45,21 +43,35 @@
             "position": "relative"
           },
           {
+            "width": "pw"
+          },
+          {
             "textareaNoTab": {
+              "valign": "center",
               "text": "#profile/language"
             }
           },
           {
             "textareaNoTab": {
+              "valign": "center",
               "text": "#ui/colon"
             }
           },
           {
-            "Button_text": {
-              "id": "language_btn",
-              "class": "image",
-              "showConsoleImage": "no",
-              "on_click": "onLangBtn"
+            "tdiv": {
+              "width": "fw",
+              "Button_text": {
+                "id": "language_btn",
+                "class": "image",
+                "position": "relative",
+                "max-width": "pw",
+                "noMargin": "yes",
+                "noWidth": "yes",
+                "overflow": "hidden",
+                "showConsoleImage": "no",
+                "isColoredImg": "yes",
+                "on_click": "onLangBtn"
+              }
             }
           }
         ]
@@ -166,6 +178,7 @@
             "EditBox": {
               "id": "timestamp_editbox",
               "width": "fw",
+              "margin-top": "1@buttonMargin",
               "mouse-focusable": "yes",
               "char-mask": "0123456789:- ",
               "text": "",

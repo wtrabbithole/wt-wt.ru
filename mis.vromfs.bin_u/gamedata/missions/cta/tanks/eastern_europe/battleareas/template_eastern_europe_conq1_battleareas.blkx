@@ -1,0 +1,226 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": ""
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "template_eastern_europe_conq1_battleareas",
+      "level": "levels/avg_finland.bin",
+      "type": "domination",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "pacific",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "chapter": "air_ground_battles",
+      "timeLimit": 30,
+      "deathPenaltyMul": 1.0,
+      "remapAiTankModels": true,
+      "country_axis": "germany",
+      "country_allies": "ussr",
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      },
+      "tags": []
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "area_squad": {
+        "name": "t1_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1025.95,0.540039,1964.8]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_battlearea_block01"
+          },
+          {
+            "squad_members": "t1_battlearea_block02"
+          },
+          {
+            "squad_members": "t1_battlearea_block03"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1086.18,0.0,1804.77]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_battlearea_block01"
+          },
+          {
+            "squad_members": "t2_battlearea_block02"
+          },
+          {
+            "squad_members": "t2_battlearea_block03"
+          }
+        ]
+      }
+    }
+  ],
+  "areas": {
+    "fake_battlearea": {
+      "type": "Box",
+      "tm": [
+        [-1600.0,0.0,0.0],
+        [0.0,244.0,0.0],
+        [0.0,0.0,-1600.0],
+        [2151.8,0.53997,1957.1]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "t1_battlearea_block01": {
+      "type": "Box",
+      "tm": [
+        [-1337.99,0.0,0.0],
+        [0.0,244.0,0.0],
+        [0.0,0.0,-1600.0],
+        [2282.84,1.08008,1957.2]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "t1_battlearea_block02": {
+      "type": "Box",
+      "tm": [
+        [-300.245,0.0,0.0],
+        [0.0,244.0,0.0],
+        [0.0,0.0,-359.04],
+        [1501.96,1.08008,1336.66]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "t1_battlearea_block03": {
+      "type": "Box",
+      "tm": [
+        [-300.245,0.0,0.0],
+        [0.0,244.0,0.0],
+        [0.0,0.0,-714.779],
+        [1501.96,1.08008,2399.69]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "t2_battlearea_block01": {
+      "type": "Box",
+      "tm": [
+        [-0.000100821,0.0,1262.94],
+        [0.0,244.0,0.0],
+        [-1600.0,0.0,-0.00012207],
+        [2151.83,0.540283,1788.54]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "t2_battlearea_block02": {
+      "type": "Box",
+      "tm": [
+        [-2.19383e-05,0.0,345.341],
+        [0.0,244.0,0.0],
+        [-406.726,0.0,-3.03892e-05],
+        [2748.44,0.540497,2584.42]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "t2_battlearea_block03": {
+      "type": "Box",
+      "tm": [
+        [-2.19382e-05,0.0,345.34],
+        [0.0,244.0,0.0],
+        [-766.033,0.0,-6.51111e-05],
+        [1734.88,0.540497,2584.42]
+      ],
+      "objLayer": 3,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

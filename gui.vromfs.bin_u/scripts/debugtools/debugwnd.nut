@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 function debug_wnd(blkName = null, tplParams = {}, callbacksContext = null)
 {
   ::gui_start_modal_wnd(::gui_handlers.debugWndHandler, { blkName = blkName, tplParams = tplParams, callbacksContext = callbacksContext })
@@ -67,6 +69,9 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
     }
     else
       guiScene.replaceContent(obj, blkName, callbacksContext)
+
+    if ("onCreate" in callbacksContext)
+      callbacksContext.onCreate(obj)
   }
 
   function checkModify()
@@ -77,14 +82,14 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
     if (!modified)
       return
 
-    modified = ::get_full_time_table(modified)
+    modified = time.getFullTimeTable(modified)
     if (!lastModified)
     {
       lastModified = modified
       return
     }
 
-    if (::cmp_date(lastModified, modified) != 0)
+    if (time.cmpDate(lastModified, modified) != 0)
     {
       lastModified = modified
       updateWindow()

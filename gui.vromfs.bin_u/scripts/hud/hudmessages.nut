@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_hud_messages <- {
   types = []
 }
@@ -395,7 +398,8 @@
 
     calculateProgress = function (eventData)
     {
-      local catureFinished = eventData.eventId == ::MISSION_CAPTURED_ZONE
+      local catureFinished = (eventData.eventId == ::MISSION_CAPTURED_ZONE
+                             || eventData.eventId == ::MISSION_TEAM_LEAD_ZONE)
       local progress = eventData.captureProgress
       if (catureFinished)
         progress = 1
@@ -614,7 +618,7 @@
                   if (value > 0)
                     prefix = ::loc("keysPlus")
                 }
-                text = prefix + ::preciseSecondsToString(value, isPlayerBlock)
+                text = prefix + time.preciseSecondsToString(value, isPlayerBlock)
               }
               else if (param == "place")
                 text = value > 0? value.tostring() : ""

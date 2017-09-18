@@ -1321,16 +1321,21 @@
         "ex_armor_body_l_02_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 15.0,
-          "hp": 150.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_body_01_dm": [],
           "ex_armor_body_02_dm": [],
           "ex_armor_body_03_dm": [],
           "ex_armor_body_04_dm": [],
           "ex_armor_body_05_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -1384,7 +1389,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -2359,6 +2364,40 @@
       "replace_tex": {
         "from": "ger_camo_dunkelgelb*",
         "to": "ger_camo_winter_dunkelgelb*"
+      }
+    }
+  },
+  {
+    "ammoLoadDistribution": {
+      "removeLoadedAmmo": false,
+      "primaryShells": {
+        "ammo_body_r_01_dm": {
+          "count": 100
+        },
+        "ammo_body_l_01_dm": {
+          "count": 100
+        },
+        "ammo_body_01_dm": {
+          "count": 400
+        },
+        "ammo_body_02_dm": {
+          "count": 400
+        },
+        "ammo_body_03_dm": {
+          "count": 400
+        },
+        "ammo_body_04_dm": {
+          "count": 400
+        },
+        "ammo_body_05_dm": {
+          "count": 400
+        },
+        "ammo_body_06_dm": {
+          "count": 400
+        },
+        "ammo_body_07_dm": {
+          "count": 600
+        }
       }
     }
   },

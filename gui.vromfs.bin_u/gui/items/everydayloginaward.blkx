@@ -4,11 +4,6 @@
     "gamercardShade": [],
     "frame": {
       "id": "main_frame_login_rewards",
-      "min-width": "7@itemWidth",
-      "width": "",
-      "height": "1@itemHeight + 1@frameHeaderHeight + 1@frameFooterHeight + 0.35w + 1@loopProgressHeight + 5@dp",
-      "max-width": "1@rw",
-      "max-height": "1@maxWindowHeight",
       "pos": "50%pw-50%w, 1@minYposWindow + 0.2*(sh - 1@minYposWindow - h)",
       "position": "absolute",
       "class": "wndNav",
@@ -19,23 +14,17 @@
           "id": "award_type_title",
           "caption": "yes"
         },
-        "Button_close": {
-          "img": []
-        }
+        "Button_close": []
       },
       "tdiv": {
-        "pos": "50%pw-50%w, 0",
+        "width": "7@itemWidth",
         "position": "relative",
-        "width": "pw + 6",
         "flow": "vertical",
         "css-hier-invalidate": "yes",
         "img": {
           "id": "award_image",
           "width": "pw",
           "height": "0.35pw",
-          "min-height": "1@chestRewardHeight + 1@buttonHeight + 1@frameFooterHeight",
-          "pos": "0, 0",
-          "position": "relative",
           "overflow": "hidden",
           "background-image": "#ui/images/login_award.jpg?P1",
           "massTransp": {
@@ -527,15 +516,16 @@
                     "_on_click": "onOpenChest",
                     "css-hier-invalidate": "yes",
                     "btnName": "A",
+                    "pattern": [],
                     "buttonWink": {
                       "_transp-timer": "0"
                     },
+                    "buttonGlance": [],
                     "ButtonImg": [],
                     "btnText": {
                       "id": "btn_open_text",
                       "text": "#items/getReward"
-                    },
-                    "buttonGlance": []
+                    }
                   }
                 }
               ]
@@ -543,9 +533,9 @@
           ]
         },
         "tdiv": {
+          "width": "pw",
           "pos": "50%pw-50%w, -1@frameHeaderHeight",
           "position": "relative",
-          "width": "pw",
           "flow": "vertical",
           "img": {
             "size": "pw+4, 1@frameFooterHeight",
@@ -557,11 +547,51 @@
             "rotation": "180"
           },
           "tdiv": {
-            "id": "awards_line",
-            "pos": "0, 0",
-            "position": "absolute"
+            "id": "awards_line"
           }
-        }
+        },
+        "everyDayRewardProgress": [
+          {
+            "id": "reward_progress_box"
+          },
+          {
+            "size": "pw, 1@loopProgressHeight"
+          },
+          {
+            "margin-top": "@blockInterval"
+          },
+          {
+            "filledRewardProgressBox": {
+              "id": "filled_reward_progress",
+              "height": "ph",
+              "width": "0",
+              "max-width": "pw",
+              "pos": "0, 0",
+              "position": "relative",
+              "background-color": "@white",
+              "pattern": {
+                "type": "dark_diag_lines"
+              }
+            }
+          },
+          {
+            "progressBoxFraming": {
+              "id": "left_framing",
+              "pos": "-25%w,50%ph-50%h",
+              "position": "absolute",
+              "background-image": ""
+            }
+          },
+          {
+            "progressBoxFraming": {
+              "id": "right_framing",
+              "type": "right",
+              "pos": "pw-75%w,50%ph-50%h",
+              "position": "absolute",
+              "background-image": ""
+            }
+          }
+        ]
       },
       "navBar": {
         "navLeft": [
@@ -617,52 +647,7 @@
             }
           }
         ]
-      },
-      "everyDayRewardProgress": [
-        {
-          "id": "reward_progress_box"
-        },
-        {
-          "pos": "0, 1@itemHeight+9@dp"
-        },
-        {
-          "position": "relative"
-        },
-        {
-          "size": "pw, 1@loopProgressHeight"
-        },
-        {
-          "filledRewardProgressBox": {
-            "id": "filled_reward_progress",
-            "height": "ph",
-            "width": "0",
-            "max-width": "pw",
-            "pos": "0, 0",
-            "position": "relative",
-            "background-color": "@white",
-            "pattern": {
-              "type": "dark_diag_lines"
-            }
-          }
-        },
-        {
-          "progressBoxFraming": {
-            "id": "left_framing",
-            "pos": "-25%w,50%ph-50%h",
-            "position": "absolute",
-            "background-image": ""
-          }
-        },
-        {
-          "progressBoxFraming": {
-            "id": "right_framing",
-            "type": "right",
-            "pos": "pw-75%w,50%ph-50%h",
-            "position": "absolute",
-            "background-image": ""
-          }
-        }
-      ]
+      }
     }
   },
   "dummy": {

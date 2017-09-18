@@ -335,6 +335,9 @@
               "radius": -1.0
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t1_air_spawn_01"
             },
             {
@@ -395,6 +398,9 @@
               "radius": -1.0
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t2_air_spawn_01"
             },
             {
@@ -423,10 +429,17 @@
           }
         },
         {
-          "varSetInt": {
-            "value": 60,
-            "var": "disqualification_timer"
-          }
+          "varSetInt": [
+            {
+              "value": 60
+            },
+            {
+              "var": "t1_disqualification_timer"
+            },
+            {
+              "var": "t2_disqualification_timer"
+            }
+          ]
         },
         {
           "varSetInt": {
@@ -467,6 +480,9 @@
               "killOutOfBattleArea": true
             },
             {
+              "newGridHorizontalCellCount": 0
+            },
+            {
               "area": "battle_area_01"
             },
             {
@@ -482,13 +498,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/gladiators_waiting_for_players",
             "action": "show",
-            "shouldFadeOut": true,
-            "time": 10.0,
+            "shouldFadeOut": false,
+            "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -599,13 +616,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/duel_battle_fire",
             "action": "show",
             "shouldFadeOut": false,
-            "time": -1.0,
+            "time": 4.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -622,18 +640,6 @@
         {
           "wait": {
             "time": 2.0
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
-            "name": "hints/duel_battle_fire",
-            "action": "hide",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false,
-            "shouldBlink": false
           }
         },
         {
@@ -667,18 +673,6 @@
           }
         },
         "actions": [
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_prepare_battle",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
           {
             "missionMarkAsRespawnPoint": [
               {
@@ -716,6 +710,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t1_air_spawn_01"
@@ -779,6 +776,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t2_air_spawn_01"
@@ -988,13 +988,15 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_begin_round01",
               "action": "show",
-              "shouldFadeOut": true,
-              "time": 1.0,
+              "shouldFadeOut": false,
+              "time": 4.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0,
+              "shouldBlink": false
             }
           },
           {
@@ -1004,40 +1006,15 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_battle_begin_round01",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_cost_1000",
               "action": "show",
-              "shouldFadeOut": true,
-              "time": 1.0,
+              "shouldFadeOut": false,
+              "time": 4.0,
               "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
-            "wait": {
-              "time": 5.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_battle_cost_1000",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 1.0,
-              "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0,
+              "shouldBlink": false
             }
           }
         ],
@@ -1066,18 +1043,19 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_round01_finished",
               "action": "show",
               "shouldFadeOut": false,
-              "time": -1.0,
+              "time": 3.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
             "wait": {
-              "time": 2.0
+              "time": 3.0
             }
           },
           {
@@ -1204,17 +1182,6 @@
             }
           },
           {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_round01_finished",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
             "triggerEnable": {
               "target": "round_02_init"
             }
@@ -1250,7 +1217,10 @@
                 "var": "timer"
               },
               {
-                "var": "disqualification_timer"
+                "var": "t1_disqualification_timer"
+              },
+              {
+                "var": "t2_disqualification_timer"
               }
             ]
           },
@@ -1327,6 +1297,9 @@
                 "showOnMap": true
               },
               {
+                "onlyOnePlayerPerSpawnPoint": false
+              },
+              {
                 "target": "t1_air_spawn_02_01"
               },
               {
@@ -1387,6 +1360,9 @@
                 "showOnMap": true
               },
               {
+                "onlyOnePlayerPerSpawnPoint": false
+              },
+              {
                 "target": "t2_air_spawn_02_01"
               },
               {
@@ -1410,13 +1386,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/gladiators_waiting_for_players",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 10.0,
+              "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "shouldBlink": false
             }
           },
@@ -1461,18 +1438,6 @@
         },
         "actions": [
           {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_prepare_battle",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
-          {
             "missionMarkAsRespawnPoint": [
               {
                 "loc_name": "missions/spawn_random"
@@ -1509,6 +1474,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t1_air_spawn_02_01"
@@ -1572,6 +1540,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t2_air_spawn_02_01"
@@ -1738,13 +1709,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_begin_round02",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": 4.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
@@ -1754,50 +1726,36 @@
           },
           {
             "wait": {
-              "time": 5.0
+              "time": 10.0
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_battle_begin_round02",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
-            "wait": {
-              "time": 6.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_cost_2000",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": 4.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
             "wait": {
-              "time": 5.0
+              "time": 4.0
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_cost_2000",
               "action": "hide",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": -1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           }
         ],
@@ -1826,13 +1784,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_round02_finished",
               "action": "show",
               "shouldFadeOut": false,
-              "time": -1.0,
+              "time": 2.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
@@ -1942,17 +1901,6 @@
             }
           },
           {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_round02_finished",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
             "triggerEnable": {
               "target": "round_03_init"
             }
@@ -1988,7 +1936,10 @@
                 "var": "timer"
               },
               {
-                "var": "disqualification_timer"
+                "var": "t1_disqualification_timer"
+              },
+              {
+                "var": "t2_disqualification_timer"
               }
             ]
           },
@@ -2065,6 +2016,9 @@
                 "showOnMap": true
               },
               {
+                "onlyOnePlayerPerSpawnPoint": false
+              },
+              {
                 "target": "t1_air_spawn_03_01"
               },
               {
@@ -2125,6 +2079,9 @@
                 "showOnMap": true
               },
               {
+                "onlyOnePlayerPerSpawnPoint": false
+              },
+              {
                 "target": "t2_air_spawn_03_01"
               },
               {
@@ -2148,13 +2105,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/gladiators_waiting_for_players",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 10.0,
+              "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "shouldBlink": false
             }
           },
@@ -2196,18 +2154,6 @@
         },
         "actions": [
           {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_prepare_battle",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
-          {
             "missionMarkAsRespawnPoint": [
               {
                 "loc_name": "missions/spawn_random"
@@ -2244,6 +2190,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t1_air_spawn_03_01"
@@ -2307,6 +2256,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t2_air_spawn_03_01"
@@ -2453,13 +2405,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_begin_round03",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": 5.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
@@ -2469,50 +2422,36 @@
           },
           {
             "wait": {
-              "time": 5.0
+              "time": 10.0
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_battle_begin_round03",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
-            "wait": {
-              "time": 6.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_cost_3000",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": 4.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
             "wait": {
-              "time": 5.0
+              "time": 4.0
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_cost_3000",
               "action": "hide",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": -1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           }
         ],
@@ -2625,13 +2564,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_round03_finished",
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
@@ -2682,25 +2622,27 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_win",
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "A"
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_lose",
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "B"
             }
           }
@@ -2739,25 +2681,27 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_win",
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "B"
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_lose",
               "action": "show",
               "shouldFadeOut": false,
               "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "team": "A"
             }
           }
@@ -2785,62 +2729,28 @@
             "var_value_other": "bleeding_points_team_B"
           }
         },
-        "actions": [
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_round03_finished",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
+        "actions": {
+          "playHint": {
+            "hintType": "standard",
+            "name": "hints/duel_battle_draw",
+            "action": "show",
+            "shouldFadeOut": false,
+            "time": 2.0,
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0
           },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_battle_draw",
-              "action": "show",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
+          "wait": {
+            "time": 2.0
           },
-          {
-            "wait": {
-              "time": 2.0
-            }
+          "playerForceMoveToRespawnScreen": {
+            "target": "all_player_squad_alive",
+            "target_type": "isActive"
           },
-          {
-            "playerForceMoveToRespawnScreen": {
-              "target": "all_player_squad_alive",
-              "target_type": "isActive"
-            }
-          },
-          {
-            "wait": {
-              "time": 1.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_battle_draw",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "time": -1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "round_04_init"
-            }
+          "triggerEnable": {
+            "target": "round_04_init"
           }
-        ],
+        },
         "else_actions": []
       }
     },
@@ -2871,7 +2781,10 @@
                 "var": "timer"
               },
               {
-                "var": "disqualification_timer"
+                "var": "t1_disqualification_timer"
+              },
+              {
+                "var": "t2_disqualification_timer"
               }
             ]
           },
@@ -2948,6 +2861,9 @@
                 "showOnMap": true
               },
               {
+                "onlyOnePlayerPerSpawnPoint": false
+              },
+              {
                 "target": "t1_air_spawn_03_01"
               },
               {
@@ -3008,6 +2924,9 @@
                 "showOnMap": true
               },
               {
+                "onlyOnePlayerPerSpawnPoint": false
+              },
+              {
                 "target": "t2_air_spawn_03_01"
               },
               {
@@ -3031,13 +2950,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/gladiators_waiting_for_players",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 10.0,
+              "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "shouldBlink": false
             }
           },
@@ -3079,18 +2999,6 @@
         },
         "actions": [
           {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_prepare_battle",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
-          {
             "missionMarkAsRespawnPoint": [
               {
                 "loc_name": "missions/spawn_random"
@@ -3127,6 +3035,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t1_air_spawn_03_01"
@@ -3190,6 +3101,9 @@
               },
               {
                 "showOnMap": true
+              },
+              {
+                "onlyOnePlayerPerSpawnPoint": false
               },
               {
                 "target": "t2_air_spawn_03_01"
@@ -3339,13 +3253,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_begin_round04",
               "action": "show",
               "shouldFadeOut": true,
               "time": 1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
@@ -3355,50 +3270,36 @@
           },
           {
             "wait": {
-              "time": 5.0
+              "time": 10.0
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/duel_battle_begin_round04",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 1.0,
-              "priority": 0,
-              "isOverFade": false
-            }
-          },
-          {
-            "wait": {
-              "time": 6.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_cost_3000",
               "action": "show",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": 4.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           },
           {
             "wait": {
-              "time": 5.0
+              "time": 4.0
             }
           },
           {
             "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_battle_cost_3000",
               "action": "hide",
               "shouldFadeOut": true,
-              "time": 1.0,
+              "time": -1.0,
               "priority": 0,
-              "isOverFade": false
+              "isOverFade": false,
+              "target_marking": 0
             }
           }
         ],
@@ -4065,26 +3966,28 @@
           "actions": [
             {
               "playHint": {
-                "hintType": "custom",
+                "hintType": "standard",
                 "name": "hints/duel_round_win",
                 "action": "show",
                 "shouldFadeOut": true,
                 "time": 10.0,
                 "priority": 0,
                 "isOverFade": false,
+                "target_marking": 0,
                 "shouldBlink": false,
                 "team": "A"
               }
             },
             {
               "playHint": {
-                "hintType": "custom",
+                "hintType": "standard",
                 "name": "hints/duel_round_lose",
                 "action": "show",
                 "shouldFadeOut": true,
                 "time": 10.0,
                 "priority": 0,
                 "isOverFade": false,
+                "target_marking": 0,
                 "shouldBlink": false,
                 "team": "B"
               }
@@ -4139,38 +4042,7 @@
             },
             {
               "wait": {
-                "time": 5.0
-              }
-            },
-            {
-              "playHint": {
-                "hintType": "custom",
-                "name": "hints/duel_round_win",
-                "action": "hide",
-                "shouldFadeOut": true,
-                "time": 10.0,
-                "priority": 0,
-                "isOverFade": false,
-                "shouldBlink": false,
-                "team": "A"
-              }
-            },
-            {
-              "playHint": {
-                "hintType": "custom",
-                "name": "hints/duel_round_lose",
-                "action": "hide",
-                "shouldFadeOut": true,
-                "time": 10.0,
-                "priority": 0,
-                "isOverFade": false,
-                "shouldBlink": false,
-                "team": "B"
-              }
-            },
-            {
-              "wait": {
-                "time": 5.0
+                "time": 10.0
               }
             },
             {
@@ -4223,26 +4095,28 @@
           "actions": [
             {
               "playHint": {
-                "hintType": "custom",
+                "hintType": "standard",
                 "name": "hints/duel_round_win",
                 "action": "show",
                 "shouldFadeOut": true,
                 "time": 10.0,
                 "priority": 0,
                 "isOverFade": false,
+                "target_marking": 0,
                 "shouldBlink": false,
                 "team": "B"
               }
             },
             {
               "playHint": {
-                "hintType": "custom",
+                "hintType": "standard",
                 "name": "hints/duel_round_lose",
                 "action": "show",
                 "shouldFadeOut": true,
                 "time": 10.0,
                 "priority": 0,
                 "isOverFade": false,
+                "target_marking": 0,
                 "shouldBlink": false,
                 "team": "A"
               }
@@ -4297,38 +4171,7 @@
             },
             {
               "wait": {
-                "time": 5.0
-              }
-            },
-            {
-              "playHint": {
-                "hintType": "custom",
-                "name": "hints/duel_round_win",
-                "action": "hide",
-                "shouldFadeOut": true,
-                "time": 10.0,
-                "priority": 0,
-                "isOverFade": false,
-                "shouldBlink": false,
-                "team": "B"
-              }
-            },
-            {
-              "playHint": {
-                "hintType": "custom",
-                "name": "hints/duel_round_lose",
-                "action": "hide",
-                "shouldFadeOut": true,
-                "time": 10.0,
-                "priority": 0,
-                "isOverFade": false,
-                "shouldBlink": false,
-                "team": "A"
-              }
-            },
-            {
-              "wait": {
-                "time": 5.0
+                "time": 10.0
               }
             },
             {
@@ -4381,13 +4224,14 @@
           "actions": [
             {
               "playHint": {
-                "hintType": "custom",
+                "hintType": "standard",
                 "name": "hints/duel_round_draw",
                 "action": "show",
                 "shouldFadeOut": true,
-                "time": 10.0,
+                "time": 3.0,
                 "priority": 0,
                 "isOverFade": false,
+                "target_marking": 0,
                 "shouldBlink": false,
                 "team": "Both"
               }
@@ -4424,20 +4268,7 @@
             },
             {
               "wait": {
-                "time": 1.0
-              }
-            },
-            {
-              "playHint": {
-                "hintType": "custom",
-                "name": "hints/duel_round_draw",
-                "action": "hide",
-                "shouldFadeOut": true,
-                "time": 10.0,
-                "priority": 0,
-                "isOverFade": false,
-                "shouldBlink": false,
-                "team": "Both"
+                "time": 3.0
               }
             },
             {
@@ -4526,7 +4357,10 @@
               "var": "timer"
             },
             {
-              "var": "disqualification_timer"
+              "var": "t1_disqualification_timer"
+            },
+            {
+              "var": "t2_disqualification_timer"
             }
           ],
           "triggerDisable": [
@@ -4616,25 +4450,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/gladiators_waiting_for_players",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_prepare_battle",
               "action": "show",
-              "shouldFadeOut": true,
-              "time": 10.0,
+              "shouldFadeOut": false,
+              "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "shouldBlink": false
             }
           }
@@ -4729,25 +4552,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/gladiators_waiting_for_players",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_prepare_battle",
               "action": "show",
-              "shouldFadeOut": true,
-              "time": 10.0,
+              "shouldFadeOut": false,
+              "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "shouldBlink": false
             }
           }
@@ -4842,25 +4654,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/gladiators_waiting_for_players",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_prepare_battle",
               "action": "show",
-              "shouldFadeOut": true,
-              "time": 10.0,
+              "shouldFadeOut": false,
+              "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "shouldBlink": false
             }
           }
@@ -4955,25 +4756,14 @@
           },
           {
             "playHint": {
-              "hintType": "custom",
-              "name": "hints/gladiators_waiting_for_players",
-              "action": "hide",
-              "shouldFadeOut": true,
-              "time": 10.0,
-              "priority": 0,
-              "isOverFade": false,
-              "shouldBlink": false
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
+              "hintType": "standard",
               "name": "hints/duel_prepare_battle",
               "action": "show",
-              "shouldFadeOut": true,
-              "time": 10.0,
+              "shouldFadeOut": false,
+              "time": -1.0,
               "priority": 0,
               "isOverFade": false,
+              "target_marking": 0,
               "shouldBlink": false
             }
           }
@@ -5335,13 +5125,11 @@
           "varModify": {
             "operator": "add",
             "value": -1.0,
-            "var": "disqualification_timer"
+            "var": "t1_disqualification_timer"
           },
           "missionSetTimeIndicator": {
-            "var": "disqualification_timer"
-          },
-          "triggerDisable": {
-            "target": "disqualification_t2_init"
+            "var": "t1_disqualification_timer",
+            "team": "A"
           },
           "triggerEnable": {
             "target": "disqualification_t1_init"
@@ -5380,13 +5168,11 @@
           "varModify": {
             "operator": "add",
             "value": -1.0,
-            "var": "disqualification_timer"
+            "var": "t2_disqualification_timer"
           },
           "missionSetTimeIndicator": {
-            "var": "disqualification_timer"
-          },
-          "triggerDisable": {
-            "target": "disqualification_t1_init"
+            "var": "t2_disqualification_timer",
+            "team": "B"
           },
           "triggerEnable": {
             "target": "disqualification_t2_init"
@@ -5408,7 +5194,7 @@
         },
         "conditions": {
           "varCompareInt": {
-            "var_value": "disqualification_timer",
+            "var_value": "t1_disqualification_timer",
             "value": 1,
             "comparasion_func": "less"
           }
@@ -5441,7 +5227,7 @@
         },
         "conditions": {
           "varCompareInt": {
-            "var_value": "disqualification_timer",
+            "var_value": "t2_disqualification_timer",
             "value": 1,
             "comparasion_func": "less"
           }
@@ -5480,7 +5266,8 @@
     "beading_power_for_indication": 0,
     "string_for_round_end": "",
     "shooting_timer": 35,
-    "disqualification_timer": 30
+    "t1_disqualification_timer": 30,
+    "t2_disqualification_timer": 30
   },
   "dialogs": [],
   "airfields": [],

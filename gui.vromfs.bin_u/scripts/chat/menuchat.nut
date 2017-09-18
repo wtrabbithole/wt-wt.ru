@@ -1,3 +1,5 @@
+local penalties = require("scripts/penitentiary/penalties.nut")
+
 ::menu_chat_handler <- null
 ::menu_chat_sizes <- null
 ::last_chat_scene_show <- false
@@ -277,7 +279,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     guiScene.setUpdatesEnabled(false, false)
-    local roomFormat = "shopFilter { shopFilterText { id:t='room_txt_%d'; text:t='' } closeBtn { id:t='close_%d'; on_click:t='onRoomClose'; img{}} }\n"
+    local roomFormat = "shopFilter { shopFilterText { id:t='room_txt_%d'; text:t='' } Button_close { id:t='close_%d'; on_click:t='onRoomClose';}}\n"
     fillList(obj, roomFormat, ::g_chat.rooms.len())
 
     local curVal = -1
@@ -2122,7 +2124,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!roomId)
       roomId = curRoom.id
 
-    local devoice = ::get_chat_devoice_msg()
+    local devoice = penalties.getDevoiceMessage()
     if (devoice)
       addRoomMsg(roomId, "", devoice)
     return devoice != null
@@ -2491,13 +2493,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         local rName = searchRoomList[i]
         rName = (rName.slice(0, 1)=="#")? rName.slice(1) : ::loc("chat/channel/" + rName, rName)
         data += ::format("text { id:t='search_room_txt_%d'; text:t='%s'; tooltip:t='%s'; }",
-                    i, ::stripTags(rName), ::stripTags(rName))
+                    i, ::g_string.stripTags(rName), ::g_string.stripTags(rName))
       }
     }
     else
     {
       if (searchInProgress)
-        data = "animated_wait_icon { pos:t='0.5(pw-w),0.03sh'; position:t='absolute'; background-rotation:t='0'; wait_icon_cock {} }"
+        data = "animated_wait_icon { pos:t='0.5(pw-w),0.03sh'; position:t='absolute'; background-rotation:t='0' }"
       else if (searchShowNotFound)
         data = "textAreaCentered { text:t='#contacts/searchNotFound'; enable:t='no' }"
       searchShowNotFound = true

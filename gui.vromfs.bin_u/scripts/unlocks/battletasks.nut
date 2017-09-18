@@ -1,8 +1,13 @@
+local time = require("scripts/time.nut")
+
+
 ::g_battle_tasks <- null
 
 class BattleTasks
 {
   PLAYER_CONFIG_PATH = "seen/battletasks"
+  specialTasksId = "specialTasksPersonalUnlocks"
+  dailyTasksId = "dailyPersonalUnlocks"
 
   currentTasksArray = null
   activeTasksArray = null
@@ -13,6 +18,7 @@ class BattleTasks
 
   TASKS_OUT_OF_DATE_DAYS = 15
   lastGenerationId = null
+  specTasksLastGenerationId = null
 
   rerollCost = null
 
@@ -32,6 +38,7 @@ function BattleTasks::constructor()
   newIconWidgetByTaskId = {}
 
   lastGenerationId = 0
+  specTasksLastGenerationId = 0
 
   ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
 }
@@ -47,6 +54,7 @@ function BattleTasks::reset()
   seenTasksInited = false
 
   lastGenerationId = 0
+  specTasksLastGenerationId = 0
 }
 
 function BattleTasks::isAvailableForUser()
@@ -61,8 +69,8 @@ function BattleTasks::updateTasksData()
   if (!::g_login.isLoggedIn())
     return
 
-  currentTasksArray.extend(getUpdatedActiveTasks())
   currentTasksArray.extend(getUpdatedProposedTasks())
+  currentTasksArray.extend(getUpdatedActiveTasks())
 
   for (local i = currentTasksArray.len() - 1; i >= 0; i--)
   {
@@ -74,8 +82,9 @@ function BattleTasks::updateTasksData()
     }
 
     local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
-    if (!::g_battle_task_difficulty.canPlayerInteractWithType(diff.name, currentTasksArray, showAllTasksValue)
-        || !::g_battle_task_difficulty.checkAvailabilityByProgress(task, showAllTasksValue))
+    local canInteract = ::g_battle_task_difficulty.canPlayerInteractWithDifficulty(diff, currentTasksArray, showAllTasksValue)
+    local isAvailableByProgress = ::g_battle_task_difficulty.checkAvailabilityByProgress(task, showAllTasksValue)
+    if (!canInteract || !isAvailableByProgress)
     {
       currentTasksArray.remove(i)
       continue
@@ -110,23 +119,23 @@ function BattleTasks::getUpdatedProposedTasks()
 {
   local tasksDataBlock = ::get_proposed_personal_unlocks_blk()
   ::g_battle_task_difficulty.updateTimeParamsFromBlk(tasksDataBlock)
-  lastGenerationId = tasksDataBlock.dailyPersonalUnlocks_lastGenerationId
+  lastGenerationId = tasksDataBlock[dailyTasksId + "_lastGenerationId"]
+  specTasksLastGenerationId = tasksDataBlock[specialTasksId + "_lastGenerationId"]
+
   updateRerollCost(tasksDataBlock)
 
   proposedTasksArray = []
   newIconWidgetByTaskId = {}
 
-  local proposedTasks = []
   for (local i = 0; i < tasksDataBlock.blockCount(); i++)
   {
-    local block = ::DataBlock()
-    block.setFrom(tasksDataBlock.getBlock(i))
-    block.isActive = false
-    proposedTasks.append(block)
-    proposedTasksArray.append(block)
+    local task = ::DataBlock()
+    task.setFrom(tasksDataBlock.getBlock(i))
+    task.isActive = false
+    proposedTasksArray.append(task)
   }
 
-  return proposedTasks
+  return proposedTasksArray
 }
 
 function BattleTasks::getUpdatedActiveTasks()
@@ -143,7 +152,6 @@ function BattleTasks::getUpdatedActiveTasks()
       continue
 
     task.isActive = true
-
     activeTasksArray.append(task)
 
     local isNew = !isTaskDone(task) && canGetReward(task)
@@ -200,7 +208,7 @@ function BattleTasks::canActivateTask(task = null)
     return false
 
   local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
-  if (!::g_battle_task_difficulty.canPlayerInteractWithType(diff.name, getProposedTasksArray())
+  if (!::g_battle_task_difficulty.canPlayerInteractWithDifficulty(diff, getProposedTasksArray())
       || !::g_battle_task_difficulty.checkAvailabilityByProgress(task))
       return false
 
@@ -243,7 +251,7 @@ function BattleTasks::loadSeenTasksData(forceLoad = false)
 
 function BattleTasks::saveSeenTasksData()
 {
-  local minDay = ::get_utc_days() - TASKS_OUT_OF_DATE_DAYS
+  local minDay = time.getUtcDays() - TASKS_OUT_OF_DATE_DAYS
   local blk = ::DataBlock()
   foreach(generation_id, day in seenTasks)
   {
@@ -269,7 +277,7 @@ function BattleTasks::markTaskSeen(generation_id, sendEvent = true, isNew = fals
     return false
 
   if (!isNew)
-    seenTasks[generation_id] <- ::get_utc_days()
+    seenTasks[generation_id] <- time.getUtcDays()
   else if (generation_id in seenTasks)
     delete seenTasks[generation_id]
 
@@ -346,6 +354,14 @@ function BattleTasks::getTaskById(id)
   return null
 }
 
+function BattleTasks::generateUnlockConfigByTask(task)
+{
+  local config = ::build_conditions_config(task)
+  ::build_unlock_desc(config)
+  config.originTask <- task
+  return config
+}
+
 function BattleTasks::getUniqueId(task)
 {
   return task.id
@@ -397,15 +413,15 @@ function BattleTasks::generateUpdateDescription(log)
       if (::isInArray(diffTypeName, blackList))
         continue
 
+      local diff = ::g_battle_task_difficulty.getDifficultyTypeByName(diffTypeName)
       if (!::isInArray(diffTypeName, whiteList)
-          && !::g_battle_task_difficulty.canPlayerInteractWithType(diffTypeName,
+          && !::g_battle_task_difficulty.canPlayerInteractWithDifficulty(diff,
                                         proposedTasks, showAllTasksValue))
       {
         blackList.append(diffTypeName)
         continue
       }
 
-      local diff = ::g_battle_task_difficulty.getDifficultyTypeByName(diffTypeName)
       whiteList.append(diffTypeName)
       header = diff.userlogHeaderName
     }
@@ -428,7 +444,7 @@ function BattleTasks::generateUpdateDescription(log)
       data += ::loc("userlog/battletask/type/" + userlogHeader) + ::loc("ui/colon")
       lastUserLogHeader = userlogHeader
     }
-    data += ::implode(array, "\n")
+    data += ::g_string.implode(array, "\n")
   }
 
   return data
@@ -465,19 +481,23 @@ function BattleTasks::getTaskStatus(task)
   return null
 }
 
-function BattleTasks::isTaskActual(task, override = false)
+function BattleTasks::getGenerationIdInt(task)
 {
-  if (override)
-    return true
-
   local taskGenId = task._generation_id
   if (!taskGenId)
+    return 0
+
+  return ::u.isString(taskGenId)? taskGenId.tointeger() : taskGenId
+}
+
+function BattleTasks::isTaskActual(task)
+{
+  if (!task._generation_id)
     return true
 
-  if (::u.isString(taskGenId))
-    taskGenId = taskGenId.tointeger()
-
+  local taskGenId = getGenerationIdInt(task)
   return taskGenId == lastGenerationId
+    || taskGenId == specTasksLastGenerationId
 }
 
 function BattleTasks::isTaskUnderControl(checkTask, taskController, typesToCheck = null)
@@ -576,7 +596,7 @@ function BattleTasks::getTaskDescription(config = null, isPromo = false)
   }
 
   local view = {
-    taskDescription = ::implode(taskDescription, "\n")
+    taskDescription = ::g_string.implode(taskDescription, "\n")
     taskSpecialDescription = getRefreshTimeTextForTask(task)
     taskUnlocksListPrefix = taskUnlocksListPrefix
     taskUnlocks = taskUnlocksList
@@ -602,6 +622,9 @@ function BattleTasks::setUpdateTimer(task, taskBlockObj)
 {
   if (!::checkObj(taskBlockObj))
     return
+
+  local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
+  if (!diff.hasTimer) return
 
   local holderObj = taskBlockObj.findObject("task_timer_text")
   if (::checkObj(holderObj) && task)
@@ -633,9 +656,7 @@ function BattleTasks::getUnlockConditionBlock(text, id, type, isUnlocked, isFina
 
   return {
     tooltipId = ::UnlockConditions.getTooltipIdByModeType(type, id, hasCustomUnlockableList)
-    overlayTextColor = !isBitMode ? ""
-                     : isUnlocked ? "active"
-                     : "disabled"
+    overlayTextColor = (isBitMode && isUnlocked) ? "userlog" : "active"
     text = unlockDesc
   }
 }
@@ -734,71 +755,65 @@ function BattleTasks::getTasksArrayByDifficultyTypesArray(diffsArray)
   local result = []
   foreach(type in diffsArray)
   {
-    local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type.name, currentTasksArray)
+    local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type, currentTasksArray)
     if (array.len() == 0)
       continue
 
-    local taskWithReward = ::g_battle_tasks.getTaskWithAvailableAward(array)
-    if (!::g_battle_tasks.showAllTasksValue && !::u.isEmpty(taskWithReward))
-      result.append(taskWithReward)
-    else
+    if (::g_battle_task_difficulty.canPlayerInteractWithDifficulty(type, array))
       result.extend(array)
   }
 
   return result
 }
 
-function BattleTasks::getTasksArrayByGameModeDiffCode(searchArray, gameModeId = null, gameModeDiff = null, override = false, ignoreReward = false)
+function BattleTasks::filterTasksByGameModeId(tasksArray, gameModeId)
 {
-  if (::u.isEmpty(searchArray))
-    searchArray = currentTasksArray
+  if (::u.isEmpty(gameModeId))
+    return tasksArray
 
-  local array = []
-  foreach(task in searchArray)
+  local res = []
+  foreach(task in tasksArray)
   {
     if (!isBattleTask(task))
-    {
-      if (::u.isEmpty(gameModeId))
-        array.append(task)
       continue
-    }
-
-    if (!::g_battle_task_difficulty.canPlayerInteractWithType(::g_battle_task_difficulty.getDifficultyTypeByTask(task).name, searchArray, override))
-      continue
-
-    if (!ignoreReward && !override && canGetReward(task))
-    {
-      array = [task]
-      break
-    }
-
-    if (!::u.isEmpty(gameModeDiff))
-    {
-      local choiceType = ::getTblValue("_choiceType", task, "")
-      if (::isInArray(choiceType, gameModeDiff.choiceType))
-      {
-        array.append(task)
-        continue
-      }
-    }
 
     local blk = ::build_conditions_config(task)
     foreach(condition in blk.conditions)
     {
       local values = ::getTblValue("values", condition)
       if (::u.isEmpty(values))
-        continue
+          continue
 
-      if (!::u.isEmpty(gameModeId))
+      if (::isInArray(gameModeId, values))
       {
-        if (::isInArray(gameModeId, values))
-        {
-          array.append(task)
-          break
-        }
-        continue
+        res.append(task)
+        break
       }
     }
+  }
+  return res
+}
+
+function BattleTasks::getTasksArrayByGameModeDiffCode(searchArray, gameModeDiff = null)
+{
+  if (::u.isEmpty(searchArray))
+    searchArray = currentTasksArray
+
+  if (::u.isEmpty(gameModeDiff))
+    return searchArray
+
+  local array = []
+  foreach(task in searchArray)
+  {
+    if (!isBattleTask(task))
+    {
+      array.append(task)
+      continue
+    }
+
+    local choiceType = ::getTblValue("_choiceType", task, "")
+    if (::isInArray(choiceType, gameModeDiff.choiceType))
+      array.append(task)
   }
 
   return array
@@ -809,14 +824,67 @@ function BattleTasks::getRewardForTask(battleTaskId)
   if (::u.isEmpty(battleTaskId))
     return
 
+  local battleTask = getTaskById(battleTaskId)
+  if (!::g_warbonds.checkOverLimit(battleTask))
+    return
+
+  sendReceiveRewardRequest(battleTask)
+}
+
+function BattleTasks::sendReceiveRewardRequest(battleTask)
+{
   local blk = ::DataBlock()
-  blk.unlockName = battleTaskId
+  blk.unlockName = battleTask.id
 
   local taskId = ::char_send_blk("cln_reward_specific_battle_task", blk)
   ::g_tasker.addTask(taskId, {showProgressBox = true}, function() {
+    ::g_warbonds_view.needShowProgressBarInPromo = true
     ::update_gamercards()
     ::broadcastEvent("BattleTasksIncomeUpdate")
+    ::broadcastEvent("BattleTasksRewardReceived")
   })
+}
+
+function BattleTasks::rerollTask(task)
+{
+  if (::u.isEmpty(task))
+    return
+
+  local blk = ::DataBlock()
+  blk.unlockName = task.id
+
+  local taskId = ::char_send_blk("cln_reroll_battle_task", blk)
+  ::g_tasker.addTask(taskId, {showProgressBox = true},
+    function() {
+      ::statsd_counter("battle_tasks.reroll_v2." + task._base_id)
+      ::broadcastEvent("BattleTasksIncomeUpdate")
+    }
+  )
+}
+
+function BattleTasks::rerollSpecialTask(task)
+{
+  if (!::has_feature("Warbonds_2_0") || ::u.isEmpty(task))
+    return
+
+  local blk = ::DataBlock()
+  blk.unlockName = task.id
+  blk.metaTypeName = specialTasksId
+
+  local taskId = ::char_send_blk("cln_reroll_all_battle_tasks_for_meta", blk)
+  ::g_tasker.addTask(taskId, {showProgressBox = true})
+}
+
+function BattleTasks::canActivateHardTasks()
+{
+  return ::isInMenu()
+    && ::u.search(proposedTasksArray, ::Callback(isSpecialBattleTask, this )) != null
+    && ::u.search(activeTasksArray, ::Callback(isSpecialBattleTask, this )) == null
+}
+
+function BattleTasks::isSpecialBattleTask(task)
+{
+  return getGenerationIdInt(task) == specTasksLastGenerationId
 }
 
 function BattleTasks::onEventSignOut(p)
@@ -828,6 +896,15 @@ function BattleTasks::onEventLoginComplete(p)
 {
   reset()
   updateTasksData()
+}
+
+function BattleTasks::checkNewSpecialTasks()
+{
+  if (!canActivateHardTasks())
+    return
+
+  local array = ::u.filter(proposedTasksArray, ::Callback(isSpecialBattleTask, this) )
+  ::gui_start_battle_tasks_select_new_task_wnd(array)
 }
 
 ::g_battle_tasks = ::BattleTasks()

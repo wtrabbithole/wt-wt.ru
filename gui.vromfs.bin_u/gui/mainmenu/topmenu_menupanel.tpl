@@ -12,7 +12,6 @@ tdiv {
   emptyButton {
     id:t = '<<tmId>>'
     class:t='dropDown'
-    hoverMenuButtons:t='yes'
     css-hier-invalidate:t='yes'
     input-transparent:t='yes'
     on_click:t = 'onGCDropdown'
@@ -26,7 +25,7 @@ tdiv {
         width:t='<<columnsCount>> * 0.28@sf'
       <</forceHoverWidth>>
       height:t='0'
-      pos:t='<<tmHoverMenuPos>> - 1@topMenuHoverMenuIndent, ph-1'; position:t='absolute'
+      pos:t='<<tmHoverMenuPos>> - 1@topMenuHoverMenuIndent, ph+2@dp'; position:t='absolute'
       overflow:t='hidden'
       tooltip:t='' // Overrides underlying widgets tooltips.
 
@@ -36,8 +35,9 @@ tdiv {
 
       topMenuButtons {
         id:t='<<tmId>>_focus'
-        pos:t='<<tmHoverMenuPos>> + 1@topMenuHoverMenuIndent, ph-60%sh-3';
+        pos:t='<<tmHoverMenuPos>> + 1@topMenuHoverMenuIndent, ph-60%sh';
         position:t='absolute';
+        padding-top:t='0'
         flow:t='vertical'
 
         behavior:t='posNavigator'
@@ -50,6 +50,8 @@ tdiv {
 
         on_activate:t='topmenuMenuActivate'
         on_cancel_edit:t='unstickGCDropdownMenu'
+
+        line {}
 
         <<#columns>>
           <<#buttons>>
@@ -82,14 +84,15 @@ tdiv {
     Button_text {
       id:t='<<tmId>>_btn'
       noMargin:t='yes'
-      type:t='<<tmType>>'
-      <<#tmText>>
-        class:t='topmenu'
-      <</tmText>>
+      imgSize:t='big'
+      visualStyle:t='<<visualStyle>>'
+
+      <<^btnName>>
+      showConsoleImage:t='no'
+      <</btnName>>
       <<^tmText>>
-        class:t='topmenuImage'
+        class:t='image'
       <</tmText>>
-      minimalWidth:t='<<#minimalWidth>>yes<</minimalWidth>><<^minimalWidth>>no<</minimalWidth>>'
       <<#tmOnClick>> on_click:t = '<<tmOnClick>>' <</tmOnClick>>
 
       <<#haveTmDiscount>>
@@ -103,16 +106,20 @@ tdiv {
       <<#tmWinkImage>>
         buttonWink {
           pos:t='50%pw-50%w, 50%ph-50%h'; position:t='absolute'
-          size:t='pw, ph'
+          size:t='pw-2@dp, ph-2@dp'
           padding:t='ph-4, 4, 4, 4'
 
-          _transp-timer:t='0'
-          winkType:t='slow'
+          behaviour:t='basicTransparency'
+          transp-base:t='255'
+          transp-end:t='70'
+          transp-time:t='6000'
+          transp-func:t='sin'
+          transp-cycled:t='yes'
 
           re-type:t='9rect'
           background-image:t='<<tmWinkImage>>'
           background-color:t='@white'
-          background-position:t='6'
+          background-position:t='2'
           background-repeat:t='expand'
           text {
             id:t='<<tmId>>_btn_wink'
@@ -129,28 +136,17 @@ tdiv {
       <</btnName>>
 
       <<#tmImage>>
-        tdiv{
-          size:t='ph,ph'
-          img{
-            size:t='@cIco, @cIco'
-            background-image:t='<<tmImage>>'
-            pos:t='50%pw-50%w, 50%ph-50%h'; position:t='relative'
-          }
-        }
+      img{
+        background-image:t='<<tmImage>>'
+        <<^btnName>>isFirstLeft:t='yes'<</btnName>>
+      }
       <</tmImage>>
 
       <<#tmText>>
-        text{
-          id:t='<<tmId>>_txt'
-          text:t='<<tmText>>'
-          input-transparent:t='yes'
-          <<#tmImage>>
-            pos:t='0, 50%ph-50%h'; position:t='relative'
-          <</tmImage>>
-          <<^tmImage>>
-            pos:t='50%pw-50%w, 50%ph-50%h'; position:t='absolute'
-          <</tmImage>>
-        }
+      btnText {
+        id:t='<<tmId>>_txt'
+        text:t='<<tmText>>'
+      }
       <</tmText>>
     }
   }

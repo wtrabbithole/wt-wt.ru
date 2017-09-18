@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::WwBattleView
 {
   id = ""
@@ -220,7 +223,7 @@ class ::WwBattleView
   {
     local durationTime = battle.getBattleDurationTime()
     if (durationTime > 0)
-      return ::hoursToString(::seconds_to_hours(durationTime), false, true)
+      return time.hoursToString(time.secondsToHours(durationTime), false, true)
 
     return ""
   }

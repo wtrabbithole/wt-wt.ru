@@ -28,9 +28,9 @@ function g_chat_latest_threads::refresh()
   {
     local categoryTags = ::u.map(::g_chat_categories.getSearchCategoriesLList(),
                                 function(cName) { return ::g_chat_thread_tag.CATEGORY.prefix + cName })
-    categoryTagsText = ::implode(categoryTags, ",")
+    categoryTagsText = ::g_string.implode(categoryTags, ",")
   }
-  refreshAdvanced("hidden", ::implode(langTags, ","), categoryTagsText)
+  refreshAdvanced("hidden", ::g_string.implode(langTags, ","), categoryTagsText)
 }
 
 //refresh latest threads. options full work only for moderators.
@@ -49,7 +49,7 @@ function g_chat_latest_threads::refreshAdvanced(excludeTags = "hidden", includeT
 
   _requestedList.clear()
   lastRequestTime = ::dagor.getCurTime()
-  ::gchat_raw_command(::implode(cmdArr, " "))
+  ::gchat_raw_command(::g_string.implode(cmdArr, " "))
 }
 
 function g_chat_latest_threads::onNewThreadInfoToList(threadInfo)
@@ -140,7 +140,7 @@ function g_chat_latest_threads::saveCurLangs()
   if (!langsInited || !isCustomLangsList)
     return
   local chatIds = ::u.map(langsList, function (l) { return l.chatId })
-  ::saveLocalByAccount("chat/latestThreadsLangs", ::implode(chatIds, ","))
+  ::saveLocalByAccount("chat/latestThreadsLangs", ::g_string.implode(chatIds, ","))
 }
 
 function g_chat_latest_threads::_setSearchLangs(values)

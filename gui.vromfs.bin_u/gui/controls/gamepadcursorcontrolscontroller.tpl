@@ -6,13 +6,10 @@ tdiv {
 
   pattern { type:t='dark_diag_lines' }
 
-  tdiv {
-    re-type:t="text"
+  textAreaCentered {
     pos:t='0.5pw-0.5w, 25/642ph'; position:t='absolute'
-    text:t='New way to use interface'
+    caption:t="yes"
     text:t='#gamepad_cursor_control_splash/header_text'
-    font:t="@times_big"
-    color:t="@white"
   }
 }
 

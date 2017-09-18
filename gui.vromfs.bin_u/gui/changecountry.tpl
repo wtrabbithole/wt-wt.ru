@@ -14,6 +14,7 @@ root {
         caption:t='yes';
         text:t='<<headerText>>';
       }
+      Button_close {}
     }
 
     textAreaCentered {
@@ -51,10 +52,6 @@ root {
         }
         <</shopFilterItems>>
       }
-    }
-
-    Button_close {
-      img {}
     }
 
     navBar {

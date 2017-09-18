@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
 const WW_LAST_OPERATION_LOG_SAVE_ID = "worldWar/lastReadLog/operation"
@@ -1130,7 +1133,7 @@ function g_world_war::getAvailableBattles(playerSide)
 
 function g_world_war::getOperationTimeSec()
 {
-  return ::ww_get_operation_time_millisec() / TIME_SECOND_IN_MSEC
+  return time.millisecondsToSeconds(::ww_get_operation_time_millisec())
 }
 
 function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)

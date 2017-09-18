@@ -192,7 +192,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       name = header
       needDivLine = needDivLine
       width = width
-      isTinyFont = true
+      isSmallFont = true
     }
   }
 
@@ -460,7 +460,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getBulletGroupByItemId(id)
   {
-    local idxStr = ::cut_prefix(id, bulletsIdPrefix, -1)
+    local idxStr = ::g_string.cutPrefix(id, bulletsIdPrefix, -1)
     return getBulletGroupByIndex(::to_integer_safe(idxStr, -1))
   }
 
@@ -551,7 +551,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local itemObj = listObj.getChild(idx)
-    local id = ::cut_prefix(itemObj.id, bulletsIdPrefix, -1)
+    local id = ::g_string.cutPrefix(itemObj.id, bulletsIdPrefix, -1)
     local groupIdx = ::to_integer_safe(id, -1)
     local group = getBulletGroupByIndex(groupIdx)
     if (!group)

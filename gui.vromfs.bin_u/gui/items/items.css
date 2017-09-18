@@ -1,5 +1,5 @@
-@const itemPadding:        5/720@sf;
-@const itemSpacing:        0.5@tinyButtonHeight;
+@const itemPadding:        (5/720@sf)\1;
+@const itemSpacing:        0.5@smallButtonHeight;
 @const itemIconWidth:      1@itemIconHeight;
 @const itemHeight:         1@itemIconHeight + 2@itemPadding;
 @const itemWidth:          1@itemIconWidth + 2@itemPadding;
@@ -30,7 +30,10 @@
 @const warbondShopLevelProgressHeight: 0.025@sf;
 @const warbondShopLevelItemHeight: 1@warbondShopLevelProgressHeight + 0.02@sf;
 
-@const battleTasksHardMedalWidth: 0.055@sf;
+@const battleTasksHardMedalWidth: 0.045@sf;
+
+@const warbondMedalImgColor: #ffffff;
+@const inactiveWarbondMedalImgColor: #808080;
 
 itemDiv {
   re-type:9rect;
@@ -54,7 +57,10 @@ itemDiv[enableBackground=yes][today=yes] {
 }
 
 itemDiv[item_locked = yes] {
-  background-image:#ui/gameuiskin#window_block_bright;
+  background-image:"";
+  background-color:@frameBackgroundColor;
+  border-color:@frameBorderColor;
+  border:yes;
 }
 itemDiv[item_locked = yes] iconLayer,
 itemDiv[previousDay = yes] iconLayer {
@@ -107,8 +113,10 @@ itemDiv[ticketBuyWindow=yes] {
   height:1@itemHeight + 4@itemPadding;
 }
 
-frameBlock[itemShopList=yes] > itemDiv {
+[itemShopList=yes] > itemDiv,
+[itemShopList=yes] > iconLayer {
   margin:0, 0, 1@itemSpacing, 1@itemSpacing;
+  pos:0,0;
 }
 frameBlock[itemShopList=yes] {
   padding:1@itemSpacing, 1@itemSpacing, 0, 0;
@@ -215,6 +223,7 @@ awardItemDiv > periodicRewardImage[opened=yes] {
 }
 
 itemDiv > tdiv > contentCorner {
+  re-type:fgPict;
   pos:-1@itemPadding, ph-h +1@itemPadding;
   position:absolute;
   size:1@dIco + 2@dp, 1@dIco + 2@dp;
@@ -222,30 +231,21 @@ itemDiv > tdiv > contentCorner {
   background-image:#ui/gameuiskin#item_type_bg;
   background-position:4;
   background-repeat:expand;
+  foreground-color:@white;
+  foreground-position:2@dp;
+  foreground-repeat:aspect-ratio;
 }
 itemDiv > tdiv > contentCorner[contentType=unit] {
   size:1.7@dIco + 2@dp, 1@dIco + 2@dp;
+  foreground-align:left;
+}
+itemDiv > tdiv > contentCorner[contentType=flag] {
+  foreground-position:3@dp;
 }
 
-itemDiv > tdiv > contentCorner > tdiv {
-  pos:pw/2-w/2, ph/2-h/2;
+progressBoxPlace warbondShopLevel {
+  top:50%ph - 50%h;
   position:absolute;
-  size:pw-2@dp, ph-2@dp;
-  overflow:hidden;
-}
-itemDiv > tdiv > contentCorner[contentType=unit] > tdiv {
-  pos:1@dp, 1@dp;
-  size:pw-4@dp, ph-2@dp;
-}
-itemDiv > tdiv > contentCorner[contentType=flag] > tdiv {
-  size:pw-6@dp, ph-6@dp;
-}
-
-itemDiv > tdiv > contentCorner > tdiv > img {
-  size:ph, ph;
-}
-itemDiv > tdiv > contentCorner[contentType=unit] > tdiv > img {
-  size:2.7ph, ph;
 }
 
 awardItemHeader > arrowCurrent {
@@ -375,6 +375,18 @@ everyDayRewardProgress > filledRewardProgressBox {
   background-image:#ui/gameuiskin#progress_bar;
 }
 
+everyDayRewardProgress > additionalProgress {
+  re-type:progress;
+  behaviour:progress;
+  foreground-position:4,4;
+  foreground-repeat:expand;
+  foreground-image:#ui/gameuiskin#progress_bar;
+  min:0;
+  max:10000;
+
+  padding:2;
+}
+
 everyDayRewardProgress > progressBoxFraming {
   background-repeat:stretch;
   background-color:@white;
@@ -397,9 +409,7 @@ warbondShopLevel {
   re-type:9rect;
   background-position:4;
   background-repeat:expand;
-  background-image:#ui/gameuiskin#level_icon;
   background-color:@white;
-  foreground-image:#ui/gameuiskin#level_icon_overlay;
   foreground-repeat:expand;
   foreground-position:6;
   foreground-color:@transparent;
@@ -424,11 +434,11 @@ warbondShopLevel[status=received] > textareaNoTab {
   color:@commonTextColor;
 }
 
-warbondShopLevel[status=next] {
+warbondShopLevel[status=current] {
   background-color:@white;
   foreground-color:@white;
 }
 
-warbondShopLevel[status=next] > textareaNoTab {
+warbondShopLevel[status=current] > textareaNoTab {
   color:@userlogColoredText;
 }

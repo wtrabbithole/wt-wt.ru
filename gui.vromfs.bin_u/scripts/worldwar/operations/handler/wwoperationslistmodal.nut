@@ -62,7 +62,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     {
       local operation = opData.operation
       local isAvailableToJoin = operation.isAvailableToJoin()
-      local itemColor = isAvailableToJoin ? "activeTextColor" : "minorTextColor"
+      local itemColor = isAvailableToJoin ? "activeTextColor" : "commonTextColor"
       if (isAvailableToJoin)
       {
         if (!isActiveChapterAdded)

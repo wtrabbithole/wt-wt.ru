@@ -246,6 +246,12 @@
         "chapter": "air_ground_Bttl"
       },
       {
+        "locName": "missions/_Bttl;tunisia/name"
+      },
+      {
+        "locDesc": "tunisia/desc;missions/_Bttl/desc"
+      },
+      {
         "scoreLimit": 10000
       },
       {
@@ -255,19 +261,13 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Bttl"
+      },
+      {
         "ctaCaptureZoneEqualPenaltyMul": 0.0
       },
       {
         "useAlternativeMapCoord": false
-      },
-      {
-        "remapAiTankModels": true
-      },
-      {
-        "country_axis": "germany"
-      },
-      {
-        "country_allies": "ussr"
       },
       {
         "allowedKillStreaks": true
@@ -276,19 +276,16 @@
         "randomSpawnTeams": false
       },
       {
-        "locName": "missions/_Bttl;tunisia/name"
+        "remapAiTankModels": true
       },
       {
-        "locDesc": "tunisia/desc;missions/_Bttl/desc"
+        "battleAreaColorPreset": "battleArea"
       },
       {
-        "postfix": "_Bttl"
+        "country_axis": "germany"
       },
       {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
+        "country_allies": "ussr"
       },
       {
         "tags": []
@@ -311,28 +308,45 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "arcade",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 6000,
-          "randomSpawnTeams": false
+          "randomSpawnTeams": false,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 6000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 6000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -369,6 +383,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -399,6 +416,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -427,6 +447,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -495,6 +518,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/tunisia/battleareas/template_tunisia_arcade_bttl_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -512,7 +551,7 @@
   "units": [],
   "areas": {
     "briefing_t1_tankSpawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -523,7 +562,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.996195,0.0,0.0871557],
         [0.0,1.0,0.0],
@@ -534,7 +573,7 @@
       "props": []
     },
     "briefing_t1_tankSpawn_Rb_03": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.984808,0.0,0.173648],
         [0.0,1.0,0.0],
@@ -545,7 +584,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_Rb_03": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -556,7 +595,7 @@
       "props": []
     },
     "briefing_t1_captureZone_Bttl": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [68.5843,0.0,0.0],
         [0.0,90.0,0.0],
@@ -567,7 +606,7 @@
       "props": []
     },
     "briefing_t2_captureZone_Bttl": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [74.0275,0.0,0.0],
         [0.0,90.0,0.0],
@@ -578,7 +617,7 @@
       "props": []
     },
     "briefing_t1_captureZone_Rb_Bttl": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [133.249,0.0,0.0],
         [0.0,90.0,0.0],
@@ -589,7 +628,7 @@
       "props": []
     },
     "briefing_t2_captureZone_Rb_Bttl": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [133.249,0.0,0.0],
         [0.0,90.0,0.0],

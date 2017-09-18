@@ -20,7 +20,8 @@ function g_unlock_view::fillUnlockConditions(unlockConfig, unlockObj, context)
     local isUnlocked = unlockConfig.curVal & (1 << i)
     hiddenContent += "unlockCondition {"
     hiddenContent += ::format("textarea {text:t='%s' } \n %s \n",
-                              stripTags(names[i]), ("image" in unlockConfig && unlockConfig.image != "" ? "" : "unlockImg{}"))
+                              ::g_string.stripTags(names[i]),
+                              ("image" in unlockConfig && unlockConfig.image != "" ? "" : "unlockImg{}"))
     hiddenContent += format("unlocked:t='%s'; ", (isUnlocked ? "yes" : "no"))
     if(unlockConfig.type == "unlocks" || unlockConfig.type == "char_unlocks")
     {

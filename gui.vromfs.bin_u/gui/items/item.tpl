@@ -1,7 +1,7 @@
 <<#items>>
 itemDiv {
-  tinyFont:t='yes';
-  class:t='tinyFont'
+  smallFont:t='yes';
+  class:t='smallFont'
   total-input-transparent:t='yes'
   css-hier-invalidate:t='yes'
   <<#active>>
@@ -103,11 +103,7 @@ itemDiv {
     <<#contentIconData>>
     contentCorner {
       contentType:t='<<contentType>>'
-      tdiv {
-        img {
-          background-image:t='<<contentIcon>>'
-        }
-      }
+      foreground-image:t='<<contentIcon>>'
     }
     <</contentIconData>>
 
@@ -141,7 +137,7 @@ itemDiv {
         pos:t='1@itemPadding + 10/720@sf, 1@itemPadding'
         position:t='relative'
         //position:t='absolute'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         text:t='<<expireTime>>'
         style:t='color:@grayOptionColor;'
 
@@ -160,7 +156,7 @@ itemDiv {
     activeText {
       pos:t='pw -w -1@itemPadding , 1@itemPadding -3*@sf/@pf_outdated'
       position:t='absolute'
-      style:t='font:@small;'
+      style:t='font:@fontNormal;'
       textShade:t='yes';
       text:t='<<amount>>'
     }
@@ -196,6 +192,13 @@ itemDiv {
   }
   <</arrowNext>>
 
+  tdiv {
+    flow:t='vertical'
+    position:t='absolute'
+    <<@getWarbondShopLevelImage>>
+    <<@getWarbondMedalImage>>
+  }
+
   selBorder {
     size:t='pw-4, ph-4'
     pos:t='50%pw-50%w, 50%ph-50%h'
@@ -222,7 +225,8 @@ itemDiv {
     id:t='actionBtn'
     pos:t='50%pw-50%w, ph-h/2' //empty zone in button texture
     position:t='absolute'
-    class:t='tinyButton'
+    visualStyle:t='common'
+    class:t='smallButton'
     text:t='<<modActionName>>'
     <<#itemIndex>>
     holderId:t='<<itemIndex>>'

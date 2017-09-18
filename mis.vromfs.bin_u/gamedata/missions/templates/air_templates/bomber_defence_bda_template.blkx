@@ -325,17 +325,50 @@
           }
         },
         {
-          "varSetReal": {
-            "value": 58000.0,
-            "var": "distance_to_target",
-            "fromDescriptor": "aiBombersDistanceToTarget"
-          }
-        },
-        {
           "varSetInt": {
             "value": 0,
             "var": "bd_timer_from_desc",
             "fromDescriptor": "bd_timer"
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/friendly_bombers_spawn",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": true,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": false,
+            "offset": [-1000.0,500.0,0.0],
+            "radius": 250.0,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "t1_ai_bombers",
+            "team": "A",
+            "backupZone": "t1_air_spawn"
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/enemy_bombers_spawn",
+            "spawnEffect": false,
+            "isStrictSpawn": false,
+            "isAirfield": false,
+            "isUnit": true,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": false,
+            "offset": [7500.0,0.0,0.0],
+            "radius": 250.0,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "target": "t1_ai_bombers",
+            "team": "B",
+            "backupZone": "t2_air_spawn"
           }
         },
         {
@@ -344,67 +377,9 @@
           }
         },
         {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "dummy_teleport_helper"
-            },
-            {
-              "object": "t1_ai_bombers_spawnpoint"
-            },
-            {
-              "targetableByAi": false
-            },
-            {
-              "isImmortal": true
-            },
-            {
-              "movable": true
-            }
-          ]
-        },
-        {
-          "unitMoveTo": {
-            "object_marking": 0,
-            "target": "retreat_point",
-            "target_marking": 0,
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "t1_ai_bombers_spawnpoint",
-            "move_type": "teleport",
-            "lookat": "t1_ai_bombers"
-          }
-        },
-        {
-          "unitMoveTo": {
-            "object_marking": 0,
-            "target": "retreat_point",
-            "target_marking": 0,
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "dummy_teleport_helper",
-            "move_type": "teleport",
-            "lookat": "t1_ai_bombers"
-          }
-        },
-        {
           "triggerEnable": [
             {
-              "target": "bda_template_set_bombers_spawn"
+              "target": "bda_template_check_t1_min_count"
             },
             {
               "target": "bd_set_ticket_var"
@@ -423,105 +398,6 @@
         }
       ],
       "else_actions": []
-    },
-    "bda_template_set_bombers_spawn": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 0.01
-        }
-      },
-      "conditions": {
-        "unitDistanceBetween": {
-          "value": 0.0,
-          "math": "3D",
-          "object_type": "isAlive",
-          "object_marking": 0,
-          "target_type": "isAlive",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "t1_ai_bombers_spawnpoint",
-          "target": "retreat_point",
-          "var": "distance_to_target"
-        }
-      },
-      "actions": [
-        {
-          "unitMoveTo": {
-            "object_marking": 0,
-            "target": "t1_ai_bombers_spawnpoint",
-            "target_marking": 0,
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "dummy_teleport_helper",
-            "move_type": "teleport",
-            "teleportOffset": [1000.0,0.0,0.0]
-          }
-        },
-        {
-          "unitMoveTo": {
-            "object_marking": 0,
-            "target": "dummy_teleport_helper",
-            "target_marking": 0,
-            "waypointReachedDist": 10.0,
-            "recalculatePathDist": -1.0,
-            "follow_target": false,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": false,
-            "teleportHeightValue": 1000.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "t1_ai_bombers_spawnpoint",
-            "move_type": "teleport",
-            "teleportOffset": [1000.0,0.0,0.0]
-          }
-        }
-      ],
-      "else_actions": {
-        "unitMoveTo": {
-          "object_marking": 0,
-          "target": "t1_ai_bombers_spawnpoint",
-          "target_marking": 0,
-          "waypointReachedDist": 10.0,
-          "recalculatePathDist": -1.0,
-          "follow_target": false,
-          "teleportHeightType": "absolute",
-          "useUnitHeightForTele": true,
-          "shouldKeepFormation": true,
-          "teleportHeightValue": 1000.0,
-          "horizontalDirectionForTeleport": true,
-          "object": "t1_ai_bombers",
-          "move_type": "teleport",
-          "lookat": "retreat_point"
-        },
-        "unitPutToSleep": [
-          {
-            "target": "dummy_teleport_helper"
-          },
-          {
-            "target": "t1_ai_bombers_spawnpoint"
-          }
-        ],
-        "triggerEnable": {
-          "target": "bda_template_check_t1_min_count"
-        },
-        "triggerDisable": {
-          "target": "bda_template_set_bombers_spawn"
-        }
-      }
     },
     "bda_template_check_t1_min_count": {
       "is_enabled": false,
@@ -581,44 +457,6 @@
             "target": "t1_ai_bombers",
             "varNameNumToWakeUp": "bda_ai_max_count",
             "order": "fromStart"
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/friendly_bombers_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": true,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": false,
-            "offset": [-1000.0,500.0,0.0],
-            "radius": 250.0,
-            "target": "t1_ai_bombers",
-            "team": "A",
-            "backupZone": "t1_air_spawn"
-          }
-        },
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/enemy_bombers_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "isAirfield": false,
-            "isUnit": true,
-            "useExisting": false,
-            "isIndividual": false,
-            "removeAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": false,
-            "offset": [7500.0,0.0,0.0],
-            "radius": 250.0,
-            "target": "t1_ai_bombers",
-            "team": "B",
-            "backupZone": "t2_air_spawn"
           }
         },
         {
@@ -922,33 +760,6 @@
       ],
       "else_actions": []
     },
-    "bda_template_update_indicators": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "missionSetTargetsIndicator": {
-          "target_type": "isActive",
-          "target_marking": 0,
-          "delta": 0,
-          "icon": "bomber",
-          "icon army": 1,
-          "set": true,
-          "target": "t1_ai_bombers"
-        }
-      },
-      "else_actions": []
-    },
     "bda_template_bomber_dies": {
       "is_enabled": false,
       "comments": "",
@@ -1054,11 +865,28 @@
       },
       "conditions": [],
       "actions": {
+        "missionSetTargetsIndicator": {
+          "target_type": "isActive",
+          "target_marking": 0,
+          "delta": 0,
+          "icon": "bomber",
+          "icon army": 1,
+          "set": true,
+          "target": "t1_ai_bombers"
+        },
         "gameMPChangeScore": {
           "value": 1,
           "valueSystem": "amount",
           "var": "tickets_for_1_sec",
           "team": "B"
+        },
+        "varModify": {
+          "operator": "subAB",
+          "value": 1.0,
+          "var": "bd_timer_from_desc"
+        },
+        "missionSetTimeIndicator": {
+          "var": "bd_timer_from_desc"
         }
       },
       "else_actions": []
@@ -1096,91 +924,13 @@
     "bda_ai_max_count": 6,
     "bda_bombers_count": 0,
     "bda_tickets_for_1_kill": -100,
-    "distance_to_target": 0.0,
     "tickets_for_1_sec": 0,
     "bd_timer_from_desc": 600
   },
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [
-    {
-      "structures": {
-        "name": "dummy_teleport_helper",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2070.6,4000.0,2669.79]
-        ],
-        "unit_class": "dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "stealthRadius": -1.0,
-          "setStealth": true
-        },
-        "way": []
-      }
-    },
-    {
-      "structures": {
-        "name": "t1_ai_bombers_spawnpoint",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [1970.18,4000.0,2667.76]
-        ],
-        "unit_class": "dummy",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "stealthRadius": -1.0,
-          "setStealth": true
-        },
-        "way": []
-      }
-    }
-  ],
+  "units": [],
   "areas": [],
   "objLayers": [
     {

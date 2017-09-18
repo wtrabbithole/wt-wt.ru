@@ -224,6 +224,8 @@
       "missionBriefing": "",
       "chapter": "base_dom",
       "deathPenaltyMulRounds": 0.0,
+      "locName": "missions/berlin_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -290,6 +292,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -752,6 +757,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -779,6 +785,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -799,6 +806,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "Both"
           }
@@ -806,12 +814,16 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "Both"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_trucks_aaa_squad"
             },
@@ -834,6 +846,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_heavy_tanks_squad"
             },
@@ -862,6 +877,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_def_aaa_squad"
             },
@@ -1533,6 +1551,9 @@
             "unitSetIndication": [
               {
                 "set": true
+              },
+              {
+                "target_marking": 0
               },
               {
                 "target": "t1_ai_assaults_01"
@@ -16871,9 +16892,9 @@
       "squad": {
         "name": "t2_def_aaa_squad",
         "tm": [
-          [-2.50362,4.590233e-41,-2.50362],
-          [4.590233e-41,1.401298e-45,0.0],
-          [1.92183e-39,0.0,-1.16769e+17],
+          [-2.50362,0.0,-2.50362],
+          [0.0,0.0,0.0],
+          [0.0,0.0,-1.16769e+17],
           [-1480.9,74.85,8516.0]
         ],
         "props": [
@@ -16926,9 +16947,9 @@
       "squad": {
         "name": "t2_ai_targets_01_squad",
         "tm": [
-          [-1.21929e-25,4.590233e-41,-1.21929e-25],
-          [4.590233e-41,1.401298e-45,0.0],
-          [1.92283e-39,0.0,-6.4221e-22],
+          [-1.21929e-25,0.0,-1.21929e-25],
+          [0.0,0.0,0.0],
+          [0.0,0.0,-6.4221e-22],
           [2957.2,57.8,-5978.3]
         ],
         "props": [
@@ -17074,9 +17095,9 @@
       "squad": {
         "name": "t2_ai_targets_02_squad",
         "tm": [
-          [-1.00981e-25,4.590233e-41,-1.00981e-25],
-          [4.590233e-41,1.401298e-45,0.0],
-          [1.92283e-39,0.0,-7.13287e-26],
+          [-1.00981e-25,0.0,-1.00981e-25],
+          [0.0,0.0,0.0],
+          [0.0,0.0,-7.13287e-26],
           [14618.2,73.35,-200.0]
         ],
         "props": [

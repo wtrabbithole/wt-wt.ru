@@ -65,18 +65,17 @@
             },
             "Button_text": {
               "id": "show_prev_logs_btn",
-              "class": "image16",
               "position": "relative",
               "top": "(ph-h)/2",
+              "reduceMinimalWidth": "yes",
+              "showConsoleImage": "no",
               "text": "#keysPlus",
               "_on_click": "onClickShowPrevLogs",
-              "showConsoleImage": "no",
               "animated_wait_icon": {
                 "id": "show_prev_logs_btn_wait_anim",
                 "pos": "50%pw-50%w,50%ph-50%h",
                 "position": "absolute",
-                "background-rotation": "0",
-                "wait_icon_cock": []
+                "background-rotation": "0"
               }
             }
           }
@@ -118,7 +117,7 @@
             {
               "Button_text": {
                 "id": "show_next_logs_btn",
-                "class": "image16",
+                "reduceMinimalWidth": "yes",
                 "position": "relative",
                 "top": "(ph-h)/2",
                 "text": "#keysPlus",
@@ -129,7 +128,7 @@
             {
               "Button_text": {
                 "id": "show_first_logs_btn",
-                "class": "image16",
+                "reduceMinimalWidth": "yes",
                 "position": "relative",
                 "top": "(ph-h)/2",
                 "text": "#keysScrollToBottom",
@@ -148,7 +147,7 @@
         "background-color": "@operationLogFilterBar",
         "Button_text": {
           "id": "ww_log_filters",
-          "class": "header",
+          "visualStyle": "header",
           "_on_click": "onShowOperationLogFilters",
           "text": "#worldwar/logFilters"
         },
@@ -157,7 +156,7 @@
           "padding-left": "1@framePadding",
           "position": "relative",
           "top": "(ph-h)/2",
-          "tinyFont": "yes",
+          "smallFont": "yes",
           "text": "#userlog/showMore"
         }
       }

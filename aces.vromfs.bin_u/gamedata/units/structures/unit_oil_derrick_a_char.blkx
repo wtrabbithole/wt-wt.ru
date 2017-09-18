@@ -10,28 +10,32 @@
   "forceFastPhysForAI": true,
   "useDestrPhysObj": true,
   "substRI": true,
-  "damageCollisionMultiplier": 0.1,
+  "damageCollisionMultiplier": 0.01,
   "explosionImpulse": 100.0,
+  "hasExpl": false,
   "timeToFire": 4.0,
   "DamageParts": {
-    "steel": {
-      "armorClass": "tank_structural_steel",
+    "formatVersion": 2,
+    "oil_derrick": {
+      "armorClass": "RHA_tank",
       "body_dm": {
-        "armorThickness": 0.1,
-        "hp": 10.0
+        "armorThickness": 10.0,
+        "armorThrough": 100.0,
+        "hp": 40.0
       }
     }
   },
   "DamageEffects": {
     "part": {
       "name": "body_dm",
-      "onHit": {
-        "smoke": 0.5,
-        "fire": 0.5
-      },
       "onKill": {
         "expl": 1.0
       }
+    }
+  },
+  "explosion": {
+    "expl": {
+      "explosionEffectName": "ad_explosion_big"
     }
   }
 }

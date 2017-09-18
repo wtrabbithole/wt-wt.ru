@@ -433,10 +433,20 @@
           "limits": {
             "yaw": [-35.0,35.0],
             "pitch": [-12.0,45.0]
+          },
+          "limitsDeadzone": {
+            "yaw": [-1.0,1.0],
+            "pitch": [-12.0,25.0]
           }
         }
       }
     ]
+  },
+  {
+    "gunnerFps": {
+      "pos": [-0.2,0.4,0.0],
+      "head": "turret1"
+    }
   },
   {
     "turbulence": {
@@ -734,6 +744,14 @@
           "genericDamageMult": 0.3,
           "hp": 41.9
         },
+        "elevator0_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 35.2
+        },
+        "elevator1_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 35.2
+        },
         "fin_dm": {
           "hp": 31.4
         },
@@ -758,6 +776,9 @@
         }
       },
       "dural": {
+        "cover12_dm": {
+          "hp": 19.5
+        },
         "cover1_dm": {
           "hp": 19.5
         },
@@ -766,6 +787,38 @@
         },
         "cover4_dm": {
           "hp": 19.5
+        },
+        "cover5_dm": {
+          "hp": 19.5
+        },
+        "cover7_dm": {
+          "hp": 19.5
+        },
+        "cover8_dm": {
+          "hp": 19.5
+        },
+        "cover9_dm": {
+          "hp": 19.5
+        }
+      },
+      "dural60": {
+        "spar1_l_dm": {
+          "hp": 63.5
+        },
+        "spar1_r_dm": {
+          "hp": 63.5
+        },
+        "spar2_l_dm": {
+          "hp": 51.9
+        },
+        "spar2_r_dm": {
+          "hp": 51.9
+        },
+        "spar_l_dm": {
+          "hp": 60.7
+        },
+        "spar_r_dm": {
+          "hp": 60.7
         }
       },
       "glass64": {
@@ -791,6 +844,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 39.5
+        },
         "gear_l_dm": {
           "hp": 52.9
         },
@@ -833,52 +889,6 @@
         },
         "tank3_dm": {
           "hp": 43.1
-        }
-      },
-      "wood": {
-        "cover12_dm": {
-          "hp": 31.7
-        },
-        "cover5_dm": {
-          "hp": 33.0
-        },
-        "cover7_dm": {
-          "hp": 10.2
-        },
-        "cover8_dm": {
-          "hp": 1.3
-        },
-        "cover9_dm": {
-          "hp": 1.3
-        },
-        "elevator0_dm": {
-          "hp": 28.4
-        },
-        "elevator1_dm": {
-          "hp": 28.4
-        },
-        "gear_c_dm": {
-          "hp": 5.5
-        }
-      },
-      "wood120": {
-        "spar1_l_dm": {
-          "hp": 63.5
-        },
-        "spar1_r_dm": {
-          "hp": 63.5
-        },
-        "spar2_l_dm": {
-          "hp": 51.9
-        },
-        "spar2_r_dm": {
-          "hp": 51.9
-        },
-        "spar_l_dm": {
-          "hp": 60.7
-        },
-        "spar_r_dm": {
-          "hp": 60.7
         }
       }
     }
@@ -2677,6 +2687,18 @@
       },
       {
         "preset": {
+          "name": "il_2_1941_12x25m1",
+          "blk": "gameData/FlightModels/weaponPresets/il_2_12x25m1.blk"
+        }
+      },
+      {
+        "preset": {
+          "name": "IL2I_fab50",
+          "blk": "gameData/FlightModels/weaponPresets/il-2i_fab50.blk"
+        }
+      },
+      {
+        "preset": {
           "name": "il_2_1941_4xfab100",
           "blk": "gameData/FlightModels/weaponPresets/il_2_1941_4xfab100.blk"
         }
@@ -2692,6 +2714,20 @@
         "preset": {
           "name": "il_2m_type3_4xrbs82",
           "blk": "gameData/FlightModels/weaponPresets/il_2m_type3_4x_rbs82.blk",
+          "reqModification": "ro_82_mod"
+        }
+      },
+      {
+        "preset": {
+          "name": "il_2_12x25m1_4x_rs82",
+          "blk": "gameData/FlightModels/weaponPresets/il_2_12x25m1_4x_rs82.blk",
+          "reqModification": "ro_82_mod"
+        }
+      },
+      {
+        "preset": {
+          "name": "il_2_12x25m1_4x_rbs82",
+          "blk": "gameData/FlightModels/weaponPresets/il_2_12x25m1_4x_rbs82.blk",
           "reqModification": "ro_82_mod"
         }
       },
@@ -2741,6 +2777,20 @@
         "preset": {
           "name": "il_2m_type3_4xrbs132",
           "blk": "gameData/FlightModels/weaponPresets/il_2m_type3_4x_rbs132.blk",
+          "reqModification": "ro_132_mod"
+        }
+      },
+      {
+        "preset": {
+          "name": "IL2I_12x25m1_rs132",
+          "blk": "gameData/FlightModels/weaponPresets/il-2m_12x25m1_rs132.blk",
+          "reqModification": "ro_132_mod"
+        }
+      },
+      {
+        "preset": {
+          "name": "IL2I_12x25m1_rbs132",
+          "blk": "gameData/FlightModels/weaponPresets/il-2m_12x25m1_rbs132.blk",
           "reqModification": "ro_132_mod"
         }
       },
@@ -2876,5 +2926,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.22047,-0.296886,0.780292],
+      "_emtr_break_wing0_l_to": [-1.22047,-0.296886,1.34366],
+      "emtr_break_wing1_l_from": [-1.22047,-0.296886,2.18872],
+      "emtr_break_wing1_l_to": [-1.22047,-0.296886,3.02524],
+      "emtr_break_wing2_l_from": [-1.22047,-0.296886,4.28002],
+      "emtr_break_wing2_l_to": [-1.22047,-0.296886,5.48115],
+      "_emtr_break_wing0_r_from": [-1.22047,-0.296886,-0.780292],
+      "_emtr_break_wing0_r_to": [-1.22047,-0.296886,-1.34366],
+      "emtr_break_wing1_r_from": [-1.22047,-0.296886,-2.18872],
+      "emtr_break_wing1_r_to": [-1.22047,-0.296886,-3.02524],
+      "emtr_break_wing2_r_from": [-1.22047,-0.296886,-4.28002],
+      "emtr_break_wing2_r_to": [-1.22047,-0.296886,-5.48115],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-5.31458,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

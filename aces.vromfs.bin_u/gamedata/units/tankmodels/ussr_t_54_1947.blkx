@@ -115,7 +115,8 @@
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_manual_y",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -553,6 +554,13 @@
           {
             "onKill": {
               "damageType": "explosion",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
               "expl": 0.5,
               "fire": 0.5
             }
@@ -1787,12 +1795,17 @@
         "wheel_l_front_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 18.0,
-          "hp": 250.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_01_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "equipment": {
         "armorClass": "tank_structural_steel",
@@ -1810,7 +1823,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -2055,7 +2068,9 @@
       "100mm_APHE_ammo_pack": [],
       "100mm_APCBC_ammo_pack": [],
       "100mm_APCR_ammo_pack": [],
+      "100mm_ussr_Smoke_ammo_pack": [],
       "100mm_ussr_APHE": [],
+      "100mm_ussr_Smoke": [],
       "100mm_ussr_APCBC": {
         "modCostMul": 2.0
       },
@@ -2270,8 +2285,7 @@
                 "errExplTime": 0.0,
                 "turret": {
                   "head": "bone_grenade",
-                  "gun": "bone_grenade",
-                  "gunnerDm": "gunner_dm"
+                  "gun": "bone_grenade"
                 },
                 "limits": {
                   "yaw": [-0.0,0.0],

@@ -20,11 +20,7 @@ popup_menu {
   height:t='0.185*@scrn_tgt'
   flow:t='vertical'
 
-  Button_close {
-    pos:t='pw-w, 0'
-    position:t='absolute'
-    img {}
-  }
+  Button_close { _on_click:t='goBack'; smallIcon:t='yes'}
 
   activeText {
     text:t='#items/wager/stake/header'
@@ -35,12 +31,12 @@ popup_menu {
   }
 
   tdiv {
-    left:t='50%pw-50%w-0.5*3.5*@scrn_tgt/100.0'
+    left:t='50%pw-50%w'
     position:t='relative'
 
     tdiv{
       id:t='btnDec_place'
-      width:t='3*@scrn_tgt/100.0'
+      width:t='1@sliderButtonSquareHeight'
     }
 
     Button_text {
@@ -49,8 +45,6 @@ popup_menu {
       square:t='yes'
       on_click:t='onButtonDec'
       //on_click_repeat:t='onButtonDecRepeat'
-      pos:t='0, 50%ph-50%h'
-      position:t='absolute'
       tooltip:t='#items/wager/stake/decStake'
     }
 
@@ -87,9 +81,6 @@ popup_menu {
       square:t='yes'
       on_click:t='onButtonInc'
       //on_click_repeat:t='onButtonIncRepeat'
-      position:t='absolute'
-      //position:t='relative'
-      pos:t='24*@scrn_tgt/100.0, 50%ph-50%h'
       tooltip:t='#items/wager/stake/incStake'
     }
   }

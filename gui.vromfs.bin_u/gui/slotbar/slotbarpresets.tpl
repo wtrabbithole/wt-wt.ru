@@ -1,8 +1,6 @@
-div {
+gcButtonsHolder {
   id:t='slotbar-presetsList'
-  height:t = 'ph'
   width:t='pw'
-  invertImages:t='yes'
   showSelect='yes'
   css-hier-invalidate:t='yes'
 
@@ -24,8 +22,8 @@ div {
     tabText {
       id:t='tab_text'
       text:t = ''
-      min-width:t='1@buttonWidth - 1@activateTabPaddingSum'
-      max-width:t='p.p.w / <<itemsCount>>'
+      min-width:t='@minPresetNameTextWidth'
+      max-width:t='@maxPresetNameTextWidth'
       pare-text:t='yes'
     }
   }
@@ -36,7 +34,7 @@ div {
     max-width:t='pw / <<itemsCount>>'
     style:t='height:ph; min-width:1@buttonWidth;'
     top:t='50%ph-50%h'; position:t='relative'
-    class:t='header'
+    visualStyle:t='header'
     tooltip:t='#shop/slotbarPresets/tooltip'
     on_click:t='onSlotsChoosePreset'
 

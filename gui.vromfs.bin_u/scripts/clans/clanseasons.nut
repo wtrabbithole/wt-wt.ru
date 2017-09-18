@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 enum CLAN_SEASON_MEDAL_TYPE
 {
   PLACE
@@ -292,9 +293,9 @@ enum CLAN_SEASON_MEDAL_TYPE
   function getSeasonEndDate()
   {
     local dateDuel = ::clan_get_current_season_info().rewardDay
-    local time = ::get_time_from_t(dateDuel)
-    time.sec = 0
-    return ::build_date_time_str(time)
+    local duelTime = ::get_time_from_t(dateDuel)
+    duelTime.sec = 0
+    return time.buildDateTimeStr(duelTime)
   }
 
 

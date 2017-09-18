@@ -36,6 +36,9 @@
     "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk"
   },
   {
+    "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk"
+  },
+  {
     "type": "typeBomber"
   },
   {
@@ -216,6 +219,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 70.5
         },
@@ -286,11 +292,6 @@
         },
         "tank6_dm": {
           "hp": 72.0
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 7.3
         }
       }
     }
@@ -3113,6 +3114,12 @@
         }
       },
       {
+        "fm": {
+          "fm": "arrestor",
+          "dm": "hook_dm"
+        }
+      },
+      {
         "enginesAutoConfiguration": [
           {
             "engine": "engine1_dm"
@@ -3619,14 +3626,6 @@
     }
   },
   {
-    "cutting": {
-      "wingRDist": [-6.44214,-5.44214],
-      "wingLDist": [5.4085,6.4085],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
-    }
-  },
-  {
     "user_skin": [
       {
         "name": "z_1007_bis_serie3"
@@ -3652,5 +3651,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-0.597092,-0.139587,1.18617],
+      "_emtr_break_wing0_l_to": [-0.597092,-0.139587,2.39697],
+      "emtr_break_wing1_l_from": [-0.597092,-0.139587,4.21315],
+      "emtr_break_wing1_l_to": [-0.597092,-0.139587,5.37735],
+      "emtr_break_wing2_l_from": [-0.597092,-0.139587,7.52378],
+      "emtr_break_wing2_l_to": [-0.597092,-0.139587,9.48185],
+      "_emtr_break_wing0_r_from": [-0.742645,-0.139587,-1.18617],
+      "_emtr_break_wing0_r_to": [-0.742645,-0.139587,-2.39697],
+      "emtr_break_wing1_r_from": [-0.742645,-0.139587,-4.21315],
+      "emtr_break_wing1_r_to": [-0.742645,-0.139587,-5.37733],
+      "emtr_break_wing2_r_from": [-0.742645,-0.139587,-7.52372],
+      "emtr_break_wing2_r_to": [-0.742645,-0.139587,-9.48178],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-9.56948,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

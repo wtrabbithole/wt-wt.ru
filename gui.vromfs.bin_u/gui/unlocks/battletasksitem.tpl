@@ -1,6 +1,7 @@
 <<#items>>
 expandable {
   id:t='<<performActionId>>'
+  type:t='battleTask'
   <<#action>> on_click:t='<<action>>' <</action>>
   <<#taskId>> task_id:t='<<taskId>>' <</taskId>>
 
@@ -15,7 +16,6 @@ expandable {
     setStandartWidth:t='no'
   <</showAsUsualPromoButton>>
 
-  class:t='battletask'
   fullSize:t='yes'
   selImg {
     header {
@@ -54,7 +54,7 @@ expandable {
         <<^showAsUsualPromoButton>>
           overlayTextColor:t='active'
           <<#isLowWidthScreen>>
-            smallFont:t='yes'
+            normalFont:t='yes'
           <</isLowWidthScreen>>
           <<^isLowWidthScreen>>
             caption:t='yes'
@@ -87,9 +87,15 @@ expandable {
         top:t='50%ph-50%h'
         position:t='relative'
 
-        <<#isLowWidthScreen>>
-          tinyFont:t='yes'
-        <</isLowWidthScreen>>
+        <<^showAsUsualPromoButton>>
+          overlayTextColor:t='active'
+          <<#isLowWidthScreen>>
+            normalFont:t='yes'
+          <</isLowWidthScreen>>
+          <<^isLowWidthScreen>>
+            caption:t='yes'
+          <</isLowWidthScreen>>
+        <</showAsUsualPromoButton>>
       }
       <</taskRankValue>>
 
@@ -133,8 +139,6 @@ expandable {
               behavior:t='increment'
               inc-target:t='background-rotation'
               inc-factor:t='120'
-
-              wait_icon_cock {}
             }
             playbackImg{}
           }
@@ -163,7 +167,7 @@ expandable {
         width:t='pw'
 
         //Suppose that at a moment will be shown only one of two below buttons
-        //So pos pw-w won't move recieve_reward button outside of window
+        //So pos pw-w would not move recieve_reward button outside of window
         <<#canReroll>>
         Button_text {
           id:t = 'btn_reroll'
@@ -202,7 +206,7 @@ expandable {
 
     expandImg {
       id:t='expandImg'
-      height:t='1*@scrn_tgt/100.0'
+      height:t='0.01@scrn_tgt'
       width:t='2h'
       pos:t='50%pw-50%w, ph-h'; position:t='absolute'
       background-image:t='#ui/gameuiskin#expand_info'
@@ -218,7 +222,48 @@ expandable {
       }
     <</otherTasksText>>
     <</isPromo>>
+
+    <<#isPromo>>
+    <<#warbondLevelPlace>>
+      progressBoxPlace {
+        id:t='progress_box_place'
+        left:t='pw-w - 0.4@warbondShopLevelItemHeight'
+        position:t='relative'
+        margin:t='0, 0.015@scrn_tgt'
+        size:t='75%pw, 1@warbondShopLevelProgressHeight'
+
+        <<@warbondLevelPlace>>
+      }
+    <</warbondLevelPlace>>
+
+    <<#newItemsAvailable>>
+      tdiv {
+        width:t='pw'
+        flow:t='vertical'
+        margin:t='0, 0.01@scrn_tgt'
+        textarea {
+          left:t='pw-w'
+          position:t='relative'
+          text:t='#mainmenu/newItemsAvailable'
+          overlayTextColor:t='warning'
+        }
+      <<^isConsoleMode>>
+        Button_text {
+          id:t = 'btn_warbond_shop'
+          left:t='pw-w'
+          position:t='relative'
+          text:t = '#mainmenu/btnWarbondsShop'
+          on_click:t = 'onWarbondsShop'
+          visualStyle:t='secondary'
+          buttonWink {}
+        }
+      <</isConsoleMode>>
+      }
+    <</newItemsAvailable>>
+    <</isPromo>>
   }
+
+  fgLine {}
 }
 
 <<#isPromo>>

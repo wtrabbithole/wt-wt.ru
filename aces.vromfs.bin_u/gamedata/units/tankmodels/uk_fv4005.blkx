@@ -69,7 +69,7 @@
     "minDistBetween": 10.0
   },
   {
-    "expClass": "exp_tank"
+    "expClass": "exp_tank_destroyer"
   },
   {
     "mass": 47000.0
@@ -93,7 +93,7 @@
     "destroysTrees": true
   },
   {
-    "type": "typeMediumTank"
+    "type": "typeTankDestroyer"
   },
   {
     "rearmSmokeTimeOnField": 60.0
@@ -320,11 +320,16 @@
           "armorClass": "tank_traks",
           "armorThickness": 20.0,
           "hp": 200.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
           "ex_armor_body_01_dm": [],
           "ex_armor_turret_01_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -374,7 +379,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -809,18 +814,6 @@
       "explodeTreshold": 0.0001,
       "explodeArmorPower": 30.0,
       "explodeRadius": [1.5,10.0]
-    }
-  },
-  {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 7300.0,
-        "cutDamage": 650.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
-      }
     }
   },
   {
@@ -1755,6 +1748,13 @@
           },
           {
             "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
               "damageType": "generic",
               "expl": 0.5,
               "fire": 0.5
@@ -2057,6 +2057,18 @@
         }
       }
     ]
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 7300.0,
+        "cutDamage": 650.0,
+        "deviation": 0.5,
+        "rotation": 0.5,
+        "collisionNode": "cls_turret"
+      }
+    }
   },
   {
     "commonWeapons": [

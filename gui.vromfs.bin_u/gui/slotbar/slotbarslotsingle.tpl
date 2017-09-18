@@ -51,6 +51,10 @@ shopItem {
   isBroken:t='no'
   <</isBroken>>
 
+  <<#isPkgDev>>
+  shopAirImg { foreground-image:t='#ui/gameuiskin#unit_under_construction' }
+  <</isPkgDev>>
+
   shopAirImg {
     foreground-image:t='<<shopAirImg>>'
   }
@@ -58,6 +62,10 @@ shopItem {
   <<#isElite>>
   eliteIcon {}
   <</isElite>>
+
+  <<#isRecentlyReleased>>
+  recentlyReleasedIcon {}
+  <</isRecentlyReleased>>
 
   <<#hasTalismanIcon>>
   talismanIcon {}
@@ -94,7 +102,7 @@ shopItem {
         text:t='<<progressText>>'
         position:t='absolute'
         pos:t='pw-w, -2/3h'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         talign:t='right'
       }
       <<@progressBlk>>

@@ -108,7 +108,7 @@
       "hp": 10000.0,
       "hull": {
         "body_front_dm": {
-          "armorThickness": 110.0
+          "armorThickness": 80.0
         },
         "superstructure_front_dm": {
           "armorThickness": 40.0
@@ -129,7 +129,8 @@
           "armorThickness": 25.0
         },
         "superstructure_top_dm": {
-          "armorThickness": 25.0
+          "armorThickness": 25.0,
+          "explosionArmorQuality": 2.2
         },
         "superstructure_bottom_dm": {
           "armorThickness": 35.0
@@ -147,7 +148,7 @@
           "armorThickness": 6.0
         },
         "ex_armor_body_04_dm": {
-          "armorThickness": 70.0
+          "armorThickness": 50.0
         },
         "ex_armor_body_05_dm": {
           "armorThickness": 50.0
@@ -381,13 +382,18 @@
           "armorClass": "tank_traks",
           "armorThickness": 20.0,
           "hp": 200.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
           "ex_armor_01_dm": [],
           "ex_armor_02_dm": [],
           "ex_armor_03_dm": [],
           "ex_armor_body_01_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -437,7 +443,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -1065,6 +1071,13 @@
           },
           {
             "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
               "damageType": "generic",
               "expl": 0.5,
               "fire": 0.5
@@ -1544,7 +1557,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1589,14 +1603,14 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,15.0]
+            "pitch": [-6.0,9.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-170.0,1.0,20.0],
-            "lim2": [-170.0,-150.0,-1.0,20.0],
-            "lim3": [-150.0,150.0,-5.0,15.0],
-            "lim4": [150.0,170.0,-1.0,20.0],
-            "lim5": [170.0,180.0,1.0,20.0]
+            "lim1": [-180.0,-170.0,1.0,9.0],
+            "lim2": [-170.0,-150.0,-1.0,9.0],
+            "lim3": [-150.0,150.0,-6.0,9.0],
+            "lim4": [150.0,170.0,-1.0,9.0],
+            "lim5": [170.0,180.0,1.0,9.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -1924,7 +1938,7 @@
         "cutDamage": 650.0,
         "deviation": 0.7,
         "rotation": 0.7,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_turret"
       }
     }
   },
@@ -2501,14 +2515,14 @@
                 },
                 "limits": {
                   "yaw": [-180.0,180.0],
-                  "pitch": [-5.0,15.0]
+                  "pitch": [-6.0,9.0]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-170.0,1.0,20.0],
-                  "lim2": [-170.0,-150.0,-1.0,20.0],
-                  "lim3": [-150.0,150.0,-5.0,15.0],
-                  "lim4": [150.0,170.0,-1.0,20.0],
-                  "lim5": [170.0,180.0,1.0,20.0]
+                  "lim1": [-180.0,-170.0,1.0,9.0],
+                  "lim2": [-170.0,-150.0,-1.0,9.0],
+                  "lim3": [-150.0,150.0,-6.0,9.0],
+                  "lim4": [150.0,170.0,-1.0,9.0],
+                  "lim5": [170.0,180.0,1.0,9.0]
                 },
                 "gunStabilizer": {
                   "hasVerticalGunFreeMode": false,
@@ -2765,8 +2779,7 @@
                 {
                   "turret": {
                     "head": "bone_grenade",
-                    "gun": "bone_grenade",
-                    "gunnerDm": "gunner_dm"
+                    "gun": "bone_grenade"
                   }
                 },
                 {

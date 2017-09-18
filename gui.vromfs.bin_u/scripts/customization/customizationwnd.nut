@@ -1,3 +1,7 @@
+local time = require("scripts/time.nut")
+local penalty = require("penalty")
+
+
 ::show_aircraft <- null
 ::show_crew <- null
 
@@ -42,6 +46,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   unit = null
   owner = null
 
+  access_WikiOnline = false
   access_Decals = false
   access_Attachables = false
   access_UserSkins = false
@@ -74,6 +79,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     owner = this
     unit = ::show_aircraft
 
+    access_WikiOnline = ::has_feature("WikiUnitInfo")
     access_UserSkins = ::is_platform_pc && ::has_feature("UserSkins")
     access_SkinsUnrestrictedPreview = ::has_feature("SkinsPreviewOnUnboughtUnits")
     access_SkinsUnrestrictedExport  = access_UserSkins && access_SkinsUnrestrictedExport
@@ -92,12 +98,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::hangar_model_load_manager.loadModel(unit.name)
 
     initFocusArray()
-
-    if (::has_feature("WikiUnitInfo"))
-    {
-      local infoBtn = scene.findObject("btn_info")
-      infoBtn.isLink = "yes"
-    }
   }
 
   function initMainParams()
@@ -212,7 +212,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       shortcuts.append(::loc("key/Shift") + ::loc("keysPlus") + ::loc("key/Wheel"))
     bObj = scene.findObject("push_to_change_size")
     if (::checkObj(bObj))
-      bObj.setValue(implode(shortcuts, ::loc("ui/comma")))
+      bObj.setValue(::g_string.implode(shortcuts, ::loc("ui/comma")))
 
     //Rotate
     shortcuts = []
@@ -222,7 +222,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       shortcuts.append(::loc("key/Alt") + ::loc("keysPlus") + ::loc("key/Wheel"))
     bObj = scene.findObject("push_to_rotate")
     if (::checkObj(bObj))
-      bObj.setValue(implode(shortcuts, ::loc("ui/comma")))
+      bObj.setValue(::g_string.implode(shortcuts, ::loc("ui/comma")))
   }
 
   function getSelectedBuiltinSkinId()
@@ -291,7 +291,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("ui/parentheses", {text = priceText}) + " " + text
 
       if (!access.isVisible)
-        text = ::colorize("badTextColor", text)
+        text = ::colorize("comboExpandedLockedTextColor", text)
 
       skinItems.append({
         text = text
@@ -640,7 +640,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           btn_apply = currentState & decoratorEditState.EDITING
 
           btn_testflight = !isInEditMode && !isDecoratorsListOpen && can_testflight
-          btn_info       = !isInEditMode && !isDecoratorsListOpen && ::isUnitDescriptionValid(unit)
+          btn_info       = !isInEditMode && !isDecoratorsListOpen && ::isUnitDescriptionValid(unit) && !access_WikiOnline
+          btn_info_online = !isInEditMode && !isDecoratorsListOpen && ::isUnitDescriptionValid(unit) && access_WikiOnline
           btn_weapons    = !isInEditMode && !isDecoratorsListOpen
 
           btn_decal_edit   = ::show_console_buttons && !isInEditMode && !isDecoratorsListOpen && !focusedSlot.isEmpty && focusedSlot.unlocked
@@ -1100,7 +1101,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         unitsList.append(::colorize("userlogColoredText", ::getUnitName(unitName)))
       text.append(::loc("mainmenu/decoratorAvaiblableOnlyForUnit", {
         decoratorName = ::colorize("activeTextColor", decal.getName()),
-        unitsList = ::implode(unitsList, ",")}))
+        unitsList = ::g_string.implode(unitsList, ",")}))
     }
 
     if (decal.lockedByDLC != null)
@@ -1109,7 +1110,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!text.len() && !decal.isUnlocked() && !decal.canBuyUnlock(unit))
       text.append(::loc("mainmenu/decalNoAchievement"))
 
-    return ::implode(text, ", ")
+    return ::g_string.implode(text, ", ")
   }
 
   function onDecoratorItemSelect(obj)
@@ -1372,7 +1373,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     return "tooltipObj {" +
          "tooltipId:t='" + tooltipId + "'; " +
          "on_tooltip_open:t='onGenericTooltipOpen'; on_tooltip_close:t='onTooltipObjClose';" +
-         "max-width:t='8*@decalIconHeight+10*@sf/@pf_outdated'; tinyFont:t='yes'; display:t='hide';" +
+         "max-width:t='8*@decalIconHeight+10*@sf/@pf_outdated'; smallFont:t='yes'; display:t='hide';" +
       "} " +
       "title:t='$tooltipObj'; "
   }
@@ -2000,18 +2001,18 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local txt = ""
-    local time = ::get_time_till_decals_disabled()
-    if (time == 0)
+    local timeSec = ::get_time_till_decals_disabled()
+    if (timeSec == 0)
     {
-      local st = ::get_player_penalty_status()
+      local st = penalty.getPenaltyStatus()
       if ("seconds_left" in st)
-        time = st.seconds_left
+        timeSec = st.seconds_left
     }
 
-    if (time == 0)
+    if (timeSec == 0)
       txt = ::format(::loc("charServer/decal/permanent"))
     else
-      txt = ::format(::loc("charServer/decal/timed"), ::hoursToString(time/TIME_HOUR_IN_SECONDS_F, false))
+      txt = ::format(::loc("charServer/decal/timed"), time.hoursToString(time.secondsToHours(timeSec), false))
     objText.setValue(txt)
   }
 }

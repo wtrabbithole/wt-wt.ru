@@ -24,7 +24,7 @@ tdiv {
   }
   textareaNoTab {
     text:t='<<additionalText>>'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     hideEmptyText:t='yes'
   }
 }

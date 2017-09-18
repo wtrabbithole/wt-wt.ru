@@ -84,6 +84,16 @@
     "maxScale": 1.0,
     "onePointNumber": 8
   },
+  "7_20_hit_ground": {
+    "fx": "7_20_ground_composite_fx",
+    "lifeTime": 0.0,
+    "softnessDepth": 0.6,
+    "numInstances": 100,
+    "numReserved": 30,
+    "minScale": 0.5,
+    "maxScale": 0.9,
+    "onePointNumber": 14
+  },
   "20_37_he_hit_ground": {
     "fx": "37_50_he_hit_ground_composite",
     "lifeTime": 0.0,
@@ -373,6 +383,15 @@
     "numInstances": 0,
     "numReserved": 0
   },
+  "trail_smoke": {
+    "fx": "trail_smoke_composite_fx",
+    "lifeTime": 80.0,
+    "nonPlayerFadeDistScale": 5.0,
+    "playerFadeDistScale": 2.0,
+    "alphaHeightRange": [4.0,240.0],
+    "numInstances": 120,
+    "numReserved": 30
+  },
   "hydra_smoke": {
     "fx": "hydra_smoke_fx",
     "lifeTime": 100.0,
@@ -638,6 +657,7 @@
   },
   "120-203_water_splash": {
     "fx": "120_203mm_water_hit_composite_fx",
+    "group": "water_proj",
     "farPlane": 15000.0,
     "lifeTime": 0.0,
     "softnessDepth": 2.0,
@@ -652,6 +672,24 @@
   },
   "cannon_hit_ship_cumulative": {
     "fx": "ps_hit_cumulative_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 80,
+    "numReserved": 3,
+    "onePointNumber": 80,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "explosion_metal"
+  },
+  "ps_hit_150mm_cumulative": {
+    "fx": "ps_hit_150mm_cumulative_composite_fx",
+    "lifeTime": 10.0,
+    "numInstances": 80,
+    "numReserved": 3,
+    "onePointNumber": 80,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "explosion_metal"
+  },
+  "cannon_hit_ship_ap": {
+    "fx": "ps_hit_ap_composite_fx",
     "lifeTime": 10.0,
     "numInstances": 80,
     "numReserved": 3,
@@ -1387,15 +1425,24 @@
     "numInstances": 50,
     "numReserved": 1
   },
+  "big_gun_flame_recoilless": {
+    "fx": "pv_gun_flame_recoilless_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 50,
+    "numReserved": 1
+  },
   "200mm_gun_flame": {
     "fx": "ps_gun_flame_400mm_fire_composite_fx",
     "lifeTime": 10.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
-    "minScale": 0.55,
-    "maxScale": 0.65,
+    "minScale": 0.45,
+    "maxScale": 0.55,
     "numInstances": 50,
-    "numReserved": 1
+    "numReserved": 1,
+    "group": "water_proj"
   },
   "400mm_gun_flame": {
     "fx": "ps_gun_flame_400mm_fire_composite_fx",
@@ -1403,7 +1450,8 @@
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
     "numInstances": 50,
-    "numReserved": 1
+    "numReserved": 1,
+    "group": "water_proj"
   },
   "gunpowder_gun_flame": {
     "fx": "pv_gunpowder_flame_composite_fx",
@@ -1477,6 +1525,14 @@
   },
   "ground_shock_wave_dust": {
     "fx": "pv_gun_dust_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 50,
+    "numReserved": 1
+  },
+  "water_shock_wave": {
+    "fx": "ps_gun_water_shock_wave_fx",
     "lifeTime": 10.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
@@ -2212,7 +2268,8 @@
   "ps_exhaust_large": {
     "fx": "ps_exhaust_large_composite_fx",
     "numInstances": 50,
-    "numReserved": 8
+    "numReserved": 8,
+    "farPlane": 15000.0
   },
   "boat_exhaust": {
     "fx": "boat_exhaust_fx",
@@ -2406,6 +2463,17 @@
     "onePointNumber": 5,
     "minScale": 0.5,
     "maxScale": 0.9,
+    "sfxPath": "tanks/object_crash",
+    "sfxEvent": "concrete_mid"
+  },
+  "ad_tree_felling_snow_medium": {
+    "fx": "ad_tree_felling_snow_medium_composite_fx",
+    "numInstances": 20,
+    "numReserved": 5,
+    "softnessDepth": 5.0,
+    "onePointNumber": 5,
+    "minScale": 0.8,
+    "maxScale": 1.2,
     "sfxPath": "tanks/object_crash",
     "sfxEvent": "concrete_mid"
   },

@@ -55,6 +55,11 @@
   },
   {
     "DamageParts": {
+      "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        }
+      },
       "armor_engine": {
         "engine1_dm": {
           "genericDamageMult": 1.6,
@@ -133,6 +138,29 @@
         },
         "cover2_dm": {
           "hp": 19.5
+        },
+        "cover3_dm": {
+          "hp": 19.5
+        }
+      },
+      "dural60": {
+        "spar1_l_dm": {
+          "hp": 80.5
+        },
+        "spar1_r_dm": {
+          "hp": 80.5
+        },
+        "spar2_l_dm": {
+          "hp": 39.5
+        },
+        "spar2_r_dm": {
+          "hp": 39.5
+        },
+        "spar_l_dm": {
+          "hp": 80.5
+        },
+        "spar_r_dm": {
+          "hp": 80.5
         }
       },
       "protected_controls": {
@@ -169,6 +197,9 @@
         "gunner1_dm": {
           "hp": 20.0
         },
+        "gunner2_dm": {
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -186,37 +217,6 @@
         },
         "tank4_dm": {
           "hp": 39.5
-        }
-      },
-      "wood": {
-        "cover3_dm": {
-          "hp": 45.7
-        },
-        "gun1_dm": {
-          "hp": 3.7
-        },
-        "gunner2_dm": {
-          "hp": 20.6
-        }
-      },
-      "wood120": {
-        "spar1_l_dm": {
-          "hp": 80.5
-        },
-        "spar1_r_dm": {
-          "hp": 80.5
-        },
-        "spar2_l_dm": {
-          "hp": 39.5
-        },
-        "spar2_r_dm": {
-          "hp": 39.5
-        },
-        "spar_l_dm": {
-          "hp": 80.5
-        },
-        "spar_r_dm": {
-          "hp": 80.5
         }
       }
     }
@@ -2041,9 +2041,19 @@
         },
         "limits": {
           "yaw": [-30.0,30.0],
-          "pitch": [-30.0,10.0]
+          "pitch": [-20.0,30.0]
+        },
+        "limitsDeadzone": {
+          "yaw": [-1.0,1.0],
+          "pitch": [-20.0,5.0]
         }
       }
+    }
+  },
+  {
+    "gunnerFps": {
+      "pos": [-0.4,0.4,0.0],
+      "head": "turret1"
     }
   },
   {
@@ -2282,10 +2292,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-5.15564,-4.15564],
-      "wingLDist": [3.53122,4.53122],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-0.761271,-0.373998,0.791191],
+      "_emtr_break_wing0_l_to": [-0.761271,-0.373998,1.41084],
+      "emtr_break_wing1_l_from": [-0.761271,-0.373998,2.34031],
+      "emtr_break_wing1_l_to": [-0.761271,-0.373998,3.47571],
+      "emtr_break_wing2_l_from": [-0.761271,-0.373998,5.17881],
+      "emtr_break_wing2_l_to": [-0.761271,-0.373998,6.19161],
+      "_emtr_break_wing0_r_from": [-0.761271,-0.373998,-0.791191],
+      "_emtr_break_wing0_r_to": [-0.761271,-0.373998,-1.41084],
+      "emtr_break_wing1_r_from": [-0.761271,-0.373998,-2.34031],
+      "emtr_break_wing1_r_to": [-0.761271,-0.373998,-3.47571],
+      "emtr_break_wing2_r_from": [-0.761271,-0.373998,-5.17881],
+      "emtr_break_wing2_r_to": [-0.761271,-0.373998,-6.19161],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-5.36995,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

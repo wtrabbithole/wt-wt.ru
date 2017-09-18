@@ -116,6 +116,9 @@
         "fuse2_dm": {
           "hp": 160.5
         },
+        "fuse3_dm": {
+          "hp": 160.5
+        },
         "tail_dm": {
           "genericDamageMult": 0.6,
           "hp": 160.5
@@ -239,6 +242,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 53.3
+        },
         "gear_l_dm": {
           "hp": 70.5
         },
@@ -251,16 +257,16 @@
           "hp": 23.5
         },
         "oil2_dm": {
-          "hp": 23.5
+          "hp": 17.5
         },
         "oil3_dm": {
-          "hp": 23.5
+          "hp": 17.5
         },
         "oil4_dm": {
           "hp": 23.5
         },
         "oil5_dm": {
-          "hp": 17.5
+          "hp": 23.5
         },
         "oil6_dm": {
           "hp": 17.5
@@ -269,7 +275,7 @@
           "hp": 17.5
         },
         "oil8_dm": {
-          "hp": 17.5
+          "hp": 23.5
         }
       },
       "steel_pilot": {
@@ -318,14 +324,6 @@
         },
         "tank8_dm": {
           "hp": 93.3
-        }
-      },
-      "wood": {
-        "fuse3_dm": {
-          "hp": 494.9
-        },
-        "gear_c_dm": {
-          "hp": 29.3
         }
       }
     }
@@ -1085,9 +1083,92 @@
         ]
       },
       {
-        "part": {
-          "name": "fuse3_dm"
-        }
+        "part": [
+          {
+            "name": "fuse3_dm"
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "wing_r_dm": 0.1,
+              "wing_l_dm": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "wing_r_dm": 0.3,
+              "wing_l_dm": 0.3
+            }
+          },
+          {
+            "onHit": {
+              "damage": 70.0,
+              "wing_r_dm": 0.5,
+              "wing_l_dm": 0.5
+            }
+          },
+          {
+            "onHit": {
+              "damage": 100.0,
+              "wing_r_dm": 0.7,
+              "wing_l_dm": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 140.0,
+              "wing_r_dm": 0.9,
+              "wing_l_dm": 0.9
+            }
+          },
+          {
+            "onKill": {
+              "wingcontrol_l_dm": 1.0,
+              "wingcontrol_r_dm": 1.0,
+              "nothing": 19.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 5.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 70.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 3.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 100.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 140.0,
+              "wing_l_dm": 1.0,
+              "wing_r_dm": 1.0
+            }
+          }
+        ]
       },
       {
         "part": [
@@ -3305,10 +3386,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-16.0951,-15.0951],
-      "wingLDist": [15.0197,16.0197],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-1.82736,0.0928838,1.83642],
+      "_emtr_break_wing0_l_to": [-1.82736,0.0928838,3.14859],
+      "emtr_break_wing1_l_from": [-1.82736,0.0928838,5.83056],
+      "emtr_break_wing1_l_to": [-1.82736,0.0928838,6.98982],
+      "emtr_break_wing2_l_from": [-1.82736,0.0928838,9.8441],
+      "emtr_break_wing2_l_to": [-1.82736,0.0928838,11.9281],
+      "_emtr_break_wing0_r_from": [-1.82736,0.0928838,-1.83642],
+      "_emtr_break_wing0_r_to": [-1.82736,0.0928838,-3.14859],
+      "emtr_break_wing1_r_from": [-1.82736,0.0928838,-5.83056],
+      "emtr_break_wing1_r_to": [-1.82736,0.0928838,-6.98982],
+      "emtr_break_wing2_r_from": [-1.82736,0.0928838,-9.8441],
+      "emtr_break_wing2_r_to": [-1.82736,0.0928838,-11.9281],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-13.4851,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

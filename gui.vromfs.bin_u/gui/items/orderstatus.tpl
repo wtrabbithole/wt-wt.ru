@@ -45,7 +45,7 @@ textareaNoTab {
   input-transparent:t='yes'
   padding-left:t='10/720*@scrn_tgt'
   padding-top:t='10/720*@scrn_tgt'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   order-status-text-shade:t='yes'
 }
 
@@ -56,7 +56,7 @@ table {
   width:t='pw - 10/720*@scrn_tgt'
   total-input-transparent:t='yes'
   input-transparent:t='yes'
-  class:t='smallFont'
+  class:t='normalFont'
 
   <<#rows>>
   tr {
@@ -75,7 +75,7 @@ table {
         removeParagraphIndent:t='yes'
         halign:t='left'
         text:t='Player Name'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         order-status-text-shade:t='yes'
       }
     }
@@ -85,7 +85,7 @@ table {
         removeParagraphIndent:t='yes'
         halign:t='center'
         text:t='0000'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         order-status-text-shade:t='yes'
       }
     }
@@ -101,7 +101,7 @@ textareaNoTab {
   overlayTextColor:t='bad'
   total-input-transparent:t='yes'
   input-transparent:t='yes'
-  tinyFont:t='yes'
+  smallFont:t='yes'
   order-status-text-shade:t='yes'
 }
 

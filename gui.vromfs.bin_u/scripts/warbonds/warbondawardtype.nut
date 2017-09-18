@@ -2,7 +2,7 @@
   types = []
 }
 
-function g_wb_award_type::_getLayeredImageItem(blk)
+function g_wb_award_type::_getLayeredImageItem(blk, warbond)
 {
   local item = ::ItemsManager.findItemById(blk.name)
   if (!item)
@@ -75,7 +75,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
 
 ::g_wb_award_type.template <- {
   id = ::EWBAT_INVALID //filled by type id.used from code enum EWBAT
-  getLayeredImage = function(blk) { return "" }
+  getLayeredImage = function(blk, warbond) { return "" }
   getContentIconData = function(blk) { return null } //{ contentIcon, [contentType] }
   getIconHeaderText = function(blk) { return null }
   getTooltipId = function(blk) { return null } //string
@@ -83,15 +83,18 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   hasCommonDesc = true
   getNameText = function(blk) { return "" }
   getDescText = function(blk) { return "" }
-  getDescriptionImage = function(blk) { return getLayeredImage(blk) }
+  getDescriptionImage = function(blk, warbond) { return getLayeredImage(blk, warbond) }
   getDescItem = function(blk) { return null } //show description as item description
 
   requestBuy = ::g_wb_award_type._requestBuyByName //warbond, blk
   getBoughtCount = ::g_wb_award_type._getBoughtCountByName //warbond, blk
 
+  canBuy = @(blk) true
   getMaxBoughtCount = function(blk) { return blk.maxBoughtCount || 0 }
   showAvailableAmount = true
+  isAvailableForCurrentShop = @(warbond) true
 
+  canBuyReasonLocId = ""
   userlogResourceTypeText = ""
   getUserlogBuyText = function(blk, priceText)
   {
@@ -111,7 +114,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   },
 
   [::EWBAT_UNIT] = {
-    getLayeredImage = function(blk)
+    getLayeredImage = function(blk, warbond)
     {
       local unit = ::getAircraftByName(blk.name)
       local unitType = ::get_es_unit_type(unit)
@@ -132,7 +135,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
     }
     getNameText = function(blk) { return ::getUnitName(blk.name || "") }
 
-    getDescriptionImage = function(blk)
+    getDescriptionImage = function(blk, warbond)
     {
       local unit = ::getAircraftByName(blk.name)
       if (!unit)
@@ -181,7 +184,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
 
   [::EWBAT_SKIN] = {
     userlogResourceTypeText = "skin"
-    getLayeredImage = function(blk)
+    getLayeredImage = function(blk, warbond)
     {
       return ::LayersIcon.getIconData(::g_decorator_type.SKINS.defaultStyle)
     }
@@ -207,7 +210,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
 
   [::EWBAT_DECAL] = {
     userlogResourceTypeText = "decal"
-    getLayeredImage = function(blk)
+    getLayeredImage = function(blk, warbond)
     {
       local decorator = ::g_decorator.getDecorator(blk.name, ::g_decorator_type.DECALS)
       if (decorator)
@@ -236,7 +239,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
 
   [::EWBAT_ATTACHABLE] = {
     userlogResourceTypeText = "attachable"
-    getLayeredImage = function(blk)
+    getLayeredImage = function(blk, warbond)
     {
       local decorator = ::g_decorator.getDecorator(blk.name, ::g_decorator_type.ATTACHABLES)
       if (decorator)
@@ -264,7 +267,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   },
 
   [::EWBAT_WP] = {
-    getLayeredImage = function(blk)
+    getLayeredImage = function(blk, warbond)
     {
       local wp = blk.amount || 0
       return ::trophyReward.getFullWPIcon(wp)
@@ -278,7 +281,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   },
 
   [::EWBAT_GOLD] = {
-    getLayeredImage = function(blk)
+    getLayeredImage = function(blk, warbond)
     {
       return ::LayersIcon.getIconData("reward_gold")
     }
@@ -291,7 +294,12 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   },
 
   [::EWBAT_BATTLE_TASK] = {
-    getBoughtCount = ::g_wb_award_type._getBoughtCountByName
+    getLayeredImage = @(blk, warbond) ::LayersIcon.getIconData("reward_battle_task_" + warbond.medalIcon)
+    getNameText = @(blk) ::loc("item/" + blk.name)
+    getDescText = @(blk) ::loc("item/" + blk.name + "/desc")
+    canBuy = @(blk) ::warbonds_can_buy_battle_task(blk.name)
+    canBuyReasonLocId = "item/specialTasksPersonalUnlocks/purchaseRestriction"
+    isAvailableForCurrentShop = @(warbond) warbond.isCurrent()
   }
 }
 null, "id")

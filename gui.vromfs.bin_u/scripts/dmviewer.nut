@@ -8,7 +8,7 @@
 */
 
 ::dmViewer <- {
-  [PERSISTENT_DATA_PARAMS] = ["active", "view_mode", "_currentViewMode"]
+  [PERSISTENT_DATA_PARAMS] = ["active", "view_mode", "_currentViewMode", "isDebugMode"]
 
   active = false
   // This is saved view mode. It is used to restore
@@ -69,8 +69,8 @@
       timerObj.setUserData(handler) //!!FIX ME: it a bad idea link timer to handler.
                                     //better to link all timers here, and switch them off when not active.
 
-    update(handler)
-    repaint(handler)
+    update()
+    repaint()
   }
 
   function updateSecondaryMods()
@@ -180,15 +180,14 @@
     repaint()
   }
 
-  function update(handler = null)
+  function update()
   {
     local newActive = canUse()
     if (!newActive && !active) //no need to check other conditions when not canUse and not active.
       return false
 
-    if (!handler)
-      handler = ::handlersManager.getActiveBaseHandler()
-    newActive = newActive && (("canShowDmViewer" in handler) ? handler.canShowDmViewer() : false)
+    local handler = ::handlersManager.getActiveBaseHandler()
+    newActive = newActive && handler && (("canShowDmViewer" in handler) ? handler.canShowDmViewer() : false)
     if (::top_menu_handler && ::top_menu_handler.isSceneActive())
       newActive = newActive && ::top_menu_handler.canShowDmViewer()
 
@@ -199,10 +198,9 @@
     return true
   }
 
-  function repaint(handler = null)
+  function repaint()
   {
-    if (!handler)
-      handler = ::handlersManager.getActiveBaseHandler()
+    local handler = ::handlersManager.getActiveBaseHandler()
     if (!handler)
       return
 
@@ -303,14 +301,24 @@
     if (!isVisible)
       return
 
-    local title = getPartNameLocText(nameId)
-    local description = getPartDescription(nameId, params)
+    local info = { title="", desc="" }
+    local isUseCache = view_mode == ::DM_VIEWER_XRAY && !isDebugMode
+    local cacheId = ::getTblValue("name", params, "")
 
-    title = ::stringReplace(title, " ", ::nbsp)
-    description = ::stringReplace(description, " ", ::nbsp)
+    if (isUseCache && (cacheId in xrayDescriptionCache))
+      info = xrayDescriptionCache[cacheId]
+    else
+    {
+      info = getPartTooltipInfo(nameId, params)
+      info.title = ::stringReplace(info.title, " ", ::nbsp)
+      info.desc  = ::stringReplace(info.desc,  " ", ::nbsp)
 
-    obj.findObject("dmviewer_title").setValue(title)
-    obj.findObject("dmviewer_desc").setValue(description)
+      if (isUseCache)
+        xrayDescriptionCache[cacheId] <- info
+    }
+
+    obj.findObject("dmviewer_title").setValue(info.title)
+    obj.findObject("dmviewer_desc").setValue(info.desc)
     placeHint(obj)
   }
 
@@ -363,18 +371,33 @@
     return nameId
   }
 
-  function getPartDescription(nameId, params)
+  function getPartTooltipInfo(nameId, params)
   {
+    local res = {
+      title = ""
+      desc  = ""
+    }
+
     local isHuman = nameId == "steel_tankman"
     if (isHuman || nameId == "")
-      return ""
+      return res
+
+    params.nameId <- nameId
 
     switch (view_mode)
     {
-      case ::DM_VIEWER_ARMOR:   return getDescriptionInArmorMode(params)
-      case ::DM_VIEWER_XRAY:    return getDescriptionInXrayMode(nameId, params)
-      default:                  return ""
+      case ::DM_VIEWER_ARMOR:
+        res.desc = getDescriptionInArmorMode(params)
+        break
+      case ::DM_VIEWER_XRAY:
+        res.desc = getDescriptionInXrayMode(params)
+        break
+      default:
     }
+
+    res.title = getPartNameLocText(params.nameId)
+
+    return res
   }
 
   function getDescriptionInArmorMode(params)
@@ -403,17 +426,15 @@
       desc.append(::loc("armor_class/normal_angle") + ::nbsp +
         (normalAngleValue+0.5).tointeger() + ::nbsp + ::loc("measureUnits/deg"))
 
-    return ::implode(desc, "\n")
+    return ::g_string.implode(desc, "\n")
   }
 
-  function getDescriptionInXrayMode(partId, params)
+  function getDescriptionInXrayMode(params)
   {
     if ( ! ::has_feature("XRayDescription") || ! ("name" in params))
       return ""
+    local partId = ::getTblValue("nameId", params, "")
     local partName = params["name"]
-    local cacheKey = partId + partName
-    if ( ! isDebugMode && ::getTblValue(cacheKey, xrayDescriptionCache))
-      return ::getTblValue(cacheKey, xrayDescriptionCache)
 
     local desc = []
     local difficulty = ::get_difficulty_by_ediff(::get_current_ediff())
@@ -441,9 +462,9 @@
                 engineConfig.push(::loc("engine_configuration/" + infoBlk.configuration))
               if (infoBlk.type)
                 engineConfig.push(g_string.utf8ToLower(::loc("engine_type/" + infoBlk.type)))
-              engineString = ::implode(engineInfo, " ")
+              engineString = ::g_string.implode(engineInfo, " ")
               if (engineConfig.len())
-                engineString += " (" + ::implode(engineConfig, " ") + ")"
+                engineString += " (" + ::g_string.implode(engineConfig, " ") + ")"
               if (engineString.len())
                 desc.push(engineString)
               if (infoBlk.displacement)
@@ -504,7 +525,7 @@
             }
             if (engineType && engineType.len())
               engineInfo.push(g_string.utf8ToLower(::loc("plane_engine_type/" + engineType)))
-            desc.push(::implode(engineInfo, " "))
+            desc.push(::g_string.implode(engineInfo, " "))
 
             // display cooling type only for Inline and Radial engines
             if ((engineType == "inline" || engineType == "radial")
@@ -707,10 +728,56 @@
           if(tankMaterial.find("boost") != null)
             tankInfo.push(::loc("fuelTank/neutralGasSystem"))
           if(tankInfo.len())
-            desc.push(::implode(tankInfo, ", "))
+            desc.push(::g_string.implode(tankInfo, ", "))
           break
         }
       break;
+
+      case "composite_armor_hull":            // tank Composite armor
+      case "composite_armor_turret":          // tank Composite armor
+      case "ex_era_hull":                     // tank Explosive reactive armor
+      case "ex_era_turret":                   // tank Explosive reactive armor
+        local info = getModernArmorParamsByDmPartName(partName)
+
+        local strUnits = ::nbsp + ::loc("measureUnits/mm")
+        local strBullet = ::loc("ui/bullet")
+
+        if (info.titleLoc != "")
+          params.nameId <- info.titleLoc
+
+        if (info.kineticProtectionEquivalent || info.cumulativeProtectionEquivalent)
+        {
+          desc.push(::loc("shop/armorThicknessEquivalent"))
+          if (info.kineticProtectionEquivalent)
+            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/kinetic") + ::loc("ui/colon") +
+              info.kineticProtectionEquivalent + strUnits)
+          if (info.cumulativeProtectionEquivalent)
+            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/cumulative") + ::loc("ui/colon") +
+              info.cumulativeProtectionEquivalent + strUnits)
+        }
+
+        local blockSep = desc.len() ? "\n" : ""
+
+        if (info.isComposite && !::u.isEmpty(info.layersArray)) // composite armor
+        {
+          local texts = []
+          foreach (layer in info.layersArray)
+          {
+            local thicknessText = ""
+            if (::u.isFloat(layer.armorThickness) && layer.armorThickness > 0)
+              thicknessText = ::round(layer.armorThickness).tostring()
+            else if (::u.isPoint2(layer.armorThickness) && layer.armorThickness.x > 0 && layer.armorThickness.y > 0)
+              thicknessText = ::round(layer.armorThickness.x).tostring() + ::loc("ui/mdash") + ::round(layer.armorThickness.y).tostring()
+            if (thicknessText != "")
+              thicknessText = ::loc("ui/parentheses/space", { text = thicknessText + strUnits })
+            texts.append(strBullet + getPartNameLocText(layer.armorClass) + thicknessText)
+          }
+          desc.push(blockSep + ::loc("xray/armor_composition") + ::loc("ui/colon") + "\n" + ::g_string.implode(texts, "\n"))
+        }
+        else if (!info.isComposite && !::u.isEmpty(info.armorClass)) // reactive armor
+          desc.push(blockSep + ::loc("plane_engine_type") + ::loc("ui/colon") + getPartNameLocText(info.armorClass))
+
+        break
     }
 
     if(isDebugMode)
@@ -719,8 +786,7 @@
       desc.push("DEBUG! partId=" + partId + ", partName=" + partName)
     }
 
-    local description = ::implode(desc, "\n")
-    xrayDescriptionCache[cacheKey] <- description
+    local description = ::g_string.implode(desc, "\n")
     return description
   }
 
@@ -757,6 +823,19 @@
     return infoBlk
   }
 
+  function getXrayViewerDataByDmPartName(partName)
+  {
+    local dataBlk = unitBlk && unitBlk.xray_viewer_data
+    if (dataBlk)
+      for (local b = 0; b < dataBlk.blockCount(); b++)
+      {
+        local blk = dataBlk.getBlock(b)
+        if (blk && blk.xrayDmPart == partName)
+          return blk
+      }
+    return null
+  }
+
   function getWeaponByXrayPartName(partName)
   {
     local partLinkSources = ["dm", "barrelDP", "breechDP", "maskDP"]
@@ -769,6 +848,64 @@
         return weapon
     }
     return null
+  }
+
+  function getModernArmorParamsByDmPartName(partName)
+  {
+    local res = {
+      isComposite = ::g_string.startsWith(partName, "composite_armor")
+      titleLoc = ""
+      armorClass = ""
+      kineticProtectionEquivalent = 0
+      cumulativeProtectionEquivalent = 0
+      layersArray = []
+    }
+
+    local blk = getXrayViewerDataByDmPartName(partName)
+    if (blk)
+    {
+      res.titleLoc = blk.titleLoc || ""
+      res.kineticProtectionEquivalent = blk.kineticProtectionEquivalent || 0
+      res.cumulativeProtectionEquivalent = blk.cumulativeProtectionEquivalent || 0
+
+      local armorParams = { armorClass = "", armorThickness = 0.0 }
+      local armorLayersArray = blk.armorArrayText ? (blk.armorArrayText % "layer") : []
+
+      foreach (layer in armorLayersArray)
+      {
+        local info = getDamagePartParamsByDmPartName(layer.dmPart, armorParams)
+        if (layer.xrayTextThickness != null)
+          info.armorThickness = layer.xrayTextThickness
+        res.layersArray.append(info)
+      }
+    }
+    else
+    {
+      local armorParams = { armorClass = "", kineticProtectionEquivalent = 0, cumulativeProtectionEquivalent = 0 }
+      local info = getDamagePartParamsByDmPartName(partName, armorParams)
+      res = ::u.tablesCombine(res, info, @(a, b) b == null ? a : b, null, false)
+    }
+
+    return res
+  }
+
+  function getDamagePartParamsByDmPartName(partName, paramsTbl)
+  {
+    local res = clone paramsTbl
+    if (!unitBlk || !unitBlk.DamageParts)
+      return res
+    local dmPartsBlk = unitBlk.DamageParts
+    res = ::u.tablesCombine(res, dmPartsBlk, @(a, b) b == null ? a : b, null, false)
+    for (local b = 0; b < dmPartsBlk.blockCount(); b++)
+    {
+      local groupBlk = dmPartsBlk.getBlock(b)
+      if (!groupBlk || !groupBlk[partName])
+        continue
+      res = ::u.tablesCombine(res, groupBlk, @(a, b) b == null ? a : b, null, false)
+      res = ::u.tablesCombine(res, groupBlk[partName], @(a, b) b == null ? a : b, null, false)
+      break
+    }
+    return res
   }
 
   function trimBetween(source, from, to, strict = true)

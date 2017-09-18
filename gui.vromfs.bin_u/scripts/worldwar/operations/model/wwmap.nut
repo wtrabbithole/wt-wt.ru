@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class WwMap
 {
   name = ""
@@ -79,7 +82,7 @@ class WwMap
     if (getOpGroup().isMyClanParticipate())
       txtList.append(::colorize("userlogColoredText", ::loc("worldwar/yourClanInOperationHere")))
     txtList.append(baseDesc)
-    return ::implode(txtList, "\n")
+    return ::g_string.implode(txtList, "\n")
   }
 
   function getGeoCoordsText()
@@ -105,7 +108,7 @@ class WwMap
       local s = (t - m) * 60
       coords.append(::format("%d%s%02d%s%02d%s%s", d, ud, m, um, s, us, c.hem))
     }
-    return ::implode(coords, ::loc("ui/comma"))
+    return ::g_string.implode(coords, ::loc("ui/comma"))
   }
 
   function isActive()
@@ -114,6 +117,11 @@ class WwMap
   }
 
   function getChangeStateTimeText()
+  {
+    return ""
+  }
+
+  function getMapChangeStateTimeText()
   {
     local changeStateTimeStamp = ::getTblValue("changeStateTime", data, -1)
     local text = ""
@@ -124,8 +132,8 @@ class WwMap
       {
         local changeStateLocId = "worldwar/operation/" +
           (isActive() ? "beUnavailableIn" : "beAvailableIn")
-        local changeStateTime = ::hoursToString(
-          ::seconds_to_hours(secToChangeState), false, true)
+        local changeStateTime = time.hoursToString(
+          time.secondsToHours(secToChangeState), false, true)
         text = ::loc(changeStateLocId, {time = changeStateTime})
       }
       else if (secToChangeState < 0)
@@ -227,9 +235,14 @@ class WwMap
     return res
   }
 
+  function getMinClansCondition()
+  {
+    return ::getTblValue("minClanCount", data, 0)
+  }
+
   function getClansConditionText(isSideInfo = false)
   {
-    local minNumb = ::getTblValue("minClanCount", data, 0)
+    local minNumb = getMinClansCondition()
     local maxNumb = ::getTblValue("maxClanCount", data, 0)
     local prefix = isSideInfo ? "side_" : ""
     return minNumb == maxNumb ?

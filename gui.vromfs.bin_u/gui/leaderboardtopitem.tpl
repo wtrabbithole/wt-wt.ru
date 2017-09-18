@@ -1,6 +1,8 @@
 <<#updateTime>>
 activeText {
   id:t='lb_update_time'
+  pos:t='0, 50%ph-50%h'; position:t='relative'
+  margin-right:t='1@blockInterval'
   caption:t='no'
   text:t=''
   textHide:t='no'

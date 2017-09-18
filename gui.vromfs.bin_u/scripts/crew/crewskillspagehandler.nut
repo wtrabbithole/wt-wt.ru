@@ -223,7 +223,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       if (lvlDiffByGunners < 0)
         tooltip += ((tooltip != "") ? "\n" : "") + ::loc("crew/notEnoughGunners") + ::loc("ui/colon")
           + "<color=@badTextColor>" + lvlDiffByGunners + "</color>"
-      bonusObj.tooltip = ::tooltipColorTheme(tooltip)
+      bonusObj.tooltip = tooltip
     }
 
     rowObj.findObject("buttonDec").show(item.newValue > value)

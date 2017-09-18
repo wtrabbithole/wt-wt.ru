@@ -19,7 +19,7 @@ kb,bgk,dblk{
   border:yes;
 
   color:@commonTextColor;
-  font:@small;
+  font:@fontNormal;
   padding:2*@sf/@pf_outdated;
   margin:0,2*@sf/@pf_outdated,@kbPad,2*@sf/@pf_outdated;
   height:@kbh;
@@ -53,7 +53,7 @@ mouseKey {
   re-type:9rect;
   background-color:@mousekeyBgColor;
   color:@black;
-  font:@small;
+  font:@fontNormal;
 }
 mouseKey[tooltip] {
   background-color:@mousekeyActiveBgColor;
@@ -63,10 +63,13 @@ mouseKey:hover {
   background-color:@mousekeyHoverBgColor;
 }
 
-kb.tinyFont, dblk.tinyFont, mouseKey.tinyFont, text.tinyFont {
-  font:@kbdFont;
+kb.smallFont, dblk.smallFont, mouseKey.smallFont, text.smallFont, bgk.smallFont {
+  font:@fontTiny;
 }
+
+
 kb > tooltip, bgk > tooltip, dblk > tooltip, mouseKey > tooltip
 {
   max-width:0;
 }
+

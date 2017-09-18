@@ -51,7 +51,9 @@ contactItem {
       id:t='btn_friendAdd';
       tooltip:t='#contacts/friendlist/add';
       on_click:t='onFriendAdd';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
         background-image:t='#ui/gameuiskin#btn_friend_add';
@@ -62,7 +64,9 @@ contactItem {
       id:t='btn_friendRemove';
       tooltip:t='#contacts/friendlist/remove';
       on_click:t='onFriendRemove';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
         background-image:t='#ui/gameuiskin#btn_friend_remove';
@@ -73,7 +77,9 @@ contactItem {
       id:t='btn_blacklistAdd';
       tooltip:t='#contacts/blacklist/add';
       on_click:t='onBlacklistAdd';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
         background-image:t='#ui/gameuiskin#btn_blacklist_add';
@@ -84,7 +90,9 @@ contactItem {
       id:t='btn_blacklistRemove';
       tooltip:t='#contacts/blacklist/remove';
       on_click:t='onBlacklistRemove';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
         background-image:t='#ui/gameuiskin#btn_blacklist_remove';
@@ -95,7 +103,9 @@ contactItem {
       id:t='btn_message';
       tooltip:t='#contacts/message';
       on_click:t='onPlayerMsg';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       enable:t='no';
       img {
@@ -107,7 +117,9 @@ contactItem {
       id:t='btn_squadInvite';
       tooltip:t='#contacts/invite';
       on_click:t='onSquadInvite';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       enable:t='no';
       img {
@@ -119,7 +131,9 @@ contactItem {
       id:t='btn_usercard';
       tooltip:t='#mainmenu/btnUserCard';
       on_click:t='onUsercard';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       enable:t='no';
       img {
@@ -131,7 +145,9 @@ contactItem {
       id:t='btn_steamFriends';
       tooltip:t='#mainmenu/btnSteamFriendsAdd';
       on_click:t='onSteamFriendsAdd';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
         background-image:t='#ui/gameuiskin#btn_steam_friends_add';
@@ -142,7 +158,9 @@ contactItem {
       id:t='btn_facebookFriends';
       tooltip:t='#mainmenu/btnFacebookFriendsAdd';
       on_click:t='onFacebookFriendsAdd';
-      class:t='image16';
+      class:t='image'
+      imgSize:t='small'
+      showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
         background-image:t='#ui/gameuiskin#btn_facebook_friends_add';

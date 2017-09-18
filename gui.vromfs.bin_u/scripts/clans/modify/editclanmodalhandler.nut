@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModalHandler
 {
   owner = null
@@ -39,7 +41,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
       local regionChangeTime = clanData.getRegionChangeAvailableTime()
       local regionChangeTimeText = ::loc(
         "clan/clan_can_change_region_in",
-        {time = ::build_date_time_str(regionChangeTime)}
+        {time = time.buildDateTimeStr(regionChangeTime)}
       )
       scene.findObject("region_change_cooldown").setValue(regionChangeTimeText)
       regionEditBoxObj.enable(false)

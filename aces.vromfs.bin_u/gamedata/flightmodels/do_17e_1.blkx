@@ -71,6 +71,12 @@
   {
     "DamageParts": {
       "armor10": {
+        "gun1_dm": {
+          "hp": 15.0
+        },
+        "gun2_dm": {
+          "hp": 15.0
+        },
         "mgun1_dm": {
           "hp": 15.0
         }
@@ -210,6 +216,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 49.5
+        },
         "gear_l_dm": {
           "hp": 70.5
         },
@@ -238,6 +247,12 @@
         }
       },
       "steel_pilot": {
+        "gunner1_dm": {
+          "hp": 20.0
+        },
+        "gunner2_dm": {
+          "hp": 20.0
+        },
         "pilot_dm": {
           "fireProtectionHp": 20.0,
           "hp": 20.0
@@ -249,23 +264,6 @@
         },
         "tank2_dm": {
           "hp": 64.2
-        }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 9.1
-        },
-        "gun1_dm": {
-          "hp": 2.8
-        },
-        "gun2_dm": {
-          "hp": 2.8
-        },
-        "gunner1_dm": {
-          "hp": 18.7
-        },
-        "gunner2_dm": {
-          "hp": 21.6
         }
       }
     }
@@ -2273,12 +2271,6 @@
     "weapon_presets": [
       {
         "preset": {
-          "name": "do_17e_1_default",
-          "blk": "gameData/FlightModels/weaponPresets/empty.blk"
-        }
-      },
-      {
-        "preset": {
           "name": "do_17e_1_10_SC50",
           "blk": "gameData/FlightModels/weaponPresets/do_17e_1_10_SC50.blk"
         }
@@ -2465,5 +2457,28 @@
         }
       }
     ]
+  },
+  {
+    "cutting": {
+      "_emtr_break_wing0_l_from": [-1.01907,0.521998,1.29189],
+      "_emtr_break_wing0_l_to": [-1.01907,0.521998,1.8548],
+      "emtr_break_wing1_l_from": [-1.01907,0.521998,3.60155],
+      "emtr_break_wing1_l_to": [-1.01907,0.521998,4.71026],
+      "emtr_break_wing2_l_from": [-1.01907,0.521998,6.37333],
+      "emtr_break_wing2_l_to": [-1.01907,0.521998,7.42723],
+      "_emtr_break_wing0_r_from": [-1.01907,0.521998,-1.29189],
+      "_emtr_break_wing0_r_to": [-1.01907,0.521998,-1.8548],
+      "emtr_break_wing1_r_from": [-1.01907,0.521998,-3.60155],
+      "emtr_break_wing1_r_to": [-1.01907,0.521998,-4.71026],
+      "emtr_break_wing2_r_from": [-1.01907,0.521998,-6.37333],
+      "emtr_break_wing2_r_to": [-1.01907,0.521998,-7.42723],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-8.53698,0.0,0.0]
+      ],
+      "partKindTail": 2
+    }
   }
 ]

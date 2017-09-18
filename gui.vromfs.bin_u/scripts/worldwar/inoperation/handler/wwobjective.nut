@@ -131,7 +131,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     local headers = 0
     if (objectivesCount.x > 0) headers++
     if (objectivesCount.y > 0) headers++
-    local reservedHeight = guiScene.calcString("1@frameSmallHeaderHeight + " + headers + "@objectiveBlockHeaderHeight", null)
+    local reservedHeight = guiScene.calcString("1@frameHeaderHeight + " + headers + "@objectiveBlockHeaderHeight", null)
 
     local availObjectivesHeight = blockHeight - reservedHeight
 
@@ -174,7 +174,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     if (objectivesCount.x > 0) headers++
     if (objectivesCount.y > 0) headers++
 
-    local reservedHeight = guiScene.calcString("1@frameSmallHeaderHeight + " + headers + "@objectiveBlockHeaderHeight", null)
+    local reservedHeight = guiScene.calcString("1@frameHeaderHeight + " + headers + "@objectiveBlockHeaderHeight", null)
     local objectivesHeight = guiScene.calcString((objectivesCount.x + objectivesCount.y) + "@objectiveHeight", null)
 
     local panelObj = guiScene["content_block_1"]

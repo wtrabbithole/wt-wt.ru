@@ -21,7 +21,10 @@ SessionLobby API
 
 */
 
+
+local time = require("scripts/time.nut")
 local ingame_chat = require("scripts/chat/mpChatModel.nut")
+
 
 const NET_SERVER_LOST = 0x82220002  //for hostCb
 const NET_SERVER_QUIT_FROM_GAME = 0x82220003
@@ -2497,15 +2500,15 @@ function SessionLobby::getRoomActiveTimers()
   local curTime = ::get_matching_server_time()
   foreach(timerId, cfg in roomTimers)
   {
-    local time = getPublicParam(cfg.publicKey, -1)
-    if (time == -1 || !::is_numeric(time) || time < curTime)
+    local tgtTime = getPublicParam(cfg.publicKey, -1)
+    if (tgtTime == -1 || !::is_numeric(tgtTime) || tgtTime < curTime)
       continue
 
-    local timeLeft = time - curTime
+    local timeLeft = tgtTime - curTime
     res.append({
       id = timerId
       timeLeft = timeLeft
-      text = ::colorize(cfg.color, cfg.getLocText(settings, { time = ::secondsToString(timeLeft, true, true) }))
+      text = ::colorize(cfg.color, cfg.getLocText(settings, { time = time.secondsToString(timeLeft, true, true) }))
     })
   }
   return res

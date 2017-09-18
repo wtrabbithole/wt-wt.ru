@@ -29,14 +29,7 @@ shopFilter {
   }
   <</newIconWidget>>
 
-  <<#object>>
-  tdiv {
-    pos:t='0, 0.5ph-0.5h'
-    position:t='relative'
-    padding-left:t='1@warbondShopLevelItemHeight'
-    <<@object>>
-  }
-  <</object>>
+  <<@object>>
 
   shopFilterText {
     <<#id>>id:t='<<id>>_text'<</id>>

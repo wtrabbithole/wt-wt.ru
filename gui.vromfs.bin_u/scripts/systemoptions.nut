@@ -15,7 +15,7 @@
   mScriptValid = true
   mValidationError = ""
   mMaintainDone = false
-  mRowHeightScale = 0.87
+  mRowHeightScale = 1.0
 }
 //------------------------------------------------------------------------------
 /*
@@ -121,8 +121,8 @@
       desc.items <- []
       foreach (index, item in desc.values)
         desc.items.append((index <= sysTexQuality) ? ::sysopt.localize("texQuality", item) : restrictedValueItem)
-      desc.tooltipExtra <- ::tooltipColorTheme(::colorize("badTextColor", "** " + ::loc("msgbox/graphicsOptionValueReduced/lowVideoMemory",
-        { name = ::loc("options/texQuality"), value = restrictedValueName })))
+      desc.tooltipExtra <- ::colorize("badTextColor", "** " + ::loc("msgbox/graphicsOptionValueReduced/lowVideoMemory",
+        { name = ::loc("options/texQuality"), value = restrictedValueName }))
     }
     values =   [ "low", "medium", "high" ]
   }
@@ -731,7 +731,7 @@ function sysopt::fillGuiOptions(containerObj, handler)
   if (!mScriptValid)
   {
     local msg = ::loc("msgbox/internal_error_header") + "\n" + mValidationError
-    local data = ::format("textAreaCentered { text:t='%s' size:t='pw,ph' }", ::stripTags(msg))
+    local data = ::format("textAreaCentered { text:t='%s' size:t='pw,ph' }", ::g_string.stripTags(msg))
     guiScene.replaceContentFromText(containerObj.id, data, data.len(), handler)
     return
   }
@@ -811,8 +811,8 @@ function sysopt::fillGuiOptions(containerObj, handler)
         local enable = ::getTblValue("enabled", desc, true) ? "yes" : "no"
         local requiresRestart = ::getTblValue("restart", desc, false)
         local tooltipExtra = ::getTblValue("tooltipExtra", desc)
-        local label = ::stripTags(::loc("options/" + id) + (requiresRestart ? (::nbsp + "*") : (::nbsp + ::nbsp)))
-        local tooltip = ::stripTags(::loc("guiHints/" + id)
+        local label = ::g_string.stripTags(::loc("options/" + id) + (requiresRestart ? (::nbsp + "*") : (::nbsp + ::nbsp)))
+        local tooltip = ::g_string.stripTags(::loc("guiHints/" + id)
           + (requiresRestart ? ("\n" + ::colorize("warningTextColor", ::loc("guiHints/restart_required"))) : "")
           + (tooltipExtra ? ("\n" + tooltipExtra) : "")
         )
@@ -1174,6 +1174,7 @@ function sysopt::applyRestartEngine(reloadScene = false)
 
   dagor.debug("Graphics Settings changed. Resetting renderer.")
   ::on_renderer_settings_change()
+  ::handlersManager.updateSceneBgBlur(true)
 
   if (reloadScene)
     ::handlersManager.markfullReloadOnSwitchScene()
@@ -1201,7 +1202,7 @@ function sysopt::isHotReloadPending()
 
 function sysopt::isReloadSceneRerquired()
 {
-  return mCfgApplied.resolution != mCfgCurrent.resolution
+  return mCfgApplied.resolution != mCfgCurrent.resolution || mCfgApplied.mode != mCfgCurrent.mode
 }
 
 function sysopt::isSavePending()
@@ -1325,7 +1326,7 @@ function sysopt::validateInternalConfigs()
 
   mScriptValid = !errorsList.len()
   if (::is_dev_version)
-    mValidationError = ::implode(errorsList, "\n")
+    mValidationError = ::g_string.implode(errorsList, "\n")
 }
 
 //------------------------------------------------------------------------------

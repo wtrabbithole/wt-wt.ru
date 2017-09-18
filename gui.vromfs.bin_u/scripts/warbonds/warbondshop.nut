@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -15,7 +18,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    wbList = ::g_warbonds.getVisibleList(filterFunc)
+    wbList = ::g_warbonds.getList(filterFunc)
     if (!wbList.len())
       return goBack()
 
@@ -23,7 +26,10 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     curPageAwards = []
     curWb = wbList[0]
 
-    initItemsProgress()
+    local obj = scene.findObject("warbond_shop_progress_block")
+    if (::check_obj(obj))
+      obj.show(true)
+
     initItemsListSize()
     fillTabs()
     updateBalance()
@@ -238,15 +244,14 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(obj))
         continue
 
-      local tabName = ::loc(wb.fontIcon)
       local timeText = ""
       local timeLeft = wb.getChangeStateTimeLeft()
       if (timeLeft > 0)
       {
-        timeText = ::hoursToString(timeLeft.tofloat() / TIME_HOUR_IN_SECONDS, false, true)
+        timeText = time.hoursToString(time.secondsToHours(timeLeft), false, true)
         timeText = " " + ::loc("ui/parentheses", { text = timeText })
       }
-      obj.setValue(tabName + timeText)
+      obj.setValue(timeText)
     }
   }
 
@@ -257,23 +262,32 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function initItemsProgress()
   {
-    local obj = scene.findObject("warbond_shop_progress_block")
-    if (!::check_obj(obj))
-      return
+    local showAnyShopProgress = ::g_warbonds_view.showOrdinaryProgress(curWb)
+    local progressPlaceObj = scene.findObject("shop_level_progress_place")
+    progressPlaceObj.show(showAnyShopProgress)
 
-    obj.show(::g_warbonds_view.showSpecialProgress(curWb) || ::g_warbonds_view.showOrdinaryProgress(curWb))
+    local isShopInactive = !curWb || !curWb.isCurrent()
+    if (showAnyShopProgress)
+    {
+      local oldShopObj = progressPlaceObj.findObject("old_shop_progress_place")
+      oldShopObj.show(isShopInactive)
 
-    ::g_warbonds_view.createProgressBox(curWb, obj, this)
+      ::g_warbonds_view.createProgressBox(curWb, progressPlaceObj, this, isShopInactive)
+      if (isShopInactive)
+      {
+        local data = ::g_warbonds_view.getCurrentLevelItemMarkUp(curWb)
+        guiScene.replaceContentFromText(oldShopObj.findObject("level_icon"), data, data.len(), this)
+      }
+    }
 
-    ::g_warbonds_view.createSpecialMedalsProgress(curWb, obj, this)
-    updateMedalsText()
-  }
-
-  function updateMedalsText()
-  {
-    local obj = scene.findObject("medals_text")
-    if (::check_obj(obj))
-      obj.setValue(::g_warbonds_view.getSpecialText(curWb))
+    local showAnyMedalProgress = ::g_warbonds_view.showSpecialProgress(curWb)
+    local medalsPlaceObj = scene.findObject("special_tasks_progress_block")
+    medalsPlaceObj.show(showAnyMedalProgress)
+    if (showAnyMedalProgress)
+    {
+      ::g_warbonds_view.createSpecialMedalsProgress(curWb, medalsPlaceObj, this)
+      scene.findObject("medals_block").tooltip = ::g_warbonds_view.getSpecialMedalsTooltip(curWb)
+    }
   }
 
   function onItemAction(buttonObj)
@@ -306,6 +320,18 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     updateAwardPrices()
     updateItemInfo()
     guiScene.setUpdatesEnabled(true, true)
+  }
+
+  function onEventBattleTasksFinishedUpdate(p)
+  {
+    updateItemInfo()
+  }
+
+  function onDestroy()
+  {
+    local activeWb = ::g_warbonds.getCurrentWarbond()
+    if (activeWb)
+      activeWb.markSeenLastResearchShopLevel()
   }
 
   //dependence by blk

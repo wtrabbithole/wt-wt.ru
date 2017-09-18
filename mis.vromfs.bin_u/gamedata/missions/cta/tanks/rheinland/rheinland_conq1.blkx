@@ -246,6 +246,12 @@
         "chapter": "air_ground_Conq1"
       },
       {
+        "locName": "missions/_Conq1;rheinland/name"
+      },
+      {
+        "locDesc": "rheinland/desc;missions/_Conq1/desc"
+      },
+      {
         "scoreLimit": 14000
       },
       {
@@ -255,7 +261,16 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Conq1"
+      },
+      {
         "ctaCaptureZoneEqualPenaltyMul": 0.0
+      },
+      {
+        "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -264,31 +279,13 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
         "country_allies": "usa"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "useAlternativeMapCoord": false
-      },
-      {
-        "locName": "missions/_Conq1;rheinland/name"
-      },
-      {
-        "locDesc": "rheinland/desc;missions/_Conq1/desc"
-      },
-      {
-        "postfix": "_Conq1"
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -311,21 +308,36 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 16000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 18000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -352,6 +364,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -440,6 +455,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/rheinland/battleareas/template_rheinland_bttl_conq1_conq4_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -457,7 +488,7 @@
   "units": [],
   "areas": {
     "briefing_teamA_spawn_01_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [4.77819,0.0,19.4208],
         [0.0,20.0,0.0],
@@ -468,7 +499,7 @@
       "props": []
     },
     "briefing_teamB_spawn_01_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [19.5238,0.0,-4.33868],
         [0.0,20.0,0.0],
@@ -479,7 +510,7 @@
       "props": []
     },
     "briefing_teamA_spawn_02_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [19.6086,0.0,3.93781],
         [0.0,20.0,0.0],
@@ -490,7 +521,7 @@
       "props": []
     },
     "briefing_teamB_spawn_02_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.500958,0.0,-19.9937],
         [0.0,20.0,0.0],
@@ -501,7 +532,7 @@
       "props": []
     },
     "briefing_zone01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.66893e-05,0.0,-140.0],
         [0.0,140.0,0.0],

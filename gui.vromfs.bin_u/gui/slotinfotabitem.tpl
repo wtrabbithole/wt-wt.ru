@@ -1,10 +1,9 @@
 <<#items>>
-SlotInfoTab
+shopFilter
 {
-  max-width:t='pw'
-  min-height:t='w'
+  size:t='@mIco, @mIco'
   tooltip:t='<<tooltip>>'
-  SlotInfoTabImg
+  shopFilterImg
   {
     id:t='<<imgId>>'
     background-image:t='<<imgBg>>'

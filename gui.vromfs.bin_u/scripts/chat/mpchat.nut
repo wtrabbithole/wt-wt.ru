@@ -1,4 +1,8 @@
+local time = require("scripts/time.nut")
 local ingame_chat = require("scripts/chat/mpChatModel.nut")
+local penalties = require("scripts/penitentiary/penalties.nut")
+
+
 ::game_chat_handler <- null
 
 function get_game_chat_handler()
@@ -308,7 +312,7 @@ class ::ChatHandler
 
   function checkAndPrintDevoiceMsg()
   {
-    local devoiceMsgText = ::get_chat_devoice_msg()
+    local devoiceMsgText = penalties.getDevoiceMessage()
     if (devoiceMsgText)
     {
       devoiceMsgText = "<color=@chatInfoColor>" + devoiceMsgText + "</color>"
@@ -433,30 +437,8 @@ class ::ChatHandler
 
   function onChatMode()
   {
-    local modeToSet = null
-    local isCurFound = false
-
-    foreach(mode in ::g_mp_chat_mode.types)
-    {
-      if (mode == curMode)
-      {
-        isCurFound = true
-        continue
-      }
-
-      if (!mode.isEnabled())
-        continue
-
-      if (isCurFound)
-      {
-        modeToSet = mode
-        break
-      } else if (!modeToSet)
-        modeToSet = mode
-    }
-
-    if (modeToSet)
-      setMode(modeToSet)
+    local newModeId = ::g_mp_chat_mode.getNextMode(curMode.id)
+    setMode(::g_mp_chat_mode.getModeById(newModeId))
   }
 
   function setMode(mpChatMode)
@@ -571,8 +553,12 @@ class ::ChatHandler
 
   function makeTextFromMessage(message)
   {
+    local timeString = time.secondsToString(message.time, false)
     if (message.sender == "") //system
-      return ::format("<color=@chatActiveInfoColor>%s</color>", ::loc(message.text))
+      return ::format(
+        "%s <color=@chatActiveInfoColor>%s</color>",
+        timeString,
+        ::loc(message.text))
 
     local text = ::g_chat.filterMessageText(message.text, message.isMyself)
     if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
@@ -583,7 +569,8 @@ class ::ChatHandler
     local clanTag = ::get_player_tag(message.sender)
     local fullName = ::g_string.join([clanTag, message.sender], " ")
     return ::format(
-      "<Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
+      "%s <Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
+      timeString
       senderColor,
       ::g_mp_chat_mode.getModeById(message.mode).getNameText(),
       message.sender,
@@ -681,7 +668,9 @@ class ::ChatHandler
 
   function getControlsAllowMask()
   {
-    return isActive ? CtrlsInGui.CTRL_ALLOW_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE : CtrlsInGui.CTRL_ALLOW_FULL
+    return isActive
+      ? CtrlsInGui.CTRL_IN_MP_CHAT | CtrlsInGui.CTRL_ALLOW_VEHICLE_MOUSE
+      : CtrlsInGui.CTRL_ALLOW_FULL
   }
 }
 
@@ -704,11 +693,6 @@ function detachGameChatSceneData(sceneData)
 {
   sceneData.scene = null
   ::get_game_chat_handler().cleanScenesList()
-}
-
-function is_chat_active() // called from client
-{
-  return ::get_game_chat_handler().isActive
 }
 
 function game_chat_input_toggle_request(toggle)
@@ -742,58 +726,6 @@ function get_gamechat_log_text()
   return ::get_game_chat_handler().getLogText()
 }
 
-
-function get_chat_devoice_msg(activeColor = "chatActiveInfoColor")
-{
-  local st = ::get_player_penalty_status()
-  //st = { status = ::EPS_DEVOICE, duration = 360091, category="FOUL", comment="test ban", seconds_left=2012}
-  if (st.status != ::EPS_DEVOICE)
-    return null
-
-
-//  local penalist = get_player_penalty_list();
-//  [
-//    {...},
-//    { "penalty" :  one of "DEVOICE", "BAN", "SILENT_DEVOICE", "DECALS_DISABLE", "WARN"
-//      "category" :  one of "FOUL", "ABUSE", "CHEAT", "BOT", "SPAM", "TEAMKILL", "OTHER", "FINGERPRINT", "INGAME"
-//      "start": unixtime, when was imputed
-//      "duration": seconds, how long it shoud lasts in total
-//      "seconds_left": seconds, how long it will lasts from now, updated on each request
-//      "comment": text, what to tell user, why he got his penalty
-//      },
-//    {...}
-//  ]
-//  Many penalties can be active (seconds_left > 0) at the same time, even of the same type.
-//  New interface should be able to show all of them
-//  (but only certain types, i.e. "SILENT_DEVOICE" shouldn't be shown to user')
-
-
-  local txt = ""
-  if (st.duration >= ::BANUSER_INFINITE_PENALTY)
-    txt += ::loc("charServer/mute/permanent")+"\n"
-  else
-  {
-    local timeText = ::colorize(activeColor, ::hoursToString(st.duration.tofloat()/TIME_HOUR_IN_SECONDS, false))
-    txt += format(::loc("charServer/mute/timed"), timeText)
-
-    if (("seconds_left" in st) && st.seconds_left>0)
-    {
-      timeText = ::colorize(activeColor, ::hoursToString(st.seconds_left.tofloat()/TIME_HOUR_IN_SECONDS, false, true))
-      if (timeText != "")
-        txt += " " + format(::loc("charServer/ban/timeLeft"), timeText)
-    } else
-      if (::isInMenu())
-        ::update_entitlements_limited()
-
-    if (txt != "")
-      txt += "\n"
-  }
-
-  txt += ::loc("charServer/ban/reason") + ::loc("ui/colon")+" "
-           + ::colorize(activeColor, ::loc("charServer/ban/reason/"+st.category)) + "\n"
-  txt += ::loc("charServer/ban/comment") + "\n"+st.comment
-  return txt
-}
 
 function add_text_to_editbox(obj, text)
 {

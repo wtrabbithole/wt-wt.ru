@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_partner_unlocks <- {
   [PERSISTENT_DATA_PARAMS] = ["partnerExectutedUnlocks", "lastUpdateTime", "lastRequestTime"]
 
@@ -81,7 +84,7 @@ function g_partner_unlocks::isPartnerUnlockAvailable(unlockId, durationMin = nul
   if (!::is_numeric(durationMin))
     return false
 
-  local durationSec = durationMin.tointeger() * TIME_MINUTE_IN_SECONDS
+  local durationSec = time.minutesToSeconds(durationMin).tointeger()
   local endSec = startSec + durationSec
   return endSec > ::get_charserver_time_sec()
 }

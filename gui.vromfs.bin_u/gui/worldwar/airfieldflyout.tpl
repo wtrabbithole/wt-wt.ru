@@ -10,7 +10,6 @@ frame {
   id:t='airfield_body'
   pos:t = '40%pw - 50%w, 50%ph - 50%h'
   position:t='absolute'
-  padding:t='0, 1@frameHeaderHeight, 0, 1@frameFooterHeight'
   class:t='wndNav'
 
   max-width:t='1@rw'
@@ -21,13 +20,13 @@ frame {
       id:t='armies_tabs'
       height:t='ph'
       class:t='header'
-      smallFont:t='yes'
+      normalFont:t='yes'
       activeAccesskeys:t='RS'
       on_select:t = 'onTabSelect';
       <<@headerTabs>>
     }
 
-    Button_close { img {} }
+    Button_close {}
   }
 
   tdiv {
@@ -48,7 +47,7 @@ frame {
         textareaNoTab {
           pos:t='1@flyOutSliderWidth + 2@sliderButtonSquareHeight + 1@buttonWidth - w, 2@framePadding'
           position:t='absolute'
-          tinyFont:t='yes'
+          smallFont:t='yes'
           tooltip:t='#worldwar/airfield/unit_fly_time'
           text:t='<<maxFlyTimeText>>'
         }
@@ -80,21 +79,21 @@ frame {
 
   textareaNoTab {
     id:t='armies_limit_text'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     margin-top:t='1@framePadding'
     text:t=''
   }
 
   textareaNoTab {
     id:t='unit_fly_conditions_title'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     margin-top:t='1@framePadding'
     text:t='#worldwar/airfield/unit_fly_conditions'
   }
 
   textareaNoTab {
     id:t='unit_fly_conditions_text'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     text:t=''
   }
 

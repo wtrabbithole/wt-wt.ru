@@ -1,9 +1,11 @@
+local time = require("scripts/time.nut")
+
 
 function get_userlog_view_data(log)
 {
   local res = {
     name = "",
-    time = ::build_date_time_str(log.time, true)
+    time = time.buildDateTimeStr(log.time, true)
     tooltip = ""
     logImg = null
     logImg2 = null
@@ -223,7 +225,7 @@ function get_userlog_view_data(log)
 
       if (usedItems.len())
         desc += "\n\n" + ::colorize("activeTextColor", ::loc("debriefing/used_items") + ::loc("ui/colon")) +
-          "\n" + ::implode(usedItems, "\n")
+          "\n" + ::g_string.implode(usedItems, "\n")
     }
 
 
@@ -602,7 +604,15 @@ function get_userlog_view_data(log)
   } else
   if (log.type==::EULT_BUYING_SPARE_AIRCRAFT)
   {
-    res.name = format(::loc("userlog/"+logName), ::getUnitName(log.aname)) + priceText
+    local count = ::getTblValue("count", log, 1)
+    if (count == 1)
+      res.name = format(::loc("userlog/"+logName), ::getUnitName(log.aname)) + priceText
+    else
+      res.name = ::loc("userlog/"+logName+"/multiple", {
+                     numSparesColored = ::colorize("userlogColoredText", count)
+                     numSpares = count
+                     unitName = ::colorize("userlogColoredText", ::getUnitName(log.aname))
+                   }) + priceText
     res.logImg = "#ui/gameuiskin#log_buy_spare_aircraft"
     local country = ::getShopCountry(log.aname)
     if (::checkCountry(country, "getShopCountry"))
@@ -864,7 +874,7 @@ function get_userlog_view_data(log)
       local item = ::ItemsManager.findItemById(itemId)
       if (item)
         lineReward = ::colorize("activeTextColor", item.getName())
-      res.logImg = "#ui/gameuiskin#unlock_achievement"
+      res.logImg = ::items_classes.Trophy.typeIcon
       res.descriptionBlk <- ::get_userlog_image_item(item)
     }
     else if (::isInArray(rewardType, ["WagerStageWin", "WagerStageFail", "WagerWin", "WagerFail"]))
@@ -883,7 +893,7 @@ function get_userlog_view_data(log)
         desc.append(::loc("items/wager/numFails", {numFails = ::getTblValue("numFails", log), maxFails = item.maxFails}))
 
         res.logImg = "#ui/gameuiskin#unlock_achievement"
-        res.description += (res.description == ""? "" : "\n") + ::implode(desc, "\n")
+        res.description += (res.description == ""? "" : "\n") + ::g_string.implode(desc, "\n")
         res.descriptionBlk <- ::get_userlog_image_item(item)
       }
     }
@@ -895,7 +905,7 @@ function get_userlog_view_data(log)
         desc.append(::EventRewards.getConditionText(rewardBlk))
 
       lineReward = ::EventRewards.getTotalRewardDescText(result)
-      res.description = ::implode(desc, "\n")
+      res.description = ::g_string.implode(desc, "\n")
       res.name = ::loc("userlog/" + rewardType, {
                          name = ::colorize("userlogColoredText", ::events.getNameByEconomicName(::getTblValue("name", log)))
                        })
@@ -998,9 +1008,7 @@ function get_userlog_view_data(log)
       res.description += ::colorize("activeTextColor", ::getUnitName(aname)) + ::loc("ui/colon") + "\n"
       res.description += iname
     }
-
     res.tooltip = res.description
-    res.logImg = "#ui/gameuiskin#log_buy_weapon"
   } else if (log.type == ::EULT_OPEN_TROPHY)
   {
     local itemId = ::getTblValue("id", log, "")
@@ -1012,11 +1020,12 @@ function get_userlog_view_data(log)
       local reward = ::loc("reward") + ::loc("ui/colon") + rewardText
 
       res.name = ::loc("userlog/"+logName, { trophy = item? ::colorize("activeTextColor", item.getName()) : "", reward = reward })
-      res.logImg = "#ui/gameuiskin#unlock_achievement"
+      res.logImg = ::items_classes.Trophy.typeIcon
 
-      res.descriptionBlk <- ::format(textareaFormat, ::stripTags(::loc("userlog/open_trophy/short") + ::loc("ui/colon")))
+
+      res.descriptionBlk <- ::format(textareaFormat, ::g_string.stripTags(::loc("userlog/open_trophy/short") + ::loc("ui/colon")))
       res.descriptionBlk += item.getNameMarkup()
-      res.descriptionBlk += ::format(textareaFormat, ::stripTags(::loc("reward") + ::loc("ui/colon")))
+      res.descriptionBlk += ::format(textareaFormat, ::g_string.stripTags(::loc("reward") + ::loc("ui/colon")))
       res.descriptionBlk += ::trophyReward.getRewardsListViewData(log)
     }
     else
@@ -1034,11 +1043,11 @@ function get_userlog_view_data(log)
       {
         local color = prizeType == "entitlement" ? "userlogColoredText" : "activeTextColor"
         local title = ::colorize(color, rewardText)
-        res.descriptionBlk += ::format(textareaFormat, ::stripTags(::loc("reward") + ::loc("ui/colon") + title))
+        res.descriptionBlk += ::format(textareaFormat, ::g_string.stripTags(::loc("reward") + ::loc("ui/colon") + title))
       }
       else if (prizeType == "item")
       {
-        res.descriptionBlk += ::format(textareaFormat, ::stripTags(::loc("reward") + ::loc("ui/colon")))
+        res.descriptionBlk += ::format(textareaFormat, ::g_string.stripTags(::loc("reward") + ::loc("ui/colon")))
         res.descriptionBlk += ::get_userlog_image_item(::ItemsManager.findItemById(prize.item))
       }
       else if (prizeType == "unlock" && ::getTblValue("unlockType", log) == "decal")
@@ -1046,18 +1055,18 @@ function get_userlog_view_data(log)
         local title = ::colorize("userlogColoredText", rewardText)
         local config = ::build_log_unlock_data({ id = log.unlock })
         local imgSize = ::getTblValue("descrImageSize", config, "0.05sh, 0.05sh")
-        res.descriptionBlk += ::format(textareaFormat, ::stripTags(::loc("reward") + ::loc("ui/colon") + title))
+        res.descriptionBlk += ::format(textareaFormat, ::g_string.stripTags(::loc("reward") + ::loc("ui/colon") + title))
         res.descriptionBlk += format(imgFormat, imgSize, config.descrImage)
       }
       else
       {
-        res.descriptionBlk += ::format(textareaFormat, ::stripTags(::loc("reward") + ::loc("ui/colon")))
+        res.descriptionBlk += ::format(textareaFormat, ::g_string.stripTags(::loc("reward") + ::loc("ui/colon")))
         res.descriptionBlk += ::PrizesView.getPrizesListView(prizes)
       }
     }
     else
     {
-        res.descriptionBlk += ::format(textareaFormat, ::stripTags(::loc("reward") + ::loc("ui/colon")))
+        res.descriptionBlk += ::format(textareaFormat, ::g_string.stripTags(::loc("reward") + ::loc("ui/colon")))
         res.descriptionBlk += ::PrizesView.getPrizesListView(prizes)
     }
     */
@@ -1073,13 +1082,14 @@ function get_userlog_view_data(log)
                      amount = log.count
                    })
     res.descriptionBlk <- ::get_userlog_image_item(item, {type = log.type})
+    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
   }
   else if (log.type == ::EULT_NEW_ITEM)
   {
     local itemId = ::getTblValue("id", log, "")
     local item = ::ItemsManager.findItemById(itemId)
     local locId = "userlog/" + logName + ((log.count > 1) ? "/multiple" : "")
-    res.logImg = "#ui/gameuiskin#unlock_achievement"
+    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
     res.name = ::loc(locId, {
                      itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
                      amount = log.count
@@ -1090,7 +1100,7 @@ function get_userlog_view_data(log)
   {
     local itemId = ::getTblValue("id", log, "")
     local item = ::ItemsManager.findItemById(itemId)
-    res.logImg = "#ui/gameuiskin#unlock_achievement"
+    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
     res.name = ::loc("userlog/" + logName, {
                      itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
                    })
@@ -1116,9 +1126,6 @@ function get_userlog_view_data(log)
     local item = ::ItemsManager.findItemById(itemId)
     local reason = ::getTblValue("reason", log, "unknown")
     local locId = "userlog/" + logName + "/" + reason
-    res.name = ::loc(locId, {
-                     itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
-                   })
     if (reason == "replaced")
     {
       local replaceItemId = ::getTblValue("replaceId", log, "")
@@ -1136,13 +1143,30 @@ function get_userlog_view_data(log)
                    })
       res.descriptionBlk <- ::get_userlog_image_item(item)
     }
-
-    if ("itemType" in log && log.itemType == "wager")
+    local itemType = ::getTblValue("itemType", log, "")
+    if (itemType == "universalSpare")
+    {
+      locId = "userlog/" + logName
+      local unit =  ::getTblValue("unit", log)
+      if (unit != null)
+        res.logImg2 = ::get_country_icon(::getShopCountry(unit))
+      local numSpares = ::getTblValue("numSpares", log, 1)
+      res.name = ::loc(locId + "_name/universalSpare", {
+                     numSparesColored = ::colorize("userlogColoredText", numSpares)
+                     numSpares = numSpares
+                     unitName = (unit != null ? ::colorize("userlogColoredText", ::getUnitName(unit)) : "")
+                   })
+      res.descriptionBlk <- ::format(textareaFormat,
+                                ::g_string.stripTags(::loc(locId + "_desc/universalSpare") + ::loc("ui/colon")))
+      res.descriptionBlk += item.getNameMarkup(numSpares,true)
+    }
+    else if (itemType == "wager")
     {
       local earned = ::Cost(::getTblValue("wpEarned", log, 0), ::getTblValue("goldEarned", log, 0))
       if (earned > ::zero_money)
         res.description <- ::loc("userlog/" + logName + "_desc/wager") + " " + earned.tostring()
     }
+    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
   }
   else if (log.type == ::EULT_TICKETS_REMINDER)
   {
@@ -1157,7 +1181,7 @@ function get_userlog_view_data(log)
     if (::getTblValue("sequenceDefeatCountReminder", log))
       desc.append(::loc("userlog/sequenceDefeatCountReminder") + ::loc("ui/colon") + log.sequenceDefeatCountReminder)
 
-    res.description <- ::implode(desc, "\n")
+    res.description <- ::g_string.implode(desc, "\n")
   }
   else if (log.type == ::EULT_BUY_BATTLE)
   {
@@ -1173,7 +1197,7 @@ function get_userlog_view_data(log)
   {
     local logId = "userlog/"+logName
 
-    //res.logImg = "#ui/gameuiskin#log_convert_exp"
+    res.logImg = "#ui/gameuiskin#convert_xp"
     local unitName = log["unit"]
     local country = ::getShopCountry(unitName)
     if (checkCountry(country, "getShopCountry"))
@@ -1225,6 +1249,7 @@ function get_userlog_view_data(log)
       taskName = ::g_battle_tasks.getBattleTaskLocIdFromUserlog(log, logId)
 
     res.name = ::loc(locNameId, {taskName = taskName})
+    res.logImg = "#ui/gameuiskin#battle_tasks_easy"
   }
   else if (log.type == ::EULT_PUNLOCK_REROLL_PROPOSAL && "new_proposals" in log)
   {
@@ -1233,6 +1258,7 @@ function get_userlog_view_data(log)
       res.name = ::loc("userlog/"+logName, {taskName = text})
     else
       res.description <- text
+    res.logImg = "#ui/gameuiskin#battle_tasks_easy"
   }
   else if (log.type == ::EULT_CONVERT_BLUEPRINTS)
   {
@@ -1270,7 +1296,8 @@ function get_userlog_view_data(log)
       {
         res.description <- ""
         if ("rentTimeSec" in log)
-          res.description += ::loc("mainmenu/rent/rentTimeSec", {time = ::hoursToString(log.rentTimeSec / TIME_HOUR_IN_SECONDS_F) })
+          res.description += ::loc("mainmenu/rent/rentTimeSec",
+            {time = time.hoursToString(time.secondsToHours(log.rentTimeSec)) })
       }
     }
   }
@@ -1328,7 +1355,7 @@ function get_userlog_view_data(log)
       "width:t='pw';" +
       "text:t='%s';" +
     "}",
-    ::stripTags(res.description))
+    ::g_string.stripTags(res.description))
 
     if (!("descriptionBlk" in res))
       res.descriptionBlk <- ""

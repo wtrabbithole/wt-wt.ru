@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_event_ticket_buy_offer <- {
 
   // Holds process to prevent it
@@ -48,7 +51,7 @@ class EventTicketBuyOfferProcess
     {
       local tournamentData = ::events.getEventActiveTicket(_event).getTicketTournamentData()
       local locParams = {
-        timeleft = ::secondsToString(tournamentData.timeToWait)
+        timeleft = time.secondsToString(tournamentData.timeToWait)
       }
       ::scene_msg_box("cant_join", null, ::loc("events/wait_for_sessions_to_finish/main") + "\n" +
         ::loc("events/wait_for_sessions_to_finish/optional", locParams),

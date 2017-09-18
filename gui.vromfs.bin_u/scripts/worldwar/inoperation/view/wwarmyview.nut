@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::WwArmyView
 {
   redrawData = null
@@ -168,9 +171,9 @@ class ::WwArmyView
 
   function getSuppliesFinishTime()
   {
-    local time = "getSuppliesFinishTime" in formation? formation.getSuppliesFinishTime() : 0
-    if (time > 0)
-      return ::hoursToString(::seconds_to_hours(time), false, true) + " " + ::loc("icon/timer")
+    local finishTime = "getSuppliesFinishTime" in formation? formation.getSuppliesFinishTime() : 0
+    if (finishTime > 0)
+      return time.hoursToString(time.secondsToHours(finishTime), false, true) + " " + ::loc("icon/timer")
 
     return null
   }
@@ -184,9 +187,9 @@ class ::WwArmyView
 
   function getAmmoRefillTime()
   {
-    local time = formation.getNextAmmoRefillTime()
-    if (time > 0)
-      return ::hoursToString(::seconds_to_hours(time), false, true) + " " +
+    local refillTimeSec = formation.getNextAmmoRefillTime()
+    if (refillTimeSec > 0)
+      return time.hoursToString(time.secondsToHours(refillTimeSec), false, true) + " " +
         ::loc("weapon/torpedoIcon")
     return ""
   }
@@ -204,7 +207,7 @@ class ::WwArmyView
     {
       local entrenchTime = formation.secondsLeftToEntrench()
       if (entrenchTime >= 0)
-        return ::hoursToString(::seconds_to_hours(entrenchTime), false, true)
+        return time.hoursToString(time.secondsToHours(entrenchTime), false, true)
     }
 
     return ""
@@ -342,19 +345,19 @@ class ::WwArmyView
     {
       local timeToPrepareStike = formation.artilleryAmmo.getTimeToNextStrike()
       return ::loc("worldwar/artillery/aiming") + ::loc("ui/colon") +
-             ::hoursToString(::seconds_to_hours(timeToPrepareStike), false, true)
+             time.hoursToString(time.secondsToHours(timeToPrepareStike), false, true)
     }
 
     if (formation.isStrikeInProcess())
     {
       local timeToFinishStike = formation.artilleryAmmo.getTimeToCompleteStrikes()
       return ::loc("worldwar/artillery/firing") + ::loc("ui/colon") +
-             ::hoursToString(::seconds_to_hours(timeToFinishStike), false, true)
+             time.hoursToString(time.secondsToHours(timeToFinishStike), false, true)
     }
 
     if (formation.isStrikeOnCooldown())
       return ::loc("worldwar/artillery/preparation") + ::loc("ui/colon") +
-             ::hoursToString(::seconds_to_hours(formation.secondsLeftToFireEnable()), false, true)
+             time.hoursToString(time.secondsToHours(formation.secondsLeftToFireEnable()), false, true)
 
     return ::loc("worldwar/artillery/can_fire")
   }

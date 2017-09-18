@@ -94,6 +94,12 @@ class Promo
       updatePromoBlocks()
   }
 
+  function toggleSceneVisibility(isShow)
+  {
+    scene.show(isShow)
+    onSceneActivate(isShow)
+  }
+
   function generateData()
   {
     widgetsTable = {}
@@ -292,7 +298,6 @@ class Promo
   //------------- <CURRENT BATTLE TASK ---------------------
   function updateCurrentBattleTaskButton()
   {
-    local reqTask = null
     local id = "current_battle_tasks_mainmenu_button"
     local show = ::g_battle_tasks.isAvailableForUser() && ::g_promo.getVisibilityById(id)
 
@@ -306,34 +311,61 @@ class Promo
 
     local typesArray = [
       ::g_battle_task_difficulty.EASY,
-      ::g_battle_task_difficulty.MEDIUM
+      ::g_battle_task_difficulty.MEDIUM,
+      ::g_battle_task_difficulty.HARD
     ]
-    if (!::has_feature("Warbonds_2_0"))
-      typesArray.append(::g_battle_task_difficulty.HARD)
 
+    // 0) Prepare: Filter tasks array by available difficulties list
     local tasksArray = ::g_battle_tasks.getTasksArrayByDifficultyTypesArray(typesArray)
-    local searchedTask = ::g_battle_tasks.getTasksArrayByGameModeDiffCode(tasksArray, currentGameModeId)
-    foreach(task in searchedTask)
-    {
-      if (::g_battle_tasks.isTaskDone(task))
-        continue
 
-      reqTask = task
+    // 1) Search for task with available reward
+    local reqTask = ::g_battle_tasks.getTaskWithAvailableAward(tasksArray)
+
+    // No need to show some additional info on button
+    // when battle task is complete and need to receive a reward
+    local isTaskWithReward = reqTask != null
+
+    // 2) Search for task by selected gameMode
+    if (!reqTask)
+    {
+      local filteredByGameMode = ::g_battle_tasks.filterTasksByGameModeId(tasksArray, currentGameModeId)
+      reqTask = ::u.search(filteredByGameMode, @(task) !::g_battle_tasks.isTaskDone(task) && ::g_battle_tasks.isTaskActive(task))
     }
 
+    local showProgressBar = false
+    local currentWarbond = null
     local promoView = ::u.copy(::getTblValue(id, ::g_promo.getConfig(), {}))
     local view = {}
-    local config = {}
 
     if (reqTask)
     {
-      config = ::build_conditions_config(reqTask)
+      local config = ::build_conditions_config(reqTask)
       ::build_unlock_desc(config)
 
       local itemView = ::g_battle_tasks.generateItemView(config, true)
       itemView.canReroll = false
       view = ::u.tablesCombine(itemView, promoView, function(val1, val2) { return val1 != null? val1 : val2 })
       view.collapsedText <- ::g_promo.getCollapsedText(view, id)
+
+      currentWarbond = ::g_warbonds.getCurrentWarbond()
+      if (currentWarbond && currentWarbond.levelsArray.len())
+      {
+        showProgressBar = (isTaskWithReward || ::g_warbonds_view.needShowProgressBarInPromo)
+          && ::g_battle_task_difficulty.getDifficultyTypeByTask(reqTask).canIncreaseShopLevel
+        if (showProgressBar)
+        {
+          local curLevel = currentWarbond.getCurrentShopLevel()
+          local markUp = ::g_warbonds_view.getProgressBoxMarkUp()
+          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, curLevel, "-50%w")
+          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, curLevel + 1, "pw-50%w")
+          view.warbondLevelPlace <- markUp
+        }
+        else if (!isTaskWithReward)
+        {
+          view.isConsoleMode <- ::show_console_buttons
+          view.newItemsAvailable <- currentWarbond.isReachedNewShopLevel()
+        }
+      }
     }
     else
     {
@@ -349,6 +381,8 @@ class Promo
     view.collapsedIcon <- ::g_promo.getCollapsedIcon(view, id)
     setTplView("gui/unlocks/battleTasksItem", buttonObj, { items = [view], collapsedAction = ::g_promo.PERFORM_ACTON_NAME})
     ::g_battle_tasks.setUpdateTimer(reqTask, buttonObj)
+    if (showProgressBar && currentWarbond)
+      ::g_warbonds_view.updateProgressBar(currentWarbond, buttonObj, true)
   }
 
   function onGenericTooltipOpen(obj)
@@ -364,6 +398,11 @@ class Promo
   function onGetRewardForTask(obj)
   {
     ::g_battle_tasks.getRewardForTask(obj.task_id)
+  }
+
+  function onWarbondsShop(obj)
+  {
+    ::g_warbonds.openShop()
   }
   //------------- </CURRENT BATTLE TASK --------------------
 
@@ -606,9 +645,12 @@ class Promo
                                                   updateCurrentBattleTaskButton()
                                                }
   function onEventCurrentGameModeIdChanged(p) { updateCurrentBattleTaskButton() }
+  function onEventWarbondShopMarkSeenLevel(p) { updateCurrentBattleTaskButton() }
+  function onEventWarbondViewShowProgressBarFlagUpdate(p) { updateCurrentBattleTaskButton() }
   function onEventHangarModelLoaded(p)  { updateTutorialButton() }
   function onEventShowAllPromoBlocksValueChanged(p) { updatePromoBlocks() }
   function onEventPartnerUnlocksUpdated(p) { updatePromoBlocks(true) }
+  function onEventShopWndVisible(p) { toggleSceneVisibility(!::getTblValue("isShow", p, false)) }
   function onEventWWLoadOperation(p) { updateWorldWarButton() }
   function onEventWWStopWorldWar(p) { updateWorldWarButton() }
   function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }

@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 enum UNIT_STATS {
   INITIAL
   KILLED
@@ -67,8 +69,8 @@ class ::WwBattleResultsView
     local operationName = curOperation ? curOperation.getNameText() : ""
     local zoneName = battleRes.zoneName != "" ? (::loc("options/dyn_zone") + " " + battleRes.zoneName) : ""
     local timeTbl = ::get_time_from_t(battleRes.time)
-    local dateTime = ::build_date_str(timeTbl) + " " + ::build_time_str(timeTbl)
-    return ::implode([ operationName, zoneName, dateTime ], ::loc("ui/semicolon"))
+    local dateTime = time.buildDateStr(timeTbl) + " " + time.buildTimeStr(timeTbl)
+    return ::g_string.implode([ operationName, zoneName, dateTime ], ::loc("ui/semicolon"))
   }
 
   function getBattleResultText()
@@ -208,7 +210,7 @@ class ::WwBattleResultsView
       local values = ::u.map(valueIds, (@(stats) function(id) { return stats[id] })(stats))
       local valuesSum = ::u.reduce(values, function (v, sum) { return sum + v }, 0)
 
-      local val = isShowInactiveCount ? ::implode(values, " + ") : valuesSum.tostring()
+      local val = isShowInactiveCount ? ::g_string.implode(values, " + ") : valuesSum.tostring()
 
       local tooltip = null
       if (isShowInactiveCount && values.len() == 2 && valuesSum > 0)

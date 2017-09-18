@@ -66,6 +66,12 @@
       "flap1_r_dm": {
         "hp": 14.5
       },
+      "flap2_l_dm": {
+        "hp": 14.5
+      },
+      "flap2_r_dm": {
+        "hp": 14.5
+      },
       "flap_l_dm": {
         "hp": 19.7
       },
@@ -161,6 +167,9 @@
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 50.3
       },
@@ -197,17 +206,6 @@
       },
       "tank5_dm": {
         "hp": 70.5
-      }
-    },
-    "wood": {
-      "flap2_l_dm": {
-        "hp": 10.8
-      },
-      "flap2_r_dm": {
-        "hp": 10.8
-      },
-      "gear_c_dm": {
-        "hp": 5.5
       }
     }
   },
@@ -2441,12 +2439,6 @@
       "reqModification": "halker_mbc"
     }
   },
-  "cutting": {
-    "wingRDist": [-3.11394,-2.11394],
-    "wingLDist": [2.19073,3.19073],
-    "tailDist": [10.0,11.0],
-    "color": [0.151,0.151,0.151,1.0]
-  },
   "user_skin": [
     {
       "name": "userskin"
@@ -2471,5 +2463,26 @@
         "from": "seafury_fb11_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "_emtr_break_wing0_l_from": [-0.570374,-0.520741,0.942767],
+    "_emtr_break_wing0_l_to": [-0.570374,-0.520741,1.60586],
+    "emtr_break_wing1_l_from": [-0.570374,-0.520741,2.60051],
+    "emtr_break_wing1_l_to": [-0.570374,-0.520741,3.2928],
+    "emtr_break_wing2_l_from": [-0.570374,-0.520741,4.33124],
+    "emtr_break_wing2_l_to": [-0.570374,-0.520741,4.93763],
+    "_emtr_break_wing0_r_from": [-0.570374,-0.520741,-0.941577],
+    "_emtr_break_wing0_r_to": [-0.570374,-0.520741,-1.60198],
+    "emtr_break_wing1_r_from": [-0.570374,-0.520741,-2.59257],
+    "emtr_break_wing1_r_to": [-0.570374,-0.520741,-3.28804],
+    "emtr_break_wing2_r_from": [-0.570374,-0.520741,-4.33124],
+    "emtr_break_wing2_r_to": [-0.570374,-0.520741,-4.93763],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-5.66417,0.0,0.0]
+    ],
+    "partKindTail": 2
+  }
 }

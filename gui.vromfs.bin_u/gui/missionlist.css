@@ -1,4 +1,12 @@
+@const mis_chapter_font:          @fontMedium;
+@const mis_chapter_selected_font: @fontMedium;
+@const mis_item_font:             @fontNormal;
+@const mis_item_selected_font:    @fontNormal;
+@const shopItemFont:              @fontSmall;
+@const slotItemFont:              @fontSmall;
+
 @const missionBoxImageOffsetX: 12*@sf/@pf_outdated;
+@const missionItemTextPaddingLeft: 3@sf/@pf;
 
 mission_item_text
 {
@@ -9,12 +17,8 @@ mission_item_text
   tabStop:no;
   font:@mis_item_font;
   text-align:left;
-    padding:1@textPaddingBugWorkaround,0,0,0;
+    padding:1@blockInterval,0,0,0;
   position:relative;
-}
-
-chapter_item_unlocked mission_item_text, chapter_item_locked mission_item_text, campaign_item mission_item_text {
-  font:@small;
 }
 
 :current mission_item_text, :hover mission_item_text {
@@ -28,13 +32,7 @@ mission_item_completed, mission_item_unlocked, mission_item_locked,
 chapter_item_unlocked, chapter_item_locked, campaign_item
 {
   width:pw;
-  re-type:9rect;
-  background-position:4,5;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#option_select_right;
-
   color:@white;
-  re-type:9rect;
   background-color:@transparent;
   height:@baseTrHeight;
   tabStop:yes;
@@ -45,11 +43,11 @@ chapter_item_unlocked, chapter_item_locked, campaign_item
 
 mission_item_completed:hover, mission_item_unlocked:hover, mission_item_locked:hover,
 chapter_item_unlocked:hover, chapter_item_locked:hover, campaign_item:hover {
-  background-color:@selImgHoverColor;
+  background-color:@listboxHoverOptionColor;
 }
 mission_item_completed:current, mission_item_unlocked:current, mission_item_locked:current,
 chapter_item_unlocked:current, chapter_item_locked:current, campaign_item:current {
-  background-color:@white;
+  background-color:@listboxSelOptionColor;
 }
 
 [show_console_buttons=yes] :focus > mission_item_completed:current,
@@ -99,7 +97,7 @@ chapter_item_unlocked mission_item_text
 {
   color:@chapterUnlockedColor;
   padding:@missionItemTextPaddingLeft,0,0,0;
-  font:@mis_chapter_font;
+  font:@mis_item_font;
 }
 
 chapter_item_unlocked:current mission_item_text
@@ -113,7 +111,7 @@ chapter_item_locked mission_item_text
 {
 
   color:@chapterLockedColor;
-  font:@mis_chapter_font;
+  font:@mis_item_font;
 }
 
 chapter_item_locked:current mission_item_text
@@ -420,6 +418,8 @@ shopAirImg {
   re-type:fgPict;
   background-repeat:expand;
   foreground-color:@white;
+  foreground-repeat:aspect-ratio;
+  foreground-align:left;
   pos: 3, 5;
   position:absolute;
 }
@@ -463,15 +463,10 @@ weaponry_item[selected=yes] > selImg,
 }
 
 slotbarCurAir {
-  pos:pw/2-w/2, 0;
-  size:1@slot_width - 2@slot_interval, 1@slotbarHeight -1@slotbar_pad_bottom;
+  pos:pw/2-w/2, -1@dp;
+  size:1@slot_width - 2@slot_interval -2@dp, 1@slotbar_pad_top;
   position:absolute;
-  re-type:9rect;
-  background-image:#ui/gameuiskin#tab_active;
-  rotation:180;
-  background-position:4;
-  background-repeat:expand;
-  background-color:@white;
+  background-color:@slotbarSelUnitBgColor;
   display:hide;
 }
 
@@ -682,6 +677,14 @@ shopItem[isBroken=yes] > eliteIcon {
   background-color:#AB651919;
 }
 
+recentlyReleasedIcon {
+  size:50@sf/@pf, 50@sf/@pf;
+  position:absolute;
+  background-image:#ui/gameuiskin#item_new;
+  background-color:@white;
+  input-transparent:yes;
+}
+
 bottomline > classIconPlace {
   pos:0, 50%ph-50%h;
   position:relative;
@@ -745,7 +748,7 @@ shopItemPrice[header=yes] {
 
 middleline > shopItemText,
 middleline shopItemPrice {
-  font:@bold;
+  font:@fontNormal;
   width:pw;
   left:50%pw-50%w;
   position:relative;
@@ -844,7 +847,7 @@ specIconBlock > shopTrainedImg, specIconBlock > warningIcon {
 
 extraInfoBlock {
   re-type:9rect;
-  size:pw, 1@slotbar_pad_bottom -2*@sf/@pf_outdated;
+  size:pw, 1@slotbar_pad_bottom -7@sf/@pf;
   pos:pw/2-w/2, ph -2*@sf/@pf_outdated;
   position:absolute;
   background-image:#ui/gameuiskin#item_label;
@@ -964,7 +967,7 @@ spareCount {
   re-type:text;
   pos:pw-w, ph/2-h/2;
   position:absolute;
-  font:@tiny;
+  font:@fontSmall;
   color:#596a71;
   css-hier-invalidate:yes;
 }
@@ -973,7 +976,7 @@ classIcon {
   re-type:text;
   pos:pw/2-w/2, ph/2-h/2;
   position:absolute;
-  font:@tiny;
+  font:@fontSmall;
   text-shade:"smooth:24";
   text-shade-x:0;
   text-shade-y:0;
@@ -1093,23 +1096,21 @@ shopLine[shopStat=locked], shopArrow[shopStat=locked] {
 shopRow {
   position:absolute;
   re-type:9rect;
-  background-image:#ui/gameuiskin#item_table_block_bg_grad;
-  background-color:#ff999999;
-  background-position:4;
-  background-repeat:expand;
-  foreground-image:#ui/gameuiskin#pattern_dark_diag_lines;
-  foreground-repeat:repeat;
-  foreground-position:2,2;
+  background-image:#ui/gameuiskin#pattern_dark_diag_lines;
+  background-repeat:repeat;
+  background-color:@shopFrameUnlockedColor;
+  foreground-color:@shopFrameUnlockedColor;
 }
 
-shopRow[type=locked]   { background-image:#ui/gameuiskin#item_table_block_bg_locked;   foreground-color:@white;}
-shopRow[type=unlocked] { background-image:#ui/gameuiskin#item_table_block_bg_unlocked;  foreground-color:#30303030;}
-shopRow[type=owned]    { background-image:#ui/gameuiskin#item_table_block_bg_owned; foreground-color:#20202020;}
+shopRow[type=locked] {
+  background-color:@shopFrameLockedColor;
+  foreground-color:@shopFrameLockedColor;
+}
 
 shopBlockTierNum{
   re-type:text;
   color:@commonTextColor;
-  font:@small;
+  font:@fontNormal;
   text-align:center;
   height:1@shop_height;
   width:h;
@@ -1119,59 +1120,6 @@ shopBlockTierNum{
   background-repeat:expand;
   background-color:@weaponryItem;
   css-hier-invalidate:yes;
-}
-
-img.firstChoiceUnitItem {
-  size:1@unitChoiceImageWidth, 1@unitChoiceImageHeight;
-  background-repeat:expand;
-  background-color:@fistChoiceColor;
-  css-hier-invalidate:yes;
-}
-
-img.firstChoiceUnitItem > textarea {
-  width:pw;
-  pos:50%pw-50%w, ph-h;
-  padding:0, 0.005@sf;
-  font:@big;
-  position:absolute;
-  text-align:center;
-  background-color:@shadeBackgroundColor2;
-  input-transparent: yes;
-  display:hide;
-}
-
-img.firstChoiceCountryItem {
-  size:1@countryChoiceImageWidth, 1@countryChoiceImageHeight;
-  background-color:@fistChoiceColor;
-}
-
-img.firstChoiceUnitItem > movie {
-  position: absolute;
-  size: pw, ph;
-  display: hide;
-  input-transparent: yes;
-}
-
-img.firstChoiceUnitItem:hover,
-img.firstChoiceCountryItem:hover {
-  background-color:@fistChoiceColorHover;
-}
-[show_console_buttons=yes] img.firstChoiceUnitItem[selected=yes] > movie,
-[show_console_buttons=no] img.firstChoiceUnitItem:hover > movie {
-  display: show;
-}
-
-img.firstChoiceUnitItem[selected=yes],
-img.firstChoiceCountryItem[selected=yes] {
-  background-color:@white;
-}
-
-img.firstChoiceUnitItem[selected=yes] > textarea {
-  display:show;
-}
-
-img.firstChoiceCountryItem:disabled {
-  background-color:@fistChoiceColorDisabled;
 }
 
 slotsOption {
@@ -1263,29 +1211,24 @@ slotsOption[active=no] > slotsScrollDiv {
 slotsHeader {
   size:@slot_hdr_width, ph;
   re-type:9rect;
-  background-color:@white;
-  background-position:5;
-  background-image:#ui/gameuiskin#slotbar_tab_;
-  background-repeat:expand;
-  foreground-image:#ui/gameuiskin#pattern_bright_texture;
-  foreground-repeat:repeat;
-  foreground-color:@white;
+  background-color:@slotbarTabColor;
+  background-position:1, 0;
   css-hier-invalidate:yes;
   padding:3*@sf/@pf_outdated;
   total-input-transparent:yes;
   input-transparent:yes;
 }
 slotsOption:hover > slotsHeader {
-  background-image:#ui/gameuiskin#slotbar_tab_hover;
+  background-color:@slotbarTabHoverColor;
 }
 slotsOption:pushed > slotsHeader {
-  background-image:#ui/gameuiskin#slotbar_tab_press;
+  background-color:@slotbarTabPushedColor;
 }
 slotsOption:current > slotsHeader {
-  background-image:#ui/gameuiskin#slotbar_tab_active;
+  background-color:@slotbarTabCurrentColor;
 }
 slotsOption:disabled > slotsHeader {
-  background-color:@shopItemDisabled;
+  background-color:@slotbarTabDisabledColor;
 }
 
 slotsHeader > img {
@@ -1335,12 +1278,4 @@ slotsOption[active=no] table {
   width:@slot_width;
   height:@slot_height + 2@slot_vert_pad;
   padding:@slot_interval, @slot_vert_pad;
-}
-
-frame[type=dark] mission_item_unlocked:current {
-  background-color:@darkFrameListItemCurrentBackgroundColor;
-}
-
-frame[type=dark] mission_item_unlocked:hover {
-  background-color:@darkFrameListItemHoverBackgroundColor;
 }

@@ -359,12 +359,17 @@
         "wheel_l_front_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 18.0,
-          "hp": 250.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_01_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "equipment": {
         "armorClass": "tank_structural_steel",
@@ -382,7 +387,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
@@ -602,7 +607,8 @@
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_manual_y",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1040,6 +1046,13 @@
           {
             "onKill": {
               "damageType": "explosion",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
               "expl": 0.5,
               "fire": 0.5
             }
@@ -2585,8 +2598,7 @@
                 {
                   "turret": {
                     "head": "bone_grenade",
-                    "gun": "bone_grenade",
-                    "gunnerDm": "gunner_dm"
+                    "gun": "bone_grenade"
                   }
                 },
                 {

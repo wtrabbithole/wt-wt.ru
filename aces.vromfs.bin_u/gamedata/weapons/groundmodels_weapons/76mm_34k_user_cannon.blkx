@@ -7,7 +7,7 @@
   "emitR": 3.0,
   "emitTime": 0.03,
   "aimMinDist": 0.1,
-  "aimMaxDist": 4000.0,
+  "aimMaxDist": 8700.0,
   "maxDeltaAngle": 0.06,
   "maxDeltaAngleVertical": 0.06,
   "shotFreq": 0.3333,
@@ -16,7 +16,7 @@
   "bullets": -1,
   "bulletsCluster": 1,
   "fxType": "big_gun_flame",
-  "fxGroundDust": "ground_shock_wave_dust",
+  "fxGroundDust": "water_shock_wave",
   "shouldCollideWithRendinsts": true,
   "sound_path": "tanks/weapon_tanks/cannons",
   "sound": "76mm_f34",
@@ -61,7 +61,8 @@
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
       "traceFreq": 1,
-      "tracer": "76mmRed"
+      "tracer": "noColor",
+      "trail": "curved"
     },
     "collisions": {
       "steel": {
@@ -118,7 +119,8 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "76mmRed"
+        "tracer": "noColor",
+        "trail": "curved"
       },
       "collisions": {
         "steel": {

@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::WwOperationLogView
 {
   logBlk = null
@@ -239,17 +242,17 @@ class ::WwOperationLogView
 
   function getDate()
   {
-    return ::build_date_str(::get_time_from_t(logBlk.time))
+    return time.buildDateStr(::get_time_from_t(logBlk.time))
   }
 
   function getTime()
   {
-    return ::build_time_str(::get_time_from_t(logBlk.time), false, false)
+    return time.buildTimeStr(::get_time_from_t(logBlk.time), false, false)
   }
 
   function getDateAndTime()
   {
-    return ::build_date_time_str(::get_time_from_t(logBlk.time))
+    return time.buildDateTimeStr(::get_time_from_t(logBlk.time))
   }
 
   function getLogColor()

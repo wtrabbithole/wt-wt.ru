@@ -7,16 +7,16 @@
   "emitR": 3.0,
   "emitTime": 0.03,
   "aimMinDist": 0.1,
-  "aimMaxDist": 2000.0,
+  "aimMaxDist": 6000.0,
   "maxDeltaAngle": 0.07,
   "maxDeltaAngleVertical": 0.07,
   "shotFreq": 0.145,
-  "traceFreq": 4,
+  "traceFreq": 1,
   "bEnablePause": false,
   "bullets": -1,
   "bulletsCluster": 1,
   "fxType": "big_gun_flame",
-  "fxGroundDust": "ground_shock_wave_dust",
+  "fxGroundDust": "water_shock_wave",
   "shouldCollideWithRendinsts": true,
   "sound_path": "ships/weapon_ships/cannons",
   "sound": "76mm_f34_1124",
@@ -97,9 +97,6 @@
       "ricochetEffect": "cannon_ricochet",
       "groundFxScale": [1.1,1.1],
       "groundCollisionEffect": "art_ground_splash",
-      "visual": {
-        "tracer": "noColor"
-      },
       "collisions": {
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
@@ -116,6 +113,11 @@
           "fx": "big_water_splash",
           "fxScale": [2.0,2.5]
         }
+      },
+      "visual": {
+        "traceFreq": 1,
+        "tracer": "76mmRed",
+        "trail": "black"
       }
     }
   },

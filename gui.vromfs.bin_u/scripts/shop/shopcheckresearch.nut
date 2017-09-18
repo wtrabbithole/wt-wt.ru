@@ -3,6 +3,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   wndType = handlerType.MODAL
   sceneBlkName = "gui/shop/shopCheckResearch.blk"
   sceneNavBlkName = "gui/shop/shopNav.blk"
+  shouldBlurSceneBg = true
 
   researchedUnit = null
   researchBlock = null
@@ -41,9 +42,6 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
           })
 
     selectRequiredUnit()
-
-    if (::my_stats.isMeNewbie())
-      statsd_counter("temp_tests.chooseNewResearch.newbieOpen")
   }
 
   function showRankRestrictionMsgBox()
@@ -393,8 +391,6 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
     if (::getTblValue("name", lastResearchUnit, "") != curResName)
       setUnitOnResearch(::getAircraftByName(curResName))
 
-    if (::my_stats.isMeNewbie())
-      statsd_counter("temp_tests.chooseNewResearch.newbieClose")
     ::gui_handlers.BaseGuiHandlerWT.goBack.call(this)
   }
 

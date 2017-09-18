@@ -1,3 +1,7 @@
+local isDualShock = ::is_platform_ps4 //|| true
+local controllerTitle = isDualShock ? "#controls/help/dualshock4" : "#controls/help/xinput"
+local controllerBlkName = isDualShock ? "gui/help/controllerDualshock.blk" : "gui/help/controllerXbox.blk"
+
 enum help_tab_types
 {
   MISSION_OBJECTIVES
@@ -348,48 +352,48 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     },
 
     [help_tab_types.CONTROLLER_AIR] = {
-      title = ::is_platform_ps4 ? "#controls/help/dualshock4" : "#controls/help/xinput"
+      title = controllerTitle
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsAir", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.AIRCRAFT
       pageUnitTag = null
-      pageBlkName = ::is_platform_ps4 ? "gui/help/controllerDualshock.blk" : "gui/help/controllerXbox.blk"
+      pageBlkName = controllerBlkName
       pageFillfuncName = "fillJoystickTexts"
     },
     [help_tab_types.CONTROLLER_TANK] = {
-      title = ::is_platform_ps4 ? "#controls/help/dualshock4" : "#controls/help/xinput"
+      title = controllerTitle
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsTank", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.TANK
       pageUnitTag = null
-      pageBlkName = ::is_platform_ps4 ? "gui/help/controllerDualshock.blk" : "gui/help/controllerXbox.blk"
+      pageBlkName = controllerBlkName
       pageFillfuncName = "fillJoystickTexts"
     },
     [help_tab_types.CONTROLLER_SHIP] = {
-      title = ::is_platform_ps4 ? "#controls/help/dualshock4" : "#controls/help/xinput"
+      title = controllerTitle
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsShip", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.SHIP
       pageUnitTag = null
-      pageBlkName = ::is_platform_ps4 ? "gui/help/controllerDualshock.blk" : "gui/help/controllerXbox.blk"
+      pageBlkName = controllerBlkName
       pageFillfuncName = "fillJoystickTexts"
     },
 
     [help_tab_types.CONTROLLER_HELICOPTER] = {
-      title = ::is_platform_ps4 ? "#controls/help/dualshock4" : "#controls/help/xinput"
+      title = controllerTitle
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsHelicopter", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.AIRCRAFT
       pageUnitTag = "helicopter"
-      pageBlkName = ::is_platform_ps4 ? "gui/help/controllerDualshock.blk" : "gui/help/controllerXbox.blk"
+      pageBlkName = controllerBlkName
       pageFillfuncName = "fillJoystickTexts"
     },
 
@@ -862,7 +866,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local tipObj = kbdObj.findObject(objId)
       if (tipObj)
       {
-        tipObj.tooltip = ::tooltipColorTheme(btn.text)
+        tipObj.tooltip = btn.text
         if (btn.isMain)
           tipObj.mainKey = "yes"
       } else
@@ -1168,7 +1172,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(kbdAmmoSwitchObj))
       kbdAmmoSwitchObj.show(!isGamepadPreset)
 
-    local cursorControlImg = isGamepadPreset ? "#ui/controlskin#r_stick_4" : "#ui/gameuiskin#mouse_move_4_sides"
+    local cursorControlImg = isGamepadPreset ? "#ui/controlskin#r_stick_4" : "#ui/hudskin#mouse_move_4_sides"
     foreach (frameObjId in [ "CURSOR_controls_frame", "ID_CAMERA_NEUTRAL_controls_frame" ])
     {
       local frameObj = scene.findObject(frameObjId)
@@ -1252,7 +1256,7 @@ function get_shortcut_frame_for_help(shortcut)
   {
     local btnName = curPreset.getButtonName(shortcut.dev[k], shortcut.btn[k]);
     local name = ::getLocalizedControlName(btnName);
-    local buttonFrame = format("controlsHelpBtn { text:t='%s'; font:t='%s' }", ::stripTags(name), (name.len()>2)? "@veryTiny" : "@normal");
+    local buttonFrame = format("controlsHelpBtn { text:t='%s'; font:t='%s' }", ::g_string.stripTags(name), (name.len()>2)? "@fontTiny" : "@fontMedium");
 
     if (shortcut.dev[k] == ::STD_MOUSE_DEVICE_ID)
     {

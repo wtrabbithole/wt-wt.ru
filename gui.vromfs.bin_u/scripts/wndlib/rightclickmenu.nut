@@ -21,6 +21,7 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
 {
   wndType      = handlerType.MODAL
   sceneTplName = "gui/rightClickMenu"
+  shouldBlurSceneBg = false
 
   owner        = null
   config       = null
@@ -98,6 +99,7 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
           menuPos[i] = ((rootSize[i] - menuSize[i]) / 2).tointeger()
 
     listObj.pos = menuPos[0] + ", " + menuPos[1]
+    listObj.width = listObj.getSize()[0]
   }
 
   function initTimers(listObj, actions)

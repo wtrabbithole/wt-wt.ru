@@ -63,7 +63,7 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
     if( ! ::u.isEmpty(unlockBlk.group))
       chapterAndGroupText.push(::loc("unlocks/group/" + unlockBlk.group))
     if (chapterAndGroupText.len())
-      chapterAndGroupText = "(" + ::implode(chapterAndGroupText, ", ") + ")"
+      chapterAndGroupText = "(" + ::g_string.implode(chapterAndGroupText, ", ") + ")"
     else
       chapterAndGroupText = ""
 
@@ -71,7 +71,7 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
       chapterAndGroupText, ::getTblValue("stagesText", unlockConfig, "")]
     tooltipArr.push(::UnlockConditions.getConditionsText(unlockConfig.conditions,
       unlockConfig.showProgress ? unlockConfig.curVal : null, unlockConfig.maxVal))
-    unlockObj.tooltip =  ::implode(tooltipArr, "\n")  }
+    unlockObj.tooltip =  ::g_string.implode(tooltipArr, "\n")  }
 
   function onEventFavoriteUnlocksChanged(params)
   {

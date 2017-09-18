@@ -192,22 +192,25 @@
         ]
         priority = 200
         locId = "hints/tutorialB_zoom_in"
+        hintType = "standard"
       }
       {
         eventId = "hint:missionHint:set"
         priority = 0
         locId = "hints/enemy_base_destroyed_no_respawn"
+        hintType = "standard"
       }
       {
         eventId = "hint:missionHint:set"
         priority = 0
         locId = "hints/enemy_base_destroyed"
         isOverFade = true
+        hintType = "standard"
       }
       { eventId = "hint:missionHint:objectiveSuccess", objectiveType = ::OBJECTIVE_TYPE_PRIMARY }
       { eventId = "hint:missionHint:objectiveAdded" }
       { eventId = "hint:missionHint:objectiveFail" }
-      { eventId = "hint:missionHint:remove" }
+      { eventId = "hint:missionHint:remove", hintType = "standard" }
     ]
   }
 })

@@ -4,6 +4,12 @@
 
 @const nhsf: ((sh / 1080) $max 1) * @pf; 
 
+@const fontHudTiny:     very_tiny_text_hud;
+@const fontHudSmall:    tiny_text_hud;
+@const fontHudNormal:   small_text_hud;
+@const fontHudMedium:   medium_text_hud;
+@const fontHudBigBold:  big_text_hud;
+
 @const rewardValueColor: @white;
 @const rewardTextColor:  @white;
 @const penaltyTextColor: #ba0101;
@@ -54,7 +60,7 @@ hudMessages[message_style=center_main_notification] {
   re-type: 9rect;
   padding: 0.01*@shHud;
 
-  background-image: #ui/gameuiskin#subtitles_backgr_middle;
+  background-image: #ui/hudskin#subtitles_backgr_middle;
   background-color: @white;
   background-position: 0, 0, 0, 0;
   background-repeat: expand;
@@ -86,7 +92,7 @@ hudMessages[message_style=center_main_notification] > message >  msgText {
   re-type:textarea;
   color: @white;
   text-align:center;
-  font:big_text_hud;
+  font:@fontHudBigBold;
 
   transp-base:128;
   transp-end:255;
@@ -126,7 +132,7 @@ hudMessages[message_style=zone_capture_notification] > message[slideDown=yes]
 
 hudMessages[message_style=zone_capture_notification] > message textareaNoTab {
   text-align: center;
-  font: medium_text_hud;
+  font: @fontHudMedium;
   color: @white;
   shadeStyle:HudHeader3D;
 }
@@ -183,7 +189,7 @@ hudMessages[message_style=player_damage_notification] > message[remove=yes] {
 hudMessages[message_style=player_damage_notification] > message > textareaNoTab {
   width: pw;
   text-align: left;
-  font: tiny_text_hud;
+  font: @fontHudSmall;
   color: @white;
   shadeStyle:outline33pct;
 }
@@ -223,7 +229,7 @@ hudMessages[message_style=kill_log_notification] > message[remove=yes] {
 hudMessages[message_style=kill_log_notification] > message > textareaNoTab {
   width: pw;
   text-align: right;
-  font: tiny_text_hud;
+  font: @fontHudSmall;
   color: @white;
   textShade:no;
   text-shade:"smooth:24";
@@ -240,7 +246,7 @@ missionResultText {
   behaviour:textArea;
   re-type:textarea;
   width: pw;
-  font: big_text_hud;
+  font: @fontHudBigBold;
   color: @white;
   text-shade:"smooth:24";
   text-shade-x:1;
@@ -256,12 +262,12 @@ moveObjSizeDiv missionResultText {
 
 
 rewardMessageText {
-  font: @hud_normal;
+  font: @fontHudMedium;
   text-align:center;
 }
 
 rewardMessageValue {
-  font: @hud_tiny;
+  font: @fontHudSmall;
   text-align:center;
 }
 
@@ -290,7 +296,7 @@ rewardMessageValueContainer[_blink=now] > rewardMessageValue {
 rewardMessageValue {
   behaviour:textArea;
   re-type:textarea;
-  font:@hud_tiny;
+  font:@fontHudSmall;
   text-align:center;
   color: @rewardValueColor;
   text-shade:"blur:24";
@@ -357,7 +363,7 @@ hudMessages[message_style=race_notification] >[isPlayer=yes] textareaNoTab {
 hudEnemyDamage > damagePart {
   behaviour:textArea;
   re-type:textarea;
-  font:@small;
+  font:@fontNormal;
   text-align: right;
   right: 0;
   position:relative;
@@ -418,7 +424,7 @@ hitCameraLine {
 hitCameraTitle {
   behaviour:textArea;
   re-type:textarea;
-  font:small_text_hud;
+  font:@fontHudNormal;
   text-align:center;
   text-shade:"smooth:24";
   text-shade-x:0;
@@ -478,7 +484,7 @@ hitCamDebuffIcon {
 hitCamDebuffLabel {
   behaviour:textArea;
   re-type:textarea;
-  font:@small;
+  font:@fontNormal;
 }
 
 hitCamDebuff[state=off]       > hitCamDebuffIcon { background-color:#500C0E11; }
@@ -521,7 +527,7 @@ textareaNoTab[shadeStyle=LiveStats] {
 [hintStyle=hudMinor] hintRow > timeBar textareaNoTab,
 [hintStyle=hudMinor] hintRow > textareaNoTab,
 [hintStyle=hudMinor] keyboardButtonText {
-  font: small_text_hud;
+  font:@fontHudNormal;
 }
 
 [hintStyle=hudMinor] keyboardButton {

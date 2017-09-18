@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
 {
   wndType = handlerType.MODAL
@@ -27,15 +30,15 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
 
   function initScreen()
   {
-    createButton(buttonOkId, "#msgbox/btn_ok" ,"goBack")
-    createButton(buttonCancelId, "#msgbox/btn_cancel" ,"onCancel")
+    showSceneBtn(buttonOkId, false)
+    showSceneBtn(buttonCancelId, false)
 
     scene.findObject("updater_timer").setUserData(this)
 
     resetTimer()
     onUpdate(null, 0.0)
 
-    updateText();
+    updateText()
 
     if ( ! ::ps4_start_updater(configPath, this, onUpdaterCallback))
       onFinish()
@@ -47,17 +50,6 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
     if( ! dynamicBgContainer)
       return
     ::g_anim_bg.load("", dynamicBgContainer)
-  }
-
-  function createButton(btnId, text, callbackName)
-  {
-    local data = format("dialog_button { id:t='%s'; btnName:t='AB'; text:t='%s'; on_click:t='%s' }", btnId, text, callbackName)
-    local holderObj = scene.findObject("buttons_holder")
-    if ( ! ::checkObj(holderObj))
-      return
-
-    guiScene.appendWithBlk(holderObj, data, this)
-    showSceneBtn(btnId, false)
   }
 
   function resetTimer()
@@ -195,7 +187,7 @@ class ::gui_handlers.PS4UpdaterModal extends ::BaseGuiHandler
             desc = meas > 0.5 ? ::loc("updater/dspeed/kb") : ::loc("updater/dspeed/b");
           }
         }
-        textSub += ::secondsToString(eta_sec);
+        textSub += time.secondsToString(eta_sec);
         textSub += ::format(" ( %.1f%s )", meas, desc);
       }
     }

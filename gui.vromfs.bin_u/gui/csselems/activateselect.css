@@ -1,27 +1,26 @@
-@const activateTabPaddingSum:2@buttonTextPadding + 1@checkboxSize;
+@const activateTabPaddingSum:1@buttonTextPadding + 1@bigButtonHeight;
 
 activateTab {
   height:ph;
-  re-type:9rect;
-  background-position:5;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#header_button_;
-  background-color:@white;
-  padding:4*@sf/@pf_outdated;
+  padding:h, 0, 1@bigButtonTextPadding, 0;
+  re-type:fgPict;
+  foreground-position:0, 0, 0, h - 2@dp;
   css-hier-invalidate:yes;
   total-input-transparent:yes;
 }
 activateTab:hover {
-  background-image:#ui/gameuiskin#header_button_hover;
+  background-color:@listboxHoverOptionColor;
+  foreground-color:@listboxHoverOptionLineColor;
 }
 activateTab:pushed, activateTab[chosen=yes] {
-  background-image:#ui/gameuiskin#header_button_active;
+  background-color:@listboxSelOptionColor;
+  foreground-color:@listboxSelOptionLineColor;
 }
 
 tabText {
   re-type:textarea;
   behavior:textarea;
-  font:@small;
+  font:@fontNormal;
   color:@commonTextColor;
   text-align:left;
   word-wrap:no;
@@ -33,20 +32,16 @@ activateTab > tabText {
 }
 
 activateTab:hover > tabText {
-  color:@hoverTextColor;
+  color:@listboxHoverTextColor;
 }
 activateTab:pushed > tabText, activateTab[chosen=yes] > tabText,
 activateTab[selected=yes] > tabText {
   color:@activeTextColor;
 }
 
-[wide=yes] > activateTab > tabText {
-  min-width:0.15@scrn_tgt;
-}
-
 activateTab > RadioButtonImg {
-  pos:0, 0.5ph-0.5h;
-  position:relative;
+  pos:0.5ph-0.5w, 0.5ph-0.5h;
+  position:absolute;
 }
 
 activateTab:hover >                     RadioButtonImg,
@@ -55,77 +50,3 @@ activateTab[selected=yes] >             RadioButtonImg { background-image:#ui/ga
 activateTab[chosen=yes] >               RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_; }
 activateTab[chosen=yes]:hover >         RadioButtonImg,
 activateTab[chosen=yes][selected=yes] > RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_hover; }
-
-SlotInfoContentSwitcher
-{
-  behaviour:select;
-  re-type:select;
-  re-type:9rect;
-  background-position:6,6;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#selectbox_bg;
-  background-color:@white;
-  snd_select:choose;
-  snd_set_focus:focus;
-  snd_dbl_click:click;
-  need_flow:yes;
-}
-
-SlotInfoTab {
-  re-type:9rect;
-  min-width:20%sw;
-  padding:0.02@scrn_tgt, 0;
-  css-hier-invalidate:yes;
-  color:#999999;
-  background-position:6;
-  background-repeat:expand;
-  background-image:#ui/gameuiskin#selectbox_select;
-  background-color:@transparent;
-}
-
-SlotInfoTabImg {
-  height:4*@scrn_tgt/100.0;
-  width:h;
-  pos:50%pw-50%w, 4.2*@scrn_tgt/100.0-60%h;
-  position:relative;
-  color:@commonTextColor;
-  background-repeat:expand;
-  background-color:@imageNotSelectedColor;
-  margin:3*@scrn_tgt/100.0, 0;
-  input-transparent:yes;
-}
-
-SlotInfoContentSwitcher > SlotInfoTab > SlotInfoTabImg {
-  pos:50%pw-50%w, 50%ph-50%h;
-}
-
-SlotInfoContentSwitcher > SlotInfoTab:current > SlotInfoTabImg {
-  height:4*@scrn_tgt/100.0;
-  background-color:@white;
-}
-
-[show_console_buttons=yes] SlotInfoContentSwitcher:focus > SlotInfoTab:current {
-  re-type:9rect;
-  foreground-color: @gamepadFocusFrameColor;
-  foreground-image: #ui/gameuiskin#item_selection;
-  foreground-position: 8, 10, 8, 8;
-  foreground-repeat: expand;
-}
-
-VerticalActivateSelect > SlotInfoTab[selected=yes] > discount_notification {
-  display:hide;
-}
-
-SlotInfoTabImg:disabled {
-  background-color:#80808080;
-}
-
-SlotInfoTab:hover {
-  background-color:@commonMenuButtonColor;
-  color:@hoverTextColor;
-}
-
-SlotInfoTab:current {
-  background-color:@white;
-  color:@white;
-}

@@ -61,7 +61,6 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateWorldCoords()
     updateCountriesList()
     updateAvailableText()
-    updateClansConditionText()
   }
 
   function isVisible()
@@ -108,12 +107,14 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function mapCountriesToView(countries)
   {
+    local teamsInfoText = descItem.getMinClansCondition()
     return {
       countries = ::u.map(countries,
                     function (countryName) {
                       return {
                         countryName = countryName
                         countryIcon = ::get_country_icon(countryName)
+                        teamsInfoText = teamsInfoText
                       }
                     }
                   )
@@ -130,18 +131,11 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     local view = {
       side1 = mapCountriesToView(::getTblValue(::SIDE_1, cuntriesByTeams, {}))
       side2 = mapCountriesToView(::getTblValue(::SIDE_2, cuntriesByTeams, {}))
+      vsText = ::loc("country/VS") + "\n "
     }
     local data = ::handyman.renderCached("gui/worldWar/wwOperationCountriesInfo", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
-  }
-
-  function updateClansConditionText()
-  {
-    local obj = scene.findObject("clans_condition_text")
-    if (!::check_obj(obj))
-      return
-
-    obj.setValue(descItem.getClansConditionText())
+    obj.show(true)
   }
 
   function updateAvailableText()

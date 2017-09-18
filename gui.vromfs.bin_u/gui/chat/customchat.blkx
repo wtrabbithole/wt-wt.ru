@@ -7,16 +7,11 @@
       "flow": "vertical"
     },
     {
-      "div": {
+      "chatBlock": {
         "size": "pw, fh",
         "style": "overflow-y:auto;",
         "overflow-y": "auto",
         "auto-scroll": "yes",
-        "background-image": "#ui/gameuiskin#block_bg",
-        "background-color": "@white",
-        "background-position": "4",
-        "background-repeat": "expand",
-        "padding": "6",
         "chatLog": {
           "id": "menu_chat_text",
           "width": "pw",
@@ -43,7 +38,7 @@
           "on_cancel_edit": "onChatCancel",
           "on_wrap_up": "onWrapUp",
           "on_wrap_down": "onWrapDown",
-          "font": "@tiny",
+          "font": "@fontSmall",
           "text": "",
           "_customRoomId": "",
           "enable": "no"
@@ -54,8 +49,9 @@
           "position": "relative",
           "text": "#chat/send",
           "on_click": "onChatSend",
-          "style": "padding-left:1*@scrn_tgt/100.0; text-align:left; min-width:3h; margin-right:0;",
-          "enable": "no"
+          "enable": "no",
+          "noMargin": "yes",
+          "showConsoleImage": "no"
         }
       }
     },

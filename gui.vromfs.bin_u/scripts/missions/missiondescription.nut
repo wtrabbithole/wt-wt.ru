@@ -91,6 +91,7 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     local previewBlk = ::getTblValue("previewBlk", config)
     ::g_map_preview.setMapPreview(scene.findObject("tactical-map"), previewBlk)
+    guiScene.applyPendingChanges(false) //need to refresh object sizes after map appear or disappear
 
     guiScene.setUpdatesEnabled(false, false)
 

@@ -1,13 +1,9 @@
+local penalties = require("scripts/penitentiary/penalties.nut")
+local time = require("scripts/time.nut")
+
 const MAIN_FOCUS_ITEM_IDX = 4
 
 ::stickedDropDown <- null
-::is_in_save_dialogs <- false
-
-function set_in_save_dialogs(en)
-{
-  ::is_in_save_dialogs = en
-  ::disable_message_processing(en)
-}
 
 class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 {
@@ -209,20 +205,17 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
           txt = "x360/noSpace"
         else if (saveRes == ::SAVELOAD_NOT_SELECTED)
           txt = "xbox360/questionSelectDevice"
-        ::set_in_save_dialogs(true)
         msgBox("no_save_device", ::loc(txt),
         [
           ["yes", (@(handler, onlineSave) function() {
               dagor.debug("performDelayed save")
               handler.guiScene.performDelayed(handler, (@(handler, onlineSave) function() {
-                ::set_in_save_dialogs(false)
                 ::select_save_device(true)
                 save(onlineSave)
                 handler.afterSave()
               })(handler, onlineSave))
           })(handler, onlineSave)],
           ["no", (@(handler) function() {
-            ::set_in_save_dialogs(false)
             handler.afterSave()
           })(handler)
           ]
@@ -233,20 +226,17 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     }
     else
     {
-      ::set_in_save_dialogs(true)
       msgBox("no_save_device", ::loc("xbox360/questionSelectDevice"),
       [
         ["yes", (@(handler, onlineSave) function() {
 
             dagor.debug("performDelayed save")
             handler.guiScene.performDelayed(handler, (@(handler, onlineSave) function() {
-              ::set_in_save_dialogs(false)
               ::select_save_device(true)
               save(onlineSave)
             })(handler, onlineSave))
         })(handler, onlineSave)],
         ["no", (@(handler) function() {
-          ::set_in_save_dialogs(false)
           handler.afterSave()
         })(handler)
         ]
@@ -915,16 +905,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     {
       local shadeObj = slotbarScene.findObject("slotbar_shade")
       if(::checkObj(shadeObj))
-        shadeObj.animation = show ? "show" : "hide"
+        shadeObj.animation = isSlotbarShaded ? "show" : "hide"
       if (::show_console_buttons)
-      {
-        local rNavObj = slotbarScene.findObject("slotbar_nav_block_right")
-        if (::checkObj(rNavObj))
-          rNavObj.show(!show)
-        local lNavObj = slotbarScene.findObject("slotbar_nav_block_left")
-        if (::checkObj(lNavObj))
-          lNavObj.show(!show)
-      }
+        showSceneBtn("slotbar_nav_block", !isSlotbarShaded)
     }
   }
 
@@ -1026,7 +1009,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     ::g_tasker.restoreCharCallback()
     destroyProgressBox()
 
-    ::showBannedStatusMsgBox(true)
+    penalties.showBannedStatusMsgBox(true)
 
     if (result != 0)
     {
@@ -1117,9 +1100,13 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onContactTooltipOpen(obj)
   {
     local uid = obj.uid
-    if (!uid) return
-    local contact = ::getContact(uid)
-    local canShow = canShowContactTooltip(contact)
+    local canShow = false
+    local contact = null
+    if (uid)
+    {
+      contact = ::getContact(uid)
+      canShow = canShowContactTooltip(contact)
+    }
     obj["class"] = canShow ? "" : "empty"
 
     if (canShow)
@@ -1407,7 +1394,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
         text += ::loc(blk.advert, "")
         ::secondsUpdater(obj, (@(text) function(obj, params) {
           local stopUpdate = text.find("{time_countdown=") == null
-          local textResult = ::processTimeStamps(text)
+          local textResult = time.processTimeStamps(text)
           local objText = obj.findObject("topmenu_advert_text")
           objText.setValue(textResult)
           obj.show(textResult != "")

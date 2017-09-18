@@ -32,7 +32,6 @@
       id:t = 'wait_icon_<<id>>'
       class:t='missionBox'
       background-rotation:t = '0'
-      wait_icon_cock {}
     }
     <</hasWaitAnim>>
 
@@ -46,8 +45,19 @@
       }
       <</newIconWidgetLayout>>
 
+      img{
+        id:t='queue_members_<<id>>'
+        size:t='@dIco, @dIco'
+        top:t='50%ph-50%h'
+        position:t='relative'
+        margin-left:t="1@blockInterval"
+        display:t='hide'
+        background-image:t='#ui/gameuiskin#friends'
+      }
+
       mission_item_text {
         id:t = 'txt_<<id>>'
+        top:t='50%ph-50%h'
         <<^isActive>>
         overlayTextColor:t='disabled'
         <</isActive>>

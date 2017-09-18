@@ -15,6 +15,7 @@ class gui_bhv.posNavigator
   disableFocusParentPID = ::dagui_propid.add_name_id("disableFocusParent")
   disableFixedCoordPID = ::dagui_propid.add_name_id("disableFixedCoord")
   lastMoveTimeMsecPID = ::dagui_propid.add_name_id("_lastMoveTimeMsec")
+  canSelectNonePID = ::dagui_propid.add_name_id("canSelectNone")
   fixedCoordTimeoutMsec = 5000
 
   activateByMClick = false
@@ -64,6 +65,11 @@ class gui_bhv.posNavigator
   function getSelectedValue(obj)
   {
     return getValue(obj)
+  }
+
+  function getCanSelectNone(obj)
+  {
+    return obj.canSelectNone == "yes"
   }
 
   function getChildObj(obj, value)
@@ -144,14 +150,25 @@ class gui_bhv.posNavigator
 
   function selectItem(obj, idx, idxObj = null, needSound = true)
   {
+    local canSelectNone = getCanSelectNone(obj)
+
     if (!idxObj)
       idxObj = getChildObj(obj, idx)
-    if (!idxObj)
+    if ( ! idxObj && ! canSelectNone)
       return false
 
     local needNotify = false
     local prevIdx = getSelectedValue(obj)
-    if (prevIdx!=idx)
+
+    if(canSelectNone && prevIdx==idx)
+    {
+      if( ! idxObj)
+        return false
+      idxObj = null
+      idx = -1
+    }
+
+    if (prevIdx!=idx || canSelectNone)
     {
       needNotify = true
       local prevObj = getChildObj(obj, prevIdx)
@@ -159,8 +176,12 @@ class gui_bhv.posNavigator
     }
 
     obj.setIntProp(selectedPID, idx)
-    setChildSelected(obj, idxObj, true)
-    idxObj.scrollToView()
+
+    if(idxObj)
+    {
+      setChildSelected(obj, idxObj, true)
+      idxObj.scrollToView()
+    }
 
     if (needSound && needNotify)
       ::play_gui_sound(obj.snd_select ? obj.snd_select : "choose")

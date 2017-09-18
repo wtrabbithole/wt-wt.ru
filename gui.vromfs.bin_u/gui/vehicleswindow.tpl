@@ -15,9 +15,7 @@ root {
         caption:t='yes'
         text:t='<<headerText>>'
       }
-      Button_close {
-        img {}
-      }
+      Button_close {}
     }
 
     frameBlock {

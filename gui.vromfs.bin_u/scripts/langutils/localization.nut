@@ -51,7 +51,7 @@ function g_localization::getFilledFeedTextByLang(locIdsArray, customFeedParams =
 function g_localization::formatLangTextsInStringStyle(langTextsArray)
 {
   local formatedArray = ::u.map(langTextsArray, @(table) ::format("\"%s\":\"%s\"", table.abbreviation, table.text))
-  return ::implode(formatedArray, ",")
+  return ::g_string.implode(formatedArray, ",")
 }
 
 function g_localization::formatLangTextsInJsonStyle(langTextsArray, settingKey = "sessionName")
@@ -60,5 +60,5 @@ function g_localization::formatLangTextsInJsonStyle(langTextsArray, settingKey =
   local result = []
   foreach (table in langTextsArray)
     result.append(::format(sample, table.abbreviation, settingKey, table.text))
-  return ::implode(result, ",")
+  return ::g_string.implode(result, ",")
 }

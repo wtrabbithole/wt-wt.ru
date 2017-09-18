@@ -51,7 +51,7 @@ icon {
     id:t='crew_count_text';
     position:t='absolute';
     pos:t='pw, ph/2 - h/2';
-    hudFont:t='small';
+    hudFont:t='normal';
     text-align:t='right';
     text:t='';
     style:t='paragraph-indent:0';

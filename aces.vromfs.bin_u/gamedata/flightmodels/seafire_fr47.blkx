@@ -59,6 +59,12 @@
         "hp": 35.0
       }
     },
+    "armor_engine": {
+      "engine1_dm": {
+        "genericDamageMult": 1.6,
+        "hp": 31.1
+      }
+    },
     "c_dural3": {
       "aileron_l_dm": {
         "genericDamageMult": 0.3,
@@ -80,6 +86,12 @@
       },
       "flap1_r_dm": {
         "hp": 14.5
+      },
+      "flap2_l_dm": {
+        "hp": 23.0
+      },
+      "flap2_r_dm": {
+        "hp": 23.0
       },
       "rudder_dm": {
         "genericDamageMult": 0.3,
@@ -188,6 +200,9 @@
       "armor3_dm": {
         "hp": 30.0
       },
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 44.2
       },
@@ -236,20 +251,6 @@
       },
       "tank6_dm": {
         "hp": 47.7
-      }
-    },
-    "wood": {
-      "engine1_dm": {
-        "hp": 54.5
-      },
-      "flap2_l_dm": {
-        "hp": 18.4
-      },
-      "flap2_r_dm": {
-        "hp": 18.4
-      },
-      "gear_c_dm": {
-        "hp": 3.1
       }
     }
   },
@@ -2610,12 +2611,6 @@
       "reqModification": "gloster_rc"
     }
   },
-  "cutting": {
-    "wingRDist": [-3.37859,-2.37859],
-    "wingLDist": [2.57543,3.57543],
-    "tailDist": [10.0,11.0],
-    "color": [0.151,0.151,0.151,1.0]
-  },
   "user_skin": [
     {
       "name": "userskin"
@@ -2640,5 +2635,22 @@
         "from": "seafire_fr47_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "emtr_break_wing1_l_from": [-1.42273,-0.465885,1.6272],
+    "emtr_break_wing1_l_to": [-1.42273,-0.465885,2.30357],
+    "emtr_break_wing2_l_from": [-1.42273,-0.465885,3.31814],
+    "emtr_break_wing2_l_to": [-1.42273,-0.465885,4.23405],
+    "emtr_break_wing1_r_from": [-1.42273,-0.465885,-1.6272],
+    "emtr_break_wing1_r_to": [-1.42273,-0.465885,-2.30357],
+    "emtr_break_wing2_r_from": [-1.42273,-0.465885,-3.31814],
+    "emtr_break_wing2_r_to": [-1.42273,-0.465885,-4.23405],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-5.21601,0.0,0.0]
+    ],
+    "partKindTail": 2
+  }
 }

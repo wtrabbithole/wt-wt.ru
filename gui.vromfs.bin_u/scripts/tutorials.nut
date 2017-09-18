@@ -339,7 +339,7 @@ function batch_train_crew(requestData, taskOptions = null, onSuccess = null, onE
   local onTaskSuccess = onSuccess ? ::Callback(onSuccess, handler) : null
   local onTaskError   = onError   ? ::Callback(onError,   handler) : null
 
-  if (::disable_network() || !requestData.len())
+  if (!requestData.len())
   {
     if (onTaskSuccess)
       onTaskSuccess()

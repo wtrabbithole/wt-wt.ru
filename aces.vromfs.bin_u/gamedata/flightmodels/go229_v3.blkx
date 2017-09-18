@@ -234,19 +234,19 @@
         "flap_r_dm": {
           "hp": 19.7
         },
-        "rudder_interceptor_l_dm": {
-          "genericDamageMult": 0.3,
-          "hp": 14.5
-        },
         "rudder_interceptor1_l_dm": {
           "genericDamageMult": 0.3,
           "hp": 14.5
         },
-        "rudder_interceptor_r_dm": {
+        "rudder_interceptor1_r_dm": {
           "genericDamageMult": 0.3,
           "hp": 14.5
         },
-        "rudder_interceptor1_r_dm": {
+        "rudder_interceptor_l_dm": {
+          "genericDamageMult": 0.3,
+          "hp": 14.5
+        },
+        "rudder_interceptor_r_dm": {
           "genericDamageMult": 0.3,
           "hp": 14.5
         }
@@ -323,6 +323,9 @@
         }
       },
       "steel": {
+        "gear_c_dm": {
+          "hp": 60.5
+        },
         "gear_l_dm": {
           "hp": 39.5
         },
@@ -363,244 +366,11 @@
         "tank6_dm": {
           "hp": 86.6
         }
-      },
-      "wood": {
-        "gear_c_dm": {
-          "hp": 31.7
-        }
       }
     }
   },
   {
     "DamageEffects": [
-      {
-        "part": [
-          {
-            "name": "rudder_interceptor_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "rudder_interceptor1_l_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "rudder_interceptor_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
-      {
-        "part": [
-          {
-            "name": "rudder_interceptor1_r_dm"
-          },
-          {
-            "onHit": {
-              "damage": 10.0,
-              "cut": 0.1
-            }
-          },
-          {
-            "onHit": {
-              "damage": 20.0,
-              "cut": 0.4
-            }
-          },
-          {
-            "onHit": {
-              "damage": 30.0,
-              "cut": 0.7
-            }
-          },
-          {
-            "onHit": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "cut": 1.0,
-              "nothing": 4.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 2.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 1.0
-            }
-          },
-          {
-            "onKill": {
-              "damage": 50.0,
-              "cut": 1.0
-            }
-          }
-        ]
-      },
       {
         "part": [
           {
@@ -1273,6 +1043,234 @@
         "part": {
           "name": "pilot_dm"
         }
+      },
+      {
+        "part": [
+          {
+            "name": "rudder_interceptor1_l_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "rudder_interceptor1_r_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "rudder_interceptor_l_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "rudder_interceptor_r_dm"
+          },
+          {
+            "onHit": {
+              "damage": 10.0,
+              "cut": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damage": 20.0,
+              "cut": 0.4
+            }
+          },
+          {
+            "onHit": {
+              "damage": 30.0,
+              "cut": 0.7
+            }
+          },
+          {
+            "onHit": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "cut": 1.0,
+              "nothing": 4.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 20.0,
+              "cut": 1.0,
+              "nothing": 2.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 30.0,
+              "cut": 1.0,
+              "nothing": 1.0
+            }
+          },
+          {
+            "onKill": {
+              "damage": 50.0,
+              "cut": 1.0
+            }
+          }
+        ]
       },
       {
         "part": {
@@ -2623,6 +2621,12 @@
         }
       },
       {
+        "fm": {
+          "fm": "arrestor",
+          "dm": "hook_dm"
+        }
+      },
+      {
         "enginesAutoConfiguration": [
           {
             "engine": "engine1_dm"
@@ -3008,10 +3012,25 @@
   },
   {
     "cutting": {
-      "wingRDist": [-4.85917,-3.85917],
-      "wingLDist": [3.7086,4.7086],
-      "tailDist": [10.0,11.0],
-      "color": [0.151,0.151,0.151,1.0]
+      "_emtr_break_wing0_l_from": [-0.437925,0.0769489,1.92055],
+      "_emtr_break_wing0_l_to": [-0.437925,0.0769489,2.66779],
+      "emtr_break_wing1_l_from": [-0.437925,0.0769489,3.78864],
+      "emtr_break_wing1_l_to": [-0.437925,0.0769489,4.65534],
+      "emtr_break_wing2_l_from": [-0.437925,0.0769489,5.95539],
+      "emtr_break_wing2_l_to": [-0.437925,0.0769489,6.9282],
+      "_emtr_break_wing0_r_from": [-0.437925,0.0769489,-1.92055],
+      "_emtr_break_wing0_r_to": [-0.437925,0.0769489,-2.66779],
+      "emtr_break_wing1_r_from": [-0.437925,0.0769489,-3.78864],
+      "emtr_break_wing1_r_to": [-0.437925,0.0769489,-4.65534],
+      "emtr_break_wing2_r_from": [-0.437925,0.0769489,-5.95539],
+      "emtr_break_wing2_r_to": [-0.437925,0.0769489,-6.9282],
+      "emtr_break_wing_tail": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-4.0,0.0,0.0]
+      ],
+      "partKindTail": 2
     }
   }
 ]

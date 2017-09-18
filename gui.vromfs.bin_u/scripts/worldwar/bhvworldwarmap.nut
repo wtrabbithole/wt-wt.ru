@@ -329,7 +329,7 @@ class ::ww_gui_bhv.worldWarMapControls
   function setSelectedArmies(obj, selectedArmies)
   {
     local params = obj.getUserData() || {}
-    params[selectedArmiesID] <- ::implode(selectedArmies, ",")
+    params[selectedArmiesID] <- ::g_string.implode(selectedArmies, ",")
     obj.setUserData(params)
     local selectedArmiesInfo = []
     foreach (armyName in selectedArmies)

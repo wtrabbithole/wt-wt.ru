@@ -3,6 +3,7 @@ foreach (fn in [
                  "loginWnd.nut"
                  "steamLogin.nut"
                  "ps4Login.nut"
+                 "xboxOneLogin.nut"
                  "tencentLogin.nut"
                  "dmmLogin.nut"
                  "loginProcess.nut"

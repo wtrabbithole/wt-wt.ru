@@ -1462,6 +1462,24 @@
     "ricochetCosinePower": 3.0,
     "ricochetDamage": 0.1
   },
+  "RHA_tank_modern": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0001,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 3.0,
+    "ricochetDamage": 0.1,
+    "armorQuality": 1.01
+  },
+  "CHA_tank_modern": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0001,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 3.0,
+    "ricochetDamage": 0.1,
+    "armorQuality": 0.98
+  },
   "ERA_tank": {
     "armorThickness": 1.0,
     "armorThrough": 1.0,
@@ -1472,6 +1490,43 @@
     "ricochetDamage": 0.1,
     "cumulativeArmorQuality": 7.5,
     "genericArmorQuality": 3.9
+  },
+  "tank_textolite": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.1,
+    "createSecondaryShatters": false,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 3.0,
+    "ricochetDamage": 0.1,
+    "cumulativeArmorQuality": 0.55,
+    "genericArmorQuality": 0.16
+  },
+  "spaced_armor_air": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "createSecondaryShatters": false,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 3.0,
+    "ricochetDamage": 0.1,
+    "cumulativeArmorQuality": 0.1,
+    "genericArmorQuality": 0.05
+  },
+  "us_era_m_60": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.2,
+    "createSecondaryShatters": false,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 3.0,
+    "ricochetDamage": 0.95,
+    "cumulativeArmorQuality": 7.36,
+    "genericArmorQuality": 0.1,
+    "genericDamageMult": 0.8,
+    "cumulativeDamageMult": 3.0,
+    "explosionArmorQuality": 0.1,
+    "explosionDamageMult": 5.0
   },
   "CHA_tank": {
     "armorThickness": 1.0,
@@ -1527,6 +1582,15 @@
     "ricochetDamage": 0.1,
     "armorQuality": 0.5
   },
+  "aluminum_armor_AA_7017": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0001,
+    "ricochetAngle": 70.0,
+    "ricochetCosinePower": 3.0,
+    "ricochetDamage": 0.1,
+    "armorQuality": 0.8
+  },
   "ABT-101": {
     "armorThickness": 1.0,
     "armorThrough": 1.0,
@@ -1565,12 +1629,14 @@
   },
   "tank_barrel": {
     "armorThickness": 1.0,
-    "armorThrough": 200.0,
-    "restrainDamage": 0.0001,
+    "armorThrough": 150.0,
+    "restrainDamage": 0.0,
     "ricochetAngle": 70.0,
     "ricochetCosinePower": 3.0,
     "ricochetDamage": 0.1,
-    "armorQuality": 1.1
+    "armorQuality": 1.1,
+    "explosionArmorQuality": 2.5,
+    "explosionDamageMult": 0.4
   },
   "tank_steel_wheels": {
     "armorThickness": 1.0,
@@ -1600,6 +1666,15 @@
     "ricochetCosinePower": 2.0,
     "ricochetDamage": 0.0,
     "armorQuality": 0.45
+  },
+  "aluminium": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.0,
+    "ricochetAngle": 60.0,
+    "ricochetCosinePower": 2.0,
+    "ricochetDamage": 0.0,
+    "armorQuality": 0.2
   },
   "ship_structural_steel": {
     "armorThickness": 1.0,
@@ -1641,7 +1716,7 @@
   "ship_wood": {
     "armorThickness": 1.0,
     "armorThrough": 1.0,
-    "restrainDamage": 0.0,
+    "restrainDamage": 0.1,
     "genericDamageMult": 0.1,
     "ricochetAngle": 89.0,
     "ricochetCosinePower": 1.0,
@@ -1658,5 +1733,26 @@
     "ricochetCosinePower": 3.0,
     "ricochetDamage": 0.1,
     "armorQuality": 0.28
+  },
+  "rubber_tank": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.5,
+    "ricochetAngle": 60.0,
+    "ricochetCosinePower": 2.0,
+    "ricochetDamage": 0.0,
+    "armorQuality": 0.05,
+    "createSecondaryShatters": false
+  },
+  "nbc_liner_tank": {
+    "armorThickness": 1.0,
+    "armorThrough": 1.0,
+    "restrainDamage": 0.5,
+    "ricochetAngle": 60.0,
+    "ricochetCosinePower": 2.0,
+    "ricochetDamage": 0.0,
+    "armorQuality": 0.05,
+    "createSecondaryShatters": false,
+    "secondaryShatterArmorQuality": 0.3
   }
 }

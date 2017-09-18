@@ -35,7 +35,7 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
 
   function createButton(btnId, text, callbackName)
   {
-    local data = format("dialog_button { id:t='%s'; btnName:t='AB'; text:t='%s'; on_click:t='%s' }", btnId, text, callbackName)
+    local data = format("Button_text { id:t='%s'; btnName:t='AB'; text:t='%s'; on_click:t='%s' }", btnId, text, callbackName)
     local holderObj = scene.findObject("buttons_holder")
     if (!holderObj)
       return

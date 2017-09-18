@@ -1,5 +1,5 @@
 frame {
-  size:t='0.8@sf, 1@maxWindowHeight'
+  size:t='1.1@scrn_tgt, 1@maxWindowHeight'
   pos:t='50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)'
   position:t='absolute'
   class:t='wndNav'
@@ -14,7 +14,7 @@ frame {
       <<@tabs>>
     }
 
-    Button_close { img {} }
+    Button_close {}
   }
 
   CheckBox {
@@ -59,13 +59,16 @@ frame {
       id:t='battle_tasks_no_tasks_text'
       pos:t='50%pw-50%w, 50%ph-50%h'
       position:t='absolute'
-      text:t='#mainmenu/battleTasks/noTasks'
+      max-width:t='pw'
+      hideEmptyText:t='yes'
+      text:t=''
     }
 
     RadioButtonList {
       id:t='battle_tasks_modes_radiobuttons'
       left:t='50%pw-50%w'
       position:t='relative'
+      margin-bottom:t='0.01@scrn_tgt'
 
       navigatorShortcuts:t='yes'
       on_select:t = 'onChangeShowMode'
@@ -90,27 +93,27 @@ frame {
     position:t='relative'
     display:t='hide'
     flow:t='vertical'
+    margin-bottom:t='0.01@scrn_tgt'
 
     textareaNoTab {
       id:t='progress_text'
       text:t=''
       hideEmptyText:t='yes'
-      pos:t='50%pw-50%w, 0.01@scrn_tgt'
+      pos:t='50%pw-50%w, 0'
       position:t='relative'
       margin-bottom:t='0.01@scrn_tgt'
     }
 
-    tdiv {
+    progressBoxPlace {
       id:t='progress_box_place'
       position:t='relative'
       pos:t='50%pw-50%w, 0'
       width:t='pw - 3@warbondShopLevelItemHeight'
       height:t='1@warbondShopLevelProgressHeight'
-      margin-bottom:t='0.01@scrn_tgt'
     }
 
     tdiv {
-      id:t='medals_block'
+      id:t='medal_icon'
       pos:t='50%pw-50%w, 0'
       position:t='relative'
       max-width:t='pw'
@@ -136,9 +139,9 @@ frame {
 
       textareaNoTab {
         id:t='warbonds_balance'
-        pos:t='0, 50%ph-50%h'
+        pos:t='1@buttonMargin, 50%ph-50%h'
         position:t='relative'
-        margin-right:t='0.02@scrn_tgt'
+        margin-right:t='1@buttonMargin'
         hideEmptyText:t='yes'
         text:t=''
 

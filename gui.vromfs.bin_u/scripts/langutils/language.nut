@@ -1,5 +1,6 @@
 ::g_language <- {
   currentLanguage = null
+  currentSteamSuffix = ""
   shortLangName = ""
   replaceFunctionsTable = {}
 
@@ -7,8 +8,29 @@
   langsById = {}
   langsByChatId = {}
   isListInited = false
+  langsListForInventory = {}
 
   needCheckLangPack = false
+
+  steamSuffixes = {
+    English = "_english"
+    French = "_french"
+    Italian = "_italian"
+    German = "_german"
+    Spanish = "_spanish"
+    Russian = "_russian"
+    Polish = "_polish"
+    Czech = "_czech"
+    Turkish = "_turkish"
+    Chinese = "_schinese"
+    Japanese = "_japanese"
+    Portuguese = "_portuguese"
+    Ukrainian = "_ukrainian"
+    Hungarian = "_hungarian"
+    Korean = "_koreana"
+    TChinese = "_tchinese"
+    HChinese = "_schinese"
+  }
 }
 
 function g_language::standartStyleNumberCut(num)
@@ -142,6 +164,7 @@ function g_language::getCurLangInfo()
 
 function g_language::onChangeLanguage()
 {
+  ::g_language.currentSteamSuffix = ::getTblValue(currentLanguage, steamSuffixes, "_english");
   ::g_language.updateFunctions()
 }
 
@@ -224,6 +247,7 @@ function g_language::checkInitList()
   langsList.clear()
   langsById.clear()
   langsByChatId.clear()
+  langsListForInventory.clear()
 
   local locBlk = ::DataBlock()
   ::get_localization_blk_copy(locBlk)
@@ -260,6 +284,17 @@ function g_language::checkInitList()
 
   local curLangId = ::g_language.getLanguageName()
   _addLangOnce(curLangId)
+
+  local inventoryBlk = locBlk.inventory_abbreviated_languages_table || ::DataBlock()
+  for (local l = 0; l < inventoryBlk.paramCount(); ++l)
+  {
+    local param = inventoryBlk.getParamValue(l)
+    if (typeof(param) != "string")
+      continue
+
+    local abbrevName = inventoryBlk.getParamName(l)
+    langsListForInventory[param] <- abbrevName
+  }
 }
 
 function g_language::getGameLocalizationInfo()
@@ -311,6 +346,19 @@ function g_language::getLocTextFromConfig(config, id = "text", defaultValue = nu
   return res
 }
 
+function g_language::getLocTextFromSteamDesc(desc, key)
+{
+  local value = ::getTblValue(key + currentSteamSuffix, desc, null);
+  if (value)
+    return value;
+
+  value = ::getTblValue(key + "_english", desc, null);
+  if (value)
+    return value;
+
+  return ::getTblValue(key, desc, "");
+}
+
 function g_language::isAvailableForCurLang(block)
 {
   if (!::getTblValue("showForLangs", block))
@@ -333,6 +381,17 @@ function get_current_language()
 function getShortTextFromNum(num)
 {
   return ::g_language.getShortTextFromNum(num)
+}
+
+// using from C++ to convert current language to inventory's abbreviation language
+// to properly load localization for its goods
+function get_abbreviated_language_for_inventory(fullLang)
+{
+  local abbrevLang = "en"
+  if (fullLang in ::g_language.langsListForInventory)
+    abbrevLang = ::g_language.langsListForInventory[fullLang]
+
+  return abbrevLang
 }
 
 ::subscribe_handler(::g_language, ::g_listener_priority.DEFAULT_HANDLER)

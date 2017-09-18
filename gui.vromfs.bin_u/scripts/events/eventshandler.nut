@@ -558,7 +558,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if ( ! obj || ! obj.id)
       return
-    collapseChapter(::cut_prefix(obj.id, "btn_", obj.id))
+    collapseChapter(::g_string.cutPrefix(obj.id, "btn_", obj.id))
   }
 
   function collapseChapter(chapterId)

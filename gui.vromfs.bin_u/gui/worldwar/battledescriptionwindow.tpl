@@ -6,7 +6,7 @@ root {
     largeNavBarHeight:t='yes'
     type:t='dark'
 
-    size:t='1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar'
+    size:t='1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar +1@slotbarTop'
     pos:t='50%pw-50%w, 1@minYposWindow'
     position:t='absolute'
 
@@ -17,7 +17,7 @@ root {
         caption:t='yes'
       }
 
-      Button_close { img {} }
+      Button_close {}
     }
 
     tdiv {
@@ -87,8 +87,6 @@ root {
                 margin-left:t='10*@sf/@pf_outdated'
                 background-rotation:t='0'
                 display:t='show'
-
-                wait_icon_cock {}
               }
             }
 
@@ -154,13 +152,14 @@ root {
           btnName:t='A'
           inactive:t='no'
 
+          pattern{}
           buttonWink { _transp-timer:t='0' }
+          buttonGlance {}
           ButtonImg {}
           textarea {
             class:t='buttonText'
             text:t='#mainmenu/toBattle'
           }
-          buttonGlance {}
         }
         Button_text {
           id:t='btn_leave_battle'
@@ -174,14 +173,14 @@ root {
           display:t='hide'
           enable:t='no'
 
+          pattern{}
           buttonWink { _transp-timer:t='0' }
+          buttonGlance {}
           ButtonImg{}
           btnText {
             id:t='btn_leave_event_text'
             text:t='#mainmenu/btnCancel'
           }
-
-          buttonGlance {}
         }
       }
     }

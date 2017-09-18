@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 ::g_lb_data_type <- {
   types = []
 }
@@ -10,7 +13,7 @@ function g_lb_data_type::_getStandartTooltip(type, value)
 {
   local shortText = type.getShortTextByValue(value)
   local fullText = type.getFullTextByValue(value)
-  return fullText != shortText ? (::loc("leaderboards/exactValue") + ::loc("ui/colon") + ::stripTags(fullText)) : ""
+  return fullText != shortText ? (::loc("leaderboards/exactValue") + ::loc("ui/colon") + ::g_string.stripTags(fullText)) : ""
 }
 
 ::g_lb_data_type.template <- {
@@ -80,14 +83,14 @@ function g_lb_data_type::_getStandartTooltip(type, value)
 
   TIME = {
     getFullTextByValue = function (value, allowNegative = false) {
-      value = value.tofloat() / TIME_HOUR_IN_SECONDS_F
-      local res = ::hoursToString(value)
+      value = time.secondsToHours(value.tofloat())
+      local res = time.hoursToString(value)
       return res
     }
 
     getShortTextByValue = function (value, allowNegative = false) {
-      value = value.tofloat() / TIME_HOUR_IN_SECONDS_F
-      local res = ::hoursToString(value, false)
+      value = time.secondsToHours(value.tofloat())
+      local res = time.hoursToString(value, false)
       return res
     }
 
@@ -99,14 +102,14 @@ function g_lb_data_type::_getStandartTooltip(type, value)
 
   TIME_MIN = {
     getFullTextByValue = function (value, allowNegative = false) {
-      value = value.tofloat() / TIME_MINUTE_IN_SECONDS_F
-      local res = ::hoursToString(value)
+      value = time.secondsToMinutes(value.tofloat())
+      local res = time.hoursToString(value)
       return res
     }
 
     getShortTextByValue = function (value, allowNegative = false) {
-      value = value.tofloat() / TIME_MINUTE_IN_SECONDS_F
-      local res = ::hoursToString(value, false)
+      value = time.secondsToMinutes(value.tofloat())
+      local res = time.hoursToString(value, false)
       return res
     }
 
@@ -119,7 +122,7 @@ function g_lb_data_type::_getStandartTooltip(type, value)
   TIME_MSEC = {
     getFullTextByValue = function (value, allowNegative = false) {
       value = value.tofloat() / 1000.0
-      return ::getRaceTimeFromSeconds(value)
+      return time.getRaceTimeFromSeconds(value)
     }
   }
 
@@ -152,7 +155,7 @@ function g_lb_data_type::_getStandartTooltip(type, value)
 
   DATE = {
     getFullTextByValue = function (value, allowNegative = false) {
-      return ::build_date_str(::get_time_from_t(value))
+      return time.buildDateStr(::get_time_from_t(value))
     }
   }
 

@@ -108,7 +108,8 @@
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -546,6 +547,13 @@
           {
             "onKill": {
               "damageType": "explosion",
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
               "expl": 0.5,
               "fire": 0.5
             }
@@ -1026,9 +1034,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.6,0.9],
-      "explodeHitPower": 1500.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.7,0.9],
+      "explodeHitPower": 4000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1042,18 +1050,6 @@
       "explodeTreshold": 0.0001,
       "explodeArmorPower": 30.0,
       "explodeRadius": [1.5,10.0]
-    }
-  },
-  {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 8000.0,
-        "cutDamage": 1000.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
-      }
     }
   },
   {
@@ -1667,10 +1663,14 @@
           "armorThickness": 40.0
         },
         "body_top_dm": {
-          "armorThickness": 36.0
+          "armorThickness": 36.0,
+          "explosionArmorQuality": 1.6
         },
         "turret_04_top_dm": {
-          "armorThickness": 228.0
+          "armorThickness": 165.0
+        },
+        "ex_armor_body_02_dm": {
+          "armorThickness": 122.0
         }
       },
       "hull_RHA": {
@@ -1686,9 +1686,6 @@
         },
         "body_bottom_dm": {
           "armorThickness": 19.0
-        },
-        "ex_armor_body_02_dm": {
-          "armorThickness": 15.0
         },
         "turret_06_front_dm": {
           "armorThickness": 15.0
@@ -1970,17 +1967,22 @@
         "ex_armor_turret_r_02_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 30.0,
-          "hp": 400.0,
-          "track_r_dm": [],
-          "track_l_dm": [],
+          "armorThickness": 20.0,
+          "hp": 200.0,
           "ex_armor_turret_r_01_dm": {
-            "hp": 300.0
+            "hp": 200.0
           },
           "ex_armor_turret_l_01_dm": {
-            "hp": 300.0
+            "hp": 200.0
           }
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -2165,6 +2167,20 @@
         "ammo_body_39_dm": [],
         "ammo_body_40_dm": [],
         "ammo_body_41_dm": [],
+        "ammo_body_42_dm": [],
+        "ammo_body_43_dm": [],
+        "ammo_body_44_dm": [],
+        "ammo_body_45_dm": [],
+        "ammo_body_46_dm": [],
+        "ammo_body_47_dm": [],
+        "ammo_body_48_dm": [],
+        "ammo_body_49_dm": [],
+        "ammo_body_50_dm": [],
+        "ammo_body_51_dm": [],
+        "ammo_body_52_dm": [],
+        "ammo_body_53_dm": [],
+        "ammo_body_54_dm": [],
+        "ammo_body_55_dm": [],
         "ammo_body_l_01_dm": [],
         "ammo_body_l_02_dm": [],
         "ammo_body_l_03_dm": [],
@@ -2484,8 +2500,7 @@
                 "errExplTime": 0.0,
                 "turret": {
                   "head": "bone_grenade",
-                  "gun": "bone_grenade",
-                  "gunnerDm": "gunner_dm"
+                  "gun": "bone_grenade"
                 },
                 "limits": {
                   "yaw": [-0.0,0.0],
@@ -2868,6 +2883,18 @@
       "headPos": [0.0,3.9,-8.7],
       "headPosOnShooting": [0.0,3.6,0.0],
       "detectionHeight": 3.213
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 8000.0,
+        "cutDamage": 1000.0,
+        "deviation": 0.5,
+        "rotation": 0.5,
+        "collisionNode": "cls_turret_02"
+      }
     }
   }
 ]

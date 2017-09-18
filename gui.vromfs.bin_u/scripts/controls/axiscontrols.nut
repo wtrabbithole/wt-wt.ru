@@ -215,7 +215,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     local data = "option { id:t='axisopt_'; text:t='#joystick/axis_not_assigned' }\n"
     for(local i=0; i<numAxisInList; i++)
       data += format("option { id:t='axisopt_%d'; text:t='%s' }\n",
-              i, ::stripTags(::remapAxisName(curPreset.getAxisName(i))))
+              i, ::g_string.stripTags(::remapAxisName(curPreset.getAxisName(i))))
 
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
     listObj.setValue(curDevice? (bindAxisNum+1) : 0)

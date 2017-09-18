@@ -22,9 +22,7 @@ root {
         caption:t='yes'
         text:t='<<headerText>>'
       }
-      Button_close {
-        img {}
-      }
+      Button_close {}
     }
 
     textareaNoTab {
@@ -92,14 +90,15 @@ root {
           btnName:t='A'
           buy_ticket_button:t='yes'
 
+          pattern{}
           buttonWink { _transp-timer:t='0' }
+          buttonGlance {}
           ButtonImg{}
           textarea {
             id:t='btn_apply_text'
             input-transparent:t='yes'
             removeParagraphIndent:t='yes'
           }
-          buttonGlance {}
         }
       }
     }

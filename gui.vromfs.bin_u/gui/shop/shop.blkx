@@ -6,144 +6,149 @@
       "id": "shop-title",
       "text": ""
     },
-    "frame": {
-      "size": "@rw, sh-30*@scrn_tgt/100.0",
-      "pos": "50%pw-50%w, sh-13*@scrn_tgt/100.0-h",
-      "position": "absolute",
-      "class": "wndNav",
-      "frame_header": {
-        "HorizontalListBox": {
-          "id": "shop_pages_list",
-          "height": "ph",
-          "class": "header",
-          "withImages": "yes",
-          "activeAccesskeys": "RS",
-          "on_select": "onAircraftsPage"
-        },
-        "textarea": {
-          "id": "shop_header",
-          "caption": "yes",
-          "overlayTextColor": "active",
-          "text": "",
-          "removeParagraphIndent": "yes",
-          "top": "50%ph-50%h"
-        },
-        "Button_close": {
-          "id": "btn_back",
-          "style": "on_click:onCloseShop",
-          "img": []
+    "frame": [
+      {
+        "size": "@rw, sh-30*@scrn_tgt/100.0"
+      },
+      {
+        "pos": "50%pw-50%w, sh-13*@scrn_tgt/100.0-h"
+      },
+      {
+        "position": "absolute"
+      },
+      {
+        "class": "wndNav"
+      },
+      {
+        "frame_header": {
+          "HorizontalListBox": {
+            "id": "shop_pages_list",
+            "height": "ph",
+            "class": "header",
+            "withImages": "yes",
+            "activeAccesskeys": "RS",
+            "on_select": "onAircraftsPage"
+          },
+          "textareaNoTab": {
+            "id": "shop_header",
+            "caption": "yes",
+            "text": ""
+          },
+          "Button_close": {
+            "id": "btn_back",
+            "style": "on_click:onCloseShop"
+          }
         }
       },
-      "tdiv": [
-        {
-          "size": "pw, fh"
-        },
-        {
-          "id": "shop_items_visible_div"
-        },
-        {
-          "pos": "0, 1@frameHeaderHeight"
-        },
-        {
-          "position": "relative"
-        },
-        {
-          "overflow-y": "auto"
-        },
-        {
-          "scrollbarShortcuts": "yes"
-        },
-        {
-          "tdiv": {
-            "id": "tree_header_div",
-            "size": "pw, 1@buttonHeight",
-            "position": "absolute"
-          }
-        },
-        {
-          "tdiv": [
-            {
-              "id": "shop_items_scroll_div"
-            },
-            {
-              "pos": "1@modBlockTierNumHeight, 0"
-            },
-            {
-              "position": "relative"
-            },
-            {
-              "width": "fw"
-            },
-            {
-              "overflow-x": "auto"
-            },
-            {
-              "tdiv": {
-                "id": "shop_useful_width",
-                "pos": "0, 0",
-                "position": "absolute",
-                "size": "pw-@scrollBarSize, 0"
-              }
-            },
-            {
-              "tdiv": {
-                "id": "shopTable_air_plates",
-                "pos": "0, 0",
-                "position": "absolute",
-                "height": "ph",
-                "flow": "vertical"
-              }
-            },
-            {
-              "tdiv": {
-                "id": "shop_items_pos_div",
-                "left": "(pw-w)/2",
-                "margin-right": "1@scrollBarSize",
-                "top": "1@buttonHeight + 1@shop_h_extra_first",
-                "position": "relative",
+      {
+        "tdiv": {
+          "id": "tree_header_div",
+          "size": "pw, 1@buttonHeight"
+        }
+      },
+      {
+        "tdiv": {
+          "size": "pw, 2@dp",
+          "background-color": "@frameBackgroundColor"
+        }
+      },
+      {
+        "tdiv": [
+          {
+            "size": "pw, fh"
+          },
+          {
+            "id": "shop_items_visible_div"
+          },
+          {
+            "overflow-y": "auto"
+          },
+          {
+            "scrollbarShortcuts": "yes"
+          },
+          {
+            "tdiv": [
+              {
+                "id": "shop_items_scroll_div"
+              },
+              {
+                "width": "fw"
+              },
+              {
+                "overflow-x": "auto"
+              },
+              {
                 "tdiv": {
-                  "id": "shopTable_air_rows",
+                  "id": "shop_useful_width",
+                  "pos": "0, 0",
+                  "position": "absolute",
+                  "size": "pw-@scrollBarSize, 0"
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "shopTable_air_plates",
                   "pos": "0, 0",
                   "position": "absolute",
                   "height": "ph",
                   "flow": "vertical"
-                },
-                "table": {
-                  "id": "shop_items_list",
-                  "class": "shopTable",
-                  "focus": "yes",
-                  "behavior": "columnNavigator",
-                  "cur_col": "0",
-                  "cur_row": "0",
-                  "fixed_row": "0",
-                  "navigatorShortcuts": "yes",
-                  "alwaysShowBorder": "yes",
-                  "on_click": "onAircraftClick",
-                  "_on_dbl_click": "onDoubleClick",
-                  "on_select": "onUnitSelect",
-                  "on_wrap_up": "onWrapUp",
-                  "on_wrap_down": "onWrapDown"
+                }
+              },
+              {
+                "tdiv": {
+                  "id": "shop_items_pos_div",
+                  "left": "(pw-w)/2",
+                  "padding": "1@modBlockTierNumHeight, 0, 1@scrollBarSize, 0",
+                  "top": "1@shop_h_extra_first",
+                  "position": "relative",
+                  "tdiv": {
+                    "id": "shopTable_air_rows",
+                    "pos": "0, 0",
+                    "position": "absolute",
+                    "height": "ph",
+                    "flow": "vertical"
+                  },
+                  "table": {
+                    "id": "shop_items_list",
+                    "class": "shopTable",
+                    "focus": "yes",
+                    "behavior": "columnNavigator",
+                    "cur_col": "0",
+                    "cur_row": "0",
+                    "fixed_row": "0",
+                    "navigatorShortcuts": "yes",
+                    "alwaysShowBorder": "yes",
+                    "on_click": "onAircraftClick",
+                    "_on_dbl_click": "onDoubleClick",
+                    "on_select": "onUnitSelect",
+                    "on_wrap_up": "onWrapUp",
+                    "on_wrap_down": "onWrapDown"
+                  }
                 }
               }
+            ]
+          },
+          {
+            "tdiv": {
+              "id": "tier_arrows_div",
+              "pos": "0, 1@shop_h_extra_first",
+              "position": "absolute",
+              "width": "1@modBlockTierNumHeight",
+              "height": "ph"
             }
-          ]
-        },
-        {
-          "tdiv": {
-            "id": "tier_arrows_div",
-            "position": "absolute",
-            "width": "1@modBlockTierNumHeight",
-            "margin-top": "1@buttonHeight + 1@shop_h_extra_first",
-            "height": "ph"
           }
+        ]
+      },
+      {
+        "navBar": []
+      },
+      {
+        "dummy": {
+          "id": "shop_timer",
+          "behavior": "Timer",
+          "timer_handler_func": "onUpdate"
         }
-      ],
-      "navBar": [],
-      "dummy": {
-        "id": "shop_timer",
-        "behavior": "Timer",
-        "timer_handler_func": "onUpdate"
       }
-    }
+    ]
   }
 }

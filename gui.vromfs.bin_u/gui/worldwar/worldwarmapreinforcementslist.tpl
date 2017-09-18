@@ -11,7 +11,7 @@ tdiv {
     position:t='relative'
     text:t='#worldwar/state/reinforcement_ready'
     overlayTextColor:t='active'
-    tinyFont:t='yes'
+    smallFont:t='yes'
   }
 
   ReinforcementsRadioButtonsList {
@@ -39,7 +39,7 @@ tdiv {
   textareaNoTab {
     id:t='ready_label_text'
     text:t='#worldwar/state/reinforcement_coming'
-    tinyFont:t='yes'
+    smallFont:t='yes'
   }
 
   ReinforcementsRadioButtonsList {

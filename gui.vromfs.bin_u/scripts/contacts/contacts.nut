@@ -269,7 +269,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       sceneChanged = true
       guiScene = scene.getScene()
-      guiScene.replaceContent(scene, "gui/contacts.blk", this)
+      guiScene.replaceContent(scene, "gui/contacts/contacts.blk", this)
       setSavedSizes()
       scene.findObject("contacts_update").setUserData(this)
       fillContactsList()
@@ -435,16 +435,15 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   searchGroupActiveTextInclude = @"
     id:t='search_group_active_text';
-    closeBtn {
+    Button_close {
       id:t='close_search_group';
-      /*pos:t='pw-w, 0.5ph-0.5h';*/
-      pos:t='pw-w, 0';
       on_click:t='onCloseSearchGroupClicked';
-      img {}
+      smallIcon:t='yes'
     }"
 
   groupFormat = @"group {
-    activeText {
+    groupHeader {
+      canBeClosed:t='yes';
       text:t='%s';
       %s
     }
@@ -935,8 +934,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         action = function () {
           if (::is_psn_player_use_same_titleId(curPlayer.name))
             ::g_psn_session_invitations.sendSkirmishInvitation(curPlayer.name)
-          else
-            ::SessionLobby.invitePlayer(curPlayer.uid)
+          ::SessionLobby.invitePlayer(curPlayer.uid)
         }
       }
       {
@@ -1146,8 +1144,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::is_psn_player_use_same_titleId(curPlayer.name))
       ::g_psn_session_invitations.sendSquadInvitation(curPlayer.name)
-    else
-      ::g_squad_manager.inviteToSquad(curPlayer.uid)
+    ::g_squad_manager.inviteToSquad(curPlayer.uid)
   }
 
   function onSquadRemove(obj)
@@ -1275,7 +1272,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local data = ""
       if (searchInProgress)
-        data = "animated_wait_icon { pos:t='0.5(pw-w),0.03sh'; position:t='absolute'; background-rotation:t='0'; wait_icon_cock {} }"
+        data = "animated_wait_icon { pos:t='0.5(pw-w),0.03sh'; position:t='absolute'; background-rotation:t='0' }"
       else if (searchShowNotFound)
         data = "textAreaCentered { text:t='#contacts/searchNotFound'; enable:t='no' }"
       else
@@ -1386,7 +1383,7 @@ function gui_start_search_squadPlayer()
 class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/contacts.blk"
+  sceneBlkName = "gui/contacts/contacts.blk"
 
   curGroup = ::EPL_FRIENDLIST
   searchGroup = ::EPLX_SEARCH
@@ -1449,24 +1446,7 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     if (!obj) return
 
     local value = obj.getValue()
-    local show = false
-    if (value in ::contacts[curGroup])
-    {
-      local player = ::contacts[curGroup][value]
-      curPlayer = player
-      show = player.presence != ::g_contact_presence.OFFLINE
-    }
-    else
-      curPlayer = null
-
-    updatePlayerButtons(show)
-  }
-
-  function updatePlayerButtons(show)
-  {
-    local squadBtn = scene.findObject("btn_squadInvite_bottom")
-    if (::checkObj(squadBtn))
-      squadBtn.inactiveColor = show? "no" : "yes"
+    curPlayer = ::getTblValue(value, ::contacts[curGroup])
   }
 
   function onGroupSelect(obj)
@@ -2086,7 +2066,7 @@ function fillContactTooltip(obj, contact, handler)
     }
   }
 
-  local blk = ::handyman.renderCached("gui/contactTooltip", view)
+  local blk = ::handyman.renderCached("gui/contacts/contactTooltip", view)
   obj.getScene().replaceContentFromText(obj, blk, blk.len(), handler)
 }
 

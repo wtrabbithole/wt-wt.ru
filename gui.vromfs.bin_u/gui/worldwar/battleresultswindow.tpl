@@ -7,15 +7,11 @@ frame {
   frame_header {
     activeText {
       id:t='wnd_title'
-      position:t='relative'
-      pos:t='0, 0'
       text:t='<<getBattleTitle>>'
       caption:t='yes'
     }
 
-    Button_close {
-      img {}
-    }
+    Button_close {}
   }
 
   tdiv {

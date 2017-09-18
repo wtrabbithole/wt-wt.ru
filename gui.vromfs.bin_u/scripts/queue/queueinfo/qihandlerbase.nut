@@ -1,3 +1,6 @@
+local time = require("scripts/time.nut")
+
+
 class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -91,7 +94,9 @@ class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT
     local waitTime = ::queues.getQueueActiveTime(queue)
     if (waitTime > 0)
     {
-      local timetext = ::format(::loc("yn1/wait_time"), waitTime / TIME_MINUTE_IN_SECONDS, waitTime % TIME_MINUTE_IN_SECONDS)
+      local minutes = time.secondsToMinutes(waitTime).tointeger()
+      local seconds = waitTime - time.minutesToSeconds(minutes).tointeger()
+      local timetext = ::format(::loc("yn1/wait_time"), minutes, seconds)
       msg = msg + "\n" + timetext
     }
     textObj.setValue(msg)

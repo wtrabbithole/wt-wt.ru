@@ -6,6 +6,9 @@ hint {
   <<#isOrderPopup>>
   order-popup:t='yes'
   <</isOrderPopup>>
+  <<#animation>>
+  animation:t='<<animation>>'
+  <</animation>>
 
   <<#rows>>
   hintRow {

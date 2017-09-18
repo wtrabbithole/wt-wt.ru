@@ -53,9 +53,7 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "onAircraftHelpersChanged"
     }
     { id="mouse_usage_no_aim", type = CONTROL_TYPE.SPINNER
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.AIM
-      }
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.AIM
       optionType = ::USEROPT_MOUSE_USAGE_NO_AIM
       onChangeValue = "onAircraftHelpersChanged"
     }
@@ -74,19 +72,13 @@ function get_favorite_voice_message_option(index)
 
   { id = "ID_PLANE_FIRE_HEADER", type = CONTROL_TYPE.SECTION }
     { id = "ID_FIRE_MGUNS", autobind = ["ID_FIRE_CANNONS", "ID_FIRE_GM"]
-      autobind_sc = function() {
-        return ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
-      }
+      autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
     }
     { id = "ID_FIRE_CANNONS", autobind = ["ID_FIRE_MGUNS", "ID_FIRE_GM"]
-      autobind_sc = function() {
-        return ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
-      }
+      autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
     }
     { id = "ID_FIRE_ADDITIONAL_GUNS", autobind = ["ID_FIRE_CANNONS", "ID_FIRE_MGUNS", "ID_FIRE_GM"]
-      autobind_sc = function() {
-        return ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
-      }
+      autobind_sc = @() ::is_xinput_device() ? [{btn = [17], dev = [3]} /* R2 */] : null
     }
     { id = "fire", type = CONTROL_TYPE.AXIS, checkAssign = false }
     { id = "ID_BAY_DOOR", checkAssign = false }
@@ -104,7 +96,7 @@ function get_favorite_voice_message_option(index)
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
       filterHide = [::EM_MOUSE_AIM]
-//      showFunc = function() { return checkOptionValue("mouse_joystick", 1)}
+//      showFunc = @() checkOptionValue("mouse_joystick", 1)
       axis_num = MouseAxis.MOUSE_X
       values = ["none", "ailerons", "rudder", "camx"]
     }
@@ -115,7 +107,7 @@ function get_favorite_voice_message_option(index)
     }*/
     { id="throttle", type = CONTROL_TYPE.AXIS, def_relative = true }
     { id="holdThrottleForWEP", type = CONTROL_TYPE.SWITCH_BOX,
-      value = function(joyParams) { return joyParams.holdThrottleForWEP }
+      value = @(joyParams) joyParams.holdThrottleForWEP
       setValue = function(joyParams, objValue) {
         local old  = joyParams.holdThrottleForWEP
         joyParams.holdThrottleForWEP = objValue
@@ -152,9 +144,7 @@ function get_favorite_voice_message_option(index)
     { id="invert_x", type = CONTROL_TYPE.SPINNER
       filterHide = [::EM_INSTRUCTOR, ::EM_REALISTIC, ::EM_FULL_REAL]
       optionType = ::USEROPT_INVERTX
-      showFunc = function() {
-        return checkOptionValue("invert_y", true);
-      }
+      showFunc = @() checkOptionValue("invert_y", true)
     }
     { id="multiplier_force_gain", type = CONTROL_TYPE.SLIDER
       filterHide = [::EM_MOUSE_AIM]
@@ -178,8 +168,8 @@ function get_favorite_voice_message_option(index)
       filterHide = [::EM_MOUSE_AIM]
     }
     { id = "gunner_joy_speed", type = CONTROL_TYPE.SLIDER
-      value = function(joyParams) { return 100.0*(::get_option_multiplier(::OPTION_CAMERA_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed) }
-      setValue = function(joyParams, objValue) { ::set_option_multiplier(::OPTION_CAMERA_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed)) }
+      value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))
       filterHide = [::EM_MOUSE_AIM]
     }
     { id="invert_y_gunner", type = CONTROL_TYPE.SWITCH_BOX
@@ -265,7 +255,7 @@ function get_favorite_voice_message_option(index)
     }
     { id="use_joystick_on_mouse_aim", type = CONTROL_TYPE.SWITCH_BOX,
       filterHide = [::EM_INSTRUCTOR, ::EM_REALISTIC, ::EM_FULL_REAL]
-      value = function(joyParams) { return joyParams.useJoystickOnMouseAim }
+      value = @(joyParams) joyParams.useJoystickOnMouseAim
       setValue = function(joyParams, objValue) {
         local old  = joyParams.useJoystickOnMouseAim
         joyParams.useJoystickOnMouseAim = objValue
@@ -277,87 +267,64 @@ function get_favorite_voice_message_option(index)
   { id = "ID_PLANE_JOYSTICK_HEADER"
     type = CONTROL_TYPE.SECTION
     filterHide = [::EM_MOUSE_AIM]
-    showFunc = function() {
-      return getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
-    }
+    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
   }
     { id = "mouse_joystick_mode", type = CONTROL_TYPE.SPINNER,
       filterHide = [::EM_MOUSE_AIM],
       options = ["#options/mouse_joy_mode_simple", "#options/mouse_joy_mode_standard"],
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
-      }
-      value = function(joyParams) {
-        return ::get_option_int(::OPTION_MOUSE_JOYSTICK_MODE);
-      }
-      setValue = function(joyParams, objValue) {
-        ::set_option_int(::OPTION_MOUSE_JOYSTICK_MODE, objValue);
-      }
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) ::get_option_int(::OPTION_MOUSE_JOYSTICK_MODE)
+      setValue = @(joyParams, objValue) ::set_option_int(::OPTION_MOUSE_JOYSTICK_MODE, objValue)
     }
     { id = "mouse_joystick_sensitivity", type = CONTROL_TYPE.SLIDER
       filterHide = [::EM_MOUSE_AIM]
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
-      }
-      value = function(joyParams) {
-        return 100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SENSITIVITY) - ::minMouseJoystickSensitivity) /
-          (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity) }
-      setValue = function(joyParams, objValue) {
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams)
+        100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SENSITIVITY) - ::minMouseJoystickSensitivity) /
+          (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity)
+      setValue = @(joyParams, objValue)
         ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SENSITIVITY, ::minMouseJoystickSensitivity + (objValue / 100.0) *
-          (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity)) }
+          (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity))
     }
     { id = "mouse_joystick_deadzone", type = CONTROL_TYPE.SLIDER
       filterHide = [::EM_MOUSE_AIM]
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
-      }
-      value = function(joyParams) { return 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE) / ::maxMouseJoystickDeadZone }
-      setValue = function(joyParams, objValue) { ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE,
-        (objValue / 100.0) * ::maxMouseJoystickDeadZone) }
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE) / ::maxMouseJoystickDeadZone
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE,
+        (objValue / 100.0) * ::maxMouseJoystickDeadZone)
     }
     { id = "mouse_joystick_screensize", type = CONTROL_TYPE.SLIDER
       filterHide = [::EM_MOUSE_AIM]
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
-      }
-      value = function(joyParams) {
-        return 100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE) - ::minMouseJoystickScreenSize) /
-          (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize) }
-      setValue = function(joyParams, objValue) {
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams)
+        100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE) - ::minMouseJoystickScreenSize) /
+          (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize)
+      setValue = @(joyParams, objValue)
         ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE, ::minMouseJoystickScreenSize + (objValue / 100.0) *
-          (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize)) }
+          (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize))
     }
     { id = "mouse_joystick_screen_place", type = CONTROL_TYPE.SLIDER
       filterHide = [::EM_MOUSE_AIM]
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
-      }
-      value = function(joyParams) { return 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE) }
-      setValue = function(joyParams, objValue) { ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE, objValue / 100.0) }
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE, objValue / 100.0)
     }
     { id = "mouse_joystick_rudder", type = CONTROL_TYPE.SLIDER
       filterHide = [::EM_MOUSE_AIM]
-      showFunc = function() {
-        return getMouseUsageMask() &
-          (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
-      }
-      value = function(joyParams) { return 100.0*::get_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR) / ::maxMouseJoystickRudder }
-      setValue = function(joyParams, objValue) { ::set_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR,
-        (objValue / 100.0) * ::maxMouseJoystickRudder) }
+      showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR) / ::maxMouseJoystickRudder
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR,
+        (objValue / 100.0) * ::maxMouseJoystickRudder)
     }
     { id = "mouse_joystick_square", type = CONTROL_TYPE.SWITCH_BOX
       filterHide = [::EM_MOUSE_AIM]
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
-      }
-      value = function(joyParams) { return ::get_option_mouse_joystick_square() }
-      setValue = function(joyParams, objValue) { ::set_option_mouse_joystick_square(objValue); }
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) ::get_option_mouse_joystick_square()
+      setValue = @(joyParams, objValue) ::set_option_mouse_joystick_square(objValue)
     }
     { id="ID_CENTER_MOUSE_JOYSTICK"
       filterHide = [::EM_MOUSE_AIM]
-      showFunc = function() {
-        return getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
-      }
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       checkAssign = false
     }
 
@@ -430,74 +397,60 @@ function get_favorite_voice_message_option(index)
     { id = "ID_FORWARD_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? [SHORTCUT.GAMEPAD_UP]
-          : [SHORTCUT.KEY_W, SHORTCUT.KEY_UP]
-      }
+      autobind_sc = @() ::is_xinput_device() ?
+        [SHORTCUT.GAMEPAD_UP] : [SHORTCUT.KEY_W, SHORTCUT.KEY_UP]
     }
     { id = "ID_BACKWARD_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? [SHORTCUT.GAMEPAD_DOWN]
-          : [SHORTCUT.KEY_S, SHORTCUT.KEY_DOWN]
-      }
+      autobind_sc = @() ::is_xinput_device() ?
+        [SHORTCUT.GAMEPAD_DOWN] : [SHORTCUT.KEY_S, SHORTCUT.KEY_DOWN]
     }
     { id = "helicopter_throttle"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = function() {
-        return ::is_xinput_device()
-          ? {axis = {axisId = AXIS.RIGHTSTICK_Y}}
-          : {keys = {
-            helicopter_throttle_rangeMin = [SHORTCUT.KEY_LCTRL]
-            helicopter_throttle_rangeMax = [SHORTCUT.KEY_LSHIFT]
-          }}
-      }
+      autobind_raw = @() ::is_xinput_device()
+        ? {axis = {axisId = AXIS.RIGHTSTICK_Y}}
+        : {keys = {
+          helicopter_throttle_rangeMin = [SHORTCUT.KEY_LCTRL]
+          helicopter_throttle_rangeMax = [SHORTCUT.KEY_LSHIFT]
+        }}
     }
     { id = "helicopter_roll"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = function() {
-        return ::is_xinput_device()
-          ? {axis = {axisId = AXIS.LEFTSTICK_X}}
-          : {keys = {
-            helicopter_roll_rangeMin =
-              [SHORTCUT.KEY_A, SHORTCUT.KEY_LEFT]
-            helicopter_roll_rangeMax =
-              [SHORTCUT.KEY_D, SHORTCUT.KEY_RIGHT]
-          }}
-      }
+      autobind_raw = @() ::is_xinput_device()
+        ? {axis = {axisId = AXIS.LEFTSTICK_X}}
+        : {keys = {
+          helicopter_roll_rangeMin =
+            [SHORTCUT.KEY_A, SHORTCUT.KEY_LEFT]
+          helicopter_roll_rangeMax =
+            [SHORTCUT.KEY_D, SHORTCUT.KEY_RIGHT]
+        }}
       def_relative = false
       reqInMouseAim = false
     }
     { id = "helicopter_pitch"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = function() {
-        return ::is_xinput_device()
-          ? {axis = {axisId = AXIS.LEFTSTICK_Y, inverse = true}}
-          : {keys = {
-            helicopter_pitch_rangeMin = [SHORTCUT.KEY_PAGE_UP]
-            helicopter_pitch_rangeMax = [SHORTCUT.KEY_PAGE_DOWN]
-          }}
-      }
+      autobind_raw = @() ::is_xinput_device()
+        ? {axis = {axisId = AXIS.LEFTSTICK_Y, inverse = true}}
+        : {keys = {
+          helicopter_pitch_rangeMin = [SHORTCUT.KEY_PAGE_UP]
+          helicopter_pitch_rangeMax = [SHORTCUT.KEY_PAGE_DOWN]
+        }}
       def_relative = false
       checkAssign = false
     }
     { id = "helicopter_yaw"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_raw = function() {
-        return ::is_xinput_device()
-          ? {axis = {axisId = AXIS.RIGHTSTICK_X}}
-          : {keys = {
-            helicopter_yaw_rangeMin = [SHORTCUT.KEY_Q]
-            helicopter_yaw_rangeMax = [SHORTCUT.KEY_E]
-          }}
-      }
+      autobind_raw = @() ::is_xinput_device()
+        ? {axis = {axisId = AXIS.RIGHTSTICK_X}}
+        : {keys = {
+          helicopter_yaw_rangeMin = [SHORTCUT.KEY_Q]
+          helicopter_yaw_rangeMax = [SHORTCUT.KEY_E]
+        }}
       def_relative = false
       checkAssign = false
     }
@@ -508,37 +461,21 @@ function get_favorite_voice_message_option(index)
     { id = "helicopter_aim_fire",
       type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_HELICOPTER_AIM_FIRE
-      showFunc = function() {
-        return checkOptionValue("helicopter_aim_move", false);
-      }
+      showFunc = @() checkOptionValue("helicopter_aim_move", false)
     }
     { id = "ID_FIRE_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? [SHORTCUT.GAMEPAD_R2]
-          : [SHORTCUT.MOUSE_LEFT_BUTTON]
-      }
+      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_R2] : [SHORTCUT.MOUSE_LEFT_BUTTON]
     }
     { id = "ID_ROCKETS_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? [SHORTCUT.GAMEPAD_L1]
-          : [SHORTCUT.KEY_R,
-            SHORTCUT.KEY_4,
-            SHORTCUT.MOUSE_BUTTON_5]
-      }
+      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_L1]
+        : [SHORTCUT.KEY_R, SHORTCUT.KEY_4, SHORTCUT.MOUSE_BUTTON_5]
     }
     { id = "ID_MISSLE_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? [SHORTCUT.GAMEPAD_R1]
-          : [SHORTCUT.KEY_SPACE,
-            SHORTCUT.KEY_3,
-            SHORTCUT.MOUSE_BUTTON_4]
-      }
+      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_R1]
+        : [SHORTCUT.KEY_SPACE, SHORTCUT.KEY_3, SHORTCUT.MOUSE_BUTTON_4]
     }
 
   { id = "ID_HELICOPTER_VIEW_HEADER"
@@ -546,45 +483,33 @@ function get_favorite_voice_message_option(index)
   }
     { id = "ID_TOGGLE_VIEW_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? [SHORTCUT.GAMEPAD_Y]
-          : [SHORTCUT.KEY_V]
-      }
+      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.KEY_V]
       checkAssign = false
     }
     { id = "ID_TARGETING_HOLD_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? [SHORTCUT.GAMEPAD_L2]
-          : [SHORTCUT.MOUSE_RIGHT_BUTTON]
-      }
+      autobind_sc = @() ::is_xinput_device() ? [SHORTCUT.GAMEPAD_L2] : [SHORTCUT.MOUSE_RIGHT_BUTTON]
       checkAssign = false
     }
     { id = "helicopter_camx"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_raw = function() {
-        return ::is_xinput_device()
-          ? {axis = {axisId = AXIS.RIGHTSTICK_X}, keys = {
-            helicopter_camx = [SHORTCUT.GAMEPAD_LEFT, SHORTCUT.GAMEPAD_RIGHT]
-          }}
-          : null
-      }
+      autobind_raw = @() ::is_xinput_device()
+        ? {axis = {axisId = AXIS.RIGHTSTICK_X}, keys = {
+          helicopter_camx = [SHORTCUT.GAMEPAD_LEFT, SHORTCUT.GAMEPAD_RIGHT]
+        }}
+        : null
     }
     { id = "helicopter_camy"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
-      autobind_raw = function() {
-        return ::is_xinput_device()
-          ? {axis = {axisId = AXIS.RIGHTSTICK_Y}, keys = {
-            helicopter_camy = [SHORTCUT.GAMEPAD_LEFT, SHORTCUT.GAMEPAD_RIGHT]
-          }}
-          : null
-      }
+      autobind_raw = @() ::is_xinput_device()
+        ? {axis = {axisId = AXIS.RIGHTSTICK_Y}, keys = {
+          helicopter_camy = [SHORTCUT.GAMEPAD_LEFT, SHORTCUT.GAMEPAD_RIGHT]
+        }}
+        : null
     }
     { id = "invert_y_helicopter"
       type = CONTROL_TYPE.SWITCH_BOX
@@ -605,7 +530,7 @@ function get_favorite_voice_message_option(index)
   { id = "ID_TANK_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.TANK
-    showFunc = function() { return ::has_feature("Tanks") }
+    showFunc = @() ::has_feature("Tanks")
   }
   { id = "ID_TANK_MOVE_HEADER", type = CONTROL_TYPE.SECTION }
     { id="gm_automatic_transmission",
@@ -637,9 +562,7 @@ function get_favorite_voice_message_option(index)
     { id="ID_TRANS_GEAR_NEUTRAL",
       checkGroup = ctrlGroups.TANK,
       checkAssign = false,
-      showFunc = function() {
-        return checkOptionValue("gm_automatic_transmission", false);
-      }
+      showFunc = @() checkOptionValue("gm_automatic_transmission", false)
     }
     { id="ID_ENABLE_GM_DIRECTION_DRIVING" , checkGroup = ctrlGroups.TANK, checkAssign = false }
 
@@ -658,11 +581,13 @@ function get_favorite_voice_message_option(index)
     { id="ID_SELECT_GM_GUN_MACHINEGUN", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_SMOKE_SCREEN"
       checkGroup = ctrlGroups.TANK
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? null
-          : [SHORTCUT.KEY_G]
-      }
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_G]
+      checkAssign = false
+    }
+    {
+      id = "ID_SMOKE_SCREEN_GENERATOR"
+      checkGroup = ctrlGroups.TANK
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_H]
       checkAssign = false
     }
 
@@ -716,7 +641,7 @@ function get_favorite_voice_message_option(index)
     { id="ID_ACTION_BAR_ITEM_4", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_ACTION_BAR_ITEM_5", checkGroup = ctrlGroups.TANK, checkAssign = false,
       autobind = ["ID_KILLSTREAK_WHEEL_MENU"]
-      showFunc = function() { return ::is_platform_pc && !::is_xinput_device() }
+      showFunc = @() ::is_platform_pc && !::is_xinput_device()
     }
     { id="ID_ACTION_BAR_ITEM_6", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_ACTION_BAR_ITEM_7", checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -726,13 +651,14 @@ function get_favorite_voice_message_option(index)
     { id="ID_ACTION_BAR_ITEM_12", checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_KILLSTREAK_WHEEL_MENU", checkGroup = ctrlGroups.TANK, checkAssign = false,
       autobind = ["ID_ACTION_BAR_ITEM_5"]
-      showFunc = function() { return !(::is_platform_pc && !::is_xinput_device()) }
+      showFunc = @() !(::is_platform_pc && !::is_xinput_device())
     }
     { id="ID_SHOOT_ARTILLERY", checkGroup = ctrlGroups.TANK, checkAssign = false
       autobind = ["ID_FIRE_GM", "ID_FIRE_GM_SECONDARY_GUN", "ID_FIRE_CANNONS", "ID_FIRE_MGUNS"]
     }
     { id="ID_CHANGE_ARTILLERY_TARGETING_MODE", checkGroup = ctrlGroups.TANK, checkAssign = false
-      autobind_sc = function() { return get_is_console_mode_force_enabled() ? [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.MOUSE_MIDDLE_BUTTON] }
+      autobind_sc = @() get_is_console_mode_force_enabled() ?
+        [SHORTCUT.GAMEPAD_Y] : [SHORTCUT.MOUSE_MIDDLE_BUTTON]
     }
     { id="ID_ARTILLERY_CANCEL", checkGroup = ctrlGroups.TANK, checkAssign = false}
     { id="ID_RANGEFINDER", checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -750,7 +676,7 @@ function get_favorite_voice_message_option(index)
   { id = "ID_SHIP_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.SHIP
-    showFunc = function() { return ::has_feature("Ships") }
+    showFunc = @() ::has_feature("Ships")
   }
   { id = "ID_SHIP_MOVE_HEADER", type = CONTROL_TYPE.SECTION }
     { id = "ship_seperated_engine_control",
@@ -763,26 +689,20 @@ function get_favorite_voice_message_option(index)
       autobind = ["gm_throttle"],
       def_relative = true,
       checkGroup = ctrlGroups.SHIP,
-      showFunc = function() {
-        return checkOptionValue("ship_seperated_engine_control", false);
-      }
+      showFunc = @() checkOptionValue("ship_seperated_engine_control", false)
     }
     { id = "ship_port_engine",
       type = CONTROL_TYPE.AXIS,
       def_relative = true,
       checkGroup = ctrlGroups.SHIP,
-      showFunc = function() {
-        return checkOptionValue("ship_seperated_engine_control", true);
-      }
+      showFunc = @() checkOptionValue("ship_seperated_engine_control", true)
       checkAssign = false
     }
     { id="ship_star_engine",
       type = CONTROL_TYPE.AXIS
       def_relative = true
       checkGroup = ctrlGroups.SHIP
-      showFunc = function() {
-        return checkOptionValue("ship_seperated_engine_control", true);
-      }
+      showFunc = @() checkOptionValue("ship_seperated_engine_control", true)
       checkAssign = false
     }
     { id="ship_steering", type = CONTROL_TYPE.AXIS, autobind=["gm_steering"], checkGroup = ctrlGroups.SHIP }
@@ -848,17 +768,13 @@ function get_favorite_voice_message_option(index)
     {
       id = "ID_SHIP_TORPEDO_SIGHT"
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = function() {
-        return ::is_xinput_device() ? null : [SHORTCUT.KEY_Q]
-      }
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_Q]
       checkAssign = false
     }
     {
       id="ID_SHIP_TOGGLE_GUNNERS"
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = function() {
-        return ::is_xinput_device() ? null : [SHORTCUT.KEY_E]
-      }
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_E]
       checkAssign = false
     }
     {
@@ -931,7 +847,7 @@ function get_favorite_voice_message_option(index)
       checkGroup = ctrlGroups.SHIP
       checkAssign = false
       autobind = ["ID_KILLSTREAK_WHEEL_MENU"]
-      showFunc = function() { return !(::is_platform_pc && !::is_xinput_device()) }
+      showFunc = @() !(::is_platform_pc && !::is_xinput_device())
     }
 
     {
@@ -944,21 +860,13 @@ function get_favorite_voice_message_option(index)
     { id="ID_SHIP_ACTION_BAR_ITEM_11",
       autobind = ["ID_REPAIR_TANK"]
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? null
-          : [SHORTCUT.KEY_7]
-      }
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_7]
       checkAssign = false
     }
 
     { id="ID_REPAIR_BREACHES"
       checkGroup = ctrlGroups.SHIP
-      autobind_sc = function() {
-        return ::is_xinput_device()
-          ? null
-          : [SHORTCUT.KEY_8]
-      }
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_8]
       checkAssign = false
     }
 
@@ -988,12 +896,12 @@ function get_favorite_voice_message_option(index)
       checkAssign = false
     }
 
-    //{ // Disable, because not supported in code now
-    //  id = "ID_SHIP_SMOKE",
-    //  checkGroup = ctrlGroups.SHIP,
-    //  checkAssign = false
-    //}
-
+    {
+      id = "ID_SHIP_SMOKE_SCREEN_GENERATOR",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+      autobind_sc = @() ::is_xinput_device() ? null : [SHORTCUT.KEY_G]
+    }
 
   { id = "ID_COMMON_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   { id = "ID_COMMON_BASIC_HEADER", type = CONTROL_TYPE.SECTION }
@@ -1008,8 +916,9 @@ function get_favorite_voice_message_option(index)
     { id="ID_TOGGLE_CHAT",       checkGroup = ctrlGroups.COMMON, checkAssign = ::is_platform_pc }
 
     { id="ID_PTT", checkGroup = ctrlGroups.COMMON, checkAssign = false,
-      condition = function() { return ::gchat_is_voice_enabled() } ,
-      showFunc = function() {return ::has_feature("Voice") } }
+      condition = @() ::gchat_is_voice_enabled()
+      showFunc = @() ::has_feature("Voice")
+    }
 
   { id = "ID_COMMON_INTERFACE_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_FLIGHTMENU_SETUP",  checkGroup = ctrlGroups.COMMON, checkAssign = false }
@@ -1017,13 +926,13 @@ function get_favorite_voice_message_option(index)
     { id="ID_GAME_PAUSE",        checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_HIDE_HUD",          checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_SHOW_MOUSE_CURSOR", checkGroup = ctrlGroups.COMMON, checkAssign = false
-      condition = function() { return ::is_platform_pc || ::is_platform_ps4 }
+      condition = @() ::is_platform_pc || ::is_platform_ps4
     }
     { id="ID_SCREENSHOT",        checkGroup = ctrlGroups.COMMON, checkAssign = false
-      condition = function() { return ::is_platform_pc } //See AcesApp::makeScreenshot()
+      condition = @() ::is_platform_pc // See AcesApp::makeScreenshot()
     }
     { id="ID_SCREENSHOT_WO_HUD", checkGroup = ctrlGroups.COMMON, checkAssign = false
-      condition = function() { return ::is_platform_pc } //See AcesApp::makeScreenshot()
+      condition = @() ::is_platform_pc // See AcesApp::makeScreenshot()
     }
     { id="decal_move_x", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.HANGAR, checkAssign = false }
     { id="decal_move_y", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.HANGAR, checkAssign = false }
@@ -1033,7 +942,7 @@ function get_favorite_voice_message_option(index)
 /*
     { id = "mouse_look_type", type = CONTROL_TYPE.SPINNER  //!!Fix me: Change to button
       options = ["#options/no", "#options/yes"]
-      value = function(joyParams) { return joyParams.isMouseLookHold ? 1 : 0 }
+      value = @(joyParams) joyParams.isMouseLookHold ? 1 : 0
       setValue = function(joyParams, objValue) {
         local prev = joyParams.isMouseLookHold
         joyParams.isMouseLookHold = objValue==1
@@ -1045,15 +954,15 @@ function get_favorite_voice_message_option(index)
     { id="ID_ZOOM_TOGGLE",          checkGroup = ctrlGroups.COMMON }
     { id="ID_CAMERA_NEUTRAL",       checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id = "camera_mouse_speed", type = CONTROL_TYPE.SLIDER
-      value = function(joyParams) { return 100.0*(::get_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed) }
-      setValue = function(joyParams, objValue) { ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed)) }
+      value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))
     }
     { id = "camera_smooth", type = CONTROL_TYPE.SLIDER
-      value = function(joyParams) { return 100.0*::get_option_multiplier(::OPTION_CAMERA_SMOOTH) / max_camera_smooth }
-      setValue = function(joyParams, objValue) { ::set_option_multiplier(::OPTION_CAMERA_SMOOTH, (objValue / 100.0) * max_camera_smooth) }
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_CAMERA_SMOOTH) / max_camera_smooth
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_SMOOTH, (objValue / 100.0) * max_camera_smooth)
     }
     { id = "hatview_mouse", type = CONTROL_TYPE.SWITCH_BOX
-      value = function(joyParams) { return joyParams.isHatViewMouse }
+      value = @(joyParams) joyParams.isHatViewMouse
       setValue = function(joyParams, objValue) {
         local prev = joyParams.isHatViewMouse
         joyParams.isHatViewMouse = objValue
@@ -1080,7 +989,7 @@ function get_favorite_voice_message_option(index)
     { id="ID_VOICE_MESSAGE_7", checkGroup = ctrlGroups.VOICE, checkAssign = false }
     { id="ID_VOICE_MESSAGE_8", checkGroup = ctrlGroups.VOICE, checkAssign = false }
     { id="use_joystick_mouse_for_voice_message", type = CONTROL_TYPE.SWITCH_BOX,
-      value = function(joyParams) { return joyParams.useJoystickMouseForVoiceMessage}
+      value = @(joyParams) joyParams.useJoystickMouseForVoiceMessage
       setValue = function(joyParams, objValue) {
         local old  = joyParams.useJoystickMouseForVoiceMessage
         joyParams.useJoystickMouseForVoiceMessage = objValue
@@ -1089,7 +998,7 @@ function get_favorite_voice_message_option(index)
       }
     }
     { id="use_mouse_for_voice_message", type = CONTROL_TYPE.SWITCH_BOX,
-      value = function(joyParams) { return joyParams.useMouseForVoiceMessage }
+      value = @(joyParams) joyParams.useMouseForVoiceMessage
       setValue = function(joyParams, objValue) {
         local old  = joyParams.useMouseForVoiceMessage
         joyParams.useMouseForVoiceMessage = objValue
@@ -1124,24 +1033,22 @@ function get_favorite_voice_message_option(index)
 
   { id = "ID_COMMON_TRACKER_HEADER", type = CONTROL_TYPE.SECTION }
     { id="tracker_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.COMMON, checkAssign = false,
-      showFunc = function() { return ::is_tracker_joystick(); }
+      showFunc = @() ::is_tracker_joystick()
     }
     { id="tracker_camy", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.COMMON, checkAssign = false,
-      showFunc = function() { return ::is_tracker_joystick(); }
+      showFunc = @() ::is_tracker_joystick()
     }
     { id="zoom_sens", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_ZOOM_SENSE
     }
     { id="headtrack_enable", type = CONTROL_TYPE.SWITCH_BOX
-      condition = function() { return ::ps4_headtrack_is_attached() }
+      condition = @() ::ps4_headtrack_is_attached()
       optionType = ::USEROPT_HEADTRACK_ENABLE
       onChangeValue = "doControlsGroupChangeDelayed"
     }
     { id = "trackIrZoom", type = CONTROL_TYPE.SWITCH_BOX
-      showFunc = function() {
-        return !::is_platform_ps4 || checkOptionValue("headtrack_enable", true);
-      }
-      value = function(joyParams) { return joyParams.trackIrZoom }
+      showFunc = @() !::is_platform_ps4 || checkOptionValue("headtrack_enable", true)
+      value = @(joyParams) joyParams.trackIrZoom
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrZoom
         joyParams.trackIrZoom = objValue
@@ -1150,8 +1057,8 @@ function get_favorite_voice_message_option(index)
       }
     }
     { id = "trackIrAsHeadInTPS", type = CONTROL_TYPE.SWITCH_BOX
-      condition = function() { return !::is_platform_ps4 }
-      value = function(joyParams) { return joyParams.trackIrAsHeadInTPS }
+      condition = @() !::is_platform_ps4
+      value = @(joyParams) joyParams.trackIrAsHeadInTPS
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrAsHeadInTPS
         joyParams.trackIrAsHeadInTPS = objValue
@@ -1160,11 +1067,11 @@ function get_favorite_voice_message_option(index)
       }
     }
     { id="headtrack_scale_x", type = CONTROL_TYPE.SLIDER
-      condition = function() { return ::ps4_headtrack_is_attached() }
+      condition = @() ::ps4_headtrack_is_attached()
       optionType = ::USEROPT_HEADTRACK_SCALE_X
     }
     { id="headtrack_scale_y", type = CONTROL_TYPE.SLIDER
-      condition = function() { return ::ps4_headtrack_is_attached() }
+      condition = @() ::ps4_headtrack_is_attached()
       optionType = ::USEROPT_HEADTRACK_SCALE_Y
     }
 
@@ -1182,11 +1089,11 @@ function get_favorite_voice_message_option(index)
     { id="ID_REPLAY_CAMERA_FREE_PARENTED", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="free_camera_inertia", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_FREE_CAMERA_INERTIA,
-      showFunc = function() { return ::is_option_free_camera_inertia_exist; }
+      showFunc = @() ::is_option_free_camera_inertia_exist
     }
     { id="replay_camera_wiggle", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_REPLAY_CAMERA_WIGGLE,
-      showFunc = function() { return ::is_option_replay_camera_wiggle_exist; }
+      showFunc = @() ::is_option_replay_camera_wiggle_exist
     }
     { id="ID_REPLAY_CAMERA_HOVER", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
     { id="ID_REPLAY_CAMERA_ZOOM_IN", checkGroup = ctrlGroups.REPLAY, checkAssign = false },
@@ -1227,47 +1134,47 @@ function get_favorite_voice_message_option(index)
   { id="rangeSet", type = CONTROL_TYPE.AXIS_SHORTCUT, symbol = "controls/rangeSet_symbol" }
   { id="",         type = CONTROL_TYPE.AXIS_SHORTCUT, symbol = "controls/enable_symbol" }
   { id = "keepDisabledValue", type = CONTROL_TYPE.SWITCH_BOX
-    value = function(axis) { return axis.keepDisabledValue }
-    setValue = function(axis, objValue) { axis.keepDisabledValue = objValue }
+    value = @(axis) axis.keepDisabledValue
+    setValue = @(axis, objValue) axis.keepDisabledValue = objValue
   }
   { id = "deadzone", type = CONTROL_TYPE.SLIDER
     min=0, max=100, step=5, showValueMul = 0.005
-    value = function(axis) { return (axis.innerDeadzone/max_deadzone) * 100 }
-    setValue = function(axis, objValue) { axis.innerDeadzone = objValue / 100.0 * max_deadzone }
+    value = @(axis) (axis.innerDeadzone/max_deadzone) * 100
+    setValue = @(axis, objValue) axis.innerDeadzone = objValue / 100.0 * max_deadzone
   }
   { id = "nonlinearity", type = CONTROL_TYPE.SLIDER
     min=10, max=max_nonlinearity * 10, step=1, showValueMul = 0.1
-    value = function(axis) { return axis.nonlinearity * 10.0 + 10.0 }
-    setValue = function(axis, objValue) { axis.nonlinearity = (objValue / 10.0) - 1.0 }
+    value = @(axis) axis.nonlinearity * 10.0 + 10.0
+    setValue = @(axis, objValue) axis.nonlinearity = (objValue / 10.0) - 1.0
   }
   { id = "invertAxis", type = CONTROL_TYPE.SWITCH_BOX
-    value = function(axis) { return axis.inverse }
-    setValue = function(axis, objValue) { axis.inverse = objValue }
+    value = @(axis) axis.inverse
+    setValue = @(axis, objValue) axis.inverse = objValue
   }
   { id = "relativeAxis", type = CONTROL_TYPE.SWITCH_BOX
-    value = function(axis) { return axis.relative }
-    setValue = function(axis, objValue) { axis.relative = objValue }
+    value = @(axis) axis.relative
+    setValue = @(axis, objValue) axis.relative = objValue
     onChangeValue = "onChangeAxisRelative"
   }
   { id = "kRelSpd", type = CONTROL_TYPE.SLIDER
     min=1, max=10, step=1, showValuePercMul = 10
-    value = function(axis) { return sqrt(axis.relSens)*10.0 }
-    setValue = function(axis, objValue) { axis.relSens = sqr(objValue / 10.0) }
+    value = @(axis) sqrt(axis.relSens)*10.0
+    setValue = @(axis, objValue) axis.relSens = sqr(objValue / 10.0)
   }
   { id = "kRelStep", type = CONTROL_TYPE.SLIDER
     min=0, max=50, step=1
-    value = function(axis) { return axis.relStep * 100.0 }
-    setValue = function(axis, objValue) { axis.relStep = objValue / 100.0 }
+    value = @(axis) axis.relStep * 100.0
+    setValue = @(axis, objValue) axis.relStep = objValue / 100.0
   }
   { id = "kMul", type = CONTROL_TYPE.SLIDER
     min=20, max=200, step=5, showValueMul = 0.01
-    value = function(axis) { return axis.kMul*100.0 }
-    setValue = function(axis, objValue) { axis.kMul = objValue / 100.0 }
+    value = @(axis) axis.kMul*100.0
+    setValue = @(axis, objValue) axis.kMul = objValue / 100.0
   }
   { id = "kAdd", type = CONTROL_TYPE.SLIDER
     min=-50, max=50, step=1
-    value = function(axis) { return axis.kAdd*50.0 }
-    setValue = function(axis, objValue) { axis.kAdd = objValue / 50.0 }
+    value = @(axis) axis.kAdd*50.0
+    setValue = @(axis, objValue) axis.kAdd = objValue / 50.0
   }
 ]
 
@@ -1380,6 +1287,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_LOCK_TARGET",
   "ID_REPAIR_TANK",
   "ID_SHOW_HERO_MODULES",
+  "ID_SMOKE_SCREEN_GENERATOR",
 
   { id ="ID_VIEW_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   "ID_ZOOM_TOGGLE"
@@ -1408,7 +1316,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_SHIP_WEAPON_DEPTH_CHARGE"
   "ID_SHIP_WEAPON_ROCKETS"
   "ID_SHIP_WEAPON_MINE"
-  "ID_SHIP_SMOKE"
+  "ID_SHIP_SMOKE_SCREEN_GENERATOR"
   { id="ship_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="ship_steering", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   "ID_SHIP_ACTION_BAR_ITEM_1",
@@ -1567,17 +1475,17 @@ enum MOUSE_AXIS {
 
 ::mouse_axes_to_image <- {
   [MOUSE_AXIS.NOT_AXIS] = "",
-  [MOUSE_AXIS.HORIZONTAL_AXIS] = "#ui/gameuiskin#mouse_move_l_r",
-  [MOUSE_AXIS.VERTICAL_AXIS] = "#ui/gameuiskin#mouse_move_up_down",
-  [MOUSE_AXIS.MOUSE_MOVE] = "#ui/gameuiskin#mouse_move_4_sides",
-  [MOUSE_AXIS.WHEEL_AXIS] = "#ui/gameuiskin#mouse_center_up_down",
+  [MOUSE_AXIS.HORIZONTAL_AXIS] = "#ui/hudskin#mouse_move_l_r",
+  [MOUSE_AXIS.VERTICAL_AXIS] = "#ui/hudskin#mouse_move_up_down",
+  [MOUSE_AXIS.MOUSE_MOVE] = "#ui/hudskin#mouse_move_4_sides",
+  [MOUSE_AXIS.WHEEL_AXIS] = "#ui/hudskin#mouse_center_up_down",
 
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_center_down",
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_center_up",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_l",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_r",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_down",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_up",
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_center_down",
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_center_up",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_move_l",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_move_r",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_move_down",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_move_up",
 }
 
 ::autorestore_axis_table <- {
@@ -1889,7 +1797,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         headerOffsetX     = "0.015@sf"
         headerOffsetY     = "0.015@sf"
         collapseShortcut  = "LB"
-        navShortcutGroup  = "RS"
+        navShortcutGroup  = ::get_option(::USEROPT_GAMEPAD_CURSOR_CONTROLLER).value ? null : "RS"
       })
     registerSubHandler(navigationHandlerWeak)
     navigationHandlerWeak = handler.weakref()
@@ -2047,7 +1955,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     {
       local controlTblObj = scene.findObject("controls_tbl")
       if (::checkObj(controlTblObj))
-        controlTblObj.setValue(0)
+        controlTblObj.setValue(::getNearestSelectableChildIndex(controlTblObj, -1, 1))
     }
   }
 
@@ -2459,7 +2367,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       if (controlTblObj.getChild(i).id == id)
       {
         if (controlTblObj.getValue() != i)
-          controlTblObj.setValue(i)
+          controlTblObj.setValue(::getNearestSelectableChildIndex(controlTblObj, i, 1))
         break
       }
   }
@@ -2541,8 +2449,9 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
       if (obj)
       {
-        obj.hiddenTr = show? "no" : "yes"
-        obj.inactive = (show&& !(item.type== CONTROL_TYPE.HEADER))? null : "yes"
+        obj.hiddenTr = show ? "no" : "yes"
+        obj.inactive = (show && item.type != CONTROL_TYPE.HEADER
+          && item.type != CONTROL_TYPE.SECTION) ? null : "yes"
       }
 
       if (curRow == i && !show)
@@ -3316,11 +3225,9 @@ function buildHotkeyItem(rowIdx, shortcuts, item, params, even, rowParams = "")
   if (item.type == CONTROL_TYPE.SECTION)
   {
     local data = ""
-    res = format("tr { %s " +
+    res = format("tr { %s inactive:t='yes';" +
                    "td { width:t='@controlsLeftRow'; overflow:t='visible';" +
-                     "tdiv { width:t='p.p.w';" +
-                       "chapter_item_unlocked { padding:t='0.08@sf, 0';" +
-                         "mission_item_text { text:t='%s'; }}}}\n" +
+                     "optionBlockHeader { text:t='%s'; }}\n" +
                    "td { width:t='pw-1@controlsLeftRow'; }\n" +
                  "}\n", trAdd, ::getTblValue("title", item, "#hotkeys/" + item.id))
   }
@@ -3451,7 +3358,7 @@ function get_shortcut_text(shortcuts, shortcutId, cantBeEmpty = true, strip_tags
     if (text=="")
       continue
 
-    data = ::addHotkeyTxt(strip_tags? ::stripTags(text) : text, data)
+    data = ::addHotkeyTxt(strip_tags? ::g_string.stripTags(text) : text, data)
   }
 
   if (cantBeEmpty && data=="")
@@ -3563,7 +3470,7 @@ class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
   {
     local show = ::ps4_headtrack_is_attached() && ::ps4_headtrack_get_enable()
     foreach(o in [::USEROPT_HEADTRACK_SCALE_X, ::USEROPT_HEADTRACK_SCALE_Y])
-      showOptionRow(get_option(o).id, show)
+      showOptionRow(get_option(o), show)
     showSceneBtn("btn_calibrate", show)
   }
 

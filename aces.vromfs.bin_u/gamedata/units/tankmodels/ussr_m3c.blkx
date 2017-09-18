@@ -275,13 +275,14 @@
         "wheel_r_top_03_dm": [],
         "wheel_support_dm": {
           "armorThickness": 10.0
-        },
-        "submodule": {
-          "armorClass": "tank_traks",
-          "armorThickness": 17.0,
-          "track_r_dm": [],
-          "track_l_dm": []
         }
+      },
+      "tracks": {
+        "armorClass": "tank_traks",
+        "armorThickness": 20.0,
+        "hp": 200.0,
+        "track_r_dm": [],
+        "track_l_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -347,7 +348,7 @@
         "armorClass": "tank_structural_steel",
         "hp": 150.0,
         "armorThickness": 10.0,
-        "armorThrough": 60.0,
+        "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
@@ -446,7 +447,8 @@
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_manual",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle"
+      "TrackSoundNameAi": "tracks_ai_middle",
+      "gun_turn": "turret_turn_mg_light"
     }
   },
   {
@@ -1355,6 +1357,27 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-7.0,60.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": false,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 50.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 16.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [10.0,0.05]
+              },
+              {
+                "row": [12.0,0.4]
+              }
+            ]
           }
         }
       },
@@ -1399,6 +1422,27 @@
           "limits": {
             "yaw": [-15.0,15.0],
             "pitch": [-9.0,20.0]
+          },
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": false,
+            "hasHorizontal": false,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 50.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 0.7,
+            "verticalSpeedLimitKPH": 16.0,
+            "speedFromVehicleVerticalMult": -1.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.0]
+              },
+              {
+                "row": [10.0,0.05]
+              },
+              {
+                "row": [12.0,0.4]
+              }
+            ]
           }
         }
       },
@@ -1752,7 +1796,7 @@
         "cutDamage": 350.0,
         "deviation": 0.5,
         "rotation": 0.5,
-        "collisionNode": "cls_turret_01"
+        "collisionNode": "cls_turret"
       }
     }
   },

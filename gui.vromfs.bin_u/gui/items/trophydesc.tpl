@@ -10,7 +10,7 @@ textareaNoTab {
   <</widthByParentParent>>
 
   margin-bottom:t='1@itemPadding'
-  font-bold:t='@normal'
+  font-bold:t='@fontMedium'
   text:t='<<header>>'
 }
 <</header>>
@@ -48,7 +48,7 @@ tdiv {
     <</widthByParentParent>>
     max-width:t='p.p.p.w -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>>'
     pos:t='1@itemPadding, ph/2-h/2'; position:t='relative'
-    font-bold:t='@tiny'
+    font-bold:t='@fontSmall'
     text:t='<<title>>'
   }
   <</title>>
@@ -82,7 +82,7 @@ tdiv {
     max-width:t='p.p.p.w -1@dIco -1@itemPadding'
     pos:t='<<#classIco>>1@dIco+<</classIco>> 1@itemPadding, 0'; position:t='relative'
     text:t='<<unitInfoText>>'
-    tinyFont:t='yes'
+    smallFont:t='yes'
     margin-bottom:t='20'
   }
   <</unitInfoText>>

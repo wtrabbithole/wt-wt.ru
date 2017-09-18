@@ -16,18 +16,6 @@
       "padding": "4*@sf/@pf_outdated"
     },
     {
-      "background-image": "#ui/gameuiskin#rounded_container"
-    },
-    {
-      "background-color": "#EA000000"
-    },
-    {
-      "background-repeat": "expand"
-    },
-    {
-      "background-position": "5"
-    },
-    {
       "flow": "vertical"
     },
     {
@@ -108,7 +96,7 @@
               "table": {
                 "id": "table_queue_stat",
                 "width": "pw",
-                "tinyFont": "yes"
+                "smallFont": "yes"
               }
             }
           ]
@@ -119,7 +107,7 @@
               "id": "2_block"
             },
             {
-              "pos": "0, 5*@sf/@pf_outdated"
+              "pos": "0, @blockInterval"
             },
             {
               "position": "relative"
@@ -171,7 +159,7 @@
               "table": {
                 "id": "table_queue_stat",
                 "width": "pw",
-                "tinyFont": "yes"
+                "smallFont": "yes"
               }
             }
           ]
@@ -197,8 +185,7 @@
           "animated_wait_icon": {
             "pos": "0, 50%ph-50%h",
             "position": "relative",
-            "background-rotation": "0",
-            "wait_icon_cock": []
+            "background-rotation": "0"
           }
         }
       }

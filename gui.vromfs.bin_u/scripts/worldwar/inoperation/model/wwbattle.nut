@@ -1,3 +1,4 @@
+local time = require("scripts/time.nut")
 class ::WwBattle
 {
   id = ""
@@ -587,7 +588,7 @@ class ::WwBattle
       side = ::ww_get_player_side()
 
     local team = getTeamBySide(side)
-    return cut_prefix(team.country, "country_")
+    return ::g_string.cutPrefix(team.country, "country_")
   }
 
   function getTeamNameBySide(side = -1)
@@ -596,7 +597,7 @@ class ::WwBattle
       side = ::ww_get_player_side()
 
     local team = getTeamBySide(side)
-    return cut_prefix(team.name, "team")
+    return ::g_string.cutPrefix(team.name, "team")
   }
 
   function getTeamBySide(side)
@@ -649,7 +650,7 @@ class ::WwBattle
     if (battleStartMillisec)
     {
       local millisec = ::ww_get_operation_time_millisec() - battleStartMillisec
-      return ::milliseconds_to_seconds(millisec).tointeger()
+      return time.millisecondsToSeconds(millisec).tointeger()
     }
 
     return 0

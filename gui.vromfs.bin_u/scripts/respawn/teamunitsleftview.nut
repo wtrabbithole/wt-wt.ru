@@ -77,7 +77,7 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
     local data = missionRules.getFullUnitLimitsData()
     local textsList = ::u.map(data.unitLimits, getRespTextByUnitLimit)
     textsList.insert(0, ::loc("multiplayer/teamUnitsLeftHeader"))
-    return ::implode(textsList, "\n")
+    return ::g_string.implode(textsList, "\n")
   }
 
   function updateInfo(isJustSwitched = false)

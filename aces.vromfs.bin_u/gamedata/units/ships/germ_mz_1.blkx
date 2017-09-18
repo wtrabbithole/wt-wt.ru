@@ -69,6 +69,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "MetaPartsBlk": "gameData/units/ships/dm/ships_metaparts.blk"
+  },
+  {
     "type": "typeTorpedoGunBoat"
   },
   {
@@ -87,7 +90,22 @@
     "exhaustFx": "ps_exhaust"
   },
   {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 20.0
+  },
+  {
+    "smokeScreenRad": 20.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
     "explosionFx": "ship_explosion"
+  },
+  {
+    "canReloadNonGuns": true
   },
   {
     "default_skin_tomoe": [
@@ -1373,7 +1391,7 @@
       },
       {
         "ammo": {
-          "armorClass": "tank_structural_steel",
+          "armorClass": "ship_structural_steel",
           "hp": 500.0,
           "armorThickness": 20.0,
           "armorThrough": 15.0,
@@ -2360,6 +2378,15 @@
       {
         "part": [
           {
+            "name": "ammunition_storage_01_dm"
+          },
+          {
+            "name": "ammunition_storage_02_dm"
+          },
+          {
+            "name": "ammunition_storage_03_dm"
+          },
+          {
             "name": "ammo_body_dm"
           },
           {
@@ -2479,6 +2506,66 @@
       },
       {
         "part": [
+          {
+            "name": "depth_charge_01_dm"
+          },
+          {
+            "name": "depth_charge_02_dm"
+          },
+          {
+            "name": "depth_charge_03_dm"
+          },
+          {
+            "name": "depth_charge_04_dm"
+          },
+          {
+            "name": "depth_charge_05_dm"
+          },
+          {
+            "name": "depth_charge_06_dm"
+          },
+          {
+            "name": "depth_charge_07_dm"
+          },
+          {
+            "name": "depth_charge_08_dm"
+          },
+          {
+            "name": "depth_charge_09_dm"
+          },
+          {
+            "name": "depth_charge_10_dm"
+          },
+          {
+            "name": "depth_charge_11_dm"
+          },
+          {
+            "name": "depth_charge_12_dm"
+          },
+          {
+            "name": "depth_charge_13_dm"
+          },
+          {
+            "name": "depth_charge_14_dm"
+          },
+          {
+            "name": "depth_charge_15_dm"
+          },
+          {
+            "name": "depth_charge_16_dm"
+          },
+          {
+            "name": "depth_charge_17_dm"
+          },
+          {
+            "name": "depth_charge_18_dm"
+          },
+          {
+            "name": "depth_charge_19_dm"
+          },
+          {
+            "name": "depth_charge_20_dm"
+          },
           {
             "name": "depth_charge_l_01_dm"
           },
@@ -2694,51 +2781,8 @@
     ]
   },
   {
-    "MetaParts": {
-      "cover": [
-        {
-          "part": "compartment_01_dm"
-        },
-        {
-          "part": "compartment_02_dm"
-        },
-        {
-          "part": "compartment_03_dm"
-        },
-        {
-          "part": "compartment_04_dm"
-        },
-        {
-          "part": "compartment_05_dm"
-        },
-        {
-          "part": "compartment_06_dm"
-        },
-        {
-          "part": "compartment_07_dm"
-        },
-        {
-          "part": "compartment_08_dm"
-        },
-        {
-          "part": "compartment_09_dm"
-        },
-        {
-          "part": "compartment_10_dm"
-        },
-        {
-          "effect": {
-            "conditionPartsDead": 2,
-            "kill": true,
-            "killEffect": "drown"
-          }
-        }
-      ]
-    }
-  },
-  {
     "tank_crew": {
-      "minCrewMemberAliveCount": 10,
+      "minCrewMemberAliveCount": 11,
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
@@ -2747,17 +2791,17 @@
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 5
+        "crew": 6
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
         "role": "sailor",
-        "crew": 10
+        "crew": 11
       },
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 11
+        "crew": 13
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
@@ -2767,110 +2811,24 @@
       "sailor6": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 1
       },
       "sailor7": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 1
       },
       "sailor8": {
         "dmPart": "auxiliary_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 1
       },
       "sailor9": {
         "dmPart": "aa_turret_01_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 1
       }
     }
-  },
-  {
-    "breaches": {
-      "repairSpeed": 30.0,
-      "waterMassVel": -3000.0,
-      "waterMassMult": 25.0,
-      "sizeToRepair": [0.01,2.0,20.0,1500.0],
-      "additionalWaterDeathThreshold": 950000.0,
-      "additionalWaterShouldDiePercent": 0.51,
-      "fatalBreachDrownTime": 25.0,
-      "sideCenterOfMassOffsetPercent": 0.5
-    }
-  },
-  {
-    "shipCover": [
-      {
-        "cover": {
-          "part": "compartment_01_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_02_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_03_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_04_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_05_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_06_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_07_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_08_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_09_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      },
-      {
-        "cover": {
-          "part": "compartment_10_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 0.3
-        }
-      }
-    ]
   },
   {
     "class_tags": {
@@ -2890,9 +2848,9 @@
   {
     "ShipPhys": {
       "mass": {
-        "Empty": 300000.0,
+        "Empty": 400000.0,
         "Fuel": 15000.0,
-        "TakeOff": 315000.0,
+        "TakeOff": 385000.0,
         "momentOfInertia": [62.0,202.0,170.0],
         "CenterOfGravity": [-1.6,0.3,0.0],
         "AdvancedMass": false
@@ -3252,12 +3210,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 12
-          },
-          {
-            "reusePitchTrigger": 12
-          },
-          {
             "turret": {
               "head": "turret_h_03",
               "gun": "aa_gun_02",
@@ -3372,12 +3324,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 12
-          },
-          {
-            "reusePitchTrigger": 12
-          },
-          {
             "turret": {
               "head": "turret_h_03",
               "gun": "aa_gun_02",
@@ -3485,12 +3431,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 13
-          },
-          {
-            "reusePitchTrigger": 13
           },
           {
             "turret": {
@@ -3607,12 +3547,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 13
-          },
-          {
-            "reusePitchTrigger": 13
-          },
-          {
             "turret": {
               "head": "turret_h_04",
               "gun": "aa_gun_03",
@@ -3720,12 +3654,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
           },
           {
             "turret": {
@@ -3842,12 +3770,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
-          },
-          {
             "turret": {
               "head": "turret_h_05",
               "gun": "aa_gun_01",
@@ -3957,12 +3879,6 @@
             "errExplTime": 0.0
           },
           {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
-          },
-          {
             "turret": {
               "head": "turret_h_05",
               "gun": "aa_gun_01",
@@ -4070,12 +3986,6 @@
           },
           {
             "errExplTime": 0.0
-          },
-          {
-            "reuseYawTrigger": 14
-          },
-          {
-            "reusePitchTrigger": 14
           },
           {
             "turret": {
@@ -4229,6 +4139,7 @@
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
           "allowableDelta": 180.0,
+          "enableCourseCorrection": false,
           "turret": {
             "head": "bone_torpedo_01",
             "gun": "bone_torpedo_01"
@@ -4250,6 +4161,7 @@
           "startFx": "start_torpedo",
           "startFxOffset": [4.0,0.0,0.0],
           "allowableDelta": 180.0,
+          "enableCourseCorrection": false,
           "turret": {
             "head": "bone_torpedo_02",
             "gun": "bone_torpedo_02"
@@ -4364,7 +4276,7 @@
           "extinguisherCrewBusyTime": -1.0
         }
       },
-      "tank_tool_kit": []
+      "ship_smoke_screen_system_mod": []
     }
   },
   {
@@ -4373,24 +4285,6 @@
         "event": [
           {
             "name": "engine_fire"
-          },
-          {
-            "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine"
-            }
-          },
-          {
-            "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_01"
-            }
-          },
-          {
-            "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_02"
-            }
           },
           {
             "fx": {
@@ -4433,6 +4327,27 @@
             "fx": {
               "name": "tank_ammo_fire",
               "emitter": "emtr_fire_ammo_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo",
+              "scale": 0.6
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo_01",
+              "scale": 0.6
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo_02",
+              "scale": 0.6
             }
           }
         ]
@@ -4859,13 +4774,22 @@
           {
             "fx": {
               "name": "ship_explosion",
-              "emitter": "emtr_explosion_center"
+              "emitter": "emtr_explosion_center",
+              "scale": 0.9
             }
           },
           {
             "fx": {
               "name": "ship_explosion",
-              "emitter": "emtr_explosion_center_01"
+              "emitter": "emtr_explosion_center_01",
+              "scale": 0.7
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_explosion_center_02",
+              "scale": 0.6
             }
           }
         ]
@@ -4895,8 +4819,84 @@
     }
   },
   {
+    "breaches": {
+      "repairSpeed": 30.0,
+      "waterMassVel": -3000.0,
+      "waterMassMult": 25.0,
+      "sizeToRepair": [0.01,2.0,20.0,1500.0],
+      "additionalWaterDeathThreshold": 1100000.0,
+      "additionalWaterShouldDiePercent": 0.45,
+      "fatalBreachDrownTime": 35.0,
+      "maxHeelingAngle": 38.0,
+      "maxHeelingTime": 10.0,
+      "criticalHeelingAnglePercent": 0.5,
+      "maxCriticalHeelingTime": 2.0,
+      "heelingDeathHeightOffsetMult": 1.0,
+      "sideCenterOfMassOffsetPercent": 0.5
+    }
+  },
+  {
+    "shipCover": [
+      {
+        "cover": {
+          "part": "compartment_01_dm",
+          "weight": 0.6,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_02_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_03_dm",
+          "weight": 0.8,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_04_dm",
+          "weight": 0.8,
+          "maxWaterAlive": 1.0
+        }
+      }
+    ]
+  },
+  {
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "shells": {
+          "ammunition_storage_01_dm": {
+            "count": 220
+          }
+        }
+      },
+      "ammo2": {
+        "weaponTrigger": "gunner5",
+        "shells": {
+          "ammunition_storage_02_dm": {
+            "count": 220
+          }
+        }
+      }
+    }
+  },
+  {
     "winch": {
       "length": 50.0
+    }
+  },
+  {
+    "difficulty": {
+      "arcade": {
+        "tankRearmOnCaptureZone": true
+      }
     }
   }
 ]

@@ -19,6 +19,7 @@ weaponry_item {
     id:t='actionBtn'
     holderId:t='<<id>>'
     class:t='additional'
+    visualStyle:t='common'
     text:t='#weaponry/research';
     vertPos:t='up'
     on_click:t='onModActionBtn'
@@ -54,7 +55,7 @@ weaponry_item {
           id:t='name';
           width:t='fw'
           height:t='ph'
-          tinyFont:t='yes'
+          smallFont:t='yes'
           pare-text:t='yes'
           position:t='relative'
         }
@@ -62,7 +63,7 @@ weaponry_item {
         <<#wideItemWithSlider>>
         textareaNoTab {
           id:t='price';
-          tinyFont:t='yes'
+          smallFont:t='yes'
           text:t='';
           hideEmptyText:t='yes'
           padding-right:t='2*@sf/@pf_outdated'
@@ -100,7 +101,7 @@ weaponry_item {
           id:t='bulletsCountText'
           pos:t='50%pw-50%w, 0';
           position:t='relative'
-          veryTinyFont:t='yes'
+          tinyFont:t='yes'
           text:t='12 / <color=@red>7</color>'
         }
 
@@ -131,7 +132,7 @@ weaponry_item {
           Button_text {
             id:t='buttonDec'
             holderId:t='<<id>>'
-            pos:t='-w, 50%ph - 50%h + 1'
+            pos:t='-w, 50%ph - 50%h'
             position:t='absolute'
             class:t='sliderValueButton'
             type:t='weaponryAmount'
@@ -147,7 +148,7 @@ weaponry_item {
           Button_text {
             id:t='buttonInc'
             holderId:t='<<id>>'
-            pos:t='pw, 50%ph - 50%h + 1'
+            pos:t='pw, 50%ph - 50%h'
             position:t='absolute'
             class:t='sliderValueButton'
             type:t='weaponryAmount'
@@ -184,7 +185,7 @@ weaponry_item {
             id:t='mod_research_text';
             pos:t='0.5pw - 0.5w, 0';
             position:t='relative';
-            verytinyFont:t='yes'
+            tinyFont:t='yes'
             text:t=''
           }
           tdiv {
@@ -207,7 +208,7 @@ weaponry_item {
         <<^wideItemWithSlider>>
         textareaNoTab {
           id:t='price';
-          tinyFont:t='yes'
+          smallFont:t='yes'
           text:t='';
           pos:t='0, ph-h-3*@sf/@pf_outdated';
           position:t='relative'
@@ -276,12 +277,12 @@ weaponry_item {
     visualStyle:t='purchase'
     buttonWink {}
     buttonGlance{}
-    textarea{
+    textarea {
       id:t='item_buy_text'
       text:t='';
       class:t='buttonText';
       text-align:t='center';
-      tinyFont:t='yes'
+      smallFont:t='yes'
     }
     ButtonImg {}
   }

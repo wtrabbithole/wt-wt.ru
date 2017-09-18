@@ -11,8 +11,9 @@ tdiv {
       height:t='1@slot_height -2@slot_vert_pad -2'
       pos:t='0, ph/2-h/2'; position:t='absolute'
       width:t='2.7h'
-      background-color:t='@white'
       background-image:t='<<unitImg>>'
+      background-repeat:t='aspect-ratio'
+      background-align:t='left'
     }
 
     textareaNoTab {
@@ -96,7 +97,7 @@ tdiv {
             id:t='mod_research_text'
             pos:t='0.5pw - 0.5w, 0'
             position:t='relative'
-            verytinyFont:t='yes'
+            tinyFont:t='yes'
             text:t=''
           }
           tdiv {
@@ -137,7 +138,7 @@ tdiv {
       width:t='pw'
       pos:t='pw/2-w/2, ph/2-h/2'; position:t='relative'
       text:t=''
-      tinyFont:t='yes'
+      smallFont:t='yes'
     }
     <</hasModItem>>
   }

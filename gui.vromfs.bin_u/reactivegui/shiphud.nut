@@ -1,4 +1,6 @@
 local shipStateModule = require("shipStateModule.nut")
+local depthGauge = require("shipDepthGauge.nut")
+local hudChat = require("hudChat.nut")
 
 
 return {
@@ -8,6 +10,8 @@ return {
   margin = [sh(5), sh(1)] //keep gap for counters
   gap = sh(1)
   children = [
+    hudChat
+    depthGauge
     shipStateModule
   ]
 }

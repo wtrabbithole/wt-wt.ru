@@ -268,6 +268,9 @@
               "isIndividual": false
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t1_spawn01"
             },
             {
@@ -374,6 +377,9 @@
               "isIndividual": false
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t2_spawn01"
             },
             {
@@ -458,13 +464,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/duel_waiting_for_players",
             "action": "show",
             "shouldFadeOut": false,
-            "time": 0.01,
+            "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -554,13 +561,14 @@
           }
         ],
         "playHint": {
-          "hintType": "custom",
+          "hintType": "standard",
           "name": "",
-          "action": "hideCur",
+          "action": "hide",
           "shouldFadeOut": false,
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
           "shouldBlink": false
         },
         "triggerEnable": {
@@ -589,82 +597,43 @@
           "comparasion_func": "more"
         }
       },
-      "actions": [
-        {
-          "playHint": {
-            "hintType": "custom",
-            "name": "",
-            "action": "hideCur",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false
-          }
+      "actions": {
+        "varSetString": {
+          "value": "hints/mp_start_in",
+          "var": "countdown_hint_str"
         },
-        {
-          "varSetString": {
-            "value": "hints/mp_start_in",
-            "var": "countdown_hint_str"
-          }
+        "varAddString": {
+          "value": "@countdown_int",
+          "digits": 1,
+          "var": "countdown_hint_str"
         },
-        {
-          "varAddString": {
-            "value": "@countdown_int",
-            "digits": 1,
-            "var": "countdown_hint_str"
-          }
+        "playHint": {
+          "hintType": "standard",
+          "name": "@countdown_hint_str",
+          "action": "show",
+          "shouldFadeOut": false,
+          "time": -1.0,
+          "priority": 0,
+          "isOverFade": false,
+          "target_marking": 0
         },
-        {
-          "wait": {
-            "time": 0.1
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
-            "name": "@countdown_hint_str",
-            "action": "show",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false,
-            "shouldBlink": false
-          }
-        },
-        {
-          "varModify": {
-            "operator": "subAB",
-            "value": 1.0,
-            "var": "countdown_int"
-          }
+        "varModify": {
+          "operator": "subAB",
+          "value": 1.0,
+          "var": "countdown_int"
         }
-      ],
+      },
       "else_actions": [
         {
           "playHint": {
-            "hintType": "custom",
-            "name": "",
-            "action": "hideCur",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false
-          }
-        },
-        {
-          "wait": {
-            "time": 0.1
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/ffa_race_starts_in_00",
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -681,24 +650,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
-            "name": "",
-            "action": "hideCur",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/tournament_shooting_disabled",
             "action": "show",
             "shouldFadeOut": false,
-            "time": 1.0,
+            "time": 3.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -709,24 +668,7 @@
         },
         {
           "wait": {
-            "time": 3.0
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
-            "name": "hints/tournament_shooting_disabled",
-            "action": "hideCur",
-            "shouldFadeOut": false,
-            "time": 1.0,
-            "priority": 0,
-            "isOverFade": false,
-            "shouldBlink": false
-          }
-        },
-        {
-          "wait": {
-            "time": 1.0
+            "time": 4.0
           }
         },
         {
@@ -788,13 +730,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/duel_battle_begin",
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -815,13 +758,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/duel_battle_begin",
             "action": "hideCur",
             "shouldFadeOut": false,
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -947,13 +891,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/tournament_shooting_disabled",
             "action": "show",
             "shouldFadeOut": false,
-            "time": 1.0,
+            "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -969,13 +914,14 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "hints/tournament_shooting_disabled",
             "action": "hideCur",
             "shouldFadeOut": false,
-            "time": 1.0,
+            "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },

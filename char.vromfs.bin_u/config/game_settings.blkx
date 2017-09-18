@@ -274,6 +274,7 @@
   "squad": {
     "sizes": {
       "squad": 4,
+      "platoon": 8,
       "battleGroup": 5
     }
   },
@@ -979,6 +980,17 @@
     "PersonalUnlocks": {
       "condition": ""
     },
+    "ExtInventory": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "BulletParamsForAirs": {
       "condition": ""
     },
@@ -1067,9 +1079,6 @@
       "condition": ""
     },
     "ExtendedCrewSkillsDescription": {
-      "condition": ""
-    },
-    "CrewInfoPanel": {
       "condition": ""
     },
     "HiddenLeaderboardRows": {
@@ -1187,14 +1196,9 @@
     "SquadTransferLeadership": {
       "condition": ""
     },
-    "SquadSizeChange": [
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      }
-    ],
+    "SquadSizeChange": {
+      "condition": ""
+    },
     "ClanSeasonRewardsLog": {
       "condition": ""
     },
@@ -1263,7 +1267,11 @@
       "condition": "scej_account"
     },
     "newFontsSizes": {
-      "condition": "role_DEVELOPER"
+      "condition": ""
+    },
+    "oldFontsSizes": [],
+    "Warbonds_2_0": {
+      "condition": ""
     }
   }
 }

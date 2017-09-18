@@ -133,14 +133,20 @@
       "tailcontrol_dm": {
         "hp": 20.5
       },
+      "wingcontrol_dm": {
+        "hp": 39.5
+      },
       "wingcontrol_l_dm": {
         "hp": 20.5
       },
       "wingcontrol_r_dm": {
-        "hp": 20.5
+        "hp": 45.5
       }
     },
     "steel": {
+      "gear_c_dm": {
+        "hp": 39.5
+      },
       "gear_l_dm": {
         "hp": 39.5
       },
@@ -150,6 +156,9 @@
     },
     "steel_cooling_sys_light": {
       "oil1_dm": {
+        "hp": 9.5
+      },
+      "oil2_dm": {
         "hp": 9.5
       }
     },
@@ -162,17 +171,6 @@
     "steel_tank_light": {
       "tank1_dm": {
         "hp": 55.5
-      }
-    },
-    "wood": {
-      "gear_c_dm": {
-        "hp": 1.3
-      },
-      "oil2_dm": {
-        "hp": 3.6
-      },
-      "wingcontrol_dm": {
-        "hp": 0.5
       }
     }
   },
@@ -2024,5 +2022,27 @@
         "from": "i_153_n_dmg*"
       }
     }
-  ]
+  ],
+  "cutting": {
+    "emtr_break_wing0_l_from": [-0.898301,-0.426142,1.1129],
+    "emtr_break_wing0_l_to": [-0.898301,-0.426142,1.61161],
+    "emtr_break_wing1_l_from": [-0.898301,-0.426142,0.955763],
+    "emtr_break_wing1_l_to": [-0.898301,-0.426142,1.66146],
+    "emtr_break_wing2_l_from": [-0.898301,-0.426142,2.72],
+    "emtr_break_wing2_l_to": [-0.898301,-0.426142,3.62686],
+    "emtr_break_wing0_r_from": [-0.898301,-0.426142,-1.1129],
+    "emtr_break_wing0_r_to": [-0.898301,-0.426142,-1.61161],
+    "emtr_break_wing1_r_from": [-0.898301,-0.426142,-0.955763],
+    "emtr_break_wing1_r_to": [-0.898301,-0.426142,-1.66146],
+    "emtr_break_wing2_r_from": [-0.898301,-0.426142,-2.72],
+    "emtr_break_wing2_r_to": [-0.898301,-0.426142,-3.62686],
+    "emtr_break_wing_tail": [
+      [1.0,0.0,0.0],
+      [0.0,1.0,0.0],
+      [0.0,0.0,1.0],
+      [-3.21062,0.0,0.0]
+    ],
+    "emtr_break_wing_biplane": [-0.898301,-0.0147357,0.0],
+    "partKindTail": 2
+  }
 }

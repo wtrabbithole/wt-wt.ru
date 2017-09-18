@@ -52,7 +52,7 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
         if (resp || (baseRules && getUnitTypeLeftRespans(unitType.esUnitType, baseRules)))
           typeTexts.append(unitType.fontIcon + resp)
       }
-    return ::colorize("@activeTextColor", ::implode(typeTexts, ", "))
+    return ::colorize("@activeTextColor", ::g_string.implode(typeTexts, ", "))
   }
 
   function getUnitTypeLeftRespans(esUnitType, stateData) //stateData is a table or blk

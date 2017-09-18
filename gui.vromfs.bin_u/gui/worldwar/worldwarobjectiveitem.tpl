@@ -20,21 +20,20 @@ objectiveBlock {
     }
     <<#reqFullMissionObjectsButton>>
     tdiv {
-      width:t='fw'
+      size:t='fw, ph'
 
       tdiv {
-        left:t='pw-w'
+        pos:t='pw-w, 50%ph-50%h'
         position:t='relative'
         margin-right:t='1@headerIndent'
 
         Button_text {
           id:t = 'btn_tasks_list'
-          class:t='image16'
-          valign:t='center'
+          showConsoleImage:t='no'
           text:t='#icon/info'
+          reduceMinimalWidth:t='yes'
           tooltip:t = '#mainmenu/tasksList'
           _on_click:t = 'onOpenFullMissionObjects'
-          showConsoleImage:t='no'
         }
         <<#hiddenObjectives>>
         textareaNoTab {

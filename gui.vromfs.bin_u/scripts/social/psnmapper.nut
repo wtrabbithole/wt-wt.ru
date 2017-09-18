@@ -54,8 +54,8 @@ function g_psn_mapper::updateAccountIdsList(forceUpdate = false)
   blk.method = ::HTTP_METHOD_POST
   blk.path = "/v2/accounts/map/onlineId2accountId"
 
-  local prepStrings = ::u.map(names, @(name) ::format("\"%s\"", ::cut_prefix(name, "*", name)))
-  blk.request = "[\r\n" + ::implode(prepStrings, ",\r\n") + "\r\n]"
+  local prepStrings = ::u.map(names, @(name) ::format("\"%s\"", ::g_string.cutPrefix(name, "*", name)))
+  blk.request = "[\r\n" + ::g_string.implode(prepStrings, ",\r\n") + "\r\n]"
 
   local ret = ::ps4_web_api_request(blk)
   if ("error" in ret)

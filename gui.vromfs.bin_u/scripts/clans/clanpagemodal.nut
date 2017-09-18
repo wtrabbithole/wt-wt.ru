@@ -620,7 +620,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     foreach(member in membersData)
     {
       local rowName = "row_" + rowIdx
-      local nick = ::stripTags(member.nick)
+      local nick = ::g_string.stripTags(member.nick)
       local rowData = [{ text = (rowIdx + 1).tostring() }]
       foreach(column in ::clan_member_list)
       {

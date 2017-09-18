@@ -1,8 +1,8 @@
 ::callstack <- dagor.debug_dump_stack
 
-function reload(scriptName = "main")
+function reload()
 {
-  return ::g_script_reloader.reload("scripts/" + scriptName + ".nut")
+  return ::g_script_reloader.reload(::reload_main_script_module)
 }
 
 function get_stack_string(level = 2)
@@ -67,10 +67,7 @@ function debug_reload_and_restart_debriefing()
 {
   local rows = ::debriefing_rows
   local result = ::debriefing_result
-  ::reload("debriefing/debriefingFull")
-  ::reload("debriefing/debriefingModal")
-  ::reload("debriefing/rankUpModal")
-  ::reload("debriefing/tournamentRewardReceivedModal")
+  ::reload()
 
   local recountFunc = ::gather_debriefing_result
   local canRecount = "_stat_get_exp" in ::getroottable()
@@ -159,6 +156,9 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     "ww_get_operation_winner"
     "ww_get_player_side"
     "havePremium"
+    "shop_get_countries_list_with_autoset_units"
+    "shop_get_units_list_with_autoset_modules"
+    { id = "abandoned_researched_items_for_session", value = [] }
     { id = "get_gamechat_log_text", value = ::getTblValue("chatLog", ::debriefing_result, "") }
     { id = "is_multiplayer", value = ::getTblValue("isMp", ::debriefing_result, false) }
     { id = "_fake_battlelog", value = ::HudBattleLog.battleLog }
@@ -184,9 +184,21 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     if (modId != "")
       mods.append([ unitId, modId ])
   }
+  foreach (tbl in ::shop_get_countries_list_with_autoset_units())
+  {
+    local unitId = ::getTblValue("unit", tbl, "")
+    local unit = ::getAircraftByName(unitId)
+    local args = [ ::getUnitCountry(unit), ::get_es_unit_type(unit) ]
+    foreach (id in [ "shop_get_researchable_unit_name", "shop_get_country_excess_exp" ])
+      list.append({ id = id, args = args })
+    units.append([ unitId ])
+  }
+  foreach (tbl in ::shop_get_units_list_with_autoset_modules())
+    mods.append([ ::getTblValue("name", tbl, ""), ::getTblValue("mod", tbl, "") ])
   foreach (args in units)
     foreach (id in [ "shop_is_player_has_unit", "shop_is_aircraft_purchased", "shop_unit_research_status",
-      "shop_get_unit_exp", "shop_is_unit_rented", "rented_units_get_expired_time_sec" ])
+      "shop_get_researchable_module_name", "shop_get_unit_exp", "shop_get_unit_excess_exp",
+      "shop_is_unit_rented", "rented_units_get_expired_time_sec" ])
         list.append({ id = id, args = args })
   foreach (args in mods)
     foreach (id in [ "shop_is_modification_enabled", "shop_is_modification_purchased",
@@ -245,6 +257,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::is_in_flight = _is_in_flight
 
   ::gui_start_debriefingFull()
+  ::checkNonApprovedResearches(true, true)
   ::go_debriefing_next_func = function() { ::dbg_dump.unload(); ::gui_start_mainmenu() }
   return "Debriefing result loaded from " + filename
 }
@@ -445,7 +458,7 @@ function debug_show_units_by_loc_name(unitLocName, needIncludeNotInShop = false)
     local rank = ::get_roman_numeral(::getUnitRank(unit))
     local prem = (::isUnitSpecial(unit) || ::isUnitGift(unit)) ? ::loc("shop/premiumVehicle/short") : ""
     local hidden = !unit.isInShop ? ::loc("controls/NA") : ::is_unit_visible_in_shop(unit) ? "" : ::loc("worldWar/hided_logs")
-    return unit.name + "; \"" + locName + "\" (" + ::implode([ army, country, rank, prem, hidden ], ", ") + ")"
+    return unit.name + "; \"" + locName + "\" (" + ::g_string.implode([ army, country, rank, prem, hidden ], ", ") + ")"
   })
 
   foreach (line in res)
@@ -463,16 +476,6 @@ function debug_show_unit(unitId)
   return "Done"
 }
 
-function debug_change_font_size(shouldIncrease = true)
-{
-  local availableFonts = ::g_font.getAvailableFonts()
-  local idx = ::find_in_array(availableFonts, ::g_font.getCurrent(), 0)
-  idx = ::clamp(idx + (shouldIncrease ? 1 : -1), 0, availableFonts.len() - 1)
-  if (::g_font.setCurrent(availableFonts[idx]))
-    ::handlersManager.getActiveBaseHandler().fullReloadScene()
-  dlog("Loaded fonts: " + availableFonts[idx].id)
-}
-
 function debug_change_language(isNext = true)
 {
   local list = ::g_language.getGameLocalizationInfo()
@@ -482,4 +485,31 @@ function debug_change_language(isNext = true)
   local newLang = list[newIdx % list.len()]
   ::g_language.setGameLocalization(newLang.id, true, false)
   dlog("Set language: " + newLang.id)
+}
+
+function debug_multiply_color(colorStr, multiplier)
+{
+  local res = ::g_dagui_utils.multiplyDaguiColorStr(colorStr, multiplier)
+  ::copy_to_clipboard(res)
+  return res
+}
+
+function debug_get_last_userlogs(num = 1)
+{
+  local total = ::get_user_logs_count()
+  local array = []
+  for (local i = total - 1; i > (total - num - 1); i--)
+  {
+    local blk = ::DataBlock()
+    ::get_user_log_blk_body(i, blk)
+    ::dlog("print userlog " + ::getLogNameByType(blk.type) + " " + blk.id)
+    ::debugTableData(blk)
+    array.append(blk)
+  }
+  return array
+}
+
+function to_pixels(value)
+{
+  return ::g_dagui_utils.toPixels(::get_cur_gui_scene(), value)
 }

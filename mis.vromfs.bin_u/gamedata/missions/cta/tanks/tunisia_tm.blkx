@@ -196,7 +196,9 @@
           "_DBttlA": true,
           "_DBttlB": true,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
         }
       },
       {
@@ -480,6 +482,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -510,6 +515,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -538,6 +546,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -573,6 +584,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -613,6 +627,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -651,6 +668,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -682,6 +702,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -696,6 +717,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -710,6 +732,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -724,6 +747,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -738,6 +762,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -752,6 +777,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -766,6 +792,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -780,6 +807,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -794,6 +822,7 @@
             "map": true,
             "minTime": 4,
             "picture": "",
+            "showAirMap": false,
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
@@ -817,6 +846,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -852,6 +884,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -885,6 +920,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "ally",
@@ -913,6 +951,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -950,6 +991,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -1098,6 +1142,9 @@
       "actions": {
         "unitSetProperties": [
           {
+            "object_marking": 0
+          },
+          {
             "object": "t1_aaa_squad"
           },
           {
@@ -1244,6 +1291,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_tankSpawn_Conq_01",
             "team": "B",
             "tags": {
@@ -1265,6 +1313,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_tankSpawn_Conq_01",
             "team": "A",
             "tags": {
@@ -1286,6 +1335,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_tankSpawn_Conq_02",
             "team": "B",
             "tags": {
@@ -1307,6 +1357,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_tankSpawn_Conq_02",
             "team": "A",
             "tags": {
@@ -1321,27 +1372,64 @@
           }
         },
         {
-          "varAddString": {
-            "value": "@rb_tank_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t1_battlearea",
+            "var": "t1_battlearea"
           }
         },
         {
-          "varAddString": {
-            "value": "@modeName_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t2_battlearea",
+            "var": "t2_battlearea"
           }
         },
         {
-          "missionBattleArea": {
-            "air": false,
-            "ground": true,
-            "mapArea": true,
-            "killOutOfBattleArea": true,
-            "area": "@battlearea"
-          }
+          "varAddString": [
+            {
+              "value": "@rb_tank_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
+        },
+        {
+          "varAddString": [
+            {
+              "value": "@modeName_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "t1_battleareas_init"
+            },
+            {
+              "target": "t2_battleareas_init"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -1431,6 +1519,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_tankSpawn_Conq_02",
             "team": "B",
             "tags": {
@@ -1452,6 +1541,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_tankSpawn_Conq_02",
             "team": "A",
             "tags": {
@@ -1466,27 +1556,64 @@
           }
         },
         {
-          "varAddString": {
-            "value": "@rb_tank_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t1_battlearea",
+            "var": "t1_battlearea"
           }
         },
         {
-          "varAddString": {
-            "value": "@modeName_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t2_battlearea",
+            "var": "t2_battlearea"
           }
         },
         {
-          "missionBattleArea": {
-            "air": false,
-            "ground": true,
-            "mapArea": true,
-            "killOutOfBattleArea": true,
-            "area": "@battlearea"
-          }
+          "varAddString": [
+            {
+              "value": "@rb_tank_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
+        },
+        {
+          "varAddString": [
+            {
+              "value": "@modeName_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "t1_battleareas_init"
+            },
+            {
+              "target": "t2_battleareas_init"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -1576,6 +1703,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_tankSpawn_Conq_03",
             "team": "B",
             "tags": {
@@ -1597,6 +1725,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_tankSpawn_Conq_03",
             "team": "A",
             "tags": {
@@ -1618,6 +1747,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_tankSpawn_Conq_02",
             "team": "B",
             "tags": {
@@ -1639,6 +1769,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_tankSpawn_Conq_02",
             "team": "A",
             "tags": {
@@ -1653,27 +1784,67 @@
           }
         },
         {
-          "varAddString": {
-            "value": "@rb_tank_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t1_battlearea",
+            "var": "t1_battlearea"
           }
         },
         {
-          "varAddString": {
-            "value": "@modeName_var",
-            "digits": 0,
-            "var": "battlearea"
+          "varSetString": {
+            "value": "t2_battlearea",
+            "var": "t2_battlearea"
           }
         },
         {
-          "missionBattleArea": {
-            "air": false,
-            "ground": true,
-            "mapArea": true,
-            "killOutOfBattleArea": true,
-            "area": "@battlearea"
-          }
+          "varAddString": [
+            {
+              "value": "@rb_tank_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
+        },
+        {
+          "varAddString": [
+            {
+              "value": "@modeName_var"
+            },
+            {
+              "digits": 0
+            },
+            {
+              "var": "battlearea"
+            },
+            {
+              "var": "t1_battlearea"
+            },
+            {
+              "var": "t2_battlearea"
+            }
+          ]
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "bttl_start_mission"
+            },
+            {
+              "target": "t1_battleareas_init"
+            },
+            {
+              "target": "t2_battleareas_init"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -1757,6 +1928,8 @@
         "unit_class": "a-20g",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1801,6 +1974,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1853,17 +2028,6 @@
     }
   ],
   "areas": {
-    "battlearea_Bttl": {
-      "type": "Box",
-      "tm": [
-        [-1590.0,0.0,0.0],
-        [0.0,637.56,0.0],
-        [0.0,0.0,-1590.0],
-        [2715.95,18.1,2043.9]
-      ],
-      "objLayer": 4,
-      "props": []
-    },
     "spectator_point_island2": {
       "type": "Point",
       "tm": [
@@ -1939,28 +2103,6 @@
         [2065.1,172.7,2054.05]
       ],
       "objLayer": 0,
-      "props": []
-    },
-    "battlearea": {
-      "type": "Box",
-      "tm": [
-        [-1590.0,0.0,0.0],
-        [0.0,637.56,0.0],
-        [0.0,0.0,-1590.0],
-        [2715.95,18.0912,2043.9]
-      ],
-      "objLayer": 4,
-      "props": []
-    },
-    "battlearea_Conq": {
-      "type": "Box",
-      "tm": [
-        [-1590.0,0.0,0.0],
-        [0.0,637.56,0.0],
-        [0.0,0.0,-1590.0],
-        [2715.95,18.0912,2043.9]
-      ],
-      "objLayer": 4,
       "props": []
     }
   },

@@ -1,3 +1,7 @@
+local time = require("scripts/time.nut")
+local colorCorrector = require_native("colorCorrector")
+
+
 const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
 ::BOMB_ASSAULT_FUSE_TIME_OPT_VALUE <- -1
 ::SPEECH_COUNTRY_UNIT_VALUE <- 2
@@ -58,7 +62,7 @@ function is_measure_unit_user_option(user_opt)
 ::unit_year_selection_min <- 1940
 ::unit_year_selection_max <- 1945
 
-::ZONE_HP_TO_TNT_EQUIVALENT_TONS <- 0.000125
+::KG_TO_TONS <- 0.001
 
 ::ttv_video_sizes <- [
   [640,368],
@@ -83,7 +87,7 @@ function image_for_air(air)
 
   if (("customImage" in air) && air.customImage != "")
     return air.customImage
-  return ::get_unit_icon_by_unit_type(::get_es_unit_type(air), air.name)
+  return ::get_unit_icon_by_unit(air, air.name)
 }
 
 ::mission_name_for_takeoff <- ""
@@ -100,7 +104,7 @@ function image_for_air(air)
     "encyclopedia_data", "measure_units",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
-    "reload_cooldown_time", "ZONE_HP_TO_TNT_EQUIVALENT_TONS"
+    "reload_cooldown_time"
   ])
 
 ::check_aircraft_tags <- function(airtags, filtertags)
@@ -683,6 +687,7 @@ function create_option()
     cb = null
     items = null
     values = null
+    needShowValueText = false
 
     getTrId = function()
     {
@@ -743,7 +748,7 @@ function get_option(type, context = null)
     descr.controlType = optionControlType.HEADER
     descr.controlName <- ""
     descr.id = "header_" + ::gen_rnd_password(10)
-    descr.getTitle = function() { return descr.type }
+    descr.title = ::loc(descr.type)
     return descr
   }
 
@@ -870,8 +875,8 @@ function get_option(type, context = null)
       for (local i = 0; i < descr.values.len(); i++)
       {
         local assaultFuse = descr.values[i] == ::BOMB_ASSAULT_FUSE_TIME_OPT_VALUE
-        local text = assaultFuse ? "#options/bomb_activation_type/assault" :
-          (descr.values[i].tostring() + ::nbsp + ::loc("measureUnits/seconds"))
+        local text = assaultFuse ? "#options/bomb_activation_type/assault"
+          : time.secondsToString(descr.values[i], true, true, 1)
         local tooltipLoc = assaultFuse ? "guiHints/bomb_activation_type/assault" : "guiHints/bomb_activation_type/timer"
 
         descr.items.append({
@@ -890,7 +895,7 @@ function get_option(type, context = null)
       descr.values = []
       for(local i = 3; i <= 10; i++)
       {
-        descr.items.append(secondsToString(i, true, true))
+        descr.items.append(time.secondsToString(i, true, true))
         descr.values.append(i)
       }
       descr.value = ::find_in_array(descr.values, ::get_option_depthcharge_activation_time())
@@ -1001,6 +1006,7 @@ function get_option(type, context = null)
         descr.step <- 1
         descr.fontsMap = availableFonts
         descr.enabled <- availableFonts.len() > 1
+        descr.getValueLocText = @(val) (val in availableFonts) ? availableFonts[val].getOptionText() : ""
       }
       break
 
@@ -1411,32 +1417,38 @@ function get_option(type, context = null)
     // volume settings:
     case ::USEROPT_VOLUME_MASTER:
       descr.id = "volume_master"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_MASTER) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_MUSIC:
       descr.id = "volume_music"
+      descr.controlType = optionControlType.SLIDER
       descr.title = ::loc(::has_feature("Radio") ? "options/volume_music/and_radio" : "options/volume_music")
       descr.value = (::get_sound_volume(::SND_TYPE_MUSIC) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_MENU_MUSIC:
       descr.id = "volume_menu_music"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_MENU_MUSIC) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_SFX:
       descr.id = "volume_sfx"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_SFX) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_GUNS:
       descr.id = "volume_guns"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_GUNS) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_TINNITUS:
       descr.id = "volume_tinnitus"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_TINNITUS) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
@@ -1448,27 +1460,32 @@ function get_option(type, context = null)
       break
     case ::USEROPT_VOLUME_RADIO:
       descr.id = "volume_radio"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_RADIO) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_ENGINE:
       descr.id = "volume_engine"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_ENGINE) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_DIALOGS:
       descr.id = "volume_dialogs"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_DIALOGS) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
 
     case ::USEROPT_VOLUME_VOICE_IN:
       descr.id = "volume_voice_in"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_VOICE_IN) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
     case ::USEROPT_VOLUME_VOICE_OUT:
       descr.id = "volume_voice_out"
+      descr.controlType = optionControlType.SLIDER
       descr.value = (::get_sound_volume(::SND_TYPE_VOICE_OUT) * 100).tointeger()
       descr.cb = "onVolumeChange"
       break
@@ -1769,7 +1786,7 @@ function get_option(type, context = null)
       descr.id = "ban_time"
       descr.values = ::myself_can_ban()? [1, 2, 4, 7, 14] : [1]
       descr.items = []
-      local dayVal = TIME_HOUR_IN_SECONDS * 24
+      local dayVal = time.daysToSeconds(1)
       for(local i=0; i<descr.values.len(); i++)
       {
         descr.items.append(descr.values[i] + ::loc("measureUnits/days"))
@@ -1868,6 +1885,7 @@ function get_option(type, context = null)
       descr.step <- 1
       descr.value = ::get_gui_option_in_mode(type, ::OPTIONS_MODE_GAMEPLAY)
       defaultValue = 0
+      descr.getValueLocText = @(val) (100 + 33.3 * val / max).tointeger() + "%"
       break
 
     case ::USEROPT_TACTICAL_MAP_SIZE:
@@ -1878,6 +1896,7 @@ function get_option(type, context = null)
       descr.step <- 1
       descr.value = ::get_gui_option_in_mode(type, ::OPTIONS_MODE_GAMEPLAY)
       defaultValue = 0
+      descr.getValueLocText = @(val) (100 + 33.3 * val / max).tointeger() + "%"
       break
 
     case ::USEROPT_SHOW_PILOT:
@@ -2496,7 +2515,7 @@ function get_option(type, context = null)
       descr.values = [3, 5, 10, 15, 20, 25, 30, 60, 120, 360]
       descr.items = []
       for(local i = 0; i < descr.values.len(); i++)
-        descr.items.append(::hoursToString(descr.values[i].tofloat() / TIME_MINUTE_IN_SECONDS, false))
+        descr.items.append(time.hoursToString(time.secondsToMinutes(descr.values[i]), false))
       defaultValue = 10
       descr.getValueLocText = function(val)
       {
@@ -2507,7 +2526,7 @@ function get_option(type, context = null)
         local result = ::getTblValue(values.find(val), items)
         if(result != null)
           return result
-        return ::hoursToString(val.tofloat() / TIME_MINUTE_IN_SECONDS, false)
+        return time.hoursToString(time.secondsToMinutes(val), false)
       }
       break
 
@@ -2695,7 +2714,7 @@ function get_option(type, context = null)
       descr.values = []
       for(local i = 1; i <= ::max_country_rank; i++)
       {
-        descr.items.append("#options/chooseUnitsRank/rank_" + i)
+        descr.items.append(::get_roman_numeral(i))
         descr.values.append(i)
       }
       break
@@ -2974,7 +2993,7 @@ function get_option(type, context = null)
             if (fixedPercent > 0)
             {
               isFuelFixed = true
-              minutes = [fixedPercent * maxFuel / fuelConsumptionPerHour * TIME_MINUTE_IN_SECONDS_F]
+              minutes = [fixedPercent * maxFuel / time.minutesToSeconds(fuelConsumptionPerHour)]
               local value = (fixedPercent * 1000000 + 0.5).tointeger()
               if (value != prevValue)
               {
@@ -2997,7 +3016,7 @@ function get_option(type, context = null)
         for (local ind = 0; ind < minutes.len(); ind++)
         {
           local m = minutes[ind]
-          local timeInHours = m.tofloat() / TIME_MINUTE_IN_SECONDS_F
+          local timeInHours = time.secondsToMinutes(m)
           local fuelReq = fuelConsumptionPerHour * timeInHours
           local percent = maxFuel > 0.0 ? fuelReq / maxFuel : 0.0
           local text = ""
@@ -3023,7 +3042,7 @@ function get_option(type, context = null)
             foundMax = true
           }
 
-          local timeStr = ::hoursToString(timeInHours)
+          local timeStr = time.hoursToString(timeInHours)
           if (text.len())
             text += ::loc("ui/parentheses/space", { text = timeStr })
           else
@@ -3243,7 +3262,7 @@ function get_option(type, context = null)
       for (local nc = 0; nc < ::crosshair_icons.len(); nc++)
       {
         descr.items.append({
-          image = "#ui/gameuiskin#" + ::crosshair_icons[nc]
+          image = "#ui/hudskin#" + ::crosshair_icons[nc]
         })
         descr.values.append(nc)
         if (c == nc)
@@ -3538,11 +3557,11 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_HUE_ALLY:
-      gen_hue_option(descr, "color_picker_hue_ally", 226, ::get_hue(::TARGET_HUE_ALLY))
+      gen_hue_option(descr, "color_picker_hue_ally", 226, ::get_hue(colorCorrector.TARGET_HUE_ALLY))
       break
 
     case ::USEROPT_HUE_ENEMY:
-      gen_hue_option(descr, "color_picker_hue_enemy", 3, ::get_hue(::TARGET_HUE_ENEMY))
+      gen_hue_option(descr, "color_picker_hue_enemy", 3, ::get_hue(colorCorrector.TARGET_HUE_ENEMY))
       break
 
     case ::USEROPT_STROBE_ALLY:
@@ -3560,21 +3579,28 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_HUE_SQUAD:
-      gen_hue_option(descr, "color_picker_hue_squad", 472, ::get_hue(::TARGET_HUE_SQUAD))
+      gen_hue_option(descr, "color_picker_hue_squad", 472, ::get_hue(colorCorrector.TARGET_HUE_SQUAD))
       break
 
     case ::USEROPT_HUE_SPECTATOR_ALLY:
-      gen_hue_option(descr, "color_picker_hue_spectator_ally", 112, ::get_hue(::TARGET_HUE_SPECTATOR_ALLY))
+      gen_hue_option(descr, "color_picker_hue_spectator_ally", 112, ::get_hue(colorCorrector.TARGET_HUE_SPECTATOR_ALLY))
       break
 
     case ::USEROPT_HUE_SPECTATOR_ENEMY:
-      gen_hue_option(descr, "color_picker_hue_spectator_enemy", 292, ::get_hue(::TARGET_HUE_SPECTATOR_ENEMY))
+      gen_hue_option(descr, "color_picker_hue_spectator_enemy", 292, ::get_hue(colorCorrector.TARGET_HUE_SPECTATOR_ENEMY))
       break
 
 
     case ::USEROPT_AIR_DAMAGE_DISPLAY:
       descr.id = "air_damage_display"
       descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
+    case ::USEROPT_GUNNER_FPS_CAMERA:
+      descr.id = "gunner_fps_camera"
+      descr.controlType = optionControlType.CHECKBOX;
       descr.controlName <- "switchbox"
       defaultValue = true
       break
@@ -3686,6 +3712,10 @@ function get_option(type, context = null)
     prevValue = ::get_gui_option(type)
   if (prevValue != null)
     valueToSet = prevValue
+
+  descr.needShowValueText = descr.needShowValueText || descr.controlType == optionControlType.SLIDER
+  if (descr.needShowValueText && !descr.cb)
+    descr.cb = "updateOptionValueTextByObj"
 
   if (descr.controlType == optionControlType.SLIDER)
   {
@@ -4237,27 +4267,27 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_HUE_SQUAD:
-      ::set_hue(::TARGET_HUE_SQUAD, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_SQUAD, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_ALLY:
-      ::set_hue(::TARGET_HUE_ALLY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_ALLY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_ENEMY:
-      ::set_hue(::TARGET_HUE_ENEMY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_ENEMY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_SPECTATOR_ALLY:
-      ::set_hue(::TARGET_HUE_SPECTATOR_ALLY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_SPECTATOR_ALLY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
     case ::USEROPT_HUE_SPECTATOR_ENEMY:
-      ::set_hue(::TARGET_HUE_SPECTATOR_ENEMY, descr.values[value]);
+      ::set_hue(colorCorrector.TARGET_HUE_SPECTATOR_ENEMY, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break
 
@@ -4270,6 +4300,10 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_AIR_DAMAGE_DISPLAY:
+      ::set_gui_option(type, value)
+      break
+
+    case ::USEROPT_GUNNER_FPS_CAMERA:
       ::set_gui_option(type, value)
       break
 
@@ -4814,7 +4848,8 @@ function create_options_container(name, options, is_focused, is_centered, column
     if (optionData == null)
       continue
 
-    if(optionData.controlType == optionControlType.HEADER)
+    local isHeader = optionData.controlType == optionControlType.HEADER
+    if(isHeader)
     {
       if( ! headerHaveContent)
         continue
@@ -4834,7 +4869,7 @@ function create_options_container(name, options, is_focused, is_centered, column
       rowData += "enable:t='" + (optionData.enabled ? "yes" : "no") + "'; "
 
     if (!::u.isEmpty(optionData.hint))
-      rowData += "tooltip:t='" + ::stripTags(optionData.hint) + "'; "
+      rowData += "tooltip:t='" + ::g_string.stripTags(optionData.hint) + "'; "
 
     if (optionData.controlName == "listbox")
     {
@@ -4892,7 +4927,7 @@ function create_options_container(name, options, is_focused, is_centered, column
     }
 
     local optionTitleStyle = "optiontext";
-    if(optionData.controlType == optionControlType.HEADER)
+    if(isHeader)
       optionTitleStyle = "optionBlockHeader"
 
     if (elemTxt != null)
@@ -4906,12 +4941,18 @@ function create_options_container(name, options, is_focused, is_centered, column
       {
         local tdText = ""
         if (haveOptText)
-          tdText = ::stripTags(optionData.getTitle())
+          tdText = ::g_string.stripTags(optionData.getTitle())
+
+        if (optionData.needShowValueText)
+          elemTxt += ::format("optionValueText { id:t='%s'; text:t='%s' }",
+            "value_" + optionData.id, optionData.getValueLocText(optionData.value))
+
         rowData += "td { overflow:t='hidden'; cellType:t='left'; width:t='" + wLeft + "'; " + optionTitleStyle + " { id:t = 'lbl_" + optionData.id + "'; text:t ='" + tdText + "'; } }"
         rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemTxt + " }"
       }
 
-      data = "tr { css-hier-invalidate:t='all'; width:t='pw'; id:t = '" + optionData.getTrId() + "'; " + rowData + " }" + data
+      data = "tr { " + (isHeader ? "inactive:t='yes' " : "") +
+        "css-hier-invalidate:t='all'; width:t='pw'; id:t = '" + optionData.getTrId() + "'; " + rowData + " }" + data
 
       if (iRow == 0)
         selectedRow = iRow

@@ -1,0 +1,208 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1,
+      "wing": ""
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "type": "singleMission",
+      "level": "levels/water.bin",
+      "campaign": "UserMissions",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_Bttl": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false
+      },
+      "tags": []
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": [],
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "area_squad": {
+        "name": "t1_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3034.76,10.052,3196.46]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_battlearea_block01"
+          },
+          {
+            "squad_members": "t1_battlearea_block02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_battlearea_Conq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2843.65,10.05,3196.45]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_battlearea_block01"
+          },
+          {
+            "squad_members": "t1_battlearea_block03"
+          }
+        ]
+      }
+    }
+  ],
+  "areas": {
+    "battlearea_fake": {
+      "type": "Box",
+      "tm": [
+        [-1590.0,0.0,0.0],
+        [0.0,637.56,0.0],
+        [0.0,0.0,-1590.0],
+        [2715.95,18.0912,2043.9]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t2_battlearea": {
+      "type": "Box",
+      "tm": [
+        [-1590.0,0.0,0.0],
+        [0.0,637.56,0.0],
+        [0.0,0.0,-1227.74],
+        [2715.95,18.0912,2225.0]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_battlearea_block01": {
+      "type": "Box",
+      "tm": [
+        [-1590.0,0.0,0.0],
+        [0.0,637.56,0.0],
+        [0.0,0.0,-1227.74],
+        [2715.95,18.0912,1862.73]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_battlearea_block02": {
+      "type": "Box",
+      "tm": [
+        [1200.88,0.0,0.0],
+        [0.0,637.56,0.0],
+        [0.0,0.0,96.6372],
+        [2910.5,18.1,2517.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_battlearea_Conq": {
+      "type": "Box",
+      "tm": [
+        [-1590.0,0.0,0.0],
+        [0.0,637.56,0.0],
+        [0.0,0.0,-1227.74],
+        [2715.95,18.1,2225.0]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_battlearea_block03": {
+      "type": "Box",
+      "tm": [
+        [1590.0,0.0,0.0],
+        [0.0,637.56,0.0],
+        [0.0,0.0,96.6372],
+        [2715.95,18.1,2517.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

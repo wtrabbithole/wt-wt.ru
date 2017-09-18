@@ -20,7 +20,7 @@ expandable {
   on_click:t = 'onJoinThread'
   clickable:t='yes'
   <</onlyInfo>>
-
+  highlightedRowLine {}
   selImg {
     id:t='thread_row_sel_img'
     flow:t='vertical'
@@ -29,6 +29,7 @@ expandable {
       width:t='pw'
 
       tdiv {
+        width:t='fw'
         <<#needShowLang>>
         tdiv {
           margin-right:t='0.02@scrn_tgt'
@@ -44,7 +45,7 @@ expandable {
           position:t='relative'
           roomId:t='<<roomId>>'
           overlayTextColor:t='minor'
-          tinyFont:t='yes'
+          smallFont:t='yes'
           text:t='<<getOwnerText>>'
 
           behaviour:t='button'
@@ -55,21 +56,26 @@ expandable {
         <<#canEdit>>
         Button_text {
           roomId:t='<<roomId>>'
-          pos:t='0.02@scrn_tgt, 50%ph-50%h'
+          pos:t='0, 50%ph-50%h'
+          width:t='fw'
+          max-width:t='1@buttonWidth'
+          margin-right:t='1@buttonMargin'
+          margin-left:t='1@buttonMargin'
+          overflow:t='hidden'
           position:t='relative'
-          class:t='tinyButton'
+          showConsoleImage:t='no'
+          scaleble:t='yes'
+          class:t='smallButton'
 
           text:t = '#chat/editThread'
           on_click:t = 'onEditThread'
         }
         <</canEdit>>
       }
-
       textareaNoTab {
         id:t='thread_members'
         pos:t='pw-w, 0'
-        position:t='absolute'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         overlayTextColor:t='minor'
         text:t='<<getMembersAmountText>>'
       }
@@ -85,7 +91,7 @@ expandable {
         pos:t='0, ph-h'
         position:t='relative'
         padding-right:t='4*@sf/@pf_outdated'
-        tinyFont:t='yes'
+        smallFont:t='yes'
         overlayTextColor:t='active'
         overflow-y:t='auto'
         scrollbarShortcutsOnSelect:t="focus"
@@ -95,13 +101,13 @@ expandable {
       <<^onlyInfo>>
       <<#isGamepadMode>>
       tdiv {
-        height:t='@buttonHeight -0.005@scrn_tgt -2'
+        height:t='1@buttonHeight'
         pos:t='0, ph-h'
         position:t='relative'
 
         Button_text {
           id:t='action_btn'
-          pos:t='0, ph-h+2' //2 bottom button pixels are shade
+          pos:t='0, ph-h'
           position:t='relative'
           noMargin:t='yes'
           roomId:t='<<roomId>>'

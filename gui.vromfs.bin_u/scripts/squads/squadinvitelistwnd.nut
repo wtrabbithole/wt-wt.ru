@@ -2,6 +2,8 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType             = handlerType.MODAL
   sceneBlkName        = "gui/squads/squadInvites.blk"
+  shouldBlurSceneBg   = false
+
   inviteListTplName   = "gui/squads/squadInvites"
 
   INVITE_LIST_OBJ_ID  = "invites_list"

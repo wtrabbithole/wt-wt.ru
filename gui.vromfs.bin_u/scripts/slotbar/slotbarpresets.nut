@@ -158,7 +158,7 @@
       country = ::get_profile_info().country
     local unitTypes = getUnitTypesWithNotActivePresetBonus(country)
     local typeNames = ::u.map(unitTypes, function(u) { return u.getArmyLocName()})
-    return ::implode(typeNames, ", ")
+    return ::g_string.implode(typeNames, ", ")
   }
 
   function havePresetsReserve(country = null)

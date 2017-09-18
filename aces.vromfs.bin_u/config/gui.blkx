@@ -4,6 +4,7 @@
   "items_roulette_min_trophy_drop_mult": 0.34,
   "armor_thickness_absolute_threshold": 500.0,
   "armor_thickness_relative_threshold": 5.0,
+  "markRecentlyReleasedUnitsDays": 14,
   "game_localization": {
     "default": [
       {
@@ -75,6 +76,38 @@
           "id": "Czech",
           "icon": "#ui/gameuiskin#lang_czech",
           "chatId": "cs",
+          "hasUnitSpeech": false
+        }
+      },
+      {
+        "lang": {
+          "id": "Hungarian",
+          "icon": "#ui/gameuiskin#lang_hungary",
+          "chatId": "hu",
+          "hasUnitSpeech": false
+        }
+      },
+      {
+        "lang": {
+          "id": "Serbian",
+          "icon": "#ui/gameuiskin#lang_serbia",
+          "chatId": "sr",
+          "hasUnitSpeech": false
+        }
+      },
+      {
+        "lang": {
+          "id": "Belarusian",
+          "icon": "#ui/gameuiskin#lang_belarus",
+          "chatId": "be",
+          "hasUnitSpeech": false
+        }
+      },
+      {
+        "lang": {
+          "id": "Ukrainian",
+          "icon": "#ui/gameuiskin#lang_ukraine",
+          "chatId": "uk",
           "hasUnitSpeech": false
         }
       },
@@ -348,6 +381,9 @@
     "apds_tank": "apds_tank",
     "apds_fs_tank": "apdsfs_tank",
     "apds_fs_long_tank": "apdsfs_tank",
+    "apds_fs_full_body_steel_tank": "apdsfs_tank",
+    "apds_fs_tungsten_small_core_tank": "apdsfs_tank",
+    "apds_fs_tungsten_l10_l15_tank": "apdsfs_tank",
     "apbc_tank": "apbc_tank",
     "apc_tank": "apc_tank",
     "aphe_tank": "aphe_tank",
@@ -360,8 +396,10 @@
     "tp_tank": "tp_tank",
     "tphv_tank": "tpc_tank",
     "heat_tank": "heat_tank",
+    "heat_grenade_tank": "heat_grenade_tank",
     "heat_fs_tank": "heat_fs_tank",
     "hesh_tank": "hesh_tank",
+    "he_grenade_tank": "he_grenade_tank",
     "he_frag_tank": "he_frag_tank",
     "he_frag_fs_tank": "he_frag_tank",
     "shrapnel_tank": "shrapnel_tank",
@@ -597,6 +635,9 @@
       "reward_decal": "item_decal",
       "reward_skin": "item_skin",
       "reward_attachable": "item_attachable",
+      "reward_battle_task_hard_task_medal1": "item_hard_task_1",
+      "reward_battle_task_hard_task_medal2": "item_hard_task_2",
+      "reward_battle_task_hard_task_medal3": "item_hard_task_3",
       "shop_trophy_test_warpoints": "small_wooden_box_big;",
       "shop_trophy_test_warpoints_opened": "small_wooden_box_opened_big;",
       "shop_trophy_test_warpoints_shop": "small_wooden_box;",
@@ -1663,6 +1704,30 @@
         "h": 0.62,
         "img": "#ui/images/chests/items_box15_small_open"
       },
+      "universal_spare_trophy_big": {
+        "x": 0.0,
+        "w": 1.0,
+        "h": 1.0,
+        "img": "#ui/images/chests/uni_spare_trophy"
+      },
+      "universal_spare_trophy": {
+        "x": 0.12,
+        "w": 0.75,
+        "h": 0.75,
+        "img": "#ui/images/chests/uni_spare_trophy"
+      },
+      "universal_spare_trophy_opened_big": {
+        "x": 0.1,
+        "w": 0.934,
+        "h": 0.534,
+        "img": ""
+      },
+      "universal_spare_trophy_opened": {
+        "x": 0.02,
+        "w": 1.07,
+        "h": 0.62,
+        "img": ""
+      },
       "gift_chest_big": {
         "x": 0.1,
         "w": 0.934,
@@ -1754,6 +1819,24 @@
         "h": "0.4@chestRewardHeight",
         "position": "relative",
         "img": "#ui/gameuiskin#item_attachable"
+      },
+      "item_hard_task_1": {
+        "w": "0.4@chestRewardWidth",
+        "h": "0.35@chestRewardHeight",
+        "position": "relative",
+        "img": "#ui/gameuiskin#item_hard_task_medal1"
+      },
+      "item_hard_task_2": {
+        "w": "0.4@chestRewardWidth",
+        "h": "0.4@chestRewardHeight",
+        "position": "relative",
+        "img": "#ui/gameuiskin#item_hard_task_medal2"
+      },
+      "item_hard_task_3": {
+        "w": "0.4@chestRewardWidth",
+        "h": "0.4@chestRewardHeight",
+        "position": "relative",
+        "img": "#ui/gameuiskin#item_hard_task_medal3"
       },
       "item_place_single": {
         "w": "1@itemWidth",
@@ -1957,7 +2040,7 @@
       "item_rest_rewards_text": {
         "type": "text",
         "color": "@userlogColoredText",
-        "font": "@big",
+        "font": "@fontBigBold",
         "position": "relative",
         "x": "0",
         "y": "0.5@itemHeight-0.5h"
@@ -1970,10 +2053,60 @@
       "gold_background": {
         "img": "#ui/gameuiskin#items_gold_bg"
       },
+      "universal_spare_base": {
+        "w": 1.0,
+        "h": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "img": "#ui/gameuiskin#item_uni_spare"
+      },
+      "universal_spare_all": {
+        "w": 0.36,
+        "h": 0.39,
+        "x": 0.28,
+        "y": 0.18,
+        "img": "#ui/gameuiskin#uni_spare_star"
+      },
+      "universal_spare_air": {
+        "w": 0.44,
+        "h": 0.44,
+        "x": 0.24,
+        "y": 0.15,
+        "img": "#ui/gameuiskin#streaks_heroic_fighter"
+      },
+      "universal_spare_tank": {
+        "w": 0.52,
+        "h": 0.52,
+        "x": 0.15,
+        "y": 0.12,
+        "img": "#ui/gameuiskin#streaks_heroic_bomber"
+      },
+      "universal_spare_ship": {
+        "w": 0.42,
+        "h": 0.42,
+        "x": 0.22,
+        "y": 0.15,
+        "img": "#ui/gameuiskin#streaks_heroic_ship"
+      },
+      "universal_spare_rank_text": {
+        "type": "text",
+        "color": "@activeTextColor",
+        "font": "@fontBigBold",
+        "shadeStyle": "textOnIcon",
+        "x": "0",
+        "y": "ph -80%h",
+        "font-ht": "0.25ph"
+      },
+      "universal_spare_flag": {
+        "w": 0.25,
+        "h": 0.2,
+        "x": "- 8%w",
+        "y": "- 8%h"
+      },
       "ticket_name_text": {
         "type": "text",
         "color": "#D0D0D0",
-        "font": "@veryTiny",
+        "font": "@fontTiny",
         "x": "0.5pw-0.5w",
         "y": "0.9ph-0.5h",
         "position": "relative"
@@ -2954,7 +3087,7 @@
         "x": 0.0,
         "y": "ph/2-0.4h",
         "position": "relative",
-        "font": "@normal",
+        "font": "@fontMedium",
         "font-ht": "0.140p.p.p.h"
       },
       "wager_place_container": {
@@ -3104,7 +3237,7 @@
         "x": "pw/2-w/2",
         "y": "9%ph",
         "color": "#ffbe61",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon",
         "text": "#clan/shortArcadeBattle"
@@ -3114,7 +3247,7 @@
         "x": "pw/2-w/2",
         "y": "9%ph",
         "color": "#cecdcb",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon",
         "text": "#clan/shortArcadeBattle"
@@ -3124,7 +3257,7 @@
         "x": "pw/2-w/2",
         "y": "9%ph",
         "color": "#ffa96f",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon",
         "text": "#clan/shortArcadeBattle"
@@ -3134,7 +3267,7 @@
         "x": "pw/2-w/2",
         "y": "9%ph",
         "color": "#ffbe61",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon",
         "text": "#clan/shortHistoricalBattle"
@@ -3144,7 +3277,7 @@
         "x": "pw/2-w/2",
         "y": "9%ph",
         "color": "#cecdcb",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon",
         "text": "#clan/shortHistoricalBattle"
@@ -3154,7 +3287,7 @@
         "x": "pw/2-w/2",
         "y": "9%ph",
         "color": "#ffa96f",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon",
         "text": "#clan/shortHistoricalBattle"
@@ -3165,7 +3298,7 @@
         "x": "pw/2-w/2",
         "y": "65%ph",
         "color": "#ffbe61",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon"
       },
@@ -3175,7 +3308,7 @@
         "x": "pw/2-w/2",
         "y": "65%ph",
         "color": "#cecdcb",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon"
       },
@@ -3185,7 +3318,7 @@
         "x": "pw/2-w/2",
         "y": "65%ph",
         "color": "#ffa96f",
-        "font": "@small",
+        "font": "@fontNormal",
         "font-ht": "0.19ph",
         "shadeStyle": "textOnIcon"
       }
@@ -3256,44 +3389,44 @@
       "country_italy_locked": "#ui/gameuiskin#country_italy_locked",
       "country_italy_big": "#ui/gameuiskin#country_italy_big",
       "country_italy_big_locked": "#ui/gameuiskin#country_italy_big_locked",
-      "country_france": "#ui/gameuiskin#country_france",
-      "country_france_locked": "#ui/gameuiskin#country_france",
-      "country_france_big": "#ui/gameuiskin#country_france_big",
-      "country_france_big_locked": "#ui/gameuiskin#country_france_big_locked",
       "country_china": "#ui/gameuiskin#country_china",
       "country_china_locked": "#ui/gameuiskin#country_china_locked",
       "country_china_big": "#ui/gameuiskin#country_china_big",
       "country_china_big_locked": "#ui/gameuiskin#country_china_big_locked",
-      "countries_country_usa_aviation": "#ui/countries/country_usa",
-      "countries_country_germany_aviation": "#ui/countries/country_germany",
-      "countries_country_ussr_aviation": "#ui/countries/country_ussr",
-      "countries_country_britain_aviation": "#ui/countries/country_britain",
-      "countries_country_japan_aviation": "#ui/countries/country_japan",
-      "countries_country_italy_aviation": "#ui/countries/country_italy",
-      "countries_country_france_aviation": "#ui/countries/country_italy",
-      "countries_country_china_aviation": "#ui/countries/country_china",
-      "countries_country_germany_army": "#ui/countries/country_germany_army",
-      "countries_country_ussr_army": "#ui/countries/country_ussr_army",
-      "countries_country_usa_army": "#ui/countries/country_usa_army",
-      "countries_country_britain_army": "#ui/countries/country_britain_army",
-      "countries_country_japan_army": "#ui/countries/country_japan_army",
-      "countries_country_italy_army": "#ui/countries/country_italy_army",
-      "countries_country_france_army": "#ui/countries/country_italy_army",
-      "bgflag_country_usa": "ui/flag_usa",
-      "bgflag_country_germany": "ui/flag_germany",
-      "bgflag_country_ussr": "ui/flag_ussr",
-      "bgflag_country_britain": "ui/flag_britain",
-      "bgflag_country_japan": "ui/flag_japan",
-      "bgflag_country_italy": "ui/flag_italy",
-      "bgflag_country_france": "ui/flag_france",
-      "bgflag_country_china": "ui/flag_china",
+      "first_choice_country_usa_aviation": "#ui/first_choice/usa_aviation.png",
+      "first_choice_country_germany_aviation": "#ui/first_choice/germany_aviation.png",
+      "first_choice_country_ussr_aviation": "#ui/first_choice/ussr_aviation.png",
+      "first_choice_country_britain_aviation": "#ui/first_choice/britain_aviation.png",
+      "first_choice_country_japan_aviation": "#ui/first_choice/japan_aviation.png",
+      "first_choice_country_italy_aviation": "#ui/first_choice/italy_aviation.png",
+      "first_choice_country_china_aviation": "#ui/first_choice/china_aviation.png",
+      "first_choice_country_usa_army": "#ui/first_choice/usa_army.png",
+      "first_choice_country_germany_army": "#ui/first_choice/germany_army.png",
+      "first_choice_country_ussr_army": "#ui/first_choice/ussr_army.png",
+      "first_choice_country_britain_army": "#ui/first_choice/britain_army.png",
+      "first_choice_country_japan_army": "#ui/first_choice/japan_army.png",
+      "first_choice_country_italy_army": "#ui/first_choice/italy_aviation.png",
+      "first_choice_country_china_army": "#ui/first_choice/china_aviation.png",
+      "first_choice_country_usa_fleet": "#ui/first_choice/usa_fleet.png",
+      "first_choice_country_germany_fleet": "#ui/first_choice/germany_fleet.png",
+      "first_choice_country_ussr_fleet": "#ui/first_choice/ussr_fleet.png",
+      "first_choice_country_britain_fleet": "#ui/first_choice/britain_fleet.png",
+      "first_choice_country_japan_fleet": "#ui/first_choice/japan_fleet.png",
+      "first_choice_country_italy_fleet": "#ui/first_choice/italy_aviation.png",
+      "first_choice_country_china_fleet": "#ui/first_choice/china_aviation.png",
+      "bgflag_country_usa": "#ui/images/flag_usa",
+      "bgflag_country_germany": "#ui/images/flag_germany",
+      "bgflag_country_ussr": "#ui/images/flag_ussr",
+      "bgflag_country_britain": "#ui/images/flag_britain",
+      "bgflag_country_japan": "#ui/images/flag_japan",
+      "bgflag_country_italy": "#ui/images/flag_italy",
+      "bgflag_country_china": "#ui/images/flag_china",
       "flag_usa": "#ui/gameuiskin#flag_usa",
       "flag_germany": "#ui/gameuiskin#flag_germany",
       "flag_ussr": "#ui/gameuiskin#flag_ussr",
       "flag_britain": "#ui/gameuiskin#flag_britain",
       "flag_japan": "#ui/gameuiskin#flag_japan",
       "flag_italy": "#ui/gameuiskin#flag_italy",
-      "flag_france": "#ui/gameuiskin#flag_france",
       "decal_locked_country_usa": "#ui/gameuiskin#decal_country_usa_locked",
       "decal_locked_country_germany": "#ui/gameuiskin#decal_country_germany_locked",
       "decal_locked_country_ussr": "#ui/gameuiskin#decal_country_ussr_locked",
@@ -3301,26 +3434,6 @@
       "decal_locked_country_japan": "#ui/gameuiskin#decal_country_japan_locked",
       "decal_locked_country_italy": "#ui/gameuiskin#decal_country_italy_locked",
       "decal_locked_country_china": "#ui/gameuiskin#decal_country_china_locked",
-      "country_britain_army_first_choice": "#ui/images/first_choice/country_britain_army.jpg?P1",
-      "country_britain_army_first_choice_active": "#ui/images/first_choice/country_britain_army_active.jpg?P1",
-      "country_britain_aviation_first_choice": "#ui/images/first_choice/country_britain_aviation.jpg?P1",
-      "country_britain_aviation_first_choice_active": "#ui/images/first_choice/country_britain_aviation_active.jpg?P1",
-      "country_germany_army_first_choice": "#ui/images/first_choice/country_germany_army.jpg?P1",
-      "country_germany_army_first_choice_active": "#ui/images/first_choice/country_germany_army_active.jpg?P1",
-      "country_germany_aviation_first_choice": "#ui/images/first_choice/country_germany_aviation.jpg?P1",
-      "country_germany_aviation_first_choice_active": "#ui/images/first_choice/country_germany_aviation_active.jpg?P1",
-      "country_japan_army_first_choice": "#ui/images/first_choice/country_japan_army.jpg?P1",
-      "country_japan_army_first_choice_active": "#ui/images/first_choice/country_japan_army_active.jpg?P1",
-      "country_japan_aviation_first_choice": "#ui/images/first_choice/country_japan_aviation.jpg?P1",
-      "country_japan_aviation_first_choice_active": "#ui/images/first_choice/country_japan_aviation_active.jpg?P1",
-      "country_usa_army_first_choice": "#ui/images/first_choice/country_usa_army.jpg?P1",
-      "country_usa_army_first_choice_active": "#ui/images/first_choice/country_usa_army_active.jpg?P1",
-      "country_usa_aviation_first_choice": "#ui/images/first_choice/country_usa_aviation.jpg?P1",
-      "country_usa_aviation_first_choice_active": "#ui/images/first_choice/country_usa_aviation_active.jpg?P1",
-      "country_ussr_army_first_choice": "#ui/images/first_choice/country_ussr_army.jpg?P1",
-      "country_ussr_army_first_choice_active": "#ui/images/first_choice/country_ussr_army_active.jpg?P1",
-      "country_ussr_aviation_first_choice": "#ui/images/first_choice/country_ussr_aviation.jpg?P1",
-      "country_ussr_aviation_first_choice_active": "#ui/images/first_choice/country_ussr_aviation_active.jpg?P1",
       "country_germany_aircraft_unit": "#ui/images/researches/ger_finishedresearch.jpg?P1",
       "country_germany_tank_unit": "#ui/images/researches/ger_ground_finishedresearch.jpg?P1",
       "country_usa_aircraft_unit": "#ui/images/researches/usa_finishedresearch.jpg?P1",
@@ -3345,11 +3458,6 @@
       "country_britain_tank_modification": "#ui/images/researches/uk_ground_newmodificationresearch.jpg?P1",
       "country_china_aircraft_modification": "#ui/images/researches/china_newmodificationresearch.jpg?P1",
       "country_italy_aircraft_modification": "#ui/images/researches/italy_newmodificationresearch.jpg?P1",
-      "countries_country_usa_fleet": "#ui/countries/country_usa_fleet",
-      "countries_country_germany_fleet": "#ui/countries/country_germany_fleet",
-      "countries_country_ussr_fleet": "#ui/countries/country_ussr_fleet",
-      "countries_country_britain_fleet": "#ui/countries/country_britain_fleet",
-      "countries_country_japan_fleet": "#ui/countries/country_japan_fleet",
       "tutorial_fighter": "#ui/images/tutorial_fighter.jpg?P1",
       "tutorial_fighter_win": "#ui/images/tutorial_fighter_win.jpg?P1",
       "tutorial_bomber": "#ui/images/tutorial_bomber.jpg?P1",
@@ -3391,35 +3499,38 @@
       "country_italy_locked": "#ui/gameuiskin#country_italy_alt_locked",
       "country_italy_big": "#ui/gameuiskin#country_italy_alt_big",
       "country_italy_big_locked": "#ui/gameuiskin#country_italy_alt_big_locked",
-      "country_france": "#ui/gameuiskin#country_france_alt",
-      "country_france_locked": "#ui/gameuiskin#country_france_alt_locked",
-      "country_france_big": "#ui/gameuiskin#country_france_alt_big",
-      "country_france_big_locked": "#ui/gameuiskin#country_france_alt_big_locked",
       "country_china": "#ui/gameuiskin#country_china_alt",
       "country_china_locked": "#ui/gameuiskin#country_china_alt_locked",
       "country_china_big": "#ui/gameuiskin#country_china_alt_big",
       "country_china_big_locked": "#ui/gameuiskin#country_china_alt_big_locked",
-      "countries_country_usa_aviation": "#ui/countries/country_usa_alt",
-      "countries_country_germany_aviation": "#ui/countries/country_germany_alt",
-      "countries_country_ussr_aviation": "#ui/countries/country_ussr_alt",
-      "countries_country_britain_aviation": "#ui/countries/country_britain_alt",
-      "countries_country_italy_aviation": "#ui/countries/country_italy_alt",
-      "countries_country_france_aviation": "#ui/countries/country_italy_alt",
-      "countries_country_japan_aviation": "#ui/countries/country_japan_alt",
-      "countries_country_china_aviation": "#ui/countries/country_china_alt",
-      "countries_country_germany_army": "#ui/countries/country_germany_alt_army",
-      "countries_country_ussr_army": "#ui/countries/country_ussr_alt_army",
-      "countries_country_usa_army": "#ui/countries/country_usa_alt_army",
-      "countries_country_britain_army": "#ui/countries/country_britain_alt_army",
-      "countries_country_japan_army": "#ui/countries/country_japan_alt_army",
-      "bgflag_country_usa": "ui/flag_usa_alt",
-      "bgflag_country_germany": "ui/flag_germany_alt",
-      "bgflag_country_ussr": "ui/flag_ussr_alt",
-      "bgflag_country_britain": "ui/flag_britain_alt",
-      "bgflag_country_japan": "ui/flag_japan_alt",
-      "bgflag_country_italy": "ui/flag_italy_alt",
-      "bgflag_country_france": "ui/flag_italy_alt",
-      "bgflag_country_china": "ui/flag_china_alt",
+      "first_choice_country_usa_aviation": "#ui/first_choice/usa_aviation_alt.png",
+      "first_choice_country_germany_aviation": "#ui/first_choice/germany_aviation_alt.png",
+      "first_choice_country_ussr_aviation": "#ui/first_choice/ussr_aviation_alt.png",
+      "first_choice_country_britain_aviation": "#ui/first_choice/britain_aviation_alt.png",
+      "first_choice_country_japan_aviation": "#ui/first_choice/japan_aviation_alt.png",
+      "first_choice_country_italy_aviation": "#ui/first_choice/italy_aviation_alt.png",
+      "first_choice_country_china_aviation": "#ui/first_choice/china_aviation_alt.png",
+      "first_choice_country_usa_army": "#ui/first_choice/usa_army_alt.png",
+      "first_choice_country_germany_army": "#ui/first_choice/germany_army_alt.png",
+      "first_choice_country_ussr_army": "#ui/first_choice/ussr_army_alt.png",
+      "first_choice_country_britain_army": "#ui/first_choice/britain_army_alt.png",
+      "first_choice_country_japan_army": "#ui/first_choice/japan_army_alt.png",
+      "first_choice_country_italy_army": "#ui/first_choice/italy_aviation_alt.png",
+      "first_choice_country_china_army": "#ui/first_choice/china_aviation_alt.png",
+      "first_choice_country_usa_fleet": "#ui/first_choice/usa_fleet_alt.png",
+      "first_choice_country_germany_fleet": "#ui/first_choice/germany_fleet_alt.png",
+      "first_choice_country_ussr_fleet": "#ui/first_choice/ussr_fleet_alt.png",
+      "first_choice_country_britain_fleet": "#ui/first_choice/britain_fleet_alt.png",
+      "first_choice_country_japan_fleet": "#ui/first_choice/japan_fleet_alt.png",
+      "first_choice_country_italy_fleet": "#ui/first_choice/italy_aviation_alt.png",
+      "first_choice_country_china_fleet": "#ui/first_choice/china_aviation_alt.png",
+      "bgflag_country_usa": "#ui/images/flag_usa_alt",
+      "bgflag_country_germany": "#ui/images/flag_germany_alt",
+      "bgflag_country_ussr": "#ui/images/flag_ussr_alt",
+      "bgflag_country_britain": "#ui/images/flag_britain_alt",
+      "bgflag_country_japan": "#ui/images/flag_japan_alt",
+      "bgflag_country_italy": "#ui/images/flag_italy_alt",
+      "bgflag_country_china": "#ui/images/flag_china_alt",
       "flag_japan": "#ui/gameuiskin#flag_japan_alt",
       "decal_locked_country_usa": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_germany": "#ui/gameuiskin#decal_locked_country",
@@ -3428,26 +3539,6 @@
       "decal_locked_country_japan": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_italy": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_china": "#ui/gameuiskin#decal_locked_country",
-      "country_britain_army_first_choice": "#ui/images/first_choice/country_britain_army_alt.jpg?P1",
-      "country_britain_army_first_choice_active": "#ui/images/first_choice/country_britain_army_active_alt.jpg?P1",
-      "country_britain_aviation_first_choice": "#ui/images/first_choice/country_britain_aviation_alt.jpg?P1",
-      "country_britain_aviation_first_choice_active": "#ui/images/first_choice/country_britain_aviation_active_alt.jpg?P1",
-      "country_germany_army_first_choice": "#ui/images/first_choice/country_germany_army_alt.jpg?P1",
-      "country_germany_army_first_choice_active": "#ui/images/first_choice/country_germany_army_active_alt.jpg?P1",
-      "country_germany_aviation_first_choice": "#ui/images/first_choice/country_germany_aviation_alt.jpg?P1",
-      "country_germany_aviation_first_choice_active": "#ui/images/first_choice/country_germany_aviation_active_alt.jpg?P1",
-      "country_japan_army_first_choice": "#ui/images/first_choice/country_japan_army_alt.jpg?P1",
-      "country_japan_army_first_choice_active": "#ui/images/first_choice/country_japan_army_active_alt.jpg?P1",
-      "country_japan_aviation_first_choice": "#ui/images/first_choice/country_japan_aviation_alt.jpg?P1",
-      "country_japan_aviation_first_choice_active": "#ui/images/first_choice/country_japan_aviation_active_alt.jpg?P1",
-      "country_usa_army_first_choice": "#ui/images/first_choice/country_usa_army_alt.jpg?P1",
-      "country_usa_army_first_choice_active": "#ui/images/first_choice/country_usa_army_active_alt.jpg?P1",
-      "country_usa_aviation_first_choice": "#ui/images/first_choice/country_usa_aviation_alt.jpg?P1",
-      "country_usa_aviation_first_choice_active": "#ui/images/first_choice/country_usa_aviation_active_alt.jpg?P1",
-      "country_ussr_army_first_choice": "#ui/images/first_choice/country_ussr_army_alt.jpg?P1",
-      "country_ussr_army_first_choice_active": "#ui/images/first_choice/country_ussr_army_active_alt.jpg?P1",
-      "country_ussr_aviation_first_choice": "#ui/images/first_choice/country_ussr_aviation_alt.jpg?P1",
-      "country_ussr_aviation_first_choice_active": "#ui/images/first_choice/country_ussr_aviation_active_alt.jpg?P1",
       "country_germany_aircraft_unit": "#ui/images/researches/ger_finishedresearch_alt.jpg?P1",
       "country_germany_tank_unit": "#ui/images/researches/ger_ground_finishedresearch_alt.jpg?P1",
       "country_japan_aircraft_unit": "#ui/images/researches/japan_finishedresearch_alt.jpg?P1",
@@ -3455,11 +3546,6 @@
       "country_germany_tank_modification": "#ui/images/researches/ger_ground_newmodificationresearch_alt.jpg?P1",
       "country_ussr_aircraft_modification": "#ui/images/researches/ussr_newmodificationresearch_alt.jpg?P1",
       "country_japan_aircraft_modification": "#ui/images/researches/japan_newModificationresearch_alt.jpg?P1",
-      "countries_country_usa_fleet": "#ui/countries/country_usa_fleet_alt",
-      "countries_country_germany_fleet": "#ui/countries/country_germany_fleet_alt",
-      "countries_country_ussr_fleet": "#ui/countries/country_ussr_fleet_alt",
-      "countries_country_britain_fleet": "#ui/countries/country_britain_fleet_alt",
-      "countries_country_japan_fleet": "#ui/countries/country_japan_fleet_alt",
       "tutorial_fighter_win": "#ui/images/tutorial_fighter_win_alt.jpg?P1",
       "help_bg_ground_strike": "ui/images/missions_tutorial/tutorial_slide_ground_strike_alt.jpg?P1",
       "help_bg_ground_strike_complete": "ui/images/missions_tutorial/tutorial_slide_ground_strike_complete_alt.jpg?P1"
@@ -3473,10 +3559,6 @@
       "country_japan_locked": "#ui/gameuiskin#country_japan_modern_locked",
       "country_japan_big": "#ui/gameuiskin#country_japan_modern_big",
       "country_japan_big_locked": "#ui/gameuiskin#country_japan_modern_big_locked",
-      "countries_country_germany_aviation": "#ui/countries/country_germany_modern",
-      "countries_country_germany_army": "#ui/countries/country_germany_modern_army",
-      "countries_country_japan_aviation": "#ui/countries/country_japan_modern",
-      "countries_country_japan_army": "#ui/countries/country_japan_modern_army",
       "bgflag_country_germany": "ui/flag_germany_modern",
       "bgflag_country_japan": "ui/flag_japan_modern",
       "flag_germany": "#ui/gameuiskin#flag_germany_modern",
@@ -3484,17 +3566,7 @@
       "decal_locked_country_germany": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_ussr": "#ui/gameuiskin#decal_locked_country",
       "decal_locked_country_britain": "#ui/gameuiskin#decal_locked_country",
-      "decal_locked_country_japan": "#ui/gameuiskin#decal_locked_country",
-      "country_germany_army_first_choice": "#ui/images/first_choice/country_germany_army_modern.jpg?P1",
-      "country_germany_army_first_choice_active": "#ui/images/first_choice/country_germany_army_modern_active.jpg?P1",
-      "country_germany_aviation_first_choice": "#ui/images/first_choice/country_germany_aviation_modern.jpg?P1",
-      "country_germany_aviation_first_choice_active": "#ui/images/first_choice/country_germany_aviation_modern_active.jpg?P1",
-      "country_japan_army_first_choice": "#ui/images/first_choice/country_japan_army_modern.jpg?P1",
-      "country_japan_army_first_choice_active": "#ui/images/first_choice/country_japan_army_modern_active.jpg?P1",
-      "country_japan_aviation_first_choice": "#ui/images/first_choice/country_japan_aviation_modern.jpg?P1",
-      "country_japan_aviation_first_choice_active": "#ui/images/first_choice/country_japan_aviation_modern_active.jpg?P1",
-      "countries_country_germany_fleet": "#ui/countries/country_germany_fleet_taiwan",
-      "countries_country_japan_fleet": "#ui/countries/country_japan_fleet_modern"
+      "decal_locked_country_japan": "#ui/gameuiskin#decal_locked_country"
     }
   },
   "units_presets": {
@@ -4126,60 +4198,39 @@
     "timeToAskShowRoomsListSec": 30,
     "askBeforeOpenCount": 10
   },
-  "debriefing_backgrounds": {
-    "blurredImgEnd": "_blur",
-    "win": {
-      "i": {
-        "img": "win/default_dark"
-      }
-    },
-    "lose": {
-      "i": {
-        "img": "lose/default"
-      }
-    },
-    "progress": {
-      "i": {
-        "img": "progress/default"
-      }
-    }
-  },
   "unlockPlaybackPath": {
     "mainPath": "http://psn-cdn-wt-178028.c.cdn77.org/dlc_sound/",
     "fileExtension": ".ogg"
   },
-  "warbondsShopLevels": [
-    {
-      "level": [0.0,0.0]
-    },
-    {
-      "level": [0.0,5.0]
-    },
-    {
-      "level": [5.0,10.0]
-    },
-    {
-      "level": [10.0,15.0]
-    },
-    {
-      "level": [15.0,20.0]
-    }
-  ],
   "warbonds": {
-    "specialTasksByMedal": 3,
+    "specialTasksByMedal": 1,
     "medalIcons": {
-      "dateblock_jan": "sp_task_medal1",
-      "dateblock_feb": "sp_task_medal2",
-      "dateblock_march": "sp_task_medal3",
-      "dateblock_aprl": "sp_task_medal1",
-      "dateblock_may": "sp_task_medal2",
-      "dateblock_jun": "sp_task_medal3",
-      "dateblock_july": "sp_task_medal1",
-      "dateblock_aug": "sp_task_medal2",
-      "dateblock_sept": "sp_task_medal3",
-      "dateblock_oct": "sp_task_medal1",
-      "dateblock_nov": "sp_task_medal2",
-      "dateblock_dec": "sp_task_medal3"
+      "dateblock_jan": "hard_task_medal1",
+      "dateblock_feb": "hard_task_medal2",
+      "dateblock_march": "hard_task_medal3",
+      "dateblock_aprl": "hard_task_medal1",
+      "dateblock_may": "hard_task_medal2",
+      "dateblock_jun": "hard_task_medal3",
+      "dateblock_july": "hard_task_medal1",
+      "dateblock_aug": "hard_task_medal2",
+      "dateblock_sept": "hard_task_medal3",
+      "dateblock_oct": "hard_task_medal1",
+      "dateblock_nov": "hard_task_medal2",
+      "dateblock_dec": "hard_task_medal3"
+    },
+    "levelIcons": {
+      "dateblock_jan": "level_icon",
+      "dateblock_feb": "level_icon_2",
+      "dateblock_march": "level_icon_3",
+      "dateblock_aprl": "level_icon",
+      "dateblock_may": "level_icon_2",
+      "dateblock_jun": "level_icon_3",
+      "dateblock_july": "level_icon",
+      "dateblock_aug": "level_icon_2",
+      "dateblock_sept": "level_icon_3",
+      "dateblock_oct": "level_icon",
+      "dateblock_nov": "level_icon_2",
+      "dateblock_dec": "level_icon_3"
     }
   }
 }
