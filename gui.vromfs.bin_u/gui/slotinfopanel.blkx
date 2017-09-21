@@ -5,13 +5,13 @@
   "display": "hide",
   "tdiv": [
     {
-      "min-width": "@sIco + @offsetBetweenScreenAndAirinfo"
+      "min-width": "@bw + 2@airInfoPadding +@mIco"
     },
     {
       "min-height": "4@mIco + 4@buttonImgPadding + 2@airInfoPadding"
     },
     {
-      "padding-left": "1@offsetBetweenScreenAndAirinfo"
+      "padding-left": "@bw + 2@airInfoPadding +@mIco"
     },
     {
       "flow": "horizontal"
@@ -22,7 +22,7 @@
     {
       "tdiv": {
         "position": "absolute",
-        "left": "@offsetBetweenScreenAndAirinfo - w",
+        "left": "1@bw -1@airInfoPadding",
         "padding": "@airInfoPadding",
         "flow": "vertical",
         "tdiv": {

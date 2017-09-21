@@ -231,7 +231,10 @@ function g_login::initConfigs(cb)
     function()
     {
       if (::is_need_first_country_choice())
+      {
         ::gui_start_countryChoice()
+        ::gui_handlers.FontChoiceWnd.markSeen()
+      }
     }
     function()
     {

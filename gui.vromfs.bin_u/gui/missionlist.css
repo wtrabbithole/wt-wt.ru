@@ -379,8 +379,6 @@ shopItem airResearchProgress {
   margin-top:0.005@sf;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
-  border:yes;
-  border-color:@cardProgressBorderColor;
   min:0;
   max:1000;
 }
@@ -394,8 +392,8 @@ airResearchProgress[type=new] {
 }
 
 airResearchProgress[paused=yes] {
+  background-color:@cardProgressDisabledBGColor;
   foreground-color:@cardProgressDisabledFGColor;
-  border-color:@cardProgressDisabledFGColor;
 }
 
 dragTest {
@@ -1174,7 +1172,7 @@ propsList {   width-base:0;
 slotsOption > slotsScrollDiv {
   max-width:@slotsScrollDivWidth5;
   width:fw;
-  padding:@slot_interval+2.5*@scrn_tgt/100.0, 0;
+  padding:@slot_interval + 1@slotScrollButtonWidth, 0;
   css-hier-invalidate:yes;
 }
 
@@ -1189,7 +1187,7 @@ slotsScrollDiv[flow=vertical] {
 }
 
 slotsScrollDiv.shopDiv {
-  width:@shop_width + 6*@sf/@pf_outdated;
+  width:@shop_width + 2@blockInterval;
   height:ph;
   max-height:ph;
   padding:0;

@@ -1733,16 +1733,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 10000.0
-        },
-        {
-          "part": "superstructure_back_dm"
-        },
-        {
-          "part": "superstructure_side_dm"
-        },
-        {
-          "part": "superstructure_front_dm"
+          "hp": 2000.0
         },
         {
           "part": "body_front_dm"
@@ -1751,52 +1742,19 @@
           "part": "body_top_dm"
         },
         {
+          "part": "body_bottom_dm"
+        },
+        {
           "part": "body_side_dm"
         },
         {
           "part": "body_back_dm"
         },
         {
-          "part": "body_bottom_dm"
-        },
-        {
-          "part": "body_shield_dm"
-        },
-        {
-          "part": "turret_01_front_dm"
-        },
-        {
           "part": "turret_01_top_dm"
         },
         {
-          "part": "wheel_support_dm"
-        },
-        {
-          "fireParamsPreset": "default_metapart"
-        },
-        {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
-          }
-        }
-      ],
-      "turret": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "turret_bottom_dm"
-        },
-        {
-          "part": "turret_top_dm"
-        },
-        {
-          "part": "turret_side_dm"
-        },
-        {
-          "part": "turret_front_dm"
+          "part": "turret_01_front_dm"
         },
         {
           "part": "turret_back_dm"
@@ -1805,49 +1763,122 @@
           "part": "turret_01_side_dm"
         },
         {
-          "part": "turret_02_side_dm"
+          "part": "turret_side_dm"
         },
         {
-          "part": "turret_01_back_dm"
+          "part": "turret_front_dm"
         },
         {
-          "part": "turret_01_bottom_dm"
+          "part": "gun_mask_01_dm"
         },
         {
-          "fireParamsPreset": "default_metapart"
+          "part": "gun_mask_02_dm"
         },
         {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
+          "part": "superstructure_side_dm"
+        },
+        {
+          "part": "superstructure_top_dm"
+        },
+        {
+          "part": "superstructure_front_dm"
+        },
+        {
+          "part": "superstructure_back_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 450.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         }
       ],
-      "crew": [
+      "suspension": [
         {
-          "killAllPartsForDeath": true
+          "hp": 2000.0
         },
         {
-          "killNumPartsForDeath": 4
+          "part": "wheel_l_back_dm"
         },
         {
-          "part": "loader_dm"
+          "part": "wheel_l_01_dm"
         },
         {
-          "part": "driver_dm"
+          "part": "wheel_l_02_dm"
         },
         {
-          "part": "gunner_dm"
+          "part": "wheel_l_03_dm"
         },
         {
-          "part": "commander_dm"
+          "part": "wheel_l_04_dm"
         },
         {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
+          "part": "wheel_l_drive_dm"
+        },
+        {
+          "part": "wheel_r_back_dm"
+        },
+        {
+          "part": "wheel_r_01_dm"
+        },
+        {
+          "part": "wheel_r_02_dm"
+        },
+        {
+          "part": "wheel_r_03_dm"
+        },
+        {
+          "part": "wheel_r_04_dm"
+        },
+        {
+          "part": "wheel_r_drive_dm"
+        },
+        {
+          "part": "track_r_dm"
+        },
+        {
+          "part": "track_l_dm"
+        },
+        {
+          "part": "wheel_support_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 400.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 400.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         }
       ]
@@ -1855,13 +1886,13 @@
   },
   {
     "sound": {
-      "EngineName": "engine_panzer6",
+      "EngineName": "engine_hetzer",
       "TrackSoundPath": "tanks/engines_tanks",
-      "TrackSoundName": "tracks_heavy",
-      "TrackSoundNameCockpit": "tracks_heavy_interior",
+      "TrackSoundName": "tracks_light",
+      "TrackSoundNameCockpit": "tracks_light_interior",
       "turret_turn": "turret_turn_manual_y",
-      "EngineNameAi": "engine_tank_ai_heavy",
-      "TrackSoundNameAi": "tracks_ai_heavy"
+      "EngineNameAi": "engine_tank_ai_light",
+      "TrackSoundNameAi": "tracks_ai_light"
     }
   },
   {

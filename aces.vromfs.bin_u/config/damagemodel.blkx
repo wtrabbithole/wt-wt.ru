@@ -2387,6 +2387,14 @@
           "ricochetProbability90deg": [90.0,0.0]
         }
       },
+      "atgm": {
+        "t1": {
+          "caliberToArmor": 1.0,
+          "ricochetProbability0deg": [0.0,0.0],
+          "ricochetProbability09deg": [15.0,0.0],
+          "ricochetProbability90deg": [90.0,0.0]
+        }
+      },
       "he": {
         "t1": {
           "caliberToArmor": 1.0,
@@ -2402,8 +2410,8 @@
           "caliberToArmor": 1.0,
           "ricochetProbability0deg": [0.0,1.0],
           "ricochetProbability09deg": [10.0,1.0],
-          "ricochetProbability10deg": [13.0,0.2],
-          "ricochetProbability11deg": [15.0,0.0]
+          "ricochetProbability10deg": [15.0,0.2],
+          "ricochetProbability11deg": [17.0,0.0]
         }
       }
     }
@@ -4544,7 +4552,7 @@
       },
       "atgm_tank": {
         "normalizationPreset": "heat",
-        "ricochetPreset": "heat_fs",
+        "ricochetPreset": "atgm",
         "stabilityThreshold": 0.1,
         "stabilityCaliberToArmorThreshold": 100.0,
         "stabilityReductionAfterRicochet": 0.3,

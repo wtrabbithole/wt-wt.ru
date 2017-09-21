@@ -1,8 +1,8 @@
-@const progressHeight: 5@sf/@pf_outdated;
-@const progressHeightSlot: 3@sf/@pf_outdated;
-@const progressHeightSmall: 2@sf/@pf_outdated;
-@const referenceProgressHeight:2@dp;
-@const referenceProgressOffset:1@dp;
+@const progressHeight: 8@sf/@pf;
+@const progressHeightSlot: 5@sf/@pf;
+@const progressHeightSmall: 3@sf/@pf;
+@const referenceProgressHeight:3@dp;
+@const referenceProgressOffset:0@dp;
 
 @const skillProgressBgIncSize: 0;
 @const skillProgressHeightMul: 0.5;
@@ -43,7 +43,7 @@ skillProgressBg {
 }
 
 optionProgress {
-  height:5*@sf/@pf_outdated;
+  height:@progressHeight;
   behaviour:progress;
   re-type:progress;
   background-color:#000000;
@@ -57,8 +57,6 @@ expProgress, referenceProgress, crewSpecProgressBar {
   re-type:progress;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
-  border:yes;
-  border-color:@cardProgressBorderColor;
 }
 
 expProgress {
@@ -82,8 +80,8 @@ expProgress[type=new], crewSpecProgressBar[type=new] {
   foreground-color:@cardProgressChangeColor;
 }
 expProgress[paused=yes], crewSpecProgressBar[paused=yes] {
+  background-color:@cardProgressDisabledBGColor;
   foreground-color:@cardProgressDisabledFGColor;
-  border-color:@cardProgressDisabledFGColor;
 }
 expProgress[type=bonus] {
   foreground-color:@cardProgressBonusColor;
@@ -103,8 +101,8 @@ expProgress.slider sliderButton {
 [class=optionsTable] > tr:disabled expProgress,
 [class=optionsTable] > tr[inactiveColor=yes] expProgress,
 expProgress[inactiveColor=yes] {
+  background-color:@fadedTextColor;
   foreground-color:@controlDisabledColor;
-  border-color:@fadedTextColor;
 }
 
 country_exp_div, exp_div {
@@ -165,13 +163,11 @@ country_exp_div[flow=horizontal] > exp_div {
 challengeDescriptionProgress {
   behaviour:progress;
   re-type:progress;
-  height:5*@sf/@pf_outdated;
-  width:200*@sf/@pf_outdated;
+  height:@progressHeight;
+  width:300@sf/@pf;
   margin-top:0.01@sf;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
-  border:yes;
-  border-color:@cardProgressBorderColor;
   min:0;
   max:1000;
 }

@@ -2400,6 +2400,7 @@ function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
   {
     barObj.show(true)
     barObj.setValue(1000.0 * newExp / maxExp)
+    barObj.paused = isPaused ? "yes" : "no"
   }
 }
 

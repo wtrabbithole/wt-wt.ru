@@ -181,6 +181,8 @@ function g_warbonds::getLimit()
 function g_warbonds::checkOverLimit(battleTask, silent = false)
 {
   local curWb = ::g_warbonds.getCurrentWarbond()
+  if (!curWb)
+    return true
   local limit = getLimit()
   local newBalance = curWb.getBalance() + battleTask.amount_warbonds
   if (newBalance <= limit)

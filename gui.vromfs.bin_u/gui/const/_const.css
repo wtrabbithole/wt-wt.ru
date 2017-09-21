@@ -107,7 +107,8 @@
 @const gcBattleBlockPadding: 0.04@scrn_tgt*1@isWide;
 @const toBattleButtonBottom: 1@titleLogoPlateHeight + 1@bh + 0.006@sf;
 @const gcToBattleButtonPlaceWidth: 1@titleLogoPlateWidth + 2@gcBattleBlockPadding;
-@const topGcPanelWidth: 0.5sw - 1@offsetBetweenScreenAndAirinfo - 0.5@gcToBattleButtonPlaceWidth;
+@const topGcPanelWidth: 0.5@slotbarWidthFull - 0.5@gcToBattleButtonPlaceWidth;
+@const bottomGcWidth: @slotbarWidthFull;
 
 @const queueTableWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
 
@@ -128,7 +129,7 @@
 @const shopCols: 7;
 @const shopWidthMax: 180*@sf/@pf_outdated;
 @const shopWidthMin: 120*@sf/@pf_outdated;
-@const shop_width: ((1@shopUsefulWidth \ @shopCols - 1px) $min @shopWidthMax) $max @shopWidthMin;
+@const shop_width: (((1@shopUsefulWidth \ @shopCols - 1px) $min @shopWidthMax) $max @shopWidthMin) \ 1;
 @const shopUsefulWidth: 1@slotbarWidthFull - 1@modBlockTierNumHeight - 1@scrollBarSize;
 @const shop_interval: ((1@shop_width - @shopWidthMin)\2 $min 18*@sf/@pf_outdated) $max 2*@sf/@pf_outdated;
 @const shop_pad:      0.02*@scrn_tgt\1 + 4*@sf/@pf_outdated;
@@ -147,6 +148,7 @@
 @const slot_hdr_width:@cIco +12@sf/@pf;
 @const shop_vert_arrow_width: 15*@sf/@pf_outdated;
 @const shop_hor_arrow_height: 15*@sf/@pf_outdated;
+@const slotScrollButtonWidth: (0.025@sf)\1;
 
 @const slotbar_top_shade: 2@dp;
 @const slotbar_pad_top: 15@sf/@pf;
@@ -156,17 +158,17 @@
 
 @const flightMenuBrHeight: 16*@sf/@pf_outdated;
 
-@const slots_count1:   (((1@rw -1@slot_hdr_width -2@slot_interval -1*@scrn_tgt/100.0)) \@slot_width) $min 10;
-@const slots_count5:   (((1@rw -@slotbarCountries*@slot_hdr_width -2@slot_interval -5*@scrn_tgt/100.0)) \@slot_width) $min 10;
+@const slots_count1:   (((1@rw -1@slot_hdr_width -2@slot_interval -2@slotScrollButtonWidth)) \@slot_width) $min 10;
+@const slots_count5:   (((1@rw -@slotbarCountries*@slot_hdr_width -2@slot_interval -2@slotScrollButtonWidth)) \@slot_width) $min 10;
 @const slotsScrollDivWidth1:(1@slot_width*1@slots_count1+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated +1)\2*2;
 @const slotsScrollDivWidth5:(1@slot_width*1@slots_count5+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated +1)\2*2;
 
-@const slotbarWidth1:    (1@slotsScrollDivWidth1 + 1@slot_hdr_width + 8*@sf/@pf_outdated +1)\2*2;
+@const slotbarWidth1:    (1@slotsScrollDivWidth1 + 1@slot_hdr_width +1)\2*2;
 @const slotbarWidth5:    (1@slotsScrollDivWidth5 + 1@slot_hdr_width * 1@slotbarCountries +1)\2*2;
 @const slotbarWidthFull: 1@slotbarWidth5;
 @const slotbarHeight:    1@slotbar_top_shade + 1@slotbar_pad_top + 1@slot_height + 1@slotbar_pad_bottom;
 @const slotbarInvisPad: 1@buttonHeight;
-@const offsetBetweenScreenAndAirinfo: 1@bw + (((0.5sw-1@bw-0.5@slotbarWidthFull) $max 1@mIco + 2@blockInterval) $min 3@mIco);
+@const offsetBetweenScreenAndAirinfo: 1@bw + 1@cIco;
 @const airInfoPanelWidth: 0.4@sf;
 @const airInfoPanelShadowWidth: 0.07@sf;
 @const airInfoPanelDmSwitcherWidth: ((@airInfoPanelWidth - 2@listboxPad - 2@listboxItemsInterval) \ 3) * 3 + 2@listboxPad + 2@listboxItemsInterval; 
@@ -193,7 +195,7 @@
 
 @const modWindowWidth: 6@modCellWidth + 1.5@modBlockTierNumHeight $min 1@rw;
 @const modItemHeight: 1@modIcoSize-2*@sf/@pf_outdated;
-@const modBlockTierNumHeight: 0.33@modCellHeight;
+@const modBlockTierNumHeight: (0.33@modCellHeight) \ 1;
 @const modBundleWidth: 1@modItemWidth + 16*@sf/@pf_outdated;
 @const modCellWidth:  1@modItemWidth +2@modPadSize;
 @const modCellHeight: 1@modItemHeight +2@modPadSize;
@@ -208,7 +210,7 @@
 @const minXposWindow: 1@bw;
 @const minYposWindow: 1@bh + 1@titleLogoPlateHeight;
 
-@const scrollBarSize: 11*@sf/@pf_outdated;
+@const scrollBarSize: (11*@sf/@pf_outdated) \ 1;
 @const scrollArrowsSize: 3.5*@scrn_tgt/100.0;
 @const chapterSeparatorSize: 2 * (2@sf/@pf_outdated \ 1);
 

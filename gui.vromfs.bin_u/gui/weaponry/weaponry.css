@@ -397,8 +397,6 @@ modResearchProgress {
   width: 1@modItemWidth - 1@modIcoSize - 4@dp;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
-  border:yes;
-  border-color:@cardProgressBorderColor;
   min:0;
   max:1000;
 }
@@ -412,8 +410,8 @@ modResearchProgress[type=new] {
 }
 
 modResearchProgress[paused=yes] {
+  background-color:@cardProgressDisabledBGColor;
   foreground-color:@cardProgressDisabledFGColor;
-  border-color:@cardProgressDisabledFGColor;
 }
 
 

@@ -1260,7 +1260,7 @@ function get_shortcut_frame_for_help(shortcut)
 
     if (shortcut.dev[k] == ::STD_MOUSE_DEVICE_ID)
     {
-      local mouseBtnImg = "controlsHelpMouseBtn { background-image:t='#ui/gameuiskin#%s'; }"
+      local mouseBtnImg = "controlsHelpMouseBtn { background-image:t='#ui/hudskin#%s'; }"
       if (shortcut.btn[k] == 0)
         buttonFrame = format(mouseBtnImg, "help_mouse_left");
       else if (shortcut.btn[k] == 1)

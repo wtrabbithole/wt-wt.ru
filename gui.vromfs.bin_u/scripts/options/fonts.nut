@@ -23,6 +23,8 @@ enum FONT_SIZE_ORDER {
   SCALE  //wop_1_69_3_X
 }
 
+local hasLowHeightFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
+
 ::g_font <- {
   types = []
   cache = { bySaveId = {} }
@@ -60,7 +62,10 @@ enum FONT_SIZE_ORDER {
     return ::handyman.renderCached("gui/const/const_fonts_css", config)
   }
 
-  getOptionText = @() (100 * sizeMultiplier).tointeger() + "%" //text visible in options
+  //text visible in options
+  getOptionText = @() ::loc("fontSize/" + id.tolower())
+    + ::loc("ui/parentheses/space", { text = (100 * sizeMultiplier).tointeger() + "%" })
+  getFontExample = @() "small_text" + fontGenId
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_font",
@@ -71,7 +76,7 @@ enum FONT_SIZE_ORDER {
     sizeMultiplier = 0.667
     sizeOrder = FONT_SIZE_ORDER.SMALL
 
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 900
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasLowHeightFonts ? 768 : 900)
   }
 
   MEDIUM = {
@@ -81,7 +86,7 @@ enum FONT_SIZE_ORDER {
     saveIdCompatibility = [FONT_SAVE_ID.PX]
     sizeOrder = FONT_SIZE_ORDER.MEDIUM
 
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 800
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasLowHeightFonts ? 720 : 800)
   }
 
   BIG = {
@@ -90,8 +95,6 @@ enum FONT_SIZE_ORDER {
     sizeMultiplier = 1.0
     sizeOrder = FONT_SIZE_ORDER.BIG
     saveIdCompatibility = [FONT_SAVE_ID.SCALE]
-
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes")
   }
 },
 null,
@@ -137,15 +140,6 @@ function g_font::getDefault()
   local fixedFont = getFixedFont()
   if (fixedFont)
     return fixedFont
-
-  if (!::has_feature("newFontsSizes"))
-  {
-    if (::is_platform_ps4 || ::is_steam_big_picture())
-      return SCALE
-    if (::screen_height() * ::display_scale() <= 1200)
-      return PX
-    return SCALE
-  }
 
   if (::is_platform_shield_tv() || ::is_platform_ps4 || ::is_platform_xboxone || ::is_steam_big_picture())
     return BIG

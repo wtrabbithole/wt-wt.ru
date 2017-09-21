@@ -14,9 +14,24 @@
     "timeSpentPausedMillis": 0,
     "freezeTimeMillis": 0,
     "winner": "SIDE_NONE",
+    "activationTimeMillis": 0,
+    "wallclockCreationTimeMillis": 0,
     "objectives": [],
     "originalArmyGroupMapping": {
       "all": false
+    },
+    "armyGroupDefaultAirfields": {
+      "all": false,
+      "country_germany": {
+        "airfieldIdx": {
+          "0": 0
+        }
+      },
+      "country_ussr": {
+        "airfieldIdx": {
+          "0": 1
+        }
+      }
     }
   },
   "transactions": [],
@@ -29,6 +44,186 @@
   },
   "armies": {
     "all": false,
+    "army1": {
+      "morale": 40,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "infantry",
+      "owner": {
+        "side": "SIDE_1",
+        "country": "country_ussr",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [18.9618,12.1288],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "infantry_ussr": {
+          "count": 16,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_gaz_mm_72k": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_t_34_1942": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army10": {
+      "morale": 75,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "",
+      "owner": {
+        "side": "SIDE_2",
+        "country": "country_germany",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [21.7869,33.4176],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "germ_flakpanzer_IV_Wirbelwind": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_III_ausf_M": {
+          "count": 24,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_IV_ausf_G": {
+          "count": 14,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "mobile_infantry_germany": {
+          "count": 6,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army11": {
+      "morale": 95,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "",
+      "owner": {
+        "side": "SIDE_2",
+        "country": "country_germany",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_ARTILLERY",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [20.4695,35.6776],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "artillery_germany": {
+          "count": 32,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_flakpanzer_IV_Wirbelwind": {
+          "count": 16,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
     "army112": {
       "morale": 75,
       "entrenchEndMillisec": 0,
@@ -42,16 +237,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [7.46612,60.8363],
+        "pos": [5.48713,37.0787],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -106,16 +303,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [11.162,60.9483],
+        "pos": [8.19685,37.0813],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -170,16 +369,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_ARTILLERY",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [9.14606,64.0842],
+        "pos": [6.87948,39.3412],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -222,16 +423,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [7.35412,67.3321],
+        "pos": [5.52593,41.6342],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -280,16 +483,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [11.274,67.2201],
+        "pos": [8.27933,41.6451],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -325,187 +530,7 @@
         "all": false
       }
     },
-    "army117": {
-      "morale": 75,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [30.8733,57.4764],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_III_ausf_M": {
-          "count": 24,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_IV_ausf_G": {
-          "count": 14,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "mobile_infantry_germany": {
-          "count": 6,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army118": {
-      "morale": 75,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [34.5692,57.5884],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_III_ausf_M": {
-          "count": 24,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_IV_ausf_G": {
-          "count": 14,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "mobile_infantry_germany": {
-          "count": 6,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army119": {
-      "morale": 95,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_ARTILLERY",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [32.5533,60.7243],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "artillery_germany": {
-          "count": 32,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army120": {
+    "army12": {
       "morale": 40,
       "entrenchEndMillisec": 0,
       "suppliesEndMillisec": 0,
@@ -518,248 +543,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [30.7613,63.9722],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_IV_ausf_G": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "infantry_germany": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army121": {
-      "morale": 40,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [34.6812,63.8602],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_IV_ausf_G": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "infantry_germany": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army122": {
-      "morale": 75,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [27.2894,57.5884],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_III_ausf_M": {
-          "count": 24,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_IV_ausf_G": {
-          "count": 14,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "mobile_infantry_germany": {
-          "count": 6,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army123": {
-      "morale": 95,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_ARTILLERY",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [28.9694,60.8363],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "artillery_germany": {
-          "count": 32,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army124": {
-      "morale": 40,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [26.7295,63.6362],
+        "pos": [19.116,37.9705],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -808,16 +603,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [4.55422,52.8846],
+        "pos": [3.93054,30.9677],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -866,132 +663,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [12.5059,49.3007],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_IV_ausf_G": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "infantry_germany": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army127": {
-      "morale": 40,
-      "entrenchEndMillisec": 1,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [17.6578,48.1808],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "germ_flakpanzer_IV_Wirbelwind": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "germ_pzkpfw_IV_ausf_G": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "infantry_germany": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army128": {
-      "morale": 40,
-      "entrenchEndMillisec": 1,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_2",
-        "country": "country_germany",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [21.4656,48.1808],
+        "pos": [8.82698,30.1908],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1040,16 +723,78 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [27.1774,48.9647],
+        "pos": [16.5379,26.7924],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "germ_flakpanzer_IV_Wirbelwind": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_IV_ausf_G": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "infantry_germany": {
+          "count": 16,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army13": {
+      "morale": 40,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "infantry",
+      "owner": {
+        "side": "SIDE_2",
+        "country": "country_germany",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [21.8694,37.9814],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1098,16 +843,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [34.5692,45.6048],
+        "pos": [21.3964,27.2631],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1143,122 +890,6 @@
         "all": false
       }
     },
-    "army131": {
-      "morale": 40,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_1",
-        "country": "country_ussr",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [33.1132,22.9816],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "infantry_ussr": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_gaz_mm_72k": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_t_34_1942": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army132": {
-      "morale": 40,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_1",
-        "country": "country_ussr",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [29.4174,23.0936],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "infantry_ussr": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_gaz_mm_72k": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_t_34_1942": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
     "army133": {
       "morale": 40,
       "entrenchEndMillisec": 1,
@@ -1272,16 +903,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [34.4572,37.2051],
+        "pos": [21.3936,22.9593],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1330,132 +963,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [27.6254,41.461],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "infantry_ussr": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_gaz_mm_72k": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_t_34_1942": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army135": {
-      "morale": 40,
-      "entrenchEndMillisec": 1,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_1",
-        "country": "country_ussr",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [21.4656,41.909],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "infantry_ussr": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_gaz_mm_72k": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_t_34_1942": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army136": {
-      "morale": 40,
-      "entrenchEndMillisec": 1,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "infantry",
-      "owner": {
-        "side": "SIDE_1",
-        "country": "country_ussr",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [17.8818,41.797],
+        "pos": [14.8378,23.0151],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1504,16 +1023,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [12.6179,40.901],
+        "pos": [10.3737,26.6254],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1562,16 +1083,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [5.33819,45.1569],
+        "pos": [3.98024,26.5133],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1607,59 +1130,7 @@
         "all": false
       }
     },
-    "army139": {
-      "morale": 95,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "",
-      "owner": {
-        "side": "SIDE_1",
-        "country": "country_ussr",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_ARTILLERY",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [31.2093,26.1175],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "artillery_ussr": {
-          "count": 32,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_gaz_mm_72k": {
-          "count": 16,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army140": {
+    "army14": {
       "morale": 75,
       "entrenchEndMillisec": 0,
       "suppliesEndMillisec": 0,
@@ -1667,21 +1138,23 @@
       "targetName": "",
       "iconOverride": "",
       "owner": {
-        "side": "SIDE_1",
-        "country": "country_ussr",
+        "side": "SIDE_2",
+        "country": "country_germany",
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [32.7773,29.2534],
+        "pos": [16.3027,33.4311],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1690,90 +1163,26 @@
       },
       "units": {
         "all": false,
-        "mobile_infantry_ussr": {
-          "count": 6,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_gaz_mm_72k": {
+        "germ_flakpanzer_IV_Wirbelwind": {
           "count": 8,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
         },
-        "ussr_t_34_1941": {
+        "germ_pzkpfw_III_ausf_M": {
+          "count": 24,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_IV_ausf_G": {
           "count": 14,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
         },
-        "ussr_t_34_1942": {
-          "count": 24,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        }
-      },
-      "artilleryAmmo": {
-        "ammo": 0,
-        "nextAmmoRefillMillisec": 0
-      },
-      "postponedCasualties": {
-        "all": false
-      }
-    },
-    "army141": {
-      "morale": 75,
-      "entrenchEndMillisec": 0,
-      "suppliesEndMillisec": 0,
-      "stoppedAtMillisec": 0,
-      "targetName": "",
-      "iconOverride": "",
-      "owner": {
-        "side": "SIDE_1",
-        "country": "country_ussr",
-        "armyGroupIdx": 0
-      },
-      "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
-        "spawnStampMillisec": 0,
-        "isDead": false
-      },
-      "pathTracker": {
-        "status": "ES_WAIT_FOR_PATH",
-        "nextPathIdx": 0,
-        "pos": [28.9694,29.2534],
-        "moveType": "EMT_MOVE",
-        "path": {
-          "startTime": 0,
-          "points": []
-        }
-      },
-      "units": {
-        "all": false,
-        "mobile_infantry_ussr": {
+        "mobile_infantry_germany": {
           "count": 6,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_gaz_mm_72k": {
-          "count": 8,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_t_34_1941": {
-          "count": 14,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
-        "ussr_t_34_1942": {
-          "count": 24,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
@@ -1800,16 +1209,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [8.47409,26.4535],
+        "pos": [5.45078,15.5388],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1858,16 +1269,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [4.77821,26.5655],
+        "pos": [2.75116,15.4973],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1916,16 +1329,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_ARTILLERY",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [6.57015,29.5894],
+        "pos": [4.12219,17.7574],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -1968,16 +1383,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [8.1381,32.7253],
+        "pos": [5.40995,20.0132],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2032,16 +1449,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [4.33023,32.7253],
+        "pos": [2.73319,20.0317],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2096,16 +1515,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [11.7219,32.9493],
+        "pos": [8.11487,20.0789],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2160,16 +1581,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_ARTILLERY",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [10.042,29.5894],
+        "pos": [6.81384,17.8131],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2212,16 +1635,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [11.9459,26.3415],
+        "pos": [8.17958,15.4688],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2257,8 +1682,8 @@
         "all": false
       }
     },
-    "army54": {
-      "morale": 75,
+    "army15": {
+      "morale": 95,
       "entrenchEndMillisec": 0,
       "suppliesEndMillisec": 0,
       "stoppedAtMillisec": 0,
@@ -2270,16 +1695,72 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_GROUND",
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_ARTILLERY",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [3.88224,60.9483],
+        "pos": [17.722,35.6802],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "artillery_germany": {
+          "count": 32,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_flakpanzer_IV_Wirbelwind": {
+          "count": 16,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army16": {
+      "morale": 40,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "infantry",
+      "owner": {
+        "side": "SIDE_2",
+        "country": "country_germany",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [16.333,37.9492],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2294,20 +1775,14 @@
           "weaponPreset": "",
           "weaponCount": 0
         },
-        "germ_pzkpfw_III_ausf_M": {
-          "count": 24,
-          "inactiveCount": 0,
-          "weaponPreset": "",
-          "weaponCount": 0
-        },
         "germ_pzkpfw_IV_ausf_G": {
-          "count": 14,
+          "count": 8,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
         },
-        "mobile_infantry_germany": {
-          "count": 6,
+        "infantry_germany": {
+          "count": 16,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
@@ -2321,7 +1796,121 @@
         "all": false
       }
     },
-    "army58": {
+    "army2": {
+      "morale": 40,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "infantry",
+      "owner": {
+        "side": "SIDE_1",
+        "country": "country_ussr",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [16.2622,12.0874],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "infantry_ussr": {
+          "count": 16,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_gaz_mm_72k": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_t_34_1942": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army3": {
+      "morale": 95,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "",
+      "owner": {
+        "side": "SIDE_1",
+        "country": "country_ussr",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_ARTILLERY",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [17.6332,14.3474],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "artillery_ussr": {
+          "count": 32,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_gaz_mm_72k": {
+          "count": 16,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army4": {
       "morale": 75,
       "entrenchEndMillisec": 0,
       "suppliesEndMillisec": 0,
@@ -2334,16 +1923,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [36.3611,29.4774],
+        "pos": [18.921,16.6032],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2385,8 +1976,8 @@
         "all": false
       }
     },
-    "army65": {
-      "morale": 95,
+    "army5": {
+      "morale": 75,
       "entrenchEndMillisec": 0,
       "suppliesEndMillisec": 0,
       "stoppedAtMillisec": 0,
@@ -2398,16 +1989,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
-        "unitType": "UT_ARTILLERY",
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [34.6812,26.1175],
+        "pos": [16.2443,16.6218],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2416,14 +2009,158 @@
       },
       "units": {
         "all": false,
-        "artillery_ussr": {
-          "count": 32,
+        "mobile_infantry_ussr": {
+          "count": 6,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
         },
         "ussr_gaz_mm_72k": {
-          "count": 16,
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_t_34_1941": {
+          "count": 14,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_t_34_1942": {
+          "count": 24,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army54": {
+      "morale": 75,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "",
+      "owner": {
+        "side": "SIDE_2",
+        "country": "country_germany",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [2.71266,37.0948],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "germ_flakpanzer_IV_Wirbelwind": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_III_ausf_M": {
+          "count": 24,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_IV_ausf_G": {
+          "count": 14,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "mobile_infantry_germany": {
+          "count": 6,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army6": {
+      "morale": 75,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "",
+      "owner": {
+        "side": "SIDE_1",
+        "country": "country_ussr",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [21.6259,16.6689],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "mobile_infantry_ussr": {
+          "count": 6,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_gaz_mm_72k": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_t_34_1941": {
+          "count": 14,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_t_34_1942": {
+          "count": 24,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
@@ -2450,16 +2187,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_ARTILLERY",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [5.56219,64.1962],
+        "pos": [4.13196,39.3439],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2489,6 +2228,60 @@
         "all": false
       }
     },
+    "army7": {
+      "morale": 95,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "",
+      "owner": {
+        "side": "SIDE_1",
+        "country": "country_ussr",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_ARTILLERY",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [20.3249,14.4032],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "artillery_ussr": {
+          "count": 32,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "ussr_gaz_mm_72k": {
+          "count": 16,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
     "army75": {
       "morale": 40,
       "entrenchEndMillisec": 0,
@@ -2502,16 +2295,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [3.32226,66.9961],
+        "pos": [2.74296,41.6129],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2547,7 +2342,7 @@
         "all": false
       }
     },
-    "army91": {
+    "army8": {
       "morale": 40,
       "entrenchEndMillisec": 0,
       "suppliesEndMillisec": 0,
@@ -2560,16 +2355,18 @@
         "armyGroupIdx": 0
       },
       "specs": {
-        "battleStartRadiusN": 1.5,
-        "battleStartRadiusF": 1.5,
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
         "unitType": "UT_GROUND",
         "spawnStampMillisec": 0,
-        "isDead": false
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
       },
       "pathTracker": {
         "status": "ES_WAIT_FOR_PATH",
         "nextPathIdx": 0,
-        "pos": [36.5851,22.8696],
+        "pos": [21.6906,12.0588],
         "moveType": "EMT_MOVE",
         "path": {
           "startTime": 0,
@@ -2592,6 +2389,72 @@
         },
         "ussr_t_34_1942": {
           "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        }
+      },
+      "artilleryAmmo": {
+        "ammo": 0,
+        "nextAmmoRefillMillisec": 0
+      },
+      "postponedCasualties": {
+        "all": false
+      }
+    },
+    "army9": {
+      "morale": 75,
+      "entrenchEndMillisec": 0,
+      "suppliesEndMillisec": 0,
+      "stoppedAtMillisec": 0,
+      "targetName": "",
+      "iconOverride": "",
+      "owner": {
+        "side": "SIDE_2",
+        "country": "country_germany",
+        "armyGroupIdx": 0
+      },
+      "specs": {
+        "battleStartRadiusN": 1.15,
+        "battleStartRadiusF": 1.15,
+        "unitType": "UT_GROUND",
+        "spawnStampMillisec": 0,
+        "isDead": false,
+        "deathReason": "MERGED_WITH_AIRFIELD",
+        "flags": 0
+      },
+      "pathTracker": {
+        "status": "ES_WAIT_FOR_PATH",
+        "nextPathIdx": 0,
+        "pos": [19.0772,33.415],
+        "moveType": "EMT_MOVE",
+        "path": {
+          "startTime": 0,
+          "points": []
+        }
+      },
+      "units": {
+        "all": false,
+        "germ_flakpanzer_IV_Wirbelwind": {
+          "count": 8,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_III_ausf_M": {
+          "count": 24,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "germ_pzkpfw_IV_ausf_G": {
+          "count": 14,
+          "inactiveCount": 0,
+          "weaponPreset": "",
+          "weaponCount": 0
+        },
+        "mobile_infantry_germany": {
+          "count": 6,
           "inactiveCount": 0,
           "weaponPreset": "",
           "weaponCount": 0
@@ -2628,9 +2491,7 @@
     "nextSpeedUpdateMillis": 0,
     "forceFakeBattlePercent": -1,
     "casualtiesMultiplier": 0.0,
-    "lastBattleArmies": {
-      "all": false
-    }
+    "battleOrdinalNumbersCounter": 0
   },
   "airfields": [
     {
@@ -2638,7 +2499,7 @@
         "specs": {
           "size": 3000,
           "side": "SIDE_2",
-          "pos": [19.74,69.9125]
+          "pos": [21.45,42.8571]
         },
         "groups": {
           "item": {
@@ -2679,7 +2540,7 @@
         "specs": {
           "size": 3500,
           "side": "SIDE_1",
-          "pos": [19.74,20.5625]
+          "pos": [3.9,10.7143]
         },
         "groups": {
           "item": {
@@ -2738,16 +2599,18 @@
           "armyGroupIdx": 0
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
-          "battleStartRadiusF": 1.5,
+          "battleStartRadiusN": 1.15,
+          "battleStartRadiusF": 1.15,
           "unitType": "UT_ARTILLERY",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [17.6578,75.7318],
+          "pos": [10.94,46.95],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -2794,16 +2657,18 @@
           "armyGroupIdx": -1
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
-          "battleStartRadiusF": 1.5,
+          "battleStartRadiusN": 1.15,
+          "battleStartRadiusF": 1.15,
           "unitType": "UT_AIR",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [10.714,75.1718],
+          "pos": [6.642,46.6],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -2844,16 +2709,18 @@
           "armyGroupIdx": 1
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
+          "battleStartRadiusN": 1.15,
           "battleStartRadiusF": 4.0,
           "unitType": "UT_GROUND",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [13.9533,71.6603],
+          "pos": [8.651,44.42],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -2912,16 +2779,18 @@
           "armyGroupIdx": -1
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
-          "battleStartRadiusF": 1.5,
+          "battleStartRadiusN": 1.15,
+          "battleStartRadiusF": 1.15,
           "unitType": "UT_AIR",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [14.2978,75.2838],
+          "pos": [8.864,46.67],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -2968,16 +2837,18 @@
           "armyGroupIdx": 9
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
+          "battleStartRadiusN": 1.15,
           "battleStartRadiusF": 3.0,
           "unitType": "UT_GROUND",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [10.5647,71.8221],
+          "pos": [6.55,44.52],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -3030,16 +2901,18 @@
           "armyGroupIdx": 0
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
-          "battleStartRadiusF": 1.5,
+          "battleStartRadiusN": 1.15,
+          "battleStartRadiusF": 1.15,
           "unitType": "UT_ARTILLERY",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [42.6329,18.2778],
+          "pos": [26.43,11.33],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -3086,16 +2959,18 @@
           "armyGroupIdx": 0
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
-          "battleStartRadiusF": 1.5,
+          "battleStartRadiusN": 1.15,
+          "battleStartRadiusF": 1.15,
           "unitType": "UT_AIR",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [37.2571,14.3579],
+          "pos": [23.09,8.901],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -3136,16 +3011,18 @@
           "armyGroupIdx": 1
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
+          "battleStartRadiusN": 1.15,
           "battleStartRadiusF": 4.0,
           "unitType": "UT_GROUND",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [25.6244,11.2824],
+          "pos": [15.88,6.995],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -3204,16 +3081,18 @@
           "armyGroupIdx": 0
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
-          "battleStartRadiusF": 1.5,
+          "battleStartRadiusN": 1.15,
+          "battleStartRadiusF": 1.15,
           "unitType": "UT_AIR",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [40.393,12.79],
+          "pos": [25.04,7.929],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,
@@ -3260,16 +3139,18 @@
           "armyGroupIdx": 7
         },
         "specs": {
-          "battleStartRadiusN": 1.5,
+          "battleStartRadiusN": 1.15,
           "battleStartRadiusF": 3.0,
           "unitType": "UT_GROUND",
           "spawnStampMillisec": 0,
-          "isDead": false
+          "isDead": false,
+          "deathReason": "MERGED_WITH_AIRFIELD",
+          "flags": 0
         },
         "pathTracker": {
           "status": "ES_WAIT_FOR_PATH",
           "nextPathIdx": 0,
-          "pos": [3.28051,1.92048],
+          "pos": [2.033,1.19],
           "moveType": "EMT_MOVE",
           "path": {
             "startTime": 0,

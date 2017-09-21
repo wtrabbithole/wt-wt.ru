@@ -123,7 +123,14 @@ function handlersManager::generatePreLoadCssString()
     ::is_platform_ps4 ? (1.0 - ::ps4_get_safe_area()) :
     !::g_login.isAuthorized() ? 0.0 :
     ::get_option_hud_screen_safe_area()
-  local countriesCount = (::g_login.isLoggedIn() && ::shopCountriesList.len()) || 5
+  local countriesCount = 7
+  if (::g_login.isLoggedIn())
+  {
+    countriesCount = 0
+    foreach(c in ::shopCountriesList)
+      if (::is_country_visible(c))
+        countriesCount++
+  }
 
   local config = [
     { name = "target_pc",         value = ::is_platform_ps4 ? "no" : "yes" }

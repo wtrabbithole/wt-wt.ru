@@ -172,8 +172,6 @@
 
     SeparateTopMenuButtons = false
 
-    newFontsSizes = true  //remove this features when old fonts will be removed from the game
-    oldFontsSizes = false
     HitCameraTargetStateIconsTank = false
 
     Warbonds_2_0 = false

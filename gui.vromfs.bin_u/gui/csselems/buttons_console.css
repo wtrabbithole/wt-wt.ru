@@ -945,9 +945,14 @@ Button_text[pc_style=yes] {
 
 Button_text.sliderValueButton {
   height:1@sliderButtonSquareHeight;
-  width:1@sliderButtonSquareHeight;
+  width:h;
   min-width:1@sliderButtonSquareHeight;
   noMargin:yes;
+}
+
+[show_console_buttons=yes] Button_text.sliderValueButton {
+  height:1@sliderValueButtonHeight;
+  text:"";
 }
 
 Button_text[square=yes] {
@@ -959,11 +964,6 @@ Button_text[square=yes] {
   position:relative;
   noMargin:yes;
   text-align:center;
-}
-
-[show_console_buttons=yes] Button_text.sliderValueButton {
-  height:1@sliderValueButtonHeight;
-  text:"";
 }
 
 Button_text[visualStyle=noFrame],
@@ -1840,7 +1840,7 @@ Button_text[type=weaponryAmount] {
 }
 
 [show_console_buttons=yes] Button_text[type=weaponryAmount] {
-  display:hide;
+  display:none;
 }
 
 [show_console_buttons=yes] weaponry_item:hover Button_text[type=weaponryAmount],

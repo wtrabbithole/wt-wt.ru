@@ -34,7 +34,6 @@ tdiv {
     EditBox
     {
       size:t='0.5@sf, 2@buttonHeight'
-      class:t='showAlways'
       multiline:t='yes'
       mouse-focusable:t='yes'
       text:t='<<fontsAdditionalText>>'

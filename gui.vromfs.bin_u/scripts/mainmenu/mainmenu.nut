@@ -104,6 +104,8 @@ function on_mainmenu_return(handler, isAfterLogin)
   ::checkNonApprovedResearches(true, true)
   if (isAllowPopups)
   {
+    handler.doWhenActive(::gui_handlers.FontChoiceWnd.openIfRequired)
+
     handler.doWhenActive(function() { checkSquadInvitesFromPS4Friends(false) })
     handler.doWhenActive(@() ::g_psn_session_invitations.checkReceievedInvitation() )
     handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
