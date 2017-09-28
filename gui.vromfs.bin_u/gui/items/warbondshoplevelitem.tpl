@@ -12,7 +12,7 @@ warbondShopLevel {
     pos:t='0, 50%ph-50%h'
     position:t='relative'
     hideEmptyText:t='yes'
-    smallFont:t='yes'
+    tinyFont:t='yes'
     width:t='pw'
     text-align:t='center'
     text:t='<<text>>'

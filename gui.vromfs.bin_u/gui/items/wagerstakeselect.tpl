@@ -34,11 +34,6 @@ popup_menu {
     left:t='50%pw-50%w'
     position:t='relative'
 
-    tdiv{
-      id:t='btnDec_place'
-      width:t='1@sliderButtonSquareHeight'
-    }
-
     Button_text {
       id:t='buttonDec'
       text:t='-'
@@ -53,6 +48,7 @@ popup_menu {
       size:t='20*@scrn_tgt/100.0, 2*@scrn_tgt/100.0'
       pos:t='0, 50%ph-50%h'
       position:t='relative'
+      margin:t='0.5@sliderThumbWidth + 1@blockInterval, 0'
       value:t='0'
       min:t='0'
       max:t='100'
@@ -60,7 +56,7 @@ popup_menu {
 
       expProgress {
         id:t='newSkillProgress'
-        width:t='pw - @sliderThumbWidth'
+        width:t='pw'
         pos:t='50%pw-50%w, 50%ph-50%h'
         position:t="absolute"
         type:t='new'

@@ -3,7 +3,7 @@ local colors = require("../style/colors.nut")
 local background = require("../style/hudBackground.nut")
 
 
-local bg = Picture("!ui/gameuiskin#debriefing_bg_grad")
+local bg = Picture("!ui/gameuiskin#debriefing_bg_grad@@ss")
 local hudFrame = function(inputObj, group, sf) {
   return {
     size = [flex(), SIZE_TO_CONTENT]

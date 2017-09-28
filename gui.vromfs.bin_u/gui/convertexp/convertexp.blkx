@@ -216,6 +216,9 @@
                         "position": "relative"
                       },
                       {
+                        "margin": "0.5@sliderThumbWidth + 1@blockInterval, 0"
+                      },
+                      {
                         "value": "0"
                       },
                       {
@@ -247,7 +250,7 @@
                       {
                         "expProgress": {
                           "id": "new_exp_progress",
-                          "width": "pw - @sliderThumbWidth",
+                          "width": "pw",
                           "pos": "50%pw-50%w, 50%ph-50%h",
                           "position": "absolute",
                           "type": "new",
@@ -257,7 +260,7 @@
                       {
                         "expProgress": {
                           "id": "old_exp_progress",
-                          "width": "pw - @sliderThumbWidth",
+                          "width": "pw",
                           "pos": "50%pw-50%w, 50%ph-50%h",
                           "position": "absolute",
                           "type": "old",
@@ -295,8 +298,9 @@
                   {
                     "Button_text": {
                       "id": "btn_max",
+                      "pos": "1@blockInterval, ph/2-h/2",
                       "position": "relative",
-                      "top": "50%ph-50%h-1*@sf/@pf_outdated",
+                      "noMargin": "yes",
                       "text": "#profile/maximumExp",
                       "btnName": "X",
                       "_on_click": "onMax",

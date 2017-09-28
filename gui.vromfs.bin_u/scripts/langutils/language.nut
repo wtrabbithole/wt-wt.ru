@@ -181,6 +181,7 @@ function g_language::setGameLocalization(langId, reloadScene = false, suggestPkg
   if (langId == currentLanguage && !isForced)
     return
 
+  ::handlersManager.shouldResetFontsCache = true
   ::setSystemConfigOption("language", langId)
   ::set_language(langId)
   ::g_language.saveLanguage(langId)

@@ -1133,7 +1133,7 @@ function g_world_war::getAvailableBattles(playerSide)
 
 function g_world_war::getOperationTimeSec()
 {
-  return time.millisecondsToSeconds(::ww_get_operation_time_millisec())
+  return time.millisecondsToSecondsInt(::ww_get_operation_time_millisec())
 }
 
 function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)

@@ -1,3 +1,9 @@
+@const scrollbarBgColor: #332c2c2c;
+@const scrollbarSliderColor: #908f8f;
+@const scrollbarSliderColorHover: #E0E0E0;
+
+@const scrollBarSize: (8@sf/@pf) \ 1;
+@const scrollArrowsSize: 3.5*@scrn_tgt/100.0;
 
 [overflow=visible] {
   overflow-x:visible;
@@ -10,14 +16,12 @@
   behaviour:scrollBox;
 }
 
+
+
 ScrollBar {
-  re-type:9rect;
   margin:0;
   padding:0;
-  background-position:4;
-  background-repeat:expand;
-  background-color:@controlColor;
-  background-image:#ui/gameuiskin#scrollbar_bg;
+  background-color:@scrollbarBgColor;
   behaviour:ScrollBar;
   input-transparent:yes;
 }
@@ -25,22 +29,27 @@ ScrollBar {
 ScrollBar[flow=vertical] {
   width:@scrollBarSize;
 }
-
 ScrollBar[flow=horizontal] {
   height:@scrollBarSize;
 }
 
-[scrollType=chapter] ScrollBar, optionsBox > ScrollBar,
-[scrollType=center] > ScrollBar, [scrollType=menu] ScrollBar,
-[scrollType=reward] ScrollBar {
-  width:1;
-  positon:absolute;
-  pos:0.5*(pw +@bw -w),0;
-  background-color:@transparent;
+ScrollSlider {
+  background-color:@scrollbarSliderColor;
+}
+ScrollSlider:hover {
+  background-color:@scrollbarSliderColorHover;
 }
 
+ScrollButtonUp, ScrollButtonDown {
+  size:0, 0;
+  display:none;
+}
+
+
+
+
 slotsScrollDiv > ScrollBar {
-  positon:absolute;
+  position:absolute;
   pos:0.5(pw-w),0.5(ph-h);
   background-color:@transparent;
 }
@@ -51,83 +60,37 @@ slotsScrollDiv > ScrollBar[flow=vertical] {
   width:1;
 }
 
-optionsBox > ScrollBar {
-  pos:0.4*(pw-w),0;
-}
-[scrollType=center] > ScrollBar {
-  pos:0.5*(pw-w),0;
-}
-[scrollType=menu] ScrollBar {
-  pos:3%sw+5*@scrn_tgt/100.0;
+slotsScrollDiv > ScrollBar ScrollSlider {
+  input-transparent:yes;
+  display:none;
 }
 
-ScrollButtonUp, ScrollButtonDown {
-  re-type:9rect;
-  background-position:0;
-  size:@scrollBarSize, @scrollBarSize;
+slotsScrollDiv > ScrollBar ScrollButtonUp,
+slotsScrollDiv > ScrollBar ScrollButtonDown {
+  size:@scrollArrowsSize, @scrollArrowsSize;
+  position:absolute;
   background-repeat:expand;
-  background-image:#ui/gameuiskin#scrollbar_arrow_up;
   background-color:@controlColor;
+  input-transparent:no;
+  display:show;
+  tooltip:'';
 }
 
-ScrollButtonDown {
-  background-image:#ui/gameuiskin#scrollbar_arrow_down;
-}
-
-[flow=horizontal] > ScrollButtonUp,
-[flow=horizontal] > ScrollButtonDown {
+slotsScrollDiv > ScrollBar[flow=horizontal] > ScrollButtonUp,
+slotsScrollDiv > ScrollBar[flow=horizontal] > ScrollButtonDown {
   re-type:rotation;
   background-rotation:-90;
-}
-
-[scrollType=chapter] ScrollButtonUp, [scrollType=chapter] ScrollButtonDown,
-[scrollType=menu] ScrollButtonUp, [scrollType=menu] ScrollButtonDown,
-[scrollType=reward] ScrollButtonUp, [scrollType=reward] ScrollButtonDown,
-optionsBox > ScrollBar ScrollButtonUp, optionsBox > ScrollBar ScrollButtonDown,
-slotsScrollDiv > ScrollBar ScrollButtonUp, slotsScrollDiv > ScrollBar ScrollButtonDown {
-  size:@scrollArrowsSize, @scrollArrowsSize;
-  background-repeat:expand;
-  background-color:@controlColor;
-}
-
-[scrollType=chapter] ScrollButtonDown, optionsBox > ScrollBar ScrollButtonDown,
-[scrollType=menu] ScrollButtonDown, [scrollType=reward] ScrollButtonDown {
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_down;
-  pos:50%pw-50%w, ph - 0.3*@scrn_tgt/100.0;
-  position:absolute;
-}
-
-[scrollType=chapter] ScrollButtonUp, optionsBox > ScrollBar ScrollButtonUp,
-[scrollType=menu] ScrollButtonUp, [scrollType=reward] ScrollButtonUp {
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
-  pos:50%pw-50%w, 0;
-  margin-top:-2.5*@scrn_tgt/100.0;
-}
-
-[scrollType=reward] ScrollButtonUp {
-  pos:-w, 50%ph-50%h;
-  margin-top:0;
-}
-
-[scrollType=reward] ScrollButtonDown {
-  pos:pw, 50%ph-50%h;
-  margin-top:0;
 }
 
 slotsScrollDiv > ScrollBar ScrollButtonUp{
   background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   pos:-0.7w, 50%ph-50%h;
-  position:absolute;
-  input-transparent:no;
-  tooltip:'';
 }
 slotsScrollDiv > ScrollBar ScrollButtonDown {
   background-image:#ui/gameuiskin#spinnerListBox_arrow_down;
   pos:pw-0.25w, 50%ph-50%h;
-  position:absolute;
-  input-transparent:no;
-  tooltip:'';
 }
+
 slotsScrollDiv > ScrollBar[flow=vertical] ScrollButtonUp {
   pos:50%pw-50%w, -0.8h;
 }
@@ -135,34 +98,20 @@ slotsScrollDiv > ScrollBar[flow=vertical] ScrollButtonDown {
   pos:50%pw-50%w, ph-0.1h;
 }
 
-[scrollType=chapter] ScrollButtonUp:pushed, [scrollType=chapter] ScrollButtonDown:pushed,
-[scrollType=menu] ScrollButtonUp:pushed, [scrollType=menu] ScrollButtonDown:pushed,
-[scrollType=reward] ScrollButtonUp:pushed, [scrollType=reward] ScrollButtonDown:pushed
-optionsBox > ScrollBar ScrollButtonUp:pushed, optionsBox > ScrollBar ScrollButtonDown:pushed,
-slotsScrollDiv > ScrollBar ScrollButtonLeft, slotsScrollDiv > ScrollBar ScrollButtonRight {
-  background-color:@controlPushedColor;
-}
-
-ScrollButtonUp:disabled, ScrollButtonDown:disabled {
+slotsScrollDiv > ScrollBar ScrollButtonUp:disabled, slotsScrollDiv > ScrollBar ScrollButtonDown:disabled {
   background-color:@transparent;
 }
 
-ScrollSlider {
-  re-type:9rect;
-  background-position:5;
-  background-repeat:expand;
-  background-color:@controlColor;
-  background-image:#ui/gameuiskin#scrollbar_slider;
-}
 
-[scrollType=chapter] ScrollSlider, [scrollType=menu] ScrollSlider, [scrollType=reward] ScrollSlider,
-optionsBox > ScrollBar ScrollSlider, slotsScrollDiv > ScrollBar ScrollSlider,
-[scrollType=hidden] > ScrollBar, [scrollType=hidden] > ScrollBar > ScrollSlider,
-[scrollType=hidden] > ScrollBar > ScrollButtonUp, [scrollType=hidden] > ScrollBar > ScrollButtonDown {
+
+
+[scrollType=hidden] > ScrollBar,
+[scrollType=hidden] > ScrollBar > ScrollSlider,
+[scrollType=hidden] > ScrollBar > ScrollButtonUp,
+[scrollType=hidden] > ScrollBar > ScrollButtonDown {
   input-transparent:yes;
   display:none;
 }
-
 
 ScrollBar {
   step:12*@scrn_tgt/100.0;
@@ -171,12 +120,7 @@ tdiv.rankUpList ScrollBar {
   step:@slot_height+2@slot_vert_pad;
 }
 
-[scrollType=reward] ScrollBar {
-  step:0.24@sf;
-}
-
-[scrollType=chapter] > ScrollBar, optionsBox > ScrollBar,
-[scrollType=menu] > ScrollBar {
+optionsBox > ScrollBar {
   step:@bigOptionsScrollStep;
 }
 

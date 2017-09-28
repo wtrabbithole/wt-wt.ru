@@ -16,6 +16,7 @@ local math = require("math")
 
 local millisecondsToSeconds = @(time) time / TIME_SECOND_IN_MSEC_F
 local secondsToMilliseconds = @(time) time * TIME_SECOND_IN_MSEC_F
+local millisecondsToSecondsInt = @(time) time / TIME_SECOND_IN_MSEC
 local secondsToMinutes = @(time) time / TIME_MINUTE_IN_SECONDS_F
 local minutesToSeconds = @(time) time * TIME_MINUTE_IN_SECONDS_F
 local secondsToHours = @(seconds) seconds / TIME_HOUR_IN_SECONDS_F
@@ -105,6 +106,7 @@ local secondsToString = function (value, useAbbreviations = true, dontShowZeroPa
 local export = {
   millisecondsToSeconds = millisecondsToSeconds
   secondsToMilliseconds = secondsToMilliseconds
+  millisecondsToSecondsInt = millisecondsToSecondsInt
   secondsToMinutes = secondsToMinutes
   minutesToSeconds = minutesToSeconds
   secondsToHours = secondsToHours

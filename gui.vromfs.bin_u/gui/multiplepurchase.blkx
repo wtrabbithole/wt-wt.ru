@@ -25,7 +25,7 @@
         {
           "tdiv": {
             "id": "icon",
-            "size": "1@modItemWidth, 1@modItemHeight"
+            "size": "1@modCellWidth, 1@modCellHeight"
           }
         },
         {
@@ -34,7 +34,7 @@
               "width": "fw"
             },
             {
-              "pos": "10, 0.5@modCellHeight + 0.5h"
+              "pos": "0, ph -h -1@modPadSize"
             },
             {
               "position": "relative"
@@ -63,6 +63,9 @@
                   "position": "relative"
                 },
                 {
+                  "margin": "0.5@sliderThumbWidth + 1@blockInterval, 0"
+                },
+                {
                   "value": "0"
                 },
                 {
@@ -77,7 +80,7 @@
                 {
                   "expProgress": {
                     "id": "newSkillProgress",
-                    "width": "pw - @sliderThumbWidth",
+                    "width": "pw",
                     "pos": "50%pw-50%w, 50%ph-50%h",
                     "position": "absolute",
                     "type": "new",
@@ -87,7 +90,7 @@
                 {
                   "expProgress": {
                     "id": "oldSkillProgress",
-                    "width": "pw - @sliderThumbWidth",
+                    "width": "pw",
                     "pos": "50%pw-50%w, 50%ph-50%h",
                     "position": "absolute",
                     "type": "old",

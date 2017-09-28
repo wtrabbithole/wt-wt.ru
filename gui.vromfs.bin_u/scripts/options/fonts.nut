@@ -2,9 +2,11 @@ const FONTS_SAVE_PATH = "fonts_css"
 const FONTS_SAVE_PATH_CONFIG = "video/fonts"
 
 enum FONT_SAVE_ID {
+  TINY = "tiny"
   SMALL = "small"
+  COMPACT = "compact"
   MEDIUM = "medium"
-  BIG = "big"
+  LARGE = "big"
 
   //wop_1_69_3_x fonts
   PX = "px"
@@ -17,13 +19,15 @@ enum FONT_SAVE_ID {
 
 enum FONT_SIZE_ORDER {
   PX    //wop_1_69_3_X
+  TINY
   SMALL
+  COMPACT
   MEDIUM
-  BIG
+  LARGE
   SCALE  //wop_1_69_3_X
 }
 
-local hasLowHeightFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
+local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
 
 ::g_font <- {
   types = []
@@ -70,13 +74,31 @@ local hasLowHeightFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71
 
 ::g_enum_utils.addTypesByGlobalName("g_font",
 {
+  TINY = {
+    fontGenId = "_set_tiny"
+    saveId = FONT_SAVE_ID.TINY
+    sizeMultiplier = 0.5
+    sizeOrder = FONT_SIZE_ORDER.TINY
+
+    isAvailable = @(sWidth, sHeight) hasNewFonts && ::min(0.75 * sWidth, sHeight) >= 800
+  }
+
   SMALL = {
     fontGenId = "_set_small"
     saveId = FONT_SAVE_ID.SMALL
     sizeMultiplier = 0.667
     sizeOrder = FONT_SIZE_ORDER.SMALL
 
-    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasLowHeightFonts ? 768 : 900)
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFonts ? 768 : 900)
+  }
+
+  COMPACT = {
+    fontGenId = "_set_compact"
+    saveId = FONT_SAVE_ID.COMPACT
+    sizeMultiplier = 0.75
+    sizeOrder = FONT_SIZE_ORDER.COMPACT
+
+    isAvailable = @(sWidth, sHeight) hasNewFonts && ::min(0.75 * sWidth, sHeight) >= 720
   }
 
   MEDIUM = {
@@ -86,14 +108,14 @@ local hasLowHeightFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71
     saveIdCompatibility = [FONT_SAVE_ID.PX]
     sizeOrder = FONT_SIZE_ORDER.MEDIUM
 
-    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasLowHeightFonts ? 720 : 800)
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFonts ? 720 : 800)
   }
 
-  BIG = {
+  LARGE = {
     fontGenId = "_hud" //better to rename it closer to major
-    saveId = FONT_SAVE_ID.BIG
+    saveId = FONT_SAVE_ID.LARGE
     sizeMultiplier = 1.0
-    sizeOrder = FONT_SIZE_ORDER.BIG
+    sizeOrder = FONT_SIZE_ORDER.LARGE
     saveIdCompatibility = [FONT_SAVE_ID.SCALE]
   }
 },
@@ -142,7 +164,7 @@ function g_font::getDefault()
     return fixedFont
 
   if (::is_platform_shield_tv() || ::is_platform_ps4 || ::is_platform_xboxone || ::is_steam_big_picture())
-    return BIG
+    return LARGE
 
   local displayScale = ::display_scale()
   local sWidth = ::screen_width()
@@ -151,7 +173,7 @@ function g_font::getDefault()
     return SMALL
   if (displayScale <= 1.4 && MEDIUM.isAvailable(sWidth, sHeight))
     return MEDIUM
-  return BIG
+  return LARGE
 }
 
 function g_font::getCurrent()

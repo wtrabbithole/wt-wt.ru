@@ -29,6 +29,7 @@
   lastLoadedHandlerName = ""
 
   setIngameShortcutsActive           = function(isActive) {}
+  beforeClearScene                   = function(guiScene) {}
   onClearScene                       = function(guiScene) {}
   isNeedFullReloadAfterClearScene    = function() { return false }
   isNeedReloadSceneSpecific          = function() { return false }
@@ -407,6 +408,8 @@ function handlersManager::clearScene(guiScene = null)
   if (!guiScene)
     guiScene = ::get_cur_gui_scene()
   sendEventToHandlers("onDestroy", guiScene)
+
+  beforeClearScene(guiScene)
 
   guiScene.loadScene("gui/rootScreen.blk", this)
 

@@ -1,7 +1,11 @@
 {
   "fontSizeByWidthCap": 0.75,
-  "inscriptionsTexSz": [2048,512],
+  "minFontSizeByWidthCap": 720,
+  "inscriptionsTexSz": [2048,256],
   "fontbins": [
+    {
+      "name": "ui/fontscompact"
+    },
     {
       "name": "ui/fonts"
     },
@@ -10,6 +14,9 @@
     },
     {
       "name": "ui/fontssmall"
+    },
+    {
+      "name": "ui/fontstiny"
     },
     {
       "name": "ui/pxfonts"
@@ -30,7 +37,7 @@
     },
     {
       "ui/fontsmedium": {
-        "hResRange": [720,8160],
+        "hResRange": [719,8160],
         "aliasForLowerRes": {
           "very_tiny_text_set_medium": "very_tiny_text_hud",
           "tiny_text_set_medium": "tiny_text_hud",
@@ -43,15 +50,43 @@
       }
     },
     {
-      "ui/fontssmall": {
-        "hResRange": [768,8160],
+      "ui/fontscompact": {
+        "hResRange": [719,8160],
         "aliasForLowerRes": {
-          "very_tiny_text_set_small": "very_tiny_text_set_medium",
-          "tiny_text_set_small": "tiny_text_set_medium",
-          "small_text_set_small": "small_text_set_medium",
-          "medium_text_set_small": "medium_text_set_medium",
-          "big_text_set_small": "big_text_set_medium",
-          "small_accented_text_set_small": "small_accented_text_set_medium"
+          "very_tiny_text_set_compact": "very_tiny_text_set_medium",
+          "tiny_text_set_compact": "tiny_text_set_medium",
+          "small_text_set_compact": "small_text_set_medium",
+          "medium_text_set_compact": "medium_text_set_medium",
+          "big_text_set_compact": "big_text_set_medium",
+          "small_accented_text_set_compact": "small_accented_text_set_medium"
+        },
+        "aliasForHigherRes": []
+      }
+    },
+    {
+      "ui/fontssmall": {
+        "hResRange": [719,8160],
+        "aliasForLowerRes": {
+          "very_tiny_text_set_small": "very_tiny_text_set_compact",
+          "tiny_text_set_small": "tiny_text_set_compact",
+          "small_text_set_small": "small_text_set_compact",
+          "medium_text_set_small": "medium_text_set_compact",
+          "big_text_set_small": "big_text_set_compact",
+          "small_accented_text_set_small": "small_accented_text_set_compact"
+        },
+        "aliasForHigherRes": []
+      }
+    },
+    {
+      "ui/fontstiny": {
+        "hResRange": [719,8160],
+        "aliasForLowerRes": {
+          "very_tiny_text_set_tiny": "very_tiny_text_set_small",
+          "tiny_text_set_tiny": "tiny_text_set_small",
+          "small_text_set_tiny": "small_text_set_small",
+          "medium_text_set_tiny": "medium_text_set_small",
+          "big_text_set_tiny": "big_text_set_small",
+          "small_accented_text_set_tiny": "small_accented_text_set_small"
         },
         "aliasForHigherRes": []
       }
@@ -59,8 +94,8 @@
   ],
   "alias": [],
   "dynamicGen": {
-    "texCount": 2,
-    "texSz": 2048,
+    "texCount": 3,
+    "texSz": 1024,
     "prefix": "ui"
   }
 }
