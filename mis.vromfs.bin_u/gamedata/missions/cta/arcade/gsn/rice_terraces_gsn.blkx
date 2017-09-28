@@ -205,6 +205,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "arrow": [
               {
                 "width": 1
@@ -323,22 +326,6 @@
     {
       "import_record": {
         "file": "gameData/missions/templates/base_logic_template.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/templates/destroy_airfield_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -477,6 +464,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_fighters_spawn",
             "team": "A",
             "tags": {
@@ -499,6 +487,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_fighters_spawn",
             "team": "B",
             "tags": {
@@ -521,6 +510,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -543,6 +533,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -566,10 +557,9 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
-            "object": "t1_airfield_target",
-            "awardByBodyHp": true,
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -591,10 +581,9 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
-            "object": "t2_airfield_target",
-            "awardByBodyHp": true,
             "tags": {
               "type_hydroplane": false,
               "tank": false
@@ -604,6 +593,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -611,12 +601,16 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_tanks_squad"
             },
@@ -649,6 +643,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_aaa_squad"
             },
             {
@@ -667,6 +664,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_def_aaa_squad"
             },
@@ -692,6 +692,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_wave_01"
             },
             {
@@ -704,10 +707,10 @@
               "object": "t2_wave_02"
             },
             {
-              "speed": 40.0
+              "delayForObjects": [5.0,10.0]
             },
             {
-              "delayForObjects": [5.0,10.0]
+              "speed": 40.0
             }
           ]
         },
@@ -718,6 +721,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_wave_03"
             },
@@ -731,10 +737,10 @@
               "object": "t2_wave_04"
             },
             {
-              "speed": 40.0
+              "delayForObjects": [5.0,10.0]
             },
             {
-              "delayForObjects": [5.0,10.0]
+              "speed": 40.0
             }
           ]
         },
@@ -5339,80 +5345,6 @@
             "squad_members": "t2_big_def_aaa_04"
           }
         ]
-      }
-    },
-    {
-      "structures": {
-        "name": "t2_airfield_target",
-        "tm": [
-          [1.28888,0.0,-0.169684],
-          [0.0,1.3,0.0],
-          [0.169684,0.0,1.28888],
-          [-369.159,478.513,4937.37]
-        ],
-        "unit_class": "dummy_airfield",
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "stealthRadius": 0.0,
-          "setStealth": true
-        },
-        "way": []
-      }
-    },
-    {
-      "structures": {
-        "name": "t1_airfield_target",
-        "tm": [
-          [-1.2216,0.0,-0.444627],
-          [0.0,1.3,0.0],
-          [0.444627,0.0,-1.2216],
-          [3668.86,483.0,-5461.75]
-        ],
-        "unit_class": "dummy_airfield",
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will",
-          "stealthRadius": 0.0,
-          "setStealth": true
-        },
-        "way": []
       }
     },
     {

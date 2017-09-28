@@ -304,7 +304,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       }
     }
 
-    if (needReselect)
+    if (needReselect || !selMap)
     {
       local indexes = []
       for (local i = selIdx + 1; i < listLen; i++)

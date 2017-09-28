@@ -651,12 +651,7 @@ function isInArrayRecursive(v, arr)
 function showBtn(id, status, scene=null)
 {
   local obj = ::checkObj(scene) ? scene.findObject(id) : ::get_cur_gui_scene()[id]
-  if (!::checkObj(obj))
-    return null
-
-  obj.enable(status)
-  obj.show(status)
-  return obj
+  return ::show_obj(obj, status)
 }
 
 function enableBtnTable(obj, table, setInactive = false)

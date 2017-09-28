@@ -29,6 +29,11 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     updateMap()
   }
 
+  function isVisible()
+  {
+    return descItem != null || map != null
+  }
+
   function updateDescription()
   {
     local desctObj = scene.findObject("item_desc")

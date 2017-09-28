@@ -29,14 +29,12 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   configsArrayByTabType = {
     [BattleTasksWndTab.BATTLE_TASKS] = null,
     [BattleTasksWndTab.BATTLE_TASKS_HARD] = null,
-    [BattleTasksWndTab.PERSONAL_UNLOCKS] = null,
+    [BattleTasksWndTab.PERSONAL_UNLOCKS] = null
   }
 
   difficultiesByTabType = {
-    [BattleTasksWndTab.BATTLE_TASKS] = @() (::has_feature("Warbonds_2_0")
-      ? [::g_battle_task_difficulty.EASY, ::g_battle_task_difficulty.MEDIUM]
-      : [::g_battle_task_difficulty.EASY, ::g_battle_task_difficulty.MEDIUM, ::g_battle_task_difficulty.HARD]),
-    [BattleTasksWndTab.BATTLE_TASKS_HARD] = @() [::g_battle_task_difficulty.HARD]
+    [BattleTasksWndTab.BATTLE_TASKS] = [::g_battle_task_difficulty.EASY, ::g_battle_task_difficulty.MEDIUM],
+    [BattleTasksWndTab.BATTLE_TASKS_HARD] = [::g_battle_task_difficulty.HARD]
   }
 
   newIconWidgetByTaskId = null
@@ -62,7 +60,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     },
     {
       tabType = BattleTasksWndTab.BATTLE_TASKS_HARD
-      isVisible = @() ::has_feature("BattleTasks") && ::has_feature("Warbonds_2_0")
+      isVisible = @() ::has_feature("BattleTasks")
       text = "#mainmenu/btnBattleTasksHard"
       noTasksLocId = "mainmenu/battleTasks/noSpecialTasks"
       fillFunc = "fillBattleTasksList"
@@ -90,7 +88,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     initFocusArray()
 
-    initWarbonds()
     updateWarbondsBalance()
   }
 
@@ -130,7 +127,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     local filteredByDiffArray = []
     local haveRewards = false
-    foreach(type in difficultiesByTabType[tabType]())
+    foreach(type in difficultiesByTabType[tabType])
     {
       // 0) Prepare: Receive tasks list by available battle tasks difficulty
       local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type, currentTasksArray)
@@ -658,31 +655,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     base.goBack()
   }
 
-  function initWarbonds()
-  {
-    if (!::has_feature("Warbonds") || ::has_feature("Warbonds_2_0"))
-      return
-
-    local warbondsObj = scene.findObject("warbonds_balance")
-    ::secondsUpdater(warbondsObj, updateWarbondsText)
-  }
-
-  static function updateWarbondsText(textObj, ...)
-  {
-    textObj.setValue(::g_warbonds.getInfoText())
-  }
-
-  function updateWarbonds()
-  {
-    if (!::has_feature("Warbonds") || ::has_feature("Warbonds_2_0"))
-      return
-
-    updateWarbondsText(scene.findObject("warbonds_balance"))
-  }
-
   function updateWarbondsBalance()
   {
-    if (::has_feature("Warbonds") && !::has_feature("Warbonds_2_0"))
+    if (!::has_feature("Warbonds"))
       return
 
     local warbondsObj = scene.findObject("warbonds_balance")
@@ -692,14 +667,12 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventWarbondAwardBought(p)
   {
-    updateWarbonds()
     updateWarbondsBalance()
   }
 
   function onEventBattleTasksRewardReceived(p)
   {
     guiScene.setUpdatesEnabled(false, false)
-    updateWarbonds()
     updateWarbondsBalance()
     guiScene.setUpdatesEnabled(true, true)
   }

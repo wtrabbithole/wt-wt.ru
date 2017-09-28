@@ -75,7 +75,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           }
           break
         case "gold":
-          local valStr = ::g_string.intToStrWithDelimiter(val)
+          local valStr = ::g_language.decimalFormat(val)
           local tooltipText = ::getGpPriceText(::colorize("activeTextColor", valStr), true)
           tooltipText += "\n" + ::loc("mainmenu/gold")
           obj.getParent().tooltip = tooltipText
@@ -83,7 +83,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           obj.setValue(valStr)
           break
         case "balance":
-          local valStr = ::g_string.intToStrWithDelimiter(val)
+          local valStr = ::g_language.decimalFormat(val)
           local tooltipText = ::getWpPriceText(::colorize("activeTextColor", valStr), true) + "\n" + ::loc("mainmenu/warpoints")
           local bonus = ::get_current_bonuses_text(::BoosterEffectType.WP)
           if (!::u.isEmpty(bonus))
@@ -100,7 +100,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           obj.setValue(valStr)
           break
         case "free_exp":
-          local valStr = ::g_string.intToStrWithDelimiter(val)
+          local valStr = ::g_language.decimalFormat(val)
           local tooltipText = ::getFreeRpPriceText(::colorize("activeTextColor", valStr), true) + "\n" + ::loc("currency/freeResearchPoints/desc")
           local bonus = ::get_current_bonuses_text(::BoosterEffectType.RP)
           if (!::u.isEmpty(bonus))

@@ -19,8 +19,9 @@ Button_text {
     type:t='bright_texture'
   }
 
-  btnText {
+  textarea {
     id:t='slotBtn_battle_text'
+    font-bold:t='@fontSmall'
     text:t=''
   }
 }

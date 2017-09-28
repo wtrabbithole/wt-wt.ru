@@ -5,13 +5,7 @@
   "display": "hide",
   "tdiv": [
     {
-      "min-width": "@bw + 2@airInfoPadding +@mIco"
-    },
-    {
-      "min-height": "4@mIco + 4@buttonImgPadding + 2@airInfoPadding"
-    },
-    {
-      "padding-left": "@bw + 2@airInfoPadding +@mIco"
+      "padding-left": "@bw"
     },
     {
       "flow": "horizontal"
@@ -21,8 +15,6 @@
     },
     {
       "tdiv": {
-        "position": "absolute",
-        "left": "1@bw -1@airInfoPadding",
         "padding": "@airInfoPadding",
         "flow": "vertical",
         "tdiv": {
@@ -81,7 +73,8 @@
               "max-height": "0.5@sf"
             },
             "Button_text": {
-              "style": "width:pw;",
+              "margin-top": "@blockInterval",
+              "style": "width:pw",
               "on_click": "onAchievementsButtonClicked",
               "text": "#mainmenu/btnUnlockAchievementsAll",
               "showConsoleImage": "no"

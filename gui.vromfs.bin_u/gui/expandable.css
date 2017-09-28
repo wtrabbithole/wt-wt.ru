@@ -31,6 +31,11 @@ expandable.simple {
   pos:1@dp, 1@dp;
 }
 
+expandable.unlock {
+  width:pw;
+  margin-top:0;
+}
+
 expandable.simple > selImg {
   padding:10*@sf/@pf_outdated,8*@sf/@pf_outdated, 8*@sf/@pf_outdated, 10*@sf/@pf_outdated;
 }
@@ -38,14 +43,9 @@ expandable.simple > selImg {
 expandable.simple[fullSize=yes] {
   pos:0, 0;
   width:pw;
-  padding:0;
   margin-top:0;
   margin-bottom:1@blockInterval;
   margin:0;
-}
-
-expandable.simple[fullSize=yes] > selImg {
-  padding:4*@sf/@pf_outdated,4*@sf/@pf_outdated, 6*@sf/@pf_outdated, 6*@sf/@pf_outdated;
 }
 
 expandable:current > selImg {

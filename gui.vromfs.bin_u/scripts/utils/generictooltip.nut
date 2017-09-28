@@ -8,9 +8,9 @@ function g_tooltip::getIdUnlock(unlockId, params = null)
   return ::g_tooltip_type.UNLOCK.getTooltipId(unlockId, params)
 }
 
-function g_tooltip::getIdItem(itemName)
+function g_tooltip::getIdItem(itemName, params = null)
 {
-  return ::g_tooltip_type.ITEM.getTooltipId(itemName)
+  return ::g_tooltip_type.ITEM.getTooltipId(itemName, params)
 }
 
 function g_tooltip::getIdInventoryItem(itemUid)

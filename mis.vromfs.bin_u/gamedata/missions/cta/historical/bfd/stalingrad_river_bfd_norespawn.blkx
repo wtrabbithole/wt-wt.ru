@@ -216,8 +216,6 @@
       "level": "levels/stalingrad.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/stalingrad_river_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "eastern",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/stalingrad_river_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 3000,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -747,25 +747,6 @@
             },
             {
               "airEffShootingRate": 0.3
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_def_aaa_squad"
-            },
-            {
-              "object": "t2_def_aaa_squad"
-            },
-            {
-              "accuracy": 1.0
-            },
-            {
-              "airEffShootingRate": 1.0
             }
           ]
         },
@@ -1866,7 +1847,7 @@
       "isCategory": true,
       "is_enabled": true,
       "t1_ai_assaults_wakeup": {
-        "is_enabled": true,
+        "is_enabled": false,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
@@ -1941,7 +1922,7 @@
         "else_actions": []
       },
       "t1_ai_assaults_reach_point_01": {
-        "is_enabled": true,
+        "is_enabled": false,
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",

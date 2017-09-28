@@ -60,12 +60,13 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateDescription()
     updateWorldCoords()
     updateCountriesList()
+    updateTotalClansText()
     updateAvailableText()
   }
 
   function isVisible()
   {
-    return descItem != null || map != null
+    return descItem != null && map != null
   }
 
   function updateVisibilities(isVisible)
@@ -136,6 +137,15 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     local data = ::handyman.renderCached("gui/worldWar/wwOperationCountriesInfo", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
     obj.show(true)
+  }
+
+  function updateTotalClansText()
+  {
+    local obj = scene.findObject("total_members_text")
+    if (!::check_obj(obj))
+      return
+
+    obj.setValue(descItem.getClansNumberInQueueText())
   }
 
   function updateAvailableText()

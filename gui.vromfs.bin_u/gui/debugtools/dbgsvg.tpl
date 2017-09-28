@@ -3,8 +3,17 @@ tdiv {
   pos:t='50%sw-50%w, 50%sh-50%h'
   position:t='root'
   flow:t='vertical'
+  text-halign:t='center'
 
   <<#bgColor>>background-color:t='<<bgColor>>'<</bgColor>>
+
+  activeText {
+    width:t='pw'
+    margin-bottom:t='0.01@sf'
+    caption:t='yes'
+    textShade:t='yes'
+    text:t='<<image>>'
+  }
 
   <<#blocks>>
   tdiv {

@@ -336,6 +336,7 @@ Button_text.battle > btnText,
 Button_text.battle > textarea {
   color:@battleButtonColor;
   left:50%pw-50%w;
+  top:50%ph-50%h;
   position:relative;
   paragraph-indent:0;
 }
@@ -611,7 +612,11 @@ Button_text[imgSize] > img {
 }
 
 Button_text > img[isFirstLeft=yes] {
-  pos:50%ph-50%w, 50%ph-50%h;
+  pos:50%ph-50%w-1@buttonTextPadding, 50%ph-50%h;
+}
+
+Button_text[imgSize=big] > img[isFirstLeft=yes] {
+  pos:50%ph-50%w-1@bigButtonTextPadding, 50%ph-50%h;
 }
 
 Button_text.image[imgSize=big] > img {
@@ -939,7 +944,6 @@ ButtonImg[pc_style=yes],
 }
 
 Button_text[pc_style=yes] {
-  padding-left:0.5*@scrn_tgt/100.0;  
   text-align:center;
 }
 
@@ -1350,7 +1354,7 @@ Button_text.battle[navButtonFont=yes], [navButtonFont=yes] > btnText,
 Button_text.battle[navButtonFont=yes] > textarea {
   font:@nav_button_accented_font;
   text-shade-color: #55000000;
-  text-shade:smooth:48;
+  text-shade:"smooth:48";
   text-shade-x:0;
   text-shade-y:0;
 }
@@ -1636,7 +1640,7 @@ fullSizeCollapseBtn[square=yes] {
 }
 
 fullSizeCollapseBtn > activeText{
-  text: "—";
+  text: "-";
   text-align: center;
   position: relative;
   width: 2%@sf;
@@ -1975,6 +1979,17 @@ gcButtonsHolder {
   height:1@gamercardHeight;
 }
 
+[gcButtonsInterval=yes] > Button_text {
+  margin-left:1@gcButtonsInterval;
+  margin-right:1@gcButtonsInterval;
+}
+
+
+Button_text[smallFont=yes],
+Button_text[smallFont=yes] > btnText,
+[smallFont=yes] > Button_text > btnText {
+  font:@fontSmall;
+}
 
 topMenuButtons > Button_text {
   min-width:@bigButtonWidth;
@@ -2066,6 +2081,11 @@ Button_text[scaleble=yes] {
 Button_text[noWidth=yes] {
   width:0;
 }
+
+Button_text[useParentHeight=yes] {
+  height:ph;
+}
+
 buttonPlayer {
   behavior:button;
   cursor:onButton;

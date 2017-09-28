@@ -19,6 +19,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.CUSTOM
   sceneBlkName = "gui/slotInfoPanel.blk"
   showTabs = false
+  isSceneForceHidden = false
   listboxObj = null
 
   tabsInfo = [
@@ -134,18 +135,27 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     if(::checkObj(collapseBtnContainer))
       collapseBtnContainer.collapsed = isPanelHidden ? "yes" : "no"
     showSceneBtn("slot_info_content", ! isPanelHidden)
-    if( ! isPanelHidden)
-    {
-      foreach(index, tabInfo in tabsInfo)
-      {
-        local isActive = index == currentIndex
-        showSceneBtn(tabInfo.contentId, isActive)
-        if(isActive)
-          tabInfo.fillerFunction.call(this)
-      }
-    }
+    updateVisibleTabContent(true)
     if(showTabs)
       ::save_local_account_settings(SLOT_INFO_TAB_SAVE_ID, currentIndex)
+  }
+
+  function updateVisibleTabContent(isTabSwitch = false)
+  {
+    if (isSceneForceHidden)
+      return
+    local currentIndex = listboxObj.getValue()
+    local isPanelHidden = currentIndex == -1
+    if(isPanelHidden)
+      return
+    foreach(index, tabInfo in tabsInfo)
+    {
+      local isActive = index == currentIndex
+      if (isTabSwitch)
+        showSceneBtn(tabInfo.contentId, isActive)
+      if(isActive)
+        tabInfo.fillerFunction.call(this)
+    }
   }
 
   function updateHeader(text)
@@ -183,26 +193,22 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSceneActivate(show)
   {
+    if (show && isSceneForceHidden)
+      return
+
     if (show)
     {
-      checkUpdateAirInfo()
       ::dmViewer.init(this)
+      doWhenActiveOnce("updateVisibleTabContent")
     }
     base.onSceneActivate(show)
+    scene.show(show)
   }
 
   function onEventShopWndVisible(p)
   {
-    local isShopShow = ::getTblValue("isShow", p, false)
-    local isShow = !isShopShow
-
-    onSceneActivate(isShow)
-    scene.show(isShow)
-    if (isShow)
-    {
-      doWhenActiveOnce("updateAirInfo")
-      doWhenActiveOnce("updateCrewInfo")
-    }
+    isSceneForceHidden = ::getTblValue("isShopShow", p, false)
+    onSceneActivate(!isSceneForceHidden)
   }
 
   function onEventModalWndDestroy(p)

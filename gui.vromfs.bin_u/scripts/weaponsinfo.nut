@@ -547,7 +547,7 @@ function _get_weapon_extended_info(weapon, weaponType, newLine)
       res += newLine + ::loc("bullet_properties/explosiveMassInTNTEquivalent") + ::loc("ui/colon") + tntEqText
   }
 
-  if (weaponType != "rockets" && weaponType != "bombs")
+  if (/*weaponType != "rockets" && */ weaponType != "bombs")
     return res
 
   local destrTexts = ::g_dmg_model.getDestructionInfoTexts(weapon.explosiveType, weapon.explosiveMass, weapon.massKg)

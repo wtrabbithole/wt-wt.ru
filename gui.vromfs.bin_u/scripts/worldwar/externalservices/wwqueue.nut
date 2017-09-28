@@ -88,6 +88,21 @@ class WwQueue
     return res
   }
 
+  function getClansNumberInQueueText()
+  {
+    local clansInQueue = {}
+    foreach(country in ::shopCountriesList)
+    {
+      local groups = getArmyGroupsByCountry(country)
+      if (groups)
+        foreach (memberData in groups)
+          clansInQueue[memberData.clanId] <- true
+    }
+    local clansInQueueNumber = clansInQueue.len()
+    return !clansInQueueNumber ? "" :
+      ::loc("worldwar/сlansInQueueTotal", {number = clansInQueueNumber})
+  }
+
   function getArmyGroupsAmountTotal()
   {
     local res = 0

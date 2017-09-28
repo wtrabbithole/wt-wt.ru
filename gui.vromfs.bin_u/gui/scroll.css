@@ -2,7 +2,10 @@
 @const scrollbarSliderColor: #908f8f;
 @const scrollbarSliderColorHover: #E0E0E0;
 
-@const scrollBarSize: (8@sf/@pf) \ 1;
+@const contAreaScrlOffset: 2px; 
+
+@const scrollBarVisibleSize: (8@sf/@pf) \ 1;
+@const scrollBarSize: 1@scrollBarVisibleSize + 1@contAreaScrlOffset;
 @const scrollArrowsSize: 3.5*@scrn_tgt/100.0;
 
 [overflow=visible] {
@@ -27,10 +30,10 @@ ScrollBar {
 }
 
 ScrollBar[flow=vertical] {
-  width:@scrollBarSize;
+  width:@scrollBarVisibleSize;
 }
 ScrollBar[flow=horizontal] {
-  height:@scrollBarSize;
+  height:@scrollBarVisibleSize;
 }
 
 ScrollSlider {

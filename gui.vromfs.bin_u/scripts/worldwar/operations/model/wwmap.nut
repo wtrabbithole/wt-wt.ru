@@ -249,4 +249,9 @@ class WwMap
       ::loc("worldwar/operation/" + prefix + "clans_number", {numb = maxNumb}) :
       ::loc("worldwar/operation/" + prefix + "clans_limits", {min = minNumb, max = maxNumb})
   }
+
+  function getClansNumberInQueueText()
+  {
+    return ""
+  }
 }

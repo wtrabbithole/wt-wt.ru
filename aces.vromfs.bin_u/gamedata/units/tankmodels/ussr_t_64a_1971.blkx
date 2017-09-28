@@ -111,9 +111,6 @@
     "smokeScreenOffset": [-3.0,0.0,2.0]
   },
   {
-    "smokeScreenDmPart": "engine_dm"
-  },
-  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank_modern",
@@ -166,6 +163,9 @@
           "armorThickness": 30.0,
           "armorEffectiveThicknessMax": 100.0
         },
+        "turret_top_dm": {
+          "armorThickness": 45.0
+        },
         "turret_06_side_dm": {
           "armorThickness": 32.0
         }
@@ -193,6 +193,9 @@
         "turret_01_front_dm": {
           "armorThickness": 40.0
         },
+        "composite_armor_turret_02_dm": {
+          "armorThickness": 1.0
+        },
         "turret_01_top_dm": {
           "armorThickness": 100.0
         },
@@ -217,14 +220,13 @@
         "gun_mask_dm": {
           "armorThickness": 50.0
         },
-        "turret_top_dm": {
-          "armorThickness": 45.0
-        },
         "turret_front_dm": {
-          "armorThickness": 100.0
+          "armorThickness": 150.0,
+          "armorEffectiveThicknessMax": 250.0
         },
         "turret_03_front_dm": {
-          "armorThickness": 250.0
+          "armorThickness": 330.0,
+          "armorEffectiveThicknessMax": 450.0
         },
         "turret_05_front_dm": {
           "armorThickness": 180.0
@@ -272,7 +274,8 @@
         },
         "turret_04_top_dm": {
           "armorThickness": 20.0,
-          "armorClass": "RHA_tank"
+          "armorClass": "RHA_tank",
+          "explosionArmorQuality": 1.8
         },
         "turret_05_top_dm": {
           "armorThickness": 50.0
@@ -294,7 +297,9 @@
         "ex_armor_r_04_dm": [],
         "ex_decor_06_dm": [],
         "ex_decor_07_dm": [],
-        "ex_decor_08_dm": []
+        "ex_decor_08_dm": [],
+        "ex_decor_body_r_01_dm": [],
+        "ex_decor_body_l_01_dm": []
       },
       "ex_fuel_tanks": {
         "armorClass": "aluminium",
@@ -309,7 +314,8 @@
         "ex_decor_r_02_dm": [],
         "ex_decor_r_03_dm": [],
         "ex_decor_r_04_dm": [],
-        "ex_decor_02_dm": []
+        "ex_decor_02_dm": [],
+        "turret_02_back_dm": []
       },
       "turret_screens": {
         "armorClass": "tank_structural_steel",
@@ -323,7 +329,6 @@
         "ex_armor_l_01_dm": [],
         "ex_decor_l_06_dm": [],
         "ex_decor_r_06_dm": [],
-        "turret_02_back_dm": [],
         "turret_03_back_dm": [],
         "ex_armor_r_01_dm": [],
         "timber": {
@@ -721,7 +726,7 @@
           {
             "layer": {
               "dmPart": "turret_03_front_dm",
-              "xrayTextThickness": [180.0,150.0]
+              "xrayTextThickness": [180.0,130.0]
             }
           },
           {

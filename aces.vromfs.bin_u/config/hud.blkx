@@ -63,6 +63,9 @@
     "tacticalMapBorderSize": [7.0,7.0]
   },
   {
+    "debugFontName": "small_text_hud"
+  },
+  {
     "skins": [
       {
         "skin": "ui/hudskin.blk"
@@ -1543,11 +1546,11 @@
       {
         "settings": {
           "for": "standard",
-          "font": "medium_text_hud",
+          "font": "small_text_hud",
           "font480": "small_text_hud",
-          "pos": [640.0,520.0],
+          "pos": [640.0,545.0],
           "size": 340.0,
-          "numLinesForRisePosY": 3,
+          "numLinesForRisePosY": 2,
           "fontFxType": 2,
           "fontFxOffset": 1,
           "fontFxColor": "#0000009b",
@@ -1559,9 +1562,9 @@
       {
         "settings": {
           "for": "tutorial",
-          "font": "medium_text_hud",
+          "font": "small_text_hud",
           "font480": "small_text_hud",
-          "pos": [640.0,520.0],
+          "pos": [640.0,545.0],
           "size": 340.0,
           "numLinesForRisePosY": 3,
           "fontFxType": 2,
@@ -1863,7 +1866,7 @@
       "patcColor": "#ffffffff",
       "patcDeathColor": "#c0c0c0ff",
       "bailoutPosition": [640.0,520.0],
-      "eventIconsPosition": [640.0,600.0],
+      "eventIconsPosition": [640.0,620.0],
       "eventIconsYOffsetForSpectator": -60,
       "bailoutHintTimeLimit": 30.0,
       "drowningPosition": [640.0,480.0],
@@ -2558,5 +2561,27 @@
       "lineMiddleAlpha": 120,
       "holdTimeout": 0.5
     }
+  },
+  {
+    "requestTTFFont": [
+      {
+        "position": [-100.0,-100.0]
+      },
+      {
+        "text": "ABCDEFGHIJKLMNOPQRSTUVWQYZ▓"
+      },
+      {
+        "font": "very_tiny_text_hud"
+      },
+      {
+        "font": "tiny_text_hud"
+      },
+      {
+        "font": "small_text_hud"
+      },
+      {
+        "font": "medium_text_hud"
+      }
+    ]
   }
 ]

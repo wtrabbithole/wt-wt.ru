@@ -34,14 +34,14 @@ function g_battle_task_difficulty::_getTimeLeftText()
   image = null
   period = 1
   daysShift = 0
-  executeOrder = @() -1
+  executeOrder = -1
   lastGenTimeSuccess = -1
   lastGenTimeFailure = -1
   generationPeriodSec = -1
   showAtPositiveProgress = false
   timeLimit = function() { return -1 }
   getTimeLeft = function() { return -1 }
-  showSeasonIcon = @() false
+  showSeasonIcon = false
   canIncreaseShopLevel = true
   hasTimer = true
 }
@@ -50,7 +50,7 @@ function g_battle_task_difficulty::_getTimeLeftText()
   EASY = {
     image = "#ui/gameuiskin#battle_tasks_easy"
     timeParamId = "daily"
-    executeOrder = @() 0
+    executeOrder = 0
     timeLimit = function() { return time.daysToSeconds(1) }
     getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
   }
@@ -58,17 +58,16 @@ function g_battle_task_difficulty::_getTimeLeftText()
   MEDIUM = {
     image = "#ui/gameuiskin#battle_tasks_middle"
     timeParamId = "daily"
-    executeOrder = @() 1
+    executeOrder = 1
     timeLimit = function() { return time.daysToSeconds(1) }
     getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
   }
 
   HARD = {
     image = "#ui/gameuiskin#battle_tasks_hard"
-    showSeasonIcon = @() ::has_feature("Warbonds_2_0")
+    showSeasonIcon = true
     canIncreaseShopLevel = false
     timeParamId = "specialTasks"
-    executeOrder = @() ::has_feature("Warbonds_2_0")? -1 : 2
     timeLimit = function() { return time.daysToSeconds(1) }
     getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
     hasTimer = false
@@ -84,8 +83,8 @@ function g_battle_task_difficulty::_getTimeLeftText()
 }, null, "name")
 
 g_battle_task_difficulty.types.sort(function(a,b){
-  if (a.executeOrder() != b.executeOrder())
-    return a.executeOrder() > b.executeOrder() ? 1 : -1
+  if (a.executeOrder != b.executeOrder)
+    return a.executeOrder > b.executeOrder ? 1 : -1
   return 0
 })
 
@@ -108,8 +107,8 @@ function g_battle_task_difficulty::getDifficultyTypeByTask(task)
 function g_battle_task_difficulty::getRequiredDifficultyTypeDone(diff)
 {
   local res = null
-  if (diff.executeOrder() >= 0)
-    res = ::u.search(types, @(type) type.executeOrder() == (diff.executeOrder()-1))
+  if (diff.executeOrder >= 0)
+    res = ::u.search(types, @(type) type.executeOrder == (diff.executeOrder-1))
 
   return res || ::g_battle_task_difficulty.UNKNOWN
 }
@@ -161,7 +160,7 @@ function g_battle_task_difficulty::canPlayerInteractWithDifficulty(diff, tasksAr
     if (::g_battle_tasks.isTaskDone(task))
       continue
 
-    if (diff.executeOrder() <= taskDifficulty.executeOrder())
+    if (diff.executeOrder <= taskDifficulty.executeOrder)
       continue
 
     return false

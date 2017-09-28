@@ -202,6 +202,8 @@ function g_crew_skill_parameters::getParametersByRequestType(crewId, skillsList,
     // Leaving data only related to selected difficulty, member and skill.
     local parametersPath = ::format("%s.%s.%s", difficulty.crewSkillName, skill.memberName, skill.skillName)
     local skillParams = ::getTblValueByPath(parametersPath, fullParamsList)
+    if (!skillParams)
+      continue
     foreach(key, value in skillParams)
     {
       if (!(key in res))

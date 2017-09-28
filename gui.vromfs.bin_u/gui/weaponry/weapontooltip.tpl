@@ -57,12 +57,12 @@ tdiv {
 
       <<#props>>
       tr {
-        td { text { text:t='<<text>>' } }
+        td { textareaNoTab { text:t='<<text>>' } }
         <<#value>>
-        td { text { text:t='<<value>>' } }
+        td { textareaNoTab { text:t='<<value>>'; padding-left:t='@blockInterval' } }
         <</value>>
         <<#values>>
-        td { text { text:t='<<value>>' } }
+        td { textareaNoTab { text:t='<<value>>'; padding-left:t='@blockInterval' } }
         <</values>>
       }
       <</props>>

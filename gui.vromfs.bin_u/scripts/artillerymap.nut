@@ -131,7 +131,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     local show = mapCoords != null
     local disp = mapCoords ? ::artillery_dispersion(mapCoords[0], mapCoords[1]) : -1
     local valid = show && disp >= 0 && artilleryEnabled
-    local dispersionRadius = valid ? (isSuperArtillery ? 2 * superStrikeRadius / mapSizeMeters : disp) : invalidTargetDispersionRadius
+    local dispersionRadius = valid ? (isSuperArtillery ? superStrikeRadius / mapSizeMeters : disp) : invalidTargetDispersionRadius
     valid = valid && artilleryReady
 
     objTarget.show(show)
@@ -368,8 +368,8 @@ function gui_start_artillery_map(params = {})
   {
     isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false)
     superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
-    iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
-    iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
+    iconSuperArtilleryZone = "#ui/hudskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
+    iconSuperArtilleryTarget = "#ui/hudskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
   })
 }
 

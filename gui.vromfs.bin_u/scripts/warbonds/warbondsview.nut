@@ -24,7 +24,6 @@ function g_warbonds_view::createProgressBox(wbClass, placeObj, handler, needForc
     return
 
   local show = !needForceHide
-               && ::has_feature("Warbonds_2_0")
                && wbClass != null
                && wbClass.haveAnyOrdinaryRequirements()
                && wbClass.levelsArray.len()
@@ -176,9 +175,7 @@ function g_warbonds_view::createSpecialMedalsProgress(wbClass, placeObj, handler
   if (!::check_obj(nest))
     return
 
-  local show = ::has_feature("Warbonds_2_0")
-               && wbClass
-               && wbClass.haveAnySpecialRequirements()
+  local show = wbClass && wbClass.haveAnySpecialRequirements()
   nest.show(show)
   if (!show)
     return
@@ -231,12 +228,12 @@ function g_warbonds_view::getWarbondMedalsCount(wbClass)
 
 function g_warbonds_view::showOrdinaryProgress(wbClass)
 {
-  return ::has_feature("Warbonds_2_0") && wbClass && wbClass.haveAnyOrdinaryRequirements()
+  return wbClass && wbClass.haveAnyOrdinaryRequirements()
 }
 
 function g_warbonds_view::showSpecialProgress(wbClass)
 {
-  return ::has_feature("Warbonds_2_0") && wbClass && wbClass.haveAnySpecialRequirements()
+  return wbClass && wbClass.haveAnySpecialRequirements()
 }
 
 function g_warbonds_view::resetShowProgressBarFlag()

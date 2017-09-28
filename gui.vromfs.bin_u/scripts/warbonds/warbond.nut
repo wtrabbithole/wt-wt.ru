@@ -89,10 +89,15 @@ class ::Warbond
     return awardsList
   }
 
+  function getAwardByIdx(awardIdx)
+  {
+    local idx = ::to_integer_safe(awardIdx, -1)
+    return ::getTblValue(idx, getAwardsList())
+  }
+
   function getAwardById(awardId)
   {
-    local idx = ::to_integer_safe(awardId, -1)
-    return ::getTblValue(idx, getAwardsList())
+    return ::u.search(getAwardsList(), @(award) award.id == awardId )
   }
 
   function getPriceText(amount, needShowZero = false, needColorByBalance = true)
@@ -108,12 +113,12 @@ class ::Warbond
 
   function getBalance()
   {
-    return ::has_feature("Warbonds_2_0")? ::get_warbond_balance(id) : ::get_warbonds_count(id, listId)
+    return ::get_warbond_balance(id)
   }
 
   function getBalanceText()
   {
-    local limitText = ::has_feature("Warbonds_2_0")? (::loc("ui/slash") + getPriceText(::g_warbonds.getLimit(), true, false)) : ""
+    local limitText = ::loc("ui/slash") + getPriceText(::g_warbonds.getLimit(), true, false)
     return ::colorize("activeTextColor", getPriceText(getBalance(), true, false) + limitText)
   }
 
@@ -145,17 +150,11 @@ class ::Warbond
 
   function haveAnyOrdinaryRequirements()
   {
-    if (!::has_feature("Warbonds_2_0"))
-      return false
-
     return ::u.search(getAwardsList(), @(award) award.haveOrdinaryRequirement()) != null
   }
 
   function haveAnySpecialRequirements()
   {
-    if (!::has_feature("Warbonds_2_0"))
-      return false
-
     return ::u.search(getAwardsList(), @(award) award.haveSpecialRequirement()) != null
   }
 
@@ -225,12 +224,19 @@ class ::Warbond
     return getLevelData().Special % medalForSpecialTasks
   }
 
-  function isReachedNewShopLevel()
+  function needShowNewItemsNotifications()
   {
     local curLevel = getCurrentShopLevel()
     local lastSeen = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_LEVEL_PATH, 0)
     if (curLevel != 0 && lastSeen != curLevel)
-      return true
+    {
+      local balance = getBalance()
+      if (::u.search(getAwardsList(),
+          (@(award) getShopLevel(award.ordinaryTasks) == curLevel &&
+            award.getCost() <= balance).bindenv(this)
+        ) != null)
+        return true
+    }
 
     local month = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_MONTH_PATH, "")
     return month != listId
@@ -238,7 +244,7 @@ class ::Warbond
 
   function markSeenLastResearchShopLevel()
   {
-    if (!isReachedNewShopLevel())
+    if (!needShowNewItemsNotifications())
       return
 
     ::saveLocalByAccount(LAST_SEEN_WARBOND_SHOP_MONTH_PATH, listId)

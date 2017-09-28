@@ -328,3 +328,13 @@ function check_obj(obj)
 {
   return obj!=null && obj.isValid()
 }
+
+function show_obj(obj, status)
+{
+  if (!::check_obj(obj))
+    return null
+
+  obj.enable(status)
+  obj.show(status)
+  return obj
+}

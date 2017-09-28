@@ -1,7 +1,7 @@
 HorizontalListBox {
   id:t='item_type_filter'
-  height:t='1@buttonHeight'
   max-width:t='pw'
+  smallFont:t='yes'
 
   navigatorShortcuts:t='yes'
   on_select:t = 'onItemTypeChange'

@@ -740,7 +740,7 @@ function BattleTasks::generateItemView(config, isPromo = false)
 function BattleTasks::getDifficultyImage(task)
 {
   local difficulty = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
-  if (difficulty.showSeasonIcon())
+  if (difficulty.showSeasonIcon)
   {
     local curWarbond = ::g_warbonds.getCurrentWarbond()
     if (curWarbond)
@@ -864,7 +864,7 @@ function BattleTasks::rerollTask(task)
 
 function BattleTasks::rerollSpecialTask(task)
 {
-  if (!::has_feature("Warbonds_2_0") || ::u.isEmpty(task))
+  if (::u.isEmpty(task))
     return
 
   local blk = ::DataBlock()

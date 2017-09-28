@@ -2149,6 +2149,15 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     }
   }
 
+  local warbondId = ::getTblValue("wbId", params)
+  if (warbondId)
+  {
+    local warbond = ::g_warbonds.findWarbond(warbondId, ::getTblValue("wbListId", params))
+    local award = warbond? warbond.getAwardById(air.name) : null
+    if (award)
+      addInfoTextsList.extend(award.getAdditionalTextsArray())
+  }
+
   if (rentTimeHours != -1)
   {
     if (rentTimeHours > 0)
@@ -2179,12 +2188,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   local infoObj = holderObj.findObject("aircraft-addInfo")
   if (::checkObj(infoObj))
-  {
-    local addInfoText = ::g_string.implode(addInfoTextsList, "\n")
-    infoObj.show(addInfoText!="")
-    if (addInfoText!="")
-     infoObj.setValue(addInfoText)
-  }
+    infoObj.setValue(::g_string.implode(addInfoTextsList, "\n"))
 
   if (needCrewInfo && crew)
   {

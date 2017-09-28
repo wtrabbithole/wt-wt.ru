@@ -82,12 +82,13 @@
 @const gamercardHeight:1@bigButtonHeight;
 @const topBarHeight:1@gamercardHeight + 1@bh + 0.006@sf;
 @const bottomBarHeight:        59@sf/@pf + 1@bh;
+@const gcButtonsInterval:      (1@topGcPanelWidth - 0.6@sf) \ 10 $max 0;
 
 @const frameHeaderHeight:      (0.045@sf)/1 + 1@frameHeaderPad;
 @const frameHeaderPad:         2@dp;
 @const frameTopPadding:        1@frameHeaderHeight + 1@blockInterval;
 @const navBarTopPadding:       1@blockInterval;
-@const unlocksListboxItemInterval: 0.5@blockInterval;
+@const unlocksListboxItemInterval: 2@sf/@pf;
 @const frameFooterHeightLarge: 1@navBarBattleButtonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
 @const frameFooterHeight:      1@buttonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
 @const frameFooterHeightBigBattle:1@battleButtonHeight + 1@navBarTopPadding + 1@buttonMargin + 1@framePadding;
@@ -107,8 +108,9 @@
 @const gcBattleBlockPadding: 0.04@scrn_tgt*1@isWide;
 @const toBattleButtonBottom: 1@titleLogoPlateHeight + 1@bh + 0.006@sf;
 @const gcToBattleButtonPlaceWidth: 1@titleLogoPlateWidth + 2@gcBattleBlockPadding;
-@const topGcPanelWidth: 0.5@slotbarWidthFull - 0.5@gcToBattleButtonPlaceWidth;
-@const bottomGcWidth: @slotbarWidthFull;
+@const gcWidthFull: sw - 2@offsetBetweenScreenAndAirinfo;
+@const topGcPanelWidth: 0.5@gcWidthFull - 0.5@gcToBattleButtonPlaceWidth;
+@const bottomGcWidth: @gcWidthFull;
 
 @const queueTableWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
 
@@ -122,8 +124,9 @@
 @const nameWidthInWideScreen: (0.24 + 0.12@isWide)*@sf;
 @const clanNameTableWidth: 30@sf/100;
 @const clanMedalSizeMin: 80@sf/@pf_outdated;
-@const minPresetNameTextWidth:(0.3 + 0.1@isWide) * 1@nameWidth;
+@const minPresetNameTextWidth:(0.2 + 0.2@isWide) * 1@nameWidth;
 @const maxPresetNameTextWidth:(0.45 + 0.1@isWide) * 1@nameWidth;
+@const minPresetNameItemWidth:1@minPresetNameTextWidth + 1@activateTabPaddingSum;
 @const maxPresetNameItemWidth:1@maxPresetNameTextWidth + 1@activateTabPaddingSum;
 
 @const shopCols: 7;
@@ -168,7 +171,7 @@
 @const slotbarWidthFull: 1@slotbarWidth5;
 @const slotbarHeight:    1@slotbar_top_shade + 1@slotbar_pad_top + 1@slot_height + 1@slotbar_pad_bottom;
 @const slotbarInvisPad: 1@buttonHeight;
-@const offsetBetweenScreenAndAirinfo: 1@bw + 1@cIco;
+@const offsetBetweenScreenAndAirinfo: (1@bw + 1@mIco + 2@listboxPad + 2@airInfoPadding) $min  0.5 * (sw - 1@slotbarWidthFull);
 @const airInfoPanelWidth: 0.4@sf;
 @const airInfoPanelShadowWidth: 0.07@sf;
 @const airInfoPanelDmSwitcherWidth: ((@airInfoPanelWidth - 2@listboxPad - 2@listboxItemsInterval) \ 3) * 3 + 2@listboxPad + 2@listboxItemsInterval; 

@@ -27,7 +27,8 @@ enum FONT_SIZE_ORDER {
   SCALE  //wop_1_69_3_X
 }
 
-local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
+local hasNewFontsSizes = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
+local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.72")
 
 ::g_font <- {
   types = []
@@ -89,7 +90,7 @@ local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63"
     sizeMultiplier = 0.667
     sizeOrder = FONT_SIZE_ORDER.SMALL
 
-    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFonts ? 768 : 900)
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFontsSizes ? 768 : 900)
   }
 
   COMPACT = {
@@ -108,7 +109,7 @@ local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63"
     saveIdCompatibility = [FONT_SAVE_ID.PX]
     sizeOrder = FONT_SIZE_ORDER.MEDIUM
 
-    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFonts ? 720 : 800)
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFontsSizes ? 720 : 800)
   }
 
   LARGE = {
@@ -144,6 +145,15 @@ function g_font::getAvailableFonts()
   local sWidth = ::screen_width()
   local sHeight = ::screen_height()
   return ::u.filter(types, @(f) f.isAvailable(sWidth, sHeight))
+}
+
+function g_font::getSmallestFont(sWidth, sHeight)
+{
+  local res = null
+  foreach(font in types)
+    if (font.isAvailable(sWidth, sHeight) && (!res || font.sizeMultiplier < res.sizeMultiplier))
+      res = font
+  return res
 }
 
 function g_font::getFixedFont() //return null if can change fonts

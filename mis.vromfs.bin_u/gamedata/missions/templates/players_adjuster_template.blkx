@@ -223,6 +223,23 @@
           "triggerEnable": {
             "target": "pa_sb_check"
           }
+        },
+        {
+          "comment": {
+            "value": "заполн€ем им€ сквада дл€ subquest_units"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t1_subquest_units_squad",
+            "var": "subquest_units_t1_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t2_subquest_units_squad",
+            "var": "subquest_units_t2_name"
+          }
         }
       ],
       "else_actions": []
@@ -455,12 +472,27 @@
         },
         {
           "comment": {
-            "value": "запускаем подсчет очков, которые будут отниматьс€ прис мерти юнита"
+            "value": "пр€чем сквад сабквест юнитов, которые по€в€тс€ на 20 минуте игры"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "hide_subquest_t1_units"
+            },
+            {
+              "target": "hide_subquest_t2_units"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "провер€ем тип миссии"
           }
         },
         {
           "triggerEnable": {
-            "target": "pa_ajust_tickets_cost"
+            "target": "pa_chek_one_side_mission_type"
           }
         }
       ],
@@ -560,12 +592,27 @@
         },
         {
           "comment": {
-            "value": "запускаем подсчет очков, которые будут отниматьс€ прис мерти юнита"
+            "value": "пр€чем сквад сабквест юнитов, которые по€в€тс€ на 20 минуте игры"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "hide_subquest_t1_units"
+            },
+            {
+              "target": "hide_subquest_t2_units"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "провер€ем тип миссии"
           }
         },
         {
           "triggerEnable": {
-            "target": "pa_ajust_tickets_cost"
+            "target": "pa_chek_one_side_mission_type"
           }
         }
       ],
@@ -643,13 +690,63 @@
           }
         },
         {
+          "triggerEnable": [
+            {
+              "target": "hide_subquest_t1_units"
+            },
+            {
+              "target": "hide_subquest_t2_units"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "провер€ем тип миссии"
+          }
+        },
+        {
           "triggerEnable": {
-            "target": "hide_subquest_units"
+            "target": "pa_chek_one_side_mission_type"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "pa_chek_one_side_mission_type": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "pa_one_side_mission",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "квестова€ наземка есть тольбко у одной стороны. не делим на 2"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 1,
+            "var": "pa_div_modifier"
           }
         },
         {
           "comment": {
-            "value": "запускаем подсчет очков, которые будут отниматьс€ прис мерти юнита"
+            "value": "запускаем подсчет очков, которые будут отниматьс€ при смерти юнита"
           }
         },
         {
@@ -658,7 +755,29 @@
           }
         }
       ],
-      "else_actions": []
+      "else_actions": [
+        {
+          "comment": {
+            "value": "наземка есть у обеих сторон, надо делить на 2"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 2,
+            "var": "pa_div_modifier"
+          }
+        },
+        {
+          "comment": {
+            "value": "запускаем подсчет очков, которые будут отниматьс€ при смерти юнита"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "pa_ajust_tickets_cost"
+          }
+        }
+      ]
     },
     "pa_ajust_tickets_cost": {
       "is_enabled": false,
@@ -725,14 +844,16 @@
         },
         {
           "comment": {
-            "value": "поделим число на 2"
+            "value": "поделим число на установленный модификатор"
           }
         },
         {
           "varModify": {
             "operator": "divAB",
             "value": 2.0,
-            "var": "pa_units_quantity"
+            "var": "pa_units_quantity",
+            "use_variable": true,
+            "var_value": "pa_div_modifier"
           }
         },
         {
@@ -1000,7 +1121,7 @@
       },
       "else_actions": []
     },
-    "hide_subquest_units": {
+    "hide_subquest_t1_units": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -1015,7 +1136,7 @@
       },
       "conditions": {
         "objectExists": {
-          "target": "t1_subquest_units_squad",
+          "target": "@subquest_units_t1_name",
           "type": "squad"
         }
       },
@@ -1023,14 +1144,38 @@
         "comment": {
           "value": "пр€чем сквад сабквест юнитов, которые по€в€тс€ на 20 минуте игры"
         },
-        "unitPutToSleep": [
-          {
-            "target": "t1_subquest_units_squad"
-          },
-          {
-            "target": "t2_subquest_units_squad"
-          }
-        ]
+        "unitPutToSleep": {
+          "target": "@subquest_units_t1_name"
+        }
+      },
+      "else_actions": []
+    },
+    "hide_subquest_t2_units": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "@subquest_units_t2_name",
+          "type": "squad"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "пр€чем сквад сабквест юнитов, которые по€в€тс€ на 20 минуте игры"
+        },
+        "unitPutToSleep": {
+          "target": "@subquest_units_t2_name"
+        }
       },
       "else_actions": []
     }
@@ -1045,7 +1190,11 @@
     "t1_land_death_counter": 0,
     "t2_land_death_counter": 0,
     "pa_tickets_cost": 0,
-    "pa_players_count": 0
+    "pa_players_count": 0,
+    "subquest_units_t1_name": "",
+    "subquest_units_t2_name": "",
+    "pa_one_side_mission": false,
+    "pa_div_modifier": 0
   },
   "dialogs": [],
   "airfields": [],

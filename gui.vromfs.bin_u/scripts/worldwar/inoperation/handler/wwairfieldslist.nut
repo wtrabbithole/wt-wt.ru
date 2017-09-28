@@ -298,6 +298,11 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
     updateSelectedAirfield()
   }
 
+  function onEventWWLoadOperation(params = {})
+  {
+    updateSelectedAirfield(::ww_get_selected_airfield())
+  }
+
   function onEventWWMapClearSelectionBySelectedObject(params)
   {
     if (params.objSelected != mapObjectSelect.AIRFIELD)

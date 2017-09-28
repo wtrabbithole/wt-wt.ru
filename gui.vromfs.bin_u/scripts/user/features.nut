@@ -173,8 +173,6 @@
     SeparateTopMenuButtons = false
 
     HitCameraTargetStateIconsTank = false
-
-    Warbonds_2_0 = false
   }
 
   cache = {}

@@ -199,8 +199,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     if (curWb)
     {
       text = ::loc("warbonds/currentAmount", { warbonds = curWb.getBalanceText() })
-      if (::has_feature("Warbonds_2_0"))
-        tooltip = ::loc("warbonds/maxAmount", { warbonds = ::g_warbonds.getLimit() })
+      tooltip = ::loc("warbonds/maxAmount", { warbonds = ::g_warbonds.getLimit() })
     }
     local textObj = scene.findObject("balance_text")
     textObj.setValue(text)

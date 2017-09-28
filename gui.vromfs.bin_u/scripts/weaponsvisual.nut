@@ -1278,6 +1278,9 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
     foreach(p in ["mass", "speed", "fuseDelayDist", "explodeTreshold", "operatedDist", "endSpeed"])
       param[p] <- ::getTblValue(p, bullet_params, 0)
 
+    if ("reloadTimes" in bullet_params)
+      param.reloadTimes <- bullet_params["reloadTimes"]
+
     if ("autoAiming" in bullet_params)
       param.autoAiming <- bullet_params["autoAiming"]
 
@@ -1358,6 +1361,15 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
                          { probability = ::roundToDigits(100.0 * item.probability, 2) }),
                    ::roundToDigits(item.angle, 2) + ::loc("measureUnits/deg"))
       }
+
+    if ("reloadTimes" in param)
+    {
+      local currentDiffficulty = ::game_mode_manager.getCurrentGameMode().diffCode
+      local reloadTime = param.reloadTimes[currentDiffficulty]
+      if(reloadTime > 0)
+        addProp(p, ::colorize("badTextColor", ::loc("bullet_properties/cooldown")),
+                   ::colorize("badTextColor", ::format("%.2f %s", reloadTime, ::loc("measureUnits/seconds"))))
+    }
 
     if ("smokeShellRad" in param)
       addProp(p, ::loc("bullet_properties/smokeShellRad"),

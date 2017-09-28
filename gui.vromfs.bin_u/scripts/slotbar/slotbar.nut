@@ -1254,9 +1254,8 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         handler.showAircraft(curCrew.aircraft)
     }
 
-    local showPresetsPanel = ::getTblValue("showPresetsPanel", params, fullSlotbar)
-    if (showPresetsPanel && ::SessionLobby.canChangeCrewUnits())
-      handler.presetsListWeak = SlotbarPresetsList(handler).weakref()
+    local needPresetsPanel = ::getTblValue("showPresetsPanel", params, fullSlotbar) &&::SessionLobby.canChangeCrewUnits()
+    handler.setSlotbarPresetsListAvailable(needPresetsPanel)
   }
 }
 
