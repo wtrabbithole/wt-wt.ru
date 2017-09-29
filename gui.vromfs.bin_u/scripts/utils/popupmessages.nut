@@ -76,6 +76,7 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject)
   }
   popupTable.popupImage <- ::g_language.getLocTextFromConfig(blk, "image", "")
   popupTable.ratioHeight <- blk.imageRatio || null
+  popupTable.forceExternalBrowser <- blk.forceExternalBrowser || false
 
   return popupTable
 }

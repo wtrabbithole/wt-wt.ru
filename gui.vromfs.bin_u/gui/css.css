@@ -259,6 +259,7 @@ textAreaNoScroll.active, textAreaCentered.active {
 textarea.parInvert {
   paragraph-indent:0;
   wrap-indent:3*@scrn_tgt/100.0;
+  font:@fontTiny;
 }
 
 textAreaCentered, framedMessage {
@@ -1762,6 +1763,10 @@ frameBlock_dark[bgTeamColor=blue] {
   background-color:@frameTeamBlueBackgroundColor;
 }
 
+frameBlock_dark[hasBorder=no] {
+  border:no;
+}
+
 modIco {
   css-hier-invalidate:yes;
   total-input-transparent:yes;
@@ -2112,7 +2117,7 @@ airItemNavigation {
   padding-left:3*@sf/@pf_outdated;
   height:1@slotbarTop;
   background-color:@transparent;
-  background-image:#ui/gameuiskin#block_bg_rounded_flat;
+  background-image:#ui/gameuiskin#block_bg_rounded_flat@@vs;
   background-position:0;
   background-repeat:expand;
 }

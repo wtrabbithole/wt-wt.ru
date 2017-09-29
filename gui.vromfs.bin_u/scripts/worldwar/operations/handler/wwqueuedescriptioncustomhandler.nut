@@ -7,7 +7,7 @@ class ::gui_handlers.WwQueueDescriptionCustomHandler extends ::gui_handlers.WwMa
       local isJoined = ::isInArray(countryName, joinedCountries)
       local text = ::getTblValue(countryName, amountByCountry, "").tostring()
 
-      return isJoined ? ::colorize("@userlogColoredText", text) : text + "/" + minTeamsInfoText
+      return (isJoined ? ::colorize("@userlogColoredText", text) : text) + "/" + minTeamsInfoText
     }
 
     return {

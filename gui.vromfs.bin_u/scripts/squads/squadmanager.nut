@@ -533,7 +533,7 @@ function g_squad_manager::checkForSquad()
                        ::g_squad_manager.updateMyMemberData(::g_user_utils.getMyStateData())
 
                        if (::g_squad_manager.getSquadSize(true) == 1)
-                         ::g_squad_utils.showAloneInSquadNotification()
+                         ::g_squad_manager.disbandSquad()
 
                       ::broadcastEvent(squadEvent.STATUS_CHANGED)
                      }
@@ -551,7 +551,12 @@ function g_squad_manager::requestSquadData(callback = null)
 {
   local fullCallback = (@(callback) function(response) {
                          if ("squad" in response)
+                         {
                            ::g_squad_manager.onSquadDataChanged(response)
+
+                           if (::g_squad_manager.getSquadSize(true) == 1)
+                             ::g_squad_manager.disbandSquad()
+                         }
                          else if (::g_squad_manager.isInSquad())
                            ::g_squad_manager.reset()
 
@@ -578,10 +583,7 @@ function g_squad_manager::leaveSquad(cb = null)
 
 function g_squad_manager::inviteToSquad(uid)
 {
-  if (!isInSquad())
-    return createSquad((@(uid) function() {::g_squad_manager.inviteToSquad(uid)})(uid))
-
-  if (!isSquadLeader())
+  if (isInSquad() && !isSquadLeader())
     return
 
   if (isSquadFull())
@@ -590,7 +592,8 @@ function g_squad_manager::inviteToSquad(uid)
   if (isInvitedMaxPlayers())
     return ::g_popups.add(null, ::loc("squad/maximum_intitations_sent"))
 
-  ::msquad.invitePlayer(uid)
+  local callback = function(response){ ::g_squad_manager.requestSquadData() }
+  ::msquad.invitePlayer(uid, callback)
 }
 
 function g_squad_manager::revokeAllInvites(callback)

@@ -901,17 +901,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     else if (state == debrState.done)
     {
-      local isShowToBattleBtn = isToBattleActionEnabled()
       ::showBtnTable(scene, {
-        btn_next = true
-        btn_back = isShowToBattleBtn
         btn_skip = false
         skip_button   = false
         start_bonus_place = false
       })
-       ::setDoubleTextToButton(scene, "btn_next", ::loc(isShowToBattleBtn ? "mainmenu/toBattle" :"mainmenu/btnOk"))
-      scene.findObject("btn_back").setValue(::loc(isShowToBattleBtn ? "mainmenu/toHangar" :"mainmenu/btnQuit"))
 
+      updateStartButton()
       fillLeaderboardChanges()
       updateInfoText()
       updateBuyPremiumAwardButton()
@@ -2385,6 +2381,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (canGoToBattle)
       guiScene.performDelayed(getroottable(), function()
       {
+        if (::g_squad_manager.isSquadMember() && !::g_squad_manager.isMeReady())
+        {
+          ::g_squad_manager.setReadyFlag(true)
+          return
+        }
+
         local eventsHandler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
         if (eventsHandler)
           eventsHandler.onJoinEvent()
@@ -2397,11 +2399,47 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     return (skipAnim || state == debrState.done)
       && (gm == ::GM_DOMINATION) && !!(gameType & ::GT_VERSUS)
-      && !::checkIsInQueue() && !::g_squad_manager.isSquadMember()
+      && !::checkIsInQueue()
+      && !(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
       && !::SessionLobby.hasSessionInLobby()
       && !hasAnyFinishedResearch()
       && !isSpectator
       && ::go_debriefing_next_func == ::gui_start_mainmenu
+  }
+
+  function updateStartButton()
+  {
+    if (state != debrState.done)
+      return
+
+    local isShowToBattleBtn = isToBattleActionEnabled()
+
+    ::showBtnTable(scene, {
+      btn_next = true
+      btn_back = isShowToBattleBtn
+    })
+
+    local btnNextLocId = !isShowToBattleBtn ? "mainmenu/btnOk"
+      : ::g_squad_manager.isSquadMember() ? "mainmenu/btnReady"
+      : "mainmenu/toBattle"
+
+     ::setDoubleTextToButton(scene, "btn_next", ::loc(btnNextLocId))
+    scene.findObject("btn_back").setValue(::loc(isShowToBattleBtn ? "mainmenu/toHangar" :"mainmenu/btnQuit"))
+  }
+
+  function onEventSquadSetReady(p)
+  {
+    updateStartButton()
+  }
+
+  function onEventSquadStatusChanged(p)
+  {
+    updateStartButton()
+  }
+
+  function onEventQueueChangeState(params)
+  {
+    updateStartButton()
   }
 
   function onEventMatchingDisconnect(p)

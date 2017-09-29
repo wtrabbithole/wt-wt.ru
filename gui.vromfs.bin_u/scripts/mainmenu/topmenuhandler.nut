@@ -282,7 +282,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     updateSlotbarTopPanelVisibility(!isShow)
     updateSceneShade()
     if (isVisible)
-      ::broadcastEvent("ShopWndVisible", { isShow = isShow })
+      ::broadcastEvent("ShopWndVisible", { isShopShow = isShow })
     ::broadcastEvent("ShopWndAnimation", { isShow = isShow, isVisible = isVisible })
   }
 

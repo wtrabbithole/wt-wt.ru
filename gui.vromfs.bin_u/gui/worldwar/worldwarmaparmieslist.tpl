@@ -5,7 +5,7 @@ tdiv {
 
   HorizontalListBox {
     id:t='armies_by_status_list'
-    height:t='0.028@scrn_tgt'
+    width:t='pw'
 
     navigatorShortcuts:t='yes'
     on_select:t='onArmiesByStatusTabChange'
@@ -15,7 +15,6 @@ tdiv {
     <<#armiesByState>>
       shopFilter {
         shopFilterText {
-          pos:t='0, 50%(ph-h)'; position:t='relative'
           text:t='<<tabIconText>> '
         }
         shopFilterText {

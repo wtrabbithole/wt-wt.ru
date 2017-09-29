@@ -9,7 +9,7 @@ tdiv {
     id:t='date'
     position:t='relative'
     width:t='pw'
-    height:t='0.04@scrn_tgt'
+    height:t='1@logBlockHeaderHeight'
     background-color:t='@objectiveHeaderBackground'
     margin-bottom:t='0.01@scrn_tgt'
 

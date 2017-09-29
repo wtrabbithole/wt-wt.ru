@@ -83,6 +83,7 @@ itemDiv {
 
   tdiv {
     size:t='pw, ph'
+    text-halign:t='center'
     <<#itemIndex>>
     id:t='shop_item_<<itemIndex>>'
     <</itemIndex>>
@@ -109,10 +110,9 @@ itemDiv {
 
     <<#headerText>>
     activeText {
-      max-width:t='pw'
-      pos:t='50%pw-50%w, 10%ph-50%h'
+      width:t='pw'
+      top:t='10%ph-50%h'
       position:t='absolute'
-      text-align:t='center'
       pare-text:t='yes'
       text:t='<<headerText>>'
     }

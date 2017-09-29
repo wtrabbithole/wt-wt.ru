@@ -25,6 +25,9 @@ function debug_svg(image, size = null, bgColor = "#808080")
   } else
   {
     local screenHeights = [720, 1080, 2160]
+    local smallestFont = ::g_font.getSmallestFont(1280, 720)
+    if (smallestFont && smallestFont.sizeMultiplier < 1)
+      screenHeights.insert(0, smallestFont.sizeMultiplier * 720)
     local sizes = ["@sIco", "@cIco", "@dIco", "@lIco"]
     foreach(sf in screenHeights)
     {

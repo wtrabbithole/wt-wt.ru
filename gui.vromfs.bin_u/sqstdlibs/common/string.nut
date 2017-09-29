@@ -376,13 +376,13 @@ function g_string::stripTags(str)
   return str
 }
 
-function g_string::intToStrWithDelimiter(value, delimiter = " ")
+function g_string::intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3)
 {
   local res = value.tointeger().tostring()
   local idx = res.len()
-  while (idx > 3)
+  while (idx > charsAmount)
   {
-    idx -= 3
+    idx -= charsAmount
     res = res.slice(0, idx) + delimiter + res.slice(idx)
   }
   return res

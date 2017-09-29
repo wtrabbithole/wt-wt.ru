@@ -529,6 +529,16 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
     local descModifyFunc = ::getTblValue("descModifyFunc", params)
     if (descModifyFunc)
       desc = descModifyFunc(desc)
+
+    local warbondId = ::getTblValue("wbId", params)
+    if (warbondId)
+    {
+      local warbond = ::g_warbonds.findWarbond(warbondId, ::getTblValue("wbListId", params))
+      local award = warbond? warbond.getAwardById(item.id) : null
+      if (award)
+        desc = award.addAmountTextToDesc(desc)
+    }
+
     obj.setValue(desc)
   }
 

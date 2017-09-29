@@ -332,8 +332,7 @@
                   {
                     "activeText": {
                       "id": "game_mode_change_button_text",
-                      "margin": "5@dp, 0",
-                      "pare-text": "yes"
+                      "margin": "5@dp, 0"
                     }
                   },
                   {
@@ -379,8 +378,8 @@
               {
                 "tdiv": {
                   "flow": "vertical",
-                  "pos": "1@bw, 1@topBarHeight",
-                  "width": "50%pw - 1@bw - 0.5@titleLogoPlateWidth",
+                  "pos": "1@offsetBetweenScreenAndAirinfo, 1@topBarHeight",
+                  "width": "50%pw - 1@offsetBetweenScreenAndAirinfo - 0.5@titleLogoPlateWidth",
                   "position": "absolute",
                   "total-input-transparent": "yes",
                   "textareaNoTab": {
@@ -442,7 +441,14 @@
                       {
                         "tdiv": {
                           "id": "topmenu_menu_panel",
-                          "height": "ph"
+                          "height": "ph",
+                          "padding": "-1@gcButtonsInterval, 0"
+                        }
+                      },
+                      {
+                        "tdiv": {
+                          "id": "left_gc_panel_free_width",
+                          "width": "fw"
                         }
                       },
                       {
@@ -455,6 +461,9 @@
                           },
                           {
                             "class": "header"
+                          },
+                          {
+                            "gcButtonsInterval": "yes"
                           },
                           {
                             "behaviour": "wrapNavigator"
@@ -546,12 +555,6 @@
                             }
                           }
                         ]
-                      },
-                      {
-                        "tdiv": {
-                          "id": "left_gc_panel_free_width",
-                          "width": "fw"
-                        }
                       }
                     ]
                   },
@@ -570,6 +573,9 @@
                         },
                         {
                           "class": "header"
+                        },
+                        {
+                          "gcButtonsInterval": "yes"
                         },
                         {
                           "behaviour": "wrapNavigator"
@@ -591,12 +597,6 @@
                         },
                         {
                           "on_wrap_right": "onTopGCPanelRight"
-                        },
-                        {
-                          "tdiv": {
-                            "size": "fw, ph",
-                            "inactive": "yes"
-                          }
                         },
                         {
                           "Button_text": [
@@ -722,8 +722,15 @@
                         },
                         {
                           "tdiv": {
+                            "size": "fw, ph",
+                            "inactive": "yes"
+                          }
+                        },
+                        {
+                          "tdiv": {
                             "id": "topmenu_menu_panel_right",
                             "height": "ph",
+                            "padding": "-1@gcButtonsInterval, 0",
                             "inactive": "yes"
                           }
                         }
@@ -789,7 +796,7 @@
               "line": [],
               "tdiv": [
                 {
-                  "width": "sw - 2@offsetBetweenScreenAndAirinfo"
+                  "width": "1@bottomGcWidth"
                 },
                 {
                   "height": "1@gamercardHeight"
@@ -814,7 +821,7 @@
                     },
                     "tdiv": {
                       "id": "slotbar-presetsPlace",
-                      "size": "pw - ph, ph",
+                      "size": "pw, ph",
                       "position": "absolute"
                     }
                   }

@@ -56,17 +56,12 @@ expandable {
           <<#isLowWidthScreen>>
             normalFont:t='yes'
           <</isLowWidthScreen>>
-          <<^isLowWidthScreen>>
-            caption:t='yes'
-          <</isLowWidthScreen>>
         <</showAsUsualPromoButton>>
 
         <<#isPromo>>
-          margin:t='5@sf/@pf_outdated,0,0,0'
         <</isPromo>>
         <<^isPromo>>
           width:t='fw'
-          margin:t='5@sf/@pf_outdated, 0'
         <</isPromo>>
       }
 
@@ -91,9 +86,6 @@ expandable {
           overlayTextColor:t='active'
           <<#isLowWidthScreen>>
             normalFont:t='yes'
-          <</isLowWidthScreen>>
-          <<^isLowWidthScreen>>
-            caption:t='yes'
           <</isLowWidthScreen>>
         <</showAsUsualPromoButton>>
       }
@@ -214,13 +206,13 @@ expandable {
     }
 
     <<#isPromo>>
-    <<#otherTasksText>>
+    <<#otherTasksNum>>
       textareaNoTab {
-        text:t='<<otherTasksText>>'
+        text:t='<<?mainmenu/battleTasks/OtherTasksCount>> (<<otherTasksNum>>)'
         position:t='relative'
         pos:t='pw-w, 0'
       }
-    <</otherTasksText>>
+    <</otherTasksNum>>
     <</isPromo>>
 
     <<#isPromo>>

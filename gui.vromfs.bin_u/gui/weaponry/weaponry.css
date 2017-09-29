@@ -2,7 +2,7 @@ weaponry_item[isBundle=yes]{
   }
 
 weaponBody {
-  background-image:#ui/gameuiskin#block_bg_rounded_flat;
+  background-image:#ui/gameuiskin#block_bg_rounded_flat@@vs;
   background-position:4;
   background-repeat:expand;
   background-color:@weaponryItem;
@@ -345,7 +345,7 @@ modBlockTierNum{
   height:1@modBlockTierNumHeight;
   width:h;
   position:absolute;
-  background-image:#ui/gameuiskin#block_bg_rounded_flat;
+  background-image:#ui/gameuiskin#block_bg_rounded_flat@@vs;
   background-position:4;
   background-repeat:expand;
   background-color:@weaponryItem;
@@ -397,8 +397,6 @@ modResearchProgress {
   width: 1@modItemWidth - 1@modIcoSize - 4@dp;
   background-color:@cardProgressBGColor;
   foreground-color:@cardProgressFGColor;
-  border:yes;
-  border-color:@cardProgressBorderColor;
   min:0;
   max:1000;
 }
@@ -412,8 +410,8 @@ modResearchProgress[type=new] {
 }
 
 modResearchProgress[paused=yes] {
+  background-color:@cardProgressDisabledBGColor;
   foreground-color:@cardProgressDisabledFGColor;
-  border-color:@cardProgressDisabledFGColor;
 }
 
 

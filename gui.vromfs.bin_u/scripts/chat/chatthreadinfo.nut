@@ -1,3 +1,5 @@
+const MAX_THREAD_LANG_VISIBLE = 3
+
 class ChatThreadInfo
 {
   roomId = "" //threadRoomId
@@ -228,6 +230,8 @@ class ChatThreadInfo
     setObjValueById(obj, "ownerName_" + roomId, getOwnerText())
     setObjValueById(obj, "thread_title", getTitle())
     setObjValueById(obj, "thread_members", getMembersAmountText())
+    if (::g_chat.canChooseThreadsLang())
+      getLangsListheader(obj)
   }
 
   function needShowLang()
@@ -238,12 +242,32 @@ class ChatThreadInfo
   function getLangsList()
   {
     local res = []
-    foreach(langId in langs)
+    local langInfo = {}
+    if (langs.len() > MAX_THREAD_LANG_VISIBLE)
     {
-      local langInfo = ::g_language.getLangInfoByChatId(langId)
-      if (langInfo)
-        res.append(langInfo)
+      langInfo = ::g_language.getEmptyLangInfo()
+      langInfo.icon = "#ui/gameuiskin#country_0"
+      res.append(langInfo)
     }
+    else
+      foreach(langId in langs)
+      {
+        langInfo = ::g_language.getLangInfoByChatId(langId)
+        if (langInfo)
+          res.append(langInfo)
+      }
+    res.resize(MAX_THREAD_LANG_VISIBLE, ::g_language.getEmptyLangInfo())
     return res
+  }
+
+  function getLangsListheader(obj)
+  {
+    local guiScene = obj.getScene()
+    local contentObject = obj.findObject("thread_lang")
+    local res = getLangsList()
+    for(local i = 0; i < MAX_THREAD_LANG_VISIBLE; i++)
+    {
+      contentObject.getChild(i)["background-image"] = res[i].icon
+    }
   }
 }

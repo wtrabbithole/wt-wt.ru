@@ -19,7 +19,7 @@ class SlotbarPresetsTutorial
 
   // Slotbar
   presetsList = null
-  presetSlotbarIndex = -1
+  validPresetIndex = -1
 
   // Window
   chooseSlotbarPresetHandler = null
@@ -39,18 +39,16 @@ class SlotbarPresetsTutorial
     if (preset == null)
       return false
     local currentPresetIndex = ::getTblValue(currentCountry, ::slotbarPresets.selected, -1)
-    if (currentPresetIndex == getPresetIndex(preset))
+    validPresetIndex = getPresetIndex(preset)
+    if (currentPresetIndex == validPresetIndex)
       return startUnitSelectStep()
     presetsList = currentHandler.getSlotbarPresetsList()
     if (presetsList == null)
       return false
-    local presetObj = presetsList.getListChildByPreset(preset)
+    local presetObj = presetsList.getListChildByPresetIdx(validPresetIndex)
     local steps
-    if (presetObj != null) // Preset is in slotbar presets list.
+    if (presetObj && presetObj.isVisible()) // Preset is in slotbar presets list.
     {
-      presetSlotbarIndex = ::getTblValue(preset, presetsList.listIndexByPreset, -1)
-      if (presetSlotbarIndex == -1)
-        return false
       steps = [{
         obj = [presetObj]
         text = createMessage_selectPreset()
@@ -89,7 +87,7 @@ class SlotbarPresetsTutorial
     ::add_event_listener("SlotbarPresetLoaded", onEventSlotbarPresetLoaded, this)
     local listObj = presetsList.getListObj()
     if (listObj != null)
-      listObj.setValue(presetSlotbarIndex)
+      listObj.setValue(validPresetIndex)
   }
 
   function onChooseSlotbarPresetWnd_Open()

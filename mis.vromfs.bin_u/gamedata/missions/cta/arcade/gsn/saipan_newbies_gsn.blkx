@@ -202,6 +202,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "fighter",
               "side": "player",
@@ -545,6 +548,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_fighters_spawn",
             "team": "A",
             "tags": {
@@ -566,6 +570,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_fighters_spawn",
             "team": "B",
             "tags": {
@@ -587,6 +592,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -608,6 +614,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -617,6 +624,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_artillery_squad"
             },
@@ -639,6 +649,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t2_ships_01"
             },
@@ -665,6 +678,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -672,6 +686,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -2843,7 +2858,7 @@
           [12834.3,19.95,20552.1]
         ],
         "props": {
-          "squad_members": "t1_aaa_airfield_squad"
+          "squad_members": "t1_def\u001f_aaa_squad"
         }
       }
     },
@@ -3176,12 +3191,12 @@
     },
     {
       "squad": {
-        "name": "t1_aaa_airfield_squad",
+        "name": "t1_def\u001f_aaa_squad",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [11886.0,54.35,23146.6]
+          [10469.2,54.3491,24432.2]
         ],
         "props": [
           {
@@ -3627,7 +3642,7 @@
     },
     {
       "squad": {
-        "name": "t2_airfield_aaa_squad",
+        "name": "t2_def_aaa_squad",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
@@ -3883,7 +3898,7 @@
           [3520.6,454.2,16671.6]
         ],
         "props": {
-          "squad_members": "t2_airfield_aaa_squad"
+          "squad_members": "t2_def_aaa_squad"
         }
       }
     },

@@ -21,23 +21,32 @@ objectiveBlock {
     <<#reqFullMissionObjectsButton>>
     tdiv {
       size:t='fw, ph'
+      margin-right:t='1@blockInterval'
 
       tdiv {
-        pos:t='pw-w, 50%ph-50%h'
+        height:t='ph'
+        left:t='pw-w'
         position:t='relative'
-        margin-right:t='1@headerIndent'
 
-        Button_text {
-          id:t = 'btn_tasks_list'
-          showConsoleImage:t='no'
-          text:t='#icon/info'
-          reduceMinimalWidth:t='yes'
-          tooltip:t = '#mainmenu/tasksList'
-          _on_click:t = 'onOpenFullMissionObjects'
+        frameBlock_dark{
+          height:t='ph'
+          hasBorder:t='no'
+          padding:t='1@dp, 0'
+
+          Button_text {
+            id:t = 'btn_tasks_list'
+            showConsoleImage:t='no'
+            text:t='#icon/info'
+            reduceMinimalWidth:t='yes'
+            useParentHeight:t='yes'
+            noMargin:t='yes'
+            tooltip:t = '#mainmenu/tasksList'
+            _on_click:t = 'onOpenFullMissionObjects'
+          }
         }
         <<#hiddenObjectives>>
         textareaNoTab {
-          margin-left:t='1@itemPadding'
+          margin:t='1@blockInterval, 0'
           valign:t='center'
           text:t='<<?keysPlus>><<hiddenObjectives>> <<?worldWar/objectives/more>>'
         }

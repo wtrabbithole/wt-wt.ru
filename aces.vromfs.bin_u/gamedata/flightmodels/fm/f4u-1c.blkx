@@ -50,7 +50,7 @@
   "AllowModsToChangeLongidutialBalance": true,
   "ArcadeRollCorrectionMultiplier": 3.0,
   "ArcadeMaxRollCoeff": 1.0,
-  "ArcadeYawMutilpliers": [1.0,1.0,1.0],
+  "ArcadeYawMutilpliers": [2.0,3.0,1.0],
   "CockpitOpenedDoorBreakSpeed": 564.0,
   "MomentOfInertia": [16446.0,29183.0,17805.0],
   "AvailableControls": {
@@ -82,12 +82,12 @@
     "bHasBoosterSwitcher": false
   },
   "Areas": {
-    "WingLeftIn": 3.5933,
+    "WingLeftIn": 3.7195,
     "WingLeftMid": 4.7144,
-    "WingLeftOut": 6.2783,
-    "WingRightIn": 3.5933,
+    "WingLeftOut": 6.1521,
+    "WingRightIn": 3.7195,
     "WingRightMid": 4.7144,
-    "WingRightOut": 6.2783,
+    "WingRightOut": 6.1521,
     "Aileron": 0.8407,
     "Stabilizer": 3.344,
     "Elevator": 2.034,
@@ -107,9 +107,9 @@
     "WingMidFocus": 2.08,
     "WingOutFocus": 5.75,
     "WingV": 4.0,
-    "Stabilizer": 5.5,
-    "Keel": 5.5,
-    "Rudder": 1.01,
+    "Stabilizer": 6.25,
+    "Keel": 5.3,
+    "Rudder": 5.8,
     "Fuselage": [0.0,0.0,0.0],
     "LeftStab": [-6.25,0.44,0.84],
     "RightStab": [-6.25,0.44,-0.84],
@@ -190,7 +190,7 @@
       "alphaCritLow": -18.5,
       "ClCritHigh": 1.89,
       "ClCritLow": -0.5,
-      "CdMin": 0.18
+      "CdMin": 0.16
     },
     "Fuselage": {
       "OswaldsEfficiencyNumber": 0.7,
@@ -581,7 +581,7 @@
       },
       "RadiatorMode3": {
         "Throttle": 1.1,
-        "WaterTemperature": 268.0,
+        "WaterTemperature": 265.0,
         "OilTemperature": 103.0
       }
     },
@@ -634,8 +634,8 @@
       "TurboChargerTimeConst": 1.0
     },
     "Mixer": {
-      "IsControllable": true,
-      "Type": 1,
+      "IsControllable": false,
+      "Type": 0,
       "AltitudePressureToP0": 0.78
     },
     "Stages": {
@@ -687,16 +687,15 @@
     "WingCritOverload": [-106792.0,300352.0],
     "GearDestructionIndSpeed": 730.0,
     "AirbrakeDestructionIndSpeed": -1.0,
-    "FlapsDestructionIndSpeedP1": [0.1,380.0],
-    "FlapsDestructionIndSpeedP2": [0.5,325.0],
-    "FlapsDestructionIndSpeedP3": [0.8,278.0],
-    "FlapsDestructionIndSpeedP4": [1.0,250.0],
+    "FlapsDestructionIndSpeedP1": [0.2,470.0],
+    "FlapsDestructionIndSpeedP2": [0.33,278.0],
+    "FlapsDestructionIndSpeedP3": [1.0,245.0],
     "Parts": {
       "tank1_capacity": 645.0,
       "tank1_system": 0,
       "tank1_external": false,
       "tank1_priority": 2,
-      "engine1_dm": 1370.0,
+      "engine1_dm": 1380.0,
       "wingcontrol_l_dm": 20.0,
       "aileron_l_dm": 16.0,
       "flap_l_dm": 20.0,
@@ -732,7 +731,7 @@
       "armor2_dm": 100.0,
       "armor3_dm": 150.0,
       "fuse_dm": 200.0,
-      "tail_dm": 160.0,
+      "tail_dm": 140.0,
       "tailcontrol_dm": 5.0,
       "fin_dm": 6.5,
       "stab_dm": 30.0,
@@ -742,10 +741,10 @@
       "oil1_dm": 58.0,
       "oil2_dm": 20.0,
       "oil3_dm": 20.0,
-      "cannon3_dm": 50.0,
-      "cannon1_dm": 50.0,
-      "cannon2_dm": 50.0,
-      "cannon4_dm": 50.0
+      "cannon3_dm": 30.0,
+      "cannon1_dm": 30.0,
+      "cannon2_dm": 30.0,
+      "cannon4_dm": 30.0
     },
     "PartsWithSurface": []
   },

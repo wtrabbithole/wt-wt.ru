@@ -180,6 +180,11 @@
     return result
   }
 
+  function getTotalPresetsCount()
+  {
+    return baseCountryPresetsAmount + ::g_unit_type.types.len() * eraBonusPresetsAmount
+  }
+
   function getUnitTypesWithNotActivePresetBonus(country = null)
   {
     if ( ! country)

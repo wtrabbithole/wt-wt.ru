@@ -18,6 +18,7 @@ invisSlider {
   size:t='fw, 1@sliderRowHeight'
   pos:t='0, 50%ph-50%h'
   position:t='relative'
+  margin:t='0.5@sliderThumbWidth + 1@blockInterval, 0'
   value:t='0'
   min:t='0'
   max:t='<<maxValue>>'
@@ -31,7 +32,7 @@ invisSlider {
   <<#needOldSlider>>
     expProgress {
       id:t='old_progress'
-      width:t='pw - 1@sliderThumbWidth'
+      width:t='pw'
       pos:t='50%pw-50%w, 50%ph-50%h'
       position:t="absolute"
       type:t='old'
@@ -46,7 +47,7 @@ invisSlider {
   <<#needNewSlider>>
     expProgress {
       id:t='new_progress'
-      width:t='pw - 1@sliderThumbWidth'
+      width:t='pw'
       pos:t='50%pw-50%w, 50%ph-50%h'
       position:t="absolute"
       type:t='new'

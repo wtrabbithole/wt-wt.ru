@@ -38,7 +38,7 @@
                 "tdiv": {
                   "width": "pw",
                   "min-height": "0.037@scrn_tgt",
-                  "margin-right": "1@scrollBarSize",
+                  "margin-left": "1@scrollBarSize",
                   "margin-bottom": "0.0025@scrn_tgt",
                   "tdiv": {
                     "id": "team1_info",
@@ -78,10 +78,11 @@
                   "overflow-y": "auto",
                   "scroll-align": "left",
                   "scroll-padding": "no",
+                  "padding-right": "-1@scrollBarSize",
                   "table": {
                     "id": "table_kills_team1",
-                    "width": "pw -1@scrollBarSize -2",
-                    "pos": "0, 1",
+                    "width": "fw - 1@scrollBarSize - @tablePad",
+                    "pos": "1@scrollBarSize, 1",
                     "position": "relative",
                     "css-hier-invalidate": "yes",
                     "cur_row": "0",
@@ -120,7 +121,7 @@
                 "tdiv": {
                   "width": "pw",
                   "min-height": "0.037@scrn_tgt",
-                  "margin-left": "1@scrollBarSize",
+                  "margin-right": "1@scrollBarSize",
                   "margin-bottom": "0.0025@scrn_tgt",
                   "tdiv": {
                     "id": "team2_info",
@@ -147,7 +148,7 @@
                   "table": {
                     "id": "team_table_2",
                     "width": "pw",
-                    "pos": "0, 50%ph-50%h",
+                    "pos": "@tablePad, 50%ph-50%h",
                     "position": "absolute",
                     "class": "headerTable",
                     "baseRow": "rows16",
@@ -161,8 +162,8 @@
                   "overflow-y": "auto",
                   "table": {
                     "id": "table_kills_team2",
-                    "width": "pw -1@scrollBarSize -2",
-                    "pos": "1@scrollBarSize +1, 1",
+                    "width": "fw - 1@scrollBarSize",
+                    "pos": "@tablePad, 1",
                     "position": "relative",
                     "css-hier-invalidate": "yes",
                     "cur_row": "0",
@@ -244,8 +245,7 @@
                 {
                   "activeText": {
                     "id": "game_mode_change_button_text",
-                    "margin": "5@dp, 0",
-                    "pare-text": "yes"
+                    "margin": "5@dp, 0"
                   }
                 },
                 {
@@ -291,8 +291,8 @@
             {
               "tdiv": {
                 "flow": "vertical",
-                "pos": "1@bw, 1@topBarHeight",
-                "width": "50%pw - 1@bw - 0.5@titleLogoPlateWidth",
+                "pos": "1@offsetBetweenScreenAndAirinfo, 1@topBarHeight",
+                "width": "50%pw - 1@offsetBetweenScreenAndAirinfo - 0.5@titleLogoPlateWidth",
                 "position": "absolute",
                 "total-input-transparent": "yes",
                 "textareaNoTab": {
@@ -354,7 +354,14 @@
                     {
                       "tdiv": {
                         "id": "topmenu_menu_panel",
-                        "height": "ph"
+                        "height": "ph",
+                        "padding": "-1@gcButtonsInterval, 0"
+                      }
+                    },
+                    {
+                      "tdiv": {
+                        "id": "left_gc_panel_free_width",
+                        "width": "fw"
                       }
                     },
                     {
@@ -367,6 +374,9 @@
                         },
                         {
                           "class": "header"
+                        },
+                        {
+                          "gcButtonsInterval": "yes"
                         },
                         {
                           "behaviour": "wrapNavigator"
@@ -458,12 +468,6 @@
                           }
                         }
                       ]
-                    },
-                    {
-                      "tdiv": {
-                        "id": "left_gc_panel_free_width",
-                        "width": "fw"
-                      }
                     }
                   ]
                 },
@@ -482,6 +486,9 @@
                       },
                       {
                         "class": "header"
+                      },
+                      {
+                        "gcButtonsInterval": "yes"
                       },
                       {
                         "behaviour": "wrapNavigator"
@@ -503,12 +510,6 @@
                       },
                       {
                         "on_wrap_right": "onTopGCPanelRight"
-                      },
-                      {
-                        "tdiv": {
-                          "size": "fw, ph",
-                          "inactive": "yes"
-                        }
                       },
                       {
                         "Button_text": [
@@ -634,8 +635,15 @@
                       },
                       {
                         "tdiv": {
+                          "size": "fw, ph",
+                          "inactive": "yes"
+                        }
+                      },
+                      {
+                        "tdiv": {
                           "id": "topmenu_menu_panel_right",
                           "height": "ph",
+                          "padding": "-1@gcButtonsInterval, 0",
                           "inactive": "yes"
                         }
                       }
@@ -701,7 +709,7 @@
             "line": [],
             "tdiv": [
               {
-                "width": "sw - 2@offsetBetweenScreenAndAirinfo"
+                "width": "1@bottomGcWidth"
               },
               {
                 "height": "1@gamercardHeight"
@@ -726,7 +734,7 @@
                   },
                   "tdiv": {
                     "id": "slotbar-presetsPlace",
-                    "size": "pw - ph, ph",
+                    "size": "pw, ph",
                     "position": "absolute"
                   }
                 }

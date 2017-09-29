@@ -69,30 +69,7 @@ function g_warbonds::validateList()
 function g_warbonds::getBalanceText()
 {
   local wbList = getVisibleList()
-  local textList = [wbList.len()? wbList[0].getBalanceText() : ""]
-
-  if (!::has_feature("Warbonds_2_0"))
-  {
-    local nextTime = 0
-    local nextTimeIdx = -1
-    foreach(idx, wb in wbList)
-    {
-      local timeLeft = wb.getChangeStateTimeLeft()
-      if (!timeLeft)
-        continue
-      if (timeLeft > nextTime && nextTimeIdx >= 0)
-        continue
-      nextTime = timeLeft
-      nextTimeIdx = idx
-    }
-    if (nextTimeIdx in textList)
-    {
-      local timeText = time.hoursToString(time.secondsToHours(nextTime), false, true)
-      textList[nextTimeIdx] += " " + ::loc("ui/parentheses", { text = timeText })
-    }
-  }
-
-  return ::g_string.implode(textList, ", ")
+  return wbList.len()? wbList[0].getBalanceText() : ""
 }
 
 function g_warbonds::isWarbondsRecounted()
@@ -142,7 +119,7 @@ function g_warbonds::getWarbondAwardByFullId(wbAwardFullId)
     return null
 
   local wb = findWarbond(data[0], data[1])
-  return wb && wb.getAwardById(data[2])
+  return wb && wb.getAwardByIdx(data[2])
 }
 
 function g_warbonds::getWarbondPriceText(wbId, wbListId, amount)
@@ -181,6 +158,8 @@ function g_warbonds::getLimit()
 function g_warbonds::checkOverLimit(battleTask, silent = false)
 {
   local curWb = ::g_warbonds.getCurrentWarbond()
+  if (!curWb)
+    return true
   local limit = getLimit()
   local newBalance = curWb.getBalance() + battleTask.amount_warbonds
   if (newBalance <= limit)

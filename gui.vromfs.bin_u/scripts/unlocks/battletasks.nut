@@ -708,12 +708,6 @@ function BattleTasks::generateItemView(config, isPromo = false)
               : (isUnlock? ::get_unlock_name_text(config.unlockType, config.id) : ::getTblValue("text", config, ""))
   local rankVal = isUnlock ? ::UnlockConditions.getRankValue(config.conditions) : null
 
-  local otherTasksText = isBattleTask || isUnlock ?
-              (getTasksArray().len() ?
-                    (::loc("mainmenu/battleTasks/OtherTasksCount") + ::loc("ui/parentheses/space", {text = getTasksArray().len()}))
-                    : null)
-              : null
-
   local id = isBattleTask? task.id : config.id
 
   return {
@@ -730,17 +724,26 @@ function BattleTasks::generateItemView(config, isPromo = false)
     newIconWidget = isBattleTask? (isTaskActive(task)? null : NewIconWidget.createLayout()) : null
     canGetReward = isBattleTask && canGetReward
     canReroll = isBattleTask && !canGetReward
-    otherTasksText = otherTasksText
+    otherTasksNum = isPromo? getTotalActiveTasksNum() : null
     isLowWidthScreen = isPromo? ::is_low_width_screen() : null
     showAsUsualPromoButton = isPromo && !isBattleTask && !isUnlock
     isPromo = isPromo
   }
 }
 
+function BattleTasks::getTotalActiveTasksNum()
+{
+  local num = 0
+  foreach (task in getActiveTasksArray())
+    if (isTaskActual(task) && !isTaskDone(task))
+      num++
+  return num
+}
+
 function BattleTasks::getDifficultyImage(task)
 {
   local difficulty = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
-  if (difficulty.showSeasonIcon())
+  if (difficulty.showSeasonIcon)
   {
     local curWarbond = ::g_warbonds.getCurrentWarbond()
     if (curWarbond)
@@ -864,7 +867,7 @@ function BattleTasks::rerollTask(task)
 
 function BattleTasks::rerollSpecialTask(task)
 {
-  if (!::has_feature("Warbonds_2_0") || ::u.isEmpty(task))
+  if (::u.isEmpty(task))
     return
 
   local blk = ::DataBlock()

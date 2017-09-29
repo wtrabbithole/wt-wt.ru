@@ -26,9 +26,9 @@ function g_wb_award_type::_getNameTextItem(blk)
   return item.getName()
 }
 
-function g_wb_award_type::_getTooltipIdItem(blk)
+function g_wb_award_type::_getTooltipIdItem(blk, warbond)
 {
-  return ::g_tooltip.getIdItem(blk.name || "")
+  return ::g_tooltip.getIdItem(blk.name || "", { wbId = warbond.id, wbListId = warbond.listId })
 }
 
 function g_wb_award_type::_getUserlogBuyTextItem(blk, priceText)
@@ -78,7 +78,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
   getLayeredImage = function(blk, warbond) { return "" }
   getContentIconData = function(blk) { return null } //{ contentIcon, [contentType] }
   getIconHeaderText = function(blk) { return null }
-  getTooltipId = function(blk) { return null } //string
+  getTooltipId = @(blk, warbond) null //string
 
   hasCommonDesc = true
   getNameText = function(blk) { return "" }
@@ -129,10 +129,7 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
       }
     }
     getIconHeaderText = function(blk) { return getNameText(blk) }
-    getTooltipId = function(blk)
-    {
-      return ::g_tooltip.getIdUnit(blk.name || "")
-    }
+    getTooltipId = @(blk, warbond) ::g_tooltip.getIdUnit(blk.name || "", { wbId = warbond.id, wbListId = warbond.listId })
     getNameText = function(blk) { return ::getUnitName(blk.name || "") }
 
     getDescriptionImage = function(blk, warbond)
@@ -188,10 +185,12 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
     {
       return ::LayersIcon.getIconData(::g_decorator_type.SKINS.defaultStyle)
     }
-    getTooltipId = function(blk)
-    {
-      return ::g_tooltip_type.DECORATION.getTooltipId(blk.name || "", ::UNLOCKABLE_SKIN)
-    }
+    getTooltipId = @(blk, warbond) ::g_tooltip_type.DECORATION.getTooltipId(blk.name || "",
+                                                                            ::UNLOCKABLE_SKIN,
+                                                                            {
+                                                                              wbId = warbond.id,
+                                                                              wbListId = warbond.listId
+                                                                            })
     getNameText = function(blk)
     {
       return ::get_unlock_name_text(::UNLOCKABLE_SKIN, blk.name || "")
@@ -217,10 +216,12 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
         return ::LayersIcon.getIconData(null, ::g_decorator_type.DECALS.getImage(decorator))
       return ::LayersIcon.getIconData(::g_decorator_type.DECALS.defaultStyle)
     }
-    getTooltipId = function(blk)
-    {
-      return ::g_tooltip_type.DECORATION.getTooltipId(blk.name || "", ::UNLOCKABLE_DECAL)
-    }
+    getTooltipId = @(blk, warbond) ::g_tooltip_type.DECORATION.getTooltipId(blk.name || "",
+                                                                            ::UNLOCKABLE_DECAL,
+                                                                            {
+                                                                              wbId = warbond.id,
+                                                                              wbListId = warbond.listId
+                                                                            })
     getNameText = function(blk)
     {
       return ::get_unlock_name_text(::UNLOCKABLE_DECAL, blk.name || "")
@@ -246,10 +247,12 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
         return ::LayersIcon.getIconData(null, ::g_decorator_type.ATTACHABLES.getImage(decorator))
       return ::LayersIcon.getIconData(::g_decorator_type.ATTACHABLES.defaultStyle)
     }
-    getTooltipId = function(blk)
-    {
-      return ::g_tooltip_type.DECORATION.getTooltipId(blk.name || "", ::UNLOCKABLE_ATTACHABLE)
-    }
+    getTooltipId = @(blk, warbond) ::g_tooltip_type.DECORATION.getTooltipId(blk.name || "",
+                                                                            ::UNLOCKABLE_ATTACHABLE,
+                                                                            {
+                                                                              wbId = warbond.id,
+                                                                              wbListId = warbond.listId
+                                                                            })
     getNameText = function(blk)
     {
       return ::get_unlock_name_text(::UNLOCKABLE_ATTACHABLE, blk.name || "")
@@ -300,6 +303,11 @@ function g_wb_award_type::_getBoughtCountByAmount(warbond, blk)
     canBuy = @(blk) ::warbonds_can_buy_battle_task(blk.name)
     canBuyReasonLocId = "item/specialTasksPersonalUnlocks/purchaseRestriction"
     isAvailableForCurrentShop = @(warbond) warbond.isCurrent()
+    getTooltipId = @(blk, warbond) ::g_tooltip_type.SPECIAL_TASK.getTooltipId(blk.name,
+                                                                              {
+                                                                                wbId = warbond.id,
+                                                                                wbListId = warbond.listId
+                                                                              })
   }
 }
 null, "id")

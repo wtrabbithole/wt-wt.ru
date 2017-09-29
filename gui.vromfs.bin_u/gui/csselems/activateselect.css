@@ -1,8 +1,8 @@
-@const activateTabPaddingSum:1@buttonTextPadding + 1@bigButtonHeight;
+@const activateTabPaddingSum:2@bigButtonTextPadding;
 
 activateTab {
   height:ph;
-  padding:h, 0, 1@bigButtonTextPadding, 0;
+  padding:1@bigButtonTextPadding, 0;
   re-type:fgPict;
   foreground-position:0, 0, 0, h - 2@dp;
   css-hier-invalidate:yes;
@@ -22,8 +22,12 @@ tabText {
   behavior:textarea;
   font:@fontNormal;
   color:@commonTextColor;
-  text-align:left;
+  text-align:center;
   word-wrap:no;
+}
+
+[smallFont=yes] > activateTab > tabText {
+  font:@fontSmall;
 }
 
 activateTab > tabText {

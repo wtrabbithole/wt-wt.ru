@@ -1,8 +1,11 @@
 local colorCorrector = require_native("colorCorrector")
+local fonts = require_native("fonts")
 handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurSceneBgBlurred" ])
 
 ::handlersManager.lastInFlight <- false  //to reload scenes on change inFlight
-::handlersManager.currentFont <- ::g_font.BIG
+::handlersManager.currentFont <- ::g_font.LARGE
+::handlersManager.lastScreenHeightForFont <- 0
+::handlersManager.shouldResetFontsCache <- false
 
 ::handlersManager.curControlsAllowMask <- CtrlsInGui.CTRL_ALLOW_FULL
 ::handlersManager.controlsAllowMaskDefaults <- {
@@ -23,6 +26,20 @@ handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurS
 function handlersManager::setIngameShortcutsActive(value)
 {
   ::set_ingame_shortcuts_active(value)
+}
+
+function handlersManager::beforeClearScene(guiScene)
+{
+  local sh = ::min(0.75 * ::screen_width(), ::screen_height())
+  if (lastScreenHeightForFont && lastScreenHeightForFont != sh)
+    shouldResetFontsCache = true
+  lastScreenHeightForFont = sh
+
+  if (shouldResetFontsCache)
+  {
+    fonts.discardLoadedData()
+    shouldResetFontsCache = false
+  }
 }
 
 function handlersManager::onClearScene(guiScene)
@@ -91,7 +108,11 @@ function handlersManager::updatePostLoadCss()
   local haveChanges = false
 
   local font = ::g_font.getCurrent()
-  haveChanges = haveChanges || currentFont != font
+  if (currentFont != font)
+  {
+    shouldResetFontsCache = true
+    haveChanges = true
+  }
   currentFont = font
 
   local cssStringPre = font.genCssString() + "\n" + generatePreLoadCssString()
@@ -123,7 +144,14 @@ function handlersManager::generatePreLoadCssString()
     ::is_platform_ps4 ? (1.0 - ::ps4_get_safe_area()) :
     !::g_login.isAuthorized() ? 0.0 :
     ::get_option_hud_screen_safe_area()
-  local countriesCount = (::g_login.isLoggedIn() && ::shopCountriesList.len()) || 5
+  local countriesCount = 7
+  if (::g_login.isLoggedIn())
+  {
+    countriesCount = 0
+    foreach(c in ::shopCountriesList)
+      if (::is_country_visible(c))
+        countriesCount++
+  }
 
   local config = [
     { name = "target_pc",         value = ::is_platform_ps4 ? "no" : "yes" }

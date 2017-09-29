@@ -61,8 +61,9 @@ expandable {
     }
 
     tdiv {
-      pos:t='0, ph - h + 2' //+2 - is shadow under the buttons
+      pos:t='0, ph - h'
       position:t='relative'
+      padding:t='-1@buttonMargin'
 
       Button_text {
         id:t='accept'

@@ -504,13 +504,13 @@
     "12mm_ussr_dshk_AP": [
       {
         "bullet": {
-          "mass": 0.0482,
+          "mass": 0.0437,
           "caliber": 0.0127,
-          "speed": 815.0,
+          "speed": 850.0,
           "maxDistance": 2500.0,
-          "bulletType": "apcr_i_ball",
-          "bulletName": "apcr_i_ball_bs41",
-          "hitPowerMult": 8.5,
+          "bulletType": "ap_i_t_ball",
+          "bulletName": "ap_i_t_ball_bzt_44",
+          "hitPowerMult": 8.0,
           "onHitChanceMultFire": 10.0,
           "relativeVelHitShift": [300.0,1000.0],
           "armorFragmentsDamage": true,
@@ -519,7 +519,6 @@
           "armorFragmentsAmount": 15,
           "armorFragmentsArmorPower": 2.0,
           "armorFragmentsHit": 8.0,
-          "relativeVelArmorShift": [200.0,1000.0],
           "groundCollisionEffect": "7_20_hit_ground",
           "groundFxScale": [1.2,1.3],
           "waterFxScale": [1.5,1.6],
@@ -530,18 +529,19 @@
             "HitPower10000m": [0.8,10000.0]
           },
           "armorpower": {
-            "ArmorPower0m": [27.0,10.0],
-            "ArmorPower100m": [25.0,100.0],
-            "ArmorPower500m": [17.0,500.0],
-            "ArmorPower1000m": [11.0,1000.0],
-            "ArmorPower1500m": [7.0,1500.0],
-            "ArmorPower2000m": [6.0,2000.0],
+            "ArmorPower0m": [22.0,10.0],
+            "ArmorPower100m": [21.0,100.0],
+            "ArmorPower500m": [15.0,500.0],
+            "ArmorPower1000m": [10.0,1000.0],
+            "ArmorPower1500m": [6.0,1500.0],
+            "ArmorPower2000m": [5.0,2000.0],
             "ArmorPower2500m": [3.0,2500.0]
           },
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "noColor"
+            "tracer": "12mmRed",
+            "trail": "noTrail"
           },
           "collisions": {
             "steel": {

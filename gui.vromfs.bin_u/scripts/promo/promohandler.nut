@@ -363,7 +363,7 @@ class Promo
         else if (!isTaskWithReward)
         {
           view.isConsoleMode <- ::show_console_buttons
-          view.newItemsAvailable <- currentWarbond.isReachedNewShopLevel()
+          view.newItemsAvailable <- currentWarbond.needShowNewItemsNotifications()
         }
       }
     }
@@ -650,7 +650,7 @@ class Promo
   function onEventHangarModelLoaded(p)  { updateTutorialButton() }
   function onEventShowAllPromoBlocksValueChanged(p) { updatePromoBlocks() }
   function onEventPartnerUnlocksUpdated(p) { updatePromoBlocks(true) }
-  function onEventShopWndVisible(p) { toggleSceneVisibility(!::getTblValue("isShow", p, false)) }
+  function onEventShopWndVisible(p) { toggleSceneVisibility(!::getTblValue("isShopShow", p, false)) }
   function onEventWWLoadOperation(p) { updateWorldWarButton() }
   function onEventWWStopWorldWar(p) { updateWorldWarButton() }
   function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }

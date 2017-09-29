@@ -222,7 +222,7 @@
       "missionBriefing": "",
       "environment": "Day",
       "weather": "hazy",
-      "scoreLimit": 2000,
+      "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
       "country_axis": "germany",
@@ -250,13 +250,88 @@
         "_Conq5": false,
         "_Conq6": false
       },
-      "tags": []
+      "tags": [],
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false
+      }
     },
     "spectator_points": [],
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
+    },
+    "briefing": {
+      "place_loc": "",
+      "date_loc": "",
+      "objective_loc": "",
+      "music": "action_01",
+      "part": {
+        "event": "",
+        "minTime": 0,
+        "slide": [
+          {
+            "map": true
+          },
+          {
+            "minTime": 4
+          },
+          {
+            "picture": ""
+          },
+          {
+            "showAirMap": false
+          },
+          {
+            "arrow": [
+              {
+                "width": 1
+              },
+              {
+                "side": "ally"
+              },
+              {
+                "point": "briefing_t1_cargo"
+              },
+              {
+                "point": "briefing_t1_landing_point"
+              }
+            ]
+          },
+          {
+            "icon": {
+              "icontype": "transport",
+              "side": "ally",
+              "target": "briefing_t1_cargo"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "basezone",
+              "side": "ally",
+              "target": "briefing_t1_landing_point"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "ally",
+              "target": "t1_common_fighters_spawn",
+              "lookAt": "briefing_t1_landing_point"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "enemy",
+              "target": "t2_common_fighters_spawn",
+              "lookAt": "briefing_t1_landing_point"
+            }
+          }
+        ]
+      }
     }
   },
   "imports": [
@@ -376,6 +451,9 @@
               "showOnMap": true
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "t1_carrier_01"
             },
             {
@@ -421,6 +499,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_common_fighters_spawn",
             "team": "A",
             "awardByBodyHp": false,
@@ -432,6 +511,17 @@
               "type_longrange_bomber": false,
               "tank": false
             }
+          }
+        },
+        {
+          "comment": {
+            "value": "говорим, что наземка только с одной стороны"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "pa_one_side_mission"
           }
         }
       ],
@@ -1521,7 +1611,7 @@
         "bulletsCount3": 0,
         "props": {
           "army": 1,
-          "count": 20,
+          "count": 29,
           "formation_type": "rows",
           "formation_div": 4,
           "formation_step": [12.0,6.0],
@@ -2410,6 +2500,28 @@
         [200.946,0.0,-222.756],
         [32583.0,650.0,14180.3]
       ],
+      "props": []
+    },
+    "briefing_t1_cargo": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [28774.7,35.4146,21029.3]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "briefing_t1_landing_point": {
+      "type": "Point",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [19214.3,26.8428,2531.82]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },

@@ -971,6 +971,19 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return rootHandlerWeak ? rootHandlerWeak.presetsListWeak : presetsListWeak
   }
 
+  function setSlotbarPresetsListAvailable(isAvailable)
+  {
+    if (isAvailable)
+    {
+      if (presetsListWeak)
+        presetsListWeak.update()
+      else
+        presetsListWeak = SlotbarPresetsList(this).weakref()
+    } else
+      if (presetsListWeak)
+        presetsListWeak.destroy()
+  }
+
   function getSlotbarScene()
   {
     return rootHandlerWeak ? rootHandlerWeak.slotbarScene : slotbarScene

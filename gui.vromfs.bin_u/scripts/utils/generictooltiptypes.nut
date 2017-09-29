@@ -13,9 +13,9 @@
     return ::save_to_json(t)
   }
   //full params list depend on specific type
-  getTooltipId = function(id, p1 = null, p2 = null, p3 = null)
+  getTooltipId = function(id, params = null, p2 = null, p3 = null)
   {
-    return _buildId(id)
+    return _buildId(id, params)
   }
 
   getTooltipContent = function(id, params) { return "" }
@@ -31,10 +31,6 @@
   }
 
   UNLOCK = { //tooltip by unlock name
-    getTooltipId = function(id, params = null, p2 = null, p3 = null)
-    {
-      return _buildId(id, params)
-    }
     isCustomTooltipFill = true
     fillTooltip = function(obj, handler, unlockId, params)
     {
@@ -59,9 +55,11 @@
                  //@decorType = UNLOCKABLE_DECAL or UNLOCKABLE_SKIN
                  //can be without exist unlock
                  //for skins decorId is like skin unlock id   -  <unitName>"/"<skinName>
-    getTooltipId = function(decorId, decorType, ...)
+    getTooltipId = function(decorId, decorType, params = null, p3 = null)
     {
-      return _buildId(decorId, { decorType = decorType })
+      local p = params || {}
+      p.decorType <- decorType
+      return _buildId(decorId, p)
     }
 
     isCustomTooltipFill = true
@@ -77,11 +75,6 @@
         return false
 
       local unlockId = ::getTblValue("unlockId", decorator)
-      local img = decoratorType.getImage(decorator)
-      local imgRatio = decoratorType.getRatio(decorator)
-      local header = decorator.getName()
-      local desc = decorator.getDesc()
-      local isAllowed = decoratorType.isPlayerHaveDecorator(id)
 
       local config = null
       local unlockBlk = g_unlocks.getUnlockById(unlockId)
@@ -94,23 +87,37 @@
       obj.getScene().replaceContent(obj, "gui/decalTooltip.blk", handler)
 
       local iObj = obj.findObject("image")
+      local img = decoratorType.getImage(decorator)
       iObj["background-image"] = img
 
       if (img != "")
       {
+        local imgRatio = decoratorType.getRatio(decorator)
         local iDivObj = iObj.getParent()
         iDivObj.height = ::format("%d*@decalIconHeight", ((imgRatio < 3) ? 2 : 1))
         iDivObj.width  = imgRatio + "h"
         iDivObj.show(true)
       }
 
+      local header = decorator.getName()
       obj.findObject("header").setValue(header)
 
+      local desc = decorator.getDesc()
       if (::getTblValue("isRevenueShare", config))
         desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
+
+      local warbondId = ::getTblValue("wbId", params)
+      if (warbondId)
+      {
+        local warbond = ::g_warbonds.findWarbond(warbondId, ::getTblValue("wbListId", params))
+        local award = warbond? warbond.getAwardById(id) : null
+        if (award)
+          desc = award.addAmountTextToDesc(desc)
+      }
       obj.findObject("description").setValue(desc)
 
       local canBuy = false
+      local isAllowed = decoratorType.isPlayerHaveDecorator(id)
       if (!isAllowed)
       {
         local cost = decorator.getCost()
@@ -185,7 +192,7 @@
 
   ITEM = { //by item name
     isCustomTooltipFill = true
-    fillTooltip = function(obj, handler, itemName, ...)
+    fillTooltip = function(obj, handler, itemName, params = null)
     {
       if (!::checkObj(obj))
         return false
@@ -196,7 +203,7 @@
 
       local preferMarkup = item.iType == itemType.TROPHY
       obj.getScene().replaceContent(obj, "gui/items/itemTooltip.blk", handler)
-      ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup)
+      ::ItemsManager.fillItemDescr(item, obj, handler, false, preferMarkup, params)
       return true
     }
   }
@@ -241,10 +248,6 @@
   }
 
   UNIT = { //by unit name
-    getTooltipId = function(id, params = null, p2 = null, p3 = null)
-    {
-      return _buildId(id, params)
-    }
     isCustomTooltipFill = true
     fillTooltip = function(obj, handler, id, params)
     {
@@ -403,12 +406,36 @@
     }
   }
 
-  WW_MAP_TOOLTIP_TYPE_ARMY = { //by crewId, unitName, specTypeCode
-    getTooltipId = function(id, params)
+  SPECIAL_TASK = {
+    isCustomTooltipFill = true
+    fillTooltip = function(obj, handler, id, params)
     {
-      return _buildId(id, params)
-    }
+      if (!::check_obj(obj))
+        return false
 
+      local warbond = ::g_warbonds.findWarbond(
+        ::getTblValue("wbId", params),
+        ::getTblValue("wbListId", params)
+      )
+      local award = warbond? warbond.getAwardById(id) : null
+      if (!award)
+        return false
+
+      local guiScene = obj.getScene()
+      guiScene.replaceContent(obj, "gui/items/itemTooltip.blk", handler)
+      if (award.fillItemDesc(obj, handler))
+        return true
+
+      obj.findObject("item_name").setValue(award.getNameText())
+      obj.findObject("item_desc").setValue(award.getDescText())
+
+      local imageData = award.getDescriptionImage()
+      guiScene.replaceContentFromText(obj.findObject("item_icon"), imageData, imageData.len(), handler)
+      return true
+    }
+  }
+
+  WW_MAP_TOOLTIP_TYPE_ARMY = { //by crewId, unitName, specTypeCode
     getTooltipContent = function(id, params)
     {
       if (!::is_worldwar_enabled())
@@ -422,11 +449,6 @@
   }
 
   WW_MAP_TOOLTIP_TYPE_BATTLE = {
-    getTooltipId = function(id, params)
-    {
-      return _buildId(id, params)
-    }
-
     getTooltipContent = function(id, params)
     {
       if (!::is_worldwar_enabled())
@@ -445,11 +467,6 @@
   }
 
   WW_MAP_TOOLTIP_TYPE_GROUP = {
-    getTooltipId = function(id, params)
-    {
-      return _buildId(id, params)
-    }
-
     isCustomTooltipFill = true
     fillTooltip = function(obj, handler, id, params)
     {

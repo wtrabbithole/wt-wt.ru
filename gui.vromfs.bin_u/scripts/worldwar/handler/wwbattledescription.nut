@@ -521,7 +521,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateQueueInfo()
   }
 
-  function onEventPresetUpdated(params)
+  function onEventSlotbarPresetLoaded(params)
   {
     updateButtons()
   }

@@ -1,4 +1,4 @@
-local bg = Picture("!ui/gameuiskin#debriefing_bg_grad")
+local bg = Picture("!ui/gameuiskin#debriefing_bg_grad@@ss")
 local setHudBg = function (component) {
   local result = component
   if (typeof component == "function") {

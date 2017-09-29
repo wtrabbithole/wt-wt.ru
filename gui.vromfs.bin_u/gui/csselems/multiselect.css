@@ -16,7 +16,7 @@ MultiSelect[optionsShortcuts] > multiOption {
 }
 
 MultiSelect[flow=horizontal] > multiOption {
-  height:@checkboxSize + 2*@sf/@pf_outdated;
+  min-height:@checkboxSize + 2@dp;
   padding:1*@sf/@pf_outdated;
   padding-left:20%h;
   margin-right:0.5*@scrn_tgt/100.0;
@@ -40,7 +40,7 @@ multiOption[filter_multi_option=yes] {
 }
 
 multiOption > CheckBoxImg {
-  left:0;
+  pos:0, ph/2-h/2;
   position:relative;
   margin-right:@blockInterval + 0.33h;
 }

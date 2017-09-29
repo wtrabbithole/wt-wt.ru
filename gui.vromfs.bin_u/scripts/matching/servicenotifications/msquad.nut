@@ -31,6 +31,8 @@ foreach (notificationName, callback in
               {
                 local invite = ::getTblValue("invite", params, null)
                 ::g_squad_manager.removeRequestedPlayer(invite.id.tostring())
+                if (::g_squad_manager.getSquadSize(true) == 1)
+                  ::g_squad_manager.disbandSquad()
               },
 
             ["msquad.notify_invite_expired"] = function(params)
@@ -40,7 +42,11 @@ foreach (notificationName, callback in
                 if (invite == null || invite.id.tostring() == ::my_user_id_str)
                   ::g_invites.removeInviteToSquad(squad.id.tostring())
                 else
+                {
                   ::g_squad_manager.removeRequestedPlayer(invite.id.tostring())
+                  if (::g_squad_manager.getSquadSize(true) == 1)
+                    ::g_squad_manager.disbandSquad()
+                }
               },
 
             ["msquad.notify_member_joined"] = function(params)
@@ -59,7 +65,11 @@ foreach (notificationName, callback in
                 if (userId.tostring() == ::my_user_id_str)
                   ::g_squad_manager.reset()
                 else
+                {
                   ::g_squad_manager.removeMember(userId.tostring())
+                  if (::g_squad_manager.getSquadSize(true) == 1)
+                    ::g_squad_manager.disbandSquad()
+                }
               },
 
             ["msquad.notify_leader_changed"] = function(params)

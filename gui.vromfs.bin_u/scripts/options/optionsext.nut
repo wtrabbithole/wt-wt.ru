@@ -333,7 +333,7 @@ function create_option_combobox(id, items, value, cb, isFull)
 
 function create_option_editbox(id, value="", password = false, maxlength = 16)
 {
-  local data = "EditBox { id:t = '" + id + "'; text:t='" + ::locOrStrip(value) + "'; width:t = '0.2@sf'; max-len:t = '" + maxlength + "'; class:t='showAlways'" + (password ? " type:t = 'password' " : "") + "}" //type:t = 'password'
+  local data = "EditBox { id:t = '" + id + "'; text:t='" + ::locOrStrip(value) + "'; width:t = '0.2@sf'; max-len:t = '" + maxlength + "';" + (password ? " type:t = 'password' " : "") + "}" //type:t = 'password'
   return data
 }
 
@@ -982,32 +982,21 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_FONTS_CSS:
-      descr.fontsMap <- null
-      local availableFonts = ::g_font.getAvailableFonts()
-      if (!::has_feature("newFontsSizes"))
+      descr.id = "fonts_type"
+      descr.controlName <- "combobox"
+
+      descr.items = []
+      descr.values = ::g_font.getAvailableFonts()
+      for(local i = 0; i < descr.values.len(); i++)
       {
-        descr.id = "big_fonts_type"
-        descr.controlType = optionControlType.CHECKBOX
-        descr.controlName <- "switchbox"
-        descr.value = ::g_font.getCurrent() == availableFonts[1]
-        descr.fontsMap = {
-          [false] = availableFonts[0],
-          [true] = availableFonts[1]
-        }
+        local font = descr.values[i]
+        descr.items.append({
+          text = font.getOptionText()
+          fontOverride = font.getFontExample()
+        })
       }
-      else
-      {
-        descr.id = "fonts_type"
-        descr.controlType = optionControlType.SLIDER
-        descr.controlName <- "slider"
-        descr.value = ::find_in_array(availableFonts, ::g_font.getCurrent(), 0)
-        descr.min <- 0
-        descr.max <- availableFonts.len() - 1
-        descr.step <- 1
-        descr.fontsMap = availableFonts
-        descr.enabled <- availableFonts.len() > 1
-        descr.getValueLocText = @(val) (val in availableFonts) ? availableFonts[val].getOptionText() : ""
-      }
+      descr.value = ::find_in_array(descr.values, ::g_font.getCurrent(), 0)
+      descr.enabled <- descr.values.len() > 1
       break
 
     case ::USEROPT_ENABLE_CONSOLE_MODE:
@@ -4261,7 +4250,7 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_FONTS_CSS:
-      local selFont = ::getTblValue(value, descr.fontsMap)
+      local selFont = ::getTblValue(value, descr.values)
       if (selFont && ::g_font.setCurrent(selFont))
         ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break

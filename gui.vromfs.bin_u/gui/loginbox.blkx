@@ -69,28 +69,24 @@
             },
             "Button_text": {
               "id": "btn_language",
-              "visualStyle": "header",
-              "pos": "0, ph/2-h/2",
               "position": "relative",
-              "style": "height:1@buttonHeight; min-width:5h;",
+              "noMargin": "yes",
+              "visualStyle": "noFrame",
+              "imgSize": "big",
               "on_click": "onPopupLanguages",
               "popupMenuBrightIcons": "yes",
               "btnName": "Y",
-              "ButtonImg": {
-                "style": "position:relative;"
-              },
+              "ButtonImg": [],
               "cardImg": {
                 "id": "btn_language_icon",
-                "background-image": "#ui/gameuiskin#lang_usa",
-                "margin-left": "@sIco/4"
+                "background-image": "#ui/gameuiskin#lang_usa"
               },
-              "text": {
+              "btnText": {
                 "id": "btn_language_text",
                 "text": "#profile/language/en",
+                "pos": "@blockInterval, 50%ph-50%h",
                 "position": "relative",
-                "pos": "0, 50%ph-50%h",
-                "talign": "left",
-                "margin": "@sIco/8, 0, @sIco/4, 0"
+                "text-align": "left"
               }
             }
           },
@@ -238,7 +234,6 @@
                       "_on_cancel_edit": "onExit",
                       "navigatorShortcuts": "active",
                       "on_wrap_down": "onWrapDown",
-                      "class": "showAlways",
                       "mouse-focusable": "yes"
                     }
                   }
@@ -262,7 +257,6 @@
                       "_on_cancel_edit": "onExit",
                       "on_wrap_up": "onWrapUp",
                       "on_wrap_down": "onWrapDown",
-                      "class": "showAlways",
                       "mouse-focusable": "yes",
                       "switchFocus": "yes"
                     },
@@ -317,7 +311,6 @@
                       "_on_cancel_edit": "onExit",
                       "on_wrap_up": "onWrapUp",
                       "on_wrap_down": "onWrapDown",
-                      "class": "showAlways",
                       "warning": "yes",
                       "mouse-focusable": "yes",
                       "text": ""

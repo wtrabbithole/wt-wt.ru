@@ -1,5 +1,6 @@
 class ::WarbondAward
 {
+  id = ""
   idx = 0
   awardType = ::g_wb_award_type[::EWBAT_INVALID]
   warbondWeak = null
@@ -14,6 +15,7 @@ class ::WarbondAward
 
   constructor(warbond, awardBlk, idxInWbList)
   {
+    id = awardBlk.name
     idx = idxInWbList
     warbondWeak = warbond.weakref()
     blk = ::DataBlock()
@@ -192,16 +194,20 @@ class ::WarbondAward
   function addAmountTextToDesc(desc)
   {
     return ::g_string.implode([
-      ::g_string.implode([
-        getNotAvailableForCurrentShopText(),
-        getAwardTypeCannotBuyReason(),
-        getRequiredShopLevelText(),
-        getRequiredMedalsLevelText(),
-        getRequiredUnitsRankLevel()
-      ], "\n"),
-      getAvailableAmountText(),
-      desc],
-    "\n\n")
+      ::g_string.implode(getAdditionalTextsArray(), "\n"),
+      desc], "\n\n")
+  }
+
+  function getAdditionalTextsArray()
+  {
+    return [
+      getNotAvailableForCurrentShopText(),
+      getAwardTypeCannotBuyReason(),
+      getRequiredShopLevelText(),
+      getRequiredMedalsLevelText(),
+      getRequiredUnitsRankLevel(),
+      getAvailableAmountText()
+    ]
   }
 
   function fillItemDesc(descObj, handler)
@@ -330,7 +336,7 @@ class ::WarbondAward
   function modActionName() { return canBuy() ? getBuyText(true) : null }
   function price() { return getCostText() }
   function contentIconData() { return awardType.getContentIconData(blk) }
-  function tooltipId() { return awardType.getTooltipId(blk) }
+  function tooltipId() { return awardType.getTooltipId(blk, warbondWeak) }
   function amount() { return blk.amount }
   function itemIndex() { return getFullId() }
   function headerText() { return awardType.getIconHeaderText(blk) }

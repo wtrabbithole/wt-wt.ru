@@ -307,11 +307,11 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function onSearchStart()
   {
     curClanLbPage = 0
+    curClan = null
     searchRequest = scene.findObject("search_edit").getValue()
     searchRequest = searchRequest.len() > 0 ? ::clearBorderSymbols(searchRequest, [" "]) : ""
     isSearchMode = searchRequest.len() > 0
     showEmptySearchResult(false)
-
     if(isSearchMode)
       requestLbData(-1)
     else
@@ -341,6 +341,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     if (isSearchMode && !("clan" in lbBlk))
     {
       showEmptySearchResult(true)
+      clanByRow.clear()
+      updateButtons()
       return
     }
 
@@ -354,12 +356,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function showEmptySearchResult(show)
   {
     scene.findObject("search_status").display = show ? "show" : "hide"
-
     local lbTableObj = scene.findObject("clan_lboard_table")
     guiScene.replaceContentFromText(lbTableObj, "", 0, this)
-
-    foreach (objName in ["btn_membership_req", "btn_clan_info", "mid_nav_bar"])
-      showSceneBtn(objName, !show)
   }
 
   function printLeaderboards(clanLbBlk)
@@ -368,11 +366,13 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     if (!::checkObj(lbPageObj))
       return
 
+    local lbTableObj = lbPageObj.findObject("clan_lboard_table")
     local data = ""
     rowsTexts = {}
     tooltips = {}
     clanByRow.clear()
     local rowIdx = 0
+    local rowLastPage = lbTableObj.getValue()
     isLastPage = true
     foreach(name, rowBlk in clanLbBlk % "clan")
     {
@@ -390,6 +390,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     if (rowIdx < clansPerPage)
     {
+      rowLastPage = min(rowIdx,rowLastPage)
       for(local i = rowIdx; i < clansPerPage; i++)
       {
         data += buildTableRow("row_" + rowIdx++, [], rowIdx % 2 == 0, "inactive:t='yes';")
@@ -425,7 +426,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     data = buildTableRow("row_header", headerRow, null, "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; ") + data
     guiScene.setUpdatesEnabled(false, false)
-    local lbTableObj = lbPageObj.findObject("clan_lboard_table")
     guiScene.replaceContentFromText(lbTableObj, data, data.len(), this)
     foreach(rowName, row in rowsTexts)
       foreach(name, value in row)
@@ -439,6 +439,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     {
       onSelectLb()
       restoreFocus()
+      local indexKey = lbTableObj.getValue().tostring()
+      lbTableObj.setValue(rowLastPage)
     }
   }
 
@@ -544,11 +546,11 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     local objTbl = curPageObj.findObject("clan_lboard_table")
     if (!::checkObj(objTbl))
-      return
-
-    local indexKey = objTbl.getValue().tostring()
-    curClan = ::getTblValue(indexKey, clanByRow, null)
-
+      curClan = null
+    else {
+      local indexKey = objTbl.getValue().tostring()
+      curClan = ::getTblValue(indexKey, clanByRow, null)
+    }
     updateButtons()
   }
 
@@ -557,6 +559,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     local buttons = {
       btn_clan_info = curClan != null
       btn_membership_req = !::is_in_clan() && curClan != null && ::clan_get_requested_clan_id() != curClan
+      mid_nav_bar = clanByRow.len() > 0
     }
 
     foreach(btnId, status in buttons)

@@ -246,46 +246,43 @@
         "chapter": "air_ground_Bto"
       },
       {
-        "timeLimit": 30
-      },
-      {
-        "deathPenaltyMul": 1.0
-      },
-      {
-        "remapAiTankModels": true
-      },
-      {
-        "country_axis": "germany"
-      },
-      {
-        "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "useAlternativeMapCoord": false
-      },
-      {
-        "scoreLimit": 10000
-      },
-      {
-        "randomSpawnTeams": false
-      },
-      {
         "locName": "missions/_Bto;poland/name"
       },
       {
         "locDesc": "poland/desc;missions/_Bto/desc"
       },
       {
+        "scoreLimit": 10000
+      },
+      {
+        "timeLimit": 30
+      },
+      {
+        "deathPenaltyMul": 1.0
+      },
+      {
         "postfix": "_Bto"
       },
       {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
+        "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
+      },
+      {
+        "randomSpawnTeams": false
+      },
+      {
+        "remapAiTankModels": true
+      },
+      {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
+        "country_axis": "germany"
+      },
+      {
+        "country_allies": "ussr"
       },
       {
         "tags": []
@@ -308,21 +305,36 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 6000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
+          "useAlternativeMapCoord": false,
           "scoreLimit": 6000,
-          "randomSpawnTeams": true
+          "randomSpawnTeams": true,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -357,6 +369,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "arrow": [
@@ -435,6 +450,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "arrow": [
                 {
                   "width": 1
@@ -509,6 +527,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "arrow": [
@@ -660,7 +681,7 @@
   "units": [],
   "areas": {
     "briefing_t1_tankSpawn_Rb_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -671,7 +692,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_Rb_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -682,7 +703,7 @@
       "props": []
     },
     "briefing_t1_tankSpawn_Rb_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.996195,0.0,0.0871554],
         [0.0,1.0,0.0],
@@ -693,7 +714,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_Rb_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.906308,0.0,-0.422618],
         [0.0,1.0,0.0],
@@ -704,7 +725,7 @@
       "props": []
     },
     "briefing_t1_captureZone_Rb_Bto01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [114.183,0.0,0.0],
         [0.0,90.0,0.0],
@@ -715,7 +736,7 @@
       "props": []
     },
     "briefing_t1_captureZone_Rb_Bto02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [114.183,0.0,0.0],
         [0.0,90.0,0.0],
@@ -726,7 +747,7 @@
       "props": []
     },
     "briefing_t1_captureZone_Rb_Bto_final": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [126.87,0.0,0.0],
         [0.0,90.0,0.0],
@@ -737,7 +758,7 @@
       "props": []
     },
     "briefing_t2_captureZone_Rb_Bto01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [114.0,0.0,0.0],
         [0.0,90.0,0.0],
@@ -748,7 +769,7 @@
       "props": []
     },
     "briefing_t2_captureZone_Rb_Bto02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [126.87,0.0,0.0],
         [0.0,90.0,0.0],
@@ -759,7 +780,7 @@
       "props": []
     },
     "briefing_t2_captureZone_Rb_Bto_final": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [126.87,0.0,0.0],
         [0.0,90.0,0.0],
@@ -770,7 +791,7 @@
       "props": []
     },
     "briefing_t1_captureZone_Bto01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [38.88,0.0,0.0],
         [0.0,90.0,0.0],
@@ -781,7 +802,7 @@
       "props": []
     },
     "briefing_t1_captureZone_Bto_final": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [50.0,0.0,0.0],
         [0.0,90.0,0.0],
@@ -792,7 +813,7 @@
       "props": []
     },
     "briefing_t2_captureZone_Bto01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [30.0,0.0,0.0],
         [0.0,90.0,0.0],
@@ -803,7 +824,7 @@
       "props": []
     },
     "briefing_t2_captureZone_Bto_final": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [50.0,0.0,0.0],
         [0.0,90.0,0.0],

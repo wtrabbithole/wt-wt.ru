@@ -32,9 +32,12 @@ expandable {
         width:t='fw'
         <<#needShowLang>>
         tdiv {
-          margin-right:t='0.02@scrn_tgt'
+          id:t='thread_lang'
           <<#getLangsList>>
-          cardImg { background-image:t='<<icon>>' }
+          cardImg {
+            margin-right:t='1@buttonMargin'
+            background-image:t='<<icon>>'
+          }
           <</getLangsList>>
         }
         <</needShowLang>>
@@ -58,7 +61,7 @@ expandable {
           roomId:t='<<roomId>>'
           pos:t='0, 50%ph-50%h'
           width:t='fw'
-          max-width:t='1@buttonWidth'
+          max-width:t='1@bigButtonWidth'
           margin-right:t='1@buttonMargin'
           margin-left:t='1@buttonMargin'
           overflow:t='hidden'

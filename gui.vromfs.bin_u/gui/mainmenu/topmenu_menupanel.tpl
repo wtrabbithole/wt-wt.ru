@@ -12,6 +12,7 @@ tdiv {
   emptyButton {
     id:t = '<<tmId>>'
     class:t='dropDown'
+    margin:t='1@gcButtonsInterval, 0'
     css-hier-invalidate:t='yes'
     input-transparent:t='yes'
     on_click:t = 'onGCDropdown'
@@ -138,7 +139,9 @@ tdiv {
       <<#tmImage>>
       img{
         background-image:t='<<tmImage>>'
+        <<#tmText>>
         <<^btnName>>isFirstLeft:t='yes'<</btnName>>
+        <</tmText>>
       }
       <</tmImage>>
 

@@ -44,6 +44,10 @@
         id:t='option_text'
         text:t = '<<text>>'
         <<@textStyle>>
+
+        <<#fontOverride>>
+        style:t='font:<<fontOverride>>;'
+        <</fontOverride>>
       }
     <</text>>
 

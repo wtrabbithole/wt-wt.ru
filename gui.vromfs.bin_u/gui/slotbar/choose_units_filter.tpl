@@ -17,9 +17,11 @@ options_list {
       <<#nums>>
       multiOption {
         filter_multi_option:t='yes';
-        textarea {
+        textareaNoTab {
+          max-width:t='0.5@rw -0.5@slot_width'
+          pos:t='1@blockInterval, ph/2-h/2'; position:t='relative'
           text:t='<<option_name>>';
-          text-align:t='center';
+          text-align:t='right';
           input-transparent:t='yes';
         }
         <<^visible>>

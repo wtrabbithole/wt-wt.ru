@@ -2,9 +2,11 @@ const FONTS_SAVE_PATH = "fonts_css"
 const FONTS_SAVE_PATH_CONFIG = "video/fonts"
 
 enum FONT_SAVE_ID {
+  TINY = "tiny"
   SMALL = "small"
+  COMPACT = "compact"
   MEDIUM = "medium"
-  BIG = "big"
+  LARGE = "big"
 
   //wop_1_69_3_x fonts
   PX = "px"
@@ -17,11 +19,16 @@ enum FONT_SAVE_ID {
 
 enum FONT_SIZE_ORDER {
   PX    //wop_1_69_3_X
+  TINY
   SMALL
+  COMPACT
   MEDIUM
-  BIG
+  LARGE
   SCALE  //wop_1_69_3_X
 }
+
+local hasNewFontsSizes = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
+local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.72")
 
 ::g_font <- {
   types = []
@@ -60,18 +67,39 @@ enum FONT_SIZE_ORDER {
     return ::handyman.renderCached("gui/const/const_fonts_css", config)
   }
 
-  getOptionText = @() (100 * sizeMultiplier).tointeger() + "%" //text visible in options
+  //text visible in options
+  getOptionText = @() ::loc("fontSize/" + id.tolower())
+    + ::loc("ui/parentheses/space", { text = (100 * sizeMultiplier).tointeger() + "%" })
+  getFontExample = @() "small_text" + fontGenId
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_font",
 {
+  TINY = {
+    fontGenId = "_set_tiny"
+    saveId = FONT_SAVE_ID.TINY
+    sizeMultiplier = 0.5
+    sizeOrder = FONT_SIZE_ORDER.TINY
+
+    isAvailable = @(sWidth, sHeight) hasNewFonts && ::min(0.75 * sWidth, sHeight) >= 800
+  }
+
   SMALL = {
     fontGenId = "_set_small"
     saveId = FONT_SAVE_ID.SMALL
     sizeMultiplier = 0.667
     sizeOrder = FONT_SIZE_ORDER.SMALL
 
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 900
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFontsSizes ? 768 : 900)
+  }
+
+  COMPACT = {
+    fontGenId = "_set_compact"
+    saveId = FONT_SAVE_ID.COMPACT
+    sizeMultiplier = 0.75
+    sizeOrder = FONT_SIZE_ORDER.COMPACT
+
+    isAvailable = @(sWidth, sHeight) hasNewFonts && ::min(0.75 * sWidth, sHeight) >= 720
   }
 
   MEDIUM = {
@@ -81,17 +109,15 @@ enum FONT_SIZE_ORDER {
     saveIdCompatibility = [FONT_SAVE_ID.PX]
     sizeOrder = FONT_SIZE_ORDER.MEDIUM
 
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes") && ::min(0.75 * sWidth, sHeight) >= 800
+    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFontsSizes ? 720 : 800)
   }
 
-  BIG = {
+  LARGE = {
     fontGenId = "_hud" //better to rename it closer to major
-    saveId = FONT_SAVE_ID.BIG
+    saveId = FONT_SAVE_ID.LARGE
     sizeMultiplier = 1.0
-    sizeOrder = FONT_SIZE_ORDER.BIG
+    sizeOrder = FONT_SIZE_ORDER.LARGE
     saveIdCompatibility = [FONT_SAVE_ID.SCALE]
-
-    isAvailable = @(sWidth, sHeight) ::has_feature("newFontsSizes")
   }
 },
 null,
@@ -121,6 +147,15 @@ function g_font::getAvailableFonts()
   return ::u.filter(types, @(f) f.isAvailable(sWidth, sHeight))
 }
 
+function g_font::getSmallestFont(sWidth, sHeight)
+{
+  local res = null
+  foreach(font in types)
+    if (font.isAvailable(sWidth, sHeight) && (!res || font.sizeMultiplier < res.sizeMultiplier))
+      res = font
+  return res
+}
+
 function g_font::getFixedFont() //return null if can change fonts
 {
   local availableFonts = getAvailableFonts()
@@ -138,17 +173,8 @@ function g_font::getDefault()
   if (fixedFont)
     return fixedFont
 
-  if (!::has_feature("newFontsSizes"))
-  {
-    if (::is_platform_ps4 || ::is_steam_big_picture())
-      return SCALE
-    if (::screen_height() * ::display_scale() <= 1200)
-      return PX
-    return SCALE
-  }
-
   if (::is_platform_shield_tv() || ::is_platform_ps4 || ::is_platform_xboxone || ::is_steam_big_picture())
-    return BIG
+    return LARGE
 
   local displayScale = ::display_scale()
   local sWidth = ::screen_width()
@@ -157,7 +183,7 @@ function g_font::getDefault()
     return SMALL
   if (displayScale <= 1.4 && MEDIUM.isAvailable(sWidth, sHeight))
     return MEDIUM
-  return BIG
+  return LARGE
 }
 
 function g_font::getCurrent()

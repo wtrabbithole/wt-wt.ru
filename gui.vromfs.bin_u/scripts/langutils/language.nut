@@ -120,6 +120,20 @@ function g_language::initFunctionsTable()
                                      : 2) } // nplurals=3
       }]
     }
+
+    decimalFormat = {
+      defaultAction = @(value) ::g_string.intToStrWithDelimiter(value, " ")
+      replaceFunctions = [{
+        language = ["German", "Italian", "Spanish", "Turkish"]
+        action = @(value) ::g_string.intToStrWithDelimiter(value, ".")
+      }, {
+        language = ["English", "Korean"]
+        action = @(value) ::g_string.intToStrWithDelimiter(value, ",")
+      }, {
+        language = ["Chinese", "TChinese", "HChinese", "Japanese"]
+        action = @(value) ::g_string.intToStrWithDelimiter(value, ",", 4)
+      }]
+    }
   }
 
   replaceFunctionsTable = table
@@ -181,6 +195,7 @@ function g_language::setGameLocalization(langId, reloadScene = false, suggestPkg
   if (langId == currentLanguage && !isForced)
     return
 
+  ::handlersManager.shouldResetFontsCache = true
   ::setSystemConfigOption("language", langId)
   ::set_language(langId)
   ::g_language.saveLanguage(langId)
@@ -216,19 +231,32 @@ function canSwitchGameLocalization()
   return !::is_platform_ps4 && !::is_vendor_tencent() && !::is_vietnamese_version()
 }
 
+function g_language::getEmptyLangInfo()
+{
+  local langInfo = {
+    id = "empty"
+    title = "empty"
+    icon = ""
+    chatId = ""
+    isMainChatId = true
+    hasUnitSpeech = false
+  }
+  return langInfo
+}
+
 function g_language::_addLangOnce(id, icon = null, chatId = null, hasUnitSpeech = null)
 {
   if (id in langsById)
     return
 
-  local langInfo = {
-    id = id
-    title = ::loc("language/" + id)
-    icon = icon || ""
-    chatId = chatId || "en"
-    isMainChatId = true
-    hasUnitSpeech = !!hasUnitSpeech
-  }
+  local langInfo = getEmptyLangInfo()
+  langInfo.id = id
+  langInfo.title = ::loc("language/" + id)
+  langInfo.icon = icon || ""
+  langInfo.chatId = chatId || "en"
+  langInfo.isMainChatId = true
+  langInfo.hasUnitSpeech = !!hasUnitSpeech
+
   langsList.append(langInfo)
   langsById[id] <- langInfo
 

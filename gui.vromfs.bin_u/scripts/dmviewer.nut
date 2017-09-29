@@ -182,7 +182,7 @@
 
   function update()
   {
-    local newActive = canUse()
+    local newActive = canUse() && !::handlersManager.isAnyModalHandlerActive()
     if (!newActive && !active) //no need to check other conditions when not canUse and not active.
       return false
 
@@ -190,7 +190,6 @@
     newActive = newActive && handler && (("canShowDmViewer" in handler) ? handler.canShowDmViewer() : false)
     if (::top_menu_handler && ::top_menu_handler.isSceneActive())
       newActive = newActive && ::top_menu_handler.canShowDmViewer()
-
     if (newActive == active)
       return false
 
@@ -936,7 +935,7 @@
     return "";
   }
 
-  function onEventSwitchedBaseHandler(p)
+  function onEventActiveHandlersChanged(p)
   {
     update()
   }

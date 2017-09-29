@@ -57,10 +57,9 @@
         }
       },
       {
-        "frameBlock": {
+        "div": {
           "id": "filter_block",
           "width": "pw",
-          "margin-top": "1@blockInterval",
           "margin-bottom": "1@blockInterval"
         }
       },
@@ -178,7 +177,6 @@
                       "id": "item_desc",
                       "pos": "50%pw-50%w, 0",
                       "position": "relative",
-                      "margin": "0.02@sf, 0.01@scrn_tgt",
                       "width": "1@itemInfoWidth",
                       "font-bold": "@fontMedium"
                     }
@@ -255,7 +253,6 @@
                     "width": "pw",
                     "pos": "50%pw-50%w, 0",
                     "position": "relative",
-                    "margin": "0.02@sf, 0.01@scrn_tgt",
                     "font-bold": "@fontMedium"
                   }
                 }
@@ -343,10 +340,8 @@
       },
       {
         "navBar": {
-          "tdiv": {
-            "id": "paginator_place",
-            "pos": "0.5pw - 0.5@itemInfoWidth - 0.5w, 0.5ph - 0.5h",
-            "position": "absolute"
+          "navMiddle": {
+            "id": "paginator_place"
           },
           "navRight": [
             {
@@ -457,8 +452,7 @@
                 {
                   "activeText": {
                     "id": "game_mode_change_button_text",
-                    "margin": "5@dp, 0",
-                    "pare-text": "yes"
+                    "margin": "5@dp, 0"
                   }
                 },
                 {
@@ -504,8 +498,8 @@
             {
               "tdiv": {
                 "flow": "vertical",
-                "pos": "1@bw, 1@topBarHeight",
-                "width": "50%pw - 1@bw - 0.5@titleLogoPlateWidth",
+                "pos": "1@offsetBetweenScreenAndAirinfo, 1@topBarHeight",
+                "width": "50%pw - 1@offsetBetweenScreenAndAirinfo - 0.5@titleLogoPlateWidth",
                 "position": "absolute",
                 "total-input-transparent": "yes",
                 "textareaNoTab": {
@@ -567,7 +561,14 @@
                     {
                       "tdiv": {
                         "id": "topmenu_menu_panel",
-                        "height": "ph"
+                        "height": "ph",
+                        "padding": "-1@gcButtonsInterval, 0"
+                      }
+                    },
+                    {
+                      "tdiv": {
+                        "id": "left_gc_panel_free_width",
+                        "width": "fw"
                       }
                     },
                     {
@@ -580,6 +581,9 @@
                         },
                         {
                           "class": "header"
+                        },
+                        {
+                          "gcButtonsInterval": "yes"
                         },
                         {
                           "behaviour": "wrapNavigator"
@@ -671,12 +675,6 @@
                           }
                         }
                       ]
-                    },
-                    {
-                      "tdiv": {
-                        "id": "left_gc_panel_free_width",
-                        "width": "fw"
-                      }
                     }
                   ]
                 },
@@ -695,6 +693,9 @@
                       },
                       {
                         "class": "header"
+                      },
+                      {
+                        "gcButtonsInterval": "yes"
                       },
                       {
                         "behaviour": "wrapNavigator"
@@ -716,12 +717,6 @@
                       },
                       {
                         "on_wrap_right": "onTopGCPanelRight"
-                      },
-                      {
-                        "tdiv": {
-                          "size": "fw, ph",
-                          "inactive": "yes"
-                        }
                       },
                       {
                         "Button_text": [
@@ -847,8 +842,15 @@
                       },
                       {
                         "tdiv": {
+                          "size": "fw, ph",
+                          "inactive": "yes"
+                        }
+                      },
+                      {
+                        "tdiv": {
                           "id": "topmenu_menu_panel_right",
                           "height": "ph",
+                          "padding": "-1@gcButtonsInterval, 0",
                           "inactive": "yes"
                         }
                       }
@@ -914,7 +916,7 @@
             "line": [],
             "tdiv": [
               {
-                "width": "sw - 2@offsetBetweenScreenAndAirinfo"
+                "width": "1@bottomGcWidth"
               },
               {
                 "height": "1@gamercardHeight"
@@ -939,7 +941,7 @@
                   },
                   "tdiv": {
                     "id": "slotbar-presetsPlace",
-                    "size": "pw - ph, ph",
+                    "size": "pw, ph",
                     "position": "absolute"
                   }
                 }

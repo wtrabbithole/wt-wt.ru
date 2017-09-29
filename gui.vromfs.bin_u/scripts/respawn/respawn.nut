@@ -1570,7 +1570,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function updateApplyText()
   {
     local buttonSelectObj = scene.findObject("btn_select")
-
+    local applyTextShort = ""
     if (isApplyPressed)
     {
       applyText = ::loc("mainmenu/btnCancel")
@@ -1580,17 +1580,18 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     {
       applyText = ::loc("mainmenu/toBattle")
       local respawnCostText = getRespawnTotalCost()
-      if (respawnCostText != "")
+      if (respawnCostText != "") {
         applyText = ::format("%s (%s)", applyText, respawnCostText)
+        applyTextShort = ::format("%s<b>, %s</b>", ::loc("mainmenu/toBattle/short"), respawnCostText)
+      }
 
       local tooltipText = ::loc("mainmenu/selectAircraftTooltip")
       if (::is_platform_pc)
         tooltipText += ::format(" [%s, %s]", ::loc("key/Space"), ::loc("key/Enter"))
       buttonSelectObj.tooltip = tooltipText
     }
-
     local battleObj = ::get_slot_obj(scene, curSlotCountryId, curSlotIdInCountry)
-    ::setDoubleTextToButton(battleObj, "slotBtn_battle", applyText)
+    ::setDoubleTextToButton(battleObj, "slotBtn_battle", applyTextShort != "" ? applyTextShort : applyText)
 
     local unit = getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
     local isAvailResp = haveRespawnBases

@@ -48,7 +48,7 @@ local images = {
   gunner = Picture("!ui/gameuiskin#ship_crew_gunner")
   driver = Picture("!ui/gameuiskin#ship_crew_driver")
 
-  bg = Picture("!ui/gameuiskin#debriefing_bg_grad")
+  bg = Picture("!ui/gameuiskin#debriefing_bg_grad@@ss")
 
   gunnerState = [ //according to AI_GUNNERS_ enum
     Picture("!ui/gameuiskin#ship_gunner_state_hold_fire")

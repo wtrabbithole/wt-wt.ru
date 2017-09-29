@@ -9,9 +9,17 @@ activeText {
 Button_text {
   id:t='btn_squad_ready'
   pos:t='0, 50%(ph-h)'; position:t='relative'
+  smallFont:t='yes'
+  hideText:t='yes'
   display:t='hide'
-  text:t='#mainmenu/btnReady'
+  text:t='#multiplayer/btnNotReady' //do not change this text for the fixed width of button on the all langs
   on_click:t='onSquadReady'
+
+  btnText {
+    id:t='text'
+    left:t='50%pw-50%w'
+    text:t='#mainmenu/btnReady'
+  }
 }
 
 Button_text {

@@ -15,8 +15,8 @@
   "AileronSens": 0.18,
   "GearActuatorSpeed": 0.14,
   "WingActuatorSpeed": 0.0556,
-  "CockpitDoorSpeedOpen": [150.0,300.0,0.5,0.5],
-  "CockpitDoorSpeedClose": [150.0,300.0,0.5,0.5],
+  "CockpitDoorSpeedOpen": [150.0,300.0,0.5,0.02],
+  "CockpitDoorSpeedClose": [150.0,300.0,0.5,1.0],
   "CockpitDoorBlockSpeed": 555.0,
   "AirBrakeSpeed": 0.5,
   "BayDoorSpeed": 1.0,
@@ -51,7 +51,7 @@
   "AllowModsToChangeLongidutialBalance": true,
   "ArcadeRollCorrectionMultiplier": 3.0,
   "ArcadeMaxRollCoeff": 1.0,
-  "ArcadeYawMutilpliers": [1.0,1.0,1.0],
+  "ArcadeYawMutilpliers": [2.0,3.0,1.0],
   "CockpitOpenedDoorBreakSpeed": 564.0,
   "MomentOfInertia": [16446.0,29183.0,17805.0],
   "AvailableControls": {
@@ -83,12 +83,12 @@
     "bHasBoosterSwitcher": false
   },
   "Areas": {
-    "WingLeftIn": 3.5933,
+    "WingLeftIn": 3.7195,
     "WingLeftMid": 4.7144,
-    "WingLeftOut": 6.2783,
-    "WingRightIn": 3.5933,
+    "WingLeftOut": 6.1521,
+    "WingRightIn": 3.7195,
     "WingRightMid": 4.7144,
-    "WingRightOut": 6.2783,
+    "WingRightOut": 6.1521,
     "Aileron": 0.8407,
     "Stabilizer": 3.344,
     "Elevator": 2.034,
@@ -108,9 +108,9 @@
     "WingMidFocus": 2.08,
     "WingOutFocus": 5.75,
     "WingV": 4.0,
-    "Stabilizer": 5.5,
-    "Keel": 5.5,
-    "Rudder": 1.01,
+    "Stabilizer": 6.25,
+    "Keel": 5.3,
+    "Rudder": 5.8,
     "Fuselage": [0.0,0.0,0.0],
     "LeftStab": [-6.25,0.44,0.84],
     "RightStab": [-6.25,0.44,-0.84],
@@ -191,7 +191,7 @@
       "alphaCritLow": -18.5,
       "ClCritHigh": 1.89,
       "ClCritLow": -0.5,
-      "CdMin": 0.18
+      "CdMin": 0.16
     },
     "Fuselage": {
       "OswaldsEfficiencyNumber": 0.7,
@@ -237,7 +237,7 @@
       "alphaCritLow": -20.0,
       "ClCritHigh": 0.04,
       "ClCritLow": -0.04,
-      "CdMin": 0.0082
+      "CdMin": 0.0102
     },
     "Stab": {
       "OswaldsEfficiencyNumber": 0.85,
@@ -343,7 +343,7 @@
       "Mass": 1161.0,
       "Thrust": 10.7,
       "ThrottleBoost": 1.0001,
-      "AfterburnerBoost": 1.1666,
+      "AfterburnerBoost": 1.217,
       "RPMMin": 1200.0,
       "RPMMax": 2800.0,
       "RPMMaxAllowed": 3120.0,
@@ -368,7 +368,7 @@
       "TorqueOmegaMinCoeff": 1.0,
       "TorqueZeroOmegaMult": 3.0,
       "TurbineTimeConstant": 3.4,
-      "Power": 2100.0,
+      "Power": 2300.0,
       "ThrustMax": {
         "ThrustMax0": 2700.0
       }
@@ -526,16 +526,16 @@
       "Mode3": {
         "Altitude": 1000.0,
         "RPM": 2799.0,
-        "ManifoldPressure": 1.821,
-        "WaterTemperature": 242.0,
+        "ManifoldPressure": 1.955,
+        "WaterTemperature": 240.0,
         "OilTemperature": 82.0
       },
       "Mode4": {
         "Altitude": 1000.0,
         "RPM": 2800.0,
-        "ManifoldPressure": 1.97,
-        "WaterTemperature": 245.0,
-        "OilTemperature": 88.0
+        "ManifoldPressure": 2.3395,
+        "WaterTemperature": 241.0,
+        "OilTemperature": 83.0
       },
       "Load0": {
         "WaterTemperature": 215.0,
@@ -584,7 +584,7 @@
     "Compressor": {
       "IsControllable": true,
       "Type": 1,
-      "NumSteps": 3,
+      "NumSteps": 2,
       "RPM0": 600.0,
       "ATA0": 0.2,
       "RPM1": 2150.0,
@@ -592,22 +592,22 @@
       "RPM2": 2600.0,
       "ATA2": 1.57,
       "RPM3": 2800.0,
-      "ATA3": 1.821,
+      "ATA3": 1.955,
       "ExactAltitudes": true,
-      "CompressorOmegaFactorSq": 1.0,
+      "CompressorOmegaFactorSq": 0.0,
       "CompressorPressureAtRPM0": 0.3,
-      "Altitude0": 450.0,
+      "Altitude0": 2133.0,
       "AfterburnerBoostMul0": 1.0,
-      "Power0": 2100.0,
-      "Altitude1": 5638.0,
+      "Power0": 2300.0,
+      "Altitude1": 5791.0,
       "AfterburnerBoostMul1": 1.0,
-      "Power1": 1885.0,
+      "Power1": 2000.0,
       "Altitude2": 7619.0,
       "AfterburnerBoostMul2": 0.97,
-      "Power2": 1710.0,
+      "Power2": 1850.0,
       "Ceiling2": 10972.0,
       "PowerAtCeiling2": 910.0,
-      "AfterburnerManifoldPressure": 1.97,
+      "AfterburnerManifoldPressure": 2.3395,
       "SpeedManifoldMultiplier": 0.46,
       "ExternalPressureLimit": false,
       "AllowAutoTurboCharger": false,
@@ -617,8 +617,8 @@
       "TurboChargerTimeConst": 1.0
     },
     "Mixer": {
-      "IsControllable": true,
-      "Type": 1,
+      "IsControllable": false,
+      "Type": 0,
       "AltitudePressureToP0": 0.78
     },
     "Stages": {
@@ -655,7 +655,7 @@
     }
   },
   "Mass": {
-    "EmptyMass": 4697.0,
+    "EmptyMass": 4785.0,
     "MaxFuelMass0": 636.0,
     "FuelAccumulatorCapacity0": 1.2,
     "MinimalLoadFactor": 0.0,
@@ -670,16 +670,15 @@
     "WingCritOverload": [-106792.0,300352.0],
     "GearDestructionIndSpeed": 730.0,
     "AirbrakeDestructionIndSpeed": -1.0,
-    "FlapsDestructionIndSpeedP1": [0.1,380.0],
-    "FlapsDestructionIndSpeedP2": [0.5,325.0],
-    "FlapsDestructionIndSpeedP3": [0.8,278.0],
-    "FlapsDestructionIndSpeedP4": [1.0,250.0],
+    "FlapsDestructionIndSpeedP1": [0.2,470.0],
+    "FlapsDestructionIndSpeedP2": [0.33,278.0],
+    "FlapsDestructionIndSpeedP3": [1.0,245.0],
     "Parts": {
       "tank1_capacity": 636.0,
       "tank1_system": 0,
       "tank1_external": false,
       "tank1_priority": 2,
-      "engine1_dm": 1393.0,
+      "engine1_dm": 1270.0,
       "wingcontrol_l_dm": 20.0,
       "aileron_l_dm": 16.0,
       "flap_l_dm": 20.0,
@@ -726,12 +725,10 @@
       "oil1_dm": 58.0,
       "oil2_dm": 20.0,
       "oil3_dm": 20.0,
-      "mgun1_dm": 80.0,
-      "mgun2_dm": 80.0,
-      "mgun3_dm": 80.0,
-      "mgun4_dm": 80.0,
-      "mgun5_dm": 80.0,
-      "mgun6_dm": 80.0
+      "cannon4_dm": 60.0,
+      "cannon3_dm": 60.0,
+      "cannon2_dm": 60.0,
+      "cannon1_dm": 60.0
     },
     "PartsWithSurface": []
   },

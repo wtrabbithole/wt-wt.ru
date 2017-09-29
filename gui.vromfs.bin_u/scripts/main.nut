@@ -374,6 +374,7 @@ function load_scripts_after_login()
     "genericOptions.nut"
     "options/framedOptionsWnd.nut"
     "options/optionsCustomDifficulty.nut"
+    "options/fontChoiceWnd.nut"
 
     "leaderboardDataType.nut"
     "leaderboardCategoryType.nut"

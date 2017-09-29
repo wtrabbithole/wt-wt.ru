@@ -159,19 +159,19 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local data = ""
-    foreach(unitType in ::unitTypesList)
+    foreach(unitType in ::g_unit_type.types)
     {
-      if (unitType == ::ES_UNIT_TYPE_TANK && !::check_feature_tanks())
+      if (!unitType.isAvailable())
         continue
 
-      if (!::isCountryHaveUnitType(getCurCountryName(), unitType))
+      local esUnitType = unitType.esUnitType
+      if (!::isCountryHaveUnitType(getCurCountryName(), esUnitType))
         continue
 
-      local name = ::g_unit_type.getByEsUnitType(unitType).getLocName()
       data += ::format("RadioButton { id:t='%s'; text:t='%s'; %s RadioButtonImg{} }",
-                     "unit_type_" + unitType,
-                     name,
-                     curUnitType == unitType? "selected:t='yes';" : "")
+                     "unit_type_" + esUnitType,
+                     unitType.getLocName(),
+                     curUnitType == esUnitType ? "selected:t='yes';" : "")
     }
     guiScene.replaceContentFromText(rbObj, data, data.len(), this)
     delayedRestoreFocus()

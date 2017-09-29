@@ -44,7 +44,7 @@ weaponry_item {
       size:t='fw, ph'
       pos:t='0,50%ph-50%h'
       position:t='relative'
-      padding-top:t='2'
+      padding-top:t='2@dp'
       flow:t='vertical'
       css-hier-invalidate:t='yes'
 
@@ -89,8 +89,8 @@ weaponry_item {
 
       tdiv {
         id:t='bullets_amount_choice_block'
-        size:t='pw'
-        padding-bottom:t='0.005@scrn_tgt'
+        width:t='pw'
+        padding-bottom:t='1@dp'
         flow:t='vertical'
         css-hier-invalidate:t='yes'
 
@@ -105,35 +105,17 @@ weaponry_item {
           text:t='12 / <color=@red>7</color>'
         }
 
-        invisSlider {
-          id:t='invisBulletsSlider'
-          <<^needSliderButtons>>
-          size:t='pw, 2*@scrn_tgt/100.0'
-          <</needSliderButtons>>
-          <<#needSliderButtons>>
-          size:t='pw - 0.05@scrn_tgt - 8@sf/@pf_outdated, 2*@scrn_tgt/100.0'
-          <</needSliderButtons>>
-          pos:t='50%pw-50%w, 0'
-          position:t='relative'
-          value:t='300'; min:t='0'; max:t='1000'
-          on_change_value:t='onModChangeBulletsSlider'
-          groupIdx:t = '-1'
-
-          expProgress {
-            id:t='bulletsSlider'
-            width:t='pw - @sliderThumbWidth'
-            pos:t='50%pw-50%w, 50%ph-50%h';
-            position:t="absolute"
-            type:t='new'
-            value:t='100'
-          }
+        tdiv {
+          width:t='pw'
+          padding:t='1@dp, 0'
+          css-hier-invalidate:t='yes'
 
           <<#needSliderButtons>>
           Button_text {
             id:t='buttonDec'
             holderId:t='<<id>>'
-            pos:t='-w, 50%ph - 50%h'
-            position:t='absolute'
+            pos:t='0, 50%ph - 50%h'
+            position:t='relative'
             class:t='sliderValueButton'
             type:t='weaponryAmount'
             text:t='-'
@@ -144,12 +126,39 @@ weaponry_item {
 
             ButtonImg{}
           }
+          <</needSliderButtons>>
 
+          invisSlider {
+            id:t='invisBulletsSlider'
+            size:t='fw, 2@scrn_tgt/100.0'
+            margin:t='0.5@sliderThumbWidth, 0'
+            pos:t='0, 50%ph-50%h'
+            position:t='relative'
+            value:t='300'; min:t='0'; max:t='1000'
+            on_change_value:t='onModChangeBulletsSlider'
+            groupIdx:t = '-1'
+
+            expProgress {
+              id:t='bulletsSlider'
+              width:t='pw'
+              pos:t='50%pw-50%w, 50%ph-50%h';
+              position:t="absolute"
+              type:t='new'
+              value:t='100'
+            }
+
+            sliderButton {
+              type:t='various'
+              img{}
+            }
+          }
+
+          <<#needSliderButtons>>
           Button_text {
             id:t='buttonInc'
             holderId:t='<<id>>'
-            pos:t='pw, 50%ph - 50%h'
-            position:t='absolute'
+            pos:t='0, 50%ph - 50%h'
+            position:t='relative'
             class:t='sliderValueButton'
             type:t='weaponryAmount'
             text:t='+'
@@ -161,11 +170,6 @@ weaponry_item {
             ButtonImg{}
           }
           <</needSliderButtons>>
-
-          sliderButton {
-            type:t='various'
-            img{}
-          }
         }
       }
 

@@ -15,7 +15,6 @@ frame {
     }
     Button_close {
       id:t = 'btn_back';
-      relative:t='yes';
     }
   }
 

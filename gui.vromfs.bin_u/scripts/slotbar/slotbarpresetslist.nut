@@ -1,52 +1,40 @@
 class SlotbarPresetsList
 {
-  maxPresets = 5
-  presetIdxPID = ::dagui_propid.add_name_id("presetIdx")
-
-  subscriptions = [
-    "SlotbarPresetLoaded"
-    "SlotbarPresetsChanged"
-  ]
-
   scene = null
-  owner = null
-  listIndexByPreset = null
+  ownerWeak = null
+  maxPresets = 0
+  curPresetsData = null //to avoid updates when no changes
+
+  NULL_PRESET_DATA = { isEnabled = false, title = "" } //const
 
   function constructor(handler)
   {
-    owner = handler
-    if (!::checkObj(owner.scene))
+    ownerWeak = handler.weakref()
+    if (!::checkObj(ownerWeak.scene))
       return
-    scene = owner.scene.findObject("slotbar-presetsPlace")
+    scene = ownerWeak.scene.findObject("slotbar-presetsPlace")
     if (!::checkObj(scene))
       return
 
-    initMaxPresets()
-
+    maxPresets = ::slotbarPresets.getTotalPresetsCount()
+    curPresetsData = array(maxPresets, NULL_PRESET_DATA)
     local view = {
       presets = array(maxPresets, null)
-      itemsCount = maxPresets + 1 // +1 for button "customize presets"
+      isSmallFont = ::is_low_width_screen()
     }
     local blk = ::handyman.renderCached(("gui/slotbar/slotbarPresets"), view)
     scene.getScene().replaceContentFromText(scene, blk, blk.len(), this)
     update()
 
-    ::subscribe_events_from_handler(this, subscriptions)
+    ::subscribe_handler(this, ::g_listener_priority.DEFAULT)
   }
 
-  function initMaxPresets()
+  function destroy()
   {
-    local width = scene.getSize()[0]
-    if (width <= 0)
-    {
-      scene.getScene().applyPendingChanges(false)
-      width = scene.getSize()[0]
-      if (width <= 0)
-        return
-    }
-
-    local itemWidth = ::g_dagui_utils.toPixels(scene.getScene(), "@maxPresetNameItemWidth")
-    maxPresets = ::max(1, width / itemWidth - 1)
+    if (!isValid())
+      return
+    scene.getScene().replaceContentFromText(scene, "", 0, null)
+    scene = null
   }
 
   function isValid()
@@ -56,8 +44,21 @@ class SlotbarPresetsList
 
   function getCurCountry()
   {
-    local countryData = ::getTblValue(owner.curSlotCountryId, ::crews_list)
+    local countryData = ownerWeak && ::getTblValue(ownerWeak.curSlotCountryId, ::crews_list)
     return countryData? countryData.country : ""
+  }
+
+  function getPresetsData()
+  {
+    local curPresetIdx = getCurPresetIdx()
+    local res = ::u.mapAdvanced(::slotbarPresets.list(getCurCountry()),
+      @(l, idx, ...) {
+        title = l.title
+        isEnabled = l.enabled || idx == curPresetIdx //enable current preset for list
+      })
+
+    res.resize(maxPresets, NULL_PRESET_DATA)
+    return res
   }
 
   function update()
@@ -66,42 +67,76 @@ class SlotbarPresetsList
     if (!listObj)
       return
 
-    listIndexByPreset = {}
+    local newPresetsData = getPresetsData()
+    local curPresetIdx = getCurPresetIdx()
+    local hasVisibleChanges = curPresetIdx != listObj.getValue()
+    for(local i = 0; i < maxPresets; i++)
+      if (updatePresetObj(listObj.getChild(i), curPresetsData[i], newPresetsData[i]))
+        hasVisibleChanges = true
 
-    local country = getCurCountry()
-    local list = ::slotbarPresets.list(country)
-    local curPreset = getCurPresetIdx()
-    local curValue = -1
+    curPresetsData = newPresetsData
+    if (!hasVisibleChanges)
+      return
+
+    if (curPresetIdx >= 0)
+      listObj.setValue(curPresetIdx)
+    updateSizes(true)
+  }
+
+  function updatePresetObj(obj, wasData, newData)
+  {
+    if (::u.isEqual(wasData, newData))
+      return false
+
+    local isEnabled = newData.isEnabled
+    showObj(obj, isEnabled)
+    if (!isEnabled)
+      return wasData.isEnabled
+
+    obj.findObject("tab_text").setValue(newData.title)
+    return true
+  }
+
+  function showObj(obj, needShow)
+  {
+    obj.show(needShow)
+    obj.enable(needShow)
+  }
+
+  _lastListWidth = 0
+  function updateSizes(needFullRecount = false)
+  {
+    scene.getScene().applyPendingChanges(false)
+    local listObj = getListObj()
+    local availWidth = listObj.getSize()[0]
+    if (!needFullRecount && _lastListWidth == availWidth)
+      return
+
+    _lastListWidth == availWidth
+    availWidth -= listObj.findObject("btn_slotbar_presets").getSize()[0]
+
+    //count all sizes
+    local widthList = []
+    local totalWidth = 0
     for(local i = 0; i < maxPresets; i++)
     {
-      local presetIdx = (i == maxPresets - 1 && curPreset > i) ? curPreset : i
-      local isCurrentPreset = presetIdx == curPreset
-      if (isCurrentPreset)
-        curValue = i
-
-      local preset = ::getTblValue(presetIdx, list)
-      local show = preset != null && (preset.enabled || isCurrentPreset)
-
-      local child = listObj.getChild(i)
-      if (!::checkObj(child))
-        continue
-
-      child.show(show)
-      child.enable(show)
-      if (!show)
-        continue
-
-      local titleObj = child.findObject("tab_text")
-      if (::check_obj(titleObj))
-        titleObj.setValue(preset.title)
-      child.setIntProp(presetIdxPID, presetIdx)
-      listIndexByPreset[preset] <- i
+      local width = 0
+      if (curPresetsData[i].isEnabled)
+        width = listObj.getChild(i).getSize()[0]
+      totalWidth += width
+      widthList.append(width)
     }
 
-    if (curValue >= 0)
-      listObj.setValue(curValue)
-
-    ::broadcastEvent("PresetUpdated")
+    //update all items visibility
+    local curPresetIdx = getCurPresetIdx()
+    for(local i = maxPresets - 1; i >= 0; i--)
+      if (curPresetsData[i].isEnabled)
+      {
+        local isVisible = totalWidth <= availWidth || i == curPresetIdx
+        showObj(listObj.getChild(i), isVisible)
+        if (!isVisible)
+          totalWidth -= widthList[i]
+      }
   }
 
   function getCurPresetIdx() //current choosen preset
@@ -116,14 +151,9 @@ class SlotbarPresetsList
       return getCurPresetIdx()
 
     local value = listObj.getValue()
-    if (value < 0 || value >= listObj.childrenCount())
-      return getCurPresetIdx()
-
-    local childObj = listObj.getChild(value)
-    if (!::check_obj(childObj))
-      return getCurPresetIdx()
-
-    return childObj.getIntProp(presetIdxPID, -1)
+    if (value < 0 || value >= (listObj.childrenCount() -1)) //last index is button 'presets'
+      return -1
+    return value
   }
 
   function isPresetChanged()
@@ -141,10 +171,10 @@ class SlotbarPresetsList
     if (idx < 0)
     {
       update()
-      return ::gui_choose_slotbar_preset(owner)
+      return ::gui_choose_slotbar_preset(ownerWeak)
     }
 
-    if (("canPresetChange" in owner) && !owner.canPresetChange())
+    if (("canPresetChange" in ownerWeak) && !ownerWeak.canPresetChange())
       return
 
     ::slotbarPresets.load(idx)
@@ -164,10 +194,10 @@ class SlotbarPresetsList
     ::queues.checkAndStart(
       ::Callback(function()
       {
-         if (!("beforeSlotbarChange" in owner))
+         if (!("beforeSlotbarChange" in ownerWeak))
            return action()
 
-         owner.beforeSlotbarChange(
+         ownerWeak.beforeSlotbarChange(
            ::Callback(action, this),
            ::Callback(update, this)
          )
@@ -189,10 +219,10 @@ class SlotbarPresetsList
     })
   }
 
-  function onWrapUp(obj)   { owner.onWrapUp(obj) }
-  function onWrapDown(obj) { owner.onWrapDown(obj) }
-  function onBottomGCPanelLeft(obj)  { owner.onBottomGCPanelLeft(obj) }
-  function onBottomGCPanelRight(obj) { owner.onBottomGCPanelRight(obj) }
+  function onWrapUp(obj)   { ownerWeak.onWrapUp(obj) }
+  function onWrapDown(obj) { ownerWeak.onWrapDown(obj) }
+  function onBottomGCPanelLeft(obj)  { ownerWeak.onBottomGCPanelLeft(obj) }
+  function onBottomGCPanelRight(obj) { ownerWeak.onBottomGCPanelRight(obj) }
 
   function onEventSlotbarPresetLoaded(p)
   {
@@ -202,6 +232,15 @@ class SlotbarPresetsList
   function onEventSlotbarPresetsChanged(p)
   {
     update()
+  }
+
+  function onEventSquadDataUpdated(p)
+  {
+    scene.getScene().performDelayed(this, function()
+    {
+      if (isValid())
+        updateSizes()
+    })
   }
 
   function getListObj()
@@ -228,15 +267,14 @@ class SlotbarPresetsList
    * Returns list child object if specified preset is in slotbar
    * list or "Presets" button object if preset not found.
    */
-  function getListChildByPreset(preset)
+  function getListChildByPresetIdx(presetIdx)
   {
     local listObj = getListObj()
     if (listObj == null)
       return null
-    local index = ::getTblValue(preset, listIndexByPreset, -1)
-    if (index < 0 || listObj.childrenCount() <= index)
+    if (presetIdx < 0 || listObj.childrenCount() <= presetIdx)
       return null
-    local childObj = listObj.getChild(index)
+    local childObj = listObj.getChild(presetIdx)
     if (::checkObj(childObj))
       return childObj
     return null

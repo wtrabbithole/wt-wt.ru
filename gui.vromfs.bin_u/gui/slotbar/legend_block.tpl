@@ -17,6 +17,7 @@ tdiv {
       pos:t = '0, 50%ph-50%h';
     }
     textarea {
+      max-width:t='0.5@rw -0.5@slot_width'
       text:t='<<locId>>'
       smallFont:t='yes'
       valign:t='center'
