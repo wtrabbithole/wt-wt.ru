@@ -84,3 +84,18 @@ Button_text.squadWidgetMember > squadMemberNick {
 Button_text.squadWidgetMember:focus  > squadMemberNick{
   display:show;
 }
+
+memberReadyIcon {
+  size:@dIco,@dIco;
+  left:50%pw-50%w;
+  position:relative;
+  bgcolor:#FFFFFF;
+}
+
+memberReadyIcon[isReady=no] {
+  background-image:#ui/hudskin#icon_primary_fail;
+}
+
+memberReadyIcon[isReady=yes] {
+  background-image:#ui/gameuiskin#favorite;
+}

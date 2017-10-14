@@ -48,7 +48,7 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
     local tblObj = scene.findObject("buy_table")
     foreach(idx, pack in buyPointsPacks)
       ::showDiscount(tblObj.findObject("buy_discount_" + idx),
-                     "skills", ::crews_list[crew.idCountry].country, pack.name)
+                     "skills", ::g_crews_list.get()[crew.idCountry].country, pack.name)
   }
 
   function getRowId(i)

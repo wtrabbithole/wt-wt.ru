@@ -56,7 +56,7 @@ root {
             id:t="ww_queue_update_timer"
             behavior:t='Timer'
             timer_handler_func:t='onTimerUpdate'
-            timer_interval_msec:t='1000'
+            timer_interval_msec:t='5000'
           }
 
           tdiv {
@@ -103,6 +103,12 @@ root {
               }
             }
           }
+        }
+
+        tdiv {
+          id:t='squad_info'
+          size:t='pw, fh'
+          flow:t = 'vertical'
         }
       }
 
@@ -157,6 +163,7 @@ root {
           buttonGlance {}
           ButtonImg {}
           textarea {
+            id:t='btn_join_battle_text'
             class:t='buttonText'
             text:t='#mainmenu/toBattle'
           }

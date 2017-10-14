@@ -2,7 +2,7 @@ class ::queue_classes.WwBattle extends ::queue_classes.Base
 {
   function init()
   {
-    name = ::getTblValue("operationId", params, "") + "_" + ::getTblValue("battleId", params, "")
+    name = getName(params)
   }
 
   function join(successCallback, errorCallback)
@@ -29,5 +29,10 @@ class ::queue_classes.WwBattle extends ::queue_classes.Base
       null,
       { showError = needShowError }
     )
+  }
+
+  static function getName(params)
+  {
+    return ::getTblValue("operationId", params, "") + "_" + ::getTblValue("battleId", params, "")
   }
 }

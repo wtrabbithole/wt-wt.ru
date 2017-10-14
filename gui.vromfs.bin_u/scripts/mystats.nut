@@ -399,7 +399,8 @@ my_stats API
 
     local saveBlk = ::DataBlock()
     saveBlk.setFrom(loadedBlk)
-    local countryCrewsList = ::get_crew_info()
+    ::g_crews_list.refresh()
+    local countryCrewsList = ::g_crews_list.get()
     foreach(idx, countryCrews in countryCrewsList)
       foreach (idx, crew in ::getTblValue("crews", countryCrews, []))
       {

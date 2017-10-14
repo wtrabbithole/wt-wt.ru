@@ -61,8 +61,10 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           break
         case "exp":
           local expTable = ::get_cur_exp_table("", cfg)
-          obj.setValue(expTable? (expTable.exp + "/" + expTable.rankExp) : "")
-          obj.tooltip = ::loc("ugm/total") + ::loc("ui/colon") + cfg.exp
+          obj.setValue(expTable? (::g_language.decimalFormat(expTable.exp) + " / " +
+            ::g_language.decimalFormat(expTable.rankExp)) : "")
+          obj.tooltip = ::loc("ugm/total") + ::loc("ui/colon") +
+            ::g_language.decimalFormat(cfg.exp)
           break
         case "clanTag":
           local show = val != ""
@@ -133,24 +135,31 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
   //checklogs
   if (::has_feature("UserLog"))
   {
+    local newLogs = ::check_new_user_logs().len()
+    local logBtn = getObj(prefix+"userlog_btn")
+    if(::check_obj(logBtn))
+      logBtn.tooltip = newLogs > 0 ?
+        format(::loc("userlog/new_messages"), newLogs) : ::loc("userlog/no_new_messages")
     local logObj = getObj(prefix+"userlog")
     if (logObj && logObj.isValid())
     {
-      local newLogs = ::check_new_user_logs().len()
       logObj.show(newLogs==0)
       local newLogObj = getObj(prefix+"new_userlog")
       newLogObj.wink = newLogs>0? "yes" : "no"
-      newLogObj.tooltip = format(::loc("userlog/new_messages"), newLogs)
     }
   }
 
   //chat
   if (gchat_is_enabled() && ::has_feature("Chat"))
   {
+    local haveNewMessages = ::g_chat.haveNewMessages()
+    local chatBtn = getObj(prefix+"chat_btn")
+    if (::check_obj(chatBtn))
+        chatBtn.tooltip = ::loc(haveNewMessages ? "mainmenu/chat_new_messages" : "mainmenu/chat")
+
     local chatObj = getObj(prefix+"chat")
     if (::checkObj(chatObj))
     {
-      local haveNewMessages = ::g_chat.haveNewMessages()
       chatObj.show(!haveNewMessages)
       local newChatObj = getObj(prefix+"new_chat")
       newChatObj.wink = haveNewMessages ? "yes" : "no"

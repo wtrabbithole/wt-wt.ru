@@ -734,7 +734,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function getSlotsSpawnCostSumNoWeapon()
   {
     local res = 0
-    local crewsCountry = ::getTblValue(curSlotCountryId, ::crews_list)
+    local crewsCountry = ::getTblValue(curSlotCountryId, ::g_crews_list.get())
     if (!crewsCountry)
       return res
 
@@ -1582,7 +1582,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local respawnCostText = getRespawnTotalCost()
       if (respawnCostText != "") {
         applyText = ::format("%s (%s)", applyText, respawnCostText)
-        applyTextShort = ::format("%s<b>, %s</b>", ::loc("mainmenu/toBattle/short"), respawnCostText)
+        applyTextShort = ::format("%s<b> %s</b>", ::loc("mainmenu/toBattle/short"), respawnCostText)
       }
 
       local tooltipText = ::loc("mainmenu/selectAircraftTooltip")

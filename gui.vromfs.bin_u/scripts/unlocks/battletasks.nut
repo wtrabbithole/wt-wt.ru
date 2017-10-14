@@ -724,9 +724,9 @@ function BattleTasks::generateItemView(config, isPromo = false)
     newIconWidget = isBattleTask? (isTaskActive(task)? null : NewIconWidget.createLayout()) : null
     canGetReward = isBattleTask && canGetReward
     canReroll = isBattleTask && !canGetReward
-    otherTasksNum = isPromo? getTotalActiveTasksNum() : null
+    otherTasksNum = task && isPromo? getTotalActiveTasksNum() : null
     isLowWidthScreen = isPromo? ::is_low_width_screen() : null
-    showAsUsualPromoButton = isPromo && !isBattleTask && !isUnlock
+    showAsUsualPromoButton = isPromo && task == null
     isPromo = isPromo
   }
 }

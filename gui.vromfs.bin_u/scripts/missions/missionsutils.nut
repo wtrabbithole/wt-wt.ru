@@ -181,10 +181,8 @@ function getRewardTextByBlk(dataBlk, misName, diff, langId, highlighted=false, c
   res = buildRewardText(::loc(langId), rewardMoney, highlighted, coloredIcon, additionalReward)
   if (diff == 0 && misDataBlk && misDataBlk.slot)
   {
-    if (::crews_list.len()==0)
-      ::crews_list = ::get_crew_info()
     local slot = misDataBlk.slot;
-    foreach(c in ::crews_list)
+    foreach(c in ::g_crews_list.get())
       if (c.crews.len() < slot || (c.crews.len() == slot && c.crews[slot-1].isEmpty == 1))
       {
         res += ((res=="")? "" : ", ") + ::loc("options/crewName") + slot

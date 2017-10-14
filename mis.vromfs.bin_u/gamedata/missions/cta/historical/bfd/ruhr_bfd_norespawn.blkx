@@ -559,7 +559,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t1_usa.blk",
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t1_usa_rank_01.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -575,7 +575,135 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t2_germ.blk",
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t1_usa_rank_02.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t1_usa_rank_03.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t1_usa_rank_04.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t1_usa_rank_05.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t2_germ_rank_01.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t2_germ_rank_02.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t2_germ_rank_03.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t2_germ_rank_04.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/hunters_planesets/ht_t2_germ_rank_05.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -800,6 +928,12 @@
               "type_aa_fighter": false,
               "tank": false
             }
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "at_is_detect_on"
           }
         },
         {
@@ -1098,34 +1232,6 @@
             },
             {
               "effShootingRate": 0.0
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_def_aaa_squad"
-            },
-            {
-              "object": "t2_def_aaa_squad"
-            },
-            {
-              "stealthRadius": 300.0
-            },
-            {
-              "calmDetection": true
-            },
-            {
-              "accuracy": 1.0
-            },
-            {
-              "effShootingRate": 1.0
-            },
-            {
-              "airEffShootingRate": 1.0
             }
           ]
         },
@@ -15085,7 +15191,7 @@
       "objLayer": 0,
       "props": []
     },
-    "bfd_assaults_t1_spawn_01": {
+    "at_assaults_t1_spawn_01": {
       "type": "Point",
       "tm": [
         [-0.320672,0.0,0.94719],
@@ -15096,7 +15202,7 @@
       "objLayer": 0,
       "props": []
     },
-    "bfd_assaults_t1_spawn_02": {
+    "at_assaults_t1_spawn_02": {
       "type": "Point",
       "tm": [
         [0.326448,0.0,0.945215],
@@ -15107,7 +15213,7 @@
       "objLayer": 0,
       "props": []
     },
-    "bfd_assaults_t1_spawn_03": {
+    "at_assaults_t1_spawn_03": {
       "type": "Point",
       "tm": [
         [0.394418,0.0,0.918931],
@@ -15118,7 +15224,7 @@
       "objLayer": 0,
       "props": []
     },
-    "bfd_assaults_t2_spawn_01": {
+    "at_assaults_t2_spawn_01": {
       "type": "Point",
       "tm": [
         [0.240551,0.0,-0.970636],
@@ -15129,7 +15235,7 @@
       "objLayer": 0,
       "props": []
     },
-    "bfd_assaults_t2_spawn_02": {
+    "at_assaults_t2_spawn_02": {
       "type": "Point",
       "tm": [
         [-0.0342158,0.0,-0.999414],
@@ -15140,7 +15246,7 @@
       "objLayer": 0,
       "props": []
     },
-    "bfd_assaults_t2_spawn_03": {
+    "at_assaults_t2_spawn_03": {
       "type": "Point",
       "tm": [
         [0.16983,0.0,-0.985473],

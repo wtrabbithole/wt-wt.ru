@@ -104,7 +104,7 @@ class ::gui_handlers.ChangeCountry extends ::gui_handlers.BaseGuiHandlerWT
       local country = countries[i]
       shopFilterItems.push({
         shopFilterId = country
-        shopFilterTooltip = ::loc(country)
+        shopFilterText = ::loc(country)
         shopFilterImage = ::get_country_icon(country, true, !isCountryUnlocked(country))
       })
     }

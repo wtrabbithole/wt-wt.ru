@@ -1,4 +1,5 @@
 @const shopFilterHFlowHeight: 0.04*@sf;
+@const shopFilterTextCountryHeight: 28@sf/@pf;
 @const listboxItemsInterval:1@dp;
 
 @const listboxBgColor:              #CC03070C;
@@ -112,6 +113,10 @@ HorizontalListBox.header {
   padding: 0;
 }
 
+HorizontalListBox.countries {
+  padding: -1@listboxItemsInterval;
+}
+
 VerticalListBox.header {
   padding: 0;
 }
@@ -175,8 +180,10 @@ HorizontalListBox > shopFilter {
 }
 
 .countries > shopFilter {
-  width:1.5ph;
+  width:1.5h;
+  height: 0.1@sf;
   flow:vertical;
+  padding:0,0;
 }
 
 .countries_battle > shopFilter {
@@ -227,6 +234,10 @@ shopFilter[selected=yes] > img {
 .options > shopFilter {
   width:29*@scrn_tgt/100.0;
   height:ph;
+}
+
+.countries > shopFilter {
+  foreground-color:@transparent;
 }
 
 .header > shopFilter {
@@ -299,8 +310,7 @@ shopFilter[selected=yes] > img {
   rotation:-10;
 }
 
-[onlyImages=yes] > shopFilter > shopFilterText,
-.countries > shopFilter > shopFilterText {
+[onlyImages=yes] > shopFilter > shopFilterText {
   font:@fontMedium;
   pos:50%pw-50%w, 0;
   position:relative;
@@ -335,10 +345,6 @@ VerticalListBox.options > shopFilter > shopFilterText {
 [smallFont=yes] > shopFilter > shopFilterText,
 shopFilterText[smallFont=yes] {
   font:@fontSmall;
-}
-
-.countries > shopFilter:hover > shopFilterText {
-  color:@transparent;
 }
 
 [onlyImages=yes] > shopFilter > shopFilterText {
@@ -382,12 +388,20 @@ shopFilterImg {
   background-color:@imageHoverColor;
 }
 
-.countries shopFilterImg {
-  width:1.923h;
-  pos:50%pw-50%w, 50%ph-50%h;
+.countries > shopFilter > shopFilterImg {
+  pos:0, 0;
+  position:relative;
+  width:pw;
+  height:ph - @shopFilterTextCountryHeight;
   background-color:@imageNotSelCountryColor;
-  border:yes;
-  border-color:@black;
+}
+
+.countries > shopFilter > shopFilterText {
+  font:@fontNormal;
+  pos:0, 0;
+  position:relative;
+  width:pw;
+  height: @shopFilterTextCountryHeight;
 }
 
 .countries_battle shopFilterImg {
@@ -401,10 +415,6 @@ shopFilterImg {
 .countries :hover shopFilterImg,
 .countries_battle :hover shopFilterImg {
   background-color:@imageHoverCountryColor;
-}
-
-.countries > shopFilter[selected=yes] > shopFilterImg {
-  pos:50%pw-50%w, 50%ph-50%h;
 }
 
 .choice3 > shopFilter > shopFilterImg {

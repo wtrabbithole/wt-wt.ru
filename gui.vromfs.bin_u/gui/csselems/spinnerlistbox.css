@@ -24,6 +24,7 @@ spinnerListBox > button.next, spinnerListBox > button.prev {
   max-width:23*@sf/@pf_outdated;
   max-height:27*@sf/@pf_outdated;
 
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   background-color:@transparent;
   background-position:0;
   background-repeat:expand;
@@ -34,10 +35,10 @@ spinnerListBox > button.next, spinnerListBox > button.prev {
 }
 
 spinnerListBox > button.next{
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_left;
+  rotation:270;
 }
 spinnerListBox > button.prev{
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_right;
+  rotation:90;
 }
 
 spinnerListBox:hover > button.prev, spinnerListBox:hover > button.next {

@@ -1368,7 +1368,7 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
       local reloadTime = param.reloadTimes[currentDiffficulty]
       if(reloadTime > 0)
         addProp(p, ::colorize("badTextColor", ::loc("bullet_properties/cooldown")),
-                   ::colorize("badTextColor", ::format("%.2f %s", reloadTime, ::loc("measureUnits/seconds"))))
+                   ::colorize("badTextColor", ::roundToDigits(reloadTime, 2) + " " + ::loc("measureUnits/seconds")))
     }
 
     if ("smokeShellRad" in param)

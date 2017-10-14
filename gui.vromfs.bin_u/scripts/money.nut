@@ -170,25 +170,29 @@ function Money::__get_rp_color_id()   { return money_color.NEUTRAL }
 function Money::__impl_get_wp_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_wp_color_id() : money_color.NEUTRAL
-  return __check_color(wp, color_id) + ::loc(colored ? "warpoints/short/colored" : "warpoints/short")
+  return __check_color(::g_language.decimalFormat(wp), color_id) +
+    ::loc(colored ? "warpoints/short/colored" : "warpoints/short")
 }
 
 function Money::__impl_get_gold_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_gold_color_id() : money_color.NEUTRAL
-  return __check_color(gold, color_id) + ::loc(colored ? "gold/short/colored" : "gold/short")
+  return __check_color(::g_language.decimalFormat(gold), color_id) +
+    ::loc(colored ? "gold/short/colored" : "gold/short")
 }
 
 function Money::__impl_get_frp_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_frp_color_id() : money_color.NEUTRAL
-  return __check_color(frp, color_id) + ::loc(colored ? "currency/freeResearchPoints/sign/colored" : "currency/freeResearchPoints/sign")
+  return __check_color(::g_language.decimalFormat(frp), color_id) +
+    ::loc(colored ? "currency/freeResearchPoints/sign/colored" : "currency/freeResearchPoints/sign")
 }
 
 function Money::__impl_get_rp_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_rp_color_id() : money_color.NEUTRAL
-  return __check_color(rp, color_id) + ::loc(colored ? "currency/researchPoints/sign/colored" : "currency/researchPoints/sign")
+  return __check_color(::g_language.decimalFormat(rp), color_id) +
+    ::loc(colored ? "currency/researchPoints/sign/colored" : "currency/researchPoints/sign")
 }
 
 function Money::__impl_get_text(colored = true, checkBalance = false,

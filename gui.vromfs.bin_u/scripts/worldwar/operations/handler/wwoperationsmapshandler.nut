@@ -49,10 +49,23 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         timerObj.setUserData(this)
     }
 
+    initToBattleButton()
     reinitScreen()
 
     ::enableHangarControls(true)
     initFocusArray()
+  }
+
+  function initToBattleButton()
+  {
+    local toBattleNest = scene.findObject("gamercard_tobattle")
+    if (!::check_obj(toBattleNest))
+      return
+
+    local toBattleBlk = ::handyman.renderCached("gui/mainmenu/toBattleButton", {
+      enableEnterKey = !::is_platform_shield_tv()
+    })
+    guiScene.replaceContentFromText(toBattleNest, toBattleBlk, toBattleBlk.len(), this)
   }
 
   function reinitScreen()
@@ -455,6 +468,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local isModePlayer = mode == WW_OM_WND_MODE.PLAYER
     local isModeClan  = mode == WW_OM_WND_MODE.CLAN
 
+    showSceneBtn("gamercard_logo", isModeClan)
+    showSceneBtn("to_battle_button", isModePlayer)
+
     local hasMap = selMap != null
     local isInQueue = ::g_ww_global_status.isMyClanInQueue()
     local isQueueJoiningEnabled = isModeClan && ::WwQueue.getCantJoinAnyQueuesReasonData().canJoin
@@ -656,6 +672,16 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   }
 
   function onJoinOperation()
+  {
+    openOperationsListModal()
+  }
+
+  function onStart()
+  {
+    openOperationsListModal()
+  }
+
+  function openOperationsListModal()
   {
     if (!selMap || mode != WW_OM_WND_MODE.PLAYER)
       return

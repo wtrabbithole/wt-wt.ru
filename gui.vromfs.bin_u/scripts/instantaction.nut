@@ -493,7 +493,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local slots = getCurQueue() && ::queues.getQueueSlots(getCurQueue())
     if (slots && (country in slots))
     {
-      foreach(cIdx, c in ::crews_list)
+      foreach(cIdx, c in ::g_crews_list.get())
         if (c.country == country)
           return getSlotAircraft(cIdx, slots[country])
       return null
@@ -1096,7 +1096,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     else
       countryToCheckArr.append(country)
 
-    foreach (countryCrews in ::crews_list)
+    foreach (countryCrews in ::g_crews_list.get())
     {
       if (!::isInArray(countryCrews.country, countryToCheckArr))
         continue
@@ -1357,7 +1357,7 @@ function isDiffUnlocked(diff, checkUnitType)
 
 function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
 {
-  ::crews_list = get_crew_info()
+  ::g_crews_list.refresh()
   local res = {
           canFlyout = true
           canFlyoutIfRepair = true
@@ -1401,7 +1401,7 @@ function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
       }
   }
   else
-    foreach(cc in ::crews_list)
+    foreach(cc in ::g_crews_list.get())
       if (::isInArray(cc.country, countries))
       {
         local have_repaired_in_country = false

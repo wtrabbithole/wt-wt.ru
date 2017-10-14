@@ -29,7 +29,7 @@ const SQUAD_REQEST_TIMEOUT = 45000
 local DEFAULT_SQUAD_PROPERTIES = { maxMembers = 4 }
 
 g_squad_manager <- {
-  [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "lastUpdateStatus", "state",
+  [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "isMyCrewsReady", "lastUpdateStatus", "state",
    "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList"]
 
   COMMON_SQUAD_SIZE = 4
@@ -51,11 +51,13 @@ g_squad_manager <- {
     wwOperationInfo = {
       id = -1
       country = ""
+      battle = null
     }
     properties = clone DEFAULT_SQUAD_PROPERTIES
   }
 
   meReady = false
+  isMyCrewsReady = false
   lastUpdateStatus = squadStatusUpdateState.NONE
   roomCreateInProgress = false
 }
@@ -95,6 +97,7 @@ function g_squad_manager::updateMyMemberData(data = null)
     data = ::g_user_utils.getMyStateData()
 
   data.isReady <- isMeReady()
+  data.isCrewsReady <- isMyCrewsReady
   data.squadsVersion <- SQUADS_VERSION
 
   local wwOperations = {}
@@ -109,6 +112,7 @@ function g_squad_manager::updateMyMemberData(data = null)
         wwOperations[wwOperation.id] <- country
     }
   data.wwOperations <- wwOperations
+  data.wwStartingBattle <- null
   data.sessionRoomId <- ::SessionLobby.canInviteIntoSession() ? ::SessionLobby.roomId : ""
 
   local memberData = getMemberData(::my_user_id_str)
@@ -188,12 +192,17 @@ function g_squad_manager::getSquadRoomPassword()
 
 function g_squad_manager::getWwOperationId()
 {
-  return squadData.wwOperationInfo.id
+  return ::getTblValue("id", squadData.wwOperationInfo, -1)
 }
 
 function g_squad_manager::getWwOperationCountry()
 {
-  return squadData.wwOperationInfo.country
+  return ::getTblValue("country", squadData.wwOperationInfo, "")
+}
+
+function g_squad_manager::getWwOperationBattle()
+{
+  return ::getTblValue("battle", squadData.wwOperationInfo)
 }
 
 function g_squad_manager::isNotAloneOnline()
@@ -367,6 +376,18 @@ function g_squad_manager::readyCheck(considerInvitedPlayers = false)
   return  true
 }
 
+function g_squad_manager::crewsReadyCheck()
+{
+  if (!isInSquad())
+    return false
+
+  foreach(uid, memberData in squadData.members)
+    if (memberData.online && !memberData.isCrewsReady)
+      return false
+
+  return  true
+}
+
 function g_squad_manager::getOfflineMembers()
 {
   local res = []
@@ -407,6 +428,28 @@ function g_squad_manager::setReadyFlag(ready = null, needUpdateMemberData = true
     meReady = !isMeReady()
   else if (isMeReady() != ready)
     meReady = ready
+  else
+    return
+
+  if (!meReady)
+    isMyCrewsReady = false
+
+  if (needUpdateMemberData)
+    updateMyMemberData(::g_user_utils.getMyStateData())
+
+  ::broadcastEvent(squadEvent.SET_READY)
+}
+
+function g_squad_manager::setCrewsReadyFlag(ready = null, needUpdateMemberData = true)
+{
+  local isLeader = isSquadLeader()
+  if (isLeader && ready != true)
+    return
+
+  if (ready == null)
+    isMyCrewsReady = !isMyCrewsReady
+  else if (isMyCrewsReady != ready)
+    isMyCrewsReady = ready
   else
     return
 
@@ -494,7 +537,10 @@ function g_squad_manager::updateSquadData()
 {
   local data = {}
   data.chatInfo <- { name = getSquadRoomName(), password = getSquadRoomPassword() }
-  data.wwOperationInfo <- { id = getWwOperationId(), country = getWwOperationCountry() }
+  data.wwOperationInfo <- {
+    id = getWwOperationId()
+    country = getWwOperationCountry()
+    battle = getWwOperationBattle() }
   data.properties <- clone squadData.properties
 
   ::g_squad_manager.setSquadData(data)
@@ -697,6 +743,7 @@ function g_squad_manager::transferLeadership(uid)
 function g_squad_manager::onLeadershipTransfered()
 {
   ::g_squad_manager.setReadyFlag(::g_squad_manager.isSquadLeader())
+  ::g_squad_manager.setCrewsReadyFlag(::g_squad_manager.isSquadLeader())
   ::broadcastEvent(squadEvent.STATUS_CHANGED)
 }
 
@@ -849,7 +896,7 @@ function g_squad_manager::reset()
   squadData.members.clear()
   squadData.invitedPlayers.clear()
   squadData.chatInfo = { name = "", password = "" }
-  squadData.wwOperationInfo = { id = -1, country = "" }
+  squadData.wwOperationInfo = { id = -1, country = "", battle = null }
   squadData.properties = clone DEFAULT_SQUAD_PROPERTIES
   setMaxSquadSize(COMMON_SQUAD_SIZE)
 
@@ -983,6 +1030,11 @@ function g_squad_manager::onSquadDataChanged(data = null)
   local currentReadyness = lastReadyness || isSquadLeader()
   if (lastReadyness != currentReadyness || !alreadyInSquad)
     setReadyFlag(currentReadyness)
+
+  local lastCrewsReadyness = isMyCrewsReady
+  local currentCrewsReadyness = lastCrewsReadyness || isSquadLeader()
+  if (lastCrewsReadyness != currentCrewsReadyness || !alreadyInSquad)
+    setCrewsReadyFlag(currentCrewsReadyness)
 }
 
 function g_squad_manager::_parseCustomSquadData(data)
@@ -997,7 +1049,7 @@ function g_squad_manager::_parseCustomSquadData(data)
   if (wwOperationInfo != null)
     squadData.wwOperationInfo = wwOperationInfo
   else
-    squadData.wwOperationInfo = { id = -1, country = "" }
+    squadData.wwOperationInfo = { id = -1, country = "", battle = null }
 
   local properties = ::getTblValue("properties", data)
   if (::u.isTable(properties))
@@ -1041,7 +1093,7 @@ function g_squad_manager::checkUpdateStatus(newStatus)
     return
 
   if (lastUpdateStatus == squadStatusUpdateState.BATTLE)
-    ::crews_list = get_crew_info()
+    ::g_crews_list.refresh()
 
   lastUpdateStatus = newStatus
   ::g_squad_utils.updateMyCountryData()
@@ -1154,13 +1206,35 @@ function g_squad_manager::onEventWWLoadOperation(params)
   updateSquadData()
 }
 
+function g_squad_manager::onEventWWSetStartingBattle(params)
+{
+  if (!isSquadLeader())
+    return
+
+  if (getWwOperationId() < 0 || ::u.isEmpty(getWwOperationCountry()))
+    return
+
+  local battleId = ::getTblValue("battleId", params)
+  squadData.wwOperationInfo.battle <- battleId
+  updateSquadData()
+}
+
 function g_squad_manager::onEventWWStopWorldWar(params)
 {
   if (getWwOperationId() == -1)
     return
 
-  squadData.wwOperationInfo = { id = -1, country = "" }
+  if (!isInSquad() || isSquadLeader())
+    squadData.wwOperationInfo = { id = -1, country = "", battle = null }
+
   updateSquadData()
+}
+
+function g_squad_manager::isPrepareToWWBattle()
+{
+  return getWwOperationBattle() &&
+         getWwOperationId() >= 0 &&
+         !::u.isEmpty(getWwOperationCountry())
 }
 
 function g_squad_manager::onEventLobbyStatusChange(params)

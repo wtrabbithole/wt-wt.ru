@@ -1,4 +1,6 @@
 ::g_crews_list <- {
+  crewsList = !::g_login.isLoggedIn() ? [] : ::get_crew_info()
+
   isNeedToSkipNextProfileUpdate = false
   ignoreTransactions = [
     ::EATT_SAVING
@@ -12,6 +14,20 @@
   isSlotbarUpdateRequired = false
 }
 
+function g_crews_list::get()
+{
+  if (!crewsList.len() && ::g_login.isProfileReceived())
+    refresh()
+  return crewsList
+}
+
+function g_crews_list::refresh()
+{
+  //we don't know about slotbar refresh in flight,
+  //but we know than out of flight it refresh only with profile, 
+  //so can optimize it updates, and remove some direct refresh calls from outside
+  crewsList = ::get_crew_info()
+}
 
 g_crews_list._isReinitSlotbarsInProgress <- false
 function g_crews_list::reinitSlotbars()

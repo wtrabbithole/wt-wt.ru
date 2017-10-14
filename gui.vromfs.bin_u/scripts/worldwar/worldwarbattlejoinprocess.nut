@@ -103,15 +103,11 @@ class WwBattleJoinProcess
 
   function joinStep5_paramsForQueue()
   {
-    local params = {
+    ::queues.joinQueue({
       operationId = ::ww_get_operation_id()
-      battleId    = wwBattle.id
-      country     = wwBattle.getCountryNameBySide()
-      team        = wwBattle.getTeamNameBySide()
-      clusters    = ::get_current_clusters()
-    }
-
-    ::queues.joinQueue(params)
+      battleId = wwBattle.id
+      wwBattle = wwBattle
+    })
     onDone()
   }
 }

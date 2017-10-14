@@ -12,9 +12,6 @@ expandable {
   <<#showAsUsualPromoButton>>
     setStandartWidth:t='yes'
   <</showAsUsualPromoButton>>
-  <<^showAsUsualPromoButton>>
-    setStandartWidth:t='no'
-  <</showAsUsualPromoButton>>
 
   fullSize:t='yes'
   selImg {
@@ -58,8 +55,6 @@ expandable {
           <</isLowWidthScreen>>
         <</showAsUsualPromoButton>>
 
-        <<#isPromo>>
-        <</isPromo>>
         <<^isPromo>>
           width:t='fw'
         <</isPromo>>
@@ -70,6 +65,8 @@ expandable {
         textareaNoTab {
           id:t='tasks_refresh_timer'
           behavior:t='Timer'
+          top:t='50%ph-50%h'
+          position:t='relative'
           text:t=''
         }
       <</refreshTimer>>

@@ -1045,7 +1045,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local extraWidth = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
     local extraLeft = extraWidth + "+1@modBlockTierNumHeight"
-    local extraRight = extraWidth + "+1@scrollBarSize"
+    local extraRight = extraWidth + "+1@scrollBarSize - 2@frameHeaderPad"
 
     for (local s = 0; s < sectionsTotal; s++)
     {
@@ -1484,8 +1484,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return
 
     local slotbar = getSlotbarScene()
-    if (::checkObj(slotbar) && !(curSlotCountryId in ::crews_list && ::crews_list[curSlotCountryId].country == curCountry))
-      foreach(idx, country in ::crews_list)
+    if (::checkObj(slotbar) && !(curSlotCountryId in ::g_crews_list.get() && ::g_crews_list.get()[curSlotCountryId].country == curCountry))
+      foreach(idx, country in ::g_crews_list.get())
         if (country.country == curCountry)
         {
           local cObj = slotbar.findObject("slotbar-countries")

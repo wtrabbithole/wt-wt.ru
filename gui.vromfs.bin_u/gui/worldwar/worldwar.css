@@ -103,12 +103,16 @@ objectiveBlock objectiveTextSeparator > textareaNoTab {
   color: @fadedTextColor;
 }
 
-objectiveBlock objectiveTextSeparator > separatorLine {
-  top: 50%ph-50%h;
-  position: relative;
-  width: fw;
+separatorLine {
+  width: pw;
   height: 1;
   background-color: @objectiveHeaderBackground;
+}
+
+objectiveBlock objectiveTextSeparator > separatorLine {
+  width: fw;
+  top: 50%ph-50%h;
+  position: relative;
 }
 
 objectiveBlock wwObjective name,

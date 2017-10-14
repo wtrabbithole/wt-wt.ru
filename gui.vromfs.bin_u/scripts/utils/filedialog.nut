@@ -1015,7 +1015,9 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     getObj("btn_refresh")["tooltip"] =
       ::loc(isFocused ? "filesystem/btnGo" : "filesystem/btnRefresh")
     getObj("btn_refresh_img")["background-image"] = isFocused ?
-      "#ui/gameuiskin#spinnerListBox_arrow_right" : "#ui/gameuiskin#refresh"
+      "#ui/gameuiskin#spinnerListBox_arrow_up" : "#ui/gameuiskin#refresh"
+    getObj("btn_refresh_img")["rotation"] = isFocused ?
+      "90" : "0"
 
     if (isFocused)
     {

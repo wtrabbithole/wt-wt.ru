@@ -292,10 +292,8 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
   function createReserveTasksData(country, unitType, checkCurrentCrewAircrafts = true, ignoreSlotbarCheck = false)
   {
     local tasksData = []
-    if (::crews_list.len()==0)
-      ::crews_list = ::get_crew_info()
     local usedUnits = []
-    foreach(c in ::crews_list)
+    foreach(c in ::g_crews_list.get())
     {
       if (c.country != country)
         continue
@@ -335,7 +333,8 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
   {
     local presetDataItems = []
     local selEsUnitType = ::ES_UNIT_TYPE_INVALID
-    foreach (crewData in ::get_crew_info())
+    ::g_crews_list.refresh()
+    foreach (crewData in ::g_crews_list.get())
     {
       local country = crewData.country
       foreach(unitType in ::g_unit_type.types)
@@ -427,7 +426,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
   function afterModalDestroy()
   {
     restoreMainOptions()
-    ::crews_list = get_crew_info()
+    ::g_crews_list.refresh()
   }
 
   function setFrameWidth(width)

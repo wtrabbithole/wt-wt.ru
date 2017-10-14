@@ -156,7 +156,7 @@ class ::items_classes.Wager extends ::BaseItem
         text += ", "
       local rewardDataType = getRewardDataTypeByName(rewardDataTypeName)
       local rewardValue = getRewardValueByNumWins(rewardParams, rewardData.winCount, stakeValue)
-      text += rewardValue.tostring() + ::loc(rewardDataType.icon)
+      text += ::g_language.decimalFormat(rewardValue) + ::loc(rewardDataType.icon)
     }
     return text
   }

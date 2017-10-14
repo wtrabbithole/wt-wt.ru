@@ -148,7 +148,8 @@ class ::mission_rules.Base
   {
     local country = ::get_local_player_country()
 
-    local crewsInfo = ::get_crew_info()
+    ::g_crews_list.refresh()
+    local crewsInfo = ::g_crews_list.get()
     foreach(crew in crewsInfo)
       if (crew.country == country)
         foreach (slot in crew.crews)
@@ -182,7 +183,8 @@ class ::mission_rules.Base
       return minScore
 
     local country = ::get_local_player_country()
-    local crewsInfo = ::get_crew_info()
+    ::g_crews_list.refresh()
+    local crewsInfo = ::g_crews_list.get()
     foreach(crew in crewsInfo)
       if (crew.country == country)
         foreach (slot in crew.crews)

@@ -227,20 +227,45 @@
             },
             {
               "Button_text": {
-                "id": "btn_clans_queue",
+                "id": "btn_join_operation",
                 "visualStyle": "secondary",
                 "navButtonFont": "yes",
-                "text": "#worldwar/btnClansQueue",
-                "_on_click": "onClansQueue",
+                "text": "#worldwar/operationsList",
+                "_on_click": "onJoinOperation",
                 "css-hier-invalidate": "yes",
                 "isCancel": "no",
-                "btnName": "Y",
+                "btnName": "A",
                 "display": "hide",
                 "enable": "no",
                 "buttonWink": {
                   "_transp-timer": "0"
                 },
                 "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_clans_queue",
+                "class": "battle",
+                "navButtonFont": "yes",
+                "text": "#worldwar/btnCreateOperation",
+                "_on_click": "onClansQueue",
+                "css-hier-invalidate": "yes",
+                "isCancel": "no",
+                "btnName": "Y",
+                "display": "hide",
+                "enable": "no",
+                "pattern": [],
+                "buttonWink": {
+                  "_transp-timer": "0"
+                },
+                "buttonGlance": [],
+                "ButtonImg": [],
+                "textarea": {
+                  "id": "btn_join_operation_text",
+                  "class": "buttonText",
+                  "text": "#worldwar/btnCreateOperation"
+                }
               }
             },
             {
@@ -289,31 +314,6 @@
                 "btnText": {
                   "id": "btn_leave_queue_text",
                   "text": "#worldwar/btnLeaveQueue"
-                }
-              }
-            },
-            {
-              "Button_text": {
-                "id": "btn_join_operation",
-                "class": "battle",
-                "navButtonFont": "yes",
-                "text": "#events/join_event",
-                "_on_click": "onJoinOperation",
-                "css-hier-invalidate": "yes",
-                "isCancel": "no",
-                "btnName": "A",
-                "display": "hide",
-                "enable": "no",
-                "pattern": [],
-                "buttonWink": {
-                  "_transp-timer": "0"
-                },
-                "buttonGlance": [],
-                "ButtonImg": [],
-                "textarea": {
-                  "id": "btn_join_operation_text",
-                  "class": "buttonText",
-                  "text": "#events/join_event"
                 }
               }
             }
@@ -775,7 +775,8 @@
                         },
                         {
                           "tdiv": {
-                            "size": "fw, ph",
+                            "id": "right_gc_panel_free_width",
+                            "width": "fw",
                             "inactive": "yes"
                           }
                         },
@@ -987,8 +988,7 @@
                         {
                           "img": {
                             "id": "gc_chat",
-                            "background-image": "#ui/gameuiskin#chat",
-                            "tooltip": "#mainmenu/chat"
+                            "background-image": "#ui/gameuiskin#chat"
                           }
                         },
                         {
@@ -996,8 +996,7 @@
                             "id": "gc_new_chat",
                             "background-image": "#ui/gameuiskin#chat_new",
                             "_transp-timer": "0",
-                            "display": "hide",
-                            "tooltip": "#mainmenu/chat_new_messages"
+                            "display": "hide"
                           }
                         },
                         {
@@ -1025,8 +1024,7 @@
                         {
                           "img": {
                             "id": "gc_userlog",
-                            "background-image": "#ui/gameuiskin#mail",
-                            "tooltip": "#userlog/no_new_messages"
+                            "background-image": "#ui/gameuiskin#mail"
                           }
                         },
                         {

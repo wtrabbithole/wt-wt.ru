@@ -26,6 +26,9 @@ class NewIconWidget
   _textObj = null
   _iconObj = null
 
+  currentValue = 0
+  currentVisibility = false
+
   icon = null
 
   function constructor(guiScene, containerObj = null)
@@ -47,10 +50,10 @@ class NewIconWidget
   function setContainer(containerObj)
   {
     _containerObj = containerObj
-    if (::checkObj(_containerObj))
+    if (::check_obj(_containerObj))
     {
       _containerObj.setUserData(this.weakref())
-      validateContent()
+      update()
     }
   }
 
@@ -62,13 +65,14 @@ class NewIconWidget
 
   function isValidContainerData()
   {
-    return ::checkObj(_textObj) && ::checkObj(_iconObj)
+    return ::check_obj(_textObj) && ::check_obj(_iconObj)
   }
 
   function validateContent()
   {
-    if (!::checkObj(_containerObj))
+    if (!::check_obj(_containerObj))
       return
+
     if (isValidContainerData())
       return
 
@@ -87,61 +91,68 @@ class NewIconWidget
 
   function setText(newText)
   {
-    if (!::checkObj(_textObj))
-      return
-
-    _containerObj.widgetClass = (newText == "") ? "" : "text"
-    _textObj.setValue(newText)
+    currentValue = newText
+    update()
   }
 
   function setValue(value)
   {
-    if (!isValidContainerData())
-      if (value != 0)
-        validateContent()
-      else
-        return
-
-    setWidgetVisible(value != 0)
-    setText((value > 0) ? value.tostring() : "")
+    currentValue = value
+    currentVisibility = value != 0
+    update()
   }
 
   function setWidgetVisible(value)
   {
-    if (!::checkObj(_containerObj))
-      return
-    _containerObj.show(value)
-    _containerObj.enable(value)
+    currentVisibility = value
+    update()
+  }
+
+  function update()
+  {
+    validateContent()
+
+    if (::check_obj(_textObj))
+    {
+      local newText = (currentValue > 0) ? currentValue.tostring() : ""
+      if (::check_obj(_containerObj))
+      {
+         _containerObj.widgetClass = (newText == "") ? "" : "text"
+         _containerObj.show(currentVisibility)
+         _containerObj.enable(currentVisibility)
+      }
+      _textObj.setValue(newText)
+    }
   }
 
   function setIcon(newIcon)
   {
     icon = newIcon
-    if (::checkObj(_iconObj))
+    if (::check_obj(_iconObj))
       _iconObj["background-image"] = icon
   }
 
   function _getTextObj()
   {
-    if (!::checkObj(_containerObj))
+    if (!::check_obj(_containerObj))
       return
     local obj = _containerObj.findObject("new_icon_widget_text")
-    if (!::checkObj(obj))
+    if (!::check_obj(obj))
       return null
     return obj
   }
 
   function _getIconObj()
   {
-    if (!::checkObj(_containerObj))
+    if (!::check_obj(_containerObj))
       return
     local obj = _containerObj.findObject("new_icon_widget_icon")
-    return ::checkObj(obj) ? obj : null
+    return ::check_obj(obj) ? obj : null
   }
 
   static function getWidgetByObj(obj)
   {
-    if (!::checkObj(obj))
+    if (!::check_obj(obj))
       return null
     local widget = obj.getUserData()
     if (widget == null)

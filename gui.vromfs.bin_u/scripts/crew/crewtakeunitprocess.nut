@@ -75,7 +75,7 @@ class ::CrewTakeUnitProcess
         local hasUnit = !!unit
         local hasAllowedUnit = !needCheckAllowed
         local hasRequiredUnit = !needCheckRequired
-        local crewsData = ::getTblValue(crew.idCountry, ::crews_list)
+        local crewsData = ::getTblValue(crew.idCountry, ::g_crews_list.get())
         if (crewsData)
           foreach(c in crewsData.crews)
           {
@@ -341,7 +341,7 @@ class ::CrewTakeUnitProcess
   function onComplete()
   {
     isSuccess = true
-    ::crews_list = get_crew_info()
+    ::g_crews_list.refresh()
     if (unit)
     {
       ::updateAirAfterSwitchMod(unit)

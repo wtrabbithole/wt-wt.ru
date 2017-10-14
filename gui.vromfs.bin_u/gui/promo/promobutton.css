@@ -121,6 +121,11 @@ promoButton[type=battleTask] expandable[setStandartWidth=yes] {
   width: 1@arrowButtonWidth;
 }
 
+promoButton[type=battleTask] expandable[setStandartWidth=yes] > selImg,
+promoButton[type=battleTask] expandable[setStandartWidth=yes] > selImg > header {
+  height:ph;
+}
+
 promoButton[type=simpleList] {
   height:1@arrowButtonHeight;
   width:1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
@@ -304,6 +309,7 @@ promoButton[type=autoWidth] {
 promoButton[type=autoWidth] > collapsedContainer,
 promoButton[type=autoWidth] > uncollapsedContainer > fillBlock > textareaFade {
   width:0;
+  position: relative;
 }
 
 promoButton[type=autoWidth] > collapsedContainer > shortHeaderText {

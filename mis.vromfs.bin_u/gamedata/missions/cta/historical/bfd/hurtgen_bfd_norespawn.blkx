@@ -216,8 +216,6 @@
       "level": "levels/hurtgen.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/hurtgen_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "western",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/hurtgen_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -602,34 +602,6 @@
             "army": 1,
             "target": "t1_airfield"
           }
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_aaa_airfield_squad"
-            },
-            {
-              "object": "t2_aaa_airfield_squad"
-            },
-            {
-              "targetAir": true
-            },
-            {
-              "targetGnd": false
-            },
-            {
-              "accuracy": 0.9
-            },
-            {
-              "effShootingRate": 0.0
-            },
-            {
-              "airEffShootingRate": 1.0
-            }
-          ]
         },
         {
           "varSetBool": {
@@ -1991,7 +1963,7 @@
     },
     {
       "squad": {
-        "name": "t1_aaa_airfield_squad",
+        "name": "t1_def_aaa_squad",
         "tm": [
           [0.727899,0.0,0.685683],
           [0.0,1.0,0.0],
@@ -2394,7 +2366,7 @@
     },
     {
       "squad": {
-        "name": "t2_aaa_airfield_squad",
+        "name": "t2_def_aaa_squad",
         "tm": [
           [0.865469,0.0,-0.500961],
           [0.0,1.0,0.0],

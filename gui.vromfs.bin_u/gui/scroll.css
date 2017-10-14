@@ -70,8 +70,10 @@ slotsScrollDiv > ScrollBar ScrollSlider {
 
 slotsScrollDiv > ScrollBar ScrollButtonUp,
 slotsScrollDiv > ScrollBar ScrollButtonDown {
+  re-type:rotation;
   size:@scrollArrowsSize, @scrollArrowsSize;
   position:absolute;
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   background-repeat:expand;
   background-color:@controlColor;
   input-transparent:no;
@@ -79,26 +81,22 @@ slotsScrollDiv > ScrollBar ScrollButtonDown {
   tooltip:'';
 }
 
-slotsScrollDiv > ScrollBar[flow=horizontal] > ScrollButtonUp,
-slotsScrollDiv > ScrollBar[flow=horizontal] > ScrollButtonDown {
-  re-type:rotation;
-  background-rotation:-90;
-}
-
 slotsScrollDiv > ScrollBar ScrollButtonUp{
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   pos:-0.7w, 50%ph-50%h;
+  background-rotation:270;
 }
 slotsScrollDiv > ScrollBar ScrollButtonDown {
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_down;
   pos:pw-0.25w, 50%ph-50%h;
+  background-rotation:90;
 }
 
 slotsScrollDiv > ScrollBar[flow=vertical] ScrollButtonUp {
   pos:50%pw-50%w, -0.8h;
+  background-rotation:0;
 }
 slotsScrollDiv > ScrollBar[flow=vertical] ScrollButtonDown {
   pos:50%pw-50%w, ph-0.1h;
+  background-rotation:180;
 }
 
 slotsScrollDiv > ScrollBar ScrollButtonUp:disabled, slotsScrollDiv > ScrollBar ScrollButtonDown:disabled {

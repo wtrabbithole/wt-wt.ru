@@ -43,7 +43,6 @@ class ::gui_handlers.LoginWndHandlerTencent extends ::BaseGuiHandler
     doLogin()
   }
 
-  function onChangeLoginScreen() {}
   function goBack(obj) {}
 }
 

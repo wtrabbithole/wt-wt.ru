@@ -25,6 +25,7 @@ tdiv {
         optiontext {
           text:t='#worldwar/airfieldStrenght/clans_players'
           tooltip:t='#worldwar/airfieldStrenght/clans_players/tooltip'
+          padding-right:t='0.05@scrn_tgt'
         }
       }
       td {
@@ -38,7 +39,10 @@ tdiv {
     tr {
       td {
         cellType:t='right'
-        optiontext { text:t='#worldwar/airfieldStrenght/other' }
+        optiontext {
+          text:t='#worldwar/airfieldStrenght/other'
+          padding-right:t='0.05@scrn_tgt'
+        }
       }
       td {
         optiontext {

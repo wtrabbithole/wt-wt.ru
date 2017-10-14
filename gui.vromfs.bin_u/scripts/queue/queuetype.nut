@@ -65,7 +65,19 @@ enum qTypeCheckOrder {
       useClusters = false
 
       isParamsCorresponds = @(params) "battleId" in params
-      prepareQueueParams = @(params) params
+      prepareQueueParams = function(params)
+      {
+        local wwBattle = "wwBattle" in params
+          ? params.wwBattle
+          : ::g_world_war.getBattleById(params.battleId)
+        return {
+          clusters    = ::get_current_clusters()
+          operationId = params.operationId
+          battleId    = params.battleId
+          country     = wwBattle.getCountryNameBySide()
+          team        = wwBattle.getTeamNameBySide()
+        }
+      }
 
       //FIX ME: why it work not by queueStats and queueInfo classes?
       updateInfo = function(successCallback, errorCallback, showError = false) {

@@ -318,14 +318,14 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   {
     local res = []
     local countries = gameMode.countries
-    if (!countries.len() || countries.len() >= ::crews_list.len())
+    if (!countries.len() || countries.len() >= ::g_crews_list.get().len())
       return res
 
     local needShowLocked = false
-    if (countries.len() >= 0.7 * ::crews_list.len())
+    if (countries.len() >= 0.7 * ::g_crews_list.get().len())
     {
       local lockedCountries = []
-      foreach(countryData in ::crews_list)
+      foreach(countryData in ::g_crews_list.get())
       {
         local country = countryData.country
         if (::is_country_visible(country) && !::isInArray(country, countries))

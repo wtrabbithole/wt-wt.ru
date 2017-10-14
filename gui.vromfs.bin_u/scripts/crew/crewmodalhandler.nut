@@ -149,7 +149,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurCountryName()
   {
-    return ::crews_list[countryId].country
+    return ::g_crews_list.get()[countryId].country
   }
 
   function updateUnitTypeRadioButtons()

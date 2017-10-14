@@ -70,6 +70,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       tabType = BattleTasksWndTab.PERSONAL_UNLOCKS
       isVisible = @() ::has_feature("PersonalUnlocks")
       text = "#mainmenu/btnPersonalUnlocks"
+      noTasksLocId = "mainmenu/battleTasks/noPersonalUnlocks"
       fillFunc = "fillPersonalUnlocksList"
     },
     {
@@ -328,6 +329,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (curTabData.fillFunc in this)
       this[curTabData.fillFunc]()
 
+    guiScene.applyPendingChanges(false)
     restoreFocus()
   }
 

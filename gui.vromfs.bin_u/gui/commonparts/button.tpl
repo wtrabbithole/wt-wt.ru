@@ -43,21 +43,13 @@
     <<#class>>
       class:t='<<class>>'
     <</class>>
-  <</isToBattle>>
-  <<^isToBattle>>
     <<#buttonClass>>
       class:t='<<buttonClass>>'
     <</buttonClass>>
   <</isToBattle>>
 
-  <<#shortcut>>
-    btnName:t='<<shortcut>>'
-    ButtonImg {}
-  <</shortcut>>
-
-  <<#image>>
-    btnImage { background-image:t='<<image>>' }
-  <</image>>
+  buttonWink {}
+  buttonGlance {}
 
   <<#isToBattle>>
     class:t='battle'
@@ -68,8 +60,6 @@
       style:t='height:1@battleButtonHeight;'
     <</titleButtonFont>>
     pattern{}
-    buttonWink { _transp-timer:t='0' }
-    buttonGlance {}
     btnText {
       id:t='<<id>>_text'
       text:t='<<text>>'
@@ -100,6 +90,15 @@
       }
     <</isLink>>
   <</link>>
+
+  <<#shortcut>>
+    btnName:t='<<shortcut>>'
+    ButtonImg {}
+  <</shortcut>>
+
+  <<#image>>
+    btnImage { background-image:t='<<image>>' }
+  <</image>>
 
   additionalIconsDiv {
     input-transparent:t='yes'

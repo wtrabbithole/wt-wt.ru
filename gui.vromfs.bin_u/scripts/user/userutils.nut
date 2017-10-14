@@ -44,7 +44,7 @@ function g_user_utils::getMyCrewAirsState(profileInfo = null)
                 brokenAirs = []
                 rank = 0
               }
-  foreach(c in ::crews_list)
+  foreach(c in ::g_crews_list.get())
   {
     if (!("crews" in c))
       continue

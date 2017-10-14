@@ -458,22 +458,6 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/lookup_template.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
         "file": "gameData/missions/templates/players_adjuster_template.blk",
         "importAreas": true,
         "importUnits": true,
@@ -663,25 +647,6 @@
         {
           "unitSetProperties": [
             {
-              "object": "t1_def_aaa_squad"
-            },
-            {
-              "object": "t2_def_aaa_squad"
-            },
-            {
-              "targetGnd": false
-            },
-            {
-              "accuracy": 1.0
-            },
-            {
-              "effShootingRate": 1.0
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
               "object": "t1_aaa_squad"
             },
             {
@@ -767,16 +732,6 @@
         {
           "__moAddMissionObjective": {
             "target": "korsun_BfD_t2_bridges"
-          }
-        },
-        {
-          "comment": {
-            "value": "ручками включаем шаблон"
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "lookup_template_start"
           }
         }
       ],
@@ -8712,96 +8667,6 @@
       }
     },
     {
-      "armada": {
-        "name": "t1_lookup_plane",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-0.7,2471.1,-12148.3]
-        ],
-        "unit_class": "pe-2-31",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "free_distance": 70.0,
-          "floating_distance": 50.0,
-          "minimum_distance_to_earth": 20.0,
-          "altLimit": 6000.0,
-          "attack_type": "fire_at_will",
-          "skill": 4,
-          "isDelayed": true,
-          "plane": {
-            "wing_formation": "Diamond",
-            "row_distances": 3.0,
-            "col_distances": 3.0,
-            "super_formation": "Diamond",
-            "super_row_distances": 1.5,
-            "super_col_distances": 1.5,
-            "ai_skill": "NORMAL",
-            "task": "FLY_WAYPOINT"
-          }
-        },
-        "way": []
-      }
-    },
-    {
-      "armada": {
-        "name": "t2_lookup_plane",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-799.5,2471.1,-12960.8]
-        ],
-        "unit_class": "bf-110c-4",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "free_distance": 70.0,
-          "floating_distance": 50.0,
-          "minimum_distance_to_earth": 20.0,
-          "altLimit": 6000.0,
-          "attack_type": "fire_at_will",
-          "skill": 4,
-          "isDelayed": true,
-          "plane": {
-            "wing_formation": "Diamond",
-            "row_distances": 3.0,
-            "col_distances": 3.0,
-            "super_formation": "Diamond",
-            "super_row_distances": 1.5,
-            "super_col_distances": 1.5,
-            "ai_skill": "NORMAL",
-            "task": "FLY_WAYPOINT"
-          }
-        },
-        "way": []
-      }
-    },
-    {
       "objectGroups": {
         "name": "t1_bombing_zone_01",
         "tm": [
@@ -10795,72 +10660,6 @@
       ],
       "props": []
     },
-    "t1_lookup_point_01": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-12782.7,2000.0,-8377.75]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_lookup_point_02": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-15083.0,2500.0,-4433.8]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_lookup_point_03": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-8425.35,3500.0,3806.65]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_lookup_point_01": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-2670.25,2000.0,-1015.5]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_lookup_point_02": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-9704.9,2500.0,-8981.8]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_lookup_point_03": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-5608.95,3500.0,3137.65]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "t1_bomb_area_01": {
       "type": "Sphere",
       "tm": [
@@ -10949,28 +10748,6 @@
       "objLayer": 0,
       "props": []
     },
-    "t2_lookup_point_04": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-2627.55,3000.0,-4776.25]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_lookup_point_04": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-15060.7,3000.0,-1525.9]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "area_03": {
       "type": "Sphere",
       "tm": [
@@ -10978,50 +10755,6 @@
         [0.0,15932.2,0.0],
         [0.0,0.0,15932.2],
         [-8894.1,76.4,-2818.1]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_lookup_spawn": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-20290.5,7000.0,-2843.65]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_lookup_spawn": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [3425.8,7000.0,-2843.65]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t2_lookup_retreat_point": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [-32091.0,2000.0,-2843.65]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_lookup_retreat_point": {
-      "type": "Point",
-      "tm": [
-        [1.0,0.0,0.0],
-        [0.0,1.0,0.0],
-        [0.0,0.0,1.0],
-        [32620.5,2000.0,-2843.65]
       ],
       "objLayer": 0,
       "props": []

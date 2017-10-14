@@ -73,8 +73,8 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
       return 1
 
     local freeWidth = objForWidth.getSize()[0]
-    local singleButtonMinWidth = guiScene.calcString("1@topMenuButtonWidth", null)
-    return freeWidth / singleButtonMinWidth || 1
+    local singleButtonMinWidth = guiScene.calcString("1@topMenuButtonWidth", null) || 1
+    return ::max(freeWidth / singleButtonMinWidth, 1)
   }
 
   function initSectionsOrder()

@@ -1,8 +1,5 @@
 local time = require("scripts/time.nut")
 
-
-::crews_list <- !::g_login.isLoggedIn() ? [] : ::get_crew_info()
-
 /*
 if need - put commented in array above
 //crew list for tests
@@ -651,14 +648,13 @@ function get_unit_item_price_text(unit, params)
     else
     {
       local txtList = []
-      if (::crews_list
-          && curSlotCountryId in ::crews_list
-          && curSlotIdInCountry in ::crews_list[curSlotCountryId].crews
-          && ::getTblValue("wpToRespawn", ::crews_list[curSlotCountryId].crews[curSlotIdInCountry], 0) > 0
+      if (curSlotCountryId in ::g_crews_list.get()
+          && curSlotIdInCountry in ::g_crews_list.get()[curSlotCountryId].crews
+          && ::getTblValue("wpToRespawn", ::g_crews_list.get()[curSlotCountryId].crews[curSlotIdInCountry], 0) > 0
           && ::is_crew_available_in_session(curSlotIdInCountry, false))
       {
         local sessionWpBalance = ::getTblValue("sessionWpBalance", params, 0)
-        local wpToRespawn = ::getTblValue("wpToRespawn", ::crews_list[curSlotCountryId].crews[curSlotIdInCountry], 0)
+        local wpToRespawn = ::getTblValue("wpToRespawn", ::g_crews_list.get()[curSlotCountryId].crews[curSlotIdInCountry], 0)
         wpToRespawn += ::getTblValue("weaponPrice", params, 0)
         txtList.append(::colorTextByValues(::getWpPriceText(wpToRespawn, true), sessionWpBalance, wpToRespawn, true, false))
       }
@@ -805,7 +801,7 @@ function is_crew_locked_by_prev_battle(crew)
 
 function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, country = null, needDbg = false)
 {
-  local crew = ::crews_list[curSlotCountryId].crews[curSlotIdInCountry]
+  local crew = ::g_crews_list.get()[curSlotCountryId].crews[curSlotIdInCountry]
   local unlocked = !::is_crew_locked_by_prev_battle(crew)
   if (unit)
   {
@@ -823,8 +819,8 @@ function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, cou
 
 function isCountryAllCrewsUnlockedInHangar(countryId)
 {
-  local crews_list = ::get_crew_info()
-  foreach (tbl in crews_list)
+  ::g_crews_list.refresh()
+  foreach (tbl in ::g_crews_list.get())
     if (tbl.country == countryId)
       foreach (crew in tbl.crews)
         if (::is_crew_locked_by_prev_battle(crew))
@@ -937,9 +933,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
   local getEdiffFunc = ("getCurrentEdiff" in handler) ?  handler.getCurrentEdiff.bindenv(handler) : ::get_current_ediff()
 
   local countriesObj = slotbarObj.findObject("slotbar-countries")
-  ::crews_list = ::get_crew_info()
+  ::g_crews_list.refresh()
 
-  if (!::crews_list)
+  if (!::g_crews_list.get().len())
   {
     if (::g_login.isLoggedIn() && (::isProductionCircuit() || ::get_cur_circuit_name() == "nightly"))
       ::scene_msg_box("no_connection", null, ::loc("char/no_connection"), [["ok", function () {::gui_start_logout()}]], "ok")
@@ -958,10 +954,10 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
     slotbarActions = ::defaultSlotbarActions
 */
   local countryVisibleIdx = -1
-  for(local c=0; c<::crews_list.len(); c++)
-    if (country==null || country==::crews_list[c].country)
+  for(local c=0; c<::g_crews_list.get().len(); c++)
+    if (country==null || country==::g_crews_list.get()[c].country)
     {
-      if (!::is_country_visible(::crews_list[c].country))
+      if (!::is_country_visible(::g_crews_list.get()[c].country))
         continue
 
       countryVisibleIdx++
@@ -973,7 +969,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
 
       local cTooltipObj = itemObj.findObject("tooltip_country_")
       if (cTooltipObj)
-        cTooltipObj.id = "tooltip_"+::crews_list[c].country
+        cTooltipObj.id = "tooltip_"+::g_crews_list.get()[c].country
 
       local unitItems = []
 
@@ -989,9 +985,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
       tblObj.id = "airs_table_"+c
       tblObj.alwaysShowBorder = ::getTblValue("alwaysShowBorder", params, "no")
 
-      for(local i=0; i<::crews_list[c].crews.len(); i++)
+      for(local i=0; i<::g_crews_list.get()[c].crews.len(); i++)
       {
-        local crew = ::crews_list[c].crews[i]
+        local crew = ::g_crews_list.get()[c].crews[i]
         local airName = ("aircraft" in crew)? crew.aircraft : ""
         local air = getAircraftByName(airName)
         local unlocked = ::isUnitUnlocked(handler, air, c, i, country, true)
@@ -1025,7 +1021,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         {
           local airParams = {
                               emptyText      = emptyText,
-                              crewImage      = "#ui/images/slotbar/slotbar_crew_free_" + ::g_string.slice(::crews_list[c].country, 8)
+                              crewImage      = "#ui/images/slotbar/slotbar_crew_free_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
                               status         = ::getUnitItemStatusText(status),
                               inactive       = ::show_console_buttons && status == bit_unit_status.locked && ::is_in_flight(),
                               active         = isSlotbarActive,
@@ -1062,7 +1058,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         if (air)
         {
           if ((!foundCurAir && selectedIdsData.idInCountry < 0 || !country)
-              && (!limitCountryChoice || airShopCountry == ::crews_list[c].country))
+              && (!limitCountryChoice || airShopCountry == ::g_crews_list.get()[c].country))
             if (curCrewId != null)
             {
               if (curCrewId == crew.id)
@@ -1097,9 +1093,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
       }
       if (firstAvailableIdsData.idInCountry < 0)
       {
-        for (local i=0; i<::crews_list[c].crews.len(); i++)
+        for (local i=0; i<::g_crews_list.get()[c].crews.len(); i++)
         {
-          local crew = ::crews_list[c].crews[i]
+          local crew = ::g_crews_list.get()[c].crews[i]
           local airName = ("aircraft" in crew)? crew.aircraft : ""
           if (airName != "")
           {
@@ -1111,7 +1107,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
           }
         }
       }
-      if ((country || airShopCountry == ::crews_list[c].country || curPlayerCountry == ::crews_list[c].country)
+      if ((country || airShopCountry == ::g_crews_list.get()[c].country || curPlayerCountry == ::g_crews_list.get()[c].country)
           && (!foundCurAir
               || (::getTblValue("shouldSelectAvailableUnit", params, ::is_in_flight())
                   && firstAvailableIdsData.selectable && !selectedIdsData.selectable)))
@@ -1123,16 +1119,16 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         selectedIdsData.selectable = true
         foundCurAir = true
       }
-      if (::selected_crews[c] != selectedIdsData.idInCountry && airShopCountry == ::crews_list[c].country)
+      if (::selected_crews[c] != selectedIdsData.idInCountry && airShopCountry == ::g_crews_list.get()[c].country)
         ::select_crew(c, selectedIdsData.idInCountry)
 
-      local slotCost = ::get_crew_slot_cost(::crews_list[c].country)
+      local slotCost = ::get_crew_slot_cost(::g_crews_list.get()[c].country)
       if (slotCost && showNewSlot && (slotCost.costGold == 0 || ::has_feature("SpendGold")))
-        rowData += build_aircraft_item(::get_slot_obj_id(c, ::crews_list[c].crews.len()),
+        rowData += build_aircraft_item(::get_slot_obj_id(c, ::g_crews_list.get()[c].crews.len()),
                                        null,
                                        {
                                          emptyText = "#shop/recruitCrew",
-                                         crewImage = "#ui/images/slotbar/slotbar_crew_recruit_" + ::g_string.slice(::crews_list[c].country, 8)
+                                         crewImage = "#ui/images/slotbar/slotbar_crew_recruit_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
                                          isCrewRecruit = true
                                          bgImg = "#ui/opauque#buy_crew",
                                          emptyCost = slotCost,
@@ -1145,9 +1141,9 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         ::fill_unit_item_timers(tblObj.findObject(unitItem.id), unitItem.unit, unitItem.params)
 
       if (limitCountryChoice)
-        itemObj.enable(airShopCountry == ::crews_list[c].country)
+        itemObj.enable(airShopCountry == ::g_crews_list.get()[c].country)
 
-      local cUnlocked = ::isCountryAvailable(::crews_list[c].country)
+      local cUnlocked = ::isCountryAvailable(::g_crews_list.get()[c].country)
       itemObj.inactive = "no"
       if (!cUnlocked)
       {
@@ -1155,22 +1151,22 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         itemObj.tooltip = ::loc("mainmenu/countryLocked/tooltip")
       }
 
-      local cImg = ::get_country_icon(::crews_list[c].country, false, !cUnlocked)
+      local cImg = ::get_country_icon(::g_crews_list.get()[c].country, false, !cUnlocked)
       itemObj.findObject("hdr_image")["background-image"] = cImg
-      if (!::is_first_win_reward_earned(::crews_list[c].country, INVALID_USER_ID))
+      if (!::is_first_win_reward_earned(::g_crews_list.get()[c].country, INVALID_USER_ID))
       {
         local mObj = itemObj.findObject("hdr_bonus")
-        showCountryBonus(mObj, ::crews_list[c].country)
+        showCountryBonus(mObj, ::g_crews_list.get()[c].country)
       }
-      fillCountryInfo(itemObj, ::crews_list[c].country)
+      fillCountryInfo(itemObj, ::g_crews_list.get()[c].country)
       if (showCountryName)
-        itemObj.findObject("hdr_caption").setValue(::getVerticalText(::loc(::crews_list[c].country + "/short", "")))
+        itemObj.findObject("hdr_caption").setValue(::getVerticalText(::loc(::g_crews_list.get()[c].country + "/short", "")))
 
-      foreach(i, crew in ::crews_list[c].crews)
+      foreach(i, crew in ::g_crews_list.get()[c].crews)
         if (("aircraft" in crew) && crew.aircraft!="")
           ::showAirExpWpBonus(tblObj.findObject(::get_slot_obj_id(c, i, true)), crew.aircraft)
 
-      if (country==::crews_list[c].country)
+      if (country==::g_crews_list.get()[c].country)
         selectedIdsData.countryId = c
       if (selectedIdsData.countryId == c)
       {
@@ -1203,8 +1199,8 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
     if (selectedIdsData.countryVisibleIdx >= 0)
       countriesObj.setValue(selectedIdsData.countryVisibleIdx)
 
-  if (selectedIdsData.countryId in ::crews_list)
-    ::switch_profile_country(::crews_list[selectedIdsData.countryId].country)
+  if (selectedIdsData.countryId in ::g_crews_list.get())
+    ::switch_profile_country(::g_crews_list.get()[selectedIdsData.countryId].country)
 
   local selItem = ::get_slot_obj(countriesObj, selectedIdsData.countryId, selectedIdsData.idInCountry)
   if (selItem)
@@ -1224,7 +1220,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
   guiScene.setUpdatesEnabled(true, true);
   ::slotbar_oninit = false
 
-  if (!country && ::crews_list.len()>1)
+  if (!country && ::g_crews_list.get().len()>1)
     initSlotbarAnim(countriesObj, guiScene)
 
   ::checkSlotbarUpdater(slotbarObj, handler, country)
@@ -1268,7 +1264,7 @@ function get_slotbar_unit_slots(handler, unitId = null, crewId = -1, withEmptySl
 
   local slotbarObj = ::get_slotbar_obj(handler, handler.slotbarScene)
   local country = handler.slotbarCountry
-  foreach(countryId, countryData in ::crews_list)
+  foreach(countryId, countryData in ::g_crews_list.get())
     if (!country || countryData.country == country)
       foreach (idInCountry, crew in countryData.crews)
       {
@@ -1372,7 +1368,7 @@ function get_slotbar_box_of_airs(slotbarScene, curSlotCountryId)
 function getBrokenSlotsCount(country)
 {
   local count = 0
-  foreach(c in ::crews_list)
+  foreach(c in ::g_crews_list.get())
     if (!country || country == c.country)
       foreach(crew in c.crews)
         if (("aircraft" in crew) && crew.aircraft!="")
@@ -1450,9 +1446,9 @@ function initSlotbarAnim(countriesObj, guiScene, first=true)
 
 function getSlotItem(countryId, idInCountry)
 {
-  if ((countryId in ::crews_list) && ("crews" in ::crews_list[countryId])
-      && (idInCountry in ::crews_list[countryId].crews))
-    return ::crews_list[countryId].crews[idInCountry]
+  if ((countryId in ::g_crews_list.get()) && ("crews" in ::g_crews_list.get()[countryId])
+      && (idInCountry in ::g_crews_list.get()[countryId].crews))
+    return ::g_crews_list.get()[countryId].crews[idInCountry]
   return null
 }
 
@@ -1466,7 +1462,7 @@ function getSlotAircraft(countryId, idInCountry)
 
 function get_crew_by_id(id)
 {
-  foreach(cId, cList in ::crews_list)
+  foreach(cId, cList in ::g_crews_list.get())
     if ("crews" in cList)
       foreach(idx, crew in cList.crews)
        if (crew.id==id)
@@ -1481,8 +1477,8 @@ function get_crew_by_id(id)
 function get_country_crews(country, needRefreshCrews = false)
 {
   if (needRefreshCrews)
-    ::crews_list <- ::get_crew_info()
-  foreach(countryData in ::crews_list)
+    ::g_crews_list.refresh()
+  foreach(countryData in ::g_crews_list.get())
     if (countryData.country == country)
       return countryData.crews
   return []
@@ -1490,7 +1486,7 @@ function get_country_crews(country, needRefreshCrews = false)
 
 function getCrewByAir(air)
 {
-  foreach(country in ::crews_list)
+  foreach(country in ::g_crews_list.get())
     if (country.country == air.shopCountry)
       foreach(crew in country.crews)
         if (("aircraft" in crew) && crew.aircraft==air.name)
@@ -1500,7 +1496,7 @@ function getCrewByAir(air)
 
 function getCrewIdTblByAir(air)
 {
-  foreach(countryId, country in ::crews_list)
+  foreach(countryId, country in ::g_crews_list.get())
     if (country.country == air.shopCountry)
       foreach(idInCountry, crew in country.crews)
         if (("aircraft" in crew) && crew.aircraft==air.name)
@@ -1516,7 +1512,7 @@ function isUnitInSlotbar(air)
 function getSlotbarUnitTypes(country)
 {
   local res = []
-  foreach(countryData in ::crews_list)
+  foreach(countryData in ::g_crews_list.get())
     if (countryData.country == country)
       foreach(crew in countryData.crews)
         if (("aircraft" in crew) && crew.aircraft != "")
@@ -1531,8 +1527,8 @@ function getSlotbarUnitTypes(country)
 function get_crews_list_by_country(country, forceUpdate = false)
 {
   if (forceUpdate)
-    ::crews_list = ::get_crew_info()
-  foreach(countryData in ::crews_list)
+    ::g_crews_list.refresh()
+  foreach(countryData in ::g_crews_list.get())
     if (countryData.country == country)
       return countryData.crews
   return []
@@ -1542,10 +1538,10 @@ function getAvailableCrewId(countryId)
 {
   local id=-1
   local curAircraft = ::get_show_aircraft_name()
-  if ((countryId in ::crews_list) && ("crews" in ::crews_list[countryId]))
-    for(local i=0; i<::crews_list[countryId].crews.len(); i++)
+  if ((countryId in ::g_crews_list.get()) && ("crews" in ::g_crews_list.get()[countryId]))
+    for(local i=0; i<::g_crews_list.get()[countryId].crews.len(); i++)
     {
-      local crew = ::crews_list[countryId].crews[i]
+      local crew = ::g_crews_list.get()[countryId].crews[i]
       if (("aircraft" in crew) && crew.aircraft!="")
       {
         if (id<0) id=i
@@ -1562,7 +1558,7 @@ function getAvailableCrewId(countryId)
 function selectAvailableCrew(countryId)
 {
   local isAnyUnitInSlotbar = false
-  if ((countryId in ::crews_list) && (countryId in ::selected_crews))
+  if ((countryId in ::g_crews_list.get()) && (countryId in ::selected_crews))
   {
     local id = getAvailableCrewId(countryId)
     isAnyUnitInSlotbar = id >= 0
@@ -1581,22 +1577,22 @@ function save_selected_crews()
     return
 
   local blk = ::DataBlock()
-  foreach(cIdx, country in ::crews_list)
+  foreach(cIdx, country in ::g_crews_list.get())
     blk[country.country] = ::getTblValue(cIdx, ::selected_crews, 0)
   ::saveLocalByAccount("selected_crews", blk)
 }
 
 function init_selected_crews(forceReload = false)
 {
-  if (!forceReload && (!::crews_list.len() || ::selected_crews.len() == ::crews_list.len()))
+  if (!forceReload && (!::g_crews_list.get().len() || ::selected_crews.len() == ::g_crews_list.get().len()))
     return
 
-  ::crews_list = get_crew_info()
+  ::g_crews_list.refresh()
   local selCrewsBlk = ::loadLocalByAccount("selected_crews", null)
   local needSave = false
 
-  ::selected_crews = array(::crews_list.len(), 0)
-  foreach(cIdx, country in ::crews_list)
+  ::selected_crews = array(::g_crews_list.get().len(), 0)
+  foreach(cIdx, country in ::g_crews_list.get())
   {
     local crewIdx = selCrewsBlk && selCrewsBlk[country.country] || 0
     if (("crews" in country)
@@ -1646,7 +1642,7 @@ function select_crew(countryId, idInCountry, airChanged = false)
 function getSelAircraftByCountry(country)
 {
   init_selected_crews()
-  foreach(cIdx, c in ::crews_list)
+  foreach(cIdx, c in ::g_crews_list.get())
     if (c.country == country)
       return getSlotAircraft(cIdx, ::selected_crews[cIdx])
   return null
@@ -1664,7 +1660,7 @@ function get_cur_available_slotbar_unit(handler)
     return unit
 
   local country = ::get_profile_info().country
-  foreach(cIdx, c in ::crews_list)
+  foreach(cIdx, c in ::g_crews_list.get())
     if (c.country == country)
       foreach(crew in c.crews)
       {
@@ -1712,7 +1708,7 @@ function getSelSlotsTable()
 {
   init_selected_crews()
   local slots = {}
-  foreach(cIdx, country in ::crews_list)
+  foreach(cIdx, country in ::g_crews_list.get())
   {
     local air = getSlotAircraft(cIdx, ::selected_crews[cIdx])
     if (!air)
@@ -1720,7 +1716,7 @@ function getSelSlotsTable()
       dagor.debug("selected crews = ")
       debugTableData(::selected_crews)
       dagor.debug("crews list = ")
-      debugTableData(::crews_list)
+      debugTableData(::g_crews_list.get())
 //      dagor.assertf(false, "Incorrect selected_crews list on getSelSlotsTable")
       selectAvailableCrew(cIdx)
     }
@@ -1733,7 +1729,7 @@ function getSelAirsTable()
 {
   init_selected_crews()
   local airs = {}
-  foreach(cIdx, country in ::crews_list)
+  foreach(cIdx, country in ::g_crews_list.get())
   {
     local air = getSlotAircraft(cIdx, ::selected_crews[cIdx])
     airs[country.country] <- air? air.name : ""
@@ -1820,7 +1816,7 @@ function isAnyBaseCountryUnlocked()
 
 function isAllBaseCountriesUnlocked()
 {
-  foreach(c in ::crews_list)
+  foreach(c in ::g_crews_list.get())
     if (!::isInArray(c.country, ::unlocked_countries))
       return false
   return true
@@ -1936,7 +1932,7 @@ function addAirButtonsTimer(listObj, needTimerList, air, handler)
 
 function gotTanksInSlots(checkCountryId=null, checkUnitId=null)
 {
-  foreach(country in ::crews_list)
+  foreach(country in ::g_crews_list.get())
     if (::isCountryAvailable(country.country) && (!checkCountryId || checkCountryId == country.country))
       foreach(crew in country.crews)
         if (("aircraft" in crew) && crew.aircraft != "" && (!checkUnitId || checkUnitId == crew.aircraft) && ::isTank(::getAircraftByName(crew.aircraft)))

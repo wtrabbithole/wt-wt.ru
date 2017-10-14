@@ -90,6 +90,7 @@ enum WW_BATTLE_CANT_JOIN_REASON
   SQUAD_MEMBER_ERROR
   SQUAD_UNITS_NOT_ENOUGH_AVAILABLE
   SQUAD_HAVE_UNACCEPTED_INVITES
+  SQUAD_NOT_ALL_CREWS_READY
 }
 
 enum mapObjectSelect {
@@ -197,6 +198,7 @@ foreach (fn in [
                  "operations/handler/wwOperationsListModal.nut"
                  "operations/handler/wwOperationsMapsHandler.nut"
                  "handler/wwMapTooltip.nut"
+                 "handler/wwSquadList.nut"
                  "handler/wwBattleDescription.nut"
                  "handler/wwAirfieldFlyOut.nut"
                  "handler/wwObjectivesInfo.nut"
@@ -402,6 +404,29 @@ function g_world_war::onEventWWGlobalStatusChanged(p)
 {
   if (p.changedListsMask & WW_GLOBAL_STATUS_TYPE.ACTIVE_OPERATIONS)
     ::g_squad_manager.updateMyMemberData()
+}
+
+function g_world_war::onEventSquadDataUpdated(p)
+{
+  if (!::g_squad_manager.getWwOperationBattle())
+    return
+
+  if (!::g_squad_manager.isSquadMember() || !::g_squad_manager.isMeReady())
+    return
+
+  local squadWwOperationId = ::g_squad_manager.getWwOperationId()
+  if (squadWwOperationId < 0 || squadWwOperationId == ::ww_get_operation_id())
+    return
+
+  local wwOperation = ::g_ww_global_status.getOperationById(squadWwOperationId)
+  if (!wwOperation)
+    return
+
+  local wwOperationCountry = ::g_squad_manager.getWwOperationCountry()
+  if (::u.isEmpty(wwOperationCountry))
+    return
+
+  wwOperation.join(wwOperationCountry)
 }
 
 function g_world_war::isDebugModeEnabled()
@@ -738,7 +763,7 @@ function g_world_war::updateBattles(forced = false)
 }
 
 
-function g_world_war::getConfigurableValues()
+function g_world_war::updateConfigurableValues()
 {
   ::ww_get_configurable_values(configurableValues)
 }
@@ -746,7 +771,7 @@ function g_world_war::getConfigurableValues()
 
 function g_world_war::onEventWWLoadOperationFirstTime(params = {})
 {
-  getConfigurableValues()
+  updateConfigurableValues()
 }
 
 function g_world_war::onEventWWLoadOperation(params = {})
@@ -1225,6 +1250,20 @@ function g_world_war::updateUserlogsAccess()
   for (local i = ::hidden_userlogs.len() - 1; i >= 0; i--)
     if (::isInArray(::hidden_userlogs[i], wwUserLogTypes))
       ::hidden_userlogs.remove(i)
+}
+
+function g_world_war::updateOperationPreviewAndDo(operationId, cb, hasProgressBox = false)
+{
+  local taskId = ::ww_preview_operation(operationId.tointeger())
+  local cbFunc = function() {
+    ::g_world_war.updateConfigurableValues()
+    cb()
+  }
+  if (!::g_tasker.addTask(taskId, {showProgressBox = hasProgressBox}, cbFunc))
+  {
+    cbFunc()
+    ::ww_stop_preview()
+  }
 }
 
 function ww_event(name, params = {})
