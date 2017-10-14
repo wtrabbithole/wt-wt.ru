@@ -283,18 +283,6 @@ function g_squad_utils::getMemberAvailableUnitsCheckingData(memberData, remainUn
   return memberCantJoinData
 }
 
-function g_squad_utils::showAloneInSquadNotification()
-{
-  local buttons = [
-      { id = "invite_player",
-        text = ::loc("squad/invite_player"),
-        func = ::open_search_squad_player
-      }
-    ]
-
-  ::g_popups.add(null, ::format("<color=@warningTextColor>%s</color>", ::loc("squad/notification/alone")), null, buttons, null)
-}
-
 function g_squad_utils::checkAndShowHasOfflinePlayersPopup()
 {
   if (!::g_squad_manager.isSquadLeader())

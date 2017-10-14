@@ -151,8 +151,8 @@ class SlotbarPresetsList
       return getCurPresetIdx()
 
     local value = listObj.getValue()
-    if (value < 0 || value >= listObj.childrenCount())
-      return getCurPresetIdx()
+    if (value < 0 || value >= (listObj.childrenCount() -1)) //last index is button 'presets'
+      return -1
     return value
   }
 

@@ -206,13 +206,13 @@ expandable {
     }
 
     <<#isPromo>>
-    <<#otherTasksText>>
+    <<#otherTasksNum>>
       textareaNoTab {
-        text:t='<<otherTasksText>>'
+        text:t='<<?mainmenu/battleTasks/OtherTasksCount>> (<<otherTasksNum>>)'
         position:t='relative'
         pos:t='pw-w, 0'
       }
-    <</otherTasksText>>
+    <</otherTasksNum>>
     <</isPromo>>
 
     <<#isPromo>>
