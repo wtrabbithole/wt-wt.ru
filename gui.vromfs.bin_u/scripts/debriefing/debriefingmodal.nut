@@ -2024,11 +2024,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!logs.len())
       return
 
-    local view = ::WwBattleResults().updateFromUserlog(logs[0]).getView()
-    local markup = ::handyman.renderCached("gui/worldWar/battleResults", view)
-    local contentObj = scene.findObject("ww_casualties_div")
-    if (::checkObj(contentObj))
-      guiScene.replaceContentFromText(contentObj, markup, markup.len(), this)
+    local taskCallback = ::Callback(function() {
+      local view = ::WwBattleResults().updateFromUserlog(logs[0]).getView()
+      local markup = ::handyman.renderCached("gui/worldWar/battleResults", view)
+      local contentObj = scene.findObject("ww_casualties_div")
+      if (::checkObj(contentObj))
+        guiScene.replaceContentFromText(contentObj, markup, markup.len(), this)
+    }, this)
+
+    local operationId = ::getTblValueByPath("wwSharedPool.operationId", logs[0])
+    if (operationId)
+      ::g_world_war.updateOperationPreviewAndDo(operationId, taskCallback)
   }
 
   function showTabsList()

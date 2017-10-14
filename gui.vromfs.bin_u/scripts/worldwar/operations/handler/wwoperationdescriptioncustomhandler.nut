@@ -45,26 +45,11 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
   {
     if (!descItem)
     {
-      local mapBlockObj = scene.findObject("world_war_map_block")
-      if (::check_obj(mapBlockObj))
-        mapBlockObj.show(false)
-      return
-    }
-
-    local taskId = ::ww_preview_operation(descItem.id)
-    if (taskId < 0)
-    {
-      ::ww_stop_preview()
+      ::showBtn("world_war_map_block", false, scene)
       return
     }
 
     ::g_world_war_render.setPreviewCategories()
-
-    local taskCallback = ::Callback(function() {
-      updateStatus()
-      updateTeamsInfo()
-    }, this)
-    ::g_tasker.addTask(taskId, {showProgressBox = true}, taskCallback)
 
     local mapNestObj = scene.findObject("map_nest_obj")
     if (!::checkObj(mapNestObj))
@@ -95,6 +80,11 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
     mapNestObj.width = minSize
     mapNestObj.pos = "50%pw-50%w, 0.5*(" + maxHeight + "-" + minSize + ")+" + top
+
+    ::g_world_war.updateOperationPreviewAndDo(descItem.id, ::Callback(function() {
+        updateStatus()
+        updateTeamsInfo()
+      }, this), true)
   }
 
   function updateStatus()
@@ -140,7 +130,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
       isClanParticipateObj.setValue(isMyClanParticipateText)
     }
-    ::g_world_war.getConfigurableValues()
+    ::g_world_war.updateConfigurableValues()
   }
 
   function updateTeamsInfo()

@@ -61,9 +61,9 @@ function get_userlog_view_data(log)
       desc += ((desc!="")? "\n":"") + ::loc("userlog/earned") + earnedText
     }
 
-    if (log.type == ::EULT_SESSION_RESULT && ::getTblValue("score", log) && ::getTblValue("missionTime", log))
+    if (log.type == ::EULT_SESSION_RESULT && ("activity" in log))
     {
-      local activity = floor(100.0 * ::player_activity_coef(log.score, ((log.missionTime+0.5).tointeger()).tofloat()) + 0.5) + "%"
+      local activity = ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(log.activity)
       desc += "\n" + ::loc("conditions/activity") + ::loc("ui/colon") + activity
     }
 

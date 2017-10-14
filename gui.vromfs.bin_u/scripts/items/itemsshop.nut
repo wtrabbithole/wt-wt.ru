@@ -247,8 +247,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
         widgetByTab[i] <- NewIconWidget(guiScene, newIconWidgetObj)
     }
     tabsObj.setValue(curTab)
-    if (curTab == 0) //list dosnt send event when value change from -1 to 0, and incorrect update value on replace content.
-      onTabChange()
   }
 
   function onTabChange()

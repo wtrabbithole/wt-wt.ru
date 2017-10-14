@@ -338,7 +338,7 @@ class ::WwBattle
 
     if (needCheckSquad && ::g_squad_manager.isInSquad())
     {
-      updateCantJoinReasonDataBySquad(team, res, needSendMessageToSquad)
+      updateCantJoinReasonDataBySquad(team, res)
       if (!::u.isEmpty(res.reasonText))
         return res
     }
@@ -366,7 +366,7 @@ class ::WwBattle
     return battles.len() > 0
   }
 
-  function updateCantJoinReasonDataBySquad(team, reasonData, needSendMessageToSquad)
+  function updateCantJoinReasonDataBySquad(team, reasonData)
   {
     if (!::g_squad_manager.isSquadLeader())
     {
@@ -393,6 +393,13 @@ class ::WwBattle
     {
       reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_NOT_ALL_READY
       reasonData.reasonText = ::loc("squad/not_all_ready")
+      return reasonData
+    }
+
+    if (!::g_squad_manager.crewsReadyCheck())
+    {
+      reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_NOT_ALL_CREWS_READY
+      reasonData.reasonText = ::loc("squad/not_all_crews_ready")
       return reasonData
     }
 
@@ -425,16 +432,6 @@ class ::WwBattle
       reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_MEMBER_ERROR
       reasonData.reasonText = ::g_system_msg.configToLang(langConfig, null, "\n") || ""
       reasonData.shortReasonText = shortMessage
-      if (needSendMessageToSquad)
-      {
-        local curOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
-        if (curOperation)
-          langConfig.insert(0, {
-            [::g_system_msg.LOC_ID] = "msg/squad_not_ready_for_ww_battle"
-            wwMap = ::g_system_msg.makeColoredLocId(COLOR_TAG.ACTIVE, curOperation.getMap().getNameLocId())
-          })
-        ::g_chat.sendLocalizedMessageToSquadRoom(langConfig)
-      }
       return reasonData
     }
 
@@ -459,7 +456,7 @@ class ::WwBattle
     if (side == null)
       side = ::ww_get_player_side()
 
-    local cantJoinReasonData = getCantJoinReasonData(side, true, true)
+    local cantJoinReasonData = getCantJoinReasonData(side, true)
     if (!cantJoinReasonData.canJoin)
     {
       ::showInfoMsgBox(cantJoinReasonData.reasonText)
@@ -544,6 +541,11 @@ class ::WwBattle
         needShow = false
         warningText = ""
       }
+
+    if (!isValid())
+    {
+      return res
+    }
 
     local team = getTeamBySide(::ww_get_player_side())
     local countryCrews = ::get_country_crews(team.country)

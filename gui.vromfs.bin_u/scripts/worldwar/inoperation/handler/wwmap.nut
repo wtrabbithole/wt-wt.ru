@@ -74,6 +74,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("update_timer").setUserData(this)
     if (::g_world_war_render.isCategoryEnabled(::ERC_ARMY_RADIUSES))
       ::g_world_war_render.setCategory(::ERC_ARMY_RADIUSES, false)
+
+    checkToOpenSquadBattleModal()
   }
 
   function initMapName()
@@ -791,12 +793,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local rearZones = ::g_world_war.getRearZones()
-    local highlightZones = []
     foreach (side, value in arrivingReinforcementSides)
-      highlightZones.extend(rearZones[::ww_side_val_to_name(side)])
-
-    if (highlightZones.len())
-      ::ww_mark_zones_as_outlined_by_name(highlightZones)
+      ::ww_turn_on_sector_sprites("Reinforcement", rearZones[::ww_side_val_to_name(side)], 5000)
   }
 
   function updateArmyStrenght()
@@ -1194,5 +1192,25 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     tabsObj.setValue(::g_ww_map_reinforcement_tab_type.REINFORCEMENT.code)
     reinforcementBlockHandler.selectFirstArmyBySide(params.side)
+  }
+
+  function onEventSquadDataUpdated(params)
+  {
+    checkToOpenSquadBattleModal()
+  }
+
+  function checkToOpenSquadBattleModal()
+  {
+    if (::g_squad_manager.isSquadMember() &&
+        !::g_squad_manager.isMeReady())
+      return
+
+    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
+    if (wwBattleName)
+    {
+      local wwBattle = ::g_world_war.getBattleById(wwBattleName)
+      if (wwBattle)
+        ::gui_handlers.WwBattleDescription.open(wwBattle)
+    }
   }
 }

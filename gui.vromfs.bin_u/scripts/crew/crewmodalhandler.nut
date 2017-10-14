@@ -149,7 +149,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurCountryName()
   {
-    return ::crews_list[countryId].country
+    return ::g_crews_list.get()[countryId].country
   }
 
   function updateUnitTypeRadioButtons()
@@ -161,7 +161,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local data = ""
     foreach(unitType in ::g_unit_type.types)
     {
-      if (!unitType.isAvailable())
+      if (!unitType.isVisibleInShop())
         continue
 
       local esUnitType = unitType.esUnitType

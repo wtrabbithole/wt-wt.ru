@@ -310,9 +310,9 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
         if (::checkObj(wndObj))
           registerSubHandler(::gui_start_shop(wndObj))
       }
-      else if (curSlotCountryId in ::crews_list && ::shop_gui_handler)
+      else if (curSlotCountryId in ::g_crews_list.get() && ::shop_gui_handler)
       {
-        local country = ::crews_list[curSlotCountryId].country
+        local country = ::g_crews_list.get()[curSlotCountryId].country
         ::shop_gui_handler.onTopmenuCountry.call(::shop_gui_handler, country, forceUpdate, unitType)
         ::shop_gui_handler.curSlotCountryId = curSlotCountryId
       }
@@ -350,10 +350,10 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   function onSlotbarCountryAction(obj)
   {
     base.onSlotbarCountryAction(obj)
-    if (!(curSlotCountryId in ::crews_list))
+    if (!(curSlotCountryId in ::g_crews_list.get()))
       return
 
-    local country = ::crews_list[curSlotCountryId].country
+    local country = ::g_crews_list.get()[curSlotCountryId].country
     if (::current_base_gui_handler && ("onTopmenuCountry" in ::current_base_gui_handler))
       ::current_base_gui_handler.onTopmenuCountry.call(::current_base_gui_handler, country)
     updateShopCountry()

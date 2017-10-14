@@ -356,7 +356,7 @@ function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, para
   {
     view.progress <- {
       positive = lb_value_diff > 0
-      diff = lbCategory.getItemCell(lb_value, null, true)
+      diff = lbCategory.getItemCell(lb_value_diff, null, true)
     }
   }
 

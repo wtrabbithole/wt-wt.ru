@@ -855,7 +855,7 @@ function setCrewUnlockTime(obj, air)
     return
 
   ::secondsUpdater(obj, (@(air) function(obj, params) {
-    ::crews_list = ::get_crew_info()
+    ::g_crews_list.refresh()
     local crew = air && ::getCrewByAir(air)
     local lockTime = ::getTblValue("lockedTillSec", crew, 0)
     local show = lockTime > 0 && ::isInMenu()
@@ -874,7 +874,7 @@ function setCrewUnlockTime(obj, air)
           ::dagor.debug("crew.lockedTillSec " + lockTime)
           ::dagor.debug("::get_charserver_time_sec() " + ::get_charserver_time_sec())
           if (!::skip_crew_unlock_assert)
-            ::debugTableData(::get_crew_info())
+            ::debugTableData(::g_crews_list.get())
           ::dagor.assertf(::skip_crew_unlock_assert, "Too big locked crew wait time")
           ::skip_crew_unlock_assert = true
         }
@@ -1119,7 +1119,7 @@ function get_crew_sp_text(sp, showEmpty = true)
 {
   if (!showEmpty && sp == 0)
     return ""
-  return sp.tostring() + ::loc("currency/skillPoints/sign/colored")
+  return ::g_language.decimalFormat(sp) + ::loc("currency/skillPoints/sign/colored")
 }
 
 function get_flush_exp_text(exp_value)

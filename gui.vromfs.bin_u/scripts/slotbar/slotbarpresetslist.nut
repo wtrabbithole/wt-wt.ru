@@ -44,7 +44,7 @@ class SlotbarPresetsList
 
   function getCurCountry()
   {
-    local countryData = ownerWeak && ::getTblValue(ownerWeak.curSlotCountryId, ::crews_list)
+    local countryData = ownerWeak && ::getTblValue(ownerWeak.curSlotCountryId, ::g_crews_list.get())
     return countryData? countryData.country : ""
   }
 

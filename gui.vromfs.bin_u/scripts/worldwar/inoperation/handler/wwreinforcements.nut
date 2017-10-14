@@ -121,6 +121,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
     local mapObj = guiScene["worldwar_map"]
     ::ww_gui_bhv.worldWarMapControls.selectArmy.call(::ww_gui_bhv.worldWarMapControls, mapObj, currentReinforcementName)
     updateSelectedArmy(false, true)
+    updateRearZonesHighlight()
 
     local selectedArmies = ::ww_get_selected_armies_names()
     if (!selectedArmies.len())
@@ -129,6 +130,22 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
     local wwArmy = ::g_world_war.getArmyByName(selectedArmies[0])
     if (wwArmy)
       ::g_world_war.playArmyActionSound("deploySound", wwArmy)
+  }
+
+  function updateRearZonesHighlight()
+  {
+    local reinforcements = ::g_world_war.getMyReadyReinforcementsArray()
+    local rearZones = ::g_world_war.getRearZones()
+    foreach (sideName, zones in rearZones)
+    {
+      local side = ::ww_side_name_to_val(sideName)
+      local reinforcementIdx = ::u.searchIndex(reinforcements,
+        @(reinforcement) ::getTblValueByPath("armyGroup.owner.side", reinforcement) == side
+      )
+
+      if (reinforcementIdx < 0)
+        ::ww_turn_off_sector_sprites("Reinforcement", zones)
+    }
   }
 
   function onWrongCellIdx(error)

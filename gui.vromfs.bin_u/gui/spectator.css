@@ -107,6 +107,7 @@ td.spectatorTeamCell > battleStateIco.OutOfAmmo {
 td.spectatorTeamCell > icon {
   height:@tableIcoSize;
   position:absolute;
+  background-svg-size:@cIco, @cIco;
 }
 td.spectatorTeamCell[side=left] > icon {
   pos:2.75@tableIcoSize - w, 0.5ph-0.5h;
@@ -284,14 +285,16 @@ toggleButton[toggled=yes] {
 toggleButton[toggled=no] {
   tooltip:#mainmenu/btnExpand;
 }
+
+toggleButton > icon {
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+}
 toggleButton[attachSide=left][toggled=yes] > icon,
 toggleButton[attachSide=right][toggled=no] > icon {
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   rotation:270;
 }
 toggleButton[attachSide=right][toggled=yes] > icon,
 toggleButton[attachSide=left][toggled=no]   > icon {
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   rotation:90;
 }
 

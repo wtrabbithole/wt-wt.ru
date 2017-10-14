@@ -3,7 +3,6 @@ root {
   type:t='big';
 
   frame {
-    width:t='92@scrn_tgt/100.0';
     pos:t='50%pw-50%w, 40%ph-40%h';
     position:t='absolute';
     class:t='wndNav';
@@ -34,7 +33,6 @@ root {
         id:t='countries_list';
         pos:t='50%pw-50%w,50%ph-50%h';
         position:t='relative';
-        height:t='10*@scrn_tgt/100.0';
         class:t='countries';
         activeAccesskeys:t='LeftRight';
         shortcutActivate:t='';
@@ -45,9 +43,11 @@ root {
         <<#shopFilterItems>>
         shopFilter {
           id:t='<<shopFilterId>>';
-          tooltip:t='<<shopFilterTooltip>>';
           shopFilterImg {
             background-image:t='<<shopFilterImage>>';
+          }
+          shopFilterText{
+            text:t='<<shopFilterText>>';
           }
         }
         <</shopFilterItems>>

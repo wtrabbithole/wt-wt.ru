@@ -105,7 +105,7 @@ class ::Warbond
     if (!amount && !needShowZero)
       return ""
 
-    local res = amount
+    local res = ::g_language.decimalFormat(amount)
     if (needColorByBalance && amount > getBalance())
       res = ::colorize("badTextColor", res)
     return res + ::loc(fontIcon)

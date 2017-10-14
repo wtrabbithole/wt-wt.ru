@@ -518,7 +518,7 @@ function get_entitlement_price(item, goldColored = true)
       if (discount)
         totalPrice -= totalPrice * discount * 0.01
 
-      return format(::loc("price/common"), totalPrice.tostring())
+      return format(::loc("price/common"), ::g_language.decimalFormat(totalPrice))
     }
   }
   else if ("goldCost" in item)

@@ -151,10 +151,15 @@ frame {
     navRight {
       Button_text {
         id:t = 'btn_warbonds_shop'
-        text:t = '#mainmenu/btnWarbondsShop'
         _on_click:t = 'onWarbondsShop'
         btnName:t='X'
         ButtonImg {}
+        valign:t='center'
+        <<@warbondNewIconWidget>>
+        btnText {
+          text:t='#mainmenu/btnWarbondsShop'
+          class:t='buttonText'
+        }
       }
 
       Button_text {

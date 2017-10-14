@@ -20,11 +20,10 @@ shopFilter {
   <</tabImage>>
 
   <<#newIconWidget>>
-  tdiv {
+  newIconWidget {
     id:t='tab_new_icon_widget'
     pos:t='0, 0.5ph-0.5h'
     position:t='relative'
-    padding-left:t='10@sf/720'
     <<@newIconWidget>>
   }
   <</newIconWidget>>

@@ -192,6 +192,9 @@
               "radius": -1.0
             },
             {
+              "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
               "target": "spawnpoint01"
             },
             {
@@ -244,6 +247,7 @@
             "showOnMap": false,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "assault_spawn",
             "team": "A",
             "tags": {
@@ -276,6 +280,7 @@
             "showOnMap": false,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "bomber_spawn",
             "team": "A",
             "tags": {
@@ -299,6 +304,7 @@
             "showOnMap": false,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "artillery_spawnpoints_squad",
             "team": "A",
             "tags": {
@@ -450,6 +456,20 @@
             "var": "wave_number_overall_counter",
             "input_var": "wave_number_overall_var"
           }
+        },
+        {
+          "varSetInt": {
+            "value": 11,
+            "var": "tickets_change_per_sec_int",
+            "fromDescriptor": "ticketsPerSec"
+          }
+        },
+        {
+          "varModify": {
+            "operator": "mul",
+            "value": -1.0,
+            "var": "tickets_change_per_sec_int"
+          }
         }
       ],
       "else_actions": []
@@ -477,6 +497,7 @@
           "ground": true,
           "mapArea": true,
           "killOutOfBattleArea": true,
+          "newGridHorizontalCellCount": 0,
           "area": "battlearea"
         }
       },
@@ -584,6 +605,7 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
           "shouldBlink": false
         },
         "varModify": {
@@ -623,43 +645,20 @@
         },
         {
           "playHint": {
-            "hintType": "custom",
-            "name": "",
-            "action": "hideCur",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false,
-            "shouldBlink": false
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
+            "hintType": "standard",
             "name": "@start_hint_id_str",
             "action": "show",
             "shouldFadeOut": false,
-            "time": -1.0,
+            "time": 3.0,
             "priority": 1000,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
         {
           "wait": {
             "time": 3.0
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
-            "name": "",
-            "action": "hideCur",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false,
-            "shouldBlink": false
           }
         },
         {
@@ -768,6 +767,7 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -844,6 +844,7 @@
           "time": -1.0,
           "priority": 1000,
           "isOverFade": false,
+          "target_marking": 0,
           "shouldBlink": false
         }
       },
@@ -891,6 +892,7 @@
           "time": -1.0,
           "priority": 0,
           "isOverFade": false,
+          "target_marking": 0,
           "shouldBlink": false
         },
         "varModify": {
@@ -922,6 +924,7 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -944,6 +947,7 @@
             "time": -1.0,
             "priority": 0,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -1078,6 +1082,7 @@
             "time": -1.0,
             "priority": 1000,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           }
         },
@@ -1482,7 +1487,8 @@
             "shouldFadeOut": false,
             "isOverFade": false,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "target_marking": 0
           },
           "__triggerEnable": {
             "target": "player_not_in_the_zone"
@@ -1535,6 +1541,7 @@
             "time": -1.0,
             "priority": 1000,
             "isOverFade": false,
+            "target_marking": 0,
             "shouldBlink": false
           },
           "unitSetIndication": {
@@ -1841,7 +1848,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 3.0
           }
         },
         "conditions": {
@@ -1853,13 +1860,25 @@
         },
         "actions": {
           "varSetInt": {
-            "value": -66,
+            "value": 0,
+            "var": "tickets_change_per_3sec_int",
+            "input_var": "tickets_change_per_sec_int"
+          },
+          "varModify": {
+            "operator": "mul",
+            "value": 6.0,
             "var": "tickets_change_per_3sec_int"
           }
         },
         "else_actions": {
           "varSetInt": {
-            "value": -33,
+            "value": 0,
+            "var": "tickets_change_per_3sec_int",
+            "input_var": "tickets_change_per_sec_int"
+          },
+          "varModify": {
+            "operator": "mul",
+            "value": 3.0,
             "var": "tickets_change_per_3sec_int"
           }
         }
@@ -3364,74 +3383,48 @@
             "comparasion_func": "more"
           }
         },
-        "actions": [
-          {
-            "unitRespawn": {
-              "delay": 0.01,
-              "offset": [0.0,0.0,0.0],
-              "object": "enemy_air_assaults",
-              "object_type": "isInactive",
-              "target": "enemy_airspawn",
-              "useForTriggerFiltered": true,
-              "resetFormation": true,
-              "randomObjectsCountVar": "airunits_in_wave_int",
-              "setObjectMarking": 21
-            }
+        "actions": {
+          "unitRespawn": {
+            "delay": 0.01,
+            "offset": [0.0,0.0,0.0],
+            "object": "enemy_air_assaults",
+            "object_type": "isInactive",
+            "target": "enemy_airspawn",
+            "useForTriggerFiltered": true,
+            "resetFormation": true,
+            "randomObjectsCountVar": "airunits_in_wave_int",
+            "setObjectMarking": 21
           },
-          {
-            "unitSetProperties": {
-              "object_marking": 0,
-              "object": "enemy_air_assaults",
-              "calmDetection": true,
-              "forceVisibleOnMap": true,
-              "attack_type": "fire_at_will_gnd"
-            }
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object": "enemy_air_assaults",
+            "useAuxWeapon": true,
+            "calmDetection": true,
+            "forceVisibleOnMap": true,
+            "attack_type": "fire_at_will_gnd"
           },
-          {
-            "unitSetIndication": {
-              "target_marking": 0,
-              "set": true,
-              "target": "enemy_air_assaults"
-            }
+          "unitSetIndication": {
+            "target_marking": 0,
+            "set": true,
+            "target": "enemy_air_assaults"
           },
-          {
-            "triggerEnable": {
-              "target": "planes_atack"
-            }
+          "triggerEnable": {
+            "target": "planes_atack"
           },
-          {
-            "wait": {
-              "time": 5.0
-            }
+          "wait": {
+            "time": 5.0
           },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/enemy_air_atack",
-              "action": "show",
-              "shouldFadeOut": false,
-              "isOverFade": false,
-              "time": -1.0,
-              "priority": 0
-            }
-          },
-          {
-            "wait": {
-              "time": 3.0
-            }
-          },
-          {
-            "playHint": {
-              "hintType": "custom",
-              "name": "hints/enemy_air_atack",
-              "action": "hide",
-              "shouldFadeOut": false,
-              "isOverFade": false,
-              "time": -1.0,
-              "priority": 0
-            }
+          "playHint": {
+            "hintType": "standard",
+            "name": "hints/enemy_air_atack",
+            "action": "show",
+            "shouldFadeOut": true,
+            "isOverFade": false,
+            "time": 3.0,
+            "priority": 0,
+            "target_marking": 0
           }
-        ],
+        },
         "else_actions": {
           "varSetInt": {
             "value": 1,
@@ -3545,7 +3538,8 @@
     "tickets_current_int": 0,
     "tickets_next_int": 0,
     "tickets_after_sum_int": 0,
-    "tickets_diff_for_summing_int": 0
+    "tickets_diff_for_summing_int": 0,
+    "tickets_change_per_sec_int": 0
   },
   "dialogs": [],
   "airfields": [],

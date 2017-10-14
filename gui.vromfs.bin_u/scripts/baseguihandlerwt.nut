@@ -53,6 +53,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   ignoreCheckSlotbar = false
   skipCheckCountrySelect = false
   skipCheckAirSelect = false
+  shouldCheckCrewsReady = false
   presetsListWeak = null
 
   curSlotCountryId = -1
@@ -130,7 +131,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
     rightSectionHandlerWeak = ::gui_handlers.TopMenuButtonsHandler.create(scene.findObject("topmenu_menu_panel_right"),
                                                                           this,
-                                                                          ::g_top_menu_right_side_sections)
+                                                                          ::g_top_menu_right_side_sections,
+                                                                          scene.findObject("right_gc_panel_free_width")
+                                                                         )
     registerSubHandler(rightSectionHandlerWeak)
   }
 
@@ -359,7 +362,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local msgText = ::loc("msgbox/noEntitlement/PremiumAccount")
     msgBox("no_premium", msgText,
          [["ok", (@(afterCloseFunc) function() { startOnlineShop("premium", afterCloseFunc)})(afterCloseFunc) ],
-         ["cancel", function() {} ]], "ok")
+         ["cancel", function() {} ]], "ok", { checkDuplicateId = true })
   }
 
   function onOnlineShopEaglesMsg(obj)
@@ -503,9 +506,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     local crew = getSlotItem(curSlotCountryId, curSlotIdInCountry)
-    if (!crew && (curSlotCountryId in ::crews_list))
+    if (!crew && (curSlotCountryId in ::g_crews_list.get()))
     {
-      local country = ::crews_list[curSlotCountryId].country
+      local country = ::g_crews_list.get()[curSlotCountryId].country
 
       local rawCost = ::get_crew_slot_cost(country)
       local cost = rawCost && ::Cost(rawCost.cost, rawCost.costGold)
@@ -567,8 +570,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local idx = obj.getValue()
     local countryIdx = ::to_integer_safe(
       ::getObjIdByPrefix(obj.getChild(idx), "slotbar-country"), curSlotCountryId)
-    if (curSlotCountryId >= 0 && curSlotCountryId != countryIdx && countryIdx in ::crews_list
-        && !::isCountryAvailable(::crews_list[countryIdx].country) && ::isAnyBaseCountryUnlocked())
+    if (curSlotCountryId >= 0 && curSlotCountryId != countryIdx && countryIdx in ::g_crews_list.get()
+        && !::isCountryAvailable(::g_crews_list.get()[countryIdx].country) && ::isAnyBaseCountryUnlocked())
     {
       msgBox("notAvailableCountry", ::loc("mainmenu/countryLocked/tooltip"),
              [["ok", (@(obj) function() {
@@ -607,7 +610,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   {
     if (!::checkObj(slotbarScene))
       return
-    foreach(idx, c in ::crews_list)
+    foreach(idx, c in ::g_crews_list.get())
       if (c.country == country)
       {
         local cObj = slotbarScene.findObject("slotbar-countries")
@@ -639,7 +642,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
         return
 
       onSlotbarSelect(obj.findObject("airs_table_"+countryIdx))
-      local c = ::crews_list[countryIdx].country
+      local c = ::g_crews_list.get()[countryIdx].country
       ::switch_profile_country(c)
     }
     else
@@ -654,7 +657,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::checkObj(slotbarScene))
       return
 
-    foreach(idx, c in ::crews_list)
+    foreach(idx, c in ::g_crews_list.get())
       if (c.country == country)
       {
         if (idx != curSlotCountryId)
@@ -892,8 +895,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (ignoreCheckSlotbar || !::isInMenu() || !::checkObj(slotbarScene))
       return
 
-    if (!(curSlotCountryId in ::crews_list)
-        || ::crews_list[curSlotCountryId].country != ::get_profile_info().country
+    if (!(curSlotCountryId in ::g_crews_list.get())
+        || ::g_crews_list.get()[curSlotCountryId].country != ::get_profile_info().country
         || curSlotIdInCountry != ::selected_crews[curSlotCountryId])
       reinitSlotbarAction()
   }
@@ -1074,7 +1077,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     {
       ignoreCheckSlotbar = false
       ::update_gamercards()
-      ::crews_list = get_crew_info()
+      ::g_crews_list.refresh()
       onSlotChangeAircraft()
     }, this)
 
@@ -1326,7 +1329,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   {
     checkAndStart(
       (@(func, cancelFunc) function() {
-        ::g_squad_utils.checkSquadUnreadyAndDo(this, func, cancelFunc)
+        ::g_squad_utils.checkSquadUnreadyAndDo(this, func, cancelFunc, shouldCheckCrewsReady)
       })(func, cancelFunc),
       cancelFunc, "isCanModifyCrew")
   }

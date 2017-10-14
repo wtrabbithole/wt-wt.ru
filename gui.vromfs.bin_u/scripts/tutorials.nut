@@ -243,9 +243,7 @@ function check_tutorial_reward()
       {
         local tasksData = [];
         local slot = dataBlk[misName].slot;
-        if (::crews_list.len()==0)
-          ::crews_list = ::get_crew_info();
-        foreach(c in ::crews_list)
+        foreach(c in ::g_crews_list.get())
           if (c.crews.len() == slot && c.crews[slot-1].isEmpty == 1)
           {
             local airName = ::getReserveAircraftName({country = c.country});

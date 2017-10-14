@@ -19,6 +19,7 @@ enum LOGIN_STATE //bit mask
 
   onAuthorizeChanged = function() {}
   onLoggedInChanged  = function() {}
+  loadLoginHandler   = function() {}
   initConfigs        = function(cb) { cb() }
 }
 

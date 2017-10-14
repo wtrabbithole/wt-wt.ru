@@ -14,6 +14,7 @@ class SquadMember
   missedPkg = null
   wwOperations = null
   isReady = false
+  isCrewsReady = false
   cyberCafeId = ""
   unallowedEventsENames = null
   sessionRoomId = ""
@@ -24,8 +25,9 @@ class SquadMember
   isInvitedToSquadChat = false
 
   updatedProperties = ["name", "rank", "country", "clanTag", "pilotIcon", "selAirs",
-                       "selSlots", "crewAirs", "brokenAirs", "missedPkg", "wwOperations", "isReady", "cyberCafeId",
-                       "unallowedEventsENames", "sessionRoomId"]
+                       "selSlots", "crewAirs", "brokenAirs", "missedPkg", "wwOperations",
+                       "isReady", "isCrewsReady", "cyberCafeId", "unallowedEventsENames",
+                       "sessionRoomId"]
 
   constructor(uid, isInvite = false)
   {

@@ -122,26 +122,19 @@
     {
       "tdiv": {
         "id": "authorization_block",
-        "pos": "50%sw-50%w, 70%sh",
+        "pos": "50%sw-50%w, 70%sh - 50%h",
         "position": "absolute",
         "flow": "vertical",
-        "tdiv": {
-          "id": "authorization_button_place",
-          "pos": "50%pw-50%w, 0.01@scrn_tgt",
+        "textareaNoTab": {
+          "id": "xbox_active_usertag",
+          "pos": "50%pw-50%w, 0",
           "position": "relative"
         },
-        "Button_text": {
-          "id": "change_login",
-          "visualStyle": "secondary",
-          "_on_click": "onChangeLoginScreen",
-          "btnName": "X",
-          "text": "#mainmenu/alreadyHaveAccount",
-          "display": "hide",
-          "enable": "no",
-          "pos": "50%pw-50%w, 0.01@scrn_tgt",
+        "authorizationBlock": {
+          "id": "authorization_button_place",
+          "pos": "50%pw-50%w, 0",
           "position": "relative",
-          "buttonWink": [],
-          "ButtonImg": []
+          "flow": "vertical"
         },
         "text": [
           {

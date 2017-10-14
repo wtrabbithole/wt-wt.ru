@@ -10,7 +10,7 @@
 
 function g_crew::isAllCrewsMinLevel()
 {
-  foreach(checkedCountrys in ::crews_list)
+  foreach(checkedCountrys in ::g_crews_list.get())
     foreach(crew in checkedCountrys.crews)
       for (local i = 0; i < ::unitTypesList.len(); i++)
       {
@@ -31,7 +31,7 @@ function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)
   if (countryId < 0 || idInCountry < 0)
     return {}
 
-  local countrySlot = countryId in ::crews_list ? ::crews_list[countryId] : {}
+  local countrySlot = ::getTblValue(countryId, ::g_crews_list.get(), {})
   local crewSlot = "crews" in countrySlot && idInCountry in countrySlot.crews? countrySlot.crews[idInCountry] : {}
 
   local country = countrySlot.country
@@ -334,7 +334,7 @@ function g_crew::getCrewUnit(crew)
 
 function g_crew::getCrewCountry(crew)
 {
-  local countryData = ::getTblValue(crew.idCountry, ::crews_list)
+  local countryData = ::getTblValue(crew.idCountry, ::g_crews_list.get())
   return countryData ? countryData.country : ""
 }
 
@@ -467,7 +467,7 @@ function g_crew::_upgradeUnitSpec(crew, unit, upgradesAmount = 1)
   local progBox = { showProgressBox = true }
   upgradesAmount--
   local onTaskSuccess = (@(crew, unit, upgradesAmount) function() {
-    ::crews_list = get_crew_info()
+    ::g_crews_list.refresh()
     ::updateAirAfterSwitchMod(unit)
     ::update_gamercards()
     ::broadcastEvent("QualificationIncreased", { unit = unit})
@@ -514,7 +514,7 @@ function g_crew::getBestTrainedCrewIdxForUnit(unit, mustBeEmpty, compareToCrew =
 
 function g_crew::onEventCrewSkillsChanged(params)
 {
-  ::crews_list = get_crew_info();
+  ::g_crews_list.refresh()
   ::update_crew_skills_available(true)
 }
 
@@ -589,7 +589,7 @@ function load_crew_skills()
 {
   ::crew_skills=[]
   ::crew_air_train_req <- {}
-  ::crews_list = get_crew_info()
+  ::g_crews_list.refresh()
 
   local blk = ::get_skills_blk()
   ::g_crew.crewLevelBySkill = blk.skill_to_level_ratio || ::g_crew.crewLevelBySkill
@@ -736,7 +736,7 @@ function update_crew_skills_available(forceUpdate = false)
 
   ::load_crew_skills_once()
   ::crew_skills_available = {}
-  foreach(cList in ::crews_list)
+  foreach(cList in ::g_crews_list.get())
     if ("crews" in cList)
       foreach(idx, crew in cList.crews)
       {
@@ -790,7 +790,7 @@ function get_first_empty_crew_slot(country = null)
     country = ::get_profile_info().country
 
   local crew = null
-  foreach (idx, crewBlock in ::crews_list)
+  foreach (idx, crewBlock in ::g_crews_list.get())
     if (crewBlock.country == country)
     {
       crew = crewBlock.crews

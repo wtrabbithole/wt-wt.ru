@@ -216,8 +216,6 @@
       "level": "levels/khalkhin_gol.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/khalkhin_gol_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,14 +223,13 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/khalkhin_gol_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
       "country_axis": "japan",
       "country_allies": "ussr",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true
-      },
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -254,7 +251,14 @@
         "_CnvA": false,
         "_CnvB": false,
         "_DBttlA": false,
-        "_DBttlB": false
+        "_DBttlB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false
       }
     },
     "cover_points": [],
@@ -280,6 +284,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -487,6 +494,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -512,6 +520,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -566,6 +575,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_trucks_aaa_squad"
             },
             {
@@ -584,6 +596,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_aaa_squad"
             },
@@ -604,21 +619,8 @@
         {
           "unitSetProperties": [
             {
-              "object": "t1_def_aaa_squad"
+              "object_marking": 0
             },
-            {
-              "object": "t2_def_aaa_squad"
-            },
-            {
-              "accuracy": 1.0
-            },
-            {
-              "effShootingRate": 1.0
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
             {
               "object": "t1_tanks_squad"
             },
@@ -672,6 +674,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -679,12 +682,16 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_movable_units_squad"
             },
@@ -906,6 +913,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t1_aaa_squad",
             "move_type": "use_splines"
           }
@@ -961,6 +970,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_aaa_squad",
             "move_type": "use_splines"
           }
@@ -1085,6 +1096,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1117,7 +1130,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_02": {
@@ -1132,7 +1146,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_03": {
@@ -1147,7 +1162,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_04": {
@@ -1162,7 +1178,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_05": {
@@ -1177,7 +1194,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_06": {
@@ -1192,7 +1210,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_07": {
@@ -1207,7 +1226,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_09": {
@@ -1222,7 +1242,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_11": {
@@ -1237,7 +1258,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_wp_12": {
@@ -1252,7 +1274,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -1269,6 +1292,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1301,7 +1326,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_wp_04": {
@@ -1316,7 +1342,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_wp_08": {
@@ -1331,7 +1358,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_wp_09": {
@@ -1346,7 +1374,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_wp_10": {
@@ -1361,7 +1390,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_wp_12": {
@@ -1376,7 +1406,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_wp_13": {
@@ -1391,7 +1422,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -1408,6 +1440,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1440,7 +1474,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_wp_04": {
@@ -1455,7 +1490,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_wp_12": {
@@ -1470,7 +1506,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_wp_13": {
@@ -1485,7 +1522,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_wp_15": {
@@ -1500,7 +1538,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_wp_16": {
@@ -1515,7 +1554,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_wp_19": {
@@ -1530,7 +1570,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_wp_20": {
@@ -1545,7 +1586,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -1720,6 +1762,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1753,6 +1797,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1786,6 +1832,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1819,6 +1867,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1852,6 +1902,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1885,6 +1937,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1934,6 +1988,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1967,6 +2023,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2016,6 +2074,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2081,6 +2141,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2114,6 +2176,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2147,6 +2211,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2180,6 +2246,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2213,6 +2281,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2246,6 +2316,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2279,6 +2351,8 @@
         ],
         "unit_class": "jpn_25mm_t96_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2312,6 +2386,8 @@
         ],
         "unit_class": "jpn_25mm_t96_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2345,6 +2421,8 @@
         ],
         "unit_class": "jpn_25mm_t96_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2378,6 +2456,8 @@
         ],
         "unit_class": "jpn_25mm_t96_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2411,6 +2491,8 @@
         ],
         "unit_class": "jpn_75mm_t88",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2444,6 +2526,8 @@
         ],
         "unit_class": "jpn_75mm_t88",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2477,6 +2561,8 @@
         ],
         "unit_class": "jpn_75mm_t88",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2510,6 +2596,8 @@
         ],
         "unit_class": "jpn_25mm_t96_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2543,6 +2631,8 @@
         ],
         "unit_class": "jpn_25mm_t96",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2720,6 +2810,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2752,7 +2844,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_wp_02": {
@@ -2767,7 +2860,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_wp_03": {
@@ -2782,7 +2876,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_wp_04": {
@@ -2797,7 +2892,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_wp_06": {
@@ -2812,7 +2908,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_wp_08": {
@@ -2827,7 +2924,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_wp_11": {
@@ -2842,7 +2940,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_wp_12": {
@@ -2857,7 +2956,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -2874,6 +2974,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2906,7 +3008,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_wp_04": {
@@ -2921,7 +3024,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_wp_06": {
@@ -2936,7 +3040,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_wp_07": {
@@ -2951,7 +3056,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_wp_08": {
@@ -2966,7 +3072,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_wp_09": {
@@ -2981,7 +3088,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_wp_02": {
@@ -2996,7 +3104,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -3099,6 +3208,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3132,6 +3243,8 @@
         ],
         "unit_class": "ussr_37mm_61k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3165,6 +3278,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3198,6 +3313,8 @@
         ],
         "unit_class": "jpn_25mm_t96_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3231,6 +3348,8 @@
         ],
         "unit_class": "jpn_25mm_t96",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3314,6 +3433,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3347,6 +3468,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3380,6 +3503,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3413,6 +3538,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3446,6 +3573,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3479,6 +3608,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3512,6 +3643,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3545,6 +3678,8 @@
         ],
         "unit_class": "jpn_75mm_t90",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3578,6 +3713,8 @@
         ],
         "unit_class": "jpn_75mm_t90",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3611,6 +3748,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3644,6 +3783,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3708,14 +3849,16 @@
       "armada": {
         "name": "t1_player01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.0225524,0.0,0.999746],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
+          [-0.999746,0.0,0.0225524],
           [-12345.7,2000.0,4006.5]
         ],
-        "unit_class": "a6m2_zero",
+        "unit_class": "ar_2",
         "closed_waypoints": false,
-        "weapons": "",
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "ar2_2xfab250_4xfab250",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -3759,6 +3902,8 @@
         ],
         "unit_class": "germ_sdkfz62_37mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3791,7 +3936,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_03": {
@@ -3806,7 +3952,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_04": {
@@ -3821,7 +3968,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_05": {
@@ -3836,7 +3984,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_06": {
@@ -3851,7 +4000,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_07": {
@@ -3866,7 +4016,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_08": {
@@ -3881,7 +4032,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -3898,6 +4050,8 @@
         ],
         "unit_class": "ussr_zis5_37mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3930,7 +4084,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_02": {
@@ -3945,7 +4100,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_04": {
@@ -3960,7 +4116,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_05": {
@@ -3975,7 +4132,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_06": {
@@ -3990,7 +4148,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_08": {
@@ -4005,7 +4164,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_09": {
@@ -4020,7 +4180,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -4037,6 +4198,8 @@
         ],
         "unit_class": "ussr_zis5_37mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4069,7 +4232,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_11": {
@@ -4084,7 +4248,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_13": {
@@ -4099,7 +4264,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_14": {
@@ -4114,7 +4280,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_15": {
@@ -4129,7 +4296,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_16": {
@@ -4144,7 +4312,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_17": {
@@ -4159,7 +4328,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_04_wp_18": {
@@ -4174,7 +4344,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -4191,6 +4362,8 @@
         ],
         "unit_class": "germ_sdkfz62_37mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4223,7 +4396,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_10": {
@@ -4238,7 +4412,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_12": {
@@ -4253,7 +4428,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_13": {
@@ -4268,7 +4444,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_14": {
@@ -4283,7 +4460,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_15": {
@@ -4298,7 +4476,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_04_wp_16": {
@@ -4313,7 +4492,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -4386,6 +4566,8 @@
         ],
         "unit_class": "jpn_80mm_t3",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4419,6 +4601,8 @@
         ],
         "unit_class": "jpn_80mm_t3",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4452,6 +4636,8 @@
         ],
         "unit_class": "jpn_80mm_t3",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4485,6 +4671,8 @@
         ],
         "unit_class": "jpn_80mm_t3",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4518,6 +4706,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4551,6 +4741,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4584,6 +4776,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4617,6 +4811,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4650,6 +4846,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4683,6 +4881,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4716,6 +4916,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4749,6 +4951,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4782,6 +4986,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4815,6 +5021,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4848,6 +5056,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4881,6 +5091,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4914,6 +5126,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4947,6 +5161,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4980,6 +5196,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5013,6 +5231,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5046,6 +5266,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5079,7 +5301,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_wp_04": {
@@ -5094,7 +5317,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_wp_06": {
@@ -5109,7 +5333,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_wp_07": {
@@ -5124,7 +5349,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_wp_08": {
@@ -5139,7 +5365,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_wp_09": {
@@ -5154,7 +5381,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_wp_10": {
@@ -5169,7 +5397,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -5335,6 +5564,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5368,6 +5599,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5402,6 +5635,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5436,6 +5671,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5486,6 +5723,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5520,6 +5759,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5554,6 +5795,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5618,6 +5861,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5651,6 +5896,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5684,6 +5931,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5734,6 +5983,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5799,6 +6050,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5832,6 +6085,8 @@
         ],
         "unit_class": "jpn_75mm_t90_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5866,6 +6121,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5900,6 +6157,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5934,6 +6193,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5968,6 +6229,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6002,6 +6265,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6036,6 +6301,8 @@
         "unit_class": "uk_bunker_light",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6249,6 +6516,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6281,7 +6550,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_02_wp_02": {
@@ -6296,7 +6566,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_02_wp_03": {
@@ -6311,7 +6582,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_02_wp_04": {
@@ -6326,7 +6598,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_02_wp_05": {
@@ -6341,7 +6614,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_02_wp_06": {
@@ -6356,7 +6630,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_02_wp_07": {
@@ -6371,7 +6646,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -6388,6 +6664,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6420,7 +6698,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_03_wp_02": {
@@ -6435,7 +6714,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_03_wp_03": {
@@ -6450,7 +6730,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_03_wp_04": {
@@ -6465,7 +6746,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_03_wp_05": {
@@ -6480,7 +6762,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_03_wp_06": {
@@ -6495,7 +6778,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_01_03_wp_07": {
@@ -6510,7 +6794,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -6527,6 +6812,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6559,7 +6846,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_02_wp_02": {
@@ -6574,7 +6862,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_02_wp_03": {
@@ -6589,7 +6878,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_02_wp_04": {
@@ -6604,7 +6894,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_02_wp_05": {
@@ -6619,7 +6910,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_02_wp_06": {
@@ -6634,7 +6926,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_02_wp_07": {
@@ -6649,7 +6942,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_02_wp_08": {
@@ -6664,7 +6958,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -6681,6 +6976,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6713,7 +7010,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_03_wp_02": {
@@ -6728,7 +7026,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_03_wp_03": {
@@ -6743,7 +7042,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_03_wp_04": {
@@ -6758,7 +7058,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_03_wp_05": {
@@ -6773,7 +7074,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_03_wp_06": {
@@ -6788,7 +7090,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_03_wp_07": {
@@ -6803,7 +7106,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_03_03_wp_08": {
@@ -6818,7 +7122,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -6835,6 +7140,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6867,7 +7174,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_02_wp_02": {
@@ -6882,7 +7190,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_02_wp_03": {
@@ -6897,7 +7206,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_02_wp_04": {
@@ -6912,7 +7222,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_02_wp_05": {
@@ -6927,7 +7238,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_02_wp_06": {
@@ -6942,7 +7254,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_02_wp_07": {
@@ -6957,7 +7270,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_02_wp_08": {
@@ -6972,7 +7286,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -6989,6 +7304,8 @@
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7021,7 +7338,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_03_wp_02": {
@@ -7036,7 +7354,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_03_wp_03": {
@@ -7051,7 +7370,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_03_wp_04": {
@@ -7066,7 +7386,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_03_wp_05": {
@@ -7081,7 +7402,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_03_wp_06": {
@@ -7096,7 +7418,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_03_wp_07": {
@@ -7111,7 +7434,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t1_tanks_02_03_wp_08": {
@@ -7126,7 +7450,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -7225,6 +7550,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7257,7 +7584,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_02_wp_02": {
@@ -7272,7 +7600,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_02_wp_03": {
@@ -7287,7 +7616,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_02_wp_04": {
@@ -7302,7 +7632,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_02_wp_05": {
@@ -7317,7 +7648,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_02_wp_06": {
@@ -7332,7 +7664,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_02_wp_07": {
@@ -7347,7 +7680,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -7364,6 +7698,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7396,7 +7732,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_03_wp_02": {
@@ -7411,7 +7748,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_03_wp_03": {
@@ -7426,7 +7764,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_03_wp_04": {
@@ -7441,7 +7780,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_03_wp_05": {
@@ -7456,7 +7796,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_03_wp_06": {
@@ -7471,7 +7812,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_02_03_wp_07": {
@@ -7486,7 +7828,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -7503,6 +7846,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7535,7 +7880,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_02": {
@@ -7550,7 +7896,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_03": {
@@ -7565,7 +7912,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_04": {
@@ -7580,7 +7928,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_05": {
@@ -7595,7 +7944,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_06": {
@@ -7610,7 +7960,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_07": {
@@ -7625,7 +7976,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_08": {
@@ -7640,7 +7992,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_09": {
@@ -7655,7 +8008,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_02_wp_10": {
@@ -7670,7 +8024,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -7687,6 +8042,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7719,7 +8076,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_02": {
@@ -7734,7 +8092,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_03": {
@@ -7749,7 +8108,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_04": {
@@ -7764,7 +8124,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_05": {
@@ -7779,7 +8140,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_06": {
@@ -7794,7 +8156,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_07": {
@@ -7809,7 +8172,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_08": {
@@ -7824,7 +8188,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_09": {
@@ -7839,7 +8204,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_01_03_wp_10": {
@@ -7854,7 +8220,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -7871,6 +8238,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7904,7 +8273,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_02_wp_02": {
@@ -7919,7 +8289,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_02_wp_03": {
@@ -7934,7 +8305,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_02_wp_04": {
@@ -7949,7 +8321,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_02_wp_05": {
@@ -7964,7 +8337,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_02_wp_06": {
@@ -7979,7 +8353,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_02_wp_07": {
@@ -7994,7 +8369,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -8011,6 +8387,8 @@
         ],
         "unit_class": "jpn_t97_ChiHa",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8044,7 +8422,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_03_wp_02": {
@@ -8059,7 +8438,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_03_wp_03": {
@@ -8074,7 +8454,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_03_wp_04": {
@@ -8089,7 +8470,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_03_wp_05": {
@@ -8104,7 +8486,8 @@
               "speed": 20.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_03_wp_06": {
@@ -8119,7 +8502,8 @@
               "speed": 20.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           },
           "t2_tanks_03_03_wp_07": {
@@ -8134,7 +8518,8 @@
               "speed": 20.0,
               "moveType": "MOVETO_STRAIGHT",
               "shouldKeepFormation": false,
-              "canUsePathFinder": false
+              "canUsePathFinder": false,
+              "tas": false
             }
           }
         }
@@ -8262,6 +8647,8 @@
         "unit_class": "ussr_zis5_fuel",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8297,6 +8684,8 @@
         "unit_class": "jpn_truck",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8332,6 +8721,8 @@
         "unit_class": "ussr_zis5_fuel",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8367,6 +8758,8 @@
         "unit_class": "ussr_zis5_fuel",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8402,6 +8795,8 @@
         "unit_class": "jpn_truck",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8437,6 +8832,8 @@
         "unit_class": "jpn_truck",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",

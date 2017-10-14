@@ -429,7 +429,8 @@
 
     local countryIdx = -1
     local countryCrews = []
-    foreach (cIdx, tbl in ::get_crew_info())
+    ::g_crews_list.refresh()
+    foreach (cIdx, tbl in ::g_crews_list.get())
       if (tbl.country == countryId)
       {
         countryIdx = cIdx
@@ -511,7 +512,7 @@
   {
     selected[countryId] = idx
 
-    ::crews_list = ::get_crew_info() //slotbar updates suspended, so no one to refresh this list.
+    ::g_crews_list.refresh() //slotbar updates suspended, so no one to refresh this list.
     ::select_crew(countryIdx, selCrewIdx, true)
     ::g_crews_list.flushSlotbarUpdate()
 
@@ -644,7 +645,7 @@
     ::init_selected_crews()
     preset.units = []
     preset.crews = []
-    foreach (tbl in ::crews_list)
+    foreach (tbl in ::g_crews_list.get())
       if (tbl.country == countryId)
       {
         foreach (crew in tbl.crews)
@@ -675,8 +676,8 @@
 
   function createEmptyPreset(countryId, presetIdx = 0)
   {
-    local crews_list = ::get_crew_info()
-    foreach (tbl in crews_list)
+    ::g_crews_list.refresh()
+    foreach (tbl in ::g_crews_list.get())
       if (tbl.country == countryId)
       {
         local unitId = tbl.crews[0].trained[0]

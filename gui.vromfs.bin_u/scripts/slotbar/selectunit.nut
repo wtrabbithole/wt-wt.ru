@@ -127,7 +127,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   function getUsingUnitsArray()
   {
     local array = []
-    foreach(idx, crew in ::crews_list[countryId].crews)
+    foreach(idx, crew in ::g_crews_list.get()[countryId].crews)
       if (idx != idInCountry && ("aircraft" in crew))
         array.append(crew.aircraft)
 
@@ -136,7 +136,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function initAvailableUnitsArray()
   {
-    local country = ::crews_list[countryId].country
+    local country = ::g_crews_list.get()[countryId].country
     local busyUnits = getUsingUnitsArray()
 
     local unitsArray = []

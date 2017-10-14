@@ -87,6 +87,20 @@ function go_to_account_web_page(bqKey = "")
   ::open_url(get_authenticated_url(urlBase), false, false, bqKey)
 }
 
+function g_login::loadLoginHandler()
+{
+  local hClass = ::gui_handlers.LoginWndHandler
+  if (::is_platform_ps4)
+    hClass = ::gui_handlers.LoginWndHandlerPs4
+  else if (::is_platform_xboxone)
+    hClass = ::gui_handlers.LoginWndHandlerXboxOne
+  else if (::use_tencent_login())
+    hClass = ::gui_handlers.LoginWndHandlerTencent
+  else if (::use_dmm_login())
+    hClass = ::gui_handlers.LoginWndHandlerDMM
+  ::handlersManager.loadHandler(hClass)
+}
+
 function g_login::onAuthorizeChanged()
 {
   if (!isAuthorized())

@@ -10,19 +10,34 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
     ::show_title_logo(true, scene, "128")
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)
 
-    showSceneBtn("change_login", true)
     showSceneBtn("button_exit", true)
-    local data = ::handyman.renderCached("gui/commonParts/button", {
-      id = "authorization_button"
-      text = "#mainmenu/loginWithSteam"
-      shortcut = "SpaceA"
-      funcName = "onOk"
-      delayed = true
-      isToBattle = true
-      titleButtonFont = true
-    })
+
+    local buttonsView = [
+      {
+        id = "authorization_button"
+        text = "#HUD_PRESS_A_CNT"
+        shortcut = "SpaceA"
+        funcName = "onOk"
+        delayed = true
+        isToBattle = true
+        titleButtonFont = true
+      },
+      {
+        id = "change_login"
+        text = "#mainmenu/alreadyHaveAccount"
+        shortcut = "X"
+        visualStyle = "secondary"
+        func = "onChangeLoginScreen"
+      }
+    ]
+
+    local data = ""
+    foreach (view in buttonsView)
+      data += ::handyman.renderCached("gui/commonParts/button", view)
+
     guiScene.prependWithBlk(scene.findObject("authorization_block"), data, this)
-    showSceneBtn("text_req_connection", ::is_platform_ps4)
+
+    showSceneBtn("text_req_connection", false)
 
     if (!::getTblValue("disable_autorelogin_once", ::getroottable(), false))
       onOk()

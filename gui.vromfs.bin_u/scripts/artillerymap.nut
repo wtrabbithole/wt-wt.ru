@@ -20,7 +20,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   artilleryEnabled = true
   artilleryEnabledCheckCooldown = 0.0
 
-  mapSizeMeters = 1400
+  mapSizeMeters = -1
   minDispersionRadiusMeters = 15
   maxDispersionRadiusMeters = 60
   pointerSizeToRadiusScale = 3.2
@@ -368,6 +368,7 @@ function gui_start_artillery_map(params = {})
   {
     isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false)
     superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
+    mapSizeMeters = getTblValue("mapSizeMeters", params, 1400),
     iconSuperArtilleryZone = "#ui/hudskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
     iconSuperArtilleryTarget = "#ui/hudskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
   })

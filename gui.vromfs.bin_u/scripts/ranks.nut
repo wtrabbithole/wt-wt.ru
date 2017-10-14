@@ -558,7 +558,8 @@ function get_aircraft_rank(curAir)
 
 function haveCountryRankAir(country, rank)
 {
-  local crews = ::get_crew_info()
+  ::g_crews_list.refresh()
+  local crews = ::g_crews_list.get()
   foreach (c in crews)
     if (c.country == country)
       foreach(crew in c.crews)

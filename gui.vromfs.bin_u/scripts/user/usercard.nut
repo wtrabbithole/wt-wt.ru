@@ -1268,7 +1268,7 @@ function get_player_stats_from_blk(blk)
     foreach(airName, airRank in blk.aircrafts)
       player.aircrafts.append(airName)
 
-  //same with ::crews_list
+  //same with ::g_crews_list.get()
   player.crews <- []
   if (blk.slots != null)
     foreach(country, crewBlk in blk.slots)

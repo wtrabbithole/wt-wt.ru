@@ -30,24 +30,7 @@ class ::LoginProcess
     curProgress++
 
     if (curProgress == LOGIN_PROGRESS.IN_LOGIN_WND)
-    {
-      local hClass = ::gui_handlers.LoginWndHandler
-      if (::is_platform_ps4)
-        hClass = ::gui_handlers.LoginWndHandlerPs4
-      else if (::is_platform_xboxone)
-        hClass = ::gui_handlers.LoginWndHandlerXboxOne
-      else if (::use_tencent_login())
-        hClass = ::gui_handlers.LoginWndHandlerTencent
-      else if (::use_dmm_login())
-        hClass = ::gui_handlers.LoginWndHandlerDMM
-      /*
-        else if (::steam_is_running()
-            && (!::load_local_account_settings("loggedInOnce", false) //new user
-                || ::load_local_account_settings("showNewSteamLogin", false))) //old, with activation
-          hClass = ::gui_handlers.LoginWndHandlerSteam
-      */
-      ::handlersManager.loadHandler(hClass)
-    }
+      ::g_login.loadLoginHandler()
     else if (curProgress == LOGIN_PROGRESS.CONNECT_TO_MATCHING_AND_INIT_CONFIGS)
     {
       //initConfigs

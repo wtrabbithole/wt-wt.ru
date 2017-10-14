@@ -14,6 +14,9 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   curPageAwards = null
   itemsPerPage = 1
 
+  widgetByAward = {}
+  widgetByTab = {}
+
   slotbarActions = [ "showroom", "testflight", "weapons", "rankinfo", "info" ]
 
   function initScreen()
@@ -45,13 +48,23 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
         id = getTabId(i)
         object = wb.haveAnyOrdinaryRequirements()? ::g_warbonds_view.getCurrentLevelItemMarkUp(wb) : null
         navImagesText = ::get_navigation_images_text(i, wbList.len())
+        newIconWidget = ::NewIconWidget.createLayout({ needContainer = false })
       })
 
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     local tabsObj = getTabsListObj()
     guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
-    tabsObj.setValue(0)
 
+    widgetByTab = {}
+    foreach(i, wb in wbList)
+    {
+      local tabObj = tabsObj.getChild(i)
+      local newIconWidgetObj = tabObj.findObject("tab_new_icon_widget")
+      if (::checkObj(newIconWidgetObj))
+        widgetByTab[i] <- ::NewIconWidget(guiScene, newIconWidgetObj)
+    }
+
+    tabsObj.setValue(0)
     updateTabsTexts()
   }
 
@@ -75,6 +88,8 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     if (!obj || !wbList.len())
       return
 
+    markCurrentPageSeen()
+
     local value = obj.getValue()
     curWb = ::getTblValue(value, wbList, wbList[0])
     curPage = 0
@@ -82,6 +97,17 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     fillPage()
     updateBalance()
     updateTabsTexts() //to reccount tabs textarea colors
+    updateTabNewIconWidgets()
+  }
+
+  function updateTabNewIconWidgets()
+  {
+    foreach(i, wb in wbList)
+    {
+      local widget = ::getTblValue(i, widgetByTab, null)
+      if (widget)
+        widget.setValue(::g_warbonds.getNumUnseenAwards(wb))
+    }
   }
 
   function initItemsListSize()
@@ -107,18 +133,32 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillPage()
   {
+    widgetByAward = {}
     updateCurPageAwardsList()
 
     local view = {
       items = curPageAwards
       enableBackground = true
       hasButton = true
+      newIconWidget = ::NewIconWidget.createLayout({ needContainer = false })
     }
 
     local listObj = getItemsListObj()
     local data = ::handyman.renderCached(("gui/items/item"), view)
     listObj.enable(data != "")
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
+
+    foreach (idx, award in curPageAwards)
+    {
+      local itemObj = listObj.getChild(idx)
+      local newIconWidgetObj = itemObj.findObject("item_new_icon_widget")
+      if (::checkObj(newIconWidgetObj))
+      {
+        local newIconWidget = ::NewIconWidget(guiScene, newIconWidgetObj)
+        widgetByAward[award] <- newIconWidget
+        newIconWidget.setWidgetVisible(::g_warbonds.isAwardUnseen(award, curWb))
+      }
+    }
 
     local value = listObj.getValue()
     local total = curPageAwards.len()
@@ -140,6 +180,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function goToPage(obj)
   {
+    markCurrentPageSeen()
     curPage = obj.to_page.tointeger()
     fillPage()
   }
@@ -175,6 +216,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function updateItemInfo()
   {
     local award = getCurAward()
+    markAwardSeen(award)
     fillItemDesc(award)
     fillCommonDesc(award)
     updateButtons()
@@ -312,6 +354,37 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
       wbAward.buy()
   }
 
+  function markAwardSeen(award)
+  {
+    if (award == null)
+      return
+
+    local result = ::g_warbonds.markAwardsSeen(award, curWb)
+    local widget = ::getTblValue(award, widgetByAward)
+    if (widget)
+      widget.setWidgetVisible(false)
+
+    if (result)
+      updateTabNewIconWidgets()
+  }
+
+  function markCurrentPageSeen()
+  {
+    if (curPageAwards == null || curWb == null)
+      return
+
+    local result = ::g_warbonds.markAwardsSeen(curPageAwards, curWb)
+    foreach (idx, award in curPageAwards)
+    {
+      local widget = ::getTblValue(award, widgetByAward)
+      if (widget)
+        widget.setWidgetVisible(false)
+    }
+
+    if (result)
+      updateTabNewIconWidgets()
+  }
+
   function onEventWarbondAwardBought(p)
   {
     guiScene.setUpdatesEnabled(false, false)
@@ -328,6 +401,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDestroy()
   {
+    markCurrentPageSeen()
     local activeWb = ::g_warbonds.getCurrentWarbond()
     if (activeWb)
       activeWb.markSeenLastResearchShopLevel()

@@ -49,6 +49,5 @@ class ::gui_handlers.LoginWndHandlerDMM extends ::BaseGuiHandler
     }
   }
 
-  function onChangeLoginScreen() {}
   function goBack(obj) {}
 }

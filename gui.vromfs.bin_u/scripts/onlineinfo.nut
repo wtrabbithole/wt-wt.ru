@@ -62,6 +62,9 @@ g_clusters <- {
 
   function forceUpdateClustersList()
   {
+    if (!::is_connected_to_matching())
+      return
+
     __clusters_fetching = false
     __update_clusters_list()
   }
@@ -199,6 +202,9 @@ g_matching_game_modes <- {
 
   function forceUpdateGameModes()
   {
+    if (!::is_connected_to_matching())
+      return
+
     __fetching = false
     __fetch_counter = 0
     fetchGameModes()

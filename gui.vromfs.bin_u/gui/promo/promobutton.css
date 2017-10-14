@@ -17,6 +17,8 @@
 
 @const promoButtonMinHeight: 45@sf/@pf;
 
+@const airInfoToggleButtonSize: @mIco + 2@buttonImgPadding;
+
 promoButton {
   background-image: #ui/gameuiskin#expandable_item_ww_transp;
   background-position: 5,2;
@@ -117,6 +119,11 @@ promoButton[type=arrowButton] fillBlock,
 promoButton[type=battleTask] expandable[setStandartWidth=yes] {
   height:1@arrowButtonHeight;
   width: 1@arrowButtonWidth;
+}
+
+promoButton[type=battleTask] expandable[setStandartWidth=yes] > selImg,
+promoButton[type=battleTask] expandable[setStandartWidth=yes] > selImg > header {
+  height:ph;
 }
 
 promoButton[type=simpleList] {
@@ -302,6 +309,7 @@ promoButton[type=autoWidth] {
 promoButton[type=autoWidth] > collapsedContainer,
 promoButton[type=autoWidth] > uncollapsedContainer > fillBlock > textareaFade {
   width:0;
+  position: relative;
 }
 
 promoButton[type=autoWidth] > collapsedContainer > shortHeaderText {
@@ -355,7 +363,7 @@ hangarToggleButton {
 }
 
 hangarToggleButton[alwaysShow=yes] {
-  size:@mIco + 2@buttonImgPadding, @mIco + 2@buttonImgPadding;
+  size:@airInfoToggleButtonSize, @airInfoToggleButtonSize;
   margin-left: 0;
   background-image:'';
 }

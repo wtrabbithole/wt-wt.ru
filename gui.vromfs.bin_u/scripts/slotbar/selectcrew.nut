@@ -330,7 +330,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillLegendData()
   {
-    local countryCrews = ::getTblValue(curSlotCountryId, ::crews_list)
+    local countryCrews = ::getTblValue(curSlotCountryId, ::g_crews_list.get())
     if (!countryCrews)
       return null
 

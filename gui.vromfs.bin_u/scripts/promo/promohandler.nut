@@ -22,6 +22,7 @@ class Promo
 
   widgetsTable = {}
   widgetsWithCounter = ["events_mainmenu_button", "battle_tasks_mainmenu_button"]
+  warbondsWidget = null
 
   pollIdToObjectId = {}
 
@@ -364,6 +365,7 @@ class Promo
         {
           view.isConsoleMode <- ::show_console_buttons
           view.newItemsAvailable <- currentWarbond.needShowNewItemsNotifications()
+          view.warbondsNewIconWidget <- ::NewIconWidget.createLayout({tooltip = "#mainmenu/newItemsAvailable"})
         }
       }
     }
@@ -383,6 +385,13 @@ class Promo
     ::g_battle_tasks.setUpdateTimer(reqTask, buttonObj)
     if (showProgressBar && currentWarbond)
       ::g_warbonds_view.updateProgressBar(currentWarbond, buttonObj, true)
+
+    local widgetObj = buttonObj.findObject("widget_container")
+    if (::check_obj(widgetObj))
+    {
+      warbondsWidget = ::NewIconWidget(guiScene, widgetObj)
+      warbondsWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
+    }
   }
 
   function onGenericTooltipOpen(obj)
@@ -656,4 +665,8 @@ class Promo
   function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }
   function onEventWebPollAuthResult(p) { updateWebPollButton(p) }
   function onEventWebPollTokenInvalidated(p) { updateData() }
+  function onEventUpdatedSeenWarbondAwards(p) {
+    if (warbondsWidget)
+      warbondsWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
+  }
 }

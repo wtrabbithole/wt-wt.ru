@@ -216,8 +216,6 @@
       "level": "levels/zhengzhou.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/zhengzhou_BfD_norespawn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/zhengzhou_BfD_norespawn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2500,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -294,6 +294,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -546,6 +549,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_bunkers_light_squad"
             },
             {
@@ -567,6 +573,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_aaa_squad"
             },
@@ -599,6 +608,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -625,6 +635,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -639,6 +650,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -646,6 +658,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -790,7 +803,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -798,15 +810,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_01",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_01",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_01"
         }
       },
@@ -873,7 +888,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -881,15 +895,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_02",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_02",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_02"
         }
       },
@@ -956,7 +973,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -964,15 +980,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_03",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_03",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_03"
         }
       },
@@ -1039,7 +1058,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1047,15 +1065,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_04",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_04",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_04"
         }
       },
@@ -1122,7 +1143,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1130,15 +1150,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_05",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_05",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_05"
         }
       },
@@ -1205,7 +1228,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1213,15 +1235,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_06",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_06",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_06"
         }
       },
@@ -1288,7 +1313,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1296,15 +1320,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_07",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_07",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_07"
         }
       },
@@ -1371,7 +1398,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1379,15 +1405,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_08",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_08",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_08"
         }
       },
@@ -1454,7 +1483,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1462,15 +1490,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_09",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_09",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_09"
         }
       },
@@ -1537,7 +1568,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1545,15 +1575,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_10",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_10",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_10"
         }
       },
@@ -1620,7 +1653,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1628,15 +1660,18 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_11",
+          "partName": "body_dm",
           "doExplosion": true
         },
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "t1_truck_11",
           "speed": 30.0,
           "lockSpeed": true
         },
         "unitSetIndication": {
           "set": false,
+          "target_marking": 0,
           "target": "t1_truck_11"
         }
       },
@@ -1769,7 +1804,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1777,6 +1811,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_02",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },
@@ -1806,7 +1841,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1814,6 +1848,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_04",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },
@@ -1843,7 +1878,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1851,6 +1885,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_05",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },
@@ -1880,7 +1915,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1888,6 +1922,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_06",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },
@@ -1917,7 +1952,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1925,6 +1959,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_07",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },
@@ -1954,7 +1989,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1962,6 +1996,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_08",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },
@@ -1991,7 +2026,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -1999,6 +2033,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_10",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },
@@ -2028,7 +2063,6 @@
       },
       "actions": {
         "unitDamage": {
-          "partName": "body_dm",
           "power": 1.0,
           "useEffect": false,
           "countEffects": 1,
@@ -2036,6 +2070,7 @@
           "offset": [0.0,0.0,0.0],
           "radiusOffset": [10.0,15.0],
           "target": "quest_bridge_11",
+          "partName": "body_dm",
           "doExplosion": true
         }
       },

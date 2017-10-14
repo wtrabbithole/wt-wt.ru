@@ -23,6 +23,7 @@ SlideListBoxButton {
   re-type:9rect;
   behaviour:button;
   tabStop:yes;
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
   background-color:@controlColor;
   background-position:0;
   background-repeat:expand;
@@ -35,21 +36,21 @@ SlideListBoxButton {
 }
 
 SlideListBoxButton SlideListBoxButton#left {
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_left;
+  rotation:270;
 }
 
 SlideListBoxButton SlideListBoxButton#right {
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_right;
+  rotation:90;
 }
 
 SlideListBoxButton#up {
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_up;
   margin-top:0.5*@scrn_tgt/100.0;
+  rotation:0;
 }
 
 SlideListBoxButton#down {
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_down;
   margin-bottom:0.5*@scrn_tgt/100.0;
+  rotation:180;
 }
 
 HangarSliderListBox {
@@ -68,12 +69,10 @@ HangarSliderListBox {
 }
 
 HangarSliderListBox SlideListBoxButton#left {
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_left;
   margin-left:2.5*@scrn_tgt/100.0;
 }
 
 HangarSliderListBox SlideListBoxButton#right {
-  background-image:#ui/gameuiskin#SpinnerListBox_arrow_right;
   margin-right:2.5*@scrn_tgt/100.0;
 }
 

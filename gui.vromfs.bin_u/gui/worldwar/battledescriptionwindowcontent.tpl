@@ -109,18 +109,21 @@ tdiv {
 
         tdiv {
           size:t='pw, ph'
-          overflow-y:t='auto'
-          scrollbarShortcuts:t='yes'
 
           tdiv {
             id:t='team_unit_info_0'
             width:t='35%pw'
+            overflow-y:t='auto'
+            scrollbarShortcuts:t='yes'
+            scroll-align:t='left'
           }
           tdiv {
             id:t='team_unit_info_1'
             width:t='35%pw'
             left:t='pw-2w'
             position:t='relative'
+            overflow-y:t='auto'
+            scrollbarShortcuts:t='yes'
           }
         }
       }

@@ -65,6 +65,5 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
     onOk()
   }
 
-  function onChangeLoginScreen() {}
   function goBack(obj) {}
 }

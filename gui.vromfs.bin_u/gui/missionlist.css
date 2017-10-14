@@ -1230,9 +1230,11 @@ slotsOption:disabled > slotsHeader {
 }
 
 slotsHeader > img {
-  size:@cIco, @cIco;    pos:50%pw-50%w, 1*@sf/@pf_outdated;
+  size:@cIco, @cIco;
+  pos:50%pw-50%w, 1*@sf/@pf_outdated;
   position:absolute;
   background-color:@imageNotSelectedColor;
+  background-svg-size:@cIco, @cIco;
 }
 
 slotsOption:current > slotsHeader > img,

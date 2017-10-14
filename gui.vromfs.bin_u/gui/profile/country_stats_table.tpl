@@ -43,6 +43,7 @@ table {
       img {
         size:t='@cIco, @cIco';
         background-image:t='<<icon>>';
+        background-svg-size:t='@cIco, @cIco';
       }
     }
     <<#nums>>
