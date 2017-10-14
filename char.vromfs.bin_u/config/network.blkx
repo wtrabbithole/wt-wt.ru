@@ -38,6 +38,14 @@
         "dns": "1.2.4.8"
       }
     ],
+    "webVromfs": {
+      "maxSize": 471859200,
+      "timeoutSec": 10,
+      "mainThreadTimeoutSec": 10,
+      "baseUrls": {
+        "url": "http://game-client-amz-cdn.warthunder.com/content/webfs/"
+      }
+    },
     "guiWebCache": {
       "maxSize": 1073741824,
       "maxSizePS4": 209715200,
@@ -372,6 +380,13 @@
         "yupConfUrl": "",
         "baseUrls": {
           "url": "http://wthost.gaijin.lan:8000/guiWebCache"
+        }
+      }
+    },
+    {
+      "webVromfs": {
+        "baseUrls": {
+          "url": "http://wthost.gaijin.lan:8000/content/warthunder/guiwebcache/webfs/"
         }
       }
     },
