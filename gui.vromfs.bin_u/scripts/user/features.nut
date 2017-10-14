@@ -66,6 +66,7 @@
     worldWarShowTestMaps = false
     WorldWarClansQueue = false
     WorldWarReplay = false
+    WorldWarSquadInfo = false
 
     GraphicsOptions = true
     Spectator = false

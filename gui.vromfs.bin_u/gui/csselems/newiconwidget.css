@@ -7,16 +7,13 @@ newIconWidget {
   css-hier-invalidate:yes;
 }
 
-newIconWidget[widgetClass=text], [widgetClass=text] > newIconWidget {
-  padding:21@sf/@pf, 9@sf/@pf, 11@sf/@pf, 5@sf/@pf;
-  background-color:@white;
-}
-
 newIconWidgetText {
   re-type:text;
   color:@black;
   font:@fontSmall;
   input-transparent:yes;
+  top:50%ph-50%h;
+  position:relative;
 }
 
 newIconWidgetText[text=""] {
@@ -29,9 +26,17 @@ newIconWidgetImg {
   input-transparent:yes;
 }
 
-[widgetClass=text] > newIconWidget > newIconWidgetImg, [widgetClass=text] > newIconWidgetImg {
+newIconWidget[widgetClass=text], [widgetClass=text] > newIconWidget {
+  background-color:@white;
+}
+
+[widgetClass=text] > newIconWidget > newIconWidgetText, [widgetClass=text] > newIconWidgetText {
+  padding:0.5@newWidgetIconHeight, 9@sf/@pf, 12*@sf/@pf, 5@sf/@pf;
+}
+
+newIconWidget[widgetClass=text] > newIconWidgetImg, [widgetClass=text] > newIconWidgetImg {
   position:absolute;
-  left:-1@newTextClassIconWidgetImgPaddingLeft;
+  left:-50%w;
 }
 
 [valign=center] > newIconWidget {

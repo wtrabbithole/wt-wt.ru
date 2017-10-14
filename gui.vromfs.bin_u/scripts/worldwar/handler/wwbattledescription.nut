@@ -593,7 +593,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         else if (::g_squad_manager.isSquadLeader())
         {
           if (::g_squad_manager.readyCheck(false))
-            ::ww_event("SetStartingBattle", {battleId = battle.id})
+          {
+            if (!::has_feature("WorldWarSquadInfo"))
+              battle.tryToJoin()
+            else
+              ::ww_event("SetStartingBattle", {battleId = battle.id})
+          }
           else
             ::showInfoMsgBox(::loc("squad/not_all_ready"))
         }
@@ -681,7 +686,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onEventSquadDataUpdated(params)
   {
     local wwBattleName = ::g_squad_manager.getWwOperationBattle()
-    if (wwBattleName)
+    if (wwBattleName && battle.id != wwBattleName)
     {
       battle = ::g_world_war.getBattleById(wwBattleName)
       reinitBattlesList()

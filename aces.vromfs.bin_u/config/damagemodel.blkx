@@ -248,8 +248,25 @@
   {
     "kineticEnergyToDamage": {
       "default": {
-        "p0": [0.0,0.0],
-        "p1": [10000000.0,3000.0]
+        "p0": [3000.0,5.0],
+        "p1": [15000.0,10.0],
+        "p2": [30000.0,15.0],
+        "p3": [60000.0,25.0],
+        "p4": [80000.0,40.0],
+        "p5": [110000.0,60.0],
+        "p6": [300000.0,70.0],
+        "p7": [400000.0,75.0],
+        "p8": [500000.0,80.0],
+        "p9": [650000.0,110.0],
+        "p10": [1100000.0,150.0],
+        "p11": [1300000.0,200.0],
+        "p12": [1800000.0,230.0],
+        "p13": [2200000.0,240.0],
+        "p14": [3000000.0,300.0],
+        "p15": [4000000.0,320.0],
+        "p16": [5000000.0,350.0],
+        "p17": [8000000.0,370.0],
+        "p18": [12000000.0,700.0]
       }
     }
   },
@@ -4552,7 +4569,7 @@
       },
       "atgm_tank": {
         "normalizationPreset": "heat",
-        "ricochetPreset": "atgm",
+        "ricochetPreset": "heat_fs",
         "stabilityThreshold": 0.1,
         "stabilityCaliberToArmorThreshold": 100.0,
         "stabilityReductionAfterRicochet": 0.3,
@@ -4561,10 +4578,17 @@
         "explodeOnRendinst": true,
         "modelName": "tank_bullet_heat_fs",
         "fresnel": [0.23,0.1,2.0],
-        "stabilityRicochetModifier": {
-          "mod1": [0.0,0.0],
-          "mod2": [20.0,1.0]
-        }
+        "stabilityRicochetModifier": [
+          {
+            "mod1": [0.0,0.0]
+          },
+          {
+            "mod2": [20.0,0.1]
+          },
+          {
+            "mod2": [30.0,0.2]
+          }
+        ]
       },
       "he_frag_tank": {
         "normalizationPreset": "heat",

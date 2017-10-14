@@ -156,7 +156,7 @@ frame {
         ButtonImg {}
         valign:t='center'
         <<@warbondNewIconWidget>>
-        textarea {
+        btnText {
           text:t='#mainmenu/btnWarbondsShop'
           class:t='buttonText'
         }
