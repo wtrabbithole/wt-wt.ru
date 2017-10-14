@@ -570,7 +570,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 380.0,
+            "conditionDamage": 500.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -579,7 +579,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 170.0,
+            "conditionDamage": 500.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -588,7 +588,7 @@
           "effect": {
             "conditionDamageType": "generic",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 1000.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -692,7 +692,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 400.0,
+            "conditionDamage": 700.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -701,7 +701,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 400.0,
+            "conditionDamage": 700.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -748,7 +748,16 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 1000.0,
+            "conditionDamage": 500.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 500.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -757,7 +766,7 @@
           "effect": {
             "conditionDamageType": "generic",
             "expl": 1.0,
-            "conditionDamage": 700.0,
+            "conditionDamage": 1000.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1845,9 +1854,9 @@
   {
     "ammo": {
       "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.3,0.9],
-      "explodeHitPower": 1000.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.5,0.9],
+      "explodeHitPower": 4000.0,
       "hitPowerMult": 1.0,
       "nearHitPower": [1.0,50.0],
       "midHitPower": [0.9,400.0],
@@ -1867,10 +1876,10 @@
     "wreckedParts": {
       "part": {
         "node": "bone_turret",
-        "mass": 8000.0,
-        "cutDamage": 700.0,
-        "deviation": 1.0,
-        "rotation": 2.5,
+        "mass": 10000.0,
+        "cutDamage": 1600.0,
+        "deviation": 0.3,
+        "rotation": 1.5,
         "collisionNode": "cls_turret"
       }
     }
