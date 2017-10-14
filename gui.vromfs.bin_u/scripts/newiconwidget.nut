@@ -39,6 +39,7 @@ class NewIconWidget
     local view = {
       needContainer = ::getTblValue("needContainer", params, true)
       icon = ::getTblValue("icon", params, ::NewIconWidget.defaultIcon)
+      tooltip = ::getTblValue("tooltip", params, "")
     }
     return ::handyman.renderCached("gui/newIconWidget", view)
   }

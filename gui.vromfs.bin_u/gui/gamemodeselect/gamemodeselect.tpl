@@ -215,6 +215,7 @@ frame {
           img {
             size:t='@cIco, @cIco';
             background-image:t='<<img>>';
+            background-svg-size:t='@cIco, @cIco'
             margin-left:t='0.01@sf';
           }
           <</countries>>

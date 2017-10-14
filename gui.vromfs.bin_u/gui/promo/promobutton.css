@@ -17,6 +17,8 @@
 
 @const promoButtonMinHeight: 45@sf/@pf;
 
+@const airInfoToggleButtonSize: @mIco + 2@buttonImgPadding;
+
 promoButton {
   background-image: #ui/gameuiskin#expandable_item_ww_transp;
   background-position: 5,2;
@@ -355,7 +357,7 @@ hangarToggleButton {
 }
 
 hangarToggleButton[alwaysShow=yes] {
-  size:@mIco + 2@buttonImgPadding, @mIco + 2@buttonImgPadding;
+  size:@airInfoToggleButtonSize, @airInfoToggleButtonSize;
   margin-left: 0;
   background-image:'';
 }

@@ -939,7 +939,6 @@ function ItemsManager::getNumUnseenItems(forInventoryItems)
   local seenItemsInfo = _seenItemsInfoByCategory[forInventoryItems]
   if (seenItemsInfo.numUnseenItemsInvalidated)
   {
-    local curDays = time.getDaysByTime(::get_utc_time())
     seenItemsInfo.numUnseenItemsInvalidated = false
     seenItemsInfo.numUnseenItems = 0
     local items = forInventoryItems

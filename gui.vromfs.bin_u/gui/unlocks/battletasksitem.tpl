@@ -233,11 +233,14 @@ expandable {
         width:t='pw'
         flow:t='vertical'
         margin:t='0, 0.01@scrn_tgt'
-        textarea {
+        tdiv {
           left:t='pw-w'
           position:t='relative'
-          text:t='#mainmenu/newItemsAvailable'
-          overlayTextColor:t='warning'
+          <<@warbondsNewIconWidget>>
+          textarea {
+            text:t='#mainmenu/newItemsAvailable'
+            overlayTextColor:t='warning'
+          }
         }
       <<^isConsoleMode>>
         Button_text {

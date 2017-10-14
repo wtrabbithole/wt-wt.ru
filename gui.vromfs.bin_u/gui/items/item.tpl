@@ -122,10 +122,9 @@ itemDiv {
       position:t='absolute'
 
       <<#newIconWidget>>
-      tdiv {
+      newIconWidget {
         id:t='item_new_icon_widget'
         position:t='relative'
-        //position:t='absolute'
         pos:t='3*@sf/@pf_outdated,3*@sf/@pf_outdated'
         <<@newIconWidget>>
       }

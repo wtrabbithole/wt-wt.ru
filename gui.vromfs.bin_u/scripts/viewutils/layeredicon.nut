@@ -150,11 +150,17 @@ function LayersIcon::genDataFromLayer(layerCfg, insertLayers = "")  //need to mo
   local id = ::getTblValue("id", layerCfg)? "id:t='" + layerCfg.id + "';" : ""
   local img = ::getTblValue("img", layerCfg, "")
 
+  local props = ""
+  foreach(id in [ "background-svg-size" ])
+    if (id in layerCfg)
+      props += ::format("%s:t='%s';", id, layerCfg[id])
+
   return format(iconLayer, id,
                            baseParams.width + ", " + baseParams.height,
                            baseParams.posX + offsetX, baseParams.posY + offsetY,
                            baseParams.position,
-                           img, insertLayers)
+                           img,
+                           props + " " + insertLayers)
 }
 
 // For icon customization it is much easier to use replaceIcon() with iconParams, or getIconData() with iconParams.

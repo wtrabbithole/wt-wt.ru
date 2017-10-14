@@ -1,5 +1,5 @@
-@const checkboxSize: 30@sf/@pf;
-@const checkboxImgSize: 24@sf/@pf;
+@const checkboxSize: (30@sf/@pf) \ 1;
+@const checkboxImgSize: (24@sf/@pf) \ 1;
 
 @const checkboxBgColor:                 #0d1116;
 @const checkboxBorderColor:             #3e4b52;
@@ -107,6 +107,7 @@ CheckBox.with_image > CheckBoxImg {
 }
 CheckBox.with_image > infoImg {
   size:@checkboxSize,@checkboxSize;  background-color:#999999;
+  background-svg-size:@cIco, @cIco;
   input-transparent:yes;
 }
 

@@ -20,6 +20,8 @@
     <<#newIconWidget>>
     tdiv {
       id:t='filter_new_icon_widget'
+      padding-top:t='-2@dp'
+      valign:t='center'
       <<@newIconWidget>>
     }
     <</newIconWidget>>

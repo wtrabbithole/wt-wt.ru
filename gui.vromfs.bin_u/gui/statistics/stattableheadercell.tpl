@@ -2,6 +2,7 @@
 td {
   id:t='<<id>>';
   width:t='<<width>>';
+  text-halign:t='center'
   tooltip:t='<<tooltip>>';
   <<@customParams>>
 
@@ -14,10 +15,9 @@ td {
   <<#tooltip>>
   activeText {
     position:t='relative'
-    pos:t='pw/2-w/2, ph/2-h/2'
-    max-width:t='pw'
+    top:t='ph/2-h/2'
+    width:t='pw'
     pare-text:t='yes'
-    halign:t='center'
     text:t='<<tooltip>>'
   }
   <</tooltip>>

@@ -32,19 +32,23 @@ cardImg {
   size:@cIco, @cIco;
   top:50%ph-50%h;
   position:relative;
+  background-svg-size:@cIco, @cIco;
 }
 cardImg[type=small] {
-  size:2*@scrn_tgt/100.0, 2*@scrn_tgt/100.0;
+  size:@sIco, @sIco;
+  background-svg-size:@sIco, @sIco;
 }
 
 cardImg[type=medium]
 {
   size: @mIco, @mIco;
+  background-svg-size:@mIco, @mIco;
 }
 
 cardImg[type=large]
 {
   size: @lIco, @lIco;
+  background-svg-size:@lIco, @lIco;
 }
 
 .lbTable > tr.commonIconsStyle {
@@ -63,14 +67,17 @@ cardImg[type=large]
   top:ph-h-0.4*@scrn_tgt/100.0;
   left:50%pw-50%w;
   background-color:@imageNotSelectedColor;
+  background-svg-size:@leaderboardHeaderHeight, @leaderboardHeaderHeight;
 }
 
 cardImg[type=tiny] {
   size:@sIco, @sIco;
+  background-svg-size:@sIco, @sIco;
 }
 
 cardImg[type=veryTiny] {
   size:0.6@sIco, 0.6@sIco;
+  background-svg-size:0.6@sIco, 0.6@sIco;
 }
 
 .lbTable td:hover cardImg {
@@ -1305,6 +1312,7 @@ teamBImg, [team=b] > teamImg, [teamIco=axis] > teamImg {
 td[team] > teamImg {
   height:@tableIcoSize;
   width:h;
+  background-svg-size:@cIco, @cIco;
   position:relative;
   pos:50%pw-50%w, 50%ph-50%h;
 }
@@ -2411,9 +2419,8 @@ airInfoHeader {
   font:@fontNormalBold;
   text-align:center;
   position:relative;
-  height:1@buttonCloseHeight;
-  width:fw;
-  padding:5*@sf/@pf_outdated, 0;
+  width:@airInfoPanelWidth;
+  height:@airInfoToggleButtonSize;
 }
 
 collapsableBlock {

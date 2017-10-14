@@ -231,7 +231,7 @@
       "battleAreaColorPreset": "battleRoyale",
       "ignoreInvulnerableTimer": true,
       "useCustomSuperArtillery": true,
-      "customSuperArtillery": "structures/streakArtillery_203mm_r250m",
+      "customSuperArtillery": "structures/streakArtillery_203mm_r200m",
       "country_axis": "germany",
       "country_allies": "ussr",
       "missionType": {
@@ -417,22 +417,22 @@
         },
         {
           "comment": {
-            "value": "(br_area_div * 2 - 1 = 11) - number of total stages"
+            "value": "br_area_div - number of total stages(for 2 sides deduction each time)"
           }
         },
         {
           "comment": {
-            "value": "(11 stages - 3 = 8) - so warning will be when 3(1 row * 3 col) or 4(2 row * 2 col) sectors left"
+            "value": "(10 stages - 3 = 7) - so warning will be when 9(3 row * 3 col) sectors left"
           }
         },
         {
           "comment": {
-            "value": "and artillery will be disabled when 2(1 row * 2 col) sectors left"
+            "value": "and artillery will be disabled when 4(2 row * 2 col) sectors left"
           }
         },
         {
           "comment": {
-            "value": "artillery have radius 150m radius and sector side is 1400/6=250m"
+            "value": "artillery have radius 200m radius and sector side is 1700/10=170m"
           }
         },
         {

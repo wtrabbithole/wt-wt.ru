@@ -171,8 +171,11 @@ function build_mp_table(table, markup, hdr, max_rows)
         local icon = ""
         if (!isEmpty && country!= "")
           icon = ::get_country_icon(country)
-        tdData += "size:t='ph"+widthAdd+" ,ph';"  +
-          ("img{ pos:t='(pw-w)/2,(ph-h)/2'; position:t='relative'; size:t='@tableIcoSize,@tableIcoSize'; background-image:t='" + icon + "'; }")
+        tdData += ::format("size:t='ph%s,ph';"
+          + "img{ pos:t='(pw-w)/2,(ph-h)/2'; position:t='relative'; size:t='@tableIcoSize,@tableIcoSize';"
+          +   "background-image:t='%s'; background-svg-size:t='@cIco, @cIco';"
+          + "}",
+          widthAdd, icon)
       }
       else if (hdr[j] == "name")
       {

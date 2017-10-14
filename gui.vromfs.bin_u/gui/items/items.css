@@ -240,7 +240,8 @@ itemDiv > tdiv > contentCorner[contentType=unit] {
   foreground-align:left;
 }
 itemDiv > tdiv > contentCorner[contentType=flag] {
-  foreground-position:3@dp;
+  foreground-position:(@dIco+2@dp -@cIco)\2, (@dIco+2@dp -@cIco)\2, (@dIco+2@dp -@cIco +1)\2, (@dIco+2@dp -@cIco +1)\2;
+  foreground-svg-size:@cIco, @cIco;
 }
 
 progressBoxPlace warbondShopLevel {

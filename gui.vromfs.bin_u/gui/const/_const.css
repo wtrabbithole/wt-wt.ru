@@ -30,8 +30,6 @@
 @const hud_normal:    @fontHudMedium;
 @const hud_big:       @fontHudBigBold;
 
-@const textPaddingBugWorkaround:11px;
-
 @const shopAirHeight: 44*@sf/@pf_outdated; @const shopAirWidth: 120*@sf/@pf_outdated; @const armySmallIconWidth: 26*@sf/@pf_outdated;
 @const sIco: (22*@sf/@pf) \ 1;
 @const cIco: (30*@sf/@pf) \ 1;
@@ -61,7 +59,7 @@
 @const itemIconHeight:    (120*@sf/@pf_outdated)\1;
 @const awardIconHeight:   50*@sf/@pf_outdated;
 
-@const tableIcoSize:20*@sf/@pf_outdated;
+@const tableIcoSize:1@cIco;
 @const tablePad:0.005*@scrn_tgt;
 
 @const titlePos:@bw+1*@scrn_tgt/100.0;
@@ -73,7 +71,7 @@
 @const baseTrHeight:(0.038*@sf)\1;  
 @const baseTrHeaderHeight:(0.076*@sf)\1;  
 @const leaderboardTrHeight:(0.03*@sf)\1;
-@const leaderboardHeaderHeight:0.05@sf;
+@const leaderboardHeaderHeight:(0.05@sf)\1;
 @const rows16height:(0.030*@scrn_tgt)\1;
 @const sliderRowHeight:(1@sliderHeight + 2@sliderIncHeight)\1;
 @const crewTrHeight:(0.035*@sf)\1 + 6*@sf/@pf_outdated;

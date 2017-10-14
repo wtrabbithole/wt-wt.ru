@@ -158,6 +158,7 @@ function handlersManager::generatePreLoadCssString()
     { name = "_safearea_menu",    value = ::format("%.2f", safeareaMenu) }
     { name = "_safearea_hud",     value = ::format("%.2f", safeareaHud) }
     { name = "slotbarCountries",  value = countriesCount.tostring() }
+    { name = "textPaddingBugWorkaround",  value = ::is_version_equals_or_newer("1.71.1.101") ? "0" : "10px" }
   ]
 
   return generateCssString(config)

@@ -9,6 +9,7 @@ tdiv {
     id:t='<<countryName>>'
     size:t='@cIco, @cIco'
     background-image:t='<<countryIcon>>'
+    background-svg-size:t='@cIco, @cIco'
   }
 
   <<#teamsInfoText>>

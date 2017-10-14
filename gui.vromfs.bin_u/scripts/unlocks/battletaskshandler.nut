@@ -38,6 +38,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   newIconWidgetByTaskId = null
+  warbondsAwardsNewIconWidget = null
 
   finishedTaskIdx = -1
   usingDifficulties = null
@@ -89,6 +90,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     initFocusArray()
 
     updateWarbondsBalance()
+    updateWarbondItemsWidget()
   }
 
   function findTabSheetByTaskId(taskId)
@@ -115,6 +117,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       radiobuttons = getRadioButtonsView()
       tabs = getTabsView()
       showAllTasksValue = ::g_battle_tasks.showAllTasksValue? "yes" : "no"
+      warbondNewIconWidget = ::NewIconWidget.createLayout({tooltip = "#mainmenu/items_shop_new_items"})
     }
   }
 
@@ -355,6 +358,11 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     onChangeTab(getTabsListObj())
   }
 
+  function onEventUpdatedSeenWarbondAwards(params)
+  {
+    updateWarbondItemsWidget()
+  }
+
   function onShowAllTasks(obj)
   {
     ::broadcastEvent("BattleTasksShowAll", {showAllTasksValue = obj.getValue()})
@@ -523,6 +531,9 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       usingDifficulties.append(diff.diffCode)
     }
 
+    if (tplView.len() && "diffCode" in selDiff && usingDifficulties.find(selDiff.diffCode) == null)
+      tplView.top().selected = true
+
     return tplView
   }
 
@@ -663,6 +674,18 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     local warbondsObj = scene.findObject("warbonds_balance")
     warbondsObj.setValue(::g_warbonds.getBalanceText())
     warbondsObj.tooltip = ::loc("warbonds/maxAmount", {warbonds = ::g_warbonds.getLimit()})
+  }
+
+  function updateWarbondItemsWidget()
+  {
+    local btnObj = scene.findObject("btn_warbonds_shop")
+    if (!::check_obj(btnObj))
+      return
+
+    if (!warbondsAwardsNewIconWidget)
+      warbondsAwardsNewIconWidget = ::NewIconWidget(guiScene, btnObj.findObject("widget_container"))
+
+    warbondsAwardsNewIconWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
   }
 
   function onEventWarbondAwardBought(p)
