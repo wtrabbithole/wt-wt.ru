@@ -503,5 +503,7 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   XBOX_LOGIN_STATE_SUCCESS = 1
 
   xbox_get_safe_area = @() 1.0
+
+  BROWSER_EVENT_BROWSER_CRASHED = 0xFF
 })
 

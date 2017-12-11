@@ -45,6 +45,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local browserObj = scene.findObject("browser_area")
     browserObj.url=url
     browserObj.select()
+    browser_go(url)
   }
 
   function browserCloseAndUpdateEntitlements()
@@ -115,7 +116,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         break;
       case ::BROWSER_EVENT_CANT_DOWNLOAD:
         toggleWaitAnimation(false)
-        showInfoMsgBox(::loc("browser/error_cant_download"));
+        showInfoMsgBox(::loc("browser/error_cant_download"))
         break;
       case ::BROWSER_EVENT_BEGIN_LOADING_FRAME:
         if (params.isMainFrame)
@@ -124,6 +125,10 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       case ::BROWSER_EVENT_FINISH_LOADING_FRAME:
         if (params.isMainFrame)
           toggleWaitAnimation(false)
+        break;
+      case ::BROWSER_EVENT_BROWSER_CRASHED:
+        showInfoMsgBox(::loc("browser/crashed"))
+        browserCloseAndUpdateEntitlements()
         break;
       default:
         dagor.debug("onEventEmbeddedBrowser: unknown event type "

@@ -299,6 +299,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     hintObject.getScene().destroyElement(hintObject)
     return false
   }
+  isHideOnDeath = true
 
   showEvent = null
   hideEvent = null
@@ -348,6 +349,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     shortcuts = "ID_CONTINUE"
     showEvent = "hint:xrayCamera:showSkipHint"
     hideEvent = "hint:xrayCamera:hideSkipHint"
+    isHideOnDeath = false
   }
 
 

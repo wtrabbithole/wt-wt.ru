@@ -43,6 +43,14 @@ local time = require("scripts/time.nut")
   }
 
 
+  function onLocalPlayerDead()
+  {
+    local hints = ::u.filter(activeHints, @(hintData) hintData.hint.isHideOnDeath)
+    foreach (hintData in hints)
+      removeHint(hintData, true)
+  }
+
+
   //return false if can't
   function findSceneObjects()
   {
@@ -69,6 +77,10 @@ local time = require("scripts/time.nut")
 
   function subscribe()
   {
+    ::g_hud_event_manager.subscribe("LocalPlayerDead", function (eventData) {
+      onLocalPlayerDead()
+    }, this)
+
     foreach (hint in ::g_hud_hints.types)
     {
       if (!::u.isNull(hint.showEvent))

@@ -1,5 +1,5 @@
 <<#items>>
-mission_item_unlocked {
+<<#isLocked>>mission_item_locked<</isLocked>><<^isLocked>>mission_item_unlocked<</isLocked>> {
   id:t='<<id>>'
   <<#isSelected>>
   selected:t='yes'

@@ -60,9 +60,6 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
-    "MetaPartsBlk": "gameData/units/ships/dm/ships_metaparts.blk"
-  },
-  {
     "type": "typeTorpedoBoat"
   },
   {
@@ -1379,6 +1376,7 @@
           "armorThickness": 20.0,
           "armorThrough": 20.0,
           "fireProtectionHp": 10.0,
+          "fireParamsPreset": "ship_turrets",
           "drive_turret_h_01_dm": {
             "hp": 40.0,
             "armorThrough": 15.0
@@ -1593,6 +1591,7 @@
           "armorThickness": 20.0,
           "armorThrough": 15.0,
           "fireProtectionHp": 20.0,
+          "fireParamsPreset": "ship_turrets",
           "ammo_turret_dm": {
             "genericDamageMult": 0.3,
             "secondaryShatterDamageMult": 0.0
@@ -2426,6 +2425,50 @@
     ]
   },
   {
+    "MetaParts": {
+      "cover": [
+        {
+          "part": "compartment_01_dm"
+        },
+        {
+          "part": "compartment_02_dm"
+        },
+        {
+          "part": "compartment_03_dm"
+        },
+        {
+          "part": "compartment_04_dm"
+        },
+        {
+          "part": "compartment_05_dm"
+        },
+        {
+          "part": "compartment_06_dm"
+        },
+        {
+          "part": "compartment_07_dm"
+        },
+        {
+          "part": "compartment_08_dm"
+        },
+        {
+          "part": "compartment_09_dm"
+        },
+        {
+          "part": "compartment_10_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 7000.0,
+            "kill": true,
+            "killEffect": "destruction"
+          }
+        }
+      ]
+    }
+  },
+  {
     "tank_crew": {
       "minCrewMemberAliveCount": 7,
       "sailor1": {
@@ -2620,12 +2663,6 @@
           {
             "fx": {
               "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine"
-            }
-          },
-          {
-            "fx": {
-              "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_01"
             }
           },
@@ -2634,6 +2671,12 @@
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_02"
             }
+          },
+          {
+            "fx": {
+              "name": "ship_engine_fire",
+              "emitter": "emtr_fire_engine_03"
+            }
           }
         ]
       },
@@ -2641,12 +2684,6 @@
         "event": [
           {
             "name": "ammo_fire"
-          },
-          {
-            "fx": {
-              "name": "tank_ammo_fire",
-              "emitter": "emtr_fire_ammo"
-            }
           },
           {
             "fx": {
@@ -2662,9 +2699,14 @@
           },
           {
             "fx": {
-              "name": "ship_explosion",
-              "emitter": "emtr_fire_ammo",
-              "scale": 0.6
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_ammo_fire",
+              "emitter": "emtr_fire_ammo_04"
             }
           },
           {
@@ -2678,6 +2720,20 @@
             "fx": {
               "name": "ship_explosion",
               "emitter": "emtr_fire_ammo_02",
+              "scale": 0.6
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo_03",
+              "scale": 0.6
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_explosion",
+              "emitter": "emtr_fire_ammo_04",
               "scale": 0.6
             }
           }
@@ -2691,13 +2747,6 @@
           {
             "fx": {
               "name": "tank_smoke_small",
-              "emitter": "emtr_fire_ammo",
-              "scale": 2.0
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_smoke_small",
               "emitter": "emtr_fire_ammo_01",
               "scale": 2.0
             }
@@ -2706,6 +2755,13 @@
             "fx": {
               "name": "tank_smoke_small",
               "emitter": "emtr_fire_ammo_02",
+              "scale": 2.0
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_smoke_small",
+              "emitter": "emtr_fire_ammo_03",
               "scale": 2.0
             }
           }
@@ -2719,13 +2775,13 @@
           {
             "fx": {
               "name": "tank_smoke_big",
-              "emitter": "emtr_smoke_dmg"
+              "emitter": "emtr_smoke_dmg_01"
             }
           },
           {
             "fx": {
               "name": "tank_smoke_big",
-              "emitter": "emtr_smoke_dmg_01"
+              "emitter": "emtr_smoke_dmg_02"
             }
           },
           {
@@ -2850,13 +2906,13 @@
           {
             "fx": {
               "name": "tank_smoke_big",
-              "emitter": "emtr_smoke_dmg"
+              "emitter": "emtr_smoke_dmg_01"
             }
           },
           {
             "fx": {
               "name": "tank_smoke_big",
-              "emitter": "emtr_smoke_dmg_01"
+              "emitter": "emtr_smoke_dmg_02"
             }
           },
           {
@@ -2974,7 +3030,7 @@
           {
             "fx": {
               "name": "tank_fire_big",
-              "emitter": "emtr_fire_dmg"
+              "emitter": "emtr_fire_dmg_01"
             }
           },
           {
@@ -2987,112 +3043,112 @@
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_01",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_02",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_03",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_04",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_05",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_06",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_07",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_08",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_09",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_10",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_11",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_12",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_13",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_14",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_15",
-              "scale": 2.0
+              "scale": 3.0
             }
           },
           {
             "fx": {
               "name": "tank_fire_small",
               "emitter": "emtr_fire_small_dmg_16",
-              "scale": 2.0
+              "scale": 3.0
             }
           }
         ]
@@ -3105,21 +3161,21 @@
           {
             "fx": {
               "name": "ship_explosion",
-              "emitter": "emtr_explosion_center",
+              "emitter": "emtr_explosion_center_01",
               "scale": 0.9
             }
           },
           {
             "fx": {
               "name": "ship_explosion",
-              "emitter": "emtr_explosion_center_01",
+              "emitter": "emtr_explosion_center_02",
               "scale": 0.7
             }
           },
           {
             "fx": {
               "name": "ship_explosion",
-              "emitter": "emtr_explosion_center_02",
+              "emitter": "emtr_explosion_center_03",
               "scale": 0.6
             }
           }
@@ -3806,7 +3862,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_naval_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_03"
@@ -3925,7 +3981,7 @@
             "triggerGroup": "machinegun"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_92mm_MG34_naval_user_machinegun.blk"
           },
           {
             "emitter": "emtr_gun_flame_04"
@@ -4046,6 +4102,8 @@
           "launchAnimVar": "anim_launch_torpedo_02",
           "animLaunchTime": 5.0,
           "launchTime": 1.7,
+          "barrelDP": "tt_02_dm",
+          "brokenBarrelAllowShoot": false,
           "startFx": "start_torpedo",
           "startFxOffset": [4.5,0.0,0.0],
           "allowableDelta": 180.0,
@@ -4071,6 +4129,8 @@
           "launchAnimVar": "anim_launch_torpedo_01",
           "animLaunchTime": 5.0,
           "launchTime": 1.9,
+          "barrelDP": "tt_01_dm",
+          "brokenBarrelAllowShoot": false,
           "startFx": "start_torpedo",
           "startFxOffset": [4.5,0.0,0.0],
           "allowableDelta": 180.0,

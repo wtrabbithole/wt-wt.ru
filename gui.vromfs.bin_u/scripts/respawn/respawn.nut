@@ -1517,6 +1517,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     destroyProgressBox()
     requestInProgress = false
 
+    if (!isValid())
+      return
+
     reset_mp_autostart_countdown()
 
     switch (result)
