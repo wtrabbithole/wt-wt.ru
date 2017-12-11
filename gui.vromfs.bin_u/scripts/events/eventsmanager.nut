@@ -2058,7 +2058,7 @@ class Events
         local startTime = ::events.getEventStartTime(reasonData.event)
         if (startTime > 0)
           messageText +=  "\n" + ::format(::loc("events/event_starts_in"), ::colorize("activeTextColor",
-            time.hoursToString(secondsToHours(startTime))))
+            time.hoursToString(time.secondsToHours(startTime))))
         ::scene_msg_box("cant_join", null, messageText,
             [["ok", function() {}]], "ok")
       }

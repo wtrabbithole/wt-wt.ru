@@ -43,7 +43,7 @@
       "timeoutSec": 10,
       "mainThreadTimeoutSec": 10,
       "baseUrls": {
-        "url": "http://game-client-amz-cdn.warthunder.com/content/webfs/"
+        "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
       }
     },
     "guiWebCache": {
@@ -370,6 +370,9 @@
       "disableScaleWPByPlayers": true
     },
     {
+      "webVromfs_useCommon": false
+    },
+    {
       "enableUGC": true
     },
     {
@@ -385,8 +388,11 @@
     },
     {
       "webVromfs": {
+        "maxSize": 471859200,
+        "timeoutSec": 10,
+        "mainThreadTimeoutSec": 10,
         "baseUrls": {
-          "url": "http://wthost.gaijin.lan:8000/content/warthunder/guiwebcache/webfs/"
+          "url": "http://wthost.gaijin.lan:8000/content/warthunder/webfs/"
         }
       }
     },
@@ -791,20 +797,6 @@
         "yupConfUrl": "",
         "noIndex": true
       }
-    }
-  ],
-  "wts": [
-    {
-      "matchServer": "mgate-wts-sv-lx-01.warthunder.com:7853"
-    },
-    {
-      "matchServer": "mgate-wts-sv-lx-02.warthunder.com:7853"
-    },
-    {
-      "charServer": "https://char-wts-sv-lx-01.warthunder.com/char"
-    },
-    {
-      "charServer": "https://char-wts-sv-lx-02.warthunder.com/char"
     }
   ],
   "curCircuitRemap": {

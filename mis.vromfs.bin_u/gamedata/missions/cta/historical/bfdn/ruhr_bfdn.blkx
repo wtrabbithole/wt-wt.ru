@@ -216,8 +216,6 @@
       "level": "levels/ruhr.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/ruhr_BfDn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/ruhr_BfDn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
@@ -289,6 +289,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "arrow": [
@@ -385,7 +388,8 @@
           "slide": {
             "map": true,
             "minTime": 4,
-            "picture": ""
+            "picture": "",
+            "showAirMap": false
           }
         }
       ]
@@ -538,6 +542,12 @@
       "conditions": [],
       "actions": [
         {
+          "varSetInt": {
+            "value": 4,
+            "var": "max_bomb_areas"
+          }
+        },
+        {
           "varSetBool": {
             "value": true,
             "var": "isBombingZonesAffect"
@@ -557,6 +567,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -582,6 +593,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -599,6 +611,9 @@
               "set": true
             },
             {
+              "target_marking": 0
+            },
+            {
               "target": "t1_quest_units_squad"
             },
             {
@@ -607,28 +622,15 @@
           ]
         },
         {
-          "unitPutToSleep": [
-            {
-              "target": "t1_truck_ciclic"
-            },
-            {
-              "target": "t2_truck_ciclic"
-            }
-          ]
-        },
-        {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_aaa_squad"
             },
             {
               "object": "t2_aaa_squad"
-            },
-            {
-              "object": "t1_boat_squad"
-            },
-            {
-              "object": "t2_boat_squad"
             },
             {
               "targetAir": true
@@ -641,11 +643,23 @@
             },
             {
               "airEffShootingRate": 0.1
+            },
+            {
+              "fireRandom": true
+            },
+            {
+              "targetChangeInterval": 5.0
+            },
+            {
+              "targetChangeProf": 0.25
             }
           ]
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_truck_squad"
             },
@@ -653,22 +667,10 @@
               "object": "t1_tank_squad"
             },
             {
-              "object": "t1_boat_squad"
-            },
-            {
               "object": "t2_arty_squad"
             },
             {
               "object": "t2_bunker_squad"
-            },
-            {
-              "object": "t2_boat_squad"
-            },
-            {
-              "object": "t1_truck_ciclic"
-            },
-            {
-              "object": "t2_truck_ciclic"
             },
             {
               "targetAir": false
@@ -780,58 +782,6 @@
       ],
       "else_actions": []
     },
-    "t1_spawn": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 120.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "unitRespawn": {
-          "delay": 3.0,
-          "offset": [20.0,0.0,20.0],
-          "object": "t1_truck_ciclic",
-          "object_type": "isInactive",
-          "target": "t1_lcvp_squad",
-          "randomObjectsCount": 6
-        }
-      },
-      "else_actions": []
-    },
-    "t2_spawn": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 120.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "unitRespawn": {
-          "delay": 1.0,
-          "offset": [0.0,0.0,20.0],
-          "object": "t2_truck_ciclic",
-          "object_type": "isInactive",
-          "target": "t2_lcvp_squad",
-          "randomObjectsCount": 6
-        }
-      },
-      "else_actions": []
-    },
     "updatable_indication": {
       "is_enabled": true,
       "comments": "",
@@ -852,10 +802,10 @@
             "target_type": "isActive",
             "target_marking": 0,
             "delta": 0,
-            "icon": "truck",
+            "icon": "score",
             "icon army": 1,
             "set": true,
-            "target": "t1_truck_squad"
+            "target": "t1_quest_units_squad"
           }
         },
         {
@@ -863,32 +813,10 @@
             "target_type": "isActive",
             "target_marking": 0,
             "delta": 0,
-            "icon": "tank",
-            "icon army": 1,
-            "set": true,
-            "target": "t1_tank_squad"
-          }
-        },
-        {
-          "missionSetTargetsIndicator": {
-            "target_type": "isActive",
-            "target_marking": 0,
-            "delta": 0,
-            "icon": "cannon",
+            "icon": "score",
             "icon army": 2,
             "set": true,
-            "target": "t2_arty_squad"
-          }
-        },
-        {
-          "missionSetTargetsIndicator": {
-            "target_type": "isActive",
-            "target_marking": 0,
-            "delta": 0,
-            "icon": "tank",
-            "icon army": 2,
-            "set": true,
-            "target": "t2_bunker_squad"
+            "target": "t2_quest_units_squad"
           }
         }
       ],
@@ -914,6 +842,11 @@
         }
       },
       "actions": [
+        {
+          "triggerDisable": {
+            "target": "t2_defend_zone01"
+          }
+        },
         {
           "moSetObjectiveStatus": {
             "target": "ruhr_newbie_t1_capture_zone_01",
@@ -955,6 +888,11 @@
       },
       "actions": [
         {
+          "triggerDisable": {
+            "target": "t2_defend_zone02"
+          }
+        },
+        {
           "moSetObjectiveStatus": {
             "target": "ruhr_newbie_t1_capture_zone_02",
             "status": 2
@@ -995,6 +933,11 @@
       },
       "actions": [
         {
+          "triggerDisable": {
+            "target": "t2_defend_zone03"
+          }
+        },
+        {
           "moSetObjectiveStatus": {
             "target": "ruhr_newbie_t1_capture_zone_03",
             "status": 2
@@ -1027,45 +970,27 @@
           "time": 1.0
         }
       },
-      "conditions": [
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_zone01_squad"
-          }
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "t1_zone01_squad"
         },
-        {
-          "missionIsZoneCaptured": {
-            "target": "capture_zone_01",
-            "army": 2
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_boat_squad"
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_truck_ciclic"
-          }
+        "missionIsZoneCaptured": {
+          "target": "capture_zone_01",
+          "army": 2
         }
-      ],
+      },
       "actions": {
+        "triggerDisable": {
+          "target": "t1_check_capture_zone01"
+        },
         "moSetObjectiveStatus": {
           "target": "ruhr_newbie_t2_defend_zone_01",
-          "status": 3
+          "status": 2,
+          "team": "B"
         },
         "triggerEnable": {
           "target": "t2_task_completed"
@@ -1086,57 +1011,84 @@
           "time": 1.0
         }
       },
-      "conditions": [
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_zone02_squad"
-          }
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "t1_zone02_squad"
         },
-        {
-          "missionIsZoneCaptured": {
-            "target": "capture_zone_02",
-            "army": 2
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_boat_squad"
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_truck_ciclic"
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_zone01_squad"
-          }
+        "missionIsZoneCaptured": {
+          "target": "capture_zone_02",
+          "army": 2
         }
-      ],
+      },
       "actions": {
+        "triggerDisable": {
+          "target": "t1_check_capture_zone02"
+        },
         "moSetObjectiveStatus": {
           "target": "ruhr_newbie_t2_defend_zone_01",
-          "status": 3
+          "status": 2,
+          "team": "B"
         },
         "triggerEnable": {
-          "target": "t1_loose"
+          "target": "t2_task_completed"
+        }
+      },
+      "else_actions": []
+    },
+    "t2_defend_zone03": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitWhenCountMatches": [
+          {
+            "object_type": "isActive"
+          },
+          {
+            "object_marking": 0
+          },
+          {
+            "func": "less"
+          },
+          {
+            "value": 1
+          },
+          {
+            "object": "t1_zone02_squad"
+          },
+          {
+            "object": "t1_zone01_squad"
+          }
+        ],
+        "missionIsZoneCaptured": {
+          "target": "capture_zone_03",
+          "army": 2
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "t1_check_capture_zone03"
+        },
+        "moSetObjectiveStatus": {
+          "target": "ruhr_newbie_t2_defend_zone_03",
+          "status": 2,
+          "team": "B"
+        },
+        "triggerEnable": {
+          "target": "t2_task_completed"
         }
       },
       "else_actions": []
@@ -1280,10 +1232,10 @@
       "objectGroups": {
         "name": "t1_airfield",
         "tm": [
-          [0.21644,0.0,-0.976296],
+          [-0.258498,0.0,-0.966012],
           [0.0,1.0,0.0],
-          [0.976296,0.0,0.21644],
-          [-2955.8,65.9282,-11714.8]
+          [0.966012,0.0,-0.258498],
+          [770.8,80.8872,-13991.0]
         ],
         "unit_class": "dynAF_britain_ally",
         "objLayer": 2,
@@ -1342,10 +1294,10 @@
       "objectGroups": {
         "name": "t2_airfield",
         "tm": [
-          [0.300706,0.0,0.953717],
+          [-0.0591929,0.0,0.998247],
           [0.0,1.0,0.0],
-          [-0.953717,0.0,0.300706],
-          [2025.6,19.3664,9893.55]
+          [-0.998247,0.0,-0.0591929],
+          [-5006.95,35.791,7712.2]
         ],
         "unit_class": "dynAF_britain_ally",
         "objLayer": 2,
@@ -1353,222 +1305,6 @@
           "army": 2,
           "active": true
         }
-      }
-    },
-    {
-      "ships": {
-        "name": "t1_lcvp06",
-        "tm": [
-          [0.608761,0.0,0.793354],
-          [0.0,1.0,0.0],
-          [-0.793354,0.0,0.608761],
-          [-2476.85,13.4,-6146.95]
-        ],
-        "unit_class": "uss_lcvp",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t1_lcvp01",
-        "tm": [
-          [0.608761,0.0,0.793354],
-          [0.0,1.0,0.0],
-          [-0.793354,0.0,0.608761],
-          [-2454.2,13.4,-6176.45]
-        ],
-        "unit_class": "uss_lcvp",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t1_lcvp02",
-        "tm": [
-          [0.608761,0.0,0.793354],
-          [0.0,1.0,0.0],
-          [-0.793354,0.0,0.608761],
-          [-2417.1,13.4,-6222.15]
-        ],
-        "unit_class": "uss_lcvp",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t1_lcvp03",
-        "tm": [
-          [0.608761,0.0,0.793354],
-          [0.0,1.0,0.0],
-          [-0.793354,0.0,0.608761],
-          [-2400.55,13.4,-6248.35]
-        ],
-        "unit_class": "uss_lcvp",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t1_lcvp04",
-        "tm": [
-          [0.608761,0.0,0.793354],
-          [0.0,1.0,0.0],
-          [-0.793354,0.0,0.608761],
-          [-2376.11,13.4,-6273.23]
-        ],
-        "unit_class": "uss_lcvp",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t1_lcvp05",
-        "tm": [
-          [0.608761,0.0,0.793354],
-          [0.0,1.0,0.0],
-          [-0.793354,0.0,0.608761],
-          [-2342.56,13.4,-6312.47]
-        ],
-        "unit_class": "uss_lcvp",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
       }
     },
     {
@@ -1989,187 +1725,6 @@
             "props": {
               "speed": 40.0,
               "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "wheeled_vehicles": {
-        "name": "t1_truck_ciclic",
-        "tm": [
-          [0.737278,0.0,0.67559],
-          [0.0,1.0,0.0],
-          [-0.67559,0.0,0.737278],
-          [-2331.7,35.0,-6017.6]
-        ],
-        "unit_class": "us_m8_greyhound",
-        "objLayer": 1,
-        "closed_waypoints": true,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 12,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": {
-          "tracked_vehicles_04_wp_01": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1173.25,56.5,-2013.2]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_02": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1398.05,55.65,-746.65]
-            ],
-            "props": {
-              "speed": 15.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_03": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1232.4,53.35,501.1]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_04": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [7.9,46.95,804.45]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_05": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-1280.0,48.2,386.25]
-            ],
-            "props": {
-              "speed": 15.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_06": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-1409.55,62.6,-1454.25]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_07": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-874.15,61.4,-2917.8]
-            ],
-            "props": {
-              "speed": 15.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_08": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-685.05,66.55,-3418.9]
-            ],
-            "props": {
-              "speed": 40.0,
-              "moveType": "GATHER_TO",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "tracked_vehicles_04_wp_09": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1139.6,62.9,-2202.25]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "canUsePathFinder": false,
               "tas": false
@@ -3434,9 +2989,9 @@
           "t2_truck_02_wp_01": {
             "type": "normal",
             "tm": [
-              [0.887011,0.0,-0.461749],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.461749,0.0,0.887011],
+              [0.0,0.0,1.0],
               [5526.1,10.65,-2117.9]
             ],
             "props": {
@@ -3659,403 +3214,6 @@
       }
     },
     {
-      "ships": {
-        "name": "t2_lcvp01",
-        "tm": [
-          [0.300706,0.0,-0.953717],
-          [0.0,1.0,0.0],
-          [0.953717,0.0,0.300706],
-          [-563.95,-1.9,5141.9]
-        ],
-        "unit_class": "ijn_lcvp_lite",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t2_lcvp02",
-        "tm": [
-          [0.300706,0.0,-0.953717],
-          [0.0,1.0,0.0],
-          [0.953717,0.0,0.300706],
-          [-589.4,-1.9,5137.0]
-        ],
-        "unit_class": "ijn_lcvp_lite",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t2_lcvp03",
-        "tm": [
-          [0.300706,0.0,-0.953717],
-          [0.0,1.0,0.0],
-          [0.953717,0.0,0.300706],
-          [-613.75,-1.9,5130.8]
-        ],
-        "unit_class": "ijn_lcvp_lite",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t2_lcvp04",
-        "tm": [
-          [0.300706,0.0,-0.953717],
-          [0.0,1.0,0.0],
-          [0.953717,0.0,0.300706],
-          [-638.25,-1.9,5122.45]
-        ],
-        "unit_class": "ijn_lcvp_lite",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t2_lcvp05",
-        "tm": [
-          [0.300706,0.0,-0.953717],
-          [0.0,1.0,0.0],
-          [0.953717,0.0,0.300706],
-          [-669.05,-1.9,5119.45]
-        ],
-        "unit_class": "ijn_lcvp_lite",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "ships": {
-        "name": "t2_lcvp06",
-        "tm": [
-          [0.300706,0.0,-0.953717],
-          [0.0,1.0,0.0],
-          [0.953717,0.0,0.300706],
-          [-699.55,-1.9,5113.25]
-        ],
-        "unit_class": "ijn_lcvp_lite",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
-      }
-    },
-    {
-      "wheeled_vehicles": {
-        "name": "t2_truck_ciclic",
-        "tm": [
-          [0.130526,0.0,-0.991445],
-          [0.0,1.0,0.0],
-          [0.991445,0.0,0.130526],
-          [-619.65,18.35,4992.7]
-        ],
-        "unit_class": "germ_sdKfz_251",
-        "objLayer": 1,
-        "closed_waypoints": true,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 2,
-          "count": 12,
-          "formation_type": "rows",
-          "formation_div": 1,
-          "formation_step": [16.0,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": {
-          "t2_truck_ciclic_wp_01": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-1566.0,38.25,221.1]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_02": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-1177.1,33.25,346.6]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_03": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-30.6,43.6,771.75]
-            ],
-            "props": {
-              "speed": 15.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_04": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [856.8,51.95,-575.95]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_05": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [1223.95,57.3,-1326.95]
-            ],
-            "props": {
-              "speed": 15.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_06": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [644.7,57.3,-1617.4]
-            ],
-            "props": {
-              "speed": 15.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_07": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-278.7,67.15,-2328.6]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_08": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-1754.05,40.15,-2441.3]
-            ],
-            "props": {
-              "speed": 15.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          },
-          "t2_truck_ciclic_wp_09": {
-            "type": "normal",
-            "tm": [
-              [1.0,0.0,0.0],
-              [0.0,1.0,0.0],
-              [0.0,0.0,1.0],
-              [-1837.05,52.0,-681.45]
-            ],
-            "props": {
-              "speed": 30.0,
-              "moveType": "MOVETO_STRAIGHT",
-              "shouldKeepFormation": false,
-              "canUsePathFinder": false,
-              "tas": false
-            }
-          }
-        }
-      }
-    },
-    {
       "squad": {
         "name": "t1_land_squad",
         "tm": [
@@ -4064,14 +3222,9 @@
           [0.0,0.0,1.0],
           [-249.65,37.0,-7499.9]
         ],
-        "props": [
-          {
-            "squad_members": "t1_boat_squad"
-          },
-          {
-            "squad_members": "t1_truck_ciclic"
-          }
-        ]
+        "props": {
+          "squad_members": "t1_aaa_squad"
+        }
       }
     },
     {
@@ -4102,14 +3255,9 @@
           [0.0,0.0,1.0],
           [2394.35,37.0,-7951.95]
         ],
-        "props": [
-          {
-            "squad_members": "t2_boat_squad"
-          },
-          {
-            "squad_members": "t2_truck_ciclic"
-          }
-        ]
+        "props": {
+          "squad_members": "t2_aaa_squad"
+        }
       }
     },
     {
@@ -4201,7 +3349,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2374.05,64.3,-6318.4]
+          [4237.64,64.2988,1430.57]
         ],
         "props": [
           {
@@ -4277,7 +3425,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2980.95,53.6,-6353.75]
+          [2591.34,53.6001,1739.26]
         ],
         "props": [
           {
@@ -4314,7 +3462,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [3577.3,39.05,-6599.75]
+          [3148.05,39.0513,1094.49]
         ],
         "props": [
           {
@@ -4352,68 +3500,6 @@
     },
     {
       "squad": {
-        "name": "t1_boat_squad",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [1148.75,-20.4,-6142.5]
-        ],
-        "props": [
-          {
-            "squad_members": "t1_lcvp06"
-          },
-          {
-            "squad_members": "t1_lcvp01"
-          },
-          {
-            "squad_members": "t1_lcvp02"
-          },
-          {
-            "squad_members": "t1_lcvp03"
-          },
-          {
-            "squad_members": "t1_lcvp04"
-          },
-          {
-            "squad_members": "t1_lcvp05"
-          }
-        ]
-      }
-    },
-    {
-      "squad": {
-        "name": "t2_boat_squad",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [3909.1,39.55,-6778.75]
-        ],
-        "props": [
-          {
-            "squad_members": "t2_lcvp01"
-          },
-          {
-            "squad_members": "t2_lcvp02"
-          },
-          {
-            "squad_members": "t2_lcvp03"
-          },
-          {
-            "squad_members": "t2_lcvp04"
-          },
-          {
-            "squad_members": "t2_lcvp05"
-          },
-          {
-            "squad_members": "t2_lcvp06"
-          }
-        ]
-      }
-    },
-    {
-      "squad": {
         "name": "t1_heavy_units_squad",
         "tm": [
           [1.0,0.0,0.0],
@@ -4436,12 +3522,6 @@
           [-266.55,73.25,-8348.0]
         ],
         "props": [
-          {
-            "squad_members": "t1_truck_ciclic"
-          },
-          {
-            "squad_members": "t1_tank_squad"
-          },
           {
             "squad_members": "t1_aaa_squad"
           },
@@ -4475,7 +3555,7 @@
           [2682.25,73.25,-8642.95]
         ],
         "props": {
-          "squad_members": "t2_truck_ciclic"
+          "squad_members": "t2_arty_squad"
         }
       }
     },
@@ -4569,10 +3649,10 @@
       "air_defence": {
         "name": "t1_aaa_light_airfield01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2959.55,62.9414,-11980.6]
+          [0.461454,0.0,0.887164],
+          [644.819,80.5788,-14225.0]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -4605,10 +3685,10 @@
       "air_defence": {
         "name": "t1_aaa_heavy_airfield01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2720.45,66.013,-12029.1]
+          [0.461454,0.0,0.887164],
+          [834.559,81.3758,-14378.4]
         ],
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
@@ -4641,10 +3721,10 @@
       "air_defence": {
         "name": "t1_aaa_light_airfield02",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2789.85,67.2084,-11613.6]
+          [0.461454,0.0,0.887164],
+          [964.724,83.4557,-13977.8]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -4677,10 +3757,10 @@
       "air_defence": {
         "name": "t1_aaa_light_airfield03",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-3031.85,64.606,-11653.0]
+          [0.461454,0.0,0.887164],
+          [731.849,82.2494,-13901.1]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -4713,10 +3793,10 @@
       "air_defence": {
         "name": "t1_aaa_light_airfield04",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2950.9,65.7555,-11100.3]
+          [0.461454,0.0,0.887164],
+          [1058.71,80.6353,-13448.1]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -4749,10 +3829,10 @@
       "air_defence": {
         "name": "t1_aaa_light_airfield05",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-3198.8,61.5473,-11322.8]
+          [0.461454,0.0,0.887164],
+          [736.108,79.0946,-13531.1]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -4785,10 +3865,10 @@
       "air_defence": {
         "name": "t1_aaa_heavy_airfield02",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2676.25,68.5855,-11909.3]
+          [0.461454,0.0,0.887164],
+          [929.054,81.7072,-14292.5]
         ],
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
@@ -4821,10 +3901,10 @@
       "air_defence": {
         "name": "t1_aaa_heavy_airfield03",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-3049.95,63.3947,-11834.8]
+          [0.461454,0.0,0.887164],
+          [631.899,78.4457,-14054.0]
         ],
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
@@ -4857,10 +3937,10 @@
       "air_defence": {
         "name": "t1_aaa_heavy_airfield04",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2855.85,65.1911,-11406.3]
+          [0.461454,0.0,0.887164],
+          [1001.83,82.5041,-13763.4]
         ],
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
@@ -4893,10 +3973,10 @@
       "air_defence": {
         "name": "t1_aaa_heavy_airfield05",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-3145.75,61.4581,-11508.8]
+          [0.461454,0.0,0.887164],
+          [697.343,78.2572,-13720.6]
         ],
         "unit_class": "us_90mm_versus",
         "objLayer": 1,
@@ -4929,10 +4009,10 @@
       "squad": {
         "name": "t1_def_aaa_squad",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.887164,0.0,-0.461454],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2454.85,68.7541,-11901.9]
+          [0.461454,0.0,0.887164],
+          [1128.89,84.4833,-14388.1]
         ],
         "props": [
           {
@@ -4972,10 +4052,10 @@
       "air_defence": {
         "name": "t2_aaa_light_airfield01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.934245,0.0,0.356632],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [1704.9,82.2,9580.05]
+          [-0.356632,0.0,0.934245],
+          [-5194.76,34.8611,7304.95]
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "objLayer": 1,
@@ -5008,10 +4088,10 @@
       "air_defence": {
         "name": "t2_aaa_heavy_airfield01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.934245,0.0,0.356632],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [1898.1,78.6,9339.4]
+          [-0.356632,0.0,0.934245],
+          [-4928.44,33.3222,7149.02]
         ],
         "unit_class": "germ_88mm_flak36",
         "objLayer": 1,
@@ -5044,10 +4124,10 @@
       "air_defence": {
         "name": "t2_aaa_light_airfield02",
         "tm": [
-          [-0.92388,0.0,-0.382683],
+          [-0.726653,0.0,-0.687005],
           [0.0,1.0,0.0],
-          [0.382683,0.0,-0.92388],
-          [1969.0,82.2,9492.6]
+          [0.687005,0.0,-0.726653],
+          [-4916.83,34.4727,7317.43]
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "objLayer": 1,
@@ -5080,10 +4160,10 @@
       "air_defence": {
         "name": "t2_aaa_light_airfield03",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.934245,0.0,0.356632],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [1844.85,82.2,9873.55]
+          [-0.356632,0.0,0.934245],
+          [-5168.68,35.6935,7629.06]
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "objLayer": 1,
@@ -5116,10 +4196,10 @@
       "air_defence": {
         "name": "t2_aaa_light_airfield04",
         "tm": [
-          [-0.996195,0.0,-0.0871559],
+          [-0.899608,0.0,-0.4367],
           [0.0,1.0,0.0],
-          [0.0871559,0.0,-0.996195],
-          [2096.95,82.2,9936.35]
+          [0.4367,0.0,-0.899608],
+          [-4955.56,35.2701,7777.64]
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "objLayer": 1,
@@ -5152,10 +4232,10 @@
       "air_defence": {
         "name": "t2_aaa_light_airfield05",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.934245,0.0,0.356632],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [1943.0,82.2,10282.5]
+          [-0.356632,0.0,0.934245],
+          [-5222.83,32.7638,8046.12]
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
@@ -5187,10 +4267,10 @@
       "air_defence": {
         "name": "t2_aaa_heavy_airfield02",
         "tm": [
-          [-0.92388,0.0,-0.382683],
+          [-0.726653,0.0,-0.687005],
           [0.0,1.0,0.0],
-          [0.382683,0.0,-0.92388],
-          [1816.55,78.6,9730.45]
+          [0.687005,0.0,-0.726653],
+          [-5144.08,35.5323,7485.27]
         ],
         "unit_class": "germ_88mm_flak36",
         "objLayer": 1,
@@ -5223,10 +4303,10 @@
       "air_defence": {
         "name": "t2_aaa_heavy_airfield03",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.934245,0.0,0.356632],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2012.8,78.6,9685.95]
+          [-0.356632,0.0,0.934245],
+          [-4944.87,35.8142,7513.69]
         ],
         "unit_class": "germ_88mm_flak36",
         "objLayer": 1,
@@ -5259,10 +4339,10 @@
       "air_defence": {
         "name": "t2_aaa_heavy_airfield04",
         "tm": [
-          [-0.996195,0.0,-0.0871559],
+          [-0.899608,0.0,-0.4367],
           [0.0,1.0,0.0],
-          [0.0871559,0.0,-0.996195],
-          [1935.4,78.6,10119.5]
+          [0.4367,0.0,-0.899608],
+          [-5171.8,34.5589,7891.13]
         ],
         "unit_class": "germ_88mm_flak36",
         "objLayer": 1,
@@ -5295,10 +4375,10 @@
       "air_defence": {
         "name": "t2_aaa_heavy_airfield05",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.934245,0.0,0.356632],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2133.05,78.6,10216.0]
+          [-0.356632,0.0,0.934245],
+          [-5021.56,33.3092,8051.77]
         ],
         "unit_class": "germ_88mm_flak36",
         "objLayer": 1,
@@ -5331,10 +4411,10 @@
       "squad": {
         "name": "t2_def_aaa_squad",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.934245,0.0,0.356632],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2682.8,24.05,10019.9]
+          [-0.356632,0.0,0.934245],
+          [-4438.02,34.4626,8064.63]
         ],
         "props": [
           {
@@ -5366,68 +4446,6 @@
           },
           {
             "squad_members": "t2_aaa_heavy_airfield05"
-          }
-        ]
-      }
-    },
-    {
-      "squad": {
-        "name": "t1_lcvp_squad",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-2252.4,11.7,-6340.3]
-        ],
-        "props": [
-          {
-            "squad_members": "t1_lcvp06"
-          },
-          {
-            "squad_members": "t1_lcvp01"
-          },
-          {
-            "squad_members": "t1_lcvp02"
-          },
-          {
-            "squad_members": "t1_lcvp03"
-          },
-          {
-            "squad_members": "t1_lcvp04"
-          },
-          {
-            "squad_members": "t1_lcvp05"
-          }
-        ]
-      }
-    },
-    {
-      "squad": {
-        "name": "t2_lcvp_squad",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-783.0,14.65,5039.65]
-        ],
-        "props": [
-          {
-            "squad_members": "t2_lcvp01"
-          },
-          {
-            "squad_members": "t2_lcvp02"
-          },
-          {
-            "squad_members": "t2_lcvp03"
-          },
-          {
-            "squad_members": "t2_lcvp04"
-          },
-          {
-            "squad_members": "t2_lcvp05"
-          },
-          {
-            "squad_members": "t2_lcvp06"
           }
         ]
       }
@@ -5549,7 +4567,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-4519.8,32.4,-6644.25]
+          [-4239.92,32.4043,-7613.73]
         ],
         "props": [
           {
@@ -5571,7 +4589,7 @@
           [0.887011,0.0,-0.461749],
           [0.0,1.0,0.0],
           [0.461749,0.0,0.887011],
-          [5643.18,4.83432,-2612.5]
+          [5643.18,-838.58,-3365.01]
         ],
         "props": [
           {
@@ -5619,9 +4637,9 @@
           "t1_truck_03_wp_01": {
             "type": "normal",
             "tm": [
-              [0.887011,0.0,-0.461749],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.461749,0.0,0.887011],
+              [0.0,0.0,1.0],
               [5525.08,10.65,-2118.55]
             ],
             "props": {
@@ -6032,7 +5050,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-8264.35,56.4,-7911.35]
+          [-5884.18,56.3999,-8980.28]
         ],
         "unit_class": "cargo_zone_square",
         "objLayer": 2,
@@ -6046,10 +5064,10 @@
       "objectGroups": {
         "name": "t2_bomb_object_01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.904775,0.0,0.42589],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-4937.65,56.4,9309.05]
+          [-0.42589,0.0,0.904775],
+          [-2892.69,56.4004,3978.43]
         ],
         "unit_class": "cargo_zone_square",
         "objLayer": 2,
@@ -6063,10 +5081,10 @@
       "objectGroups": {
         "name": "t2_bomb_object_02",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.91192,0.0,-0.410367],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-8255.45,56.4,8383.45]
+          [0.410367,0.0,0.91192],
+          [-9068.16,56.4004,-1009.63]
         ],
         "unit_class": "cargo_zone_square",
         "objLayer": 2,
@@ -6080,10 +5098,10 @@
       "objectGroups": {
         "name": "t2_bomb_object_03",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.808088,0.0,0.589062],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [5421.7,56.4,6240.35]
+          [-0.589062,0.0,0.808088],
+          [3516.85,26.3319,3863.25]
         ],
         "unit_class": "cargo_zone_square",
         "objLayer": 2,
@@ -6129,9 +5147,9 @@
           "t1_truck_03_wp_02": {
             "type": "normal",
             "tm": [
-              [0.887011,0.0,-0.461749],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.461749,0.0,0.887011],
+              [0.0,0.0,1.0],
               [5526.1,10.65,-2117.9]
             ],
             "props": {
@@ -6602,9 +5620,9 @@
           "t1_truck_04_wp_01": {
             "type": "normal",
             "tm": [
-              [0.887011,0.0,-0.461749],
+              [1.0,0.0,0.0],
               [0.0,1.0,0.0],
-              [0.461749,0.0,0.887011],
+              [0.0,0.0,1.0],
               [5526.1,10.65,-2117.9]
             ],
             "props": {
@@ -7290,6 +6308,40 @@
           }
         }
       }
+    },
+    {
+      "objectGroups": {
+        "name": "t2_bomb_object_04",
+        "tm": [
+          [0.91192,0.0,-0.410367],
+          [0.0,1.0,0.0],
+          [0.410367,0.0,0.91192],
+          [-7158.26,56.4004,1630.41]
+        ],
+        "unit_class": "cargo_zone_square",
+        "objLayer": 2,
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "t1_bomb_object_04",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-2808.44,56.3999,-10345.1]
+        ],
+        "unit_class": "cargo_zone_square",
+        "objLayer": 2,
+        "props": {
+          "army": 1,
+          "active": true
+        }
+      }
     }
   ],
   "areas": {
@@ -7299,7 +6351,7 @@
         [-5948.67,0.0,-783.156],
         [0.0,6000.0,0.0],
         [783.156,0.0,-5948.67],
-        [-3038.15,2000.0,-11883.6]
+        [717.96,2000.0,-14392.3]
       ],
       "props": []
     },
@@ -7309,7 +6361,7 @@
         [-26.1467,0.0,298.858],
         [0.0,300.0,0.0],
         [-298.858,0.0,-26.1467],
-        [-3429.75,1000.0,-8906.97]
+        [326.36,1000.0,-11415.7]
       ],
       "props": []
     },
@@ -7319,7 +6371,7 @@
         [-3965.77,0.0,-522.106],
         [0.0,4000.0,0.0],
         [522.106,0.0,-3965.77],
-        [-3038.15,3000.0,-11883.6]
+        [717.96,3000.0,-14392.3]
       ],
       "props": []
     },
@@ -7329,7 +6381,7 @@
         [-5948.67,0.0,-783.156],
         [0.0,6000.0,0.0],
         [783.156,0.0,-5948.67],
-        [-3038.15,1000.0,-11883.6]
+        [717.96,1000.0,-14392.3]
       ],
       "props": []
     },
@@ -7339,7 +6391,7 @@
         [-26.1467,0.0,298.858],
         [0.0,300.0,0.0],
         [-298.858,0.0,-26.1467],
-        [-2648.74,1000.0,-14839.1]
+        [1107.37,1000.0,-17347.8]
       ],
       "props": []
     },
@@ -7349,7 +6401,7 @@
         [-26.1467,0.0,298.858],
         [0.0,300.0,0.0],
         [-298.858,0.0,-26.1467],
-        [-2777.72,2000.0,-13859.8]
+        [978.393,2000.0,-16368.5]
       ],
       "props": []
     },
@@ -7359,7 +6411,7 @@
         [-26.1467,0.0,298.858],
         [0.0,300.0,0.0],
         [-298.858,0.0,-26.1467],
-        [-3298.8,4500.0,-9901.57]
+        [457.31,4500.0,-12410.3]
       ],
       "props": []
     },
@@ -7369,7 +6421,7 @@
         [-26.1467,0.0,298.858],
         [0.0,300.0,0.0],
         [-298.858,0.0,-26.1467],
-        [-3364.2,3500.0,-9405.26]
+        [391.91,3500.0,-11914.0]
       ],
       "props": []
     },
@@ -7379,7 +6431,7 @@
         [-3965.77,0.0,-522.106],
         [0.0,4000.0,0.0],
         [522.106,0.0,-3965.77],
-        [-3038.15,4500.0,-11883.6]
+        [717.96,4500.0,-14392.3]
       ],
       "props": []
     },
@@ -7389,107 +6441,107 @@
         [-4957.23,0.0,-652.632],
         [0.0,5000.0,0.0],
         [652.632,0.0,-4957.23],
-        [-3038.15,3500.0,-11883.6]
+        [717.96,3500.0,-14392.3]
       ],
       "props": []
     },
     "t2_interceptor_area": {
       "type": "Sphere",
       "tm": [
-        [6000.0,0.0,0.0],
+        [5625.49,0.0,2086.58],
         [0.0,6000.0,0.0],
-        [0.0,0.0,6000.0],
-        [1721.8,2000.0,9999.85]
+        [-2086.58,0.0,5625.49],
+        [-5004.86,1999.99,7732.4]
       ],
       "props": []
     },
     "t2_assault_spawn": {
       "type": "Sphere",
       "tm": [
-        [-13.0859,0.0,-299.714],
+        [91.9606,0.0,-285.557],
         [0.0,300.0,0.0],
-        [299.714,0.0,-13.0859],
-        [1721.5,1000.0,6997.65]
+        [285.557,0.0,91.9606],
+        [-3961.09,999.994,4917.49]
       ],
       "props": []
     },
     "t2_aaa_fighter_area": {
       "type": "Sphere",
       "tm": [
-        [4000.0,0.0,0.0],
+        [3750.33,0.0,1391.06],
         [0.0,4000.0,0.0],
-        [0.0,0.0,4000.0],
-        [1721.8,3000.0,9999.85]
+        [-1391.06,0.0,3750.33],
+        [-5004.86,2999.99,7732.4]
       ],
       "props": []
     },
     "t2_assault_area": {
       "type": "Sphere",
       "tm": [
-        [6000.0,0.0,0.0],
+        [5625.49,0.0,2086.58],
         [0.0,6000.0,0.0],
-        [0.0,0.0,6000.0],
-        [1721.8,1000.0,9999.85]
+        [-2086.58,0.0,5625.49],
+        [-5004.86,999.994,7732.4]
       ],
       "props": []
     },
     "t2_interceptor_spawn": {
       "type": "Sphere",
       "tm": [
-        [-13.0859,0.0,-299.714],
+        [91.9606,0.0,-285.557],
         [0.0,300.0,0.0],
-        [299.714,0.0,-13.0859],
-        [1721.5,1000.0,12980.9]
+        [285.557,0.0,91.9606],
+        [-6041.85,999.994,10527.3]
       ],
       "props": []
     },
     "t2_aaa_fighter_spawn": {
       "type": "Sphere",
       "tm": [
-        [-13.0859,0.0,-299.714],
+        [91.9606,0.0,-285.557],
         [0.0,300.0,0.0],
-        [299.714,0.0,-13.0859],
-        [1721.5,2000.0,11993.1]
+        [285.557,0.0,91.9606],
+        [-5698.33,1999.99,9601.13]
       ],
       "props": []
     },
     "t2_far_bomber_spawn": {
       "type": "Sphere",
       "tm": [
-        [-13.0859,0.0,-299.714],
+        [91.9606,0.0,-285.557],
         [0.0,300.0,0.0],
-        [299.714,0.0,-13.0859],
-        [1721.5,4500.0,8000.8]
+        [285.557,0.0,91.9606],
+        [-4309.95,4499.99,5858.02]
       ],
       "props": []
     },
     "t2_main_bomber_spawn": {
       "type": "Sphere",
       "tm": [
-        [-13.0859,0.0,-299.714],
+        [91.9606,0.0,-285.557],
         [0.0,300.0,0.0],
-        [299.714,0.0,-13.0859],
-        [1721.5,3500.0,7500.2]
+        [285.557,0.0,91.9606],
+        [-4135.86,3499.99,5388.67]
       ],
       "props": []
     },
     "t2_far_bomber_area": {
       "type": "Sphere",
       "tm": [
-        [4000.0,0.0,0.0],
+        [3750.33,0.0,1391.06],
         [0.0,4000.0,0.0],
-        [0.0,0.0,4000.0],
-        [1721.8,4500.0,9999.85]
+        [-1391.06,0.0,3750.33],
+        [-5004.86,4499.99,7732.4]
       ],
       "props": []
     },
     "t2_main_bomber_area": {
       "type": "Sphere",
       "tm": [
-        [5000.0,0.0,0.0],
+        [4687.91,0.0,1738.82],
         [0.0,5000.0,0.0],
-        [0.0,0.0,5000.0],
-        [1721.8,3500.0,9999.85]
+        [-1738.82,0.0,4687.91],
+        [-5004.86,3499.99,7732.4]
       ],
       "props": []
     },
@@ -7526,35 +6578,13 @@
       "objLayer": 0,
       "props": []
     },
-    "t2_truck_spawn_area": {
-      "type": "Box",
-      "tm": [
-        [-201.66,0.0,-26.549],
-        [0.0,65.3,0.0],
-        [10.9368,0.0,-83.073],
-        [-611.75,-3.85,5016.7]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "t1_truck_spawn_area": {
-      "type": "Box",
-      "tm": [
-        [85.7586,0.0,71.96],
-        [0.0,79.4,0.0],
-        [-183.066,-1.90735e-06,218.17],
-        [-2350.95,5.8,-6083.45]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
     "brief_zone01": {
       "type": "Sphere",
       "tm": [
         [693.7,0.0,0.0],
         [0.0,693.7,0.0],
         [0.0,0.0,693.7],
-        [-2503.45,34.3,-1592.25]
+        [-1097.74,34.2998,-2154.86]
       ],
       "props": []
     },
@@ -7564,7 +6594,7 @@
         [693.7,0.0,0.0],
         [0.0,693.7,0.0],
         [0.0,0.0,693.7],
-        [882.0,34.3,1000.05]
+        [-395.11,34.2998,800.879]
       ],
       "props": []
     },
@@ -7574,7 +6604,7 @@
         [693.7,0.0,0.0],
         [0.0,693.7,0.0],
         [0.0,0.0,693.7],
-        [2507.75,34.3,-1742.45]
+        [1406.18,34.2998,-1243.36]
       ],
       "props": []
     },
@@ -7604,17 +6634,17 @@
         [502.9,0.0,0.0],
         [0.0,502.9,0.0],
         [0.0,0.0,502.9],
-        [-1362.6,69.7763,-14708.8]
+        [2393.51,69.7773,-17217.5]
       ],
       "props": []
     },
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-265.475,0.0,-841.98],
+        [48.6544,0.0,-994.702],
         [0.0,300.0,0.0],
-        [381.618,0.0,-120.324],
-        [1951.25,19.15,9791.35]
+        [399.66,0.0,19.5484],
+        [-5032.46,19.1499,7602.69]
       ],
       "objLayer": 0,
       "props": []
@@ -7622,10 +6652,10 @@
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [191.082,0.0,-861.915],
+        [-252.559,0.0,-990.137],
         [0.0,300.0,0.0],
-        [390.653,0.0,86.6054],
-        [-2975.05,64.4549,-11578.5]
+        [387.723,0.0,-98.8987],
+        [837.379,64.4546,-13947.9]
       ],
       "objLayer": 0,
       "props": []
@@ -7652,13 +6682,13 @@
       "objLayer": 0,
       "props": []
     },
-    "area_02": {
+    "airfields_area": {
       "type": "Sphere",
       "tm": [
-        [20299.3,0.0,0.0],
+        [19758.6,0.0,4654.13],
         [0.0,20299.3,0.0],
-        [0.0,0.0,20299.3],
-        [-2209.75,47.0536,-519.1]
+        [-4654.13,0.0,19758.6],
+        [-899.866,143.547,-2754.24]
       ],
       "objLayer": 0,
       "props": []
@@ -7691,7 +6721,7 @@
         [450.0,0.0,0.0],
         [0.0,450.0,0.0],
         [0.0,0.0,450.0],
-        [-8261.9,21.5388,-7917.65]
+        [-5881.74,21.5387,-8986.58]
       ],
       "objLayer": 0,
       "props": []
@@ -7699,10 +6729,10 @@
     "t2_bomb_area_01": {
       "type": "Sphere",
       "tm": [
-        [450.0,0.0,0.0],
+        [407.149,0.0,191.651],
         [0.0,450.0,0.0],
-        [0.0,0.0,450.0],
-        [-4939.95,66.9,9274.85]
+        [-191.651,0.0,407.149],
+        [-2880.2,66.9004,3946.51]
       ],
       "objLayer": 0,
       "props": []
@@ -7710,10 +6740,10 @@
     "t2_bomb_area_02": {
       "type": "Sphere",
       "tm": [
-        [450.0,0.0,0.0],
+        [410.364,0.0,-184.665],
         [0.0,450.0,0.0],
-        [0.0,0.0,450.0],
-        [-8253.2,18.4227,8379.2]
+        [184.665,0.0,410.364],
+        [-9067.85,18.4231,-1014.43]
       ],
       "objLayer": 0,
       "props": []
@@ -7721,19 +6751,72 @@
     "t2_bomb_area_03": {
       "type": "Sphere",
       "tm": [
+        [363.64,0.0,265.078],
+        [0.0,450.0,0.0],
+        [-265.078,0.0,363.64],
+        [3523.23,26.4114,3866.04]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "bomb_zones_area": {
+      "type": "Sphere",
+      "tm": [
+        [15411.7,0.0,3630.22],
+        [0.0,15833.5,0.0],
+        [-3630.22,0.0,15411.7],
+        [-899.866,143.547,-2754.24]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_bomb_area_04": {
+      "type": "Sphere",
+      "tm": [
+        [410.364,0.0,-184.665],
+        [0.0,450.0,0.0],
+        [184.665,0.0,410.364],
+        [-7157.96,18.4231,1625.61]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_bomb_area_04": {
+      "type": "Sphere",
+      "tm": [
         [450.0,0.0,0.0],
         [0.0,450.0,0.0],
         [0.0,0.0,450.0],
-        [5428.5,49.4,6238.85]
+        [-2805.99,21.5387,-10351.4]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-26.1467,0.0,298.858],
+        [0.0,300.0,0.0],
+        [-298.858,0.0,-26.1467],
+        [1107.37,500.0,-17347.8]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [91.9606,0.0,-285.557],
+        [0.0,300.0,0.0],
+        [285.557,0.0,91.9606],
+        [-6041.85,500.0,10527.3]
+      ],
       "props": []
     }
   },
   "objLayers": [
     {
       "layer": {
-        "enabled": true
+        "enabled": false
       }
     },
     {
