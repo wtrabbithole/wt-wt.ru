@@ -1,0 +1,278 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "battleAreaColorPreset": "battleArea",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": {
+    "import_record": {
+      "file": "gameData/missions/cta/tanks/poland/template_poland_Conq3_arcade.blk",
+      "importAreas": true,
+      "importUnits": true,
+      "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
+      "showAreas": true,
+      "showUnits": true,
+      "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
+      "excludes": []
+    }
+  },
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "area_squad": {
+        "name": "t1_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2264.2,20.95,521.4]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_battlearea_arcade_block01"
+          },
+          {
+            "squad_members": "t1_battlearea_arcade_block02"
+          },
+          {
+            "squad_members": "t1_battlearea_arcade_block03"
+          },
+          {
+            "squad_members": "t1_battlearea_arcade_block04"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1800.3,12.1,429.35]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_battlearea_arcade_block01"
+          },
+          {
+            "squad_members": "t2_battlearea_arcade_block02"
+          },
+          {
+            "squad_members": "t2_battlearea_arcade_block03"
+          },
+          {
+            "squad_members": "t2_battlearea_arcade_block04"
+          }
+        ]
+      }
+    }
+  ],
+  "areas": {
+    "fake_battlearea_arcade": {
+      "type": "Box",
+      "tm": [
+        [-1900.0,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-1900.0],
+        [1877.1,0.374,1807.85]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "t2_battlearea_arcade_block01": {
+      "type": "Box",
+      "tm": [
+        [-1500.0,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-1900.0],
+        [1677.15,0.374102,1807.85]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "t1_battlearea_arcade_block01": {
+      "type": "Box",
+      "tm": [
+        [-1400.0,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-1900.0],
+        [2127.04,0.374,1807.85]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "t2_battlearea_arcade_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [270.653,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,270.653],
+        [2426.65,0.374,1501.0]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_battlearea_arcade_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [270.653,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,270.653],
+        [1429.7,0.374,1372.45]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_battlearea_arcade_block03": {
+      "type": "Box",
+      "tm": [
+        [-406.178,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-629.827],
+        [2492.55,0.35,1172.75]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "t1_battlearea_arcade_block03": {
+      "type": "Box",
+      "tm": [
+        [-406.178,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,-534.579],
+        [1366.05,0.35,1125.15]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "t1_battlearea_arcade_block04": {
+      "type": "Box",
+      "tm": [
+        [-293.545,0.0,280.734],
+        [0.0,644.0,0.0],
+        [-177.978,0.0,-186.1],
+        [1486.3,0.374,1521.5]
+      ],
+      "objLayer": 5,
+      "props": []
+    },
+    "t2_battlearea_arcade_block04": {
+      "type": "Box",
+      "tm": [
+        [-168.216,0.0,-189.486],
+        [0.0,644.0,0.0],
+        [196.064,0.0,-174.055],
+        [2440.01,0.374,1681.04]
+      ],
+      "objLayer": 5,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

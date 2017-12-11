@@ -1,5 +1,8 @@
 local colorCorrector = require_native("colorCorrector")
 local fonts = require_native("fonts")
+local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
+local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+
 handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurSceneBgBlurred" ])
 
 ::handlersManager.lastInFlight <- false  //to reload scenes on change inFlight
@@ -21,11 +24,6 @@ handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurS
   [handlerType.BASE]   = false,
   [handlerType.MODAL]  = true,
   [handlerType.CUSTOM] = false,
-}
-
-function handlersManager::setIngameShortcutsActive(value)
-{
-  ::set_ingame_shortcuts_active(value)
 }
 
 function handlersManager::beforeClearScene(guiScene)
@@ -128,6 +126,7 @@ function handlersManager::updatePostLoadCss()
   if (::get_dagui_post_include_css_str() != cssStringPost)
   {
     ::set_dagui_post_include_css_str(cssStringPost)
+    ::call_darg("recalculateTeamColors")
     haveChanges = true
   }
 
@@ -139,11 +138,6 @@ function handlersManager::updatePostLoadCss()
 
 function handlersManager::generatePreLoadCssString()
 {
-  local safeareaMenu = ::g_option_menu_safearea.getValue()
-  local safeareaHud  =
-    ::is_platform_ps4 ? (1.0 - ::ps4_get_safe_area()) :
-    !::g_login.isAuthorized() ? 0.0 :
-    ::get_option_hud_screen_safe_area()
   local countriesCount = 7
   if (::g_login.isLoggedIn())
   {
@@ -155,10 +149,9 @@ function handlersManager::generatePreLoadCssString()
 
   local config = [
     { name = "target_pc",         value = ::is_platform_ps4 ? "no" : "yes" }
-    { name = "_safearea_menu",    value = ::format("%.2f", safeareaMenu) }
-    { name = "_safearea_hud",     value = ::format("%.2f", safeareaHud) }
+    { name = "_safearea_menu",    value = ::format("%.2f", safeAreaMenu.getValue()) }
+    { name = "_safearea_hud",     value = ::format("%.2f", safeAreaHud.getValue()) }
     { name = "slotbarCountries",  value = countriesCount.tostring() }
-    { name = "textPaddingBugWorkaround",  value = ::is_version_equals_or_newer("1.71.1.101") ? "0" : "10px" }
   ]
 
   return generateCssString(config)

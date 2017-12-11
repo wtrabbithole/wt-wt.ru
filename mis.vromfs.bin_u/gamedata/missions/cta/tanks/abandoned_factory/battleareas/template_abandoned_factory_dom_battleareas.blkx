@@ -1,0 +1,251 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "battleAreaColorPreset": "battleArea",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": {
+    "import_record": {
+      "file": "gameData/missions/cta/tanks/abandoned_factory/template_abandoned_factory_tank_spawns.blk",
+      "importAreas": true,
+      "importUnits": true,
+      "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
+      "showAreas": true,
+      "showUnits": true,
+      "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
+      "excludes": []
+    }
+  },
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "area_squad": {
+        "name": "t1_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2264.2,20.95,521.4]
+        ],
+        "props": {
+          "squad_members": "t1_battlearea_arcade_block01"
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_battlearea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1800.3,12.1,510.766]
+        ],
+        "props": {
+          "squad_members": "t2_battlearea_arcade_block01"
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_battlearea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2290.14,7.0,196.076]
+        ],
+        "props": {
+          "squad_members": "t1_battlearea_hardcore_block01"
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_battlearea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1781.21,7.0,269.331]
+        ],
+        "props": {
+          "squad_members": "t2_battlearea_hardcore_block01"
+        }
+      }
+    }
+  ],
+  "areas": {
+    "fake_dom_battle_area_arcade": {
+      "type": "Box",
+      "tm": [
+        [0.00012207,0.0,1200.0],
+        [0.0,400.0,0.0],
+        [-1200.0,0.0,0.00012207],
+        [2184.0,7.79997,2105.6]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "fake_dom_battle_area_hardcore": {
+      "type": "Box",
+      "tm": [
+        [0.00019816,0.0,1948.0],
+        [0.0,400.0,0.0],
+        [-1948.0,0.0,0.00019816],
+        [2098.0,16.37,2098.0]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_battlearea_arcade_block01": {
+      "type": "Box",
+      "tm": [
+        [0.00012207,0.0,1200.0],
+        [0.0,400.0,0.0],
+        [-1070.0,0.0,0.000108846],
+        [2249.05,7.79993,2105.6]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t2_battlearea_arcade_block01": {
+      "type": "Box",
+      "tm": [
+        [0.00012207,0.0,1200.0],
+        [0.0,400.0,0.0],
+        [-1070.0,0.0,0.000108846],
+        [2119.07,7.79993,2105.6]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t1_battlearea_hardcore_block01": {
+      "type": "Box",
+      "tm": [
+        [0.00019816,0.0,1948.0],
+        [0.0,400.0,0.0],
+        [-1734.96,0.0,0.000176488],
+        [2204.52,16.3699,2098.0]
+      ],
+      "objLayer": 4,
+      "props": []
+    },
+    "t2_battlearea_hardcore_block01": {
+      "type": "Box",
+      "tm": [
+        [0.00019816,0.0,1948.0],
+        [0.0,400.0,0.0],
+        [-1734.96,0.0,0.000176488],
+        [1991.52,16.3699,2098.0]
+      ],
+      "objLayer": 4,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

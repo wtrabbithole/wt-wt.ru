@@ -58,6 +58,14 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(timerObj))
       timerObj.setUserData(this)
 
+    local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
+    if (queue)
+    {
+      local battleWithQueue = queue.getWWBattle()
+      if (battleWithQueue && battleWithQueue.isValid())
+        battle = battleWithQueue
+    }
+
     reinitBattlesList()
     initSquadList()
   }
@@ -358,7 +366,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getViewMode()
   {
-    if (::queues.findQueueByName(battle.getQueueId(), true))
+    if (::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE))
       return WW_BATTLE_VIEW_MODES.QUEUE_INFO
 
     if (::g_squad_manager.isInSquad() &&
@@ -374,8 +382,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (battle == null)
       return
 
-    local currentBattleQueue = ::queues.findQueueByName(battle.getQueueId(), true)
-    if (currentBattleQueue == null)
+    local currentBattleQueue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
+    if (!currentBattleQueue)
       return
 
     local currentWaitingTime = ::queues.getQueueActiveTime(currentBattleQueue).tointeger()
@@ -388,6 +396,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateWWQueuesInfoSuccessCallback(queueInfo)
   {
+    if (!battle.isValid())
+      return
+
     local currentBattleQueueInfo = ::getTblValue(battle.id, queueInfo, null)
 
     local mySide = ::ww_get_player_side()
@@ -557,7 +568,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
             msgBox("ask_leave_squad", ::loc("squad/ask/cancel_fight"),
               [
                 ["yes", ::Callback(function() {
-                    ::ww_event("SetStartingBattle")
+                    ::g_squad_manager.cancelWwBattlePrepare()
                   }, this)],
                 ["no", @() null]
               ],
@@ -573,9 +584,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
                 ["no", @() null]
               ],
               "no", { cancel_fn = function() {} })
-          return
-
-        case WW_BATTLE_VIEW_MODES.QUEUE_INFO:
           return
       }
 
@@ -597,7 +605,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
             if (!::has_feature("WorldWarSquadInfo"))
               battle.tryToJoin()
             else
-              ::ww_event("SetStartingBattle", {battleId = battle.id})
+              ::g_squad_manager.startWWBattlePrepare(battle.id)
           }
           else
             ::showInfoMsgBox(::loc("squad/not_all_ready"))
@@ -615,7 +623,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
           if (cantJoinReasonData.canJoin)
             ::g_squad_manager.setCrewsReadyFlag()
           else
-          ::showInfoMsgBox(cantJoinReasonData.reasonText)
+            ::showInfoMsgBox(cantJoinReasonData.reasonText)
         }
         break
     }
@@ -686,23 +694,28 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onEventSquadDataUpdated(params)
   {
     local wwBattleName = ::g_squad_manager.getWwOperationBattle()
-    if (wwBattleName && battle.id != wwBattleName)
+    if (!wwBattleName)
+      refreshSelBattle()
+    else if (!battle || battle.id != wwBattleName)
     {
       battle = ::g_world_war.getBattleById(wwBattleName)
       reinitBattlesList()
     }
-    else
-    {
-      refreshSelBattle()
-      if (::g_squad_manager.isMyCrewsReady)
-        ::g_squad_manager.setCrewsReadyFlag()
-    }
 
+    local prevCurrViewMode = currViewMode
     currViewMode = getViewMode()
     updateViewMode()
     updateDescription()
     updateQueueInfoPanel()
     updateButtons()
+
+    if (prevCurrViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO &&
+        prevCurrViewMode != currViewMode &&
+        ::g_squad_manager.isSquadMember())
+    {
+      ::g_squad_manager.setCrewsReadyFlag(false)
+      ::showInfoMsgBox(::loc("squad/message/cancel_fight"))
+    }
   }
 
   function onEventCrewTakeUnit(params)

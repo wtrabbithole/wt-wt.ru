@@ -192,7 +192,7 @@ function notify_session_start()
     "spectator", "isReady", "isInLobbySession", "team", "countryData", "myState",
     "isSpectatorSelectLocked", "crsSetTeamTo", "curEdiff",
     "needJoinSessionAfterMyInfoApply", "isLeavingLobbySession", "_syncedMyInfo",
-    "playersInfo"
+    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName"
   ]
 
   settings = {}
@@ -205,6 +205,9 @@ function notify_session_start()
   roomId = INVALID_ROOM_ID
   roomUpdated = false
   password = ""
+
+  overrideSlotbar = null
+  overrrideSlotbarMissionName = "" //recalc slotbar only on mission change
 
   members = []
   memberDefaults = {
@@ -311,21 +314,13 @@ function SessionLobby::findParam(key, tbl1, tbl2)
   return null
 }
 
-function SessionLobby::validateMissionCountry(country)
+function SessionLobby::validateMissionCountry(country, fullCountriesList)
 {
-  if (::isInArray(country, ::shopCountriesList))
+  if (::isInArray(country, fullCountriesList))
     return
-  if (::isInArray("country_" + country, ::shopCountriesList))
+  if (::isInArray("country_" + country, fullCountriesList))
     return "country_" + country
   return null
-}
-
-function SessionLobby::getFullCountriesList()
-{
-  local res = []
-  foreach(c in ::shopCountriesList)
-    res.append(c)
-  return res
 }
 
 function SessionLobby::prepareSettings(missionSettings)
@@ -379,6 +374,9 @@ function SessionLobby::prepareSettings(missionSettings)
 
   //validate Countries
   local countriesType = ::getTblValue("countriesType", missionSettings, misCountries.ALL)
+  local fullCountriesList = ::g_crews_list.getSlotbarOverrideCountriesByMissionName(_settings.mission.originalMissionName)
+  if (!fullCountriesList.len())
+    fullCountriesList = clone ::shopCountriesList
   foreach(name in ["country_allies", "country_axis"])
   {
     local countries = null
@@ -387,16 +385,16 @@ function SessionLobby::prepareSettings(missionSettings)
       countries = ::getTblValue(name, _settings, [])
       for(local i=countries.len()-1; i>=0; i--)
       {
-        countries[i] = validateMissionCountry(countries[i])
+        countries[i] = validateMissionCountry(countries[i], fullCountriesList)
         if (!countries[i])
           countries.remove(i)
       }
     } else if (countriesType == misCountries.SYMMETRIC || countriesType == misCountries.CUSTOM)
     {
       local bitMaskKey = (countriesType == misCountries.SYMMETRIC)? "country_allies" : name
-      countries = ::get_array_by_bit_value(::getTblValue(bitMaskKey + "_bitmask", missionSettings, 0), getFullCountriesList())
+      countries = ::get_array_by_bit_value(::getTblValue(bitMaskKey + "_bitmask", missionSettings, 0), ::shopCountriesList)
     }
-    _settings[name] <- (countries && countries.len())? countries : getFullCountriesList()
+    _settings[name] <- (countries && countries.len())? countries : fullCountriesList
   }
 
   _settings.chatPassword <- isInRoom() ? getChatRoomPassword() : ::gen_rnd_password(16)
@@ -425,6 +423,7 @@ function SessionLobby::setSettings(_settings, notify = false, checkEqual = true)
 
   UpdateCrsSettings()
   UpdatePlayersInfo()
+  updateOverrideSlotbar()
 
   curEdiff = calcEdiff(settings)
 
@@ -844,6 +843,8 @@ function SessionLobby::resetParams()
   needJoinSessionAfterMyInfoApply = false
   isLeavingLobbySession = false
   playersInfo.clear()
+  overrideSlotbar = null
+  overrrideSlotbarMissionName = ""
   ::g_user_presence.setPresence({in_game_ex = null})
 }
 
@@ -2524,6 +2525,34 @@ function SessionLobby::canJoinSession()
   if (hasSessionInLobby())
     return !isLeavingLobbySession
   return isRoomInSession
+}
+
+function SessionLobby::updateOverrideSlotbar()
+{
+  local missionName = getMissionName(true)
+  if (missionName == overrrideSlotbarMissionName)
+    return
+  overrrideSlotbarMissionName = missionName
+
+  local newOverrideSlotbar = ::g_crews_list.calcSlotbarOverrideByMissionName(missionName)
+  if (::u.isEqual(overrideSlotbar, newOverrideSlotbar))
+    return
+
+  overrideSlotbar = newOverrideSlotbar
+  ::broadcastEvent("OverrideSlotbarChanged")
+}
+
+
+function SessionLobby::isSlotbarOverrided(room = null)
+{
+  return getSlotbarOverrideData(room) != null
+}
+
+function SessionLobby::getSlotbarOverrideData(room = null)
+{
+  if (!room || getMissionName(true, room) == overrrideSlotbarMissionName)
+    return overrideSlotbar
+  return ::g_crews_list.calcSlotbarOverrideByMissionName(getMissionName(true, room))
 }
 
 function SessionLobby::tryJoinSession(needLeaveRoomOnError = false)

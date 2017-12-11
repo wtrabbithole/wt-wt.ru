@@ -139,7 +139,6 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     invert = false
     name = {
       width = "1@nameWidth +1.5@tableIcoSize +1@tablePad"
-      readyIcon = false
     }
   }
 

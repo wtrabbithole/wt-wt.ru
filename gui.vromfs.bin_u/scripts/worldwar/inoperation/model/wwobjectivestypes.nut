@@ -183,6 +183,9 @@ local time = require("scripts/time.nut")
     return array
   }
 
+  getUpdatableParamsDescriptionText = @(dataBlk, statusBlk, side) ""
+  getUpdatableParamsDescriptionTooltip = @(dataBlk, statusBlk, side) ""
+
   timersArrayByParamName = {}
   timerSetVisibleFunctionTable = {}
   timerUpdateFunctionTables = {
@@ -382,6 +385,26 @@ local time = require("scripts/time.nut")
         colorize = getColorizeByParam("holdTimeSec")
       }]
     }
+
+    getUpdatableParamsDescriptionText = function(dataBlk, statusBlk, side)
+    {
+      local sideIdx = ::ww_side_name_to_val(side)
+      local paramName = "rSpeedMulStatus" + sideIdx + "New"
+      if (!(paramName in statusBlk))
+        return ""
+
+      local speedupFactor = statusBlk[paramName]
+      if (speedupFactor <= 1)
+        return ""
+
+      local speedupPerc = ::round((speedupFactor - 1) * 100)
+      local speedupText = ::loc("worldwar/valueWithPercent", {percent = speedupPerc})
+      speedupText = ::colorize("warningTextColor", "+" + speedupText)
+      speedupText = ::loc("worldWar/iconReinforcement") + speedupText
+      return ::loc("ui/parentheses", {text = speedupText})
+    }
+
+    getUpdatableParamsDescriptionTooltip = @(...) ::loc("worldwar/state/reinforcement_arrival_speedup")
   }
 
   OT_DOMINATION_ZONE = {

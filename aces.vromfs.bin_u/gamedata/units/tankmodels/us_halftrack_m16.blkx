@@ -940,6 +940,62 @@
   },
   {
     "MetaParts": {
+      "inner": [
+        {
+          "hp": 10000.0
+        },
+        {
+          "part": "engine_dm"
+        },
+        {
+          "part": "transmission_dm"
+        },
+        {
+          "part": "cannon_breech_dm"
+        },
+        {
+          "part": "cannon_breech_01_dm"
+        },
+        {
+          "part": "cannon_breech_02_dm"
+        },
+        {
+          "part": "cannon_breech_03_dm"
+        },
+        {
+          "part": "cannon_breech_04_dm"
+        },
+        {
+          "part": "cannon_breech_05_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 180.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
       "crew": [
         {
           "killAllPartsForDeath": true
@@ -1033,15 +1089,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1141,18 +1188,6 @@
           "part": "turret_front_dm"
         },
         {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
@@ -1166,15 +1201,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1213,7 +1239,7 @@
           "barrelDP": "gun_barrel_01_dm",
           "breechDP": "cannon_breech_01_dm",
           "speedYaw": 60.0,
-          "speedPitch": 20.0,
+          "speedPitch": 60.0,
           "bullets": 1200,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -1237,12 +1263,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,70.0]
+            "pitch": [-10.0,90.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-40.0,-5.0,70.0],
-            "lim2": [-40.0,40.0,-2.0,70.0],
-            "lim3": [40.0,180.0,-5.0,70.0]
+            "lim1": [-180.0,-40.0,-5.0,90.0],
+            "lim2": [-40.0,40.0,-2.0,90.0],
+            "lim3": [40.0,180.0,-5.0,90.0]
           }
         }
       },
@@ -1261,7 +1287,7 @@
           "barrelDP": "gun_barrel_02_dm",
           "breechDP": "cannon_breech_02_dm",
           "speedYaw": 60.0,
-          "speedPitch": 20.0,
+          "speedPitch": 60.0,
           "bullets": 1200,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -1287,12 +1313,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,70.0]
+            "pitch": [-10.0,90.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-40.0,-5.0,70.0],
-            "lim2": [-40.0,40.0,-2.0,70.0],
-            "lim3": [40.0,180.0,-5.0,70.0]
+            "lim1": [-180.0,-40.0,-5.0,90.0],
+            "lim2": [-40.0,40.0,-2.0,90.0],
+            "lim3": [40.0,180.0,-5.0,90.0]
           }
         }
       },
@@ -1311,7 +1337,7 @@
           "barrelDP": "gun_barrel_03_dm",
           "breechDP": "cannon_breech_03_dm",
           "speedYaw": 60.0,
-          "speedPitch": 20.0,
+          "speedPitch": 60.0,
           "bullets": 1200,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -1337,12 +1363,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,70.0]
+            "pitch": [-10.0,90.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-40.0,-5.0,70.0],
-            "lim2": [-40.0,40.0,-2.0,70.0],
-            "lim3": [40.0,180.0,-5.0,70.0]
+            "lim1": [-180.0,-40.0,-5.0,90.0],
+            "lim2": [-40.0,40.0,-2.0,90.0],
+            "lim3": [40.0,180.0,-5.0,90.0]
           }
         }
       },
@@ -1361,7 +1387,7 @@
           "barrelDP": "gun_barrel_04_dm",
           "breechDP": "cannon_breech_04_dm",
           "speedYaw": 60.0,
-          "speedPitch": 20.0,
+          "speedPitch": 60.0,
           "bullets": 1200,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -1387,12 +1413,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,70.0]
+            "pitch": [-10.0,90.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-40.0,-5.0,70.0],
-            "lim2": [-40.0,40.0,-2.0,70.0],
-            "lim3": [40.0,180.0,-5.0,70.0]
+            "lim1": [-180.0,-40.0,-5.0,90.0],
+            "lim2": [-40.0,40.0,-2.0,90.0],
+            "lim3": [40.0,180.0,-5.0,90.0]
           }
         }
       }

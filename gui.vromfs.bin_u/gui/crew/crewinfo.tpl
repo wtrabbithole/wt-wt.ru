@@ -19,6 +19,7 @@ tdiv {
     }
     textareaNoTab {
       id:t='crew_cur_skills'
+      margin-left:t='1@blockInterval'
       overlayTextColor:t='active'
       text:t='<<crewLevelText>>'
     }
@@ -36,6 +37,7 @@ tdiv {
       size:t='1@cIco, 1@cIco'
       pos:t='-6@sf/@pf_outdated, 0'
       position:t='relative'
+      margin-left:t='1@blockInterval'
       margin-right:t='2@sf/@pf_outdated'
       background-image:t='<<crewSpecializationIcon>>'
     }

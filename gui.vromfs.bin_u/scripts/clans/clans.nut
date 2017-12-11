@@ -165,6 +165,11 @@ function g_clans::getMyClanMembersCount()
   return ::getTblValue("members", ::my_clan_info, []).len()
 }
 
+function g_clans::getMyClanMembers()
+{
+  return ::my_clan_info?.members ?? []
+}
+
 function g_clans::getMyClanCandidates()
 {
   return ::getTblValue("candidates", ::my_clan_info, [])

@@ -78,7 +78,6 @@ function g_mplayer_param_type::_newer(old, new) {
     {
       markupTbl.widthInWideScreen <- "1@nameWidthInWideScreen + 1.5@tableIcoSize + 1@tablePad"
       markupTbl.airWeaponIcons <- false
-      markupTbl.readyIcon <- false
       delete markupTbl.tooltip
     }
   }

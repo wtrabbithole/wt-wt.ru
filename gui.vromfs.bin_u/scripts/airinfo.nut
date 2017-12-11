@@ -268,6 +268,11 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       icon       = "#ui/gameuiskin#slot_change_aircraft"
       showAction = inMenu && ::SessionLobby.canChangeCrewUnits()
       actionFunc = (@(crew, handler) function () {
+        if (::g_crews_list.isSlotbarOverrided)
+        {
+          ::showInfoMsgBox(::loc("multiplayer/slotbarOverrided"))
+          return
+        }
         handler.onSlotChangeAircraft(crew)
       })(crew, handler)
     }
@@ -282,7 +287,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       icon       = "#ui/gameuiskin#slot_crew"
       haveWarning = ::isInArray(::get_crew_status_by_id(crew.crewId), [ "ready", "full" ])
       haveDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo) > 0
-      showAction = inMenu
+      showAction = inMenu && !::g_crews_list.isSlotbarOverrided
       actionFunc = (@(crew) function () {
         if (crew)
           ::gui_modal_crew(crew.countryId, crew.idInCountry)
@@ -294,7 +299,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       icon       = "#ui/gameuiskin#slot_weapons"
       haveWarning = ::checkUnitWeapons(unit.name) != ::UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
-      showAction = inMenu
+      showAction = inMenu && !::g_crews_list.isSlotbarOverrided
       actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit) })(unit)
     }
     else if (action == "take")
@@ -315,6 +320,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       icon       = "#ui/gameuiskin#slot_repair"
       haveWarning = true
       showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name) > 0 && ::SessionLobby.canChangeCrewUnits()
+         && !::g_crews_list.isSlotbarOverrided
       actionFunc = (@(unit, handler) function () {
         handler.showMsgBoxRepair.call(handler, unit, (@(unit) function () {::check_and_repair_unit(unit)})(unit))
       })(unit, handler)
@@ -329,7 +335,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
 
       if (canBuyIngame)
       {
-        priceText = getPriceText(::wp_get_cost(unit.name), ::wp_get_cost_gold(unit.name))
+        priceText = ::getUnitCost(unit).tostring()
         if (priceText.len())
         {
           if ((isSpecial && wp_get_cost_gold(unit.name) > profile.gold) || (wp_get_cost(unit.name) > profile.balance))

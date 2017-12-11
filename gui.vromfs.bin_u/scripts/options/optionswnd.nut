@@ -1,3 +1,6 @@
+local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
+local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+
 function get_system_options()
 {
   return {
@@ -72,7 +75,7 @@ function get_main_options()
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
       ["options/header/interface"],
-      [::USEROPT_HUD_SCREEN_SAFE_AREA, "spinner", !::is_platform_ps4],
+      [::USEROPT_HUD_SCREEN_SAFE_AREA, "spinner", safeAreaHud.canChangeValue()],
       [::USEROPT_GAME_HUD, "spinner", isInFlight],
       [::USEROPT_GAMMA, "slider", ::can_change_gamma()],
       [::USEROPT_HUD_INDICATORS, "spinner", "get_option_hud_indicators" in getroottable()],
@@ -130,7 +133,7 @@ function get_main_options()
       [::USEROPT_REPLAY_ALL_INDICATORS, "spinner"],
 
       ["options/header/otherOptions"],
-      [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", ::g_option_menu_safearea.canChangeValue()],
+      [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
       [::USEROPT_HUD_SCREENSHOT_LOGO, "spinner", ::is_platform_pc],
     ]

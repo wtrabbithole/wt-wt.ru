@@ -52,7 +52,7 @@ foreach (notificationName, callback in
             ["msquad.notify_member_joined"] = function(params)
               {
                 local userId = ::getTblValue("userId", params, "")
-                if (userId.tostring() != ::my_user_id_str)
+                if (userId.tostring() != ::my_user_id_str && ::g_squad_manager.isInSquad())
                 {
                   ::g_squad_manager.addMember(userId.tostring())
                   ::g_squad_manager.joinSquadChatRoom()
@@ -74,7 +74,8 @@ foreach (notificationName, callback in
 
             ["msquad.notify_leader_changed"] = function(params)
               {
-                ::g_squad_manager.requestSquadData(::g_squad_manager.onLeadershipTransfered)
+                if (::g_squad_manager.isInSquad())
+                  ::g_squad_manager.requestSquadData(::g_squad_manager.onLeadershipTransfered)
               },
 
             ["msquad.notify_disbanded"] = function(params)
@@ -84,27 +85,28 @@ foreach (notificationName, callback in
 
             ["msquad.notify_data_changed"] = function(params)
               {
-                ::g_squad_manager.requestSquadData()
+                if (::g_squad_manager.isInSquad())
+                  ::g_squad_manager.requestSquadData()
               },
 
             ["msquad.notify_member_data_changed"] = function(params)
               {
                 local userId = ::getTblValue("userId", params, "").tostring()
-                if (userId != ::my_user_id_str)
+                if (userId != ::my_user_id_str && ::g_squad_manager.isInSquad())
                   ::g_squad_manager.requestMemberData(userId)
               },
 
             ["msquad.notify_member_login"] = function(params)
               {
                 local userId = ::getTblValue("userId", params, "").tostring()
-                if (userId != ::my_user_id_str)
+                if (userId != ::my_user_id_str && ::g_squad_manager.isInSquad())
                   ::g_squad_manager.setMemberOnlineStatus(userId, true)
               },
 
             ["msquad.notify_member_logout"] = function(params)
               {
                 local userId = ::getTblValue("userId", params, "").tostring()
-                if (userId != ::my_user_id_str)
+                if (userId != ::my_user_id_str && ::g_squad_manager.isInSquad())
                   ::g_squad_manager.setMemberOnlineStatus(userId, false)
               }
           }

@@ -231,6 +231,7 @@
             "mapArea": true,
             "killOutOfBattleArea": true,
             "newGridHorizontalCellCount": 0,
+            "killArea": false,
             "area": "flt_battle_area"
           }
         }
@@ -5202,6 +5203,7 @@
               "unitGetRandomNameFromSquad": {
                 "string_var": "flt_t1_tank_name",
                 "check_objects": "any",
+                "object_marking": 0,
                 "squad": "flt_t1_tanks_squad",
                 "object_type": "isInactive"
               }
@@ -5892,6 +5894,7 @@
               "unitGetRandomNameFromSquad": {
                 "string_var": "flt_t2_tank_name",
                 "check_objects": "any",
+                "object_marking": 0,
                 "squad": "flt_t2_tanks_squad",
                 "object_type": "isInactive"
               }
@@ -6111,9 +6114,28 @@
             }
           },
           {
+            "varSetString": [
+              {
+                "value": ""
+              },
+              {
+                "var": "flt_draw_point_01"
+              },
+              {
+                "var": "flt_draw_point_02"
+              },
+              {
+                "var": "flt_draw_point_03"
+              },
+              {
+                "var": "flt_draw_point_04"
+              }
+            ]
+          },
+          {
             "missionShowMapLine": {
-              "areaNameFrom": "",
-              "areaNameTo": "",
+              "areaNameFrom": "@flt_draw_point_01",
+              "areaNameTo": "@flt_draw_point_04",
               "curve": true,
               "clear": true
             }
@@ -6133,6 +6155,18 @@
             "varSetInt": {
               "value": 1,
               "var": "flt_draw_next_frontline_idx"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "flt_draw_last_draw"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "flt_draw_last_draw_point_num"
             }
           },
           {
@@ -6228,6 +6262,9 @@
         "else_actions": {
           "comment": {
             "value": "за пределами диапазона ничего не делаем"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_frontline_last_draw"
           }
         }
       },
@@ -6252,6 +6289,11 @@
           }
         },
         "actions": [
+          {
+            "comment": {
+              "value": "рисуем первую линию из-за края карты"
+            }
+          },
           {
             "comment": {
               "value": "вычисляем настоящий индекс первого фронтлайна"
@@ -6293,14 +6335,14 @@
           {
             "varSetString": {
               "value": "flt_zero_",
-              "var": "flt_draw_start_point"
+              "var": "flt_draw_point_01"
             }
           },
           {
             "varAddString": {
               "value": "@flt_draw_real_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_start_point"
+              "var": "flt_draw_point_01"
             }
           },
           {
@@ -6310,15 +6352,22 @@
           },
           {
             "varSetString": {
-              "value": "flt_battle_area_",
-              "var": "flt_draw_end_point"
+              "value": "flt_area_",
+              "var": "flt_draw_point_04"
             }
           },
           {
             "varAddString": {
               "value": "@flt_draw_real_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_end_point"
+              "var": "flt_draw_point_04"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_start",
+              "digits": 0,
+              "var": "flt_draw_point_04"
             }
           },
           {
@@ -6328,11 +6377,12 @@
           },
           {
             "missionShowMapLine": {
-              "areaNameFrom": "@flt_draw_start_point",
-              "areaNameTo": "@flt_draw_end_point",
+              "areaNameFrom": "@flt_draw_point_01",
+              "areaNameTo": "@flt_draw_point_04",
               "show": true,
               "colorCode": "Team B-A",
-              "scale": 2.0,
+              "scale": 1.5,
+              "simplification": 0.5,
               "curve": true
             }
           },
@@ -6349,7 +6399,7 @@
         ],
         "else_actions": {
           "comment": {
-            "value": "ничего не делаем"
+            "value": "рисуем обычные линии"
           },
           "triggerEnable": {
             "target": "flt_draw_frontline_draw"
@@ -6372,6 +6422,13 @@
         "conditions": [
           {
             "varCompareInt": {
+              "var_value": "flt_draw_frontline_idx",
+              "value": 0,
+              "comparasion_func": "more"
+            }
+          },
+          {
+            "varCompareInt": {
               "var_value": "flt_draw_next_frontline_idx",
               "value": 0,
               "comparasion_func": "notMore",
@@ -6380,14 +6437,7 @@
           },
           {
             "varCompareInt": {
-              "var_value": "flt_draw_frontline_idx",
-              "value": 0,
-              "comparasion_func": "more"
-            }
-          },
-          {
-            "varCompareInt": {
-              "var_value": "@flt_draw_unused_name",
+              "var_value": "flt_draw_last_draw",
               "value": 0,
               "comparasion_func": "equal"
             }
@@ -6428,45 +6478,71 @@
             }
           },
           {
-            "__varGetStringValue": {
-              "from_var_name": "@flt_draw_frontline_idx_name",
-              "var": "flt_draw_frontline_idx_name"
-            }
-          },
-          {
             "comment": {
               "value": "получаем имя первой точки для рисования"
             }
           },
           {
             "varSetString": {
-              "value": "flt_battle_area_",
-              "var": "flt_draw_start_point"
+              "value": "flt_area_",
+              "var": "flt_draw_point_01"
             }
           },
           {
             "varAddString": {
               "value": "@flt_draw_real_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_start_point"
+              "var": "flt_draw_point_01"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_start",
+              "digits": 0,
+              "var": "flt_draw_point_01"
             }
           },
           {
             "comment": {
-              "value": "получаем имя средней точки для рисования"
+              "value": "получаем имя второй точки для рисования"
             }
           },
           {
             "varSetString": {
               "value": "flt_battle_area_",
-              "var": "flt_draw_middle_point"
+              "var": "flt_draw_point_02"
             }
           },
           {
             "varAddString": {
               "value": "@flt_draw_real_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_middle_point"
+              "var": "flt_draw_point_02"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя третьей точки для рисования"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_draw_point_03"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_draw_real_frontline_idx",
+              "digits": 2,
+              "var": "flt_draw_point_03"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_end",
+              "digits": 0,
+              "var": "flt_draw_point_03"
             }
           },
           {
@@ -6503,27 +6579,46 @@
             }
           },
           {
-            "__varGetStringValue": {
-              "from_var_name": "@flt_draw_frontline_next_idx_name",
-              "var": "flt_draw_frontline_next_idx_name"
-            }
-          },
-          {
             "comment": {
-              "value": "получаем имя конечной точки для рисования"
+              "value": "получаем имя четвертой точки для рисования"
             }
           },
           {
             "varSetString": {
-              "value": "flt_battle_area_",
-              "var": "flt_draw_end_point"
+              "value": "flt_area_",
+              "var": "flt_draw_point_04"
             }
           },
           {
             "varAddString": {
               "value": "@flt_draw_real_next_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_end_point"
+              "var": "flt_draw_point_04"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_start",
+              "digits": 0,
+              "var": "flt_draw_point_04"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя пятой точки для рисования"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battle_area_",
+              "var": "flt_draw_point_05"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_draw_real_next_frontline_idx",
+              "digits": 2,
+              "var": "flt_draw_point_05"
             }
           },
           {
@@ -6532,23 +6627,43 @@
             }
           },
           {
-            "missionShowMapLine": {
-              "areaNameFrom": "@flt_draw_start_point",
-              "areaNameTo": "@flt_draw_end_point",
+            "__missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_point_01",
+              "areaNameTo": "@flt_draw_point_02",
               "show": true,
               "colorCode": "Team B-A",
-              "scale": 2.0,
+              "scale": 1.5,
               "curve": true
             }
           },
           {
             "__missionShowMapLine": {
-              "areaNameFrom": "@flt_draw_middle_point",
-              "areaNameTo": "@flt_draw_end_point",
+              "areaNameFrom": "@flt_draw_point_02",
+              "areaNameTo": "@flt_draw_point_03",
               "show": true,
               "colorCode": "Team B-A",
-              "scale": 1.0,
+              "scale": 1.5,
               "curve": true
+            }
+          },
+          {
+            "__missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_point_03",
+              "areaNameTo": "@flt_draw_point_04",
+              "show": true,
+              "colorCode": "Team B-A",
+              "scale": 1.5,
+              "curve": true
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не совпадают ли точки"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_checl_last_point_num_4"
             }
           },
           {
@@ -6557,20 +6672,253 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "flt_draw_frontline_last_draw"
-            }
-          },
-          {
-            "__missionSetTimeSpeed": {
-              "speed": 0.0,
-              "realtimeTriggers": false
+            "__triggerEnable": {
+              "target": "flt_draw_frontline_rotator"
             }
           }
         ],
         "else_actions": {
           "comment": {
             "value": "проверяем не достигли ли не используемого"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_frontline_rotator"
+          }
+        }
+      },
+      "flt_checl_last_point_num_4": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_draw_last_draw_point_num",
+            "value": 4,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "последняя точка была начальной точкой новой отрисовки"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_check_nearest_point_01_02"
+          }
+        },
+        "else_actions": {
+          "triggerEnable": {
+            "target": "flt_checl_last_point_num_5"
+          }
+        }
+      },
+      "flt_checl_last_point_num_5": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_draw_last_draw_point_num",
+            "value": 5,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "последняя точка была серединной точкой новой отрисовки"
+          },
+          "triggerEnable": {
+            "target": "flt_draw_check_nearest_point_02_03"
+          }
+        },
+        "else_actions": {
+          "triggerEnable": {
+            "target": "flt_draw_check_nearest_point_01_02"
+          }
+        }
+      },
+      "flt_draw_check_nearest_point_01_02": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 4500.0,
+            "math": "notNear2D",
+            "object_type": "any",
+            "object_marking": 0,
+            "target_type": "any",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "@flt_draw_point_01",
+            "target": "@flt_draw_point_02"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "точки не совпадают. рисуем и идем дальше по циклу"
+          },
+          "missionShowMapLine": {
+            "areaNameFrom": "@flt_draw_point_01",
+            "areaNameTo": "@flt_draw_point_02",
+            "show": true,
+            "colorCode": "Team B-A",
+            "scale": 1.5,
+            "simplification": 0.5,
+            "curve": true
+          },
+          "__missionShowMapLine": {
+            "areaNameFrom": "@flt_draw_point_03",
+            "areaNameTo": "@flt_draw_point_04",
+            "show": true,
+            "colorCode": "Team B-A",
+            "scale": 1.5,
+            "curve": true
+          },
+          "triggerEnable": {
+            "target": "flt_draw_check_nearest_point_02_03"
+          }
+        },
+        "else_actions": [
+          {
+            "comment": {
+              "value": "точки совпадают. рисуем из 1 в 3"
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_point_01",
+              "areaNameTo": "@flt_draw_point_03",
+              "colorCode": "Team B-A",
+              "scale": 1.5,
+              "simplification": 0.5,
+              "curve": true
+            }
+          },
+          {
+            "missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_point_03",
+              "areaNameTo": "@flt_draw_point_05",
+              "colorCode": "Team B-A",
+              "scale": 1.5,
+              "simplification": 0.5,
+              "curve": true
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_draw_frontline_rotator"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 5,
+              "var": "flt_draw_last_draw_point_num"
+            }
+          }
+        ]
+      },
+      "flt_draw_check_nearest_point_02_03": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 2500.0,
+            "math": "notNear2D",
+            "object_type": "any",
+            "object_marking": 0,
+            "target_type": "any",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "@flt_draw_point_02",
+            "target": "@flt_draw_point_03"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "точки не совпадают. рисуем и идем дальше по циклу"
+          },
+          "missionShowMapLine": {
+            "areaNameFrom": "@flt_draw_point_02",
+            "areaNameTo": "@flt_draw_point_04",
+            "show": true,
+            "colorCode": "Team B-A",
+            "scale": 1.5,
+            "simplification": 0.5,
+            "curve": true
+          },
+          "__missionShowMapLine": {
+            "areaNameFrom": "@flt_draw_point_03",
+            "areaNameTo": "@flt_draw_point_04",
+            "show": true,
+            "colorCode": "Team B-A",
+            "scale": 1.5,
+            "curve": true
+          },
+          "triggerEnable": {
+            "target": "flt_draw_frontline_rotator"
+          },
+          "varSetInt": {
+            "value": 4,
+            "var": "flt_draw_last_draw_point_num"
+          }
+        },
+        "else_actions": {
+          "comment": {
+            "value": "точки совпадают. не рисуем и идем дальше"
+          },
+          "missionShowMapLine": {
+            "areaNameFrom": "@flt_draw_point_02",
+            "areaNameTo": "@flt_draw_point_04",
+            "colorCode": "Team B-A",
+            "scale": 1.5,
+            "simplification": 0.5,
+            "curve": true
+          },
+          "triggerEnable": {
+            "target": "flt_draw_frontline_rotator"
+          },
+          "varSetInt": {
+            "value": 4,
+            "var": "flt_draw_last_draw_point_num"
           }
         }
       },
@@ -6587,14 +6935,23 @@
             "time": 0.0
           }
         },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "flt_draw_next_frontline_idx",
-            "value": 0,
-            "comparasion_func": "equal",
-            "var_value_other": "flt_zones_in_col"
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_next_frontline_idx",
+              "value": 0,
+              "comparasion_func": "more",
+              "var_value_other": "flt_zones_in_col"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_draw_last_draw",
+              "value": 0,
+              "comparasion_func": "equal"
+            }
           }
-        },
+        ],
         "actions": [
           {
             "comment": {
@@ -6604,66 +6961,132 @@
           {
             "varSetString": {
               "value": "flt_frontline_zone_idx_",
-              "var": "flt_draw_frontline_next_idx_name"
+              "var": "flt_draw_frontline_idx_name"
             }
           },
           {
             "varAddString": {
-              "value": "@flt_draw_next_frontline_idx",
+              "value": "@flt_draw_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_frontline_next_idx_name"
+              "var": "flt_draw_frontline_idx_name"
             }
           },
           {
             "varSetInt": {
               "value": 0,
-              "var": "flt_draw_real_next_frontline_idx"
+              "var": "flt_draw_real_frontline_idx"
             }
           },
           {
             "varModify": {
               "operator": "add",
               "value": 1.0,
-              "var": "flt_draw_real_next_frontline_idx",
+              "var": "flt_draw_real_frontline_idx",
               "use_variable": true,
-              "var_value": "@flt_draw_frontline_next_idx_name"
+              "var_value": "@flt_draw_frontline_idx_name"
             }
           },
           {
             "comment": {
               "value": "получаем имя первой точки для рисования"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_area_",
+              "var": "flt_draw_point_01"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@flt_draw_real_frontline_idx",
+              "digits": 2,
+              "var": "flt_draw_point_01"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_start",
+              "digits": 0,
+              "var": "flt_draw_point_01"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя второй точки для рисования"
             }
           },
           {
             "varSetString": {
               "value": "flt_battle_area_",
-              "var": "flt_draw_start_point"
+              "var": "flt_draw_point_02"
             }
           },
           {
             "varAddString": {
-              "value": "@flt_draw_real_next_frontline_idx",
+              "value": "@flt_draw_real_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_start_point"
+              "var": "flt_draw_point_02"
             }
           },
           {
             "comment": {
-              "value": "получаем имя первой точки для рисования"
+              "value": "получаем имя третьей точки для рисования"
             }
           },
           {
             "varSetString": {
-              "value": "flt_zero_",
-              "var": "flt_draw_end_point"
+              "value": "flt_area_",
+              "var": "flt_draw_point_03"
             }
           },
           {
             "varAddString": {
-              "value": "@flt_draw_real_next_frontline_idx",
+              "value": "@flt_draw_real_frontline_idx",
               "digits": 2,
-              "var": "flt_draw_end_point"
+              "var": "flt_draw_point_03"
             }
+          },
+          {
+            "varAddString": {
+              "value": "_end",
+              "digits": 0,
+              "var": "flt_draw_point_03"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя второй точки для рисования"
+            }
+          },
+          {
+            "varSetString": [
+              {
+                "value": "flt_zero_"
+              },
+              {
+                "var": "flt_draw_point_04"
+              },
+              {
+                "var": "flt_draw_point_05"
+              }
+            ]
+          },
+          {
+            "varAddString": [
+              {
+                "value": "@flt_draw_real_frontline_idx"
+              },
+              {
+                "digits": 2
+              },
+              {
+                "var": "flt_draw_point_04"
+              },
+              {
+                "var": "flt_draw_point_05"
+              }
+            ]
           },
           {
             "comment": {
@@ -6671,13 +7094,38 @@
             }
           },
           {
-            "missionShowMapLine": {
-              "areaNameFrom": "@flt_draw_start_point",
-              "areaNameTo": "@flt_draw_end_point",
+            "__missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_point_01",
+              "areaNameTo": "@flt_draw_point_02",
               "show": true,
               "colorCode": "Team B-A",
-              "scale": 2.0,
+              "scale": 1.5,
               "curve": true
+            }
+          },
+          {
+            "__missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_point_02",
+              "areaNameTo": "@flt_draw_point_03",
+              "show": true,
+              "colorCode": "Team B-A",
+              "scale": 1.5,
+              "curve": true
+            }
+          },
+          {
+            "__missionShowMapLine": {
+              "areaNameFrom": "@flt_draw_point_03",
+              "areaNameTo": "@flt_draw_point_04",
+              "show": true,
+              "colorCode": "Team B-A",
+              "scale": 1.5,
+              "curve": true
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_checl_last_point_num_4"
             }
           },
           {
@@ -6686,17 +7134,16 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "flt_draw_frontline_rotator"
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "flt_draw_last_draw"
             }
           }
         ],
         "else_actions": {
           "comment": {
             "value": "ничего не делаем"
-          },
-          "triggerEnable": {
-            "target": "flt_draw_frontline_rotator"
           }
         }
       }
@@ -7057,14 +7504,24 @@
             "time": 1.0
           }
         },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "flt_heat_t1_search_idx",
-            "value": 0,
-            "comparasion_func": "less",
-            "var_value_other": "flt_heat_t1_check_frontline_idx"
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_heat_t1_search_idx",
+              "value": 0,
+              "comparasion_func": "less",
+              "var_value_other": "flt_heat_t1_check_frontline_idx"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_heat_t1_search_idx",
+              "value": 0,
+              "comparasion_func": "notEqual",
+              "var_value_other": "flt_battles_last_battle_idx"
+            }
           }
-        },
+        ],
         "actions": [
           {
             "comment": {
@@ -7452,7 +7909,7 @@
           {
             "varSetInt": {
               "value": 0,
-              "var": "flt_heat_t1_randomizer"
+              "var": "flt_heat_t2_randomizer"
             }
           },
           {
@@ -7557,14 +8014,24 @@
             "time": 1.0
           }
         },
-        "conditions": {
-          "varCompareInt": {
-            "var_value": "flt_heat_t2_search_idx",
-            "value": 0,
-            "comparasion_func": "less",
-            "var_value_other": "flt_heat_t2_check_frontline_idx"
+        "conditions": [
+          {
+            "varCompareInt": {
+              "var_value": "flt_heat_t2_search_idx",
+              "value": 0,
+              "comparasion_func": "less",
+              "var_value_other": "flt_heat_t2_check_frontline_idx"
+            }
+          },
+          {
+            "varCompareInt": {
+              "var_value": "flt_heat_t2_search_idx",
+              "value": 0,
+              "comparasion_func": "notEqual",
+              "var_value_other": "flt_battles_last_battle_idx"
+            }
           }
-        },
+        ],
         "actions": [
           {
             "comment": {
@@ -7633,7 +8100,7 @@
               "value": 0.0,
               "var": "flt_heat_t2_heat_value",
               "use_variable": true,
-              "var_value": "@flt_heat_t1_check_frontline_name"
+              "var_value": "@flt_heat_t2_check_frontline_name"
             }
           },
           {
@@ -8033,11 +8500,6 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "flt_battles_start_spawn"
-            }
-          },
-          {
             "__missionShowMapIcon": {
               "show": true,
               "iconName": "ui/hudskin#objective_cannon",
@@ -8085,6 +8547,23 @@
               "areaNameTo": "@flt_battle_area_name",
               "colorCode": "Team B",
               "arrow": true
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_check_exist"
+            }
+          },
+          {
+            "comment": {
+              "value": "запоминаем индекс битвы чтобы последующая не была на этом-же месте"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "flt_battles_last_battle_idx",
+              "input_var": "flt_heat_t1_search_idx"
             }
           }
         ],
@@ -8176,11 +8655,6 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "flt_battles_start_spawn"
-            }
-          },
-          {
             "__missionShowMapIcon": {
               "show": true,
               "iconName": "ui/hudskin#objective_cannon",
@@ -8229,6 +8703,23 @@
               "colorCode": "Team A",
               "arrow": true
             }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_check_exist"
+            }
+          },
+          {
+            "comment": {
+              "value": "запоминаем индекс битвы чтобы последующая не была на этом-же месте"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "flt_battles_last_battle_idx",
+              "input_var": "flt_heat_t2_search_idx"
+            }
           }
         ]
       }
@@ -8248,10 +8739,18 @@
           "initMission": []
         },
         "conditions": [],
-        "actions": [],
+        "actions": {
+          "comment": {
+            "value": "скидываем значение индекса текущей битвы"
+          },
+          "varSetInt": {
+            "value": 0,
+            "var": "flt_battles_cur_idx"
+          }
+        },
         "else_actions": []
       },
-      "flt_battles_start_spawn": {
+      "flt_battles_start_spawn_prepare": {
         "is_enabled": false,
         "comments": "",
         "props": {
@@ -8268,29 +8767,63 @@
         "actions": [
           {
             "comment": {
-              "value": "выключаем прятанье юнитов "
+              "value": "берем юнитов аткивной битвы, целиком их восстанавливаем и прячем"
             }
           },
           {
-            "triggerDisable": {
-              "target": "flt_battles_armies_hide"
-            }
-          },
-          {
-            "comment": {
-              "value": "и прячем их силой"
-            }
+            "unitRestore": [
+              {
+                "ressurectIfDead": true
+              },
+              {
+                "fullRestore": true
+              },
+              {
+                "target": "@flt_battles_t1_army_squad_name"
+              },
+              {
+                "target": "@flt_battles_t2_army_squad_name"
+              }
+            ]
           },
           {
             "unitPutToSleep": [
               {
-                "target": "flt_battles_t1_battle_squad"
+                "target": "@flt_battles_t1_army_squad_name"
               },
               {
-                "target": "flt_battles_t2_battle_squad"
+                "target": "@flt_battles_t2_army_squad_name"
               }
             ]
           },
+          {
+            "comment": {
+              "value": "разбиваем процесс спавнана два разных эвента для удобства"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_start_spawn_continue"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "flt_battles_start_spawn_continue": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
           {
             "comment": {
               "value": "запрещаем стрельбу"
@@ -8302,10 +8835,10 @@
                 "object_marking": 0
               },
               {
-                "object": "flt_battles_t1_battle_squad"
+                "object": "@flt_battles_t1_army_squad_name"
               },
               {
-                "object": "flt_battles_t2_battle_squad"
+                "object": "@flt_battles_t2_army_squad_name"
               },
               {
                 "attack_type": "hold_fire"
@@ -8416,7 +8949,7 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,0.0,0.0],
-            "object": "flt_battles_t1_tank_01",
+            "object": "@flt_battles_t1_tank_name",
             "object_type": "isInactive",
             "target": "@flt_battles_t1_spawn_name",
             "isStealth": false,
@@ -8448,7 +8981,7 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,0.0,0.0],
-            "object": "flt_battles_t1_art_01",
+            "object": "@flt_battles_t1_art_name",
             "object_type": "isInactive",
             "target": "@flt_battles_t1_spawn_name",
             "isStealth": false,
@@ -8485,7 +9018,7 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,0.0,0.0],
-            "object": "flt_battles_t1_bunker_01",
+            "object": "@flt_battles_t1_bunker_name",
             "object_type": "isInactive",
             "target": "@flt_battles_t1_spawn_name",
             "isStealth": false,
@@ -8522,7 +9055,7 @@
           "unitRespawn": {
             "delay": 1.0,
             "offset": [0.0,0.0,0.0],
-            "object": "flt_battles_t2_tank_01",
+            "object": "@flt_battles_t2_tank_name",
             "object_type": "isInactive",
             "target": "@flt_battles_t2_spawn_name",
             "isStealth": false,
@@ -8554,7 +9087,7 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,0.0,0.0],
-            "object": "flt_battles_t2_art_01",
+            "object": "@flt_battles_t2_art_name",
             "object_type": "isInactive",
             "target": "@flt_battles_t2_spawn_name",
             "isStealth": false,
@@ -8591,11 +9124,75 @@
           "unitRespawn": {
             "delay": 0.0,
             "offset": [0.0,0.0,0.0],
-            "object": "flt_battles_t2_bunker_01",
+            "object": "@flt_battles_t2_bunker_name",
             "object_type": "isInactive",
             "target": "@flt_battles_t2_spawn_name",
             "isStealth": false,
             "randomSpawn": true
+          }
+        },
+        "else_actions": []
+      },
+      "flt_battles_t1_death_counter": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isKilled",
+            "object_marking": 0,
+            "func": "more",
+            "value": 1,
+            "object": "@flt_battles_t1_army_squad_name",
+            "var": "flt_battles_t1_death_counter"
+          }
+        },
+        "actions": {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "flt_battles_t1_death_counter"
+          }
+        },
+        "else_actions": []
+      },
+      "flt_battles_t2_death_counter": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": true
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isKilled",
+            "object_marking": 0,
+            "func": "more",
+            "value": 1,
+            "object": "@flt_battles_t2_army_squad_name",
+            "var": "flt_battles_t2_death_counter"
+          }
+        },
+        "actions": {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "flt_battles_t2_death_counter"
           }
         },
         "else_actions": []
@@ -8678,10 +9275,10 @@
                 "object_marking": 0
               },
               {
-                "object": "flt_battles_t1_battle_squad"
+                "object": "@flt_battles_t1_army_squad_name"
               },
               {
-                "object": "flt_battles_t2_battle_squad"
+                "object": "@flt_battles_t2_army_squad_name"
               },
               {
                 "stealthRadius": 64000.0
@@ -8709,10 +9306,10 @@
                 "radius": 64000.0
               },
               {
-                "target": "flt_battles_t1_battle_squad"
+                "target": "@flt_battles_t1_army_squad_name"
               },
               {
-                "target": "flt_battles_t2_battle_squad"
+                "target": "@flt_battles_t2_army_squad_name"
               },
               {
                 "team": "Both"
@@ -8727,16 +9324,16 @@
           {
             "unitAttackTarget": {
               "playerAttracted": false,
-              "object": "flt_battles_t1_battle_squad",
-              "target": "flt_battles_t2_battle_squad",
+              "object": "@flt_battles_t1_army_squad_name",
+              "target": "@flt_battles_t2_army_squad_name",
               "fireRandom": true
             }
           },
           {
             "unitAttackTarget": {
               "playerAttracted": false,
-              "object": "flt_battles_t2_battle_squad",
-              "target": "flt_battles_t1_battle_squad",
+              "object": "@flt_battles_t2_army_squad_name",
+              "target": "@flt_battles_t1_army_squad_name",
               "fireRandom": true
             }
           },
@@ -8747,7 +9344,7 @@
           },
           {
             "unitMoveTo": {
-              "target": "flt_battles_t2_battle_squad",
+              "target": "@flt_battles_t2_army_squad_name",
               "follow_target": false,
               "teleportHeightType": "absolute",
               "useUnitHeightForTele": true,
@@ -8758,7 +9355,7 @@
               "recalculatePathDist": -1.0,
               "object_marking": 0,
               "target_marking": 0,
-              "object": "flt_battles_t1_tank_01",
+              "object": "@flt_battles_t1_tank_name",
               "speed": 5.0,
               "follow_radius": 150.0,
               "delayForObjects": [5.0,10.0],
@@ -8767,7 +9364,7 @@
           },
           {
             "unitMoveTo": {
-              "target": "flt_battles_t1_battle_squad",
+              "target": "@flt_battles_t1_army_squad_name",
               "follow_target": false,
               "teleportHeightType": "absolute",
               "useUnitHeightForTele": true,
@@ -8778,7 +9375,7 @@
               "recalculatePathDist": -1.0,
               "object_marking": 0,
               "target_marking": 0,
-              "object": "flt_battles_t2_tank_01",
+              "object": "@flt_battles_t2_tank_name",
               "speed": 5.0,
               "follow_radius": 150.0,
               "delayForObjects": [5.0,10.0],
@@ -8856,10 +9453,10 @@
                 "target_marking": 0
               },
               {
-                "target": "flt_battles_t1_battle_squad"
+                "target": "@flt_battles_t1_army_squad_name"
               },
               {
-                "target": "flt_battles_t2_battle_squad"
+                "target": "@flt_battles_t2_army_squad_name"
               }
             ]
           },
@@ -8879,70 +9476,6 @@
             }
           }
         ],
-        "else_actions": []
-      },
-      "flt_battles_t1_death_counter": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenCountMatches": {
-            "object_type": "isKilled",
-            "object_marking": 0,
-            "func": "more",
-            "value": 1,
-            "object": "flt_battles_t1_battle_squad",
-            "var": "flt_battles_t1_death_counter"
-          }
-        },
-        "actions": {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "flt_battles_t1_death_counter"
-          }
-        },
-        "else_actions": []
-      },
-      "flt_battles_t2_death_counter": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": true
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenCountMatches": {
-            "object_type": "isKilled",
-            "object_marking": 0,
-            "func": "more",
-            "value": 1,
-            "object": "flt_battles_t2_battle_squad",
-            "var": "flt_battles_t2_death_counter"
-          }
-        },
-        "actions": {
-          "varModify": {
-            "operator": "add",
-            "value": 1.0,
-            "var": "flt_battles_t2_death_counter"
-          }
-        },
         "else_actions": []
       },
       "flt_battles_time_update": {
@@ -8996,7 +9529,7 @@
               "object_marking": 0,
               "func": "less",
               "value": 1,
-              "object": "flt_battles_t1_battle_squad"
+              "object": "@flt_battles_t1_army_squad_name"
             }
           },
           {
@@ -9005,7 +9538,7 @@
               "object_marking": 0,
               "func": "less",
               "value": 1,
-              "object": "flt_battles_t2_battle_squad"
+              "object": "@flt_battles_t2_army_squad_name"
             }
           }
         ],
@@ -9059,7 +9592,7 @@
             }
           },
           {
-            "varSetBool": {
+            "__varSetBool": {
               "value": false,
               "var": "flt_battles_is_active"
             }
@@ -9094,10 +9627,10 @@
                 "target_marking": 0
               },
               {
-                "target": "flt_battles_t1_battle_squad"
+                "target": "@flt_battles_t1_army_squad_name"
               },
               {
-                "target": "flt_battles_t2_battle_squad"
+                "target": "@flt_battles_t2_army_squad_name"
               }
             ]
           },
@@ -9112,10 +9645,10 @@
                 "object_marking": 0
               },
               {
-                "object": "flt_battles_t1_battle_squad"
+                "object": "@flt_battles_t1_army_squad_name"
               },
               {
-                "object": "flt_battles_t2_battle_squad"
+                "object": "@flt_battles_t2_army_squad_name"
               },
               {
                 "stealthRadius": 2500.0
@@ -9171,7 +9704,7 @@
               "delay": [1.0,1.0],
               "offset": [0.0,0.0,0.0],
               "radiusOffset": [10.0,15.0],
-              "target": "flt_battles_t1_battle_squad",
+              "target": "@flt_battles_t2_army_squad_name",
               "doExplosion": true,
               "delayForObjects": [5.0,10.0]
             }
@@ -9192,7 +9725,7 @@
             }
           },
           {
-            "triggerEnable": {
+            "__triggerEnable": {
               "target": "flt_battles_armies_hide"
             }
           },
@@ -9242,6 +9775,16 @@
               "target": "flt_t2_battle_start",
               "status": 0,
               "team": "B"
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим что битва не активна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_end_activity"
             }
           }
         ],
@@ -9293,7 +9836,7 @@
               "delay": [1.0,1.0],
               "offset": [0.0,0.0,0.0],
               "radiusOffset": [10.0,15.0],
-              "target": "flt_battles_t1_battle_squad",
+              "target": "@flt_battles_t1_army_squad_name",
               "doExplosion": true,
               "delayForObjects": [5.0,10.0]
             }
@@ -9314,7 +9857,7 @@
             }
           },
           {
-            "triggerEnable": {
+            "__triggerEnable": {
               "target": "flt_battles_armies_hide"
             }
           },
@@ -9365,6 +9908,16 @@
               "status": 0,
               "team": "B"
             }
+          },
+          {
+            "comment": {
+              "value": "говорим что битва не активна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_end_activity"
+            }
           }
         ],
         "else_actions": []
@@ -9407,7 +9960,7 @@
             ]
           },
           {
-            "unitDamage": [
+            "__unitDamage": [
               {
                 "part": 1
               },
@@ -9449,7 +10002,7 @@
             }
           },
           {
-            "triggerEnable": {
+            "__triggerEnable": {
               "target": "flt_battles_armies_hide"
             }
           },
@@ -9490,6 +10043,16 @@
               "status": 0,
               "team": "B"
             }
+          },
+          {
+            "comment": {
+              "value": "говорим что битва не активна"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_end_activity"
+            }
           }
         ],
         "else_actions": []
@@ -9500,58 +10063,103 @@
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
           "conditionsType": "ALL",
-          "enableAfterComplete": false
+          "enableAfterComplete": true
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 3.0
           }
         },
-        "conditions": {
-          "unitDistanceBetween": [
-            {
-              "value": 2500.0
-            },
-            {
-              "math": "notNear2D"
-            },
-            {
-              "object_type": "isActive"
-            },
-            {
-              "object_marking": 0
-            },
-            {
-              "target_type": "isActive"
-            },
-            {
-              "target_marking": 0
-            },
-            {
-              "check_objects": "all"
-            },
-            {
-              "check_targets": "all"
-            },
-            {
-              "object": "flt_battles_t1_battle_squad"
-            },
-            {
-              "object": "flt_battles_t2_battle_squad"
-            },
-            {
-              "target": "all_players_squad"
-            },
-            {
-              "compareCenters": false
-            },
-            {
-              "check_all_units": true
-            }
-          ]
-        },
+        "conditions": [
+          {
+            "unitDistanceBetween": [
+              {
+                "value": 7500.0
+              },
+              {
+                "math": "notNear2D"
+              },
+              {
+                "object_type": "isActive"
+              },
+              {
+                "object_marking": 0
+              },
+              {
+                "target_type": "isActive"
+              },
+              {
+                "target_marking": 0
+              },
+              {
+                "check_objects": "any"
+              },
+              {
+                "check_targets": "all"
+              },
+              {
+                "object": "flt_battles_t1_battle_squad"
+              },
+              {
+                "object": "flt_battles_t2_battle_squad"
+              },
+              {
+                "target": "all_players_squad"
+              },
+              {
+                "compareCenters": false
+              },
+              {
+                "check_all_units": true
+              }
+            ]
+          },
+          {
+            "unitDistanceBetween": [
+              {
+                "value": 3500.0
+              },
+              {
+                "math": "notNear2D"
+              },
+              {
+                "object_type": "isActive"
+              },
+              {
+                "object_marking": 0
+              },
+              {
+                "target_type": "isAlive"
+              },
+              {
+                "target_marking": 0
+              },
+              {
+                "check_objects": "any"
+              },
+              {
+                "check_targets": "any"
+              },
+              {
+                "object": "flt_battles_t1_battle_squad"
+              },
+              {
+                "object": "flt_battles_t2_battle_squad"
+              },
+              {
+                "target": "@flt_battle_area_name"
+              },
+              {
+                "compareCenters": false
+              },
+              {
+                "check_all_units": true
+              }
+            ]
+          }
+        ],
         "actions": {
-          "unitRestore": [
+          "__unitRestore": [
             {
               "ressurectIfDead": true
             },
@@ -9563,14 +10171,20 @@
             },
             {
               "target": "flt_battles_t2_battle_squad"
+            },
+            {
+              "useForTriggerFiltered": true
             }
           ],
-          "unitPutToSleep": [
+          "__unitPutToSleep": [
             {
               "target": "flt_battles_t1_battle_squad"
             },
             {
               "target": "flt_battles_t2_battle_squad"
+            },
+            {
+              "useForTriggerFiltered": true
             }
           ]
         },
@@ -9681,6 +10295,22 @@
           {
             "triggerEnable": {
               "target": "ft_capture_t2_start"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не захвачена ли база для бомбардировки"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "flt_battles_frontline_name",
+              "var": "bdt_capture_t2_frontline_name"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t2_start"
             }
           }
         ],
@@ -9799,6 +10429,22 @@
             "triggerEnable": {
               "target": "ft_capture_t1_start"
             }
+          },
+          {
+            "comment": {
+              "value": "проверяем не захвачена ли база для бомбардировки"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "flt_battles_frontline_name",
+              "var": "bdt_capture_t1_frontline_name"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t1_start"
+            }
           }
         ],
         "else_actions": {
@@ -9890,6 +10536,328 @@
             "value": "индекс корректен. ничего не делаем"
           }
         }
+      },
+      "flt_battles_check_exist": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "comment": {
+            "value": "увеличиваем индекс битвы на 1 и проверяем пошагово какая битва используется"
+          },
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "flt_battles_cur_idx"
+          },
+          "triggerEnable": {
+            "target": "flt_battles_check_battle_01_exist"
+          }
+        },
+        "else_actions": []
+      },
+      "flt_battles_check_battle_01_exist": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_battles_cur_idx",
+            "value": 1,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "используем первый слот для битвы"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_squad_01",
+              "var": "flt_battles_t1_army_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_squad_01",
+              "var": "flt_battles_t2_army_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_tank_01",
+              "var": "flt_battles_t1_tank_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_tank_01",
+              "var": "flt_battles_t2_tank_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_art_01",
+              "var": "flt_battles_t1_art_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_art_01",
+              "var": "flt_battles_t2_art_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_bunker_01",
+              "var": "flt_battles_t1_bunker_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_bunker_01",
+              "var": "flt_battles_t2_bunker_name"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_start_spawn_prepare"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "проверяем вторую битву"
+          },
+          "triggerEnable": {
+            "target": "flt_battles_check_battle_02_exist"
+          }
+        }
+      },
+      "flt_battles_check_battle_02_exist": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_battles_cur_idx",
+            "value": 2,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "используем второй слот для битвы"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_squad_02",
+              "var": "flt_battles_t1_army_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_squad_02",
+              "var": "flt_battles_t2_army_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_tank_02",
+              "var": "flt_battles_t1_tank_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_tank_02",
+              "var": "flt_battles_t2_tank_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_art_02",
+              "var": "flt_battles_t1_art_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_art_02",
+              "var": "flt_battles_t2_art_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_bunker_02",
+              "var": "flt_battles_t1_bunker_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_bunker_02",
+              "var": "flt_battles_t2_bunker_name"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_start_spawn_prepare"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "проверяем третью битву"
+          },
+          "triggerEnable": {
+            "target": "flt_battles_check_battle_03_exist"
+          }
+        }
+      },
+      "flt_battles_check_battle_03_exist": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "flt_battles_cur_idx",
+            "value": 3,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "используем третий слот для битвы"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_squad_03",
+              "var": "flt_battles_t1_army_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_squad_03",
+              "var": "flt_battles_t2_army_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_tank_03",
+              "var": "flt_battles_t1_tank_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_tank_03",
+              "var": "flt_battles_t2_tank_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_art_03",
+              "var": "flt_battles_t1_art_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_art_03",
+              "var": "flt_battles_t2_art_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t1_bunker_03",
+              "var": "flt_battles_t1_bunker_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "flt_battles_t2_bunker_03",
+              "var": "flt_battles_t2_bunker_name"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_battles_start_spawn_prepare"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "используется слот выше 3. обнуляем его и вызываем цикл заново"
+          },
+          "varSetInt": {
+            "value": 0,
+            "var": "flt_battles_cur_idx"
+          },
+          "triggerEnable": {
+            "target": "flt_battles_check_exist"
+          }
+        }
+      },
+      "flt_battles_end_activity": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varSetBool": {
+            "value": false,
+            "var": "flt_battles_is_active"
+          }
+        },
+        "else_actions": []
       }
     },
     "flt_utilites": {
@@ -9917,6 +10885,57 @@
         "actions": [
           {
             "comment": {
+              "value": "зона с таким именем найдена. работаем"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не активен ли поиск на данный момент"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "flt_find_army_wait_for_search"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "нет зоны с таким именем"
+          },
+          "triggerEnable": {
+            "target": "flt_find_army_error"
+          }
+        }
+      },
+      "flt_find_army_wait_for_search": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "flt_find_army_search_in_progress",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "подождали что предыдущий поиск закончился"
+            }
+          },
+          {
+            "comment": {
               "value": "говорим что поиск начался"
             }
           },
@@ -9924,11 +10943,6 @@
             "varSetBool": {
               "value": true,
               "var": "flt_find_army_search_in_progress"
-            }
-          },
-          {
-            "comment": {
-              "value": "зона с таким именем найдена. работаем"
             }
           },
           {
@@ -9982,14 +10996,7 @@
             }
           }
         ],
-        "else_actions": {
-          "comment": {
-            "value": "нет зоны с таким именем"
-          },
-          "triggerEnable": {
-            "target": "flt_find_army_error"
-          }
-        }
+        "else_actions": []
       },
       "flt_find_army_rotate_col": {
         "is_enabled": false,
@@ -10001,7 +11008,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -10055,7 +11062,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -10114,7 +11121,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -10185,7 +11192,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -10243,7 +11250,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -10321,7 +11328,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": [],
@@ -10339,7 +11346,7 @@
           {
             "varSetBool": {
               "value": false,
-              "var": "flt_battles_is_active"
+              "var": "flt_find_army_search_in_progress"
             }
           },
           {
@@ -10376,7 +11383,7 @@
           },
           "varSetBool": {
             "value": false,
-            "var": "flt_battles_is_active"
+            "var": "flt_find_army_search_in_progress"
           }
         },
         "else_actions": []
@@ -10392,7 +11399,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 3600,
+        "timeLimit": 10800,
         "team": "A"
       },
       "onSuccess": [],
@@ -10404,7 +11411,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 3600,
+        "timeLimit": 10800,
         "team": "B"
       },
       "onSuccess": [],
@@ -10511,9 +11518,11 @@
     "flt_small_aaa_activity_distance": 7500.0,
     "flt_art_activity_distance": 12000.0,
     "flt_tank_activity_distance": 15000.0,
-    "flt_draw_start_point": "",
-    "flt_draw_middle_point": "",
-    "flt_draw_end_point": "",
+    "flt_draw_point_01": "",
+    "flt_draw_point_02": "",
+    "flt_draw_point_03": "",
+    "flt_draw_point_04": "",
+    "flt_draw_point_05": "",
     "flt_area_01_heat": 0,
     "flt_area_02_heat": 0,
     "flt_area_03_heat": 0,
@@ -10642,8 +11651,6 @@
     "flt_battles_t2_spawn_name": "",
     "flt_battles_t1_spawn_idx": 0,
     "flt_battles_t2_spawn_idx": 0,
-    "flt_battles_num_tanks_in_battle": 0,
-    "flt_battles_num_arts_in_battle": 0,
     "flt_battles_t1_death_counter": 0,
     "flt_battles_t2_death_counter": 0,
     "flt_battle_time": 0,
@@ -10677,7 +11684,19 @@
     "flt_battles_frontline_new_name": "",
     "flt_heat_arrow_begin_point": "",
     "flt_heat_arrow_begin_name": "",
-    "flt_heat_battle_idx": 0
+    "flt_heat_battle_idx": 0,
+    "flt_battles_cur_idx": 0,
+    "flt_battles_t1_army_squad_name": "",
+    "flt_battles_t2_army_squad_name": "",
+    "flt_battles_t1_tank_name": "",
+    "flt_battles_t2_tank_name": "",
+    "flt_battles_t1_art_name": "",
+    "flt_battles_t2_art_name": "",
+    "flt_battles_t1_bunker_name": "",
+    "flt_battles_t2_bunker_name": "",
+    "flt_battles_last_battle_idx": 0,
+    "flt_draw_last_draw": 0,
+    "flt_draw_last_draw_point_num": 0
   },
   "dialogs": [],
   "airfields": [],

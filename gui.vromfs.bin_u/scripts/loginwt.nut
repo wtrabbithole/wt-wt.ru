@@ -1,4 +1,5 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
+local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
@@ -139,6 +140,7 @@ function g_login::initConfigs(cb)
       ::get_profile_info() //update ::my_user_name
       ::init_selected_crews(true)
       ::set_show_attachables(::has_feature("AttachablesUse"))
+      safeAreaHud.checkCompatibility()
 
       ::g_font.validateSavedConfigFonts()
       if (::handlersManager.checkPostLoadCss(true))

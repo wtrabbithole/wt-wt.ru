@@ -50,6 +50,7 @@ class Events
     ::g_lb_category.EVENTS_EACH_PLAYER_SESSION
     ::g_lb_category.EVENT_STAT_TOTALKILLS
     ::g_lb_category.EVENTS_WP_TOTAL_GAINED
+    ::g_lb_category.CLANDUELS_CLAN_ELO
   ]
 
   standardChapterNames = [

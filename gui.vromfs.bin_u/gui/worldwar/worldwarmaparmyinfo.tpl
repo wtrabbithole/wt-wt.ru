@@ -47,10 +47,18 @@ tdiv {
           }
           <</showArmyGroupText>>
         }
-        activeText {
-          text:t='#worldwar/<<getMapObjectName>>'
-          pos:t='3@sf/@pf_outdated, 50%ph-50%h'
+        textareaNoTab {
+          top:t='50%ph-50%h'
           position:t='relative'
+          padding-left:t='1@blockInterval'
+          text:t='#worldwar/<<getMapObjectName>>'
+        }
+        textareaNoTab {
+          top:t='50%ph-50%h'
+          position:t='relative'
+          padding-left:t='1@blockInterval'
+          text:t='<<getZoneName>>'
+          hideEmptyText:t='yes'
         }
       }
     }

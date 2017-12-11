@@ -735,6 +735,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
             text-align:t='right';
             text:t='" + rewardText + @"';
             size:t='pw, ph';
+            margin-left:t='1@blockInterval'
             style:t='re-type:textarea;behaviour:textarea;';
           }",
           active = false

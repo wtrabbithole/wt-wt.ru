@@ -1265,7 +1265,7 @@ class ControlsPreset {
     }
 
     mouseAxesDefaults = [
-      "ailerons", "elevator", "throttle", "gm_zoom", "ship_main_engine"
+      "ailerons", "elevator", "throttle", "gm_zoom", "ship_sight_distance"
     ]
   }
 

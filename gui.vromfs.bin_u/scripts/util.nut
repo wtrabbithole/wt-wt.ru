@@ -2969,6 +2969,8 @@ function on_changed_cursor_visibility(old_value)
     oldValue = old_value
     newValue = ::is_cursor_visible_in_gui()
   })
+
+  ::call_darg("cursorVisibilityUpdate", ::is_cursor_visible_in_gui())
 }
 
 function char_convert_blueprints(type)

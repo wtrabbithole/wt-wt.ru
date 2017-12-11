@@ -21,7 +21,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   highlightZonesTimer = null
   operationPauseTimer = null
   updateLogsTimer = null
-  checkJoinEnabledTimer = null
 
   armyStrengthUpdateTimeRemain = 0
   isArmiesPathSwitchedOn = false
@@ -100,13 +99,16 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     onChangeInfoBlockVisibility(obj)
   }
 
-  function initPageSwitch()
+  function initPageSwitch(forceTabSwitch = null)
   {
     local pagesObj = scene.findObject("pages_list")
     if (!::checkObj(pagesObj))
       return
 
-    pagesObj.setValue(currentOperationInfoTabType? currentOperationInfoTabType.index : 0)
+    local tabIndex = forceTabSwitch != null ? forceTabSwitch
+      : currentOperationInfoTabType ? currentOperationInfoTabType.index : 0
+
+    pagesObj.setValue(tabIndex)
     onPageChange(pagesObj)
   }
 
@@ -372,7 +374,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function goBackToHangar()
   {
-    ::queues.leaveQueueByType(QUEUE_TYPE_BIT.WW_BATTLE)
     ::ww_service.unsubscribeOperation(::ww_get_operation_id())
     ::g_world_war.stopWar()
     goBack()
@@ -579,11 +580,17 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local view = {
       armyCountryImg1 = ::u.map(side1Data.country, function(country) { return {image = ::get_country_icon(country)}})
       armyCountryImg2 = ::u.map(side2Data.country, function(country) { return {image = ::get_country_icon(country)}})
+      side1TotalVehicle = 0
+      side2TotalVehicle = 0
       unitString = []
     }
 
     local armyStrengthsTable = {}
     local armyStrengths = []
+    local totalVehicle = {
+      [side1Name] = 0,
+      [side2Name] = 0
+    }
     foreach (sideName, army in armyStrengthData)
       foreach (wwUnit in army.units)
         if (wwUnit.isValid())
@@ -606,6 +613,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
           strenght[sideName] += wwUnit.count
           strenght.count += wwUnit.count
+          totalVehicle[sideName] += wwUnit.count
         }
 
     foreach (idx, strength in armyStrengths)
@@ -618,6 +626,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
         side2UnitCount = strength[side2Name]
       })
     }
+    view.side1TotalVehicle = totalVehicle[side1Name]
+    view.side2TotalVehicle = totalVehicle[side2Name]
 
     local data = ::handyman.renderCached("gui/worldWar/worldWarMapSidesStrenght", view)
     guiScene.replaceContentFromText(blockObj, data, data.len(), this)
@@ -894,15 +904,21 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
           obj.setValue(getTimeToStartOperationText(activationTime))
       }
     else
+    {
       operationPauseTimer.destroy()
+      playFirstObjectiveAnimation()
+    }
   }
 
   function getTimeToStartOperationText(activationTime)
   {
     local activationMillis = activationTime - get_charserver_time_millisec()
-    local activationSec = time.millisecondsToSeconds(activationMillis)
-    if (activationSec <= 0)
+    if (activationMillis <= 0)
       return ""
+
+    local activationSec = time.millisecondsToSecondsInt(activationMillis)
+    if (activationSec == 0)
+      return ::loc("debriefing/pause")
 
     local timeToActivation = ::loc("worldwar/activationTime",
       {text = time.hoursToString(time.secondsToHours(activationSec), false, true)})
@@ -1124,15 +1140,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     updateArmyActionButtons()
   }
 
-  function onEventWWJoinBattle(params)
-  {
-    destroyCheckJoinEnabledTimer()
-
-    local battleId = params.battleId
-    checkJoinEnabledTimer = ::Timer(scene, 1,
-      @() onCheckJoinEnabled(battleId), this, true)
-  }
-
   function onEventWWNewLogsAdded(params)
   {
     if (currentSelectedObject == mapObjectSelect.NONE &&
@@ -1140,34 +1147,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       updateArmyStrenght()
     if (params.isToBattleUpdateNeeded)
       updateToBattleButton()
-  }
-
-  function onEventLobbyStatusChange(params)
-  {
-    destroyCheckJoinEnabledTimer()
-  }
-
-  function onEventWWLeaveBattle(params)
-  {
-    destroyCheckJoinEnabledTimer()
-  }
-
-  function onCheckJoinEnabled(battleId)
-  {
-    local battle = ::g_world_war.getBattleById(battleId)
-    local cantJoinReasonData = battle.getCantJoinReasonData(::ww_get_player_side(), true)
-    if (!cantJoinReasonData.canJoin)
-    {
-      destroyCheckJoinEnabledTimer()
-      ::g_world_war.leaveWWBattleQueues()
-      ::showInfoMsgBox(cantJoinReasonData.reasonText)
-    }
-  }
-
-  function destroyCheckJoinEnabledTimer()
-  {
-    if (checkJoinEnabledTimer && checkJoinEnabledTimer.isValid())
-      checkJoinEnabledTimer.destroy()
   }
 
   function onEventActiveHandlersChanged(p)
@@ -1201,16 +1180,73 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkToOpenSquadBattleModal()
   {
-    if (::g_squad_manager.isSquadMember() &&
-        !::g_squad_manager.isMeReady())
+    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
+    if (!wwBattleName)
       return
 
-    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
-    if (wwBattleName)
+    if (::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE))
+      return
+
+    if (::g_squad_manager.isSquadMember() && !::g_squad_manager.isMeReady())
+      return
+
+    local wwBattle = ::g_world_war.getBattleById(wwBattleName)
+    if (wwBattle)
+      ::gui_handlers.WwBattleDescription.open(wwBattle)
+  }
+
+  function onEventMyClanIdChanged(p)
+  {
+    local wwOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    if (!wwOperation)
+      return
+
+    local joinCountry = wwOperation.getMyAssignCountry()
+    local cantJoinReason = wwOperation.getCantJoinReasonData(joinCountry)
+
+    if (!cantJoinReason.canJoin)
     {
-      local wwBattle = ::g_world_war.getBattleById(wwBattleName)
-      if (wwBattle)
-        ::gui_handlers.WwBattleDescription.open(wwBattle)
+      goBackToHangar()
+      ::showInfoMsgBox(cantJoinReason.reasonText)
     }
+  }
+
+  function playFirstObjectiveAnimation()
+  {
+    initPageSwitch(::g_ww_map_info_type.OBJECTIVE.index)
+
+    local objStartBox = scene.findObject("wwmap_operation_objective")
+    if (!::check_obj(objStartBox))
+      return
+
+    local objTarget = null
+    local objectivesBlk = ::g_world_war.getOperationObjectives()
+    foreach (dataBlk in objectivesBlk.data)
+    {
+      if (!dataBlk.mainObjective)
+        continue
+
+      local type = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
+      objTarget = scene.findObject(type.getNameId(dataBlk, ::ww_get_player_side()))
+      if (objTarget)
+        break
+    }
+
+    if (!::check_obj(objTarget))
+      return
+
+    objStartBox.show(true)
+    objStartBox.animation = "show"
+
+    local objStart = ::showBtn("objective_anim_start_text", true, objStartBox)
+    objStart.setValue(objTarget.getValue())
+
+    local animationFunc = function() {
+      objStartBox.animation = "hide"
+      ::create_ObjMoveToOBj(scene, objStart, objTarget,
+        {time = 0.6, bhvFunc = "square", isTargetVisible = true})
+    }
+
+    ::Timer(scene, 3, animationFunc, this)
   }
 }

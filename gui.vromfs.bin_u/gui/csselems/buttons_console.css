@@ -632,6 +632,7 @@ Button_text.image[imgSize=big]:hover {
   background-color: @buttonColorHover;
 }
 
+Button_text.image[active=yes] > img,
 Button_text.image:hover > img {
   background-color: @buttonFontColorHover;
 }
@@ -2038,7 +2039,6 @@ Button_text.squadWidgetMember {
 }
 
 button[talign=left], Button_text[talign=left] {
-  padding:0, 0, -1@textPaddingBugWorkaround, 0;  
   text-align:left;
 }
 
@@ -2078,13 +2078,9 @@ authorizationBlock > Button_text {
 .authorization > Button_text {
   width: pw;
   height: 1@navBarBattleButtonHeight;
-  margin:0, 1@buttonMargin;
+  margin:0;
   position:relative;
   pos:50%pw-50%w, 50%ph-50%h;
-}
-
-btnText[text-align=left] {
-  padding-right:-1@textPaddingBugWorkaround;
 }
 
 Button_text[scaleble=yes] {

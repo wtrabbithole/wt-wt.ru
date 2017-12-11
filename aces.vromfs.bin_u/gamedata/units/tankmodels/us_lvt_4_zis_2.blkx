@@ -1374,6 +1374,62 @@
   },
   {
     "MetaParts": {
+      "inner": [
+        {
+          "hp": 10000.0
+        },
+        {
+          "part": "engine_dm"
+        },
+        {
+          "part": "transmission_dm"
+        },
+        {
+          "part": "cannon_breech_dm"
+        },
+        {
+          "part": "cannon_breech_01_dm"
+        },
+        {
+          "part": "cannon_breech_02_dm"
+        },
+        {
+          "part": "cannon_breech_03_dm"
+        },
+        {
+          "part": "cannon_breech_04_dm"
+        },
+        {
+          "part": "cannon_breech_05_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 180.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
       "crew": [
         {
           "killAllPartsForDeath": true
@@ -1458,15 +1514,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1618,15 +1665,6 @@
             "kill": true,
             "killEffect": "fire"
           }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
         }
       ]
     }
@@ -1772,39 +1810,6 @@
           "from": "suspension",
           "to": "wheel"
         }
-      }
-    }
-  },
-  {
-    "ammo": {
-      "combustionTime": 10.0,
-      "detonateProb": 0.15,
-      "detonatePortion": [0.3,0.9],
-      "explodeHitPower": 1000.0,
-      "hitPowerMult": 1.0,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,400.0],
-      "farHitPower": [0.1,1000.0],
-      "endHitPower": [0.01,1500.0],
-      "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [10.0,50.0],
-      "midArmorPower": [7.0,400.0],
-      "farArmorPower": [0.2,700.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "explodeTreshold": 0.0001,
-      "explodeArmorPower": 30.0,
-      "explodeRadius": [1.5,10.0]
-    }
-  },
-  {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 6300.0,
-        "cutDamage": 350.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_turret"
       }
     }
   },
@@ -2974,6 +2979,39 @@
       "headPos": [0.0,3.9,-9.0],
       "headPosOnShooting": [-0.0,3.7,0.0],
       "detectionHeight": 3.3
+    }
+  },
+  {
+    "ammo": {
+      "combustionTime": 10.0,
+      "detonateProb": 0.15,
+      "detonatePortion": [0.3,0.9],
+      "explodeHitPower": 1250.0,
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 30.0,
+      "explodeRadius": [1.5,10.0]
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 4300.0,
+        "cutDamage": 350.0,
+        "deviation": 0.4,
+        "rotation": 2.5,
+        "collisionNode": "cls_turret"
+      }
     }
   }
 ]

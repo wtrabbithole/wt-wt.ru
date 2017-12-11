@@ -185,6 +185,18 @@ weaponry_item[status=disabled] > weaponBody text {
   background-color:@transparent;
 }
 
+weaponry_item[selected=yes] > selImg,
+.weaponryTable > tr > td[selected=yes] > weaponry_item > selImg {
+  size:pw+10*@sf/@pf_outdated, ph+8*@sf/@pf_outdated;
+  pos:50%pw-50%w, 50%ph-50%h;
+  position:absolute;
+  re-type:9rect;
+  background-position:6;
+  background-repeat:expand;
+  background-image:#ui/gameuiskin#item_selection;
+  background-color:@gamepadFocusFrameColor;
+}
+
 .researchesTable > tr > td > .unitItem selImg {
   size:pw+10*@sf/@pf_outdated, ph+8*@sf/@pf_outdated;
   pos:50%pw-50%w, 50%ph-50%h;

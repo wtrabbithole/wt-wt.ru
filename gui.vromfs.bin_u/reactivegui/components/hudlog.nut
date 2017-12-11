@@ -1,0 +1,82 @@
+local hudState = require("../hudState.nut")
+local background = require("../style/hudBackground.nut")
+local scrollbar = require("scrollbar.nut")
+local transition = require("../style/hudTransition.nut")
+
+
+local logContainer = @() {
+  size = [flex(), SIZE_TO_CONTENT]
+  gap = hdpx(3)
+  padding = [hdpx(7) , hdpx(15)]
+  flow = FLOW_VERTICAL
+}
+
+
+local hudLog = function (params) {
+  local visibleState = params.visibleState
+  local messageComponent = params.messageComponent
+  local logComponent = params.logComponent
+  local onAttach = params?.onAttach ?? @(elem) null
+  local onDetach = params?.onDetach ?? @(elem) null
+  local onCursorVisible = params?.onCursorVisible ?? function (new_val) { visibleState.update(new_val) }
+
+  local logState = logComponent.state
+  local content = scrollbar.makeVertScroll(
+    logComponent.log(@() logContainer, messageComponent),
+    {
+      scrollHandler = logComponent.scrollHandler
+      barStyle = @(has_scroll) scrollbar.styling.Bar(has_scroll && hudState.cursorVisible.value)
+    }
+  )
+
+  local gotNewMessageRecently = function () {
+    if (!logState.value.len()) {
+      return false
+    }
+    return logState.value.top().time + transition.slow > ::get_mission_time()
+  }
+
+  local transitionTime = function () {
+    if (visibleState.value)
+      return transition.fast
+    return gotNewMessageRecently() ? transition.slow : transition.fast
+  }
+
+  local onNewMessage = function (new_val) {
+    if (!logState.value.len()) {
+      return
+    }
+
+    local fadeOutFn = function () { visibleState.update(false) }
+    visibleState.update(true)
+    ::gui_scene.clearTimer(fadeOutFn)
+    ::gui_scene.setTimeout(transition.fast, fadeOutFn)
+  }
+
+  return @() {
+    size = flex()
+    watch = visibleState
+    clipChildren = true
+    opacity = visibleState.value ? 1.0 : 0.0
+    valign = VALIGN_BOTTOM
+
+    children = content
+
+    onAttach = function (elem) {
+      onAttach(elem)
+      logState.subscribe(onNewMessage)
+      hudState.cursorVisible.subscribe(onCursorVisible)
+      onCursorVisible(hudState.cursorVisible.value)
+    }
+    onDetach = function (elem) {
+      onDetach(elem)
+      logState.unsubscribe(onNewMessage)
+      hudState.cursorVisible.unsubscribe(onCursorVisible)
+    }
+
+    transitions = [transition.make(transitionTime())]
+  }.patchComponent(background)
+}
+
+
+return hudLog

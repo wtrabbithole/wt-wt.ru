@@ -16,7 +16,7 @@ return @(){
     {
       rendObj = ROBJ_STEXT
       font = Fonts.small_text_hud
-      fontSize = sh(22.0/1080*100)
+      fontSize = hdpx(22)
       text = ::loc("hud_ship_depth_on_course_warning") + ::loc("ui/colon")
       color = color()
     }
@@ -30,7 +30,7 @@ return @(){
     {
       rendObj = ROBJ_STEXT
       font = Fonts.small_text_hud
-      fontSize = sh(22.0/1080*100)
+      fontSize = hdpx(22)
       text = ::cross_call.measureTypes.DEPTH.getMeasureUnitsName()
       color = color()
     }

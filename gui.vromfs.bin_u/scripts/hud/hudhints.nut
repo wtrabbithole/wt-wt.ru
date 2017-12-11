@@ -350,6 +350,21 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     hideEvent = "hint:xrayCamera:hideSkipHint"
   }
 
+
+  CREW_BUSY_EXTINGUISHING_HINT = {
+    locId      = "hints/crew_busy_extinguishing"
+    noKeyLocId = "hints/crew_busy_extinguishing_no_key"
+    showEvent = "hint:extinguish:begin"
+    hideEvent = "hint:extinguish:end"
+  }
+
+  REPAIR_HINT = {
+    hintType = ::g_hud_hint_types.REPAIR
+    locId     = "hints/track_repair"
+    showEvent = "hint:track_repair"
+    lifeTime = 5.0
+  }
+
   MISSION_HINT            = genMissionHint(::g_hud_hint_types.MISSION_STANDARD, isStandardMissionHint)
   MISSION_TUTORIAL_HINT   = genMissionHint(::g_hud_hint_types.MISSION_TUTORIAL,
     @(hintTypeName) hintTypeName == MISSION_HINT_TYPE.TUTORIAL)

@@ -254,7 +254,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (obj)
         {
           local text = ::get_entitlement_name(item)
-          local priceText = getItemPriceText(name, false)
+          local priceText = getItemPriceText(name)
           if (priceText!="")
             text = format("(%s) %s", priceText, text)
           obj.setValue(text)
@@ -319,10 +319,10 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     return 0
   }
 
-  function getItemPriceText(name, goldColored = true)
+  function getItemPriceText(name)
   {
     if (name in goods)
-      return ::get_entitlement_price(goods[name], goldColored)
+      return ::get_entitlement_price(goods[name])
     return ""
   }
 
@@ -466,7 +466,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         image = (task in chImages)? "#ui/onlineShop/"+chImages[task] : ""
       scene.findObject("item_desc_header_img")["background-image"] = image
 
-      priceText = getItemPriceText(task, false)
+      priceText = getItemPriceText(task)
       showSceneBtn("btn_buy_online", isGoods && !isBought(goods[task]))
       scene.findObject("btn_buy_online").setValue(::loc("mainmenu/btnBuy") + ((priceText=="")? "" : format(" (%s)", priceText)))
 

@@ -66,17 +66,6 @@ local textTooltip = function(text, width) {
 }
 
 
-local addToArr = function(obj, field, value) {
-  if ((field in obj) && obj[field]!=null) {
-    local arr = (type(obj[field]) == "array") ? obj[field] : [obj[field]]
-    arr.append(value)
-    return arr
-  } else {
-    return [value]
-  }
-}
-
-
 local setupTooltip = function(comp_desc, ttip, delay, mount) {
   if (!ttip)
     return comp_desc
@@ -87,7 +76,7 @@ local setupTooltip = function(comp_desc, ttip, delay, mount) {
       res = res()
 
     if (mount)
-      res.children <- addToArr(res, "children", ttip)
+      res.children <- extend_to_array(res?.children, ttip)
 
     res.onHover <- onHover(ttip, delay)
 

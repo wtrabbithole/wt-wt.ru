@@ -320,6 +320,12 @@
             "name": "ammo_body_43_dm"
           },
           {
+            "name": "ammo_body_44_dm"
+          },
+          {
+            "name": "ammo_body_45_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -357,6 +363,33 @@
           },
           {
             "name": "ammo_body_r_07_dm"
+          },
+          {
+            "name": "ammo_body_r_08_dm"
+          },
+          {
+            "name": "ammo_body_r_09_dm"
+          },
+          {
+            "name": "ammo_body_r_10_dm"
+          },
+          {
+            "name": "ammo_body_r_11_dm"
+          },
+          {
+            "name": "ammo_body_r_12_dm"
+          },
+          {
+            "name": "ammo_body_r_13_dm"
+          },
+          {
+            "name": "ammo_body_r_14_dm"
+          },
+          {
+            "name": "ammo_body_r_15_dm"
+          },
+          {
+            "name": "ammo_body_r_16_dm"
           },
           {
             "name": "ammo_turret_dm"
@@ -488,6 +521,9 @@
             "name": "ammo_turret_42_dm"
           },
           {
+            "name": "ammo_turret_43_dm"
+          },
+          {
             "onHit": {
               "damageType": "cumulative",
               "expl": 0.4,
@@ -602,25 +638,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           }
         ]
@@ -984,6 +1024,62 @@
   },
   {
     "MetaParts": {
+      "inner": [
+        {
+          "hp": 10000.0
+        },
+        {
+          "part": "engine_dm"
+        },
+        {
+          "part": "transmission_dm"
+        },
+        {
+          "part": "cannon_breech_dm"
+        },
+        {
+          "part": "cannon_breech_01_dm"
+        },
+        {
+          "part": "cannon_breech_02_dm"
+        },
+        {
+          "part": "cannon_breech_03_dm"
+        },
+        {
+          "part": "cannon_breech_04_dm"
+        },
+        {
+          "part": "cannon_breech_05_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 180.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
       "crew": [
         {
           "killAllPartsForDeath": true
@@ -1062,15 +1158,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1191,9 +1278,6 @@
           "part": "turret_front_dm"
         },
         {
-          "part": "cannon_breech_dm"
-        },
-        {
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
@@ -1207,15 +1291,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1752,7 +1827,7 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 24.7,
+      "zoomOutFov": 25.7,
       "zoomInFov": 24.7,
       "sightFov": 20.0,
       "headPos": [0.0,3.6,-7.5],

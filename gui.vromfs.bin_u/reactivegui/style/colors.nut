@@ -1,31 +1,42 @@
 local colors = {}
 
+::with_table(colors, function () {
+  transparent = Color(0, 0, 0, 0)
+  white = Color(255, 255, 255)
+  green = Color(0, 255, 0)
+})
+
 colors.menu <- {}
 ::with_table(colors.menu, function () {
   chatTextBlockedColor =  Color(128, 128, 128)
+  commonTextColor = Color(192, 192, 192)
+  unlockActiveColor = Color(255, 255, 255)
+  userlogColoredText = Color(249, 219, 120)
+  streakTextColor = Color(255, 229, 82)
+  activeTextColor = Color(255, 255, 255)
+
+  tabBackgroundColor = Color(3, 7, 12, 204)
+  listboxSelOptionColor = Color(40, 51, 60)
+  headerOptionHoverColor = Color(106, 34, 17, 153) //buttonCloseColorPushed
+  headerOptionSelectedColor = Color(178, 57, 29) //buttonCloseColorHover
+  headerOptionTextColor = Color(144, 143, 143) //buttonFontColorPushed, scrollbarSliderColor
+  headerOptionSelectedTextColor = Color(224, 224, 224) //buttonFontColor, buttonHeaderTextColor, menuButtonTextColorHover, listboxSelTextColor
+
+  scrollbarBgColor = Color(44, 44, 44, 51)
+  scrollbarSliderColor = Color(144, 143, 143)
+  scrollbarSliderColorHover = Color(224, 224, 224)
+
+  silver = Color(170, 170, 170)
 })
 
 colors.hud <- {}
 ::with_table(colors.hud, function () {
-  teamBlueColor = Color(82, 122, 255)
-  teamBlueLightColor = Color(153, 177, 255)
-  teamBlueInactiveColor = Color(92, 99, 122)
-  teamBlueDarkColor = Color(16, 24, 52)
-  chatTextTeamColor = Color(189, 204, 255)
-  teamRedColor = Color(255, 90, 82)
-  teamRedLightColor = Color(255, 162, 157)
-  teamRedInactiveColor = Color(124, 95, 93)
-  teamRedDarkColor = Color(52, 17, 16)
-  squadColor = Color(62, 158, 47)
-  chatTextSquadColor = Color(198, 255, 189)
+  spectatorColor = Color(128, 128, 128)
   chatActiveInfoColor = Color(255, 255, 5)
   mainPlayerColor = Color(221, 163, 57)
-
-  mySquadColor = Color(62, 158, 47)
-  spectatorColor = Color(128, 128, 128)
-
   componentFill = Color(0, 0, 0, 192)
   componentBorder = Color(255, 255, 255)
+  chatTextAllColor = colors.menu.commonTextColor
 })
 
 colors.hud.damageModule <- {}
@@ -34,6 +45,7 @@ colors.hud.damageModule <- {}
   alert = Color(221, 17, 17)
   alertHighlight = Color(255, 255, 255) //for flashing animations
   inactive = Color(45, 55, 63, 80)
+  aiSwitchHighlight = colors.green
 
   dmModuleDamaged = Color(255, 176, 37)
   dmModuleNormal = inactive

@@ -1,10 +1,11 @@
 local shipState = require("shipState.nut")
 local crewState = require("crewState.nut")
+local dmModule = require("dmModule.nut")
 local colors = require("style/colors.nut")
 local background = require("style/hudBackground.nut")
 
-const STATE_ICON_MARGIN = 0.7
-const STATE_ICON_SIZE = 5
+const STATE_ICON_MARGIN = 1
+const STATE_ICON_SIZE = 54
 
 const max_dost = 5
 
@@ -37,12 +38,12 @@ local images = {
   transmission = Picture("!ui/gameuiskin#ship_transmission_state_indicator")
   steeringGear = Picture("!ui/gameuiskin#ship_steering_gear_state_indicator")
   artillery = Picture("!ui/gameuiskin#artillery_weapon_state_indicator")
+  artillerySecondary = Picture("!ui/gameuiskin#artillery_secondary_weapon_state_indicator")
+  machineGun = Picture("!ui/gameuiskin#machine_gun_weapon_state_indicator")
   torpedo = Picture("!ui/gameuiskin#ship_torpedo_weapon_state_indicator")
   buoyancy = Picture("!ui/gameuiskin#buoyancy_icon")
   fire = Picture("!ui/gameuiskin#fire_indicator")
-  dotHole = Picture("!ui/gameuiskin#dot_hole")
-  dotFilled = Picture("!ui/gameuiskin#dot_filled")
-  steeringMark = Picture("!ui/gameuiskin#drop_menu_icon")
+  steeringMark = Picture("!ui/gameuiskin#floatage_arrow_down")
   sightCone = Picture("+ui/hudskin#radar_camera")
   shipCrew = Picture("!ui/gameuiskin#ship_crew")
   gunner = Picture("!ui/gameuiskin#ship_crew_gunner")
@@ -75,7 +76,7 @@ local speed = function () {
   local speedUnits = @() {
     rendObj = ROBJ_STEXT
     font = font
-    fontSize = sh(18.0/1080*100)
+    fontSize = hdpx(18)
     text = ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
     margin = [0,0,0,sh(0.5)]
   }
@@ -90,7 +91,7 @@ local speed = function () {
           rendObj = ROBJ_STEXT
           font = font
           color = stopping.value ? Color(255, 100, 100) : Color(200, 200, 200)
-          fontSize = sh(18.0/1080*100)
+          fontSize = hdpx(18)
           text = machineSpeedLoc[averageSpeed] + " " + machineDirectionLoc[averageSpeed]
         }
       }
@@ -125,128 +126,41 @@ local speed = function () {
 }
 
 
-///
-/// Return component represents state of group
-/// of similar dm modules (engines, torpedos, etc.)
-///
-local dmModule = function (icon, count_total_state, count_broken_state) {
-  return function () {
-    if (count_total_state.value == 0) {
-      return {
-        watch = count_total_state
-      }
-    }
+local engine = dmModule({
+  icon = images.engine
+  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  totalCountState = shipState.enginesCount
+  brokenCountState = shipState.brokenEnginesCount
+})
+local steeringGears = dmModule({
+  icon = images.steeringGear
+  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  totalCountState = shipState.steeringGearsCount
+  brokenCountState = shipState.brokenSteeringGearsCount
+})
+local transmission = dmModule({
+  icon = images.transmission
+  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  totalCountState = shipState.transmissionCount
+  brokenCountState = shipState.brokenTransmissionCount
+})
+local torpedo = dmModule({
+  icon = images.torpedo
+  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  totalCountState = shipState.torpedosCount
+  brokenCountState = shipState.brokenTorpedosCount
+})
+local artillery = dmModule({
+  icon = @(art_type) art_type == TRIGGER_GROUP_PRIMARY     ? images.artillery
+                   : art_type == TRIGGER_GROUP_SECONDARY   ? images.artillerySecondary
+                   : art_type == TRIGGER_GROUP_MACHINE_GUN ? images.machineGun
+                   : images.artillery
+  iconWatch = shipState.artilleryType
+  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  totalCountState = shipState.artilleryCount
+  brokenCountState = shipState.brokenArtilleryCount
+})
 
-    local color = colors.hud.damageModule.dmModuleNormal
-    if (count_total_state.value == count_broken_state.value)
-      color = colors.hud.damageModule.dmModuleDestroyed
-    else if (count_broken_state.value > 0)
-      color = colors.hud.damageModule.dmModuleDamaged
-    ::start_anim(count_broken_state)
-    local image = {
-      rendObj = ROBJ_IMAGE
-      color =  color
-      image = icon
-      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
-
-      transform = {}
-      animations = [
-        {
-          prop = AnimProp.color
-          from = colors.hud.damageModule.alertHighlight
-          easing = Linear
-          duration = 0.15
-          trigger = count_broken_state
-        }
-        {
-          prop = AnimProp.scale
-          from = [1.3, 1.3]
-          easing = InOutCubic
-          duration = 0.15
-          trigger = count_broken_state
-        }
-      ]
-    }
-
-    local dotAlive = @(totalDotsCount) {
-      rendObj = ROBJ_IMAGE
-      image = images.dotFilled
-      color = count_broken_state.value > 0 ? colors.hud.damageModule.active : colors.hud.damageModule.inactive
-      size = [sh(1), sh(1)]
-      margin = [sh(0.2), sh(0.2)]
-    }
-    local dotDead = @(totalDotsCount) {
-      rendObj = ROBJ_IMAGE
-      image = images.dotHole
-      color = colors.hud.damageModule.dmModuleDestroyed
-      size = [sh(1), sh(1)]
-      margin = [sh(0.2), sh(0.2)]
-      transform = {}
-      animations = [
-        {
-          prop = AnimProp.scale
-          from = [1.3, 1.3]
-          easing = InOutCubic
-          play = true
-          duration = 0.25
-        }
-      ]
-    }
-
-    local dots = function () {
-      local aliveCount = count_total_state.value - count_broken_state.value
-      local children = []
-      if (aliveCount > 0 && count_total_state.value > 0)
-      {
-        children.resize(aliveCount, dotAlive(count_total_state.value))
-        children.resize(count_total_state.value, dotDead(count_total_state.value))
-      }
-
-      return {
-        size = [flex(), SIZE_TO_CONTENT]
-        flow = FLOW_HORIZONTAL
-        halign = HALIGN_CENTER
-        children = children
-      }
-    }
-
-
-    local text = @() {
-      rendObj = ROBJ_TEXT
-      color = count_broken_state.value > 0 ? colors.hud.damageModule.active : colors.hud.damageModule.inactive
-      halign = HALIGN_CENTER
-      text = (count_total_state.value - count_broken_state.value) + "/" + count_total_state.value
-    }
-
-    local children = [image]
-    if (count_total_state.value > 1) {
-      if (count_total_state.value < max_dost) {
-        children.append(dots)
-      } else {
-        children.append(text)
-      }
-    }
-
-    return {
-      size = SIZE_TO_CONTENT
-      flow = FLOW_VERTICAL
-      margin = [sh(STATE_ICON_MARGIN), 0]
-      halign = HALIGN_CENTER
-      watch = [
-        count_total_state
-        count_broken_state
-      ]
-
-      children = children
-    }
-  }
-}
-
-local engine = dmModule(images.engine, shipState.enginesCount, shipState.brokenEnginesCount)
-local steeringGears = dmModule(images.steeringGear, shipState.steeringGearsCount, shipState.brokenSteeringGearsCount)
-local transmission = dmModule(images.transmission, shipState.transmissionCount, shipState.brokenTransmissionCount)
-local torpedo = dmModule(images.torpedo, shipState.torpedosCount, shipState.brokenTorpedosCount)
-local artillery = dmModule(images.artillery, shipState.artilleryCount, shipState.brokenArtilleryCount)
 
 local damageModules = {
   size = SIZE_TO_CONTENT
@@ -274,7 +188,7 @@ local buoyancyIndicator = @() {
     {
       rendObj = ROBJ_IMAGE
       image = images.buoyancy
-      size = [sh(STATE_ICON_SIZE), sh(1)]
+      size = [hdpx(STATE_ICON_SIZE), hdpx(10)]
     }
   ]
 }
@@ -288,21 +202,45 @@ local stateBlock = {
       color =  shipState.fire.value ? colors.hud.damageModule.alert : colors.hud.damageModule.inactive
       watch = shipState.fire
       image = images.fire
-      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
+      size = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
     }
     buoyancyIndicator
   ]
 }
 
+
+local playAiSwithAnimation = function (ne_value) {
+  ::start_anim(shipState.aiGunnersState)
+}
+
 local aiGunners = @() {
   vplace = VALIGN_BOTTOM
-  size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
-  marigin = [sh(STATE_ICON_MARGIN), 0]
+  size = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+  marigin = [hdpx(STATE_ICON_MARGIN), 0]
 
   rendObj = ROBJ_IMAGE
   image = images.gunnerState.__get(shipState.aiGunnersState.value, images.gunnerState[0])
   color = colors.hud.damageModule.active
   watch = shipState.aiGunnersState
+  onAttach = @(elem) shipState.aiGunnersState.subscribe(playAiSwithAnimation)
+  onDetach = @(elem) shipState.aiGunnersState.unsubscribe(playAiSwithAnimation)
+  transform = {}
+  animations = [
+    {
+      prop = AnimProp.color
+      from = colors.hud.damageModule.aiSwitchHighlight
+      easing = Linear
+      duration = 0.15
+      trigger = shipState.aiGunnersState
+    }
+    {
+      prop = AnimProp.scale
+      from = [1.5, 1.5]
+      easing = InOutCubic
+      duration = 0.2
+      trigger = shipState.aiGunnersState
+    }
+  ]
 }
 
 
@@ -318,21 +256,21 @@ local crewCountColor = function(min, current) {
 local crewBlock = {
   vplace = VALIGN_BOTTOM
   flow = FLOW_VERTICAL
-  size = [sh(STATE_ICON_SIZE), SIZE_TO_CONTENT]
+  size = [hdpx(STATE_ICON_SIZE), SIZE_TO_CONTENT]
   vplace = VALIGN_BOTTOM
 
   children = [
     @() {
-      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
-      marigin = [sh(STATE_ICON_MARGIN), 0]
+      size = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+      marigin = [hdpx(STATE_ICON_MARGIN), 0]
       rendObj = ROBJ_IMAGE
       image = images.driver
       color = crewState.driverAlive.value ? colors.hud.damageModule.inactive : colors.hud.damageModule.alert
       watch = crewState.driverAlive
     }
     @() {
-      size = [sh(STATE_ICON_SIZE), sh(STATE_ICON_SIZE)]
-      marigin = [sh(STATE_ICON_MARGIN), 0]
+      size = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
+      marigin = [hdpx(STATE_ICON_MARGIN), 0]
       rendObj = ROBJ_IMAGE
       image = images.shipCrew
       color = crewCountColor(
@@ -362,12 +300,12 @@ local steering = function () {
     rendObj = ROBJ_IMAGE
     image = images.steeringMark
     color = colors.hud.shipSteeringGauge.mark
-    size = [sh(1.4), sh(1)]
+    size = [hdpx(12), hdpx(10)]
     pos = @() [p * pw(100) - w(100)/2 + 1, -h(100)/2]
   }
 
   local line = {
-    size = [sh(0.1), sh(0.5)]
+    size = [hdpx(1), flex()]
     rendObj = ROBJ_SOLID
     color = colors.hud.shipSteeringGauge.serif
   }
@@ -376,7 +314,7 @@ local steering = function () {
   }
   return {
     watch = shipState.steering
-    size = [pw(50), sh(0.3)]
+    size = [pw(50), hdpx(3)]
     hplace = HALIGN_CENTER
 
     children = [
@@ -471,7 +409,7 @@ local shipStateDisplay = {
         rightBlock
       ]
     }
-    {size=[flex(),sh(0.7)]}
+    {size=[flex(),hdpx(7)]}
     steering
   ]
 }
@@ -480,10 +418,10 @@ local shipStateDisplay = {
 return {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
-  padding = sh(1)
+  padding = hdpx(10)
+  gap = {size=[flex(),hdpx(5)]}
   children = [
     speed
-    {size=[flex(),sh(0.5)]}
     shipStateDisplay
   ]
 }.patchComponent(background)

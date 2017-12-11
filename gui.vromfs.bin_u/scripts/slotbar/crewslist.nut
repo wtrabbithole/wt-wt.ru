@@ -1,5 +1,6 @@
 ::g_crews_list <- {
   crewsList = !::g_login.isLoggedIn() ? [] : ::get_crew_info()
+  isSlotbarOverrided = false
 
   isNeedToSkipNextProfileUpdate = false
   ignoreTransactions = [
@@ -23,10 +24,17 @@ function g_crews_list::get()
 
 function g_crews_list::refresh()
 {
+  if (::SessionLobby.isSlotbarOverrided() && !::is_in_flight())
+  {
+    crewsList = SessionLobby.getSlotbarOverrideData()
+    isSlotbarOverrided = true
+    return
+  }
   //we don't know about slotbar refresh in flight,
   //but we know than out of flight it refresh only with profile, 
   //so can optimize it updates, and remove some direct refresh calls from outside
   crewsList = ::get_crew_info()
+  isSlotbarOverrided = false
 }
 
 g_crews_list._isReinitSlotbarsInProgress <- false
@@ -89,6 +97,91 @@ function g_crews_list::onEventSignOut(p)
 function g_crews_list::onEventLoadingStateChange(p)
 {
   isSlotbarUpdateSuspended = false
+}
+
+function g_crews_list::makeCrewsCountryData(country)
+{
+  return {
+    country = country
+    crews = []
+  }
+}
+
+function g_crews_list::addCrewToCountryData(countryData, crewId, countryId, crewUnitName)
+{
+  countryData.crews.append({
+    id = crewId
+    idCountry = countryId
+    idInCountry = countryData.crews.len()
+    country = countryData.country
+
+    aircraft = crewUnitName
+    isEmpty = ::u.isEmpty(crewUnitName) ? 1 : 0
+
+    trainedSpec = {}
+    trained = []
+    skillPoints = 0
+    lockedTillSec = 0
+    isLocked = 0
+    weaponUsed = false
+    wpToRespawn = 0
+  })
+}
+
+function g_crews_list::getMissionEditSlotbarBlk(missionName)
+{
+  local misBlk = ::get_mission_meta_info(missionName)
+  local editSlotbar = ::getTblValue("editSlotbar", misBlk)
+  //override slotbar does not support keepOwnUnits atm.
+  if (!::u.isDataBlock(editSlotbar) || editSlotbar.keepOwnUnits)
+    return null
+  return editSlotbar
+}
+
+function g_crews_list::calcSlotbarOverrideByMissionName(missionName)
+{
+  local res = null
+  local editSlotbar = getMissionEditSlotbarBlk(missionName)
+  if (!editSlotbar)
+    return res
+
+  res = []
+  local crewId = -1 //negative crews are invalid, so we prevent any actions with such crews.
+  foreach(country in ::shopCountriesList)
+  {
+    local countryBlk = editSlotbar[country]
+    if (!::u.isDataBlock(countryBlk) || !countryBlk.blockCount()
+      || !::is_country_available(country))
+      continue
+
+    local countryData = ::g_crews_list.makeCrewsCountryData(country)
+    res.append(countryData)
+    for(local i = 0; i < countryBlk.blockCount(); i++)
+    {
+      local crewBlk = countryBlk.getBlock(i)
+      ::g_crews_list.addCrewToCountryData(countryData, crewId--, res.len() - 1, crewBlk.getBlockName())
+    }
+  }
+  if (!res.len())
+    res = null
+  return res
+}
+
+function g_crews_list::getSlotbarOverrideCountriesByMissionName(missionName)
+{
+  local res = []
+  local editSlotbar = getMissionEditSlotbarBlk(missionName)
+  if (!editSlotbar)
+    return res
+
+  foreach(country in ::shopCountriesList)
+  {
+    local countryBlk = editSlotbar[country]
+    if (::u.isDataBlock(countryBlk) && countryBlk.blockCount()
+      && ::is_country_available(country))
+      res.append(country)
+  }
+  return res
 }
 
 function reinitAllSlotbars()

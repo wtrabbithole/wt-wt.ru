@@ -810,7 +810,7 @@ function get_favorite_voice_message_option(index)
     }
     { id = "mouse_z_ship", type = CONTROL_TYPE.MOUSE_AXIS
       axis_num = MouseAxis.MOUSE_SCROLL_SHIP
-      values = ["none", "ship_main_engine", "ship_zoom", "ship_sight_distance"]
+      values = ["none", "ship_sight_distance", "ship_main_engine", "ship_zoom"]
       onChangeValue = "onMouseWheel"
     }
 

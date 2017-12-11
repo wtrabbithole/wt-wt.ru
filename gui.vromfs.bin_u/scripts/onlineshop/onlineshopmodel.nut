@@ -504,7 +504,7 @@ function get_entitlement_timeText(item)
   return ""
 }
 
-function get_entitlement_price(item, goldColored = true)
+function get_entitlement_price(item)
 {
   if (("onlinePurchase" in item) && item.onlinePurchase)
   {
@@ -522,8 +522,7 @@ function get_entitlement_price(item, goldColored = true)
     }
   }
   else if ("goldCost" in item)
-    return ::get_entitlement_cost_gold(item.name) + (goldColored? ::loc("gold/short/colored") : ::loc("gold/short"))
-
+    return ::Cost(0, ::get_entitlement_cost_gold(item.name)).tostring()
   return ""
 }
 
@@ -547,9 +546,14 @@ function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
 
   if (::is_platform_ps4 && ::isInArray(chapter, [null, "", "eagles"]))
   {
-    ::queues.checkAndStart((@(chapter) function() {
-        ::launch_ps4_store_by_chapter(chapter)
-      })(chapter),
+    ::queues.checkAndStart(@() ::launch_ps4_store_by_chapter(chapter),
+      null, "isCanUseOnlineShop")
+    return
+  }
+
+  if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
+  {
+    ::queues.checkAndStart(@() ::launch_xbox_one_store_by_chapter(chapter),
       null, "isCanUseOnlineShop")
     return
   }
@@ -597,6 +601,11 @@ function launch_ps4_store_by_chapter(chapter)
     if (::ps4_open_store("WARTHUNDEREAGLES", false) >= 0)
       ::update_purchases_return_mainmenu()
   }
+}
+
+function launch_xbox_one_store_by_chapter(chapter)
+{
+  ::xbox_show_marketplace()
 }
 
 ::subscribe_handler(::OnlineShopModel, ::g_listener_priority.CONFIG_VALIDATION)

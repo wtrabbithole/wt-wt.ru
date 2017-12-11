@@ -1,16 +1,4 @@
-local extendToArray = function (obj, key, val) {
-  if ((key in obj) && obj[key] != null) {
-    local arr = (typeof obj[key] == "array") ? obj[key] : [obj[key]]
-    if (typeof val == "array") {
-      arr.extend(val)
-    } else {
-      arr.append(val)
-    }
-    return arr
-  } else {
-    return typeof val == "array" ? val : [val]
-  }
-}
+local log = require("log.nut")
 
 
 local makeInputField = function (form_state, send_function) {
@@ -24,34 +12,16 @@ local makeInputField = function (form_state, send_function) {
 }
 
 
-local makeLogBox = function (log_state) {
-  return function (background_ctor, message_component) {
-    local bgInstance = background_ctor()
-    return bgInstance.patchComponent(function (comp) {
-      return function () {
-        local result = comp
-        if (typeof comp == "function") {
-          result = comp()
-        }
-
-        local messages = log_state.value.map(message_component)
-        result.flow <- FLOW_VERTICAL
-        result.children <- extendToArray(result, "children", messages)
-        result.watch <- extendToArray(result, "watch", log_state)
-        return result
-      }
-    })
-  }
-}
-
-
 local makeChatBlock = function (log_state, send_message_fn) {
   local chatMessageState = Watched("")
+  local logInstance = log.makeLog(log_state)
 
   return {
     form = chatMessageState
+    state = log_state
     inputField = makeInputField(chatMessageState, send_message_fn)
-    logBox = makeLogBox(log_state)
+    log = logInstance.log
+    scrollHandler = logInstance.scrollHandler
   }
 }
 

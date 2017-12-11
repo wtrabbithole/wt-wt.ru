@@ -1,6 +1,19 @@
-local isDualShock = ::is_platform_ps4 //|| true
-local controllerTitle = isDualShock ? "#controls/help/dualshock4" : "#controls/help/xinput"
-local controllerBlkName = isDualShock ? "gui/help/controllerDualshock.blk" : "gui/help/controllerXbox.blk"
+local controlsMarkupSource = {
+  ps4 = {
+    title = "#controls/help/dualshock4"
+    blk = "gui/help/controllerDualshock.blk"
+  },
+  xboxOne = {
+    title = "#controls/help/xboxone"
+    blk = "gui/help/controllerXboxOne.blk"
+  },
+  xbox360 = {
+    title = "#controls/help/xinput"
+    blk = "gui/help/controllerXbox.blk"
+  }
+}
+
+local controllerMarkup = ::getTblValue(::target_platform, controlsMarkupSource, controlsMarkupSource.xbox360)
 
 enum help_tab_types
 {
@@ -352,48 +365,48 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     },
 
     [help_tab_types.CONTROLLER_AIR] = {
-      title = controllerTitle
+      title = controllerMarkup.title
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsAir", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.AIRCRAFT
       pageUnitTag = null
-      pageBlkName = controllerBlkName
+      pageBlkName = controllerMarkup.blk
       pageFillfuncName = "fillJoystickTexts"
     },
     [help_tab_types.CONTROLLER_TANK] = {
-      title = controllerTitle
+      title = controllerMarkup.title
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsTank", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.TANK
       pageUnitTag = null
-      pageBlkName = controllerBlkName
+      pageBlkName = controllerMarkup.blk
       pageFillfuncName = "fillJoystickTexts"
     },
     [help_tab_types.CONTROLLER_SHIP] = {
-      title = controllerTitle
+      title = controllerMarkup.title
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsShip", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.SHIP
       pageUnitTag = null
-      pageBlkName = controllerBlkName
+      pageBlkName = controllerMarkup.blk
       pageFillfuncName = "fillJoystickTexts"
     },
 
     [help_tab_types.CONTROLLER_HELICOPTER] = {
-      title = controllerTitle
+      title = controllerMarkup.title
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
       isShow = function(handler, params) {
         return ::getTblValue("showControlsHelicopter", params, false) && ::getTblValue("hasController", params, false)
       }
       pageUnitType = ::g_unit_type.AIRCRAFT
       pageUnitTag = "helicopter"
-      pageBlkName = controllerBlkName
+      pageBlkName = controllerMarkup.blk
       pageFillfuncName = "fillJoystickTexts"
     },
 

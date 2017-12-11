@@ -24,7 +24,7 @@ wwObjective {
         id:t='statusImg'
         background-image:t='<<statusImg>>'
       }
-      name {
+      wwObjectiveName {
         id:t='<<getNameId>>'
         text:t='<<getName>>'
         max-width:t='p.p.w'
@@ -121,6 +121,14 @@ wwObjective {
               <</pValue>>
           }
         <</getUpdatableData>>
+        textareaNoTab {
+          margin-left:t='1@blockInterval'
+          text:t='<<getUpdatableDataDescriptionText>>'
+          tooltip:t='<<getUpdatableDataDescriptionTooltip>>'
+          hideEmptyText:t='yes'
+          overlayTextColor:t='active'
+          smallFont:t='yes'
+        }
       }
     }
   }

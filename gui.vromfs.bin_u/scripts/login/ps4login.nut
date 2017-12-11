@@ -21,7 +21,7 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
       titleButtonFont = true
     })
     guiScene.prependWithBlk(scene.findObject("authorization_button_place"), data, this)
-    showSceneBtn("text_req_connection",  true)
+    scene.findObject("user_notify_text").setValue(::loc("ps4/reqInstantConnection"))
 
     guiScene.performDelayed(this, function() {
       ::ps4_initial_check_settings()

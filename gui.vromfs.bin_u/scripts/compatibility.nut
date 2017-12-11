@@ -208,7 +208,6 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   briefing_finish = function() { ::loading_press_apply() }
 
   set_allowed_controls_mask = function(mask) {}
-  set_ingame_shortcuts_active = function(value) {}
 
   add_big_query_record = function(event, params) {}
 
@@ -493,4 +492,16 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   MISSION_TEAM_LEAD_ZONE = 3
 
   EIT_UNIVERSAL_SPARE = 6
+
+  call_darg = function (...) {}
 })
+
+//----------------------------wop_1_71_1_X---------------------------------//
+::apply_compatibilities({
+  XBOX_LOGIN_STATE_FAILED = -1
+  XBOX_LOGIN_STATE_NO_ACTIVE_USER = 0
+  XBOX_LOGIN_STATE_SUCCESS = 1
+
+  xbox_get_safe_area = @() 1.0
+})
+

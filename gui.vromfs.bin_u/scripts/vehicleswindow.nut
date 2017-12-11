@@ -31,9 +31,11 @@ class ::gui_handlers.VehiclesWindow extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function update_vehicle_info_button(scene, teamDataByTeamName)
+function update_vehicle_info_button(scene, room)
 {
-  local obj = scene.findObject("vehicles_info_button_block")
-  if (::checkObj(obj))
-    obj.show(!::events.isEventAllUnitAllowed(teamDataByTeamName))
+  ::showBtn("vehicles_info_button_block",
+    !::SessionLobby.isSlotbarOverrided(room)
+      && !::events.isEventAllUnitAllowed(::SessionLobby.getPublicData(room)),
+    scene
+  )
 }

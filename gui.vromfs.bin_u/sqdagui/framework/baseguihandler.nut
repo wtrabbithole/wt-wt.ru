@@ -6,7 +6,6 @@ class ::BaseGuiHandler
   sceneTplName = null //load scene tpl when sceneBlkNmae == null. only work with custom handlers yet.
   keepLoaded = false
   multipleInstances = false
-  allowIngameShortcuts = false
   rootHandlerClass = null //handlerType.BASE will be created and visible together with listed root handler
                           //but they also can be created without root handler
 

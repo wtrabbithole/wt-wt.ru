@@ -41,7 +41,13 @@
         "_Conq4": false,
         "_Conq5": false,
         "_Conq6": false,
-        "_DBttl": false
+        "_DBttl": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       }
     },
     "spectator_points": [],
@@ -55,6 +61,492 @@
   "triggers": {
     "isCategory": true,
     "is_enabled": true,
+    "bdt_capture_bombing_zone_routine": {
+      "isCategory": true,
+      "is_enabled": true,
+      "bdt_capture_t1_start": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "захватили территорию команды А"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не надо ли убрать базу"
+            }
+          },
+          {
+            "comment": {
+              "value": "имя захваченной зоны в переменной bdt_capture_t1_frontline_name"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "bdt_capture_t1_bombing_zone_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "начинаем поиск"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t1_rotator"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "bdt_capture_t1_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bdt_capture_t1_bombing_zone_idx",
+            "value": 3,
+            "comparasion_func": "less",
+            "var_value_other": "bdt_t1_active_bases_max_count"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "индекс меньше трех проверяем"
+            }
+          },
+          {
+            "comment": {
+              "value": "увеличиваем индекс на 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "bdt_capture_t1_bombing_zone_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "составляем имя переменной, в которой хранится имя аирфилда"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bdt_t1_zone_",
+              "var": "bdt_capture_t1_bombing_zone_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@bdt_capture_t1_bombing_zone_idx",
+              "digits": 2,
+              "var": "bdt_capture_t1_bombing_zone_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "bdt_capture_t1_bombing_zone_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя бомбовой зоны"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@bdt_capture_t1_bombing_zone_name",
+              "var": "bdt_capture_t1_bombing_zone_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя таргета бомбовой зоны"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "bdt_capture_t1_bombing_zone_name",
+              "var": "bdt_capture_t1_bombing_zone_target_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_bomb_target",
+              "digits": 0,
+              "var": "bdt_capture_t1_bombing_zone_target_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не находится ли аирфилд в искомой зоне"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t1_frontline_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "индекс вышел за диапазон. ничего не делаем"
+          }
+        }
+      },
+      "bdt_capture_t1_frontline_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenInArea": {
+            "math": "2D",
+            "object_type": "isActive",
+            "object_marking": 0,
+            "check_objects": "any",
+            "object": "@bdt_capture_t1_bombing_zone_target_name",
+            "target": "@bdt_capture_t1_frontline_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "бомбовая зона в исомой зоне. надо ее отключить"
+            }
+          },
+          {
+            "comment": {
+              "value": "создаем имя зоны"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "bdt_capture_t1_bombing_zone_name",
+              "var": "bdt_capture_t1_bomb_zone_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_bomb_zone",
+              "digits": 0,
+              "var": "bdt_capture_t1_bomb_zone_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "убиваем зону"
+            }
+          },
+          {
+            "missionBombingAreaDamage": {
+              "target": "@bdt_capture_t1_bomb_zone_name",
+              "damageHP": 100000.0
+            }
+          },
+          {
+            "comment": {
+              "value": "больше ничего не делаем"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "аэродром не в искомой зоне отключать не надо"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем следующий"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t1_rotator"
+            }
+          }
+        ]
+      },
+      "bdt_capture_t2_start": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "comment": {
+              "value": "захватили территорию команды А"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не надо ли убрать базу"
+            }
+          },
+          {
+            "comment": {
+              "value": "имя захваченной зоны в переменной bdt_capture_t1_frontline_name"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "bdt_capture_t2_bombing_zone_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "начинаем поиск"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t2_rotator"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "bdt_capture_t2_rotator": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bdt_capture_t2_bombing_zone_idx",
+            "value": 3,
+            "comparasion_func": "less",
+            "var_value_other": "bdt_t2_active_bases_max_count"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "индекс меньше трех проверяем"
+            }
+          },
+          {
+            "comment": {
+              "value": "увеличиваем индекс на 1"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 1.0,
+              "var": "bdt_capture_t2_bombing_zone_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "составляем имя переменной, в которой хранится имя аирфилда"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "bdt_t2_zone_",
+              "var": "bdt_capture_t2_bombing_zone_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@bdt_capture_t2_bombing_zone_idx",
+              "digits": 2,
+              "var": "bdt_capture_t2_bombing_zone_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_name",
+              "digits": 0,
+              "var": "bdt_capture_t2_bombing_zone_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя аирфилда"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "@bdt_capture_t2_bombing_zone_name",
+              "var": "bdt_capture_t2_bombing_zone_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "получаем имя таргета филда"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "bdt_capture_t2_bombing_zone_name",
+              "var": "bdt_capture_t2_bombing_zone_target_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_bomb_target",
+              "digits": 0,
+              "var": "bdt_capture_t2_bombing_zone_target_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не находится ли аирфилд в искомой зоне"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t2_frontline_check"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "индекс вышел за диапазон. ничего не делаем"
+          }
+        }
+      },
+      "bdt_capture_t2_frontline_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenInArea": {
+            "math": "2D",
+            "object_type": "isActive",
+            "object_marking": 0,
+            "check_objects": "any",
+            "object": "@bdt_capture_t2_bombing_zone_target_name",
+            "target": "@bdt_capture_t2_frontline_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "аэродром в исомой зоне. надо его отключить"
+            }
+          },
+          {
+            "comment": {
+              "value": "создаем имя зоны"
+            }
+          },
+          {
+            "varGetStringValue": {
+              "from_var_name": "bdt_capture_t2_bombing_zone_name",
+              "var": "bdt_capture_t2_bomb_zone_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_bomb_zone",
+              "digits": 0,
+              "var": "bdt_capture_t2_bomb_zone_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "убиваем зону"
+            }
+          },
+          {
+            "missionBombingAreaDamage": {
+              "target": "@bdt_capture_t2_bomb_zone_name",
+              "damageHP": 100000.0
+            }
+          },
+          {
+            "comment": {
+              "value": "больше ничего не делаем"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "аэродром не в искомой зоне отключать не надо"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем следующий"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "bdt_capture_t2_rotator"
+            }
+          }
+        ]
+      }
+    },
     "bdt_init": {
       "is_enabled": true,
       "comments": "",
@@ -125,24 +617,30 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "bdt_t1_targets_squad"
             },
             {
               "object": "bdt_t2_targets_squad"
             },
             {
-              "stealthRadius": 0.0
-            },
-            {
               "targetableByAi": false
             },
             {
               "isImmortal": true
+            },
+            {
+              "stealthRadius": 0.0
             }
           ]
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "bdt_t1_bomb_targets_aaa_squad"
             },
@@ -2843,6 +3341,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "bdt_t1_bomb_target_01_aaa",
             "stealthRadius": 1250.0,
             "calmDetection": true
@@ -2957,6 +3456,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "bdt_t1_bomb_target_02_aaa",
             "stealthRadius": 1250.0,
             "calmDetection": true
@@ -3071,6 +3571,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "bdt_t1_bomb_target_03_aaa",
             "stealthRadius": 1250.0,
             "calmDetection": true
@@ -3185,6 +3686,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "bdt_t2_bomb_target_01_aaa",
             "stealthRadius": 1250.0,
             "calmDetection": true
@@ -3299,6 +3801,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "bdt_t2_bomb_target_02_aaa",
             "stealthRadius": 1250.0,
             "calmDetection": true
@@ -3413,6 +3916,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "bdt_t2_bomb_target_03_aaa",
             "stealthRadius": 1250.0,
             "calmDetection": true
@@ -4215,8 +4719,8 @@
   "variables": {
     "bdt_t1_total_bases_max_count": 5,
     "bdt_t2_total_bases_max_count": 5,
-    "bdt_t1_active_bases_max_count": 1,
-    "bdt_t2_active_bases_max_count": 1,
+    "bdt_t1_active_bases_max_count": 2,
+    "bdt_t2_active_bases_max_count": 2,
     "bdt_t1_cur_spawn_zone_name": "",
     "bdt_t2_cur_spawn_zone_name": "",
     "bdt_t1_zone_01_name": "",
@@ -4226,7 +4730,7 @@
     "bdt_t2_zone_02_name": "",
     "bdt_t2_zone_03_name": "",
     "bdt_is_template_active": false,
-    "bdt_delay_timer": 0,
+    "bdt_delay_timer": 30,
     "bdt_army_both_zero": -1,
     "bdt_t1_cur_base_spawn_idx": 0,
     "bdt_t2_cur_base_spawn_idx": 0,
@@ -4234,7 +4738,7 @@
     "bdt_t2_cur_bases_count": 0,
     "bdt_t1_cur_spawn_random_idx": 0,
     "bdt_t2_cur_spawn_random_idx": 0,
-    "bdt_respawn_time": 1,
+    "bdt_respawn_time": 90,
     "bdt_t1_cur_spawn_aaa_name": "",
     "bdt_t2_cur_spawn_aaa_name": "",
     "bdt_t1_cur_destroyed_aaa_name": "",
@@ -4244,8 +4748,8 @@
     "bdt_balance_level": 0,
     "bdt_t1_base_as_target_for_t2_name": "",
     "bdt_t2_base_as_target_for_t1_name": "",
-    "bdt_t1_cur_active_bases_max_count": 1,
-    "bdt_t2_cur_active_bases_max_count": 1,
+    "bdt_t1_cur_active_bases_max_count": 2,
+    "bdt_t2_cur_active_bases_max_count": 2,
     "bdt_t1_frontline_col_idx": 0,
     "bdt_t1_frontline_row_idx": 0,
     "bdt_t2_frontline_col_idx": 0,
@@ -4256,7 +4760,17 @@
     "bdt_t2_frontline_idx_name": "",
     "bdt_t2_frontline_zone_idx": 0,
     "bdt_t2_frontline_name": "",
-    "bdt_t2_max_col_idx": 0
+    "bdt_t2_max_col_idx": 0,
+    "bdt_capture_t1_bombing_zone_idx": 0,
+    "bdt_capture_t2_bombing_zone_idx": 0,
+    "bdt_capture_t1_bombing_zone_name": "",
+    "bdt_capture_t2_bombing_zone_name": "",
+    "bdt_capture_t1_bombing_zone_target_name": "",
+    "bdt_capture_t2_bombing_zone_target_name": "",
+    "bdt_capture_t1_frontline_name": "",
+    "bdt_capture_t2_frontline_name": "",
+    "bdt_capture_t1_bomb_zone_name": "",
+    "bdt_capture_t2_bomb_zone_name": ""
   },
   "dialogs": [],
   "airfields": [],

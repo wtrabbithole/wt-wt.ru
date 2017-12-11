@@ -22,7 +22,7 @@ class ::gui_handlers.MRoomPlayersListWidget extends ::gui_handlers.BaseGuiHandle
 
   teams = null
   room = null
-  columnsList = ["team", "country", "name"]
+  columnsList = ["team", "country", "name", "status"]
 
   onPlayerSelectCb = null
   onPlayerDblClickCb = null
@@ -55,7 +55,7 @@ class ::gui_handlers.MRoomPlayersListWidget extends ::gui_handlers.BaseGuiHandle
 
     local markupData = {
       tr_size = "pw, @baseTrHeight"
-      name = { width = "fw", readyIcon = true }
+      name = { width = "fw" }
     }
     local maxRows = ::SessionLobby.getMaxMembersCount(room)
     foreach(idx, team in teams)

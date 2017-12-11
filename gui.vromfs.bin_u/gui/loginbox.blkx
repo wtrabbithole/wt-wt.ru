@@ -60,7 +60,6 @@
               "position": "relative",
               "talign": "left",
               "margin": "@sIco/8, 0, @sIco/4, 0",
-              "padding-right": "-1@textPaddingBugWorkaround",
               "input-transparent": "yes",
               "inactive": "yes"
             },
@@ -183,7 +182,7 @@
               "position": "relative"
             },
             {
-              "width": "90%pw"
+              "width": "90%pw - 4@dp"
             },
             {
               "height": "65%ph-10%pw"
@@ -193,6 +192,9 @@
             },
             {
               "input-transparent": "yes"
+            },
+            {
+              "class": "authorization"
             },
             {
               "tdiv": [
@@ -207,6 +209,12 @@
                 },
                 {
                   "position": "relative"
+                },
+                {
+                  "padding": "1@framePadding"
+                },
+                {
+                  "padding-bottom": "1@framePadding + 1@blockInterval"
                 },
                 {
                   "tdiv": {
@@ -530,160 +538,159 @@
                       "class": "circuitDropright"
                     }
                   }
-                },
-                {
-                  "ShadeDiv": {
-                    "id": "login_action_button",
-                    "pos": "0, 0.01@scrn_tgt",
-                    "position": "relative",
-                    "width": "pw",
-                    "padding-top": "1@blockInterval",
-                    "childsActivate": "yes",
-                    "behavior": "wrapNavigator",
-                    "navigatorShortcuts": "yes",
-                    "on_wrap_up": "onWrapUp",
-                    "on_wrap_down": "onWrapDown",
-                    "on_set_focus": "checkCurrentFocusItem",
-                    "class": "authorization",
-                    "Button_text": {
-                      "class": "battle",
-                      "navButtonFont": "yes",
-                      "text": "#msgbox/btn_signIn",
-                      "_on_click": "onOk",
-                      "css-hier-invalidate": "yes",
-                      "btnName": "X",
-                      "focusBtnName": "A",
-                      "pattern": {
-                        "type": "bright_texture"
-                      },
-                      "buttonWink": {
-                        "_transp-timer": "0"
-                      },
-                      "buttonGlance": [],
-                      "btnText": {
-                        "text": "#msgbox/btn_signIn"
-                      },
-                      "ButtonImg": []
-                    }
-                  }
-                },
-                {
-                  "ShadeDiv": {
-                    "id": "steam_login_action_button",
-                    "pos": "0, 0.005@scrn_tgt",
-                    "position": "relative",
-                    "width": "pw",
-                    "padding-top": "1@blockInterval",
-                    "childsActivate": "yes",
-                    "behavior": "wrapNavigator",
-                    "navigatorShortcuts": "yes",
-                    "on_wrap_up": "onWrapUp",
-                    "on_wrap_down": "onWrapDown",
-                    "on_set_focus": "checkCurrentFocusItem",
-                    "class": "authorization",
-                    "Button_text": {
-                      "id": "btn_steam_auth",
-                      "text": "#mainmenu/loginWithSteam",
-                      "css-hier-invalidate": "yes",
-                      "btnName": "LB",
-                      "focusBtnName": "A",
-                      "_on_click": "onSteamAuthorization",
-                      "visualStyle": "secondary",
-                      "buttonWink": [],
-                      "ButtonImg": []
-                    }
-                  }
-                },
-                {
-                  "tdiv": [
-                    {
-                      "id": "links_block"
-                    },
-                    {
-                      "pos": "0, 0.02@sf"
-                    },
-                    {
-                      "position": "relative"
-                    },
-                    {
-                      "width": "pw"
-                    },
-                    {
-                      "behavior": "posNavigator"
-                    },
-                    {
-                      "navigatorShortcuts": "SpaceA"
-                    },
-                    {
-                      "moveX": "closest"
-                    },
-                    {
-                      "moveY": "closest"
-                    },
-                    {
-                      "showSelect": "yes"
-                    },
-                    {
-                      "on_wrap_up": "onWrapUp"
-                    },
-                    {
-                      "on_activate": "onSelectAction"
-                    },
-                    {
-                      "button": {
-                        "id": "btn_faq_link",
-                        "text": "#mainmenu/faq",
-                        "on_click": "onMsgLink",
-                        "link": "#url/faq",
-                        "bqKey": "login_page",
-                        "tfont": "small",
-                        "class": "link",
-                        "talign": "left",
-                        "btnName": "SpaceA",
-                        "ButtonImg": [],
-                        "focus_border": [],
-                        "underline": []
-                      }
-                    },
-                    {
-                      "button": {
-                        "id": "btn_forum_link",
-                        "text": "#mainmenu/forum",
-                        "margin-left": "1*@sf/100.0",
-                        "on_click": "onMsgLink",
-                        "link": "#url/forum",
-                        "bqKey": "login_page",
-                        "tfont": "small",
-                        "class": "link",
-                        "talign": "left",
-                        "btnName": "SpaceA",
-                        "ButtonImg": [],
-                        "underline": []
-                      }
-                    },
-                    {
-                      "_newline": []
-                    },
-                    {
-                      "button": {
-                        "id": "btn_support_link",
-                        "pos": "0, 0.01@sf",
-                        "position": "relative",
-                        "text": "#mainmenu/support",
-                        "on_click": "onMsgLink",
-                        "link": "#url/support",
-                        "bqKey": "login_page",
-                        "class": "link",
-                        "tfont": "small",
-                        "talign": "left",
-                        "btnName": "SpaceA",
-                        "ButtonImg": [],
-                        "underline": []
-                      }
-                    }
-                  ]
                 }
               ]
+            },
+            {
+              "ShadeDiv": {
+                "id": "login_action_button",
+                "childsActivate": "yes",
+                "behavior": "wrapNavigator",
+                "navigatorShortcuts": "yes",
+                "on_wrap_up": "onWrapUp",
+                "on_wrap_down": "onWrapDown",
+                "on_set_focus": "checkCurrentFocusItem",
+                "class": "authorization",
+                "Button_text": {
+                  "class": "battle",
+                  "navButtonFont": "yes",
+                  "text": "#msgbox/btn_signIn",
+                  "_on_click": "onOk",
+                  "css-hier-invalidate": "yes",
+                  "btnName": "X",
+                  "focusBtnName": "A",
+                  "pattern": {
+                    "type": "bright_texture"
+                  },
+                  "buttonWink": {
+                    "_transp-timer": "0"
+                  },
+                  "buttonGlance": [],
+                  "btnText": {
+                    "text": "#msgbox/btn_signIn"
+                  },
+                  "ButtonImg": []
+                }
+              }
+            },
+            {
+              "ShadeDiv": {
+                "id": "steam_login_action_button",
+                "childsActivate": "yes",
+                "behavior": "wrapNavigator",
+                "navigatorShortcuts": "yes",
+                "on_wrap_up": "onWrapUp",
+                "on_wrap_down": "onWrapDown",
+                "on_set_focus": "checkCurrentFocusItem",
+                "class": "authorization",
+                "Button_text": {
+                  "id": "btn_steam_auth",
+                  "text": "#mainmenu/loginWithSteam",
+                  "css-hier-invalidate": "yes",
+                  "btnName": "LB",
+                  "focusBtnName": "A",
+                  "_on_click": "onSteamAuthorization",
+                  "visualStyle": "secondary",
+                  "buttonWink": [],
+                  "ButtonImg": []
+                }
+              }
+            },
+            {
+              "tdiv": {
+                "flow": "vertical",
+                "width": "pw-0.03@scrn_tgt",
+                "pos": "50%pw-50%w, 0",
+                "position": "relative",
+                "padding": "1@framePadding",
+                "tdiv": [
+                  {
+                    "id": "links_block"
+                  },
+                  {
+                    "pos": "0, 0.02@sf"
+                  },
+                  {
+                    "position": "relative"
+                  },
+                  {
+                    "width": "pw"
+                  },
+                  {
+                    "behavior": "posNavigator"
+                  },
+                  {
+                    "navigatorShortcuts": "SpaceA"
+                  },
+                  {
+                    "moveX": "closest"
+                  },
+                  {
+                    "moveY": "closest"
+                  },
+                  {
+                    "showSelect": "yes"
+                  },
+                  {
+                    "on_wrap_up": "onWrapUp"
+                  },
+                  {
+                    "on_activate": "onSelectAction"
+                  },
+                  {
+                    "button": {
+                      "id": "btn_faq_link",
+                      "text": "#mainmenu/faq",
+                      "on_click": "onMsgLink",
+                      "link": "#url/faq",
+                      "bqKey": "login_page",
+                      "tfont": "small",
+                      "class": "link",
+                      "talign": "left",
+                      "btnName": "SpaceA",
+                      "ButtonImg": [],
+                      "focus_border": [],
+                      "underline": []
+                    }
+                  },
+                  {
+                    "button": {
+                      "id": "btn_forum_link",
+                      "text": "#mainmenu/forum",
+                      "margin-left": "1*@sf/100.0",
+                      "on_click": "onMsgLink",
+                      "link": "#url/forum",
+                      "bqKey": "login_page",
+                      "tfont": "small",
+                      "class": "link",
+                      "talign": "left",
+                      "btnName": "SpaceA",
+                      "ButtonImg": [],
+                      "underline": []
+                    }
+                  },
+                  {
+                    "_newline": []
+                  },
+                  {
+                    "button": {
+                      "id": "btn_support_link",
+                      "pos": "0, 0.01@sf",
+                      "position": "relative",
+                      "text": "#mainmenu/support",
+                      "on_click": "onMsgLink",
+                      "link": "#url/support",
+                      "bqKey": "login_page",
+                      "class": "link",
+                      "tfont": "small",
+                      "talign": "left",
+                      "btnName": "SpaceA",
+                      "ButtonImg": [],
+                      "underline": []
+                    }
+                  }
+                ]
+              }
             },
             {
               "tdiv": {

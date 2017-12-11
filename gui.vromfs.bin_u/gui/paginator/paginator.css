@@ -22,11 +22,10 @@ paginator > pages > button {
 }
 
 paginator > pages > button > underline {
-  size: pw - @textPaddingBugWorkaround + 1, (@sf/@pf_outdated*0.75) $max 1;
+  size: pw + 1, (@sf/@pf_outdated*0.75) $max 1;
 }
 
 paginator > pages > activeText{
-  padding:0, 0, -1@textPaddingBugWorkaround, 0;  
   font:@fontSmall;
 }
 

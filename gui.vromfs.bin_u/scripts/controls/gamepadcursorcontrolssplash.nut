@@ -10,10 +10,8 @@ class ::gui_handlers.GampadCursorControlsSplash extends ::gui_handlers.BaseGuiHa
   sceneBlkName = "gui/controls/gamepadCursorControlsSplash.blk"
   onEnable = null
 
-
-  controller360View =
-  {
-    gampadImage = "#ui/images/controller/controller_xbox360"
+  controller360View = {
+    image = "#ui/images/controller/controller_xbox360"
     rightTrigger = {
      contactPointX = "pw-510"
      contactPointY = "297"
@@ -28,10 +26,8 @@ class ::gui_handlers.GampadCursorControlsSplash extends ::gui_handlers.BaseGuiHa
     }
   }
 
-
-  controllerDualshock4View =
-  {
-    gampadImage = "#ui/images/controller/controller_dualshock4"
+  controllerDualshock4View = {
+    image = "#ui/images/controller/controller_dualshock4"
     rightTrigger = {
      contactPointX = "pw-432"
      contactPointY = "297"
@@ -46,6 +42,21 @@ class ::gui_handlers.GampadCursorControlsSplash extends ::gui_handlers.BaseGuiHa
     }
   }
 
+  controllerXboxOneView = {
+    image = "#ui/images/controller/controller_xbox_one"
+    rightTrigger = {
+     contactPointX = "pw-480"
+     contactPointY = "305"
+    }
+    leftStick = {
+      contactPointX = "490"
+      contactPointY = "460"
+    }
+    rightStick = {
+      contactPointX = "pw-570"
+      contactPointY = "570"
+    }
+  }
 
   static function isDisplayed()
   {
@@ -65,7 +76,12 @@ class ::gui_handlers.GampadCursorControlsSplash extends ::gui_handlers.BaseGuiHa
     if (!::check_obj(contentObj))
       goBack()
 
-    local view = ::is_platform_ps4 ? controllerDualshock4View : controller360View
+    local view = controller360View
+    if (::is_platform_ps4)
+      view = controllerDualshock4View
+    else if (::is_platform_xboxone)
+      view = controllerXboxOneView
+
     local markUp = ::handyman.renderCached("gui/controls/gamepadCursorcontrolsController", view)
     guiScene.replaceContentFromText(contentObj, markUp, markUp.len(), this)
   }

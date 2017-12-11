@@ -1,3 +1,8 @@
+function gui_modal_rank_versus_info(unit)
+{
+  ::gui_start_modal_wnd(::gui_handlers.RankVersusInfo, { unit = unit })
+}
+
 class ::gui_handlers.RankVersusInfo extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL

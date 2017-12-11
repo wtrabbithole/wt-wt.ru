@@ -51,6 +51,16 @@ class ::WwObjectiveView
     return type.getUpdatableParamsArray(staticBlk, dynamicBlk, side)
   }
 
+  function getUpdatableDataDescriptionText()
+  {
+    return type.getUpdatableParamsDescriptionText(staticBlk, dynamicBlk, side)
+  }
+
+  function getUpdatableDataDescriptionTooltip()
+  {
+    return type.getUpdatableParamsDescriptionTooltip(staticBlk, dynamicBlk, side)
+  }
+
   function getUpdatableZonesData()
   {
     return zonesList

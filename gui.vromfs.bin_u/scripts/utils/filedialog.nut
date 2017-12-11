@@ -330,8 +330,10 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       favorites.append({
         name = "#filesystem/gamePaths"
         childs = [
-          { name = "#filesystem/gameSaves", path = get_save_load_path() },
-          { name = "#filesystem/gameExe", path = get_exe_dir() }
+          { name = "#filesystem/gameSaves",
+            path = ::g_path.normalize(::get_save_load_path()) },
+          { name = "#filesystem/gameExe",
+            path = ::g_path.parentPath(::g_path.normalize(::get_exe_dir())) }
         ]
       })
 

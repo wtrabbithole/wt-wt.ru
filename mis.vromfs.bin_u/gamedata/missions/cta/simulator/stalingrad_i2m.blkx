@@ -226,6 +226,7 @@
       "scoreLimit": 15000,
       "timeLimit": 180,
       "deathPenaltyMul": 0.0,
+      "allowEmptyTeams": false,
       "country_axis": "germany",
       "country_allies": "ussr",
       "tags": [],
@@ -285,7 +286,8 @@
         "slide": {
           "map": true,
           "minTime": 4,
-          "picture": ""
+          "picture": "",
+          "showAirMap": false
         }
       }
     }
@@ -450,6 +452,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/stalingrad/at_assaults_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -504,13 +522,25 @@
           }
         },
         {
+          "varSetBool": {
+            "value": true,
+            "var": "at_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "st_is_launch_on"
+          }
+        },
+        {
           "comment": {
             "value": "включение разведки"
           }
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "lpt_is_detect_on"
           }
         },
@@ -522,14 +552,20 @@
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "bt_is_detect_on"
           }
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "ct_is_detect_on"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "at_is_detect_on"
           }
         },
         {
@@ -559,6 +595,9 @@
             },
             {
               "target": "flt_battles_armada"
+            },
+            {
+              "target": "at_armada"
             }
           ]
         },
@@ -569,7 +608,7 @@
         },
         {
           "varSetInt": {
-            "value": 4,
+            "value": 3,
             "var": "to_max_templates_to_launch"
           }
         },
@@ -715,12 +754,12 @@
           [0.887011,0.0,0.461749],
           [-10733.0,2401.9,18716.5]
         ],
-        "unit_class": "b-29",
+        "unit_class": "i-15bis",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
-        "weapons": "B29_8x2000lbs",
+        "weapons": "",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -730,7 +769,7 @@
         "bulletsCount2": 0,
         "bulletsCount3": 0,
         "props": {
-          "army": 1,
+          "army": 2,
           "count": 1,
           "free_distance": 70.0,
           "floating_distance": 50.0,

@@ -42,7 +42,11 @@
         "_Conq5": false,
         "_Conq6": false,
         "_DBttlA": false,
-        "_DBttlB": false
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "spectator_points": [],
@@ -71,7 +75,8 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t1_uk.blk",
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t1_uk_rank_01.blk",
+        "rankRange": [0,3],
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -87,7 +92,144 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t2_germ.blk",
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t1_uk_rank_02.blk",
+        "rankRange": [4,7],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t1_uk_rank_03.blk",
+        "rankRange": [8,11],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t1_uk_rank_04.blk",
+        "rankRange": [12,17],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t1_uk_rank_05.blk",
+        "rankRange": [17,30],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t2_germ_rank_01.blk",
+        "rankRange": [0,3],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t2_germ_rank_02.blk",
+        "rankRange": [4,7],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t2_germ_rank_03.blk",
+        "rankRange": [8,11],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t2_germ_rank_04.blk",
+        "rankRange": [12,17],
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/bombers_planesets/bt_t2_germ_rank_05.blk",
+        "rankRange": [17,30],
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -116,62 +258,6 @@
   "effects": [],
   "units": [
     {
-      "squad": {
-        "name": "bt_t1_bombers_squad",
-        "tm": [
-          [0.843391,0.0,-0.5373],
-          [0.0,1.0,0.0],
-          [0.5373,0.0,0.843391],
-          [44959.6,126.6,-50522.7]
-        ],
-        "props": [
-          {
-            "squad_members": "bt_t1_bomber_rank_01"
-          },
-          {
-            "squad_members": "bt_t1_bomber_rank_02"
-          },
-          {
-            "squad_members": "bt_t1_bomber_rank_03"
-          },
-          {
-            "squad_members": "bt_t1_bomber_rank_04"
-          },
-          {
-            "squad_members": "bt_t1_bomber_rank_05"
-          }
-        ]
-      }
-    },
-    {
-      "squad": {
-        "name": "bt_t1_fighters_squad",
-        "tm": [
-          [0.843391,0.0,-0.5373],
-          [0.0,1.0,0.0],
-          [0.5373,0.0,0.843391],
-          [42798.5,127.05,-49574.5]
-        ],
-        "props": [
-          {
-            "squad_members": "bt_t1_fighter_rank_01"
-          },
-          {
-            "squad_members": "bt_t1_fighter_rank_02"
-          },
-          {
-            "squad_members": "bt_t1_fighter_rank_03"
-          },
-          {
-            "squad_members": "bt_t1_fighter_rank_04"
-          },
-          {
-            "squad_members": "bt_t1_fighter_rank_05"
-          }
-        ]
-      }
-    },
-    {
       "armada": {
         "name": "bt_armada",
         "tm": [
@@ -183,6 +269,8 @@
         "unit_class": "bf-109f-4",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -279,18 +367,7 @@
         [0.843391,0.0,-0.5373],
         [0.0,1.0,0.0],
         [0.5373,0.0,0.843391],
-        [-60163.5,2500.0,27743.1]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t1_fighters_spawn_01": {
-      "type": "Point",
-      "tm": [
-        [0.737277,0.0,-0.67559],
-        [0.0,1.0,0.0],
-        [0.67559,0.0,0.737277],
-        [-60163.5,3000.0,27743.1]
+        [-55000.0,2500.0,25000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -301,7 +378,7 @@
         [0.819152,0.0,-0.573577],
         [0.0,1.0,0.0],
         [0.573577,0.0,0.819152],
-        [-59094.8,1500.0,52424.7]
+        [-55000.0,1500.0,55000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -312,18 +389,7 @@
         [-0.866025,0.0,0.5],
         [0.0,1.0,0.0],
         [-0.5,0.0,-0.866025],
-        [60337.4,1500.0,-58982.7]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t2_fighters_spawn_01": {
-      "type": "Point",
-      "tm": [
-        [-0.819152,0.0,0.573576],
-        [0.0,1.0,0.0],
-        [-0.573576,0.0,-0.819152],
-        [42999.7,3000.0,-62868.7]
+        [55000.0,1500.0,-55000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -334,7 +400,7 @@
         [-0.843391,0.0,0.5373],
         [0.0,1.0,0.0],
         [-0.5373,0.0,-0.843391],
-        [42999.6,2500.0,-62868.7]
+        [25000.0,2500.0,-55000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -345,18 +411,7 @@
         [0.843391,0.0,-0.5373],
         [0.0,1.0,0.0],
         [0.5373,0.0,0.843391],
-        [-54790.5,2500.0,36177.1]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t1_fighters_spawn_02": {
-      "type": "Point",
-      "tm": [
-        [0.737277,0.0,-0.67559],
-        [0.0,1.0,0.0],
-        [0.67559,0.0,0.737277],
-        [-54790.5,3000.0,36177.1]
+        [-55000.0,2500.0,40000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -367,18 +422,7 @@
         [0.843391,0.0,-0.5373],
         [0.0,1.0,0.0],
         [0.5373,0.0,0.843391],
-        [-44044.5,2500.0,53044.9]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t1_fighters_spawn_03": {
-      "type": "Point",
-      "tm": [
-        [0.737277,0.0,-0.67559],
-        [0.0,1.0,0.0],
-        [0.67559,0.0,0.737277],
-        [-44044.5,3000.0,53044.9]
+        [-40000.0,2500.0,55000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -389,18 +433,7 @@
         [0.843391,0.0,-0.5373],
         [0.0,1.0,0.0],
         [0.5373,0.0,0.843391],
-        [-38671.5,2500.0,61478.8]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t1_fighters_spawn_04": {
-      "type": "Point",
-      "tm": [
-        [0.737277,0.0,-0.67559],
-        [0.0,1.0,0.0],
-        [0.67559,0.0,0.737277],
-        [-38671.5,3000.0,61478.8]
+        [-25000.0,2500.0,55000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -411,18 +444,7 @@
         [-0.843391,0.0,0.5373],
         [0.0,1.0,0.0],
         [-0.5373,0.0,-0.843391],
-        [48372.6,2500.0,-54434.8]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t2_fighters_spawn_02": {
-      "type": "Point",
-      "tm": [
-        [-0.819152,0.0,0.573576],
-        [0.0,1.0,0.0],
-        [-0.573576,0.0,-0.819152],
-        [48372.6,3000.0,-54434.8]
+        [40000.0,2500.0,-55000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -433,18 +455,7 @@
         [-0.843391,0.0,0.5373],
         [0.0,1.0,0.0],
         [-0.5373,0.0,-0.843391],
-        [55892.7,2500.0,-43173.3]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t2_fighters_spawn_03": {
-      "type": "Point",
-      "tm": [
-        [-0.819152,0.0,0.573576],
-        [0.0,1.0,0.0],
-        [-0.573576,0.0,-0.819152],
-        [55892.7,3000.0,-43173.3]
+        [55000.0,2500.0,-40000.0]
       ],
       "objLayer": 0,
       "props": []
@@ -455,18 +466,7 @@
         [-0.843391,0.0,0.5373],
         [0.0,1.0,0.0],
         [-0.5373,0.0,-0.843391],
-        [61265.7,2500.0,-34739.3]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "bt_t2_fighters_spawn_04": {
-      "type": "Point",
-      "tm": [
-        [-0.819152,0.0,0.573576],
-        [0.0,1.0,0.0],
-        [-0.573576,0.0,-0.819152],
-        [61265.7,3000.0,-34739.3]
+        [55000.0,2500.0,-25000.0]
       ],
       "objLayer": 0,
       "props": []

@@ -35,4 +35,13 @@ class ::queue_classes.WwBattle extends ::queue_classes.Base
   {
     return ::getTblValue("operationId", params, "") + "_" + ::getTblValue("battleId", params, "")
   }
+
+  static function getWWBattle()
+  {
+    local battleId = params?.battleId
+    if (!battleId)
+      return null
+
+    return ::g_world_war.getBattleById(battleId)
+  }
 }

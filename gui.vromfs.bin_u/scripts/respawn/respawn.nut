@@ -2076,7 +2076,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     ::on_spectator_mode(is_spectator)
 
     updateApplyText()
-    restoreFocus()
+    delayedRestoreFocus()
     updateControlsAllowMask()
   }
 

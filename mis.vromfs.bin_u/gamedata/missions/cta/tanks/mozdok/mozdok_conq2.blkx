@@ -243,13 +243,13 @@
         "missionBriefing": ""
       },
       {
+        "chapter": "air_ground_Conq2"
+      },
+      {
         "locName": "missions/_Conq2;mozdok/name"
       },
       {
         "locDesc": "mozdok/desc;missions/_Conq2/desc"
-      },
-      {
-        "chapter": "air_ground_Conq2"
       },
       {
         "scoreLimit": 14000
@@ -261,7 +261,13 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Conq2"
+      },
+      {
         "useAlternativeMapCoord": true
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -270,22 +276,13 @@
         "remapAiTankModels": true
       },
       {
-        "postfix": "_Conq2"
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -310,7 +307,16 @@
           "_Conq5": false,
           "_Conq6": false,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -365,6 +371,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -402,6 +411,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -437,6 +449,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -483,7 +498,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/mozdok_tm.blk",
+        "file": "gameData/missions/cta/tanks/mozdok/template_mozdok_air_spawn.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -499,7 +514,39 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/mozdok/template_mozdok_air_spawn.blk",
+        "file": "gameData/missions/cta/tanks/mozdok/battleareas/template_mozdok_Conq2_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/mozdok/battleareas/template_mozdok_Conq2_battleareas_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/mozdok/battleareas/template_mozdok_Conq2_battleareas_realistic.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -542,1057 +589,53 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [
-    {
-      "objectGroups": {
-        "name": "conq_circle_02_arcade",
-        "tm": [
-          [1.20208,0.0,-1.20208],
-          [0.0,1.0,0.0],
-          [1.20208,0.0,1.20208],
-          [3197.25,43.5,1536.25]
-        ],
-        "unit_class": "capture_zone_circle",
-        "objLayer": 2,
-        "props": {
-          "army": 0,
-          "active": false
+  "units": {
+    "armada": {
+      "name": "t1_player01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [1397.4,402.45,1882.75]
+      ],
+      "unit_class": "a-20g",
+      "objLayer": 1,
+      "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
+      "weapons": "",
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 2,
+        "count": 1,
+        "free_distance": 70.0,
+        "floating_distance": 50.0,
+        "minimum_distance_to_earth": 20.0,
+        "altLimit": 6000.0,
+        "attack_type": "fire_at_will",
+        "skill": 4,
+        "plane": {
+          "wing_formation": "Diamond",
+          "row_distances": 3.0,
+          "col_distances": 3.0,
+          "super_formation": "Diamond",
+          "super_row_distances": 1.5,
+          "super_col_distances": 1.5,
+          "ai_skill": "NORMAL",
+          "task": "FLY_WAYPOINT"
         }
-      }
-    },
-    {
-      "area_squad": {
-        "name": "conq_t2_tank_spawn_01_arcade",
-        "tm": [
-          [-0.297824,0.0,-0.954621],
-          [0.0,1.0,0.0],
-          [0.954621,0.0,-0.297824],
-          [3522.48,42.1985,2328.94]
-        ],
-        "props": [
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_01"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_02"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_03"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_04"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_05"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_06"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_07"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_08"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_09"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_10"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_11"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_12"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_13"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_14"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_15"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_arcade_02_16"
-          }
-        ]
-      }
-    },
-    {
-      "area_squad": {
-        "name": "conq_t1_tank_spawn_01_arcade",
-        "tm": [
-          [-0.92388,0.0,0.382684],
-          [0.0,1.0,0.0],
-          [-0.382684,0.0,-0.92388],
-          [2483.2,0.25,1110.3]
-        ],
-        "props": [
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_01"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_02"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_03"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_04"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_05"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_06"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_07"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_08"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_09"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_10"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_11"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_12"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_13"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_14"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_15"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_arcade_02_16"
-          }
-        ]
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "conq_circle_02_hardcore",
-        "tm": [
-          [1.20208,0.0,-1.20208],
-          [0.0,1.0,0.0],
-          [1.20208,0.0,1.20208],
-          [3197.27,43.4986,1536.27]
-        ],
-        "unit_class": "capture_zone_circle",
-        "objLayer": 2,
-        "props": {
-          "army": 0,
-          "active": false
-        }
-      }
-    },
-    {
-      "area_squad": {
-        "name": "conq_t2_tank_spawn_01_hardcore",
-        "tm": [
-          [-0.300706,0.0,0.953718],
-          [0.0,1.0,0.0],
-          [-0.953718,0.0,-0.300706],
-          [2676.9,3.6114,2469.3]
-        ],
-        "props": [
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_01"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_02"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_03"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_04"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_05"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_06"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_07"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_08"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_09"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_10"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_11"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_12"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_13"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_14"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_15"
-          },
-          {
-            "squad_members": "conq_t2_tank_spawn_hardcore_02_16"
-          }
-        ]
-      }
-    },
-    {
-      "area_squad": {
-        "name": "conq_t1_tank_spawn_01_hardcore",
-        "tm": [
-          [-0.815629,0.0,0.578575],
-          [0.0,1.0,0.0],
-          [-0.578575,0.0,-0.815629],
-          [2195.15,8.3,1058.4]
-        ],
-        "props": [
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_01"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_02"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_03"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_04"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_05"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_06"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_07"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_08"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_09"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_10"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_11"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_12"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_13"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_14"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_15"
-          },
-          {
-            "squad_members": "conq_t1_tank_spawn_hardcore_02_16"
-          }
-        ]
-      }
+      },
+      "way": []
     }
-  ],
+  },
   "areas": {
-    "conq_effect_02_arcade": {
-      "type": "Point",
-      "tm": [
-        [0.707107,0.0,-0.707107],
-        [0.0,1.0,0.0],
-        [0.707107,0.0,0.707107],
-        [3197.3,43.507,1536.24]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_capture_area_02_arcade": {
-      "type": "Cylinder",
-      "tm": [
-        [28.4347,0.0,-28.4347],
-        [0.0,51.0531,0.0],
-        [28.4347,0.0,28.4347],
-        [3197.22,43.4933,1536.27]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_01": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3532.35,36.7415,2363.15]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_02": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3552.9,36.861,2349.3]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_03": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3501.02,38.5307,2337.57]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_04": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3518.1,39.769,2332.35]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_05": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3544.51,41.2296,2320.09]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_06": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3511.55,39.4839,2314.4]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_07": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3479.7,37.4083,2352.65]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_08": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3561.65,41.4744,2310.8]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_09": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3535.85,39.8294,2340.45]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_10": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3497.05,38.4485,2367.52]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_11": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3492.15,38.1229,2321.35]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_12": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3526.85,40.9303,2309.9]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_13": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3519.3,39.6768,2352.5]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_14": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3564.2,37.9621,2333.3]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_15": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3544.6,42.0942,2300.2]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_arcade_02_16": {
-      "type": "Sphere",
-      "tm": [
-        [-5.36084,0.0,-17.1832],
-        [0.0,18.0,0.0],
-        [17.1832,0.0,-5.36084],
-        [3509.4,35.5981,2383.25]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_01": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2519.75,9.18571,1076.61]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_02": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2476.45,11.4,1081.4]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_03": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2536.5,9.48453,1064.01]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_04": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2553.89,9.81174,1044.75]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_05": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2508.76,9.26285,1009.87]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_06": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2524.62,9.42688,1039.77]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_07": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2517.26,8.81039,1057.29]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_08": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2496.55,12.3,1089.9]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_09": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2500.25,8.84026,1068.04]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_10": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2497.46,8.70323,1027.6]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_11": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2503.78,8.43021,1049.05]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_12": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2559.1,10.0873,1024.99]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_13": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2532.79,9.91547,1024.37]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_14": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2528.85,10.5056,1004.61]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_15": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2465.4,10.45,1064.95]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_arcade_02_16": {
-      "type": "Sphere",
-      "tm": [
-        [15.5884,0.0,8.99998],
-        [0.0,18.0,0.0],
-        [-8.99998,0.0,15.5884],
-        [2481.5,11.8,1050.65]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_effect_02_hardcore": {
-      "type": "Point",
-      "tm": [
-        [0.707107,0.0,-0.707107],
-        [0.0,1.0,0.0],
-        [0.707107,0.0,0.707107],
-        [3197.27,43.4986,1536.27]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_capture_area_02_hardcore": {
-      "type": "Cylinder",
-      "tm": [
-        [28.4347,0.0,-28.4347],
-        [0.0,51.0531,0.0],
-        [28.4347,0.0,28.4347],
-        [3197.22,43.4933,1536.27]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_01": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2743.87,6.13447,2467.49]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_02": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2675.35,5.51744,2499.07]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_03": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2751.18,6.80653,2452.83]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_04": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2686.32,6.27608,2516.54]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_05": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2755.46,6.75446,2488.16]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_06": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2765.02,7.77025,2507.01]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_07": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2707.82,7.40905,2515.86]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_08": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2696.09,5.50515,2497.74]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_09": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2788.67,10.2766,2509.15]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_10": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2778.12,8.58289,2488.61]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_11": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2719.7,7.16718,2500.34]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_12": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2717.21,5.99403,2464.61]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_13": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2742.16,6.52297,2509.12]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_14": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2710.12,6.11807,2481.79]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_15": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2734.48,5.39981,2485.58]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t2_tank_spawn_hardcore_02_16": {
-      "type": "Sphere",
-      "tm": [
-        [12.1606,0.0,-13.271],
-        [0.0,18.0,0.0],
-        [13.271,0.0,12.1606],
-        [2768.19,8.27971,2468.93]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_01": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2138.61,4.73548,1018.29]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_02": {
-      "type": "Sphere",
-      "tm": [
-        [16.9518,0.0,6.05276],
-        [0.0,18.0,0.0],
-        [-6.05276,0.0,16.9518],
-        [2149.67,6.8868,1042.42]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_03": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2139.19,6.55552,985.151]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_04": {
-      "type": "Sphere",
-      "tm": [
-        [17.9407,0.0,1.45904],
-        [0.0,18.0,0.0],
-        [-1.45904,0.0,17.9407],
-        [2117.17,5.89506,983.692]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_05": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2086.45,4.00932,997.651]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_06": {
-      "type": "Sphere",
-      "tm": [
-        [16.0166,0.0,8.21365],
-        [0.0,18.0,0.0],
-        [-8.21365,0.0,16.0166],
-        [2123.57,4.51595,1032.66]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_07": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2129.37,6.40022,1054.14]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_08": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2127.62,4.69602,1002.59]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_09": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2117.87,8.89995,957.857]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_10": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2099.32,4.29254,1066.58]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_11": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2104.85,4.10871,1041.83]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_12": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2106.7,3.61596,1013.66]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_13": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2080.95,3.04162,1023.1]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_14": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2155.79,5.79206,1001.98]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_15": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2079.34,3.07997,1046.18]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_t1_tank_spawn_hardcore_02_16": {
-      "type": "Sphere",
-      "tm": [
-        [9.76403,0.0,15.1217],
-        [0.0,18.0,0.0],
-        [-15.1217,0.0,9.76403],
-        [2145.18,9.06378,965.84]
-      ],
-      "objLayer": 0,
-      "props": []
-    },
-    "conq_battle_area_hardcore": {
-      "type": "Box",
-      "tm": [
-        [2000.0,0.0,0.0],
-        [0.0,365.1,0.0],
-        [0.0,0.0,2000.0],
-        [2798.9,0.0,1697.4]
-      ],
-      "objLayer": 4,
-      "props": []
-    },
-    "conq_battle_area_arcade": {
-      "type": "Box",
-      "tm": [
-        [1500.0,0.0,-7.62939e-05],
-        [0.0,365.1,0.0],
-        [0.000152587,0.0,1500.0],
-        [3049.3,0.0,1695.25]
-      ],
-      "objLayer": 4,
-      "props": []
-    },
     "briefing_conq_capture_area_02_arcade": {
       "type": "Point",
       "tm": [

@@ -1,15 +1,22 @@
 local colors = require("style/colors.nut")
+local transition = require("style/hudTransition.nut")
+local teamColors = require("style/teamColors.nut")
 local chatBase = require("daRg/components/chat.nut")
 local textInput =  require("components/textInput.nut")
 local background = require("style/hudBackground.nut")
 local penalty = require("penitentiary/penalty.nut")
 local time = require("sqStdLibs/common/time.nut")
 local state = require("hudChatState.nut")
+local hudState = require("hudState.nut")
+local hudLog = require("components/hudLog.nut")
 
 local chatLog = state.log
 
-const LOG_FADE_OUT_NEW_MESSAGE_TIME = 15.0
-const LOG_TRANSITION_TIME = 0.2
+
+local modeColor = function (mode) {
+  local colorName = ::cross_call.mp_chat_mode.getModeColorName(mode)
+  return colors.hud?[colorName] ?? teamColors[colorName]
+}
 
 
 local send = function (message) {
@@ -46,7 +53,7 @@ local chatInputCtor = function (field, send) {
     }
   }
   local options = {
-    font = Fonts.small_text_hud
+    font = Fonts.tiny_text_hud
     margin = 0
   }
   return textInput.hud(field, options, handlers)
@@ -64,7 +71,8 @@ local getHintText = function () {
 local chatHint = {
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
-  padding = [sh(7.0/1080*100) , sh(15.0/1080*100)]
+  valign = VALIGN_MIDDLE
+  padding = [hdpx(5), hdpx(15)]
   gap = { size = flex() }
   children = [
     {
@@ -72,13 +80,12 @@ local chatHint = {
       text = getHintText()
       fontSize = 10
     }
-    function () {
-      return {
-        rendObj = ROBJ_STEXT
-        watch = state.modeId
-        text = ::cross_call.mp_chat_mode.getModeNameText(state.modeId.value)
-        fontSize = 10
-      }
+    @() {
+      rendObj = ROBJ_STEXT
+      watch = state.modeId
+      text = ::cross_call.mp_chat_mode.getModeNameText(state.modeId.value)
+      color = modeColor(state.modeId.value)
+      fontSize = 14
     }
   ]
 
@@ -105,65 +112,6 @@ local inputField = @() {
 }
 
 
-local chatFilters = {
-}
-
-
-local gotNewMessageRecently = function () {
-  if (!chatLog.value.len()) {
-    return false
-  }
-  return chatLog.value.top().time + LOG_FADE_OUT_NEW_MESSAGE_TIME > ::get_mission_time()
-}
-
-local chatLogVisible = Watched(false)
-local chatLogAnimTime = function () {
-  if (chatLogVisible.value)
-    return LOG_TRANSITION_TIME
-  return gotNewMessageRecently() ? LOG_FADE_OUT_NEW_MESSAGE_TIME : LOG_TRANSITION_TIME
-}
-
-local chatBackground = function() {
-  local onInputTriggered = function (new_val) { chatLogVisible.update(new_val) }
-  local onNewMessage = function (new_val) {
-    if (!chatLog.value.len()) {
-      return
-    }
-
-    local fadeOutFn = function () { chatLogVisible.update(false) }
-    chatLogVisible.update(true)
-    ::gui_scene.clearTimer(fadeOutFn)
-    ::gui_scene.setTimeout(LOG_TRANSITION_TIME, fadeOutFn)
-  }
-
-  return @() {
-    size = flex()
-    gap = sh(0.5)
-    padding = [sh(7.0/1080*100) , sh(15.0/1080*100)]
-    watch = chatLogVisible
-    opacity = chatLogVisible.value ? 1.0 : 0.0
-    flow = FLOW_VERTICAL
-    valign = VALIGN_BOTTOM
-    clipChildren = true
-
-    onAttach = function (elem) {
-      chatLog.subscribe(onNewMessage)
-      state.inputEnabled.subscribe(onInputTriggered)
-    }
-    onDetach = function (elem) {
-      chatLog.unsubscribe(onNewMessage)
-      state.inputEnabled.unsubscribe(onInputTriggered)
-    }
-
-    transitions = [{
-      prop = AnimProp.opacity
-      duration = chatLogAnimTime()
-      easing = OutCubic
-    }]
-  }.patchComponent(background)
-}
-
-
 local getMessageColor = function(message)
 {
   if (message.isBlocked)
@@ -171,16 +119,13 @@ local getMessageColor = function(message)
   if (message.isAutomatic)
   {
     if (::cross_call.squad_manger.isInMySquad(message.sender))
-      return colors.hud.mySquadColor
+      return teamColors.squadColor
     else if (message.isEnemy)
-      return colors.hud.teamRedColor
+      return teamColors.teamRedColor
     else
-      return colors.hud.teamBlueColor
+      return teamColors.teamBlueColor
   }
-  return colors.hud.get(
-    ::cross_call.mp_chat_mode.getModeColorName(message.mode),
-    Color(255, 255, 255)
-  )
+  return modeColor(message.mode) ?? colors.white
 }
 
 
@@ -191,10 +136,10 @@ local getSenderColor = function (message)
   else if (::cross_call.isPlayerDedicatedSpectator(message.sender))
     return colors.hud.spectatorColor
   else if (message.isEnemy || !::cross_call.is_mode_with_teams())
-    return colors.hud.teamRedColor
+    return teamColors.teamRedColor
   else if (::cross_call.squad_manger.isInMySquad(message.sender))
-    return colors.hud.mySquadColor
-  return colors.hud.teamBlueColor
+    return teamColors.squadColor
+  return teamColors.teamBlueColor
 }
 
 
@@ -208,7 +153,7 @@ local messageComponent = function(message) {
     )
   } else {
     text = ::string.format("%s <Color=%d>[%s] %s:</Color> <Color=%d>%s</Color>",
-      time.secondsToString(message.time, false)
+      time.secondsToString(message.time, false),
       getSenderColor(message),
       ::cross_call.mp_chat_mode.getModeNameText(message.mode),
       message.sender,
@@ -216,14 +161,28 @@ local messageComponent = function(message) {
       message.text
     )
   }
-  return {
+  return @() {
+    watch = teamColors.trigger
     size = [flex(), SIZE_TO_CONTENT]
     rendObj = ROBJ_TEXTAREA
     behavior = Behaviors.TextArea
     text = text
     font = Fonts.tiny_text_hud
+    key = message
   }
 }
+
+
+local chatLogVisible = Watched(state.inputEnabled.value || hudState.cursorVisible.value)
+local onInputTriggered = function (new_val) { chatLogVisible.update(new_val || hudState.cursorVisible.value) }
+local logBox = hudLog({
+  visibleState = chatLogVisible
+  logComponent = chat
+  messageComponent = messageComponent
+  onAttach = function (elem) { state.inputEnabled.subscribe(onInputTriggered) }
+  onDetach = function (elem) { state.inputEnabled.unsubscribe(onInputTriggered) }
+  onCursorVisible = function (new_val) { chatLogVisible.update(new_val || state.inputEnabled.value) }
+})
 
 
 local onInputToggle = function (enable) {
@@ -239,12 +198,12 @@ local onInputToggle = function (enable) {
 
 return function () {
   return {
-    size = [sw(30), sh(30)]
+    size = flex()
     flow = FLOW_VERTICAL
     gap = sh(0.5)
 
     children = [
-      chat.logBox(chatBackground, messageComponent)
+      logBox
       @() {
         size = [flex(), SIZE_TO_CONTENT]
         flow = FLOW_VERTICAL
@@ -255,7 +214,6 @@ return function () {
         children = [
           inputField
           chatHint
-          chatFilters
         ]
 
         onAttach = function (elem) {
@@ -264,11 +222,7 @@ return function () {
         onDetach = function (elem) {
           state.inputEnabled.unsubscribe(onInputToggle)
         }
-        transitions = [{
-          prop = AnimProp.opacity
-          duration = LOG_TRANSITION_TIME
-          easing = OutCubic
-        }]
+        transitions = [transition()]
       }
     ]
   }

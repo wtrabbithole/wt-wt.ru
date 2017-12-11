@@ -109,3 +109,5 @@ function is_logged_in() //used from code
 {
   return ::g_login.isLoggedIn()
 }
+
+::cross_call_api.login <- ::g_login

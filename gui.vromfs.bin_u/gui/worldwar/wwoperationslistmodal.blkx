@@ -54,19 +54,17 @@
               },
               {
                 "tdiv": {
-                  "size": "pw, ph-0.03@scrn_tgt",
-                  "pos": "50%pw-50%w, 0.03@scrn_tgt",
+                  "size": "pw, ph",
                   "position": "absolute",
-                  "overflow": "hidden",
-                  "img": [
+                  "wwBattleBackgroundBlock": {
+                    "wwBattleBackground": []
+                  },
+                  "tdiv": [
                     {
-                      "size": "pw, 50%w"
+                      "size": "pw, ph"
                     },
                     {
-                      "max-height": "ph"
-                    },
-                    {
-                      "background-image": "#ui/images/worldwar_window_bg_image.jpg?P1"
+                      "position": "absolute"
                     },
                     {
                       "wwBattleBackgroundShadow": {
@@ -80,8 +78,7 @@
                     },
                     {
                       "wwBattleBackgroundShadow": {
-                        "type": "top",
-                        "top": "-0.02@scrn_tgt"
+                        "type": "top"
                       }
                     },
                     {
@@ -466,7 +463,7 @@
                 {
                   "newIconWidget": {
                     "id": "new_game_modes_widget_place",
-                    "pos": "2@dp, 50%ph-50%h",
+                    "pos": "0.5h -5@dp, 50%ph-50%h",
                     "position": "relative"
                   }
                 },

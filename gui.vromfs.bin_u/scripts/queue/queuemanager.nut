@@ -159,13 +159,18 @@ class QueueManager {
     return res
   }
 
-  function hasActiveQueueWithType(typeBit)
+  function getActiveQueueWithType(typeBit)
   {
     foreach(queue in queuesList)
       if (typeBit == queue.typeBit && isQueueActive(queue))
-        return true
+        return queue
 
-    return false
+    return null
+  }
+
+  function hasActiveQueueWithType(typeBit)
+  {
+    return getActiveQueueWithType(typeBit) != null
   }
 
   function isQueueActive(queue)
@@ -176,7 +181,7 @@ class QueueManager {
   function isAnyQueuesActive(typeMask = -1)
   {
     foreach(q in queuesList)
-      if (typeMask < 0 || typeMask == q.typeBit)
+      if (typeMask < 0 || (typeMask & q.typeBit))
         if (isQueueActive(q))
           return true
     return false

@@ -58,7 +58,6 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName         = "gui/hud/hud.blk"
   keepLoaded           = true
-  allowIngameShortcuts = true //compatibility with wop_1_63_2_X
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_FULL
 
   ucWarningActive   = false

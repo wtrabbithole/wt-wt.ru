@@ -4,8 +4,10 @@
       "flow": "vertical",
       "background-color": "@black",
       "tdiv": {
-        "size": "sw, ph",
-        "padding": "1@framePadding + 0.5@_safearea_menu*sw, 1@topBarHeight, 1@framePadding + 0.5@_safearea_menu*sw, 1@bottomBarHeight",
+        "pos": "50%pw-50%w, 0",
+        "position": "relative",
+        "size": "1@wwMapActiveWidth, ph",
+        "padding": "1@framePadding, 1@topBarHeight, 1@framePadding, 1@bottomBarHeight",
         "frameBlock_dark": {
           "pos": "0, 0",
           "position": "relative",
@@ -48,18 +50,22 @@
             {
               "massTransp": {
                 "id": "wwmap_operation_status",
-                "needAnim": "no",
-                "pos": "50%pw-50%w, 50%ph-50%h",
-                "position": "absolute",
-                "total-input-transparent": "yes",
-                "re-type": "9rect",
-                "background-color": "@gray",
-                "background-position": "0, 3, 0, 4",
-                "background-repeat": "expand",
-                "background-image": "#ui/gameuiskin#expandable_item_sym",
-                "padding": "0.2@sf, 0.03@sf",
+                "isWorldWarFrame": "yes",
+                "display": "hide",
                 "operationResultText": {
                   "id": "wwmap_operation_status_text",
+                  "width": "1@wwMapPanelInfoWidth",
+                  "text": ""
+                }
+              }
+            },
+            {
+              "massTransp": {
+                "id": "wwmap_operation_objective",
+                "isWorldWarFrame": "yes",
+                "display": "hide",
+                "wwObjectiveName": {
+                  "id": "objective_anim_start_text",
                   "width": "1@wwMapPanelInfoWidth",
                   "text": ""
                 }
@@ -405,7 +411,7 @@
                 {
                   "newIconWidget": {
                     "id": "new_game_modes_widget_place",
-                    "pos": "2@dp, 50%ph-50%h",
+                    "pos": "0.5h -5@dp, 50%ph-50%h",
                     "position": "relative"
                   }
                 },

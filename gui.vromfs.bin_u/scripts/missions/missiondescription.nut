@@ -233,9 +233,7 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
 
       local country = ::getShopCountry(aircraft)
       dagor.debug("aircraft = "+aircraft+" country = "+country)
-      local cPrefixLen = "country_".len()
-      if (country.len() > cPrefixLen)
-        config.flag <- ::get_country_flag_img("flag_" + country.slice(cPrefixLen))
+      config.flag <- ::get_country_icon(country, true)
     }
 
 

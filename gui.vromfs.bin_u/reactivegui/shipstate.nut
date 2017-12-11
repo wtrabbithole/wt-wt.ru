@@ -27,6 +27,7 @@ local shipState = {
   torpedosCount = Watched(0)
   brokenTorpedosCount = Watched(0)
 
+  artilleryType = Watched(TRIGGER_GROUP_PRIMARY)
   artilleryCount = Watched(0)
   brokenArtilleryCount = Watched(0)
 

@@ -40,7 +40,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       }
     },
     "spectator_points": [],
@@ -68,47 +74,6 @@
       "conditions": [],
       "actions": [
         {
-          "unitSetProperties": [
-            {
-              "object": "bt_t1_bombers_squad"
-            },
-            {
-              "object": "bt_t2_bombers_squad"
-            },
-            {
-              "accuracy": 0.6
-            },
-            {
-              "plane": {
-                "targetDeviation": {
-                  "trigger": "bombs",
-                  "defaultVal": 1.0,
-                  "limits": [1.0,1.2]
-                }
-              }
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object": "bt_t1_bombers_squad"
-            },
-            {
-              "object": "bt_t1_fighters_squad"
-            },
-            {
-              "object": "bt_t2_bombers_squad"
-            },
-            {
-              "object": "bt_t2_fighters_squad"
-            },
-            {
-              "stealthRadius": 3500.0
-            }
-          ]
-        },
-        {
           "comment": {
             "value": "шаблон бомбардировщиков"
           }
@@ -122,22 +87,6 @@
           "comment": {
             "value": "не может выдаватьс€ если активны штурмовики"
           }
-        },
-        {
-          "unitPutToSleep": [
-            {
-              "target": "bt_t1_bombers_squad"
-            },
-            {
-              "target": "bt_t2_bombers_squad"
-            },
-            {
-              "target": "bt_t1_fighters_squad"
-            },
-            {
-              "target": "bt_t2_fighters_squad"
-            }
-          ]
         },
         {
           "missionGetBalanceLevel": {
@@ -259,14 +208,7 @@
       "actions": [
         {
           "comment": {
-            "value": "не чередуем армию. пойдет случайна€"
-          }
-        },
-        {
-          "varSetRandomInt": {
-            "var": "bt_army_both_zero",
-            "from": 1,
-            "to_not_including": 3
+            "value": "не чередуем армию. пойдет прописана€"
           }
         },
         {
@@ -403,20 +345,6 @@
           {
             "target": "bt_t2_bombers_disable"
           }
-        ],
-        "unitPutToSleep": [
-          {
-            "target": "bt_t1_bombers_squad"
-          },
-          {
-            "target": "bt_t1_fighters_squad"
-          },
-          {
-            "target": "bt_t2_bombers_squad"
-          },
-          {
-            "target": "bt_t2_fighters_squad"
-          }
         ]
       },
       "else_actions": []
@@ -500,7 +428,7 @@
         },
         {
           "triggerEnable": {
-            "target": "bt_t2_check_airfield_target"
+            "target": "ft_t2_bombers_start"
           }
         }
       ]
@@ -573,11 +501,11 @@
           "value": "цель не найдена. пробуем сделать целью базу"
         },
         "triggerEnable": {
-          "target": "bt_t1_03_check_base_target"
+          "target": "bt_t1_check_base_target"
         }
       }
     },
-    "bt_t1_03_check_base_target": {
+    "bt_t1_check_base_target": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -672,9 +600,6 @@
         {
           "triggerDisable": [
             {
-              "target": "bt_t1_fighters_attack"
-            },
-            {
               "target": "bt_t1_fighters_retreat"
             },
             {
@@ -708,7 +633,7 @@
         },
         {
           "comment": {
-            "value": "спавним бомберов и файтеров "
+            "value": "спавним бомберов"
           }
         },
         {
@@ -733,36 +658,31 @@
         },
         {
           "unitRespawn": {
-            "delay": 1.0,
+            "delay": 0.0,
             "offset": [0.0,0.0,0.0],
             "object": "@bt_t1_bomber_name",
-            "target": "@bt_t1_bomber_spawn_name"
+            "target": "@bt_t1_bomber_spawn_name",
+            "resetFormation": true
           }
         },
         {
-          "varSetString": {
-            "value": "bt_t1_fighters_spawn_",
-            "var": "bt_t1_fighter_spawn_name"
-          }
-        },
-        {
-          "varAddString": {
-            "value": "@bt_t1_spawn_idx",
-            "digits": 2,
-            "var": "bt_t1_fighter_spawn_name"
+          "comment": {
+            "value": "спавним истребителей"
           }
         },
         {
           "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
+            "delay": 0.0,
+            "offset": [0.0,500.0,0.0],
             "object": "@bt_t1_fighter_name",
-            "target": "@bt_t1_fighter_spawn_name"
+            "target": "@bt_t1_bomber_spawn_name",
+            "resetFormation": true
           }
         },
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@bt_t1_bomber_name",
             "team": "A"
           }
@@ -770,38 +690,61 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@bt_t1_bomber_name",
             "team": "B"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "@bt_t1_bomber_name",
-            "stealthRadius": 3000.0
+            "stealthRadius": 3000.0,
+            "accuracy": 0.6,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6
+          }
+        },
+        {
+          "comment": {
+            "value": "говорим бомберу двигатьс€ к точке"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "bt_t1_matching_move_",
+            "var": "bt_matching_t1_move_trigger_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@bt_matching_type",
+            "digits": 1,
+            "var": "bt_matching_t1_move_trigger_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "@bt_matching_t1_move_trigger_name"
           }
         },
         {
           "wait": {
-            "time": 5.0
+            "time": 1.0
+          }
+        },
+        {
+          "comment": {
+            "value": "говорим €стребам прикрывать бомберов"
           }
         },
         {
           "unitMoveTo": {
-            "target": "@bt_t1_target_point_name",
-            "follow_target": true,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": true,
-            "teleportHeightValue": 3500.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "@bt_t1_bomber_name",
-            "speed": 350.0,
-            "follow_offset": [0.0,3500.0,0.0]
-          }
-        },
-        {
-          "unitMoveTo": {
+            "object_marking": 0,
             "target": "@bt_t1_bomber_name",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "follow_target": true,
             "teleportHeightType": "absolute",
             "useUnitHeightForTele": true,
@@ -809,8 +752,17 @@
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
             "object": "@bt_t1_fighter_name",
-            "speed": 350.0,
-            "follow_offset": [100.0,500.0,0.0]
+            "follow_offset": [0.0,500.0,0.0]
+          }
+        },
+        {
+          "unitAttackTarget": {
+            "playerAttracted": false,
+            "object": "@bt_t1_fighter_name",
+            "target": "t2_players_squad",
+            "anchorTarget": "@bt_t1_bomber_name",
+            "targetToAnchorDist": [3500.0,4000.0],
+            "resetObjectToFollow": false
           }
         },
         {
@@ -820,9 +772,6 @@
         },
         {
           "triggerEnable": [
-            {
-              "target": "bt_t1_fighters_attack"
-            },
             {
               "target": "bt_t1_fighters_retreat"
             },
@@ -848,6 +797,19 @@
         },
         {
           "comment": {
+            "value": "запрещаем прикрышке бо€тьс€"
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object": "@bt_t1_fighter_name",
+            "stealthRadius": 3500.0,
+            "enemyFireEvasion": "off"
+          }
+        },
+        {
+          "comment": {
             "value": "включаем доп скрипты"
           }
         },
@@ -865,9 +827,6 @@
               "target": "bt_t1_is_detect_alowed"
             },
             {
-              "target": "bt_t1_bombers_saved"
-            },
-            {
               "target": "bt_t1_bombers_not_saved"
             }
           ]
@@ -883,51 +842,6 @@
         },
         "triggerEnable": {
           "target": "bt_template_end"
-        }
-      }
-    },
-    "bt_t1_fighters_attack": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 10.0
-        }
-      },
-      "conditions": {
-        "unitDistanceBetween": {
-          "value": 2500.0,
-          "math": "2D",
-          "object_type": "isActive",
-          "object_marking": 0,
-          "target_type": "isTeamB",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "@bt_t1_bomber_name",
-          "target": "all_players_squad",
-          "compareCenters": false,
-          "check_all_units": true
-        }
-      },
-      "actions": {
-        "unitAttackTarget": {
-          "playerAttracted": false,
-          "object": "@bt_t1_fighter_name",
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true,
-          "filterWhom": "target",
-          "fireRandom": true
-        }
-      },
-      "else_actions": {
-        "triggerEnable": {
-          "target": "bt_t1_fighter_return_to_bombers"
         }
       }
     },
@@ -960,11 +874,6 @@
           }
         },
         {
-          "triggerDisable": {
-            "target": "bt_t1_fighters_attack"
-          }
-        },
-        {
           "unitMoveTo": {
             "target": "bt_t1_retreat_point",
             "follow_target": false,
@@ -973,6 +882,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@bt_t1_fighter_name"
           }
         },
@@ -1003,13 +916,6 @@
         }
       },
       "conditions": {
-        "unitWhenCountMatches": {
-          "object_type": "isActive",
-          "object_marking": 0,
-          "func": "more",
-          "value": 0,
-          "object": "@bt_t1_fighter_name"
-        },
         "unitDistanceBetween": {
           "value": 2500.0,
           "math": "2D",
@@ -1040,64 +946,6 @@
         },
         "__triggerDisable": {
           "target": "bt_t1_fighters_disable"
-        }
-      }
-    },
-    "bt_t1_fighter_return_to_bombers": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "unitDistanceBetween": {
-          "value": 1500.0,
-          "math": "2D",
-          "object_type": "isAlive",
-          "object_marking": 0,
-          "target_type": "isTeamB",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "@bt_t1_fighter_name",
-          "target": "all_players_squad",
-          "compareCenters": false,
-          "check_all_units": true
-        }
-      },
-      "actions": {
-        "comment": {
-          "value": "р€дом есть враг. атакуем его"
-        },
-        "unitAttackTarget": {
-          "playerAttracted": false,
-          "object": "@bt_t1_fighter_name",
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true,
-          "filterWhom": "target"
-        }
-      },
-      "else_actions": {
-        "comment": {
-          "value": "врагов нет. возвращаемс€ к бомберам"
-        },
-        "unitMoveTo": {
-          "target": "@bt_t1_bomber_name",
-          "follow_target": true,
-          "teleportHeightType": "absolute",
-          "useUnitHeightForTele": true,
-          "shouldKeepFormation": false,
-          "teleportHeightValue": 1000.0,
-          "horizontalDirectionForTeleport": true,
-          "object": "@bt_t1_fighter_name",
-          "follow_offset": [-150.0,500.0,20.0]
         }
       }
     },
@@ -1142,60 +990,26 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@bt_t1_bomber_name"
         },
         "unitAttackTarget": {
           "playerAttracted": false,
           "object": "@bt_t1_bomber_name",
-          "target": "@bt_t1_target_name"
+          "target": "@bt_t1_target_name",
+          "attackTimeMax": 120.0
         },
         "triggerEnable": [
           {
             "target": "bt_t1_bombers_target_destroyed"
           },
           {
-            "target": "bt_t1_bombers_retreat_check"
-          },
-          {
             "target": "bt_t1_bombers_disable"
           }
         ]
-      },
-      "else_actions": []
-    },
-    "bt_t1_bombers_retreat_check": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 60.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "triggerDisable": [
-          {
-            "target": "bt_t1_bombers_target_destroyed"
-          },
-          {
-            "target": "bt_t1_bombers_attack"
-          }
-        ],
-        "unitMoveTo": {
-          "target": "bt_t1_retreat_point",
-          "follow_target": false,
-          "teleportHeightType": "absolute",
-          "useUnitHeightForTele": true,
-          "shouldKeepFormation": false,
-          "teleportHeightValue": 1000.0,
-          "horizontalDirectionForTeleport": true,
-          "object": "@bt_t1_bomber_name"
-        }
       },
       "else_actions": []
     },
@@ -1218,14 +1032,9 @@
         }
       },
       "actions": {
-        "triggerDisable": [
-          {
-            "target": "bt_t1_bombers_attack"
-          },
-          {
-            "target": "bt_t1_bombers_retreat_check"
-          }
-        ],
+        "triggerDisable": {
+          "target": "bt_t1_bombers_attack"
+        },
         "wait": {
           "time": 10.0
         },
@@ -1243,6 +1052,10 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@bt_t1_bomber_name"
         },
         "triggerEnable": {
@@ -1320,15 +1133,23 @@
         }
       },
       "actions": {
-        "triggerDisable": {
-          "target": "bt_t1_bombers_target_destroyed"
-        },
+        "triggerDisable": [
+          {
+            "target": "bt_t1_bombers_target_destroyed"
+          },
+          {
+            "target": "bt_t1_bombers_not_saved"
+          }
+        ],
         "comment": {
           "value": "еще есть активные бомберы пр€чем того, кто спасс€"
         },
         "unitPutToSleep": {
           "target": "@bt_t1_bomber_name",
           "useForTriggerFiltered": true
+        },
+        "triggerEnable": {
+          "target": "bt_t1_bombers_saved"
         }
       },
       "else_actions": {
@@ -1353,28 +1174,26 @@
           "time": 1.0
         }
       },
-      "conditions": {
-        "unitWhenCountMatches": [
-          {
-            "object_type": "isActive"
-          },
-          {
-            "object_marking": 0
-          },
-          {
-            "func": "less"
-          },
-          {
-            "value": 1
-          },
-          {
+      "conditions": [
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
             "object": "@bt_t1_bomber_name"
-          },
-          {
+          }
+        },
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
             "object": "@bt_t1_fighter_name"
           }
-        ]
-      },
+        }
+      ],
       "actions": {
         "comment": {
           "value": "нет активных самолетов. можно дизейблить"
@@ -1451,8 +1270,17 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@bt_t1_bomber_name",
             "team": "A"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target_marking": 0,
+            "target": "@bt_t1_bomber_name",
+            "team": "B"
           }
         },
         {
@@ -1489,6 +1317,9 @@
             },
             {
               "target": "bt_detecttion_range_checks"
+            },
+            {
+              "target": "bt_t1_bombers_detected_by_players"
             }
           ]
         }
@@ -1515,6 +1346,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@bt_t1_bomber_name",
             "team": "Both"
           }
@@ -1622,7 +1454,7 @@
           "object_type": "isActive",
           "object_marking": 0,
           "enemy_type": "isTeamB",
-          "distance": 3500.0,
+          "distance": 5500.0,
           "check_objects": "any",
           "object": "@bt_t1_bomber_name",
           "use_variable": true,
@@ -1630,6 +1462,9 @@
         }
       },
       "actions": {
+        "triggerDisable": {
+          "target": "bt_t1_bombers_detected_by_players"
+        },
         "comment": {
           "value": "враг обнаружил бомберов"
         },
@@ -1645,6 +1480,7 @@
         },
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
           "target": "@bt_t1_bomber_name"
         },
         "moAddMissionObjective": {
@@ -1672,26 +1508,15 @@
           "time": 1.0
         }
       },
-      "conditions": [
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "more",
-            "value": 3,
-            "object": "@bt_t1_bomber_name"
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isActive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "@bt_t1_bomber_name"
-          }
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "@bt_t1_bomber_name"
         }
-      ],
+      },
       "actions": [
         {
           "triggerDisable": [
@@ -1700,6 +1525,9 @@
             },
             {
               "target": "bt_t1_mis_obj_update"
+            },
+            {
+              "target": "bt_t1_bombers_target_destroyed"
             }
           ]
         },
@@ -1760,10 +1588,10 @@
       },
       "conditions": {
         "unitWhenCountMatches": {
-          "object_type": "isAlive",
+          "object_type": "isActive",
           "object_marking": 0,
           "func": "less",
-          "value": 4,
+          "value": 1,
           "object": "@bt_t1_bomber_name"
         }
       },
@@ -1775,6 +1603,9 @@
             },
             {
               "target": "bt_t1_mis_obj_update"
+            },
+            {
+              "target": "bt_t1_bombers_target_destroyed"
             }
           ]
         },
@@ -1786,6 +1617,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@bt_t1_bomber_name"
           }
         },
@@ -1988,11 +1820,11 @@
           "value": "цель не найдена. пробуем сделать целью базу"
         },
         "triggerEnable": {
-          "target": "bt_t1_03_check_base_target"
+          "target": "bt_t2_check_base_target"
         }
       }
     },
-    "bt_t2_03_check_base_target": {
+    "bt_t2_check_base_target": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -2087,9 +1919,6 @@
         {
           "triggerDisable": [
             {
-              "target": "bt_t2_fighters_attack"
-            },
-            {
               "target": "bt_t2_fighters_retreat"
             },
             {
@@ -2148,36 +1977,31 @@
         },
         {
           "unitRespawn": {
-            "delay": 1.0,
+            "delay": 0.0,
             "offset": [0.0,0.0,0.0],
             "object": "@bt_t2_bomber_name",
-            "target": "@bt_t2_bomber_spawn_name"
+            "target": "@bt_t2_bomber_spawn_name",
+            "resetFormation": false
           }
         },
         {
-          "varSetString": {
-            "value": "bt_t2_fighters_spawn_",
-            "var": "bt_t2_fighter_spawn_name"
-          }
-        },
-        {
-          "varAddString": {
-            "value": "@bt_t2_spawn_idx",
-            "digits": 2,
-            "var": "bt_t2_fighter_spawn_name"
+          "comment": {
+            "value": "спавним истребителей"
           }
         },
         {
           "unitRespawn": {
-            "delay": 1.0,
-            "offset": [0.0,0.0,0.0],
+            "delay": 0.0,
+            "offset": [0.0,500.0,0.0],
             "object": "@bt_t2_fighter_name",
-            "target": "@bt_t2_fighter_spawn_name"
+            "target": "@bt_t2_bomber_spawn_name",
+            "resetFormation": false
           }
         },
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@bt_t2_bomber_name",
             "team": "B"
           }
@@ -2185,38 +2009,61 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@bt_t2_bomber_name",
             "team": "A"
           }
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "@bt_t2_bomber_name",
-            "stealthRadius": 3000.0
+            "stealthRadius": 3000.0,
+            "accuracy": 0.6,
+            "effShootingRate": 0.6,
+            "airEffShootingRate": 0.6
+          }
+        },
+        {
+          "comment": {
+            "value": "говорим бомберу двигатьс€ к точке"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "bt_t2_matching_move_",
+            "var": "bt_matching_t2_move_trigger_name"
+          }
+        },
+        {
+          "varAddString": {
+            "value": "@bt_matching_type",
+            "digits": 1,
+            "var": "bt_matching_t2_move_trigger_name"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "@bt_matching_t2_move_trigger_name"
           }
         },
         {
           "wait": {
-            "time": 5.0
+            "time": 1.0
+          }
+        },
+        {
+          "comment": {
+            "value": "говорим €стребам прикрывать бомберов"
           }
         },
         {
           "unitMoveTo": {
-            "target": "@bt_t2_target_point_name",
-            "follow_target": true,
-            "teleportHeightType": "absolute",
-            "useUnitHeightForTele": true,
-            "shouldKeepFormation": true,
-            "teleportHeightValue": 3500.0,
-            "horizontalDirectionForTeleport": true,
-            "object": "@bt_t2_bomber_name",
-            "speed": 350.0,
-            "follow_offset": [0.0,3500.0,0.0]
-          }
-        },
-        {
-          "unitMoveTo": {
+            "object_marking": 0,
             "target": "@bt_t2_bomber_name",
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "follow_target": true,
             "teleportHeightType": "absolute",
             "useUnitHeightForTele": true,
@@ -2224,8 +2071,17 @@
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
             "object": "@bt_t2_fighter_name",
-            "speed": 350.0,
-            "follow_offset": [100.0,500.0,0.0]
+            "follow_offset": [0.0,500.0,0.0]
+          }
+        },
+        {
+          "unitAttackTarget": {
+            "playerAttracted": false,
+            "object": "@bt_t2_fighter_name",
+            "target": "t1_players_squad",
+            "anchorTarget": "@bt_t2_bomber_name",
+            "targetToAnchorDist": [3500.0,4000.0],
+            "resetObjectToFollow": false
           }
         },
         {
@@ -2235,9 +2091,6 @@
         },
         {
           "triggerEnable": [
-            {
-              "target": "bt_t2_fighters_attack"
-            },
             {
               "target": "bt_t2_fighters_retreat"
             },
@@ -2263,6 +2116,19 @@
         },
         {
           "comment": {
+            "value": "запрещаем прикрышке бо€тьс€"
+          }
+        },
+        {
+          "unitSetProperties": {
+            "object_marking": 0,
+            "object": "@bt_t2_fighter_name",
+            "stealthRadius": 3500.0,
+            "enemyFireEvasion": "off"
+          }
+        },
+        {
+          "comment": {
             "value": "включаем доп скрипты"
           }
         },
@@ -2280,9 +2146,6 @@
               "target": "bt_t2_is_detect_alowed"
             },
             {
-              "target": "bt_t2_bombers_saved"
-            },
-            {
               "target": "bt_t2_bombers_not_saved"
             }
           ]
@@ -2298,51 +2161,6 @@
         },
         "triggerEnable": {
           "target": "bt_template_end"
-        }
-      }
-    },
-    "bt_t2_fighters_attack": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": true
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 10.0
-        }
-      },
-      "conditions": {
-        "unitDistanceBetween": {
-          "value": 2500.0,
-          "math": "2D",
-          "object_type": "isActive",
-          "object_marking": 0,
-          "target_type": "isTeamB",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "@bt_t2_bomber_name",
-          "target": "all_players_squad",
-          "compareCenters": false,
-          "check_all_units": true
-        }
-      },
-      "actions": {
-        "unitAttackTarget": {
-          "playerAttracted": false,
-          "object": "@bt_t2_fighter_name",
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true,
-          "filterWhom": "target",
-          "fireRandom": true
-        }
-      },
-      "else_actions": {
-        "triggerEnable": {
-          "target": "bt_t2_fighter_return_to_bombers"
         }
       }
     },
@@ -2375,11 +2193,6 @@
           }
         },
         {
-          "triggerDisable": {
-            "target": "bt_t2_fighters_attack"
-          }
-        },
-        {
           "unitMoveTo": {
             "target": "bt_t2_retreat_point",
             "follow_target": false,
@@ -2388,6 +2201,10 @@
             "shouldKeepFormation": false,
             "teleportHeightValue": 1000.0,
             "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
             "object": "@bt_t2_fighter_name"
           }
         },
@@ -2418,13 +2235,6 @@
         }
       },
       "conditions": {
-        "unitWhenCountMatches": {
-          "object_type": "isActive",
-          "object_marking": 0,
-          "func": "more",
-          "value": 0,
-          "object": "@bt_t2_fighter_name"
-        },
         "unitDistanceBetween": {
           "value": 2500.0,
           "math": "2D",
@@ -2455,64 +2265,6 @@
         },
         "__triggerDisable": {
           "target": "bt_t2_fighters_disable"
-        }
-      }
-    },
-    "bt_t2_fighter_return_to_bombers": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "unitDistanceBetween": {
-          "value": 1500.0,
-          "math": "2D",
-          "object_type": "isAlive",
-          "object_marking": 0,
-          "target_type": "isTeamB",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "@bt_t2_fighter_name",
-          "target": "all_players_squad",
-          "compareCenters": false,
-          "check_all_units": true
-        }
-      },
-      "actions": {
-        "comment": {
-          "value": "р€дом есть враг. атакуем его"
-        },
-        "unitAttackTarget": {
-          "playerAttracted": false,
-          "object": "@bt_t2_fighter_name",
-          "target": "all_players_squad",
-          "useForTriggerFiltered": true,
-          "filterWhom": "target"
-        }
-      },
-      "else_actions": {
-        "comment": {
-          "value": "врагов нет. возвращаемс€ к бомберам"
-        },
-        "unitMoveTo": {
-          "target": "@bt_t2_bomber_name",
-          "follow_target": true,
-          "teleportHeightType": "absolute",
-          "useUnitHeightForTele": true,
-          "shouldKeepFormation": false,
-          "teleportHeightValue": 1000.0,
-          "horizontalDirectionForTeleport": true,
-          "object": "@bt_t2_fighter_name",
-          "follow_offset": [-150.0,500.0,20.0]
         }
       }
     },
@@ -2557,60 +2309,26 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@bt_t2_bomber_name"
         },
         "unitAttackTarget": {
           "playerAttracted": false,
           "object": "@bt_t2_bomber_name",
-          "target": "@bt_t2_target_name"
+          "target": "@bt_t2_target_name",
+          "attackTimeMax": 120.0
         },
         "triggerEnable": [
           {
             "target": "bt_t2_bombers_target_destroyed"
           },
           {
-            "target": "bt_t2_bombers_retreat_check"
-          },
-          {
             "target": "bt_t2_bombers_disable"
           }
         ]
-      },
-      "else_actions": []
-    },
-    "bt_t2_bombers_retreat_check": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 60.0
-        }
-      },
-      "conditions": [],
-      "actions": {
-        "triggerDisable": [
-          {
-            "target": "bt_t2_bombers_target_destroyed"
-          },
-          {
-            "target": "bt_t2_bombers_attack"
-          }
-        ],
-        "unitMoveTo": {
-          "target": "bt_t1_retreat_point",
-          "follow_target": false,
-          "teleportHeightType": "absolute",
-          "useUnitHeightForTele": true,
-          "shouldKeepFormation": false,
-          "teleportHeightValue": 1000.0,
-          "horizontalDirectionForTeleport": true,
-          "object": "@bt_t1_bomber_name"
-        }
       },
       "else_actions": []
     },
@@ -2633,14 +2351,9 @@
         }
       },
       "actions": {
-        "triggerDisable": [
-          {
-            "target": "bt_t2_bombers_attack"
-          },
-          {
-            "target": "bt_t2_bombers_retreat_check"
-          }
-        ],
+        "triggerDisable": {
+          "target": "bt_t2_bombers_attack"
+        },
         "wait": {
           "time": 10.0
         },
@@ -2658,6 +2371,10 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_marking": 0,
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
           "object": "@bt_t2_bomber_name"
         },
         "triggerEnable": {
@@ -2735,15 +2452,23 @@
         }
       },
       "actions": {
-        "triggerDisable": {
-          "target": "bt_t2_bombers_target_destroyed"
-        },
+        "triggerDisable": [
+          {
+            "target": "bt_t2_bombers_target_destroyed"
+          },
+          {
+            "target": "bt_t2_bombers_not_saved"
+          }
+        ],
         "comment": {
           "value": "еще есть активные бомберы пр€чем того, кто спасс€"
         },
         "unitPutToSleep": {
           "target": "@bt_t2_bomber_name",
           "useForTriggerFiltered": true
+        },
+        "triggerEnable": {
+          "target": "bt_t2_bombers_saved"
         }
       },
       "else_actions": {
@@ -2768,28 +2493,26 @@
           "time": 1.0
         }
       },
-      "conditions": {
-        "unitWhenCountMatches": [
-          {
-            "object_type": "isActive"
-          },
-          {
-            "object_marking": 0
-          },
-          {
-            "func": "less"
-          },
-          {
-            "value": 1
-          },
-          {
+      "conditions": [
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
             "object": "@bt_t2_bomber_name"
-          },
-          {
+          }
+        },
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "func": "less",
+            "value": 1,
             "object": "@bt_t2_fighter_name"
           }
-        ]
-      },
+        }
+      ],
       "actions": {
         "comment": {
           "value": "нет активных самолетов. можно дизейблить"
@@ -2866,8 +2589,17 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@bt_t2_bomber_name",
             "team": "B"
+          }
+        },
+        {
+          "unitSetIndication": {
+            "set": false,
+            "target_marking": 0,
+            "target": "@bt_t2_bomber_name",
+            "team": "A"
           }
         },
         {
@@ -2904,6 +2636,9 @@
             },
             {
               "target": "bt_detecttion_range_checks"
+            },
+            {
+              "target": "bt_t2_bombers_detected_by_players"
             }
           ]
         }
@@ -2930,6 +2665,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@bt_t2_bomber_name",
             "team": "Both"
           }
@@ -3037,7 +2773,7 @@
           "object_type": "isActive",
           "object_marking": 0,
           "enemy_type": "isTeamB",
-          "distance": 2500.0,
+          "distance": 5500.0,
           "check_objects": "any",
           "object": "@bt_t2_bomber_name",
           "use_variable": true,
@@ -3045,6 +2781,9 @@
         }
       },
       "actions": {
+        "triggerDisable": {
+          "target": "bt_t2_bombers_detected_by_players"
+        },
         "comment": {
           "value": "враг обнаружил бомберов"
         },
@@ -3060,6 +2799,7 @@
         },
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
           "target": "@bt_t2_bomber_name"
         },
         "moAddMissionObjective": {
@@ -3087,26 +2827,15 @@
           "time": 1.0
         }
       },
-      "conditions": [
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isAlive",
-            "object_marking": 0,
-            "func": "more",
-            "value": 3,
-            "object": "@bt_t2_bomber_name"
-          }
-        },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isActive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "@bt_t2_bomber_name"
-          }
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object": "@bt_t2_bomber_name"
         }
-      ],
+      },
       "actions": [
         {
           "triggerDisable": [
@@ -3115,6 +2844,9 @@
             },
             {
               "target": "bt_t2_mis_obj_update"
+            },
+            {
+              "target": "bt_t1_bombers_target_destroyed"
             }
           ]
         },
@@ -3175,10 +2907,10 @@
       },
       "conditions": {
         "unitWhenCountMatches": {
-          "object_type": "isAlive",
+          "object_type": "isActive",
           "object_marking": 0,
           "func": "less",
-          "value": 4,
+          "value": 1,
           "object": "@bt_t2_bomber_name"
         }
       },
@@ -3190,6 +2922,9 @@
             },
             {
               "target": "bt_t2_mis_obj_update"
+            },
+            {
+              "target": "bt_t1_bombers_target_destroyed"
             }
           ]
         },
@@ -3201,6 +2936,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@bt_t2_bomber_name"
           }
         },
@@ -3364,27 +3100,67 @@
       ],
       "actions": [
         {
-          "varSetReal": {
-            "value": 0.0,
-            "var": "bt_t1_detection_range"
-          }
+          "varSetReal": [
+            {
+              "value": 0.0
+            },
+            {
+              "var": "bt_t1_detection_range"
+            },
+            {
+              "var": "bt_t1_player_detection_range"
+            }
+          ]
+        },
+        {
+          "varModify": [
+            {
+              "operator": "add"
+            },
+            {
+              "value": 3500.0
+            },
+            {
+              "var": "bt_t1_detection_range"
+            },
+            {
+              "var": "bt_t1_player_detection_range"
+            },
+            {
+              "use_variable": true
+            },
+            {
+              "var_value": "bt_base_detection_range"
+            }
+          ]
+        },
+        {
+          "varModify": [
+            {
+              "operator": "add"
+            },
+            {
+              "value": 0.0
+            },
+            {
+              "var": "bt_t1_detection_range"
+            },
+            {
+              "var": "bt_t1_player_detection_range"
+            },
+            {
+              "use_variable": true
+            },
+            {
+              "var_value": "lpt_t1_detection_bonus"
+            }
+          ]
         },
         {
           "varModify": {
             "operator": "add",
-            "value": 3500.0,
-            "var": "bt_t1_detection_range",
-            "use_variable": true,
-            "var_value": "bt_base_detection_range"
-          }
-        },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 0.0,
-            "var": "bt_t1_detection_range",
-            "use_variable": true,
-            "var_value": "lpt_t1_detection_bonus"
+            "value": 2000.0,
+            "var": "bt_t1_player_detection_range"
           }
         },
         {
@@ -3393,27 +3169,67 @@
           }
         },
         {
-          "varSetReal": {
-            "value": 0.0,
-            "var": "bt_t2_detection_range"
-          }
+          "varSetReal": [
+            {
+              "value": 0.0
+            },
+            {
+              "var": "bt_t2_detection_range"
+            },
+            {
+              "var": "bt_t2_player_detection_range"
+            }
+          ]
+        },
+        {
+          "varModify": [
+            {
+              "operator": "add"
+            },
+            {
+              "value": 3500.0
+            },
+            {
+              "var": "bt_t2_detection_range"
+            },
+            {
+              "var": "bt_t2_player_detection_range"
+            },
+            {
+              "use_variable": true
+            },
+            {
+              "var_value": "bt_base_detection_range"
+            }
+          ]
+        },
+        {
+          "varModify": [
+            {
+              "operator": "add"
+            },
+            {
+              "value": 0.0
+            },
+            {
+              "var": "bt_t2_detection_range"
+            },
+            {
+              "var": "bt_t2_player_detection_range"
+            },
+            {
+              "use_variable": true
+            },
+            {
+              "var_value": "lpt_t2_detection_bonus"
+            }
+          ]
         },
         {
           "varModify": {
             "operator": "add",
-            "value": 3500.0,
-            "var": "bt_t2_detection_range",
-            "use_variable": true,
-            "var_value": "bt_base_detection_range"
-          }
-        },
-        {
-          "varModify": {
-            "operator": "add",
-            "value": 0.0,
-            "var": "bt_t2_detection_range",
-            "use_variable": true,
-            "var_value": "lpt_t2_detection_bonus"
+            "value": 2000.0,
+            "var": "bt_t2_player_detection_range"
           }
         }
       ],
@@ -3465,6 +3281,12 @@
             "varSetString": {
               "value": "bt_t2_fighter_rank_01",
               "var": "bt_t2_fighter_name"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 1,
+              "var": "bt_matching_type"
             }
           }
         ],
@@ -3523,6 +3345,12 @@
               "value": "bt_t2_fighter_rank_02",
               "var": "bt_t2_fighter_name"
             }
+          },
+          {
+            "varSetInt": {
+              "value": 2,
+              "var": "bt_matching_type"
+            }
           }
         ],
         "else_actions": []
@@ -3579,6 +3407,12 @@
             "varSetString": {
               "value": "bt_t2_fighter_rank_03",
               "var": "bt_t2_fighter_name"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 3,
+              "var": "bt_matching_type"
             }
           }
         ],
@@ -3637,6 +3471,12 @@
               "value": "bt_t2_fighter_rank_04",
               "var": "bt_t2_fighter_name"
             }
+          },
+          {
+            "varSetInt": {
+              "value": 4,
+              "var": "bt_matching_type"
+            }
           }
         ],
         "else_actions": []
@@ -3685,10 +3525,542 @@
               "value": "bt_t2_fighter_rank_05",
               "var": "bt_t2_fighter_name"
             }
+          },
+          {
+            "varSetInt": {
+              "value": 5,
+              "var": "bt_matching_type"
+            }
           }
         ],
         "else_actions": []
+      },
+      "bt_t1_matching_move_1": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 1,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t1_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t1_bomber_name",
+            "speed": 300.0,
+            "altRange": [1500.0,1700.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t1_matching_move_2": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 2,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t1_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t1_bomber_name",
+            "speed": 300.0,
+            "altRange": [2300.0,2500.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t1_matching_move_3": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 3,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t1_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t1_bomber_name",
+            "speed": 300.0,
+            "altRange": [3200.0,3500.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t1_matching_move_4": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 4,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t1_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t1_bomber_name",
+            "speed": 300.0,
+            "altRange": [4000.0,4200.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t1_matching_move_5": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 5,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t1_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t1_bomber_name",
+            "speed": 300.0,
+            "altRange": [5200.0,5400.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t2_matching_move_1": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 1,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t2_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t2_bomber_name",
+            "speed": 300.0,
+            "altRange": [1500.0,1700.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t2_matching_move_2": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 2,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t2_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t2_bomber_name",
+            "speed": 300.0,
+            "altRange": [2300.0,2500.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t2_matching_move_3": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 3,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t2_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t2_bomber_name",
+            "speed": 300.0,
+            "altRange": [3200.0,3500.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t2_matching_move_4": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 4,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t2_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t2_bomber_name",
+            "speed": 300.0,
+            "altRange": [4000.0,4200.0]
+          }
+        },
+        "else_actions": []
+      },
+      "bt_t2_matching_move_5": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "bt_matching_type",
+            "value": 5,
+            "comparasion_func": "equal"
+          }
+        },
+        "actions": {
+          "unitMoveTo": {
+            "target": "@bt_t2_target_point_name",
+            "follow_target": false,
+            "teleportHeightType": "absolute",
+            "useUnitHeightForTele": true,
+            "shouldKeepFormation": false,
+            "teleportHeightValue": 1000.0,
+            "horizontalDirectionForTeleport": true,
+            "object_marking": 0,
+            "target_marking": 0,
+            "waypointReachedDist": 10.0,
+            "recalculatePathDist": -1.0,
+            "object": "@bt_t2_bomber_name",
+            "speed": 300.0,
+            "altRange": [5200.0,5400.0]
+          }
+        },
+        "else_actions": []
       }
+    },
+    "bt_t1_bombers_detected_by_players": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 1500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isOnline",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t1_bomber_name",
+          "target": "t2_players_squad",
+          "var": "bt_t2_player_detection_range",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "bt_t1_bombers_detected"
+        },
+        "comment": {
+          "value": "враг обнаружил бомберов"
+        },
+        "unitSetStealth": {
+          "set": true,
+          "radius": 64000.0,
+          "target": "@bt_t1_bomber_name",
+          "team": "B"
+        },
+        "varSetBool": {
+          "value": true,
+          "var": "bt_t1_is_detected"
+        },
+        "unitSetIndication": {
+          "set": true,
+          "target_marking": 0,
+          "target": "@bt_t1_bomber_name"
+        },
+        "moAddMissionObjective": {
+          "target": "bt_t2_attack_bombers",
+          "unit_or_area": "@bt_t1_bomber_name",
+          "unit_type": "isActive"
+        },
+        "triggerEnable": {
+          "target": "t2_minor_task_completed"
+        }
+      },
+      "else_actions": []
+    },
+    "bt_t2_bombers_detected_by_players": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitDistanceBetween": {
+          "value": 1500.0,
+          "math": "2D",
+          "object_type": "isActive",
+          "object_marking": 0,
+          "target_type": "isOnline",
+          "target_marking": 0,
+          "check_objects": "any",
+          "check_targets": "any",
+          "object": "@bt_t2_bomber_name",
+          "target": "t1_players_squad",
+          "var": "bt_t1_player_detection_range",
+          "compareCenters": false,
+          "check_all_units": true
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "bt_t2_bombers_detected"
+        },
+        "comment": {
+          "value": "враг обнаружил бомберов"
+        },
+        "unitSetStealth": {
+          "set": true,
+          "radius": 64000.0,
+          "target": "@bt_t2_bomber_name",
+          "team": "B"
+        },
+        "varSetBool": {
+          "value": true,
+          "var": "bt_t2_is_detected"
+        },
+        "unitSetIndication": {
+          "set": true,
+          "target_marking": 0,
+          "target": "@bt_t2_bomber_name"
+        },
+        "moAddMissionObjective": {
+          "target": "bt_t1_attack_bombers",
+          "unit_or_area": "@bt_t2_bomber_name",
+          "unit_type": "isActive"
+        },
+        "triggerEnable": {
+          "target": "t1_minor_task_completed"
+        }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -3700,7 +4072,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "A"
       },
       "onSuccess": [],
@@ -3712,7 +4084,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "B"
       },
       "onSuccess": [],
@@ -3724,7 +4096,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "A"
       },
       "onSuccess": [],
@@ -3736,7 +4108,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "B"
       },
       "onSuccess": [],
@@ -3745,7 +4117,7 @@
   },
   "variables": {
     "bt_army_both_zero": 1,
-    "bt_delay_timer": 30,
+    "bt_delay_timer": 120,
     "bt_is_army_swapping": false,
     "bt_is_template_active": false,
     "bt_t1_target_name": "",
@@ -3759,7 +4131,7 @@
     "bt_t2_target_point_name": "",
     "bt_t2_is_active": false,
     "bt_t2_is_detected": false,
-    "bt_t1_detection_range": 3500.0,
+    "bt_t1_detection_range": 0.0,
     "bt_t2_detection_range": 3500.0,
     "bt_base_detection_range": 3500.0,
     "bt_t1_bomber_name": "",
@@ -3772,7 +4144,12 @@
     "bt_t2_bomber_spawn_name": "",
     "bt_t2_fighter_spawn_name": "",
     "bt_t1_spawn_idx": 0,
-    "bt_t2_spawn_idx": 0
+    "bt_t2_spawn_idx": 0,
+    "bt_matching_type": 0,
+    "bt_matching_t1_move_trigger_name": "",
+    "bt_matching_t2_move_trigger_name": "",
+    "bt_t1_player_detection_range": 5500.0,
+    "bt_t2_player_detection_range": 5500.0
   },
   "dialogs": [],
   "airfields": [],
