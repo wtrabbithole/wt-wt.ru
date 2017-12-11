@@ -276,6 +276,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -537,7 +540,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -553,7 +556,23 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/volokolamsk_tm.blk",
+        "file": "gameData/missions/cta/tanks/volokolamsk/battleareas/template_volokolamsk_Dom_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/dom_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -580,7 +599,42 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [],
+  "units": {
+    "tankModels": {
+      "name": "t1_player01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [-1303.41,71.7206,722.905]
+      ],
+      "unit_class": "aaa_dummy",
+      "objLayer": 1,
+      "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
+      "weapons": "",
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 2,
+        "count": 1,
+        "formation_type": "rows",
+        "formation_div": 3,
+        "formation_step": [2.5,2.0],
+        "formation_noise": [0.1,0.1],
+        "uniqueName": "",
+        "attack_type": "fire_at_will"
+      },
+      "way": []
+    }
+  },
   "areas": {
     "briefing_dom_capture_area_01_arcade": {
       "type": "Point",

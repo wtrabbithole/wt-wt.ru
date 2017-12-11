@@ -560,7 +560,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         local name = "yuNetwork/payMethod/" + method.name
         items.append({
           name = name
-          icon = "#ui/gameuiskin#payment_" + method.name + ".svg"
+          icon = "!#ui/gameuiskin/payment_" + method.name + ".svg"
           callback = ::Callback(@() onYuplayPurchase(task, method.id), this)
         })
         selItem = selItem || name

@@ -207,4 +207,9 @@ class ::BaseInvite
   {
     return !isSeen && !isOutdated()
   }
+
+  function hasInviter()
+  {
+    return !::u.isEmpty(inviterName)
+  }
 }

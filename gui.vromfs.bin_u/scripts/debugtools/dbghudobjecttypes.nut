@@ -213,4 +213,42 @@
       { eventId = "hint:missionHint:remove", hintType = "standard" }
     ]
   }
+
+  AIR_STREAK_HINT = {
+    eventChance = 50
+    iconsList = ["aircraft_fighter", "aircraft_attacker", "aircraft_bomber"]
+    textsList = ["hints/event_start_time", "hints/event_can_join_ally", "hints/event_can_join_enemy"]
+    genNewEvent = function()
+    {
+      local eventData = {
+        participant = []
+        timeSeconds = ::math.rnd() % 15 + 1
+        locId = ::u.chooseRandom(textsList)
+        shortcut = "ID_KILLSTREAK_WHEEL_MENU"
+        slotsCount = 3
+      }
+
+      if (eventData.locId != "hints/event_start_time")
+        eventData.playerId <- 0
+
+      local pTotal = ::math.rnd() % 6 + 1
+      for(local i = 0; i < pTotal; i++)
+        eventData.participant.append({
+          image = ::u.chooseRandom(iconsList)
+          participantId = i
+        })
+
+      //override function get_mplayer_by_id to simulate colors for not exist players
+      local _get_mplayer_by_id = ::get_mplayer_by_id
+      ::get_mplayer_by_id = @(id) {
+        name = "somebodyName"
+        clanTag = "<WWWWW>"
+        isLocal = id == 1
+        team = 2 - (id % 2)
+        isInHeroSquad = (id % 4) == 1
+      }
+      ::g_hud_event_manager.onHudEvent("hint:event_start_time:show", eventData)
+      ::get_mplayer_by_id = _get_mplayer_by_id
+    }
+  }
 })

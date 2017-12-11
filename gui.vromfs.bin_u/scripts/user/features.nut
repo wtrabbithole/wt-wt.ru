@@ -69,6 +69,7 @@
     WorldWarClansQueue = false
     WorldWarReplay = false
     WorldWarSquadInfo = false
+    WorldWarSquadInvite = false
 
     GraphicsOptions = true
     Spectator = false
@@ -176,6 +177,8 @@
     SeparateTopMenuButtons = false
 
     HitCameraTargetStateIconsTank = false
+
+    AllowExternalLink = true
   }
 
   cache = {}

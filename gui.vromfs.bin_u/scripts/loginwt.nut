@@ -29,7 +29,7 @@ function gui_start_startscreen()
 function gui_start_after_scripts_reload()
 {
   ::g_login.setState(LOGIN_STATE.AUTHORIZED) //already authorized to char
-  ::g_login.startLoginProcess()
+  ::g_login.startLoginProcess(true)
 }
 
 function on_sign_out()  //!!FIX ME: better to full replace this function by SignOut event
@@ -88,8 +88,10 @@ function go_to_account_web_page(bqKey = "")
   ::open_url(get_authenticated_url(urlBase), false, false, bqKey)
 }
 
-function g_login::debugState()
+function g_login::debugState(shouldShowNotSetBits = false)
 {
+  if (shouldShowNotSetBits)
+    return ::dlog("not set loginState = " + ::bit_mask_to_string("LOGIN_STATE", LOGIN_STATE.LOGGED_IN & ~curState))
   return ::dlog("loginState = " + ::bit_mask_to_string("LOGIN_STATE", curState))
 }
 
@@ -269,7 +271,7 @@ function g_login::initConfigs(cb)
     }
   ])
 
-  ::start_pseudo_thread(initOptionsPseudoThread)
+  ::start_pseudo_thread(initOptionsPseudoThread, ::gui_start_logout)
 }
 
 function g_login::onEventGuiSceneCleared(p)
@@ -285,7 +287,7 @@ function g_login::onEventGuiSceneCleared(p)
     function()
     {
       ::handlersManager.loadHandler(::gui_handlers.WaitForLoginWnd)
-      ::start_pseudo_thread(::g_login.initOptionsPseudoThread)
+      ::start_pseudo_thread(::g_login.initOptionsPseudoThread, ::gui_start_logout)
     })
 }
 

@@ -6473,18 +6473,6 @@
         "extinguisherCrewBusyTime": 7.0
       }
     },
-    "manual_ship_extinguisher": {
-      "image": "#ui/gameuiskin#extinguisher",
-      "tier": 2,
-      "modClass": "protection",
-      "effects": {
-        "extinguisherActivationCount": -1,
-        "extinguisherMinTime": 10.0,
-        "extinguisherMaxTime": 10.0,
-        "extinguisherCrewBusyTime": -1.0,
-        "rcostAddParam": 0.99
-      }
-    },
     "tank_tool_kit": {
       "image": "#ui/gameuiskin#tank_tool_kit",
       "tier": 1,
@@ -9014,16 +9002,6 @@
       "requiresModelReload": true,
       "image": "#ui/gameuiskin#smoke_screen"
     },
-    "ship_smoke_screen_system_mod": {
-      "image": "#ui/gameuiskin#smoke_screen",
-      "tier": 3,
-      "modClass": "protection",
-      "effects": {
-        "smokeScreenCount": 5,
-        "smokeScreenTime": 30.0,
-        "smokeScreenCooldown": 60.0
-      }
-    },
     "fr_100_gp_standart": {
       "image": "#ui/gameuiskin#pilon_bomb",
       "modClass": "weapon",
@@ -9076,6 +9054,38 @@
       "modClass": "firepower",
       "effects": {
         "fakeParam": 1.01
+      }
+    },
+    "manual_ship_extinguisher": {
+      "image": "#ui/gameuiskin#extinguisher",
+      "tier": 2,
+      "modClass": "unsinkability",
+      "effects": {
+        "extinguisherActivationCount": -1,
+        "extinguisherMinTime": 10.0,
+        "extinguisherMaxTime": 10.0,
+        "extinguisherCrewBusyTime": -1.0,
+        "rcostAddParam": 0.99
+      }
+    },
+    "ship_smoke_screen_system_mod": {
+      "image": "#ui/gameuiskin#smoke_screen",
+      "tier": 3,
+      "modClass": "firepower",
+      "effects": {
+        "smokeScreenCount": 5,
+        "smokeScreenTime": 30.0,
+        "smokeScreenCooldown": 60.0
+      }
+    },
+    "ship_tool_kit": {
+      "image": "#ui/gameuiskin#tank_tool_kit",
+      "tier": 1,
+      "modClass": "unsinkability",
+      "invertEnableLogic": false,
+      "effects": {
+        "repairAvailable": true,
+        "rcostAddParam": 0.99
       }
     }
   }

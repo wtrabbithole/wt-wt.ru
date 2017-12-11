@@ -59,7 +59,7 @@ function g_hud_hints::_buildText(data)
   {
     local res = ::loc(getLocId(data))
     if (image)
-      res = ::g_hints.hintTags[0] + ::g_hint_tag.IMAGE.makeTag(image) + ::g_hints.hintTags[1] + res
+      res = ::g_hint_tag.IMAGE.makeFullTag({ image = image }) + res
     return res
   }
 
@@ -218,7 +218,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     local res = ::g_hud_hints._buildText.call(this, hintData)
     if (!getShortcuts(hintData))
       return res
-    res = ::g_hints.hintTags[0] + ::g_hints.timerMark + ::g_hints.hintTags[1] + " " + res
+    res = ::g_hint_tag.TIMER.makeFullTag() + " " + res
     return res
   }
 
@@ -379,7 +379,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     selfRemove = true
     buildText = function (data) {
       local res = ::g_hud_hints._buildText.call(this, data)
-      res += " " + ::g_hints.hintTags[0] + ::g_hints.timerMark + ::g_hints.hintTags[1]
+      res += " " + ::g_hint_tag.TIMER.makeFullTag()
       local offenderName = ::getTblValue("offenderName", data, "")
       if (offenderName != "")
         res +=  "\n" + ::loc(awardGiveForLocId) + offenderName
@@ -816,22 +816,85 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   }
 
   EVENT_START_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
+    hintType = ::g_hud_hint_types.ACTIONBAR
     showEvent = "hint:event_start_time:show"
     hideEvent = "hint:event_start_time:hide"
     getShortcuts = @(eventData) eventData?.shortcut
+
+    makeSmallImageStr = @(image, color = null, sizeStyle = null) ::g_hint_tag.IMAGE.makeFullTag({
+      image = image
+      color = color
+      sizeStyle = sizeStyle
+    })
+
     buildText = function(eventData)
     {
       local res = ::g_hud_hints._buildText.call(this, eventData)
       local rawShortcutsArray = getRawShortcutsArray(getShortcuts(eventData))
-      local player = eventData?.playerId ? ::get_mplayer_by_id(eventData.playerId) : null
+      local player = "playerId" in eventData ? ::get_mplayer_by_id(eventData.playerId) : null
       local playerText = player ? ::build_mplayer_name(player) : null
-      local locId = rawShortcutsArray.len() > 0 ? eventData?.locId : eventData?.noKeyLocId
+      local locId = rawShortcutsArray.len() > 0 ? eventData?.locId : (eventData?.noKeyLocId ?? eventData?.locId)
       local hintText = locId ? ::loc(locId) : ""
       local timeSec = eventData?.timeSeconds ?? 0
       local secLocStr = ::loc("mainmenu/seconds")
       res += playerText ? ::format(hintText, playerText, timeSec, secLocStr)
       : ::format(hintText, timeSec, secLocStr)
+
+      local participantsAStr = ""
+      local participantsBStr = ""
+      local reservedSlotsCountA = 0
+      local reservedSlotsCountB = 0
+      local totalSlotsPerCommand = eventData?.slotsCount ?? 0
+      local spaceStr = "          "
+
+      local participantList = []
+      if(eventData?.participant)
+        participantList = ::u.isArray(eventData.participant) ? eventData.participant : [eventData.participant]
+
+      local playerTeam = ::get_local_team_for_mpstats()
+      foreach (participant in participantList)
+      {
+        local pIdArray = ::u.isArray(participant.participantId)? participant.participantId : [participant.participantId]
+        local imageArray = ::u.isArray(participant?.image)? participant?.image : [participant?.image]
+
+        foreach (idx, participantId in pIdArray)
+        {
+          local participantPlayer = participantId ? ::get_mplayer_by_id(participantId) : null
+          local image = imageArray[idx]
+          if (image && participantPlayer)
+          {
+            local icon = "#ui/gameuiskin#" + image
+            local color = "@" + (participantPlayer ? ::get_mplayer_color(participantPlayer) : "hudColorHero")
+            local pStr = makeSmallImageStr(icon, color)
+            if (playerTeam == participantPlayer.team)
+            {
+              participantsAStr += pStr + " "
+              ++reservedSlotsCountA
+            }
+            else
+            {
+              participantsBStr = " " + pStr + participantsBStr
+              ++reservedSlotsCountB
+            }
+          }
+        }
+      }
+
+      local freeSlotIconName = "#ui/gameuiskin#btn_help"
+      local freeSlotIconColor = "@minorTextColor"
+      local freeSlotIconStr = makeSmallImageStr(freeSlotIconName, freeSlotIconColor, "small")
+      for(local i = 0; i < totalSlotsPerCommand - reservedSlotsCountA; ++i)
+        participantsAStr += freeSlotIconStr + " "
+
+      for(local i = 0; i < totalSlotsPerCommand - reservedSlotsCountB; ++i)
+        participantsBStr = " " + freeSlotIconStr + participantsBStr
+
+      if (participantsAStr.len() > 0 && participantsBStr.len() > 0)
+        res = participantsAStr
+        + spaceStr + ::loc("country/VS").tolower() + spaceStr
+        + participantsBStr
+        + "\n" + res
+
       return res
     }
   }

@@ -127,10 +127,10 @@ function g_language::initFunctionsTable()
         language = ["German", "Italian", "Spanish", "Turkish"]
         action = @(value) ::g_string.intToStrWithDelimiter(value, ".")
       }, {
-        language = ["English", "Korean"]
+        language = ["English", "Japanese", "Korean"]
         action = @(value) ::g_string.intToStrWithDelimiter(value, ",")
       }, {
-        language = ["Chinese", "TChinese", "HChinese", "Japanese"]
+        language = ["Chinese", "TChinese", "HChinese"]
         action = @(value) ::g_string.intToStrWithDelimiter(value, ",", 4)
       }]
     }

@@ -6,6 +6,9 @@ const URL_TAG_AUTO_LOGIN = "auto_login"
 
 function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = false)
 {
+  if (!::has_feature("AllowExternalLink"))
+    return
+
   if (baseUrl == null || baseUrl == "")
   {
     dagor.debug("Error: tried to open an empty url")
@@ -112,6 +115,9 @@ function g_url::validateLink(link)
 
 function open_url(baseUrl, forceExternal=false, isAlreadyAuthenticated = false, biqQueryKey = "")
 {
+  if (!::has_feature("AllowExternalLink"))
+    return
+
   local bigQueryInfoObject = {url = baseUrl}
   if( ! ::u.isEmpty(biqQueryKey))
     bigQueryInfoObject["from"] <- biqQueryKey

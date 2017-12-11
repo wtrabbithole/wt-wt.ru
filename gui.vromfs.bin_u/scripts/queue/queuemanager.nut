@@ -73,9 +73,9 @@ class QueueManager {
       params = queueType.prepareQueueParams(params)
 
     local queue = findQueue(params)
-    if (queue && queueType.useClusters)
+    if (queue)
     {
-      if (queue.addClusterByParams(params))
+      if (queue.addQueueByParams(params))
         ::broadcastEvent("QueueClustersChanged", queue)
       return queue
     }
@@ -430,7 +430,7 @@ class QueueManager {
   {
     local list = findAllQueues(params)
     foreach(q in list)
-      if (q.onLeaveQueue(params))
+      if (q.removeQueueByParams(params))
       {
         if (!q.isActive())
           removeQueue(q)

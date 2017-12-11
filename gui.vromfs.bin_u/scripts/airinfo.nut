@@ -2134,7 +2134,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (air.isPkgDev)
     addInfoTextsList.append(::colorize("badTextColor", ::loc("locatedInPackage", { package = "PKG_DEV" })))
-  if (air.isRecentlyReleased)
+  if (air.isRecentlyReleased())
     addInfoTextsList.append(::colorize("chapterUnlockedColor", ::loc("shop/unitIsRecentlyReleased")))
 
   if (isInFlight && ::g_mis_custom_state.getCurMissionRules().hasCustomUnitRespawns())

@@ -3053,16 +3053,47 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       local curPreset = ::g_controls_manager.getCurPreset()
       local msg = format(::loc("msg/zoomAssignmentsConflict"),
         ::remapAxisName(curPreset.getAxisName(axis.axisId)))
-      msgBox("zoom_axis_assigned", msg,
-      [
-        ["replace", (@(zoomAxisIndex) function() {
-          setAxisBind(zoomAxisIndex, -1)
-        })(zoomAxisIndex)],
-        ["cancel", (@(obj) function() {
-          if (obj && obj.isValid())
-            obj.setValue(0)
-        })(obj)]
-      ], "replace")
+      guiScene.performDelayed(this, @()
+        msgBox("zoom_axis_assigned", msg,
+        [
+          ["replace", (@(zoomAxisIndex) function() {
+            setAxisBind(zoomAxisIndex, -1)
+          })(zoomAxisIndex)],
+          ["cancel", function() {
+            if (::check_obj(obj))
+              obj.setValue(0)
+          }]
+        ], "replace"))
+    }
+    else if (axisName && (axisName == "camx" || axisName == "camy")
+      && item.axis_num == MouseAxis.MOUSE_SCROLL)
+    {
+      local isMouseView = AIR_MOUSE_USAGE.VIEW ==
+        ::g_aircraft_helpers.getOptionValue(::USEROPT_MOUSE_USAGE)
+      local isMouseViewWhenNoAim = AIR_MOUSE_USAGE.VIEW ==
+        ::g_aircraft_helpers.getOptionValue(::USEROPT_MOUSE_USAGE_NO_AIM)
+
+      if (isMouseView || isMouseViewWhenNoAim)
+      {
+        local msg = isMouseView
+          ? ::loc("msg/replaceMouseViewToScroll")
+          : ::loc("msg/replaceMouseViewToScrollNoAim")
+        guiScene.performDelayed(this, @()
+          msgBox("mouse_used_for_view", msg,
+          [
+            ["replace", function() {
+              ::g_aircraft_helpers.setOptionValue(
+                ::USEROPT_MOUSE_USAGE, AIR_MOUSE_USAGE.AIM)
+              ::g_aircraft_helpers.setOptionValue(
+                ::USEROPT_MOUSE_USAGE_NO_AIM, AIR_MOUSE_USAGE.JOYSTICK)
+              onAircraftHelpersChanged(null)
+            }],
+            ["cancel", function() {
+              if (::check_obj(obj))
+                obj.setValue(0)
+            }]
+          ], "cancel"))
+      }
     }
   }
 

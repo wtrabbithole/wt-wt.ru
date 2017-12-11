@@ -223,22 +223,19 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_ground_Dom",
+      "locName": "missions/_Dom;port_novorossiysk/name",
+      "locDesc": "port_novorossiysk/desc;missions/_Dom/desc",
       "scoreLimit": 14000,
       "timeLimit": 30,
       "deathPenaltyMul": 1.0,
-      "country_axis": "germany",
-      "country_allies": "japan",
-      "allowedKillStreaks": true,
+      "postfix": "_Dom",
       "useAlternativeMapCoord": true,
+      "allowedKillStreaks": true,
       "randomSpawnTeams": false,
       "remapAiTankModels": true,
-      "locName": "missions/_Dom;port_novorossiysk/name",
-      "locDesc": "port_novorossiysk/desc;missions/_Dom/desc",
-      "postfix": "_Dom",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
+      "battleAreaColorPreset": "battleArea",
+      "country_axis": "germany",
+      "country_allies": "japan",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -257,11 +254,23 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false
       },
       "mission": {
         "difficulty": "realistic",
-        "scoreLimit": 18000
+        "useAlternativeMapCoord": false,
+        "scoreLimit": 18000,
+        "randomSpawnTeams": false,
+        "remapAiTankModels": true
       }
     },
     "spectator_points": [],
@@ -295,6 +304,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -348,6 +360,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -397,6 +412,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -457,7 +475,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -474,6 +492,38 @@
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/port_novorossiysk_tm.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/port_novorossiysk/battleareas/template_port_novorossiysk_Dom_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/dom_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -503,7 +553,7 @@
   "units": [],
   "areas": {
     "briefing_dom_capture_area_01_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.0424,0.0,0.0],
         [0.0,50.844,0.0],
@@ -514,7 +564,7 @@
       "props": []
     },
     "briefing_dom_capture_area_02_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.2128,0.0,0.0],
         [0.0,51.0531,0.0],
@@ -525,7 +575,7 @@
       "props": []
     },
     "briefing_dom_capture_area_03_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [39.8064,0.0,0.0],
         [0.0,50.5371,0.0],
@@ -536,7 +586,7 @@
       "props": []
     },
     "briefing_dom_t1_tank_spawn_01_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-1.57527,0.0,17.9309],
         [0.0,18.0,0.0],
@@ -547,7 +597,7 @@
       "props": []
     },
     "briefing_dom_t2_tank_spawn_01_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-0.353212,0.0,0.935543],
         [0.0,1.0,0.0],
@@ -558,7 +608,7 @@
       "props": []
     },
     "briefing_dom_t1_tank_spawn_01_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-0.569004,0.0,-0.822334],
         [0.0,1.0,0.0],
@@ -569,7 +619,7 @@
       "props": []
     },
     "briefing_dom_t2_tank_spawn_01_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.734523,0.0,-0.678584],
         [0.0,1.0,0.0],
@@ -580,7 +630,7 @@
       "props": []
     },
     "briefing_dom_capture_area_01_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [3.02312e-06,0.0,-40.0424],
         [0.0,50.844,0.0],
@@ -591,7 +641,7 @@
       "props": []
     },
     "briefing_dom_capture_area_02_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [3.03598e-06,0.0,-40.2128],
         [0.0,51.0531,0.0],
@@ -602,7 +652,7 @@
       "props": []
     },
     "briefing_dom_capture_area_03_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [3.0053e-06,0.0,-39.8064],
         [0.0,50.5371,0.0],

@@ -10,6 +10,60 @@ class ::queue_classes.Event extends ::queue_classes.Base
   {
     name = ::getTblValue("mode", params, "")
     shouldQueueCustomMode = getShouldQueueCustomMode(name)
+
+    if (!::u.isArray(params?.clusters))
+      params.clusters <- []
+  }
+
+  function addQueueByParams(qParams)
+  {
+    if (!("cluster" in qParams))
+      return false
+
+    local cluster = qParams.cluster
+    local isClusterAdded = false
+    if (!::isInArray(cluster, params.clusters))
+    {
+      params.clusters.append(cluster)
+      isClusterAdded = true
+    }
+
+    addQueueByUid(qParams?.queueId, getQueueData(qParams))
+    return isClusterAdded
+  }
+
+  function removeQueueByParams(leaveData)
+  {
+    local queueUid = ::getTblValue("queueId", leaveData)
+    if (queueUid == null || (queueUid in queueUidsList && queueUidsList.len() == 1)) //leave all queues
+    {
+      clearAllQueues()
+      return true
+    }
+
+    if (!(queueUid in queueUidsList))
+      return false
+
+    removeQueueByUid(queueUid)
+    return true
+  }
+
+  function removeQueueByUid(queueUid)
+  {
+    local cluster = queueUidsList[queueUid].cluster
+    if (::u.filter(queueUidsList, @(q) q.cluster == cluster).len() <= 1)
+    {
+      local idx = params.clusters.find(cluster)
+      if (idx >= 0)
+        params.clusters.remove(idx)
+    }
+    base.removeQueueByUid(queueUid)
+  }
+
+  function clearAllQueues()
+  {
+    params.clusters.clear()
+    base.clearAllQueues()
   }
 
   static function getCustomModeSaveId(eventName) { return "queue/customEvent/" + eventName }
@@ -119,8 +173,7 @@ class ::queue_classes.Event extends ::queue_classes.Base
 
     qp.team <- getTeamCode()
 
-    if (queueType.useClusters)
-      qp.clusters <- params.clusters
+    qp.clusters <- params.clusters
 
     qp.players <- {
       [::my_user_id_str] = {
@@ -153,9 +206,10 @@ class ::queue_classes.Event extends ::queue_classes.Base
 
   function getQueueData(qParams)
   {
-    local res = base.getQueueData(qParams)
-    res.gameModeId <- ::getTblValue("gameModeId", qParams, -1)
-    return res
+    return {
+      cluster = qParams.cluster
+      gameModeId = ::getTblValue("gameModeId", qParams, -1)
+    }
   }
 
   function hasCustomMode()

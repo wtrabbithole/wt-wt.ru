@@ -47,6 +47,8 @@ function get_version_int_from_string(versionText)
 
   script_net_assert = function(error) { dagor.debug("Exception:" + error) }
   is_gui_webcache_enabled = function() { return false }
+  web_vromfs_prefetch_file = function(fn) { return false }
+  web_vromfs_is_file_prefetched = function(fn) { return false }
 
   is_option_free_camera_inertia_exist = ("OPTION_FREE_CAMERA_INERTIA" in getroottable())
   is_option_replay_camera_wiggle_exist = ("OPTION_REPLAY_CAMERA_WIGGLE" in getroottable())
@@ -523,10 +525,13 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
   YU2_PAY_WEBMONEY = 8
   YU2_PAY_AMAZON   = 16
 
+  BROWSER_EVENT_BROWSER_CRASHED = 0xFF
 })
 
 //----------------------------wop_1_71_2_X---------------------------------//
 ::apply_compatibilities({
   ONLINE_BINARIES_INITED = 8
   HANGAR_ENTERED = 16
+
+  get_online_client_cur_state = @() 0
 })

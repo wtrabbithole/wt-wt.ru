@@ -14,7 +14,8 @@ enum hintTagCheckOrder {
 
   checkTag = function(tagName) { return typeName == tagName }
   getViewSlices = function(tagName, params) { return [] }
-  makeTag = function(param) { return typeName }
+  makeTag = function(params = null) { return typeName }
+  makeFullTag = @(params = null) ::g_hints.hintTags[0] + makeTag(params) + ::g_hints.hintTags[1]
 }
 
 ::g_enum_utils.addTypesByGlobalName("g_hint_tag", {
@@ -56,11 +57,30 @@ enum hintTagCheckOrder {
     typeName = "img="
     checkOrder = hintTagCheckOrder.REGULAR
     checkTag = function(tagName) { return ::g_string.startsWith(tagName, typeName) }
+    colorParam = "color="
+    sizeParam = "sizeStyle="
+    delimiter = " "
     getViewSlices = function(tagName, params)
     {
-      return [{ image = ::g_string.cutPrefix(tagName, typeName, "") }]
+      local paramsList = ::split(tagName, delimiter)
+      local res = {
+        image = ::g_string.cutPrefix(paramsList[0], typeName,  "")
+        color = null
+        sizeStyle = null
+      }
+      for(local i = 1; i < paramsList.len(); i++)
+      {
+        res.color = res.color || ::g_string.cutPrefix(paramsList[i], colorParam)
+        res.sizeStyle = res.sizeStyle || ::g_string.cutPrefix(paramsList[i], sizeParam)
+      }
+      return [res]
     }
-    makeTag = function(image) { return typeName + image }
+    makeTag = function(params = null)
+    {
+      return typeName + (params?.image || "")
+        + (params?.color      ? delimiter + colorParam + params.color : "")
+        + (params?.sizeStyle  ? delimiter + sizeParam + params.sizeStyle : "")
+    }
   }
 
   MISSION_ATTEMPTS_LEFT = {

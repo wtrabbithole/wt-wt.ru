@@ -22,13 +22,23 @@ class ::LoginProcess
 {
   curProgress = LOGIN_PROGRESS.NOT_STARTED
 
-  constructor()
+  constructor(shouldCheckScriptsReload)
   {
-    if (::g_login.isAuthorized()) //if scripts was reloaded from code
+    if (shouldCheckScriptsReload)
+      restoreStateAfterScriptsReload()
+    if (::g_login.isAuthorized())
       curProgress = LOGIN_PROGRESS.IN_LOGIN_WND
 
     ::subscribe_handler(this, ::g_listener_priority.LOGIN_PROCESS)
     nextStep()
+  }
+
+  function restoreStateAfterScriptsReload()
+  {
+    local curMState = ::get_online_client_cur_state()
+    foreach(mState, lState in matchingStageToLoginState)
+      if (mState & curMState)
+        ::g_login.addState(lState)
   }
 
   function isValid()
@@ -66,6 +76,8 @@ class ::LoginProcess
         },
         this))
     }
+
+    checkNextStep()
   }
 
   function checkNextStep()

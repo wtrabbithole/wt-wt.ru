@@ -798,7 +798,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     imgObj["background-image"] = presence.getIcon()
     imgObj["background-color"] = presence.getIconColor()
-    imgObj["tooltip"] = ::loc(presence.presenceTooltip)
+    imgObj["tooltip"] = ::loc(presence.getTooltip())
   }
 
   function getColumnDataById(id)

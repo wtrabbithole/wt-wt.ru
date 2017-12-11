@@ -5,13 +5,28 @@ enum PT_STEP_STATUS {
   SUSPEND
 }
 
-function start_pseudo_thread(actionsList, step = 0)
+function start_pseudo_thread(actionsList, onCrash = null, step = 0, guiScene = null)
 {
-  ::get_cur_gui_scene().performDelayed(::getroottable(), (@(actionsList, step) function() {
+  if (!guiScene)
+    guiScene = ::get_main_gui_scene()
+  guiScene.performDelayed(::getroottable(), function() {
     local curStep = step
     while(curStep in actionsList)
     {
-      local stepStatus = actionsList[curStep]()
+      local stepStatus = PT_STEP_STATUS.NEXT_STEP
+      try {
+        stepStatus = actionsList[curStep]()
+      }
+      catch(e)
+      {
+        dagor.debug("Crash in pseudo thread step = " + curStep + ", status = " + stepStatus)
+        if (onCrash)
+        {
+          onCrash()
+          return
+        }
+      }
+
       if (stepStatus != PT_STEP_STATUS.SUSPEND)
         curStep++
 
@@ -19,8 +34,8 @@ function start_pseudo_thread(actionsList, step = 0)
         continue
 
       if (curStep in actionsList)
-        ::start_pseudo_thread(actionsList, curStep)
+        ::start_pseudo_thread(actionsList, onCrash, curStep)
       break
     }
-  })(actionsList, step))
+  })
 }

@@ -177,7 +177,7 @@ function isPlayerPS4Friend(playerName)
   return ::is_platform_ps4 && playerName in ::ps4_console_friends
 }
 
-function is_player_xbox_one_friend(playerName)
+function is_player_from_xbox_one(playerName)
 {
   return ::is_platform_xboxone && ::g_string.startsWith(playerName, ::XBOX_ONE_PLAYER_PREFIX)
 }

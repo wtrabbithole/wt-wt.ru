@@ -1695,21 +1695,12 @@
       }
     }
   ],
-  "weapon_presets": [
-    {
-      "preset": {
-        "name": "mb_157_default",
-        "blk": "gameData/FlightModels/weaponPresets/mb_157_default.blk"
-      }
-    },
-    {
-      "preset": {
-        "name": "mb_157_500kg",
-        "blk": "gameData/FlightModels/weaponPresets/mb_174_a3_1x500kg.blk",
-        "reqModification": "fr_f222_tgpu"
-      }
+  "weapon_presets": {
+    "preset": {
+      "name": "mb_157_default",
+      "blk": "gameData/FlightModels/weaponPresets/mb_157_default.blk"
     }
-  ],
+  },
   "jetwash": {
     "radius": 10.0,
     "minDist": 50.0,
@@ -1824,13 +1815,12 @@
     "hispano_ground_targets": [],
     "hispano_tracers": [],
     "hispano_stealth": [],
-    "hispano_belt_pack": [],
-    "hispano_404_new_gun": {
-      "reqModification": "hispano_belt_pack"
+    "hispano_belt_pack": {
+      "tier": 1
     },
-    "fr_f222_tgpu": {
-      "modClass": "weapon",
-      "tier": 2
+    "hispano_404_new_gun": {
+      "reqModification": "hispano_belt_pack",
+      "tier": 3
     }
   },
   "user_skin": [

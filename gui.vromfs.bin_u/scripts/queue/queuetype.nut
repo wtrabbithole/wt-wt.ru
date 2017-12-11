@@ -14,7 +14,6 @@ enum qTypeCheckOrder {
   checkOrder = qTypeCheckOrder.COMMON
   getQueueClass = @(params) ::queue_classes.Event
   useSlots = true
-  useClusters = true
 
   prepareQueueParams = function(params)
   {
@@ -22,9 +21,8 @@ enum qTypeCheckOrder {
       if(!("slots" in params))
         params.slots <- ::getSelSlotsTable()
 
-    if (useClusters)
-      if(!("clusters" in params))
-        params.clusters <- ::get_current_clusters()
+    if(!("clusters" in params))
+      params.clusters <- ::get_current_clusters()
 
     return params
   }
@@ -62,7 +60,6 @@ enum qTypeCheckOrder {
       bit = QUEUE_TYPE_BIT.WW_BATTLE
       getQueueClass = @(params) ::queue_classes.WwBattle
       useSlots = false
-      useClusters = false
 
       isParamsCorresponds = @(params) "battleId" in params
       prepareQueueParams = function(params)

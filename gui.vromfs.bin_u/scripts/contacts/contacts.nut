@@ -367,7 +367,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::checkObj(contactPresenceObj))
       {
         contactPresenceObj.setValue(f.getPresenceText())
-        contactPresenceObj["color-factor"] = f.presence.getTransparencyDegree()
+        contactPresenceObj["color-factor"] = f.presence.iconTransparency
       }
       obj.findObject("tooltip").uid = f.uid
       if (selUid == f.uid)
@@ -945,7 +945,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       {
         text = isMuted? ::loc("mainmenu/btnUnmute") : ::loc("mainmenu/btnMute")
-        show = !isMe && curPlayer.voiceStatus && ::is_player_xbox_one_friend(curPlayer.name)
+        show = !isMe && curPlayer.voiceStatus && ::is_player_from_xbox_one(curPlayer.name)
         action = @() ::xbox_mute_chat_player(curPlayer.uid.tointeger(), !isMuted)
       }
       {

@@ -3,6 +3,8 @@
   "fmFile": "fm/douglas_ad_2.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/1x_engine_attacker_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
+  "gearSinkRangeLR": 0.156,
+  "gearSinkRangeC": 0.11,
   "type": "typeStormovik",
   "paratrooper": "usa_para",
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
@@ -13,7 +15,7 @@
   "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk",
   "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
-  "fireParamsPreset": "500kph",
+  "fireParamsPreset": "600kph",
   "fightAiBehaviour": "assault",
   "DamageParts": {
     "armor10": {
@@ -1697,6 +1699,7 @@
       "flaps_fixed": true,
       "gears": [0.0,1.0],
       "gear_fixed": true,
+      "gears1": [0.0,1.0],
       "brakes": [0.0,1.0],
       "trimmer": [-1.0,1.0],
       "airbrake_lever": [0.0,1.0],
@@ -1873,7 +1876,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [82.0,166.0],
+    "engineExtinguishFireSpeed": [82.0,194.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0

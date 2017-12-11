@@ -568,22 +568,6 @@ function get_mission_desc_text(missionBlk)
   return descrAdd
 }
 
-g_cached_files_table <- {}
-
-function cached_is_existing_image(fn, assertText = null)
-{
-  if (is_gui_webcache_enabled()) // images always "exist" when gui webcache enabled
-    return true;
-
-  if (!(fn in g_cached_files_table))
-  {
-    g_cached_files_table[fn] <- is_existing_file(fn, false)
-    if (!g_cached_files_table[fn] && assertText)
-      ::dagor.assertf(false, ::format(assertText, fn))
-  }
-  return g_cached_files_table[fn]
-}
-
 function getCountryByAircraftName(airName) //used in code
 {
   local country = ::getShopCountry(airName)
@@ -719,11 +703,7 @@ function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full
 
   if(::checkObj(pic))
   {
-    local imagePath = "ui/" + ::loc(name_id) + logoHeight
-    if (!::cached_is_existing_image(imagePath, "not found image by path %s"))
-      imagePath = "ui/title" + logoHeight
-
-    pic["background-image"] = imagePath
+    pic["background-image"] = "ui/" + ::loc(name_id) + logoHeight
     pic.show(show)
     return true
   }
@@ -1513,7 +1493,7 @@ function buildTableRowNoPad(rowName, rowData, even=null, trParams="")
 
 function get_text_urls_data(text)
 {
-  if (!text.len())
+  if (!text.len() || !::has_feature("AllowExternalLink"))
     return null
 
   local urls = []
@@ -1812,11 +1792,6 @@ function buildBonusText(value, endingText)
 function checkObj(obj)
 {
   return obj!=null && obj.isValid()
-}
-
-function checkDataBlock(block)
-{
-  return block!=null && typeof(block)=="instance" && block instanceof ::DataBlock
 }
 
 function clearBorderSymbols(value, symList = [" "])
@@ -2491,22 +2466,6 @@ function quit_and_run_cmd(cmd)
   ::exit_game();
 }
 
-
-function getEnumValName(strEnumName, value, skipSynonyms=false)
-{
-  ::dagor.assertf(typeof(strEnumName) == "string", "strEnumName must be enum name as a string")
-  local constants = getconsttable()
-  local enumTable = (strEnumName in constants) ? constants[strEnumName] : {}
-  local name = ""
-  foreach (constName, constVal in enumTable)
-    if (constVal == value)
-    {
-      name += (name.len() ? " || " : "") + format("%s.%s", strEnumName, constName)
-      if (skipSynonyms) break
-    }
-  return name
-}
-
 function check_feature_tanks()
 {
   return ::has_feature("Tanks")
@@ -2566,7 +2525,6 @@ function init_use_touchscreen()
   return "is_thouchscreen_enabled" in getroottable() ? ::is_thouchscreen_enabled() : false
 }
 
-
 function check_tanks_available(silent = false)
 {
   if (::is_platform_pc && "is_tanks_allowed" in getroottable() && !::is_tanks_allowed())
@@ -2577,43 +2535,6 @@ function check_tanks_available(silent = false)
   }
   return true
 }
-
-function check_image_exist(img, assertText = null)
-{
-  if (img == "")
-    return true
-
-  img = regexp2("\\?P1$").replace("", img)
-  img = regexp2("\\?x1ac$").replace("", img)
-
-  if (regexp2("^#[^\\s]+#[^\\s]").match(img)) //skin
-  {
-    local skinName = regexp2("^#|#[^\\s]+").replace("", img)
-    return ::cached_is_existing_image(skinName + ".ta.bin", assertText)
-  }
-
-  img = regexp2("^#").replace("", img)
-  if (regexp2("[^\\s].jpg$").match(img))
-    return ::cached_is_existing_image(img, assertText)
-
-  return ::cached_is_existing_image(img + ".ddsx", assertText)
-}
-
-function check_blk_images(blk, assertText = null)
-{
-  foreach(tag in ["background-image", "foreground-image"])
-    foreach(img in (blk % tag))
-      if (typeof(img) == "string")
-        if (!::check_image_exist(img, assertText))
-          return false
-
-  local totalBlocks = blk.blockCount()
-  for(local i = 0; i < totalBlocks; i++)
-    if (!::check_blk_images(blk.getBlock(i), assertText))
-      return false
-  return true
-}
-
 
 function find_nearest(val, arrayOfVal)
 {
@@ -2633,18 +2554,6 @@ function find_nearest(val, arrayOfVal)
   }
 
   return bestIdx;
-}
-
-
-function check_blk_images_by_file(fileName)
-{
-  local blk = ::DataBlock()
-  if (!blk.load(fileName))
-  {
-    ::dagor.assertf(false, "Error: cant load loading bg: " + fileName)
-    return false
-  }
-  return ::check_blk_images(blk, "Error: cant load image %s for " + fileName)
 }
 
 function combine_tables(primaryTable, secondaryTable)
@@ -2970,7 +2879,7 @@ function on_changed_cursor_visibility(old_value)
     newValue = ::is_cursor_visible_in_gui()
   })
 
-  ::call_darg("cursorVisibilityUpdate", ::is_cursor_visible_in_gui())
+  ::call_darg("hudCursorVisibleUpdate", ::is_cursor_visible_in_gui())
 }
 
 function char_convert_blueprints(type)

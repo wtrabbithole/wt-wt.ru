@@ -312,6 +312,18 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
   function onEventHangarModelLoaded(p)
   {
     doWhenActiveOnce("updateSelUnitInfo")
+    updateLowQualityModelWarning()
+  }
+
+  function updateLowQualityModelWarning()
+  {
+    local lowQuality = !::is_loaded_model_high_quality()
+    local warningObj = showSceneBtn("low-quality-model-warning", lowQuality)
+    local canDownloadPackage = ::can_download_package()
+    ::showBtn("low_quality_model_download_button", canDownloadPackage, warningObj)
+
+    if (lowQuality && canDownloadPackage && isSceneActive() && ::isInMenu())
+      ::check_package_and_ask_download_once("pkg_main", "air_in_hangar")
   }
 
   function updateSelUnitInfo()

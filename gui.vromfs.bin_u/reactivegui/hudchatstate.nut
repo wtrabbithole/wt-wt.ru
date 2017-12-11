@@ -42,7 +42,7 @@ local hudChatState = persist("hudChatState", @() {
 }
 
 
-::interop.mpChatToggle <- function (enable) {
+::interop.hudChatInputEnableUpdate <- function (enable) {
   hudChatState.inputEnabled.update(enable)
   hudChatState.inputEnabled.trigger()
 }

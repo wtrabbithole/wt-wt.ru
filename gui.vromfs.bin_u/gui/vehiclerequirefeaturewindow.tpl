@@ -118,6 +118,7 @@ root {
             position:t='relative';
             showOn:t='hoverOrSelect';
             btnName:t='A';
+            noMargin:t='yes'
             entitlementId:t='<<entitlementId>>';
             ButtonImg {}
 

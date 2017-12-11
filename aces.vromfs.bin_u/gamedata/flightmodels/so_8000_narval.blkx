@@ -2235,6 +2235,13 @@
     },
     {
       "preset": {
+        "name": "so_8000_narval_bombs_1000",
+        "blk": "gameData/FlightModels/weaponPresets/so_8000_narval_1000.blk",
+        "reqModification": "b-25_lbc"
+      }
+    },
+    {
+      "preset": {
         "name": "so_8000_narval_rockets",
         "blk": "gameData/FlightModels/weaponPresets/so_8000_narval_rockets.blk",
         "reqModification": "fr_matra_t_10"
@@ -2245,15 +2252,6 @@
         "name": "so_8000_narval_rockets_150",
         "blk": "gameData/FlightModels/weaponPresets/so_8000_narval_rockets_150.blk",
         "reqModification": "fr_matra_t_10_150"
-      }
-    },
-    {
-      "preset": {
-        "name": "so_8000_narval_bombs_1000",
-        "blk": "gameData/FlightModels/weaponPresets/so_8000_narval_1000.blk",
-        "tags": {
-          "aux": true
-        }
       }
     }
   ],
@@ -2374,16 +2372,24 @@
     "mg151_armor_targets": [],
     "mg151_all_tracers": [],
     "mg151_stealth": [],
-    "mg15120_belt_pack": [],
+    "mg15120_belt_pack": {
+      "tier": 1
+    },
     "mg15120_new_gun": {
-      "reqModification": "mg15120_belt_pack"
+      "reqModification": "mg15120_belt_pack",
+      "tier": 3
+    },
+    "b-25_lbc": {
+      "modClass": "weapon",
+      "tier": 2
     },
     "fr_matra_t_10": {
-      "tier": 2,
-      "modClass": "weapon"
+      "tier": 3,
+      "modClass": "weapon",
+      "reqModification": "b-25_lbc"
     },
     "fr_matra_t_10_150": {
-      "tier": 3,
+      "tier": 4,
       "modClass": "weapon",
       "reqModification": "fr_matra_t_10"
     }

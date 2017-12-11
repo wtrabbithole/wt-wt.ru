@@ -641,8 +641,7 @@ class Events
     if ("eventImage" in event)
     {
       local eventImageTemplate = event.eventImage
-      if (!checkEventImage(eventImageTemplate))
-        return ::format(eventImageTemplate, isWide ? "wide" : "thin")
+      return ::format(eventImageTemplate, isWide ? "wide" : "thin")
     }
 
     local res = ""
@@ -658,17 +657,6 @@ class Events
   function wrapImageName(imageName, isWide)
   {
     return ::format("#ui/images/game_modes_tiles/%s.jpg?P1", imageName + (isWide ? "_wide" : "_thin"))
-  }
-
-  function checkEventImage(imageNameTemplate)
-  {
-    foreach (postfix in ["wide", "thin"])
-    {
-      local imageName = ::format(imageNameTemplate, postfix)
-      if (::check_image_exist(imageName, ::format("Error: Unable to find custom image '%s'", imageName)))
-        return false
-    }
-    return true
   }
 
   function getEventPreviewVideoName(event, isWide)

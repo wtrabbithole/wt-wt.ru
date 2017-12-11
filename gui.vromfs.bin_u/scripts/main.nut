@@ -237,6 +237,7 @@ foreach (fn in [
   "scripts/viewUtils/projectAwards.nut"
 
   "scripts/sqModuleHelpers.nut"
+  "scripts/clientState/fileCheck.nut"
   "scripts/util.nut"
   "scripts/timer.nut"
 
@@ -283,6 +284,7 @@ foreach (fn in [
   "scripts/wndLib/rightClickMenu.nut"
   "scripts/actionsList.nut"
 
+  "scripts/debugTools/dbgEnum.nut"
   "scripts/debugTools/debugWnd.nut"
   "scripts/debugTools/dbgTimer.nut"
   "scripts/debugTools/dbgDump.nut"
@@ -737,6 +739,10 @@ function load_scripts_after_login()
 
   if (::g_login.isAuthorized() || ::disable_network()) //load scripts from packs only after login
     ::g_script_reloader.loadIfExist("scripts/worldWar/worldWar.nut")
+
+  // Independed Modules
+  ::require("scripts/social/playerInfoUpdater.nut")
+  // end of Independed Modules
 }
 
 //app does not exist on script load, so we cant to use ::app->shouldDisableMenu

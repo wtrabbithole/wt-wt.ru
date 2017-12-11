@@ -49,4 +49,9 @@
     nestId = "minor_priority_hints"
     hintStyle = "hudMinor"
   }
+
+  ACTIONBAR = {
+    nestId = "actionbar_hints"
+    hintStyle = "hudMinor"
+  }
 })

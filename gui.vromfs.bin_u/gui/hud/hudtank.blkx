@@ -654,6 +654,26 @@
           "pos": "0, @shHud - h",
           "flow": "vertical"
         }
+      },
+      {
+        "tdiv": {
+          "width": "1@shHud",
+          "pos": "0.5sw-0.5w, @hintAboveActionBarPos -h",
+          "position": "root",
+          "flow": "vertical",
+          "textAreaCentered": {
+            "id": "low-quality-model-warning",
+            "width": "pw",
+            "style": "color:@warningTextColor; font:@fontHudNormal;",
+            "text": "#low_quality_model_in_hangar",
+            "display": "hide"
+          },
+          "tdiv": {
+            "id": "actionbar_hints",
+            "width": "pw",
+            "flow": "vertical"
+          }
+        }
       }
     ]
   },

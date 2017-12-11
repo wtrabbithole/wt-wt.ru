@@ -164,7 +164,7 @@ function get_userlog_image_item(item, params = {})
 
 function get_link_markup(text, url, acccessKeyName=null)
 {
-  if (!::u.isString(url) || url.len() == 0)
+  if (!::u.isString(url) || url.len() == 0 || !::has_feature("AllowExternalLink"))
     return ""
   local btnParams = {
     text = text

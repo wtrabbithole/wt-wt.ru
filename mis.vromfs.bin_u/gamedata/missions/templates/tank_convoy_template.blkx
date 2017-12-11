@@ -180,7 +180,7 @@
       },
       "else_actions": {
         "varSetInt": {
-          "value": 27,
+          "value": 1,
           "var": "have_to_kill_count"
         },
         "triggerEnable": {
@@ -688,6 +688,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,100.0],
             "radius": 50.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@current_waypoint_str",
             "team": "A",
             "tags": {
@@ -717,6 +718,7 @@
             "showOnMap": false,
             "offset": [0.0,0.0,100.0],
             "radius": 50.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@prev_waypoint_str",
             "team": "A",
             "disableAfter": 0,
@@ -757,6 +759,7 @@
             "showOnMap": true,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@current_waypoint_str",
             "team": "B",
             "tags": {
@@ -786,6 +789,7 @@
             "showOnMap": false,
             "offset": [0.0,0.0,0.0],
             "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "@prev_waypoint_str",
             "team": "B",
             "disableAfter": 0,

@@ -77,6 +77,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       updateUnitIcon()
       listboxObj.setValue(showTabs ? ::load_local_account_settings(SLOT_INFO_TAB_SAVE_ID, 0) : 0)
       updateContentVisibility()
+
+      listboxObj.show(view.items.len() > 1)
     }
 
     local unitInfoObj = scene.findObject("air_info_content_info")

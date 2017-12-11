@@ -56,11 +56,12 @@ hint {
     <</timer>>
     <<#image>>
     img {
-      size:t='0.06@shHud, 0.06@shHud'
+      <<#sizeStyle>>sizeStyle:t='<<sizeStyle>>'<</sizeStyle>>
       pos:t='0, @hintRowCenterOffsetY - 50%h'
       position:t='relative'
       background-image:t='<<image>>'
       background-repeat:t='aspect-ratio'
+      <<#color>>style:t='background-color:<<color>>;'<</color>>
     }
     <</image>>
     <<#text>>

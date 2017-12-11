@@ -4,7 +4,7 @@
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/1x_engine_fighter_metaparts.blk",
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
   "type": "typeFighter",
-  "paratrooper": "usa_para",
+  "paratrooper": "france_para",
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
@@ -1690,7 +1690,7 @@
   ],
   "ikPilot": [
     {
-      "model": "pilot_us_char"
+      "model": "pilot_france_char"
     },
     {
       "maxHeadHorAngle": 60.0
@@ -1748,7 +1748,7 @@
     }
   ],
   "attach": {
-    "pilot1": "pilot_us_500"
+    "pilot1": "pilot_france_500"
   },
   "Params": {
     "Range": 1148.0
@@ -2069,13 +2069,25 @@
     {
       "replace_tex": {
         "from": "f8f1b_bearcat_c*",
-        "to": "f8f1_bearcat_france_c*"
+        "to": "f8f1b_bearcat_france_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f8f1b_bearcat_n*",
+        "to": "f8f1_bearcat_n*"
       }
     },
     {
       "replace_tex": {
         "from": "f8f1b_bearcat_c_dmg*",
-        "to": "f8f1_bearcat_france_c_dmg*"
+        "to": "f8f1b_bearcat_france_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f8f1b_bearcat_n_dmg*",
+        "to": "f8f1_bearcat_n_dmg*"
       }
     }
   ],

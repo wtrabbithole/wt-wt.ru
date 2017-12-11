@@ -2677,7 +2677,7 @@
       {
         "Weapon": {
           "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunMAC34.blk",
+          "blk": "gameData/Weapons/gunMAC34_turret.blk",
           "emitter": "gun2",
           "flash": "flare5",
           "dm": "gunner2_dm",
@@ -2688,15 +2688,15 @@
             "gun": "gun2"
           },
           "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
+            "yaw": [-5.0,5.0],
+            "pitch": [-5.0,5.0]
           }
         }
       },
       {
         "Weapon": {
           "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunMAC34.blk",
+          "blk": "gameData/Weapons/gunMAC34_turret.blk",
           "emitter": "gun2",
           "flash": "flare6",
           "dm": "gunner2_dm",
@@ -2707,15 +2707,15 @@
             "gun": "gun2"
           },
           "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
+            "yaw": [-5.0,5.0],
+            "pitch": [-5.0,5.0]
           }
         }
       },
       {
         "Weapon": {
           "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunMAC34.blk",
+          "blk": "gameData/Weapons/gunMAC34_turret.blk",
           "emitter": "gun2",
           "flash": "flare7",
           "dm": "gunner2_dm",
@@ -2726,8 +2726,8 @@
             "gun": "gun2"
           },
           "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
+            "yaw": [-5.0,5.0],
+            "pitch": [-5.0,5.0]
           }
         }
       }
@@ -2745,10 +2745,7 @@
         "preset": {
           "name": "mb_174_a3_1x500kg",
           "blk": "gameData/FlightModels/weaponPresets/mb_174_a3_1x500kg.blk",
-          "reqModification": "fr_100_gp_standart",
-          "tags": {
-            "aux": true
-          }
+          "reqModification": "fr_f222_tgpu"
         }
       }
     ]
@@ -2892,6 +2889,10 @@
       "mac39_turret_new_gun": {
         "reqModification": "7_5mm_turret_belt_pack",
         "tier": 4
+      },
+      "fr_f222_tgpu": {
+        "modClass": "weapon",
+        "tier": 2
       }
     }
   },

@@ -709,7 +709,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!limitsCheckResult && item && !item.isInventoryItem)
       warningText = limitsCheckData.reason
     setWarningText(warningText)
-    showSceneBtn("btn_link_action", item && item.link.len())
+    showSceneBtn("btn_link_action", item && item.link.len() && ::has_feature("AllowExternalLink"))
   }
 
   function onLinkAction(obj)

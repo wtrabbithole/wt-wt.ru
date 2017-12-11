@@ -598,6 +598,13 @@ function g_world_war::haveManagementAccessForAnyGroup()
   return result >= WW_BATTLE_ACCESS.MANAGER
 }
 
+function g_world_war::isSquadsInviteEnable()
+{
+  return ::has_feature("WorldWarSquadInvite") &&
+         ::g_world_war.haveManagementAccessForAnyGroup() &&
+         ::clan_get_my_clan_id().tointeger() >= 0
+}
+
 function g_world_war::isGroupAvailable(group, accessList = null)
 {
   if (!group || !group.isValid() || !group.owner.isValid())

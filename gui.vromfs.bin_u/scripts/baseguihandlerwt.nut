@@ -1428,25 +1428,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     }
   }
 
-  function onEventHangarModelLoaded(params)
-  {
-    updateLowQualityModelWarning()
-  }
-
-  function updateLowQualityModelWarning()
-  {
-    if (wndType != handlerType.BASE)
-      return
-
-    local lowQuality = !::is_loaded_model_high_quality()
-    local warningObj = showSceneBtn("low-quality-model-warning", lowQuality)
-    local canDownloadPackage = ::can_download_package()
-    ::showBtn("low_quality_model_download_button", canDownloadPackage, warningObj)
-
-    if (lowQuality && canDownloadPackage && isSceneActive() && ::isInMenu())
-      ::check_package_and_ask_download_once("pkg_main", "air_in_hangar")
-  }
-
   function proccessLinkFromText(obj, itype, link)
   {
     ::open_url(link, false, false, obj.bqKey || obj.id)

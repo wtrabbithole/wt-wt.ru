@@ -98,28 +98,16 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
                                 name = "image",
                                 objId = "award_image",
                                 param = "background-image",
-                                checkFunc = function (imagePath)
-                                {
-                                  return ::check_image_exist(imagePath, "Every Day Login Award: Not Found Image " + imagePath)
-                                }
                              })
     updateObjectByData(data, {
                                 name = "progressBar",
                                 objId = "left_framing",
                                 param = "background-image",
-                                checkFunc = function (imagePath)
-                                {
-                                  return ::check_image_exist(imagePath, "Every Day Login Award: Not Found Left framing Image " + imagePath)
-                                }
                             })
     updateObjectByData(data, {
                                 name = "progressBar",
                                 objId = "right_framing",
                                 param = "background-image",
-                                checkFunc = function (imagePath)
-                                {
-                                  return ::check_image_exist(imagePath, "Every Day Login Award: Not Found Right framing Image " + imagePath)
-                                }
                             })
   }
 

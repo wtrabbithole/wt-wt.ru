@@ -1587,6 +1587,15 @@
           },
           {
             "node": "bone_gun_barrel_02"
+          },
+          {
+            "node": "gun_barrel_02"
+          },
+          {
+            "node": "gun_barrel_05"
+          },
+          {
+            "node": "ammo_turret_43"
           }
         ]
       },
@@ -1594,6 +1603,9 @@
         "hideDmParts": [
           {
             "node": "gun_barrel_02_dm"
+          },
+          {
+            "node": "gun_barrel_05_dm"
           },
           {
             "node": "ammo_turret_43_dm"
@@ -1740,50 +1752,120 @@
         ]
       },
       {
-        "Weapon": {
-          "trigger": "gunner2",
-          "triggerGroup": "special",
-          "blk": "gameData/Weapons/groundModels_weapons/125mm_9M14_rocket_launcher.blk",
-          "weaponType": "rockets",
-          "useEmitter": true,
-          "emitter": "bone_rocket_01",
-          "reloadAnimVar": "bmp_1_action",
-          "createGunEffects": true,
-          "defaultYaw": 0.0,
-          "defaultPitch": 0.0,
-          "partsDP": "gun_barrel_03_dm",
-          "barrelDP": "ammo_turret_42_dm",
-          "breechDP": "gun_mask_01_dm",
-          "brokenBarrelAllowShoot": false,
-          "speedYaw": 24.0,
-          "speedPitch": 15.0,
-          "fireConeAngle": 1.0,
-          "bullets": 4,
-          "salvoAmount": 100.0,
-          "ChainfireTime": 0.0,
-          "DelayAfterShoot": 5.0,
-          "AttackMaxDistance": 1000.0,
-          "AttackMaxRadius": 1000.0,
-          "AttackMaxHeight": 1000.0,
-          "accuracyAir": 0.0,
-          "accuracyGnd": 1.5,
-          "errMeasureVel": 0.0,
-          "errMeasureVelFast": 0.0,
-          "errMeasureVelFwdShift": 0.0,
-          "errMeasureVelDir": 0.0,
-          "errTargettingOn100kmph": 0.0,
-          "errTargetting": 3.0,
-          "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_gun_01",
-            "gun": "bone_gun_01",
-            "gunnerDm": "gunner_dm"
+        "Weapon": [
+          {
+            "trigger": "gunner2"
           },
-          "limits": {
-            "yaw": [0.0,0.0],
-            "pitch": [0.0,0.0]
+          {
+            "triggerGroup": "special"
+          },
+          {
+            "blk": "gameData/Weapons/groundModels_weapons/125mm_9M14_rocket_launcher.blk"
+          },
+          {
+            "weaponType": "rockets"
+          },
+          {
+            "useEmitter": true
+          },
+          {
+            "emitter": "bone_rocket_01"
+          },
+          {
+            "reloadAnimVar": "bmp_1_action"
+          },
+          {
+            "createGunEffects": true
+          },
+          {
+            "defaultYaw": 0.0
+          },
+          {
+            "defaultPitch": 0.0
+          },
+          {
+            "barrelDP": "gun_barrel_03_dm"
+          },
+          {
+            "barrelDP": "ammo_turret_42_dm"
+          },
+          {
+            "breechDP": "gun_mask_01_dm"
+          },
+          {
+            "brokenBarrelAllowShoot": false
+          },
+          {
+            "speedYaw": 24.0
+          },
+          {
+            "speedPitch": 15.0
+          },
+          {
+            "fireConeAngle": 1.0
+          },
+          {
+            "bullets": 4
+          },
+          {
+            "salvoAmount": 100.0
+          },
+          {
+            "ChainfireTime": 0.0
+          },
+          {
+            "DelayAfterShoot": 5.0
+          },
+          {
+            "AttackMaxDistance": 1000.0
+          },
+          {
+            "AttackMaxRadius": 1000.0
+          },
+          {
+            "AttackMaxHeight": 1000.0
+          },
+          {
+            "accuracyAir": 0.0
+          },
+          {
+            "accuracyGnd": 1.5
+          },
+          {
+            "errMeasureVel": 0.0
+          },
+          {
+            "errMeasureVelFast": 0.0
+          },
+          {
+            "errMeasureVelFwdShift": 0.0
+          },
+          {
+            "errMeasureVelDir": 0.0
+          },
+          {
+            "errTargettingOn100kmph": 0.0
+          },
+          {
+            "errTargetting": 3.0
+          },
+          {
+            "errExplTime": 0.0
+          },
+          {
+            "turret": {
+              "head": "bone_gun_01",
+              "gun": "bone_gun_01",
+              "gunnerDm": "gunner_dm"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [0.0,0.0],
+              "pitch": [0.0,0.0]
+            }
           }
-        }
+        ]
       }
     ]
   },
@@ -2607,6 +2689,12 @@
                 },
                 {
                   "node": "hatch_11"
+                },
+                {
+                  "node": "gun_barrel_04"
+                },
+                {
+                  "node": "gun_barrel_03"
                 }
               ]
             },
@@ -2614,6 +2702,9 @@
               "hideDmParts": [
                 {
                   "node": "ammo_turret_42_dm"
+                },
+                {
+                  "node": "gun_barrel_04_dm"
                 },
                 {
                   "node": "gun_barrel_03_dm"
@@ -2771,7 +2862,8 @@
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
-                "partsDP": "gun_barrel_02_dm",
+                "barrelDP": "gun_barrel_05_dm",
+                "breechDP": "gun_barrel_02_dm",
                 "brokenBarrelAllowShoot": false,
                 "speedYaw": 24.0,
                 "speedPitch": 15.0,
@@ -3047,10 +3139,7 @@
           "count": 1
         },
         "ammo_turret_41_dm": {
-          "count": 1
-        },
-        "ammo_turret_42_dm": {
-          "count": 1
+          "count": 2
         }
       }
     }

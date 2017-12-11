@@ -17,7 +17,7 @@ function show_viral_acquisition_wnd()
     local paramNum = ::math.rnd() % guiBlk.invites_notification_window_images.paramCount()
     local newHeight = guiBlk.invites_notification_window_images.getParamName(paramNum)
     local newImage = ::format(formatImg, guiBlk.invites_notification_window_images.getParamValue(paramNum))
-    if (::check_image_exist(newImage) && !regexp2(@"\D+").match(newHeight))
+    if (!regexp2(@"\D+").match(newHeight))
     {
       height = newHeight
       image = newImage

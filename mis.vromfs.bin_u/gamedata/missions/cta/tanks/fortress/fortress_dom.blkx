@@ -279,6 +279,9 @@
         "remapAiTankModels": true
       },
       {
+        "battleAreaColorPreset": "battleArea"
+      },
+      {
         "country_axis": "germany"
       },
       {
@@ -1350,6 +1353,82 @@
           "army": 0,
           "active": false
         }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_killarea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [235.339,54.3549,-673.339]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_killarea_hardcore_block01"
+          },
+          {
+            "squad_members": "t1_killarea_hardcore_block02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_killarea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [325.301,28.2552,-1337.72]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_killarea_block01"
+          },
+          {
+            "squad_members": "t1_killarea_block02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_killarea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-562.685,48.1787,-2458.82]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_killarea_block01"
+          },
+          {
+            "squad_members": "t2_killarea_block02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_killarea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-787.265,43.8169,-2813.4]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_killarea_hardcore_block01"
+          },
+          {
+            "squad_members": "t2_killarea_hardcore_block02"
+          }
+        ]
       }
     }
   ],
@@ -3475,6 +3554,94 @@
         [-254.9,60.4,-1893.55]
       ],
       "objLayer": 3,
+      "props": []
+    },
+    "t1_killarea_hardcore_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,150.0],
+        [968.799,16.1223,-952.34]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_hardcore_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,150.0],
+        [-107.214,0.0,-555.473]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_hardcore_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,150.0],
+        [-1519.2,0.000976563,-1777.68]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_hardcore_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,150.0],
+        [-175.366,0.00012207,-3244.74]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,100.0],
+        [430.973,16.1223,-1695.28]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,100.0],
+        [69.5419,16.1223,-1270.19]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,100.0],
+        [-706.527,16.1223,-1852.24]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,77.7914,0.0],
+        [0.0,0.0,100.0],
+        [-11.1993,16.1219,-2586.71]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },
