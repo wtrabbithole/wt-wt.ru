@@ -335,23 +335,23 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return hasChanges
   }
 
-  function getRoomNameText(room)
+  function getRoomNameView(room)
   {
-    local fullColor = null
+    local isLocked = false
     local flags = room[EROOM_FLAGS_KEY_NAME]
     local mustHaveMask = eRoomFlags.HAS_COUNTRY
                        | eRoomFlags.HAS_AVAILABLE_UNITS | eRoomFlags.HAS_REQUIRED_UNIT
                        | eRoomFlags.HAS_PLACES | eRoomFlags.HAS_PLACES_IN_MY_TEAM
                        | eRoomFlags.IS_ALLOWED_BY_BALANCE
     if ((flags & mustHaveMask) != mustHaveMask)
-      fullColor = "@minorTextColor"
+      isLocked = true
 
     local text = ::SessionLobby.getMissionNameLoc(room)
     local reqUnits = ::SessionLobby.getRequiredCratfs(Team.A, room)
     if (reqUnits)
     {
       local color = ""
-      if (!fullColor && !(room[EROOM_FLAGS_KEY_NAME] & eRoomFlags.HAS_UNIT_MATCH_RULES))
+      if (!isLocked && !(room[EROOM_FLAGS_KEY_NAME] & eRoomFlags.HAS_UNIT_MATCH_RULES))
         color = "@warningTextColor"
 
       local rankText = ::events.getTierTextByRules(reqUnits)
@@ -363,9 +363,10 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
         text += ::loc("ui/comma") + rulesText
     }
 
-    if (fullColor)
-      text = ::colorize(fullColor, text)
-    return text
+    return {
+      text = text
+      isLocked = isLocked
+    }
   }
 
   function getRuleText(rule, needTierRule = false)
@@ -471,10 +472,13 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
             curRoomId = roomIdToSelect
         }
 
+        local nameView = getRoomNameView(room)
+
         view.items.append({
           id = chapter.name + ROOM_ID_SPLIT + roomId
           isBattle = ::SessionLobby.isSessionStartedInRoom(room)
-          itemText = getRoomNameText(room)
+          itemText = nameView.text
+          isLocked = nameView.isLocked
         })
       }
     }

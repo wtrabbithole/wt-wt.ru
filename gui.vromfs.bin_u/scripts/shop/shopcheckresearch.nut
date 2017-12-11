@@ -65,9 +65,12 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
     local unitsCount = boughtVehiclesCount[rank]
     local unitsNeed = ::getUnitsNeedBuyToOpenNextInEra(unitCountry, unitType, rank, ranksBlk)
     local reqUnits = max(0, unitsNeed - unitsCount)
-    local text = ::loc("shop/unlockTier/locked", {rank = ::get_roman_numeral(nextRank)}) + "\n"
-                  + ::loc("shop/unlockTier/reqBoughtUnitsPrevRank", {amount = reqUnits, prevRank = ::get_roman_numeral(rank)})
-    msgBox("locked_rank", text, [["ok", function(){}]], "ok", { cancel_fn = function(){}})
+    if (reqUnits > 0)
+    {
+      local text = ::loc("shop/unlockTier/locked", {rank = ::get_roman_numeral(nextRank)}) + "\n"
+                    + ::loc("shop/unlockTier/reqBoughtUnitsPrevRank", {amount = reqUnits, prevRank = ::get_roman_numeral(rank)})
+      msgBox("locked_rank", text, [["ok", function(){}]], "ok", { cancel_fn = function(){}})
+    }
   }
 
   function updateHeaderText()
