@@ -14,20 +14,17 @@ tdiv {
 
   tdiv {
     size:t='pw, ph'
-    left:t='50%pw-50%w'
     position:t='absolute'
-    overflow:t='hidden'
 
-    img {
-      size:t='pw, 50%w'
-      max-height:t='ph'
+    wwBattleBackgroundBlock { wwBattleBackground {} }
 
-      background-image:t='#ui/images/worldwar_window_bg_image.jpg?P1'
-      background-position:t='6,6'
+    tdiv {
+      size:t='pw, ph'
+      position:t='absolute'
 
       wwBattleBackgroundShadow { type:t='left'   }
       wwBattleBackgroundShadow { type:t='right'  }
-      wwBattleBackgroundShadow { type:t='top'    }
+      wwBattleBackgroundShadow { type:t='top' }
       wwBattleBackgroundShadow { type:t='bottom'; top:t='ph-h' }
     }
   }

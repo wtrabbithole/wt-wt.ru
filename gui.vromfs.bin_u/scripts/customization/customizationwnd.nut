@@ -412,7 +412,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::havePremium())
     {
       obj.setValue(oldValue)
-      return askBuyPremium(::Callback(updateSkinSliders, this))
+      guiScene.performDelayed(this, @()
+        isValid() && askBuyPremium(::Callback(updateSkinSliders, this)))
+      return
     }
 
     updateSkinConditionValue(newValue, obj)

@@ -194,7 +194,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillFreeExp()
   {
-    scene.findObject("available_exp").setValue(availableExp.tostring())
+    scene.findObject("available_exp").setValue(::g_language.decimalFormat(availableExp))
   }
 
   function updateSwitchButtons()
@@ -331,9 +331,9 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     local strGrantedExp = ::getRpPriceText(unitExpGranted, true)
     local expToBuy = getCurExpValue()
     local strWantToBuyExp = expToBuy > 0
-                            ? format("<color=@activeTextColor> +%s</color>", ::getFreeRpPriceText(expToBuy, true))
+                            ? format("<color=@activeTextColor> +%s</color>", ::getFreeRpPriceText(::g_language.decimalFormat(expToBuy), true))
                             : ""
-    local strRequiredExp = ::getUnitReqExp(unit).tostring()
+    local strRequiredExp = ::g_language.decimalFormat(::getUnitReqExp(unit))
     local sliderText = ::format("<color=@commonTextColor>%s%s%s%s</color>", strGrantedExp, strWantToBuyExp, ::loc("ui/slash"), strRequiredExp)
     sliderTextObj.setValue(sliderText)
   }
@@ -341,7 +341,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillCostGold()
   {
     local costGoldObj = scene.findObject("convertion_cost")
-    costGoldObj.setValue((curGoldValue-minGoldValue).tostring())
+    costGoldObj.setValue(::g_language.decimalFormat(curGoldValue-minGoldValue))
   }
 
   function updateButtons()

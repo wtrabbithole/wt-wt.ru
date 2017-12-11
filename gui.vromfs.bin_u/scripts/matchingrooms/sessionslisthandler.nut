@@ -324,6 +324,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
     if (_roomsMarkUpData)
       return _roomsMarkUpData
 
+    guiScene.applyPendingChanges(false)
     _roomsMarkUpData = {
             tr_size = "pw, @baseTrHeight"
             //automatic  mission = { width = "0.35pw-ph" }
@@ -433,8 +434,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
   {
     local room = getCurRoom()
     ::session_fill_info(scene, room? room.public : null)
-    local publicParams = ::getTblValue("public", room)
-    ::update_vehicle_info_button(scene, publicParams)
+    ::update_vehicle_info_button(scene, room)
 
     local btnObj = scene.findObject("btn_select")
     if (::checkObj(btnObj))

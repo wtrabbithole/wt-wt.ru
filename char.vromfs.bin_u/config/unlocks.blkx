@@ -33552,6 +33552,43 @@
   },
   {
     "unlockable": {
+      "id": "uk_chieftain_mk_10/uk_berlin_brigade",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_britain",
+      "hideUntilUnlocked": true,
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_chieftain_mk_10"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "uk_conqueror_mk_2/uk_camo_earth_yellow",
       "type": "skin",
       "chapter": "skins",
@@ -105463,6 +105500,135 @@
             "type": "activity",
             "percent": 30
           }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "chat_had_logins_before_feature",
+      "type": "challenge",
+      "hidden": true,
+      "mode": {
+        "type": "char_login_time_range",
+        "beginDate": "2000-01-01 00:00:00",
+        "endDate": "2026-01-01 00:00:00",
+        "condition": {
+          "type": "playerFirstLogin",
+          "beginDate": "2000-01-01 00:00:00",
+          "endDate": "2017-10-10 00:00:00"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "chat_have_wons_to_post",
+      "type": "achievement",
+      "hidden": true,
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 2
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 30
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "chat_allow_posting",
+      "type": "achievement",
+      "hidden": true,
+      "mode": [
+        {
+          "type": "char_unlocks"
+        },
+        {
+          "num": 1
+        },
+        {
+          "unlock": "chat_had_logins_before_feature"
+        },
+        {
+          "unlock": "chat_have_wons_to_post"
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "chat_have_wons_to_spawn",
+      "type": "achievement",
+      "hidden": true,
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 10
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 30
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "chat_allow_spawn",
+      "type": "achievement",
+      "hidden": true,
+      "mode": [
+        {
+          "type": "char_unlocks"
+        },
+        {
+          "num": 1
+        },
+        {
+          "unlock": "chat_had_logins_before_feature"
+        },
+        {
+          "unlock": "chat_have_wons_to_spawn"
         }
       ]
     }

@@ -1,0 +1,220 @@
+{
+  "selected_tag": "",
+  "bin_dump_file": "",
+  "mission_settings": {
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": 15.0
+    },
+    "player": {
+      "army": 1
+    },
+    "player_teamB": {
+      "army": 2
+    },
+    "mission": {
+      "name": "untitled",
+      "level": "levels/water.bin",
+      "type": "singleMission",
+      "restoreType": "attempts",
+      "optionalTakeOff": false,
+      "campaign": "UserMissions",
+      "environment": "Day",
+      "weather": "hazy",
+      "missionDebriefing": "",
+      "missionBriefing": "",
+      "battleAreaColorPreset": "battleArea",
+      "tags": [],
+      "missionType": {
+        "_Dom": false,
+        "_Conq": false,
+        "_Bttl": false,
+        "_Bto": false,
+        "_Flc": false,
+        "_v1_race_straight": false,
+        "_v1_race_inverted": false,
+        "_v2_race_straight": false,
+        "_v2_race_inverted": false,
+        "_Conq1": false,
+        "_Conq2": false,
+        "_Conq3": false,
+        "_Conq4": false,
+        "_Conq5": false,
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
+      }
+    },
+    "spectator_points": [],
+    "cover_points": [],
+    "aiParams": {
+      "aiEffectivenessViscosity": 90.0,
+      "effectivenessDistances": [2500.0,7000.0]
+    }
+  },
+  "imports": {
+    "import_record": {
+      "file": "gameData/missions/cta/tanks/normandy/template_normandy_02_conq2_hardcore.blk",
+      "importAreas": true,
+      "importUnits": true,
+      "importTriggers": true,
+      "importMissionObjectives": true,
+      "importWayPoints": true,
+      "showAreas": true,
+      "showUnits": true,
+      "showTriggers": true,
+      "showMissionObjectives": true,
+      "showWayPoints": true,
+      "excludes": []
+    }
+  },
+  "triggers": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "mission_objectives": {
+    "isCategory": true,
+    "is_enabled": true
+  },
+  "variables": [],
+  "dialogs": [],
+  "airfields": [],
+  "effects": [],
+  "units": [
+    {
+      "area_squad": {
+        "name": "t1_battlearea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [2149.42,58.5255,1664.84]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_battlearea_hardcore_block01"
+          },
+          {
+            "squad_members": "t1_battlearea_hardcore_block02"
+          },
+          {
+            "squad_members": "t1_battlearea_hardcore_block03"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_battlearea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1685.52,60.75,1572.79]
+        ],
+        "props": {
+          "squad_members": "t2_battlearea_hardcore_block01"
+        }
+      }
+    }
+  ],
+  "areas": {
+    "fake_battlearea_hardcore": {
+      "type": "Box",
+      "tm": [
+        [1800.0,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,1800.0],
+        [2030.35,29.95,2066.25]
+      ],
+      "objLayer": 6,
+      "props": []
+    },
+    "t2_battlearea_hardcore_block01": {
+      "type": "Box",
+      "tm": [
+        [1450.25,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,1800.0],
+        [1855.5,29.9504,2066.25]
+      ],
+      "objLayer": 6,
+      "props": []
+    },
+    "t1_battlearea_hardcore_block01": {
+      "type": "Box",
+      "tm": [
+        [1336.16,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,1800.0],
+        [2262.28,29.9504,2066.25]
+      ],
+      "objLayer": 6,
+      "props": []
+    },
+    "t1_battlearea_hardcore_block02": {
+      "type": "Box",
+      "tm": [
+        [1486.12,0.0,0.0],
+        [0.0,644.0,0.0],
+        [0.0,0.0,1313.58],
+        [2187.24,29.9502,1823.07]
+      ],
+      "objLayer": 6,
+      "props": []
+    },
+    "t1_battlearea_hardcore_block03": {
+      "type": "Box",
+      "tm": [
+        [276.481,0.0,-199.074],
+        [0.0,644.0,0.0],
+        [175.963,0.0,244.383],
+        [1670.25,29.9504,2502.44]
+      ],
+      "objLayer": 6,
+      "props": []
+    }
+  },
+  "objLayers": [
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    },
+    {
+      "layer": {
+        "enabled": true
+      }
+    }
+  ],
+  "wayPoints": []
+}

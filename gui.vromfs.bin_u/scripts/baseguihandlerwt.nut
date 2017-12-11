@@ -928,6 +928,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     local actions = ::get_unit_actions_list(unit, this, "onSlot", actionsArray)
+    if (!actions.actions.len())
+      return
+
     actions.closeOnUnhover <- closeOnUnhover
     ::gui_handlers.ActionsList(unitObj, actions)
   }

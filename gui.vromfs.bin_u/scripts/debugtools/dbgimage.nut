@@ -43,3 +43,56 @@ function debug_svg(image, size = null, bgColor = "#808080")
 
   debug_wnd("gui/debugTools/dbgSvg.tpl", view)
 }
+
+
+
+function debug_svg_list(fileMask = null, size = null, bgColor = null)
+{
+  fileMask  = fileMask  || "*.svg"
+  size      = size      || "64@sf/@pf"
+  bgColor   = bgColor   || "#808080"
+
+  local dirs = [
+    "D:/dagor2/skyquake/develop/gui/hud/gui_skin"
+    "D:/dagor2/skyquake/develop/gui/hud/pkg_dev"
+  ]
+
+  local filesList = []
+  foreach (dir in dirs)
+  {
+    local filePaths = ::find_files_in_folder(dir, fileMask, false, true, true)
+    filesList.extend(::u.map(filePaths, @(path) ::g_path.fileName(path)))
+  }
+  filesList.sort()
+
+  local view = {
+    title = "debug_svg_list(\"" + fileMask + "\")"
+    size = ::u.isString(size) ? ::to_pixels(size) : size
+    bgColor = bgColor
+    files = []
+  }
+
+  foreach (filename in filesList)
+    view.files.append({
+      name = ::g_string.slice(filename, 0, -4)
+      image = "#ui/gameuiskin#" + filename
+    })
+
+  local handler = {
+    scene = null
+    guiScene = null
+
+    function onCreate(obj)
+    {
+      scene = obj
+      guiScene = obj.getScene()
+    }
+
+    function onImgClick(obj)
+    {
+      ::view_fullscreen_image(obj.findObject("image"))
+    }
+  }
+
+  ::debug_wnd("gui/debugTools/dbgSvgList.tpl", view, handler)
+}

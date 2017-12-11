@@ -16,7 +16,7 @@
           "id": "item_desc"
         },
         {
-          "pos": "50%pw-50%w, 1@minYposWindow + 0.01@scrn_tgt"
+          "pos": "pw/2-w/2, 1@minYposWindow"
         },
         {
           "position": "absolute"
@@ -126,9 +126,9 @@
     {
       "tdiv": {
         "id": "wnd_content",
-        "pos": "pw/2-w/2, 1@topBarHeight +5@sf/@pf_outdated",
+        "pos": "pw/2-w/2, 1@minYposWindow",
         "position": "absolute",
-        "size": "sw-2@bw, sh - (1@topBarHeight +5@sf/@pf_outdated) - (1@bottomBarHeight -14@sf/@pf_outdated)",
+        "size": "sw-2@bw, 1@maxWindowHeightNoSrh",
         "div": {
           "id": "select_all_countries",
           "pos": "pw-w, 40@sf/@pf_outdated/2 - h/2",
@@ -391,7 +391,7 @@
                   {
                     "newIconWidget": {
                       "id": "new_game_modes_widget_place",
-                      "pos": "1@newTextClassIconWidgetImgPaddingLeft, 50%ph-50%h",
+                      "pos": "0.5h -5@dp, 50%ph-50%h",
                       "position": "relative"
                     }
                   },

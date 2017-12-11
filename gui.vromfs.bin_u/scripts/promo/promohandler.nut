@@ -356,9 +356,15 @@ class Promo
         if (showProgressBar)
         {
           local curLevel = currentWarbond.getCurrentShopLevel()
+          local nextLevel = curLevel + 1
           local markUp = ::g_warbonds_view.getProgressBoxMarkUp()
+          if (currentWarbond.isMaxLevelReached())
+          {
+            nextLevel = curLevel
+            curLevel -= 1
+          }
           markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, curLevel, "-50%w")
-          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, curLevel + 1, "pw-50%w")
+          markUp += ::g_warbonds_view.getLevelItemMarkUp(currentWarbond, nextLevel, "pw-50%w")
           view.warbondLevelPlace <- markUp
         }
         else if (!isTaskWithReward)

@@ -1,3 +1,5 @@
+const ALL_WW_UNITS_CODE = -2
+
 ::g_ww_unit_type <- {
   types = []
   cache = {
@@ -74,6 +76,11 @@
     expClass = "artillery"
     moveSound = "ww_unit_move_artillery"
     deploySound = "ww_unit_move_artillery"
+  }
+  ALL = {
+    code = ALL_WW_UNITS_CODE
+    textCode = "ALL"
+    fontIcon = ::loc("worldwar/iconAllVehicle")
   }
 })
 

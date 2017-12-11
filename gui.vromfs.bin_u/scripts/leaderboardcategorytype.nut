@@ -388,6 +388,15 @@ function g_lb_category::_typeConstructor ()
       modesMask = LB_MODE.AIR | LB_MODE.TANK | LB_MODE.SHIP
     }
 
+    /*CLAN DUELS*/
+    CLANDUELS_CLAN_ELO = {
+      field = "clanRating"
+      type = ::g_lb_data_type.NUM,
+      headerImage = "dr_era5"
+      headerTooltip = "clan_elo"
+
+      showFieldFilter = [] // not encountered in event leaderboards
+    }
 
     /*EVENTS*/
     EVENTS_PERSONAL_ELO = {

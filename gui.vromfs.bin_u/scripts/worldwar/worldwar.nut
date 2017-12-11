@@ -345,6 +345,8 @@ function g_world_war::onEventLoadingStateChange(p)
 
 function g_world_war::stopWar()
 {
+  rearZones = null
+
   ::g_tooltip.removeAll()
   ::g_ww_logs.clear()
   if (!::ww_is_operation_loaded())
@@ -406,9 +408,12 @@ function g_world_war::onEventWWGlobalStatusChanged(p)
     ::g_squad_manager.updateMyMemberData()
 }
 
-function g_world_war::onEventSquadDataUpdated(p)
+function g_world_war::checkJoinWWOperation()
 {
   if (!::g_squad_manager.getWwOperationBattle())
+    return
+
+  if (::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE))
     return
 
   if (!::g_squad_manager.isSquadMember() || !::g_squad_manager.isMeReady())
@@ -418,15 +423,11 @@ function g_world_war::onEventSquadDataUpdated(p)
   if (squadWwOperationId < 0 || squadWwOperationId == ::ww_get_operation_id())
     return
 
-  local wwOperation = ::g_ww_global_status.getOperationById(squadWwOperationId)
-  if (!wwOperation)
-    return
-
   local wwOperationCountry = ::g_squad_manager.getWwOperationCountry()
   if (::u.isEmpty(wwOperationCountry))
     return
 
-  wwOperation.join(wwOperationCountry)
+  joinOperationById(squadWwOperationId, wwOperationCountry)
 }
 
 function g_world_war::isDebugModeEnabled()

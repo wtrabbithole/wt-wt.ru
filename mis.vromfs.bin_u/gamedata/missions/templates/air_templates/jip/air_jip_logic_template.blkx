@@ -148,7 +148,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       }
     },
     "cover_points": [],
@@ -168,7 +174,8 @@
         "slide": {
           "map": true,
           "minTime": 4,
-          "picture": ""
+          "picture": "",
+          "showAirMap": false
         }
       }
     }
@@ -343,7 +350,7 @@
       "actions": {
         "varModify": {
           "operator": "add",
-          "value": 2500.0,
+          "value": 5000.0,
           "var": "team1_quest_score"
         }
       },
@@ -366,7 +373,7 @@
       "actions": {
         "varModify": {
           "operator": "add",
-          "value": 2500.0,
+          "value": 5000.0,
           "var": "team2_quest_score"
         }
       },
@@ -565,6 +572,118 @@
             "var": "team2_old_score",
             "use_variable": true,
             "var_value": "team2_score"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "t1_minor_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1000.0,
+            "var": "team1_quest_score"
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "bottom",
+            "name": "hints/players_found_new_task",
+            "action": "show",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
+            "team": "A"
+          }
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "bottom",
+            "name": "hints/players_found_new_task",
+            "action": "hide",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
+            "team": "A"
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "t2_minor_task_completed": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "varModify": {
+            "operator": "add",
+            "value": 1000.0,
+            "var": "team2_quest_score"
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "bottom",
+            "name": "hints/players_found_new_task",
+            "action": "show",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
+            "team": "B"
+          }
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "bottom",
+            "name": "hints/players_found_new_task",
+            "action": "hide",
+            "shouldFadeOut": false,
+            "isOverFade": false,
+            "time": -1.0,
+            "priority": 0,
+            "target_marking": 0,
+            "team": "B"
           }
         }
       ],

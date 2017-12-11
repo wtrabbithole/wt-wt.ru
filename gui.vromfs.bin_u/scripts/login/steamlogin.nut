@@ -37,8 +37,6 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
 
     guiScene.prependWithBlk(scene.findObject("authorization_block"), data, this)
 
-    showSceneBtn("text_req_connection", false)
-
     if (!::getTblValue("disable_autorelogin_once", ::getroottable(), false))
       onOk()
   }

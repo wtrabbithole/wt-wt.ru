@@ -62,9 +62,6 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       }
       local targetHalfsizePxMin = round(mapSize[0] * minDispersionRadiusMeters.tofloat() / mapSizeMeters * pointerSizeToRadiusScale)
       pointerRadiusToHalfsizePx = isSuperArtillery ? 0.0 : (targetHalfsizePxMin - targetHalfsizePxMin / pointerSizeToRadiusScale)
-
-      for (local i = 0; i < objTarget.childrenCount(); i++)
-        objTarget.getChild(i).size = ::format("%d, %d", targetHalfsizePxMin, targetHalfsizePxMin)
     }
 
     watchAxis = ::joystickInterface.getAxisWatch(false, true)

@@ -73,7 +73,7 @@ local textInput = function(text_state, options={}, handlers={}, frameCtor=defaul
       color = colors.textColor
       group = group
       margin = [sh(1), sh(0.5)]
-      valign = VALIGN_MIDDLE
+      valign = VALIGN_BOTTOM
 
       animations = [failAnim(text_state)]
 

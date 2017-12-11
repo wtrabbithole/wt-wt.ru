@@ -275,3 +275,19 @@ function g_crew_skills::isAffectedByLeadership(memberName, skillName)
   local skillItem = ::g_crew.getSkillItem(memberName, skillName)
   return ::getTblValue("useLeadership", skillItem, false)
 }
+
+function g_crew_skills::getMinSkillsUnitRepairRank(unitRank)
+{
+  local repairRanksBlk = ::getTblValue("repair_ranks", ::get_skills_blk())
+  if (!repairRanksBlk)
+    return -1
+  for(local i = 1; ; i++)
+  {
+    local rankValue = repairRanksBlk["rank" + i]
+    if (!rankValue)
+      break
+    if (rankValue >= unitRank)
+      return i
+  }
+  return -1
+}

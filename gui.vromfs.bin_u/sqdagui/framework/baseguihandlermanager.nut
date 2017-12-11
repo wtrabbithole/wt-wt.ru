@@ -333,8 +333,6 @@ function handlersManager::switchBaseHandler(handler)
 
   updateLoadingFlag()
 
-  updateIngameShortcutsActive(curHandler, handler)
-
   onSwitchBaseHandler()
 
   ::broadcastEvent("SwitchedBaseHandler")
@@ -368,15 +366,6 @@ function removeHandlerFromListByGuiScene(list, guiScene)
     if (!h || !h.guiScene || guiScene.isEqual(h.guiScene))
       list.remove(i)
   }
-}
-
-function handlersManager::updateIngameShortcutsActive(prevHandler, curHandler)
-{
-  if (!prevHandler && !curHandler)
-    return
-
-  if (!prevHandler || prevHandler.allowIngameShortcuts != curHandler.allowIngameShortcuts)
-    setIngameShortcutsActive(curHandler.allowIngameShortcuts)
 }
 
 function handlersManager::onBaseHandlerSwitch()

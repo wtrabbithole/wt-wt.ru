@@ -48,7 +48,7 @@ local mpChatModel = {
     mpChatState.log.append(message)
 
     ::broadcastEvent("MpChatLogUpdated")
-    ::push_message(message)
+    ::call_darg("mpChatPushMessage", message)
     return true
   }
 
@@ -64,20 +64,20 @@ local mpChatModel = {
       return
 
     mpChatState.currentModeId = modeId
-    ::push_new_mode_type(modeId)
+    ::call_darg("mpChatModeChange", modeId)
     ::broadcastEvent("MpChatModeChanged", { modeId = mpChatState.currentModeId})
   }
 
 
   function onInputChanged(str) {
-    ::push_new_input_string(str)
+    ::call_darg("mpChatInputChanged", str)
     ::broadcastEvent("MpChatInputChanged", {str = str})
   }
 
 
   function onChatClear() {
     mpChatState.log.clear()
-    ::clear_chat_log()
+    ::call_darg("mpChatClear")
   }
 
 

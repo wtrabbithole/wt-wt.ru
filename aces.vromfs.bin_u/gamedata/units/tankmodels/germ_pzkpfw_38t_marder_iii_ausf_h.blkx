@@ -1536,6 +1536,62 @@
   },
   {
     "MetaParts": {
+      "inner": [
+        {
+          "hp": 10000.0
+        },
+        {
+          "part": "engine_dm"
+        },
+        {
+          "part": "transmission_dm"
+        },
+        {
+          "part": "cannon_breech_dm"
+        },
+        {
+          "part": "cannon_breech_01_dm"
+        },
+        {
+          "part": "cannon_breech_02_dm"
+        },
+        {
+          "part": "cannon_breech_03_dm"
+        },
+        {
+          "part": "cannon_breech_04_dm"
+        },
+        {
+          "part": "cannon_breech_05_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 180.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
       "crew": [
         {
           "killAllPartsForDeath": true
@@ -1620,15 +1676,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1728,9 +1775,6 @@
           "part": "turret_back_dm"
         },
         {
-          "part": "cannon_breech_dm"
-        },
-        {
           "part": "superstructure_top_dm"
         },
         {
@@ -1753,15 +1797,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2595,9 +2630,7 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
-      "75mm_ger_kwk40_HEAT": {
-        "modCostMul": 0.5
-      },
+      "75mm_ger_kwk40_HEAT": [],
       "75mm_ger_kwk40_APCR": [],
       "75mm_kwk_37_40_HEAT_ammo_pack": [],
       "75mm_kwk_40_APCR_ammo_pack": [],

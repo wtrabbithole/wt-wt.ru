@@ -43,7 +43,6 @@ mission_item_unlocked {
       <<#teamACountries>>
         mission_item_text {
           text:t = '#country/VS'
-          padding-right:t='1@textPaddingBugWorkaround' //to balance text padding
         }
       <</teamACountries>>
 

@@ -38,6 +38,14 @@
         "dns": "1.2.4.8"
       }
     ],
+    "webVromfs": {
+      "maxSize": 471859200,
+      "timeoutSec": 10,
+      "mainThreadTimeoutSec": 10,
+      "baseUrls": {
+        "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
+      }
+    },
     "guiWebCache": {
       "maxSize": 1073741824,
       "maxSizePS4": 209715200,
@@ -48,7 +56,7 @@
     "url": "http://dldata.warthunder.com/staging/",
     "hashesReqUrl": "http://public-configs.warthunder.com/staging/dldata.info"
   },
-  "_common_ugc_settings": [
+  "_common_ugcSkinsDecalsCDN": [
     {
       "ugcServerUrl": "https://ugcinfo-test-lw-nl-01.gaijin.net/char"
     },
@@ -362,6 +370,9 @@
       "disableScaleWPByPlayers": true
     },
     {
+      "webVromfs_useCommon": false
+    },
+    {
       "enableUGC": true
     },
     {
@@ -372,6 +383,16 @@
         "yupConfUrl": "",
         "baseUrls": {
           "url": "http://wthost.gaijin.lan:8000/guiWebCache"
+        }
+      }
+    },
+    {
+      "webVromfs": {
+        "maxSize": 471859200,
+        "timeoutSec": 10,
+        "mainThreadTimeoutSec": 10,
+        "baseUrls": {
+          "url": "http://wthost.gaijin.lan:8000/content/warthunder/webfs/"
         }
       }
     },

@@ -131,39 +131,6 @@
     }
   },
   {
-    "ammo": {
-      "combustionTime": 10.0,
-      "detonateProb": 0.5,
-      "detonatePortion": [0.7,0.9],
-      "explodeHitPower": 5500.0,
-      "hitPowerMult": 1.0,
-      "nearHitPower": [1.0,50.0],
-      "midHitPower": [0.9,400.0],
-      "farHitPower": [0.1,1000.0],
-      "endHitPower": [0.01,1500.0],
-      "relativeVelHitShift": [300.0,1000.0],
-      "nearArmorPower": [10.0,50.0],
-      "midArmorPower": [7.0,400.0],
-      "farArmorPower": [0.2,700.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "explodeTreshold": 0.0001,
-      "explodeArmorPower": 30.0,
-      "explodeRadius": [1.5,10.0]
-    }
-  },
-  {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 13000.0,
-        "cutDamage": 2000.0,
-        "deviation": 0.2,
-        "rotation": 0.7,
-        "collisionNode": "cls_turret_01"
-      }
-    }
-  },
-  {
     "unitFx": [
       {
         "event": [
@@ -1484,7 +1451,7 @@
         "momentOfInertia": [5.0,6.0,8.0],
         "CenterOfGravity": [0.05,0.5,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
-        "AdvancedMass": true,
+        "AdvancedMass": false,
         "trackMass": 3400.0
       },
       "tracks": {
@@ -2647,5 +2614,38 @@
         }
       }
     ]
+  },
+  {
+    "ammo": {
+      "combustionTime": 10.0,
+      "detonateProb": 0.5,
+      "detonatePortion": [0.7,0.9],
+      "explodeHitPower": 5500.0,
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 30.0,
+      "explodeRadius": [1.5,10.0]
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 13000.0,
+        "cutDamage": 2000.0,
+        "deviation": 0.2,
+        "rotation": 2.5,
+        "collisionNode": "cls_turret_01"
+      }
+    }
   }
 ]

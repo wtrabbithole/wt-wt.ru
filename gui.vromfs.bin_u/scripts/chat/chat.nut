@@ -14,7 +14,8 @@ enum chatErrorName {
 }
 
 g_chat <- {
-  [PERSISTENT_DATA_PARAMS] = ["isThreadsView", "rooms", "threadsInfo", "threadTitleLenMin", "threadTitleLenMax"]
+  [PERSISTENT_DATA_PARAMS] = ["isThreadsView", "rooms", "threadsInfo", "userCaps", "userCapsGen",
+                               "threadTitleLenMin", "threadTitleLenMax"]
 
   MAX_ROOM_MSGS = 50
   MAX_ROOM_MSGS_FOR_MODERATOR = 250
@@ -47,6 +48,16 @@ g_chat <- {
 
   rooms = [] //for full room params list check addRoom( function in menuchat.nut //!!FIX ME must be here, or separate class
   threadsInfo = {}
+  userCapsGen = 1 // effectively makes caps falsy
+  userCaps = {
+      ALLOWPOST     = 0
+      ALLOWPRIVATE  = 0
+      ALLOWJOIN     = 0
+      ALLOWXTJOIN   = 0
+      ALLOWSPAWN    = 0
+      ALLOWXTSPAWN  = 0
+      ALLOWINVITE   = 0
+    }
 
   LOCALIZED_MESSAGE_PREFIX = "LMSG "
 
@@ -313,6 +324,30 @@ function g_chat::updateThreadInfo(dataBlk)
     ::g_chat_latest_threads.onNewThreadInfoToList(threadsInfo[roomId])
 
   ::broadcastEvent("ChatThreadInfoChanged", { roomId = roomId })
+}
+
+function g_chat::haveProgressCaps(name)
+{
+  return (userCaps?[name]) == userCapsGen;
+}
+
+function g_chat::updateProgressCaps(dataBlk)
+{
+  userCapsGen++;
+
+  if ( ::u.isString(dataBlk.caps) && (dataBlk.caps != "") )
+  {
+    local capsList = ::split(dataBlk.caps, ",");
+    foreach(idx, prop in capsList)
+    {
+      if (prop in userCaps)
+        userCaps[prop] = userCapsGen;
+    }
+  }
+
+  dagor.debug("ChatProgressCapsChanged: "+userCapsGen)
+  debugTableData(userCaps);
+  ::broadcastEvent("ChatProgressCapsChanged")
 }
 
 function g_chat::createThread(title, categoryName, langTags = null)

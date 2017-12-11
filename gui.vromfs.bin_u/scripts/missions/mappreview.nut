@@ -35,6 +35,9 @@ function g_map_preview::setPreview(previewType, mapObj, missionBlk, param = null
   else
     preview = createPreview(previewType, missionBlk, mapObj, param)
 
+  if (preview != curPreview)
+    preview.show(false)
+
   refreshCurPreview(preview == curPreview)
 }
 
@@ -46,9 +49,13 @@ function g_map_preview::createPreview(previewType, missionBlk, mapObj, param)
     obj = mapObj
     param = param
 
-    isInCurGuiScene = function()
+    isValid = @() ::check_obj(obj)
+    isEmpty = @() !blk
+    isInCurGuiScene = @() obj.getScene().isEqual(::get_cur_gui_scene())
+    show = function(shouldShow)
     {
-      return obj.getScene().isEqual(::get_cur_gui_scene())
+      if (isValid())
+        obj.show(shouldShow)
     }
   }
   list.append(preview)
@@ -64,8 +71,7 @@ function g_map_preview::hideCurPreview()
 {
   if (!curPreview)
     return
-  if (::check_obj(curPreview.obj))
-    curPreview.obj.show(false)
+  curPreview.show(false)
   ::dynamic_unload_preview()
   curPreview = null
 }
@@ -85,7 +91,7 @@ function g_map_preview::refreshCurPreview(isForced = false)
 
   hideCurPreview()
   curPreview = newPreview
-  curPreview.obj.show(true)
+  curPreview.show(true)
   if (curPreview.type == MAP_PREVIEW_TYPE.MISSION_MAP)
     ::dynamic_load_preview(curPreview.blk)
   else if (curPreview.type == MAP_PREVIEW_TYPE.DYNAMIC_SUMMARY)
@@ -95,8 +101,8 @@ function g_map_preview::refreshCurPreview(isForced = false)
 function g_map_preview::validateList()
 {
   for(local i = list.len() - 1; i >= 0; i--)
-   if (!::check_obj(list[i].obj) || !list[i].blk)
-     list.remove(i)
+    if (!list[i].isValid() || list[i].isEmpty())
+      list.remove(i)
 
 
   list.sort(function(a, b)

@@ -1237,15 +1237,43 @@
       }
     },
     "ship_crew": {
-      "crewTankHearingDistance": 300.0,
-      "crewTankHearingSpottingDistance": 100.0,
-      "crewTankVisionDistance": 1500.0,
-      "crewTankVisionSpottingDistance": 1000.0,
-      "crewTankViewCamVisionDistance": 2500.0,
-      "crewTankViewCamVisionSpottingDistance": 2000.0,
-      "crewTankToAircraftViewCamSpottingDistance": 9500.0,
-      "crewTankVisionAngle": 80.0,
-      "crewTankVisionSpottingAngle": 50.0
+      "crewShipToAircraftViewCamSpottingDistance": 10000.0,
+      "crewShipHearingDistance": 330.0,
+      "crewShipHearingSpottingDistance": 50.0,
+      "crewShipVisionDistance": 1500.0,
+      "crewShipVisionSpottingDistance": 300.0,
+      "crewShipToTorpedoViewCamSpottingDistance": 500.0,
+      "visionSpottingDistanceMultiplier": [1.0,1.0],
+      "ship_commander": {
+        "interchangeAbilityMult": [1.0,0.7],
+        "leadership": [0.0,0.2],
+        "radioDistanceMult": [0.5,1.0]
+      },
+      "ship_engine_room": {
+        "operationTime": [2.0,1.5],
+        "floodCriticalWork": [0.5,1.0],
+        "antiFireSkill": [1.0,0.5]
+      },
+      "ship_artillery": {
+        "mainCaliberReloadMult": [1.0,1.0],
+        "auxCaliberReloatMult": [1.0,1.0],
+        "antiairCaliberReloadMult": [1.0,1.0],
+        "antiairGunnerMaxAngle": [10.0,1.0],
+        "auxGunnerMaxAngle": [10.0,1.0],
+        "distFuseAccuracy": [0.7,1.0]
+      },
+      "ship_damage_control": {
+        "unwatering": [0.5,1.0],
+        "extinguisherTimeMult": [0.5,1.0],
+        "fireDamageMult": [2.0,1.0],
+        "repairTimeMult": [0.5,1.0],
+        "surviveEffortMult": [0.5,1.0]
+      },
+      "ship_dock_service": {
+        "torpedoGunSpreadMult": [1.5,1.0],
+        "rocketGunSpreadMult": [1.5,1.0],
+        "machineGunCoolDownMult": [1.5,1.0]
+      }
     }
   }
 }

@@ -750,6 +750,8 @@ function update_crew_skills_available(forceUpdate = false)
 function get_crew_status(crew)
 {
   local status = ""
+  if (::is_in_flight())
+    return status
   foreach(id, data in ::crew_skills_available)
   {
     if (id != crew.id)

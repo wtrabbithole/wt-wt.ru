@@ -274,7 +274,7 @@ local time = require("scripts/time.nut")
         return
       if (!::checkObj(nest))
         return
-      if (!messageData.isKill && ::mission_settings.maxRespawns != 1)
+      if (!(messageData?.isKill ?? true) && ::mission_settings.maxRespawns != 1)
         return
       if (!::g_hud_vis_mode.getCurMode().isPartVisible(HUD_VIS_PART.KILLLOG))
         return

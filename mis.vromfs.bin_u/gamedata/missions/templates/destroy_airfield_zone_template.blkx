@@ -446,7 +446,9 @@
             "action": "show",
             "shouldFadeOut": true,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0
           }
         },
         {
@@ -461,7 +463,9 @@
             "action": "hide",
             "shouldFadeOut": true,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0
           }
         },
         {
@@ -1002,6 +1006,124 @@
         ]
       },
       "else_actions": []
+    },
+    "def_aaa_exist_init": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": [
+        {
+          "comment": {
+            "value": "заполняем имена сквадов, защищающих аэродром"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t1_def_aaa_squad",
+            "var": "def_aaa_t1_name"
+          }
+        },
+        {
+          "varSetString": {
+            "value": "t2_def_aaa_squad",
+            "var": "def_aaa_t2_name"
+          }
+        },
+        {
+          "comment": {
+            "value": "проверяем есть ли такие сквады"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "def_aaa_exist_t1_check"
+            },
+            {
+              "target": "def_aaa_exist_t2_check"
+            }
+          ]
+        }
+      ],
+      "else_actions": []
+    },
+    "def_aaa_exist_t1_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "@def_aaa_t1_name",
+          "type": "squad"
+        }
+      },
+      "actions": {
+        "unitSetProperties": {
+          "object_marking": 0,
+          "object": "@def_aaa_t1_name",
+          "accuracy": 0.6,
+          "checkVisibilityTarget": true,
+          "effShootingRate": 0.6,
+          "airEffShootingRate": 0.6,
+          "fireRandom": true,
+          "targetChangeInterval": 5.0,
+          "targetChangeProf": 0.25
+        }
+      },
+      "else_actions": []
+    },
+    "def_aaa_exist_t2_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "@def_aaa_t2_name",
+          "type": "squad"
+        }
+      },
+      "actions": {
+        "unitSetProperties": {
+          "object_marking": 0,
+          "object": "@def_aaa_t2_name",
+          "accuracy": 0.6,
+          "checkVisibilityTarget": true,
+          "effShootingRate": 0.6,
+          "airEffShootingRate": 0.6,
+          "fireRandom": true,
+          "targetChangeInterval": 5.0,
+          "targetChangeProf": 0.25
+        }
+      },
+      "else_actions": []
     }
   },
   "mission_objectives": {
@@ -1042,7 +1164,9 @@
     "dazt_is_mission_end_on_destroy": true,
     "dazt_airfield_max_hp": 30000.0,
     "dazt_arcade_hp_mul": 1.0,
-    "dazt_balance_level": 0
+    "dazt_balance_level": 0,
+    "def_aaa_t1_name": "",
+    "def_aaa_t2_name": ""
   },
   "dialogs": [],
   "airfields": [],

@@ -334,7 +334,7 @@ class GameModeManager
   {
     if (gameMode.type == RB_GM_TYPE.EVENT)
       return ::events.getUnitEconomicRankByEvent(gameMode.getEvent(), unit)
-    return 0
+    return ::get_unit_economic_rank_by_ediff(gameMode.ediff, unit)
   }
 
   /**

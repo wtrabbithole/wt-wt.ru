@@ -489,7 +489,31 @@
   ],
   "triggers": {
     "isCategory": true,
-    "is_enabled": true
+    "is_enabled": true,
+    "sleep_4th_circle": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [],
+      "actions": {
+        "wait": {
+          "time": 5.0
+        },
+        "unitPutToSleep": {
+          "target": "zone04_circle"
+        }
+      },
+      "else_actions": []
+    }
   },
   "mission_objectives": {
     "isCategory": true,

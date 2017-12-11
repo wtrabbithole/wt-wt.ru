@@ -50,6 +50,7 @@ class Events
     ::g_lb_category.EVENTS_EACH_PLAYER_SESSION
     ::g_lb_category.EVENT_STAT_TOTALKILLS
     ::g_lb_category.EVENTS_WP_TOTAL_GAINED
+    ::g_lb_category.CLANDUELS_CLAN_ELO
   ]
 
   standardChapterNames = [
@@ -2058,7 +2059,7 @@ class Events
         local startTime = ::events.getEventStartTime(reasonData.event)
         if (startTime > 0)
           messageText +=  "\n" + ::format(::loc("events/event_starts_in"), ::colorize("activeTextColor",
-            time.hoursToString(secondsToHours(startTime))))
+            time.hoursToString(time.secondsToHours(startTime))))
         ::scene_msg_box("cant_join", null, messageText,
             [["ok", function() {}]], "ok")
       }

@@ -396,7 +396,7 @@ class ::WwBattle
       return reasonData
     }
 
-    if (!::g_squad_manager.crewsReadyCheck())
+    if (::has_feature("WorldWarSquadInfo") && !::g_squad_manager.crewsReadyCheck())
     {
       reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_NOT_ALL_CREWS_READY
       reasonData.reasonText = ::loc("squad/not_all_crews_ready")

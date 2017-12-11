@@ -2301,13 +2301,6 @@
     }
   },
   {
-    "propellers": {
-      "engine": {
-        "propeller_l": "propeller_01"
-      }
-    }
-  },
-  {
     "commonWeapons": [
       {
         "Weapon": [
@@ -3229,7 +3222,7 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,40.0,-99.0],
+      "headPos": [0.0,40.0,-119.0],
       "headPosOnShooting": [-9.0,33.0,0.0]
     }
   },
@@ -3693,8 +3686,11 @@
       "engines": {
         "engine": {
           "pos": [-61.0,-2.5,0.0],
-          "maxThrust": 1800000.0,
-          "outputParam": "propeller_rotate_01:CRS"
+          "maxThrust": 1900000.0,
+          "outputParam": "propeller_rotate_01:CRS",
+          "engineDmPart": "engine_room_01_dm",
+          "transmissionDmPart": "transmission_01_dm",
+          "propeller": "propeller_01"
         }
       },
       "collisionProps": {

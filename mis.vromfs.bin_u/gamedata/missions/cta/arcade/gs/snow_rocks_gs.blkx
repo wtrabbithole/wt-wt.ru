@@ -203,6 +203,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "arrow": [
               {
                 "width": 1
@@ -513,6 +516,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -535,6 +539,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -546,6 +551,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -553,12 +559,16 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_tanks_squad"
             },
@@ -581,6 +591,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_trucks_squad"
             },
@@ -934,6 +947,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -956,6 +970,7 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -1045,6 +1060,9 @@
       "actions": {
         "unitSetProperties": [
           {
+            "object_marking": 0
+          },
+          {
             "object": "t1_tank_06"
           },
           {
@@ -1097,6 +1115,9 @@
       },
       "actions": {
         "unitSetProperties": [
+          {
+            "object_marking": 0
+          },
           {
             "object": "t2_tank_06"
           },

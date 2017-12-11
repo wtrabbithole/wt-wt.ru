@@ -206,6 +206,11 @@ class ::Warbond
     return getShopLevelTasks(getCurrentShopLevel() + 1)
   }
 
+  function isMaxLevelReached()
+  {
+    return levelsArray.top() <= getCurrentShopLevelTasks()
+  }
+
   function getCurrentMedalsCount()
   {
     if (!haveAnySpecialRequirements())

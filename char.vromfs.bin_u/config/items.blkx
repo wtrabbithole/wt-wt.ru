@@ -891,6 +891,32 @@
       }
     }
   },
+  "booster_shop_wp_113_1mp": {
+    "locId": "item/booster_shop_name",
+    "type": "rateBooster",
+    "expiredTimeHAfterActivation": 24.0,
+    "rateBoosterParams": {
+      "wpRate": 113,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
+  "booster_shop_rp_113_1mp": {
+    "locId": "item/booster_shop_name",
+    "type": "rateBooster",
+    "expiredTimeHAfterActivation": 24.0,
+    "rateBoosterParams": {
+      "xpRate": 113,
+      "spentInSessionTimeMin": 30,
+      "stop": {
+        "type": "sessionsStarted",
+        "num": 1
+      }
+    }
+  },
   "booster_pub_wp_10": {
     "expiredTimeH": 72.0,
     "expiredTimeHAfterActivation": 24.0,
@@ -4799,6 +4825,21 @@
         "buy": {
           "aircrafts": {
             "f4u-1a_japan": 50
+          }
+        }
+      }
+    }
+  },
+  "discount_75_f4u-1a_japan": {
+    "expiredTimeH": 48.0,
+    "expiredTimeHAfterActivation": 48.0,
+    "type": "personalDiscounts",
+    "personalDiscountsParams": {
+      "purchasesMaxCount": 1,
+      "discountsDesc": {
+        "buy": {
+          "aircrafts": {
+            "f4u-1a_japan": 75
           }
         }
       }

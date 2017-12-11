@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
 local colorCorrector = require_native("colorCorrector")
+local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
+local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 
 
 const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
@@ -1987,18 +1989,18 @@ function get_option(type, context = null)
 
     case ::USEROPT_MENU_SCREEN_SAFE_AREA:
       descr.id = "menu_screen_safe_area"
-      local cfg = ::g_option_menu_safearea.getConfig()
-      descr.items  = cfg.items
-      descr.values = cfg.values
-      descr.value  = ::find_in_array(descr.values, cfg.value)
-      defaultValue = cfg.defValue
+      descr.items  = safeAreaMenu.items
+      descr.values = safeAreaMenu.values
+      descr.value  = safeAreaMenu.getValueOptionIndex
+      defaultValue = safeAreaMenu.defValue
       break
 
     case ::USEROPT_HUD_SCREEN_SAFE_AREA:
       descr.id = "hud_screen_safe_area"
-      descr.items = ["#options/no", "5%", "10%", "15%"]
-      descr.values = [0, 0.05, 0.1, 0.15]
-      descr.value = find_in_array(descr.values, ::get_option_hud_screen_safe_area());
+      descr.items  = safeAreaHud.items
+      descr.values = safeAreaHud.values
+      descr.value  = safeAreaHud.getValueOptionIndex()
+      defaultValue = safeAreaHud.defValue
       break
 
     case ::USEROPT_AUTOPILOT_ON_BOMBVIEW:
@@ -2575,6 +2577,12 @@ function get_option(type, context = null)
         if (allowedList)
           allowedMask = ::get_bit_value_by_array(allowedList, ::shopCountriesList)
                         || allowedMask
+      }
+      else if ("missionName" in context)
+      {
+        local countries = ::g_crews_list.getSlotbarOverrideCountriesByMissionName(context.missionName)
+        if (countries.len())
+          allowedMask = ::get_bit_value_by_array(countries, ::shopCountriesList)
       }
       descr.allowedMask <- allowedMask
 
@@ -4146,13 +4154,16 @@ function set_option(type, value, descr = null)
     case ::USEROPT_MENU_SCREEN_SAFE_AREA:
       if (value >= 0 && value < descr.values.len())
       {
-        ::g_option_menu_safearea.setValue(descr.values[value])
+        safeAreaMenu.setValue(descr.values[value])
         ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       }
       break
     case ::USEROPT_HUD_SCREEN_SAFE_AREA:
-      ::set_option_hud_screen_safe_area(descr.values[value])
-      ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      if (value >= 0 && value < descr.values.len())
+      {
+        safeAreaHud.setValue(descr.values[value])
+        ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      }
       break;
     case ::USEROPT_AUTOPILOT_ON_BOMBVIEW:
       ::set_option_autopilot_on_bombview(descr.values[value])

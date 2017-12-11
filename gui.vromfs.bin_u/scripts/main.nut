@@ -239,7 +239,6 @@ foreach (fn in [
 
   "scripts/clientState/localProfile.nut"
   "scripts/options/optionsExtNames.nut"
-  "scripts/options/safearea.nut"
   "scripts/options/fonts.nut"
   "scripts/options/consoleMode.nut"
   "scripts/options/gamepadCursorControls.nut"

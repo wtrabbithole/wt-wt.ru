@@ -246,6 +246,12 @@
         "chapter": "air_ground_Conq2"
       },
       {
+        "locName": "missions/_Conq2;normandy_02/name"
+      },
+      {
+        "locDesc": "normandy_02/desc;missions/_Conq2/desc"
+      },
+      {
         "scoreLimit": 14000
       },
       {
@@ -255,37 +261,28 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Conq2"
+      },
+      {
+        "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
+      },
+      {
+        "randomSpawnTeams": false
+      },
+      {
         "remapAiTankModels": true
+      },
+      {
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "useAlternativeMapCoord": false
-      },
-      {
-        "randomSpawnTeams": false
-      },
-      {
-        "locName": "missions/_Conq2;normandy_02/name"
-      },
-      {
-        "locDesc": "normandy_02/desc;missions/_Conq2/desc"
-      },
-      {
-        "postfix": "_Conq2"
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -308,19 +305,36 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
-          "scoreLimit": 16000
+          "useAlternativeMapCoord": false,
+          "scoreLimit": 16000,
+          "randomSpawnTeams": false,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
-          "scoreLimit": 18000
+          "useAlternativeMapCoord": false,
+          "scoreLimit": 18000,
+          "randomSpawnTeams": false,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -347,6 +361,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -390,39 +407,103 @@
   "imports": [
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/cta/tanks/normandy_02_tm.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
         "file": "gameData/missions/cta/tanks/normandy/template_normandy_air_spawns.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/normandy/battleareas/template_normandy_02_Conq2_battleareas.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/normandy/battleareas/template_normandy_02_Conq2_battleareas_hardcore.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/normandy/battleareas/template_normandy_02_Conq2_battleareas_realistic.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/conq_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/normandy/template_normandy_background_units.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -449,10 +530,55 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [],
+  "units": {
+    "armada": {
+      "name": "t1_player01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [529.65,449.4,2695.5]
+      ],
+      "unit_class": "a-20g",
+      "objLayer": 1,
+      "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
+      "weapons": "",
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 2,
+        "count": 1,
+        "free_distance": 70.0,
+        "floating_distance": 50.0,
+        "minimum_distance_to_earth": 20.0,
+        "altLimit": 6000.0,
+        "attack_type": "fire_at_will",
+        "skill": 4,
+        "plane": {
+          "wing_formation": "Diamond",
+          "row_distances": 3.0,
+          "col_distances": 3.0,
+          "super_formation": "Diamond",
+          "super_row_distances": 1.5,
+          "super_col_distances": 1.5,
+          "ai_skill": "NORMAL",
+          "task": "FLY_WAYPOINT"
+        }
+      },
+      "way": []
+    }
+  },
   "areas": {
     "briefing_t1_tankSpawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.976296,0.0,-0.21644],
         [0.0,1.0,0.0],
@@ -463,7 +589,7 @@
       "props": []
     },
     "briefing_t1_tankSpawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -474,7 +600,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.737277,0.0,-0.67559],
         [0.0,1.0,0.0],
@@ -485,7 +611,7 @@
       "props": []
     },
     "briefing_t2_tankSpawn_02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.999222,0.0,0.039435],
         [0.0,1.0,0.0],
@@ -496,7 +622,7 @@
       "props": []
     },
     "briefing_captureZone02": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [-78.0947,0.0,17.3555],
         [0.0,50.0,0.0],

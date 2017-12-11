@@ -203,6 +203,15 @@ blankTextArea {
   re-type:textarea;
 }
 
+sessionInfoText {
+  behaviour:textArea;
+  re-type:textarea;
+  width:pw;
+  text-align:right;
+  font:@fontSmall;
+  color:@commonTextColor;
+}
+
 textareaNoTab[controlsHelp=yes] {
   font:@fontTiny;
   color:@commonTextColor;
@@ -585,13 +594,11 @@ subtitles_slow[animShow=show] {
 activeText {
   color:@activeTextColor;
   text-align:left;
-  padding:0, 0, -1@textPaddingBugWorkaround, 0;
 }
 
 activeText[parseTags=yes] {
   behaviour:textArea;
   re-type:textarea;
-  padding-right:0*@textPaddingBugWorkaround;
 }
 
 [commonTextColor=yes] activeText, activeText[commonTextColor=yes] {
@@ -629,7 +636,6 @@ widthText, titleWidthText {
   height:0.035*@scrn_tgt;
   text-align:left;
   position:relative;
-  padding:0, 0, -1@textPaddingBugWorkaround, 0;  
 
   auto-scroll:slow;
 }
@@ -638,7 +644,6 @@ widthDiv[text-align=right] widthText, widthDiv[text-align=right] titleWidthText,
 widthDiv[text-align=right] activeText, activeText[talign=right], text[talign=right],
 notificationText[talign=right], textareaNoTab[talign=right] {
   text-align:right;
-  padding:-1@textPaddingBugWorkaround, 0, 0, 0; 
 }
 
 text[talign=left], activeText[talign=left] {
@@ -1428,6 +1433,7 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
 
 @import "cssElems\spinnerListBox.css"
 @import "missionlist.css"
+@import "cssElems\unitCard.css"
 @import "cssElems\listbox.css"
 @import "cssElems\radiobutton.css"
 @import "expandable.css"
@@ -2583,6 +2589,11 @@ ShadowPlate {
 ShadeDiv {
   background-color:#91020509;
 }
+
+ShadeDiv.authorization {
+  position:relative;
+  pos:50%pw-50%w;
+  width:pw-2@dp;    padding:0.015@scrn_tgt + 1@framePadding; }
 
 debriefingTab {
   size:pw, ph;

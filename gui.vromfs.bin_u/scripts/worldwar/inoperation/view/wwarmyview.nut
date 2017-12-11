@@ -423,6 +423,25 @@ class ::WwArmyView
     return formation.getMapObjectName()
   }
 
+  function getZoneName()
+  {
+    if (!("getPosition" in formation))
+      return ""
+
+    local wwArmyPosition = formation.getPosition()
+    if (!wwArmyPosition)
+      return ""
+
+    if (!("getUnitType" in formation))
+      return ""
+
+    if(::g_ww_unit_type.isAir(formation.getUnitType()))
+      return ""
+
+    return ::loc("ui/parentheses",
+      {text = ::ww_get_zone_name(::ww_get_zone_idx_world(wwArmyPosition))})
+  }
+
   function getHasVersusText()
   {
     return hasVersusText

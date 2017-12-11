@@ -34,21 +34,36 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
       data += ::handyman.renderCached("gui/commonParts/button", view)
 
     guiScene.prependWithBlk(scene.findObject("authorization_button_place"), data, this)
-    showSceneBtn("text_req_connection",  true)
+    scene.findObject("user_notify_text").setValue(::loc("xbox/reqInstantConnection"))
     updateGamertag()
   }
 
   function onOk()
   {
-    local ret = ::xbox_on_login();
-    if (ret == -1)
-    {
-      msgBox("no_internet_connection", ::loc("ps4/noInternetConnection"), [["ok", function() {} ]], "ok")
-    }
-    else
-    {
-      //::g_login.addState(LOGIN_STATE.AUTHORIZED)
-    }
+    updateAuthorizeButton(false) // do not allow to push ok button twice
+
+    ::xbox_on_login(
+      function(result, err_code)
+      {
+        if (result == XBOX_LOGIN_STATE_SUCCESS)
+        {
+          ::g_login.addState(LOGIN_STATE.AUTHORIZED)
+          return
+        }
+
+        if (result == XBOX_LOGIN_STATE_FAILED)
+          msgBox("no_internet_connection", ::loc("xbox/noInternetConnection"), [["ok", function() {} ]], "ok")
+
+        updateAuthorizeButton(true)
+      }.bindenv(this)
+    )
+  }
+
+  function updateAuthorizeButton(isEnable = false)
+  {
+    local btnObj = scene.findObject("authorization_button")
+    if (::check_obj(btnObj))
+      btnObj.enable(isEnable)
   }
 
   function onChangeGamertag()
@@ -68,13 +83,20 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
   function onEventXboxActiveUserGamertagChanged(params)
   {
     updateGamertag()
+    if (::getTblValue("autologin", params, false))
+      onOk()
   }
 
   function goBack(obj) {}
 }
 
 //Calling from C++
-function on_change_active_xbox_user_gamertag()
+function xbox_on_gamertag_changed()
 {
   ::broadcastEvent("XboxActiveUserGamertagChanged")
+}
+
+function xbox_on_gamertag_choosed()
+{
+  ::broadcastEvent("XboxActiveUserGamertagChanged", {autologin = true})
 }

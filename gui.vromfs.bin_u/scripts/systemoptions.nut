@@ -251,7 +251,7 @@
   {k="shadowQuality",        v={ultralow="ultralow",low="ultralow",medium="low",high="medium",max="high",movie="ultrahigh"}}
   {k="anisotropy",           v={ultralow="off",low="off",medium="2X", high="8X", max="16X",movie="16X"}, compMode=true}
   {k="rendinstGlobalShadows",v={ultralow=false,low=false,medium=false,high=true, max=true, movie=true}}
-  {k="ssaoQuality",          v={ultralow=0,low=0,medium=0,high=0,max=0,movie=2}}
+  {k="ssaoQuality",          v={ultralow=0,low=0,medium=0,high=1,max=2,movie=2}}
   {k="ssrQuality",           v={ultralow=0,low=0,medium=0,high=0,max=0,movie=1}}
   {k="lenseFlares",          v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="shadows",              v={ultralow=false,low=true,medium=true ,high=true ,max=true, movie=true}}

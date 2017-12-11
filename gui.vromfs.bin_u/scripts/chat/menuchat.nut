@@ -119,16 +119,16 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateControlsAllowMask()
   {
-    if (!::last_chat_scene_show)
-      return
-
-    local focusObj = getCurFocusObj(true)
     local mask = CtrlsInGui.CTRL_ALLOW_FULL
-    if (::check_obj(focusObj))
-      if (::show_console_buttons)
-        mask = CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_XINPUT
-      else if (focusObj.id == "menuchat_input")
-        mask =CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD
+
+    if (::last_chat_scene_show) {
+      local focusObj = getCurFocusObj(true)
+      if (::check_obj(focusObj))
+        if (::show_console_buttons)
+          mask = CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_XINPUT
+        else if (focusObj.id == "menuchat_input")
+          mask = CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD
+    }
 
     switchControlsAllowMask(mask)
   }
@@ -137,7 +137,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateControlsAllowMaskDelayed()
   {
     if (_lastMaskUpdateDelayedCall
-        && _lastMaskUpdateDelayedCall < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
+        && ::dagor.getCurTime() - _lastMaskUpdateDelayedCall < LOST_DELAYED_ACTION_MSEC)
       return
 
     _lastMaskUpdateDelayedCall = ::dagor.getCurTime()
@@ -1170,6 +1170,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (db.type == "thread_list" || db.type == "thread_update")
       ::g_chat.updateThreadInfo(db)
+    else if (db.type == "progress_caps")
+      ::g_chat.updateProgressCaps(db)
     else if ( db.type == "thread_list_end" )
       ::g_chat_latest_threads.onThreadsListEnd()
     else

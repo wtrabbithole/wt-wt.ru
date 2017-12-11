@@ -177,40 +177,15 @@ function build_mp_table(table, markup, hdr, max_rows)
           + "}",
           widthAdd, icon)
       }
+      else if (hdr[j] == "status")
+      {
+        tdData = ::format("size:t='ph%s,ph'; playerStateIcon { id:t='ready-ico' } ", widthAdd)
+      }
       else if (hdr[j] == "name")
       {
         local textDiv = "textareaNoTab"
         local nameWidth = ((hdr[j] in markup)&&("width" in markup[hdr[j]]))?markup[hdr[j]].width:"0.5pw-0.035sh"
         local nameAlign = row_invert? "text-align:t='right' " : ""
-        local isReady = !isEmpty && (("state" in table[i]) && table[i].state == ::PLAYER_IN_LOBBY_READY)
-
-        local playerInfo = null
-
-        local needReadyIcon = (!("readyIcon" in markup.name)) || markup.name.readyIcon
-        textPadding = "style:t='padding:" + (row_invert? "1.5@tableIcoSize,0,1@tablePad,0" : "1@tablePad,0,1.5@tableIcoSize,0") + ";'"
-
-        if (!isEmpty)
-        {
-          if (!needReadyIcon)
-            trData += (table[i].state != ::PLAYER_IN_FLIGHT && table[i].state != ::PLAYER_IN_RESPAWN) ? "inGame:t='yes'; " : "inGame:t='no'; "
-          else
-          {
-            playerInfo = table[i]
-          }
-        }
-
-        local playerIcoDiv = ""
-        if (needReadyIcon)
-        {
-          local playerState = ::g_player_state.getStateByPlayerInfo(playerInfo)
-          local playerImage = playerState.getIcon(playerInfo)
-          local playerImageColor = playerState.getIconColor()
-
-          local playerStateDesc = playerState.getText(playerInfo)
-          local playerStateTooltip = (playerStateDesc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + playerStateDesc) : ""
-          playerIcoDiv = ::format("playerStateIcon { id:t='ready-ico'; background-image:t='%s'; background-color:t='%s'; tooltip:t='%s' } "
-                                       playerImage, playerImageColor, playerStateTooltip)
-        }
 
         //update air weapons and dead icons
         local isAircraft = (!isEmpty) && ("aircraftName" in table[i])
@@ -241,9 +216,9 @@ function build_mp_table(table, markup, hdr, max_rows)
             weapText += format("img { id:t='%s-ico'; size:t='0.375@tableIcoSize,@tableIcoSize'; background-image:t='%s'; margin-right:t='2' } ",
                                      name, weap)
         }
-        playerIcoDiv += row_invert? airImgText + weapText : weapText + airImgText
         //update icons finished
 
+        local playerIcoDiv = row_invert? airImgText + weapText : weapText + airImgText
         if (playerIcoDiv != "")
           playerIcoDiv = format("tdiv { pos:t='%s, 0.5ph-0.5h'; position:t='absolute'; %s} ",
                            row_invert? "0" : "pw-w-1", playerIcoDiv)
@@ -393,6 +368,8 @@ function set_mp_table(obj_tbl, table, params)
   local showAirIcons = ::getTblValue("showAirIcons", params, true)
   local continueRowNum = ::getTblValue("continueRowNum", params, 0)
   local numberOfWinningPlaces = ::getTblValue("numberOfWinningPlaces", params, -1)
+  local isInFlight = ::is_in_flight()
+  local needColorizeNotInGame = isInFlight
 
   ::SquadIcon.updateTopSquadScore(table)
 
@@ -408,6 +385,15 @@ function set_mp_table(obj_tbl, table, params)
     if (i >= numRows)
       continue
 
+    local isEmpty = i >= numTblRows
+    local isInGame = true
+    if (!isEmpty && needColorizeNotInGame)
+    {
+      local state = table[i].state
+      isInGame = state == ::PLAYER_IN_FLIGHT || state == ::PLAYER_IN_RESPAWN
+      objTr.inGame = isInGame ? "yes" : "no"
+    }
+
     local totalCells = objTr.childrenCount()
     for (local idx = 0; idx < totalCells; idx++)
     {
@@ -418,7 +404,6 @@ function set_mp_table(obj_tbl, table, params)
 
       local hdr = id.slice(3)
       local item = ""
-      local isEmpty = i >= numTblRows
 
       if (!isEmpty && (hdr in table[i]))
         item = table[i][hdr]
@@ -467,10 +452,26 @@ function set_mp_table(obj_tbl, table, params)
           icon = ::get_country_icon(country)
         objImg["background-image"] = icon
       }
+      else if (hdr == "status")
+      {
+        local objReady = objTd.findObject("ready-ico")
+        if (::check_obj(objReady))
+        {
+          if (isEmpty)
+            objReady["background-image"] = ""
+          else
+          {
+            local playerState = ::g_player_state.getStateByPlayerInfo(table[i])
+            objReady["background-image"] = playerState.getIcon(table[i])
+            objReady["background-color"] = playerState.getIconColor()
+            local desc = playerState.getText(table[i])
+            objReady.tooltip = (desc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + desc) : ""
+          }
+        }
+      }
       else if (hdr == "name")
       {
         local objName = objTd.findObject("name-text")
-        local objReady = objTd.findObject("ready-ico")
         local objDlcImg = objTd.findObject("dlc-ico")
         local objAircraft = objTd.findObject("aircraft-ico")
         local objWeapon = null
@@ -500,31 +501,16 @@ function set_mp_table(obj_tbl, table, params)
           if (objName)
             objName.setValue(nameText)
 
-          local unitIco = ""
-          local unitIcoColorType = ""
-          if (::checkObj(objReady) && ("state" in table[i]))
-          {
-            local playerState = ::g_player_state.getStateByPlayerInfo(table[i])
-            objReady["background-image"] = playerState.getIcon(table[i])
-            objReady["background-color"] = playerState.getIconColor()
-            local desc = playerState.getText(table[i])
-            objReady.tooltip = (desc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + desc) : ""
-          }
-          else
-          {
-            local inGame = !("state" in table[i]) || (table[i].state == ::PLAYER_IN_FLIGHT) || (table[i].state == ::PLAYER_IN_RESPAWN) ||
-              !objAircraft
-            objTr["inGame"] = inGame? "yes" : "no"
-            if (!inGame)
-              unitIco = ::g_player_state.HAS_LEAVED_GAME.getIcon(table[i])
-          }
-
           if (objDlcImg)
             objDlcImg.show(false)
 
+          local unitIco = ""
+          local unitIcoColorType = ""
           local isAircraft = "aircraftName" in table[i]
           local isDead = ("isDead" in table[i]) && table[i].isDead
-          if (unitIco=="")
+          if (isInFlight && !isInGame)
+            unitIco = ::g_player_state.HAS_LEAVED_GAME.getIcon(table[i])
+          else
           {
             if (isDead)
             {
@@ -561,11 +547,6 @@ function set_mp_table(obj_tbl, table, params)
         }
         else
         {
-          if (objReady)
-          {
-            objReady["background-image"] = ""
-            objReady.tooltip = ""
-          }
           if (objName)     objName.setValue("")
           if (objDlcImg)   objDlcImg.show(false)
           if (objAircraft) objAircraft["background-image"] = ""

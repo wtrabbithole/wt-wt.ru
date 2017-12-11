@@ -10,6 +10,25 @@ function with_table(tbl, func) {
   return tbl
 }
 
+
+/*
+  this function is safe wrapper to arraya.extend(). Can handle obj and val of any type.
+*/
+function extend_to_array (obj, val) {
+  if (obj != null) {
+    obj = (typeof obj == "array") ? obj : [obj]
+    if (typeof val == "array") {
+      obj.extend(val)
+    } else {
+      obj.append(val)
+    }
+    return obj
+  } else {
+    return typeof val == "array" ? val : [val]
+  }
+}
+
+
 /*
 //===== DARG specific methods=====
   this function create element that has internal basic stateFlags (S_HOVER S_ACTIVE S_DRAG)

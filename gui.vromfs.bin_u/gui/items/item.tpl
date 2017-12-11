@@ -118,45 +118,30 @@ itemDiv {
     }
     <</headerText>>
 
-    tdiv {
+    <<#newIconWidget>>
+    newIconWidget {
+      id:t='item_new_icon_widget'
       position:t='absolute'
-
-      <<#newIconWidget>>
-      newIconWidget {
-        id:t='item_new_icon_widget'
-        position:t='relative'
-        pos:t='3*@sf/@pf_outdated,3*@sf/@pf_outdated'
-        <<@newIconWidget>>
-      }
-      <</newIconWidget>>
-
-      <<#expireTime>>
-      textareaNoTab {
-        id:t='expire_time'
-        pos:t='1@itemPadding + 10/720@sf, 1@itemPadding'
-        position:t='relative'
-        //position:t='absolute'
-        smallFont:t='yes'
-        text:t='<<expireTime>>'
-        style:t='color:@grayOptionColor;'
-
-        img {
-          size:t='10/720@sf, 10/720@sf'
-          pos:t='-w -3/720@sf, ph/2-h/2 -2/720@sf'
-          position:t='absolute'
-          background-image:t='#ui/gameuiskin#hourglass'
-          style:t='background-color:@grayOptionColor;'
-        }
-      }
-      <</expireTime>>
+      pos:t='pw-w, 0'
+      <<@newIconWidget>>
     }
+    <</newIconWidget>>
+
+    <<#expireTime>>
+    textareaNoTab {
+      id:t='expire_time'
+      pos:t='pw-w-1@itemPadding, ph - h'
+      position:t='absolute'
+      text:t='<<expireTime>>'
+      overlayTextColor:t='disabled'
+    }
+    <</expireTime>>
 
     <<#amount>>
-    activeText {
-      pos:t='pw -w -1@itemPadding , 1@itemPadding -3*@sf/@pf_outdated'
+    textareaNoTab {
+      pos:t='pw-w - 1@itemPadding, 1@itemPadding'
       position:t='absolute'
-      style:t='font:@fontNormal;'
-      textShade:t='yes';
+      overlayTextColor:t='active'
       text:t='<<amount>>'
     }
     <</amount>>
@@ -165,7 +150,7 @@ itemDiv {
     <<#price>>
     textareaNoTab {
       id:t='price'
-      pos:t='pw-w  -1@itemPadding +1*@sf/@pf_outdated, ph -0.5@dIco -1@dp +1@itemPadding -h/2'
+      pos:t='pw-w -1@itemPadding, ph -0.5@dIco -1@dp +1@itemPadding -h/2'
       position:t='absolute'
       text:t='<<price>>'
     }

@@ -137,6 +137,9 @@
         "turret_03_bottom_dm": {
           "armorThickness": 20.0
         },
+        "turret_04_back_dm": {
+          "armorThickness": 100.0
+        },
         "body_top_dm": {
           "armorThickness": 30.0,
           "explosionArmorQuality": 1.6
@@ -298,8 +301,16 @@
         "ex_decor_06_dm": [],
         "ex_decor_07_dm": [],
         "ex_decor_08_dm": [],
+        "ex_decor_l_01_dm": [],
+        "ex_decor_r_01_dm": [],
+        "ex_decor_body_l_01_dm": [],
+        "ex_decor_body_l_02_dm": [],
+        "ex_decor_body_l_03_dm": [],
+        "ex_decor_body_l_04_dm": [],
         "ex_decor_body_r_01_dm": [],
-        "ex_decor_body_l_01_dm": []
+        "ex_decor_body_r_02_dm": [],
+        "ex_decor_body_r_03_dm": [],
+        "ex_decor_body_r_04_dm": []
       },
       "ex_fuel_tanks": {
         "armorClass": "aluminium",
@@ -378,7 +389,7 @@
         "hp": 400.0,
         "secondaryShatterDamageMult": 0.5,
         "gun_barrel_dm": {
-          "armorThickness": 40.0
+          "armorThickness": 35.0
         },
         "gun_barrel_01_dm": {
           "armorThrough": 10.0,
@@ -698,7 +709,7 @@
     "xray_viewer_data": {
       "armorArrayHull": {
         "xrayDmPart": "composite_armor_hull_01_dm",
-        "kineticProtectionEquivalent": 305.0,
+        "kineticProtectionEquivalent": 320.0,
         "cumulativeProtectionEquivalent": 450.0,
         "armorArrayText": [
           {
@@ -741,6 +752,16 @@
             }
           }
         ]
+      },
+      "armorArrayTurret2": {
+        "xrayDmPart": "composite_armor_turret_02_dm",
+        "titleLoc": "CHA_tank",
+        "armorArrayText": {
+          "layer": {
+            "dmPart": "composite_armor_turret_02_dm",
+            "xrayTextThickness": [330.0,150.0]
+          }
+        }
       }
     }
   },

@@ -205,6 +205,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "arrow": [
               {
                 "width": 1
@@ -475,6 +478,7 @@
             "removeAreas": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "tags": {
@@ -497,6 +501,7 @@
             "removeAreas": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "tags": {
@@ -508,6 +513,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -515,12 +521,16 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t2_lcvp_squad"
             },
@@ -558,6 +568,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t2_tanks_squad"
             },
@@ -606,6 +619,7 @@
             "removeAreas": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -628,6 +642,7 @@
             "removeAreas": false,
             "showOnMap": true,
             "isIndividual": false,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {

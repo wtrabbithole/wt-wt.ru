@@ -25,7 +25,7 @@ function create_ObjMoveToOBj(scene, objStart, objTarget, config = null)
     cloneObj.pos = "0,0"
     cloneObj.size = "pw, ph"
   }
-  objTarget.show(false)
+  objTarget.show(::getTblValue("isTargetVisible", config, false))
 
   local startPos = objStart.getPosRC()
   local tarPos = objTarget.getPosRC()

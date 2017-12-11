@@ -18,7 +18,7 @@ img {
   pos:t='0.5pw-0.5w, 0.5ph-0.5h+20/642ph'
   height:t='0.38*840/642ph'
   width:t='h*840/452'
-  background-image:t='<<gampadImage>>'
+  background-image:t='<<image>>'
 }
 
 tdiv {
@@ -70,7 +70,7 @@ tdiv {
   <<#rightStick>>
   tdiv {
     pos:t='<<contactPointX>>/1288pw-0.5w, <<contactPointY>>/880ph'
-    size:t='1*@sf/@pf_outdated, 150/880ph'
+    size:t='1*@sf/@pf_outdated, (674 - <<contactPointY>>)/880ph'
     position:t='absolute'
     background-color:t='@white'
   }

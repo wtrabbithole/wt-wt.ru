@@ -729,7 +729,7 @@ function get_unit_item_research_progress_text(unit, params, priceText = "")
   local forceNotInResearch  = ::getTblValue("forceNotInResearch", params, false)
   local isVehicleInResearch = !forceNotInResearch && ::isUnitInResearch(unit)
 
-  progressText = (unitExpReq - unitExpCur) + ::loc("currency/researchPoints/sign/colored")
+  progressText = ::Cost(0, 0, 0, unitExpReq - unitExpCur).tostring()
 
   local flushExp = ::getTblValue("flushExp", params, 0)
   local isFull = flushExp > 0 && flushExp >= unitExpReq
@@ -870,6 +870,8 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
   }
 
   ::slotbar_oninit = true
+  ::g_crews_list.refresh()
+
   local country = slotbarCountry
   local slotbarObj = ::get_slotbar_obj(handler, scene, true)
   local guiScene = ::get_gui_scene()
@@ -924,17 +926,15 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
     ::initSlotbarTopBar(slotbarObj, true) //show autorefill checkboxes
 
   local missionRules = ::getTblValue("missionRules", params)
-  local showNewSlot = ("showNewSlot" in params)? params.showNewSlot : !slotbarCountry
+  local showNewSlot = !::g_crews_list.isSlotbarOverrided && ::getTblValue("showNewSlot", params, !slotbarCountry)
   local needShowLockedSlots = missionRules == null || missionRules.needShowLockedSlots
-  local showEmptySlot = needShowLockedSlots && ::getTblValue("showEmptySlot", params, !slotbarCountry)
+  local showEmptySlot = !::g_crews_list.isSlotbarOverrided && needShowLockedSlots && ::getTblValue("showEmptySlot", params, !slotbarCountry)
   local emptyText = ("emptyText" in params)? params.emptyText : "#shop/chooseAircraft"
 
   local showBR = ::has_feature("SlotbarShowBattleRating")
   local getEdiffFunc = ("getCurrentEdiff" in handler) ?  handler.getCurrentEdiff.bindenv(handler) : ::get_current_ediff()
 
   local countriesObj = slotbarObj.findObject("slotbar-countries")
-  ::g_crews_list.refresh()
-
   if (!::g_crews_list.get().len())
   {
     if (::g_login.isLoggedIn() && (::isProductionCircuit() || ::get_cur_circuit_name() == "nightly"))
@@ -1041,7 +1041,7 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
                               curSlotIdInCountry = i
                               curSlotCountryId = c
                               unlocked = unlocked
-                              tooltipParams = { needCrewInfo = true }
+                              tooltipParams = { needCrewInfo = !::g_crews_list.isSlotbarOverrided }
                               missionRules = missionRules
                             }
 
@@ -1306,6 +1306,9 @@ function update_slotbar_difficulty(handler, unitSlots = null)
 
 function update_slotbar_crew(handler, unitSlots = null)
 {
+  if (::g_crews_list.isSlotbarOverrided)
+    return
+
   unitSlots = unitSlots || ::get_slotbar_unit_slots(handler)
 
   foreach (slot in unitSlots)

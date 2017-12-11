@@ -1,37 +1,79 @@
 tdiv {
-  width:t='pw-0.06@sf'
   pos:t='50%pw-50%w, 0'
   position:t='relative'
-  margin-bottom:t='0.005@scrn_tgt'
+  margin:t='0, 1@blockInterval'
 
   <<#armyCountryImg1>>
+  tdiv {
+    width:t='15%p.p.w'
+    top:t='50%ph-50%h'
+    position:t='relative'
+
     cardImg {
       background-image:t='<<image>>'
-      pos:t='0, 50%ph-50%h'
-      position:t='relative'
-      margin:t='1@framePadding'
     }
+  }
   <</armyCountryImg1>>
 
   textAreaCentered {
     id:t='label_commands'
+    width:t='48%p.p.w'
+    top:t='50%ph-50%h'
+    position:t='relative'
     text:t='#worldWar/armyStrength'
     hideEmptyText:t='yes'
     mediumFont:t='yes'
-    pos:t='0, 50%ph-50%h'
-    position:t='relative'
-    width:t='fw'
     overlayTextColor:t='active'
   }
 
   <<#armyCountryImg2>>
+  tdiv {
+    width:t='15%p.p.w'
+    top:t='50%ph-50%h'
+    position:t='relative'
+
     cardImg {
+      left:t='pw-w'
+      position:t='relative'
       background-image:t='<<image>>'
+    }
+  }
+  <</armyCountryImg2>>
+}
+
+tdiv {
+  width:t='pw'
+  margin-bottom:t='1@blockInterval'
+  bgcolor:t='@objectiveHeaderBackground'
+
+  tdiv {
+    height:t='1@statusPanelHeight'
+    pos:t='50%pw-50%w, 0'
+    position:t='relative'
+
+    textareaNoTab {
+      width:t='15%p.p.p.w'
       pos:t='0, 50%ph-50%h'
       position:t='relative'
-      margin:t='1@framePadding'
+      text:t='<<side1TotalVehicle>>'
+      overlayTextColor:t='active'
     }
-  <</armyCountryImg2>>
+    textAreaCentered {
+      width:t='48%p.p.p.w'
+      pos:t='0, 50%ph-50%h'
+      position:t='relative'
+      text:t='#worldWar/totalUnits'
+      overlayTextColor:t='active'
+    }
+    textareaNoTab {
+      width:t='15%p.p.p.w'
+      pos:t='0, 50%ph-50%h'
+      position:t='relative'
+      text:t='<<side2TotalVehicle>>'
+      talign:t='right'
+      overlayTextColor:t='active'
+    }
+  }
 }
 
 <<#unitString>>
@@ -45,8 +87,7 @@ tdiv {
       size:t='1@tableIcoSize, 1@tableIcoSize'
       pos:t='0, 50%ph-50%h'
       position:t='relative'
-      margin-left:t='3@framePadding'
-      margin-right:t='3@dp'
+      margin-right:t='1@blockInterval'
     }
     textareaNoTab {
       text:t='<<side1UnitCount>>'
@@ -56,7 +97,7 @@ tdiv {
     }
     textAreaCentered {
       text:t='<<unitName>>'
-      width:t='50%p.p.w'
+      width:t='48%p.p.w'
       pos:t='0, 50%ph-50%h'
       position:t='relative'
     }
@@ -73,8 +114,7 @@ tdiv {
       size:t='@tableIcoSize, @tableIcoSize'
       pos:t='0, 50%ph-50%h'
       position:t='relative'
-      margin-left:t='3@dp'
-      margin-right:t='3@framePadding'
+      margin-left:t='1@blockInterval'
     }
   }
 <</unitString>>

@@ -509,30 +509,6 @@ function g_squad_manager::joinSquadChatRoom()
   ::g_chat.joinSquadRoom(callback)
 }
 
-function g_squad_manager::joinWwOperation()
-{
-  if (!isInSquad() || !::is_worldwar_enabled())
-    return
-
-  local wwOperationId = getWwOperationId()
-  if (wwOperationId < 0 || wwOperationId == ::g_world_war.lastPlayedOperationId)
-    return
-
-  local wwOperation = ::g_ww_global_status.getOperationById(wwOperationId)
-  if (wwOperation == null)
-    return
-
-  local wwOperationCountry = getWwOperationCountry()
-  if (::u.isEmpty(wwOperationCountry))
-    return
-
-  local myOperationCountry = wwOperation.getMyAssignCountry() || wwOperation.getMyClanCountry()
-  if (myOperationCountry != wwOperationCountry)
-    return
-
-  ::g_world_war.joinOperationById(wwOperationId, wwOperationCountry, true)
-}
-
 function g_squad_manager::updateSquadData()
 {
   local data = {}
@@ -551,6 +527,7 @@ function g_squad_manager::disbandSquad()
   if (!isSquadLeader())
     return
 
+  setState(squadState.LEAVING)
   ::msquad.disband()
 }
 
@@ -576,10 +553,11 @@ function g_squad_manager::checkForSquad()
                      if ("squad" in response)
                      {
                        ::g_squad_manager.onSquadDataChanged(response)
-                       ::g_squad_manager.updateMyMemberData(::g_user_utils.getMyStateData())
 
                        if (::g_squad_manager.getSquadSize(true) == 1)
                          ::g_squad_manager.disbandSquad()
+                       else
+                         ::g_squad_manager.updateMyMemberData(::g_user_utils.getMyStateData())
 
                       ::broadcastEvent(squadEvent.STATUS_CHANGED)
                      }
@@ -1012,11 +990,13 @@ function g_squad_manager::onSquadDataChanged(data = null)
       squadData.chatInfo.name = chatName
   }
 
-  if (setState(squadState.IN_SQUAD))
+  if (setState(squadState.IN_SQUAD)) {
     updateMyMemberData(::g_user_utils.getMyStateData())
-
+    if (isSquadLeader())
+      updateSquadData()
+  }
+  updateCurrentWWOperation()
   joinSquadChatRoom()
-  joinWwOperation()
 
   if (isSquadLeader() && !readyCheck())
     ::queues.leaveAllQueues()
@@ -1035,6 +1015,8 @@ function g_squad_manager::onSquadDataChanged(data = null)
   local currentCrewsReadyness = lastCrewsReadyness || isSquadLeader()
   if (lastCrewsReadyness != currentCrewsReadyness || !alreadyInSquad)
     setCrewsReadyFlag(currentCrewsReadyness)
+
+  ::g_world_war.checkJoinWWOperation()
 }
 
 function g_squad_manager::_parseCustomSquadData(data)
@@ -1191,22 +1173,28 @@ function g_squad_manager::onEventLoadingStateChange(params)
 
 function g_squad_manager::onEventWWLoadOperation(params)
 {
+  updateCurrentWWOperation()
+  updateSquadData()
+}
+
+function g_squad_manager::updateCurrentWWOperation()
+{
   if (!isSquadLeader())
     return
 
   local wwOperationId = ::g_world_war.lastPlayedOperationId
   local country = ::g_world_war.lastPlayedOperationCountry
 
-  if (wwOperationId < 0 || getWwOperationId() == wwOperationId || ::u.isEmpty(country))
+  if (wwOperationId < 0 || ::u.isEmpty(country))
+    return
+  if (getWwOperationId() == wwOperationId && getWwOperationCountry() == country)
     return
 
   squadData.wwOperationInfo.id = wwOperationId
   squadData.wwOperationInfo.country = country
-
-  updateSquadData()
 }
 
-function g_squad_manager::onEventWWSetStartingBattle(params)
+function g_squad_manager::startWWBattlePrepare(battleId = null)
 {
   if (!isSquadLeader())
     return
@@ -1214,9 +1202,16 @@ function g_squad_manager::onEventWWSetStartingBattle(params)
   if (getWwOperationId() < 0 || ::u.isEmpty(getWwOperationCountry()))
     return
 
-  local battleId = ::getTblValue("battleId", params)
+  if (getWwOperationBattle() == battleId)
+    return
+
   squadData.wwOperationInfo.battle <- battleId
   updateSquadData()
+}
+
+function g_squad_manager::cancelWwBattlePrepare()
+{
+  startWWBattlePrepare() // cancel battle prepare if no args
 }
 
 function g_squad_manager::onEventWWStopWorldWar(params)
@@ -1243,6 +1238,14 @@ function g_squad_manager::onEventLobbyStatusChange(params)
     setReadyFlag(false)
 
   updateMyMemberData()
+}
+
+function g_squad_manager::onEventQueueChangeState(params)
+{
+  if (::queues.hasActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE))
+    cancelWwBattlePrepare()
+  else
+    setCrewsReadyFlag(false)
 }
 
 ::cross_call_api.squad_manger <- ::g_squad_manager

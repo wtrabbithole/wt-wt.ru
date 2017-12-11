@@ -6,7 +6,6 @@
       background-image:t='<<icon>>'
       shopItemType:t='<<shopItemType>>'
       size:t='@tableIcoSize, @tableIcoSize'
-      margin-right:t='1@textPaddingBugWorkaround'
     }
     <</icon>>
 
@@ -44,13 +43,11 @@
     <<#showType>>
       textarea {
         text:t='<<unitType>>'
-        margin-right:t='1@textPaddingBugWorkaround'
       }
     <</showType>>
     <<^showType>>
       textarea {
         text:t='<<name>>'
-        margin-right:t='1@textPaddingBugWorkaround'
       }
     <</showType>>
 
@@ -66,7 +63,6 @@
         background-image:t='<<icon>>'
         shopItemType:t='<<shopItemType>>'
         size:t='@tableIcoSize, @tableIcoSize'
-        margin-left:t='1@textPaddingBugWorkaround'
       }
     <</icon>>
 

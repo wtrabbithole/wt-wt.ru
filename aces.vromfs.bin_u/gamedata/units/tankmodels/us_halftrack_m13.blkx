@@ -930,6 +930,62 @@
   },
   {
     "MetaParts": {
+      "inner": [
+        {
+          "hp": 10000.0
+        },
+        {
+          "part": "engine_dm"
+        },
+        {
+          "part": "transmission_dm"
+        },
+        {
+          "part": "cannon_breech_dm"
+        },
+        {
+          "part": "cannon_breech_01_dm"
+        },
+        {
+          "part": "cannon_breech_02_dm"
+        },
+        {
+          "part": "cannon_breech_03_dm"
+        },
+        {
+          "part": "cannon_breech_04_dm"
+        },
+        {
+          "part": "cannon_breech_05_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 250.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 180.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
       "crew": [
         {
           "killAllPartsForDeath": true
@@ -1035,15 +1091,6 @@
             "kill": true,
             "killEffect": "fire"
           }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
         }
       ],
       "suspension": [
@@ -1146,12 +1193,6 @@
           "part": "turret_front_dm"
         },
         {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
           "part": "body_top_dm"
         },
         {
@@ -1168,15 +1209,6 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 450.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1214,7 +1246,7 @@
           "barrelDP": "gun_barrel_01_dm",
           "breechDP": "cannon_breech_01_dm",
           "speedYaw": 60.0,
-          "speedPitch": 20.0,
+          "speedPitch": 60.0,
           "bullets": 2400,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -1238,12 +1270,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,70.0]
+            "pitch": [-10.0,90.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-40.0,-5.0,70.0],
-            "lim2": [-40.0,40.0,-2.0,70.0],
-            "lim3": [40.0,180.0,-5.0,70.0]
+            "lim1": [-180.0,-40.0,-5.0,90.0],
+            "lim2": [-40.0,40.0,-2.0,90.0],
+            "lim3": [40.0,180.0,-5.0,90.0]
           }
         }
       },
@@ -1261,7 +1293,7 @@
           "barrelDP": "gun_barrel_02_dm",
           "breechDP": "cannon_breech_02_dm",
           "speedYaw": 60.0,
-          "speedPitch": 20.0,
+          "speedPitch": 60.0,
           "bullets": 2400,
           "fireConeAngle": 15.0,
           "ChainfireTime": 3.0,
@@ -1287,12 +1319,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,70.0]
+            "pitch": [-10.0,90.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-40.0,-5.0,70.0],
-            "lim2": [-40.0,40.0,-2.0,70.0],
-            "lim3": [40.0,180.0,-5.0,70.0]
+            "lim1": [-180.0,-40.0,-5.0,90.0],
+            "lim2": [-40.0,40.0,-2.0,90.0],
+            "lim3": [40.0,180.0,-5.0,90.0]
           }
         }
       }
@@ -1947,6 +1979,39 @@
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "us_camo_winter_olive*"
+      }
+    }
+  },
+  {
+    "ammo": {
+      "combustionTime": 10.0,
+      "detonateProb": 0.15,
+      "detonatePortion": [0.3,0.9],
+      "explodeHitPower": 1250.0,
+      "hitPowerMult": 1.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,400.0],
+      "farHitPower": [0.1,1000.0],
+      "endHitPower": [0.01,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [10.0,50.0],
+      "midArmorPower": [7.0,400.0],
+      "farArmorPower": [0.2,700.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 30.0,
+      "explodeRadius": [1.5,10.0]
+    }
+  },
+  {
+    "wreckedParts": {
+      "part": {
+        "node": "bone_turret",
+        "mass": 4300.0,
+        "cutDamage": 350.0,
+        "deviation": 0.4,
+        "rotation": 2.5,
+        "collisionNode": "cls_turret_01"
       }
     }
   }

@@ -119,6 +119,7 @@ enum BATTLE_LOG_FILTER
     if (safe && battleLog.len() && battleLog[battleLog.len() - 1].time < ::get_usefull_total_time())
       return
     battleLog = []
+    ::call_darg("clearBattleLog")
   }
 
   function onHudMessage(msg)
@@ -133,8 +134,8 @@ enum BATTLE_LOG_FILTER
 
     local now = ::get_usefull_total_time()
     if (msg.id != -1)
-      foreach (data in battleLog)
-        if (data.msg.id == msg.id)
+      foreach (logEntry in battleLog)
+        if (logEntry.msg.id == msg.id)
           return
     if (msg.id == -1 && msg.text != "")
     {
@@ -151,10 +152,10 @@ enum BATTLE_LOG_FILTER
     local filters = 0
     if (msg.type == ::HUD_MSG_MULTIPLAYER_DMG)
     {
-      local p1 = ::get_mplayer_by_id(msg.playerId)
-      local p2 = ::get_mplayer_by_id(msg.victimPlayerId)
-      local t1Friendly = ::is_team_friendly(msg.team)
-      local t2Friendly = ::is_team_friendly(msg.victimTeam)
+      local p1 = ::get_mplayer_by_id(msg?.playerId ?? ::my_user_id_int64)
+      local p2 = ::get_mplayer_by_id(msg?.victimPlayerId ?? ::my_user_id_int64)
+      local t1Friendly = ::is_team_friendly(msg?.team ?? Team.A)
+      local t2Friendly = ::is_team_friendly(msg?.victimTeam ?? Team.B)
 
       if (p1 && p1.isLocal || p2 && p2.isLocal)
         filters = filters | BATTLE_LOG_FILTER.HERO
@@ -198,7 +199,7 @@ enum BATTLE_LOG_FILTER
         return
     }
 
-    local data = {
+    local logEntry = {
       msg = msg
       time = now
       message = message
@@ -207,8 +208,9 @@ enum BATTLE_LOG_FILTER
 
     if (battleLog.len() == logMaxLen)
       battleLog.remove(0)
-    battleLog.append(data)
-    ::broadcastEvent("BattleLogMessage", data)
+    battleLog.append(logEntry)
+    ::call_darg("pushBattleLogEntry", logEntry)
+    ::broadcastEvent("BattleLogMessage", logEntry)
   }
 
   function getFilters()
@@ -250,7 +252,7 @@ enum BATTLE_LOG_FILTER
   {
     local uType = ::getTblValue(isVictim ? "victimUnitType" : "unitType", msg)
     if (uType == null) //compatibility with 1.69.2.X
-      return ::find_unit_type(msg[isVictim ? "victimUnitName" : "unitName"])
+      return ::find_unit_type(isVictim? (msg?.victimUnitName ?? "") : (msg?.unitName ?? ""))
 
     local res = ::getTblValue(uType, utToEsUnitType, ::ES_UNIT_TYPE_INVALID)
     if (res == ::ES_UNIT_TYPE_INVALID) //we do not receive unitType for player killer unit, but can easy get it by unitName
@@ -270,31 +272,34 @@ enum BATTLE_LOG_FILTER
 
   function getActionTextIconic(msg)
   {
-    local iconId = msg.action
-    if (msg.action == "kill")
+    local msgAction = msg?.action ?? "kill"
+    local iconId = msgAction
+    if (msgAction == "kill")
       iconId += getUnitTypeSuffix(getUnitTypeEx(msg, false))
-    if (msg.action == "kill" || msg.action == "crash")
+    if (msgAction == "kill" || msgAction == "crash")
       iconId += getUnitTypeSuffix(getUnitTypeEx(msg, true))
-    local actionColor = msg.isKill ? "userlogColoredText" : "silver"
+    local actionColor = msg?.isKill ?? true ? "userlogColoredText" : "silver"
     return ::colorize(actionColor, ::loc("icon/hud_msg_mp_dmg/" + iconId))
   }
 
   function getActionTextVerbal(msg)
   {
     local victimUnitType = getUnitTypeEx(msg, true)
-    local verb = ::getTblValue(victimUnitType, ::getTblValue(msg.action, actionVerbs, {}), msg.action)
-    local isLoss = msg.victimTeam == ::get_player_army_for_hud()
-    local color = "hudColor" + (msg.isKill ? (isLoss ? "DeathAlly" : "DeathEnemy") : (isLoss ? "DarkRed" : "DarkBlue"))
+    local msgAction = msg?.action ?? "kill"
+    local verb = ::getTblValue(victimUnitType, ::getTblValue(msgAction, actionVerbs, {}), msgAction)
+    local isLoss = (msg?.victimTeam ?? ::get_player_army_for_hud()) == ::get_player_army_for_hud()
+    local color = "hudColor" + (msg?.isKill ?? true ? (isLoss ? "DeathAlly" : "DeathEnemy") : (isLoss ? "DarkRed" : "DarkBlue"))
     return ::colorize(color, ::loc(verb))
   }
 
   function msgMultiplayerDmgToText(msg, iconic = false)
   {
     local what = iconic ? getActionTextIconic(msg) : getActionTextVerbal(msg)
-    local who  = getUnitNameEx(msg.playerId, msg.unitNameLoc, msg.team)
-    local whom = getUnitNameEx(msg.victimPlayerId, msg.victimUnitNameLoc, msg.victimTeam)
+    local who  = getUnitNameEx(msg?.playerId ?? ::my_user_id_int64, msg?.unitNameLoc ?? my_user_name, msg?.team ?? Team.A)
+    local whom = getUnitNameEx(msg?.victimPlayerId ?? ::my_user_id_int64, msg?.victimUnitNameLoc ?? my_user_name, msg?.victimTeam ?? Team.B)
 
-    local isCrash = msg.action == "crash" || msg.action == "exit"
+    local msgAction = msg?.action ?? "kill"
+    local isCrash = msgAction == "crash" || msgAction == "exit"
     local sequence = isCrash ? [whom, what] : [who, what, whom]
     return ::g_string.implode(sequence, " ")
   }

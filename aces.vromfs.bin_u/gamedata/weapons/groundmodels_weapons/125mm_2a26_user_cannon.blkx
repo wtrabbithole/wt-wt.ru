@@ -28,12 +28,12 @@
     "mass": 3.6,
     "caliber": 0.125,
     "damageCaliber": 0.036,
-    "ballisticCaliber": 0.11,
+    "ballisticCaliber": 0.1,
+    "Cx": 0.01,
     "speed": 1800.0,
     "maxDistance": 10000.0,
     "bulletType": "apds_fs_full_body_steel_tank",
     "bulletName": "125mm_3bm9",
-    "hitPowerMult": 800.0,
     "onHitChanceMultExplFuel": 0.1,
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
@@ -53,7 +53,8 @@
       "ArmorPower2000m": [263.0,2000.0],
       "ArmorPower3000m": [240.0,3000.0],
       "ArmorPower4000m": [216.0,4000.0],
-      "ArmorPower10000m": [80.0,10000.0]
+      "ArmorPower10000m": [80.0,10000.0],
+      "ArmorPower20000m": [0.0,20000.0]
     },
     "visual": {
       "range_percent_of_ammo": [100.0,0.0],
@@ -80,6 +81,7 @@
       "explosiveType": "a_ix_2",
       "explosiveMass": 3.402,
       "caliber": 0.125,
+      "Cx": 0.025,
       "speed": 850.0,
       "maxDistance": 10000.0,
       "bulletType": "he_frag_fs_tank",
@@ -102,8 +104,7 @@
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "100mmRed",
-        "trail": "black"
+        "tracer": "noColor"
       },
       "collisions": {
         "steel": {
@@ -125,13 +126,13 @@
     "bullet": {
       "mass": 3.6,
       "caliber": 0.125,
-      "damageCaliber": 0.05,
+      "damageCaliber": 0.036,
       "ballisticCaliber": 0.1,
+      "Cx": 0.01,
       "speed": 1800.0,
       "maxDistance": 10000.0,
       "bulletType": "apds_fs_tungsten_small_core_tank",
       "bulletName": "125mm_3bm12",
-      "hitPowerMult": 600.0,
       "onHitChanceMultExplFuel": 0.1,
       "relativeVelHitShift": [300.0,1000.0],
       "relativeVelArmorShift": [200.0,1000.0],
@@ -151,7 +152,8 @@
         "ArmorPower2000m": [327.0,2000.0],
         "ArmorPower3000m": [298.0,3000.0],
         "ArmorPower4000m": [249.0,4000.0],
-        "ArmorPower10000m": [80.0,10000.0]
+        "ArmorPower10000m": [80.0,10000.0],
+        "ArmorPower20000m": [0.0,20000.0]
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
@@ -179,6 +181,7 @@
       "explosiveType": "a_ix_1",
       "explosiveMass": 1.64,
       "caliber": 0.125,
+      "Cx": 0.025,
       "speed": 905.0,
       "maxDistance": 7000.0,
       "bulletType": "heat_fs_tank",

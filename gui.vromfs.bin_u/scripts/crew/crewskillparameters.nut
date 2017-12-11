@@ -124,19 +124,22 @@ function g_crew_skill_parameters::getBaseDescriptionText(memberName, skillName, 
   return ::loc(locId, locParams)
 }
 
-function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew)
+function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew, difficulty)
 {
   local resArray = [getBaseDescriptionText(memberName, skillName, crew)]
 
   if (crew && memberName == "groundService" && skillName == "repair")
   {
     local unit = ::g_crew.getCrewUnit(crew)
-    local repairRankItem = ::g_crew.getSkillItem("groundService", "repairRank")
-    if (repairRankItem && unit && unit.rank > ::g_crew.getSkillNewValue(repairRankItem, crew))
+    local fullParamsList = ::g_skill_parameters_request_type.CURRENT_VALUES.getParameters(crew.id)
+    local parametersPath = [difficulty.crewSkillName, memberName, "repairRank", "groundServiceRepairRank"]
+    local repairRank = ::get_tbl_value_by_path_array(parametersPath, fullParamsList, 0)
+    if (repairRank!=0 && unit && unit.rank > repairRank)
     {
       local text = ::loc("crew/notEnoughRepairRank", {
                           rank = ::colorize("activeTextColor", ::getUnitRankName(unit.rank))
-                          level = ::colorize("activeTextColor", unit.rank)
+                          level = ::colorize("activeTextColor",
+                                             ::g_crew_skills.getMinSkillsUnitRepairRank(unit.rank))
                          })
       resArray.append(::colorize("warningTextColor", text))
     }
@@ -323,7 +326,7 @@ function g_crew_skill_parameters::getSkillDescriptionView(crew, difficulty, memb
 
   local view = {
     skillName = ::loc("crew/" + skillName)
-    tooltipText = getTooltipText(memberName, skillName, crew)
+    tooltipText = getTooltipText(memberName, skillName, crew, difficulty)
 
     // First item in this array is table's header.
     parameterRows = getSkillListParameterRowsView(crew, difficulty, skillsList, unitType)

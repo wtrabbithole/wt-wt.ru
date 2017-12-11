@@ -133,6 +133,7 @@
   "cloudShadowIntensityTankMul": 0.95,
   "shipDepthTraceWarningDepth": 1.0,
   "shipDepthTraceCriticalDepth": 0.5,
+  "enableNetShipPhys": true,
   "tracers": {
     "headFadeTime": 2.0,
     "headSpeedScale": [400.0,900.0,0.1,1.0],
@@ -1840,7 +1841,7 @@
         "wholeModificationsEffect": 1.0,
         "enableNegativeModifications": false,
         "shellLoadingTimeMult": 1.0,
-        "arcadeTurnPowerMult": 1.0,
+        "arcadeTurnPowerMult": 1.2,
         "tankTurretPitchInc": 0.0
       }
     },
@@ -2287,7 +2288,9 @@
         "boundingRadiusDetectionMultiplier": [1.0,0.2],
         "isSeparateFarAwayIndicatorsAllowed": true,
         "tankBoundingHeightDetectionRange": [1.8,3.6],
-        "tankBoundingHeightDetectionMult": [1.6,0.4]
+        "tankBoundingHeightDetectionMult": [1.6,0.4],
+        "shipBoundingHeightDetectionRange": [6.0,27.0],
+        "shipBoundingHeightDetectionMult": [1.0,0.05]
       },
       "normal": {
         "distDetectionK": 0.95,
@@ -2300,7 +2303,9 @@
         "boundingRadiusDetectionMultiplier": [1.0,0.2],
         "isSeparateFarAwayIndicatorsAllowed": true,
         "tankBoundingHeightDetectionRange": [1.8,3.6],
-        "tankBoundingHeightDetectionMult": [1.6,0.4]
+        "tankBoundingHeightDetectionMult": [1.6,0.4],
+        "shipBoundingHeightDetectionRange": [6.0,27.0],
+        "shipBoundingHeightDetectionMult": [1.0,0.05]
       },
       "far": {
         "distDetectionK": 1.3,
@@ -2313,7 +2318,9 @@
         "boundingRadiusDetectionMultiplier": [1.0,0.2],
         "isSeparateFarAwayIndicatorsAllowed": true,
         "tankBoundingHeightDetectionRange": [1.8,3.6],
-        "tankBoundingHeightDetectionMult": [1.6,0.4]
+        "tankBoundingHeightDetectionMult": [1.6,0.4],
+        "shipBoundingHeightDetectionRange": [6.0,27.0],
+        "shipBoundingHeightDetectionMult": [1.0,0.05]
       }
     },
     "allowControlHelpers": {
@@ -8698,5 +8705,41 @@
   },
   "picman": {
     "searchBlkBeforeTaBin": false
+  },
+  "explosiveMassToTimeAssaultFuse": {
+    "fuse_air_ab": [
+      {
+        "p": [10.0,1.0]
+      },
+      {
+        "p": [50.0,2.0]
+      },
+      {
+        "p": [100.0,2.5]
+      },
+      {
+        "p": [200.0,6.0]
+      },
+      {
+        "p": [500.0,8.0]
+      }
+    ],
+    "fuse_air_rb": [
+      {
+        "p": [10.0,1.0]
+      },
+      {
+        "p": [50.0,2.0]
+      },
+      {
+        "p": [100.0,2.0]
+      },
+      {
+        "p": [200.0,6.0]
+      },
+      {
+        "p": [500.0,8.0]
+      }
+    ]
   }
 }

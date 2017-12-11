@@ -40,7 +40,13 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false,
+        "_DBttlA": false,
+        "_DBttlB": false
       }
     },
     "spectator_points": [],
@@ -427,11 +433,23 @@
             }
           }
         ],
-        "actions": {
-          "comment": {
-            "value": "обе армии закончили заливку имен"
+        "actions": [
+          {
+            "comment": {
+              "value": "обе армии закончили заливку имен"
+            }
+          },
+          {
+            "comment": {
+              "value": "запускаем повышение heat"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "poi_raise_start"
+            }
           }
-        },
+        ],
         "else_actions": []
       }
     },

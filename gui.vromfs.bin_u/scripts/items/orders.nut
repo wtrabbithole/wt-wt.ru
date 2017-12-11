@@ -227,6 +227,25 @@ function g_orders::enableOrders(statusObj)
   ::add_event_listener("OrderUpdated", onEventOrderUpdated, this)
 }
 
+
+function g_orders::enableOrdersWithoutDagui()
+{
+  if (!ordersCanBeUsed())
+    return
+
+  ordersEnabled = true
+  updateActiveOrder()
+
+  if (listenersEnabled)
+    return
+  listenersEnabled = true
+
+  ::add_event_listener("LobbyStatusChange", onEventLobbyStatusChange, this)
+  ::add_event_listener("ActiveOrderChanged", onEventActiveOrderChanged, this)
+  ::add_event_listener("OrderUpdated", onEventOrderUpdated, this)
+}
+
+
 function g_orders::disableOrders()
 {
   if (!ordersEnabled)
@@ -338,6 +357,11 @@ function g_orders::updateActiveOrder(dispatchEvents = true)
       ::broadcastEvent("OrderStatusChanged", { oldActiveOrder = oldActiveOrder })
     ::broadcastEvent("OrderUpdated", { oldActiveOrder = oldActiveOrder })
   }
+
+  ::call_darg("orderStatusTextUpdate", getStatusText())
+  ::call_darg("orderStatusTextBottomUpdate", getStatusTextBottom())
+  ::call_darg("orderShowOrderUpdate", hasActiveOrder || cooldownTimeleft > 0 && prevActiveOrder != null)
+  ::call_darg("orderScoresTableUpdate", getScoreTableTexts())
 }
 
 /** Returns true if player can activate some order now. */
@@ -435,6 +459,7 @@ function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
   }
 
   local waitingForCooldown = cooldownTimeleft > 0 && prevActiveOrder != null
+
   local showStatus = hasActiveOrder || waitingForCooldown
   setStatusObjVisibility(statusObj, showStatus)
   if (!showStatus)
@@ -451,32 +476,24 @@ function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
     statusTextBottomObj.setValue(getStatusTextBottom())
 
   // Updating order score table.
-  local statusScores = getOrderScores(orderObject)
-  local rowIndex = 0
-  local showTable = statusScores != null && statusScores.len() > 0
+  local tableTexts = getScoreTableTexts()
+  local showTable = tableTexts != null && tableTexts.len()
   local statusTableObj = statusObj.findObject("status_table")
+  local numScores = ::min(tableTexts ? tableTexts.len() : 0, maxRowsInScoreTable)
   if (::checkObj(statusTableObj))
     statusTableObj.show(showTable)
-  if (statusScores != null && showTable)
+  if (showTable)
   {
-    prepareStatusScores(statusScores, orderObject)
-    local numScores = ::min(statusScores.len(), maxRowsInScoreTable)
     for (local i = 0; i < numScores; ++i)
     {
-      local scoreData = statusScores[i]
-      local playerData = getPlayerDataByScoreData(scoreData)
-      local rowObj = getRowObjByIndex(rowIndex, statusObj)
-      ++rowIndex
+      local rowObj = getRowObjByIndex(i, statusObj)
       ::dagor.assertf(rowObj != null, "Error updating order status: Row object not found.")
-      local playerNameText = (::getTblValue("playerIndex", scoreData, 0) + 1).tostring() + ". "
-        + ::build_mplayer_name(playerData)
-      local scoreValueText = orderObject.orderType.formatScore(scoreData.score)
-      setRowObjTexts(rowObj, playerNameText, scoreValueText, true)
+      setRowObjTexts(rowObj, tableTexts[i].player, tableTexts[i].score, true)
     }
   }
 
   // Hiding rows without data.
-  for (local i = rowIndex; i < maxRowsInScoreTable; ++i)
+  for (local i = numScores; i < maxRowsInScoreTable; ++i)
   {
     local rowObj = getRowObjByIndex(i, statusObj)
     ::dagor.assertf(rowObj != null, "Error updating order status: Row object not found.")
@@ -516,6 +533,27 @@ function g_orders::setRowObjTexts(rowObj, nameText, scoreText, pilotIconVisible)
   if (::checkObj(pilotIconObj))
     pilotIconObj.show(pilotIconVisible)
 }
+
+
+function g_orders::getScoreTableTexts()
+{
+  local showOrder = hasActiveOrder || cooldownTimeleft > 0 && prevActiveOrder != null
+  if ( !showOrder )
+    return []
+  local orderObject = hasActiveOrder ? activeOrder : prevActiveOrder
+  local scoreData = getOrderScores(orderObject)
+  if (!scoreData)
+    return []
+  prepareStatusScores(scoreData, orderObject)
+  return scoreData.map(function (item) {
+    local playerData = ::g_orders.getPlayerDataByScoreData(item)
+    return {
+      score = orderObject.orderType.formatScore(item.score)
+      player = (::getTblValue("playerIndex", item, 0) + 1).tostring() + ". " + ::build_mplayer_name(playerData)
+    }
+  })
+}
+
 
 function g_orders::getStatusText()
 {
@@ -793,6 +831,7 @@ function g_orders::getPlayerDataByScoreData(scoreData)
   return ::getTblValue("playerData", scoreData, emptyPlayerData)
 }
 
+
 //
 // Handlers
 //
@@ -969,5 +1008,9 @@ function g_orders::getLocalPlayerData()
     localPlayerData = ::get_local_mplayer()
   return localPlayerData
 }
+
+
+::cross_call_api.active_order_request_update <- @()::g_orders.updateActiveOrder()
+::cross_call_api.active_order_enable <- @()::g_orders.enableOrdersWithoutDagui()
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_orders")

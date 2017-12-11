@@ -107,12 +107,12 @@ function LayersIcon::getIconData(iconStyle, image = null, ratio = null, defStyle
 
 function LayersIcon::findLayerCfg(id)
 {
-  return ::getTblValue(id.tolower(), config.layers)
+  return "layers" in config ? ::getTblValue(id.tolower(), config.layers) : null
 }
 
 function LayersIcon::findStyleCfg(id)
 {
-  return ::getTblValue(id.tolower(), config.styles)
+  return "styles" in config ? ::getTblValue(id.tolower(), config?.styles) : null
 }
 
 function LayersIcon::genDataFromLayer(layerCfg, insertLayers = "")  //need to move it to handyman,

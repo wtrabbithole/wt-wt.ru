@@ -11,3 +11,18 @@
   set_time_speed = function (...) {}
   is_game_paused = function () { return false }
 })
+
+
+//1.71.1.X
+::apply_compatibilities({
+  TRIGGER_GROUP_PRIMARY = 0
+  TRIGGER_GROUP_SECONDARY = 1
+  TRIGGER_GROUP_COAXIAL_GUN = 2
+  TRIGGER_GROUP_MACHINE_GUN = 3
+  TRIGGER_GROUP_SPECIAL_GUN = 4
+  TRIGGER_GROUP_TORPEDOES = 5
+  TRIGGER_GROUP_BOMBS = 6
+  TRIGGER_GROUP_ROCKETS = 7
+  TRIGGER_GROUP_MINE = 8
+  TRIGGER_GROUP_SMOKE_GRENADE = 9
+})

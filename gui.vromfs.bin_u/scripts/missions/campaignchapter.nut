@@ -790,6 +790,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
   {
     return {
       options = optionItems
+      optionsConfig = { missionName = curMission && curMission.id }
       applyAtClose = false
       wndOptionsMode = ::get_options_mode(gm)
       owner = this

@@ -136,6 +136,10 @@ function session_fill_info(scene, sessionInfo)
 
   setTextToObjByOption("spawn_ai_tank_on_tank_maps", ::USEROPT_SPAWN_AI_TANK_ON_TANK_MAPS, ::getTblValue("spawnAiTankOnTankMaps", missionInfo))
 
+  local slotOverrideText = ""
+  if (::SessionLobby.isSlotbarOverrided(sessionInfo))
+    slotOverrideText = ::colorize("userlogColoredText", ::loc("multiplayer/slotbarOverrided"))
+  scene.findObject("slotbar_override").setValue(slotOverrideText)
 }
 
 function session_clear_info(scene)
@@ -410,12 +414,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
     scene.findObject("mplobby_update").setUserData(this)
 
-    tableTeams = [::g_team.ANY]
-    if (::SessionLobby.isEventRoom)
-    {
-      tableTeams = [::g_team.A, ::g_team.B]
-      isInfoByTeams = true
-    }
+    initTeams()
 
     playersListWidgetWeak = ::gui_handlers.MRoomPlayersListWidget.create({
       scene = scene.findObject("players_tables_place")
@@ -434,7 +433,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
       ::SessionLobby.setTeam(::SessionLobby.getRandomTeam(), true)
 
     updateSessionInfo()
-    ::init_slotbar(this, scene.findObject("nav-help"))
+    initSlotbar()
     setSceneTitle(::loc("multiplayer/lobby"))
     updateWindow()
     updateRoomInSession()
@@ -443,6 +442,21 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
     initFocusArray()
     local sessionInfo = ::SessionLobby.getSessionInfo()
     ::update_vehicle_info_button(scene, sessionInfo)
+  }
+
+  function initTeams()
+  {
+    tableTeams = [::g_team.ANY]
+    if (::SessionLobby.isEventRoom)
+    {
+      tableTeams = [::g_team.A, ::g_team.B]
+      isInfoByTeams = true
+    }
+  }
+
+  function initSlotbar()
+  {
+    ::init_slotbar(this, scene.findObject("nav-help"))
   }
 
   function getMainFocusObj()

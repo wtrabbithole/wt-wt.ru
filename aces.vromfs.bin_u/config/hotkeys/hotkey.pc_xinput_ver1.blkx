@@ -430,6 +430,17 @@
     },
     {
       "event": {
+        "name": "ship_sight_distance",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 27
+          }
+        }
+      }
+    },
+    {
+      "event": {
         "name": "ID_AEROBATICS_SMOKE",
         "shortcut": {
           "button": {
@@ -4045,6 +4056,12 @@
       "helicopter_mouse_aim_y": {
         "axisId": -1
       },
+      "ship_sight_distance": {
+        "axisId": 3,
+        "relative": true,
+        "relSens": 0.09,
+        "keepDisabledValue": true
+      },
       "head_pos_x": {
         "axisId": -1,
         "innerDeadzone": 0.05,
@@ -4121,10 +4138,6 @@
       "gm_sight_distance": {
         "relative": true,
         "relSens": 0.04
-      },
-      "ship_sight_distance": {
-        "relative": true,
-        "relSens": 0.09
       },
       "ship_shoot_direction": {
         "relative": true,

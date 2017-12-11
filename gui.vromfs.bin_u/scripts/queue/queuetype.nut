@@ -67,15 +67,15 @@ enum qTypeCheckOrder {
       isParamsCorresponds = @(params) "battleId" in params
       prepareQueueParams = function(params)
       {
-        local wwBattle = "wwBattle" in params
-          ? params.wwBattle
-          : ::g_world_war.getBattleById(params.battleId)
+        local wwBattle = ::getTblValue("wwBattle", params)
         return {
           clusters    = ::get_current_clusters()
           operationId = params.operationId
           battleId    = params.battleId
-          country     = wwBattle.getCountryNameBySide()
-          team        = wwBattle.getTeamNameBySide()
+          country     = wwBattle ? wwBattle.getCountryNameBySide()
+                          : ::getTblValue("country", params, "")
+          team        = wwBattle ? wwBattle.getTeamNameBySide()
+                          : ::getTblValue("country", params, ::SIDE_1)
         }
       }
 

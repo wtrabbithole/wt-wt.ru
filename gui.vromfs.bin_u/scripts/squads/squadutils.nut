@@ -120,7 +120,7 @@ function g_squad_utils::checkSquadUnreadyAndDo(handler, func, cancelFunc = null,
 {
   if (!::g_squad_manager.isSquadMember() ||
       !::g_squad_manager.isMeReady() ||
-      !::g_squad_manager.isMyCrewsReady || !shouldCheckCrewsReady)
+      (!::g_squad_manager.isMyCrewsReady && shouldCheckCrewsReady))
     return func.call(handler)
 
   local messageText = (::g_squad_manager.isMyCrewsReady && shouldCheckCrewsReady)

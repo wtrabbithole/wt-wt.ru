@@ -87,7 +87,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
         presetBattleRatingText = ::loc("shop/battle_rating") + ::loc("ui/colon") + battleRatingRange + "\n"
       }
 
-      local data = ::format("textarea{ text:t='%s' padding:t='-1@textPaddingBugWorkaround, 8*@sf/@pf_outdated' } ",
+      local data = ::format("textarea{ text:t='%s' padding:t='0, 8*@sf/@pf_outdated' } ",
         ::g_string.stripTags(presetBattleRatingText) +
         ::loc("shop/slotbarPresets/contents") + ::loc("ui/colon"))
       data += "table{ class:t='slotbarPresetsTable' "
@@ -114,7 +114,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
       data += "}"
 
       if (!preset.enabled)
-        data += ::format("textarea{ text:t='%s' padding:t='-1@textPaddingBugWorkaround, 8*@sf/@pf_outdated' } ",
+        data += ::format("textarea{ text:t='%s' padding:t='0, 8*@sf/@pf_outdated' } ",
           ::colorize("badTextColor", ::g_string.stripTags(::loc("shop/slotbarPresets/forbidden/unitTypes"))))
 
       guiScene.replaceContentFromText(objDesc, data, data.len(), this)

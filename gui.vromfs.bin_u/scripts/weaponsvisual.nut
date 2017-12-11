@@ -280,7 +280,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     altBtnText = getItemUnlockCost(air, item).tostring()
   if (altBtnText != "")
     altBtnText = ::loc("mainmenu/btnBuy") + ::loc("ui/parentheses/space", {text = altBtnText})
-  else if (visualItem.type == weaponsItem.spare)
+  else if (visualItem.type == weaponsItem.spare && isOwn)
   {
     if (::ItemsManager.getInventoryList(itemType.UNIVERSAL_SPARE).len())
       altBtnText = ::loc("items/universalSpare/activate", { icon = ::loc("icon/universalSpare") })
@@ -1050,6 +1050,13 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
   {
     name = ""
     desc = ::getWeaponInfoText(air, false, item.name, "\n", INFO_DETAIL.EXTENDED)
+
+    if(item.rocket || item.bomb)
+    {
+      buildPiercingData(air.name,
+        ::calculate_tank_bullet_parameters(air.name, item.name, true), res)
+    }
+
     if (effect)
       addDesc = getEffectDesc(air, effect)
     if (!effect && updateEffectFunc)
@@ -1205,16 +1212,23 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
   local bullet_parameters = ::calculate_tank_bullet_parameters(unit.name,
     useDefaultBullet && "weaponBlkName" in bulletsSet ? bulletsSet.weaponBlkName : getModificationBulletsEffect(searchName),
     useDefaultBullet);
+
+  buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet, true)
+}
+
+function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet = null, needAdditionalInfo = false)
+{
   local dist = [10, 100, 500, 1000, 1500, 2000];
   local param = { armorPiercing = array(dist.len(), null) }
   local needAddParams = bullet_parameters.len() == 1
 
-  local isSmokeShell   = bulletsSet.bullets.len() == 1 && bulletsSet.bullets[0] == "smoke_tank"
-  local isSmokeGrenade = bulletsSet.weaponType == WEAPON_TYPE.SMOKE_SCREEN
+  local isSmokeShell   = bulletsSet &&
+    bulletsSet.bullets.len() == 1 && bulletsSet.bullets[0] == "smoke_tank"
+  local isSmokeGrenade = bulletsSet && bulletsSet.weaponType == WEAPON_TYPE.SMOKE_SCREEN
   if (isSmokeGrenade || isSmokeShell)
   {
     local whitelistParams = isSmokeGrenade ? [ "bulletType", "armorPiercing", "armorPiercingDist" ]
-      : [ "mass", "speed", "bulletType", "armorPiercing", "armorPiercingDist" ]
+      : [ "mass", "speed", "bulletType", "armorPiercing", "armorPiercingDist", "weaponBlkPath" ]
     local filteredBulletParameters = []
     foreach (_params in bullet_parameters)
     {
@@ -1278,19 +1292,22 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
     foreach(p in ["mass", "speed", "fuseDelayDist", "explodeTreshold", "operatedDist", "endSpeed"])
       param[p] <- ::getTblValue(p, bullet_params, 0)
 
-    if ("reloadTimes" in bullet_params)
-      param.reloadTimes <- bullet_params["reloadTimes"]
+    foreach(p in ["reloadTimes", "autoAiming", "weaponBlkPath"])
+    {
+      if(p in bullet_params)
+        param[p] <- bullet_params[p]
+    }
 
-    if ("autoAiming" in bullet_params)
-      param.autoAiming <- bullet_params["autoAiming"]
-
-    foreach(p in ["explosiveType", "explosiveMass"])
+    if(bulletsSet)
+    {
+      foreach(p in ["explosiveType", "explosiveMass"])
       if (p in bulletsSet)
         param[p] <- bulletsSet[p]
 
-    foreach(p in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
-      if (p in bulletsSet)
-        param[p] <- bulletsSet[p]
+      foreach(p in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
+        if (p in bulletsSet)
+          param[p] <- bulletsSet[p]
+    }
 
     param.bulletType <- ::getTblValue("bulletType", bullet_params, "")
   }
@@ -1304,7 +1321,7 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
       value = value
     })
   }
-  if ("mass" in param)
+  if (needAdditionalInfo && "mass" in param)
   {
     if (param.mass > 0)
       addProp(p, ::loc("bullet_properties/mass"),
@@ -1389,11 +1406,16 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
   }
   descTbl.bulletParams.append({ props = p })
 
+  local bulletName = ""
+  if("weaponBlkPath" in param)
+    bulletName = ::loc("weapons" + ::get_weapon_name_by_blk_path(param.weaponBlkPath))
+
   local apData = getArmorPiercingViewData(param.armorPiercing, dist)
   if (apData)
   {
-    local header = ::loc("bullet_properties/armorPiercing") + "\n"
-                   + ::format("(%s \\ %s)", ::loc("distance"), ::loc("bullet_properties/hitAngle"))
+    local header = ::loc("bullet_properties/armorPiercing")
+      + (::u.isEmpty(bulletName) ? "" : ( ": " + bulletName))
+      + "\n" + ::format("(%s \\ %s)", ::loc("distance"), ::loc("bullet_properties/hitAngle"))
     descTbl.bulletParams.append({ props = apData, header = header })
   }
 }

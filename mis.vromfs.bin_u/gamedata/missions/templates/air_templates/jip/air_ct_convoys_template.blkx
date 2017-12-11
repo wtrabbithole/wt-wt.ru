@@ -44,7 +44,11 @@
         "_Conq5": false,
         "_Conq6": false,
         "_DBttlA": false,
-        "_DBttlB": false
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "spectator_points": [],
@@ -510,6 +514,7 @@
           {
             "unitSetIndication": {
               "set": false,
+              "target_marking": 0,
               "target": "@ct_spawn_convoy_name"
             }
           },
@@ -623,14 +628,14 @@
           },
           {
             "comment": {
-              "value": "состоит из 6-9 грузовиков и 2-4 зениток"
+              "value": "состоит из 4-6 грузовиков и 2-4 зениток"
             }
           },
           {
             "varSetRandomInt": {
               "var": "ct_spawn_trucks_num",
-              "from": 6,
-              "to_not_including": 10
+              "from": 4,
+              "to_not_including": 7
             }
           },
           {
@@ -676,7 +681,7 @@
           },
           {
             "comment": {
-              "value": "состоит из 4-6 танков, 0-4 бронетранспортеров и 4-6 зениток"
+              "value": "состоит из 4-6 танков, 0-4 бронетранспортеров и 2-4 зениток"
             }
           },
           {
@@ -696,8 +701,8 @@
           {
             "varSetRandomInt": {
               "var": "ct_spawn_aaa_num",
-              "from": 4,
-              "to_not_including": 7
+              "from": 2,
+              "to_not_including": 5
             }
           },
           {
@@ -842,6 +847,7 @@
           },
           {
             "unitSetProperties": {
+              "object_marking": 0,
               "object": "@ct_spawn_convoy_name",
               "speed": 30.0,
               "minDistBetween": 30.0
@@ -954,15 +960,16 @@
             }
           },
           {
-            "__unitSetStealth": {
+            "unitSetStealth": {
               "set": true,
-              "radius": 0.0,
+              "radius": 3500.0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
           {
-            "__unitSetIndication": {
+            "unitSetIndication": {
               "set": false,
+              "target_marking": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -1069,15 +1076,16 @@
             }
           },
           {
-            "__unitSetStealth": {
+            "unitSetStealth": {
               "set": true,
-              "radius": 0.0,
+              "radius": 3500.0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
           {
-            "__unitSetIndication": {
+            "unitSetIndication": {
               "set": false,
+              "target_marking": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -1184,15 +1192,16 @@
             }
           },
           {
-            "__unitSetStealth": {
+            "unitSetStealth": {
               "set": true,
-              "radius": 0.0,
+              "radius": 3500.0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
           {
-            "__unitSetIndication": {
+            "unitSetIndication": {
               "set": false,
+              "target_marking": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -1299,15 +1308,16 @@
             }
           },
           {
-            "__unitSetStealth": {
+            "unitSetStealth": {
               "set": true,
-              "radius": 0.0,
+              "radius": 3500.0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
           {
-            "__unitSetIndication": {
+            "unitSetIndication": {
               "set": false,
+              "target_marking": 0,
               "target": "@ct_spawn_sub_unit_name"
             }
           },
@@ -3350,12 +3360,32 @@
             }
           },
           {
+            "varModify": [
+              {
+                "operator": "add"
+              },
+              {
+                "value": 0.0
+              },
+              {
+                "var": "ct_detect_detection_calculated_range"
+              },
+              {
+                "var": "ct_detect_detection_players_range"
+              },
+              {
+                "use_variable": true
+              },
+              {
+                "var_value": "ct_detect_detection_base_range"
+              }
+            ]
+          },
+          {
             "varModify": {
               "operator": "add",
-              "value": 0.0,
-              "var": "ct_detect_detection_calculated_range",
-              "use_variable": true,
-              "var_value": "ct_detect_detection_base_range"
+              "value": 2000.0,
+              "var": "ct_detect_detection_players_range"
             }
           },
           {
@@ -3451,6 +3481,18 @@
             }
           },
           {
+            "varSetString": {
+              "value": "t2_players_squad",
+              "var": "ct_detect_player_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "t2_minor_task_completed",
+              "var": "ct_detect_player_reward_trigger_name"
+            }
+          },
+          {
             "comment": {
               "value": "запускаем проверку модификациии расстояния обнаружения"
             }
@@ -3471,6 +3513,18 @@
             "varSetInt": {
               "value": 2,
               "var": "ct_detect_army"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "t1_players_squad",
+              "var": "ct_detect_player_squad_name"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "t1_minor_task_completed",
+              "var": "ct_detect_player_reward_trigger_name"
             }
           },
           {
@@ -3525,9 +3579,14 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "ct_detect_check_distance"
-            }
+            "triggerEnable": [
+              {
+                "target": "ct_detect_check_distance"
+              },
+              {
+                "target": "ct_detect_check_players_distance"
+              }
+            ]
           }
         ],
         "else_actions": {
@@ -3579,9 +3638,14 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "ct_detect_check_distance"
-            }
+            "triggerEnable": [
+              {
+                "target": "ct_detect_check_distance"
+              },
+              {
+                "target": "ct_detect_check_players_distance"
+              }
+            ]
           }
         ],
         "else_actions": {
@@ -3620,12 +3684,18 @@
         },
         "actions": [
           {
+            "triggerDisable": {
+              "target": "ct_detect_check_players_distance"
+            }
+          },
+          {
             "comment": {
               "value": "враг оказался рядом"
             }
           },
           {
             "unitSetProperties": {
+              "object_marking": 0,
               "object": "@ct_detect_convoy_name",
               "stealthRadius": 60000.0
             }
@@ -3638,6 +3708,97 @@
           {
             "unitSetIndication": {
               "set": true,
+              "target_marking": 0,
+              "target": "@ct_detect_convoy_name"
+            }
+          },
+          {
+            "varSetBool": {
+              "value": true,
+              "var": "@ct_detect_is_detected_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем есть ли задание. если нет - выдаем"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "ct_detect_check_destroy_quest"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "@ct_detect_player_reward_trigger_name"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "врагов рядом нет. запускаем следующую проверку"
+          },
+          "triggerEnable": {
+            "target": "ct_detect_is_template_active"
+          }
+        }
+      },
+      "ct_detect_check_players_distance": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitDistanceBetween": {
+            "value": 1500.0,
+            "math": "2D",
+            "object_type": "isActive",
+            "object_marking": 0,
+            "target_type": "isOnline",
+            "target_marking": 0,
+            "check_objects": "any",
+            "check_targets": "any",
+            "object": "@ct_detect_convoy_name",
+            "target": "@ct_detect_player_squad_name",
+            "var": "ct_detect_detection_players_range",
+            "compareCenters": false
+          }
+        },
+        "actions": [
+          {
+            "triggerDisable": {
+              "target": "ct_detect_check_distance"
+            }
+          },
+          {
+            "comment": {
+              "value": "враг оказался рядом"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object": "@ct_detect_convoy_name",
+              "stealthRadius": 60000.0
+            }
+          },
+          {
+            "comment": {
+              "value": "говорим что конвой обнаружен"
+            }
+          },
+          {
+            "unitSetIndication": {
+              "set": true,
+              "target_marking": 0,
               "target": "@ct_detect_convoy_name"
             }
           },
@@ -3752,6 +3913,7 @@
           },
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@ct_obj_convoy_name",
             "team": "Both"
           }
@@ -3788,6 +3950,7 @@
           },
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@ct_obj_convoy_name",
             "team": "Both"
           }
@@ -3816,6 +3979,7 @@
           },
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@ct_obj_convoy_name",
             "team": "A"
           }
@@ -3844,6 +4008,7 @@
           },
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "@ct_obj_convoy_name",
             "team": "B"
           }
@@ -5635,10 +5800,14 @@
       "conditions": [],
       "actions": {
         "unitSetProperties": {
+          "object_marking": 0,
           "object": "ct_all_convoys_squad",
-          "accuracy": 0.3,
+          "accuracy": 0.1,
           "effShootingRate": 0.0,
-          "airEffShootingRate": 0.3
+          "airEffShootingRate": 0.1,
+          "fireRandom": true,
+          "targetChangeInterval": 5.0,
+          "targetChangeProf": 0.25
         },
         "varSetBool": {
           "value": true,
@@ -6175,6 +6344,7 @@
         },
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
           "target": "@ct_main_convoy_name"
         }
       },
@@ -6209,6 +6379,7 @@
         },
         "unitSetIndication": {
           "set": true,
+          "target_marking": 0,
           "target": "@ct_main_convoy_name"
         }
       },
@@ -6287,6 +6458,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@ct_main_end_convoy_name"
           }
         },
@@ -6321,6 +6493,7 @@
         {
           "unitSetIndication": {
             "set": false,
+            "target_marking": 0,
             "target": "@ct_main_end_convoy_name"
           }
         },
@@ -6445,10 +6618,11 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "ct_all_convoys_squad",
+            "useForTriggerFiltered": true,
             "speed": 0.0,
-            "lockSpeed": true,
-            "useForTriggerFiltered": true
+            "lockSpeed": true
           }
         }
       ],
@@ -6486,7 +6660,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "A"
       },
       "onSuccess": [],
@@ -6498,7 +6672,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "B"
       },
       "onSuccess": [],
@@ -6510,7 +6684,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "A"
       },
       "onSuccess": [],
@@ -6522,7 +6696,7 @@
       "type": "abstractMissionObjective",
       "props": {
         "isPrimary": true,
-        "timeLimit": 7200,
+        "timeLimit": 10800,
         "team": "B"
       },
       "onSuccess": [],
@@ -6603,7 +6777,7 @@
     "ct_detect_army": 0,
     "ct_detect_is_quest_name": "",
     "ct_detect_is_detected_name": "",
-    "ct_detect_detection_base_range": 2500.0,
+    "ct_detect_detection_base_range": 3500.0,
     "ct_detect_detection_calculated_range": 0.0,
     "ct_active_convoy_01_is_detected": false,
     "ct_active_convoy_02_is_detected": false,
@@ -6648,7 +6822,10 @@
     "ct_empty_quest_var_name": "",
     "ct_dead_in_progress": false,
     "ct_obj_convoy_name": "",
-    "ct_update_pos_is_active": false
+    "ct_update_pos_is_active": false,
+    "ct_detect_detection_players_range": 5500.0,
+    "ct_detect_player_squad_name": "",
+    "ct_detect_player_reward_trigger_name": ""
   },
   "dialogs": [],
   "airfields": [],

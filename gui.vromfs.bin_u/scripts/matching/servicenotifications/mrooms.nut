@@ -65,7 +65,6 @@ local MRoomsHandlers = class {
     hostReady = null
     selfReady = null
     leaving = null
-    ::reset_room_key()
 
     notify_room_destroyed({})
   }
