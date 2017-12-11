@@ -689,13 +689,18 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       hObj.setValue(value)
   }
 
+  function getCurSlotUnit()
+  {
+    return getSlotAircraft(curSlotCountryId, curSlotIdInCountry)
+  }
+
   function showMsgBoxRepair(unit, fnOkey)
   {
     if (!unit)
       return
     local price = ::getUnitRepairCost(unit)
     local msgText = ::loc("msgbox/question_repair",
-                          { unitName = ::loc(::getUnitName(unit)), cost = ::getPriceText(price) })
+                          { unitName = ::loc(::getUnitName(unit)), cost = ::Cost(price).tostring() })
     msgBox("question_quit_game", msgText,
     [
       ["yes", fnOkey ],

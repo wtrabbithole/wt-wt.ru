@@ -122,6 +122,7 @@ wwObjective {
           }
         <</getUpdatableData>>
         textareaNoTab {
+          id:t='updatable_data_text'
           margin-left:t='1@blockInterval'
           text:t='<<getUpdatableDataDescriptionText>>'
           tooltip:t='<<getUpdatableDataDescriptionTooltip>>'

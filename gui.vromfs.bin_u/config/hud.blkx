@@ -63,20 +63,15 @@
     "tacticalMapBorderSize": [7.0,7.0]
   },
   {
-    "debugFontName": "very_tiny_text_set_medium"
+    "debugFontName": "tiny_text_hud"
   },
   {
     "smallTextHudFontName": "very_tiny_text_set_compact"
   },
   {
-    "skins": [
-      {
-        "skin": "ui/hudskin.blk"
-      },
-      {
-        "skin": "ui/controlskin.blk"
-      }
-    ]
+    "skins": {
+      "defSkin": "ui/gameuiskin"
+    }
   },
   {
     "battleAreaColorPresets": {
@@ -437,7 +432,7 @@
       "bgd": "radar_bgd",
       "bgdMiles": "radar_bgd",
       "colorBgd": "#00ff3294",
-      "camera": "radar_camera",
+      "camera": "map_camera",
       "colorCamera": "#00ff3294",
       "compass": "compass",
       "colorCompass": "#00ff32ff",
@@ -805,6 +800,9 @@
         "rocketSight": "rocket_sight"
       },
       {
+        "missileSeekerTrackerPos": "gun_direction"
+      },
+      {
         "bombSightRadius": 100.0
       },
       {
@@ -827,6 +825,15 @@
       },
       {
         "colorBombSightActiveTarget": "#ff0000a0"
+      },
+      {
+        "missileSightLineWidth": 1.75
+      },
+      {
+        "colorMissileSight": "#b4b4b4e1"
+      },
+      {
+        "colorMissileSightLock": "#fe5037ff"
       },
       {
         "artillerySightLock": "sight_blocked"
@@ -1006,6 +1013,21 @@
         "crosshairDistHorSizeAdditional": [0.005,0.003]
       },
       {
+        "crosshairHorVertSize": [3.0,2.0]
+      },
+      {
+        "rangefinderVerticalOffset": 15.0
+      },
+      {
+        "rangefinderHorizontalOffset": 5.0
+      },
+      {
+        "drawDistanceCorrection": true
+      },
+      {
+        "distanceCorrectionPos": [-0.2,-0.05]
+      },
+      {
         "sight_distance_change_speed_ship": 90.0
       },
       {
@@ -1022,15 +1044,6 @@
       },
       {
         "sight_distance_change_speed": 7.0
-      },
-      {
-        "crosshairHorVertSize": [3.0,2.0]
-      },
-      {
-        "rangefinderVerticalOffset": 15.0
-      },
-      {
-        "rangefinderHorizontalOffset": 5.0
       },
       {
         "crosshairColor": {
@@ -1309,6 +1322,7 @@
       "colorEnemyGround": "#d2241dff",
       "colorTeam": "#24d921ff",
       "colorTeamGround": "#57d756ff",
+      "colorOwnPlayer": "#fac81eff",
       "colorUseless": "#320a0aff",
       "colorAirWaypoint": "#efff37ff",
       "colorFarAway": "#00000082",
@@ -1516,12 +1530,6 @@
   {
     "hint": [
       {
-        "trickPos": [1088.0,300.0]
-      },
-      {
-        "trickColor": "#80808080"
-      },
-      {
         "color": "#ffffffff"
       },
       {
@@ -1560,8 +1568,7 @@
           "fontFxOffset": 1,
           "fontFxColor": "#0000009b",
           "fontFxScale": 42,
-          "buttonFontFxType": 0,
-          "buttonTextColor": "#000000ff"
+          "buttonFontFxType": 0
         }
       },
       {
@@ -1576,8 +1583,7 @@
           "fontFxOffset": 1,
           "fontFxColor": "#0000009b",
           "fontFxScale": 42,
-          "buttonFontFxType": 0,
-          "buttonTextColor": "#000000ff"
+          "buttonFontFxType": 0
         }
       },
       {
@@ -1591,8 +1597,7 @@
           "fontFxOffset": 1,
           "fontFxColor": "#0000009b",
           "fontFxScale": 42,
-          "buttonFontFxType": 0,
-          "buttonTextColor": "#000000ff"
+          "buttonFontFxType": 0
         }
       },
       {
@@ -1607,88 +1612,7 @@
           "fontFxOffset": 1,
           "fontFxColor": "#0000009b",
           "fontFxScale": 42,
-          "buttonFontFxType": 0,
-          "buttonTextColor": "#000000ff"
-        }
-      }
-    ]
-  },
-  {
-    "hint_events": [
-      {
-        "color": "#ffffffff"
-      },
-      {
-        "timeFadeOut": 0.5
-      },
-      {
-        "blinkFreq": 1.0
-      },
-      {
-        "blinkTextRatio": 0.9
-      },
-      {
-        "iconSpace": 0.0
-      },
-      {
-        "btnEdge": "btnEdge"
-      },
-      {
-        "btnMiddle": "btnMiddle"
-      },
-      {
-        "btnEdgeJoystick": "btnEdgeJoystick"
-      },
-      {
-        "btnMiddleJoystick": "btnMiddleJoystick"
-      },
-      {
-        "settings": {
-          "for": "standard",
-          "font": "small_text_hud",
-          "font480": "small_text_hud",
-          "pos": [640.0,640.0],
-          "size": 340.0,
-          "numLinesForRisePosY": 1,
-          "fontFxType": 2,
-          "fontFxOffset": 1,
-          "fontFxColor": "#0000009b",
-          "fontFxScale": 42,
-          "buttonFontFxType": 0,
-          "buttonTextColor": "#000000ff",
-          "iconScaleMult": 0.6
-        }
-      },
-      {
-        "settings": {
-          "for": "cutscene",
-          "font": "small_text_hud",
-          "font480": "small_text_hud",
-          "pos": [1040.0,610.0],
-          "size": 400.0,
-          "fontFxType": 2,
-          "fontFxOffset": 1,
-          "fontFxColor": "#0000009b",
-          "fontFxScale": 42,
-          "buttonFontFxType": 0,
-          "buttonTextColor": "#000000ff"
-        }
-      },
-      {
-        "settings": {
-          "for": "spectator",
-          "font": "medium_text_hud",
-          "font480": "small_text_hud",
-          "pos": [640.0,500.0],
-          "size": 340.0,
-          "numLinesForRisePosY": 1,
-          "fontFxType": 2,
-          "fontFxOffset": 1,
-          "fontFxColor": "#0000009b",
-          "fontFxScale": 42,
-          "buttonFontFxType": 0,
-          "buttonTextColor": "#000000ff",
-          "iconScaleMult": 0.6
+          "buttonFontFxType": 0
         }
       }
     ]
@@ -1750,7 +1674,6 @@
       "speedCritical": 150.0,
       "overloadPosThreshold": 6.0,
       "overloadNegThreshold": -3.0,
-      "iconBack": "button_a",
       "missionLabelPosition": [640.0,550.0],
       "missionCompleteColor": "#ffffffff",
       "missionCompleteTime": 15.0,
@@ -1832,7 +1755,7 @@
       "nose": "nose",
       "velocity": "speed_vector",
       "mark": "hud_line",
-      "white": "white",
+      "white": "white@@vs",
       "verticalLine": "left_line",
       "markSize": [30.0,-4.0],
       "halfMarkSize": [15.0,-4.0],
@@ -1879,8 +1802,7 @@
       "fontFxType": 2,
       "fontFxOffset": 1,
       "fontFxColor": "#0000009b",
-      "fontFxScale": 42,
-      "patcIcon": "button_a"
+      "fontFxScale": 42
     }
   },
   {

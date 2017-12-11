@@ -14,7 +14,7 @@ contactItem {
     position:t='relative'
     pos:t='0, ph/2 - h/2'
     size:t='@cIco, @cIco'
-    background-image:t='#ui/opaque#<<pilotIcon>>_ico'
+    background-image:t='#ui/gameuiskin#<<pilotIcon>>_ico'
   }
 
   tdiv {
@@ -56,7 +56,7 @@ contactItem {
       showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
-        background-image:t='#ui/gameuiskin#btn_friend_add';
+        background-image:t='#ui/gameuiskin#btn_friend_add.svg';
       }
     }
 
@@ -69,7 +69,7 @@ contactItem {
       showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
-        background-image:t='#ui/gameuiskin#btn_friend_remove';
+        background-image:t='#ui/gameuiskin#btn_friend_remove.svg';
       }
     }
 
@@ -82,7 +82,7 @@ contactItem {
       showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
-        background-image:t='#ui/gameuiskin#btn_blacklist_add';
+        background-image:t='#ui/gameuiskin#btn_blacklist_add.svg';
       }
     }
 
@@ -95,7 +95,7 @@ contactItem {
       showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
-        background-image:t='#ui/gameuiskin#btn_blacklist_remove';
+        background-image:t='#ui/gameuiskin#btn_blacklist_remove.svg';
       }
     }
 
@@ -109,7 +109,7 @@ contactItem {
       input-transparent:t='yes';
       enable:t='no';
       img {
-        background-image:t='#ui/gameuiskin#btn_send_private_message';
+        background-image:t='#ui/gameuiskin#btn_send_private_message.svg';
       }
     }
 
@@ -123,7 +123,7 @@ contactItem {
       input-transparent:t='yes';
       enable:t='no';
       img {
-        background-image:t='#ui/gameuiskin#btn_invite';
+        background-image:t='#ui/gameuiskin#btn_invite.svg';
       }
     }
 
@@ -137,7 +137,7 @@ contactItem {
       input-transparent:t='yes';
       enable:t='no';
       img {
-        background-image:t='#ui/gameuiskin#btn_usercard';
+        background-image:t='#ui/gameuiskin#btn_usercard.svg';
       }
     }
 
@@ -150,7 +150,7 @@ contactItem {
       showConsoleImage:t='no'
       input-transparent:t='yes';
       img {
-        background-image:t='#ui/gameuiskin#btn_steam_friends_add';
+        background-image:t='#ui/gameuiskin#btn_steam_friends_add.svg';
       }
     }
 

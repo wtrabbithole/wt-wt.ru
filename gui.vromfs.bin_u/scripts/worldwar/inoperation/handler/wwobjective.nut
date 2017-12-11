@@ -343,6 +343,13 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
         if (::checkObj(zoneObj))
           zoneObj.team = zone.team
       }
+
+    local descObj = objectiveObj.findObject("updatable_data_text")
+    if (::check_obj(descObj))
+    {
+      local text = type.getUpdatableParamsDescriptionText(statBlk, dynBlock, sideEnumVal)
+      descObj.setValue(text)
+    }
   }
 
   function getStatusBlock()

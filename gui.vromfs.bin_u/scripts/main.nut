@@ -18,6 +18,8 @@
 ::is_platform_android <- ::target_platform == "android"
 ::is_platform_xboxone <- ::target_platform == "xboxOne"
 
+::is_ps4_or_xbox <- ::is_platform_ps4 || ::is_platform_xboxone
+
 ::is_dev_version <- false // WARNING : this is unsecure
 
 ::RESPAWNS_UNLIMITED <- -1
@@ -181,6 +183,7 @@ enum voiceChatStats
   online
   offline
   talking
+  muted
 }
 
 enum squadMemberState
@@ -418,6 +421,7 @@ function load_scripts_after_login()
     "slotbar/slotbarPresetsList.nut"
 
     "onlineInfo.nut"
+    "user/presenceType.nut"
     "squads/msquadService.nut"
     "squads/squadMember.nut"
     "squads/squadManager.nut"
@@ -545,7 +549,6 @@ function load_scripts_after_login()
     "shop/shop.nut"
     "shop/shopCheckResearch.nut"
     "convertExpHandler.nut"
-    "rankVersusInfo.nut"
 
     "weaponry/dmgModel.nut"
     "weaponry/unitBulletsGroup.nut"
@@ -609,6 +612,7 @@ function load_scripts_after_login()
     "clans/clanRequestsModal.nut"
     "clans/clanLogModal.nut"
     "clans/clanSeasonInfoModal.nut"
+    "clans/clanSquadsModal.nut"
 
     "penitentiary/banhammer.nut"
     "penitentiary/tribunal.nut"

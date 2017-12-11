@@ -159,7 +159,7 @@
                       "on_click": "onSearchStart",
                       "noMargin": "yes",
                       "img": {
-                        "background-image": "#ui/gameuiskin#btn_search"
+                        "background-image": "#ui/gameuiskin#btn_search.svg"
                       }
                     }
                   },
@@ -849,6 +849,15 @@
                         "on_click": "onMembershipReq",
                         "visualStyle": "secondary",
                         "buttonWink": []
+                      }
+                    },
+                    {
+                      "Button_text": {
+                        "id": "btn_clanSquads",
+                        "text": "#clan/clan_squads",
+                        "display": "hide",
+                        "on_click": "onClanSquads",
+                        "showConsoleImage": "no"
                       }
                     },
                     {
@@ -1622,16 +1631,24 @@
                           },
                           {
                             "img": {
-                              "id": "gc_invites",
-                              "background-image": "#ui/gameuiskin#invites",
-                              "tooltip": "#mainmenu/invites"
+                              "id": "icon",
+                              "background-image": "#ui/gameuiskin#invites.svg"
                             }
                           },
                           {
                             "img": {
-                              "id": "gc_new_invites",
-                              "background-image": "#ui/gameuiskin#invites_new",
-                              "tooltip": "#invites/new_invites",
+                              "id": "iconNew",
+                              "background-image": "#ui/gameuiskin#invites_new.svg",
+                              "style": "background-color:@textureGlowColor",
+                              "display": "hide"
+                            }
+                          },
+                          {
+                            "img": {
+                              "id": "iconGlow",
+                              "background-image": "#ui/gameuiskin#mail_new_glow",
+                              "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
+                              "_transp-timer": "0",
                               "display": "hide"
                             }
                           }
@@ -1644,7 +1661,7 @@
                           "tooltip": "#mainmenu/contacts",
                           "_on_click": "onGC_contacts",
                           "img": {
-                            "background-image": "#ui/gameuiskin#friends"
+                            "background-image": "#ui/gameuiskin#friends.svg"
                           },
                           "text": {
                             "id": "gc_friends_online",
@@ -1665,18 +1682,30 @@
                             "class": "image"
                           },
                           {
+                            "tooltip": "#mainmenu/chat"
+                          },
+                          {
                             "_on_click": "onGC_chat"
                           },
                           {
                             "img": {
-                              "id": "gc_chat",
-                              "background-image": "#ui/gameuiskin#chat"
+                              "id": "icon",
+                              "background-image": "#ui/gameuiskin#chat.svg"
                             }
                           },
                           {
                             "img": {
-                              "id": "gc_new_chat",
-                              "background-image": "#ui/gameuiskin#chat_new",
+                              "id": "iconNew",
+                              "background-image": "#ui/gameuiskin#chat_new.svg",
+                              "style": "background-color:@textureGlowColor",
+                              "display": "hide"
+                            }
+                          },
+                          {
+                            "img": {
+                              "id": "iconGlow",
+                              "background-image": "#ui/gameuiskin#mail_new_glow",
+                              "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
                               "_transp-timer": "0",
                               "display": "hide"
                             }
@@ -1701,18 +1730,30 @@
                             "class": "image"
                           },
                           {
+                            "tooltip": "#userlog/no_new_messages"
+                          },
+                          {
                             "_on_click": "onUserLog"
                           },
                           {
                             "img": {
-                              "id": "gc_userlog",
-                              "background-image": "#ui/gameuiskin#mail"
+                              "id": "icon",
+                              "background-image": "#ui/gameuiskin#mail.svg"
                             }
                           },
                           {
                             "img": {
-                              "id": "gc_new_userlog",
-                              "background-image": "#ui/gameuiskin#mail_new",
+                              "id": "iconNew",
+                              "background-image": "#ui/gameuiskin#mail_new.svg",
+                              "style": "background-color:@textureGlowColor",
+                              "display": "hide"
+                            }
+                          },
+                          {
+                            "img": {
+                              "id": "iconGlow",
+                              "background-image": "#ui/gameuiskin#mail_new_glow",
+                              "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
                               "_transp-timer": "0",
                               "display": "hide"
                             }

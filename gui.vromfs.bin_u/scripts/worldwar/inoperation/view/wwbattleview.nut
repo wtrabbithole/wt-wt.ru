@@ -19,7 +19,6 @@ class ::WwBattleView
   hideDesc = false
 
   sceneTplArmyViewsName = "gui/worldWar/worldWarMapArmyItem"
-  unitStringTpl = "gui/commonParts/shortUnitString"
 
   constructor(_battle = null)
   {

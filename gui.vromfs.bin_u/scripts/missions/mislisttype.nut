@@ -271,7 +271,7 @@ function g_mislist_type::_getMissionNameText(mission)
   infoLinkTooltipLocId = ""
   getInfoLinkData = function()
   {
-    if (::is_platform_ps4 || !infoLinkLocId.len())
+    if (::is_ps4_or_xbox || !infoLinkLocId.len())
       return null
     return {
       link = ::loc(infoLinkLocId)

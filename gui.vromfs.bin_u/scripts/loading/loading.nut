@@ -16,7 +16,6 @@ function gui_start_loading(isMissionLoading = false)
     ::handlersManager.loadHandler(::gui_handlers.LoadingHandler)
 
   ::show_title_logo(true)
-  ::last_ca_base <- null //!!FIX ME: it not about loading - it about respawn screen
 }
 
 class ::gui_handlers.LoadingHandler extends ::BaseGuiHandler

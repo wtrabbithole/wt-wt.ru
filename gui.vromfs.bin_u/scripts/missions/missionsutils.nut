@@ -66,6 +66,11 @@ function get_max_players_for_gamemode(gm)
   return 0
 }
 
+function get_game_mode_loc_name(gm)
+{
+  return ::loc(format("multiplayer/%sMode", ::get_game_mode_name(gm)))
+}
+
 function is_skirmish_with_killstreaks(misBlk)
 {
   return misBlk.getBool("allowedKillStreaks", false);

@@ -1,6 +1,7 @@
 class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
+  needAutoLogin = false
 
   function initScreen()
   {
@@ -25,7 +26,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
         text = "#mainmenu/btnProfileChange"
         shortcut = "Y"
         visualStyle = "secondary"
-        func = "onChangeGamertag"
+        funcName = "onChangeGamertag"
       }
     ]
 
@@ -40,8 +41,34 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 
   function onOk()
   {
-    updateAuthorizeButton(false) // do not allow to push ok button twice
+    if (::xbox_get_active_user_gamertag() == "")
+    {
+      onChangeGamertag()
+      needAutoLogin = true
+      return
+    }
 
+    needAutoLogin = false
+    ::scene_msg_box("xbox_cross_play",
+      guiScene,
+      ::loc("xbox/login/crossPlayRequest") +
+        "\n" +
+        ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
+      [
+        ["yes", ::Callback(@() performLogin(true), this) ],
+        ["no", ::Callback(@() performLogin(), this) ],
+        ["cancel", @() null ]
+      ],
+      "yes",
+      {
+        cancel_fn = @() null
+      }
+    )
+  }
+
+  function performLogin(useCrossPlay = false)
+  {
+    updateAuthorizeButton(false) // do not allow to push ok button twice
     ::xbox_on_login(
       function(result, err_code)
       {
@@ -66,7 +93,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
       btnObj.enable(isEnable)
   }
 
-  function onChangeGamertag()
+  function onChangeGamertag(obj = null)
   {
     ::xbox_account_picker()
   }
@@ -83,7 +110,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
   function onEventXboxActiveUserGamertagChanged(params)
   {
     updateGamertag()
-    if (::getTblValue("autologin", params, false))
+    if (needAutoLogin && ::xbox_get_active_user_gamertag() != "")
       onOk()
   }
 
@@ -94,9 +121,4 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 function xbox_on_gamertag_changed()
 {
   ::broadcastEvent("XboxActiveUserGamertagChanged")
-}
-
-function xbox_on_gamertag_choosed()
-{
-  ::broadcastEvent("XboxActiveUserGamertagChanged", {autologin = true})
 }

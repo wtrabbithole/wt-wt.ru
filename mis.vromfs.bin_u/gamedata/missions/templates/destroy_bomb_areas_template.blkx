@@ -607,6 +607,16 @@
           ]
         },
         {
+          "comment": {
+            "value": "проверили не перебивается ли количество зон из миссии"
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "bomb_areas_count_check"
+          }
+        },
+        {
           "triggerEnable": [
             {
               "target": "t1_bomb_area_01_set"
@@ -656,6 +666,38 @@
           ]
         }
       ],
+      "else_actions": []
+    },
+    "bomb_areas_count_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.0
+        }
+      },
+      "conditions": {
+        "varCompareInt": {
+          "var_value": "mission_assigned_max_bomb_areas",
+          "value": 0,
+          "comparasion_func": "notEqual"
+        }
+      },
+      "actions": {
+        "comment": {
+          "value": "проверяем не перебивается ли количество бомбовых арий внутри миссии"
+        },
+        "varSetInt": {
+          "value": 0,
+          "var": "max_bomb_areas",
+          "input_var": "mission_assigned_max_bomb_areas"
+        }
+      },
       "else_actions": []
     },
     "t1_bomb_area_01_set": {
@@ -1455,6 +1497,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "A"
           }
         },
@@ -1466,6 +1510,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "B"
           }
         },
@@ -1482,6 +1528,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "A"
           }
         },
@@ -1493,6 +1541,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "B"
           }
         },
@@ -1708,6 +1758,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "B"
           }
         },
@@ -1719,6 +1771,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "A"
           }
         },
@@ -1735,6 +1789,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "B"
           }
         },
@@ -1746,6 +1802,8 @@
             "shouldFadeOut": true,
             "time": -1.0,
             "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
             "team": "A"
           }
         },
@@ -1871,7 +1929,8 @@
     "t1_bomb_area_03_name": "",
     "t2_bomb_area_03_name": "",
     "t1_bomb_area_04_name": "",
-    "t2_bomb_area_04_name": ""
+    "t2_bomb_area_04_name": "",
+    "mission_assigned_max_bomb_areas": 0
   },
   "dialogs": [],
   "airfields": [],

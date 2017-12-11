@@ -17,7 +17,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   widgetByAward = {}
   widgetByTab = {}
 
-  slotbarActions = [ "showroom", "testflight", "weapons", "rankinfo", "info" ]
+  slotbarActions = [ "showroom", "testflight", "weapons", "info" ]
 
   function initScreen()
   {

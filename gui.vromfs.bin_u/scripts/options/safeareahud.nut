@@ -1,7 +1,6 @@
 local defValue  = 1.0
 local values    = [1.0, 0.95, 0.9, 0.85]
 local items     = ["#options/no", "5%", "10%", "15%"]
-local correctValues = ::is_version_equals_or_newer("1.71.2.18")
 
 local getFixedValue = function() //return -1 when not fixed
 {
@@ -15,7 +14,8 @@ local getFixedValue = function() //return -1 when not fixed
 local checkCompatibility = function() //Added on 1_71_2_X, can be removed after new version.
 {
   local value = getValue()
-  setValue(value < 0.5? 1 - value : value)
+  if (value < 0.5)
+    setValue(1 - value)
 }
 
 local getValue = function()
@@ -27,8 +27,7 @@ local getValue = function()
   if (!::g_login.isAuthorized())
     return defValue
 
-  local res = ::get_option_hud_screen_safe_area()
-  return correctValues ? res : 1.0 - res
+  return ::get_option_hud_screen_safe_area()
 }
 
 local setValue = function(value)
@@ -37,8 +36,6 @@ local setValue = function(value)
     return
 
   value = ::isInArray(value, values) ? value : defValue
-  if (!correctValues)
-    value = 1 - value
   ::set_option_hud_screen_safe_area(value)
   ::set_gui_option_in_mode(::USEROPT_HUD_SCREEN_SAFE_AREA, value, ::OPTIONS_MODE_GAMEPLAY)
 }

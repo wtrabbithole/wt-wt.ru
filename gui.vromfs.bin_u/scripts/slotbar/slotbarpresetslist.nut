@@ -194,13 +194,19 @@ class SlotbarPresetsList
     ::queues.checkAndStart(
       ::Callback(function()
       {
-         if (!("beforeSlotbarChange" in ownerWeak))
-           return action()
+        ::g_squad_utils.checkSquadUnreadyAndDo(this,
+          ::Callback(function()
+          {
+             if (!("beforeSlotbarChange" in ownerWeak))
+               return action()
 
-         ownerWeak.beforeSlotbarChange(
-           ::Callback(action, this),
-           ::Callback(update, this)
-         )
+             ownerWeak.beforeSlotbarChange(
+               ::Callback(action, this),
+               ::Callback(update, this)
+             )
+          }, this),
+          ::Callback(update, this),
+          ownerWeak?.shouldCheckCrewsReady)
       }, this),
       ::Callback(update, this),
       "isCanModifyCrew"

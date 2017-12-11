@@ -1123,7 +1123,7 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
     {
       local cost = "cost" in item? item.cost : 0
       local costGold = "costGold" in item? item.costGold : 0
-      local priceText = ::getPriceText(cost, costGold, false)
+      local priceText = ::Cost(cost, costGold).getUncoloredText()
       if (priceText != "")
         res.noDiscountPrice <- "<color=@oldPrice>" + priceText + "</color>"
       if (currentPrice != "")
@@ -1150,7 +1150,8 @@ function weaponVisual::getItemDescTbl(air, item, canDisplayInfo = true, effect =
         local avgCost = (repairCostCoef * rcost).tointeger()
         if (!avgCost)
           continue
-        repairText += ((repairText!="")?" / ":"") + (avgCost > 0? "+" : "") + ::getWpPriceText(avgCost)
+        repairText += ((repairText!="")?" / ":"") + (avgCost > 0? "+" : "") +
+          ::Cost(avgCost).toStringWithParams({isWpAlwaysShown = true, isColored = false})
       }
     if (repairText!="")
       addDesc += "\n" + ::loc("shop/avg_repair_cost") + repairText

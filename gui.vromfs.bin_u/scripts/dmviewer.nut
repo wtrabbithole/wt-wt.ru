@@ -222,7 +222,7 @@
 
     local objIcon = obj.findObject("btn_dm_viewer_icon")
     if (::checkObj(objIcon))
-      objIcon["background-image"] = "#ui/gameuiskin#btn_dm_viewer_" + modeNameCur
+      objIcon["background-image"] = "#ui/gameuiskin#btn_dm_viewer_" + modeNameCur + ".svg"
   }
 
   function clearHint()
@@ -710,27 +710,24 @@
       break;
 
       case "tank":                     // aircraft fuel tank (tank's fuel tank is 'fuel_tank')
-        local fmBlk = ::get_fm_file(unit.name, unitBlk)
-        if( ! fmBlk)
-          break;
-
-        foreach (part in (unitBlk % "DamageGen"))
-        {
-          local tankMaterial = getTblValueByPath(partName + ".mat", part)
-          if(tankMaterial == null)
-            continue
-          local tankInfo = []
-          if(tankMaterial.find("protected") != null)
-            tankInfo.push(::loc("fuelTank/selfsealing"))
-          else if (tankMaterial.find("unprotected") != null)
-            tankInfo.push(::loc("fuelTank/not_selfsealing"))
-          if(tankMaterial.find("boost") != null)
-            tankInfo.push(::loc("fuelTank/neutralGasSystem"))
-          if(tankInfo.len())
-            desc.push(::g_string.implode(tankInfo, ", "))
+        local tankInfoTable = unit?.info?.tanks_params
+        if (!tankInfoTable)
           break
+
+        local tankInfo = []
+
+        if("protected" in tankInfoTable)
+        {
+          tankInfo.push(tankInfoTable.protected ?
+          ::loc("fuelTank/selfsealing") :
+          ::loc("fuelTank/not_selfsealing"))
         }
-      break;
+        if("protected_boost" in tankInfoTable)
+          tankInfo.push(::loc("fuelTank/neutralGasSystem"))
+        if(tankInfo.len())
+          desc.push(::g_string.implode(tankInfo, ", "))
+
+      break
 
       case "composite_armor_hull":            // tank Composite armor
       case "composite_armor_turret":          // tank Composite armor

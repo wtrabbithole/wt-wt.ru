@@ -941,7 +941,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
                           paginator_place = showStatBar && (airStatsList != null) && (airStatsList.len() > statsPerPage)
                           btn_friendAdd = showProfBar && fText!=""
                           btn_blacklistAdd = showProfBar && bText!=""
-                          btn_moderatorBan = showProfBar && canBan && !::is_platform_ps4
+                          btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
                           btn_complain = showProfBar && !isMe
                         }
 

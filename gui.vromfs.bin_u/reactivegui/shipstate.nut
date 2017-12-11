@@ -34,9 +34,6 @@ local shipState = {
   transmissionCount = Watched(0)
   brokenTransmissionCount = Watched(0)
 
-  ruddersCount = Watched(0)
-  brokenRuddersCount = Watched(0)
-
   aiGunnersState = Watched(0)
   hasAiGunners = Watched(true)
 }

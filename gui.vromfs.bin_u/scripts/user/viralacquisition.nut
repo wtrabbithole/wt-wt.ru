@@ -26,7 +26,7 @@ function show_viral_acquisition_wnd()
 
   local config = {
     name = ::loc("mainmenu/getLinkTitle")
-    desc = ::loc("msgbox/linkCopied", { gift = getPriceText(0, 50), link = linkString })
+    desc = ::loc("msgbox/linkCopied", { gift = ::Cost(0, 50).tostring(), link = linkString })
     descAlign = "center"
     popupImage = "#"+image
     ratioHeight = (height.tofloat() / 800).tostring()

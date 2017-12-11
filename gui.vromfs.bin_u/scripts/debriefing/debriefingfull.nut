@@ -336,6 +336,7 @@ function gather_debriefing_result()
   ::debriefing_result.restoreType <- ::get_mission_restore_type()
   ::debriefing_result.gm <- gm
   ::debriefing_result.isMp <- ::is_multiplayer()
+  ::debriefing_result.sessionId <- ::get_mp_session_id()
   ::debriefing_result.useFinalResults <- ::getTblValue("useFinalResults", ::get_current_mission_info_cached(), false)
   ::debriefing_result.mpTblTeams <- ::get_mp_tbl_teams()
 
@@ -824,11 +825,7 @@ function getDebriefingCountry()
 
 function get_cur_award_text()
 {
-  local res = ::getPriceText(::get_premium_reward_wp())
-  local exp = ::get_premium_reward_xp()
-  if (exp)
-    res += (res==""? "" : ", ") + ::getFreeRpPriceText(exp, true)
-  return res
+  return ::Cost(::get_premium_reward_wp(), 0, ::get_premium_reward_xp()).tostring()
 }
 
 function get_mission_victory_bonus_text(gm)
@@ -934,7 +931,7 @@ function getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy)
                             iconStyle = ::trophyReward.getWPIcon(wpBattleTrophy)
                             title = ::loc("debriefing/BattleTrophy"),
                             desc = ::loc("debriefing/BattleTrophy/desc"),
-                            rewardText = getWpPriceText(wpBattleTrophy, true),
+                            rewardText = ::Cost(wpBattleTrophy).toStringWithParams({isWpAlwaysShown = true}),
                           }
                         )
 }

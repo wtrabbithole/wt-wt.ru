@@ -26,7 +26,7 @@ local wwTopMenuButtons = {
     WW_FILTER_RENDER_ARROWS = {
       category = ::ERC_ALL_ARROWS
       text = ::loc("worldwar/renderMap/render_arrows")
-      useImage = "#ui/gameuiskin#slot_weapons"
+      useImage = "#ui/gameuiskin#btn_weapons.svg"
       isHidden = @(...) true
     }
     WW_FILTER_RENDER_ARROWS_FOR_SELECTED = {

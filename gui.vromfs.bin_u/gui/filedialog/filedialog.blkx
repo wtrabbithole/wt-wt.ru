@@ -58,7 +58,7 @@
               "on_click": "onNavigation",
               "ButtonImg": [],
               "img": {
-                "background-image": "#ui/hudskin#table_score_icon"
+                "background-image": "#ui/gameuiskin#table_score_icon"
               }
             }
           },
@@ -71,7 +71,7 @@
               "on_click": "onBack",
               "ButtonImg": [],
               "img": {
-                "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up",
+                "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up.svg",
                 "rotation": "270"
               }
             }
@@ -85,7 +85,7 @@
               "on_click": "onForward",
               "ButtonImg": [],
               "img": {
-                "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up",
+                "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up.svg",
                 "rotation": "90"
               }
             }
@@ -99,7 +99,7 @@
               "on_click": "onUp",
               "ButtonImg": [],
               "img": {
-                "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up"
+                "background-image": "#ui/gameuiskin#spinnerListBox_arrow_up.svg"
               }
             }
           },
@@ -141,7 +141,7 @@
               "ButtonImg": [],
               "img": {
                 "id": "btn_refresh_img",
-                "background-image": "#ui/gameuiskin#refresh"
+                "background-image": "#ui/gameuiskin#refresh.svg"
               }
             }
           }
@@ -866,16 +866,24 @@
                       },
                       {
                         "img": {
-                          "id": "gc_invites",
-                          "background-image": "#ui/gameuiskin#invites",
-                          "tooltip": "#mainmenu/invites"
+                          "id": "icon",
+                          "background-image": "#ui/gameuiskin#invites.svg"
                         }
                       },
                       {
                         "img": {
-                          "id": "gc_new_invites",
-                          "background-image": "#ui/gameuiskin#invites_new",
-                          "tooltip": "#invites/new_invites",
+                          "id": "iconNew",
+                          "background-image": "#ui/gameuiskin#invites_new.svg",
+                          "style": "background-color:@textureGlowColor",
+                          "display": "hide"
+                        }
+                      },
+                      {
+                        "img": {
+                          "id": "iconGlow",
+                          "background-image": "#ui/gameuiskin#mail_new_glow",
+                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
+                          "_transp-timer": "0",
                           "display": "hide"
                         }
                       }
@@ -888,7 +896,7 @@
                       "tooltip": "#mainmenu/contacts",
                       "_on_click": "onGC_contacts",
                       "img": {
-                        "background-image": "#ui/gameuiskin#friends"
+                        "background-image": "#ui/gameuiskin#friends.svg"
                       },
                       "text": {
                         "id": "gc_friends_online",
@@ -909,18 +917,30 @@
                         "class": "image"
                       },
                       {
+                        "tooltip": "#mainmenu/chat"
+                      },
+                      {
                         "_on_click": "onGC_chat"
                       },
                       {
                         "img": {
-                          "id": "gc_chat",
-                          "background-image": "#ui/gameuiskin#chat"
+                          "id": "icon",
+                          "background-image": "#ui/gameuiskin#chat.svg"
                         }
                       },
                       {
                         "img": {
-                          "id": "gc_new_chat",
-                          "background-image": "#ui/gameuiskin#chat_new",
+                          "id": "iconNew",
+                          "background-image": "#ui/gameuiskin#chat_new.svg",
+                          "style": "background-color:@textureGlowColor",
+                          "display": "hide"
+                        }
+                      },
+                      {
+                        "img": {
+                          "id": "iconGlow",
+                          "background-image": "#ui/gameuiskin#mail_new_glow",
+                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
                           "_transp-timer": "0",
                           "display": "hide"
                         }
@@ -945,18 +965,30 @@
                         "class": "image"
                       },
                       {
+                        "tooltip": "#userlog/no_new_messages"
+                      },
+                      {
                         "_on_click": "onUserLog"
                       },
                       {
                         "img": {
-                          "id": "gc_userlog",
-                          "background-image": "#ui/gameuiskin#mail"
+                          "id": "icon",
+                          "background-image": "#ui/gameuiskin#mail.svg"
                         }
                       },
                       {
                         "img": {
-                          "id": "gc_new_userlog",
-                          "background-image": "#ui/gameuiskin#mail_new",
+                          "id": "iconNew",
+                          "background-image": "#ui/gameuiskin#mail_new.svg",
+                          "style": "background-color:@textureGlowColor",
+                          "display": "hide"
+                        }
+                      },
+                      {
+                        "img": {
+                          "id": "iconGlow",
+                          "background-image": "#ui/gameuiskin#mail_new_glow",
+                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
                           "_transp-timer": "0",
                           "display": "hide"
                         }

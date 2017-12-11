@@ -38,17 +38,20 @@ local time = require("scripts/time.nut")
     return res
   }
 
-  getShortcut = function(actionItem, unit = null)
+  getShortcut = function(actionItem = null, unit = null)
   {
     if (!unit)
       unit = ::get_player_cur_unit()
-    local shortcutIdx = ::getTblValue("shortcutIdx", actionItem, actionItem.id) //compatibility with 1.67.2.X
+    local shortcutIdx = actionItem?.shortcutIdx ?? ::get_action_shortcut_index_by_type(code)
+    if (shortcutIdx < 0)
+      return null
+
     if (::isShip(unit))
       return "ID_SHIP_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
     return "ID_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
   }
 
-  getVisualShortcut = function(actionItem, unit = null)
+  getVisualShortcut = function(actionItem = null, unit = null)
   {
     if (!isForWheelMenu() || !::is_xinput_device())
       return getShortcut(actionItem, unit)

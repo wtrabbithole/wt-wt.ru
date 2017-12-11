@@ -680,49 +680,49 @@
       "tank4_system": 0,
       "tank4_external": false,
       "tank4_priority": 0,
-      "wing_r_dm": 108.748,
-      "wing1_r_dm": 62.1157,
-      "wing2_r_dm": 60.2903,
-      "spar2_r_dm": 5.9873,
-      "spar1_r_dm": 9.2847,
-      "spar_r_dm": 16.3861,
-      "flap_r_dm": 16.3991,
-      "flap_l_dm": 16.4032,
-      "wing1_l_dm": 62.1157,
-      "wing2_l_dm": 60.1545,
-      "spar1_l_dm": 9.2847,
-      "spar2_l_dm": 5.9798,
-      "cover1_dm": 38.3188,
-      "fin_dm": 26.1538,
-      "spar_l_dm": 16.3861,
-      "wing_l_dm": 108.748,
-      "tail_dm": 68.1994,
-      "gear_r_dm": 8.3871,
-      "gear_l_dm": 8.3871,
-      "engine1_dm": 630.0,
-      "fuse1_dm": 104.639,
-      "wingcontrol_l_dm": 3.1702,
-      "cover2_dm": 37.9063,
-      "fuse_dm": 101.516,
-      "wingcontrol_r_dm": 3.1702,
-      "stab_dm": 77.1552,
-      "aileron_r_dm": 26.6489,
-      "tailcontrol_dm": 3.9415,
-      "aileron_l_dm": 27.6924,
-      "oil2_dm": 14.3343,
-      "pilot_dm": 20.1094,
-      "mgun1_dm": 5.4584,
-      "mgun2_dm": 5.4777,
-      "oil1_dm": 2.8516,
-      "elevator_dm": 27.8524,
       "rudder_dm": 20.5406,
+      "pilot_dm": 20.1094,
+      "oil1_dm": 2.8516,
+      "mgun2_dm": 5.4777,
+      "mgun1_dm": 5.4584,
+      "elevator_dm": 27.8524,
+      "cannon1_dm": 5.3525,
       "cannon2_dm": 5.0673,
-      "cannon1_dm": 5.3525
+      "gear_l_dm": 8.3871,
+      "gear_r_dm": 8.3871,
+      "tail_dm": 68.1994,
+      "wing_l_dm": 108.748,
+      "spar_l_dm": 16.3861,
+      "fin_dm": 26.1538,
+      "cover1_dm": 38.3188,
+      "spar2_l_dm": 5.9798,
+      "spar1_l_dm": 9.2847,
+      "wing2_l_dm": 60.1545,
+      "wing1_l_dm": 62.1157,
+      "flap_l_dm": 16.4032,
+      "flap_r_dm": 16.3991,
+      "spar_r_dm": 16.3861,
+      "spar1_r_dm": 9.2847,
+      "spar2_r_dm": 5.9873,
+      "wing2_r_dm": 60.2903,
+      "wing1_r_dm": 62.1157,
+      "wing_r_dm": 108.748,
+      "engine1_dm": 630.0,
+      "oil2_dm": 14.3343,
+      "aileron_l_dm": 27.6924,
+      "tailcontrol_dm": 3.9415,
+      "aileron_r_dm": 26.6489,
+      "stab_dm": 77.1552,
+      "wingcontrol_r_dm": 3.1702,
+      "fuse_dm": 101.516,
+      "cover2_dm": 37.9063,
+      "wingcontrol_l_dm": 3.1702,
+      "fuse1_dm": 104.639
     },
     "PartsWithSurface": {
       "gear_c_dm": 4.8197,
-      "cover8_dm": 0.7496,
-      "cover3_dm": 0.2035
+      "cover3_dm": 0.2035,
+      "cover8_dm": 0.7496
     }
   },
   "SelfSealingTanks": {
@@ -755,7 +755,10 @@
       "RetractableCentralGear": false
     },
     {
-      "SteerableWheel": false
+      "CenterGearType": "SelfSteering"
+    },
+    {
+      "CenterGearBrakes": false
     },
     {
       "FullBrakeSlidingFrictionMult": 0.4
@@ -791,83 +794,92 @@
       "Pitch": 12.089
     },
     {
+      "WaterSpeedPropCheckVal": [0.1,2.5]
+    },
+    {
       "WaterWaveHeightForCheck": [0.5,2.0]
     },
     {
-      "WaterSpeedPropCheckVal": [0.1,2.5]
+      "WaterRudderSpeedRange": [8.33333,13.8889]
     },
     {
       "WaterGroup": [
         {
-          "part": 3
+          "part": "_ClipCGear_00"
         },
         {
-          "part": 4
+          "part": "_ClipCGear_01"
         },
         {
-          "part": 5
+          "part": "_ClipCGear_02"
         },
         {
-          "part": 6
+          "part": "_Clip_prop_1_00"
         }
       ]
     },
     {
       "WaterGroup": {
-        "part": 0
+        "part": "_ClipLGear"
       }
     },
     {
       "WaterGroup": {
-        "part": 1
+        "part": "_ClipRGear"
       }
     },
     {
       "WaterPart1": {
         "Number": 0,
         "Name": "_ClipLGear",
-        "SinkFactor": 2000.0,
-        "VerticalOffset": -0.02
+        "SinkFactor": 1000.0,
+        "VerticalOffset": -0.02,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart2": {
         "Number": 1,
         "Name": "_ClipRGear",
-        "SinkFactor": 2000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 1000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart3": {
         "Number": 2,
         "Name": "_ClipCGear",
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 500.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart4": {
         "Number": 3,
         "Name": "_ClipCGear_00",
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 500.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart5": {
         "Number": 4,
         "Name": "_ClipCGear_01",
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 500.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart6": {
         "Number": 5,
         "Name": "_ClipCGear_02",
-        "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 500.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     }
   ],

@@ -2,12 +2,13 @@
 
 squadButtonImg {
   size:@dIco, @dIco;
+  background-svg-size:@dIco, @dIco;
   background-color:#00a0a0a0;
 }
 
 Button_text[type=squadInvites] > squadButtonImg {
   background-color:@gray;
-  background-image:#ui/gameuiskin#sh_invites;
+  background-image:#ui/gameuiskin#sh_invites.svg;
   background-repeat:aspect-ratio;
 }
 
@@ -93,7 +94,7 @@ memberReadyIcon {
 }
 
 memberReadyIcon[isReady=no] {
-  background-image:#ui/hudskin#icon_primary_fail;
+  background-image:#ui/gameuiskin#icon_primary_fail;
 }
 
 memberReadyIcon[isReady=yes] {

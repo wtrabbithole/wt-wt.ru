@@ -87,7 +87,7 @@
   "units": [
     {
       "area_squad": {
-        "name": "t1_battlearea_realistic",
+        "name": "t1_killarea_realistic",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
@@ -96,86 +96,88 @@
         ],
         "props": [
           {
-            "squad_members": "t1_battlearea_realistic_block01"
+            "squad_members": "t1_killarea_realistic_block01"
           },
           {
-            "squad_members": "t1_battlearea_realistic_block02"
-          },
-          {
-            "squad_members": "t1_battlearea_realistic_block03"
+            "squad_members": "t1_killarea_realistic_block02"
           }
         ]
       }
     },
     {
       "area_squad": {
-        "name": "t2_battlearea_realistic",
+        "name": "t2_killarea_realistic",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [1685.52,60.75,1572.79]
+          [2159.66,60.75,1523.14]
         ],
-        "props": {
-          "squad_members": "t2_battlearea_realistic_block01"
-        }
+        "props": [
+          {
+            "squad_members": "t2_killarea_realistic_block01"
+          },
+          {
+            "squad_members": "t2_killarea_realistic_block02"
+          }
+        ]
       }
     }
   ],
   "areas": {
-    "fake_battlearea_realistic": {
+    "conq_battle_area_03_realistic": {
       "type": "Box",
       "tm": [
         [1800.0,0.0,0.0],
-        [0.0,644.0,0.0],
+        [0.0,100.0,0.0],
         [0.0,0.0,1800.0],
-        [2030.35,29.95,2066.25]
+        [2030.44,29.9504,2066.25]
       ],
       "objLayer": 6,
       "props": []
     },
-    "t2_battlearea_realistic_block01": {
-      "type": "Box",
+    "t1_killarea_realistic_block01": {
+      "type": "Cylinder",
       "tm": [
-        [1450.25,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,1800.0],
-        [1855.5,29.9504,2066.25]
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [2870.77,29.95,2602.58]
       ],
-      "objLayer": 6,
+      "objLayer": 0,
       "props": []
     },
-    "t1_battlearea_realistic_block01": {
-      "type": "Box",
+    "t1_killarea_realistic_block02": {
+      "type": "Cylinder",
       "tm": [
-        [1336.16,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,1800.0],
-        [2262.28,29.9504,2066.25]
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [2801.8,29.9503,1389.56]
       ],
-      "objLayer": 6,
+      "objLayer": 0,
       "props": []
     },
-    "t1_battlearea_realistic_block02": {
-      "type": "Box",
+    "t2_killarea_realistic_block01": {
+      "type": "Cylinder",
       "tm": [
-        [1486.12,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,1313.58],
-        [2187.24,29.9502,1823.07]
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [1499.85,29.9495,2889.76]
       ],
-      "objLayer": 6,
+      "objLayer": 0,
       "props": []
     },
-    "t1_battlearea_realistic_block03": {
-      "type": "Box",
+    "t2_killarea_realistic_block02": {
+      "type": "Cylinder",
       "tm": [
-        [276.481,0.0,-199.074],
-        [0.0,644.0,0.0],
-        [175.963,0.0,244.383],
-        [1670.25,29.9504,2502.44]
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [1210.03,29.9495,1423.0]
       ],
-      "objLayer": 6,
+      "objLayer": 0,
       "props": []
     }
   },

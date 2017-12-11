@@ -212,9 +212,7 @@ function parse_personal_unlock_for_clan_season_id(id)
 
 function get_image_for_unlockable_medal(id)
 {
-  local image = ::format("!@#ui/medalskin#%s_big", id)
-  if (!::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id))
-    image += "_locked"
+  local image = ::format("!@#ui/medalskin#%s", id)
   return image
 }
 
@@ -1095,8 +1093,8 @@ function build_log_unlock_data(config, showProgress = false, needTitle = true) /
     case ::UNLOCKABLE_MEDAL:
       if (id != "")
       {
-        local imagePath = "!@#ui/medalskin#" + id
-        res.image = "!@#ui/medalskin#" + id
+        local imagePath = "!@#ui/medalskin#" + id + "_big"
+        res.image = "!@#ui/medalskin#" + id + "_big"
         res.descrImage <- ::getTblValue("image", cond, imagePath + "_big")
         res.descrImageSize <- "128, 128"
       }

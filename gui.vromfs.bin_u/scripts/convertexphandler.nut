@@ -328,10 +328,10 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateSliderText()
   {
     local sliderTextObj = scene.findObject("convert_slider_text")
-    local strGrantedExp = ::getRpPriceText(unitExpGranted, true)
+    local strGrantedExp = ::Cost(0, 0, 0, unitExpGranted).tostring()
     local expToBuy = getCurExpValue()
     local strWantToBuyExp = expToBuy > 0
-                            ? format("<color=@activeTextColor> +%s</color>", ::getFreeRpPriceText(::g_language.decimalFormat(expToBuy), true))
+                            ? format("<color=@activeTextColor> +%s</color>", ::Cost(0, 0, expToBuy).tostring())
                             : ""
     local strRequiredExp = ::g_language.decimalFormat(::getUnitReqExp(unit))
     local sliderText = ::format("<color=@commonTextColor>%s%s%s%s</color>", strGrantedExp, strWantToBuyExp, ::loc("ui/slash"), strRequiredExp)

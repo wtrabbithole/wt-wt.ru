@@ -377,7 +377,7 @@ function build_aircraft_item(id, air, params = {})
       spaceButton         = false
       mainButtonAction    = "onAircraftClick"
       mainButtonText      = ""
-      mainButtonIcon      = "#ui/gameuiskin#slot_unfold"
+      mainButtonIcon      = "#ui/gameuiskin#slot_unfold.svg"
       hasMainButtonIcon   = true
     }
 
@@ -430,7 +430,7 @@ function build_aircraft_item(id, air, params = {})
       if (::is_tencent_unit_image_reqired(nextAir))
         shopAirImage = ::get_tomoe_unit_icon(air.name) + (air.name.find("_group", 0) ? "" : "_group")
       else
-        shopAirImage = "!" + (::getTblValue("image", air) || ("#ui/atlas_air#planes_group"))
+        shopAirImage = "!" + (::getTblValue("image", air) || ("#ui/unitskin#planes_group"))
 
     local groupSlotView = {
       slotId              = id
@@ -656,7 +656,8 @@ function get_unit_item_price_text(unit, params)
         local sessionWpBalance = ::getTblValue("sessionWpBalance", params, 0)
         local wpToRespawn = ::getTblValue("wpToRespawn", ::g_crews_list.get()[curSlotCountryId].crews[curSlotIdInCountry], 0)
         wpToRespawn += ::getTblValue("weaponPrice", params, 0)
-        txtList.append(::colorTextByValues(::getWpPriceText(wpToRespawn, true), sessionWpBalance, wpToRespawn, true, false))
+        txtList.append(::colorTextByValues(::Cost(wpToRespawn).toStringWithParams({isWpAlwaysShown = true}),
+          sessionWpBalance, wpToRespawn, true, false))
       }
 
       local reqUnitSpawnScore = ::shop_get_spawn_score(unit.name, ::get_last_weapon(unit.name))
@@ -857,7 +858,7 @@ function get_slotbar_obj(handler=null, scene=null, canCreateObj = false)
   return slotbarObj
 }
 
-::defaultSlotbarActions <- [ "autorefill", "aircraft", "weapons", "showroom", "rankinfo", "testflight", "crew", "info", "repair" ]
+::defaultSlotbarActions <- [ "autorefill", "aircraft", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
 
 function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCountry = null, params = {})
 {
@@ -1021,14 +1022,14 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
         {
           local airParams = {
                               emptyText      = emptyText,
-                              crewImage      = "#ui/images/slotbar/slotbar_crew_free_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
+                              crewImage      = "#ui/gameuiskin#slotbar_crew_free_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
                               status         = ::getUnitItemStatusText(status),
                               inactive       = ::show_console_buttons && status == bit_unit_status.locked && ::is_in_flight(),
                               active         = isSlotbarActive,
                               toBattle       = ::getTblValue("toBattle", params, false)
                               mainActionFunc = ::SessionLobby.canChangeCrewUnits() ? "onSlotChangeAircraft" : ""
                               mainActionText = "" // "#multiplayer/changeAircraft"
-                              mainActionIcon = "#ui/gameuiskin#slot_change_aircraft"
+                              mainActionIcon = "#ui/gameuiskin#slot_change_aircraft.svg"
                               crewId         = crew.id
                               fullSlotbar    = country==null
                               showBR         = showBR
@@ -1128,9 +1129,8 @@ function init_slotbar(handler, scene = null, isSlotbarActive = true, slotbarCoun
                                        null,
                                        {
                                          emptyText = "#shop/recruitCrew",
-                                         crewImage = "#ui/images/slotbar/slotbar_crew_recruit_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
+                                         crewImage = "#ui/gameuiskin#slotbar_crew_recruit_" + ::g_string.slice(::g_crews_list.get()[c].country, 8)
                                          isCrewRecruit = true
-                                         bgImg = "#ui/opauque#buy_crew",
                                          emptyCost = slotCost,
                                          inactive = true
                                        })
@@ -1917,13 +1917,13 @@ function addAirButtonsTimer(listObj, needTimerList, air, handler)
       if (name == "repair")
       {
         local repairCost = ::wp_get_repair_cost(air.name)
-        local text = ::getPriceText(repairCost, 0, false)
+        local text = ::Cost(repairCost).getUncoloredText()
         btnObj.setValue(format(::loc("mainmenu/btnRepairNow"), text))
 
         local taObj = btnObj.findObject("textarea")
         if (::checkObj(taObj))
         {
-          local text = ::getPriceText(repairCost, 0, true)
+          local text = ::Cost(repairCost).tostring()
           if (get_balance().wp < repairCost)
             text = "<color=@badTextColor>" + text + "</color>"
           taObj.setValue(format(::loc("mainmenu/btnRepairNow"), text))

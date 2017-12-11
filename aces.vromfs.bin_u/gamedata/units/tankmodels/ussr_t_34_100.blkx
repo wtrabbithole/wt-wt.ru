@@ -96,6 +96,12 @@
     "type": "typeMediumTank"
   },
   {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
     "sound": {
       "EngineName": "engine_su100",
       "TrackSoundPath": "tanks/engines_tanks",
@@ -1469,17 +1475,28 @@
     }
   },
   {
-    "skin": {
-      "name": "forest",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_forest_01*"
+    "skin": [
+      {
+        "name": "forest"
+      },
+      {
+        "camoType": "jungle"
+      },
+      {
+        "camoType": "forest"
+      },
+      {
+        "replace_tex": {
+          "from": "ussr_camo_green*",
+          "to": "ussr_camo_forest_01*"
+        }
       }
-    }
+    ]
   },
   {
     "skin": {
       "name": "winter",
+      "camoType": "winter",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_winter*"
@@ -1487,26 +1504,53 @@
     }
   },
   {
-    "skin": {
-      "name": "ussr_camo_czechoslovak_yellow_green",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_czechoslovak_yellow_green*"
+    "skin": [
+      {
+        "name": "ussr_camo_czechoslovak_yellow_green"
+      },
+      {
+        "camoType": "jungle"
+      },
+      {
+        "camoType": "forest"
+      },
+      {
+        "camoType": "desert"
+      },
+      {
+        "replace_tex": {
+          "from": "ussr_camo_green*",
+          "to": "ussr_camo_czechoslovak_yellow_green*"
+        }
       }
-    }
+    ]
   },
   {
-    "skin": {
-      "name": "ussr_camo_desert_syrian_green_brown_yellow",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_desert_syrian_green_brown_yellow*"
+    "skin": [
+      {
+        "name": "ussr_camo_desert_syrian_green_brown_yellow"
+      },
+      {
+        "camoType": "desert"
+      },
+      {
+        "camoType": "forest"
+      },
+      {
+        "camoType": "jungle"
+      },
+      {
+        "replace_tex": {
+          "from": "ussr_camo_green*",
+          "to": "ussr_camo_desert_syrian_green_brown_yellow*"
+        }
       }
-    }
+    ]
   },
   {
     "skin": {
       "name": "ussr_camo_desert_yellow_brown",
+      "camoType": "desert",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_yellow_brown*"
@@ -1516,6 +1560,7 @@
   {
     "skin": {
       "name": "ussr_camo_winter_lines",
+      "camoType": "winter",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_winter_lines*"
@@ -2194,6 +2239,192 @@
       },
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
+      },
+      "tank_smoke_screen_system_mod": {
+        "tier": 2,
+        "effects": {
+          "commonWeapons": [
+            {
+              "Weapon": {
+                "trigger": "gunner0",
+                "blk": "gameData/Weapons/groundModels_weapons/100mm_LB1_user_cannon.blk",
+                "emitter": "bone_gun_barrel",
+                "shotFreq": 0.0866,
+                "flash": "emtr_gun_flame",
+                "defaultYaw": 0.0,
+                "defaultPitch": 0.0,
+                "barrelDP": "gun_barrel_dm",
+                "breechDP": "cannon_breech_dm",
+                "speedYaw": 25.0,
+                "speedPitch": 4.0,
+                "fireConeAngle": 1.0,
+                "bullets": 50,
+                "salvoAmount": 100.0,
+                "ChainfireTime": 0.0,
+                "DelayAfterShoot": 5.0,
+                "AttackMaxDistance": 1000.0,
+                "AttackMaxRadius": 1000.0,
+                "AttackMaxHeight": 1000.0,
+                "accuracyAir": 0.0,
+                "accuracyGnd": 1.5,
+                "errMeasureVel": 0.0,
+                "errMeasureVelFast": 0.0,
+                "errMeasureVelFwdShift": 0.0,
+                "errMeasureVelDir": 0.0,
+                "errTargettingOn100kmph": 0.0,
+                "errTargetting": 3.0,
+                "errExplTime": 0.0,
+                "turret": {
+                  "head": "bone_turret",
+                  "gun": "bone_gun",
+                  "barrel": "bone_gun_barrel",
+                  "gunnerDm": "gunner_dm"
+                },
+                "limits": {
+                  "yaw": [-180.0,180.0],
+                  "pitch": [-3.0,18.0]
+                }
+              }
+            },
+            {
+              "Weapon": [
+                {
+                  "trigger": "gunner1"
+                },
+                {
+                  "triggerGroup": "coaxial"
+                },
+                {
+                  "blk": "gameData/Weapons/groundModels_weapons/7_62mm_DT_user_machinegun.blk"
+                },
+                {
+                  "emitter": "bone_mg_gun_twin"
+                },
+                {
+                  "flash": "emtr_mg_flame_01"
+                },
+                {
+                  "defaultYaw": 0.0
+                },
+                {
+                  "defaultPitch": 0.0
+                },
+                {
+                  "barrelDP": "gun_barrel_01_dm"
+                },
+                {
+                  "breechDP": "cannon_breech_01_dm"
+                },
+                {
+                  "speedYaw": 15.0
+                },
+                {
+                  "speedPitch": 4.0
+                },
+                {
+                  "fireConeAngle": 1.0
+                },
+                {
+                  "bullets": 1890
+                },
+                {
+                  "fireConeAngle": 15.0
+                },
+                {
+                  "ChainfireTime": 3.0
+                },
+                {
+                  "DelayAfterShoot": 3.0
+                },
+                {
+                  "accuracyAir": 0.0
+                },
+                {
+                  "accuracyGnd": 0.0
+                },
+                {
+                  "errMeasureVel": 0.0
+                },
+                {
+                  "errMeasureVelFast": 0.0
+                },
+                {
+                  "errMeasureVelFwdShift": 0.0
+                },
+                {
+                  "errMeasureVelDir": 0.0
+                },
+                {
+                  "errTargettingOn100kmph": 0.0
+                },
+                {
+                  "errTargetting": 3.0
+                },
+                {
+                  "errExplTime": 0.0
+                },
+                {
+                  "turret": {
+                    "head": "bone_mg_gun_twin",
+                    "gun": "bone_mg_gun_twin",
+                    "gunnerDm": "gunner_dm"
+                  }
+                },
+                {
+                  "limits": {
+                    "yaw": [-0.0,0.0],
+                    "pitch": [-0.0,0.0]
+                  }
+                }
+              ]
+            },
+            {
+              "Weapon": {
+                "trigger": "gunner3",
+                "triggerGroup": "smoke",
+                "blk": "gameData/Weapons/groundModels_weapons/t_34_100_smoke_barrel_launcher.blk",
+                "weaponType": "rockets",
+                "startFx": "",
+                "useEmitter": true,
+                "emitter": "emtr_mortar_flame_01",
+                "emitterGenRange": [1,2],
+                "emitterGenFmt": "emtr_mortar_flame_%02d",
+                "createGunEffects": true,
+                "defaultYaw": 0.0,
+                "defaultPitch": 0.0,
+                "allowableDelta": 360.0,
+                "salvo": 1,
+                "speedYaw": 24.0,
+                "speedPitch": 15.0,
+                "fireConeAngle": 1.0,
+                "bullets": 2,
+                "salvoAmount": 100.0,
+                "ChainfireTime": 0.0,
+                "DelayAfterShoot": 5.0,
+                "AttackMaxDistance": 1000.0,
+                "AttackMaxRadius": 1000.0,
+                "AttackMaxHeight": 1000.0,
+                "accuracyAir": 0.0,
+                "accuracyGnd": 1.5,
+                "errMeasureVel": 0.0,
+                "errMeasureVelFast": 0.0,
+                "errMeasureVelFwdShift": 0.0,
+                "errMeasureVelDir": 0.0,
+                "errTargettingOn100kmph": 0.0,
+                "errTargetting": 3.0,
+                "errExplTime": 0.0,
+                "turret": {
+                  "head": "bone_grenade",
+                  "gun": "bone_grenade"
+                },
+                "limits": {
+                  "yaw": [-0.0,0.0],
+                  "pitch": [0.0,0.0]
+                }
+              }
+            }
+          ]
+        }
       },
       "100mm_APHE_ammo_pack": [],
       "100mm_ussr_Smoke_ammo_pack": [],

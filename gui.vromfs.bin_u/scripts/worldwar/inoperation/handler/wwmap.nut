@@ -785,24 +785,34 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateRearZonesHighlight()
   {
+    local emptySidesReinforcementList = {}
+    local rearZones = ::g_world_war.getRearZones()
+    foreach (sideName, zones in rearZones)
+      emptySidesReinforcementList[::ww_side_name_to_val(sideName)] <- true
+
     local arrivingReinforcementSides = {}
     local reinforcements = ::g_world_war.getMyReadyReinforcementsArray()
     foreach (reinforcement in reinforcements)
     {
       local name = ::getTblValue("name", reinforcement)
+      local side = ::getTblValueByPath("armyGroup.owner.side", reinforcement)
+      if (!side)
+        continue
+
+      emptySidesReinforcementList[side] = false
+
       if (name && !(name in savedReinforcements))
       {
-        local side = ::getTblValueByPath("armyGroup.owner.side", reinforcement)
-        if (!side)
-          continue
-
         savedReinforcements[name] <- side
         if (!(side in arrivingReinforcementSides))
           arrivingReinforcementSides[side] <- null
       }
     }
 
-    local rearZones = ::g_world_war.getRearZones()
+    foreach (side, isEmpty in emptySidesReinforcementList)
+      if (isEmpty)
+        ::ww_turn_off_sector_sprites("Reinforcement", rearZones[::ww_side_val_to_name(side)])
+
     foreach (side, value in arrivingReinforcementSides)
       ::ww_turn_on_sector_sprites("Reinforcement", rearZones[::ww_side_val_to_name(side)], 5000)
   }
@@ -1160,6 +1170,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventWWMapRearZoneSelected(params)
   {
+    initPageSwitch(::g_ww_map_info_type.OBJECTIVE.index)
+
     local tabsObj = scene.findObject("reinforcement_pages_list")
     if (!::check_obj(tabsObj))
       return

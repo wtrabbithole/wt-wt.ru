@@ -269,7 +269,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
       local imgObj = obj.findObject("autodetect_img")
       if (::checkObj(imgObj))
-        imgObj["background-image"] = "#ui/gameuiskin#btn_autodetect_" + (autodetectAxis? "off" : "on")
+        imgObj["background-image"] = "#ui/gameuiskin#btn_autodetect_" + (autodetectAxis? "off" : "on") + ".svg"
     }
   }
 

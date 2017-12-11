@@ -25,7 +25,7 @@ class ::gui_handlers.openChestWnd extends ::gui_handlers.BaseGuiHandlerWT
   showItem = null
   afterFunc = null
 
-  slotbarActions = [ "take", "rankinfo", "weapons", "info" ]
+  slotbarActions = [ "take", "weapons", "info" ]
 
   function initScreen()
   {

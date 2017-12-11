@@ -1,9 +1,12 @@
+const WW_OPERATION_INVITE_EXPIRE_SEC = 3600
+
 class ::g_invites_classes.WwOperation extends ::BaseInvite
 {
   //custom class params, not exist in base invite
   operationId = ""
   isStarted = false
   clanName = ""
+  startTime = -1
 
   inviteActiveColor = "userlogColoredText"
 
@@ -44,6 +47,10 @@ class ::g_invites_classes.WwOperation extends ::BaseInvite
           remove()
       },
       this)
+
+    startTime = params?.inviteTime??startTime
+    if (startTime > 0)
+      setTimedParams(0, startTime + WW_OPERATION_INVITE_EXPIRE_SEC)
   }
 
   function getOperation()

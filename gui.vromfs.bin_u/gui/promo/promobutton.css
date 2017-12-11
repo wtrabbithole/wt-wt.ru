@@ -254,11 +254,16 @@ promoButton:hover collapsedContainer > shortHeaderText {
   color: @buttonColorHover;
 }
 
+promoButton.withImage:hover fillBlock > textareaFade > textarea {
+  color: @buttonFontColorHover;
+}
+
 promoButton:hover fillBlock > textareaFade {
   background-color:@hoverPromoButtonTextColor;
 }
 
-promoButton:hover[type=arrowButton] fillBlock > textareaFade {
+promoButton:hover[type=arrowButton] fillBlock > textareaFade,
+promoButton:hover[invisibleHover=yes] fillBlock > textareaFade {
   background-color:@transparent;
 }
 
@@ -396,13 +401,14 @@ promoButton[type=recentItems] > hangarToggleButton {
 
 hangarToggleButton > directionImg {
   background-repeat:aspect-ratio;
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up.svg;
+  background-svg-size:@cIco, @cIco;
   pos:(pw-w)/2, (ph-h)/2;
   position:absolute;
   size:@cIco, @cIco;
   rotation:270;
   input-transparent:yes;
-  background-color:@white;
+  background-color:@commonTextColor;
 }
 
 promoButton:hover[collapsed=no] > hangarToggleButton > directionImg,
@@ -410,6 +416,10 @@ promoButton:hover[collapsed=no] > hangarToggleButton > directionImg,
 promoButton[collapsed=yes] > hangarToggleButton > directionImg,
 promoButton[invisibleHover=yes] > hangarToggleButton > directionImg,
 hangarToggleButton[alwaysShow=yes] > directionImg {
+  background-color:@commonTextColor;
+}
+
+hangarToggleButton:hover > directionImg, hangarToggleButton:focus > directionImg {
   background-color:@white;
 }
 

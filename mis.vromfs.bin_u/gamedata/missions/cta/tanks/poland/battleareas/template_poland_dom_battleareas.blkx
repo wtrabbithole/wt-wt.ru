@@ -58,7 +58,7 @@
   },
   "imports": {
     "import_record": {
-      "file": "gameData/missions/cta/tanks/poland/template_poland_Dom_arcade.blk",
+      "file": "gameData/missions/cta/tanks/poland/mainareas/template_poland_Dom_arcade.blk",
       "importAreas": true,
       "importUnits": true,
       "importTriggers": true,
@@ -87,57 +87,45 @@
   "units": [
     {
       "area_squad": {
-        "name": "t1_battlearea",
+        "name": "t2_killarea",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [2264.2,20.95,521.4]
+          [1556.89,25.7047,3162.37]
         ],
         "props": [
           {
-            "squad_members": "t1_battlearea_arcade_block01"
+            "squad_members": "t2_killarea_block01"
           },
           {
-            "squad_members": "t1_battlearea_arcade_block02"
-          },
-          {
-            "squad_members": "t1_battlearea_arcade_block03"
-          },
-          {
-            "squad_members": "t1_battlearea_arcade_block04"
+            "squad_members": "t2_killarea_block02"
           }
         ]
       }
     },
     {
       "area_squad": {
-        "name": "t2_battlearea",
+        "name": "t1_killarea",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [1800.3,12.1,429.35]
+          [2142.78,4.53406,3211.03]
         ],
         "props": [
           {
-            "squad_members": "t2_battlearea_arcade_block01"
+            "squad_members": "t1_killarea_block01"
           },
           {
-            "squad_members": "t2_battlearea_arcade_block02"
-          },
-          {
-            "squad_members": "t2_battlearea_arcade_block03"
-          },
-          {
-            "squad_members": "t2_battlearea_arcade_block04"
+            "squad_members": "t1_killarea_block02"
           }
         ]
       }
     }
   ],
   "areas": {
-    "fake_battlearea_arcade": {
+    "dom_battle_area_arcade": {
       "type": "Box",
       "tm": [
         [-1900.0,0.0,0.0],
@@ -148,92 +136,48 @@
       "objLayer": 5,
       "props": []
     },
-    "t2_battlearea_arcade_block01": {
-      "type": "Box",
-      "tm": [
-        [-1500.0,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,-1900.0],
-        [1677.15,0.374102,1807.85]
-      ],
-      "objLayer": 5,
-      "props": []
-    },
-    "t1_battlearea_arcade_block01": {
-      "type": "Box",
-      "tm": [
-        [-1400.0,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,-1900.0],
-        [2127.04,0.374,1807.85]
-      ],
-      "objLayer": 5,
-      "props": []
-    },
-    "t2_battlearea_arcade_block02": {
+    "t2_killarea_block01": {
       "type": "Cylinder",
       "tm": [
-        [270.653,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,270.653],
-        [2426.65,0.374,1501.0]
+        [150.0,0.0,0.0],
+        [0.0,97.6116,0.0],
+        [0.0,0.0,150.0],
+        [1325.31,13.8826,2224.43]
       ],
       "objLayer": 0,
       "props": []
     },
-    "t1_battlearea_arcade_block02": {
+    "t1_killarea_block01": {
       "type": "Cylinder",
       "tm": [
-        [270.653,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,270.653],
-        [1429.7,0.374,1372.45]
+        [150.0,0.0,0.0],
+        [0.0,97.6116,0.0],
+        [0.0,0.0,150.0],
+        [2666.08,5.42395,2151.56]
       ],
       "objLayer": 0,
       "props": []
     },
-    "t2_battlearea_arcade_block03": {
-      "type": "Box",
+    "t2_killarea_block02": {
+      "type": "Cylinder",
       "tm": [
-        [-406.178,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,-629.827],
-        [2492.55,0.35,1172.75]
+        [150.0,0.0,0.0],
+        [0.0,97.6116,0.0],
+        [0.0,0.0,150.0],
+        [1342.79,11.0142,1888.31]
       ],
-      "objLayer": 5,
+      "objLayer": 0,
       "props": []
     },
-    "t1_battlearea_arcade_block03": {
-      "type": "Box",
+    "t1_killarea_block02": {
+      "type": "Cylinder",
       "tm": [
-        [-406.178,0.0,0.0],
-        [0.0,644.0,0.0],
-        [0.0,0.0,-534.579],
-        [1366.05,0.35,1125.15]
+        [150.0,0.0,0.0],
+        [0.0,97.6116,0.0],
+        [0.0,0.0,150.0],
+        [2601.48,4.39963,1942.57]
       ],
-      "objLayer": 5,
-      "props": []
-    },
-    "t1_battlearea_arcade_block04": {
-      "type": "Box",
-      "tm": [
-        [-293.545,0.0,280.734],
-        [0.0,644.0,0.0],
-        [-177.978,0.0,-186.1],
-        [1486.3,0.374,1521.5]
-      ],
-      "objLayer": 5,
-      "props": []
-    },
-    "t2_battlearea_arcade_block04": {
-      "type": "Box",
-      "tm": [
-        [-168.216,0.0,-189.486],
-        [0.0,644.0,0.0],
-        [196.064,0.0,-174.055],
-        [2440.01,0.374,1681.04]
-      ],
-      "objLayer": 5,
+      "objLayer": 0,
       "props": []
     }
   },

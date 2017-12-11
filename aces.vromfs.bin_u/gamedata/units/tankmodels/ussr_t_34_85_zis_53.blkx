@@ -2295,17 +2295,28 @@
     }
   },
   {
-    "skin": {
-      "name": "forest",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_forest_01*"
+    "skin": [
+      {
+        "name": "forest"
+      },
+      {
+        "camoType": "jungle"
+      },
+      {
+        "camoType": "forest"
+      },
+      {
+        "replace_tex": {
+          "from": "ussr_camo_green*",
+          "to": "ussr_camo_forest_01*"
+        }
       }
-    }
+    ]
   },
   {
     "skin": {
       "name": "winter",
+      "camoType": "winter",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_winter*"
@@ -2313,26 +2324,53 @@
     }
   },
   {
-    "skin": {
-      "name": "ussr_camo_czechoslovak_yellow_green",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_czechoslovak_yellow_green*"
+    "skin": [
+      {
+        "name": "ussr_camo_czechoslovak_yellow_green"
+      },
+      {
+        "camoType": "jungle"
+      },
+      {
+        "camoType": "forest"
+      },
+      {
+        "camoType": "desert"
+      },
+      {
+        "replace_tex": {
+          "from": "ussr_camo_green*",
+          "to": "ussr_camo_czechoslovak_yellow_green*"
+        }
       }
-    }
+    ]
   },
   {
-    "skin": {
-      "name": "ussr_camo_desert_syrian_green_brown_yellow",
-      "replace_tex": {
-        "from": "ussr_camo_green*",
-        "to": "ussr_camo_desert_syrian_green_brown_yellow*"
+    "skin": [
+      {
+        "name": "ussr_camo_desert_syrian_green_brown_yellow"
+      },
+      {
+        "camoType": "desert"
+      },
+      {
+        "camoType": "forest"
+      },
+      {
+        "camoType": "jungle"
+      },
+      {
+        "replace_tex": {
+          "from": "ussr_camo_green*",
+          "to": "ussr_camo_desert_syrian_green_brown_yellow*"
+        }
       }
-    }
+    ]
   },
   {
     "skin": {
       "name": "ussr_camo_desert_yellow_brown",
+      "camoType": "desert",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_yellow_brown*"
@@ -2342,6 +2380,7 @@
   {
     "skin": {
       "name": "ussr_camo_winter_lines",
+      "camoType": "winter",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_winter_lines*"

@@ -29,7 +29,7 @@ function get_main_options()
 
       ["options/mainParameters"],
       [::USEROPT_LANGUAGE, "spinner", ! isInFlight && ::canSwitchGameLocalization()],
-      [::USEROPT_AUTOLOGIN, "spinner", ! isInFlight && ! ::is_platform_ps4],
+      [::USEROPT_AUTOLOGIN, "spinner", ! isInFlight && !::is_ps4_or_xbox],
       [::USEROPT_FONTS_CSS, "spinner"],
       [::USEROPT_CLUSTER, "spinner", ! isInFlight && ::is_platform_ps4],
 
@@ -65,6 +65,7 @@ function get_main_options()
       [::USEROPT_XRAY_KILL, "spinner", ::has_feature("Tanks") && ::has_feature("XrayKill")],
       [::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT, "spinner",
         ::has_feature("Tanks") && ( ! isInFlight || ! ::is_tank_gunner_camera_from_sight_available())],
+      [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::has_feature("Tanks")],
       [::USEROPT_SHOW_DESTROYED_PARTS, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
@@ -179,7 +180,7 @@ function get_voicechat_options()
       ]
     };
 
-  if (!::is_platform_ps4)
+  if (!::is_ps4_or_xbox)
   {
     if (::gchat_voice_get_device_out_count() > 0)
       voice_options.options.insert(1, [::USEROPT_VOICE_DEVICE_OUT, "combobox"]);

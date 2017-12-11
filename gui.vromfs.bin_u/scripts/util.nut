@@ -720,7 +720,7 @@ function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full
   if(::checkObj(pic))
   {
     local imagePath = "ui/" + ::loc(name_id) + logoHeight
-    if (!::cached_is_existing_image(imagePath + ".ddsx", "not found image by path %s"))
+    if (!::cached_is_existing_image(imagePath, "not found image by path %s"))
       imagePath = "ui/title" + logoHeight
 
     pic["background-image"] = imagePath

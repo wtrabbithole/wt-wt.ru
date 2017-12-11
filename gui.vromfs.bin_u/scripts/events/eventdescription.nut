@@ -324,7 +324,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     local multipleMapObj = showSceneBtn("multiple_mission", !hasMission)
     if (!hasMission && multipleMapObj)
-      multipleMapObj["background-image"] = "#ui/opaque#random_mission_map"
+      multipleMapObj["background-image"] = "#ui/random_mission_map"
   }
 
   function getDescriptionTimeText()

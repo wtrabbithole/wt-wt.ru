@@ -369,22 +369,15 @@
           "mapArea": true,
           "killOutOfBattleArea": true,
           "newGridHorizontalCellCount": 0,
+          "killArea": false,
           "area": "@t1_battlearea",
           "team": "A"
+        },
+        "triggerDisable": {
+          "target": "team_killareas_init"
         }
       },
-      "else_actions": {
-        "varSetString": {
-          "value": "t1_battlearea",
-          "var": "t1_battlearea"
-        },
-        "triggerActivate": {
-          "target": "t1_battleareas_init",
-          "activate_type": "checkConidtions",
-          "check_trigger_status": false,
-          "after_activation": "disable"
-        }
-      }
+      "else_actions": []
     },
     "t2_battleareas_init": {
       "is_enabled": false,
@@ -418,22 +411,15 @@
           "mapArea": true,
           "killOutOfBattleArea": true,
           "newGridHorizontalCellCount": 0,
+          "killArea": false,
           "area": "@t2_battlearea",
           "team": "B"
+        },
+        "triggerDisable": {
+          "target": "team_killareas_init"
         }
       },
-      "else_actions": {
-        "varSetString": {
-          "value": "t2_battlearea",
-          "var": "t2_battlearea"
-        },
-        "triggerActivate": {
-          "target": "t2_battleareas_init",
-          "activate_type": "checkConidtions",
-          "check_trigger_status": false,
-          "after_activation": "disable"
-        }
-      }
+      "else_actions": []
     }
   },
   "mission_objectives": {

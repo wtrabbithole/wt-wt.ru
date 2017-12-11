@@ -162,7 +162,7 @@ class QueueManager {
   function getActiveQueueWithType(typeBit)
   {
     foreach(queue in queuesList)
-      if (typeBit == queue.typeBit && isQueueActive(queue))
+      if (typeBit & queue.typeBit && isQueueActive(queue))
         return queue
 
     return null
@@ -202,7 +202,7 @@ class QueueManager {
 
     local res = []
     foreach(queue in queuesList)
-      if (typeBit == queue.typeBit && isQueueActive(queue))
+      if (typeBit & queue.typeBit && isQueueActive(queue))
         leaveQueue(queue)
   }
 
@@ -520,6 +520,11 @@ class QueueManager {
   function getQueueSlots(queue)
   {
     return ("slots" in queue.params)? queue.params.slots : null
+  }
+
+  function getQueueOperationId(queue)
+  {
+    return queue.params?.operationId ?? -1
   }
 
   function getMyRankInQueue(queue)

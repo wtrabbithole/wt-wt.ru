@@ -1845,7 +1845,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateOnMirrorButton(obj)
   {
     local enabled = get_hangar_mirror_current_decal()
-    local icon = "#ui/gameuiskin#btn_flip_decal" + (enabled ? "_active" : "")
+    local icon = "#ui/gameuiskin#btn_flip_decal" + (enabled ? "_active" : "") + ".svg"
     local btnObj = obj.findObject("btn_toggle_mirror_img")
     btnObj["background-image"] = icon
     btnObj.getParent().active = enabled ? "yes" : "no"
@@ -1860,7 +1860,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateOnAbsButton(obj)
   {
     local enabled = get_hangar_abs()
-    local icon = "#ui/gameuiskin#btn_two_sided_printing" + (enabled ? "_active" : "")
+    local icon = "#ui/gameuiskin#btn_two_sided_printing" + (enabled ? "_active" : "") + ".svg"
     local btnObj = obj.findObject("btn_toggle_bf_img")
     btnObj["background-image"] =  icon
     btnObj.getParent().active = enabled ? "yes" : "no"

@@ -11,7 +11,8 @@ function get_userlog_view_data(log)
     logImg2 = null
   }
   local logName = getLogNameByType(log.type)
-  local priceText = getPriceText(("wpCost" in log)? log.wpCost : 0, ("goldCost" in log)? log.goldCost : 0, true)
+  local priceText = ::Cost(("wpCost" in log) ? log.wpCost : 0,
+    ("goldCost" in log) ? log.goldCost : 0).tostring()
   if (priceText!="")  priceText = " ("+priceText+")"
 
   local imgFormat = "img {size:t='%s'; background-image:t='%s'; margin-right:t='0.01@scrn_tgt;'} "
@@ -51,7 +52,7 @@ function get_userlog_view_data(log)
     local desc = ""
     local wp = ::getTblValue("wpEarned", log, 0) + ::getTblValue("baseTournamentWp", log, 0)
     local gold = ::getTblValue("goldEarned", log, 0) + ::getTblValue("baseTournamentGold", log, 0)
-    local earnedText = ::getPriceText(wp, gold, true, true)
+    local earnedText = ::Cost(wp, gold).toStringWithParams({isWpAlwaysShown = true})
     local xpEarnedText = ("xpEarned" in log)? ::getFreeRpPriceText(log.xpEarned, true) : ""
     if (xpEarnedText!="")
       earnedText += ((earnedText!="")?", ":"") + xpEarnedText
@@ -70,14 +71,16 @@ function get_userlog_view_data(log)
     if (("friendlyFirePenalty" in log) && log.friendlyFirePenalty != 0)
     {
       desc += "\n" + ::loc("debriefing/FriendlyKills") + ::loc("ui/colon")
-      desc += "<color=@activeTextColor>" + ::getWpPriceText(log.friendlyFirePenalty, true) + "</color>"
+      desc += "<color=@activeTextColor>" +
+        ::Cost(log.friendlyFirePenalty).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
       wp += log.friendlyFirePenalty
     }
 
     if (("nRespawnsWp" in log) && log.nRespawnsWp != 0)
     {
       desc += "\n" + ::loc("debriefing/MultiRespawns") + ::loc("ui/colon")
-      desc += "<color=@activeTextColor>" + ::getWpPriceText(log.nRespawnsWp, true) + "</color>"
+      desc += "<color=@activeTextColor>" +
+        ::Cost(log.nRespawnsWp).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
       wp += log.nRespawnsWp
     }
 
@@ -125,14 +128,15 @@ function get_userlog_view_data(log)
       if (rCost>0)
       {
         desc += "\n" + ::loc("shop/auto_repair_cost") + ::loc("ui/colon")
-        desc += "<color=@activeTextColor>" + ::getWpPriceText(-rCost, true) + "</color>"
+        desc += "<color=@activeTextColor>" + ::Cost(-rCost).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
         wp -= rCost
         freeRepair = false
       }
       if (notEnoughCost!=0)
       {
         desc += "\n" + ::loc("shop/auto_repair_failed") + ::loc("ui/colon")
-        desc += "<color=@warningTextColor>(" + ::getWpPriceText(notEnoughCost, true) + ")</color>"
+        desc += "<color=@warningTextColor>(" +
+          ::Cost(notEnoughCost).toStringWithParams({isWpAlwaysShown = true}) + ")</color>"
         freeRepair = false
       }
     }
@@ -147,7 +151,7 @@ function get_userlog_view_data(log)
     if (wRefillWp || wRefillGold)
     {
       desc += "\n" + ::loc("shop/auto_buy_weapons_cost") + ::loc("ui/colon")
-      desc += "<color=@activeTextColor>" + ::getPriceText(-wRefillWp, -wRefillGold, true) + "</color>"
+      desc += "<color=@activeTextColor>" + ::Cost(-wRefillWp, -wRefillGold).tostring() + "</color>"
       wp -= wRefillWp
       gold -= wRefillGold
     }
@@ -253,7 +257,7 @@ function get_userlog_view_data(log)
     local totalText = res.tooltip = (log.type==::EULT_SESSION_RESULT)? ::loc("debriefing/total") : ::loc("userlog/interimResults")
     totalText = "<color=@userlogColoredText>" + totalText + ::loc("ui/colon") + "</color>"
 
-    local total = ::getPriceText(wp, gold, true, true)
+    local total = ::Cost(wp, gold).toStringWithParams({isWpAlwaysShown = true})
     if (xpEarnedText!="")
       total += ", " + xpEarnedText
     if (rpEarnedText!="")
@@ -315,7 +319,7 @@ function get_userlog_view_data(log)
     res.name = ::loc(nameLoc, { mode = ::loc("multiplayer/"+log.mode+"Mode"), mission = mission }) + nameLocPostfix
 
     local desc = ""
-    local earnedText = (("wpEarned" in log)? ::getWpPriceText(log.wpEarned, true) : "")
+    local earnedText = (("wpEarned" in log) ? ::Cost(log.wpEarned).toStringWithParams({isWpAlwaysShown = true}) : "")
     if ("xpEarned" in log)
       earnedText += ((earnedText!="")?", ":"") + ::getRpPriceText(log.xpEarned, true)
     if (earnedText!="")
@@ -357,7 +361,8 @@ function get_userlog_view_data(log)
     while (("aname"+idx) in log) {
       if (desc!="") desc+="\n"
       local airName = log["aname"+idx]
-      desc += ::getUnitName(airName) + ::loc("ui/colon") + ::getWpPriceText(log["cost"+idx], true)
+      desc += ::getUnitName(airName) + ::loc("ui/colon") +
+        ::Cost(log["cost"+idx]).toStringWithParams({isWpAlwaysShown = true})
       totalCost += log["cost"+idx]
       if (oneCountry)
       {
@@ -370,7 +375,7 @@ function get_userlog_view_data(log)
       }
       idx++
     }
-    priceText = ::getPriceText(totalCost)
+    priceText = ::Cost(totalCost).tostring()
     if (priceText!="")  priceText = " ("+priceText+")"
     res.name = ::loc("userlog/"+logName) + priceText
     if (desc!="")
@@ -420,7 +425,7 @@ function get_userlog_view_data(log)
           if(log.rawin("wgoldCost"+idx))
             goldCost = log["wgoldCost"+idx]
 
-          desc += " x" + log["wcount"+idx] + " " +::getPriceText(wpCost, goldCost, true)
+          desc += " x" + log["wcount"+idx] + " " +::Cost(wpCost, goldCost).tostring()
         }
         if (log["aname"+idx] in airDesc)
           airDesc[log["aname"+idx]] += "\n" + desc
@@ -448,7 +453,7 @@ function get_userlog_view_data(log)
             if(log.rawin("mgoldCost"+idx))
               goldCost = log["mgoldCost"+idx]
 
-            desc += " x" + log["mcount"+idx] + " " +::getPriceText(wpCost, goldCost, true)
+            desc += " x" + log["mcount"+idx] + " " + ::Cost(wpCost, goldCost).tostring()
           }
           if (log["maname"+idx] in airDesc)
             airDesc[log["maname"+idx]] += "\n" + desc
@@ -692,7 +697,7 @@ function get_userlog_view_data(log)
     if ("xpEarned" in log)
       exp = log.xpEarned
 
-    local reward = ::getPriceText(wp.tointeger(), gold.tointeger(), true)
+    local reward = ::Cost(wp.tointeger(), gold.tointeger()).tostring()
     if (exp)
       reward += ((reward!="")? ", ":"") + ::getRpPriceText(exp.tointeger(), true)
 
@@ -730,7 +735,7 @@ function get_userlog_view_data(log)
       if ("xpEarned" in log[blkName])
         exp = log[blkName].xpEarned
 
-      local reward = ::getPriceText(wp.tointeger(), gold.tointeger(), true)
+      local reward = ::Cost(wp.tointeger(), gold.tointeger()).tostring()
       if (exp)
       {
         local changeLightToXP = "name" in log[blkName] && log[blkName].name == ::MSG_FREE_EXP_DENOMINATE_OLD
@@ -925,7 +930,8 @@ function get_userlog_view_data(log)
       goldBalance = log.goldBalance
 
     local suffix = (goldAdd >= 0) ? "/positive" : "/negative"
-    res.name = ::loc("userlog/"+logName+suffix, { gold = ::getGpPriceText(abs(goldAdd), true), balance = ::getGpPriceText(goldBalance, true) })
+    res.name = ::loc("userlog/"+logName+suffix, { gold = ::Cost(0, abs(goldAdd)).toStringWithParams({isGoldAlwaysShown = true}),
+      balance = ::getGpPriceText(goldBalance, true) })
     res.description <- comment  // not localized
   }
   else if(log.type == ::EULT_BUYING_SCHEME)
@@ -991,7 +997,7 @@ function get_userlog_view_data(log)
           if(log.rawin("mgoldCost"+idx))
             goldCost = log["mgoldCost"+idx]
 
-          desc += " x" + log["mcount"+idx] + " " +::getPriceText(wpCost, goldCost, true)
+          desc += " x" + log["mcount"+idx] + " " +::Cost(wpCost, goldCost).tostring()
         }
         if (log["maname"+idx] in airDesc)
           airDesc[log["maname"+idx]] += "\n" + desc
@@ -1078,7 +1084,7 @@ function get_userlog_view_data(log)
     local locId = "userlog/" + logName + ((log.count > 1) ? "/multiple" : "")
     res.name = ::loc(locId, {
                      itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
-                     price = getPriceText(log.cost * log.count, log.costGold * log.count, true)
+                     price = ::Cost(log.cost * log.count, log.costGold * log.count).tostring()
                      amount = log.count
                    })
     res.descriptionBlk <- ::get_userlog_image_item(item, {type = log.type})
@@ -1116,7 +1122,8 @@ function get_userlog_view_data(log)
         wagerGold = log.wagerGold
 
       if (wager > 0 || wagerGold > 0)
-        res.description <- ::loc("userlog/" + logName + "_desc/wager") + " " + getPriceText(wager, wagerGold, true)
+        res.description <- ::loc("userlog/" + logName + "_desc/wager") + " " +
+          ::Cost(wager, wagerGold).tostring()
     }
     res.descriptionBlk <- ::get_userlog_image_item(item)
   }
@@ -1217,7 +1224,7 @@ function get_userlog_view_data(log)
     local locId = "userlog/" + logName + ((log.count > 1) ? "/multiple" : "")
     res.name = ::loc(locId, {
                      itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
-                     price = getPriceText(log.cost * log.count, log.costGold * log.count, true)
+                     price = ::Cost(log.cost * log.count, log.costGold * log.count).tostring()
                      amount = log.count
                    })
     res.descriptionBlk <- ::get_userlog_image_item(item)
@@ -1339,11 +1346,11 @@ function get_userlog_view_data(log)
     textLocId += ::getTblValue("winner", log) ? "win" : "lose"
     local mapName = ::getTblValue("mapName", log)
     local opId = ::getTblValue("operationId", log)
-    local earnedText = ::getPriceText(::getTblValue("wp", log, 0), 0, true, true)
+    local earnedText = ::Cost(::getTblValue("wp", log, 0)).toStringWithParams({isWpAlwaysShown = true})
     res.name = ::loc(textLocId, {
       opId = opId, mapName = ::loc("worldWar/map/" + mapName), reward = earnedText })
 
-    local statsWpText = ::getPriceText(::getTblValue("wpStats", log, 0), 0, true, true)
+    local statsWpText = ::Cost(::getTblValue("wpStats", log, 0)).toStringWithParams({isWpAlwaysShown = true})
     res.description <- ::loc("worldWar/userlog/endOperation/stats", { reward = statsWpText })
   }
 

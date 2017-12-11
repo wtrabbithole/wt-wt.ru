@@ -87,9 +87,15 @@ expandable:hover statusImg[background-image] {
   background-color:@hoverTextColor;
 }
 
-expandable:current, expandable.simple[active=yes] {
+expandable:current, expandable.simple[active=yes],
+expandable[selected=yes] {
   background-color:@frameDarkActiveBgColor;
   border-color:@frameDarkSelectedBorderColor;
+}
+
+expandable[selected=no] {
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
 }
 
 expandable:current statusImg[background-image] {

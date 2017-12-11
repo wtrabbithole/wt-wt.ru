@@ -18,6 +18,7 @@
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
   "fireParamsPreset": "1000kph",
   "fightAiBehaviour": "fighter",
+  "harmonizationSuffix": "_tomoe",
   "DamageParts": {
     "armor10": {
       "mgun1_dm": {
@@ -2209,68 +2210,6 @@
       }
     }
   ],
-  "ikPilot": [
-    {
-      "model": "pilot_usaf_korean2_char"
-    },
-    {
-      "maxHeadHorAngle": 60.0
-    },
-    {
-      "maxHeadDownAngle": 60.0
-    },
-    {
-      "maxHeadUpAngle": 10.0
-    },
-    {
-      "headNode": "Bip01 Head"
-    },
-    {
-      "pelvisNode": "Bip01 Pelvis"
-    },
-    {
-      "pelvisTargetNode": "Bip01 Pelvis01"
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 L Hand",
-        "midNode": "Bip01 L Forearm",
-        "upNode": "Bip01 L UpperArm",
-        "targetNode": "throttle_lhand_1",
-        "flexionDir": [0.0,-1.0,0.2]
-      }
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 R Hand",
-        "midNode": "Bip01 R Forearm",
-        "upNode": "Bip01 R UpperArm",
-        "targetNode": "stick_rhand_1",
-        "flexionDir": [0.0,-1.0,-0.5]
-      }
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 L Foot",
-        "midNode": "Bip01 L Calf",
-        "upNode": "Bip01 L Thigh",
-        "targetNode": "pedal_lfoot_1",
-        "flexionDir": [0.0,1.0,0.0]
-      }
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 R Foot",
-        "midNode": "Bip01 R Calf",
-        "upNode": "Bip01 R Thigh",
-        "targetNode": "pedal_rfoot_1",
-        "flexionDir": [0.0,1.0,0.0]
-      }
-    }
-  ],
-  "attach": {
-    "pilot1": "pilot_us_500"
-  },
   "Params": {
     "Range": 882.0
   },
@@ -2666,31 +2605,6 @@
       "reqModification": "fmbc_mk1"
     }
   },
-  "user_skin": [
-    {
-      "name": "f_84b"
-    },
-    {
-      "replace_tex": {
-        "from": "f_84g_late_usaf_aluminum_c*"
-      }
-    },
-    {
-      "replace_tex": {
-        "from": "f_84g_late_usaf_aluminum_c_dmg*"
-      }
-    },
-    {
-      "replace_tex": {
-        "from": "f_84g_late_usaf_aluminum_n*"
-      }
-    },
-    {
-      "replace_tex": {
-        "from": "f_84g_late_usaf_aluminum_n_dmg*"
-      }
-    }
-  ],
   "cutting": {
     "_emtr_break_wing0_l_from": [-0.533279,-0.20933,0.90968],
     "_emtr_break_wing0_l_to": [-0.533279,-0.20933,1.39345],
@@ -2711,5 +2625,194 @@
       [-5.1105,0.0,0.0]
     ],
     "partKindTail": 2
-  }
+  },
+  "ikPilot": [
+    {
+      "model": "pilot_china1_char"
+    },
+    {
+      "maxHeadHorAngle": 60.0
+    },
+    {
+      "maxHeadDownAngle": 60.0
+    },
+    {
+      "maxHeadUpAngle": 10.0
+    },
+    {
+      "headNode": "Bip01 Head"
+    },
+    {
+      "pelvisNode": "Bip01 Pelvis"
+    },
+    {
+      "pelvisTargetNode": "Bip01 Pelvis01"
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 L Hand",
+        "midNode": "Bip01 L Forearm",
+        "upNode": "Bip01 L UpperArm",
+        "targetNode": "throttle_lhand_1",
+        "flexionDir": [0.0,-1.0,0.2]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 R Hand",
+        "midNode": "Bip01 R Forearm",
+        "upNode": "Bip01 R UpperArm",
+        "targetNode": "stick_rhand_1",
+        "flexionDir": [0.0,-1.0,-0.5]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 L Foot",
+        "midNode": "Bip01 L Calf",
+        "upNode": "Bip01 L Thigh",
+        "targetNode": "pedal_lfoot_1",
+        "flexionDir": [0.0,1.0,0.3]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 R Foot",
+        "midNode": "Bip01 R Calf",
+        "upNode": "Bip01 R Thigh",
+        "targetNode": "pedal_rfoot_1",
+        "flexionDir": [0.0,1.0,-0.3]
+      }
+    }
+  ],
+  "attach": {
+    "pilot1": "pilot_china_500"
+  },
+  "default_skin": [
+    {
+      "name": "knr"
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_c*",
+        "to": "f_84g_late_china_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_c_dmg*",
+        "to": "f_84g_late_china_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_n*",
+        "to": "f_84g_late_china_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_n_dmg*",
+        "to": "f_84g_late_china_n_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_tank_c*",
+        "to": "f_84g_late_china_tank_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_tank_c_dmg*",
+        "to": "f_84g_late_china_tank_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_tank_n*",
+        "to": "f_84g_late_china_tank_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_tank_n_dmg*",
+        "to": "f_84g_late_china_tank_n_dmg*"
+      }
+    }
+  ],
+  "default_skin_tomoe": [
+    {
+      "name": "f_84g_late_china"
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_c*",
+        "to": "f_84g_late_china_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_c_dmg*",
+        "to": "f_84g_late_china_c_tomoe_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_n*",
+        "to": "f_84g_late_china_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_84g_late_usaf_aluminum_n_dmg*",
+        "to": "f_84g_late_china_n_dmg*"
+      }
+    }
+  ],
+  "user_skin": [
+    {
+      "name": "f_84g_late_china"
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_n_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_tank_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_tank_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_tank_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "to": "f_84g_late_china_tank_n_dmg*"
+      }
+    }
+  ]
 }

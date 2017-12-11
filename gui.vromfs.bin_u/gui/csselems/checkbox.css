@@ -106,7 +106,10 @@ CheckBox.with_image > CheckBoxImg {
   left:pw -50%ph - 50%h;
 }
 CheckBox.with_image > infoImg {
-  size:@checkboxSize,@checkboxSize;  background-color:#999999;
+  size:@cIco, @cIco;
+  pos:0, ph/2-h/2;
+  position:relative;
+  background-color:#999999;
   background-svg-size:@cIco, @cIco;
   input-transparent:yes;
 }
@@ -119,7 +122,6 @@ CheckBox.with_image[text] > CheckBoxImg {
   left:1.5ph - 0.5h;
 }
 CheckBox.with_image[text] > infoImg {
-  pos:0,0;
   position:absolute;
 }
 

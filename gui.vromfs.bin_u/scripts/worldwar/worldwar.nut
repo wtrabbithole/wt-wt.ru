@@ -1227,11 +1227,14 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
   return collectedUnits
 }
 
-function g_world_war::addOperationInvite(operationId, clanName, isStarted)
+function g_world_war::addOperationInvite(operationId, clanName, isStarted, inviteTime)
 {
   if (operationId != ::ww_get_operation_id())
     ::g_invites.addInvite(::g_invites_classes.WwOperation,
-      { operationId = operationId, clanName = clanName, isStarted = isStarted }
+      { operationId = operationId,
+        clanName = clanName,
+        isStarted = isStarted,
+        inviteTime = inviteTime }
     )
 }
 

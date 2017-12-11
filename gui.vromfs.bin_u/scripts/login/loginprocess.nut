@@ -2,8 +2,20 @@ enum LOGIN_PROGRESS
 {
   NOT_STARTED
   IN_LOGIN_WND
-  CONNECT_TO_MATCHING_AND_INIT_CONFIGS
+  INIT_ONLINE_BINARIES
+  INIT_CONFIGS
   FINISHED
+}
+
+local matchingStageToLoginState = {
+  [ONLINE_BINARIES_INITED] = LOGIN_STATE.ONLINE_BINARIES_INITED,
+  [HANGAR_ENTERED] = LOGIN_STATE.HANGAR_LOADED
+}
+
+function online_init_stage_finished(stage, ...)
+{
+  if (stage in matchingStageToLoginState)
+    ::g_login.addState(matchingStageToLoginState[stage])
 }
 
 class ::LoginProcess
@@ -31,15 +43,8 @@ class ::LoginProcess
 
     if (curProgress == LOGIN_PROGRESS.IN_LOGIN_WND)
       ::g_login.loadLoginHandler()
-    else if (curProgress == LOGIN_PROGRESS.CONNECT_TO_MATCHING_AND_INIT_CONFIGS)
+    else if (curProgress == LOGIN_PROGRESS.INIT_ONLINE_BINARIES)
     {
-      //initConfigs
-      local cb = ::Callback(function()
-                 {
-                   ::g_login.addState(LOGIN_STATE.CONFIGS_INITED)
-                 }, this)
-      ::g_login.initConfigs(cb)
-
       //connect to matching
       local successCb = ::Callback(function()
                         {
@@ -52,6 +57,15 @@ class ::LoginProcess
 
       ::g_matching_connect.connect(successCb, errorCb, false)
     }
+    else if (curProgress == LOGIN_PROGRESS.INIT_CONFIGS)
+    {
+      ::g_login.initConfigs(
+        ::Callback(function()
+        {
+          ::g_login.addState(LOGIN_STATE.CONFIGS_INITED)
+        },
+        this))
+    }
   }
 
   function checkNextStep()
@@ -61,7 +75,12 @@ class ::LoginProcess
       if (::g_login.isAuthorized())
         nextStep()
     }
-    else if (curProgress == LOGIN_PROGRESS.CONNECT_TO_MATCHING_AND_INIT_CONFIGS)
+    else if (curProgress == LOGIN_PROGRESS.INIT_ONLINE_BINARIES)
+    {
+      if (::g_login.isReadyToFullLoad())
+        nextStep()
+    }
+    else if (curProgress == LOGIN_PROGRESS.INIT_CONFIGS)
     {
       if (::g_login.isLoggedIn())
         nextStep()

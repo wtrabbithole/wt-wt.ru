@@ -26,7 +26,8 @@ dropright > button {
   background-position:0;
   background-repeat:expand;
   background-color:@controlColor;
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up.svg;
+  background-svg-size:@scrollArrowsSize, @scrollArrowsSize;
   rotation:90;
   color-factor:127;
   snd_click:click;
@@ -43,10 +44,10 @@ dropright:hover > button {
 [show_console_buttons=yes] dropright[btnName=X] > button {
   width:h;
   color-factor:255;
-  background-image:#ui/controlskin#button_x;
+  background-image:@control_button_x;
 }
 [show_console_buttons=yes] dropright[btnName=X] > button:pushed {
-  background-image:#ui/controlskin#button_x_pressed;
+  background-image:@control_button_x_pressed;
 }
 
 tr[enable=no] > td > dropright > button, tr[enable=no] > td > dropright:hover > button {

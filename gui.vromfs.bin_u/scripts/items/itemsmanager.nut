@@ -46,7 +46,7 @@ class BoosterEffectType
     {
       if (value == 0 && !showEmpty)
         return ""
-      return ::getWpPriceText(value, colored)
+      return ::Cost(value).toStringWithParams({isWpAlwaysShown = true, isColored = colored})
     }
   }
 }

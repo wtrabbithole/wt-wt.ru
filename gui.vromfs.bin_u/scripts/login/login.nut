@@ -1,14 +1,16 @@
 enum LOGIN_STATE //bit mask
 {
-  AUTHORIZED          = 0x0001 //succesfully connected to auth
-  PROFILE_RECEIVED    = 0x0002
-  CONFIGS_RECEIVED    = 0x0004
-  MATCHING_CONNECTED  = 0x0008
-  CONFIGS_INITED      = 0x0010
+  AUTHORIZED               = 0x0001 //succesfully connected to auth
+  PROFILE_RECEIVED         = 0x0002
+  CONFIGS_RECEIVED         = 0x0004
+  MATCHING_CONNECTED       = 0x0008
+  CONFIGS_INITED           = 0x0010
+  ONLINE_BINARIES_INITED   = 0x0020
+  HANGAR_LOADED            = 0x0040
 
   //masks
-  NOT_LOGGED_IN       = 0x0000
-  LOGGED_IN           = 0x001F //logged in to all hosts and all configs are loaded
+  NOT_LOGGED_IN            = 0x0000
+  LOGGED_IN                = 0x003F //logged in to all hosts and all configs are loaded
 }
 
 ::g_login <- {
@@ -32,6 +34,11 @@ function g_login::init()
 function g_login::isAuthorized()
 {
   return (curState & LOGIN_STATE.AUTHORIZED) != 0
+}
+
+function g_login::isReadyToFullLoad()
+{
+  return hasState(LOGIN_STATE.AUTHORIZED | LOGIN_STATE.ONLINE_BINARIES_INITED)
 }
 
 function g_login::isLoggedIn()

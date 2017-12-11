@@ -1554,7 +1554,7 @@ framedMessage {
 advertDiv {
   re-type:9rect;
   background-color:@gray;
-  background-image:#ui/hudskin#subtitles_backgr_middle;
+  background-image:#ui/gameuiskin#subtitles_backgr_middle;
   background-repeat:expand;
   input-transparent:yes;
 }
@@ -2344,7 +2344,8 @@ focus_border,
 [show_console_buttons=yes] hangarToggleButton[navigatorShortcuts]:focus,
 [show_console_buttons=yes] ComboBox[focusFrame=yes]:focus,
 [show_console_buttons=yes] pupup_actions_list > itemsList > actionListItem:focus,
-[show_console_buttons=yes] pupup_actions_list > itemsList > button:focus {
+[show_console_buttons=yes] pupup_actions_list > itemsList > button:focus,
+[show_console_buttons=yes] VerticalListBox:focus > expandable[selected=yes] {
   re-type:9rect;
   foreground-color: @gamepadFocusFrameColor;
   foreground-image: #ui/gameuiskin#item_selection;
@@ -2536,6 +2537,8 @@ paymentItem > icon {
   position:relative;
   pos:50%pw-50%w, 50%ph-50%h;
   size:1*@paymentIconWidth, 1*@paymentIconHeight;
+  background-svg-size: @paymentIconWidth, @paymentIconHeight;
+  background-repeat:aspect-ratio;
   background-color:@commonTextColor;
 }
 

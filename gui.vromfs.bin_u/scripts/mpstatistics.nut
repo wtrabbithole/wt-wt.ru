@@ -194,7 +194,7 @@ function build_mp_table(table, markup, hdr, max_rows)
         local unitIcoColorType = ""
         local unitIco = ""
         if (isDead)
-          unitIco = "#ui/hudskin#dead"
+          unitIco = "#ui/gameuiskin#dead"
         else if (airWeaponIcons && isAircraft)
         {
           local name = table[i].aircraftName;
@@ -517,7 +517,7 @@ function set_mp_table(obj_tbl, table, params)
               if (::getTblValue("spectator", table[i], false))
                 unitIco = "#ui/gameuiskin#player_spectator"
               else
-                unitIco = "#ui/hudskin#dead"
+                unitIco = "#ui/gameuiskin#dead"
             }
             else if (isAircraft && showAirIcons)
             {

@@ -21,7 +21,8 @@ class ::gui_handlers.CampaignResults extends ::gui_handlers.BaseGuiHandlerWT
     if (wpdata.nDCWp>0)
     {
       guiScene["info-dc-text"].setValue(::loc("debriefing/dc"))
-      guiScene["info-dc-wp"].setValue(::getWpPriceText(wpdata.nDCWp))
+      guiScene["info-dc-wp"].setValue(::Cost(wpdata.nDCWp).toStringWithParams(
+        {isWpAlwaysShown = true, isColored = false}))
     }
 
     local info = DataBlock()

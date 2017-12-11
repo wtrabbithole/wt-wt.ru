@@ -47,12 +47,13 @@
 
       img{
         id:t='queue_members_<<id>>'
-        size:t='@dIco, @dIco'
+        size:t='@cIco, @cIco'
         top:t='50%ph-50%h'
         position:t='relative'
         margin-left:t="1@blockInterval"
         display:t='hide'
-        background-image:t='#ui/gameuiskin#friends'
+        background-image:t='#ui/gameuiskin#friends.svg'
+        background-svg-size:t='@cIco, @cIco'
       }
 
       mission_item_text {

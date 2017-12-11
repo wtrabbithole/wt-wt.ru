@@ -1,3 +1,5 @@
+local globalEnv = require_native("globalEnv")
+
 function gui_start_controls_type_choice(onlyDevicesChoice = true)
 {
   ::gui_start_modal_wnd(::gui_handlers.ControlType, {onlyDevicesChoice = onlyDevicesChoice})
@@ -98,23 +100,23 @@ function setControlTypeByID(ct_id)
   {
     ct_preset = "keyboard"
     startControlsWizard = true
-    set_helpers_mode_and_option(::EM_INSTRUCTOR)
+    set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
     ::save_profile(false)
     return
   }
   else if (ct_id == "ct_xinput")
   {
     ct_preset = "pc_xinput_ma"
-    if (get_platform_string_id() == "android" || ::is_platform_shield_tv())
+    if (::is_platform_android || ::is_platform_shield_tv())
       ct_preset = "tegra4_gamepad"
-    set_helpers_mode_and_option(::EM_INSTRUCTOR)
+    set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
   }
   else if (ct_id == "ct_mouse")
   {
     ct_preset = ""
-    if (get_platform_string_id() == "android")
+    if (::is_platform_android)
       ct_preset = "tegra4_gamepad";
-    set_helpers_mode_and_option(::EM_MOUSE_AIM)
+    set_helpers_mode_and_option(globalEnv.EM_MOUSE_AIM)
   }
 
   local preset = null
@@ -123,23 +125,25 @@ function setControlTypeByID(ct_id)
     preset = ::g_controls_presets.parsePresetName(ct_preset)
   else if (ct_id == "ct_mouse")
   {
-    if (get_platform_string_id() == "ps4")
+    if (::is_platform_ps4)
       preset = ::g_controls_presets.parsePresetName("dualshock4")
+    else if (::is_platform_xboxone)
+      preset = ::g_controls_presets.parsePresetName("xboxone")
     else
       preset = ::g_controls_presets.parsePresetName("keyboard_shooter")
   }
   preset = ::g_controls_presets.getHighestVersionPreset(preset)
   ::apply_joy_preset_xchange(preset.fileName)
 
-  if (get_platform_string_id() == "ps4") //currently only classic controls are working on ps4
+  if (::is_ps4_or_xbox)
   {
     local presetMode = ::get_option(::USEROPT_CONTROLS_PRESET)
     ct_preset = ::g_controls_presets.parsePresetName(presetMode.values[presetMode.value])
     //TODO: is it obsolete?
-    if(ct_preset.name == "default")
-      set_helpers_mode_and_option(::EM_REALISTIC)
-    else if(ct_preset.name == "dualshock4")
-      set_helpers_mode_and_option(::EM_MOUSE_AIM)
+    if (ct_preset.name == "default" || ct_preset.name == "xboxone_simulator")
+      set_helpers_mode_and_option(globalEnv.EM_REALISTIC)
+    else if (ct_preset.name == "dualshock4" || ct_preset.name == "xboxone_ma")
+      set_helpers_mode_and_option(globalEnv.EM_MOUSE_AIM)
   }
 
   ::save_profile(false)

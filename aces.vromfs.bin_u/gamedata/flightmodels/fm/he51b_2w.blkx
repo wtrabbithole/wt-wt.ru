@@ -102,7 +102,7 @@
     "AlphaShift": 0.0,
     "FlapsShift": 0.08,
     "AirbrakesShift": 0.0,
-    "GearShift": 0.0,
+    "GearShift": 2.0,
     "WingInFocus": 0.4,
     "WingMidFocus": 1.83,
     "WingOutFocus": 5.0,
@@ -650,7 +650,7 @@
     "AdvancedMass": true,
     "SeparateFuelTanks": true,
     "Takeoff": 2200.0,
-    "CenterOfGravity": [0.400859,0.106925,-0.00224068],
+    "CenterOfGravity": [0.400864,0.0414879,-0.0022407],
     "WingCritOverload": [-46107.0,101435.0],
     "GearDestructionIndSpeed": 500.0,
     "AirbrakeDestructionIndSpeed": -1.0,
@@ -670,6 +670,7 @@
       "spar1_r_dm": 15.8668,
       "spar_r_dm": 16.5466,
       "wing_r_dm": 83.8387,
+      "wing1_r_dm": 71.9712,
       "flap_r_dm": 15.0,
       "flap_l_dm": 15.0,
       "gear_l_dm": 136.0,
@@ -684,7 +685,6 @@
       "rudder_dm": 10.0,
       "tail_dm": 20.0,
       "fuse_dm": 30.0,
-      "wing1_r_dm": 71.9712,
       "wing2_r_dm": 75.3225,
       "spar2_r_dm": 15.2558,
       "aileron_r_dm": 15.5306,
@@ -718,10 +718,10 @@
   },
   "Gear": [
     {
-      "SinkFactor": 1000.0
+      "SinkFactor": 3000.0
     },
     {
-      "SinkRateMult": 0.001
+      "SinkRateMult": 1.0
     },
     {
       "WaterFriction": 1.0
@@ -772,34 +772,43 @@
       "Pitch": 16.8
     },
     {
+      "WaterSpeedPropCheckVal": [0.1,2.5]
+    },
+    {
       "WaterWaveHeightForCheck": [0.5,2.0]
     },
     {
-      "WaterSpeedPropCheckVal": [0.1,2.5]
+      "WaterRudderSpeedRange": [8.33333,13.8889]
     },
     {
       "WaterGroup": [
         {
-          "part": 33
+          "part": "_ClipLGear_00"
         },
         {
-          "part": 34
+          "part": "_ClipLGear_01"
         },
         {
-          "part": 35
+          "part": "_ClipLGear_02"
         },
         {
-          "part": 36
+          "part": "_ClipRGear_00"
+        },
+        {
+          "part": "_ClipRGear_01"
+        },
+        {
+          "part": "_ClipRGear_02"
         }
       ]
     },
     {
       "WaterGroup": [
         {
-          "part": 1
+          "part": "_ClipRGear"
         },
         {
-          "part": 0
+          "part": "_ClipLGear"
         }
       ]
     },
@@ -807,64 +816,81 @@
       "WaterPart1": {
         "Number": 0,
         "Name": "_ClipLGear",
-        "SinkFactor": 100.0,
-        "VerticalOffset": -0.4
+        "SinkFactor": 1500.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart2": {
         "Number": 1,
         "Name": "_ClipRGear",
-        "SinkFactor": 100.0,
-        "VerticalOffset": -0.4
+        "SinkFactor": 1500.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart3": {
         "Number": 2,
-        "Name": "_Clip03",
-        "SinkFactor": 25000.0,
-        "VerticalOffset": 0.0
+        "Name": "_ClipLGear_00",
+        "SinkFactor": 1000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart4": {
         "Number": 3,
-        "Name": "_Clip04",
-        "SinkFactor": 25000.0,
-        "VerticalOffset": 0.0
+        "Name": "_ClipLGear_01",
+        "SinkFactor": 1000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart5": {
         "Number": 4,
-        "Name": "_Clip27",
-        "SinkFactor": 100.0,
-        "VerticalOffset": 0.0
+        "Name": "_ClipLGear_02",
+        "SinkFactor": 3000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart6": {
         "Number": 5,
-        "Name": "_Clip28",
+        "Name": "_ClipRGear_01",
         "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart7": {
         "Number": 6,
-        "Name": "_Clip26",
-        "SinkFactor": 100.0,
-        "VerticalOffset": 0.0
+        "Name": "_ClipRGear_02",
+        "SinkFactor": 3000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart8": {
         "Number": 7,
-        "Name": "_Clip29",
+        "Name": "_ClipRGear_00",
         "SinkFactor": 1000.0,
-        "VerticalOffset": 0.0
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
+      }
+    },
+    {
+      "WaterPart9": {
+        "Number": 8,
+        "Name": "_ClipCGear",
+        "SinkFactor": 3000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     }
   ],

@@ -228,7 +228,7 @@ function g_language::onEventNewSceneLoaded(p)
 
 function canSwitchGameLocalization()
 {
-  return !::is_platform_ps4 && !::is_vendor_tencent() && !::is_vietnamese_version()
+  return !::is_ps4_or_xbox && !::is_vendor_tencent() && !::is_vietnamese_version()
 }
 
 function g_language::getEmptyLangInfo()

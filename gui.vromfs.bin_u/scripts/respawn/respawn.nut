@@ -1,15 +1,16 @@
-local time = require("scripts/time.nut")
+local time = ::require("scripts/time.nut")
+local respawnBases = ::require("scripts/respawn/respawnBases.nut")
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 
 
 ::last_ca_aircraft <- null
-::last_ca_base <- null
 ::used_planes <- {}
 ::need_race_finish_results <- false
 
 ::before_first_flight_in_session <- false
 
 ::g_script_reloader.registerPersistentData("RespawnGlobals", ::getroottable(),
-  ["last_ca_aircraft", "last_ca_base", "used_planes", "need_race_finish_results", "before_first_flight_in_session"])
+  ["last_ca_aircraft","used_planes", "need_race_finish_results", "before_first_flight_in_session"])
 
 ::COLORED_DROPRIGHT_TEXT_STYLE <- "textStyle:t='textarea';"
 
@@ -76,7 +77,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   stayOnRespScreen = false
   haveRespawnBases = false
   canChooseRespawnBase = false
-  respawnBasesInfo = []
+  respawnBasesList = []
+  curRespawnBase = null
   isNoRespawns = false
   isRespawn = false //use for called respawn from battle on M or Tab
   needRefreshSlotbarOnReinit = false
@@ -290,10 +292,9 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function updateRespawnBaseTimerText()
   {
     local text = ""
-    if (isRespawn && respawnBasesInfo.len())
+    if (isRespawn && respawnBasesList.len())
     {
-      local spawnId = (::last_ca_base != null) ? ::last_ca_base : -1
-      local timeLeft = ::get_respawn_base_time_left_by_id(spawnId)
+      local timeLeft = curRespawnBase ? ::get_respawn_base_time_left_by_id(curRespawnBase.id) : -1
       if (timeLeft > 0)
         text = ::loc("multiplayer/respawnBaseAvailableTime", { time = time.secondsToString(timeLeft) })
     }
@@ -610,7 +611,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local total = sessionWpBalance
       if (curWpBalance != total || (info.cur_award_positive != 0 && info.cur_award_negative != 0))
       {
-        local curWpBalanceString = ::getWpPriceText(curWpBalance, true)
+        local curWpBalanceString = ::Cost(curWpBalance).toStringWithParams({isWpAlwaysShown = true})
         local curPositiveIncrease = ""
         local curNegativeDecrease = ""
         local color = info.cur_award_positive > 0? "good" : "bad"
@@ -621,12 +622,15 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
           color = "bad"
         }
         else if (info.cur_award_negative != 0)
-          curNegativeDecrease = "<color=@badTextColor>" + ::getWpPriceText(-1*info.cur_award_negative, true) + "</color>"
+          curNegativeDecrease = "<color=@badTextColor>" +
+            ::Cost(-1*info.cur_award_negative).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
 
         if (curDifference != 0)
-          curPositiveIncrease = "<color=@" + color + "TextColor>" + (curDifference > 0? "+" : "") + ::getWpPriceText(curDifference, true) + "</color>"
+          curPositiveIncrease = "<color=@" + color + "TextColor>" + (curDifference > 0? "+" : "") +
+            ::Cost(curDifference).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
 
-        local totalString = " = <color=@activeTextColor>" + ::getWpPriceText(total, true) + "</color>"
+        local totalString = " = <color=@activeTextColor>" +
+          ::Cost(total).toStringWithParams({isWpAlwaysShown = true}) + "</color>"
         wpBalance = curWpBalanceString + curPositiveIncrease + curNegativeDecrease + totalString
       }
     }
@@ -655,7 +659,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (getInt)
       return total
 
-    return ::getPriceText(total, 0, false)
+    return ::Cost(total).getUncoloredText()
   }
 
   function reinitSlotbarAction(newCrewMask = -1)
@@ -794,7 +798,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
         if (slotbarInited)
           prevUnitAutoChangeTimeMsec = -1
         ::cur_aircraft_name = air.name
-        updateRespawnBases(air)
       }
 
       slotbarInited=true
@@ -875,9 +878,14 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local idx = ::checkObj(obj) ? obj.getValue() : 0
-    local spawn = (idx in respawnBasesInfo) ? respawnBasesInfo[idx] : null
-    ::select_respawnbase((spawn && spawn.mapSelectable) ? spawn.id : -1)
-    ::last_ca_base = (spawn && spawn.id != -1) ? spawn.id : null
+    local spawn = respawnBasesList?[idx]
+    if (!spawn)
+      return
+
+    if (curRespawnBase != spawn) //selected by user
+      respawnBases.selectBase(getCurSlotUnit(), spawn)
+    curRespawnBase = spawn
+    ::select_respawnbase(curRespawnBase.mapId)
     updateRespawnBaseTimerText()
     checkReady()
   }
@@ -885,7 +893,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function updateTacticalMapHint()
   {
     local hint = ""
-    local hintIcon = ::show_console_buttons ? "#ui/controlskin#l_trigger" : "#ui/hudskin#mouse_left"
+    local hintIcon = ::show_console_buttons ? gamepadIcons.getTexture("l_trigger") : "#ui/gameuiskin#mouse_left"
     local respBaseTimerText = ""
     if (!isRespawn)
       hint = ::colorize("activeTextColor", ::loc("voice_message_attention_to_point_2"))
@@ -901,14 +909,16 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       }
       else
       {
-        local spawnId = coords ? ::get_respawn_base(coords[0], coords[1]) : -1
-        if (spawnId != -1)
-          foreach (spawn in respawnBasesInfo)
-            if (spawn.id == spawnId && spawn.mapSelectable)
+        local spawnId = coords ? ::get_respawn_base(coords[0], coords[1]) : respawnBases.MAP_ID_NOTHING
+        if (spawnId != respawnBases.MAP_ID_NOTHING)
+          foreach (spawn in respawnBasesList)
+            if (spawn.id == spawnId && spawn.isMapSelectable)
             {
-              hint = ::colorize("userlogColoredText", spawn.title)
-              if (spawnId == ::last_ca_base)
-                hint += ::colorize("activeTextColor", ::loc("ui/parentheses/space", { text = ::loc("ui/selected") }))
+              hint = ::colorize("userlogColoredText", spawn.getTitle())
+              if (spawnId == curRespawnBase?.id)
+                hint += ::colorize("activeTextColor",
+                  ::loc("ui/parentheses/space",
+                    { text = ::loc(curRespawnBase.isAutoSelected ? "ui/selected_auto" : "ui/selected") }))
               break
             }
 
@@ -930,22 +940,22 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local coords = ::get_mouse_relative_coords_on_obj(tmapBtnObj)
-    local spawnId = coords ? ::get_respawn_base(coords[0], coords[1]) : -1
-    if (spawnId == ::last_ca_base)
-      spawnId = -1
+    local spawnId = coords ? ::get_respawn_base(coords[0], coords[1]) : respawnBases.MAP_ID_NOTHING
+    if (curRespawnBase?.isMapSelectable && spawnId == curRespawnBase?.id)
+      spawnId = respawnBases.MAP_ID_NOTHING
 
     local selIdx = -1
     if (spawnId != -1)
-      foreach (idx, spawn in respawnBasesInfo)
-        if (spawn.id == spawnId && spawn.mapSelectable)
+      foreach (idx, spawn in respawnBasesList)
+        if (spawn.id == spawnId && spawn.isMapSelectable)
         {
           selIdx = idx
           break
         }
 
     if (selIdx == -1)
-      foreach (idx, spawn in respawnBasesInfo)
-        if (!spawn.mapSelectable)
+      foreach (idx, spawn in respawnBasesList)
+        if (!spawn.isMapSelectable)
         {
           selIdx = idx
           break
@@ -1055,53 +1065,38 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function updateRespawnBases(air)
   {
-    haveRespawnBases = false
-    canChooseRespawnBase = false
-    respawnBasesInfo = []
-
-    local rbs = ::get_available_respawn_bases(air.tags)
-    if (rbs.len())
+    if (canChangeAircraft)
     {
-      haveRespawnBases = true
-      local sel = 0;
-      for (local i = 0; i < rbs.len(); ++i)
-        if (rbs[i] == ::last_ca_base)
-          sel = i;
+      local rbData = respawnBases.getRespawnBasesData(air)
+      curRespawnBase = rbData.selBase
+      respawnBasesList = rbData.basesList
+      haveRespawnBases = rbData.hasRespawnBases
+      canChooseRespawnBase = rbData.canChooseRespawnBase
+    } else
+    {
+      curRespawnBase = respawnBases.getSelectedBase()
+      respawnBasesList = curRespawnBase ? [curRespawnBase] : []
+      haveRespawnBases = curRespawnBase != null
+      canChooseRespawnBase = false
+    }
 
-      if (!canChangeAircraft && rbs.len()>1)
-      {
-        rbs = [rbs[sel]]
-        sel = 0
-      }
-
-      for (local i = 0; i < rbs.len(); ++i)
-      {
-        if (sel == 0 && i != 0 && ::is_default_respawn_base(rbs[i]))
-          sel = i;
-        local name = ::get_respawn_base_name_by_id(rbs[i]);
-        local mapSelectable = name != "missions/random_spawn" && name != "missions/ground_spawn_random"
-        local title = (name == "") ? ::loc("missions/spawn_number", { number = i+1 }) : ::loc(name)
-
-        respawnBasesInfo.append({ id = rbs[i], title = title, mapSelectable = mapSelectable })
-      }
-
-      canChooseRespawnBase = haveRespawnBases && respawnBasesInfo.len() > 1
-
+    if (haveRespawnBases)
+    {
       local respawnBaseObj = scene.findObject("respawn_base")
       if (::checkObj(respawnBaseObj))
       {
         local data = ""
-        foreach (i, spawn in respawnBasesInfo)
-          data += ::build_option_blk(spawn.title, "", i == sel)
+        foreach (i, spawn in respawnBasesList)
+          data += ::build_option_blk(spawn.getTitle(), "", curRespawnBase == spawn)
         guiScene.replaceContentFromText(respawnBaseObj, data, data.len(), this);
         onRespawnbaseOptionUpdate(respawnBaseObj)
       }
     }
 
-    checkRespawnTr(haveRespawnBases)
+    showRespawnTr(haveRespawnBases)
   }
 
-  function checkRespawnTr(show)
+  function showRespawnTr(show)
   {
     local obj = scene.findObject("respawn_base_tr")
     if (::checkObj(obj))
@@ -1304,19 +1299,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     return null
   }
 
-  function getSelRespBase(air)
-  {
-    if (!air)
-      return -1
-    local obj = scene.findObject("respawn_base")
-    local idx = ::checkObj(obj) ? obj.getValue() : 0
-    if (idx < 0)
-      idx = 0
-
-    local rbs = ::get_available_respawn_bases(air.tags);
-    return idx < rbs.len() ? rbs[idx] : -1
-  }
-
   function doSelectAircraftSkipAmmo()
   {
     doSelectAircraft(false)
@@ -1446,7 +1428,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       name = air.name
       weapon = weapon
       skin = skin
-      respBaseId = getSelRespBase(air)
+      respBaseId = curRespawnBase?.id ?? -1
       idInCountry = crew.idInCountry
     }
 
@@ -1546,10 +1528,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function onApplyAircraft(requestData)
   {
     if (requestData)
-    {
       ::last_ca_aircraft = requestData.name
-      ::last_ca_base = requestData.respBaseId
-    }
 
     checkReady()
     if (readyForRespawn)
@@ -1640,7 +1619,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
     ::set_double_text_to_button(scene.findObject("nav-help"), "btn_select", applyText)
 
-    checkRespawnTr(isAvailResp && checkSlotDelay)
+    showRespawnTr(isAvailResp && checkSlotDelay)
   }
 
   function setApplyPressed()

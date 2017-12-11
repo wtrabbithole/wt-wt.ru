@@ -37,7 +37,7 @@ gcButtonsHolder {
 
     img {
       isFirstLeft:t='yes'
-      background-image:t='#ui/gameuiskin#slot_change_aircraft'
+      background-image:t='#ui/gameuiskin#slot_change_aircraft.svg'
     }
 
     btnText {

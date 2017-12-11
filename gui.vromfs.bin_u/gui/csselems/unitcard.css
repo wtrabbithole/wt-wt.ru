@@ -363,8 +363,8 @@ bottomline > classIconPlace {
 
 shopInServiceImg {
   re-type:9rect;
-  size:20*@sf/@pf_outdated, 9*@sf/@pf_outdated;
-  pos:5*@sf/@pf_outdated, ph-2*@sf/@pf_outdated;
+  size:1@cIco, 0.45@cIco;
+  pos:8@sf/@pf, ph -3@sf/@pf;
   position:absolute;
   background-image:#ui/gameuiskin#item_label;
   background-repeat:expand;
@@ -375,16 +375,17 @@ shopInServiceImg {
 }
 
 shopInServiceImg[mounted=yes] {
-  size:20*@sf/@pf_outdated, 17*@sf/@pf_outdated;
-  pos:5*@sf/@pf_outdated, ph-2*@sf/@pf_outdated;
+  size:1@cIco, 0.85@cIco;
+  pos:8@sf/@pf, ph -3@sf/@pf;
   tooltip:#vehicle/for_crew/engaged;
 }
 
 shopInServiceImg > icon {
-  size:12*@sf/@pf_outdated, 12*@sf/@pf_outdated;
-  pos:pw/2-w/2, ph-h-2*@sf/@pf_outdated;
+  size:0.5@cIco, 0.5@cIco;
+  pos:pw/2-w/2, ph-h-6@sf/@pf;
   position:absolute;
-  background-image:#ui/gameuiskin#crew_new_skills;
+  background-image:#ui/gameuiskin#slot_crew.svg;
+  background-svg-size:@cIco, @cIco;
   background-color:#48565C;
   total-input-transparent:yes;
 }
@@ -573,6 +574,7 @@ repairIcon, weaponsIcon {
   pos:-50%w, 0.01@scrn_tgt;
   position:absolute;
   background-color:@shopInServiceImgColor;
+  background-svg-size:@cIco, @cIco;
   input-transparent:yes;
 }
 
@@ -582,13 +584,13 @@ warningIcon {
 
 repairIcon {
   pos:0.002@scrn_tgt, ph-h-0.005@scrn_tgt;
-  background-image:#ui/gameuiskin#slot_repair;
+  background-image:#ui/gameuiskin#slot_repair.svg;
   background-color:@weaponWarning;
 }
 
 weaponsIcon {
   pos:0.2*@scrn_tgt/100.0 + w, ph-h-0.5*@scrn_tgt/100.0;
-  background-image:#ui/gameuiskin#slot_weapons;
+  background-image:#ui/gameuiskin#btn_weapons.svg;
   background-color:@weaponLightWarning;
 }
 [weaponsStatus=zero] > weaponsIcon {

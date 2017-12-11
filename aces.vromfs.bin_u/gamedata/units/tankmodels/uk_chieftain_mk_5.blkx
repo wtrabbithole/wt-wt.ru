@@ -1455,7 +1455,7 @@
   },
   {
     "sound": {
-      "EngineName": "engine_panther",
+      "EngineName": "engine_chieftain",
       "TrackSoundPath": "tanks/engines_tanks",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
@@ -1677,6 +1677,44 @@
             "pitch": [-0.0,0.0]
           }
         }
+      },
+      {
+        "Weapon": {
+          "trigger": "gunner4",
+          "triggerGroup": "machinegun",
+          "blk": "gameData/Weapons/groundModels_weapons/7_62mm_L37A1_user_machinegun.blk",
+          "emitter": "emtr_mg_flame_04",
+          "flash": "emtr_mg_flame_04",
+          "partsDP": "gun_barrel_03_dm",
+          "defaultYaw": 0.0,
+          "defaultPitch": 0.0,
+          "parkInDeadzone": false,
+          "speedYaw": 30.0,
+          "speedPitch": 20.0,
+          "bullets": 2000,
+          "isBulletBelt": true,
+          "fireConeAngle": 15.0,
+          "ChainfireTime": 3.0,
+          "DelayAfterShoot": 3.0,
+          "accuracyAir": 1.5,
+          "accuracyGnd": 0.0,
+          "errMeasureVel": 0.0,
+          "errMeasureVelFast": 0.0,
+          "errMeasureVelFwdShift": 0.0,
+          "errMeasureVelDir": 0.0,
+          "errTargettingOn100kmph": 0.0,
+          "errTargetting": 3.0,
+          "errExplTime": 0.0,
+          "turret": {
+            "head": "bone_mg_aa_h_01",
+            "gun": "bone_mg_aa_v_01",
+            "gunnerDm": "commander_dm"
+          },
+          "limits": {
+            "yaw": [-120.0,120.0],
+            "pitch": [-10.0,50.0]
+          }
+        }
       }
     ]
   },
@@ -1711,14 +1749,14 @@
       },
       "engine": {
         "horsePowers": 720.0,
-        "maxRPM": 2100.0,
+        "maxRPM": 2550.0,
         "minRPM": 850.0
       },
       "mechanics": {
-        "maxBrakeForce": 200000.0,
-        "driveGearRadius": 0.25,
-        "mainGearRatio": 3.1,
-        "sideGearRatio": 0.97,
+        "maxBrakeForce": 220000.0,
+        "driveGearRadius": 0.299,
+        "mainGearRatio": 3.93,
+        "sideGearRatio": 1.0,
         "neutralGearRatio": 15.0,
         "gearRatios": [
           {
@@ -2553,6 +2591,44 @@
                 "limits": {
                   "yaw": [-0.0,0.0],
                   "pitch": [-0.0,0.0]
+                }
+              }
+            },
+            {
+              "Weapon": {
+                "trigger": "gunner4",
+                "triggerGroup": "machinegun",
+                "blk": "gameData/Weapons/groundModels_weapons/7_62mm_L37A1_user_machinegun.blk",
+                "emitter": "emtr_mg_flame_04",
+                "flash": "emtr_mg_flame_04",
+                "partsDP": "gun_barrel_03_dm",
+                "defaultYaw": 0.0,
+                "defaultPitch": 0.0,
+                "parkInDeadzone": false,
+                "speedYaw": 30.0,
+                "speedPitch": 20.0,
+                "bullets": 2000,
+                "isBulletBelt": true,
+                "fireConeAngle": 15.0,
+                "ChainfireTime": 3.0,
+                "DelayAfterShoot": 3.0,
+                "accuracyAir": 1.5,
+                "accuracyGnd": 0.0,
+                "errMeasureVel": 0.0,
+                "errMeasureVelFast": 0.0,
+                "errMeasureVelFwdShift": 0.0,
+                "errMeasureVelDir": 0.0,
+                "errTargettingOn100kmph": 0.0,
+                "errTargetting": 3.0,
+                "errExplTime": 0.0,
+                "turret": {
+                  "head": "bone_mg_aa_h_01",
+                  "gun": "bone_mg_aa_v_01",
+                  "gunnerDm": "commander_dm"
+                },
+                "limits": {
+                  "yaw": [-120.0,120.0],
+                  "pitch": [-10.0,50.0]
                 }
               }
             },

@@ -444,13 +444,6 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       ::broadcastEvent("BattleTasksIncomeUpdate")
       markDisabled = true
     }
-    else if (blk.type == ::EULT_WW_CREATE_OPERATION || blk.type == ::EULT_WW_START_OPERATION)
-    {
-      markDisabled = true
-      local operationId = ::getTblValue("operationId", blk.body)
-      if (::is_worldwar_enabled() && operationId != null)
-        ::g_world_war.addOperationInvite(operationId, ::getTblValue("name", blk.body, ""), blk.type == ::EULT_WW_START_OPERATION)
-    }
 
     if (markDisabled)
     {

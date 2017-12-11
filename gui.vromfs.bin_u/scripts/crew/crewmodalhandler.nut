@@ -18,7 +18,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.MODAL
   sceneBlkName = "gui/crew/crew.blk"
 
-  slotbarActions = ["aircraft", "weapons", "showroom", "rankinfo", "repair" ]
+  slotbarActions = ["aircraft", "weapons", "showroom", "repair" ]
 
   countryId = -1
   idInCountry = -1

@@ -68,6 +68,7 @@ td.spectatorTeamCell[side=right] > hr {
 td.spectatorTeamCell > battleStateIco {
   size:@cIco, @cIco;
   position:absolute;
+  background-svg-size:@cIco, @cIco;
   background-color:@transparent;
   input-transparent:yes;
   css-hier-invalidate:yes;
@@ -100,7 +101,7 @@ td.spectatorTeamCell > battleStateIco.BrokenTrack {
   background-color:#dd1111;
 }
 td.spectatorTeamCell > battleStateIco.OutOfAmmo {
-  background-image:#ui/gameuiskin#slot_weapons;
+  background-image:#ui/gameuiskin#btn_weapons.svg;
   background-color:#dd1111;
 }
 
@@ -198,8 +199,9 @@ hoverButton > icon, toggleButton > icon
   pos:(pw-w)/2, (ph-h)/2;
   position:absolute;
   size:@sIco, @sIco;
-  input-transparent:yes;
+  background-svg-size:@sIco, @sIco;
   background-color:@gray;
+  input-transparent:yes;
 }
 
 hoverButton:hover, toggleButton:hover
@@ -287,7 +289,7 @@ toggleButton[toggled=no] {
 }
 
 toggleButton > icon {
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up.svg;
 }
 toggleButton[attachSide=left][toggled=yes] > icon,
 toggleButton[attachSide=right][toggled=no] > icon {

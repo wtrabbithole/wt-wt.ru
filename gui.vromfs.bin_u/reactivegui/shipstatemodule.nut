@@ -44,7 +44,7 @@ local images = {
   buoyancy = Picture("!ui/gameuiskin#buoyancy_icon")
   fire = Picture("!ui/gameuiskin#fire_indicator")
   steeringMark = Picture("!ui/gameuiskin#floatage_arrow_down")
-  sightCone = Picture("+ui/hudskin#radar_camera")
+  sightCone = Picture("+ui/gameuiskin#map_camera")
   shipCrew = Picture("!ui/gameuiskin#ship_crew")
   gunner = Picture("!ui/gameuiskin#ship_crew_gunner")
   driver = Picture("!ui/gameuiskin#ship_crew_driver")
@@ -132,12 +132,7 @@ local engine = dmModule({
   totalCountState = shipState.enginesCount
   brokenCountState = shipState.brokenEnginesCount
 })
-local steeringGears = dmModule({
-  icon = images.steeringGear
-  iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
-  totalCountState = shipState.steeringGearsCount
-  brokenCountState = shipState.brokenSteeringGearsCount
-})
+
 local transmission = dmModule({
   icon = images.transmission
   iconSize = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
@@ -160,14 +155,20 @@ local artillery = dmModule({
   totalCountState = shipState.artilleryCount
   brokenCountState = shipState.brokenArtilleryCount
 })
+local steeringGears = dmModule({
+  icon = images.steeringGear
+  iconSize = [hdpx(30), hdpx(30)]
+  totalCountState = shipState.steeringGearsCount
+  brokenCountState = shipState.brokenSteeringGearsCount
+})
 
 
 local damageModules = {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
+  gap = sh(STATE_ICON_MARGIN)
   children = [
     engine
-    steeringGears
     transmission
     torpedo
     artillery
@@ -332,6 +333,7 @@ local steering = function () {
           line
           line
         ]
+
       }
       mark((-shipState.steering.value)/2 + 0.5)
     ]
@@ -399,6 +401,7 @@ local rightBlock = @() {
 local shipStateDisplay = {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
+  halign = HALIGN_CENTER
   children = [
     {
       flow = FLOW_HORIZONTAL
@@ -409,7 +412,7 @@ local shipStateDisplay = {
         rightBlock
       ]
     }
-    {size=[flex(),hdpx(7)]}
+    steeringGears
     steering
   ]
 }

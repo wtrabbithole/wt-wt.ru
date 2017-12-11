@@ -76,7 +76,7 @@ function g_url::openByObj(obj, forceExternal=false, isAlreadyAuthenticated = fal
 
 function g_url::canAutoLogin()
 {
-  return !::is_platform_ps4 && !::is_vendor_tencent() && ::g_login.isAuthorized()
+  return !::is_ps4_or_xbox && !::is_vendor_tencent() && ::g_login.isAuthorized()
 }
 
 function g_url::validateLink(link)
