@@ -26,7 +26,7 @@ tr {
 
     hoverBgButton {
       id:t='btn_spec1'
-      size:t='0.046@scrn_tgt, 0.046@scrn_tgt'
+      size:t='ph, ph'
       pos:t='0, 50%ph-50%h'; position:t='relative'
       holderId:t='<<rowIdx>>'
       foreground-image:t='#ui/gameuiskin#spec_icon1'
@@ -44,7 +44,7 @@ tr {
 
     hoverBgButton {
       id:t='btn_spec2'
-      size:t='0.046@scrn_tgt, 0.046@scrn_tgt'
+      size:t='ph, ph'
       pos:t='0, 50%ph-50%h'; position:t='relative';
       holderId:t='<<rowIdx>>'
       foreground-image:t='#ui/gameuiskin#spec_icon2'

@@ -243,13 +243,13 @@
         "missionBriefing": ""
       },
       {
+        "chapter": "air_ground_Conq3"
+      },
+      {
         "locName": "missions/_Conq3;volokolamsk/name"
       },
       {
         "locDesc": "volokolamsk/desc;missions/_Conq3/desc"
-      },
-      {
-        "chapter": "air_ground_Conq3"
       },
       {
         "scoreLimit": 14000
@@ -261,7 +261,13 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Conq3"
+      },
+      {
         "useAlternativeMapCoord": true
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -270,22 +276,13 @@
         "remapAiTankModels": true
       },
       {
-        "postfix": "_Conq3"
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -310,7 +307,16 @@
           "_Conq5": false,
           "_Conq6": false,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -365,6 +371,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -402,6 +411,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -437,6 +449,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -483,7 +498,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -499,7 +514,23 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/volokolamsk_tm.blk",
+        "file": "gameData/missions/templates/tank_templates/conq_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/volokolamsk/battleareas/template_volokolamsk_Conq3_battleareas.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -526,7 +557,42 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [],
+  "units": {
+    "tankModels": {
+      "name": "t1_player01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [944.278,69.5365,-1183.6]
+      ],
+      "unit_class": "aaa_dummy",
+      "objLayer": 1,
+      "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
+      "weapons": "",
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 2,
+        "count": 1,
+        "formation_type": "rows",
+        "formation_div": 3,
+        "formation_step": [2.5,2.0],
+        "formation_noise": [0.1,0.1],
+        "uniqueName": "",
+        "attack_type": "fire_at_will"
+      },
+      "way": []
+    }
+  },
   "areas": {
     "briefing_conq_capture_area_03_arcade": {
       "type": "Point",

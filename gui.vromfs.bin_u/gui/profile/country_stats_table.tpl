@@ -5,6 +5,7 @@ table {
   width:t='pw';
 
   tr {
+    height:t='@cIco'
     td {
     }
     td {
@@ -13,6 +14,7 @@ table {
         position:t='relative';
         pos:t='0.5pw - 0.5w, 0';
         background-image:t='#ui/gameuiskin#unit_amount_icon';
+        background-svg-size:t='@cIco, @cIco';
         tooltip:t='#profile/units_own';
       }
     }
@@ -22,6 +24,7 @@ table {
         position:t='relative';
         pos:t='0.5pw - 0.5w, 0';
         background-image:t='#ui/gameuiskin#item_icon_elite';
+        background-svg-size:t='@cIco, @cIco';
         tooltip:t='#profile/elite_units_own';
       }
     }
@@ -31,7 +34,8 @@ table {
         size:t='@cIco, @cIco';
         position:t='relative';
         pos:t='0.5pw - 0.5w, 0';
-        background-image:t='#ui/gameuiskin#sh_medal';
+        background-image:t='#ui/gameuiskin#sh_medal.svg';
+        background-svg-size:t='@cIco, @cIco';
         tooltip:t='#profile/medal_own';
       }
     }
@@ -42,6 +46,9 @@ table {
     td {
       img {
         size:t='@cIco, @cIco';
+        left:t='0.5pw - 0.5w';
+        top:t='0.5ph - 0.5h';
+        position:t='relative';
         background-image:t='<<icon>>';
         background-svg-size:t='@cIco, @cIco';
       }
@@ -51,7 +58,6 @@ table {
       activeText {
         pos:t='0.5pw - 0.5w';
         position:t='relative';
-        padding-lest:t='11';
         text:t='<<num>>';
         text-align:t='center';
       }

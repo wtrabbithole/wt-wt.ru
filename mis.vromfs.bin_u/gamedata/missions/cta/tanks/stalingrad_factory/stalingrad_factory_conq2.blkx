@@ -243,13 +243,13 @@
         "missionBriefing": ""
       },
       {
+        "chapter": "air_ground_Conq2"
+      },
+      {
         "locName": "missions/_Conq2;stalingrad_factory/name"
       },
       {
         "locDesc": "stalingrad_factory/desc;missions/_Conq2/desc"
-      },
-      {
-        "chapter": "air_ground_Conq2"
       },
       {
         "scoreLimit": 14000
@@ -261,7 +261,13 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Conq2"
+      },
+      {
         "useAlternativeMapCoord": true
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -270,22 +276,13 @@
         "remapAiTankModels": true
       },
       {
-        "postfix": "_Conq2"
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -310,7 +307,16 @@
           "_Conq5": false,
           "_Conq6": false,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -365,6 +371,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -402,6 +411,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "tank",
                 "side": "ally",
@@ -437,6 +449,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -1633,6 +1648,50 @@
         [0.0,51.0531,0.0],
         [0.0,0.0,40.2128],
         [3048.02,10.3463,2061.19]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,31.0,0.0],
+        [0.0,0.0,100.0],
+        [3890.05,16.2,2264.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,31.0,0.0],
+        [0.0,0.0,100.0],
+        [2705.9,16.85,1983.65]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_hardcore": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,31.0,0.0],
+        [0.0,0.0,100.0],
+        [2957.25,-12.0,1387.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_hardcore": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,31.0,0.0],
+        [0.0,0.0,100.0],
+        [3769.55,15.3484,2363.15]
       ],
       "objLayer": 0,
       "props": []

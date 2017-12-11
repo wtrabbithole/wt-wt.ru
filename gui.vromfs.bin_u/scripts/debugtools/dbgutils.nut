@@ -134,6 +134,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     { id = "get_mission_status", value = ::getTblValue("isSucceed", ::debriefing_result) ? ::MISSION_STATUS_SUCCESS : ::MISSION_STATUS_RUNNING }
     { id = "get_mission_restore_type", value = ::getTblValue("restoreType", ::debriefing_result, 0) }
     { id = "get_local_player_country", value = ::getTblValue("country", ::debriefing_result, "") }
+    { id = "get_mp_session_id", value = ::getTblValue("sessionId", ::debriefing_result, ::get_mp_session_id()) }
     { id = "get_mp_tbl_teams", value = ::getTblValue("mpTblTeams", ::debriefing_result, ::get_mp_tbl_teams()) }
     { id = "stat_get_benchmark", value = ::getTblValue("benchmark", ::debriefing_result, ::stat_get_benchmark()) }
     { id = "get_race_winners_count", value = ::getTblValue("numberOfWinningPlaces", ::debriefing_result, 0) }
@@ -259,6 +260,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::gui_start_debriefingFull()
   ::checkNonApprovedResearches(true, true)
   ::go_debriefing_next_func = function() { ::dbg_dump.unload(); ::gui_start_mainmenu() }
+  ::broadcastEvent("SessionDestroyed")
   return "Debriefing result loaded from " + filename
 }
 

@@ -28,14 +28,13 @@ action_bar_item textarea[shortcut=yes] {
   color: @hotkeyColor;
 }
 
-increaseAmount {
+changeAmount {
   behaviour:textArea;
   re-type:textarea;
 
   width: pw;
   text-align: center;
   position:absolute;
-  color:@goodTextColor;
   top-base:0;
   top-end:-100;
   pos-func:square;
@@ -51,4 +50,12 @@ increaseAmount {
   text-shade-x:1;
   text-shade-y:1;
   text-shade-color:#A0000000;
+}
+
+changeAmount[increase_amount=yes] {
+  color:@goodTextColor;
+}
+
+changeAmount[increase_amount=no] {
+  color:@badTextColor;
 }

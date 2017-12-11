@@ -25,7 +25,7 @@ Params - can be whole section ('help', 'pve') or single button.
     btnName = "start"
     getText = function(totalSections = 0) { return totalSections == 1? "#topmenu/menu" : null }
     mergeIndex = topMenuLeftSideMergeIndex.MENU
-    getImage = function(totalSections = 0) { return totalSections == 1? null : "#ui/gameuiskin#btn_modifications" }
+    getImage = function(totalSections = 0) { return totalSections == 1? null : "#ui/gameuiskin#btn_modifications.svg" }
     buttons = [
       [
         "pvp"
@@ -108,7 +108,7 @@ Params - can be whole section ('help', 'pve') or single button.
   {
     name = "help"
     hoverMenuPos = "pw-w-"
-    getImage = function(totalSections = 0) { return "#ui/gameuiskin#btn_help" }
+    getImage = function(totalSections = 0) { return "#ui/gameuiskin#btn_help.svg" }
     buttons = [
       [
         ::g_top_menu_buttons.WINDOW_HELP

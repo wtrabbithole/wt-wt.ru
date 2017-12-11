@@ -1939,11 +1939,9 @@
         "modRequired": false
       },
       "bridge_dm": {
-        "speed": 5.0,
+        "speed": 7.5,
         "completely": true,
-        "modRequired": true,
-        "partRepairHp": 0.75,
-        "hpForRepair": 0.1
+        "modRequired": false
       }
     }
   },
@@ -2412,7 +2410,8 @@
         "t1": {
           "caliberToArmor": 1.0,
           "ricochetProbability0deg": [0.0,0.0],
-          "ricochetProbability09deg": [15.0,0.0],
+          "ricochetProbability8deg": [8.0,0.5],
+          "ricochetProbability10deg": [10.0,0.0],
           "ricochetProbability90deg": [90.0,0.0]
         }
       },
@@ -4573,7 +4572,7 @@
       },
       "atgm_tank": {
         "normalizationPreset": "heat",
-        "ricochetPreset": "heat_fs",
+        "ricochetPreset": "atgm",
         "stabilityThreshold": 0.1,
         "stabilityCaliberToArmorThreshold": 100.0,
         "stabilityReductionAfterRicochet": 0.3,

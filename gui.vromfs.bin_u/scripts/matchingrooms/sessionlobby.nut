@@ -768,6 +768,13 @@ function SessionLobby::getMissionParams()
   return ("mission" in settings)? settings.mission : null
 }
 
+function SessionLobby::getOperationId()
+{
+  if (!isInRoom())
+    return -1
+  return (getMissionParams()?.customRules?.operationId ?? -1).tointeger()
+}
+
 function SessionLobby::getTeamsCountries(room = null)
 {
   local res = []

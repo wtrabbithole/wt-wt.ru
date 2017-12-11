@@ -728,7 +728,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
           tdAlign ="right"
         })
 
-        local rewardText = ::getPriceText(0, reward.gold)
+        local rewardText = ::Cost(0, reward.gold).tostring()
         rowData.append({
           needText = false,
           rawParam = @"text {
@@ -805,7 +805,9 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       rowData.append({text = ::loc("clan/battle_season/place_"+i), active = false, tdAlign="right"})
       rowData.append({
         needText=false,
-        rawParam="text { text-align:t='right'; text:t='"+::getPriceText(0, ::getTblValue("place"+i+"Gold", rewards, 0))+"'; size:t='pw,ph'; style:t='re-type:textarea; behaviour:textarea;'; }",
+        rawParam="text { text-align:t='right'; text:t='" +
+          ::Cost(0, ::getTblValue("place"+i+"Gold", rewards, 0)).tostring() +
+          "'; size:t='pw,ph'; style:t='re-type:textarea; behaviour:textarea;'; }",
         active = false
       })
       rowBlock += ::buildTableRowNoPad("row_"+i, rowData, null, "")

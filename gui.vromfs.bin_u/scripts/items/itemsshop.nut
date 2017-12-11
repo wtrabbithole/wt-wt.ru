@@ -108,7 +108,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   _lastItem = null //last selected item to restore selection after change list
 
-  slotbarActions = [ "showroom", "testflight", "weapons", "rankinfo", "info" ]
+  slotbarActions = [ "showroom", "testflight", "weapons", "info" ]
   widgetByItem = {}
   widgetByFilter = {}
   widgetByTab = {}
@@ -709,7 +709,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!limitsCheckResult && item && !item.isInventoryItem)
       warningText = limitsCheckData.reason
     setWarningText(warningText)
-    showSceneBtn("btn_link_action", item && item.link.len())
+    showSceneBtn("btn_link_action", item && item.link.len() && ::has_feature("AllowExternalLink"))
   }
 
   function onLinkAction(obj)

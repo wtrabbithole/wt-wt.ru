@@ -73,9 +73,9 @@ class QueueManager {
       params = queueType.prepareQueueParams(params)
 
     local queue = findQueue(params)
-    if (queue && queueType.useClusters)
+    if (queue)
     {
-      if (queue.addClusterByParams(params))
+      if (queue.addQueueByParams(params))
         ::broadcastEvent("QueueClustersChanged", queue)
       return queue
     }
@@ -162,7 +162,7 @@ class QueueManager {
   function getActiveQueueWithType(typeBit)
   {
     foreach(queue in queuesList)
-      if (typeBit == queue.typeBit && isQueueActive(queue))
+      if (typeBit & queue.typeBit && isQueueActive(queue))
         return queue
 
     return null
@@ -202,7 +202,7 @@ class QueueManager {
 
     local res = []
     foreach(queue in queuesList)
-      if (typeBit == queue.typeBit && isQueueActive(queue))
+      if (typeBit & queue.typeBit && isQueueActive(queue))
         leaveQueue(queue)
   }
 
@@ -430,7 +430,7 @@ class QueueManager {
   {
     local list = findAllQueues(params)
     foreach(q in list)
-      if (q.onLeaveQueue(params))
+      if (q.removeQueueByParams(params))
       {
         if (!q.isActive())
           removeQueue(q)
@@ -520,6 +520,11 @@ class QueueManager {
   function getQueueSlots(queue)
   {
     return ("slots" in queue.params)? queue.params.slots : null
+  }
+
+  function getQueueOperationId(queue)
+  {
+    return queue.params?.operationId ?? -1
   }
 
   function getMyRankInQueue(queue)

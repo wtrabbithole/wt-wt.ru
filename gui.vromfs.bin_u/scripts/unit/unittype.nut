@@ -28,9 +28,8 @@ enum UNIT_TYPE_ORDER
   esUnitType = ::ES_UNIT_TYPE_INVALID
   bit = 0      //unitType bit for it mask. filled by esUnitType  (bit = 1 << esUnitType)
   sortOrder = UNIT_TYPE_ORDER.INVALID
-  uiSkin = "!#ui/unitskin_air#"
-  uiSkinPkgDev = "!#ui/unitskin_pkgdev#"
-  uiClassSkin = "!#ui/units_icons#"
+  uiSkin = "!#ui/unitskin#"
+  uiClassSkin = "!#ui/gameuiskin#"
   fontIcon = ""
   testFlightIcon = ""
   testFlightName = ""
@@ -65,10 +64,10 @@ enum UNIT_TYPE_ORDER
     armyId = "aviation"
     esUnitType = ::ES_UNIT_TYPE_AIRCRAFT
     sortOrder = UNIT_TYPE_ORDER.AIRCRAFT
-    uiSkin = "!#ui/unitskin_air#"
-    uiClassSkin = "!#ui/units_icons#"
+    uiSkin = "!#ui/unitskin#"
+    uiClassSkin = "!#ui/gameuiskin#"
     fontIcon = ::loc("icon/unittype/aircraft")
-    testFlightIcon = "#ui/gameuiskin#slot_testflight"
+    testFlightIcon = "#ui/gameuiskin#slot_testflight.svg"
     testFlightName = "TestFlight"
     hudTypeCode = ::HUD_TYPE_AIRPLANE
     firstChosenTypeUnlockName = "chosen_unit_type_air"
@@ -79,6 +78,8 @@ enum UNIT_TYPE_ORDER
         return false
       if (country == "country_italy")
         return ::has_feature("ItalyAircraftsInFirstCountryChoice")
+      if (country == "country_france")
+        return ::has_feature("FranceAircraftsInFirstCountryChoice")
       return true
     }
     canUseSeveralBulletsForGun = false
@@ -91,10 +92,10 @@ enum UNIT_TYPE_ORDER
     armyId = "army"
     esUnitType = ::ES_UNIT_TYPE_TANK
     sortOrder = UNIT_TYPE_ORDER.TANK
-    uiSkin = "!#ui/unitskin_tank#"
-    uiClassSkin = "!#ui/units_icons#"
+    uiSkin = "!#ui/unitskin#"
+    uiClassSkin = "!#ui/gameuiskin#"
     fontIcon = ::loc("icon/unittype/tank")
-    testFlightIcon = "#ui/gameuiskin#slot_testdrive"
+    testFlightIcon = "#ui/gameuiskin#slot_testdrive.svg"
     testFlightName = "TestDrive"
     hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_tank"
@@ -121,10 +122,10 @@ enum UNIT_TYPE_ORDER
     armyId = "fleet"
     esUnitType = ::ES_UNIT_TYPE_SHIP
     sortOrder = UNIT_TYPE_ORDER.SHIP
-    uiSkin = "!#ui/unitskin_ship#"
-    uiClassSkin = "!#ui/units_icons#"
+    uiSkin = "!#ui/unitskin#"
+    uiClassSkin = "!#ui/gameuiskin#"
     fontIcon = ::loc("icon/unittype/ship")
-    testFlightIcon = "#ui/gameuiskin#slot_test_out_to_sea"
+    testFlightIcon = "#ui/gameuiskin#slot_test_out_to_sea.svg"
     testFlightName = "TestSail"
     hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_ship"
@@ -217,8 +218,6 @@ function get_unit_class_icon_by_unit(unit, iconName)
 {
   local esUnitType = ::get_es_unit_type(unit)
   local type = ::g_unit_type.getByEsUnitType(esUnitType)
-  if (unit.isPkgDev)
-    return type.uiSkinPkgDev + iconName
   return type.uiClassSkin + iconName
 }
 
@@ -226,14 +225,12 @@ function get_unit_icon_by_unit(unit, iconName)
 {
   local esUnitType = ::get_es_unit_type(unit)
   local type = ::g_unit_type.getByEsUnitType(esUnitType)
-  if (unit.isPkgDev)
-    return type.uiSkinPkgDev + iconName
   return type.uiSkin + iconName
 }
 
 function get_tomoe_unit_icon(iconName)
 {
-  return "!#ui/unitskin_tomoe#" + iconName
+  return "!#ui/unitskin#tomoe_" + iconName
 }
 
 function get_unit_type_font_icon(esUnitType)

@@ -128,7 +128,6 @@ local dmModule = function (params) {
     return {
       size = SIZE_TO_CONTENT
       flow = FLOW_VERTICAL
-      margin = [sh(STATE_ICON_MARGIN), 0]
       halign = HALIGN_CENTER
       watch = [
         totalCountState

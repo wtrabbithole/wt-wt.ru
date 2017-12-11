@@ -5,9 +5,11 @@ enum PT_STEP_STATUS {
   SUSPEND
 }
 
-function start_pseudo_thread(actionsList, step = 0)
+function start_pseudo_thread(actionsList, step = 0, guiScene = null)
 {
-  ::get_cur_gui_scene().performDelayed(::getroottable(), (@(actionsList, step) function() {
+  if (!guiScene)
+    guiScene = ::get_main_gui_scene()
+  guiScene.performDelayed(::getroottable(), (@(actionsList, step) function() {
     local curStep = step
     while(curStep in actionsList)
     {

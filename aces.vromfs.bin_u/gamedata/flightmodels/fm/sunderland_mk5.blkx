@@ -2005,7 +2005,10 @@
       "RetractableCentralGear": false
     },
     {
-      "SteerableWheel": false
+      "CenterGearType": "SelfSteering"
+    },
+    {
+      "CenterGearBrakes": false
     },
     {
       "FullBrakeSlidingFrictionMult": 0.4
@@ -2041,101 +2044,107 @@
       "Pitch": 5.0
     },
     {
-      "WaterWaveHeightForCheck": [0.0,100.0]
-    },
-    {
       "WaterSpeedPropCheckVal": [0.1,0.1]
     },
     {
-      "Floats": true
+      "WaterWaveHeightForCheck": [0.0,100.0]
+    },
+    {
+      "WaterRudderSpeedRange": [8.33333,13.8889]
     },
     {
       "WaterGroup": [
         {
-          "part": 3
+          "part": "_ClipCGear_00"
         },
         {
-          "part": 20
+          "part": "_Clip00"
         },
         {
-          "part": 40
+          "part": "_Clip20"
         },
         {
-          "part": 42
+          "part": "_Clip22"
         },
         {
-          "part": 38
+          "part": "_Clip18"
         },
         {
-          "part": 22
+          "part": "_Clip02"
         },
         {
-          "part": 62
+          "part": "_Clip_tail_08"
         },
         {
-          "part": 44
+          "part": "_Clip24"
         },
         {
-          "part": 2
+          "part": "_ClipCGear"
         }
       ]
     },
     {
       "WaterGroup": {
-        "part": 1
+        "part": "_ClipRGear"
       }
     },
     {
       "WaterGroup": {
-        "part": 0
+        "part": "_ClipLGear"
       }
     },
     {
       "WaterPart1": {
         "Number": 0,
         "Name": "_ClipLGear",
-        "SinkFactor": 10000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 6000.0,
+        "VerticalOffset": -0.3,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart2": {
         "Number": 1,
         "Name": "_ClipRGear",
-        "SinkFactor": 10000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 6000.0,
+        "VerticalOffset": -0.3,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart3": {
         "Number": 3,
         "Name": "_ClipCGear_00",
-        "SinkFactor": 12000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 10.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart4": {
         "Number": 20,
         "Name": "_Clip00",
-        "SinkFactor": 11000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 9000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart5": {
         "Number": 40,
         "Name": "_Clip20",
-        "SinkFactor": 15000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 7000.0,
+        "VerticalOffset": -1.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart6": {
         "Number": 42,
         "Name": "_Clip22",
-        "SinkFactor": 15000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 7000.0,
+        "VerticalOffset": -1.0,
+        "RudderFactor": 0.0
       }
     },
     {
@@ -2143,7 +2152,8 @@
         "Number": 38,
         "Name": "_Clip18",
         "SinkFactor": 5000.0,
-        "VerticalOffset": 0.0
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
@@ -2151,15 +2161,17 @@
         "Number": 22,
         "Name": "_Clip02",
         "SinkFactor": 5000.0,
-        "VerticalOffset": 0.0
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart9": {
         "Number": 62,
         "Name": "_Clip_tail_08",
-        "SinkFactor": 5000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 4000.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
@@ -2167,15 +2179,17 @@
         "Number": 44,
         "Name": "_Clip24",
         "SinkFactor": 5000.0,
-        "VerticalOffset": 0.0
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.0
       }
     },
     {
       "WaterPart11": {
         "Number": 2,
         "Name": "_ClipCGear",
-        "SinkFactor": 6000.0,
-        "VerticalOffset": 0.0
+        "SinkFactor": 10.0,
+        "VerticalOffset": 0.0,
+        "RudderFactor": 0.5
       }
     }
   ],

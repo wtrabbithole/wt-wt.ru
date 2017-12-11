@@ -84,6 +84,16 @@
     "maxScale": 1.0,
     "onePointNumber": 8
   },
+  "7_20_hit_stone": {
+    "fx": "7_20_stone_composite_fx",
+    "lifeTime": 2.0,
+    "softnessDepth": 0.6,
+    "numInstances": 50,
+    "numReserved": 20,
+    "minScale": 0.5,
+    "maxScale": 0.9,
+    "onePointNumber": 14
+  },
   "7_20_hit_ground": {
     "fx": "7_20_ground_composite_fx",
     "lifeTime": 0.0,
@@ -93,6 +103,26 @@
     "minScale": 0.5,
     "maxScale": 0.9,
     "onePointNumber": 14
+  },
+  "20_37_ap_hit_stone": {
+    "fx": "20_37_ap_hit_stone_composite",
+    "lifeTime": 0.0,
+    "softnessDepth": 0.6,
+    "numInstances": 500,
+    "numReserved": 20,
+    "minScale": 0.6,
+    "maxScale": 1.1,
+    "onePointNumber": 4
+  },
+  "20_37_he_hit_stone": {
+    "fx": "20_37_he_hit_stone_composite",
+    "lifeTime": 0.0,
+    "softnessDepth": 0.6,
+    "numInstances": 500,
+    "numReserved": 20,
+    "minScale": 0.6,
+    "maxScale": 1.1,
+    "onePointNumber": 4
   },
   "20_37_he_hit_ground": {
     "fx": "37_50_he_hit_ground_composite",
@@ -142,6 +172,30 @@
   },
   "50_75_he_hit_ground": {
     "fx": "50_75_he_hit_ground_composite",
+    "lifeTime": 0.0,
+    "softnessDepth": 1.0,
+    "granularity": 4,
+    "numInstances": 100,
+    "numReserved": 30,
+    "minScale": 1.0,
+    "maxScale": 1.0,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "explosion_ground"
+  },
+  "50_75_ap_hit_stone": {
+    "fx": "50_75_ap_hit_stone_composite",
+    "lifeTime": 0.0,
+    "softnessDepth": 1.0,
+    "granularity": 4,
+    "numInstances": 100,
+    "numReserved": 30,
+    "minScale": 1.0,
+    "maxScale": 1.0,
+    "sfxPath": "tanks/explosions_tanks",
+    "sfxEvent": "explosion_ground"
+  },
+  "50_75_he_hit_stone": {
+    "fx": "50_75_he_hit_stone_composite",
     "lifeTime": 0.0,
     "softnessDepth": 1.0,
     "granularity": 4,
@@ -239,6 +293,7 @@
     "granularity": 8,
     "numInstances": 80,
     "numReserved": 30,
+    "onePointNumber": 40,
     "minScale": 0.8,
     "maxScale": 1.1,
     "group": "water_proj"
@@ -1434,7 +1489,7 @@
     "numReserved": 1
   },
   "200mm_gun_flame": {
-    "fx": "ps_gun_flame_400mm_fire_composite_fx",
+    "fx": "ps_gun_flame_200mm_fire_composite_fx",
     "lifeTime": 10.0,
     "softnessDepth": 5.0,
     "sortDistanceOffset": 0.0,
@@ -1486,6 +1541,15 @@
     "numInstances": 50,
     "numReserved": 1,
     "farPlane": 15000.0
+  },
+  "mg_flame_muzzle_brake": {
+    "fx": "pv_mg_flame_muzzle_brake_composite_fx",
+    "lifeTime": 10.0,
+    "softnessDepth": 5.0,
+    "sortDistanceOffset": 0.0,
+    "numInstances": 80,
+    "numReserved": 1,
+    "onePointNumber": 8
   },
   "machine_gun_flame": {
     "fx": "pv_mg_flame_composite_fx",
@@ -1933,7 +1997,19 @@
     "numReserved": 0,
     "updateInvisible": true,
     "minScale": 0.3,
-    "maxScale": 0.8
+    "maxScale": 0.8,
+    "sfxPath": "sounds/effects",
+    "sfxEvent": "firework"
+  },
+  "fireworks_fountain": {
+    "fx": "fireworks_fountain_composite_fx",
+    "lifeTime": 6.0,
+    "nonPlayerFadeDistScale": 1.2,
+    "numInstances": 100,
+    "numReserved": 0,
+    "updateInvisible": true,
+    "minScale": 1.0,
+    "maxScale": 4.0
   },
   "firework_large_single": {
     "fx": "firework_large_composite_fx",

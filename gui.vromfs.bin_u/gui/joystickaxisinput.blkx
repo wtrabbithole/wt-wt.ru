@@ -152,7 +152,7 @@
               "_on_click": "onAxisRestore",
               "btnName": "LB",
               "img": {
-                "background-image": "#ui/gameuiskin#btn_undo"
+                "background-image": "#ui/gameuiskin#btn_undo.svg"
               },
               "ButtonImg": []
             }
@@ -166,7 +166,7 @@
               "on_click": "onAxisReset",
               "btnName": "L3",
               "img": {
-                "background-image": "#ui/gameuiskin#btn_reset_axis"
+                "background-image": "#ui/gameuiskin#btn_reset_axis.svg"
               },
               "ButtonImg": []
             }
@@ -181,7 +181,7 @@
               "btnName": "X",
               "img": {
                 "id": "autodetect_img",
-                "background-image": "#ui/gameuiskin#btn_autodetect_off"
+                "background-image": "#ui/gameuiskin#btn_autodetect_off.svg"
               },
               "ButtonImg": []
             }
@@ -198,7 +198,7 @@
               "on_click": "onButtonReset",
               "btnName": "R3",
               "img": {
-                "background-image": "#ui/gameuiskin#btn_reset_shortcut"
+                "background-image": "#ui/gameuiskin#btn_reset_shortcut.svg"
               },
               "ButtonImg": []
             }
@@ -831,16 +831,24 @@
                       },
                       {
                         "img": {
-                          "id": "gc_invites",
-                          "background-image": "#ui/gameuiskin#invites",
-                          "tooltip": "#mainmenu/invites"
+                          "id": "icon",
+                          "background-image": "#ui/gameuiskin#invites.svg"
                         }
                       },
                       {
                         "img": {
-                          "id": "gc_new_invites",
-                          "background-image": "#ui/gameuiskin#invites_new",
-                          "tooltip": "#invites/new_invites",
+                          "id": "iconNew",
+                          "background-image": "#ui/gameuiskin#invites_new.svg",
+                          "style": "background-color:@textureGlowColor",
+                          "display": "hide"
+                        }
+                      },
+                      {
+                        "img": {
+                          "id": "iconGlow",
+                          "background-image": "#ui/gameuiskin#mail_new_glow",
+                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
+                          "_transp-timer": "0",
                           "display": "hide"
                         }
                       }
@@ -853,7 +861,7 @@
                       "tooltip": "#mainmenu/contacts",
                       "_on_click": "onGC_contacts",
                       "img": {
-                        "background-image": "#ui/gameuiskin#friends"
+                        "background-image": "#ui/gameuiskin#friends.svg"
                       },
                       "text": {
                         "id": "gc_friends_online",
@@ -874,18 +882,30 @@
                         "class": "image"
                       },
                       {
+                        "tooltip": "#mainmenu/chat"
+                      },
+                      {
                         "_on_click": "onGC_chat"
                       },
                       {
                         "img": {
-                          "id": "gc_chat",
-                          "background-image": "#ui/gameuiskin#chat"
+                          "id": "icon",
+                          "background-image": "#ui/gameuiskin#chat.svg"
                         }
                       },
                       {
                         "img": {
-                          "id": "gc_new_chat",
-                          "background-image": "#ui/gameuiskin#chat_new",
+                          "id": "iconNew",
+                          "background-image": "#ui/gameuiskin#chat_new.svg",
+                          "style": "background-color:@textureGlowColor",
+                          "display": "hide"
+                        }
+                      },
+                      {
+                        "img": {
+                          "id": "iconGlow",
+                          "background-image": "#ui/gameuiskin#mail_new_glow",
+                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
                           "_transp-timer": "0",
                           "display": "hide"
                         }
@@ -910,18 +930,30 @@
                         "class": "image"
                       },
                       {
+                        "tooltip": "#userlog/no_new_messages"
+                      },
+                      {
                         "_on_click": "onUserLog"
                       },
                       {
                         "img": {
-                          "id": "gc_userlog",
-                          "background-image": "#ui/gameuiskin#mail"
+                          "id": "icon",
+                          "background-image": "#ui/gameuiskin#mail.svg"
                         }
                       },
                       {
                         "img": {
-                          "id": "gc_new_userlog",
-                          "background-image": "#ui/gameuiskin#mail_new",
+                          "id": "iconNew",
+                          "background-image": "#ui/gameuiskin#mail_new.svg",
+                          "style": "background-color:@textureGlowColor",
+                          "display": "hide"
+                        }
+                      },
+                      {
+                        "img": {
+                          "id": "iconGlow",
+                          "background-image": "#ui/gameuiskin#mail_new_glow",
+                          "style": "background-color:@textureGlowColor; size:110%ph, 110%ph",
                           "_transp-timer": "0",
                           "display": "hide"
                         }

@@ -56,11 +56,27 @@ enum hintTagCheckOrder {
     typeName = "img="
     checkOrder = hintTagCheckOrder.REGULAR
     checkTag = function(tagName) { return ::g_string.startsWith(tagName, typeName) }
+    colorParam = "color="
+    sizeParam = "sizeStyle="
     getViewSlices = function(tagName, params)
     {
-      return [{ image = ::g_string.cutPrefix(tagName, typeName, "") }]
+      local paramsList = ::split(tagName, " ")
+      local res = {
+        image = ::g_string.cutPrefix(paramsList[0], typeName,  "")
+        color = null
+        sizeStyle = null
+      }
+      for(local i = 1; i < paramsList.len(); i++)
+      {
+        res.color = res.color || ::g_string.cutPrefix(paramsList[i], colorParam)
+        res.sizeStyle = res.sizeStyle || ::g_string.cutPrefix(paramsList[i], sizeParam)
+      }
+      return [res]
     }
-    makeTag = function(image) { return typeName + image }
+    makeTag = function(image, color = null, sizeStyle = null)
+    {
+      return typeName + image + (color ? " " + colorParam + color : "") + (sizeStyle ? " " + sizeParam + sizeStyle : "")
+    }
   }
 
   MISSION_ATTEMPTS_LEFT = {

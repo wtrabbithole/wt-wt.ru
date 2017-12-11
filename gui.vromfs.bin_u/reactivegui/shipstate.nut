@@ -1,4 +1,6 @@
-local stateHelpers = require("stateHelpers.nut")
+local interopGet = require("daRg/helpers/interopGen.nut")
+local chatBase = require("daRg/components/chat.nut")
+
 
 local shipState = {
   speed = Watched(0)
@@ -34,18 +36,16 @@ local shipState = {
   transmissionCount = Watched(0)
   brokenTransmissionCount = Watched(0)
 
-  ruddersCount = Watched(0)
-  brokenRuddersCount = Watched(0)
-
   aiGunnersState = Watched(0)
   hasAiGunners = Watched(true)
 }
 
 
-foreach (stateVarName, stateVar in shipState) {
-  if (stateVar instanceof Watched)
-    ::interop[stateVarName] <- stateHelpers.updateStateFn(stateVar)
-}
+interopGet({
+  stateTable = shipState
+  prefix = "ship"
+  postfix = "Update"
+})
 
 
 return shipState

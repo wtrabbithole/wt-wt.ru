@@ -38,7 +38,9 @@ function update_all_units()
   local unitTagsBlk = ::get_unittags_blk()
 
   local markRecentlyReleasedUnitsDays = ::getTblValue("markRecentlyReleasedUnitsDays", ::configs.GUI.get(), 0)
-  local timeMarkReleasedAfter = ::get_charserver_time_sec() - (markRecentlyReleasedUnitsDays * TIME_DAY_IN_SECONDS)
+  local timeMarkReleasedAfter = ::mktime(::get_local_time()) - (markRecentlyReleasedUnitsDays * TIME_DAY_IN_SECONDS)
+  dagor.debug("Marking just released units: days=" + markRecentlyReleasedUnitsDays + " since=" + timeMarkReleasedAfter
+    + " machine=" + ::mktime(::get_local_time()) + " char=" + ::get_charserver_time_sec())
 
   foreach (air in ::all_units)
   {
@@ -123,7 +125,7 @@ function update_all_units()
     air.isPkgDev <- ::is_dev_version && ::getTblValue("pkgDev", ws_air, false)
 
     local releaseDate = ::get_tbl_value_by_path_array([ air.name, "releaseDate" ], unitTagsBlk, "")
-    air.isRecentlyReleased <- releaseDate != "" && ::mktime(time.getTimeFromStringUtc(releaseDate)) > timeMarkReleasedAfter
+    air.isRecentlyReleased <- releaseDate != "" && ::get_t_from_utc_time(time.getTimeFromStringUtc(releaseDate)) > timeMarkReleasedAfter
   }
 
   foreach (airname, airblock in ws_cost)

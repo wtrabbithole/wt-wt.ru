@@ -2,8 +2,9 @@ local time = require("scripts/time.nut")
 local colorCorrector = require_native("colorCorrector")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+local globalEnv = require_native("globalEnv")
 
-
+const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.04
 ::BOMB_ASSAULT_FUSE_TIME_OPT_VALUE <- -1
 ::SPEECH_COUNTRY_UNIT_VALUE <- 2
@@ -770,6 +771,7 @@ function get_option(type, context = null)
       descr.id = "language"
       descr.items = []
       descr.values = []
+      descr.trParams <- "iconType:t='small';"
       local info = ::g_language.getGameLocalizationInfo()
       for (local i = 0; i < info.len(); i++)
       {
@@ -1500,7 +1502,7 @@ function get_option(type, context = null)
         local imageName = "joystick"
         if (name.find("keyboard") != null)
           imageName = "mouse_keyboard"
-        else if (name.find("xinput") != null)
+        else if (name.find("xinput") != null || name.find("xboxone") != null)
           imageName = "gamepad"
         else if (name.find("default") != null || name.find("dualshock4") != null)
           imageName = "ps4"
@@ -2071,10 +2073,10 @@ function get_option(type, context = null)
         })
       descr.values =
       [
-        ::EM_MOUSE_AIM,
-        ::EM_INSTRUCTOR,
-        ::EM_REALISTIC,
-        ::EM_FULL_REAL
+        globalEnv.EM_MOUSE_AIM,
+        globalEnv.EM_INSTRUCTOR,
+        globalEnv.EM_REALISTIC,
+        globalEnv.EM_FULL_REAL
       ];
       descr.cb = "onHelpersModeChange";
       defaultValue = ::g_aircraft_helpers.getOptionValue(type)
@@ -2091,10 +2093,10 @@ function get_option(type, context = null)
         })
       descr.values =
       [
-        ::EM_MOUSE_AIM,
-        ::EM_INSTRUCTOR,
-        ::EM_REALISTIC,
-        ::EM_FULL_REAL
+        globalEnv.EM_MOUSE_AIM,
+        globalEnv.EM_INSTRUCTOR,
+        globalEnv.EM_REALISTIC,
+        globalEnv.EM_FULL_REAL
       ];
       descr.cb = "onHelpersModeChange";
       defaultValue = ::get_option(::USEROPT_HELPERS_MODE).value
@@ -3259,7 +3261,7 @@ function get_option(type, context = null)
       for (local nc = 0; nc < ::crosshair_icons.len(); nc++)
       {
         descr.items.append({
-          image = "#ui/hudskin#" + ::crosshair_icons[nc]
+          image = "#ui/gameuiskin#" + ::crosshair_icons[nc]
         })
         descr.values.append(nc)
         if (c == nc)
@@ -3690,6 +3692,26 @@ function get_option(type, context = null)
       descr.controlName <- "switchbox"
       descr.value = ::get_option_tank_gunner_camera_from_sight()
       defaultValue = false
+      break
+    case ::USEROPT_TANK_ALT_CROSSHAIR:
+      descr.id = "tank_alt_crosshair"
+      descr.cb = "onTankAltCrosshair"
+
+      descr.items = [::loc("options/defaultSight")]
+      descr.values = [""]
+
+      local presets = ::get_user_alt_crosshairs()
+      for (local i = 0; i < presets.len(); i++)
+      {
+        descr.items.append(presets[i]);
+        descr.values.append(presets[i]);
+      }
+
+      descr.items.append(::loc("options/addUserSight"))
+      descr.values.append(TANK_ALT_CROSSHAIR_ADD_NEW)
+
+      local unit = ::show_aircraft
+      descr.value = unit ? ::find_in_array(descr.values, ::get_option_tank_alt_crosshair(unit.name), 0) : 0
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER:
       descr.id = "gamepad_cursor_controller"
@@ -4658,6 +4680,12 @@ function set_option(type, value, descr = null)
 
     case ::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT:
       ::set_option_tank_gunner_camera_from_sight(value)
+      break
+    case ::USEROPT_TANK_ALT_CROSSHAIR:
+      local unit = ::show_aircraft
+      local val = descr.values[value]
+      if (unit && val != TANK_ALT_CROSSHAIR_ADD_NEW)
+        ::set_option_tank_alt_crosshair(unit.name, val)
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER:
       ::g_gamepad_cursor_controls.setValue(value)

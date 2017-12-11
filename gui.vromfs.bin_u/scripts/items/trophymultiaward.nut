@@ -22,12 +22,12 @@ class TrophyMultiAward
   static maxRouletteIcons = 5
   static maxRouletteIconsSingleType = 3
   static rouletteIcons = {
-    decal          = ["#ui/images/items/multiaward/itemtype_decal"]
-    skin           = ["#ui/images/items/multiaward/itemtype_skin"]
+    decal          = ["#ui/gameuiskin#itemtype_decal"]
+    skin           = ["#ui/gameuiskin#itemtype_skin"]
     spare          = ["#ui/gameuiskin#double"]
-    modification   = ["#ui/images/items/multiaward/itemtype_modification_aircraft", "#ui/images/items/multiaward/itemType_modification_tank"]
+    modification   = ["#ui/gameuiskin#itemtype_modification_aircraft", "#ui/gameuiskin#itemType_modification_tank"]
     premExpMul     = ["#ui/gameuiskin#talisman"]
-    specialization = ["#ui/images/items/multiaward/itemtype_experts", "#ui/images/items/multiaward/itemType_crew_aces"]
+    specialization = ["#ui/gameuiskin#itemtype_experts", "#ui/gameuiskin#itemType_crew_aces"]
   }
 
   constructor(_blk, trophy = null, idx_in_trophy = 0)

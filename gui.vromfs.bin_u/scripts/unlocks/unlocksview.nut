@@ -62,7 +62,7 @@ function g_unlock_view::fillUnlockImage(unlockConfig, unlockObj)
   local unlockType = unlockConfig.unlockType
   local isUnlocked = ::is_unlocked_scripted(-1, unlockConfig.id)
   local iconObj = unlockObj.findObject("achivment_ico")
-  iconObj.decal_locked = (!isUnlocked && unlockType == ::UNLOCKABLE_DECAL) ? "yes" : "no"
+  iconObj.decal_locked = (!isUnlocked && (unlockType == ::UNLOCKABLE_DECAL || unlockType == ::UNLOCKABLE_MEDAL) ) ? "yes" : "no"
   iconObj.achievement_locked = (!isUnlocked && unlockConfig.curStage <= 0 &&
       unlockType != ::UNLOCKABLE_MEDAL && unlockType != ::UNLOCKABLE_DECAL) ? "yes" : "no"
 

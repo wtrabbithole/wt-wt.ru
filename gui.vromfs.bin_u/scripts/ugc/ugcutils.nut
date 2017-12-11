@@ -10,6 +10,11 @@ function update_unit_skins_list(unitName)
 
 function ugc_skin_preview(params)
 {
+  if (!::is_in_hangar())
+  {
+    return "not_in_hangar"
+  }
+
   local blkHashName = params.hash
   local res = ugc_preview_resource(blkHashName, "skin", "testName")
 

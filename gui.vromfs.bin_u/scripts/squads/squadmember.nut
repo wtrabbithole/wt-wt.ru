@@ -38,7 +38,7 @@ class SquadMember
 
     local contact = ::getContact(uid)
     if (contact)
-      name = contact.name
+      update(contact)
   }
 
   function initUniqueInstanceValues()

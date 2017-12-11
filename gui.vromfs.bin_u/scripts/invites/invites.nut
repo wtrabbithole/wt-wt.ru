@@ -250,24 +250,37 @@ function g_invites::fetchNewInvitesFromUserlogs()
     local blk = ::DataBlock()
     ::get_user_log_blk_body(i, blk)
 
-    if ( blk.type != ::EULT_INVITE_TO_TOURNAMENT )
-      continue
+    if ( blk.type == ::EULT_WW_CREATE_OPERATION ||
+         blk.type == ::EULT_WW_START_OPERATION )
+    {
+      local operationId = ::getTblValue("operationId", blk.body)
+      if (::is_worldwar_enabled() && operationId != null)
+        ::g_world_war.addOperationInvite(
+          operationId,
+          blk.body?.name??"",
+          blk.type == ::EULT_WW_START_OPERATION,
+          blk?.timeStamp??0)
+      ::disable_user_log_entry(i)
+      needReshedule = true
+    }
+    else if (blk.type == ::EULT_INVITE_TO_TOURNAMENT)
+    {
+      local ulogId = blk.id
+      local battleId = ::getTblValue("battleId", blk.body, "")
+      local inviteTime = ::getTblValue("inviteTime", blk.body, -1)
+      local startTime = ::getTblValue("startTime", blk.body, -1)
+      local endTime = ::getTblValue("endTime", blk.body, -1)
 
-    local ulogId = blk.id
-    local battleId = ::getTblValue("battleId", blk.body, "")
-    local inviteTime = ::getTblValue("inviteTime", blk.body, -1)
-    local startTime = ::getTblValue("startTime", blk.body, -1)
-    local endTime = ::getTblValue("endTime", blk.body, -1)
+      ::dagor.debug( "checking battle invite ulog ("+ulogId+") : battleId '"+battleId+"'");
+      if ( startTime <= now || ::isInArray(ulogId, ::g_invites.knownTournamentInvites) )
+        continue
 
-    ::dagor.debug( "checking battle invite ulog ("+ulogId+") : battleId '"+battleId+"'");
-    if ( startTime <= now || ::isInArray(ulogId, ::g_invites.knownTournamentInvites) )
-      continue
+      ::g_invites.knownTournamentInvites.append(ulogId)
 
-    ::g_invites.knownTournamentInvites.append(ulogId)
-
-    ::dagor.debug( "Got userlog EULT_INVITE_TO_TOURNAMENT: battleId '"+battleId+"'");
-    ::g_invites.addTournamentBattleInvite(battleId, inviteTime, startTime, endTime);
-    needReshedule = true
+      ::dagor.debug( "Got userlog EULT_INVITE_TO_TOURNAMENT: battleId '"+battleId+"'");
+      ::g_invites.addTournamentBattleInvite(battleId, inviteTime, startTime, endTime);
+      needReshedule = true
+    }
   }
 
   if ( needReshedule )

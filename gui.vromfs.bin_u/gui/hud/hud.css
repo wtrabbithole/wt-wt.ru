@@ -60,7 +60,7 @@ hudMessages[message_style=center_main_notification] {
   re-type: 9rect;
   padding: 0.01*@shHud;
 
-  background-image: #ui/hudskin#subtitles_backgr_middle;
+  background-image: #ui/gameuiskin#subtitles_backgr_middle;
   background-color: @white;
   background-position: 0, 0, 0, 0;
   background-repeat: expand;
@@ -547,4 +547,16 @@ textareaNoTab[shadeStyle=LiveStats] {
 
 [hintStyle=hudHintYellow] hintRow textareaNoTab {
   color: @yellow;
+}
+
+[hintStyle=hudHintCommon] hintRow > img {
+  size:0.06sh, 0.06sh;
+}
+
+[hintStyle=hudMinor] hintRow > img {
+  size:0.04sh, 0.04sh;
+}
+
+[hintStyle=hudHintCommon] hintRow > img[sizeStyle=small] {
+  size:0.04sh, 0.04sh;
 }

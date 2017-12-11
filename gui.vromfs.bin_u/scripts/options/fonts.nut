@@ -173,7 +173,7 @@ function g_font::getDefault()
   if (fixedFont)
     return fixedFont
 
-  if (::is_platform_shield_tv() || ::is_platform_ps4 || ::is_platform_xboxone || ::is_steam_big_picture())
+  if (::is_platform_shield_tv() || ::is_ps4_or_xbox || ::is_steam_big_picture())
     return LARGE
 
   local displayScale = ::display_scale()

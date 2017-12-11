@@ -13,7 +13,7 @@
     name = "ww_menu"
     btnName = "ww_menu"
     getText = function(totalSections = 0) { return ::is_low_width_screen()? null : "#worldWar/menu" }
-    getImage = function(totalSections = 0) { return ::is_low_width_screen()? "#ui/gameuiskin#btn_info" : null }
+    getImage = function(totalSections = 0) { return ::is_low_width_screen()? "#ui/gameuiskin#btn_info.svg" : null }
     buttons = [
       [
         ::g_top_menu_buttons.WW_OPERATIONS

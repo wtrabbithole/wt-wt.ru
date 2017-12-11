@@ -2,6 +2,7 @@ local colorCorrector = require_native("colorCorrector")
 local fonts = require_native("fonts")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 
 handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurSceneBgBlurred" ])
 
@@ -113,7 +114,7 @@ function handlersManager::updatePostLoadCss()
   }
   currentFont = font
 
-  local cssStringPre = font.genCssString() + "\n" + generatePreLoadCssString()
+  local cssStringPre = font.genCssString() + "\n" + generatePreLoadCssString() + "\n" + gamepadIcons.getCssString()
   if (::get_dagui_pre_include_css_str() != cssStringPre)
   {
     ::set_dagui_pre_include_css_str(cssStringPre)
@@ -148,7 +149,7 @@ function handlersManager::generatePreLoadCssString()
   }
 
   local config = [
-    { name = "target_pc",         value = ::is_platform_ps4 ? "no" : "yes" }
+    { name = "target_pc",         value = ::is_ps4_or_xbox ? "no" : "yes" }
     { name = "_safearea_menu",    value = ::format("%.2f", safeAreaMenu.getValue()) }
     { name = "_safearea_hud",     value = ::format("%.2f", safeAreaHud.getValue()) }
     { name = "slotbarCountries",  value = countriesCount.tostring() }
@@ -230,11 +231,10 @@ function handlersManager::generatePostLoadCssString()
 
 function handlersManager::generateCssString(config)
 {
-  local css = []
+  local res = ""
   foreach (cfg in config)
-    css.append(::format("@const %s:%s", cfg.name, cfg.value))
-
-  return ::g_string.implode(css, ";")
+    res += ::format("@const %s:%s;", cfg.name, cfg.value)
+  return res
 }
 
 function handlersManager::getHandlerControlsAllowMask(handler)

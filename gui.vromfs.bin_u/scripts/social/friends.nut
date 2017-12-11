@@ -3,6 +3,8 @@
 ::PS4_UPDATE_TIMER_LIMIT <- 300000
 ::last_update_ps4_friends <- -::PS4_UPDATE_TIMER_LIMIT
 
+::XBOX_ONE_PLAYER_PREFIX <- "^"
+
 ::g_script_reloader.registerPersistentData("SocialGlobals", ::getroottable(), ["no_dump_facebook_friends"])
 
 local ps4TitleId = ::is_platform_ps4? ::ps4_get_title_id() : ""
@@ -173,6 +175,11 @@ function movePS4ContactsToSpecificGroup()
 function isPlayerPS4Friend(playerName)
 {
   return ::is_platform_ps4 && playerName in ::ps4_console_friends
+}
+
+function is_player_from_xbox_one(playerName)
+{
+  return ::is_platform_xboxone && ::g_string.startsWith(playerName, ::XBOX_ONE_PLAYER_PREFIX)
 }
 
 function is_psn_player_use_same_titleId(playerName)

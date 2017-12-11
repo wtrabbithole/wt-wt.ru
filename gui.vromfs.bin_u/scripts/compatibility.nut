@@ -1,16 +1,16 @@
-function is_version_equals_or_newer(verTxt) // "1.43.7.75"
+function is_version_equals_or_newer(verTxt, isTorrentVersion = false) // "1.43.7.75"
 {
   if (!("get_game_version" in ::getroottable()))
     return false
-  local cur = ::get_game_version()
+  local cur = isTorrentVersion ? ::get_game_version() : ::get_base_game_version()
   return cur == 0 || cur >= ::get_version_int_from_string(verTxt)
 }
 
-function is_version_equals_or_older(verTxt) // "1.61.1.37"
+function is_version_equals_or_older(verTxt, isTorrentVersion = false) // "1.61.1.37"
 {
   if (!("get_game_version" in ::getroottable()))
     return true
-  local cur = ::get_game_version()
+  local cur = isTorrentVersion ? ::get_game_version() : ::get_base_game_version()
   return cur != 0 && cur <= ::get_version_int_from_string(verTxt)
 }
 
@@ -47,6 +47,8 @@ function get_version_int_from_string(versionText)
 
   script_net_assert = function(error) { dagor.debug("Exception:" + error) }
   is_gui_webcache_enabled = function() { return false }
+  web_vromfs_prefetch_file = function(fn) { return false }
+  web_vromfs_is_file_prefetched = function(fn) { return false }
 
   is_option_free_camera_inertia_exist = ("OPTION_FREE_CAMERA_INERTIA" in getroottable())
   is_option_replay_camera_wiggle_exist = ("OPTION_REPLAY_CAMERA_WIGGLE" in getroottable())
@@ -504,6 +506,32 @@ if (::is_version_equals_or_older("1.61.1.37") && ("mktime" in getroottable()) &&
 
   xbox_get_safe_area = @() 1.0
 
+  can_add_tank_alt_crosshair = function() {return false}
+  get_option_tank_alt_crosshair = function (unit_name) {return ""}
+  set_option_tank_alt_crosshair = function (unit_name, value) {}
+  get_user_alt_crosshairs = function () {return []}
+  add_tank_alt_crosshair_template = function() {return false}
+  ww_preview_operation_from_file = function(operationName) {return false}
+
+  get_hint_seen_count = @(hint_id) 0
+  increase_hint_show_count = function(hint_id){}
+  is_hint_enabled = @(hint_mask) true
+  disable_hint = function(hint_id){}
+  is_stereo_mode = @() false
+
+  get_action_shortcut_index_by_type = @() -1
+
+  YU2_PAY_PAYPAL   = 4
+  YU2_PAY_WEBMONEY = 8
+  YU2_PAY_AMAZON   = 16
+
   BROWSER_EVENT_BROWSER_CRASHED = 0xFF
 })
 
+//----------------------------wop_1_71_2_X---------------------------------//
+::apply_compatibilities({
+  ONLINE_BINARIES_INITED = 8
+  HANGAR_ENTERED = 16
+
+  get_online_client_cur_state = @() 0
+})

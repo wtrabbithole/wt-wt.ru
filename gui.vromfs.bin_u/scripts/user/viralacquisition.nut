@@ -17,7 +17,7 @@ function show_viral_acquisition_wnd()
     local paramNum = ::math.rnd() % guiBlk.invites_notification_window_images.paramCount()
     local newHeight = guiBlk.invites_notification_window_images.getParamName(paramNum)
     local newImage = ::format(formatImg, guiBlk.invites_notification_window_images.getParamValue(paramNum))
-    if (::check_image_exist(newImage) && !regexp2(@"\D+").match(newHeight))
+    if (!regexp2(@"\D+").match(newHeight))
     {
       height = newHeight
       image = newImage
@@ -26,7 +26,7 @@ function show_viral_acquisition_wnd()
 
   local config = {
     name = ::loc("mainmenu/getLinkTitle")
-    desc = ::loc("msgbox/linkCopied", { gift = getPriceText(0, 50), link = linkString })
+    desc = ::loc("msgbox/linkCopied", { gift = ::Cost(0, 50).tostring(), link = linkString })
     descAlign = "center"
     popupImage = "#"+image
     ratioHeight = (height.tofloat() / 800).tostring()

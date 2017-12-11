@@ -35,6 +35,9 @@
   "tank_vision_grass_displacement_rad": 10.0,
   "bombingZoneHpToTntEquivalentTons": 0.0001,
   "maxDistForWatchXRayInSpectator": 50.0,
+  "killZoneVisibilityDistance": 100.0,
+  "detectionZoneVisibilityDistance": 100.0,
+  "showEnemyAtKillZone": true,
   "effectsZNearOffsetInCockpit": 2.0,
   "invisibleSupportUnits": true,
   "unitDefaultVisibilityDistance": 2000.0,
@@ -68,6 +71,7 @@
   "tankGunLightSourceRadius": 2.0,
   "tankGunLightColor": [1.5,1.0,0.2],
   "impostorSizeScaleCoefficient": 4.0,
+  "rendInstMaxLifeTime": 15.0,
   "rendinstPreloadDistance": 7000.0,
   "rendinstMaxLod0Dist": 1200.0,
   "rendinstTransparencyDelta": 350.0,
@@ -1543,6 +1547,7 @@
         "attenuationControlsByStaminaMult": 1.0,
         "staminaUsageSpeedMult": 1.0,
         "bombAssaultFuseTime": 0.5,
+        "fusePreset": "fuse_air_ab",
         "gForceBlackoutMult": 1.3,
         "gForceRedoutMult": 1.3,
         "tankLockShootingByAlly": true,
@@ -1557,7 +1562,8 @@
         "shipCollisionDamageAllyWithEnemy": 1.0,
         "shipCollisionDamageAllyWithAlly": -1.0,
         "shipCollisionDamageGround": 1.0,
-        "radioGunnerRadioDistanceMult": 1.0
+        "radioGunnerRadioDistanceMult": 1.0,
+        "hudDrawBombingZoneThroughCloud": true
       },
       "medium": {
         "mouseAimMaxAnglesSmoothness": 0.05,
@@ -1597,6 +1603,7 @@
         "maxBombDamageHeight": 200.0,
         "automaticBayDoor": false,
         "bombAssaultFuseTime": 1.5,
+        "fusePreset": "fuse_air_rb",
         "allowCrewHealing": true,
         "allowAutoCrewHealing": false,
         "allowMovingAtCrewHealing": false,
@@ -1604,7 +1611,8 @@
         "shipCollisionDamageAllyWithEnemy": 1.0,
         "shipCollisionDamageAllyWithAlly": -1.0,
         "shipCollisionDamageGround": 1.0,
-        "radioGunnerRadioDistanceMult": 2.0
+        "radioGunnerRadioDistanceMult": 2.0,
+        "hudDrawBombingZoneThroughCloud": false
       },
       "hard": {
         "mouseAimMaxAnglesSmoothness": 0.25,
@@ -1644,6 +1652,7 @@
         "maxBombDamageHeight": 200.0,
         "automaticBayDoor": false,
         "bombAssaultFuseTime": 1.5,
+        "fusePreset": "fuse_air_rb",
         "allowCrewHealing": true,
         "allowAutoCrewHealing": false,
         "allowMovingAtCrewHealing": false,
@@ -1651,7 +1660,8 @@
         "shipCollisionDamageAllyWithEnemy": 1.0,
         "shipCollisionDamageAllyWithAlly": -1.0,
         "shipCollisionDamageGround": 1.0,
-        "radioGunnerRadioDistanceMult": 2.0
+        "radioGunnerRadioDistanceMult": 2.0,
+        "hudDrawBombingZoneThroughCloud": false
       }
     },
     "engineControl": {
@@ -1762,6 +1772,7 @@
         "rocketGunCoolDown": 5.0,
         "arcadeBombGunCoolDownMpMult": 6.0,
         "arcadeRocketGunCoolDownMpMult": 6.0,
+        "realisticSeeker": false,
         "autoRearmGun": true,
         "autoRearmHydra": true,
         "autoRearmHellfire": true,
@@ -1776,6 +1787,7 @@
         "rocketGunCoolDown": 5.0,
         "arcadeBombGunCoolDownMpMult": 6.0,
         "arcadeRocketGunCoolDownMpMult": 6.0,
+        "realisticSeeker": true,
         "gunCoolDownK": 1.0,
         "autoRearmGun": false,
         "autoRearmHydra": false,
@@ -1932,6 +1944,7 @@
         "autoLevelingViscosity": -1.0,
         "autoTargettingViscosity": -1.0,
         "torpedoSpeedMult": 3.0,
+        "missileSeekerTrackerIndication": true,
         "hydraAutoaimAngle": 0.2,
         "hydraAutoaimMinDist": 500.0,
         "hydraAutoaimMaxDist": 900.0,
@@ -1965,6 +1978,7 @@
         "bulletDeltaMultiplierTankVert": 1.0,
         "autoLevelingViscosity": -1.0,
         "autoTargettingViscosity": -1.0,
+        "missileSeekerTrackerIndication": true,
         "hydraAutoaimAngle": 0.0,
         "hydraAutoaimMinDist": 500.0,
         "hydraAutoaimMaxDist": 900.0,
@@ -2568,9 +2582,9 @@
     "waterSplitDist1": 12000.0,
     "waveDisplacementDistance": [80.0,120.0],
     "waterReflectionHdrMultiplier": 2.0,
-    "waterReflectionTracerHdr": 4.0,
-    "waterReflectionTracerMinPixelR": 3.0,
-    "waterReflectionTracerEyeDist": [1000.0,2000.0],
+    "waterReflectionTracerHdr": 1.0,
+    "waterReflectionTracerMinPixelR": 1.0,
+    "waterReflectionTracerEyeDist": [400.0,1000.0],
     "waterReflectionTracerBrightness": 0.5,
     "calmWindThreshold": [1.0,2.0]
   },
@@ -2586,11 +2600,13 @@
     "depthConstBias": 0.0,
     "staticCascadeForcedRiExtraLod": -1,
     "bigShipForShadowsFrom": 50.0,
+    "occlusionSunDirThreshold": 0.5,
     "ultralow": {
       "staticCascadeTexWidth": 512,
       "staticCascadeSlices": 10,
       "staticCascadeRegWidth": 500.0,
-      "staticCascadeStarting": 0
+      "staticCascadeStarting": 0,
+      "useOcclusion": true
     },
     "low": {
       "cascadeWidth": 600,
@@ -2612,7 +2628,8 @@
       "staticCascadeTexWidth": 512,
       "staticCascadeSlices": 10,
       "staticCascadeRegWidth": 500.0,
-      "staticCascadeStarting": 0
+      "staticCascadeStarting": 0,
+      "useOcclusion": true
     },
     "medium": {
       "cascadeWidth": 768,
@@ -2634,7 +2651,8 @@
       "staticCascadeTexWidth": 1024,
       "staticCascadeSlices": 16,
       "staticCascadeRegWidth": 750.0,
-      "staticCascadeStarting": 3
+      "staticCascadeStarting": 3,
+      "useOcclusion": true
     },
     "ps4shadows": {
       "cascadeWidth": 1024,
@@ -2657,7 +2675,8 @@
       "staticCascadeSlices": 16,
       "staticCascadeRegWidth": 750.0,
       "staticCascadeStarting": 3,
-      "renderHeightmap": true
+      "renderHeightmap": true,
+      "useOcclusion": false
     },
     "high": {
       "cascadeWidth": 1024,
@@ -2680,7 +2699,8 @@
       "staticCascadeSlices": 20,
       "staticCascadeRegWidth": 1000.0,
       "staticCascadeStarting": 3,
-      "renderHeightmap": true
+      "renderHeightmap": true,
+      "useOcclusion": false
     },
     "ultrahigh": {
       "cascadeWidth": 1200,
@@ -2704,7 +2724,8 @@
       "staticCascadeSlices": 20,
       "staticCascadeRegWidth": 1250.0,
       "staticCascadeStarting": 4,
-      "renderHeightmap": true
+      "renderHeightmap": true,
+      "useOcclusion": false
     }
   },
   "ambShadows": {
@@ -2965,7 +2986,6 @@
     "font": "small_text",
     "bgd": "ui/title.ddsx",
     "animated": "ui/loadingAnim.ddsx",
-    "animatedBgd": "ui/loadingAnim_cock.ddsx",
     "legalPos": [640.0,550.0],
     "legal": "ui/legal.ddsx"
   },
@@ -3113,7 +3133,12 @@
     "AlphaElevatorMin": 0.2,
     "AllowStrongControlsRestrictions": true,
     "forceAdvancedEngineThermodynamics": true,
-    "stickPusher": false
+    "stickPusher": false,
+    "horsePowersToInfraRedBrightness": 0.2,
+    "thrustKgsToInfraRedBrightness": 1.0,
+    "engineInfraRedBrightnessAspectMultFront": 0.01,
+    "engineInfraRedBrightnessAspectMultSide": 0.01,
+    "engineInfraRedBrightnessAspectMultRear": 1.0
   },
   "tankControls": {
     "manualGearHelperMode": 3,
@@ -5962,6 +5987,20 @@
           "color_h": 0.1,
           "unit": "ship"
         }
+      },
+      {
+        "p": {
+          "name": "bridge",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
+      },
+      {
+        "p": {
+          "name": "funnel",
+          "color_h": 0.1,
+          "unit": "ship"
+        }
       }
     ],
     "body": [
@@ -6277,7 +6316,8 @@
       {
         "p": {
           "name": "ammo_",
-          "color_h": 0.5
+          "color_h": 0.5,
+          "hideIfDead": true
         }
       },
       {
@@ -8502,7 +8542,7 @@
     }
   },
   "treeDestractible": {
-    "heightThreshold": 5.0,
+    "heightThreshold": 7.0,
     "impulseThresholdMult": 1000.0
   },
   "ground_decals_detail": {
@@ -8533,7 +8573,7 @@
     "explosionRadius": [2.0,8.0],
     "minRadiusExplosionStrength": [400.0,1200.0],
     "maxRadiusExplosionStrength": [80.0,400.0],
-    "fractureTimeCurvePower": 0.4,
+    "fractureTimeCurvePower": 0.7,
     "fractureEffectProbability": 1.0,
     "groundEffectProbability": 1.0,
     "groundFxScaleAccordingToSize": [1.0,0.1,2.0],
@@ -8556,7 +8596,7 @@
     "firstShootKineticDamageMult": [1.0,3.0],
     "firstShootKineticDamageRadiusMult": [0.2,0.7],
     "firstShootExplDamageMult": [0.3,0.1],
-    "firstShootExplDamageRadiusMult": [2.0,6.0],
+    "firstShootExplDamageRadiusMult": [3.0,8.0],
     "eventLogEnabled": true,
     "eventLogMaxCriticalFrames": 10,
     "eventLogCriticalFramerate": 10.0,
@@ -8705,7 +8745,7 @@
     "farEffect": 0.0
   },
   "picman": {
-    "searchBlkBeforeTaBin": false
+    "searchBlkBeforeTaBin": true
   },
   "explosiveMassToTimeAssaultFuse": {
     "fuse_air_ab": [

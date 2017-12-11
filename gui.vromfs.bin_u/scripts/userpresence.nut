@@ -74,10 +74,12 @@ function g_user_presence::setPresence(presence)
 {
   if (!::g_login.isLoggedIn() || !checkPresence(presence))
     return
+
   // Copy new values to current presence object.
   foreach (key, value in presence)
     currentPresence[key] <- value
   ::set_presence(presence)
+  ::broadcastEvent("MyPresenceChanged", presence)
 }
 
 /**

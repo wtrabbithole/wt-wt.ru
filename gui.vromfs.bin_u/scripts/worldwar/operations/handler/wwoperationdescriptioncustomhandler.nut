@@ -1,6 +1,5 @@
 class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.WwMapDescription
 {
-  unitStringTpl = "gui/commonParts/shortUnitString"
   sceneTplTeamStrenght = "gui/worldWar/wwOperationDescriptionSideStrenght"
   sceneTplTeamArmyGroups = "gui/worldWar/wwOperationDescriptionSideArmyGroups"
 

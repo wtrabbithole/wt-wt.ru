@@ -246,6 +246,12 @@
         "chapter": "air_ground_Conq2"
       },
       {
+        "locName": "missions/_Conq2;volokolamsk/name"
+      },
+      {
+        "locDesc": "volokolamsk/desc;missions/_Conq2/desc"
+      },
+      {
         "scoreLimit": 14000
       },
       {
@@ -255,16 +261,13 @@
         "deathPenaltyMul": 1.0
       },
       {
-        "country_axis": "germany"
-      },
-      {
-        "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
+        "postfix": "_Conq2"
       },
       {
         "useAlternativeMapCoord": true
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -273,19 +276,13 @@
         "remapAiTankModels": true
       },
       {
-        "locName": "missions/_Conq2;volokolamsk/name"
+        "battleAreaColorPreset": "battleArea"
       },
       {
-        "locDesc": "volokolamsk/desc;missions/_Conq2/desc"
+        "country_axis": "germany"
       },
       {
-        "postfix": "_Conq2"
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
+        "country_allies": "ussr"
       },
       {
         "tags": []
@@ -308,20 +305,36 @@
           "_Conq3": false,
           "_Conq4": false,
           "_Conq5": false,
-          "_Conq6": false
+          "_Conq6": false,
+          "_CnvA": false,
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
         "mission": {
           "difficulty": "realistic",
-          "scoreLimit": 16000
+          "useAlternativeMapCoord": false,
+          "scoreLimit": 16000,
+          "randomSpawnTeams": false,
+          "remapAiTankModels": true
         }
       },
       {
         "mission": {
           "difficulty": "hardcore",
           "useAlternativeMapCoord": false,
-          "scoreLimit": 18000
+          "scoreLimit": 18000,
+          "randomSpawnTeams": false,
+          "remapAiTankModels": true
         }
       }
     ],
@@ -356,6 +369,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -395,6 +411,9 @@
               "picture": ""
             },
             {
+              "showAirMap": false
+            },
+            {
               "icon": {
                 "icontype": "basezone_A",
                 "side": "neutral",
@@ -430,6 +449,9 @@
             },
             {
               "picture": ""
+            },
+            {
+              "showAirMap": false
             },
             {
               "icon": {
@@ -476,7 +498,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -492,7 +514,23 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/volokolamsk_tm.blk",
+        "file": "gameData/missions/templates/tank_templates/conq_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/volokolamsk/battleareas/template_volokolamsk_Conq2_battleareas.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -519,10 +557,45 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [],
+  "units": {
+    "tankModels": {
+      "name": "t1_player01",
+      "tm": [
+        [1.0,0.0,0.0],
+        [0.0,1.0,0.0],
+        [0.0,0.0,1.0],
+        [155.247,67.1827,1210.66]
+      ],
+      "unit_class": "aaa_dummy",
+      "objLayer": 1,
+      "closed_waypoints": false,
+      "isShipSpline": false,
+      "shipTurnRadius": 100.0,
+      "weapons": "",
+      "bullets0": "",
+      "bullets1": "",
+      "bullets2": "",
+      "bullets3": "",
+      "bulletsCount0": 0,
+      "bulletsCount1": 0,
+      "bulletsCount2": 0,
+      "bulletsCount3": 0,
+      "props": {
+        "army": 2,
+        "count": 1,
+        "formation_type": "rows",
+        "formation_div": 3,
+        "formation_step": [2.5,2.0],
+        "formation_noise": [0.1,0.1],
+        "uniqueName": "",
+        "attack_type": "fire_at_will"
+      },
+      "way": []
+    }
+  },
   "areas": {
     "briefing_conq_capture_area_02_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.2128,0.0,0.0],
         [0.0,51.0531,0.0],
@@ -533,7 +606,7 @@
       "props": []
     },
     "briefing_conq_t1_tank_spawn_02_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -544,7 +617,7 @@
       "props": []
     },
     "briefing_conq_t2_tank_spawn_02_arcade": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.640471,0.0,0.767982],
         [0.0,1.0,0.0],
@@ -555,7 +628,7 @@
       "props": []
     },
     "briefing_conq_t1_tank_spawn_02_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [0.815629,0.0,-0.578575],
         [0.0,1.0,0.0],
@@ -566,7 +639,7 @@
       "props": []
     },
     "briefing_conq_t2_tank_spawn_02_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [1.0,0.0,0.0],
         [0.0,1.0,0.0],
@@ -577,7 +650,7 @@
       "props": []
     },
     "briefing_conq_capture_area_02_hardcore": {
-      "type": "point",
+      "type": "Point",
       "tm": [
         [40.2128,0.0,0.0],
         [0.0,51.0531,0.0],

@@ -164,6 +164,11 @@ class ::WwFormation
     return morale
   }
 
+  function getPosition()
+  {
+    return null
+  }
+
   function isFormation()
   {
     return true

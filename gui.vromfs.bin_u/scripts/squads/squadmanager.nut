@@ -27,6 +27,7 @@ const SQUADS_VERSION = 2
 const SQUAD_REQEST_TIMEOUT = 45000
 
 local DEFAULT_SQUAD_PROPERTIES = { maxMembers = 4 }
+local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
 g_squad_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "isMyCrewsReady", "lastUpdateStatus", "state",
@@ -54,6 +55,7 @@ g_squad_manager <- {
       battle = null
     }
     properties = clone DEFAULT_SQUAD_PROPERTIES
+    presence = clone DEFAULT_SQUAD_PRESENCE
   }
 
   meReady = false
@@ -518,6 +520,7 @@ function g_squad_manager::updateSquadData()
     country = getWwOperationCountry()
     battle = getWwOperationBattle() }
   data.properties <- clone squadData.properties
+  data.presence <- clone squadData.presence
 
   ::g_squad_manager.setSquadData(data)
 }
@@ -876,6 +879,7 @@ function g_squad_manager::reset()
   squadData.chatInfo = { name = "", password = "" }
   squadData.wwOperationInfo = { id = -1, country = "", battle = null }
   squadData.properties = clone DEFAULT_SQUAD_PROPERTIES
+  squadData.presence = clone DEFAULT_SQUAD_PRESENCE
   setMaxSquadSize(COMMON_SQUAD_SIZE)
 
   lastUpdateStatus = squadStatusUpdateState.NONE
@@ -889,16 +893,31 @@ function g_squad_manager::reset()
   ::broadcastEvent(squadEvent.INVITES_CHANGED)
 }
 
-function g_squad_manager::addRequestedPlayer(uid)
+function g_squad_manager::updateInvitedData(invites)
+{
+  local newInvitedData = {}
+  foreach(uidInt64 in invites)
+  {
+    if (!::is_numeric(uidInt64))
+      continue
+
+    local uid = uidInt64.tostring()
+    if (uid in squadData.invitedPlayers)
+      newInvitedData[uid] <- squadData.invitedPlayers[uid]
+    else
+      newInvitedData[uid] <- SquadMember(uid, true)
+
+    ::g_users_info_manager.requestInfo([uid])
+  }
+  squadData.invitedPlayers = newInvitedData
+}
+
+function g_squad_manager::addInvitedPlayers(uid)
 {
   if (uid in squadData.invitedPlayers)
     return
 
   squadData.invitedPlayers[uid] <- SquadMember(uid, true)
-
-  local contact = ::getContact(uid)
-  if (contact != null)
-    squadData.invitedPlayers[uid].update(contact)
 
   ::g_users_info_manager.requestInfo([uid])
 
@@ -907,7 +926,7 @@ function g_squad_manager::addRequestedPlayer(uid)
   ::broadcastEvent(squadEvent.DATA_UPDATED)
 }
 
-function g_squad_manager::removeRequestedPlayer(uid)
+function g_squad_manager::removeInvitedPlayers(uid)
 {
   if (!(uid in squadData.invitedPlayers))
     return
@@ -919,7 +938,7 @@ function g_squad_manager::removeRequestedPlayer(uid)
 
 function g_squad_manager::addMember(uid)
 {
-  removeRequestedPlayer(uid)
+  removeInvitedPlayers(uid)
   local memberData = SquadMember(uid)
   squadData.members[uid] <- memberData
   requestMemberData(uid)
@@ -975,10 +994,7 @@ function g_squad_manager::onSquadDataChanged(data = null)
   }
   squadData.members = newMembersData
 
-  local invites = ::getTblValue("invites", resSquadData, [])
-  squadData.invitedPlayers.clear()
-  foreach (invitedUid in invites)
-    addRequestedPlayer(invitedUid.tostring())
+  updateInvitedData(::getTblValue("invites", resSquadData, []))
 
   cyberCafeSquadMembersNum = getSameCyberCafeMembersNum()
   _parseCustomSquadData(::getTblValue("data", resSquadData, null))
@@ -992,8 +1008,10 @@ function g_squad_manager::onSquadDataChanged(data = null)
 
   if (setState(squadState.IN_SQUAD)) {
     updateMyMemberData(::g_user_utils.getMyStateData())
-    if (isSquadLeader())
+    if (isSquadLeader()) {
+      updatePresenceSquad()
       updateSquadData()
+    }
   }
   updateCurrentWWOperation()
   joinSquadChatRoom()
@@ -1037,6 +1055,7 @@ function g_squad_manager::_parseCustomSquadData(data)
   if (::u.isTable(properties))
     foreach(key, value in properties)
       squadData.properties[key] <- value
+  squadData.presence = data?.presence ?? clone DEFAULT_SQUAD_PRESENCE
 }
 
 function g_squad_manager::checkMembersPkg(pack) //return list of members dont have this pack
@@ -1084,6 +1103,21 @@ function g_squad_manager::checkUpdateStatus(newStatus)
 function g_squad_manager::getSquadRoomId()
 {
   return ::getTblValue("sessionRoomId", getSquadLeaderData(), "")
+}
+
+function g_squad_manager::updatePresenceSquad(shouldUpdateSquadData = false)
+{
+  if (!isSquadLeader())
+    return
+
+  local presence = ::g_presence_type.getCurrent()
+  local presenceParams = presence.getParams()
+  if (!::u.isEqual(squadData.presence, presenceParams))
+  {
+    squadData.presence = presenceParams
+    if (shouldUpdateSquadData)
+      updateSquadData()
+  }
 }
 
 function g_squad_manager::onEventUpdateEsFromHost(p)
@@ -1174,6 +1208,7 @@ function g_squad_manager::onEventLoadingStateChange(params)
 function g_squad_manager::onEventWWLoadOperation(params)
 {
   updateCurrentWWOperation()
+  updatePresenceSquad()
   updateSquadData()
 }
 
@@ -1206,6 +1241,7 @@ function g_squad_manager::startWWBattlePrepare(battleId = null)
     return
 
   squadData.wwOperationInfo.battle <- battleId
+  updatePresenceSquad()
   updateSquadData()
 }
 
@@ -1219,9 +1255,10 @@ function g_squad_manager::onEventWWStopWorldWar(params)
   if (getWwOperationId() == -1)
     return
 
-  if (!isInSquad() || isSquadLeader())
+  if (!isInSquad() || isSquadLeader()) {
     squadData.wwOperationInfo = { id = -1, country = "", battle = null }
-
+  }
+  updatePresenceSquad()
   updateSquadData()
 }
 
@@ -1238,6 +1275,7 @@ function g_squad_manager::onEventLobbyStatusChange(params)
     setReadyFlag(false)
 
   updateMyMemberData()
+  updatePresenceSquad(true)
 }
 
 function g_squad_manager::onEventQueueChangeState(params)
@@ -1246,6 +1284,7 @@ function g_squad_manager::onEventQueueChangeState(params)
     cancelWwBattlePrepare()
   else
     setCrewsReadyFlag(false)
+  updatePresenceSquad(true)
 }
 
 ::cross_call_api.squad_manger <- ::g_squad_manager

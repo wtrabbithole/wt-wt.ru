@@ -216,8 +216,6 @@
       "level": "levels/mozdok.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/mozdok_BfDn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,16 +223,15 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
-      "windSpeed": [4.0,5.0],
-      "windDirectionDeg": [270.0,290.0],
+      "locName": "missions/mozdok_BfDn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2900,
       "timeLimit": 60,
       "deathPenaltyMul": 0.0,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true
-      },
+      "windSpeed": [4.0,5.0],
+      "windDirectionDeg": [270.0,290.0],
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -259,6 +256,11 @@
         "_ArtDB": false,
         "_DBttlA": false,
         "_DBttlB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": false,
+        "isShipsAllowed": false
       }
     },
     "cover_points": [],
@@ -284,6 +286,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -537,10 +542,10 @@
             "target_type": "isActive",
             "target_marking": 0,
             "delta": 0,
-            "icon": "truck",
+            "icon": "score",
             "icon army": 1,
             "set": true,
-            "target": "t1_trucks_squad"
+            "target": "t1_quest_units_squad"
           }
         },
         {
@@ -548,32 +553,10 @@
             "target_type": "isActive",
             "target_marking": 0,
             "delta": 0,
-            "icon": "cannon",
-            "icon army": 1,
-            "set": true,
-            "target": "t1_bunkers_light_squad"
-          }
-        },
-        {
-          "missionSetTargetsIndicator": {
-            "target_type": "isActive",
-            "target_marking": 0,
-            "delta": 0,
-            "icon": "truck",
+            "icon": "score",
             "icon army": 2,
             "set": true,
-            "target": "t2_trucks_squad"
-          }
-        },
-        {
-          "missionSetTargetsIndicator": {
-            "target_type": "isActive",
-            "target_marking": 0,
-            "delta": 0,
-            "icon": "tank",
-            "icon army": 2,
-            "set": true,
-            "target": "t2_tanks_squad"
+            "target": "t2_quest_units_squad"
           }
         }
       ],
@@ -594,6 +577,9 @@
       "actions": [
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_aaa_squad"
             },
@@ -620,6 +606,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t1_artillery_squad"
             },
             {
@@ -638,6 +627,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_soldiers_squad"
             },
@@ -666,6 +658,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield",
             "team": "A",
             "tags": {
@@ -691,6 +684,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_airfield",
             "team": "B",
             "tags": {
@@ -704,6 +698,9 @@
         },
         {
           "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
             {
               "object": "t1_def_aaa_squad"
             },
@@ -729,6 +726,7 @@
         },
         {
           "unitSetProperties": {
+            "object_marking": 0,
             "object": "bridge_units_squad",
             "ignoresObstaclesAfterTime": false
           }
@@ -739,18 +737,20 @@
           }
         },
         {
-          "unitSetIndication": {
-            "set": true,
-            "target": "t1_quest_units_squad",
-            "team": "B"
-          }
-        },
-        {
-          "unitSetIndication": {
-            "set": true,
-            "target": "t2_quest_units_squad",
-            "team": "A"
-          }
+          "unitSetIndication": [
+            {
+              "set": true
+            },
+            {
+              "target_marking": 0
+            },
+            {
+              "target": "t1_quest_units_squad"
+            },
+            {
+              "target": "t2_quest_units_squad"
+            }
+          ]
         },
         {
           "moAddMissionObjective": {
@@ -987,6 +987,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_01",
             "move_type": "teleport"
           }
@@ -1007,6 +1009,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_01"
           }
         }
@@ -1052,6 +1056,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_02",
             "move_type": "teleport"
           }
@@ -1072,6 +1078,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_02"
           }
         }
@@ -1117,6 +1125,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_03",
             "move_type": "teleport"
           }
@@ -1137,6 +1147,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_03"
           }
         }
@@ -1182,6 +1194,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_04",
             "move_type": "teleport"
           }
@@ -1202,6 +1216,8 @@
             "horizontalDirectionForTeleport": true,
             "waypointReachedDist": 10.0,
             "recalculatePathDist": -1.0,
+            "object_marking": 0,
+            "target_marking": 0,
             "object": "t2_soldier_04"
           }
         }
@@ -1386,6 +1402,8 @@
         ],
         "unit_class": "i-15bis",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1505,9 +1523,9 @@
           [0.866025,0.0,-0.5],
           [0.0,1.0,0.0],
           [0.5,0.0,0.866025],
-          [5067.7,109.835,9767.46]
+          [4913.51,109.83,9856.49]
         ],
-        "unit_class": "dynAF_britain_grd_ally",
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
         "props": {
           "army": 1,
           "active": true
@@ -1521,9 +1539,9 @@
           [-0.92388,0.0,0.382684],
           [0.0,1.0,0.0],
           [-0.382684,0.0,-0.92388],
-          [-17153.0,149.527,21594.7]
+          [-16765.8,161.595,21339.7]
         ],
-        "unit_class": "dynAF_britain_grd_ally",
+        "unit_class": "dynAF_kh_gol_airfield_gumrak",
         "props": {
           "army": 2,
           "active": true
@@ -1537,10 +1555,12 @@
           [-0.608761,0.0,0.793353],
           [0.0,1.0,0.0],
           [-0.793353,0.0,-0.608761],
-          [-3357.66,59.3856,13258.5]
+          [-3413.24,91.9965,13570.1]
         ],
         "unit_class": "ussr_zis5_20mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1570,10 +1590,12 @@
           [-0.965926,0.0,0.258819],
           [0.0,1.0,0.0],
           [-0.258819,0.0,-0.965926],
-          [-3265.37,51.1888,13337.9]
+          [-3320.95,88.8956,13649.5]
         ],
         "unit_class": "ussr_zis5_20mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1603,10 +1625,12 @@
           [-0.737277,0.0,0.67559],
           [0.0,1.0,0.0],
           [-0.67559,0.0,-0.737277],
-          [-3310.54,55.3888,13302.3]
+          [-3366.12,92.6304,13613.9]
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1670,6 +1694,8 @@
         ],
         "unit_class": "ussr_zis5_20mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1696,13 +1722,15 @@
       "air_defence": {
         "name": "t1_truck_aaa_04",
         "tm": [
-          [-0.608761,0.0,0.793353],
+          [0.795897,0.0,0.605431],
           [0.0,1.0,0.0],
-          [-0.793353,0.0,-0.608761],
-          [-5256.12,44.6159,12432.5]
+          [-0.605431,0.0,0.795897],
+          [-6179.83,93.4193,13027.0]
         ],
         "unit_class": "ussr_zis5_20mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1729,13 +1757,15 @@
       "infantry": {
         "name": "t1_soldier_07",
         "tm": [
-          [-0.737277,0.0,0.67559],
+          [0.678674,0.0,0.734439],
           [0.0,1.0,0.0],
-          [-0.67559,0.0,-0.737277],
-          [-5287.67,47.5959,12464.9]
+          [-0.734439,0.0,0.678674],
+          [-6147.3,99.9518,13058.4]
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1768,6 +1798,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1948,6 +1980,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1981,6 +2015,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2014,6 +2050,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2047,6 +2085,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2080,6 +2120,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2113,6 +2155,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2146,6 +2190,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2179,6 +2225,8 @@
         ],
         "unit_class": "ussr_57mm_zis2_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2212,6 +2260,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2245,6 +2295,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2277,6 +2329,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2309,6 +2363,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2341,6 +2397,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2373,6 +2431,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2405,6 +2465,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2437,6 +2499,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2469,6 +2533,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2501,6 +2567,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2533,6 +2601,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2565,6 +2635,8 @@
         ],
         "unit_class": "ussr_25mm_72k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2598,6 +2670,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2631,6 +2705,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2664,6 +2740,8 @@
         ],
         "unit_class": "ussr_25mm_72k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2697,6 +2775,8 @@
         ],
         "unit_class": "ussr_25mm_72k_noground",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2752,6 +2832,8 @@
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2781,7 +2863,7 @@
               [-4007.75,102.302,16901.1]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
               "tas": false,
@@ -2797,7 +2879,7 @@
               [-3754.35,109.622,14964.5]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": true,
               "tas": false,
@@ -2813,7 +2895,7 @@
               [-2200.22,85.9398,14861.0]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -2926,6 +3008,8 @@
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -2955,7 +3039,7 @@
               [-5935.85,101.929,14679.2]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
               "tas": false,
@@ -2971,7 +3055,7 @@
               [-5181.21,100.171,14304.2]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -2987,7 +3071,7 @@
               [-4910.79,104.172,14037.0]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3072,6 +3156,8 @@
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3101,7 +3187,7 @@
               [-6109.28,110.687,14734.5]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3117,7 +3203,7 @@
               [-5189.16,100.089,14315.0]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3133,7 +3219,7 @@
               [-4908.96,104.372,14030.2]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3234,6 +3320,8 @@
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3263,7 +3351,7 @@
               [-4016.51,102.108,16922.9]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3279,7 +3367,7 @@
               [-3476.93,103.556,16396.4]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3295,7 +3383,7 @@
               [-2203.38,86.9832,14872.0]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3380,6 +3468,8 @@
         ],
         "unit_class": "ussr_zis5_cargo",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3409,7 +3499,7 @@
               [-5131.36,104.446,16023.4]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "GATHER_TO",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3425,7 +3515,7 @@
               [-3705.07,106.632,14676.5]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3441,7 +3531,7 @@
               [-3556.48,61.6743,13188.7]
             ],
             "props": {
-              "speed": 50.0,
+              "speed": 40.0,
               "moveType": "USE_SPLINES",
               "shouldKeepFormation": false,
               "tas": false,
@@ -3526,6 +3616,8 @@
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3688,6 +3780,8 @@
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3834,6 +3928,8 @@
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -3996,6 +4092,8 @@
         ],
         "unit_class": "germ_pzIIIj",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4220,6 +4318,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4253,6 +4353,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4286,6 +4388,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4319,6 +4423,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4352,6 +4458,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4385,6 +4493,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4418,6 +4528,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4528,6 +4640,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4560,6 +4674,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4592,6 +4708,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4624,6 +4742,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4784,6 +4904,8 @@
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -4946,6 +5068,8 @@
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5092,6 +5216,8 @@
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5254,6 +5380,8 @@
         ],
         "unit_class": "germ_sdKfz_222",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5400,6 +5528,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5433,6 +5563,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5466,6 +5598,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5499,6 +5633,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5532,6 +5668,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5565,6 +5703,8 @@
         ],
         "unit_class": "ussr_37mm_61k_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5598,6 +5738,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5631,6 +5773,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5664,6 +5808,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5697,6 +5843,8 @@
         ],
         "unit_class": "ussr_85mm_52k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5773,6 +5921,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5806,6 +5956,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5835,10 +5987,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-16008.5,185.217,21194.5]
+          [-15981.6,185.217,21292.4]
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5872,6 +6026,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5905,6 +6061,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5938,6 +6096,8 @@
         ],
         "unit_class": "germ_37mm_flak43_airfield",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -5971,6 +6131,8 @@
         ],
         "unit_class": "germ_88mm_flak36",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6004,6 +6166,8 @@
         ],
         "unit_class": "germ_88mm_flak36",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6037,6 +6201,8 @@
         ],
         "unit_class": "germ_88mm_flak36",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6070,6 +6236,8 @@
         ],
         "unit_class": "germ_88mm_flak36",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6190,6 +6358,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6222,6 +6392,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6254,6 +6426,8 @@
         ],
         "unit_class": "rifle_infantry",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6286,6 +6460,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6319,6 +6495,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6400,6 +6578,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6433,6 +6613,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6466,6 +6648,8 @@
         ],
         "unit_class": "germ_20mm_flak38",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6499,6 +6683,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6532,6 +6718,8 @@
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6565,6 +6753,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6598,6 +6788,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6631,6 +6823,8 @@
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6664,6 +6858,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6697,6 +6893,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6723,13 +6921,15 @@
       "air_defence": {
         "name": "t1_truck_aaa_05",
         "tm": [
-          [-0.819152,0.0,-0.573576],
+          [-0.570138,0.0,0.821549],
           [0.0,1.0,0.0],
-          [0.573576,0.0,-0.819152],
-          [-5276.22,42.1929,12541.9]
+          [-0.821549,0.0,-0.570138],
+          [-6070.35,102.919,13046.6]
         ],
         "unit_class": "ussr_zis5_20mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6763,6 +6963,8 @@
         ],
         "unit_class": "ussr_zis5_20mm",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6796,6 +6998,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6829,6 +7033,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6862,6 +7068,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6895,6 +7103,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6928,6 +7138,8 @@
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6961,6 +7173,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -6994,6 +7208,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7064,6 +7280,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7097,6 +7315,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7130,6 +7350,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7163,6 +7385,8 @@
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7196,6 +7420,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7229,6 +7455,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7262,6 +7490,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7350,13 +7580,15 @@
       "structures": {
         "name": "t1_base_01_stuff_01",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5215.48,40.4456,12395.2]
+          [0.999991,0.0,-0.00419072],
+          [-6217.3,89.0305,12986.5]
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7383,13 +7615,15 @@
       "structures": {
         "name": "t1_base_01_stuff_02",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5296.01,48.732,12418.8]
+          [0.999991,0.0,-0.00419072],
+          [-6193.36,91.9156,13066.9]
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7416,13 +7650,15 @@
       "structures": {
         "name": "t1_base_01_stuff_03",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5310.35,50.3188,12480.4]
+          [0.999991,0.0,-0.00419072],
+          [-6131.7,101.513,13081.0]
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7449,13 +7685,15 @@
       "structures": {
         "name": "t1_base_01_stuff_04",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5299.91,45.4499,12567.8]
+          [0.999991,0.0,-0.00419072],
+          [-6044.35,98.5872,13070.2]
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7482,13 +7720,15 @@
       "structures": {
         "name": "t1_base_01_stuff_05",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5262.97,39.691,12609.2]
+          [0.999991,0.0,-0.00419072],
+          [-6003.1,98.5979,13033.1]
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7515,13 +7755,15 @@
       "structures": {
         "name": "t1_base_01_stuff_06",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5236.72,36.3643,12545.8]
+          [0.999991,0.0,-0.00419072],
+          [-6066.61,107.837,13007.1]
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7548,13 +7790,15 @@
       "structures": {
         "name": "t1_base_01_stuff_07",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5226.63,35.7682,12484.1]
+          [0.999991,0.0,-0.00419072],
+          [-6128.35,101.937,12997.3]
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7581,13 +7825,15 @@
       "structures": {
         "name": "t1_base_01_stuff_08",
         "tm": [
-          [1.0,0.0,0.0],
+          [-0.00419072,0.0,-0.999991],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-5216.41,32.9817,12594.5]
+          [0.999991,0.0,-0.00419072],
+          [-6018.0,92.5578,12986.6]
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7614,10 +7860,10 @@
       "objectGroups": {
         "name": "objectGroups_01",
         "tm": [
-          [-0.642788,0.0,-0.766044],
+          [-0.763344,0.0,0.645993],
           [0.0,1.0,0.0],
-          [0.766044,0.0,-0.642788],
-          [-5328.37,51.6585,12425.7]
+          [-0.645993,0.0,-0.763344],
+          [-6186.33,93.913,13099.3]
         ],
         "unit_class": "tank_barbwire",
         "props": {
@@ -7630,10 +7876,10 @@
       "objectGroups": {
         "name": "objectGroups_02",
         "tm": [
-          [-0.984808,0.0,0.173648],
+          [0.177774,0.0,0.984072],
           [0.0,1.0,0.0],
-          [-0.173648,0.0,-0.984808],
-          [-5332.0,51.6585,12483.7]
+          [-0.984072,0.0,0.177774],
+          [-6128.31,98.5512,13102.7]
         ],
         "unit_class": "tank_barbwire",
         "props": {
@@ -7646,10 +7892,10 @@
       "objectGroups": {
         "name": "objectGroups_03",
         "tm": [
-          [-0.984808,0.0,0.173648],
+          [0.177774,0.0,0.984072],
           [0.0,1.0,0.0],
-          [-0.173648,0.0,-0.984808],
-          [-5317.91,51.6585,12563.7]
+          [-0.984072,0.0,0.177774],
+          [-6048.37,96.4597,13088.2]
         ],
         "unit_class": "tank_barbwire",
         "props": {
@@ -7665,10 +7911,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3355.01,54.734,13207.5]
+          [-3410.59,90.4916,13519.1]
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7698,10 +7946,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3399.73,67.9982,13303.5]
+          [-3455.31,95.9298,13615.1]
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7731,10 +7981,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3332.68,63.5111,13379.7]
+          [-3388.26,95.4032,13691.3]
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7764,10 +8016,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3241.43,49.787,13363.7]
+          [-3297.01,87.4634,13675.3]
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7797,10 +8051,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3214.79,42.069,13283.4]
+          [-3270.37,73.2381,13595.0]
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7830,10 +8086,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3261.87,41.9148,13197.2]
+          [-3317.45,77.6283,13508.8]
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7863,10 +8121,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3285.47,49.2752,13255.8]
+          [-3341.05,83.1618,13567.4]
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7896,10 +8156,12 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-3333.86,59.9302,13325.5]
+          [-3389.44,94.1395,13637.1]
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -7929,7 +8191,7 @@
           [-0.737277,0.0,0.67559],
           [0.0,1.0,0.0],
           [-0.67559,0.0,-0.737277],
-          [-3365.12,67.9806,13376.0]
+          [-3420.7,96.6319,13687.6]
         ],
         "unit_class": "tank_barbwire",
         "props": {
@@ -7945,7 +8207,7 @@
           [-0.906308,0.0,0.422618],
           [0.0,1.0,0.0],
           [-0.422618,0.0,-0.906308],
-          [-3403.3,70.8757,13337.5]
+          [-3458.88,97.2518,13649.1]
         ],
         "unit_class": "tank_barbwire",
         "props": {
@@ -7961,7 +8223,7 @@
           [-0.965926,0.0,-0.258819],
           [0.0,1.0,0.0],
           [0.258819,0.0,-0.965926],
-          [-3414.68,67.3885,13260.9]
+          [-3470.26,90.0492,13572.5]
         ],
         "unit_class": "tank_barbwire",
         "props": {
@@ -7977,7 +8239,7 @@
           [-0.737277,0.0,-0.67559],
           [0.0,1.0,0.0],
           [0.67559,0.0,-0.737277],
-          [-3381.3,57.3513,13192.0]
+          [-3436.88,91.5344,13503.6]
         ],
         "unit_class": "tank_barbwire",
         "props": {
@@ -8034,6 +8296,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8067,6 +8331,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8100,6 +8366,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8133,6 +8401,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8166,6 +8436,8 @@
         ],
         "unit_class": "stuff_barrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8199,6 +8471,8 @@
         ],
         "unit_class": "stuff_tentCaissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8232,6 +8506,8 @@
         ],
         "unit_class": "stuff_caissons",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8265,6 +8541,8 @@
         ],
         "unit_class": "stuff_tentBarrels",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8399,6 +8677,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8432,6 +8712,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8465,6 +8747,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8498,6 +8782,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8531,6 +8817,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8564,6 +8852,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8597,6 +8887,8 @@
         ],
         "unit_class": "uk_bunker_light",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8749,6 +9041,8 @@
         ],
         "unit_class": "ussr_25mm_72k",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8782,6 +9076,8 @@
         ],
         "unit_class": "germ_opelBlitz_fuel",
         "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -8960,6 +9256,8 @@
         ],
         "unit_class": "germ_motobike",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -9160,6 +9458,8 @@
         ],
         "unit_class": "germ_motobike",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -9376,6 +9676,8 @@
         ],
         "unit_class": "dummy",
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -9552,7 +9854,7 @@
         [3000.0,0.0,5196.15],
         [0.0,6000.0,0.0],
         [-5196.15,0.0,3000.0],
-        [-17416.8,2000.0,21346.9]
+        [-16766.6,2000.0,21424.4]
       ],
       "props": []
     },
@@ -9562,7 +9864,7 @@
         [253.017,0.0,-161.19],
         [0.0,300.0,0.0],
         [161.19,0.0,253.017],
-        [-14817.0,1000.0,19845.5]
+        [-14166.8,1000.0,19923.0]
       ],
       "props": []
     },
@@ -9572,7 +9874,7 @@
         [2000.0,0.0,3464.1],
         [0.0,4000.0,0.0],
         [-3464.1,0.0,2000.0],
-        [-17416.8,3000.0,21346.9]
+        [-16766.6,3000.0,21424.4]
       ],
       "props": []
     },
@@ -9582,7 +9884,7 @@
         [3000.0,0.0,5196.15],
         [0.0,6000.0,0.0],
         [-5196.15,0.0,3000.0],
-        [-17416.8,1000.0,21346.9]
+        [-16766.6,1000.0,21424.4]
       ],
       "props": []
     },
@@ -9592,7 +9894,7 @@
         [253.017,0.0,-161.19],
         [0.0,300.0,0.0],
         [161.19,0.0,253.017],
-        [-19998.7,1000.0,22837.1]
+        [-19348.5,1000.0,22914.6]
       ],
       "props": []
     },
@@ -9602,7 +9904,7 @@
         [253.017,0.0,-161.19],
         [0.0,300.0,0.0],
         [161.19,0.0,253.017],
-        [-19143.2,2000.0,22343.2]
+        [-18493.0,2000.0,22420.7]
       ],
       "props": []
     },
@@ -9612,7 +9914,7 @@
         [253.017,0.0,-161.19],
         [0.0,300.0,0.0],
         [161.19,0.0,253.017],
-        [-15685.8,4500.0,20347.1]
+        [-15035.6,4500.0,20424.6]
       ],
       "props": []
     },
@@ -9622,7 +9924,7 @@
         [253.017,0.0,-161.19],
         [0.0,300.0,0.0],
         [161.19,0.0,253.017],
-        [-15252.2,3500.0,20096.8]
+        [-14602.0,3500.0,20174.3]
       ],
       "props": []
     },
@@ -9632,7 +9934,7 @@
         [2000.0,0.0,3464.1],
         [0.0,4000.0,0.0],
         [-3464.1,0.0,2000.0],
-        [-17416.8,4500.0,21346.9]
+        [-16766.6,4500.0,21424.4]
       ],
       "props": []
     },
@@ -9642,7 +9944,7 @@
         [2500.0,0.0,4330.13],
         [0.0,5000.0,0.0],
         [-4330.13,0.0,2500.0],
-        [-17416.8,3500.0,21346.9]
+        [-16766.6,3500.0,21424.4]
       ],
       "props": []
     },
@@ -9832,7 +10134,7 @@
         [160.0,-23.4947,0.0],
         [23.4053,160.0,-15.688],
         [2.0477,15.5538,160.0],
-        [-3306.37,62.4664,13287.2]
+        [-3395.86,107.933,13617.4]
       ],
       "props": []
     },
@@ -9849,10 +10151,10 @@
     "area_01": {
       "type": "Sphere",
       "tm": [
-        [24000.0,0.0,0.0],
-        [0.0,24000.0,0.0],
-        [0.0,0.0,24000.0],
-        [-5508.5,194.95,15895.8]
+        [10965.4,0.0,20535.8],
+        [0.0,23280.0,0.0],
+        [-20535.8,0.0,10965.4],
+        [-5834.64,194.95,16086.9]
       ],
       "props": []
     },
@@ -9892,10 +10194,10 @@
     "t1_bomb_area_01": {
       "type": "Box",
       "tm": [
-        [-165.214,0.0,0.0],
+        [0.692365,0.0,165.213],
         [0.0,350.0,0.0],
-        [0.0,0.0,-246.826],
-        [-5267.35,20.3,12494.9]
+        [-246.824,0.0,1.03438],
+        [-6117.38,90.8,13038.0]
       ],
       "objLayer": 0,
       "props": []
@@ -9906,7 +10208,7 @@
         [-214.778,0.0,0.0],
         [0.0,350.0,0.0],
         [0.0,0.0,-246.826],
-        [-3314.81,30.2831,13269.4]
+        [-3370.39,53.6334,13581.0]
       ],
       "objLayer": 0,
       "props": []
@@ -9928,7 +10230,7 @@
         [-1659.45,0.0,958.083],
         [0.0,350.0,0.0],
         [-328.45,0.0,-568.892],
-        [4914.74,109.838,9931.47]
+        [4919.2,109.838,9799.22]
       ],
       "objLayer": 0,
       "props": []
@@ -9939,9 +10241,29 @@
         [-1770.31,0.0,733.285],
         [0.0,350.0,0.0],
         [-251.385,0.0,-606.896],
-        [-17014.5,146.318,21446.5]
+        [-16134.4,146.318,21484.3]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-253.017,0.0,161.19],
+        [0.0,300.0,0.0],
+        [-161.19,0.0,-253.017],
+        [7334.85,500.0,8193.79]
+      ],
+      "props": []
+    },
+    "t2_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [253.017,0.0,-161.19],
+        [0.0,300.0,0.0],
+        [161.19,0.0,253.017],
+        [-19348.5,500.0,22914.6]
+      ],
       "props": []
     }
   },

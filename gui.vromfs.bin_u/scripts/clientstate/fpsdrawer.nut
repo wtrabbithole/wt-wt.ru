@@ -66,7 +66,7 @@ function fpsDrawer::updateTexts(objects, fps, ping, pl, sessionId) //validate ob
 {
   fps = (fps + 0.5).tointeger();
   local fpsText = ""
-  if (!::is_platform_ps4 && !::is_platform_android && fps < 10000 && fps > 0)
+  if ((::is_dev_version || (!::is_ps4_or_xbox && !::is_platform_android)) && fps < 10000 && fps > 0)
     fpsText = ::colorize(getFpsColor(fps), ::format("FPS: %d", fps))
   objects.fps.setValue(fpsText)
 

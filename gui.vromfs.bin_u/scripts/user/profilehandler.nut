@@ -42,7 +42,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   presetSheetList = ["Profile", "Statistics", "Medal", "UnlockAchievement", "UnlockSkin", "UnlockDecal"]
 
-  tabImageNamePrefix = "#ui/gameuiskin#sh_"
+  tabImageNameTemplate = "#ui/gameuiskin#sh_%s.svg"
   tabLocalePrefix = "#mainmenu/btn"
   defaultTabImageName = "unlockachievement"
 
@@ -188,14 +188,16 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       sheetsList.push(lowerCaseTab)
       unlockFilters[lowerCaseTab]  <- null
 
+      local defaultImage = ::format(tabImageNameTemplate, defaultTabImageName)
+
       if (cb.customMenuTab in customCategoryConfig)
       {
-        tabImage = ::getTblValue("image", customCategoryConfig[cb.customMenuTab], tabImageNamePrefix + defaultTabImageName)
+        tabImage = ::getTblValue("image", customCategoryConfig[cb.customMenuTab], defaultImage)
         tabText = tabLocalePrefix + ::getTblValue("title", customCategoryConfig[cb.customMenuTab], cb.customMenuTab)
       }
       else
       {
-        tabImage = tabImageNamePrefix + defaultTabImageName
+        tabImage = defaultImage
         tabText = tabLocalePrefix + cb.customMenuTab
       }
       customMenuTabs[lowerCaseTab] <- {
@@ -233,7 +235,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       }
       else
       {
-        tabImage = tabImageNamePrefix + sheet.tolower()
+        tabImage = ::format(tabImageNameTemplate, sheet.tolower())
         tabText = tabLocalePrefix + sheet
       }
 
@@ -288,8 +290,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local sheet = getCurSheet()
     local isProfileOpened = sheet == "Profile"
     local buttonsList = {
-                          btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
-                          btn_changeName = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
+                          btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
+                          btn_changeName = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
                           btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
                           btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
                           btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::check_account_tag("steamlogin")

@@ -519,6 +519,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     local warningTextObj = showSceneBtn("cant_join_reason_txt", !::u.isEmpty(warningText))
     warningTextObj.setValue(warningText)
+
+    showSceneBtn("invite_squads_button", ::g_world_war.isSquadsInviteEnable())
   }
 
   function updateCanJoinBattleStatus()
@@ -551,6 +553,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     checkedModifyQueue(QUEUE_TYPE_BIT.WW_BATTLE,
       @() ::gui_handlers.ClusterSelect.open(obj, "bottom"))
+  }
+
+  function onOpenSquadsListModal(obj)
+  {
+    ::gui_handlers.MyClanSquadsListModal.open()
   }
 
   function onEventClusterChange(params)

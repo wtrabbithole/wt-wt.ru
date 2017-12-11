@@ -26,7 +26,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       {
         tooltip = "#slotInfoPanel/unitInfo/tooltip",
         imgId = "slot_info_vehicle_icon",
-        imgBg = "#ui/gameuiskin#slot_testdrive",
+        imgBg = "#ui/gameuiskin#slot_testdrive.svg",
         discountId = "unit_lb_discount",
         contentId = "air_info_content",
         fillerFunction = function() { updateAirInfo(true) }
@@ -34,7 +34,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       {
         tooltip = "#slotInfoPanel/crewInfo/tooltip",
         imgId = "",
-        imgBg = "#ui/gameuiskin#slot_crew",
+        imgBg = "#ui/gameuiskin#slot_crew.svg",
         discountId = "crew_lb_discount",
         contentId = "crew_info_content",
         fillerFunction = function() { updateCrewInfo(true) }
@@ -42,7 +42,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       {
         tooltip = "#mainmenu/btnFavoritesUnlockAchievement",
         imgId = "",
-        imgBg = "#ui/gameuiskin#sh_unlockachievement",
+        imgBg = "#ui/gameuiskin#sh_unlockachievement.svg",
         discountId = "",
         contentId = "unlockachievement_content",
         fillerFunction = function() { showUnlockAchievementInfo() }
@@ -77,6 +77,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       updateUnitIcon()
       listboxObj.setValue(showTabs ? ::load_local_account_settings(SLOT_INFO_TAB_SAVE_ID, 0) : 0)
       updateContentVisibility()
+
+      listboxObj.show(view.items.len() > 1)
     }
 
     local unitInfoObj = scene.findObject("air_info_content_info")

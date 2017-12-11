@@ -15,7 +15,7 @@ button
   showButtonImageOnConsole:t='no'
   ButtonImg{}
   img{
-    background-image:t='#ui/gameuiskin#spinnerListBox_arrow_up'; rotation:t='90'
+    background-image:t='#ui/gameuiskin#spinnerListBox_arrow_up.svg'; rotation:t='90'
   }
 }
 pages{
@@ -38,6 +38,6 @@ button
   showButtonImageOnConsole:t='no'
   ButtonImg{}
   img{
-    background-image:t='#ui/gameuiskin#spinnerListBox_arrow_up'; rotation:t='270'
+    background-image:t='#ui/gameuiskin#spinnerListBox_arrow_up.svg'; rotation:t='270'
   }
 }

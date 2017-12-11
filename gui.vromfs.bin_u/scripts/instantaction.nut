@@ -1466,7 +1466,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
   if (repairInfo.weaponWarning && repairInfo.unreadyAmmoList)
   {
     local msg = ::loc(repairInfo.haveRespawns ? "msgbox/all_planes_zero_ammo_warning" : "controls/no_ammo_left_warning")
-    msg += "\n\n" + format(::loc("buy_unsufficient_ammo"), ::getPriceText(repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold))
+    msg += "\n\n" + format(::loc("buy_unsufficient_ammo"), ::Cost(repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold).tostring())
 
     ::gui_start_modal_wnd(::gui_handlers.WeaponWarningHandler,
       {
@@ -1507,7 +1507,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
       msgText = repairInfo.randomCountry ? "msgbox/select_%s_aircrafts_random" : "msgbox/select_%s_aircraft"
 
     if(repairInfo.canFlyoutIfRepair)
-      msgText = ::format(::loc(::format(msgText, "repared")), ::getPriceText(repairInfo.repairCost))
+      msgText = ::format(::loc(::format(msgText, "repared")), ::Cost(repairInfo.repairCost).tostring())
     else
       msgText = ::format(::loc(::format(msgText, "available")), time.secondsToString(::lockTimeMaxLimitSec))
 
@@ -1522,7 +1522,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
   else if (repairInfo.broken_countries.len() > 0)
   {
     local msgText = repairInfo.randomCountry ? ::loc("msgbox/some_repared_aircrafts_random") : ::loc("msgbox/some_repared_aircrafts")
-    msgText = format(msgText, ::getPriceText(repairInfo.repairCost))
+    msgText = format(msgText, ::Cost(repairInfo.repairCost).tostring())
     ::scene_msg_box("no_aircrafts", null, msgText,
        [
          ["ContinueWithoutRepair", function() { startFunc.call(handler) }],

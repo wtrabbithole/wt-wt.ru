@@ -370,13 +370,14 @@ shopFilterText[colorTag=friend]                  { color:@mChatSenderFriendColor
 [selected=yes] > shopFilterText[colorTag=friend] { color:@mChatSenderFriendColor;}
 
 shopFilterImg {
-  height:1@shopFilterHFlowHeight;
+  height:1@cIco;
   width:h;
   pos:50%pw-50%w, 50%ph-50%h;
   position:relative;
   color:@commonTextColor;
-  background-repeat:expand;
+  background-repeat:aspect-ratio;
   background-color:@commonTextColor;
+  background-svg-size:@cIco, @cIco;
   input-transparent:yes;
 }
 
@@ -446,6 +447,7 @@ cornerImg {
   top:-0.45h;
   position:absolute;
   background-repeat:aspect-ratio;
+  background-svg-size:@cIco, @cIco;
   input-transparent:yes;
 }
 
@@ -466,14 +468,29 @@ cornerImg[_needColor=yes] {
   background-color:@white;
 }
 
+cornerImg[foreground-image] {
+  re-type: fgPict;
+  foreground-repeat:aspect-ratio;
+  foreground-color:@white;
+}
+
+cornerImgGlow {
+  size:1.4pw, 1.4ph;
+  pos:pw/2-w/2, ph/2-h/2; position:absolute;
+  background-image:#ui/gameuiskin#mail_new_glow;
+  background-color:@textureGlowColor;
+  background-repeat:aspect-ratio;
+  input-transparent:yes;
+}
+
 [show_console_buttons:yes] [selected=yes][navImgStyle=all] > cornerImg,
 [show_console_buttons:yes] [selected=yes][navImgStyle=right] > cornerImg {
   left:pw -0.9h -ph;
 }
 
 .tabs[smallFont=yes] cornerImg {
-  height:30*@sf/@pf_outdated;
-  pos:pw-0.5w-20, -0.5h;
+  height:1@cIco;
+  pos:pw-w-6@sf/@pf, -0.5h;
 }
 
 navigationImage {
@@ -485,13 +502,13 @@ navigationImage {
   background-color:@white;
   background-repeat:expand;
   background-position:0;
-  background-image:#ui/controlskin#r_stick_left;
+  background-image:@control_r_stick_left;
   input-transparent:yes;
   display:hide;
 }
 navigationImage[type=right] {
   pos:pw-w-0.005@scrn_tgt, 50%ph-50%h;
-  background-image:#ui/controlskin#r_stick_right;
+  background-image:@control_r_stick_right;
 }
 
 [show_console_buttons:yes] shopFilter[selected=yes][navImgStyle] > navigationImage {
@@ -514,10 +531,11 @@ shopFilter[selected=yes][navImgStyle=right] > navigationImage[type=left] {
 .tabs[withImages=yes] > shopFilter > shopFilterImg,
 .header[withImages=yes] > shopFilter > shopFilterImg,
 HorizontalListBox[withImages=yes] > shopFilter > shopFilterImg {
-  height:ph - 10*@sf/@pf_outdated;
-  pos:3*@sf/@pf_outdated, 50%ph-50%h;
+  height:@cIco;
+  background-svg-size:@cIco, @cIco;
+  pos:0, ph/2-h/2;
   position:relative;
-  margin-right:3*@sf/@pf_outdated;
+  margin-right:1@blockInterval;
 }
 
 VerticalListBox.options > shopFilter {

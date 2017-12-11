@@ -455,7 +455,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       if (premTeaser.exp > 0)
         currencies.append(::getRpPriceText(premTeaser.exp, true))
       if (premTeaser.wp  > 0)
-        currencies.append(::getPriceText(premTeaser.wp))
+        currencies.append(::Cost(premTeaser.wp).tostring())
       tooltip = ::loc("debriefing/PremiumNotEarned") + ::loc("ui/colon") + "\n" + ::g_string.implode(currencies, ::loc("ui/comma"))
     }
 
@@ -564,7 +564,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local iconObj = scene.findObject("active_wager_result_icon")
     if (!::checkObj(iconObj))
       return
-    iconObj["background-image"] = success ? "#ui/gameuiskin#favorite" : "#ui/hudskin#icon_primary_fail"
+    iconObj["background-image"] = success ? "#ui/gameuiskin#favorite" : "#ui/gameuiskin#icon_primary_fail"
   }
 
   function handlePveReward()
@@ -862,7 +862,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         if (!bonusExp && !bonusWp)
           continue
         bonusesTotal.append(::loc(::getTblValue(bonusType, bonusNames, "")) + ::loc("ui/colon") +
-          ::g_string.implode([ ::getRpPriceText(bonusExp, true), ::getPriceText(bonusWp) ], ::loc("ui/comma")))
+          ::g_string.implode(
+            [ ::getRpPriceText(bonusExp, true), ::Cost(bonusWp).tostring() ],::loc("ui/comma")))
       }
       if (!::u.isEmpty(bonusesTotal))
         textArray.append(::g_string.implode(bonusesTotal, "\n"))
@@ -1079,8 +1080,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return ""
     switch(type)
     {
-      case "wp":  return ::getWpPriceText(value, true)
-      case "gold": return ::getGpPriceText(value, true)
+      case "wp":  return ::Cost(value).toStringWithParams({isWpAlwaysShown = true})
+      case "gold": return ::Cost(0, value).toStringWithParams({isGoldAlwaysShown = true})
       case "exp": return ::getRpPriceText(value, true)
       case "frp": return ::getFreeRpPriceText(value, true)
       case "num": return value.tostring()
@@ -1635,7 +1636,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local goldCost = ("goldCost" in ent)? ent.goldCost : 0
     local cb = ::Callback(onBuyPremiumAward, this)
 
-    local msgText = format(::loc("msgbox/EarnNow"), entNameText, ::get_cur_award_text(), getPriceText(0, goldCost))
+    local msgText = format(::loc("msgbox/EarnNow"), entNameText, ::get_cur_award_text(), ::Cost(0, goldCost).tostring())
     msgBox("not_all_mapped", msgText,
     [
       ["ok", (@(entName, goldCost, cb) function() {
@@ -2451,6 +2452,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function onEventMatchingDisconnect(p)
   {
     ::go_debriefing_next_func = ::gui_start_logout
+  }
+
+  function onEventSessionDestroyed(p)
+  {
+    local obj = scene.findObject("txt_session_id")
+    if (::check_obj(obj))
+      obj.setValue(::debriefing_result?.sessionId ?? "")
   }
 
   function isDelayedLogoutOnDisconnect()

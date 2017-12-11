@@ -179,7 +179,7 @@ function update_discount_notifications(scene = null)
   }
 
   local notInShopIcons = ["topmenu_research", "changeExp"]
-  if (!::is_platform_ps4)
+  if (!::is_ps4_or_xbox)
     notInShopIcons.append("shop")
 
   foreach(name in notInShopIcons)

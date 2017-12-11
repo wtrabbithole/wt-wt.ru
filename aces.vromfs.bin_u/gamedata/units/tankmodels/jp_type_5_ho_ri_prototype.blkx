@@ -1995,138 +1995,64 @@
   },
   {
     "commonWeapons": {
-      "Weapon": [
-        {
-          "trigger": "gunner0"
-        },
-        {
-          "triggerGroup": "primary"
-        },
-        {
-          "blk": "gameData/Weapons/groundModels_weapons/105mm_Exp_HV_user_cannon.blk"
-        },
-        {
-          "emitter": "bone_gun_barrel"
-        },
-        {
-          "flash": "emtr_gun_flame_01"
-        },
-        {
-          "recoilOffset": 1.1
-        },
-        {
-          "recoilTimes": [0.1,0.55]
-        },
-        {
-          "maxAdditionalPitch": 0.0
-        },
-        {
-          "defaultYaw": 0.0
-        },
-        {
-          "defaultPitch": 0.0
-        },
-        {
-          "partsDP": "gun_barrel_dm"
-        },
-        {
-          "partsDP": "cannon_breech_dm"
-        },
-        {
-          "barrelDP": "gun_barrel_dm"
-        },
-        {
-          "breechDP": "cannon_breech_dm"
-        },
-        {
-          "speedYaw": 6.0
-        },
-        {
-          "speedPitch": 4.0
-        },
-        {
-          "fireConeAngle": 1.0
-        },
-        {
-          "bullets": 51
-        },
-        {
-          "salvoAmount": 100.0
-        },
-        {
-          "ChainfireTime": 0.0
-        },
-        {
-          "DelayAfterShoot": 5.0
-        },
-        {
-          "AttackMaxDistance": 1000.0
-        },
-        {
-          "AttackMaxRadius": 1000.0
-        },
-        {
-          "AttackMaxHeight": 1000.0
-        },
-        {
-          "accuracyAir": 0.0
-        },
-        {
-          "accuracyGnd": 1.5
-        },
-        {
-          "errMeasureVel": 0.0
-        },
-        {
-          "errMeasureVelFast": 0.0
-        },
-        {
-          "errMeasureVelFwdShift": 0.0
-        },
-        {
-          "errMeasureVelDir": 0.0
-        },
-        {
-          "errTargettingOn100kmph": 0.0
-        },
-        {
-          "errTargetting": 3.0
-        },
-        {
-          "errExplTime": 0.0
-        },
-        {
-          "turret": {
-            "head": "bone_turret",
-            "gun": "bone_gun_01",
-            "barrel": "bone_gun_barrel",
-            "gunnerDm": "gunner_dm",
-            "invertedHierarchy": true,
-            "linkedAnimPart": {
-              "verNode": "bone_cap_roller_01",
-              "verLimits": [0.0,12.0],
-              "verOriginLimits": [0.0,-10.0]
-            }
+      "Weapon": {
+        "trigger": "gunner0",
+        "triggerGroup": "primary",
+        "blk": "gameData/Weapons/groundModels_weapons/105mm_Exp_HV_user_cannon.blk",
+        "emitter": "bone_gun_barrel",
+        "flash": "emtr_gun_flame_01",
+        "recoilOffset": 1.1,
+        "recoilTimes": [0.1,0.55],
+        "maxAdditionalPitch": 0.0,
+        "defaultYaw": 0.0,
+        "defaultPitch": 0.0,
+        "barrelDP": "gun_barrel_dm",
+        "breechDP": "cannon_breech_dm",
+        "speedYaw": 6.0,
+        "speedPitch": 4.0,
+        "fireConeAngle": 1.0,
+        "bullets": 51,
+        "salvoAmount": 100.0,
+        "ChainfireTime": 0.0,
+        "DelayAfterShoot": 5.0,
+        "AttackMaxDistance": 1000.0,
+        "AttackMaxRadius": 1000.0,
+        "AttackMaxHeight": 1000.0,
+        "accuracyAir": 0.0,
+        "accuracyGnd": 1.5,
+        "errMeasureVel": 0.0,
+        "errMeasureVelFast": 0.0,
+        "errMeasureVelFwdShift": 0.0,
+        "errMeasureVelDir": 0.0,
+        "errTargettingOn100kmph": 0.0,
+        "errTargetting": 3.0,
+        "errExplTime": 0.0,
+        "turret": {
+          "head": "bone_turret",
+          "gun": "bone_gun_01",
+          "barrel": "bone_gun_barrel",
+          "gunnerDm": "gunner_dm",
+          "invertedHierarchy": true,
+          "linkedAnimPart": {
+            "verNode": "bone_cap_roller_01",
+            "verLimits": [0.0,12.0],
+            "verOriginLimits": [0.0,-10.0]
           }
         },
-        {
-          "limits": {
-            "yaw": [-10.0,10.0],
-            "pitch": [-10.0,20.0]
-          }
+        "limits": {
+          "yaw": [-10.0,10.0],
+          "pitch": [-10.0,20.0]
         },
-        {
-          "limitsTable": {
-            "lim1": [-10.0,-6.0,-6.0,20.0],
-            "lim2": [-6.0,-5.0,-7.0,20.0],
-            "lim3": [-5.0,-3.0,-8.0,20.0],
-            "lim4": [-3.0,3.0,-10.0,20.0],
-            "lim5": [3.0,5.0,-8.0,20.0],
-            "lim6": [5.0,6.0,-7.0,20.0],
-            "lim7": [6.0,10.0,-6.0,20.0]
-          }
+        "limitsTable": {
+          "lim1": [-10.0,-6.0,-6.0,20.0],
+          "lim2": [-6.0,-5.0,-7.0,20.0],
+          "lim3": [-5.0,-3.0,-8.0,20.0],
+          "lim4": [-3.0,3.0,-10.0,20.0],
+          "lim5": [3.0,5.0,-8.0,20.0],
+          "lim6": [5.0,6.0,-7.0,20.0],
+          "lim7": [6.0,10.0,-6.0,20.0]
         }
-      ]
+      }
     }
   },
   {
@@ -2970,8 +2896,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 40.0,
-      "zoomInFov": 21.0,
+      "zoomOutFov": 13.3,
+      "zoomInFov": 12.3,
+      "sightFov": 8.0,
       "headPos": [0.0,4.5,-9.0],
       "headPosOnShooting": [-0.4,3.6,0.0],
       "detectionHeight": 3.05

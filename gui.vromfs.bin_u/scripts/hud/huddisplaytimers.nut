@@ -9,6 +9,16 @@ local time = require("scripts/time.nut")
       needTimeText = true
     },
     {
+      id = "repair_auto_status"
+      color = "#787878"
+      icon = function () {
+        if (::g_hud_display_timers.unitType == ::ES_UNIT_TYPE_SHIP)
+          return "#ui/gameuiskin#ship_crew_driver"
+        return "#ui/gameuiskin#track_state_indicator"
+      }
+      needTimeText = true
+    },
+    {
       id = "rearm_status"
       color = "@white"
       icon = "#ui/gameuiskin#icon_weapons_in_progress"
@@ -237,22 +247,21 @@ local time = require("scripts/time.nut")
 
   function onRepair(debuffs_data)
   {
-    local placeObj = scene.findObject("repair_status")
+    destoyRepairUpdater()
+    hideAnimTimer("repair_status")
+    hideAnimTimer("repair_auto_status")
+
+    if (debuffs_data.state == "notInRepair")
+      return
+
+    local objId = debuffs_data.state == "repairingAuto" ? "repair_auto_status" : "repair_status"
+    local placeObj = scene.findObject(objId)
     if (!::checkObj(placeObj))
       return
 
-    local showTimer = debuffs_data.state != "notInRepair"
-    placeObj.animation = showTimer ? "show" : "hide"
+    placeObj.animation = "show"
 
-    destoyRepairUpdater()
     local iconObj = placeObj.findObject("icon")
-
-    if (!showTimer)
-    {
-      iconObj.wink = "no"
-      return
-    }
-
     local timebarObj = placeObj.findObject("timer")
     local timeTextObj = placeObj.findObject("time_text")
     timeTextObj.setValue("")
@@ -264,7 +273,7 @@ local time = require("scripts/time.nut")
       iconObj.wink = "fast"
       ::g_time_bar.setDirectionBackward(timebarObj)
     }
-    else if (debuffs_data.state == "repairing")
+    else if (debuffs_data.state == "repairing" || debuffs_data.state == "repairingAuto")
     {
       iconObj.wink = "no"
       ::g_time_bar.setDirectionForward(timebarObj)

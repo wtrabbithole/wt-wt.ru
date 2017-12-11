@@ -433,5 +433,5 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   selectedIndex = 0
 
-  slotbarActions = [ "take", "showroom", "testflight", "weapons", "rankinfo", "info" ]
+  slotbarActions = [ "take", "showroom", "testflight", "weapons", "info" ]
 }

@@ -88,6 +88,13 @@ function go_to_account_web_page(bqKey = "")
   ::open_url(get_authenticated_url(urlBase), false, false, bqKey)
 }
 
+function g_login::debugState(shouldShowNotSetBits = false)
+{
+  if (shouldShowNotSetBits)
+    return ::dlog("not set loginState = " + ::bit_mask_to_string("LOGIN_STATE", LOGIN_STATE.LOGGED_IN & ~curState))
+  return ::dlog("loginState = " + ::bit_mask_to_string("LOGIN_STATE", curState))
+}
+
 function g_login::loadLoginHandler()
 {
   local hClass = ::gui_handlers.LoginWndHandler

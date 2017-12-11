@@ -1,8 +1,7 @@
 function get_is_console_mode_force_enabled()
 {
-  return ::is_platform_ps4
+  return ::is_ps4_or_xbox
          || ::is_platform_android
-         || ::is_platform_xboxone
          || ::is_platform_shield_tv()
          || ::is_steam_big_picture()
 }

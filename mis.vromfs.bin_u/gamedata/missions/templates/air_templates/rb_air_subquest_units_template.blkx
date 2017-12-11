@@ -241,7 +241,9 @@
         "_DBttlA": false,
         "_DBttlB": false,
         "_CnvA": false,
-        "_CnvB": false
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       }
     },
     "cover_points": [],
@@ -306,7 +308,141 @@
           "var": "subquest_delay_timer"
         }
       },
-      "conditions": [],
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "players_related_spawns",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "triggerDisable": {
+            "target": "subquest_players_check"
+          }
+        },
+        {
+          "comment": {
+            "value": "прошло время с начала миссии, включаем доп таргеты"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "subquest_spawn_01"
+            },
+            {
+              "target": "subquest_spawn_02"
+            },
+            {
+              "target": "subquest_spawn_03"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "custom",
+            "name": "hints/subquest_units_avaible",
+            "action": "show",
+            "shouldFadeOut": false,
+            "time": -1.0,
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0
+          }
+        },
+        {
+          "wait": {
+            "time": 5.0
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "custom",
+            "name": "hints/subquest_units_avaible",
+            "action": "hide",
+            "shouldFadeOut": false,
+            "time": -1.0,
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "subquest_players_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0,
+          "var": "subquest_players_timer"
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "players_related_spawns",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "triggerDisable": {
+          "target": "subquest_timer_check"
+        },
+        "comment": {
+          "value": ""
+        },
+        "triggerEnable": {
+          "target": "subquest_players_processing"
+        }
+      },
+      "else_actions": []
+    },
+    "subquest_players_processing": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": [
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isOnline",
+            "object_marking": 0,
+            "func": "less",
+            "value": 3,
+            "object": "t1_players_squad"
+          }
+        },
+        {
+          "unitWhenCountMatches": {
+            "object_type": "isOnline",
+            "object_marking": 0,
+            "func": "less",
+            "value": 3,
+            "object": "t2_players_squad"
+          }
+        }
+      ],
       "actions": [
         {
           "comment": {
@@ -338,7 +474,9 @@
             "action": "show",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0
           }
         },
         {
@@ -353,7 +491,9 @@
             "action": "hide",
             "shouldFadeOut": false,
             "time": -1.0,
-            "priority": 0
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0
           }
         }
       ],
@@ -444,6 +584,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_subquest_units_01",
             "team": "B"
           }
@@ -451,6 +592,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_subquest_units_01",
             "team": "A"
           }
@@ -730,6 +872,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_subquest_units_02",
             "team": "B"
           }
@@ -737,6 +880,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_subquest_units_02",
             "team": "A"
           }
@@ -1016,6 +1160,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_subquest_units_03",
             "team": "B"
           }
@@ -1023,6 +1168,7 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_subquest_units_03",
             "team": "A"
           }
@@ -1295,7 +1441,9 @@
     }
   },
   "variables": {
-    "subquest_delay_timer": 1200
+    "subquest_delay_timer": 1200,
+    "players_related_spawns": false,
+    "subquest_players_timer": 300
   },
   "dialogs": [],
   "airfields": [],

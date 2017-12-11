@@ -192,6 +192,20 @@
     text = "debriefing/tournamentBaseReward"
     canShowRewardAsValue = true
   }
+  { id = "FirstWinInDay"
+    type = "exp"
+    text = "debriefing/firstWinInDay"
+    tooltipComment = function() {
+      local firstWinMulRp = (::debriefing_result?.xpFirstWinInDayMul ?? 1.0).tointeger()
+      local firstWinMulWp = (::debriefing_result?.wpFirstWinInDayMul ?? 1.0).tointeger()
+      return ::loc("reward") + ::loc("ui/colon") + ::g_string.implode([
+        firstWinMulRp > 1 ? ::getRpPriceText("x" + firstWinMulRp, true) : "",
+        firstWinMulWp > 1 ? ::getWpPriceText("x" + firstWinMulWp, true) : "",
+      ], ::loc("ui/comma"))
+    }
+    canShowRewardAsValue = true
+    isCountedInUnits = false
+  }
   { id = "Total"
     text = "debriefing/total"
     type = "exp"
@@ -336,6 +350,7 @@ function gather_debriefing_result()
   ::debriefing_result.restoreType <- ::get_mission_restore_type()
   ::debriefing_result.gm <- gm
   ::debriefing_result.isMp <- ::is_multiplayer()
+  ::debriefing_result.sessionId <- ::get_mp_session_id()
   ::debriefing_result.useFinalResults <- ::getTblValue("useFinalResults", ::get_current_mission_info_cached(), false)
   ::debriefing_result.mpTblTeams <- ::get_mp_tbl_teams()
 
@@ -351,6 +366,8 @@ function gather_debriefing_result()
   ::debriefing_result.expDump <- ::u.copy(exp) // Untouched copy for debug
 
   // Put exp data compatibility changes here.
+
+  ::debriefing_apply_first_win_in_day_mul(exp, ::debriefing_result)
 
   ::debriefing_result.exp <- clone exp
 
@@ -744,6 +761,63 @@ function get_debriefing_result_event_id()
   return logs.len() ? ::getTblValue("eventId", logs[0]) : null
 }
 
+/**
+ * Applies xpFirstWinInDayMul and wpFirstWinInDayMul to debriefing result totals,
+ * free exp, units and mods research (but not to expTotal in aircrafts).
+ * Adds FirstWinInDay as a separate bonus row.
+ */
+function debriefing_apply_first_win_in_day_mul(exp, debrResult)
+{
+  local logs = ::getUserLogsList({ show = [::EULT_SESSION_RESULT], currentRoomOnly = true })
+  if (!logs.len())
+    return
+
+  local xpFirstWinInDayMul = logs[0]?.xpFirstWinInDayMul ?? 1.0
+  local wpFirstWinInDayMul = logs[0]?.wpFirstWinInDayMul ?? 1.0
+  if (xpFirstWinInDayMul == 1 && wpFirstWinInDayMul == 1)
+    return
+
+  local xpTotalDebr = exp?.expTotal ?? 0
+  local xpTotalUserlog = logs[0]?.xpEarned ?? 0
+  local xpCheck = xpTotalDebr * xpFirstWinInDayMul
+  local isNeedMulXp = (xpCheck > xpTotalDebr && ::fabs(xpCheck - xpTotalDebr) > ::fabs(xpCheck - xpTotalUserlog))
+
+  local wpTotalDebr = exp?.wpTotal  ?? 0
+  local wpTotalUserlog = logs[0]?.wpEarned ?? 0
+  local wpCheck = wpTotalDebr * wpFirstWinInDayMul
+  local isNeedMulWp = (wpCheck > wpTotalDebr && ::fabs(wpCheck - wpTotalDebr) > ::fabs(wpCheck - wpTotalUserlog))
+
+  if (isNeedMulXp)
+  {
+    local keys = [ "expTotal", "expFree", "expInvestUnit", "expInvestUnitTotal", "expInvestModuleTotal" ]
+    foreach (ut in ::g_unit_type.types)
+      keys.extend([
+        "expInvestUnit" + ut.name,
+        "expInvestUnitTotal" + ut.name,
+      ])
+    foreach (key in keys)
+      if ((key in exp) && exp[key] > 0)
+        exp[key] = (exp[key] * xpFirstWinInDayMul).tointeger()
+
+    if ("aircrafts" in exp)
+      foreach (unitData in exp.aircrafts)
+        foreach (key in keys)
+          if (key != "expTotal")
+            if ((key in unitData) && unitData[key] > 0)
+              unitData[key] = (unitData[key] * xpFirstWinInDayMul).tointeger()
+
+    exp.expFirstWinInDay <- ::max(0, exp.expTotal - xpTotalDebr)
+    debrResult.xpFirstWinInDayMul <- xpFirstWinInDayMul
+  }
+
+  if (isNeedMulWp)
+  {
+    exp.wpTotal <- (wpTotalDebr * wpFirstWinInDayMul).tointeger()
+    exp.wpFirstWinInDay <- ::max(0, exp.wpTotal - wpTotalDebr)
+    debrResult.wpFirstWinInDayMul <- wpFirstWinInDayMul
+  }
+}
+
 function count_whole_reward_in_table(table, currency, specParam = null)
 {
   if (!table || table.len() == 0)
@@ -824,11 +898,7 @@ function getDebriefingCountry()
 
 function get_cur_award_text()
 {
-  local res = ::getPriceText(::get_premium_reward_wp())
-  local exp = ::get_premium_reward_xp()
-  if (exp)
-    res += (res==""? "" : ", ") + ::getFreeRpPriceText(exp, true)
-  return res
+  return ::Cost(::get_premium_reward_wp(), 0, ::get_premium_reward_xp()).tostring()
 }
 
 function get_mission_victory_bonus_text(gm)
@@ -934,7 +1004,7 @@ function getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy)
                             iconStyle = ::trophyReward.getWPIcon(wpBattleTrophy)
                             title = ::loc("debriefing/BattleTrophy"),
                             desc = ::loc("debriefing/BattleTrophy/desc"),
-                            rewardText = getWpPriceText(wpBattleTrophy, true),
+                            rewardText = ::Cost(wpBattleTrophy).toStringWithParams({isWpAlwaysShown = true}),
                           }
                         )
 }

@@ -308,6 +308,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       btn_season_reward_log = showClanSeasonRewards
       clan_awards_container = showClanSeasonRewards
       btn_clan_membership_req_edit = showMembershipsReqEditorButton
+      btn_clanSquads = ::has_feature("ClanSquads") && (isMyClan)
     }
     ::showBtnTable(scene, buttonsList)
 
@@ -797,7 +798,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     imgObj["background-image"] = presence.getIcon()
     imgObj["background-color"] = presence.getIconColor()
-    imgObj["tooltip"] = ::loc(presence.presenceTooltip)
+    imgObj["tooltip"] = ::loc(presence.getTooltip())
   }
 
   function getColumnDataById(id)
@@ -1078,6 +1079,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (curClan)
       ::clan_membership_request(curClan, this)
+  }
+
+  function onClanSquads(obj = null)
+  {
+    if (clanData)
+      ::gui_handlers.MyClanSquadsListModal.open()
   }
 
   function onClanLog(obj = null)

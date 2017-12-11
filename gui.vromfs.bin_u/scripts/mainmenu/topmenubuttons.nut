@@ -179,7 +179,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     isDelayed = false
     link = "#url/tss"
     isLink = true
-    isHidden = @(...) ::is_vendor_tencent()
+    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent()
   }
   STREAMS_AND_REPLAYS = {
     text = "#topmenu/streamsAndReplays"
@@ -187,7 +187,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     isDelayed = false
     link = "#url/streamsAndReplays"
     isLink = true
-    isHidden = @(...) ::is_vendor_tencent()
+    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent()
   }
   EAGLES = {
     text = "#shop/recharge"
@@ -253,7 +253,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     link = "#url/faq"
     isLink = true
     isFeatured = true
-    isHidden = @(...) ::is_vendor_tencent() || !::isInMenu()
+    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   FORUM = {
     text = "#mainmenu/forum"
@@ -262,7 +262,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     link = "#url/forum"
     isLink = true
     isFeatured = true
-    isHidden = @(...) ::is_vendor_tencent() || !::isInMenu()
+    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   SUPPORT = {
     text = "#mainmenu/support"
@@ -271,7 +271,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     link = "#url/support"
     isLink = true
     isFeatured = true
-    isHidden = @(...) ::is_vendor_tencent() || !::isInMenu()
+    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   WIKI = {
     text = "#mainmenu/wiki"
@@ -280,7 +280,7 @@ enum TOP_MENU_ELEMENT_TYPE {
     link = "#url/wiki"
     isLink = true
     isFeatured = true
-    isHidden = @(...) ::is_vendor_tencent() || !::isInMenu()
+    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   EMPTY = {
     elementType = TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON

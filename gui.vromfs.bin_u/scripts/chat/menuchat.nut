@@ -34,7 +34,8 @@ local penalties = require("scripts/penitentiary/penalties.nut")
 ::voiceChatIcons <- {
   [voiceChatStats.online] = "voip_enabled",
   //[voiceChatStats.offline] = "voip_disabled",
-  [voiceChatStats.talking] = "voip_talking"
+  [voiceChatStats.talking] = "voip_talking",
+  [voiceChatStats.muted] = "voip_banned" //picture existed, was not renamed
 }
 
 ::g_script_reloader.registerPersistentData("MenuChatGlobals", ::getroottable(), ["clanUserTable"]) //!!FIX ME: must be in contacts
@@ -507,11 +508,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::checkObj(obj) != haveNew)
         if (haveNew)
         {
-          local data = "cornerImg { id:t='new_msgs'; background-image:t='#ui/gameuiskin#chat_new' }"
+          local data = ::handyman.renderCached("gui/cssElems/cornerImg", {
+            id = "new_msgs"
+            img = "#ui/gameuiskin#chat_new.svg"
+            hasGlow = true
+          })
           guiScene.appendWithBlk(childObj, data, this)
         } else
           guiScene.destroyElement(obj)
-
     }
   }
 
@@ -988,7 +992,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         local voiceChatStatus = null
         if(db.type == "join")
         {
-          voiceChatStatus = voiceChatStats.online
+          voiceChatStatus = ::xbox_is_chat_player_muted(db.uid.tointeger())?
+                              voiceChatStats.muted :
+                              voiceChatStats.online
         }
         if(db.type == "part")
         {
@@ -996,7 +1002,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         }
         if(db.type == "update")
         {
-          if(db.is_speaking)
+          if (::xbox_is_chat_player_muted(db.uid.tointeger()))
+            voiceChatStatus = voiceChatStats.muted
+          else if(db.is_speaking)
             voiceChatStatus = voiceChatStats.talking
           else
             voiceChatStatus = voiceChatStats.online

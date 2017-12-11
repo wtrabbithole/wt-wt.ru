@@ -17,7 +17,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   showRankLockedMsgBoxOnce = false
 
   shopResearchMode = true
-  slotbarActions = [ "research", "buy", "take", "rankinfo", "weapons", "info", "repair" ]
+  slotbarActions = [ "research", "buy", "take", "weapons", "info", "repair" ]
 
   function initScreen()
   {

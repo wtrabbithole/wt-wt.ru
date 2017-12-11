@@ -1,4 +1,4 @@
-local stateHelpers = require("stateHelpers.nut")
+local interopGet = require("daRg/helpers/interopGen.nut")
 
 local crewState = {
   totalCrewCount = Watched(0)
@@ -10,10 +10,11 @@ local crewState = {
 }
 
 
-foreach (stateVarName, stateVar in crewState) {
-  if (stateVar instanceof Watched)
-    ::interop[stateVarName] <- stateHelpers.updateStateFn(stateVar)
-}
+interopGet({
+  stateTable = crewState
+  prefix = "crew"
+  postfix = "Update"
+})
 
 
 return crewState

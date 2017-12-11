@@ -1,5 +1,12 @@
 local time = require("scripts/time.nut")
 
+local payMethodsCfg = [
+  { id = ::YU2_PAY_QIWI,        name = "qiwi" }
+  { id = ::YU2_PAY_YANDEX,      name = "yandex" }
+  { id = ::YU2_PAY_PAYPAL,      name = "paypal" }
+  { id = ::YU2_PAY_WEBMONEY,    name = "webmoney" }
+  { id = ::YU2_PAY_AMAZON,      name = "amazon" }
+]
 
 class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -547,31 +554,26 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local items = []
     local selItem = null
-    foreach(payMethod in [ ::YU2_PAY_QIWI, ::YU2_PAY_YANDEX ])
-      if (payMethods & payMethod)
+    foreach(method in payMethodsCfg)
+      if (payMethods & method.id)
       {
-        local name = "yuNetwork/payMethod/" + ::get_paymethod_name(payMethod)
-        local icon = "@!ui/images/payment/payment_" + ::get_paymethod_name(payMethod) + ".png"
+        local name = "yuNetwork/payMethod/" + method.name
         items.append({
-          name = name,
-          callback = (@(task, payMethod) function() {
-            onYuplayPurchase(task, payMethod)
-          })(task, payMethod),
-          icon = icon})
+          name = name
+          icon = "!#ui/gameuiskin/payment_" + method.name + ".svg"
+          callback = ::Callback(@() onYuplayPurchase(task, method.id), this)
+        })
         selItem = selItem || name
       }
 
     local name = "yuNetwork/payMethod/other"
     items.append({
-      name = name,
-      callback = (@(task) function() {
-        ::OnlineShopModel.doBrowserPurchase(task)
-      })(task),
-      icon = ""})
+      name = name
+      icon = ""
+      callback = ::Callback(@() ::OnlineShopModel.doBrowserPurchase(task), this)
+    })
     selItem = selItem || name
 
-    /*msgBox("choose_method", ::loc("onlineShop/choosePayMethod"),
-           items, selItem, { cancel_fn = function(){}})*/
     ::gui_modal_payment({items = items, owner = this, selItem = selItem, cancel_fn = function() {}})
   }
 

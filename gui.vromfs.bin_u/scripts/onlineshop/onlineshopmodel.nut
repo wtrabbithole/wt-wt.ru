@@ -30,7 +30,7 @@ function OnlineShopModel::showGoods(searchRequest)
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
 
   __assyncActionWrap((@(searchRequest) function () {
-      if (!::is_platform_ps4)
+      if (!::is_ps4_or_xbox)
       {
         local searchResult = __searchEntitlement(searchRequest)
         foreach (goodsName in searchResult)
@@ -230,7 +230,7 @@ function OnlineShopModel::openBrowserByPurchaseData(purchaseData)
   if (!purchaseData.canBePurchased)
     return false
 
-  if (::is_platform_ps4)
+  if (::is_ps4_or_xbox)
   {
     ::gui_modal_onlineShop()
     return true
@@ -257,7 +257,7 @@ function OnlineShopModel::openBrowserByPurchaseData(purchaseData)
 
 function OnlineShopModel::doBrowserPurchase(goodsName)
 {
-  if (::is_platform_ps4)
+  if (::is_ps4_or_xbox)
     return ::gui_modal_onlineShop()
   //just to avoid bugs, when users, who should to purchase goods in regional
   //web shops, accidentally uses ingame online shop
@@ -305,10 +305,10 @@ function OnlineShopModel::getGoodsChapter(goodsName)
 //Get custom URL for purchase goods from regional stores
 //if returns "" uses default store.
 //custom URLs are defined for particular languages and almost always are ""
-//PS4 is exception. Pn PS4 always uses PSN store.
+//Consoles are exception. They always uses It's store.
 function OnlineShopModel::getCustomPurchaseUrl(chapter)
 {
-  if (::is_platform_ps4)
+  if (::is_ps4_or_xbox)
     return ""
 
   local circuit = ::get_cur_circuit_name()
@@ -427,17 +427,6 @@ function OnlineShopModel::startEntitlementsUpdater()
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-
-function get_paymethod_name(payMethod)
-{
-  switch (payMethod)
-  {
-    case ::YU2_PAY_QIWI:             return "qiwi"
-    case ::YU2_PAY_YANDEX:           return "yandex"
-  }
-  return "unknown"
-}
-
 
 function get_entitlement_config(name)
 {

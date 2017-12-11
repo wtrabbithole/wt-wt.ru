@@ -109,12 +109,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
             local image = slideBlock.getStr("picture", "")
             if (image != "")
             {
-              if (! ::cached_is_existing_image("ui/slides/"+image+".jpg", false))
-              {
-                dagor.debug("SKIP slide "+image);
-                continue;
-              }
-              else if (::find_in_array(excludeArray, image, -1) >= 0)
+              if (::find_in_array(excludeArray, image, -1) >= 0)
               {
                 dagor.debug("EXCLUDE by: " + ::get_country_flags_preset() + "; slide " + image)
                 continue

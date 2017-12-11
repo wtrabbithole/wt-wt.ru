@@ -84,128 +84,39 @@
   "dialogs": [],
   "airfields": [],
   "effects": [],
-  "units": [
-    {
-      "area_squad": {
-        "name": "t2_battlearea_realistic",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [2149.42,58.5255,1664.84]
-        ],
-        "props": [
-          {
-            "squad_members": "t2_battlearea_realistic_block01"
-          },
-          {
-            "squad_members": "t2_battlearea_realistic_block02"
-          },
-          {
-            "squad_members": "t2_battlearea_realistic_block03"
-          }
-        ]
-      }
-    },
-    {
-      "area_squad": {
-        "name": "t1_battlearea_realistic",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [1685.52,60.75,1572.79]
-        ],
-        "props": [
-          {
-            "squad_members": "t1_battlearea_realistic_block01"
-          },
-          {
-            "squad_members": "t1_battlearea_realistic_block02"
-          },
-          {
-            "squad_members": "t1_battlearea_realistic_block03"
-          }
-        ]
-      }
-    }
-  ],
+  "units": [],
   "areas": {
-    "fake_area_realistic": {
+    "dom_battle_area_realistic": {
       "type": "Box",
       "tm": [
-        [-1500.0,0.0,0.0],
+        [-1400.0,0.0,0.0],
         [0.0,433.178,0.0],
-        [0.0,0.0,-1500.0],
-        [1917.95,0.000488281,2945.1]
+        [0.0,0.0,-1400.0],
+        [1982.16,0.000488281,2945.1]
       ],
       "objLayer": 4,
       "props": []
     },
-    "t2_battlearea_realistic_block01": {
-      "type": "Box",
+    "t2_killarea_realistic": {
+      "type": "Cylinder",
       "tm": [
-        [1500.0,0.0,0.0],
-        [0.0,433.18,0.0],
-        [0.0,0.0,917.282],
-        [1918.02,0.0,3236.41]
+        [150.0,0.0,0.0],
+        [0.0,90.9087,0.0],
+        [0.0,0.0,150.0],
+        [2512.87,2.00159,3532.62]
       ],
-      "objLayer": 4,
+      "objLayer": 0,
       "props": []
     },
-    "t2_battlearea_realistic_block02": {
-      "type": "Box",
+    "t1_killarea_realistic": {
+      "type": "Cylinder",
       "tm": [
-        [-0.000152588,0.0,-1500.0],
-        [0.0,433.18,0.0],
-        [917.282,0.0,-9.15527e-05],
-        [2209.35,0.0,2945.14]
+        [150.0,0.0,0.0],
+        [0.0,90.9087,0.0],
+        [0.0,0.0,150.0],
+        [1478.18,4.33698,2411.08]
       ],
-      "objLayer": 4,
-      "props": []
-    },
-    "t2_battlearea_realistic_block03": {
-      "type": "Box",
-      "tm": [
-        [428.055,0.0,-428.055],
-        [0.0,433.18,0.0],
-        [183.957,0.0,183.957],
-        [1647.56,0.0,2677.39]
-      ],
-      "objLayer": 4,
-      "props": []
-    },
-    "t1_battlearea_realistic_block01": {
-      "type": "Box",
-      "tm": [
-        [-488.604,0.0,488.604],
-        [0.0,433.18,0.0],
-        [-183.957,0.0,-183.957],
-        [2260.96,-0.000488281,3302.31]
-      ],
-      "objLayer": 4,
-      "props": []
-    },
-    "t1_battlearea_realistic_block02": {
-      "type": "Box",
-      "tm": [
-        [-1500.0,0.0,-0.00012207],
-        [0.0,433.18,0.0],
-        [0.000106455,0.0,-1066.59],
-        [1917.34,-0.000488281,2728.15]
-      ],
-      "objLayer": 4,
-      "props": []
-    },
-    "t1_battlearea_realistic_block03": {
-      "type": "Box",
-      "tm": [
-        [0.0,0.0,1500.0],
-        [0.0,433.18,0.0],
-        [-946.229,0.0,-3.14806e-05],
-        [1640.64,-0.000488281,2944.8]
-      ],
-      "objLayer": 4,
+      "objLayer": 0,
       "props": []
     }
   },

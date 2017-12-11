@@ -249,7 +249,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
     if (action == "showroom")
     {
       actionText = ::loc(isUsable ? "mainmenu/btnShowroom" : "mainmenu/btnPreview")
-      icon       = "#ui/gameuiskin#slot_showroom"
+      icon       = "#ui/gameuiskin#slot_showroom.svg"
       showAction = inMenu
       actionFunc = (@(unit, handler) function () {
         handler.checkedCrewModify((@(unit, handler) function () {
@@ -265,7 +265,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
         continue
 
       actionText = ::loc("multiplayer/changeAircraft")
-      icon       = "#ui/gameuiskin#slot_change_aircraft"
+      icon       = "#ui/gameuiskin#slot_change_aircraft.svg"
       showAction = inMenu && ::SessionLobby.canChangeCrewUnits()
       actionFunc = (@(crew, handler) function () {
         if (::g_crews_list.isSlotbarOverrided)
@@ -284,7 +284,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       local discountInfo = ::g_crew.getDiscountInfo(crew.countryId, crew.idInCountry)
 
       actionText = ::loc("mainmenu/btnCrew")
-      icon       = "#ui/gameuiskin#slot_crew"
+      icon       = "#ui/gameuiskin#slot_crew.svg"
       haveWarning = ::isInArray(::get_crew_status_by_id(crew.crewId), [ "ready", "full" ])
       haveDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
@@ -296,7 +296,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
     else if (action == "weapons")
     {
       actionText = ::loc("mainmenu/btnWeapons")
-      icon       = "#ui/gameuiskin#slot_weapons"
+      icon       = "#ui/gameuiskin#btn_weapons.svg"
       haveWarning = ::checkUnitWeapons(unit.name) != ::UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
@@ -305,7 +305,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
     else if (action == "take")
     {
       actionText = ::loc("mainmenu/btnTakeAircraft")
-      icon       = "#ui/gameuiskin#slot_crew"
+      icon       = "#ui/gameuiskin#slot_crew.svg"
       showAction = inMenu && isUsable && !::isUnitInSlotbar(unit)
       actionFunc = (@(unit, handler) function () {
         handler.onTake(unit)
@@ -317,7 +317,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
       if (::wp_get_repair_cost(unit.name)>profile.balance)
         actionText = ::loc("mainmenu/btnRepair")+": <color=@redMenuButtonColor>"+::wp_get_repair_cost(unit.name)+"</color>"+::loc("warpoints/short")
 
-      icon       = "#ui/gameuiskin#slot_repair"
+      icon       = "#ui/gameuiskin#slot_repair.svg"
       haveWarning = true
       showAction = inMenu && isUsable && ::wp_get_repair_cost(unit.name) > 0 && ::SessionLobby.canChangeCrewUnits()
          && !::g_crews_list.isSlotbarOverrided
@@ -398,7 +398,7 @@ function get_unit_actions_list(unit, handler, prefix, actions)
     else if (action == "info")
     {
       actionText = ::loc("mainmenu/btnAircraftInfo")
-      icon       = "#ui/gameuiskin#slot_info"
+      icon       = "#ui/gameuiskin#btn_info.svg"
       showAction = ::isUnitDescriptionValid(unit)
       isLink     = ::has_feature("WikiUnitInfo")
       actionFunc = (@(unit) function () {
@@ -407,14 +407,6 @@ function get_unit_actions_list(unit, handler, prefix, actions)
         else
           ::gui_start_aircraft_info(unit.name)
       })(unit)
-    }
-    else if (action == "rankinfo")
-    {
-      local validGameModes = ::game_mode_manager.getGameModes(get_es_unit_type(unit))
-      actionText = ::loc("mainmenu/btnAircraftRankInfo")
-      icon       = "#ui/gameuiskin#slot_rank_info"
-      showAction = ::has_feature("RankVersusInfo") && validGameModes.len() != 0
-      actionFunc = (@(unit) function () { ::gui_modal_rank_versus_info(unit) })(unit)
     }
 
     res.actions.append({
@@ -1803,6 +1795,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ],
     [::ES_UNIT_TYPE_SHIP] = [
       //TODO ship modificators
+      {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
     ],
   }
 

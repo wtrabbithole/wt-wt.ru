@@ -243,13 +243,13 @@
         "missionBriefing": ""
       },
       {
+        "chapter": "air_ground_Dom"
+      },
+      {
         "locName": "missions/_Dom;alps/name"
       },
       {
         "locDesc": "alps/desc;missions/_Dom/desc"
-      },
-      {
-        "chapter": "air_ground_Dom"
       },
       {
         "scoreLimit": 14000
@@ -261,10 +261,16 @@
         "deathPenaltyMul": 1.0
       },
       {
+        "postfix": "_Dom"
+      },
+      {
         "ctaCaptureZoneEqualPenaltyMul": 0.0
       },
       {
         "useAlternativeMapCoord": false
+      },
+      {
+        "allowedKillStreaks": true
       },
       {
         "randomSpawnTeams": false
@@ -273,22 +279,13 @@
         "remapAiTankModels": true
       },
       {
-        "postfix": "_Dom"
+        "battleAreaColorPreset": "battleArea"
       },
       {
         "country_axis": "germany"
       },
       {
         "country_allies": "ussr"
-      },
-      {
-        "allowedKillStreaks": true
-      },
-      {
-        "allowedUnitTypes": {
-          "isAirplanesAllowed": true,
-          "isTanksAllowed": true
-        }
       },
       {
         "tags": []
@@ -313,7 +310,16 @@
           "_Conq5": false,
           "_Conq6": false,
           "_CnvA": false,
-          "_CnvB": false
+          "_CnvB": false,
+          "_ArtDA": false,
+          "_ArtDB": false
+        }
+      },
+      {
+        "allowedUnitTypes": {
+          "isAirplanesAllowed": true,
+          "isTanksAllowed": true,
+          "isShipsAllowed": false
         }
       },
       {
@@ -358,6 +364,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "icon": {
@@ -906,6 +915,8 @@
         "unit_class": "dummy",
         "objLayer": 1,
         "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
         "weapons": "",
         "bullets0": "",
         "bullets1": "",
@@ -1333,6 +1344,82 @@
           "army": 2,
           "active": true
         }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_killarea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [610.865,209.601,1260.76]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_killarea_block02"
+          },
+          {
+            "squad_members": "t2_killarea_block01"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_killarea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [628.299,209.601,1260.76]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_killarea_block02"
+          },
+          {
+            "squad_members": "t2_killarea_block01"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_killarea",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1373.09,232.114,896.68]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_killarea_block01"
+          },
+          {
+            "squad_members": "t1_killarea_block02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_killarea_hardcore",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1388.36,232.114,896.68]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_killarea_block01"
+          },
+          {
+            "squad_members": "t1_killarea_block02"
+          }
+        ]
       }
     }
   ],
@@ -2704,6 +2791,50 @@
         [999.35,202.25,1024.25]
       ],
       "objLayer": 4,
+      "props": []
+    },
+    "t2_killarea_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,32.2325,0.0],
+        [0.0,0.0,100.0],
+        [838.85,218.748,1445.93]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_killarea_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,32.2325,0.0],
+        [0.0,0.0,100.0],
+        [616.035,218.748,1193.75]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_block01": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,32.2325,0.0],
+        [0.0,0.0,100.0],
+        [1115.93,218.748,591.782]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_killarea_block02": {
+      "type": "Cylinder",
+      "tm": [
+        [100.0,0.0,0.0],
+        [0.0,32.2325,0.0],
+        [0.0,0.0,100.0],
+        [1450.17,218.748,906.447]
+      ],
+      "objLayer": 0,
       "props": []
     }
   },

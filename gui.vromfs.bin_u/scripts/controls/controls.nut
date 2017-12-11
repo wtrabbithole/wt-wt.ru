@@ -1,3 +1,7 @@
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+local stdMath = require("math")
+local globalEnv = require_native("globalEnv")
+
 ::JOYSTICK_DEVICE_ID <- 3
 ::MAX_SHORTCUTS <- 3
 ::preset_changed <- false
@@ -5,15 +9,11 @@
 ::hotas4_device_id <- "044F:B67B"
 
 /*  filter = ::USEROPT_HELPERS_MODE
-  ::EM_MOUSE_AIM,
-  ::EM_INSTRUCTOR,
-  ::EM_REALISTIC,
-  ::EM_FULL_REAL
+  globalEnv.EM_MOUSE_AIM,
+  globalEnv.EM_INSTRUCTOR,
+  globalEnv.EM_REALISTIC,
+  globalEnv.EM_FULL_REAL
 */
-function sqr(x)
-{
-  return x * x
-}
 
 function isExperimentalCameraTrack()
 {
@@ -62,7 +62,7 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "onAircraftHelpersChanged"
     }
     { id="autotrim", type = CONTROL_TYPE.SWITCH_BOX
-      filterHide = [::EM_MOUSE_AIM, ::EM_INSTRUCTOR]
+      filterHide = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
       optionType = ::USEROPT_AUTOTRIM
       onChangeValue = "onAircraftHelpersChanged"
     }
@@ -85,6 +85,12 @@ function get_favorite_voice_message_option(index)
     "ID_BOMBS"
     { id = "ID_BOMBS_SERIES", checkAssign = false }
     "ID_ROCKETS"
+    { id = "ID_WEAPON_LOCK",
+      showFunc = function() {
+        return ::has_feature("Missiles")
+      },
+      checkAssign = false
+    }
     { id="ID_SCHRAEGE_MUSIK", checkAssign = false }
     { id="ID_RELOAD_GUNS", checkAssign = false, autobind = ["ID_REPAIR_TANK"] }
 
@@ -95,13 +101,13 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "onMouseWheel"
     }
 /*    { id = "mouse_x", type = CONTROL_TYPE.MOUSE_AXIS
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
 //      showFunc = @() checkOptionValue("mouse_joystick", 1)
       axis_num = MouseAxis.MOUSE_X
       values = ["none", "ailerons", "rudder", "camx"]
     }
     { id = "mouse_y", type = CONTROL_TYPE.MOUSE_AXIS
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       axis_num = MouseAxis.MOUSE_Y
       values = ["none", "elevator", "camy"]
     }*/
@@ -126,15 +132,15 @@ function get_favorite_voice_message_option(index)
 //      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
     { id="roll_sens", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       optionType = ::USEROPT_AILERONS_MULTIPLIER
     }
     { id="pitch_sens", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       optionType = ::USEROPT_ELEVATOR_MULTIPLIER
     }
     { id="yaw_sens", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       optionType = ::USEROPT_RUDDER_MULTIPLIER
     }
     { id="invert_y", type = CONTROL_TYPE.SWITCH_BOX
@@ -142,12 +148,12 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "doControlsGroupChangeDelayed"
     }
     { id="invert_x", type = CONTROL_TYPE.SPINNER
-      filterHide = [::EM_INSTRUCTOR, ::EM_REALISTIC, ::EM_FULL_REAL]
+      filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       optionType = ::USEROPT_INVERTX
       showFunc = @() checkOptionValue("invert_y", true)
     }
     { id="multiplier_force_gain", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       optionType = ::USEROPT_FORCE_GAIN
     }
   { id = "ID_PLANE_MECHANIZATION_HEADER", type = CONTROL_TYPE.SECTION }
@@ -156,21 +162,21 @@ function get_favorite_voice_message_option(index)
     { id="ID_FLAPS_UP", reqInMouseAim = false }
     { id="ID_AIR_BRAKE", reqInMouseAim = false }
     "ID_GEAR"
-    { id="brake_left",   type = CONTROL_TYPE.AXIS, checkAssign = false, filterShow = [::EM_REALISTIC, ::EM_FULL_REAL] }
-    { id="brake_right",  type = CONTROL_TYPE.AXIS, checkAssign = false, filterShow = [::EM_REALISTIC, ::EM_FULL_REAL] }
+    { id="brake_left",   type = CONTROL_TYPE.AXIS, checkAssign = false, filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }
+    { id="brake_right",  type = CONTROL_TYPE.AXIS, checkAssign = false, filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }
 
   { id = "ID_PLANE_GUNNERS_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_GUNNERS", checkAssign = false }
-    { id="turret_x", type = CONTROL_TYPE.AXIS, filterHide = [::EM_MOUSE_AIM] }
-    { id="turret_y", type = CONTROL_TYPE.AXIS, filterHide = [::EM_MOUSE_AIM] }
+    { id="turret_x", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM] }
+    { id="turret_y", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM] }
     { id="gunner_view_sens", type = CONTROL_TYPE.SLIDER
       optionType = ::USEROPT_GUNNER_VIEW_SENSE
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
     }
     { id = "gunner_joy_speed", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
     }
     { id="invert_y_gunner", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_GUNNER_INVERTY
@@ -186,6 +192,13 @@ function get_favorite_voice_message_option(index)
     { id="ID_CAMERA_BOMBVIEW",      checkAssign = false }
     { id="ID_CAMERA_FOLLOW_OBJECT", checkAssign = false }
     { id="ID_TARGET_CAMERA",        checkAssign = false }
+    { id="ID_AIM_CAMERA",           checkAssign = false, condition = @() ::is_ps4_or_xbox }
+    { id="target_camera"
+      type = CONTROL_TYPE.AXIS
+      checkAssign = false
+      condition = @() ::is_ps4_or_xbox
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    }
     { id="ID_CAMERA_VIEW_DOWN", checkAssign = false }
     { id="ID_CAMERA_VIEW_BACK", checkAssign = false }
     { id = "invert_y_camera"
@@ -206,39 +219,39 @@ function get_favorite_voice_message_option(index)
     { id="ID_AEROBATICS_SMOKE",  checkAssign = false }
     { id="ID_TOGGLE_COCKPIT_DOOR", checkAssign = false }
     { id="ID_TOGGLE_COCKPIT_LIGHTS", checkAssign = false }
-    { id="ID_TOGGLE_COLLIMATOR",    filterShow = [::EM_FULL_REAL] }
+    { id="ID_TOGGLE_COLLIMATOR",    filterShow = [globalEnv.EM_FULL_REAL] }
 
   { id = "ID_INSTRUCTOR_HEADER", type = CONTROL_TYPE.SECTION
-    filterShow = [::EM_MOUSE_AIM, ::EM_INSTRUCTOR]
+    filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
   }
     { id="instructor_ground_avoidance", type = CONTROL_TYPE.SWITCH_BOX
-      filterShow = [::EM_MOUSE_AIM, ::EM_INSTRUCTOR]
+      filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
       optionType = ::USEROPT_INSTRUCTOR_GROUND_AVOIDANCE
     }
     { id="instructor_gear_control", type = CONTROL_TYPE.SWITCH_BOX
-      filterShow = [::EM_MOUSE_AIM, ::EM_INSTRUCTOR]
+      filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
       optionType = ::USEROPT_INSTRUCTOR_GEAR_CONTROL
     }
     { id="instructor_flaps_control", type = CONTROL_TYPE.SWITCH_BOX
-      filterShow = [::EM_MOUSE_AIM, ::EM_INSTRUCTOR]
+      filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
       optionType = ::USEROPT_INSTRUCTOR_FLAPS_CONTROL
     }
     { id="instructor_engine_control", type = CONTROL_TYPE.SWITCH_BOX
-      filterShow = [::EM_MOUSE_AIM, ::EM_INSTRUCTOR]
+      filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
       optionType = ::USEROPT_INSTRUCTOR_ENGINE_CONTROL
     }
     { id="instructor_simple_joy", type = CONTROL_TYPE.SWITCH_BOX
-      filterShow = [::EM_INSTRUCTOR]
+      filterShow = [globalEnv.EM_INSTRUCTOR]
       optionType = ::USEROPT_INSTRUCTOR_SIMPLE_JOY
     }
 
   { id = "ID_PLANE_MOUSE_AIM_HEADER", type = CONTROL_TYPE.SECTION }
     { id="mouse_aim_x", type = CONTROL_TYPE.AXIS
-      filterHide = [::EM_INSTRUCTOR, ::EM_REALISTIC, ::EM_FULL_REAL]
+      filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
     { id="mouse_aim_y", type = CONTROL_TYPE.AXIS
-      filterHide = [::EM_INSTRUCTOR, ::EM_REALISTIC, ::EM_FULL_REAL]
+      filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     }
     { id="mouse_aim_sensitivity", type = CONTROL_TYPE.SLIDER
@@ -254,7 +267,7 @@ function get_favorite_voice_message_option(index)
       optionType = ::USEROPT_AIM_TIME_NONLINEARITY_AIR
     }
     { id="use_joystick_on_mouse_aim", type = CONTROL_TYPE.SWITCH_BOX,
-      filterHide = [::EM_INSTRUCTOR, ::EM_REALISTIC, ::EM_FULL_REAL]
+      filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       value = @(joyParams) joyParams.useJoystickOnMouseAim
       setValue = function(joyParams, objValue) {
         local old  = joyParams.useJoystickOnMouseAim
@@ -266,18 +279,18 @@ function get_favorite_voice_message_option(index)
 
   { id = "ID_PLANE_JOYSTICK_HEADER"
     type = CONTROL_TYPE.SECTION
-    filterHide = [::EM_MOUSE_AIM]
+    filterHide = [globalEnv.EM_MOUSE_AIM]
     showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
   }
     { id = "mouse_joystick_mode", type = CONTROL_TYPE.SPINNER,
-      filterHide = [::EM_MOUSE_AIM],
+      filterHide = [globalEnv.EM_MOUSE_AIM],
       options = ["#options/mouse_joy_mode_simple", "#options/mouse_joy_mode_standard"],
       showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       value = @(joyParams) ::get_option_int(::OPTION_MOUSE_JOYSTICK_MODE)
       setValue = @(joyParams, objValue) ::set_option_int(::OPTION_MOUSE_JOYSTICK_MODE, objValue)
     }
     { id = "mouse_joystick_sensitivity", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       value = @(joyParams)
         100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SENSITIVITY) - ::minMouseJoystickSensitivity) /
@@ -287,14 +300,14 @@ function get_favorite_voice_message_option(index)
           (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity))
     }
     { id = "mouse_joystick_deadzone", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE) / ::maxMouseJoystickDeadZone
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE,
         (objValue / 100.0) * ::maxMouseJoystickDeadZone)
     }
     { id = "mouse_joystick_screensize", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       value = @(joyParams)
         100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE) - ::minMouseJoystickScreenSize) /
@@ -304,72 +317,72 @@ function get_favorite_voice_message_option(index)
           (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize))
     }
     { id = "mouse_joystick_screen_place", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE)
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE, objValue / 100.0)
     }
     { id = "mouse_joystick_rudder", type = CONTROL_TYPE.SLIDER
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
       value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR) / ::maxMouseJoystickRudder
       setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR,
         (objValue / 100.0) * ::maxMouseJoystickRudder)
     }
     { id = "mouse_joystick_square", type = CONTROL_TYPE.SWITCH_BOX
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       value = @(joyParams) ::get_option_mouse_joystick_square()
       setValue = @(joyParams, objValue) ::set_option_mouse_joystick_square(objValue)
     }
     { id="ID_CENTER_MOUSE_JOYSTICK"
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
       checkAssign = false
     }
 
   { id = "ID_TRIM_CONTROL_HEADER", type = CONTROL_TYPE.SECTION
-    filterShow = [::EM_FULL_REAL]
+    filterShow = [globalEnv.EM_FULL_REAL]
   }
-//    { id="ID_WHEEL_BRAKE", filterShow = [::EM_FULL_REAL] }
-    { id="ID_TRIM", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TRIM_RESET", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TRIM_SAVE", filterShow = [::EM_FULL_REAL], checkAssign = false }
+//    { id="ID_WHEEL_BRAKE", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_TRIM", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TRIM_RESET", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TRIM_SAVE", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="trim_elevator", type = CONTROL_TYPE.AXIS
-      filterShow = [::EM_FULL_REAL], checkAssign = false }
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="trim_ailerons", type = CONTROL_TYPE.AXIS
-      filterShow = [::EM_FULL_REAL], checkAssign = false }
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="trim_rudder", type = CONTROL_TYPE.AXIS
-      filterShow = [::EM_FULL_REAL], checkAssign = false }
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
 
   { id = "ID_MANUAL_ENGINE_CONTROL_HEADER", type = CONTROL_TYPE.SECTION
-    filterShow = [::EM_FULL_REAL]
+    filterShow = [globalEnv.EM_FULL_REAL]
   }
-    { id="ID_COMPLEX_ENGINE", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_ENGINE", filterShow = [::EM_FULL_REAL], checkAssign = false }
+    { id="ID_COMPLEX_ENGINE", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_ENGINE", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="mixture", type = CONTROL_TYPE.AXIS
-      filterShow = [::EM_FULL_REAL], checkAssign = false }
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="prop_pitch", type = CONTROL_TYPE.AXIS
-      filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_PROP_PITCH_AUTO", filterShow = [::EM_FULL_REAL], checkAssign = false }
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_PROP_PITCH_AUTO", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="radiator", type = CONTROL_TYPE.AXIS
-      filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="oil_radiator", type = CONTROL_TYPE.AXIS, filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_RADIATOR_AUTO", filterShow = [::EM_FULL_REAL], checkAssign = false }
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="oil_radiator", type = CONTROL_TYPE.AXIS, filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_RADIATOR_AUTO", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="turbo_charger", type = CONTROL_TYPE.AXIS
-      filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_AUTO_TURBO_CHARGER", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_SUPERCHARGER", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_MAGNETO_INCREASE", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_MAGNETO_DECREASE", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_PROP_FEATHERING", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_1_ENGINE_CONTROL", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_2_ENGINE_CONTROL", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_3_ENGINE_CONTROL", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_4_ENGINE_CONTROL", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_5_ENGINE_CONTROL", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_TOGGLE_6_ENGINE_CONTROL", filterShow = [::EM_FULL_REAL], checkAssign = false }
-    { id="ID_ENABLE_ALL_ENGINE_CONTROL", filterShow = [::EM_FULL_REAL], checkAssign = false }
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_AUTO_TURBO_CHARGER", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_SUPERCHARGER", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_MAGNETO_INCREASE", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_MAGNETO_DECREASE", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_PROP_FEATHERING", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_1_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_2_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_3_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_4_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_5_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_TOGGLE_6_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_ENABLE_ALL_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
 
 
   { id = "ID_HELICOPTER_CONTROL_HEADER"
@@ -926,7 +939,7 @@ function get_favorite_voice_message_option(index)
     { id="ID_GAME_PAUSE",        checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_HIDE_HUD",          checkGroup = ctrlGroups.COMMON, checkAssign = false }
     { id="ID_SHOW_MOUSE_CURSOR", checkGroup = ctrlGroups.COMMON, checkAssign = false
-      condition = @() ::is_platform_pc || ::is_platform_ps4
+      condition = @() ::is_platform_pc || ::is_ps4_or_xbox
     }
     { id="ID_SCREENSHOT",        checkGroup = ctrlGroups.COMMON, checkAssign = false
       condition = @() ::is_platform_pc // See AcesApp::makeScreenshot()
@@ -1047,7 +1060,7 @@ function get_favorite_voice_message_option(index)
       onChangeValue = "doControlsGroupChangeDelayed"
     }
     { id = "trackIrZoom", type = CONTROL_TYPE.SWITCH_BOX
-      showFunc = @() !::is_platform_ps4 || checkOptionValue("headtrack_enable", true)
+      showFunc = @() !::is_ps4_or_xbox || checkOptionValue("headtrack_enable", true)
       value = @(joyParams) joyParams.trackIrZoom
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrZoom
@@ -1057,7 +1070,7 @@ function get_favorite_voice_message_option(index)
       }
     }
     { id = "trackIrAsHeadInTPS", type = CONTROL_TYPE.SWITCH_BOX
-      condition = @() !::is_platform_ps4
+      condition = @() !::is_ps4_or_xbox
       value = @(joyParams) joyParams.trackIrAsHeadInTPS
       setValue = function(joyParams, objValue) {
         local prev = joyParams.trackIrAsHeadInTPS
@@ -1159,7 +1172,7 @@ function get_favorite_voice_message_option(index)
   { id = "kRelSpd", type = CONTROL_TYPE.SLIDER
     min=1, max=10, step=1, showValuePercMul = 10
     value = @(axis) sqrt(axis.relSens)*10.0
-    setValue = @(axis, objValue) axis.relSens = sqr(objValue / 10.0)
+    setValue = @(axis, objValue) axis.relSens = stdMath.pow(objValue / 10.0, 2)
   }
   { id = "kRelStep", type = CONTROL_TYPE.SLIDER
     min=0, max=50, step=1
@@ -1227,6 +1240,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_BAY_DOOR",
   "ID_BOMBS",
   "ID_ROCKETS",
+  "ID_WEAPON_LOCK",
   "ID_SCHRAEGE_MUSIK",
   "ID_GEAR",
   { id="ailerons", axisShortcuts = ["rangeMin", "rangeMax", ""] }
@@ -1379,37 +1393,6 @@ if (::is_platform_pc) //See AcesApp::makeScreenshot()
   ::controlsHelp_shortcuts_helicopter.extend(["ID_SCREENSHOT_WO_HUD"])
 }
 
-::joystickBtnTextures <- [
-  "dirpad_up"     //  0 JOY_XBOX_REAL_BTN_D_UP
-  "dirpad_down"   //  1 JOY_XBOX_REAL_BTN_D_DOWN
-  "dirpad_left"   //  2 JOY_XBOX_REAL_BTN_D_LEFT
-  "dirpad_right"  //  3 JOY_XBOX_REAL_BTN_D_RIGHT
-  "button_start"  //  4 JOY_XBOX_REAL_BTN_START // PS4 Options
-  "button_back"   //  5 JOY_XBOX_REAL_BTN_BACK  // PS4 Touchscreen Press
-  "l_stick_pressed"//  6 JOY_XBOX_REAL_BTN_L_THUMB
-  "r_stick_pressed"//  7 JOY_XBOX_REAL_BTN_R_THUMB
-  "l_shoulder"    //  8 JOY_XBOX_REAL_BTN_L_SHOULDER
-  "r_shoulder"    //  9 JOY_XBOX_REAL_BTN_R_SHOULDER
-  "table_plays_icon" // 10 JOY_XBOX_REAL_BTN_0X0400
-  "table_plays_icon" // 11 JOY_XBOX_REAL_BTN_0X0800
-  "button_a"      // 12 JOY_XBOX_REAL_BTN_A // PS4 (X)
-  "button_b"      // 13 JOY_XBOX_REAL_BTN_B // PS4 (O)
-  "button_x"      // 14 JOY_XBOX_REAL_BTN_X // PS4 (Sq)
-  "button_y"      // 15 JOY_XBOX_REAL_BTN_Y // PS4 (Tr)
-  "l_trigger"     // 16 JOY_XBOX_REAL_BTN_L_TRIGGER
-  "r_trigger"     // 17 JOY_XBOX_REAL_BTN_R_TRIGGER
-  "l_stick_right" // 18 JOY_XBOX_REAL_BTN_L_THUMB_RIGHT
-  "l_stick_left"  // 19 JOY_XBOX_REAL_BTN_L_THUMB_LEFT
-  "l_stick_up"    // 20 JOY_XBOX_REAL_BTN_L_THUMB_UP
-  "l_stick_down"  // 21 JOY_XBOX_REAL_BTN_L_THUMB_DOWN
-  "r_stick_right" // 22 JOY_XBOX_REAL_BTN_R_THUMB_RIGHT
-  "r_stick_left"  // 23 JOY_XBOX_REAL_BTN_R_THUMB_LEFT
-  "r_stick_up"    // 24 JOY_XBOX_REAL_BTN_R_THUMB_UP
-  "r_stick_down"  // 25 JOY_XBOX_REAL_BTN_R_THUMB_DOWN
-  "l_stick_pressed" // 26 JOY_XBOX_REAL_BTN_L_THUMB
-  "r_stick_pressed" // 27 JOY_XBOX_REAL_BTN_R_THUMB
-]
-
 ::mouse_button_texturas <- [
   "mouse_left"
   "mouse_right"
@@ -1441,23 +1424,23 @@ enum GAMEPAD_AXIS {
 //xinput axes to image
 ::gamepad_axes_images <- {
   [GAMEPAD_AXIS.NOT_AXIS] = "",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL] = "#ui/controlskin#l_stick_to_left_n_right",
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL] = "#ui/controlskin#l_stick_to_up_n_down",
-  [GAMEPAD_AXIS.LEFT_STICK] = "#ui/controlskin#l_stick_4",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL] = "#ui/controlskin#r_stick_to_left_n_right",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL] = "#ui/controlskin#r_stick_to_up_n_down",
-  [GAMEPAD_AXIS.RIGHT_STICK] = "#ui/controlskin#r_stick_4",
-  [GAMEPAD_AXIS.LEFT_TRIGGER] = "#ui/controlskin#l_trigger",
-  [GAMEPAD_AXIS.RIGHT_TRIGGER] = "#ui/controlskin#r_trigger",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL] = "@control_l_stick_to_left_n_right",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL] = "@control_l_stick_to_up_n_down",
+  [GAMEPAD_AXIS.LEFT_STICK] = "@control_l_stick_4",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL] = "@control_r_stick_to_left_n_right",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL] = "@control_r_stick_to_up_n_down",
+  [GAMEPAD_AXIS.RIGHT_STICK] = "@control_r_stick_4",
+  [GAMEPAD_AXIS.LEFT_TRIGGER] = "@control_l_trigger",
+  [GAMEPAD_AXIS.RIGHT_TRIGGER] = "@control_r_trigger",
 
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "#ui/controlskin#l_stick_down",
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "#ui/controlskin#l_stick_up",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "#ui/controlskin#l_stick_left",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "#ui/controlskin#l_stick_right",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "#ui/controlskin#r_stick_down",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "#ui/controlskin#r_stick_up",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "#ui/controlskin#r_stick_left",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "#ui/controlskin#r_stick_right",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "@control_l_stick_down",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "@control_l_stick_up",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "@control_l_stick_left",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "@control_l_stick_right",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "@control_r_stick_down",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "@control_r_stick_up",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "@control_r_stick_left",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "@control_r_stick_right",
 }
 
 //mouse axes bitmask
@@ -1475,17 +1458,17 @@ enum MOUSE_AXIS {
 
 ::mouse_axes_to_image <- {
   [MOUSE_AXIS.NOT_AXIS] = "",
-  [MOUSE_AXIS.HORIZONTAL_AXIS] = "#ui/hudskin#mouse_move_l_r",
-  [MOUSE_AXIS.VERTICAL_AXIS] = "#ui/hudskin#mouse_move_up_down",
-  [MOUSE_AXIS.MOUSE_MOVE] = "#ui/hudskin#mouse_move_4_sides",
-  [MOUSE_AXIS.WHEEL_AXIS] = "#ui/hudskin#mouse_center_up_down",
+  [MOUSE_AXIS.HORIZONTAL_AXIS] = "#ui/gameuiskin#mouse_move_l_r",
+  [MOUSE_AXIS.VERTICAL_AXIS] = "#ui/gameuiskin#mouse_move_up_down",
+  [MOUSE_AXIS.MOUSE_MOVE] = "#ui/gameuiskin#mouse_move_4_sides",
+  [MOUSE_AXIS.WHEEL_AXIS] = "#ui/gameuiskin#mouse_center_up_down",
 
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_center_down",
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_center_up",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_move_l",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_move_r",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/hudskin#mouse_move_down",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/hudskin#mouse_move_up",
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_center_down",
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_center_up",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_l",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_r",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_down",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_up",
 }
 
 ::autorestore_axis_table <- {
@@ -1574,16 +1557,16 @@ function switch_helpers_mode_and_option(preset = "")
 {
   local joyCurSettings = ::joystick_get_cur_settings()
   if (joyCurSettings.useMouseAim)
-    ::set_helpers_mode_and_option(::EM_MOUSE_AIM)
+    ::set_helpers_mode_and_option(globalEnv.EM_MOUSE_AIM)
   else if (::is_platform_ps4 && preset == ::g_controls_presets.getControlsPresetFilename("thrustmaster_hotas4"))
   {
-    if (::getCurrentHelpersMode() == ::EM_MOUSE_AIM)
-      ::set_helpers_mode_and_option(::EM_INSTRUCTOR)
+    if (::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM)
+      ::set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
   }
   else if (::is_platform_ps4 || ::is_platform_shield_tv())
-    ::set_helpers_mode_and_option(::EM_REALISTIC)
-  else if (::getCurrentHelpersMode() == ::EM_MOUSE_AIM)
-    ::set_helpers_mode_and_option(::EM_INSTRUCTOR)
+    ::set_helpers_mode_and_option(globalEnv.EM_REALISTIC)
+  else if (::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM)
+    ::set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
 }
 
 function apply_joy_preset_xchange(preset, updateHelpersMode = true)
@@ -1627,7 +1610,7 @@ function isShortcutMapped(shortcut)
 
 function is_axis_mapped_on_mouse(shortcutId, helpersMode, joyParams)
 {
-  local isMouseAimMode = helpersMode == ::EM_MOUSE_AIM
+  local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
   if (shortcutId == "gm_mouse_aim_x" || shortcutId == "gm_mouse_aim_y")
     return !joyParams.useJoystickOnTankMouseAim
   if (shortcutId == "mouse_aim_x" || shortcutId == "mouse_aim_y")
@@ -1649,7 +1632,7 @@ function get_mouse_axis(shortcutId)
   if (shortcutId == "gm_mouse_aim_y" && !joyParams.useJoystickOnTankMouseAim)
     return MOUSE_AXIS.VERTICAL_AXIS
 
-  local isMouseAimMode = ::getCurrentHelpersMode() == ::EM_MOUSE_AIM
+  local isMouseAimMode = ::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM
   if (shortcutId == "mouse_aim_x" && !joyParams.useJoystickOnMouseAim && isMouseAimMode)
     return MOUSE_AXIS.HORIZONTAL_AXIS
   if (shortcutId == "mouse_aim_y" && !joyParams.useJoystickOnMouseAim && isMouseAimMode)
@@ -2470,8 +2453,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       })(rowObj))
     }
 
-    showSceneBtn("btn_preset", filter!=::EM_MOUSE_AIM)
-    showSceneBtn("btn_defaultpreset", filter==::EM_MOUSE_AIM)
+    showSceneBtn("btn_preset", filter!=globalEnv.EM_MOUSE_AIM)
+    showSceneBtn("btn_defaultpreset", filter==globalEnv.EM_MOUSE_AIM)
 
     dontCheckControlsDupes = ::refillControlsDupes()
   }
@@ -2482,11 +2465,12 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       "controls_restore_question", msg,
       [
         ["yes", (@(presetSelected, askKeyboardDefault) function() {
-          local preset = ""
           if (askKeyboardDefault)
           {
             if (::is_platform_ps4)
               applyChoosedPreset("config/hotkeys/hotkey.dualshock4.blk")
+            else if (::is_platform_xboxone)
+              applyChoosedPreset("config/hotkeys/hotkey.xboxone_ma.blk")
             else
               msgBox("ask_kbd_type", ::loc("controls/askKeyboardWasdType"),
               [
@@ -2500,6 +2484,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
             return
           }
 
+          local preset = "config/hotkeys/hotkey.empty_ver1.blk"
           local opdata = ::get_option(::USEROPT_CONTROLS_PRESET)
           if (presetSelected in opdata.values)
             preset = "config/hotkeys/hotkey." + opdata.values[presetSelected] + ".blk"
@@ -2507,8 +2492,9 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
           {
             if (::is_platform_ps4)
               preset = "config/hotkeys/hotkey.empty.ps4.blk"
-            else
-              preset = "config/hotkeys/hotkey.empty_ver1.blk"
+            else if (::is_platform_xboxone)
+              preset = "config/hotkeys/hotkey.empty.xboxone.blk"
+
             forceLoadWizard = true
           }
           applyChoosedPreset(preset)
@@ -2804,7 +2790,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       }
       if (!isHeaderVisible || !item.checkAssign || item.isHidden || !resForHeader)
         continue
-      if (filter == ::EM_MOUSE_AIM && !item.reqInMouseAim)
+      if (filter == globalEnv.EM_MOUSE_AIM && !item.reqInMouseAim)
         continue
 
       if (item.type == CONTROL_TYPE.SHORTCUT)
@@ -2980,7 +2966,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if (::have_xinput_device() && ::show_console_buttons && !joyCurSettings.useMouseAim)
     {
       local helpersMode = ::getCurrentHelpersMode()
-      if (helpersMode == ::EM_MOUSE_AIM)
+      if (helpersMode == globalEnv.EM_MOUSE_AIM)
       {
         msgBox("wrong_helpers_mode", ::loc("msg/noJoystickWarningNoColor"),
           [["setInstructor", (@(doApply, scene) function() {
@@ -2989,7 +2975,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
             local helpObj = scene.findObject("helpers_mode")
             if (!::checkObj(helpObj))
               return
-            helpObj.setValue(::EM_INSTRUCTOR)
+            helpObj.setValue(globalEnv.EM_INSTRUCTOR)
             doApply()
           })(doApply, scene)],
           ["backToControls", function() {}],
@@ -3057,7 +3043,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       local axis = curJoyParams.getAxis(zoomAxisIndex)
       if (axis.axisId<0) return
 
-      if (filter==::EM_MOUSE_AIM)
+      if (filter==globalEnv.EM_MOUSE_AIM)
       {
         setAxisBind(zoomAxisIndex, -1)
         return
@@ -3067,16 +3053,47 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       local curPreset = ::g_controls_manager.getCurPreset()
       local msg = format(::loc("msg/zoomAssignmentsConflict"),
         ::remapAxisName(curPreset.getAxisName(axis.axisId)))
-      msgBox("zoom_axis_assigned", msg,
-      [
-        ["replace", (@(zoomAxisIndex) function() {
-          setAxisBind(zoomAxisIndex, -1)
-        })(zoomAxisIndex)],
-        ["cancel", (@(obj) function() {
-          if (obj && obj.isValid())
-            obj.setValue(0)
-        })(obj)]
-      ], "replace")
+      guiScene.performDelayed(this, @()
+        msgBox("zoom_axis_assigned", msg,
+        [
+          ["replace", (@(zoomAxisIndex) function() {
+            setAxisBind(zoomAxisIndex, -1)
+          })(zoomAxisIndex)],
+          ["cancel", function() {
+            if (::check_obj(obj))
+              obj.setValue(0)
+          }]
+        ], "replace"))
+    }
+    else if (axisName && (axisName == "camx" || axisName == "camy")
+      && item.axis_num == MouseAxis.MOUSE_SCROLL)
+    {
+      local isMouseView = AIR_MOUSE_USAGE.VIEW ==
+        ::g_aircraft_helpers.getOptionValue(::USEROPT_MOUSE_USAGE)
+      local isMouseViewWhenNoAim = AIR_MOUSE_USAGE.VIEW ==
+        ::g_aircraft_helpers.getOptionValue(::USEROPT_MOUSE_USAGE_NO_AIM)
+
+      if (isMouseView || isMouseViewWhenNoAim)
+      {
+        local msg = isMouseView
+          ? ::loc("msg/replaceMouseViewToScroll")
+          : ::loc("msg/replaceMouseViewToScrollNoAim")
+        guiScene.performDelayed(this, @()
+          msgBox("mouse_used_for_view", msg,
+          [
+            ["replace", function() {
+              ::g_aircraft_helpers.setOptionValue(
+                ::USEROPT_MOUSE_USAGE, AIR_MOUSE_USAGE.AIM)
+              ::g_aircraft_helpers.setOptionValue(
+                ::USEROPT_MOUSE_USAGE_NO_AIM, AIR_MOUSE_USAGE.JOYSTICK)
+              onAircraftHelpersChanged(null)
+            }],
+            ["cancel", function() {
+              if (::check_obj(obj))
+                obj.setValue(0)
+            }]
+          ], "cancel"))
+      }
     }
   }
 
@@ -3399,8 +3416,7 @@ function get_shortcut_gamepad_textures(shortcutData)
       continue
 
     for (local i = 0; i < sc.dev.len(); i++)
-      res.append(sc.btn[i] in ::joystickBtnTextures ? "#ui/controlskin#" + ::joystickBtnTextures[sc.btn[i]] : "")
-
+      res.append(gamepadIcons.getTextureByButtonIdx(sc.btn[i]))
     return res
   }
   return res
@@ -3527,7 +3543,7 @@ class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
 function applySelectedPreset(presetName)
 {
   if(::isInArray(presetName, ["keyboard", "keyboard_shooter"]))
-    ::set_option(::USEROPT_HELPERS_MODE, ::EM_MOUSE_AIM)
+    ::set_option(::USEROPT_HELPERS_MODE, globalEnv.EM_MOUSE_AIM)
   return ("config/hotkeys/hotkey." + presetName + ".blk")
 }
 
@@ -3730,7 +3746,7 @@ function getCurrentHelpersMode()
 {
   local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_domination_mode().diff
   if (difficulty == 2)
-    return (::is_platform_pc ? ::EM_FULL_REAL : ::EM_REALISTIC)
+    return (::is_platform_pc ? globalEnv.EM_FULL_REAL : globalEnv.EM_REALISTIC)
   local option = ::get_option_in_mode(::USEROPT_HELPERS_MODE, ::OPTIONS_MODE_GAMEPLAY)
   return option.values[option.value]
 }
@@ -3940,8 +3956,8 @@ function getRequiredControlsForUnit(unit, helpersMode)
     local fmBlk = ::get_fm_file(unitId, unitBlk)
     local unitControls = fmBlk.AvailableControls || ::DataBlock()
 
-    local isMouseAimMode = helpersMode == ::EM_MOUSE_AIM
-    local gotInstructor = helpersMode == ::EM_MOUSE_AIM || helpersMode == ::EM_INSTRUCTOR
+    local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
+    local gotInstructor = helpersMode == globalEnv.EM_MOUSE_AIM || helpersMode == globalEnv.EM_INSTRUCTOR
     local option = ::get_option_in_mode(::USEROPT_INSTRUCTOR_GEAR_CONTROL, ::OPTIONS_MODE_GAMEPLAY)
     local instructorGearControl = gotInstructor && option.value
 
@@ -3984,6 +4000,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
     local gotBombs = false
     local gotTorpedoes = false
     local gotRockets = false
+    local gotWeaponLock = false
     local gotSmoke = false
     local gotGunnerTurrets = false
     local gotSchraegeMusik = false
@@ -4004,6 +4021,8 @@ function getRequiredControlsForUnit(unit, helpersMode)
           gotTorpedoes = true
         if (weapon.trigger == "rockets")
           gotRockets = true
+        if (weapon.trigger == "weapon lock")
+          gotWeaponLock = true
         if (weapon.trigger == "smoke")
           gotSmoke = true
         if (type(weapon.trigger) == "string" && weapon.trigger.len() > 6 && weapon.trigger.slice(0, 6) == "gunner")
@@ -4026,6 +4045,8 @@ function getRequiredControlsForUnit(unit, helpersMode)
       controls.append("ID_BOMBS")
     if (gotRockets)
       controls.append("ID_ROCKETS")
+    if (gotWeaponLock)
+      controls.append("ID_WEAPON_LOCK")
     if (gotSchraegeMusik)
       controls.append("ID_SCHRAEGE_MUSIK")
   }

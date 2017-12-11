@@ -24,7 +24,8 @@ spinnerListBox > button.next, spinnerListBox > button.prev {
   max-width:23*@sf/@pf_outdated;
   max-height:27*@sf/@pf_outdated;
 
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up.svg;
+  background-svg-size:@scrollArrowsSize, @scrollArrowsSize;
   background-color:@transparent;
   background-position:0;
   background-repeat:expand;
@@ -121,8 +122,10 @@ optionImg {
 }
 
 [iconType=small] optionImg {
-  size:2.78*@scrn_tgt/100.0,2.78*@scrn_tgt/100.0;    pos:0, 50%ph-50%h;
+  size:@cIco, @cIco;
+  pos:0, 50%ph-50%h;
   position:relative;
+  background-svg-size:@cIco, @cIco;
 }
 
 [iconType=aircraft] optionImg {

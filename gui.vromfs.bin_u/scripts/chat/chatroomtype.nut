@@ -54,7 +54,7 @@ enum chatRoomTabOrder {
 
   inviteLocIdNoNick = "chat/receiveInvite/noNick"
   inviteLocIdFull = "chat/receiveInvite"
-  inviteIcon = "#ui/gameuiskin#chat"
+  inviteIcon = "#ui/gameuiskin#chat.svg"
   getInviteClickNameText = function(roomId)
   {
     return format(::loc("chat/receiveInvite/clickToJoin"), getRoomName(roomId))

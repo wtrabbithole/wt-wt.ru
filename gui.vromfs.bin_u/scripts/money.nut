@@ -128,14 +128,19 @@ function Money::_tostring()
   return __impl_get_text()
 }
 
+function Money::toStringWithParams(params)
+{
+  return __impl_get_text(params)
+}
+
 function Money::getTextAccordingToBalance()
 {
-  return __impl_get_text(true, true)
+  return __impl_get_text({needCheckBalance = true})
 }
 
 function Money::getUncoloredText()
 {
-  return __impl_get_text(false)
+  return __impl_get_text({isColored = false})
 }
 
 function Money::getUncoloredWpText()
@@ -195,18 +200,20 @@ function Money::__impl_get_rp_text(colored = true, checkBalance = false)
     ::loc(colored ? "currency/researchPoints/sign/colored" : "currency/researchPoints/sign")
 }
 
-function Money::__impl_get_text(colored = true, checkBalance = false,
-                                showWp = false, showGold = false, showFrp = false, showRp = false)
+function Money::__impl_get_text(params = null)
 {
   local text = ""
-  if (gold != 0 || showGold)
-    text += __impl_get_gold_text(colored, checkBalance)
-  if (wp != 0 || showWp)
-    text += ((text == "") ? "" : ", ") + __impl_get_wp_text(colored, checkBalance)
-  if (frp != 0 || showFrp)
-    text += ((text == "") ? "" : ", ") + __impl_get_frp_text(colored, checkBalance)
-  if (rp != 0 || showRp)
-    text += ((text == "") ? "" : ", ") + __impl_get_rp_text(colored, checkBalance)
+  local isColored = params?.isColored ?? true
+  local needCheckBalance = params?.needCheckBalance ?? false
+
+  if (gold != 0 || params?.isGoldAlwaysShown)
+    text += __impl_get_gold_text(isColored, needCheckBalance)
+  if (wp != 0 || params?.isWpAlwaysShown)
+    text += ((text == "") ? "" : ", ") + __impl_get_wp_text(isColored, needCheckBalance)
+  if (frp != 0 || params?.isFrpAlwaysShown)
+    text += ((text == "") ? "" : ", ") + __impl_get_frp_text(isColored, needCheckBalance)
+  if (rp != 0 || params?.isRpAlwaysShown)
+    text += ((text == "") ? "" : ", ") + __impl_get_rp_text(isColored, needCheckBalance)
   return text
 }
 

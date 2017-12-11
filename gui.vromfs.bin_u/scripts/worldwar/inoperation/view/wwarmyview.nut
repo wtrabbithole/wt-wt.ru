@@ -425,14 +425,8 @@ class ::WwArmyView
 
   function getZoneName()
   {
-    if (!("getPosition" in formation))
-      return ""
-
     local wwArmyPosition = formation.getPosition()
     if (!wwArmyPosition)
-      return ""
-
-    if (!("getUnitType" in formation))
       return ""
 
     if(::g_ww_unit_type.isAir(formation.getUnitType()))

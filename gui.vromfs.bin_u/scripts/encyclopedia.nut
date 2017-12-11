@@ -37,8 +37,9 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
     chaptersObj.setValue(0)
     onChapterSelect(chaptersObj)
 
+    local canShowLinkButtons = !::is_vendor_tencent() && ::has_feature("AllowExternalLink")
     foreach(btn in ["faq", "forum", "support", "wiki"])
-      showSceneBtn("button_" + btn, !::is_vendor_tencent())
+      showSceneBtn("button_" + btn, canShowLinkButtons)
   }
 
   function onChapterSelect(obj)
@@ -97,11 +98,10 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
       foreach(imageName in article.images)
       {
         local image = "ui/slides/encyclopedia/" + imageName + ".jpg"
-        if (::check_image_exist(image, "Error: not found encyclopedia image %s"))
-          data += format("imgFrame { img { width:t='%s'; height:t='%s'; max-width:t='%d'; max-height:t='%d'; " +
-                         " background-image:t='%s'; click_to_resize:t='yes' }} ",
-                         sizeText[0], sizeText[1], maxWidth, maxHeight,
-                         image)
+        data += format("imgFrame { img { width:t='%s'; height:t='%s'; max-width:t='%d'; max-height:t='%d'; " +
+                       " background-image:t='%s'; click_to_resize:t='yes' }} ",
+                       sizeText[0], sizeText[1], maxWidth, maxHeight,
+                       image)
       }
     }
     guiScene.replaceContentFromText(objImgDiv, data, data.len(), this)

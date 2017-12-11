@@ -127,10 +127,10 @@ function g_language::initFunctionsTable()
         language = ["German", "Italian", "Spanish", "Turkish"]
         action = @(value) ::g_string.intToStrWithDelimiter(value, ".")
       }, {
-        language = ["English", "Korean"]
+        language = ["English", "Japanese", "Korean"]
         action = @(value) ::g_string.intToStrWithDelimiter(value, ",")
       }, {
-        language = ["Chinese", "TChinese", "HChinese", "Japanese"]
+        language = ["Chinese", "TChinese", "HChinese"]
         action = @(value) ::g_string.intToStrWithDelimiter(value, ",", 4)
       }]
     }
@@ -228,7 +228,7 @@ function g_language::onEventNewSceneLoaded(p)
 
 function canSwitchGameLocalization()
 {
-  return !::is_platform_ps4 && !::is_vendor_tencent() && !::is_vietnamese_version()
+  return !::is_ps4_or_xbox && !::is_vendor_tencent() && !::is_vietnamese_version()
 }
 
 function g_language::getEmptyLangInfo()

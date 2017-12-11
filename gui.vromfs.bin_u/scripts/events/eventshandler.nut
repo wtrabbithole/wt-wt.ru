@@ -42,7 +42,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName   = "gui/events/eventsModal.blk"
   eventsListObj  = null
   curEventId     = ""
-  slotbarActions = ["aircraft", "crew", "weapons", "showroom", "rankinfo", "repair"]
+  slotbarActions = ["aircraft", "crew", "weapons", "showroom", "repair"]
 
   queueToShow    = null
   skipCheckQueue = false

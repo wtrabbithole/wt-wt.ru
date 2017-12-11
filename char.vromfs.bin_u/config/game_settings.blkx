@@ -339,11 +339,11 @@
     },
     "Twitch": {
       "condition": "",
-      "platform_lock": "ps4;android"
+      "platform_lock": "ps4;android;xboxOne"
     },
     "Facebook": {
       "condition": "",
-      "platform_lock": "ps4;android"
+      "platform_lock": "ps4;android;xboxOne"
     },
     "FacebookWallPost": [],
     "FacebookScreenshots": [],
@@ -358,7 +358,7 @@
     },
     "Invites": {
       "condition": "",
-      "platform_lock": "ps4"
+      "platform_lock": "ps4;xboxOne"
     },
     "EmbeddedBrowser": {
       "condition": ""
@@ -563,6 +563,17 @@
     "ItalyAircraftsInFirstCountryChoice": {
       "condition": ""
     },
+    "FranceAircraftsInFirstCountryChoice": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "Helicopters": [
       {
         "condition": "role_GAIJIN"
@@ -683,9 +694,6 @@
       },
       {
         "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
       }
     ],
     "GraphicsOptions": {
@@ -737,15 +745,15 @@
     ],
     "UserMissions": {
       "condition": "",
-      "platform_lock": "ps4;android"
+      "platform_lock": "ps4;android;xboxOne"
     },
     "UserMissionsSkirmishByUrl": {
       "condition": "",
-      "platform_lock": "ps4"
+      "platform_lock": "ps4;xboxOne"
     },
     "UserMissionsSkirmishByUrlCreate": [
       {
-        "platform_lock": "ps4"
+        "platform_lock": "ps4;xboxOne"
       },
       {
         "condition": "user_mission_access_en"
@@ -759,7 +767,7 @@
     ],
     "Replays": {
       "condition": "",
-      "platform_lock": "ps4;android"
+      "platform_lock": "ps4;android;xboxOne"
     },
     "ServerReplay": {
       "condition": "",
@@ -821,6 +829,9 @@
     },
     "ClanBattleSeasonAvailable": {
       "condition": ""
+    },
+    "ClanSquads": {
+      "condition": "role_DEVELOPER"
     },
     "ShowNextUnlockInfo": [],
     "extendedReplayInfo": {
@@ -915,6 +926,17 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
+    "Missiles": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
     "AdvancedInstructor": {
       "condition": ""
     },
@@ -982,11 +1004,11 @@
     },
     "pc_only_events": {
       "condition": "",
-      "platform_lock": "ps4"
+      "platform_lock": "ps4;xboxOne"
     },
     "ps4_only_events": {
       "condition": "",
-      "platform_lock": "pc;android"
+      "platform_lock": "pc;android;xboxOne"
     },
     "Orders": {
       "condition": ""
@@ -1136,7 +1158,13 @@
     "BritainTanksUnlocked": {
       "condition": ""
     },
-    "JapanTanksUnlocked": [
+    "JapanTanksUnlocked": {
+      "condition": ""
+    },
+    "ItalianAircraftUnlocked": {
+      "condition": ""
+    },
+    "FranceAircraftUnlocked": [
       {
         "condition": "role_GAIJIN"
       },
@@ -1150,21 +1178,7 @@
         "condition": "role_ALPHA_TESTER"
       },
       {
-        "condition": "wt_access_japan_tanks_unlocks"
-      }
-    ],
-    "ItalianAircraftUnlocked": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "wt_access_italian_aircrafts_unlocks"
+        "condition": "wt_access_france_aircrafts_unlocks"
       }
     ],
     "CountryChina": {
@@ -1205,7 +1219,7 @@
     },
     "ScriptImportExportControls": {
       "condition": "",
-      "platform_lock": "ps4;android"
+      "platform_lock": "ps4;android;xboxOne"
     },
     "SquadWidget": {
       "condition": ""
@@ -1289,6 +1303,42 @@
     "oldFontsSizes": [],
     "Warbonds_2_0": {
       "condition": ""
+    },
+    "Ugc": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "UgcAfterbattleTrophy": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "WikiUnitInfo": {
+      "condition": "",
+      "platform_lock": "xboxOne"
+    },
+    "AllowExternalLink": {
+      "condition": "",
+      "platform_lock": "xboxOne"
     }
   }
 }

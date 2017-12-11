@@ -59,6 +59,7 @@ class ::gui_handlers.ShowImage extends ::gui_handlers.BaseGuiHandlerWT
     imgObj["max-width"] = maxSize[0].tostring()
     imgObj["max-height"] = maxSize[1].tostring()
     imgObj["background-image"] = image
+    imgObj["background-svg-size"] = ::format("%d, %d", maxSize[0], maxSize[1])
 
     frameObj = scene.findObject("imgFrame")
     shadeObj = scene.findObject("root-box")
@@ -110,12 +111,17 @@ class ::gui_handlers.ShowImage extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function gui_start_image_wnd(image = null, ratio = 1)
+/*
+ * image   @string - full path to image
+ * ratio   @float  - image width/height ratio (default = 1)
+ * maxSize @array|@integer - max size in pixels. Array ([w, h]) or integer (used for both sides) (0 = unlimited).
+ **/
+function gui_start_image_wnd(image = null, ratio = 1, maxSize = 0)
 {
   if (::u.isEmpty(image))
     return
 
-  ::handlersManager.loadHandler(::gui_handlers.ShowImageSimple, { image = image, ratio = ratio })
+  ::handlersManager.loadHandler(::gui_handlers.ShowImageSimple, { image = image, ratio = ratio, maxSize = maxSize })
 }
 
 class ::gui_handlers.ShowImageSimple extends ::gui_handlers.BaseGuiHandlerWT
@@ -125,6 +131,7 @@ class ::gui_handlers.ShowImageSimple extends ::gui_handlers.BaseGuiHandlerWT
 
   image = null
   ratio = 1
+  maxSize = 0
 
   function initScreen()
   {
@@ -141,11 +148,27 @@ class ::gui_handlers.ShowImageSimple extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(imgObj))
       return goBack()
 
-    imgObj["background-image"] = image
+    if (!maxSize)
+      maxSize = [ ::g_dagui_utils.toPixels(guiScene, "@rw"), ::g_dagui_utils.toPixels(guiScene, "@rh") ]
+    else if (::u.isInteger(maxSize))
+      maxSize = [ maxSize, maxSize ]
 
-    local height = ::screen_height()/1.5
-    imgObj.height = height.tointeger()
-    imgObj.width = (ratio*height).tointeger()
+    local height = ::screen_height() / 1.5
+    local size = [ ratio * height, height ]
+
+    if (size[0] > maxSize[0] || size[1] > maxSize[1])
+    {
+      local maxSizeRatio = maxSize[0] * 1.0 / maxSize[1]
+      if (maxSizeRatio > ratio)
+        size = [ ratio * maxSize[1], maxSize[1] ]
+      else
+        size = [ maxSize[0], maxSize[0] / ratio ]
+    }
+
+    imgObj["background-image"] = image
+    imgObj.width  = ::format("%d", size[0])
+    imgObj.height = ::format("%d", size[1])
+    imgObj["background-svg-size"] = ::format("%d, %d", size[0], size[1])
 
     scene.findObject("btn_back").show(true)
   }

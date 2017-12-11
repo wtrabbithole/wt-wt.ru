@@ -15,6 +15,7 @@
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
   "fireParamsPreset": "1100kph",
   "fightAiBehaviour": "fighter",
+  "harmonizationSuffix": "_tomoe",
   "DamageParts": {
     "armor10": {
       "armor2_dm": {
@@ -1715,68 +1716,6 @@
       }
     }
   ],
-  "ikPilot": [
-    {
-      "model": "pilot_su_char"
-    },
-    {
-      "maxHeadHorAngle": 60.0
-    },
-    {
-      "maxHeadDownAngle": 60.0
-    },
-    {
-      "maxHeadUpAngle": 10.0
-    },
-    {
-      "headNode": "Bip01 Head"
-    },
-    {
-      "pelvisNode": "Bip01 Pelvis"
-    },
-    {
-      "pelvisTargetNode": "Bip01 Pelvis01"
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 L Hand",
-        "midNode": "Bip01 L Forearm",
-        "upNode": "Bip01 L UpperArm",
-        "targetNode": "throttle_lhand_1",
-        "flexionDir": [0.0,-1.0,0.2]
-      }
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 R Hand",
-        "midNode": "Bip01 R Forearm",
-        "upNode": "Bip01 R UpperArm",
-        "targetNode": "stick_rhand_1",
-        "flexionDir": [0.0,-1.0,-0.5]
-      }
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 L Foot",
-        "midNode": "Bip01 L Calf",
-        "upNode": "Bip01 L Thigh",
-        "targetNode": "pedal_lfoot_1",
-        "flexionDir": [0.0,1.0,0.3]
-      }
-    },
-    {
-      "ikNode": {
-        "downNode": "Bip01 R Foot",
-        "midNode": "Bip01 R Calf",
-        "upNode": "Bip01 R Thigh",
-        "targetNode": "pedal_rfoot_1",
-        "flexionDir": [0.0,1.0,-0.3]
-      }
-    }
-  ],
-  "attach": {
-    "pilot1": "pilot_su_500"
-  },
   "Params": {
     "Range": 1200.0
   },
@@ -2318,5 +2257,125 @@
       [-5.05491,0.0,0.0]
     ],
     "partKindTail": 3
-  }
+  },
+  "ikPilot": [
+    {
+      "model": "pilot_china1_char"
+    },
+    {
+      "maxHeadHorAngle": 60.0
+    },
+    {
+      "maxHeadDownAngle": 60.0
+    },
+    {
+      "maxHeadUpAngle": 10.0
+    },
+    {
+      "headNode": "Bip01 Head"
+    },
+    {
+      "pelvisNode": "Bip01 Pelvis"
+    },
+    {
+      "pelvisTargetNode": "Bip01 Pelvis01"
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 L Hand",
+        "midNode": "Bip01 L Forearm",
+        "upNode": "Bip01 L UpperArm",
+        "targetNode": "throttle_lhand_1",
+        "flexionDir": [0.0,-1.0,0.2]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 R Hand",
+        "midNode": "Bip01 R Forearm",
+        "upNode": "Bip01 R UpperArm",
+        "targetNode": "stick_rhand_1",
+        "flexionDir": [0.0,-1.0,-0.5]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 L Foot",
+        "midNode": "Bip01 L Calf",
+        "upNode": "Bip01 L Thigh",
+        "targetNode": "pedal_lfoot_1",
+        "flexionDir": [0.0,1.0,0.3]
+      }
+    },
+    {
+      "ikNode": {
+        "downNode": "Bip01 R Foot",
+        "midNode": "Bip01 R Calf",
+        "upNode": "Bip01 R Thigh",
+        "targetNode": "pedal_rfoot_1",
+        "flexionDir": [0.0,1.0,-0.3]
+      }
+    }
+  ],
+  "attach": {
+    "pilot1": "pilot_china_500"
+  },
+  "default_skin": [
+    {
+      "name": "knr"
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_c*",
+        "to": "mig_17_late_china_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_n*",
+        "to": "mig_17_late_china_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_c_dmg*",
+        "to": "mig_17_late_china_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_n_dmg*",
+        "to": "mig_17_late_china_n_dmg*"
+      }
+    }
+  ],
+  "default_skin_tomoe": [
+    {
+      "name": "knr"
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_c*",
+        "to": "mig_17_late_china_tomoe_c*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_n*",
+        "to": "mig_17_late_china_tomoe_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_c_dmg*",
+        "to": "mig_17_late_china_tomoe_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mig_17_late_ussr_n_dmg*",
+        "to": "mig_17_late_china_tomoe_n_dmg*"
+      }
+    }
+  ]
 }

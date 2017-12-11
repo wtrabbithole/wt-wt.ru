@@ -128,6 +128,7 @@ class ::gui_handlers.BrowserModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         break;
       case ::BROWSER_EVENT_BROWSER_CRASHED:
         showInfoMsgBox(::loc("browser/crashed"))
+        statsd_counter("browser." + params.errorDesc)
         browserCloseAndUpdateEntitlements()
         break;
       default:

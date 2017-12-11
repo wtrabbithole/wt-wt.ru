@@ -36,7 +36,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
       switch(name)
       {
         case "icon":
-          obj["background-image"] = prefix == "gc_" ? ("#ui/opaque#" + val + "_ico") : ("#ui/images/avatars/" + val)
+          obj["background-image"] = prefix == "gc_" ? ("#ui/gameuiskin#" + val + "_ico") : ("#ui/images/avatars/" + val)
           break
         case "country":
           obj["background-image"] = ::get_country_icon(val)
@@ -135,45 +135,32 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
   //checklogs
   if (::has_feature("UserLog"))
   {
-    local newLogs = ::check_new_user_logs().len()
-    local logBtn = getObj(prefix+"userlog_btn")
-    if(::check_obj(logBtn))
-      logBtn.tooltip = newLogs > 0 ?
-        format(::loc("userlog/new_messages"), newLogs) : ::loc("userlog/no_new_messages")
-    local logObj = getObj(prefix+"userlog")
-    if (logObj && logObj.isValid())
+    local objBtn = getObj(prefix + "userlog_btn")
+    if(::check_obj(objBtn))
     {
-      logObj.show(newLogs==0)
-      local newLogObj = getObj(prefix+"new_userlog")
-      newLogObj.wink = newLogs>0? "yes" : "no"
+      local newLogsCount = ::check_new_user_logs().len()
+      local haveNew = newLogsCount > 0
+      local tooltip = haveNew ?
+        format(::loc("userlog/new_messages"), newLogsCount) : ::loc("userlog/no_new_messages")
+      ::update_gc_button(objBtn, haveNew, tooltip)
     }
   }
 
   //chat
   if (gchat_is_enabled() && ::has_feature("Chat"))
   {
-    local haveNewMessages = ::g_chat.haveNewMessages()
-    local chatBtn = getObj(prefix+"chat_btn")
-    if (::check_obj(chatBtn))
-        chatBtn.tooltip = ::loc(haveNewMessages ? "mainmenu/chat_new_messages" : "mainmenu/chat")
-
-    local chatObj = getObj(prefix+"chat")
-    if (::checkObj(chatObj))
+    local objBtn = getObj(prefix + "chat_btn")
+    if (::check_obj(objBtn))
     {
-      chatObj.show(!haveNewMessages)
-      local newChatObj = getObj(prefix+"new_chat")
-      newChatObj.wink = haveNewMessages ? "yes" : "no"
+      local haveNew = ::g_chat.haveNewMessages()
+      local tooltip = ::loc(haveNew ? "mainmenu/chat_new_messages" : "mainmenu/chat")
+      ::update_gc_button(objBtn, haveNew, tooltip)
 
-      local newCountChatObj = getObj(prefix+"new_chat_messages")
+      local newCountChatObj = objBtn.findObject(prefix + "new_chat_messages")
       local newMessagesCount = ::g_chat.getNewMessagesCount()
-      local newMessagesText = ""
-      if (newMessagesCount != 0)
-        newMessagesText = newMessagesCount.tostring()
-
+      local newMessagesText = newMessagesCount ? newMessagesCount.tostring() : ""
       newCountChatObj.setValue(newMessagesText)
     }
-
-    local chat
   }
 
   if (::has_feature("Friends"))
@@ -349,14 +336,26 @@ function getLastGamercardScene()
 
 function update_gc_invites(scene)
 {
-  local obj = scene.findObject("gc_invites")
-  local objNew = scene.findObject("gc_new_invites")
-  if (!::checkObj(obj) || !::checkObj(objNew))
+  local haveNew = ::g_invites.newInvitesAmount > 0
+  ::update_gc_button(scene.findObject("gc_invites_btn"), haveNew)
+}
+
+function update_gc_button(obj, isNew, tooltip = null)
+{
+  if(!::check_obj(obj))
     return
 
-  local hasNew = ::g_invites.newInvitesAmount > 0
-  obj.show(!hasNew)
-  objNew.wink = hasNew ? "yes" : "no"
+  if (tooltip)
+    obj.tooltip = tooltip
+
+  ::showBtnTable(obj, {
+    icon    = !isNew
+    iconNew = isNew
+  })
+
+  local objGlow = obj.findObject("iconGlow")
+  if (::check_obj(objGlow))
+    objGlow.wink = isNew ? "yes" : "no"
 }
 
 function get_active_gc_popup_nest_obj()

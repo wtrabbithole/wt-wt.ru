@@ -580,6 +580,7 @@ function g_chat::getPlayerRClickMenu(playerName, roomId = null, contact = null, 
   local isFriend = uid != null && ::isPlayerInFriendsGroup(uid)
   local isBlock = uid != null && ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
   local isModerator = ::is_myself_anyof_moderators()
+  local isMuted = ::xbox_is_chat_player_muted(uid.tointeger())
 
   local canComplain = false
   if (!isMe)
@@ -680,6 +681,11 @@ function g_chat::getPlayerRClickMenu(playerName, roomId = null, contact = null, 
         if (::menu_chat_handler)
           ::menu_chat_handler.kickPlayeFromRoom(latestName)
       })(latestName)
+    }
+    {
+      text = isMuted? ::loc("mainmenu/btnUnmute") : ::loc("mainmenu/btnMute")
+      show = !isMe && contact.voiceStatus && ::is_player_from_xbox_one(latestName)
+      action = @() ::xbox_mute_chat_player(uid.tointeger(), !isMuted)
     }
     {
       text = ::loc("mainmenu/btnComplain")

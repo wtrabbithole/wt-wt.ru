@@ -10,7 +10,7 @@ style.helicopterHudText <- class {
 
 
 local images = {
-  dot = ::Picture("ui/dot.ddsx")
+  dot = ::Picture("ui/dot")
 }
 
 

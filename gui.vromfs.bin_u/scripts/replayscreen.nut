@@ -209,9 +209,9 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       local corrupted = (("corrupted" in replays[i]) && replays[i].corrupted) ||
         ("isVersionMismatch" in replays[i]) && replays[i].isVersionMismatch
       if (corrupted)
-        iconName = "#ui/hudskin#icon_primary_fail"
+        iconName = "#ui/gameuiskin#icon_primary_fail"
       else if (autosave)
-        iconName = "#ui/gameuiskin#slot_modifications"
+        iconName = "#ui/gameuiskin#slot_modifications.svg"
 
       view.items.append({
         itemIcon = iconName
@@ -666,6 +666,12 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChapterSelect(obj) {}
   function onSelect(obj) {}
+
+  function goBack()
+  {
+    back_from_replays = null
+    base.goBack()
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

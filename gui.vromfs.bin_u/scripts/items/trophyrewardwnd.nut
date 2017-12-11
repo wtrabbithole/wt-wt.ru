@@ -38,7 +38,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   unit = null
   rentTimeHours = 0
 
-  slotbarActions = [ "take", "rankinfo", "weapons", "info" ]
+  slotbarActions = [ "take", "weapons", "info" ]
 
   function initScreen()
   {

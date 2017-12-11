@@ -324,7 +324,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::has_feature("Facebook"))
         playerListView.playerButton.push(createPlayerButtonView("btnFacebookFriendsAdd", "#ui/gameuiskin#btn_facebook_friends_add", "onFacebookFriendsAdd"))
       if (::steam_is_running())
-        playerListView.playerButton.push(createPlayerButtonView("btnSteamFriendsAdd", "#ui/gameuiskin#btn_steam_friends_add", "onSteamFriendsAdd"))
+        playerListView.playerButton.push(createPlayerButtonView("btnSteamFriendsAdd", "#ui/gameuiskin#btn_steam_friends_add.svg", "onSteamFriendsAdd"))
     }
 
     listNotPlayerChildsByGroup[gName] <- playerListView.playerButton.len()
@@ -367,7 +367,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::checkObj(contactPresenceObj))
       {
         contactPresenceObj.setValue(f.getPresenceText())
-        contactPresenceObj["color-factor"] = f.presence.getTransparencyDegree()
+        contactPresenceObj["color-factor"] = f.presence.iconTransparency
       }
       obj.findObject("tooltip").uid = f.uid
       if (selUid == f.uid)
@@ -378,7 +378,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       imgObj["background-color"] = f.presence.getIconColor()
 
       local pilotImgObj = obj.findObject("pilotIconImg")
-      pilotImgObj["background-image"] = "#ui/opaque#" + f.pilotIcon + "_ico"
+      pilotImgObj["background-image"] = "#ui/gameuiskin#" + f.pilotIcon + "_ico"
     }
     return sel
   }
@@ -926,6 +926,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isBlock = ::isPlayerInContacts(curPlayer.uid, ::EPL_BLOCKLIST)
     local inviteMenu = ::g_chat.generateInviteMenu(curPlayer.name)
     local clanTag = curPlayer.clanTag
+    local isMuted = ::xbox_is_chat_player_muted(curPlayer.uid.tointeger())
 
     local menu = [
       {
@@ -941,6 +942,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("contacts/message")
         show = !isMe && ::ps4_is_chat_enabled()
         action = function() { onPlayerMsg(null) }
+      }
+      {
+        text = isMuted? ::loc("mainmenu/btnUnmute") : ::loc("mainmenu/btnMute")
+        show = !isMe && curPlayer.voiceStatus && ::is_player_from_xbox_one(curPlayer.name)
+        action = @() ::xbox_mute_chat_player(curPlayer.uid.tointeger(), !isMuted)
       }
       {
         text = ::loc("mainmenu/btnUserCard")

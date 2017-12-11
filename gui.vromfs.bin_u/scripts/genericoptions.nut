@@ -35,6 +35,8 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   optionIdToObjCache = {}
 
+  isOptionInUpdate = false
+
   function initScreen()
   {
     ::disable_saving_options <- false
@@ -75,6 +77,10 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     checkBotsOption()
     updateTripleAerobaticsSmokeOptions()
     updateVerticalTargetingOption()
+
+    local option = findOptionInContainers(USEROPT_TANK_ALT_CROSSHAIR)
+    if (option)
+      showOptionRow(option, ::can_add_tank_alt_crosshair())
   }
 
   function applyReturn()
@@ -221,7 +227,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     }*/
   }
 
-  function updateOptionDescr(obj, func)
+  function updateOptionDescr(obj, func) //!!FIXME: use updateOption instead
   {
     local newDescr = null
     foreach (container in optionsContainers)
@@ -253,6 +259,53 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
         }
       }
     }
+  }
+
+  function setOptionValueByControlObj(obj)
+  {
+    local option = get_option_by_id(obj.id)
+    if (option)
+      ::set_option(option.type, obj.getValue(), option)
+    return option
+  }
+
+  function updateOptionDelayed(optionType)
+  {
+    guiScene.performDelayed(this, function()
+    {
+      if (isValid())
+        updateOption(optionType)
+    })
+  }
+
+  function updateOption(optionType)
+  {
+    if (!optionsContainers)
+      return null
+    foreach (container in optionsContainers)
+      foreach(idx, option in container.data)
+        if (option.type == optionType)
+        {
+          local newOption = ::get_option(optionType, optionsConfig)
+          container.data[idx] = newOption
+          updateOptionImpl(newOption)
+        }
+  }
+
+  function updateOptionImpl(option)
+  {
+    local obj = scene.findObject(option.id)
+    if (!::check_obj(obj))
+      return
+
+    isOptionInUpdate = true
+    if (option.controlType == optionControlType.LIST)
+    {
+      local markup = ::create_option_combobox(option.id, option.items, option.value, null, false)
+      guiScene.replaceContentFromText(obj, markup, markup.len(), this)
+    } else
+      obj.setValue(option.value)
+    isOptionInUpdate = false
   }
 
   function onAircraftUpdateSkin(obj)
@@ -443,9 +496,25 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onInstantOptionApply(obj)
   {
+    setOptionValueByControlObj(obj)
+  }
+
+  function onTankAltCrosshair(obj)
+  {
+    if (isOptionInUpdate)
+      return
     local option = get_option_by_id(obj.id)
-    if (option)
-      ::set_option(option.type, obj.getValue(), option)
+    if (option && option.values[obj.getValue()] == TANK_ALT_CROSSHAIR_ADD_NEW)
+    {
+      local unit = ::show_aircraft
+      local success = ::add_tank_alt_crosshair_template()
+      local message = success && unit ? ::format(::loc("hud/successUserSight"), unit.name) : ::loc("hud/failUserSight")
+
+      ::showInfoMsgBox(message)
+
+      updateOptionDelayed(USEROPT_TANK_ALT_CROSSHAIR)
+    } else
+      setOptionValueByControlObj(obj)
   }
 
   function get_option_by_id(id)

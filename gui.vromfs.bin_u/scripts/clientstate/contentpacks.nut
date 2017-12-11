@@ -72,8 +72,8 @@ function have_package(packName)
 
 function updateContentPacks()
 {
-  if (::is_platform_ps4)
-    return; //no launcher there!
+  if (::is_ps4_or_xbox)
+    return //no launcher there!
 
   dagor.debug("[PACK] updateContentPacks called");
 

@@ -366,8 +366,8 @@ function gui_start_artillery_map(params = {})
     isSuperArtillery = getTblValue("useCustomSuperArtillery", params, false)
     superStrikeRadius = getTblValue("artilleryStrikeRadius", params, 0.0),
     mapSizeMeters = getTblValue("mapSizeMeters", params, 1400),
-    iconSuperArtilleryZone = "#ui/hudskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
-    iconSuperArtilleryTarget = "#ui/hudskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
+    iconSuperArtilleryZone = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryZoneName", params, ""),
+    iconSuperArtilleryTarget = "#ui/gameuiskin#" + getTblValue("iconSuperArtilleryTargetName", params, "")
   })
 }
 

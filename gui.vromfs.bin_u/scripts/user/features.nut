@@ -42,6 +42,8 @@
     BritainTanksInFirstCountryChoice = false
     JapanTanksInFirstCountryChoice = false
 
+    FranceAircraftsInFirstCountryChoice = false
+
     Helicopters = ::disable_network()
 
     Tribunal = false
@@ -67,6 +69,7 @@
     WorldWarClansQueue = false
     WorldWarReplay = false
     WorldWarSquadInfo = false
+    WorldWarSquadInvite = false
 
     GraphicsOptions = true
     Spectator = false
@@ -90,7 +93,6 @@
     ShowNextUnlockInfo = false
     extendedReplayInfo = ::disable_network()
     LiveBroadcast = false
-    RankVersusInfo = ::disable_network()
     showAllUnitsRanks = false
     EarlyExitCrewUnlock = false
     UnitTooltipImage = true
@@ -149,6 +151,7 @@
     ClanSeasonRewardsLog = false
     ClanSeasons_3_0 = false
     ClanChangedInfoData = false
+    ClanSquads = false
 
     Warbonds = false
     WarbondsShop = false
@@ -174,6 +177,8 @@
     SeparateTopMenuButtons = false
 
     HitCameraTargetStateIconsTank = false
+
+    AllowExternalLink = true
   }
 
   cache = {}
@@ -187,10 +192,6 @@ function g_features::hasFeatureBasic(name)
   local res = ::getTblValue(name, DEFAULTS, false)
   if (!::disable_network())
     res = ::local_player_has_feature(name, res)
-
-  // Temporary hack for 1.67.1.X to pass SONY submission:
-  if (::is_platform_ps4 && !::ps4_is_ugc_enabled() && name == "Clans")
-    res = false
 
   cache[name] <- res
   return res

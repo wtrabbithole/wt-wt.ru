@@ -1,3 +1,5 @@
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+
 class ::Input.Button extends ::Input.InputBase
 {
   deviceId = -1
@@ -13,15 +15,15 @@ class ::Input.Button extends ::Input.InputBase
   {
     local view = {}
     local template = ""
-    if (deviceId == ::JOYSTICK_DEVICE_ID && buttonId in ::joystickBtnTextures)
+    if (deviceId == ::JOYSTICK_DEVICE_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
     {
       template = "gui/gamepadButton"
-      view.buttonImage <- "#ui/controlskin#" + ::joystickBtnTextures[buttonId]
+      view.buttonImage <- gamepadIcons.getTextureByButtonIdx(buttonId)
     }
     else if (deviceId == ::STD_MOUSE_DEVICE_ID && buttonId in mouse_button_texturas)
     {
       template = "gui/gamepadButton"
-      view.buttonImage <- "#ui/hudskin#" + ::mouse_button_texturas[buttonId]
+      view.buttonImage <- "#ui/gameuiskin#" + ::mouse_button_texturas[buttonId]
     }
     else
     {

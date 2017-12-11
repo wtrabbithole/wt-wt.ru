@@ -23,60 +23,38 @@ class ::queue_classes.Base
     queueUidsList = {}
     selfActivated = ::getTblValue("queueSelfActivated", params, false)
 
-    if (queueType.useClusters)
-    {
-      if (!::u.isArray(::getTblValue("clusters", params)))
-        params.clusters <- []
-      addClusterByParams(params)
-    }
-
     init()
+    addQueueByParams(params)
   }
 
   function init() {}
 
-  //return <is clusters list changed>
-  function addClusterByParams(qParams)
+  // return <is somethind in queue parameters changed>
+  function addQueueByParams(qParams)
   {
-    if (!("cluster" in qParams))
-      return false
-
-    local cluster = qParams.cluster
-    local queueUid = ::getTblValue("queueId", qParams)
-    if (queueUid != null)
-      queueUidsList[queueUid] <- getQueueData(qParams)
-
-    if (::isInArray(cluster, params.clusters))
-      return false
-
-    params.clusters.append(cluster)
-    return true
+    return false
   }
 
   //return true if queue changed
-  function onLeaveQueue(leaveData)
+  function removeQueueByParams(leaveData)
   {
-    local queueUid = ::getTblValue("queueId", leaveData)
-    if (queueUid == null || (queueUid in queueUidsList && queueUidsList.len() == 1)) //leave all queues
-    {
-      queueUidsList.clear()
-      params.clusters.clear()
-      return true
-    }
+    return false
+  }
 
-    if (!(queueUid in queueUidsList))
-      return false
+  function addQueueByUid(queueUid, queueParms)
+  {
+    if (queueUid)
+      queueUidsList[queueUid] <- queueParms
+  }
 
-    local cluster = queueUidsList[queueUid].cluster
+  function removeQueueByUid(queueUid)
+  {
     delete queueUidsList[queueUid]
+  }
 
-    if (!::u.search(queueUidsList, @(q) q.cluster == cluster))
-    {
-      local idx = params.clusters.find(cluster)
-      if (idx >= 0)
-        params.clusters.remove(idx)
-    }
-    return true
+  function clearAllQueues()
+  {
+    queueUidsList.clear()
   }
 
   function isActive()
@@ -86,7 +64,7 @@ class ::queue_classes.Base
 
   function getQueueData(qParams)
   {
-    return { cluster = qParams.cluster }
+    return {}
   }
 
   function getTeamCode()

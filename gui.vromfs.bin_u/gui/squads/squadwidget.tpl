@@ -30,7 +30,7 @@ Button_text {
 
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'
-    background-image:t='#ui/gameuiskin#btn_inc'
+    background-image:t='#ui/gameuiskin#btn_inc.svg'
     tooltip:t='#contacts/invite'
   }
 }
@@ -110,6 +110,7 @@ Button_text {
         id:t='member_country_<<id>>'
         pos:t='0, -1@dp'; position:t='relative'
         size:t='@sIco, @sIco'
+        background-svg-size:t='@cIco, @cIco'
         bgcolor:t='#FFFFFF'
         background-image:t=''
       }
@@ -158,6 +159,6 @@ Button_text {
 
   squadButtonImg {
     pos:t='50%(pw-w), 50%(ph-h)'; position:t='absolute'
-    background-image:t='#ui/gameuiskin#close'
+    background-image:t='#ui/gameuiskin#btn_close.svg'
   }
 }

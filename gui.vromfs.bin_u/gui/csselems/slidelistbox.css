@@ -23,7 +23,8 @@ SlideListBoxButton {
   re-type:9rect;
   behaviour:button;
   tabStop:yes;
-  background-image:#ui/gameuiskin#spinnerListBox_arrow_up;
+  background-image:#ui/gameuiskin#spinnerListBox_arrow_up.svg;
+  background-svg-size:@scrollArrowsSize, @scrollArrowsSize;
   background-color:@controlColor;
   background-position:0;
   background-repeat:expand;
@@ -79,17 +80,17 @@ HangarSliderListBox SlideListBoxButton#right {
 [activeAccesskeys=RLB] SlideListBoxButton[pc_style=no] {
   size:5*@scrn_tgt/100.0, 5*@scrn_tgt/100.0;
   background-color:@white;
-  background-image:#ui/controlskin#l_shoulder;
+  background-image:@control_l_shoulder;
 }
 
 [activeAccesskeys=RLB] SlideListBoxButton#right[pc_style=no] {
-  background-image:#ui/controlskin#r_shoulder;
+  background-image:@control_r_shoulder;
 }
 [activeAccesskeys=RLB] SlideListBoxButton#right:pushed[pc_style=no] {
-  background-image:#ui/controlskin#r_shoulder_pressed;
+  background-image:@control_r_shoulder_pressed;
 }
 [activeAccesskeys=RLB] SlideListBoxButton#left:pushed[pc_style=no] {
-  background-image:#ui/controlskin#l_shoulder_pressed;
+  background-image:@control_l_shoulder_pressed;
 }
 
 SlideListBoxButton:disabled {
@@ -249,12 +250,14 @@ groupList > text > img,
 groupList > text > img2,
 groupList > text > voiceIcon {
   size:@sIco, @sIco;
+  background-svg-size:@sIco, @sIco;
   pos:50%ph-50%h, 50%ph-50%h;
   position:absolute;
 }
 
 groupList > text > img2 {
   pos:w+1*@sf/@pf_outdated, 0;
+  background-svg-size:@cIco, @cIco;
 }
 
 groupList > text[imgType=3ico] > voiceIcon {

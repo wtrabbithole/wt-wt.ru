@@ -125,6 +125,9 @@ class ::gui_handlers.InvitesWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (!invite)
       return
 
+    if (!invite.hasInviter())
+      return
+
     local pos = null
     local nameObj = scene.findObject("inviterName_" + invite.uid)
     if (::checkObj(nameObj))

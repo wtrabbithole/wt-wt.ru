@@ -598,6 +598,13 @@ function g_world_war::haveManagementAccessForAnyGroup()
   return result >= WW_BATTLE_ACCESS.MANAGER
 }
 
+function g_world_war::isSquadsInviteEnable()
+{
+  return ::has_feature("WorldWarSquadInvite") &&
+         ::g_world_war.haveManagementAccessForAnyGroup() &&
+         ::clan_get_my_clan_id().tointeger() >= 0
+}
+
 function g_world_war::isGroupAvailable(group, accessList = null)
 {
   if (!group || !group.isValid() || !group.owner.isValid())
@@ -1227,11 +1234,14 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
   return collectedUnits
 }
 
-function g_world_war::addOperationInvite(operationId, clanName, isStarted)
+function g_world_war::addOperationInvite(operationId, clanName, isStarted, inviteTime)
 {
   if (operationId != ::ww_get_operation_id())
     ::g_invites.addInvite(::g_invites_classes.WwOperation,
-      { operationId = operationId, clanName = clanName, isStarted = isStarted }
+      { operationId = operationId,
+        clanName = clanName,
+        isStarted = isStarted,
+        inviteTime = inviteTime }
     )
 }
 

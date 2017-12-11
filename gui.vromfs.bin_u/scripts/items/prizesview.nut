@@ -205,7 +205,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
       name = colored ? ::colorize(valid ? "activeTextColor" : "red", locName) : locName
 
       if (prize.gold)
-        name += " " + ::getGpPriceText(prize.gold, colored)
+        name += " " + ::Cost(0, prize.gold).toStringWithParams({isGoldAlwaysShown = true, isColored = colored})
     }
   }
   else if (prize.resourceType)
@@ -213,9 +213,9 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
     name = ::loc("trophy/unlockables_names/" + prize.resourceType)
   }
   else if (prize.gold)
-    name = ::getGpPriceText(prize.gold, colored)
+    name = ::Cost(0, prize.gold).toStringWithParams({isGoldAlwaysShown = true, isColored = colored})
   else if (prize.warpoints)
-    name = ::getWpPriceText(prize.warpoints, colored)
+    name = ::Cost(prize.warpoints).toStringWithParams({isWpAlwaysShown = true, isColored = colored})
   else if (prize.exp)
     name = getFreeRpPriceText(prize.exp, colored)
   else

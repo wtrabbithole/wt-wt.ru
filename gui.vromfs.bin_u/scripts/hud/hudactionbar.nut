@@ -249,11 +249,15 @@ class ActionBar
     if (prewItem == null)
       return
 
-    if ((prewItem.countEx == currentItem.countEx && prewItem.count < currentItem.count) ||
-        (prewItem.countEx < currentItem.countEx))
+    local hasAmmoLost = "ammoLost" in prewItem && "ammoLost" in currentItem // compatibility 1.71
+    if ((prewItem.countEx == currentItem.countEx && prewItem.count < currentItem.count)
+      || (prewItem.countEx < currentItem.countEx)
+      || (hasAmmoLost && prewItem.ammoLost < currentItem.ammoLost))
     {
-      local add = currentItem.count - prewItem.count
-      local blk = ::handyman.renderCached("gui/hud/actionBarIncrement", {inc_amount = add})
+      local delta = currentItem.count - prewItem.count
+      if (hasAmmoLost && prewItem.ammoLost < currentItem.ammoLost)
+        ::g_hud_event_manager.onHudEvent("hint:ammoDestroyed:show")
+      local blk = ::handyman.renderCached("gui/hud/actionBarIncrement", {is_increment = delta > 0, delta_amount = delta})
       guiScene.appendWithBlk(itemObj, blk, this)
     }
   }

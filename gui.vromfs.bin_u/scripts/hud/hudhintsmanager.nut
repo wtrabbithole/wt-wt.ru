@@ -1,4 +1,11 @@
 local time = require("scripts/time.nut")
+
+enum HintShowState {
+  NOT_MATCH = 0
+  SHOW_HINT = 1
+  DISABLE   = 2
+}
+
 ::g_hud_hints_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["activeHints"]
 
@@ -12,6 +19,10 @@ local time = require("scripts/time.nut")
   timerNest = null
 
   hintIdx = 0 //used only for unique hint id
+
+  lastShowedTimeDict = {} // key = maskId, value = lastShowedTime
+
+  delayedShowTimers = {} // key = hint.name, value = timer
 
   function init(_nest)
   {
@@ -83,38 +94,26 @@ local time = require("scripts/time.nut")
 
     foreach (hint in ::g_hud_hints.types)
     {
+      if(!hint.isEnabled() || isHintShowCountExceeded(hint))
+        continue
+
       if (!::u.isNull(hint.showEvent))
         ::g_hud_event_manager.subscribe(hint.showEvent, (@(hint) function (eventData) {
-          if (!hint.isCurrent(eventData, false))
+          if(isHintShowCountExceeded(hint))
             return
 
-          local hintData = findActiveHintFromSameGroup(hint)
-
-          if (hintData)
-            if (!hint.hintType.isReplaceable(hint, eventData, hintData.hint, hintData.eventData))
-              return
-            else if (hint == hintData.hint)
-            {
-              hideHint(hintData, true)
-              updateHintInList(hintData, eventData)
-            }
-            else
-            {
-              removeHint(hintData, true)
-              hintData = null
-            }
-
-          if (!hintData)
-            hintData = addToList(hint, eventData)
-          showHint(hintData)
-
-          updateHint(hintData)
+          if(hint.delayTime > 0)
+            showDelayed(hint, eventData)
+          else
+            onShowEvent(hint, eventData)
         })(hint), this)
 
       if (!::u.isNull(hint.hideEvent))
         ::g_hud_event_manager.subscribe(hint.hideEvent, (@(hint) function (eventData) {
           if (!hint.isCurrent(eventData, true))
             return
+
+          removeDelayedShowTimer(hint)
 
           local hintData = findActiveHintFromSameGroup(hint)
           if (!hintData)
@@ -151,10 +150,10 @@ local time = require("scripts/time.nut")
       addTime = ::dagor.getCurTime()
       eventData = eventData
       removeTimer = null
+      delayShowTimer = null
     })
 
     local addedHint = ::u.last(activeHints)
-    updateRemoveTimer(addedHint)
     return addedHint
   }
 
@@ -181,7 +180,17 @@ local time = require("scripts/time.nut")
     hintData.removeTimer = ::Timer(timerNest, lifeTime, (@(hintData) function () {
       hideHint(hintData, false)
       removeFromList(hintData)
+      removeDelayedShowTimer(hintData.hint)
     })(hintData), this)
+  }
+
+  function removeDelayedShowTimer(hint)
+  {
+    if(hint.name in delayedShowTimers)
+    {
+      delayedShowTimers[hint.name].destroy()
+      delete delayedShowTimers[hint.name]
+    }
   }
 
   function updateHintInList(hintData, eventData)
@@ -196,6 +205,45 @@ local time = require("scripts/time.nut")
     if (idx >= 0)
       activeHints.remove(idx)
   }
+
+  function onShowEvent(hint, eventData)
+  {
+    if (!hint.isCurrent(eventData, false))
+      return
+
+    local res = checkHintInterval(hint)
+    if (res == HintShowState.DISABLE)
+    {
+      ::disable_hint(hint.mask)
+      return
+    }
+    else if (res == HintShowState.NOT_MATCH)
+      return
+
+    local hintData = findActiveHintFromSameGroup(hint)
+
+    if (hintData)
+      if (!hint.hintType.isReplaceable(hint, eventData, hintData.hint, hintData.eventData))
+        return
+      else if (hint == hintData.hint)
+      {
+        hideHint(hintData, true)
+        updateHintInList(hintData, eventData)
+      }
+      else
+      {
+        removeHint(hintData, true)
+        hintData = null
+      }
+
+    if (!hintData)
+      hintData = addToList(hint, eventData)
+
+    showHint(hintData)
+    updateHint(hintData)
+  }
+
+
 
   function showHint(hintData)
   {
@@ -213,6 +261,9 @@ local time = require("scripts/time.nut")
     guiScene.appendWithBlk(hintNestObj, markup, markup.len(), null)
     hintData.hintObj = hintNestObj.findObject(id)
     setCoutdownTimer(hintData)
+
+    lastShowedTimeDict[hintData.hint.maskId] <- ::dagor.getCurTime()
+    ::increase_hint_show_count(hintData.hint.maskId)
   }
 
   function setCoutdownTimer(hintData)
@@ -300,6 +351,55 @@ local time = require("scripts/time.nut")
     foreach(hintData in activeHints)
       hintData.hint = ::g_hud_hints.getByName(hintData.hint.name)
   }
+
+
+  function checkHintInterval(hint)
+  {
+    local interval = hint.getTimeInterval()
+    if (interval == HINT_INTERVAL.ALWAYS_VISIBLE)
+      return HintShowState.SHOW_HINT
+    else if (interval == HINT_INTERVAL.HIDDEN)
+      return HintShowState.DISABLE
+
+    if (!(hint.maskId in lastShowedTimeDict))
+    {
+      return HintShowState.SHOW_HINT
+    }
+    else
+    {
+      local ageSec = (::dagor.getCurTime() - lastShowedTimeDict[hint.maskId]) * 0.001
+      return ageSec >= interval ? HintShowState.SHOW_HINT : HintShowState.NOT_MATCH
+    }
+
+    return HintShowState.NOT_MATCH
+  }
+
+  function isHintShowCountExceeded(hint)
+  {
+    return (hint.totalCount > 0
+      && ::get_hint_seen_count(hint.maskId) > hint.totalCount)
+  }
+
+  function showDelayed(hint, eventData)
+  {
+    if (!::checkObj(timerNest))
+      return
+    if (hint.delayTime <= 0)
+      return
+    if(hint.name in delayedShowTimers)
+      return
+
+    local delayShowTimer = ::Timer(timerNest, hint.delayTime, function () {
+      if(hint.name in delayedShowTimers)
+      {
+        onShowEvent(hint, eventData)
+      }
+    }, this)
+
+    delayedShowTimers[hint.name] <- delayShowTimer
+  }
+
+
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_hud_hints_manager")

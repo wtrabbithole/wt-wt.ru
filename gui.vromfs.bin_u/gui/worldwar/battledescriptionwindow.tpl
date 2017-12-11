@@ -139,6 +139,14 @@ root {
           refuseOpenHoverMenu:t='no'
           ButtonImg {}
         }
+
+        Button_text {
+          id:t='invite_squads_button'
+          text:t='#worldwar/inviteSquads'
+          on_click:t='onOpenSquadsListModal'
+          btnName:t='Y'
+          ButtonImg {}
+        }
       }
 
       navRight {

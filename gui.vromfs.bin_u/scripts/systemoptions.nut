@@ -241,6 +241,8 @@
   compatibilityMode = { widgetType="checkbox" def=false blk="video/compatibilityMode" restart=true
     onChanged = "compatibilityModeClick"
   }
+  foliageReprojection = { widgetType="checkbox" def=true blk="graphics/foliageReprojection" restart=false
+  }
 }
 //------------------------------------------------------------------------------
 /*
@@ -269,6 +271,7 @@
   {k="haze",                 v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="fxReflection",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}}
   {k="softFx",               v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
+  {k="foliageReprojection",  v={ultralow=false,low=false,medium=false ,high=false ,max=true, movie=true}}
   {k="lastClipSize",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}, compMode=true}
   {k="landquality",          v={ultralow=0,low=0,medium=0 ,high=2,max=3,movie=4}}
   {k="rendinstDistMul",      v={ultralow=50,low=50,medium=85 ,high=100,max=130,movie=180}}
@@ -595,6 +598,7 @@
       "alpha_to_coverage"
       "jpegShots"
       "compatibilityMode"
+	  "foliageReprojection"
     ]
   }
 ]

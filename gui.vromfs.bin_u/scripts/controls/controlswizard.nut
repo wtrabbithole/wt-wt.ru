@@ -1,3 +1,5 @@
+local globalEnv = require_native("globalEnv")
+
 ::aircraft_controls_wizard_config <- [
   { id="helpers_mode"
     type= CONTROL_TYPE.LISTBOX
@@ -25,7 +27,7 @@
       }
     }
   { id="msg/use_mouse_for_control", type= CONTROL_TYPE.MSG_BOX
-    filterHide = [::EM_MOUSE_AIM]
+    filterHide = [globalEnv.EM_MOUSE_AIM]
     options = ["controls/useMouseControl", "controls/useMouseView", "controls/UseMouseNone"],
     skip = [null, null, ["msg/mouseWheelAction", "ID_CAMERA_NEUTRAL"]]
     onButton = function(value)
@@ -78,7 +80,7 @@
     "ID_ROCKETS",
     "ID_RELOAD_GUNS",
     "ID_GEAR",
-    { id="ID_AIR_BRAKE", filterShow = [::EM_REALISTIC, ::EM_FULL_REAL] }
+    { id="ID_AIR_BRAKE", filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }
     "ID_FLAPS"
     "ID_LOCK_TARGET"
     "ID_NEXT_TARGET"
@@ -102,11 +104,11 @@
     { id="camx", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", relSens = 0.75
       images = ["wizard_camx_right", "wizard_camx_left"]
       axesList = ["camx", "turret_x"]
-      filterHide = [::EM_MOUSE_AIM] }
+      filterHide = [globalEnv.EM_MOUSE_AIM] }
     { id="camy", type = CONTROL_TYPE.AXIS, isVertical = true, relSens = 0.75
       images = ["wizard_camy_up", "wizard_camy_down"]
       axesList = ["camy", "turret_y"]
-      filterHide = [::EM_MOUSE_AIM] }
+      filterHide = [globalEnv.EM_MOUSE_AIM] }
     { id="msg/relative_camera_axis", type= CONTROL_TYPE.MSG_BOX
       options = ["#options/yes", "#options/no"],
       skip = ["neutral_cam_pos", null]
@@ -139,64 +141,64 @@
       "ID_CAMERA_NEUTRAL" //mouse look
 
     "ID_ZOOM_TOGGLE"
-    { id="zoom", type = CONTROL_TYPE.AXIS, filterHide = [::EM_MOUSE_AIM]
+    { id="zoom", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM]
       isSlider = true }
     { id="msg/trackIR", type= CONTROL_TYPE.MSG_BOX
-      filterHide = [::EM_MOUSE_AIM]
+      filterHide = [globalEnv.EM_MOUSE_AIM]
       options = ["#options/yes", "#options/no", "options/skip"], defValue = 1
       skip = [null, "trackIrZoom", "trackIrZoom"]
     }
       { id = "trackIrZoom", type= CONTROL_TYPE.MSG_BOX
-        filterHide = [::EM_MOUSE_AIM]
+        filterHide = [globalEnv.EM_MOUSE_AIM]
         options = ["#options/yes", "#options/no"]
         onButton = function(value) { if (value<2) curJoyParams.trackIrZoom = value==0 }
       }
 
 
   { id ="ID_FULL_AERODYNAMICS_HEADER", type= CONTROL_TYPE.HEADER
-    filterShow = [::EM_FULL_REAL]
+    filterShow = [globalEnv.EM_FULL_REAL]
   }
-    { id="ID_TRIM", filterShow = [::EM_FULL_REAL] }
-    { id="ID_TRIM_RESET", filterShow = [::EM_FULL_REAL] }
-    { id="ID_TRIM_SAVE", filterShow = [::EM_FULL_REAL] }
+    { id="ID_TRIM", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_TRIM_RESET", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_TRIM_SAVE", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="trim_elevator", type = CONTROL_TYPE.AXIS, isVertical = true, buttonRelative = true
       images = ["wizard_elevator_up", "wizard_elevator_down"]
-      filterShow = [::EM_FULL_REAL] }
+      filterShow = [globalEnv.EM_FULL_REAL] }
     { id="trim_ailerons", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true
       images = ["wizard_ailerons_right", "wizard_ailerons_left"]
-      filterShow = [::EM_FULL_REAL] }
+      filterShow = [globalEnv.EM_FULL_REAL] }
     { id="trim_rudder", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true
       images = ["wizard_rudder_right", "wizard_rudder_left"]
-      filterShow = [::EM_FULL_REAL] }
-    { id="ID_FLAPS_DOWN", filterShow = [::EM_FULL_REAL] }
-    { id="ID_FLAPS_UP", filterShow = [::EM_FULL_REAL] }
-    { id="brake_right",  type = CONTROL_TYPE.AXIS, filterHide = [::EM_MOUSE_AIM]
+      filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_FLAPS_DOWN", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_FLAPS_UP", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="brake_right",  type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM]
       images = ["wizard_brake_right_stop", "wizard_brake_right_go"]
       isSlider = true }
-    { id="brake_left",   type = CONTROL_TYPE.AXIS, filterHide = [::EM_MOUSE_AIM]
+    { id="brake_left",   type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM]
       images = ["wizard_brake_left_stop", "wizard_brake_left_go"]
       isSlider = true }
 
 
   { id ="ID_ENGINE_CONTROL_HEADER", type= CONTROL_TYPE.HEADER
-    filterShow = [::EM_FULL_REAL]
+    filterShow = [globalEnv.EM_FULL_REAL]
   }
-    { id="ID_COMPLEX_ENGINE", filterShow = [::EM_FULL_REAL] }
-    { id="ID_TOGGLE_ENGINE", filterShow = [::EM_FULL_REAL] }
+    { id="ID_COMPLEX_ENGINE", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_TOGGLE_ENGINE", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="prop_pitch", type = CONTROL_TYPE.AXIS, isSlider = true, buttonRelative = true
-      filterShow = [::EM_FULL_REAL] }
-    { id="ID_PROP_PITCH_AUTO", filterShow = [::EM_FULL_REAL] }
+      filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_PROP_PITCH_AUTO", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="mixture", type = CONTROL_TYPE.AXIS, isSlider = true, buttonRelative = true
-      filterShow = [::EM_FULL_REAL] }
+      filterShow = [globalEnv.EM_FULL_REAL] }
     { id="radiator", type = CONTROL_TYPE.AXIS, isSlider = true, buttonRelative = true
-      filterShow = [::EM_FULL_REAL] }
+      filterShow = [globalEnv.EM_FULL_REAL] }
     { id="oil_radiator", type = CONTROL_TYPE.AXIS, isSlider = true, buttonRelative = true,
-      filterShow = [::EM_FULL_REAL]  }
-    { id="ID_RADIATOR_AUTO", filterShow = [::EM_FULL_REAL] }
+      filterShow = [globalEnv.EM_FULL_REAL]  }
+    { id="ID_RADIATOR_AUTO", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="turbo_charger", type = CONTROL_TYPE.AXIS, isSlider = true, buttonRelative = true
-      filterShow = [::EM_FULL_REAL] }
-    { id="ID_TOGGLE_AUTO_TURBO_CHARGER", filterShow = [::EM_FULL_REAL] }
-    { id="ID_SUPERCHARGER", filterShow = [::EM_FULL_REAL] }
+      filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_TOGGLE_AUTO_TURBO_CHARGER", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="ID_SUPERCHARGER", filterShow = [globalEnv.EM_FULL_REAL] }
 
 
   { id="msg/wizard_done_msg", type= CONTROL_TYPE.MSG_BOX }
@@ -211,7 +213,7 @@
   { id ="ID_ENGINE_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
     { id="gm_throttle", type = CONTROL_TYPE.AXIS, isVertical = true }
     { id="gm_steering", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", showInverted = function() { return true } }
-    { id="gm_clutch", type = CONTROL_TYPE.AXIS, isVertical = true, filterHide = [::EM_MOUSE_AIM]}
+    { id="gm_clutch", type = CONTROL_TYPE.AXIS, isVertical = true, filterHide = [globalEnv.EM_MOUSE_AIM]}
 
   { id = "ID_BASIC_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
     "ID_FIRE_GM",
@@ -227,8 +229,8 @@
     "ID_SHOOT_ARTILLERY",
 
   { id="ID_VIEW_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
-    { id="gm_mouse_aim_x", type = CONTROL_TYPE.AXIS, filterHide = [::EM_MOUSE_AIM], msgType = "_horizontal" }
-    { id="gm_mouse_aim_y", type = CONTROL_TYPE.AXIS, filterHide = [::EM_MOUSE_AIM], isVertical = true }
+    { id="gm_mouse_aim_x", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM], msgType = "_horizontal" }
+    { id="gm_mouse_aim_y", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM], isVertical = true }
     "ID_TOGGLE_VIEW_GM",
     "ID_ZOOM_TOGGLE"
 

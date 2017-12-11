@@ -1,15 +1,20 @@
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+
 local controlsMarkupSource = {
   ps4 = {
     title = "#controls/help/dualshock4"
     blk = "gui/help/controllerDualshock.blk"
+    iconsPreset = gamepadIcons.ICO_PRESET_PS4
   },
   xboxOne = {
     title = "#controls/help/xboxone"
     blk = "gui/help/controllerXboxOne.blk"
+    iconsPreset = gamepadIcons.ICO_PRESET_XBOXONE
   },
   xbox360 = {
     title = "#controls/help/xinput"
     blk = "gui/help/controllerXbox.blk"
+    iconsPreset = gamepadIcons.ICO_PRESET_DEFAULT
   }
 }
 
@@ -373,7 +378,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitType = ::g_unit_type.AIRCRAFT
       pageUnitTag = null
       pageBlkName = controllerMarkup.blk
-      pageFillfuncName = "fillJoystickTexts"
+      pageFillfuncName = "initGamepadPage"
     },
     [help_tab_types.CONTROLLER_TANK] = {
       title = controllerMarkup.title
@@ -384,7 +389,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitType = ::g_unit_type.TANK
       pageUnitTag = null
       pageBlkName = controllerMarkup.blk
-      pageFillfuncName = "fillJoystickTexts"
+      pageFillfuncName = "initGamepadPage"
     },
     [help_tab_types.CONTROLLER_SHIP] = {
       title = controllerMarkup.title
@@ -395,7 +400,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitType = ::g_unit_type.SHIP
       pageUnitTag = null
       pageBlkName = controllerMarkup.blk
-      pageFillfuncName = "fillJoystickTexts"
+      pageFillfuncName = "initGamepadPage"
     },
 
     [help_tab_types.CONTROLLER_HELICOPTER] = {
@@ -407,7 +412,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitType = ::g_unit_type.AIRCRAFT
       pageUnitTag = "helicopter"
       pageBlkName = controllerMarkup.blk
-      pageFillfuncName = "fillJoystickTexts"
+      pageFillfuncName = "initGamepadPage"
     },
 
     [help_tab_types.KEYBOARD_AIR] = {
@@ -479,6 +484,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
+    ::g_hud_event_manager.onHudEvent("helpOpened")
+
     local isContentMission  = contentSet == HELP_CONTENT_SET.MISSION
     local isContentControls = contentSet == HELP_CONTENT_SET.CONTROLS
     local isContentLoading  = contentSet == HELP_CONTENT_SET.LOADING
@@ -942,7 +949,25 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     return scText
   }
 
-  function fillJoystickTexts()
+  function initGamepadPage()
+  {
+    guiScene.setUpdatesEnabled(false, false)
+    updateGamepadIcons()
+    updateGamepadTexts()
+    guiScene.setUpdatesEnabled(true, true)
+  }
+
+  function updateGamepadIcons()
+  {
+    foreach(name, val in gamepadIcons.fullIconsList)
+    {
+      local obj = scene.findObject("ctrl_img_" + name)
+      if (::check_obj(obj))
+        obj["background-image"] = gamepadIcons.getTexture(name, controllerMarkup.iconsPreset)
+    }
+  }
+
+  function updateGamepadTexts()
   {
     local forceButtons = (pageUnitType == ::g_unit_type.AIRCRAFT) ? ["camx"] : (pageUnitType == ::g_unit_type.TANK) ? ["ID_ACTION_BAR_ITEM_5"] : []
     local ignoreButtons = ["ID_CONTINUE_SETUP"]
@@ -956,7 +981,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       { id="joy_axis_r", x=2, y=3 }
     ]
 
-    local joystickButtons = array(::joystickBtnTextures.len(), null)
+    local joystickButtons = array(gamepadIcons.TOTAL_BUTTON_INDEXES, null)
     local joystickAxis = array(axisIds.len()*2, null)
 
     local shortcutNames = []
@@ -1025,15 +1050,9 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local bullet = "-"+ ::nbsp
     foreach (btnId, actions in joystickButtons)
     {
-      local idSuffix = "none"
-      if (btnId < ::joystickBtnTextures.len())
-        idSuffix = ::joystickBtnTextures[btnId]
-      else
-      {
-        debugTableData(::joystickBtnTextures)
-        ::dagor.assertf(false, "failed to find " + btnId + " button")
+      local idSuffix = gamepadIcons.getButtonNameByIdx(btnId)
+      if (idSuffix == "")
         continue
-      }
 
       local tObj = scene.findObject("joy_" + idSuffix)
       if (::checkObj(tObj))
@@ -1185,7 +1204,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(kbdAmmoSwitchObj))
       kbdAmmoSwitchObj.show(!isGamepadPreset)
 
-    local cursorControlImg = isGamepadPreset ? "#ui/controlskin#r_stick_4" : "#ui/hudskin#mouse_move_4_sides"
+    local cursorControlImg = isGamepadPreset ? "@control_r_stick_4" : "#ui/gameuiskin#mouse_move_4_sides"
     foreach (frameObjId in [ "CURSOR_controls_frame", "ID_CAMERA_NEUTRAL_controls_frame" ])
     {
       local frameObj = scene.findObject(frameObjId)
@@ -1273,7 +1292,7 @@ function get_shortcut_frame_for_help(shortcut)
 
     if (shortcut.dev[k] == ::STD_MOUSE_DEVICE_ID)
     {
-      local mouseBtnImg = "controlsHelpMouseBtn { background-image:t='#ui/hudskin#%s'; }"
+      local mouseBtnImg = "controlsHelpMouseBtn { background-image:t='#ui/gameuiskin#%s'; }"
       if (shortcut.btn[k] == 0)
         buttonFrame = format(mouseBtnImg, "help_mouse_left");
       else if (shortcut.btn[k] == 1)
@@ -1285,9 +1304,9 @@ function get_shortcut_frame_for_help(shortcut)
     if (shortcut.dev[k] == ::JOYSTICK_DEVICE_ID)
     {
       local btnId = shortcut.btn[k]
-      local joystickBtnImg = "controlsHelpJoystickBtn { background-image:t='#ui/controlskin#%s' }"
-      if (btnId < ::joystickBtnTextures.len())
-        buttonFrame = format(joystickBtnImg, ::joystickBtnTextures[btnId])
+      if (gamepadIcons.hasTextureByButtonIdx(btnId))
+        buttonFrame = format("controlsHelpJoystickBtn { background-image:t='%s' }",
+          gamepadIcons.getTextureByButtonIdx(btnId))
     }
 
     data += ((k != 0)? "text { pos:t='0,0.5ph-0.5h';position:t='relative';text-align:t='center';text:t='+'}":"") + buttonFrame;

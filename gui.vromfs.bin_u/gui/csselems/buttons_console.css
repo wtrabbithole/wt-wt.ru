@@ -600,6 +600,7 @@ Button_text.image[imgSize=small] {
 
 Button_text.image > img {
   size: 1@cIco, 1@cIco;
+  background-svg-size:@cIco, @cIco;
   top: 50%ph-50%h;
   position:relative;
   background-color: @buttonFontColor;
@@ -607,6 +608,7 @@ Button_text.image > img {
 
 Button_text[imgSize] > img {
   size: 1@cIco, 1@cIco;
+  background-svg-size:@cIco, @cIco;
   top:50%ph-50%h;
   position:relative;
 }
@@ -626,6 +628,7 @@ Button_text.image[imgSize=big] > img {
 
 Button_text[imgSize=small] > img {
   size:@sIco, @sIco;
+  background-svg-size:@sIco, @sIco;
 }
 
 Button_text.image[imgSize=big]:hover {
@@ -680,8 +683,8 @@ Button_close {
 
   foreground-repeat:expand;
   foreground-color:@white;
-  foreground-position:1;
-  foreground-image:#ui/gameuiskin#close;
+  foreground-image:#ui/gameuiskin#btn_close.svg;
+  foreground-svg-size:@buttonCloseHeight, @buttonCloseHeight;
 
   css-hier-invalidate:yes;
   total-input-transparent:yes;
@@ -712,6 +715,11 @@ shopFilter > Button_close {
 expandable > selImg > Button_close {
   left:pw-w - 5*@sf/@pf_outdated;
   top:3*@sf/@pf_outdated;
+}
+
+imgButton > Button_close {
+  left:pw -w - 1@blockInterval + 1@dp;
+  top:1@blockInterval - 1@dp;
 }
 
 Button_close[smallIcon=yes] {
@@ -773,7 +781,7 @@ Button_close[have_shortcut=BNotEsc]
   background-color:@transparent;
 }
 [show_console_buttons=yes] [activateBy="Y"]:focus > shopFilter[selected=yes] > Button_close {
-  foreground-image:'#ui/controlskin#button_y';
+  foreground-image:'@control_button_y';
 }
 
 .tabs > shopFilter[canClose=no] > Button_close {
@@ -872,64 +880,64 @@ Button_text[btnName=B][menuShortcuts]  { accessKey:'J:B | J:Back | Esc | Backspa
 [swap_ab=yes] Button_text[btnName=A][menuShortcuts] { accessKey:'J:B | J:Start | Space | Enter | NumEnter'; }
 [swap_ab=yes] Button_text[btnName=B][menuShortcuts] { accessKey:'J:A | J:Back | Esc | Backspace'; }
 
-[btnName=A] > ButtonImg, [btnName=SpaceA] > ButtonImg { background-image:#ui/controlskin#button_a; }
-[btnName=A]:pushed > ButtonImg, [btnName=SpaceA]:pushed > ButtonImg { background-image:#ui/controlskin#button_a_pressed; }
+[btnName=A] > ButtonImg, [btnName=SpaceA] > ButtonImg { background-image:@control_button_a; }
+[btnName=A]:pushed > ButtonImg, [btnName=SpaceA]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
 [btnName=B] > ButtonImg, [swap_ab=yes] [btnName=A] > ButtonImg
-                                      { background-image:#ui/controlskin#button_b; }
+                                      { background-image:@control_button_b; }
 [btnName=B]:pushed > ButtonImg, [swap_ab=yes] [btnName=A]:pushed > ButtonImg
-                                      { background-image:#ui/controlskin#button_b_pressed; }
-[swap_ab=yes] [btnName=B] > ButtonImg { background-image:#ui/controlskin#button_a; }
+                                      { background-image:@control_button_b_pressed; }
+[swap_ab=yes] [btnName=B] > ButtonImg { background-image:@control_button_a; }
 [swap_ab=yes] [btnName=B]:pushed > ButtonImg
-                                      { background-image:#ui/controlskin#button_a_pressed; }
+                                      { background-image:@control_button_a_pressed; }
 
-[btnName=X] > ButtonImg { background-image:#ui/controlskin#button_x; }
-[btnName=X]:pushed > ButtonImg { background-image:#ui/controlskin#button_x_pressed; }
+[btnName=X] > ButtonImg { background-image:@control_button_x; }
+[btnName=X]:pushed > ButtonImg { background-image:@control_button_x_pressed; }
 
-[btnName=Y] > ButtonImg { background-image:#ui/controlskin#button_y; }
-[btnName=Y]:pushed > ButtonImg { background-image:#ui/controlskin#button_y_pressed; }
+[btnName=Y] > ButtonImg { background-image:@control_button_y; }
+[btnName=Y]:pushed > ButtonImg { background-image:@control_button_y_pressed; }
 
 [btnName=start] > ButtonImg, [btnName=ww_menu] > ButtonImg
-  { background-image:#ui/controlskin#button_start; }
+  { background-image:@control_button_start; }
 [btnName=start]:pushed > ButtonImg, [btnName=ww_menu]:pushed > ButtonImg
-  { background-image:#ui/controlskin#button_start_pressed; }
-[btnName=back]         > ButtonImg { background-image:#ui/controlskin#button_back; }
-[btnName=back]:pushed  > ButtonImg { background-image:#ui/controlskin#button_back_pressed; }
-[btnName=RB]           > ButtonImg, ButtonImg[btnName=RB]{ background-image:#ui/controlskin#r_shoulder; }
-[btnName=RB]:pushed    > ButtonImg { background-image:#ui/controlskin#r_shoulder_pressed; }
-[btnName=LB]           > ButtonImg, ButtonImg[btnName=LB] { background-image:#ui/controlskin#l_shoulder; }
-[btnName=LB]:pushed    > ButtonImg { background-image:#ui/controlskin#l_shoulder_pressed; }
+  { background-image:@control_button_start_pressed; }
+[btnName=back]         > ButtonImg { background-image:@control_button_back; }
+[btnName=back]:pushed  > ButtonImg { background-image:@control_button_back_pressed; }
+[btnName=RB]           > ButtonImg, ButtonImg[btnName=RB]{ background-image:@control_r_shoulder; }
+[btnName=RB]:pushed    > ButtonImg { background-image:@control_r_shoulder_pressed; }
+[btnName=LB]           > ButtonImg, ButtonImg[btnName=LB] { background-image:@control_l_shoulder; }
+[btnName=LB]:pushed    > ButtonImg { background-image:@control_l_shoulder_pressed; }
 
-[btnName=RT]           > ButtonImg { background-image:#ui/controlskin#r_trigger; }
-[btnName=RT]:pushed    > ButtonImg { background-image:#ui/controlskin#r_trigger_pressed; }
-[btnName=LT]           > ButtonImg { background-image:#ui/controlskin#l_trigger; }
-[btnName=LT]:pushed    > ButtonImg { background-image:#ui/controlskin#l_trigger_pressed; }
+[btnName=RT]           > ButtonImg { background-image:@control_r_trigger; }
+[btnName=RT]:pushed    > ButtonImg { background-image:@control_r_trigger_pressed; }
+[btnName=LT]           > ButtonImg { background-image:@control_l_trigger; }
+[btnName=LT]:pushed    > ButtonImg { background-image:@control_l_trigger_pressed; }
 
-[btnName=R3]           > ButtonImg { background-image:#ui/controlskin#r_stick; }
-[btnName=R3]:pushed    > ButtonImg { background-image:#ui/controlskin#r_stick_pressed; }
-[btnName=L3]           > ButtonImg { background-image:#ui/controlskin#l_stick; }
-[btnName=L3]:pushed    > ButtonImg { background-image:#ui/controlskin#l_stick_pressed; }
+[btnName=R3]           > ButtonImg { background-image:@control_r_stick; }
+[btnName=R3]:pushed    > ButtonImg { background-image:@control_r_stick_pressed; }
+[btnName=L3]           > ButtonImg { background-image:@control_l_stick; }
+[btnName=L3]:pushed    > ButtonImg { background-image:@control_l_stick_pressed; }
 
-[btnName=RSLeft]       > ButtonImg { background-image:#ui/controlskin#r_stick_left; }
-[btnName=RSRight]      > ButtonImg { background-image:#ui/controlskin#r_stick_right; }
+[btnName=RSLeft]       > ButtonImg { background-image:@control_r_stick_left; }
+[btnName=RSRight]      > ButtonImg { background-image:@control_r_stick_right; }
 
-ButtonImg[btnName=Dpad] { background-image:#ui/controlskin#dirpad; bigButton:yes; }
-[btnName=DpadLeft] > ButtonImg { background-image:#ui/controlskin#dirpad_left; bigButton:yes; }
+ButtonImg[btnName=Dpad] { background-image:@control_dirpad; bigButton:yes; }
+[btnName=DpadLeft] > ButtonImg { background-image:@control_dirpad_left; bigButton:yes; }
 [btnName=DpadRight] > ButtonImg, ButtonImg[btnName=DpadRight]
-                               { background-image:#ui/controlskin#dirpad_right; bigButton:yes; }
-[btnName=DpadUp] > ButtonImg   { background-image:#ui/controlskin#dirpad_up; bigButton:yes; }
-[btnName=DpadDown] > ButtonImg { background-image:#ui/controlskin#dirpad_down; bigButton:yes; }
+                               { background-image:@control_dirpad_right; bigButton:yes; }
+[btnName=DpadUp] > ButtonImg   { background-image:@control_dirpad_up; bigButton:yes; }
+[btnName=DpadDown] > ButtonImg { background-image:@control_dirpad_down; bigButton:yes; }
 
 
-[focusBtnName=A]:focus > ButtonImg { background-image:#ui/controlskin#button_a; }
-[focusBtnName=A]:focus:pushed > ButtonImg { background-image:#ui/controlskin#button_a_pressed; }
+[focusBtnName=A]:focus > ButtonImg { background-image:@control_button_a; }
+[focusBtnName=A]:focus:pushed > ButtonImg { background-image:@control_button_a_pressed; }
 
 
-ButtonImg[btnName=R3] { background-image:#ui/controlskin#r_stick_pressed; bigButton:yes; }
+ButtonImg[btnName=R3] { background-image:@control_r_stick_pressed; bigButton:yes; }
 
-ButtonImg[iconName=A] { background-image:#ui/controlskin#button_a; }
-ButtonImg[iconName=B] { background-image:#ui/controlskin#button_b; }
-ButtonImg[iconName=X] { background-image:#ui/controlskin#button_x; }
-ButtonImg[iconName=Y] { background-image:#ui/controlskin#button_y; }
+ButtonImg[iconName=A] { background-image:@control_button_a; }
+ButtonImg[iconName=B] { background-image:@control_button_b; }
+ButtonImg[iconName=X] { background-image:@control_button_x; }
+ButtonImg[iconName=Y] { background-image:@control_button_y; }
 
 Button_text[redDisabled=yes]:disabled {
   color:@red;
@@ -1817,6 +1825,7 @@ Button_text.bottomAirItem {
 Button_text.bottomAirItem > img {
   background-position:0;
   background-repeat:expand;
+  background-svg-size:@sIco, @sIco;
   size:ph, ph;
   position:absolute;
   pos:50%pw-50%w, 50%ph-50%h;
@@ -2094,6 +2103,10 @@ Button_text[noWidth=yes] {
 
 Button_text[useParentHeight=yes] {
   height:ph;
+}
+
+Button_text > newIconWidget[widgetClass=text] {
+  margin-left:-1@buttonTextPadding-1@newWidgetIconImgOffsetX;
 }
 
 buttonPlayer {

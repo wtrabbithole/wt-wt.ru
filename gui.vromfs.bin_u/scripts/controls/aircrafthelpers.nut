@@ -1,3 +1,5 @@
+local globalEnv = require_native("globalEnv")
+
 ::g_aircraft_helpers <- {
   /* PRIVATE */
   // Shorter options names
@@ -68,23 +70,23 @@
     {
       case ::USEROPT_MOUSE_USAGE:
         if (options.mouseUsage == AIR_MOUSE_USAGE.AIM)
-          options.helpersMode = ::EM_MOUSE_AIM
+          options.helpersMode = globalEnv.EM_MOUSE_AIM
         else
-          options.helpersMode = ::max(options.helpersMode, ::EM_INSTRUCTOR)
+          options.helpersMode = ::max(options.helpersMode, globalEnv.EM_INSTRUCTOR)
         break
 
       case ::USEROPT_INSTRUCTOR_ENABLED:
         if (options.instructorEnabled)
-          options.helpersMode = ::min(options.helpersMode, ::EM_INSTRUCTOR)
+          options.helpersMode = ::min(options.helpersMode, globalEnv.EM_INSTRUCTOR)
         else
-          options.helpersMode = ::max(options.helpersMode, ::EM_REALISTIC)
+          options.helpersMode = ::max(options.helpersMode, globalEnv.EM_REALISTIC)
         break
 
       case ::USEROPT_AUTOTRIM:
         if (options.autotrim)
-          options.helpersMode = ::min(options.helpersMode, ::EM_REALISTIC)
+          options.helpersMode = ::min(options.helpersMode, globalEnv.EM_REALISTIC)
         else
-          options.helpersMode = ::EM_FULL_REAL
+          options.helpersMode = globalEnv.EM_FULL_REAL
         break
 
       default:
@@ -92,14 +94,14 @@
         {
           // For new profiles or profiles without helpersMode
           if (options.mouseUsage == AIR_MOUSE_USAGE.AIM)
-            options.helpersMode = ::EM_MOUSE_AIM
+            options.helpersMode = globalEnv.EM_MOUSE_AIM
           else if (options.autotrim == false)
-            options.helpersMode = ::EM_FULL_REAL
+            options.helpersMode = globalEnv.EM_FULL_REAL
           else if (options.instructorEnabled == false)
-            options.helpersMode = ::EM_REALISTIC
+            options.helpersMode = globalEnv.EM_REALISTIC
           else
             options.helpersMode = ::is_platform_android ?
-              ::EM_INSTRUCTOR : ::EM_MOUSE_AIM
+              globalEnv.EM_INSTRUCTOR : globalEnv.EM_MOUSE_AIM
         }
         break
     }
@@ -111,20 +113,20 @@
     // Set helpers options according to helpers mode
     switch (options.helpersMode)
     {
-      case ::EM_FULL_REAL:
+      case globalEnv.EM_FULL_REAL:
         options.autotrim = false
         // continue
 
-      case ::EM_REALISTIC:
+      case globalEnv.EM_REALISTIC:
         options.instructorEnabled = false
         // continue
 
-      case ::EM_INSTRUCTOR:
+      case globalEnv.EM_INSTRUCTOR:
         if (options.mouseUsage == AIR_MOUSE_USAGE.AIM)
           options.mouseUsage = options.mouseUsageNoAim
         break
 
-      case ::EM_MOUSE_AIM:
+      case globalEnv.EM_MOUSE_AIM:
         options.mouseUsage = AIR_MOUSE_USAGE.AIM
         break
     }

@@ -178,8 +178,8 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       }
       width = "h"
       getView = function(value) {
-        local fileImage = "#ui/gameuiskin#btn_clear_all"
-        local dirImage = "#ui/gameuiskin#btn_load_from_file"
+        local fileImage = "#ui/gameuiskin#btn_clear_all.svg"
+        local dirImage = "#ui/gameuiskin#btn_load_from_file.svg"
         return {
           text = ""
           tooltip = ""
@@ -1017,7 +1017,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     getObj("btn_refresh")["tooltip"] =
       ::loc(isFocused ? "filesystem/btnGo" : "filesystem/btnRefresh")
     getObj("btn_refresh_img")["background-image"] = isFocused ?
-      "#ui/gameuiskin#spinnerListBox_arrow_up" : "#ui/gameuiskin#refresh"
+      "#ui/gameuiskin#spinnerListBox_arrow_up.svg" : "#ui/gameuiskin#refresh.svg"
     getObj("btn_refresh_img")["rotation"] = isFocused ?
       "90" : "0"
 
@@ -1241,7 +1241,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       view.items.append({
         id = id
         isChapter = navData.depth == 0
-        itemIcon = "path" in navData ? "#ui/gameuiskin#btn_load_from_file" : ""
+        itemIcon = "path" in navData ? "#ui/gameuiskin#btn_load_from_file.svg" : ""
         isSelected = false
         itemText = navData.text
       })

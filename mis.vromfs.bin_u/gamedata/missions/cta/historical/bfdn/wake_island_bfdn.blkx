@@ -216,8 +216,6 @@
       "level": "levels/wake_island.bin",
       "type": "domination",
       "restoreType": "attempts",
-      "locName": "missions/wake_island_BfDn",
-      "locDesc": "missions/_BfD_norespawn/desc",
       "optionalTakeOff": false,
       "campaign": "pacific",
       "environment": "Day",
@@ -225,6 +223,8 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "base_dom",
+      "locName": "missions/wake_island_BfDn",
+      "locDesc": "missions/_BfD_norespawn/desc",
       "scoreLimit": 2000,
       "timeLimit": 30,
       "deathPenaltyMul": 0.0,
@@ -284,6 +284,9 @@
           },
           {
             "picture": ""
+          },
+          {
+            "showAirMap": false
           },
           {
             "arrow": [
@@ -520,6 +523,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_common_fighter_spawn",
             "team": "A",
             "tags": {
@@ -547,6 +551,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t2_common_fighter_spawn",
             "team": "B",
             "tags": {
@@ -574,6 +579,7 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
+            "onlyOnePlayerPerSpawnPoint": false,
             "target": "t1_airfield01_start",
             "team": "A",
             "tags": {
@@ -625,6 +631,9 @@
             },
             {
               "showOnMap": true
+            },
+            {
+              "onlyOnePlayerPerSpawnPoint": false
             },
             {
               "target": "t2_carrier_01"
@@ -684,6 +693,9 @@
         {
           "unitSetProperties": [
             {
+              "object_marking": 0
+            },
+            {
               "object": "t2_ships_squad"
             },
             {
@@ -706,12 +718,14 @@
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t1_arty_squad"
           }
         },
         {
           "unitSetIndication": {
             "set": true,
+            "target_marking": 0,
             "target": "t2_lcvp_squad"
           }
         },
@@ -7717,7 +7731,17 @@
         [266.103,0.0,-138.524],
         [0.0,300.0,0.0],
         [138.524,0.0,266.103],
-        [-18883.5,1000.0,11341.3]
+        [-18883.5,500.0,11341.3]
+      ],
+      "props": []
+    },
+    "t1_common_fighters_spawn": {
+      "type": "Sphere",
+      "tm": [
+        [-229.813,0.0,192.836],
+        [0.0,300.0,0.0],
+        [-192.836,0.0,-229.813],
+        [4293.45,500.0,-3581.65]
       ],
       "props": []
     }

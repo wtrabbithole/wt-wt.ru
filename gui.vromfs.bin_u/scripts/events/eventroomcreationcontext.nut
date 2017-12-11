@@ -211,7 +211,7 @@ class EventRoomCreationContext
         chosenMissionsList.append(mission)
   }
 
-  function saveChosenMisssions()
+  function saveChosenMissions()
   {
     local names = ::u.map(chosenMissionsList, @(m) m.id)
     ::save_local_account_settings(getMissionsSaveId(), ::array_to_blk(names, CHOSEN_EVENT_MISSIONS_SAVE_KEY))
@@ -220,7 +220,7 @@ class EventRoomCreationContext
   function setChosenMissions(missions)
   {
     chosenMissionsList = missions
-    saveChosenMisssions()
+    saveChosenMissions()
   }
 
   function getCurBrRange()

@@ -5,14 +5,15 @@
     "padding-left": "4",
     "img": {
       "id": "filter_magnifier_icon",
-      "size": "20, 20",
-      "pos": "0, 50%ph - 50%h",
+      "size": "@cIco, @cIco",
+      "pos": "0, ph/2-h/2",
       "position": "relative",
-      "background-image": "#ui/gameuiskin#btn_search"
+      "background-image": "#ui/gameuiskin#btn_search.svg",
+      "background-svg-size": "@cIco, @cIco"
     },
     "EditBox": {
       "id": "filter_edit_box",
-      "pos": "6*@sf/@pf_outdated-4, 0",
+      "pos": "1@blockInterval, ph/2-h/2",
       "position": "relative",
       "width": "fw",
       "on_activate": "onFilterEditBoxActivate",
