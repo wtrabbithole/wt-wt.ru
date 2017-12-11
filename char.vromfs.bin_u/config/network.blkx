@@ -42,9 +42,29 @@
       "maxSize": 471859200,
       "timeoutSec": 10,
       "mainThreadTimeoutSec": 10,
-      "baseUrls": {
-        "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
-      }
+      "baseUrls": [
+        {
+          "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
+        },
+        {
+          "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
+        },
+        {
+          "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
+        },
+        {
+          "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
+        },
+        {
+          "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
+        },
+        {
+          "url": "http://game-client-amz-cdn.warthunder.com/content/warthunder/webfs/"
+        },
+        {
+          "url": "http://1266898732.rsc.cdn77.org/content/warthunder/webfs/"
+        }
+      ]
     },
     "guiWebCache": {
       "maxSize": 1073741824,
@@ -52,10 +72,35 @@
       "timeoutSec": 10
     }
   },
-  "_common_skinsDecalsCDN": {
-    "url": "http://dldata.warthunder.com/staging/",
-    "hashesReqUrl": "http://public-configs.warthunder.com/staging/dldata.info"
-  },
+  "_common_skinsDecalsCDN": [
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "hashesReqUrl": "http://public-configs.warthunder.com/staging/dldata.info"
+    }
+  ],
   "_common_ugcSkinsDecalsCDN": [
     {
       "ugcServerUrl": "https://ugcinfo-test-lw-nl-01.gaijin.net/char"
@@ -67,7 +112,19 @@
       "enableUGC": false
     },
     {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
       "url": "http://dldata.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
+    },
+    {
+      "url": "http://dldata-aws.warthunder.com/staging/"
     }
   ],
   "message_queue": {
@@ -112,7 +169,22 @@
       "skinsDecalsCDN_useCommon": false
     },
     {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
       "skinsDecalsCDN": "http://dldata.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
     },
     {
       "hashesReqUrl": "http://public-configs.warthunder.com/production/dldata.info"
@@ -164,6 +236,15 @@
       "skinsDecalsCDN": "http://dldata.warthunder.com/production/"
     },
     {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
       "hashesReqUrl": "http://public-configs.warthunder.com/production/dldata.info"
     },
     {
@@ -208,6 +289,18 @@
     },
     {
       "skinsDecalsCDN_useCommon": false
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
     },
     {
       "skinsDecalsCDN": "http://dldata.warthunder.com/production/"
@@ -321,6 +414,11 @@
     },
     {
       "enableApex": true
+    },
+    {
+      "ps4updater": {
+        "enabled": false
+      }
     }
   ],
   "ps4submission": {
@@ -439,16 +537,47 @@
       "enableApex": true
     }
   ],
-  "tournament": {
-    "matchServer": "mgate-elb-02.warthunder.com:7853",
-    "charServer": "https://char-elb-01.warthunder.com/char",
-    "ircServer": "54.194.237.51:443",
-    "enableSslCertCheck": true,
-    "skinsDecalsCDN_useCommon": false,
-    "skinsDecalsCDN": "http://dldata.warthunder.com/production/",
-    "hashesReqUrl": "http://public-configs.warthunder.com/production/dldata.info",
-    "enableApex": true
-  },
+  "tournament": [
+    {
+      "matchServer": "mgate-elb-02.warthunder.com:7853"
+    },
+    {
+      "charServer": "https://char-elb-01.warthunder.com/char"
+    },
+    {
+      "ircServer": "54.194.237.51:443"
+    },
+    {
+      "enableSslCertCheck": true
+    },
+    {
+      "skinsDecalsCDN_useCommon": false
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata-aws.warthunder.com/production/"
+    },
+    {
+      "skinsDecalsCDN": "http://dldata.warthunder.com/production/"
+    },
+    {
+      "hashesReqUrl": "http://public-configs.warthunder.com/production/dldata.info"
+    },
+    {
+      "enableApex": true
+    }
+  ],
   "china-test": [
     {
       "matchServer": "mgate-cn-01.gaijin.lan:7852"
